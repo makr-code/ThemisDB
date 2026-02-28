@@ -29,6 +29,7 @@ ThemisDB's High Availability (HA) Replication provides enterprise-grade reliabil
 - ✅ **Metrics & Alerting** - Comprehensive Prometheus metrics for monitoring
 - ✅ **Zero Data Loss** - RPO=0 with synchronous/semi-synchronous replication
 - ✅ **Fast Recovery** - RTO<30s with automatic failover
+- ✅ **Witness Nodes** - Vote-only members for quorum in 2-node data clusters (no WAL overhead)
 
 ### Replication Modes
 
@@ -259,6 +260,75 @@ DC-East (Primary)          DC-West (DR)
 **Use Case**: Disaster recovery across geographic regions  
 **RPO**: 0 (with sync to at least 1 remote replica)  
 **RTO**: < 60 seconds (cross-DC failover)
+
+### 4. 2-Node + Witness (Minimal HA)
+
+**Configuration**: 1 Primary + 1 data Follower + 1 lightweight Witness node
+
+A *witness node* participates in leader-election voting (and therefore
+contributes to quorum) but **does not receive WAL data** and never holds any
+database records.  This lets a 2-node data cluster maintain a majority quorum
+(2 out of 3 voting members) without provisioning a third full data replica —
+ideal for cost-sensitive or resource-constrained environments.
+
+```yaml
+replication:
+  mode: "semi_sync"
+  min_sync_replicas: 1          # Wait for the data follower only
+  enable_auto_failover: true
+  min_quorum_for_failover: 2    # Leader + witness = 2 is sufficient
+  seed_nodes:
+    - "node-01.cluster.local:8765"
+    - "node-02.cluster.local:8765"
+    # Witness-01 can optionally appear in seed_nodes for cluster-membership
+    # discovery (heartbeat / election RPCs).  ThemisDB will never create a
+    # WAL replication stream to a WITNESS node regardless of seed_nodes — the
+    # distinction is made by the role set in addWitnessNode(), not by
+    # seed_nodes membership.
+    # - "witness-01.cluster.local:8765"
+```
+
+**API usage** (adding the witness at runtime):
+```cpp
+// Registers a vote-only node; no WAL stream is created for it.
+replication_manager.addWitnessNode("witness-01", "10.0.0.3:8765");
+```
+
+**Topology**:
+```
+┌─────────┐
+│ Node-01 │ ◄─── Primary (LEADER, data)
+└─────────┘
+     │
+     └──────► ┌─────────┐
+              │ Node-02 │  Standby (FOLLOWER, data + voting)
+              └─────────┘
+
+              ┌────────────┐
+              │ Witness-01 │  Vote-only (WITNESS, no data, voting)
+              └────────────┘
+                   │
+                   └── Contributes to quorum; never stores data
+```
+
+**Behaviour summary**:
+
+| Property | FOLLOWER | WITNESS |
+|---|---|---|
+| Receives WAL / stores data | ✅ | ❌ |
+| Votes in leader election | ✅ | ✅ |
+| Counts toward `hasQuorum()` | ✅ | ✅ |
+| Eligible for read routing | ✅ | ❌ |
+| Can be promoted to leader | ✅ | ❌ (priority = 0) |
+
+**Quorum arithmetic**:  
+3 voting members (leader + follower + witness). Quorum = ⌊3/2⌋ + 1 = **2**.  
+The cluster remains available as long as **any 2 of the 3 voting members are
+reachable** — including when the witness is the surviving non-primary node.
+
+**Use Case**: Cost-efficient 2-node HA (witness runs on a small VM or edge device)  
+**RPO**: 0 (semi-sync with `min_sync_replicas: 1`)  
+**RTO**: < 30 seconds (same as 3-Node Active-Passive)
 
 ## Failure Detection
 

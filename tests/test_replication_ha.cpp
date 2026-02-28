@@ -3525,3 +3525,138 @@ TEST(LagBasedReadRouterTest, ReplicationManagerSelectReadReplicaReturnsPrimaryWh
 
     mgr.shutdown();
 }
+
+// ============================================================================
+// Witness Node Tests
+// ============================================================================
+
+class WitnessNodeTest : public ::testing::Test {
+protected:
+    static ReplicationConfig makeWitnessConfig(const std::string& wal_dir) {
+        ReplicationConfig cfg = makeConfig(wal_dir);
+        cfg.min_sync_replicas = 1;
+        return cfg;
+    }
+};
+
+// 1. A witness node is stored as a WITNESS role voting member.
+TEST_F(WitnessNodeTest, WitnessRoleIsVotingMember) {
+    TempWALDir wd("/tmp/themis_witness_role_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    mgr.addWitnessNode("witness-1", "127.0.0.1:7010");
+
+    auto replicas = mgr.getReplicas();
+    ASSERT_EQ(replicas.size(), 1u);
+    EXPECT_EQ(replicas[0].node_id, "witness-1");
+    EXPECT_EQ(replicas[0].role, ReplicationRole::WITNESS);
+    EXPECT_TRUE(replicas[0].is_voting_member);
+
+    mgr.shutdown();
+}
+
+// 2. Adding a witness node via addReplica() with WITNESS role also skips the stream.
+TEST_F(WitnessNodeTest, AddReplicaWithWitnessRoleSkipsStream) {
+    TempWALDir wd("/tmp/themis_witness_addreplica_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    ReplicaInfo witness;
+    witness.node_id          = "witness-2";
+    witness.endpoint         = "127.0.0.1:7011";
+    witness.role             = ReplicationRole::WITNESS;
+    witness.is_voting_member = true;
+    witness.last_heartbeat   = std::chrono::system_clock::now();
+    mgr.addReplica(witness);
+
+    auto replicas = mgr.getReplicas();
+    ASSERT_EQ(replicas.size(), 1u);
+    EXPECT_EQ(replicas[0].role, ReplicationRole::WITNESS);
+
+    mgr.shutdown();
+}
+
+// 3. A 2-node cluster (1 data follower + 1 witness) achieves quorum.
+//    We poll until this node becomes the leader (background election loop fires
+//    within election_timeout_max_ms = 300 ms), then assert quorum.
+//    hasQuorum() counts: self(leader) + follower(HEALTHY) = 2 healthy out of
+//    3 total voting members; 2 > 3/2 = 1 → quorum.
+TEST_F(WitnessNodeTest, TwoNodeClusterWithWitnessHasQuorum) {
+    TempWALDir wd("/tmp/themis_witness_quorum_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    // Poll until this node wins election.  At initialization cluster_size = 1,
+    // so quorum = 1 and the first election cycle immediately promotes this node
+    // to leader.  Timeout of 2 s is well above election_timeout_max_ms (300 ms).
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while (mgr.getRole() != ReplicationRole::LEADER &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+    ASSERT_EQ(mgr.getRole(), ReplicationRole::LEADER)
+        << "Node should have won election within 2 seconds";
+
+    // One regular follower (healthy, voting)
+    ReplicaInfo follower;
+    follower.node_id          = "follower-1";
+    follower.endpoint         = "127.0.0.1:7020";
+    follower.role             = ReplicationRole::FOLLOWER;
+    follower.is_voting_member = true;
+    follower.health_status    = HealthStatus::HEALTHY;
+    follower.last_heartbeat   = std::chrono::system_clock::now();
+    mgr.addReplica(follower);
+
+    // One witness node (voting, no data stream; health starts UNKNOWN)
+    mgr.addWitnessNode("witness-quorum", "127.0.0.1:7021");
+
+    // hasQuorum(): self(leader) + follower = 2 healthy out of 3 total; 2 > 1 → true.
+    EXPECT_TRUE(mgr.hasQuorum());
+
+    mgr.shutdown();
+}
+
+// 4. Witness node is not returned as a candidate by selectReadReplica
+//    (it holds no data).
+TEST_F(WitnessNodeTest, WitnessNodeNotSelectedForReads) {
+    TempWALDir wd("/tmp/themis_witness_read_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    mgr.addWitnessNode("witness-only", "127.0.0.1:7030");
+
+    // With only a witness replica (no data replica), selectReadReplica should
+    // fall back to the primary (this node), not the witness.
+    auto dec = mgr.selectReadReplica(ReadPreference::SECONDARY_PREFERRED);
+    // The selected node must not be the witness.
+    EXPECT_NE(dec.node_id, "witness-only");
+
+    mgr.shutdown();
+}
+
+// 5. Removing a witness node removes it from the replica list.
+TEST_F(WitnessNodeTest, RemoveWitnessNodeDeregistersIt) {
+    TempWALDir wd("/tmp/themis_witness_remove_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    mgr.addWitnessNode("witness-rm", "127.0.0.1:7040");
+    EXPECT_EQ(mgr.getReplicas().size(), 1u);
+
+    mgr.removeReplica("witness-rm");
+    EXPECT_EQ(mgr.getReplicas().size(), 0u);
+
+    mgr.shutdown();
+}

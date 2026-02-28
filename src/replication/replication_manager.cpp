@@ -946,7 +946,9 @@ void ReplicationManager::addReplica(const ReplicaInfo& replica) {
         std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
         replicas_.push_back(replica);
         
-        if (election_ && election_->isLeader()) {
+        // Witness nodes vote but do not receive WAL data – skip stream creation.
+        if (replica.role != ReplicationRole::WITNESS &&
+            election_ && election_->isLeader()) {
             auto stream = std::make_unique<ReplicationStream>(
                 replica.endpoint, wal_, config_
             );
@@ -987,6 +989,20 @@ void ReplicationManager::removeReplica(const std::string& node_id) {
 
 void ReplicationManager::setConflictResolver(std::shared_ptr<IConflictResolver> resolver) {
     conflict_resolver_ = resolver;
+}
+
+void ReplicationManager::addWitnessNode(const std::string& node_id,
+                                        const std::string& endpoint) {
+    ReplicaInfo witness;
+    witness.node_id          = node_id;
+    witness.endpoint         = endpoint;
+    witness.role             = ReplicationRole::WITNESS;
+    witness.is_voting_member = true;   // Contributes to quorum
+    witness.last_heartbeat   = std::chrono::system_clock::now();
+    witness.health_status    = HealthStatus::UNKNOWN;
+    witness.priority         = 0;      // Never preferred for leader election
+    // addReplica() detects WITNESS role and skips WAL stream creation.
+    addReplica(witness);
 }
 
 void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> listener) {
