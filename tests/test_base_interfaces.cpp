@@ -16,21 +16,24 @@
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
-
 /// @file test_base_interfaces.cpp
 /// @brief Unit tests for base interface definitions
-/// 
+///
 /// These tests verify that the interfaces:
-/// - Compile correctly
+/// - Compile correctly with the current Result<T> API
 /// - Have pure virtual methods
 /// - Can be subclassed
 /// - Have proper virtual destructors
+/// - Behave correctly through polymorphism
 
 #include <gtest/gtest.h>
-
-// Disable legacy base interface tests
-#if 0
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <string>
 #include <type_traits>
+#include <vector>
+
 #include "themis/base/interfaces/storage_interface.h"
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/index_interface.h"
@@ -38,11 +41,12 @@
 
 using namespace themis;
 
-// ===== Compilation Tests =====
+// =============================================================================
+// Compile-time / abstract-class Tests
+// =============================================================================
 
 TEST(BaseInterfaces, StorageInterfaceIsAbstract) {
     EXPECT_TRUE(std::is_abstract_v<IStorageEngine>);
-    EXPECT_TRUE(std::is_abstract_v<IStorageEngine::ITransaction>);
     EXPECT_TRUE(std::is_abstract_v<IStorageEngineFactory>);
 }
 
@@ -73,260 +77,598 @@ TEST(BaseInterfaces, HasVirtualDestructors) {
     EXPECT_TRUE(std::has_virtual_destructor_v<IKeyProvider>);
 }
 
-// ===== Mock Implementations for Testing =====
+// =============================================================================
+// Mock Implementations
+// =============================================================================
+
+// --- IStorageEngine mock ---
 
 class MockStorageEngine : public IStorageEngine {
 public:
-    bool put(std::string_view key, std::string_view value) override {
-        data_[std::string(key)] = std::string(value);
-        return true;
+    Result<void> open(const std::string& /*db_path*/) override {
+        opened_ = true;
+        return OkVoid();
     }
 
-    std::optional<std::string> get(std::string_view key) const override {
-        auto it = data_.find(std::string(key));
+    void close() override { opened_ = false; }
+
+    Result<void> put(const std::string& key, const std::string& value) override {
+        data_[key] = value;
+        return OkVoid();
+    }
+
+    Result<std::string> get(const std::string& key) override {
+        auto it = data_.find(key);
         if (it != data_.end()) {
-            return it->second;
+            return Ok(it->second);
         }
-        return std::nullopt;
+        return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, key);
     }
 
-    bool del(std::string_view key) override {
-        return data_.erase(std::string(key)) > 0;
-    }
-
-    bool exists(std::string_view key) const override {
-        return data_.find(std::string(key)) != data_.end();
-    }
-
-    bool executeBatch(
-        const std::vector<std::pair<std::string, std::string>>& puts,
-        const std::vector<std::string>& deletes) override {
-        for (const auto& [k, v] : puts) {
-            data_[k] = v;
+    Result<void> del(const std::string& key) override {
+        if (data_.erase(key) > 0) {
+            return OkVoid();
         }
-        for (const auto& k : deletes) {
-            data_.erase(k);
-        }
-        return true;
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, key);
     }
 
-    void scanPrefix(std::string_view prefix, ScanCallback callback) const override {
-        std::string prefix_str(prefix);
-        for (const auto& [key, value] : data_) {
-            if (key.substr(0, prefix_str.size()) == prefix_str) {
-                if (!callback(key, value)) break;
-            }
-        }
-    }
-
-    void scanRange(std::string_view start_key, std::string_view end_key,
-                   ScanCallback callback) const override {
-        std::string start(start_key);
-        std::string end(end_key);
-        for (const auto& [key, value] : data_) {
-            if (key >= start && key < end) {
-                if (!callback(key, value)) break;
-            }
-        }
-    }
-
-    class MockTransaction : public ITransaction {
-    public:
-        bool put(std::string_view key, std::string_view value) override { return true; }
-        std::optional<std::string> get(std::string_view key) const override { return std::nullopt; }
-        bool del(std::string_view key) override { return true; }
-        bool commit() override { return true; }
-        void rollback() override {}
-    };
-
-    std::unique_ptr<ITransaction> beginTransaction() override {
-        return std::make_unique<MockTransaction>();
-    }
-
-    void flush() override {}
-    void compact(std::optional<std::string_view> start_key,
-                std::optional<std::string_view> end_key) override {}
-    uint64_t getApproximateSize() const override { return 0; }
-    std::string getStatistics() const override { return "{}"; }
+    bool opened_ = false;
 
 private:
     std::map<std::string, std::string> data_;
 };
 
+// --- IExpressionEvaluator mock ---
+
+class MockExpressionEvaluator : public IExpressionEvaluator {
+public:
+    bool evaluate(const std::string& /*expression*/,
+                  const void* /*context*/) override { return true; }
+
+    std::string get_expression_type() const override { return "MOCK"; }
+};
+
+// --- IQueryEngine mock ---
+
 class MockQueryEngine : public IQueryEngine {
 public:
-    QueryResult execute(std::string_view query) override {
-        QueryResult result;
-        result.success = true;
-        return result;
+    Result<std::string> execute(const std::string& /*query*/) override {
+        return Ok(std::string{"mock result"});
     }
 
-    bool validate(std::string_view query) const override {
-        return true;
+    Result<void> validate(const std::string& /*query*/) const override {
+        return OkVoid();
     }
 
-    std::unique_ptr<IExpressionEvaluator> createExpressionEvaluator() const override {
-        // Mock implementation: returns nullptr since this test focuses on
-        // verifying the interface contract rather than actual expression evaluation
-        return nullptr;
+    Result<std::unique_ptr<IExpressionEvaluator>>
+    createExpressionEvaluator() const override {
+        return Ok<std::unique_ptr<IExpressionEvaluator>>(
+            std::make_unique<MockExpressionEvaluator>());
     }
 
-    std::string explainQuery(std::string_view query) const override {
-        return "Mock plan";
+    Result<std::string> explainQuery(const std::string& /*query*/) const override {
+        return Ok(std::string{"mock plan"});
     }
 };
+
+// --- IFieldEncryption mock ---
+
+class MockFieldEncryption : public IFieldEncryption {
+public:
+    std::vector<uint8_t> encrypt_field(
+        const std::string& /*field_name*/,
+        const std::vector<uint8_t>& plaintext) override {
+        // XOR each byte with 0xFF as a trivial mock cipher
+        std::vector<uint8_t> out(plaintext);
+        for (auto& b : out) b ^= 0xFF;
+        return out;
+    }
+
+    std::vector<uint8_t> decrypt_field(
+        const std::string& field_name,
+        const std::vector<uint8_t>& ciphertext) override {
+        return encrypt_field(field_name, ciphertext); // symmetric
+    }
+
+    bool should_encrypt(const std::string& field_name) const override {
+        return field_name == "secret";
+    }
+};
+
+// --- IKeyProvider mock ---
 
 class MockKeyProvider : public IKeyProvider {
 public:
-    std::optional<std::vector<uint8_t>> getKey(
-        std::string_view key_id, uint32_t version) const override {
-        return std::vector<uint8_t>{0x00, 0x11, 0x22, 0x33};
+    std::vector<uint8_t> get_key(const std::string& /*key_id*/) override {
+        return {0x00, 0x11, 0x22, 0x33};
     }
 
-    uint32_t getLatestKeyVersion(std::string_view key_id) const override {
-        return 1;
-    }
-
-    uint32_t rotateKey(std::string_view key_id) override {
-        return 2;
-    }
-
-    bool hasKey(std::string_view key_id) const override {
-        return true;
-    }
-
-    std::vector<std::string> listKeys() const override {
-        return {"test_key"};
+    std::vector<uint8_t> rotate_key(const std::string& /*key_id*/) override {
+        return {0xAA, 0xBB, 0xCC, 0xDD};
     }
 };
 
-// ===== Functional Tests =====
+// --- ISecondaryIndex mock ---
 
-TEST(MockStorageEngine, BasicOperations) {
-    MockStorageEngine storage;
-
-    // Test put and get
-    EXPECT_TRUE(storage.put("key1", "value1"));
-    auto value = storage.get("key1");
-    ASSERT_TRUE(value.has_value());
-    EXPECT_EQ(value.value(), "value1");
-
-    // Test exists
-    EXPECT_TRUE(storage.exists("key1"));
-    EXPECT_FALSE(storage.exists("nonexistent"));
-
-    // Test delete
-    EXPECT_TRUE(storage.del("key1"));
-    EXPECT_FALSE(storage.exists("key1"));
-}
-
-TEST(MockStorageEngine, BatchOperations) {
-    MockStorageEngine storage;
-
-    std::vector<std::pair<std::string, std::string>> puts = {
-        {"key1", "value1"},
-        {"key2", "value2"}
-    };
-    std::vector<std::string> deletes = {};
-
-    EXPECT_TRUE(storage.executeBatch(puts, deletes));
-    EXPECT_TRUE(storage.exists("key1"));
-    EXPECT_TRUE(storage.exists("key2"));
-}
-
-TEST(MockStorageEngine, ScanPrefix) {
-    MockStorageEngine storage;
-    storage.put("user:1", "alice");
-    storage.put("user:2", "bob");
-    storage.put("admin:1", "charlie");
-
-    int count = 0;
-    storage.scanPrefix("user:", [&count](std::string_view key, std::string_view value) {
-        count++;
+class MockSecondaryIndex : public ISecondaryIndex {
+public:
+    bool insert(std::string_view indexed_value,
+                std::string_view primary_key) override {
+        index_[std::string(indexed_value)].push_back(std::string(primary_key));
         return true;
-    });
+    }
 
-    EXPECT_EQ(count, 2);
-}
+    bool remove(std::string_view indexed_value,
+                std::string_view primary_key) override {
+        auto it = index_.find(std::string(indexed_value));
+        if (it == index_.end()) return false;
+        auto& vec = it->second;
+        auto pos = std::find(vec.begin(), vec.end(), std::string(primary_key));
+        if (pos == vec.end()) return false;
+        vec.erase(pos);
+        return true;
+    }
 
-TEST(MockStorageEngine, Transaction) {
+    std::vector<std::string> lookup(std::string_view value) const override {
+        auto it = index_.find(std::string(value));
+        if (it == index_.end()) return {};
+        return it->second;
+    }
+
+    std::vector<std::string> rangeScan(
+        std::string_view start, std::string_view end,
+        ScanOrder /*order*/ = ScanOrder::ASCENDING) const override {
+        std::vector<std::string> result;
+        std::string s(start), e(end);
+        for (const auto& [k, pks] : index_) {
+            if (k >= s && k < e) {
+                result.insert(result.end(), pks.begin(), pks.end());
+            }
+        }
+        return result;
+    }
+
+    std::string getName() const override { return "mock_secondary"; }
+    std::string getFieldName() const override { return "mock_field"; }
+    std::string getStatistics() const override { return "{}"; }
+
+private:
+    std::map<std::string, std::vector<std::string>> index_;
+};
+
+// --- IVectorIndex mock ---
+
+class MockVectorIndex : public IVectorIndex {
+public:
+    bool insert(std::string_view primary_key,
+                const std::vector<float>& vector) override {
+        vectors_[std::string(primary_key)] = vector;
+        return true;
+    }
+
+    bool remove(std::string_view primary_key) override {
+        return vectors_.erase(std::string(primary_key)) > 0;
+    }
+
+    std::vector<VectorSearchResult> search(
+        const std::vector<float>& /*query*/, uint32_t k,
+        const IExpressionEvaluator* /*filter*/ = nullptr) const override {
+        std::vector<VectorSearchResult> results;
+        for (const auto& [pk, _] : vectors_) {
+            if (results.size() >= static_cast<size_t>(k)) break;
+            results.emplace_back(pk, 0.0f);
+        }
+        return results;
+    }
+
+    std::vector<VectorSearchResult> rangeSearch(
+        const std::vector<float>& /*query*/, float /*max_distance*/,
+        const IExpressionEvaluator* /*filter*/ = nullptr) const override {
+        std::vector<VectorSearchResult> results;
+        for (const auto& [pk, _] : vectors_) {
+            results.emplace_back(pk, 0.0f);
+        }
+        return results;
+    }
+
+    std::string getName() const override { return "mock_vector"; }
+    uint32_t getDimension() const override { return 3; }
+    std::string getStatistics() const override { return "{}"; }
+
+private:
+    std::map<std::string, std::vector<float>> vectors_;
+};
+
+// --- IGraphIndex mock ---
+
+class MockGraphIndex : public IGraphIndex {
+public:
+    bool insertEdge(const GraphEdge& edge) override {
+        edges_.push_back(edge);
+        return true;
+    }
+
+    bool removeEdge(std::string_view from, std::string_view to,
+                    std::string_view edge_type = "") override {
+        auto it = std::remove_if(edges_.begin(), edges_.end(),
+            [&](const GraphEdge& e) {
+                return e.from_node == std::string(from) &&
+                       e.to_node   == std::string(to)   &&
+                       (edge_type.empty() || e.edge_type == std::string(edge_type));
+            });
+        bool removed = it != edges_.end();
+        edges_.erase(it, edges_.end());
+        return removed;
+    }
+
+    std::vector<GraphEdge> getOutgoingEdges(
+        std::string_view node_id, std::string_view edge_type = "") const override {
+        std::vector<GraphEdge> result;
+        for (const auto& e : edges_) {
+            if (e.from_node == std::string(node_id) &&
+                (edge_type.empty() || e.edge_type == std::string(edge_type))) {
+                result.push_back(e);
+            }
+        }
+        return result;
+    }
+
+    std::vector<GraphEdge> getIncomingEdges(
+        std::string_view node_id, std::string_view edge_type = "") const override {
+        std::vector<GraphEdge> result;
+        for (const auto& e : edges_) {
+            if (e.to_node == std::string(node_id) &&
+                (edge_type.empty() || e.edge_type == std::string(edge_type))) {
+                result.push_back(e);
+            }
+        }
+        return result;
+    }
+
+    std::vector<std::string> findShortestPath(
+        std::string_view from, std::string_view to,
+        std::string_view /*edge_type*/ = "",
+        uint32_t /*max_depth*/ = 0) const override {
+        // Simple mock: direct edge only
+        for (const auto& e : edges_) {
+            if (e.from_node == std::string(from) &&
+                e.to_node   == std::string(to)) {
+                return {std::string(from), std::string(to)};
+            }
+        }
+        return {};
+    }
+
+    std::string getName() const override { return "mock_graph"; }
+    std::string getStatistics() const override { return "{}"; }
+
+private:
+    std::vector<GraphEdge> edges_;
+};
+
+// =============================================================================
+// IStorageEngine Tests
+// =============================================================================
+
+TEST(MockStorageEngine, OpenAndClose) {
     MockStorageEngine storage;
-    auto txn = storage.beginTransaction();
-    ASSERT_NE(txn, nullptr);
-    EXPECT_TRUE(txn->commit());
+    auto res = storage.open("/tmp/test_db");
+    EXPECT_TRUE(res.has_value());
+    EXPECT_TRUE(storage.opened_);
+    storage.close();
+    EXPECT_FALSE(storage.opened_);
 }
+
+TEST(MockStorageEngine, PutAndGet) {
+    MockStorageEngine storage;
+    auto put_res = storage.put("key1", "value1");
+    EXPECT_TRUE(put_res.has_value());
+
+    auto get_res = storage.get("key1");
+    ASSERT_TRUE(get_res.has_value());
+    EXPECT_EQ(get_res.value(), "value1");
+}
+
+TEST(MockStorageEngine, GetNonexistentReturnsError) {
+    MockStorageEngine storage;
+    auto res = storage.get("no_such_key");
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST(MockStorageEngine, DeleteExistingKey) {
+    MockStorageEngine storage;
+    storage.put("k", "v");
+    auto del_res = storage.del("k");
+    EXPECT_TRUE(del_res.has_value());
+
+    auto get_res = storage.get("k");
+    EXPECT_FALSE(get_res.has_value());
+}
+
+TEST(MockStorageEngine, DeleteNonexistentReturnsError) {
+    MockStorageEngine storage;
+    auto res = storage.del("ghost");
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST(MockStorageEngine, ScanRangeDefaultImplementation) {
+    MockStorageEngine storage;
+    // Default scanRange returns error (not implemented in base)
+    int count = 0;
+    auto res = storage.scanRange("a", "z",
+        [&](std::string_view, std::string_view) { ++count; return true; });
+    EXPECT_FALSE(res.has_value()); // default impl returns error
+    EXPECT_EQ(count, 0);
+}
+
+TEST(MockStorageEngine, ScanPrefixDefaultImplementation) {
+    MockStorageEngine storage;
+    int count = 0;
+    auto res = storage.scanPrefix("user:",
+        [&](std::string_view, std::string_view) { ++count; return true; });
+    EXPECT_FALSE(res.has_value()); // default impl returns error
+    EXPECT_EQ(count, 0);
+}
+
+TEST(MockStorageEngine, PolymorphicUsage) {
+    MockStorageEngine mock;
+    IStorageEngine* engine = &mock;
+
+    EXPECT_TRUE(engine->put("poly_key", "poly_val").has_value());
+    auto res = engine->get("poly_key");
+    ASSERT_TRUE(res.has_value());
+    EXPECT_EQ(res.value(), "poly_val");
+}
+
+// =============================================================================
+// IQueryEngine Tests
+// =============================================================================
 
 TEST(MockQueryEngine, Execute) {
     MockQueryEngine engine;
-    auto result = engine.execute("SELECT * FROM test");
-    EXPECT_TRUE(result.success);
-    EXPECT_FALSE(result.hasError());
+    auto res = engine.execute("SELECT 1");
+    ASSERT_TRUE(res.has_value());
+    EXPECT_FALSE(res.value().empty());
 }
 
 TEST(MockQueryEngine, Validate) {
     MockQueryEngine engine;
-    EXPECT_TRUE(engine.validate("SELECT * FROM test"));
+    auto res = engine.validate("SELECT 1");
+    EXPECT_TRUE(res.has_value());
 }
 
-TEST(MockKeyProvider, GetKey) {
+TEST(MockQueryEngine, CreateExpressionEvaluator) {
+    MockQueryEngine engine;
+    auto res = engine.createExpressionEvaluator();
+    ASSERT_TRUE(res.has_value());
+    ASSERT_NE(res.value().get(), nullptr);
+    EXPECT_EQ(res.value()->get_expression_type(), "MOCK");
+    EXPECT_TRUE(res.value()->evaluate("true", nullptr));
+}
+
+TEST(MockQueryEngine, ExplainQuery) {
+    MockQueryEngine engine;
+    auto res = engine.explainQuery("SELECT 1");
+    ASSERT_TRUE(res.has_value());
+    EXPECT_FALSE(res.value().empty());
+}
+
+TEST(QueryResult, DefaultState) {
+    QueryResult qr;
+    EXPECT_FALSE(qr.success);
+    EXPECT_FALSE(qr.hasError());
+}
+
+TEST(QueryResult, ErrorState) {
+    QueryResult qr;
+    qr.error_message = "something went wrong";
+    EXPECT_TRUE(qr.hasError());
+}
+
+// =============================================================================
+// IFieldEncryption Tests
+// =============================================================================
+
+TEST(MockFieldEncryption, EncryptDecryptRoundTrip) {
+    MockFieldEncryption enc;
+    std::vector<uint8_t> plaintext = {0x01, 0x02, 0x03};
+    auto ciphertext = enc.encrypt_field("secret", plaintext);
+    ASSERT_EQ(ciphertext.size(), plaintext.size());
+    EXPECT_NE(ciphertext, plaintext);
+
+    auto recovered = enc.decrypt_field("secret", ciphertext);
+    EXPECT_EQ(recovered, plaintext);
+}
+
+TEST(MockFieldEncryption, ShouldEncryptSelectedFields) {
+    MockFieldEncryption enc;
+    EXPECT_TRUE(enc.should_encrypt("secret"));
+    EXPECT_FALSE(enc.should_encrypt("public_name"));
+}
+
+// =============================================================================
+// IKeyProvider Tests
+// =============================================================================
+
+TEST(MockKeyProvider, GetKeyReturnsBytes) {
     MockKeyProvider provider;
-    auto key = provider.getKey("test_key", 1);
-    ASSERT_TRUE(key.has_value());
-    EXPECT_EQ(key->size(), 4);
+    auto key = provider.get_key("my_key");
+    EXPECT_EQ(key.size(), 4u);
+    EXPECT_EQ(key[0], 0x00);
 }
 
-TEST(MockKeyProvider, ListKeys) {
+TEST(MockKeyProvider, RotateKeyReturnsDifferentBytes) {
     MockKeyProvider provider;
-    auto keys = provider.listKeys();
-    EXPECT_EQ(keys.size(), 1);
-    EXPECT_EQ(keys[0], "test_key");
+    auto original = provider.get_key("my_key");
+    auto rotated  = provider.rotate_key("my_key");
+    EXPECT_NE(original, rotated);
+    EXPECT_EQ(rotated.size(), 4u);
 }
 
-// ===== Type Safety Tests =====
+// =============================================================================
+// ISecondaryIndex Tests
+// =============================================================================
 
-TEST(BaseInterfaces, PolymorphicBehavior) {
-    MockStorageEngine mock_storage;
-    IStorageEngine* storage_ptr = &mock_storage;
-    
-    EXPECT_TRUE(storage_ptr->put("test", "value"));
-    auto value = storage_ptr->get("test");
-    ASSERT_TRUE(value.has_value());
-    EXPECT_EQ(value.value(), "value");
+TEST(MockSecondaryIndex, InsertAndLookup) {
+    MockSecondaryIndex idx;
+    EXPECT_TRUE(idx.insert("alice", "pk1"));
+    EXPECT_TRUE(idx.insert("alice", "pk2"));
+
+    auto pks = idx.lookup("alice");
+    EXPECT_EQ(pks.size(), 2u);
 }
 
-TEST(BaseInterfaces, StructSizes) {
-    // Verify structs are reasonable sizes
-    EXPECT_LT(sizeof(QueryResult), 1024);
-    EXPECT_LT(sizeof(EncryptedData), 1024);
-    EXPECT_LT(sizeof(VectorSearchResult), 256);
-    EXPECT_LT(sizeof(GraphEdge), 256);
+TEST(MockSecondaryIndex, LookupMissingValue) {
+    MockSecondaryIndex idx;
+    auto pks = idx.lookup("ghost");
+    EXPECT_TRUE(pks.empty());
 }
 
-// ===== Edge Cases =====
-
-TEST(MockStorageEngine, EmptyGet) {
-    MockStorageEngine storage;
-    auto value = storage.get("nonexistent");
-    EXPECT_FALSE(value.has_value());
+TEST(MockSecondaryIndex, RemoveEntry) {
+    MockSecondaryIndex idx;
+    idx.insert("bob", "pk10");
+    EXPECT_TRUE(idx.remove("bob", "pk10"));
+    EXPECT_TRUE(idx.lookup("bob").empty());
 }
 
-TEST(MockStorageEngine, DeleteNonexistent) {
-    MockStorageEngine storage;
-    EXPECT_FALSE(storage.del("nonexistent"));
+TEST(MockSecondaryIndex, RemoveNonexistentReturnsFalse) {
+    MockSecondaryIndex idx;
+    EXPECT_FALSE(idx.remove("none", "pk0"));
 }
 
-TEST(MockStorageEngine, ScanEmptyPrefix) {
-    MockStorageEngine storage;
-    int count = 0;
-    storage.scanPrefix("nonexistent:", [&count](auto k, auto v) {
-        count++;
-        return true;
-    });
-    EXPECT_EQ(count, 0);
+TEST(MockSecondaryIndex, RangeScan) {
+    MockSecondaryIndex idx;
+    idx.insert("b_entry", "pk1");
+    idx.insert("c_entry", "pk2");
+    idx.insert("z_entry", "pk3");
+
+    auto result = idx.rangeScan("b", "d");
+    EXPECT_EQ(result.size(), 2u);
 }
 
-#endif // legacy base interface tests
+TEST(MockSecondaryIndex, Metadata) {
+    MockSecondaryIndex idx;
+    EXPECT_EQ(idx.getName(), "mock_secondary");
+    EXPECT_EQ(idx.getFieldName(), "mock_field");
+    EXPECT_FALSE(idx.getStatistics().empty());
+}
 
-TEST(BaseInterfaces, DISABLED_BaseInterfacesLegacy) {
-    GTEST_SKIP() << "Base interface tests disabled in this configuration";
+// =============================================================================
+// IVectorIndex Tests
+// =============================================================================
+
+TEST(MockVectorIndex, InsertAndSearch) {
+    MockVectorIndex idx;
+    EXPECT_TRUE(idx.insert("doc1", {1.0f, 0.0f, 0.0f}));
+    EXPECT_TRUE(idx.insert("doc2", {0.0f, 1.0f, 0.0f}));
+
+    auto results = idx.search({1.0f, 0.0f, 0.0f}, 1);
+    EXPECT_EQ(results.size(), 1u);
+}
+
+TEST(MockVectorIndex, RangeSearch) {
+    MockVectorIndex idx;
+    idx.insert("v1", {1.0f, 0.0f, 0.0f});
+
+    auto results = idx.rangeSearch({1.0f, 0.0f, 0.0f}, 1.0f);
+    EXPECT_FALSE(results.empty());
+}
+
+TEST(MockVectorIndex, RemoveVector) {
+    MockVectorIndex idx;
+    idx.insert("doc1", {1.0f, 2.0f, 3.0f});
+    EXPECT_TRUE(idx.remove("doc1"));
+    EXPECT_FALSE(idx.remove("doc1")); // already removed
+}
+
+TEST(MockVectorIndex, Metadata) {
+    MockVectorIndex idx;
+    EXPECT_EQ(idx.getName(), "mock_vector");
+    EXPECT_EQ(idx.getDimension(), 3u);
+    EXPECT_FALSE(idx.getStatistics().empty());
+}
+
+TEST(VectorSearchResult, Construction) {
+    VectorSearchResult r("doc1", 0.5f);
+    EXPECT_EQ(r.primary_key, "doc1");
+    EXPECT_FLOAT_EQ(r.distance, 0.5f);
+}
+
+// =============================================================================
+// IGraphIndex Tests
+// =============================================================================
+
+TEST(MockGraphIndex, InsertEdge) {
+    MockGraphIndex idx;
+    EXPECT_TRUE(idx.insertEdge(GraphEdge{"A", "B", "knows", 1.0}));
+}
+
+TEST(MockGraphIndex, GetOutgoingEdges) {
+    MockGraphIndex idx;
+    idx.insertEdge(GraphEdge{"A", "B", "knows"});
+    idx.insertEdge(GraphEdge{"A", "C", "likes"});
+
+    auto edges = idx.getOutgoingEdges("A");
+    EXPECT_EQ(edges.size(), 2u);
+}
+
+TEST(MockGraphIndex, GetOutgoingEdgesFilteredByType) {
+    MockGraphIndex idx;
+    idx.insertEdge(GraphEdge{"A", "B", "knows"});
+    idx.insertEdge(GraphEdge{"A", "C", "likes"});
+
+    auto edges = idx.getOutgoingEdges("A", "knows");
+    EXPECT_EQ(edges.size(), 1u);
+    EXPECT_EQ(edges[0].to_node, "B");
+}
+
+TEST(MockGraphIndex, GetIncomingEdges) {
+    MockGraphIndex idx;
+    idx.insertEdge(GraphEdge{"A", "B"});
+    idx.insertEdge(GraphEdge{"C", "B"});
+
+    auto edges = idx.getIncomingEdges("B");
+    EXPECT_EQ(edges.size(), 2u);
+}
+
+TEST(MockGraphIndex, RemoveEdge) {
+    MockGraphIndex idx;
+    idx.insertEdge(GraphEdge{"A", "B", "knows"});
+    EXPECT_TRUE(idx.removeEdge("A", "B", "knows"));
+    EXPECT_TRUE(idx.getOutgoingEdges("A").empty());
+}
+
+TEST(MockGraphIndex, FindShortestPathDirect) {
+    MockGraphIndex idx;
+    idx.insertEdge(GraphEdge{"X", "Y"});
+    auto path = idx.findShortestPath("X", "Y");
+    ASSERT_EQ(path.size(), 2u);
+    EXPECT_EQ(path[0], "X");
+    EXPECT_EQ(path[1], "Y");
+}
+
+TEST(MockGraphIndex, FindShortestPathNoPath) {
+    MockGraphIndex idx;
+    auto path = idx.findShortestPath("X", "Z");
+    EXPECT_TRUE(path.empty());
+}
+
+TEST(MockGraphIndex, Metadata) {
+    MockGraphIndex idx;
+    EXPECT_EQ(idx.getName(), "mock_graph");
+    EXPECT_FALSE(idx.getStatistics().empty());
+}
+
+TEST(GraphEdge, Construction) {
+    GraphEdge e{"from", "to", "link", 2.5};
+    EXPECT_EQ(e.from_node, "from");
+    EXPECT_EQ(e.to_node, "to");
+    EXPECT_EQ(e.edge_type, "link");
+    EXPECT_DOUBLE_EQ(e.weight, 2.5);
+}
+
+TEST(GraphEdge, DefaultWeight) {
+    GraphEdge e{"A", "B"};
+    EXPECT_DOUBLE_EQ(e.weight, 1.0);
+    EXPECT_TRUE(e.edge_type.empty());
 }
