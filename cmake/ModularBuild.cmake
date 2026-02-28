@@ -595,6 +595,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/llm_plugin_manager.cpp
     ../src/llm/model_loader.cpp
+    ../src/llm/model_quantization_pipeline.cpp
     ../src/llm/model_downloader.cpp
     ../src/llm/aql_train_parser.cpp
     ../src/llm/llama_wrapper.cpp

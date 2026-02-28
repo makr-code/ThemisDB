@@ -122,6 +122,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_shared_worker_pool\\.cpp$"
         ".*test_json_schema_binding\\.cpp$"
         ".*test_openai_compat_adapter\\.cpp$"
+        ".*test_model_quantization_pipeline\\.cpp$"
         ".*test_model_router\\.cpp$"
     )
 endif()
