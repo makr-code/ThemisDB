@@ -5,6 +5,17 @@
 #include <limits>
 #include <unordered_map>
 
+#ifdef THEMIS_ENABLE_CUDA
+#  include <cuda_runtime.h>
+#endif
+#ifdef THEMIS_ENABLE_CUVS
+#  include <raft/core/device_resources.hpp>
+#  include <raft/core/device_mdarray.hpp>
+#  include <raft/core/copy.hpp>
+#  include <cuvs/neighbors/ivf_flat.hpp>
+#  include <cuvs/distance/distance_types.hpp>
+#endif
+
 namespace themis {
 namespace gpu {
 
@@ -466,7 +477,7 @@ GPUQueryAccelerator::annSearch(const std::vector<float>& queries,
     }
 
     bool use_gpu = shouldUseGPU(numVectors);
-    result.used_gpu = use_gpu;
+    result.used_gpu = false;  // set true only if GPU path executes successfully
 
     // Graph cache check — key on (numQueries * dim) as row count and pack
     // k + useL2 flag into the parameter hash.  Salt constants ensure that
@@ -487,39 +498,81 @@ GPUQueryAccelerator::annSearch(const std::vector<float>& queries,
         }
     }
 
-    // GPU stub: when THEMIS_ENABLE_CUDA is defined and real GPU hardware is
-    // present the following cuVS/RAFT calls would replace the CPU path below:
+#ifdef THEMIS_ENABLE_CUDA
+    // -------------------------------------------------------------------------
+    // GPU path — cuVS/RAFT IVF-Flat ANN search.
     //
-    //   raft::device_resources handle;
-    //   // 1. Copy database to device
-    //   auto db_dev = raft::make_device_matrix<float>(handle, numVectors, dim);
-    //   raft::copy(db_dev.data_handle(), database.data(),
-    //              numVectors * dim, handle.get_stream());
-    //
-    //   // 2. Build IVF-Flat index
-    //   cuvs::neighbors::ivf_flat::index_params idx_params;
-    //   idx_params.metric = useL2 ? cuvs::distance::DistanceType::L2Unexpanded
-    //                              : cuvs::distance::DistanceType::InnerProduct;
-    //   auto index = cuvs::neighbors::ivf_flat::build(
-    //       handle, idx_params, db_dev.view());
-    //
-    //   // 3. Copy queries to device and run search
-    //   auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);
-    //   raft::copy(q_dev.data_handle(), queries.data(),
-    //              numQueries * dim, handle.get_stream());
-    //   auto neighbors_dev = raft::make_device_matrix<uint32_t>(handle, numQueries, k);
-    //   auto distances_dev = raft::make_device_matrix<float>(handle, numQueries, k);
-    //   cuvs::neighbors::ivf_flat::search_params search_params;
-    //   cuvs::neighbors::ivf_flat::search(handle, search_params, index,
-    //       q_dev.view(), neighbors_dev.view(), distances_dev.view());
-    //
-    //   // 4. Copy results back
-    //   std::vector<uint32_t> neighbor_idx(numQueries * k);
-    //   std::vector<float>    distances(numQueries * k);
-    //   raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(), ...);
-    //   raft::copy(distances.data(),    distances_dev.data_handle(), ...);
-    //   handle.sync_stream();
-    //
+    // Activated when THEMIS_ENABLE_CUDA is defined and the database is large
+    // enough to exceed the GPU dispatch threshold (shouldUseGPU returns true).
+    // Falls through to the CPU brute-force path below on any failure.
+    // -------------------------------------------------------------------------
+    if (use_gpu) {
+        bool gpu_done = false;
+#ifdef THEMIS_ENABLE_CUVS
+        try {
+            raft::device_resources handle;
+
+            // 1. Copy database to device
+            auto db_dev = raft::make_device_matrix<float>(handle, numVectors, dim);
+            raft::copy(db_dev.data_handle(), database.data(),
+                       numVectors * dim, handle.get_stream());
+
+            // 2. Build IVF-Flat index
+            cuvs::neighbors::ivf_flat::index_params idx_params;
+            idx_params.metric = useL2
+                ? cuvs::distance::DistanceType::L2Unexpanded
+                : cuvs::distance::DistanceType::InnerProduct;
+            auto index = cuvs::neighbors::ivf_flat::build(
+                handle, idx_params, db_dev.view());
+
+            // 3. Copy queries to device and run search
+            auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);
+            raft::copy(q_dev.data_handle(), queries.data(),
+                       numQueries * dim, handle.get_stream());
+            auto neighbors_dev =
+                raft::make_device_matrix<uint32_t>(handle, numQueries, k);
+            auto distances_dev =
+                raft::make_device_matrix<float>(handle, numQueries, k);
+            cuvs::neighbors::ivf_flat::search_params search_params;
+            cuvs::neighbors::ivf_flat::search(handle, search_params, index,
+                q_dev.view(), neighbors_dev.view(), distances_dev.view());
+
+            // 4. Copy results back to host and populate AnnResult
+            std::vector<uint32_t> neighbor_idx(numQueries * k);
+            std::vector<float>    host_distances(numQueries * k);
+            raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(),
+                       numQueries * k, handle.get_stream());
+            raft::copy(host_distances.data(), distances_dev.data_handle(),
+                       numQueries * k, handle.get_stream());
+            handle.sync_stream();
+
+            result.results.resize(numQueries);
+            for (size_t qi = 0; qi < numQueries; ++qi) {
+                result.results[qi].resize(k);
+                for (size_t ni = 0; ni < k; ++ni) {
+                    result.results[qi][ni].index    = neighbor_idx[qi * k + ni];
+                    result.results[qi][ni].distance = host_distances[qi * k + ni];
+                }
+            }
+            gpu_done = true;
+        } catch (...) {
+            // cudaMalloc failure or cuVS error — fall through to CPU path.
+            gpu_done = false;
+        }
+#endif // THEMIS_ENABLE_CUVS
+
+        if (gpu_done) {
+            result.used_gpu = true;
+            uint64_t bytes = static_cast<uint64_t>((numQueries + numVectors) * dim * sizeof(float));
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++stats_.total_ann_searches;
+            recordOp(numVectors, bytes, true);
+            return result;
+        }
+        // GPU path did not complete — fall through to CPU brute-force below.
+    }
+#endif // THEMIS_ENABLE_CUDA
+
     // CPU brute-force exact k-NN (used when GPU unavailable or below threshold):
 
     const size_t actual_k = std::min(k, numVectors);

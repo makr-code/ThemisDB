@@ -205,6 +205,18 @@ option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 option(THEMIS_ENABLE_NCCL "Enable NCCL for NVIDIA multi-GPU (v2.5+)" OFF)
 option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 
+# cuVS/RAFT GPU-accelerated ANN (Approximate Nearest Neighbor) search.
+# Requires THEMIS_ENABLE_CUDA=ON and the cuVS/RAFT CMake package to be
+# installed (e.g. via conda: `conda install -c rapidsai cuvs`).
+# When OFF the CPU brute-force fallback in GPUQueryAccelerator::annSearch()
+# is used unconditionally.
+if(THEMIS_ENABLE_CUDA)
+    option(THEMIS_ENABLE_CUVS "Enable cuVS/RAFT GPU-accelerated ANN search (requires CUDA)" OFF)
+else()
+    set(THEMIS_ENABLE_CUVS OFF CACHE BOOL
+        "cuVS/RAFT ANN search (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
+endif()
+
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
 option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
@@ -2448,6 +2460,16 @@ if(THEMIS_ENABLE_CUDA)
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
     message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
+
+    # cuVS/RAFT GPU-accelerated ANN (IVF-Flat index build + search).
+    # Activated with -DTHEMIS_ENABLE_CUVS=ON; requires the cuVS CMake package
+    # (install via conda: `conda install -c rapidsai cuvs`).
+    if(THEMIS_ENABLE_CUVS)
+        find_package(cuvs CONFIG REQUIRED)
+        target_link_libraries(themis_core PRIVATE cuvs::cuvs)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUVS)
+        message(STATUS "cuVS/RAFT ANN search enabled (THEMIS_ENABLE_CUVS=ON)")
+    endif()
     
     # Propagate geo-CUDA flag to the build system.
     if(THEMIS_GEO_CUDA)
