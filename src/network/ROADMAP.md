@@ -38,7 +38,15 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - Compact 10-byte binary header with request-ID echo for correlation
   - `UDPFastPath` class in `include/network/udp_fast_path.h` / `src/network/udp_fast_path.cpp`
   - Unit tests in `tests/test_udp_fast_path.cpp` (config, packet validation, opcode filter, response builder)
-- [I] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
+- [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
+  - `QuicTransport` class in `include/network/quic_transport.h` / `src/network/quic_transport.cpp`
+  - Port 8770 (dedicated, separate from TCP 8766 and UDP 8769)
+  - TLS 1.3 mandatory; ALPN "tmdb" advertises binary wire protocol over QUIC
+  - 0-RTT connection resumption, connection migration supported (ngtcp2)
+  - Configurable idle timeout, max streams, flow-control windows, connection limits
+  - Per-connection rate tracking; `QuicTransport::Stats` for Prometheus integration
+  - Guarded by `THEMIS_ENABLE_HTTP3`; requires ngtcp2 + OpenSSL
+  - `Http3Session::doRead()` and `Http3Session::onRead()` stubs resolved (server module)
 
 ## Planned Features 📋
 
@@ -76,7 +84,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - JSON text-frame messages: ping, get, put, delete, query
   - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `enable_websocket_upgrade`
 - [~] UDP-based fast-path for read-only queries (Target: Q3 2026)
-- [ ] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
+- [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
 
 ### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
 - [ ] gRPC native transport (separate from server module)
@@ -102,6 +110,9 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - Buffer lifetime safety: all async writes use `shared_ptr`-owned buffers
   - COMPRESSED DATA frames guarded with RST_STREAM (LZ4 tracked in #2416)
 - [x] Unit tests added for V2 protocol (`test_wire_protocol_v2.cpp`, 29 tests)
+- [x] Unit tests added for QUIC transport (`test_quic_transport.cpp`, 17 tests)
+  - Config defaults, port validation, stats initialisation, protocol constants, isRunning state
+- [x] QUIC/HTTP3 stub resolved (`Http3Session::doRead()`, `Http3Session::onRead()`)
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
@@ -110,7 +121,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
   dispatched (clients receive a structured error and should use text/JSON frames or
   the native TCP binary connection).
-- UDP and QUIC transports are not yet implemented.
+- UDP fast-path is in progress; QUIC transport is implemented (`QuicTransport`, port 8770).
 - gRPC server is handled by the server module; this module provides only the binary wire protocol.
 - Service mesh integration is a future enhancement.
 
