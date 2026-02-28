@@ -25,6 +25,7 @@
 #include <atomic>
 #include <chrono>
 #include <cmath>
+#include <fstream>
 #include <stdexcept>
 #include <iostream>
 #include <unordered_map>
@@ -735,20 +736,176 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
 }
 
 bool GPUVectorIndex::buildIndex() {
-    // Index building happens automatically on GPU
+    if (!pImpl->initialized) {
+        std::cerr << "GPUVectorIndex: buildIndex() called on uninitialized index\n";
+        return false;
+    }
+
+    // For GPU backends: batch-upload all vectors now so the first search does
+    // not pay the upload cost.  This is the primary path for large-scale
+    // dataset ingestion where callers add many vectors and then call
+    // buildIndex() once before serving queries.
+#ifdef THEMIS_ENABLE_VULKAN
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        if (!pImpl->vectorData.empty()) {
+            bool ok = pImpl->vulkanBackend->uploadVectors(pImpl->vectorData);
+            if (ok) {
+                pImpl->gpuDataDirty = false;
+            }
+            return ok;
+        }
+        return true; // Nothing to upload yet; not an error
+    }
+#endif
+
+    // CPU backend: brute-force search requires no pre-build step.
     return true;
 }
 
 bool GPUVectorIndex::saveIndex(const std::string& path) {
-    // TODO: Implement serialization
-    (void)path;
-    return false;
+    if (!pImpl->initialized || path.empty()) {
+        return false;
+    }
+
+    std::ofstream ofs(path, std::ios::binary | std::ios::trunc);
+    if (!ofs) {
+        std::cerr << "GPUVectorIndex: Failed to open '" << path << "' for writing\n";
+        return false;
+    }
+
+    // File format:
+    //   [uint32] magic   = 0x54484D53 ('THMS')
+    //   [uint32] version = 1
+    //   [int32]  dimension
+    //   [size_t] numVectors
+    //   [int32]  metric (DistanceMetric enum value)
+    //   for each vector:
+    //     [size_t] id length
+    //     [char[]] id string (no null terminator)
+    //     [float[dimension]] vector data
+    const uint32_t magic   = 0x54484D53u;
+    const uint32_t version = 1u;
+    ofs.write(reinterpret_cast<const char*>(&magic),   sizeof(magic));
+    ofs.write(reinterpret_cast<const char*>(&version), sizeof(version));
+
+    int32_t dim = pImpl->dimension;
+    ofs.write(reinterpret_cast<const char*>(&dim), sizeof(dim));
+
+    size_t numVectors = pImpl->vectorIds.size();
+    ofs.write(reinterpret_cast<const char*>(&numVectors), sizeof(numVectors));
+
+    int32_t metric = static_cast<int32_t>(pImpl->config.metric);
+    ofs.write(reinterpret_cast<const char*>(&metric), sizeof(metric));
+
+    for (size_t i = 0; i < numVectors; ++i) {
+        const std::string& id = pImpl->vectorIds[i];
+        size_t idLen = id.size();
+        ofs.write(reinterpret_cast<const char*>(&idLen), sizeof(idLen));
+        ofs.write(id.data(), static_cast<std::streamsize>(idLen));
+
+        ofs.write(reinterpret_cast<const char*>(pImpl->vectorData[i].data()),
+                  static_cast<std::streamsize>(dim) * static_cast<std::streamsize>(sizeof(float)));
+    }
+
+    return ofs.good();
 }
 
 bool GPUVectorIndex::loadIndex(const std::string& path) {
-    // TODO: Implement deserialization
-    (void)path;
-    return false;
+    if (path.empty()) {
+        return false;
+    }
+
+    std::ifstream ifs(path, std::ios::binary);
+    if (!ifs) {
+        std::cerr << "GPUVectorIndex: Failed to open '" << path << "' for reading\n";
+        return false;
+    }
+
+    // Read and validate header
+    uint32_t magic   = 0;
+    uint32_t version = 0;
+    ifs.read(reinterpret_cast<char*>(&magic),   sizeof(magic));
+    ifs.read(reinterpret_cast<char*>(&version), sizeof(version));
+
+    if (!ifs || magic != 0x54484D53u || version != 1u) {
+        std::cerr << "GPUVectorIndex: Invalid or unsupported index file format\n";
+        return false;
+    }
+
+    int32_t dim = 0;
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(dim));
+
+    size_t numVectors = 0;
+    ifs.read(reinterpret_cast<char*>(&numVectors), sizeof(numVectors));
+
+    int32_t metric = 0;
+    ifs.read(reinterpret_cast<char*>(&metric), sizeof(metric));
+    (void)metric; // Stored for future compatibility; callers set the metric via Config
+
+    if (!ifs || dim <= 0) {
+        return false;
+    }
+
+    // (Re-)initialize with dimension from file when not yet initialized or
+    // dimension does not match.
+    if (!pImpl->initialized || pImpl->dimension != dim) {
+        if (!initialize(dim)) {
+            return false;
+        }
+    }
+
+    // Clear existing data
+    pImpl->vectorIds.clear();
+    pImpl->vectorData.clear();
+    pImpl->idToIndex.clear();
+    pImpl->stats.numVectors = 0;
+#ifdef THEMIS_ENABLE_VULKAN
+    pImpl->gpuDataDirty = false;
+#endif
+
+    pImpl->vectorIds.reserve(numVectors);
+    pImpl->vectorData.reserve(numVectors);
+
+    for (size_t i = 0; i < numVectors; ++i) {
+        size_t idLen = 0;
+        ifs.read(reinterpret_cast<char*>(&idLen), sizeof(idLen));
+        if (!ifs) {
+            std::cerr << "GPUVectorIndex: loadIndex read error at vector " << i << " (ID length)\n";
+            return false;
+        }
+        if (idLen > (1u << 20u)) { // Sanity cap at 1 MiB per ID
+            std::cerr << "GPUVectorIndex: loadIndex rejected oversized ID (" << idLen
+                      << " bytes) at vector " << i << "\n";
+            return false;
+        }
+
+        std::string id(idLen, '\0');
+        ifs.read(id.data(), static_cast<std::streamsize>(idLen));
+
+        std::vector<float> vec(dim);
+        ifs.read(reinterpret_cast<char*>(vec.data()),
+                 static_cast<std::streamsize>(dim) * static_cast<std::streamsize>(sizeof(float)));
+
+        if (!ifs) {
+            return false;
+        }
+
+        // Use addVector() to respect VRAM budget tracking
+        if (!pImpl->addVector(id, vec)) {
+            std::cerr << "GPUVectorIndex: loadIndex aborted at vector " << i
+                      << " (VRAM budget exceeded)\n";
+            return false;
+        }
+    }
+
+#ifdef THEMIS_ENABLE_VULKAN
+    // Mark GPU data as dirty so the next search triggers an upload
+    if (pImpl->activeBackend == Backend::VULKAN && pImpl->vulkanBackend) {
+        pImpl->gpuDataDirty = true;
+    }
+#endif
+
+    return true;
 }
 
 void GPUVectorIndex::setEfSearch(int ef) {

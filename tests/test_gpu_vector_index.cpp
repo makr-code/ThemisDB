@@ -20,6 +20,7 @@
 #include "index/gpu_vector_index.h"
 #include "themis/gpu/memory_manager.h"
 #include <gtest/gtest.h>
+#include <cstdio>
 #include <vector>
 #include <string>
 #include <random>
@@ -752,4 +753,234 @@ TEST_F(GPUVectorIndexTest, VRAMBudget_StatisticsReflectsUsage) {
     EXPECT_EQ(index.getStatistics().vramUsageBytes, 0u);
 
     index.shutdown();
+}
+
+// ============================================================================
+// buildIndex() Tests
+// ============================================================================
+
+TEST_F(GPUVectorIndexTest, BuildIndex_EmptyIndex) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    // buildIndex() on an empty index must succeed
+    EXPECT_TRUE(index.buildIndex());
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, BuildIndex_NotInitialized) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    // Do NOT call initialize()
+
+    // buildIndex() before initialize() must return false
+    EXPECT_FALSE(index.buildIndex());
+}
+
+TEST_F(GPUVectorIndexTest, BuildIndex_SearchAfterBuild) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.metric  = GPUVectorIndex::DistanceMetric::L2;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+
+    // buildIndex() must succeed and leave the index usable for search
+    ASSERT_TRUE(index.buildIndex());
+
+    size_t k = 5;
+    auto results = index.search(queryVector, k);
+    EXPECT_EQ(results.size(), k);
+
+    // Results must be sorted by ascending distance
+    for (size_t i = 1; i < results.size(); ++i) {
+        EXPECT_LE(results[i - 1].distance, results[i].distance);
+    }
+
+    index.shutdown();
+}
+
+TEST_F(GPUVectorIndexTest, BuildIndex_MultipleCalls) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+    ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+
+    // Calling buildIndex() multiple times must always succeed
+    EXPECT_TRUE(index.buildIndex());
+    EXPECT_TRUE(index.buildIndex());
+
+    index.shutdown();
+}
+
+// ============================================================================
+// saveIndex() / loadIndex() Tests
+// ============================================================================
+
+TEST_F(GPUVectorIndexTest, SaveIndex_NotInitialized) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    // No initialize() call
+
+    EXPECT_FALSE(index.saveIndex("/tmp/test_gpu_index.bin"));
+}
+
+TEST_F(GPUVectorIndexTest, SaveIndex_EmptyPath) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    ASSERT_TRUE(index.initialize(dimension));
+
+    EXPECT_FALSE(index.saveIndex(""));
+}
+
+TEST_F(GPUVectorIndexTest, LoadIndex_EmptyPath) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    EXPECT_FALSE(index.loadIndex(""));
+}
+
+TEST_F(GPUVectorIndexTest, LoadIndex_NonExistentFile) {
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+
+    GPUVectorIndex index(config);
+    EXPECT_FALSE(index.loadIndex("/tmp/nonexistent_index_file_xyz.bin"));
+}
+
+TEST_F(GPUVectorIndexTest, SaveAndLoadIndex_RoundTrip) {
+    const std::string indexPath = "/tmp/test_gpu_index_roundtrip.bin";
+
+    // Build and save
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::CPU;
+        config.metric  = GPUVectorIndex::DistanceMetric::L2;
+
+        GPUVectorIndex index(config);
+        ASSERT_TRUE(index.initialize(dimension));
+        ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+        ASSERT_TRUE(index.saveIndex(indexPath));
+        index.shutdown();
+    }
+
+    // Load and verify
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::CPU;
+        config.metric  = GPUVectorIndex::DistanceMetric::L2;
+
+        GPUVectorIndex index(config);
+        ASSERT_TRUE(index.loadIndex(indexPath));
+
+        auto stats = index.getStatistics();
+        EXPECT_EQ(stats.numVectors, numVectors);
+        EXPECT_EQ(stats.dimension,  static_cast<size_t>(dimension));
+
+        // Search must return plausible results after load
+        size_t k = 5;
+        auto results = index.search(queryVector, k);
+        EXPECT_EQ(results.size(), k);
+
+        // All returned IDs must have been part of the original set
+        for (const auto& r : results) {
+            bool found = false;
+            for (const auto& id : testIds) {
+                if (id == r.id) { found = true; break; }
+            }
+            EXPECT_TRUE(found) << "Unexpected ID after load: " << r.id;
+        }
+
+        index.shutdown();
+    }
+
+    std::remove(indexPath.c_str());
+}
+
+TEST_F(GPUVectorIndexTest, SaveAndLoadIndex_SearchResultsMatch) {
+    const std::string indexPath = "/tmp/test_gpu_index_match.bin";
+
+    GPUVectorIndex::Config config;
+    config.backend = GPUVectorIndex::Backend::CPU;
+    config.metric  = GPUVectorIndex::DistanceMetric::L2;
+
+    // Compute reference results before save
+    std::vector<GPUVectorIndex::SearchResult> refResults;
+    {
+        GPUVectorIndex refIndex(config);
+        ASSERT_TRUE(refIndex.initialize(dimension));
+        ASSERT_TRUE(refIndex.addVectorBatch(testIds, testVectors));
+        refResults = refIndex.search(queryVector, 5);
+        ASSERT_TRUE(refIndex.saveIndex(indexPath));
+        refIndex.shutdown();
+    }
+
+    // Load and compare search results
+    {
+        GPUVectorIndex loadedIndex(config);
+        ASSERT_TRUE(loadedIndex.loadIndex(indexPath));
+
+        auto loadedResults = loadedIndex.search(queryVector, 5);
+        ASSERT_EQ(refResults.size(), loadedResults.size());
+
+        for (size_t i = 0; i < refResults.size(); ++i) {
+            EXPECT_EQ(refResults[i].id, loadedResults[i].id);
+            EXPECT_NEAR(refResults[i].distance, loadedResults[i].distance, 1e-5f);
+        }
+
+        loadedIndex.shutdown();
+    }
+
+    std::remove(indexPath.c_str());
+}
+
+TEST_F(GPUVectorIndexTest, LoadIndex_OverwritesExistingVectors) {
+    const std::string indexPath = "/tmp/test_gpu_index_overwrite.bin";
+
+    // Save a small index
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::CPU;
+
+        GPUVectorIndex index(config);
+        ASSERT_TRUE(index.initialize(dimension));
+        // Add only first 10 vectors
+        std::vector<std::string> smallIds(testIds.begin(), testIds.begin() + 10);
+        std::vector<std::vector<float>> smallVecs(testVectors.begin(), testVectors.begin() + 10);
+        ASSERT_TRUE(index.addVectorBatch(smallIds, smallVecs));
+        ASSERT_TRUE(index.saveIndex(indexPath));
+        index.shutdown();
+    }
+
+    // Load into an already-populated index — old vectors must be replaced
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::CPU;
+
+        GPUVectorIndex index(config);
+        ASSERT_TRUE(index.initialize(dimension));
+        ASSERT_TRUE(index.addVectorBatch(testIds, testVectors));
+        EXPECT_EQ(index.getStatistics().numVectors, numVectors);
+
+        ASSERT_TRUE(index.loadIndex(indexPath));
+        EXPECT_EQ(index.getStatistics().numVectors, 10u);
+
+        index.shutdown();
+    }
+
+    std::remove(indexPath.c_str());
 }
