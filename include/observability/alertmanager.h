@@ -24,6 +24,7 @@
 #include <map>
 #include <chrono>
 #include <memory>
+#include <mutex>
 #include "utils/expected.h"
 
 // Forward declaration to avoid header bloat
@@ -201,6 +202,149 @@ private:
     // Send a JSON payload to the Alertmanager with retry logic.
     // Returns the HTTP status code on success or an Error on final failure.
     Result<int> postWithRetry(const std::string& path, const std::string& json_body);
+};
+
+/**
+ * Comparison operators used in custom alert rule conditions.
+ */
+enum class AlertRuleOperator {
+    GREATER_THAN,           // metric_value > threshold
+    GREATER_THAN_OR_EQUAL,  // metric_value >= threshold
+    LESS_THAN,              // metric_value < threshold
+    LESS_THAN_OR_EQUAL,     // metric_value <= threshold
+    EQUAL,                  // metric_value == threshold (within epsilon)
+    NOT_EQUAL               // metric_value != threshold
+};
+
+/**
+ * A user-defined alert rule that fires when a named metric satisfies a threshold condition.
+ *
+ * Rules are evaluated by AlertRuleManager::evaluateRules() against a metric snapshot
+ * and translated into Alert objects that are dispatched via Alertmanager.
+ */
+struct AlertRule {
+    std::string rule_id;        // Unique rule identifier (auto-generated when empty on addRule)
+    std::string rule_name;      // Human-readable name displayed in fired alerts
+    std::string metric_name;    // Name of the metric to monitor (must match MetricsCollector namespace)
+    AlertRuleOperator op;       // Comparison operator applied to the metric value
+    double threshold;           // Threshold value used in the condition
+    AlertSeverity severity;     // Severity of alerts fired by this rule
+    std::string message_template; // Alert message; {metric} and {value} are substituted at evaluation time
+    std::map<std::string, std::string> labels;      // Extra labels attached to fired alerts
+    std::map<std::string, std::string> annotations; // Extra annotations attached to fired alerts
+    bool enabled;               // When false the rule is stored but never evaluated
+
+    AlertRule()
+        : op(AlertRuleOperator::GREATER_THAN)
+        , threshold(0.0)
+        , severity(AlertSeverity::WARNING)
+        , enabled(true) {}
+};
+
+/**
+ * Manager for custom user-defined alert rules.
+ *
+ * Provides a full CRUD API for alert rules plus an evaluation method that checks
+ * all enabled rules against a metric snapshot and fires/resolves alerts via an
+ * Alertmanager backend.
+ *
+ * Thread-safety: all methods are thread-safe via an internal mutex.
+ *
+ * Typical usage:
+ * @code
+ *   AlertRuleManager mgr;
+ *   AlertRule rule;
+ *   rule.metric_name = "themis_query_latency_p99_ms";
+ *   rule.op          = AlertRuleOperator::GREATER_THAN;
+ *   rule.threshold   = 500.0;
+ *   rule.severity    = AlertSeverity::WARNING;
+ *   rule.message_template = "P99 latency {value}ms exceeds threshold";
+ *   auto res = mgr.addRule(rule);
+ *   // ...
+ *   mgr.evaluateRules(metric_snapshot, alertmanager);
+ * @endcode
+ */
+class AlertRuleManager {
+public:
+    AlertRuleManager() = default;
+    ~AlertRuleManager() = default;
+
+    // Non-copyable, movable
+    AlertRuleManager(const AlertRuleManager&) = delete;
+    AlertRuleManager& operator=(const AlertRuleManager&) = delete;
+    AlertRuleManager(AlertRuleManager&&) = default;
+    AlertRuleManager& operator=(AlertRuleManager&&) = default;
+
+    /**
+     * Register a new alert rule.
+     * If rule.rule_id is empty a unique ID is generated automatically.
+     * @return The assigned rule_id on success, or an Error if the ID already exists.
+     */
+    Result<std::string> addRule(AlertRule rule);
+
+    /**
+     * Remove a rule by ID.
+     * @return Result<void> on success, or Error if the rule is not found.
+     */
+    Result<void> removeRule(const std::string& rule_id);
+
+    /**
+     * Retrieve a rule by ID.
+     * @return Copy of the AlertRule on success, or Error if not found.
+     */
+    Result<AlertRule> getRule(const std::string& rule_id) const;
+
+    /**
+     * Replace an existing rule with an updated version (identified by rule.rule_id).
+     * @return Result<void> on success, or Error if the rule_id is not found.
+     */
+    Result<void> updateRule(const AlertRule& rule);
+
+    /**
+     * List all registered rules (enabled and disabled).
+     */
+    std::vector<AlertRule> listRules() const;
+
+    /**
+     * Evaluate all enabled rules against a metric snapshot and dispatch alerts.
+     *
+     * For each rule whose condition is satisfied a FIRING alert is sent via
+     * @p alertmanager (if not already active).  When a previously-firing rule
+     * no longer satisfies its condition the corresponding alert is resolved.
+     *
+     * @param metrics  Map of metric_name → current value.
+     * @param alertmanager  Alertmanager used to send/resolve alerts.
+     * @return Number of rules whose condition was satisfied during this evaluation.
+     */
+    int evaluateRules(const std::map<std::string, double>& metrics,
+                      Alertmanager& alertmanager);
+
+    /**
+     * Remove all registered rules and clear any tracked alert state.
+     */
+    void clearRules();
+
+    /**
+     * Return the number of registered rules.
+     */
+    size_t ruleCount() const;
+
+private:
+    mutable std::mutex mutex_;
+    std::map<std::string, AlertRule> rules_;
+    // Tracks active alert IDs for rules that are currently firing: rule_id → alert_id
+    std::map<std::string, std::string> active_rule_alerts_;
+
+    // Evaluate a single comparison; returns true when condition is met.
+    static bool evaluateCondition(double value, AlertRuleOperator op, double threshold);
+
+    // Generate a unique rule ID.
+    static std::string generateRuleId();
+
+    // Expand {metric} and {value} placeholders in a message template.
+    static std::string expandMessage(const std::string& tmpl,
+                                     const std::string& metric_name,
+                                     double value);
 };
 
 } // namespace observability

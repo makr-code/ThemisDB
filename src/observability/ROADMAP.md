@@ -60,7 +60,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ### Phase 3: ML-Augmented & Distributed Observability (Status: Planned 📋)
 - [ ] Exemplars on Prometheus histograms (link traces to metrics)
-- [ ] Custom user-defined alert rules via API
+- [~] Custom user-defined alert rules via API
 - [ ] eBPF-based low-overhead kernel-level tracing
 - [ ] Anomaly detection on metrics time-series (ML-based)
 - [ ] Distributed flame graph generation across nodes
