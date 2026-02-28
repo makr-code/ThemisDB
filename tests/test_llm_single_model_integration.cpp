@@ -455,14 +455,21 @@ TEST_F(SingleModelIntegrationTest, WorkerStatisticsPopulated) {
     auto queue_stats  = engine.getQueueStats();
     auto worker_stats = engine.getWorkerStats();
 
-    EXPECT_TRUE(queue_stats.contains("total_submitted"))
-        << "Queue stats should contain 'total_submitted'";
+    // getQueueStats() exposes queue depth and utilisation.
+    EXPECT_TRUE(queue_stats.contains("queue_size"))
+        << "Queue stats should contain 'queue_size'";
+    EXPECT_TRUE(queue_stats.contains("utilization"))
+        << "Queue stats should contain 'utilization'";
+
+    // getWorkerStats() exposes submission and completion counters.
+    EXPECT_TRUE(worker_stats.contains("total_submitted"))
+        << "Worker stats should contain 'total_submitted'";
     EXPECT_TRUE(worker_stats.contains("total_completed"))
         << "Worker stats should contain 'total_completed'";
 
-    EXPECT_GE(queue_stats.value("total_submitted", 0), num_reqs)
+    EXPECT_GE(worker_stats.value("total_submitted", static_cast<size_t>(0)), static_cast<size_t>(num_reqs))
         << "total_submitted should be >= number of requests";
-    EXPECT_GE(worker_stats.value("total_completed", 0), num_reqs)
+    EXPECT_GE(worker_stats.value("total_completed", static_cast<size_t>(0)), static_cast<size_t>(num_reqs))
         << "total_completed should be >= number of requests";
 
     engine.shutdown();
