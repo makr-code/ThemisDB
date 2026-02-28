@@ -2076,6 +2076,15 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     json chunks_json = json::array();
     if (stage_cfg.extraction.enabled &&
         (detected_mime == "text/html" || detected_mime == "application/xhtml+xml")) {
+        HtmlProcessor html_proc;
+        ContentType ct;
+        ct.mime_type = detected_mime;
+        ct.category  = category;
+        auto extraction = html_proc.extract(blob, ct);
+        if (extraction.ok) {
+            meta.text_extracted      = true;
+            meta.extracted_metadata  = extraction.metadata;
+            if (stage_cfg.chunking.enabled) {
         std::string extraction_error;
         int extraction_attempts = 0;
         bool extraction_ok = executeWithRetry(
@@ -2105,6 +2114,12 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 }
                 meta.chunk_count = static_cast<int>(chunks_json.size());
                 meta.chunked     = !chunks_json.empty();
+            }
+            THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
+                        extraction.metadata.value("token_count", 0),
+                        chunks_json.size(), filename);
+        } else {
+            THEMIS_WARN("HTML processor extraction failed for '{}': {}", filename, extraction.error_message);
                 THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
                             extraction.metadata.value("token_count", 0),
                             chunks_json.size(), filename);
@@ -2137,6 +2152,15 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
     // Markdown: parse frontmatter and extract plain text
     if (stage_cfg.extraction.enabled && detected_mime == "text/markdown") {
+        MarkdownProcessor md_proc;
+        ContentType ct;
+        ct.mime_type = detected_mime;
+        ct.category  = category;
+        auto extraction = md_proc.extract(blob, ct);
+        if (extraction.ok) {
+            meta.text_extracted      = true;
+            meta.extracted_metadata  = extraction.metadata;
+            if (stage_cfg.chunking.enabled) {
         std::string extraction_error;
         int extraction_attempts = 0;
         bool extraction_ok = executeWithRetry(
@@ -2166,6 +2190,12 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
                 }
                 meta.chunk_count = static_cast<int>(chunks_json.size());
                 meta.chunked     = !chunks_json.empty();
+            }
+            THEMIS_INFO("Markdown processor: extracted {} tokens, {} chunks from '{}'",
+                        extraction.metadata.value("token_count", 0),
+                        chunks_json.size(), filename);
+        } else {
+            THEMIS_WARN("Markdown processor extraction failed for '{}': {}", filename, extraction.error_message);
                 THEMIS_INFO("Markdown processor: extracted {} tokens, {} chunks from '{}'",
                             extraction.metadata.value("token_count", 0),
                             chunks_json.size(), filename);
@@ -2447,6 +2477,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     auto storeTextChunk = [&](const std::string& text) {
         if (text.empty()) return;
         updateHash(text);
+        if (!stream_stage_cfg.chunking.enabled) return;
         ChunkMeta cm;
         cm.id         = generateUuid();
         cm.content_id = content_id;

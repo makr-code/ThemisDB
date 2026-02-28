@@ -168,8 +168,9 @@ TEST(ProcessorChainConfigTest, AllCategoriesSerializeAndDeserialize) {
     ProcessorChainConfig cfg;
     const std::vector<ContentCategory> all_cats = {
         ContentCategory::TEXT, ContentCategory::IMAGE, ContentCategory::GEO,
-        ContentCategory::CAD, ContentCategory::AUDIO, ContentCategory::STRUCTURED,
-        ContentCategory::BINARY, ContentCategory::ARCHIVE, ContentCategory::UNKNOWN,
+        ContentCategory::CAD, ContentCategory::AUDIO, ContentCategory::VIDEO,
+        ContentCategory::STRUCTURED, ContentCategory::BINARY,
+        ContentCategory::ARCHIVE, ContentCategory::UNKNOWN,
     };
     for (auto cat : all_cats) {
         ContentTypePipelineConfig c;
@@ -180,7 +181,7 @@ TEST(ProcessorChainConfigTest, AllCategoriesSerializeAndDeserialize) {
     auto j = cfg.toJson();
     auto cfg2 = ProcessorChainConfig::fromJson(j);
 
-    // All named categories (including ARCHIVE and UNKNOWN) must round-trip.
+    // All named categories (including VIDEO, ARCHIVE and UNKNOWN) must round-trip.
     for (auto cat : all_cats) {
         auto eff = cfg2.getEffectiveConfig("", cat);
         EXPECT_FALSE(eff.chunking.enabled) << "Category " << static_cast<int>(cat);
