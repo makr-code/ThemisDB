@@ -102,6 +102,13 @@ public:
         uint64_t initial_max_stream_data_uni = 256 * 1024;  // 256 KB
 
         /// Enable 0-RTT connection resumption (requires session ticket support).
+        ///
+        /// WARNING: When 0-RTT is enabled, early data sent by the client is
+        /// subject to replay attacks if the server is restarted or the session
+        /// ticket is replayed.  All wire protocol operations that may arrive
+        /// in early data MUST be idempotent (e.g., read-only GET/QUERY).
+        /// Mutating operations sent in 0-RTT data MUST be deduplicated by the
+        /// application layer.  Set to false to disable early data entirely.
         bool enable_0rtt = true;
 
         /// Maximum total active connections (0 = unlimited).

@@ -8,11 +8,11 @@
 
 #include <ngtcp2/ngtcp2_crypto_openssl.h>
 #include <openssl/ssl.h>
+#include <openssl/rand.h>
 #include <boost/asio/buffer.hpp>
 
 #include <chrono>
 #include <cstring>
-#include <random>
 #include <limits>
 
 namespace themis::network {
@@ -31,15 +31,14 @@ static uint64_t quicNow() {
         .count());
 }
 
-/// Fill a ngtcp2_cid with cryptographically random bytes.
+/// Fill a ngtcp2_cid with cryptographically secure random bytes (OpenSSL).
 static void generateCid(ngtcp2_cid* cid) {
-    std::random_device rd;
-    std::mt19937       gen(rd());
-    std::uniform_int_distribution<unsigned> dist(0, 255);
-
     cid->datalen = NGTCP2_MIN_CIDLEN;
-    for (size_t i = 0; i < cid->datalen; ++i) {
-        cid->data[i] = static_cast<uint8_t>(dist(gen));
+    if (RAND_bytes(cid->data, static_cast<int>(cid->datalen)) != 1) {
+        // Fallback: zero-fill so the caller gets a deterministic (non-random)
+        // CID rather than undefined memory.  The handshake will still fail
+        // gracefully if the CID collides with an existing connection.
+        std::memset(cid->data, 0, cid->datalen);
     }
 }
 
@@ -178,11 +177,17 @@ void QuicTransport::stop() {
         return;
     }
 
-    // Close all active QUIC connections.
+    // Close all active QUIC connections and free associated SSL objects.
     {
         std::lock_guard<std::mutex> lk(sessions_mutex_);
         for (auto& [key, conn] : sessions_) {
             if (conn) {
+                // Retrieve and free the per-connection SSL object before
+                // deleting the ngtcp2_conn to prevent a memory leak.
+                void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn);
+                if (tls_handle) {
+                    SSL_free(static_cast<SSL*>(tls_handle));
+                }
                 ngtcp2_conn_del(conn);
             }
         }
@@ -269,7 +274,11 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
                                       data, len, quicNow());
         if (rv != 0) {
             if (rv == NGTCP2_ERR_DRAINING || rv == NGTCP2_ERR_DROP_CONN) {
-                // Connection is closing; remove it.
+                // Connection is closing; free SSL and remove it.
+                void* tls = ngtcp2_conn_get_tls_native_handle(it->second);
+                if (tls) {
+                    SSL_free(static_cast<SSL*>(tls));
+                }
                 ngtcp2_conn_del(it->second);
                 sessions_.erase(it);
                 std::lock_guard<std::mutex> slk(stats_mutex_);
