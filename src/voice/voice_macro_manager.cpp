@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     489                                            ║
+    • Total Lines:     506                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -327,6 +327,23 @@ std::vector<MacroInfo> VoiceMacroManager::listMacros(
         if (matched) result.push_back(kv.second);
     }
     return result;
+}
+
+bool VoiceMacroManager::setMacroMeta(
+    const MacroID& macro_id,
+    const std::string& name,
+    const std::string& description,
+    const std::vector<std::string>& tags,
+    bool enabled)
+{
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    auto it = impl_->macros.find(macro_id);
+    if (it == impl_->macros.end()) return false;
+    it->second.name        = name;
+    it->second.description = description;
+    it->second.tags        = tags;
+    it->second.enabled     = enabled;
+    return true;
 }
 
 bool VoiceMacroManager::updateMacro(

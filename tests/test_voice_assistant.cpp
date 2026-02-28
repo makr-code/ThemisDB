@@ -1180,3 +1180,67 @@ TEST(VoiceMacroManager, StatisticsKeys) {
     EXPECT_TRUE(stats.contains("total_executions"));
     EXPECT_TRUE(stats.contains("enabled_macros"));
 }
+
+// ---------------------------------------------------------------------------
+// setMacroMeta
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, SetMacroMetaUpdatesNameDescriptionTags) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("my trigger", {s});
+    ASSERT_FALSE(id.empty());
+
+    bool ok = mgr.setMacroMeta(id, "New Name", "A description", {"billing", "admin"}, true);
+    EXPECT_TRUE(ok);
+
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->name, "New Name");
+    EXPECT_EQ(info->description, "A description");
+    ASSERT_EQ(info->tags.size(), 2u);
+    EXPECT_EQ(info->tags[0], "billing");
+    EXPECT_EQ(info->tags[1], "admin");
+    EXPECT_TRUE(info->enabled);
+}
+
+TEST(VoiceMacroManager, SetMacroMetaDisablesMacro) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("disable me", {s});
+    ASSERT_FALSE(id.empty());
+
+    bool ok = mgr.setMacroMeta(id, "disable me", "", {}, false);
+    EXPECT_TRUE(ok);
+
+    // Disabled macro should not be matched by trigger.
+    EXPECT_TRUE(mgr.matchTrigger("disable me").empty());
+    // But it should still be retrievable.
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_FALSE(info->enabled);
+}
+
+TEST(VoiceMacroManager, SetMacroMetaReturnsFalseForUnknownId) {
+    VoiceMacroManager mgr;
+    EXPECT_FALSE(mgr.setMacroMeta("no-such-id", "X", "", {}, true));
+}
+
+TEST(VoiceMacroManager, SetMacroMetaTagsAffectListFilter) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id1 = mgr.createMacro("alpha", {s});
+    auto id2 = mgr.createMacro("beta",  {s});
+    mgr.setMacroMeta(id1, "alpha", "", {"finance"}, true);
+    mgr.setMacroMeta(id2, "beta",  "", {"hr"},      true);
+
+    auto finance_macros = mgr.listMacros("", {"finance"});
+    ASSERT_EQ(finance_macros.size(), 1u);
+    EXPECT_EQ(finance_macros[0].macro_id, id1);
+}

@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     215                                            ║
+    • Total Lines:     228                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -208,7 +208,19 @@ private:
     std::string encodeBase64(const std::vector<uint8_t>& data);
     
     std::vector<uint8_t> downloadAudioFromUrl(const std::string& url);
-    
+
+    /**
+     * @brief Parse the value of a single query parameter from a request target.
+     *
+     * @param target    Full request target (path + optional "?key=value&...").
+     * @param key       Parameter name to look up.
+     * @return Parameter value, or empty string if not found.
+     *
+     * @note Percent-encoded characters are not decoded; tag values should
+     *       use plain ASCII identifiers to avoid encoding issues.
+     */
+    static std::string parseQueryParam(const std::string& target, const std::string& key);
+
     std::shared_ptr<voice::VoiceAssistant> voice_assistant_;
     std::shared_ptr<utils::HTTPClientPool> http_client_pool_;
 };

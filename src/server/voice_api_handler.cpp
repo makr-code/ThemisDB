@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1100                                           ║
+    • Total Lines:     1170                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -131,8 +131,10 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         );
     }
     
-    // Extract path and method
-    std::string path = std::string(req.target());
+    // Extract path (without query string) and method
+    std::string full_target = std::string(req.target());
+    auto q_pos = full_target.find('?');
+    std::string path = (q_pos != std::string::npos) ? full_target.substr(0, q_pos) : full_target;
     auto method = req.method();
     
     // Route to appropriate handler
@@ -745,6 +747,18 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
             "Failed to create macro");
     }
 
+    // Apply optional metadata fields (name, description, tags) if provided.
+    // Defaults: name = trigger_phrase, description = "", tags = [].
+    {
+        std::string name = body->value("name", trigger);
+        std::string description = body->value("description", std::string{});
+        std::vector<std::string> tags;
+        if (body->contains("tags") && (*body)["tags"].is_array()) {
+            tags = (*body)["tags"].get<std::vector<std::string>>();
+        }
+        voice_assistant_->macroManager().setMacroMeta(id, name, description, tags, true);
+    }
+
     auto info = voice_assistant_->macroManager().getMacro(id);
     if (!info) {
         return createErrorResponse(
@@ -755,13 +769,25 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     json result;
     result["success"] = true;
     result["macro"]   = macroInfoToResponseJson(*info);
-    return createJsonResponse(result);
+    return createJsonResponse(result, http::status::created);
 }
 
 http::response<http::string_body> VoiceApiHandler::handleListMacros(
     const http::request<http::string_body>& req
 ) {
-    auto macros = voice_assistant_->macroManager().listMacros();
+    // Parse optional ?tags=tag1,tag2 query parameter.
+    // Note: percent-encoded characters are not decoded; use plain ASCII tag identifiers.
+    std::vector<std::string> tag_filter;
+    std::string tags_value = parseQueryParam(std::string(req.target()), "tags");
+    if (!tags_value.empty()) {
+        std::istringstream ss(tags_value);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            if (!token.empty()) tag_filter.push_back(token);
+        }
+    }
+
+    auto macros = voice_assistant_->macroManager().listMacros("", tag_filter);
 
     json arr = json::array();
     for (const auto& m : macros) {
@@ -827,7 +853,26 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
             "Macro not found: " + macro_id);
     }
 
+    // Fetch current state once to supply defaults for unspecified meta fields.
+    // Apply optional metadata updates (name, description, tags, enabled).
+    // Partial update semantics: omitted fields retain their previous values.
     auto info = voice_assistant_->macroManager().getMacro(macro_id);
+    if (info) {
+        std::string name = body->value("name", info->name);
+        std::string description = body->value("description", info->description);
+        std::vector<std::string> tags = info->tags;
+        if (body->contains("tags") && (*body)["tags"].is_array()) {
+            tags = (*body)["tags"].get<std::vector<std::string>>();
+        }
+        bool enabled = body->value("enabled", info->enabled);
+        voice_assistant_->macroManager().setMacroMeta(
+            macro_id, name, description, tags, enabled);
+        // Update our local copy to reflect the meta changes in the response.
+        info->name        = name;
+        info->description = description;
+        info->tags        = tags;
+        info->enabled     = enabled;
+    }
 
     json result;
     result["success"] = true;
@@ -1096,6 +1141,30 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     std::vector<uint8_t> audio_data(response.body.begin(), response.body.end());
     
     return audio_data;
+}
+
+std::string VoiceApiHandler::parseQueryParam(
+    const std::string& target, const std::string& key)
+{
+    auto q_pos = target.find('?');
+    if (q_pos == std::string::npos) return {};
+    std::string query = target.substr(q_pos + 1);
+
+    // Search for "key=" token delimited by '&' or start/end of string.
+    // Note: percent-encoded characters are not decoded.
+    std::string search = key + '=';
+    std::size_t pos = 0;
+    while (pos < query.size()) {
+        if (query.compare(pos, search.size(), search) == 0) {
+            std::string value = query.substr(pos + search.size());
+            auto amp = value.find('&');
+            return (amp != std::string::npos) ? value.substr(0, amp) : value;
+        }
+        auto next = query.find('&', pos);
+        if (next == std::string::npos) break;
+        pos = next + 1;
+    }
+    return {};
 }
 
 } // namespace themis::server

@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     288                                            ║
+    • Total Lines:     302                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -215,6 +215,20 @@ public:
     std::vector<MacroInfo> listMacros(
         const std::string& user_id = "",
         const std::vector<std::string>& tags = {}) const;
+
+    /**
+     * @brief Update the human-readable metadata of a macro without touching steps or options.
+     *
+     * Allows callers to rename, re-describe, re-tag, or enable/disable a macro.
+     *
+     * @return true on success, false if the macro was not found.
+     */
+    bool setMacroMeta(
+        const MacroID& macro_id,
+        const std::string& name,
+        const std::string& description,
+        const std::vector<std::string>& tags,
+        bool enabled);
 
     /**
      * @brief Replace the steps and options of an existing macro.
