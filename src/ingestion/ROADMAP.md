@@ -28,8 +28,8 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ### Short-term (Next 3-6 months)
 - [P] Kafka consumer source connector (Issue: #1892)
-- [I] S3/GCS/Azure Blob object-storage source (Issue: #1893)
-- [I] JDBC-compatible database source (Issue: #1894)
+- [P] S3/GCS/Azure Blob object-storage source (Issue: #1893)
+- [P] JDBC-compatible database source (Issue: #1894)
 - [I] Web crawler / sitemap ingestion source (Issue: #1895)
 - [I] Per-source schema validation before write (Issue: #1896)
 
@@ -63,10 +63,10 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
 - [P] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
-- [I] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
+- [P] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
 - [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
 - [ ] Change-data-capture (CDC) source for live database streams
-- [ ] Plugin API for third-party source connectors
+- [P] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1909)

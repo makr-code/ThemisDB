@@ -949,6 +949,36 @@ public:
         int priority = 5);
 
     /**
+     * @brief Register a JDBC-compatible database source
+     *
+     * Registers a `DatabaseConnector` source backed by ODBC.  Behaviour is
+     * controlled through the `options` map:
+     *
+     * | Key            | Description                                           | Default              |
+     * |----------------|-------------------------------------------------------|----------------------|
+     * | `query`        | SQL SELECT statement to execute                       | `SELECT * FROM <table>` |
+     * | `table`        | Table name used when `query` is not set               | (required if no query) |
+     * | `text_columns` | Comma-separated column names to use as document text  | (all columns as JSON) |
+     * | `batch_size`   | Rows per iteration                                    | `500`                |
+     * | `max_rows`     | Maximum total rows (0 = unlimited)                    | `0`                  |
+     * | `username`     | Database user (never logged)                          | (from DSN)           |
+     * | `password`     | Database password (never logged)                      | (from DSN)           |
+     * | `driver`       | ODBC driver name override                             | (inferred from URL)  |
+     * | `timeout_s`    | Login and query timeout in seconds                    | `30`                 |
+     *
+     * @param source_id   Unique source identifier
+     * @param jdbc_url    JDBC connection URL (e.g. `jdbc:postgresql://host:5432/db`)
+     * @param options     Optional key/value options (see table above)
+     * @param priority    Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withDatabaseSource(
+        const std::string& source_id,
+        const std::string& jdbc_url,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
      * @brief Set retry configuration
      * @return *this for chaining
      */
