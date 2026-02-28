@@ -22,6 +22,7 @@
 #include <mutex>
 #include <atomic>
 #include <condition_variable>
+#include <deque>
 #include <map>
 #include <unordered_map>
 #include <future>
@@ -258,6 +259,101 @@ private:
     std::string db_connection_;
     mutable std::mutex busy_mutex_;
     std::atomic<bool> busy_{false};
+};
+
+// ============================================================================
+// WorkStealingPool — per-source task pool with work stealing
+// ============================================================================
+
+/**
+ * @brief Work-stealing thread pool for per-source ingestion tasks.
+ *
+ * Sources are initially assigned to workers via consistent hashing.  When a
+ * worker exhausts its local deque, it steals individual sources from the back
+ * of another worker's deque, providing automatic load balancing when
+ * partitions are uneven.
+ *
+ * ### Lifecycle
+ * 1. Construct with the set of worker nodes.
+ * 2. Call `submitTo(worker_idx, source)` for each source.
+ * 3. Call `run(callback)` — starts one thread per worker, returns when all
+ *    sources are processed.
+ * 4. Aggregate the returned partial reports.
+ *
+ * Thread-safety: `submitTo()` is NOT thread-safe; call it before `run()`.
+ *                `run()` is safe to call exactly once per instance.
+ */
+class WorkStealingPool {
+public:
+    /**
+     * @brief Construct a work-stealing pool.
+     *
+     * @param nodes            Worker nodes (one thread per node).
+     * @param target_collection Collection written to by each worker.
+     * @param worker_timeout   Per-source time limit (0 = disabled).
+     */
+    WorkStealingPool(
+        std::vector<std::shared_ptr<IIngestionWorkerNode>> nodes,
+        std::string target_collection,
+        std::chrono::seconds worker_timeout);
+
+    /**
+     * @brief Queue a source for a specific worker's initial deque.
+     *
+     * Must be called before `run()`.
+     *
+     * @param worker_idx  Index into the node list (must be < nodeCount()).
+     * @param source      Source to enqueue.
+     */
+    void submitTo(size_t worker_idx, SourceConfig source);
+
+    /** @return Number of nodes (and threads) in the pool. */
+    size_t nodeCount() const { return nodes_.size(); }
+
+    /** @return Total sources currently queued across all workers. */
+    size_t pendingCount() const {
+        return remaining_.load(std::memory_order_relaxed);
+    }
+
+    /**
+     * @brief Execute all queued sources with work stealing.
+     *
+     * Spawns one thread per worker node.  Each thread processes sources from
+     * its own deque first; when empty it steals from the back of another
+     * worker's deque.  Threads exit when no sources remain in any deque.
+     *
+     * @param cb  Optional progress callback forwarded to each worker.
+     * @return    One `IngestionReport` per processed source (order unspecified).
+     */
+    std::vector<IngestionReport> run(ProgressCallback cb);
+
+private:
+    std::vector<std::shared_ptr<IIngestionWorkerNode>> nodes_;
+    std::string target_collection_;
+    std::chrono::seconds worker_timeout_;
+
+    /// Per-worker task deque (padded struct avoids false sharing on x86-64).
+    struct WorkerDeque {
+        std::deque<SourceConfig> tasks;
+        std::mutex mtx;
+    };
+    std::vector<WorkerDeque> deques_;
+
+    /// Shared result buffer — written by worker threads, read after join.
+    std::mutex results_mtx_;
+    std::vector<IngestionReport> results_;
+
+    /// Count of sources still sitting in deques (decremented when stolen/popped).
+    std::atomic<size_t> remaining_{0};
+
+    /// Worker thread body.
+    void workerFn(size_t my_idx, ProgressCallback cb);
+
+    /// Pop a source from this worker's own deque (front).
+    bool tryPopOwn(size_t idx, SourceConfig& out);
+
+    /// Steal a source from another worker's deque (back).
+    bool trySteal(size_t thief_idx, SourceConfig& out);
 };
 
 // ============================================================================
