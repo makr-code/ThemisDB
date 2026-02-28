@@ -1945,6 +1945,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
     ../src/importers/conflict_resolver.cpp
+    ../src/importers/kafka_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_migration_assistant.cpp
