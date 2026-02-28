@@ -8,8 +8,9 @@
 5. [RAG/LLM Evaluation](#ragllm-evaluation)
 6. [Ethics Evaluation](#ethics-evaluation)
 7. [Report Generation](#report-generation)
-8. [Advanced Usage](#advanced-usage)
-9. [Troubleshooting](#troubleshooting)
+8. [Benchmark Normalization and Scoring](#benchmark-normalization-and-scoring)
+9. [Advanced Usage](#advanced-usage)
+10. [Troubleshooting](#troubleshooting)
 
 ## Introduction
 
@@ -377,6 +378,106 @@ from chimera import ColorBlindPalette
 palette = ColorBlindPalette.get_palette('tol_bright')
 colors = ColorBlindPalette.get_sequential_palette(10, 'tol_muted')
 ```
+
+## Benchmark Normalization and Scoring
+
+The benchmark normalization and scoring framework converts raw latency and throughput
+measurements from multiple systems into vendor-neutral comparable scores (0–100), then
+computes weighted composite rankings.
+
+### BenchmarkHarness — Timed Workload Execution
+
+```python
+from chimera import BenchmarkHarness, HarnessConfig, WorkloadDefinition
+
+config = HarnessConfig(warmup_iterations=50, run_iterations=500)
+harness = BenchmarkHarness("System A", config)
+
+# Register a workload (zero-argument callable)
+harness.add_workload(WorkloadDefinition(
+    workload_id="ycsb_a",
+    operation=lambda: my_db.execute("SELECT 1"),
+    description="Simple read workload",
+    workload_family="custom",
+))
+
+# Warm up caches then measure
+harness.warm_up("ycsb_a")
+result = harness.run("ycsb_a")
+
+print(f"Throughput: {result.throughput_ops_per_sec:,.0f} ops/s")
+print(f"Mean latency: {result.mean_latency_ms:.3f} ms")
+print(f"p99 latency:  {result.p99_latency_ms:.3f} ms")
+print(f"Errors:       {result.error_count}")
+```
+
+Run all registered workloads in one call:
+
+```python
+results = harness.run_all(warmup=True)  # dict[workload_id, WorkloadResult]
+summary = harness.report()              # JSON-serialisable dict
+```
+
+### BenchmarkScorer — Normalization and Ranking
+
+```python
+from chimera import BenchmarkScorer, MetricConfig, MetricDirection, NormalizationMethod
+
+scorer = BenchmarkScorer(
+    metrics=[
+        MetricConfig("throughput_ops_s", MetricDirection.HIGHER_IS_BETTER,
+                     weight=2.0, unit="ops/s"),
+        MetricConfig("p99_latency_ms",   MetricDirection.LOWER_IS_BETTER,
+                     weight=1.0, unit="ms"),
+    ],
+    normalization_method=NormalizationMethod.MIN_MAX,
+)
+
+# Supply raw measurement samples per system
+scorer.add_results("System A", "throughput_ops_s", [10_000, 10_200, 9_800])
+scorer.add_results("System A", "p99_latency_ms",   [12.3, 13.1, 11.9])
+scorer.add_results("System B", "throughput_ops_s", [8_000, 8_100, 7_900])
+scorer.add_results("System B", "p99_latency_ms",   [9.5, 10.1, 9.8])
+
+# Sorted by composite score (best first)
+for cs in scorer.rank_systems():
+    print(f"#{cs.rank} {cs.system_name}: {cs.composite_score:.1f}/100")
+
+# Human-readable summary with per-metric details and 95 % CIs
+import json
+print(json.dumps(scorer.generate_summary(), indent=2))
+```
+
+Three normalization strategies are available via `NormalizationMethod`:
+
+| Strategy | Description |
+|---|---|
+| `MIN_MAX` | Linear rescaling so the best system scores 100 and the worst scores 0. |
+| `BASELINE` | Relative to a named reference system (reference = 100). Set `baseline_system=` in the constructor. |
+| `Z_SCORE` | Standard-score normalization mapped to [0, 100]. Robust to outliers. |
+
+### BenchmarkDashboard — Multi-System Aggregated Report
+
+```python
+from chimera import BenchmarkDashboard
+
+dashboard = BenchmarkDashboard(title="Q2 2026 Database Benchmark Suite")
+dashboard.add_harness_results(harness_a)   # BenchmarkHarness instances
+dashboard.add_harness_results(harness_b)
+
+# JSON export
+dashboard.generate_json_report("results.json")
+
+# Self-contained HTML dashboard with composite rankings and visualizations
+dashboard.generate_html_dashboard("dashboard.html")
+```
+
+The HTML dashboard includes:
+
+- An executive summary table (system × workload) showing throughput and p99 latency.
+- Composite ranking table with normalised scores.
+- Per-workload latency and throughput breakdown.
+- Bar charts using colour-blind friendly palettes (requires `matplotlib`).
 
 ## Advanced Usage
 
