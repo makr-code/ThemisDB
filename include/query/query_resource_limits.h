@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <chrono>
-#include <atomic>
 
 namespace themis {
 namespace query {

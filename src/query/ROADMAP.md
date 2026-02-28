@@ -32,7 +32,10 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Short-term (Next 3-6 months)
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
-- [P] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
+- [x] Per-query resource limits (max rows, max memory, timeout) (Issue: #1967)
+  - Implemented in `include/query/query_resource_limits.h` (`QueryResourceLimits`, `QueryResourceGuard`) and `src/query/aql_runner.cpp` (`executeAqlWithLimits`)
+  - Enforces max rows, max memory bytes (serialised JSON proxy), and wall-clock timeout per query
+  - Tests: `tests/test_query_resource_limits.cpp` (guard unit tests + integration tests)
 - [!] Query cancellation via request ID (Issue: #2431)
 - [I] User-defined functions (UDF) registration API (Issue: #2433)
 
@@ -67,7 +70,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Phase 3: Resource Management & UDF (Status: Planned 📋)
 - [x] Query result type annotations for client SDK code generation
-- [P] Per-query resource limits (max rows, max memory, timeout)
+- [x] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [x] Parallel scan for large collection full-table queries
 - [P] User-defined functions (UDF) registration API

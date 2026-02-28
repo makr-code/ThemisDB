@@ -628,7 +628,7 @@ Result<nlohmann::json> executeAqlWithLimits(
     if (limits.timeout_ms > 0) {
         auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start).count();
-        if (static_cast<uint32_t>(elapsed_ms) >= limits.timeout_ms) {
+        if (elapsed_ms >= static_cast<long long>(limits.timeout_ms)) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_TIMEOUT,
                 "query exceeded timeout of " + std::to_string(limits.timeout_ms) + " ms"

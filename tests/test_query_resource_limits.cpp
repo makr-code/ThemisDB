@@ -6,7 +6,6 @@
 #include <chrono>
 #include <thread>
 #include <string>
-#include <vector>
 
 #include "query/query_resource_limits.h"
 #include "query/aql_runner.h"
