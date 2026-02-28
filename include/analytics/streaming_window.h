@@ -311,6 +311,8 @@ private:
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
 };
 
+std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config);
+
 // ============================================================================
 // SlidingWindow
 // ============================================================================
@@ -380,6 +382,8 @@ private:
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };
+
+std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig& config);
 
 // ============================================================================
 // SessionWindow
@@ -453,6 +457,8 @@ private:
     static std::string generateId();
 };
 
+std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& config);
+
 // ============================================================================
 // HoppingWindow
 // ============================================================================
@@ -518,6 +524,8 @@ private:
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };
+
+std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config);
 
 // ============================================================================
 // StreamingWindowPipeline

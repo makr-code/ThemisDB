@@ -725,6 +725,21 @@ target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
 
+# On Windows, disable whole program optimization (/GL) to match DLL ABI.
+# Modular DLLs use /GL- for symbol export, so themis_tests must match.
+if(MSVC)
+    target_compile_options(themis_tests PRIVATE
+        $<$<CONFIG:Release>:/GL->
+        $<$<CONFIG:RelWithDebInfo>:/GL->
+        $<$<CONFIG:MinSizeRel>:/GL->
+    )
+    target_link_options(themis_tests PRIVATE
+        $<$<CONFIG:Release>:/LTCG:OFF>
+        $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+        $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+    )
+endif()
+
 target_include_directories(themis_tests PRIVATE
     ${CMAKE_BINARY_DIR}/proto_generated
     ${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include

@@ -135,15 +135,15 @@ protected:
 
 TEST_F(TumblingWindowTest, BasicIngestionAndFlush) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     // All in the same 1-minute slot
-    win.ingest(rec("r1", 0ms, 1.0));
-    win.ingest(rec("r2", 10000ms, 2.0));
-    win.ingest(rec("r3", 30000ms, 3.0));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 1.0));
+    win->ingest(rec("r2", 10000ms, 2.0));
+    win->ingest(rec("r3", 30000ms, 3.0));
+    win->flush();
 
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0].record_count, 3u);
@@ -154,30 +154,30 @@ TEST_F(TumblingWindowTest, BasicIngestionAndFlush) {
 
 TEST_F(TumblingWindowTest, RecordsInDifferentSlots) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     // slot 0: 0ms, slot 1: 60000ms, slot 2: 120000ms
     // Advancing to slot 2 should close slot 0
-    win.ingest(rec("r1", 0ms, 1.0));
-    win.ingest(rec("r2", 60000ms, 2.0));  // closes slot 0
-    win.ingest(rec("r3", 120000ms, 3.0)); // closes slot 1
-    win.flush(); // closes slot 2
+    win->ingest(rec("r1", 0ms, 1.0));
+    win->ingest(rec("r2", 60000ms, 2.0));  // closes slot 0
+    win->ingest(rec("r3", 120000ms, 3.0)); // closes slot 1
+    win->flush(); // closes slot 2
 
     EXPECT_GE(results.size(), 2u);
 }
 
 TEST_F(TumblingWindowTest, SumAggregation) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"total", AggFunc::SUM, "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"total", AggFunc::SUM, "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 10.0));
-    win.ingest(rec("r2", 10000ms, 20.0));
-    win.ingest(rec("r3", 20000ms, 30.0));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 10.0));
+    win->ingest(rec("r2", 10000ms, 20.0));
+    win->ingest(rec("r3", 20000ms, 30.0));
+    win->flush();
 
     ASSERT_FALSE(results.empty());
     auto v = results[0].get("total");
@@ -187,16 +187,16 @@ TEST_F(TumblingWindowTest, SumAggregation) {
 
 TEST_F(TumblingWindowTest, AvgMinMaxAggregations) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"avg", AggFunc::AVG, "value"});
-    win.addAggregation({"mn",  AggFunc::MIN, "value"});
-    win.addAggregation({"mx",  AggFunc::MAX, "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"avg", AggFunc::AVG, "value"});
+    win->addAggregation({"mn",  AggFunc::MIN, "value"});
+    win->addAggregation({"mx",  AggFunc::MAX, "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 1.0));
-    win.ingest(rec("r2", 1000ms, 3.0));
-    win.ingest(rec("r3", 2000ms, 5.0));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 1.0));
+    win->ingest(rec("r2", 1000ms, 3.0));
+    win->ingest(rec("r3", 2000ms, 5.0));
+    win->flush();
 
     ASSERT_FALSE(results.empty());
     EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("avg")), 3.0);
@@ -206,15 +206,15 @@ TEST_F(TumblingWindowTest, AvgMinMaxAggregations) {
 
 TEST_F(TumblingWindowTest, StddevVarianceAggregations) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"std", AggFunc::STDDEV, "value"});
-    win.addAggregation({"var", AggFunc::VARIANCE, "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"std", AggFunc::STDDEV, "value"});
+    win->addAggregation({"var", AggFunc::VARIANCE, "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     for (double v : {2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0}) {
-        win.ingest(rec("r", 0ms, v));
+        win->ingest(rec("r", 0ms, v));
     }
-    win.flush();
+    win->flush();
     ASSERT_FALSE(results.empty());
     double std_val = std::get<double>(*results[0].get("std"));
     double var_val = std::get<double>(*results[0].get("var"));
@@ -224,27 +224,27 @@ TEST_F(TumblingWindowTest, StddevVarianceAggregations) {
 
 TEST_F(TumblingWindowTest, PercentileAggregation) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"p50", AggFunc::PERCENTILE, "value", 50.0});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"p50", AggFunc::PERCENTILE, "value", 50.0});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    for (double v : {1.0, 2.0, 3.0, 4.0, 5.0}) win.ingest(rec("r", 0ms, v));
-    win.flush();
+    for (double v : {1.0, 2.0, 3.0, 4.0, 5.0}) win->ingest(rec("r", 0ms, v));
+    win->flush();
     ASSERT_FALSE(results.empty());
     EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("p50")), 3.0);
 }
 
 TEST_F(TumblingWindowTest, FirstLastAggregations) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"first", AggFunc::FIRST, "value"});
-    win.addAggregation({"last",  AggFunc::LAST,  "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"first", AggFunc::FIRST, "value"});
+    win->addAggregation({"last",  AggFunc::LAST,  "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 1.0));
-    win.ingest(rec("r2", 1000ms, 2.0));
-    win.ingest(rec("r3", 2000ms, 3.0));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 1.0));
+    win->ingest(rec("r2", 1000ms, 2.0));
+    win->ingest(rec("r3", 2000ms, 3.0));
+    win->flush();
     ASSERT_FALSE(results.empty());
     EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("first")), 1.0);
     EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("last")),  3.0);
@@ -252,42 +252,42 @@ TEST_F(TumblingWindowTest, FirstLastAggregations) {
 
 TEST_F(TumblingWindowTest, DistinctCountAggregation) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"dc", AggFunc::DISTINCT_COUNT, "cat"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"dc", AggFunc::DISTINCT_COUNT, "cat"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     for (const std::string& cat : {"A", "B", "A", "C", "B", "A"}) {
         auto r = makeRecord("", baseTime(), "", {{"cat", cat}});
-        win.ingest(r);
+        win->ingest(r);
     }
-    win.flush();
+    win->flush();
     ASSERT_FALSE(results.empty());
     EXPECT_EQ(std::get<int64_t>(*results[0].get("dc")), 3);
 }
 
 TEST_F(TumblingWindowTest, LateEventDropped) {
     std::vector<WindowResult> results;
-    TumblingWindow win(cfg1min());
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createTumblingWindow(cfg1min());
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     // Ingest a "future" record first to advance watermark
-    win.ingest(rec("future", 200000ms, 1.0)); // slot 3 (>= 180s)
+    win->ingest(rec("future", 200000ms, 1.0)); // slot 3 (>= 180s)
     // Now ingest a very old record (slot 0) — should be dropped
-    bool ok = win.ingest(rec("old", 0ms, 2.0));
+    bool ok = win->ingest(rec("old", 0ms, 2.0));
     EXPECT_FALSE(ok);
 
-    auto stats = win.getStats();
+    auto stats = win->getStats();
     EXPECT_GE(stats.records_dropped, 1u);
     EXPECT_GE(stats.late_records, 1u);
 }
 
 TEST_F(TumblingWindowTest, StatsTracking) {
-    TumblingWindow win(cfg1min());
-    win.ingest(rec("r1", 0ms, 1.0));
-    win.ingest(rec("r2", 0ms, 2.0));
+    auto win = createTumblingWindow(cfg1min());
+    win->ingest(rec("r1", 0ms, 1.0));
+    win->ingest(rec("r2", 0ms, 2.0));
 
-    auto s = win.getStats();
+    auto s = win->getStats();
     EXPECT_EQ(s.records_ingested, 2u);
     EXPECT_GE(s.windows_opened, 1u);
 }
@@ -310,13 +310,13 @@ protected:
 TEST_F(SlidingWindowTest, RecordAppearsInMultipleWindows) {
     // size=60s, slide=30s → each record falls in ceil(60/30)=2 windows
     std::vector<WindowResult> results;
-    SlidingWindow win(cfg(60000ms, 30000ms));
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createSlidingWindow(cfg(60000ms, 30000ms));
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     // One record at t=45s (should fall in windows starting at 0s and 30s)
-    win.ingest(rec("r1", 45000ms, 1.0));
-    win.flush();
+    win->ingest(rec("r1", 45000ms, 1.0));
+    win->flush();
 
     // At least one result; both windows containing r1 should emit
     EXPECT_GE(results.size(), 1u);
@@ -324,14 +324,14 @@ TEST_F(SlidingWindowTest, RecordAppearsInMultipleWindows) {
 
 TEST_F(SlidingWindowTest, AggregationsWork) {
     std::vector<WindowResult> results;
-    SlidingWindow win(cfg(60000ms, 60000ms)); // non-overlapping when slide == size
-    win.addAggregation({"sum", AggFunc::SUM, "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createSlidingWindow(cfg(60000ms, 60000ms)); // non-overlapping when slide == size
+    win->addAggregation({"sum", AggFunc::SUM, "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 5.0));
-    win.ingest(rec("r2", 10000ms, 10.0));
-    win.ingest(rec("r3", 20000ms, 15.0));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 5.0));
+    win->ingest(rec("r2", 10000ms, 10.0));
+    win->ingest(rec("r3", 20000ms, 15.0));
+    win->flush();
 
     ASSERT_FALSE(results.empty());
     double total = std::get<double>(*results[0].get("sum"));
@@ -339,20 +339,20 @@ TEST_F(SlidingWindowTest, AggregationsWork) {
 }
 
 TEST_F(SlidingWindowTest, StatsTracking) {
-    SlidingWindow win(cfg(60000ms, 30000ms));
-    win.ingest(rec("r1", 0ms, 1.0));
-    win.ingest(rec("r2", 30000ms, 2.0));
-    auto s = win.getStats();
+    auto win = createSlidingWindow(cfg(60000ms, 30000ms));
+    win->ingest(rec("r1", 0ms, 1.0));
+    win->ingest(rec("r2", 30000ms, 2.0));
+    auto s = win->getStats();
     EXPECT_GE(s.records_ingested, 2u);
     EXPECT_GE(s.windows_opened, 1u);
 }
 
 TEST_F(SlidingWindowTest, LateEventDropped) {
-    SlidingWindow win(cfg(60000ms, 30000ms));
-    win.ingest(rec("future", 300000ms, 1.0)); // advance watermark
-    bool ok = win.ingest(rec("old", 0ms, 2.0));
+    auto win = createSlidingWindow(cfg(60000ms, 30000ms));
+    win->ingest(rec("future", 300000ms, 1.0)); // advance watermark
+    bool ok = win->ingest(rec("old", 0ms, 2.0));
     EXPECT_FALSE(ok);
-    EXPECT_GE(win.getStats().records_dropped, 1u);
+    EXPECT_GE(win->getStats().records_dropped, 1u);
 }
 
 // ============================================================================
@@ -370,15 +370,15 @@ protected:
 
 TEST_F(SessionWindowTest, BasicSession) {
     std::vector<WindowResult> results;
-    SessionWindow win(cfg(5000ms)); // 5s gap
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createSessionWindow(cfg(5000ms)); // 5s gap
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
     // All within 5s gap: same session
-    win.ingest(rec("r1", 0ms, 1.0, "user1"));
-    win.ingest(rec("r2", 1000ms, 2.0, "user1"));
-    win.ingest(rec("r3", 2000ms, 3.0, "user1"));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 1.0, "user1"));
+    win->ingest(rec("r2", 1000ms, 2.0, "user1"));
+    win->ingest(rec("r3", 2000ms, 3.0, "user1"));
+    win->flush();
 
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0].record_count, 3u);
@@ -388,15 +388,15 @@ TEST_F(SessionWindowTest, BasicSession) {
 
 TEST_F(SessionWindowTest, GapTriggersNewSession) {
     std::vector<WindowResult> results;
-    SessionWindow win(cfg(5000ms));
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createSessionWindow(cfg(5000ms));
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 1.0, "u1"));
-    win.ingest(rec("r2", 1000ms, 2.0, "u1"));
+    win->ingest(rec("r1", 0ms, 1.0, "u1"));
+    win->ingest(rec("r2", 1000ms, 2.0, "u1"));
     // Gap: 10s > 5s → closes first session, starts new
-    win.ingest(rec("r3", 11000ms, 3.0, "u1"));
-    win.flush();
+    win->ingest(rec("r3", 11000ms, 3.0, "u1"));
+    win->flush();
 
     ASSERT_EQ(results.size(), 2u);
     EXPECT_EQ(results[0].record_count, 2u);
@@ -405,14 +405,14 @@ TEST_F(SessionWindowTest, GapTriggersNewSession) {
 
 TEST_F(SessionWindowTest, MultiplePartitionsAreIndependent) {
     std::vector<WindowResult> results;
-    SessionWindow win(cfg(5000ms));
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createSessionWindow(cfg(5000ms));
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 1.0, "alice"));
-    win.ingest(rec("r2", 0ms, 2.0, "bob"));
-    win.ingest(rec("r3", 1000ms, 3.0, "alice"));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 1.0, "alice"));
+    win->ingest(rec("r2", 0ms, 2.0, "bob"));
+    win->ingest(rec("r3", 1000ms, 3.0, "alice"));
+    win->flush();
 
     ASSERT_EQ(results.size(), 2u);
     // Each partition has its own session
@@ -426,10 +426,10 @@ TEST_F(SessionWindowTest, MultiplePartitionsAreIndependent) {
 
 TEST_F(SessionWindowTest, TimerDrivenExpiry) {
     std::atomic<int> fired{0};
-    SessionWindow win(cfg(100ms)); // 100ms gap for fast expiry in test
-    win.setResultCallback([&](WindowResult) { ++fired; });
+    auto win = createSessionWindow(cfg(100ms)); // 100ms gap for fast expiry in test
+    win->setResultCallback([&](WindowResult) { ++fired; });
 
-    win.ingest(rec("r1", 0ms, 1.0, "timer-user"));
+    win->ingest(rec("r1", 0ms, 1.0, "timer-user"));
     // Wait longer than gap + timer interval (200ms timer check)
     std::this_thread::sleep_for(400ms);
 
@@ -438,14 +438,14 @@ TEST_F(SessionWindowTest, TimerDrivenExpiry) {
 
 TEST_F(SessionWindowTest, AggregationsSumAvg) {
     std::vector<WindowResult> results;
-    SessionWindow win(cfg(5000ms));
-    win.addAggregation({"sum", AggFunc::SUM, "value"});
-    win.addAggregation({"avg", AggFunc::AVG, "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createSessionWindow(cfg(5000ms));
+    win->addAggregation({"sum", AggFunc::SUM, "value"});
+    win->addAggregation({"avg", AggFunc::AVG, "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 10.0, "p1"));
-    win.ingest(rec("r2", 1000ms, 20.0, "p1"));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 10.0, "p1"));
+    win->ingest(rec("r2", 1000ms, 20.0, "p1"));
+    win->flush();
 
     ASSERT_EQ(results.size(), 1u);
     EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("sum")), 30.0);
@@ -453,10 +453,10 @@ TEST_F(SessionWindowTest, AggregationsSumAvg) {
 }
 
 TEST_F(SessionWindowTest, StatsTracking) {
-    SessionWindow win(cfg(5000ms));
-    win.ingest(rec("r1", 0ms, 1.0, "u1"));
-    win.ingest(rec("r2", 1000ms, 2.0, "u1"));
-    auto s = win.getStats();
+    auto win = createSessionWindow(cfg(5000ms));
+    win->ingest(rec("r1", 0ms, 1.0, "u1"));
+    win->ingest(rec("r2", 1000ms, 2.0, "u1"));
+    auto s = win->getStats();
     EXPECT_EQ(s.records_ingested, 2u);
     EXPECT_GE(s.windows_opened, 1u);
 }
@@ -479,42 +479,42 @@ protected:
 TEST_F(HoppingWindowTest, RecordInMultipleWindows) {
     // size=60s, hop=30s → a record at t=45s falls in 2 windows
     std::vector<WindowResult> results;
-    HoppingWindow win(cfg(60000ms, 30000ms));
-    win.addAggregation({"cnt", AggFunc::COUNT, ""});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createHoppingWindow(cfg(60000ms, 30000ms));
+    win->addAggregation({"cnt", AggFunc::COUNT, ""});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 45000ms, 1.0));
-    win.flush();
+    win->ingest(rec("r1", 45000ms, 1.0));
+    win->flush();
 
     EXPECT_GE(results.size(), 1u);
 }
 
 TEST_F(HoppingWindowTest, WhenHopEqualsSizeBehavesLikeTumbling) {
     std::vector<WindowResult> results;
-    HoppingWindow win(cfg(60000ms, 60000ms));
-    win.addAggregation({"sum", AggFunc::SUM, "value"});
-    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+    auto win = createHoppingWindow(cfg(60000ms, 60000ms));
+    win->addAggregation({"sum", AggFunc::SUM, "value"});
+    win->setResultCallback([&](WindowResult r) { results.push_back(r); });
 
-    win.ingest(rec("r1", 0ms, 5.0));
-    win.ingest(rec("r2", 30000ms, 10.0));
-    win.flush();
+    win->ingest(rec("r1", 0ms, 5.0));
+    win->ingest(rec("r2", 30000ms, 10.0));
+    win->flush();
 
     ASSERT_FALSE(results.empty());
     EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("sum")), 15.0);
 }
 
 TEST_F(HoppingWindowTest, LateEventDropped) {
-    HoppingWindow win(cfg(60000ms, 30000ms));
-    win.ingest(rec("future", 300000ms, 1.0));
-    bool ok = win.ingest(rec("old", 0ms, 2.0));
+    auto win = createHoppingWindow(cfg(60000ms, 30000ms));
+    win->ingest(rec("future", 300000ms, 1.0));
+    bool ok = win->ingest(rec("old", 0ms, 2.0));
     EXPECT_FALSE(ok);
-    EXPECT_GE(win.getStats().records_dropped, 1u);
+    EXPECT_GE(win->getStats().records_dropped, 1u);
 }
 
 TEST_F(HoppingWindowTest, StatsTracking) {
-    HoppingWindow win(cfg(60000ms, 30000ms));
-    win.ingest(rec("r1", 0ms, 1.0));
-    auto s = win.getStats();
+    auto win = createHoppingWindow(cfg(60000ms, 30000ms));
+    win->ingest(rec("r1", 0ms, 1.0));
+    auto s = win->getStats();
     EXPECT_GE(s.records_ingested, 1u);
     EXPECT_GE(s.windows_opened, 1u);
 }
