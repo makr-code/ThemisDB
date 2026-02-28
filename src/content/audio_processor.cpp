@@ -92,6 +92,21 @@ bool AudioProcessor::initialize(const PluginConfig& config) {
     extract_waveform_ = config.get<bool>("waveform.enabled", false);
     waveform_samples_ = config.get<int>("waveform.samples", 1000);
     
+    // Initialize STTProcessor when transcription is enabled
+    if (enable_transcription_) {
+        stt_processor_ = std::make_unique<STTProcessor>();
+        json stt_settings;
+        stt_settings["model_path"] = config.get<std::string>("transcription.model_path", "./models/ggml-base.bin");
+        stt_settings["model_size"] = transcription_model_;
+        stt_settings["language"] = transcription_language_;
+        stt_settings["timestamps"] = true;
+        PluginConfig stt_config(stt_settings);
+        if (!stt_processor_->initialize(stt_config)) {
+            stt_processor_.reset();
+            enable_transcription_ = false;
+        }
+    }
+    
     // Note: Initialize FFmpeg audio decoder
     
     initialized_ = true;
@@ -101,6 +116,11 @@ bool AudioProcessor::initialize(const PluginConfig& config) {
 void AudioProcessor::shutdown() {
     if (!initialized_) {
         return;
+    }
+    
+    if (stt_processor_) {
+        stt_processor_->shutdown();
+        stt_processor_.reset();
     }
     
     initialized_ = false;
@@ -829,11 +849,14 @@ std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t>& b
 }
 
 std::string AudioProcessor::transcribe(const std::vector<uint8_t>& blob) {
-    // Real implementation would:
-    // 1. Decode audio to PCM
-    // 2. Send to Whisper/speech recognition model
-    // 3. Return transcription text
+    if (!stt_processor_) {
+        return "";
+    }
     
+    auto result = stt_processor_->transcribe(blob);
+    if (result.success) {
+        return result.full_text;
+    }
     return "";
 }
 

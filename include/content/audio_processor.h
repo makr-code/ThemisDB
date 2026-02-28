@@ -33,6 +33,8 @@
 #pragma once
 
 #include "content_plugin_interface.h"
+#include "content/stt_processor.h"
+#include <memory>
 #include <mutex>
 #include <atomic>
 
@@ -97,6 +99,9 @@ private:
     json extractTags(const std::vector<uint8_t>& blob);
     std::vector<float> extractWaveform(const std::vector<uint8_t>& blob);
     std::string transcribe(const std::vector<uint8_t>& blob);
+
+    // STT processor for audio transcription
+    std::unique_ptr<STTProcessor> stt_processor_;
 };
 
 } // namespace content

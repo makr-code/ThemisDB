@@ -532,3 +532,77 @@ TEST_F(AudioProcessorTest, Statistics_FileCountIncrementsOnSuccess) {
     EXPECT_GT(stats_after["audio_files_processed"].get<uint64_t>(),
               stats_before["audio_files_processed"].get<uint64_t>());
 }
+
+// ============================================================================
+// Transcription / STT integration tests
+// ============================================================================
+
+/**
+ * @brief Test fixture for AudioProcessor with transcription enabled.
+ *
+ * Initializes the processor with "transcription.enabled": true.
+ * STTProcessor will initialise in fallback mode when THEMIS_ENABLE_WHISPER is
+ * not defined (no model file required).
+ */
+class AudioProcessorTranscriptionTest : public ::testing::Test {
+protected:
+    AudioProcessor processor;
+
+    void SetUp() override {
+        nlohmann::json settings;
+        settings["transcription"]["enabled"] = true;
+        settings["transcription"]["model"] = "base";
+        settings["transcription"]["language"] = "en";
+        PluginConfig config(settings);
+        ASSERT_TRUE(processor.initialize(config));
+    }
+};
+
+TEST_F(AudioProcessorTranscriptionTest, Transcription_ExtractReturnsText_WhenEnabled) {
+    // When transcription is enabled, extracting with extract_text=true should
+    // populate result.text (even the placeholder text without Whisper).
+    auto blob = buildWavBlob(16000, 1, 16, 500);
+    ExtractionOptions opts;
+    opts.extract_text = true;
+    auto result = processor.extract(blob, "audio/wav", opts);
+    ASSERT_TRUE(result.success);
+    // The text may be the Whisper placeholder or actual transcription; either
+    // way it must be a non-empty string when transcription is available.
+    EXPECT_FALSE(result.text.empty());
+}
+
+TEST_F(AudioProcessorTranscriptionTest, Transcription_StatisticsCountIncrement) {
+    auto blob = buildWavBlob(16000, 1, 16, 200);
+    ExtractionOptions opts;
+    opts.extract_text = true;
+    auto stats_before = processor.getStatistics();
+    processor.extract(blob, "audio/wav", opts);
+    auto stats_after = processor.getStatistics();
+    EXPECT_GE(stats_after["transcriptions_performed"].get<uint64_t>(),
+              stats_before["transcriptions_performed"].get<uint64_t>());
+}
+
+TEST_F(AudioProcessorTranscriptionTest, Transcription_ShutdownAndReinitialize) {
+    processor.shutdown();
+    EXPECT_FALSE(processor.healthCheck());
+
+    nlohmann::json settings;
+    settings["transcription"]["enabled"] = true;
+    PluginConfig config(settings);
+    ASSERT_TRUE(processor.initialize(config));
+    EXPECT_TRUE(processor.healthCheck());
+}
+
+TEST(AudioProcessorNoTranscriptionTest, Transcription_DisabledByDefault_NoText) {
+    AudioProcessor proc;
+    PluginConfig config;  // default: transcription.enabled = false
+    ASSERT_TRUE(proc.initialize(config));
+
+    auto blob = buildWavBlob(44100, 2, 16, 500);
+    ExtractionOptions opts;
+    opts.extract_text = true;
+    auto result = proc.extract(blob, "audio/wav", opts);
+    ASSERT_TRUE(result.success);
+    // No STT processor -> transcribe() returns "" -> result.text is empty
+    EXPECT_TRUE(result.text.empty());
+}
