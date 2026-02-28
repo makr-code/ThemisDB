@@ -3030,6 +3030,64 @@ else()
 endif()
 
 # ============================================================================
+# LLM Timeout and Cancellation Tests (standalone – requires themis_llm / themis_core)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND THEMIS_ENABLE_LLM)
+    message(STATUS "Adding LLM Timeout and Cancellation tests (Issue #1931, standalone binary)")
+
+    add_executable(test_llm_timeout_cancellation
+        test_llm_timeout_cancellation.cpp
+    )
+
+    target_include_directories(test_llm_timeout_cancellation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_llm_timeout_cancellation PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_llm_timeout_cancellation PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_llm_timeout_cancellation PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME LLMTimeoutCancellationTests COMMAND test_llm_timeout_cancellation)
+
+    set_tests_properties(LLMTimeoutCancellationTests PROPERTIES
+        LABELS "llm;timeout;cancellation;async;inference;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LLMTimeoutCancellation: per-request timeout propagation, cancel(), streaming stop, DROP_OLDEST, dedup cache")
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "LLM Timeout Cancellation tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "LLM Timeout Cancellation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp")
+    endif()
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
