@@ -131,18 +131,40 @@ Complete implementation of production-readiness roadmap for the exporters module
 }
 ```
 
+### Phase 3 (Format Templates) ✅ - Instruction-Tuning Format Transforms
+
+**Named Instruction-Tuning Format Templates**
+- `IFormatTemplate` abstract interface with `name()`, `validateFields()`, and `render()` methods
+- `FormatTemplateType` enum: `NONE`, `ALPACA`, `SHAREGPT`, `CHATML`, `OPENAI_FINETUNING`
+- `FormatTemplateFieldMapping` struct for configurable field-name overrides shared by all templates
+- `makeFormatTemplate(type)` factory function returning `std::unique_ptr<IFormatTemplate>`
+- Four concrete template implementations:
+  - **AlpacaTemplate**: `{"instruction":…, "input":…, "output":…}` — `input` always present (empty string when absent, per Alpaca spec)
+  - **ShareGPTTemplate**: `{"conversations":[{"from":"human","value":…},{"from":"gpt","value":…}]}` — optional `system` turn prepended when `system_field` non-empty
+  - **ChatMLTemplate**: `{"messages":[{"role":"system","content":…},{"role":"user","content":…},{"role":"assistant","content":…}]}` — `system` message omitted when absent
+  - **OpenAIFineTuningTemplate**: structurally identical to ChatML; distinct type for caller intent signalling
+- `JSONLLLMExporter` integration: `format_template_type` config field activates a named template and overrides `style`; weight injection into the rendered JSON object is handled by `formatWithTemplate()`
+- `setConfig()` recreates the active template pointer without reconstructing the exporter
+- All templates: missing required fields cause `render()` to return an empty string; the entity is counted as `skipped` in `ExportStats`
+- `validateFields()` populates an optional `missing_fields` vector for pre-export dry-run checks
+
+**Implemented in:**
+- `include/exporters/format_template.h`
+- `src/exporters/format_template.cpp`
+- `tests/exporters/test_format_template.cpp` (35 test cases covering all 4 templates, factory, validation, integration with `JSONLLLMExporter`)
+
 ## Implementation Statistics
 
 ### Code Metrics
 
 | Metric | Count |
 |--------|-------|
-| New Files Created | 13 |
+| New Files Created | 15 |
 | Files Modified | 8 |
-| Total Lines Added | ~5,000 |
-| New Classes | 11 |
-| New Features | 27+ |
-| Test Cases | 68 (20 P0 + 11 P1/P2 + 16 streaming + 21 incremental) |
+| Total Lines Added | ~5,400 |
+| New Classes | 13 |
+| New Features | 30+ |
+| Test Cases | 103 (20 P0 + 11 P1/P2 + 16 streaming + 21 incremental + 35 format templates) |
 | Error Codes | 10 |
 | Exception Types | 7 |
 
@@ -151,6 +173,7 @@ Complete implementation of production-readiness roadmap for the exporters module
 **Headers (6):**
 - `include/exporters/exporter_errors.h` (159 lines)
 - `include/exporters/exporter_metrics.h` (195 lines)
+- `include/exporters/format_template.h` (147 lines)
 - `include/exporters/pii_detector.h` (107 lines)
 - `include/exporters/stream_writer.h` (62 lines)
 - `include/exporters/streaming_exporter.h` (139 lines)
@@ -159,6 +182,7 @@ Complete implementation of production-readiness roadmap for the exporters module
 
 **Implementation (6):**
 - `src/exporters/exporter_metrics.cpp` (326 lines)
+- `src/exporters/format_template.cpp` (217 lines)
 - `src/exporters/pii_detector.cpp` (214 lines)
 - `src/exporters/stream_writer.cpp` (183 lines)
 - `src/exporters/streaming_exporter.cpp` (335 lines)
@@ -167,6 +191,7 @@ Complete implementation of production-readiness roadmap for the exporters module
 - `src/exporters/incremental_exporter.cpp` (337 lines)
 
 **Tests (3):**
+- `tests/exporters/test_format_template.cpp` (516 lines)
 - `tests/exporters/test_jsonl_llm_exporter.cpp` (780 lines total)
 - `tests/exporters/test_streaming_exporter.cpp` (419 lines)
 - `tests/exporters/test_parquet_exporter.cpp` (430 lines)
@@ -244,7 +269,17 @@ Complete implementation of production-readiness roadmap for the exporters module
 - Corrupt watermark falls back to full export
 - `ExportStats::toJson()` includes `skipped_entities`
 
+### Format Template Tests (35)
+- `AlpacaTemplate`: type name, render with input, empty input still includes key, validate missing instruction, validate ok, render missing required returns empty
+- `ShareGPTTemplate`: type name, render without system turn, render with system turn, validate missing user field
+- `ChatMLTemplate`: type name, render without system, render with system, validate fields ok
+- `OpenAIFineTuningTemplate`: type name, render with system, all messages have role + content
+- Factory: `NONE` returns nullptr
+- Integration with `JSONLLLMExporter`: Alpaca via exporter (3 entities, file output, JSON structure), ShareGPT via exporter, ChatML via exporter, OpenAI via exporter
+- `setConfig()` recreates template (switch from NONE to ALPACA)
+- Missing required fields cause entity to be skipped (`exported_entities == 0`)
 
+### Parquet Export Tests (21)
 - Basic export with magic bytes validation
 - Non-empty file assertion
 - Empty entity set produces valid Parquet file
