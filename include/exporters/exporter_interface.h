@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     124                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -86,11 +86,11 @@ struct ExportOptions {
     
     // Format options
     bool pretty_print = false;
-    bool compress = false;                     // P2: Enable compression
-    std::string compression_type = "gzip";     // P2: gzip, zstd, none
-    int compression_level = 6;                 // P2: 1-9 for gzip, 1-22 for zstd
+    bool compress = false;                     // Enable compression
+    std::string compression_type = "gzip";     // gzip, zstd, none
+    int compression_level = 6;                 // 1-9 for gzip, 1-22 for zstd
     
-    // P2: Resource limits
+    // Resource limits
     size_t max_file_size_bytes = 0;           // 0 = unlimited
     size_t max_throughput_bps = 0;            // 0 = unlimited (bytes per second)
     size_t buffer_size_bytes = 8192;          // Buffer size for streaming
