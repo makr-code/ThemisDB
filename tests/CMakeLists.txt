@@ -2310,6 +2310,37 @@ else()
     message(STATUS "Transaction OCC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
 endif()
 
+# Transaction Retry Manager Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
+    message(STATUS "Adding Transaction Retry Manager tests")
+
+    add_executable(test_transaction_retry
+        test_transaction_retry.cpp
+    )
+
+    target_link_libraries(test_transaction_retry PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_retry PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionRetryTests COMMAND test_transaction_retry)
+
+    set_tests_properties(TransactionRetryTests PROPERTIES
+        LABELS "transaction;retry;backoff;circuit-breaker;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Transaction Retry: executeWithRetry, backoff, circuit breaker, error classification")
+else()
+    message(STATUS "Transaction Retry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")
