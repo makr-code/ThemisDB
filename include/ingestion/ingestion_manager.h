@@ -108,6 +108,7 @@ enum class IngestionErrorCode {
     PARSING_FAILED          = 1301,
     EXTRACTION_FAILED       = 1302,
     OCR_FAILED              = 1303,
+    SCHEMA_VALIDATION_FAILED = 1304,
 
     // Retry/quota errors (1400-1499)
     RETRY_EXHAUSTED         = 1400,
@@ -211,6 +212,7 @@ struct IngestionMetrics {
     size_t error_count      = 0;  ///< Total individual errors encountered
     double throughput_docs_per_sec = 0.0; ///< Documents / second
     size_t quota_violations = 0;  ///< Times rate/byte-quota was exceeded
+    size_t schema_violations = 0; ///< Documents rejected or warned by schema validation
 
     IngestionMetrics() = default;
 };
@@ -234,6 +236,129 @@ using ProgressCallback = std::function<void(const std::string& source_id,
                                             size_t processed, 
                                             size_t total,
                                             const std::string& status)>;
+
+// ============================================================================
+// Per-source schema validation
+// ============================================================================
+
+/**
+ * @brief Expected type for a schema field
+ */
+enum class SchemaFieldType {
+    ANY,     ///< No type constraint
+    STRING,  ///< Must be a JSON string value
+    NUMBER,  ///< Must be a JSON numeric value
+    BOOLEAN, ///< Must be a JSON boolean value
+    ARRAY,   ///< Must be a JSON array
+    OBJECT   ///< Must be a JSON object
+};
+
+/**
+ * @brief Validation rule for a single named field within a JSON document
+ */
+struct SchemaFieldRule {
+    bool           required        = false;          ///< Field must be present
+    SchemaFieldType expected_type  = SchemaFieldType::ANY; ///< Expected JSON value type
+    size_t         min_length      = 0;              ///< Minimum string length (0 = no limit)
+    size_t         max_length      = 0;              ///< Maximum string length (0 = no limit)
+    std::string    pattern;                          ///< Regex pattern the string value must match (empty = no check)
+
+    SchemaFieldRule() = default;
+};
+
+/**
+ * @brief Per-source schema configuration for document validation
+ *
+ * When a `SchemaConfig` is registered for a source, every document produced
+ * by that source is validated before it is written to the target collection.
+ * Documents that fail validation are counted as failures and added to the
+ * quarantine queue when `reject_invalid` is `true`.
+ *
+ * Two complementary validation layers are provided:
+ *
+ * 1. **Content-level**: `min_content_length`, `max_content_length`, and
+ *    `required_content_pattern` check the raw document text without
+ *    JSON parsing.  These apply to all document formats.
+ *
+ * 2. **Field-level**: `fields` maps field names to `SchemaFieldRule` objects.
+ *    These checks are performed when the document can be parsed as JSON.
+ *    Non-JSON documents skip field-level validation silently.
+ *
+ * Example – require a non-empty "text" field of at least 10 characters:
+ * @code
+ * SchemaConfig sc;
+ * sc.min_content_length = 10;
+ * sc.fields["text"] = {.required = true, .expected_type = SchemaFieldType::STRING,
+ *                      .min_length = 10};
+ * mgr.setSchemaConfig("my_source", sc);
+ * @endcode
+ */
+struct SchemaConfig {
+    std::unordered_map<std::string, SchemaFieldRule> fields; ///< Per-field rules (JSON docs)
+    size_t min_content_length = 0;   ///< Minimum raw document length in bytes (0 = no limit)
+    size_t max_content_length = 0;   ///< Maximum raw document length in bytes (0 = no limit)
+    std::string required_content_pattern; ///< Regex the full document text must match (empty = no check)
+    bool reject_invalid = true;      ///< If true, invalid docs are failed/quarantined; if false, only a warning is recorded
+
+    SchemaConfig() = default;
+
+    /** @brief Returns true when at least one validation rule is set */
+    bool isEnabled() const {
+        return min_content_length > 0
+            || max_content_length > 0
+            || !required_content_pattern.empty()
+            || !fields.empty();
+    }
+};
+
+/**
+ * @brief A single schema violation message
+ */
+struct DocumentValidationViolation {
+    std::string field;    ///< Field name, or empty for document-level violations
+    std::string message;  ///< Human-readable description of the violation
+
+    DocumentValidationViolation() = default;
+    DocumentValidationViolation(const std::string& f, const std::string& m)
+        : field(f), message(m) {}
+};
+
+/**
+ * @brief Result of validating a document against a SchemaConfig
+ */
+struct DocumentValidationResult {
+    bool is_valid = true;
+    std::vector<DocumentValidationViolation> violations;
+
+    DocumentValidationResult() = default;
+
+    /** @brief Add a violation and mark the result invalid */
+    void addViolation(const std::string& field, const std::string& message) {
+        is_valid = false;
+        violations.push_back({field, message});
+    }
+
+    /** @brief Return all violation messages joined by "; " */
+    std::string summary() const {
+        std::string out;
+        for (const auto& v : violations) {
+            if (!out.empty()) out += "; ";
+            if (!v.field.empty()) { out += v.field; out += ": "; }
+            out += v.message;
+        }
+        return out;
+    }
+};
+
+/**
+ * @brief Callback invoked by connectors for each document before writing.
+ *
+ * Receives the raw document content and returns a `DocumentValidationResult`.
+ * When the result is invalid and the schema's `reject_invalid` flag is set,
+ * the connector must count the document as failed and not increment
+ * `documents_processed`.
+ */
+using DocumentValidatorFn = std::function<DocumentValidationResult(const std::string& content)>;
 
 /**
  * @brief Function type for injecting a mock HTTP GET response in tests.
@@ -528,6 +653,32 @@ public:
     void setRetryConfig(const RetryConfig& config);
 
     /**
+     * @brief Register a per-source schema that is applied before each write.
+     *
+     * When a schema is set for `source_id`, every document produced by that
+     * source is validated via `DocumentValidatorFn` before being written to
+     * the target collection.  Documents that fail validation are counted as
+     * failures; when `SchemaConfig::reject_invalid` is `true` (the default)
+     * they are also added to the quarantine queue.
+     *
+     * Call with a default-constructed `SchemaConfig` (or `SchemaConfig{}`
+     * with `isEnabled() == false`) to remove validation for a source.
+     *
+     * @param source_id Source whose documents the schema applies to
+     * @param config    Schema rules to enforce
+     */
+    void setSchemaConfig(const std::string& source_id, const SchemaConfig& config);
+
+    /**
+     * @brief Retrieve the schema configuration registered for a source
+     *
+     * @param source_id Source identifier
+     * @param out       Populated with the stored config on success
+     * @return true if a schema config exists for `source_id`
+     */
+    bool getSchemaConfig(const std::string& source_id, SchemaConfig& out) const;
+
+    /**
      * @brief Enable dry-run mode (scan only, no actual insertion)
      *
      * In dry-run mode `ingestAll()` / `ingestSource()` scan sources and count
@@ -742,6 +893,24 @@ public:
      */
     virtual IngestionStats ingest(const std::string& target_collection,
                                   ProgressCallback progress_callback) = 0;
+
+    /**
+     * @brief Inject a per-document validator that is called before writing.
+     *
+     * When set, the connector calls `validator(content)` for each document
+     * before counting it as processed.  If the result is invalid and the
+     * source's `SchemaConfig::reject_invalid` flag is true, the document is
+     * counted as failed instead of processed.
+     *
+     * The default implementation is a no-op (validators are opt-in per
+     * connector).  Concrete connectors that support field-level document
+     * validation should override this method.
+     *
+     * @param validator Callback to invoke per document; empty fn = disable
+     */
+    virtual void setDocumentValidator(DocumentValidatorFn validator) {
+        (void)validator; // default: no-op
+    }
 };
 
 // ============================================================================
@@ -1073,6 +1242,20 @@ public:
     IngestionBuilder& withDryRun(bool enabled = true);
 
     /**
+     * @brief Register a per-source schema validation configuration.
+     *
+     * Equivalent to calling `IngestionManager::setSchemaConfig(source_id, config)`
+     * after `build()`.  Multiple calls with different `source_id` values are
+     * supported; they accumulate independently.
+     *
+     * @param source_id Source whose documents the schema should validate
+     * @param config    Schema rules to enforce before each write
+     * @return *this for chaining
+     */
+    IngestionBuilder& withSchemaValidation(const std::string& source_id,
+                                           const SchemaConfig& config);
+
+    /**
      * @brief Build and return the configured IngestionManager
      * @return Unique pointer to the fully configured manager
      */
@@ -1088,6 +1271,7 @@ private:
         size_t max_threads = 0;
         std::string target_collection = "legal_documents";
         bool dry_run = false;
+        std::unordered_map<std::string, SchemaConfig> schema_configs;
     };
     std::unique_ptr<Opts> opts_;
 };

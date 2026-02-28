@@ -31,7 +31,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [P] S3/GCS/Azure Blob object-storage source (Issue: #1893)
 - [P] JDBC-compatible database source (Issue: #1894)
 - [P] Web crawler / sitemap ingestion source (Issue: #1895)
-- [I] Per-source schema validation before write (Issue: #1896)
+- [P] Per-source schema validation before write (Issue: #1896)
 
 ### Long-term (6-12 months)
 - [I] Distributed ingestion coordinator across nodes (Issue: #1897)
