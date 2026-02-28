@@ -28,7 +28,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] API versioning strategy (deprecation headers, sunset dates, URL path prefixes `/v1/` / `/v2/`) (Issue: #2308)
 - [x] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
 - [x] Request validation middleware (JSON Schema per endpoint)
-- [x] Response streaming for large result sets (chunked transfer) (Issue: #2466)
+- [x] Response streaming for large result sets (chunked transfer) (Issue: #2466, #2005)
 
 ## In Progress 🚧
 - [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)
