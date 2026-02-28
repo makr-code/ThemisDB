@@ -197,6 +197,25 @@ TEST_F(ExportEncryptionTest, WrongMagicIsRejected) {
     EXPECT_THROW(enc.decrypt(container), std::runtime_error);
 }
 
+TEST_F(ExportEncryptionTest, OversizedHeaderStringIsRejected) {
+    // Build a minimal but otherwise valid TENC header where job_id_len
+    // is set to a value exceeding MAX_HEADER_STRING_LEN (4096).
+    // The decrypt() call must reject this before any large allocation.
+    ExportEncryption enc(makeConfig());
+    std::vector<uint8_t> plaintext = {1, 2, 3};
+    auto container = enc.encrypt(plaintext);
+
+    // Locate the job_id_len field: it comes after magic(4) + version(4) = byte 8.
+    // Write a too-large length (0x00002000 = 8192 > 4096).
+    ASSERT_GE(container.size(), 12u);
+    uint32_t huge = 8192u;
+    container[8]  = static_cast<uint8_t>(huge & 0xFF);
+    container[9]  = static_cast<uint8_t>((huge >> 8) & 0xFF);
+    container[10] = static_cast<uint8_t>((huge >> 16) & 0xFF);
+    container[11] = static_cast<uint8_t>((huge >> 24) & 0xFF);
+    EXPECT_THROW(enc.decrypt(container), std::runtime_error);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Disabled encryption is a no-op
 // ─────────────────────────────────────────────────────────────────────────────

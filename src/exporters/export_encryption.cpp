@@ -75,6 +75,10 @@ static uint64_t readU64(const uint8_t* p) {
     return v;
 }
 
+// Maximum length accepted for job_id and kek_id strings in the TENC header.
+// Prevents allocation of enormous strings from malformed or malicious files.
+static constexpr uint32_t MAX_HEADER_STRING_LEN = 4096u;
+
 static std::string readString(const uint8_t* buf, size_t buf_size,
                                size_t& offset) {
     if (offset + 4 > buf_size) {
@@ -82,6 +86,12 @@ static std::string readString(const uint8_t* buf, size_t buf_size,
     }
     uint32_t len = readU32(buf + offset);
     offset += 4;
+    if (len > MAX_HEADER_STRING_LEN) {
+        throw std::runtime_error(
+            "ExportEncryption: header string exceeds maximum length ("
+            + std::to_string(len) + " > "
+            + std::to_string(MAX_HEADER_STRING_LEN) + ")");
+    }
     if (offset + len > buf_size) {
         throw std::runtime_error("ExportEncryption: truncated string data");
     }
@@ -216,6 +226,11 @@ ExportEncryption::encrypt(const std::vector<uint8_t>& plaintext) const {
 
         // Encrypt plaintext.
         if (!plaintext.empty()) {
+            // Guard against truncation in the OpenSSL int API
+            if (plaintext.size() > static_cast<size_t>(INT_MAX)) {
+                throw std::runtime_error(
+                    "ExportEncryption: plaintext exceeds maximum supported size (INT_MAX)");
+            }
             if (EVP_EncryptUpdate(ctx, ciphertext.data(), &out_len,
                                   plaintext.data(),
                                   static_cast<int>(plaintext.size())) != 1) {
@@ -398,6 +413,11 @@ ExportEncryption::decrypt(const std::vector<uint8_t>& container) const {
 
         // Decrypt ciphertext.
         if (ct_len > 0) {
+            // Guard against truncation in the OpenSSL int API
+            if (ct_len > static_cast<uint64_t>(INT_MAX)) {
+                throw std::runtime_error(
+                    "ExportEncryption: ciphertext exceeds maximum supported size (INT_MAX)");
+            }
             if (EVP_DecryptUpdate(ctx, plaintext.data(), &out_len,
                                   ct_ptr,
                                   static_cast<int>(ct_len)) != 1) {
@@ -478,6 +498,9 @@ void ExportEncryption::encryptFile(const std::string& src_path,
     // Encrypt.
     auto container = encrypt(plaintext);
 
+    // Securely zero the plaintext buffer now that encryption is done.
+    OPENSSL_cleanse(plaintext.data(), plaintext.size());
+
     // Write encrypted container.
     std::ofstream dst(dst_path, std::ios::binary | std::ios::trunc);
     if (!dst.is_open()) {
@@ -535,15 +558,20 @@ void ExportEncryption::decryptFile(const std::string& src_path,
     // Write plaintext.
     std::ofstream dst(dst_path, std::ios::binary | std::ios::trunc);
     if (!dst.is_open()) {
+        OPENSSL_cleanse(plaintext.data(), plaintext.size());
         throw std::runtime_error(
             "ExportEncryption: cannot open destination file: " + dst_path);
     }
     if (!plaintext.empty() &&
         !dst.write(reinterpret_cast<const char*>(plaintext.data()),
                    static_cast<std::streamsize>(plaintext.size()))) {
+        OPENSSL_cleanse(plaintext.data(), plaintext.size());
         throw std::runtime_error(
             "ExportEncryption: failed to write decrypted file: " + dst_path);
     }
+
+    // Securely zero the decrypted buffer after the file has been written.
+    OPENSSL_cleanse(plaintext.data(), plaintext.size());
 }
 
 } // namespace themis::exporters
