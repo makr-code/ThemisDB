@@ -44,6 +44,7 @@
 #include "chimera/weaviate_adapter.hpp"
 #include "chimera/qdrant_adapter.hpp"
 #include "chimera/pinecone_adapter.hpp"
+#include "chimera/elasticsearch_adapter.hpp"
 
 using namespace chimera;
 
@@ -303,6 +304,24 @@ TEST(CapabilityMatrixAddAdapterTest, PineconeAdapterCapabilities) {
     EXPECT_FALSE(matrix.supports("Pinecone", Capability::FULL_TEXT_SEARCH));
 }
 
+TEST(CapabilityMatrixAddAdapterTest, ElasticsearchAdapterCapabilities) {
+    ElasticsearchAdapter adapter;
+    AdapterCapabilityMatrix matrix;
+    matrix.add_adapter("Elasticsearch", adapter);
+
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::FULL_TEXT_SEARCH));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::VECTOR_SEARCH));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::DOCUMENT_STORE));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::BATCH_OPERATIONS));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::SECONDARY_INDEXES));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::DISTRIBUTED_QUERIES));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::SHARDING));
+    // Elasticsearch does not support relational queries, graph traversal, or ACID transactions.
+    EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::GRAPH_TRAVERSAL));
+    EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::TRANSACTIONS));
+}
+
 // ---------------------------------------------------------------------------
 // build_from_factory()
 // ---------------------------------------------------------------------------
@@ -341,4 +360,13 @@ TEST(CapabilityMatrixFactoryTest, BuildFromFactoryIncludesPinecone) {
     EXPECT_TRUE(matrix.supports("Pinecone", Capability::VECTOR_SEARCH));
     EXPECT_FALSE(matrix.supports("Pinecone", Capability::RELATIONAL_QUERIES));
     EXPECT_FALSE(matrix.supports("Pinecone", Capability::TRANSACTIONS));
+}
+
+TEST(CapabilityMatrixFactoryTest, BuildFromFactoryIncludesElasticsearch) {
+    auto matrix = AdapterCapabilityMatrix::build_from_factory();
+    EXPECT_TRUE(matrix.data().count("Elasticsearch") > 0);
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::FULL_TEXT_SEARCH));
+    EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::VECTOR_SEARCH));
+    EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::TRANSACTIONS));
 }
