@@ -139,9 +139,14 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
         return Status::PEER_ACCESS_ALREADY_ENABLED;
     }
 
+    // Resolved hardware device ordinals (filled per-backend below;
+    // on the CPU simulation path the array index serves as the ordinal).
+    int src_idx = src_device;
+    int dst_idx = dst_device;
+
 #ifdef THEMIS_ENABLE_CUDA
-    const int src_idx = devs[static_cast<size_t>(src_device)].device_index;
-    const int dst_idx = devs[static_cast<size_t>(dst_device)].device_index;
+    src_idx = devs[static_cast<size_t>(src_device)].device_index;
+    dst_idx = devs[static_cast<size_t>(dst_device)].device_index;
 
     // Check capability first.
     int can = 0;
@@ -161,8 +166,8 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
     }
 
 #elif defined(THEMIS_ENABLE_HIP)
-    const int src_idx = devs[static_cast<size_t>(src_device)].device_index;
-    const int dst_idx = devs[static_cast<size_t>(dst_device)].device_index;
+    src_idx = devs[static_cast<size_t>(src_device)].device_index;
+    dst_idx = devs[static_cast<size_t>(dst_device)].device_index;
 
     int can = 0;
     if (hipDeviceCanAccessPeer(&can, src_idx, dst_idx) != hipSuccess || !can) {
@@ -185,7 +190,7 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
     return Status::PEER_ACCESS_NOT_SUPPORTED;
 #endif
 
-    enabled_pairs_[key] = true;
+    enabled_pairs_[key] = PairInfo{src_idx, dst_idx};
     ++stats_.peer_access_enabled_count;
     return Status::OK;
 }
@@ -205,21 +210,26 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::disablePeerAccess(
     std::lock_guard<std::mutex> lock(mutex_);
     const uint32_t key = pairKey(src_device, dst_device);
 
-    if (!enabled_pairs_.count(key)) {
+    auto it = enabled_pairs_.find(key);
+    if (it == enabled_pairs_.end()) {
         return Status::PEER_ACCESS_NOT_ENABLED;
     }
 
 #ifdef THEMIS_ENABLE_CUDA
+    const int src_idx = it->second.src_device_index;
+    const int dst_idx = it->second.dst_device_index;
     int prev_device = 0;
     cudaGetDevice(&prev_device);
-    cudaSetDevice(src_device);
-    cudaDeviceDisablePeerAccess(dst_device);
+    cudaSetDevice(src_idx);
+    cudaDeviceDisablePeerAccess(dst_idx);
     cudaSetDevice(prev_device);
 #elif defined(THEMIS_ENABLE_HIP)
+    const int src_idx = it->second.src_device_index;
+    const int dst_idx = it->second.dst_device_index;
     int prev_device = 0;
     hipGetDevice(&prev_device);
-    hipSetDevice(src_device);
-    hipDeviceDisablePeerAccess(dst_device);
+    hipSetDevice(src_idx);
+    hipDeviceDisablePeerAccess(dst_idx);
     hipSetDevice(prev_device);
 #endif
 

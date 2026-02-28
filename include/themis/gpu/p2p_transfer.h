@@ -213,8 +213,16 @@ public:
 private:
     mutable std::mutex mutex_;
 
-    // Set of enabled peer-access pairs: key = (src << 16) | dst.
-    std::unordered_map<uint32_t, bool> enabled_pairs_;
+    // Enabled peer-access pairs: key = pairKey(src, dst),
+    // value = {src_device_index, dst_device_index} (hardware ordinals, not
+    // array indices) stored at enablePeerAccess time so that disablePeerAccess
+    // can issue the correct cudaSetDevice / hipSetDevice call without needing
+    // the device list again.
+    struct PairInfo {
+        int src_device_index = 0;  ///< Hardware device ordinal for the source
+        int dst_device_index = 0;  ///< Hardware device ordinal for the destination
+    };
+    std::unordered_map<uint32_t, PairInfo> enabled_pairs_;
 
     Stats stats_;
 

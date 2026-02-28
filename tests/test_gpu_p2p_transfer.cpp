@@ -181,6 +181,19 @@ TEST_F(P2PTransferTest, DisablePeerAccess_NotEnabled_ReturnsNotEnabled) {
     EXPECT_EQ(mgr.disablePeerAccess(0, 1), Status::PEER_ACCESS_NOT_ENABLED);
 }
 
+TEST_F(P2PTransferTest, DisablePeerAccess_AfterEnableFails_StillNotEnabled) {
+    // On CPU path enablePeerAccess returns NOT_SUPPORTED (no hardware).
+    // A subsequent disablePeerAccess must report NOT_ENABLED (pair was never
+    // stored), not crash, and not corrupt stats.
+#if !defined(THEMIS_ENABLE_CUDA) && !defined(THEMIS_ENABLE_HIP)
+    auto en = mgr.enablePeerAccess(0, 1, twoGPUs());
+    EXPECT_EQ(en, Status::PEER_ACCESS_NOT_SUPPORTED);
+    EXPECT_EQ(mgr.disablePeerAccess(0, 1), Status::PEER_ACCESS_NOT_ENABLED);
+    EXPECT_EQ(mgr.getStats().peer_access_enabled_count, 0u);
+    EXPECT_EQ(mgr.getStats().peer_access_disabled_count, 0u);
+#endif
+}
+
 TEST_F(P2PTransferTest, IsPeerAccessEnabled_InitiallyFalse) {
     EXPECT_FALSE(mgr.isPeerAccessEnabled(0, 1));
     EXPECT_FALSE(mgr.isPeerAccessEnabled(1, 0));
