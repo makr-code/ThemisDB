@@ -20,9 +20,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
 - [x] Plugin health monitoring and automatic restart (Issue: #2373)
 - [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
+- [x] Hot-reload support for plugins without database restart (Issue: #1554, PR: #2396)
 
 ## In Progress 🚧
-- [P] Hot-reload support for plugins without database restart (Target: Q2 2026) (Issue: #1554, PR: #2396)
 - [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
 
 ## Planned Features 📋
@@ -54,7 +54,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Cross-platform export/import macros and version compatibility checking
 
 ### Phase 2: Dynamic Loading & Dependency Management (Status: In Progress 🚧)
-- [P] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1554, PR: #2396)
+- [x] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1554, PR: #2396)
 - [ ] Plugin dependency resolution and ordered loading (Target: Q2 2026)
 
 ### Phase 3: Marketplace & Sandboxing (Status: Planned 📋)
