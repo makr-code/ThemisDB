@@ -1999,6 +1999,9 @@ namespace {
     GraphQueryIncrementalPost,
     GraphQueryIncrementalDelete,
     GraphChangesPost,
+    GraphCostModelCalibratePost,
+    GraphCostModelGet,
+    GraphCostModelImportPost,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -2351,6 +2354,9 @@ namespace {
     if (target == "/graph/query/incremental" && method == http::verb::post) return Route::GraphQueryIncrementalPost;
     if (target.rfind("/graph/query/incremental/", 0) == 0 && method == http::verb::delete_) return Route::GraphQueryIncrementalDelete;
     if (target == "/graph/changes" && method == http::verb::post) return Route::GraphChangesPost;
+    if (path_only == "/api/v1/graph/cost-model/calibrate" && method == http::verb::post) return Route::GraphCostModelCalibratePost;
+    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::get) return Route::GraphCostModelGet;
+    if (path_only == "/api/v1/graph/cost-model" && method == http::verb::post) return Route::GraphCostModelImportPost;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -3229,6 +3235,27 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::GraphChangesPost:
             if (graph_api_) {
                 response = graph_api_->handleGraphChanges(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphCostModelCalibratePost:
+            if (graph_api_) {
+                response = graph_api_->handleCostModelCalibrate(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphCostModelGet:
+            if (graph_api_) {
+                response = graph_api_->handleCostModelExport(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphCostModelImportPost:
+            if (graph_api_) {
+                response = graph_api_->handleCostModelImport(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
             }
