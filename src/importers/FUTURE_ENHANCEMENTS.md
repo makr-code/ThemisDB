@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the Importers module beyond what is tracked in `ROADMAP.md`. It focuses on `postgres_importer.cpp` and the surrounding import pipeline infrastructure. Features here describe the engineering work required to add additional source connectors (MySQL, MongoDB, SQLite, flat files, S3), a plugin API for third-party importers, and production-hardening of the existing PostgreSQL importer including distributed parallel import and conflict resolution strategies.
+This document covers planned enhancements to the Importers module beyond what is tracked in `ROADMAP.md`. It focuses on `postgres_importer.cpp` and the surrounding import pipeline infrastructure. Features here describe the engineering work required to add additional source connectors (MySQL, MongoDB, SQLite, flat files, S3, Kafka), a plugin API for third-party importers, and production-hardening of the existing PostgreSQL importer including distributed parallel import and conflict resolution strategies.
 
 ## Design Constraints
 
@@ -114,6 +114,30 @@ Add a stable plugin API (`IImporter` + `ImporterPlugin` factory) that allows thi
 **Performance Targets:**
 - Plugin load time (cold `dlopen`) ≤ 50 ms; negligible impact on import throughput once loaded.
 - Plugin API version check on load adds ≤ 1 ms startup overhead.
+
+---
+
+### Apache Kafka Consumer Importer
+**Priority:** High
+**Target Version:** v1.7.0
+**Status:** ✅ Implemented (`src/importers/kafka_importer.cpp`, `include/importers/kafka_importer.h`)
+
+Consumes messages from Apache Kafka topics and imports them as ThemisDB entities.
+Enables real-time data intake from event-driven systems without polling REST APIs.
+
+**Implementation Notes:**
+- `kafka_importer.cpp` implements `IImporter`; uses the librdkafka C API for consumer group management, gated on the `THEMIS_ENABLE_KAFKA` compile-time flag.  When the flag is absent the importer compiles but returns an error at runtime, so builds without Kafka support are unaffected.
+- Consumer group ID is configurable via JSON `"consumer_group"` key; offset commit occurs on `rd_kafka_consumer_close()` after all messages have been processed, preserving at-least-once delivery semantics.
+- `KafkaImporter::parseKafkaUrl()` accepts `kafka://broker:9092/topic` URLs or bare topic names (broker list provided via `initialize()` config JSON).
+- Supports JSON, Avro (Confluent wire format: magic byte + 4-byte schema ID stripped), and plaintext message formats.
+- Security: SASL/SSL options are supported; credentials (`sasl_password`) are never written to log messages, error strings, or observability output.
+- Plugin descriptor: `plugins/importers/kafka/plugin.json`.
+- Unit tests: `tests/test_kafka_importer.cpp` (37 test cases, no live broker required; uses mock injection via `setMessageFetchForTesting()`).
+
+**Performance Targets:**
+- Consume throughput ≥ 100 000 small messages/sec from a local Kafka broker (single partition, JSON format, no TLS).
+- Per-message JSON parse overhead ≤ 5 µs for messages up to 4 KB.
+- Benchmarks to be added to `benchmarks/importers_bench.cpp` once the benchmarking harness covers streaming connectors.
 
 ---
 
