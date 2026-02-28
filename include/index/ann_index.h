@@ -234,6 +234,18 @@ public:
     /// Reload the offset metadata from a previously saved sidecar file.
     /// The caller is responsible for ensuring the graph file exists at index_path_.
     bool load(const std::string& path) override {
+        // Peek the dimension stored in the metadata sidecar so we create the
+        // DiskANNIndex with the correct dimension even when build() was never called.
+        const std::string meta_path = path + ".meta";
+        if (dim_ == 0) {
+            std::ifstream peek(meta_path, std::ios::binary);
+            if (peek) {
+                size_t stored_dim = 0;
+                peek.read(reinterpret_cast<char*>(&stored_dim), sizeof(stored_dim));
+                if (peek && stored_dim > 0)
+                    dim_ = stored_dim;
+            }
+        }
         if (!impl_) {
             impl_ = std::make_unique<performance::phase3::DiskANNIndex>(
                 dim_ > 0 ? dim_ : 1, index_path_, cache_mb_);

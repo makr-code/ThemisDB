@@ -322,12 +322,13 @@ TEST_F(DiskAnnAdapterTest, Save_And_Load_Metadata_Roundtrip) {
     DiskAnnAdapter adapter(graph_path);
     ASSERT_TRUE(adapter.build(flat_db_.data(), ids_.data(), N, DIM));
 
-    std::string meta_path = (tmp_dir_ / "diskann_save.meta").string();
-    ASSERT_TRUE(adapter.save(meta_path));
+    // save(path) creates path + ".meta" on disk
+    std::string save_path = (tmp_dir_ / "diskann_save").string();
+    ASSERT_TRUE(adapter.save(save_path));
 
     // A new adapter loading the saved metadata should report same size
     DiskAnnAdapter loaded(graph_path, 64);
-    loaded.load(meta_path);
+    ASSERT_TRUE(loaded.load(save_path));
     EXPECT_EQ(loaded.size(), N);
 }
 #endif // THEMIS_ENABLE_DISKANN

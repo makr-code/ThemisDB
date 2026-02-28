@@ -242,6 +242,9 @@ bool DiskANNIndex::save_metadata(const std::string& meta_path) const {
     std::ofstream ofs(meta_path, std::ios::binary | std::ios::trunc);
     if (!ofs) return false;
 
+    // Write dimension (needed to correctly reconstruct the index on load)
+    ofs.write(reinterpret_cast<const char*>(&dimension_), sizeof(dimension_));
+
     // Write edge count
     size_t edges = total_edges_.load(std::memory_order_relaxed);
     ofs.write(reinterpret_cast<const char*>(&edges), sizeof(edges));
@@ -261,6 +264,14 @@ bool DiskANNIndex::save_metadata(const std::string& meta_path) const {
 bool DiskANNIndex::load_metadata(const std::string& meta_path) {
     std::ifstream ifs(meta_path, std::ios::binary);
     if (!ifs) return false;
+
+    // Read dimension
+    size_t dim = 0;
+    ifs.read(reinterpret_cast<char*>(&dim), sizeof(dim));
+    if (dim != dimension_) {
+        // Stored dimension must match the instance dimension
+        return false;
+    }
 
     size_t edges = 0;
     ifs.read(reinterpret_cast<char*>(&edges), sizeof(edges));
