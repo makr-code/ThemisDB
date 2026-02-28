@@ -31,6 +31,8 @@
 #include "utils/hkdf_helper.h"
 #include "utils/hkdf_cache.h"
 
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 #include <algorithm>
 #include <chrono>
 #include <random>
@@ -435,18 +437,14 @@ std::string ContentManager::normalizeId(const std::string& id, const std::string
 }
 
 std::string ContentManager::computeSHA256(const std::string& blob) {
-    // Placeholder: non-cryptographic hash to keep dependencies minimal for now
-    std::hash<std::string> h;
-    size_t a = h(blob);
-    std::string raw;
-    raw.reserve(16);
-    for (int i = 0; i < 8; ++i) raw.push_back(static_cast<char>((a >> (i*8)) & 0xFF));
-    // Mix with size and a constant
-    size_t b = h(std::to_string(blob.size()) + "#themis");
-    for (int i = 0; i < 8; ++i) raw.push_back(static_cast<char>((b >> (i*8)) & 0xFF));
-    // Expand to 32 bytes by repeating pattern
-    std::string exp = raw + raw;
-    return toHex(exp);
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(blob.data()), blob.size(), digest);
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+    }
+    return oss.str();
 }
 
 std::optional<std::string> ContentManager::checkDuplicateByHash(const std::string& hash) {
@@ -894,6 +892,16 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         std::string mjson = meta.toJson().dump();
         if (!storage_->put(mkey, std::vector<uint8_t>(mjson.begin(), mjson.end()))) {
             return Status::Error("failed to store content meta");
+        }
+        // Persist SHA-256 hash → content_id mapping for exact-duplicate detection.
+        if (!meta.hash_sha256.empty()) {
+            std::string hkey = std::string("content_hash:") + meta.hash_sha256;
+            json hj = json{{"ids", json::array({meta.id})}};
+            std::string hstr = hj.dump();
+            // Only store if no entry exists yet (first writer wins).
+            if (!storage_->get(hkey)) {
+                storage_->put(hkey, std::vector<uint8_t>(hstr.begin(), hstr.end()));
+            }
         }
         // Chunk-Liste speichern
         std::string lkey = std::string("content_chunks:") + meta.id;
@@ -1963,6 +1971,25 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     meta.modified_at = meta.created_at;
     meta.hash_sha256 = computeSHA256(blob);
 
+    // ---- Exact-duplicate detection via SHA-256 hash ----
+    // Check before any processing; no dedup_checker or policy gate required.
+    {
+        auto existing_id = checkDuplicateByHash(meta.hash_sha256);
+        if (existing_id) {
+            THEMIS_INFO("Dedup (SHA-256): exact duplicate of '{}' detected for '{}'",
+                        *existing_id, filename);
+            result.success = true;
+            result.primary_content_id = *existing_id;
+            result.metadata = json{
+                {"content_id",   *existing_id},
+                {"duplicate_of", *existing_id},
+                {"sha256",       meta.hash_sha256},
+                {"mime_type",    detected_mime}
+            };
+            return result;
+        }
+    }
+
     // Determine the effective processing stage configuration for this content type.
     const ContentTypePipelineConfig stage_cfg =
         processor_chain_config_.getEffectiveConfig(detected_mime, category);
@@ -2254,15 +2281,23 @@ ContentManager::IngestResult ContentManager::ingestStream(
     }();
     const ContentTypePipelineConfig stream_stage_cfg =
         processor_chain_config_.getEffectiveConfig(detected_mime, streaming_category);
-    // Incremental hash: XOR-combine per-chunk hashes (consistent with the
-    // placeholder computeSHA256 approach; upgraded together when real SHA-256
-    // is introduced for the non-streaming path).
-    size_t running_hash = std::hash<std::string>{}(filename);
-    auto updateHash = [&](const std::string& data) {
-        size_t h = std::hash<std::string>{}(data);
-        running_hash ^= h + 0x9e3779b9u + (running_hash << 6) + (running_hash >> 2);
-    };
-    updateHash(header_buf);
+    // Incremental SHA-256 hash over all streamed bytes.
+    EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+    if (sha256_ctx) {
+        if (EVP_DigestInit_ex(sha256_ctx, EVP_sha256(), nullptr) != 1) {
+            THEMIS_WARN("ingestStream: EVP_DigestInit_ex failed; SHA-256 dedup disabled for '{}'", filename);
+            EVP_MD_CTX_free(sha256_ctx);
+            sha256_ctx = nullptr;
+        } else {
+            EVP_DigestUpdate(sha256_ctx, header_buf.data(), header_buf.size());
+        }
+    } else {
+        THEMIS_WARN("ingestStream: EVP_MD_CTX_new failed; SHA-256 dedup disabled for '{}'", filename);
+    }
+    // updateHash is unused for SHA-256 (raw bytes are hashed directly in the
+    // stream read loop below); the lambda exists as a no-op to avoid changing
+    // the storeTextChunk call sites.
+    auto updateHash = [](const std::string&) {};
 
     // --- Load indexing config (mirrors importContent) ---
     bool auto_fulltext_index = false;
@@ -2378,6 +2413,13 @@ ContentManager::IngestResult ContentManager::ingestStream(
         size_t n = static_cast<size_t>(stream.gcount());
         if (n == 0) break;
         total_bytes += static_cast<int64_t>(n);
+        if (sha256_ctx) {
+            if (EVP_DigestUpdate(sha256_ctx, read_buf.data(), n) != 1) {
+                THEMIS_WARN("ingestStream: EVP_DigestUpdate failed; disabling SHA-256 for '{}'", filename);
+                EVP_MD_CTX_free(sha256_ctx);
+                sha256_ctx = nullptr;
+            }
+        }
         carry.append(read_buf.data(), n);
         flushCarry(false);
     }
@@ -2393,8 +2435,20 @@ ContentManager::IngestResult ContentManager::ingestStream(
     meta.size_bytes       = total_bytes;
     meta.created_at       = now;
     meta.modified_at      = now;
-    meta.hash_sha256      = toHex(std::string(reinterpret_cast<const char*>(&running_hash), sizeof(running_hash)) +
-                                 std::string(reinterpret_cast<const char*>(&total_bytes), sizeof(total_bytes)));
+    meta.hash_sha256      = [&]() -> std::string {
+        if (!sha256_ctx) return {};
+        unsigned char digest[SHA256_DIGEST_LENGTH];
+        unsigned int  digest_len = 0;
+        int ok = EVP_DigestFinal_ex(sha256_ctx, digest, &digest_len);
+        EVP_MD_CTX_free(sha256_ctx);
+        sha256_ctx = nullptr;
+        if (!ok) return {};
+        std::ostringstream oss;
+        oss << std::hex << std::setfill('0');
+        for (unsigned int i = 0; i < digest_len; ++i)
+            oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+        return oss.str();
+    }();
     meta.text_extracted   = true;
     meta.chunk_count      = static_cast<int>(chunk_ids.size());
     meta.chunked          = meta.chunk_count > 0;
@@ -2414,6 +2468,16 @@ ContentManager::IngestResult ContentManager::ingestStream(
     json lj = json{{"ids", chunk_ids}};
     std::string lstr = lj.dump();
     storage_->put(lkey, std::vector<uint8_t>(lstr.begin(), lstr.end()));
+
+    // Persist SHA-256 hash → content_id mapping for exact-duplicate detection.
+    if (!meta.hash_sha256.empty()) {
+        std::string hkey = std::string("content_hash:") + meta.hash_sha256;
+        json hj = json{{"ids", json::array({meta.id})}};
+        std::string hstr = hj.dump();
+        if (!storage_->get(hkey)) {
+            storage_->put(hkey, std::vector<uint8_t>(hstr.begin(), hstr.end()));
+        }
+    }
 
     THEMIS_INFO("Streaming ingestion completed: {} bytes, {} text chunks, file '{}'",
                 total_bytes, chunk_ids.size(), filename);
