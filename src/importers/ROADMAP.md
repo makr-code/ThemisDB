@@ -15,7 +15,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ## In Progress 🚧
 - [~] MySQL / MariaDB importer (Target: Q2 2026) (Issue: #1835)
-- [~] MongoDB importer for document collections (Target: Q2 2026) (Issue: #1836)
+- [x] MongoDB importer for document collections (Issue: #1836)
 - [I] Import progress reporting with streaming callbacks (Target: Q3 2026) (Issue: #1864)
 
 ## Planned Features 📋
@@ -23,7 +23,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 ### Short-term (Next 3-6 months)
 - [P] SQLite importer (Issue: #1838)
 - [P] CSV / TSV / Parquet flat-file importer (Issue: #1839)
-- [P] S3-compatible object-storage source (Issue: #1840)
+- [x] S3-compatible object-storage source (Issue: #1840)
 - [P] Schema auto-detection and validation on import (Issue: #1856)
 - [x] Dry-run mode to preview import without writing data (Issue: #2406)
 
@@ -53,10 +53,10 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ### Phase 3: Multi-Source & Plugin API (Status: Planned 📋)
 - [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
-- [~] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
+- [x] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
 - [P] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: #1853)
 - [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
-- [P] S3-compatible object-storage source connector (Issue: #1855)
+- [x] S3-compatible object-storage source connector (Issue: #1855)
 - [P] Schema auto-detection and validation on import
 
 ## Production Readiness Checklist

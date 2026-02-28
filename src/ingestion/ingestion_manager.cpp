@@ -485,6 +485,18 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         return sources_.erase(source_id) > 0;
     }
+
+    bool reconfigureSource(const std::string& source_id,
+                           const SourceConfig& new_config) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = sources_.find(source_id);
+        if (it == sources_.end()) return false;
+        // Preserve the canonical source_id from the registry key
+        SourceConfig updated = new_config;
+        updated.source_id = source_id;
+        it->second = std::move(updated);
+        return true;
+    }
     
     IngestionStats ingestSource(const std::string& source_id,
                                ProgressCallback progress_callback) {
@@ -1170,6 +1182,11 @@ bool IngestionManager::unregisterSource(const std::string& source_id) {
     return impl_->unregisterSource(source_id);
 }
 
+bool IngestionManager::reconfigureSource(const std::string& source_id,
+                                         const SourceConfig& new_config) {
+    return impl_->reconfigureSource(source_id, new_config);
+}
+
 IngestionStats IngestionManager::ingestSource(const std::string& source_id,
                                              ProgressCallback progress_callback) {
     return impl_->ingestSource(source_id, progress_callback);
@@ -1704,6 +1721,11 @@ bool IngestionAdminApi::pauseSource(const std::string& source_id) {
 
 bool IngestionAdminApi::resumeSource(const std::string& source_id) {
     return mgr_.resumeSource(source_id);
+}
+
+bool IngestionAdminApi::reconfigureSource(const std::string& source_id,
+                                          const SourceConfig& new_config) {
+    return mgr_.reconfigureSource(source_id, new_config);
 }
 
 std::vector<QuarantineEntry> IngestionAdminApi::listQuarantine() const {

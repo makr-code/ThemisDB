@@ -106,10 +106,69 @@ std::vector<std::string> MySQLImporter::getSupportedTypes() const {
     return {"mysql", "mariadb", "mysqldump"};
 }
 
-bool MySQLImporter::initialize(const std::string& /*config*/) {
+bool MySQLImporter::initialize(const std::string& config) {
     cancelled_ = false;
     schemas_.clear();
-    THEMIS_INFO("MySQL/MariaDB Importer initialized");
+    jdbc_config_ = JdbcConfig{};
+    config_type_overrides_.clear();
+
+    if (config.empty() || config == "{}") {
+        THEMIS_INFO("MySQL/MariaDB Importer initialized with default config");
+        return true;
+    }
+
+    try {
+        auto cfg = json::parse(config);
+
+        // ---- JDBC URL (takes precedence over individual fields) ----
+        if (cfg.contains("url") && cfg["url"].is_string()) {
+            std::string url = cfg["url"].get<std::string>();
+            if (!parseJdbcUrl(url, jdbc_config_)) {
+                THEMIS_WARN("MySQL/MariaDB Importer: invalid JDBC URL '{}'; ignoring", url);
+            }
+        }
+
+        // ---- Individual connection fields (override URL if present) ----
+        if (cfg.contains("host") && cfg["host"].is_string())
+            jdbc_config_.host = cfg["host"].get<std::string>();
+        if (cfg.contains("port") && cfg["port"].is_number_integer())
+            jdbc_config_.port = cfg["port"].get<int>();
+        if (cfg.contains("database") && cfg["database"].is_string())
+            jdbc_config_.database = cfg["database"].get<std::string>();
+        if (cfg.contains("user") && cfg["user"].is_string())
+            jdbc_config_.user = cfg["user"].get<std::string>();
+        // NOTE: password is intentionally NOT stored; it must come from environment
+        //       variables or a secrets manager to avoid credential exposure in logs.
+        if (cfg.contains("ssl") && cfg["ssl"].is_boolean())
+            jdbc_config_.ssl = cfg["ssl"].get<bool>();
+
+        // ---- MySQL JDBC-specific: treat TINYINT(1) as boolean ----
+        if (cfg.contains("tinyint1_as_boolean") && cfg["tinyint1_as_boolean"].is_boolean())
+            jdbc_config_.tinyint1_as_boolean = cfg["tinyint1_as_boolean"].get<bool>();
+
+        // ---- Config-level type overrides (applied before ImportOptions overrides) ----
+        if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
+            for (auto& [k, v] : cfg["type_overrides"].items()) {
+                if (v.is_string())
+                    config_type_overrides_[k] = v.get<std::string>();
+            }
+        }
+
+    } catch (const json::exception& e) {
+        THEMIS_WARN("MySQL/MariaDB Importer: failed to parse config JSON: {}", e.what());
+        // Non-fatal: proceed with defaults
+    }
+
+    // Log sanitized connection identity (never log passwords)
+    if (!jdbc_config_.host.empty()) {
+        THEMIS_INFO("MySQL/MariaDB Importer configured for {}:{}/{}  user={}  ssl={}  tinyint1_as_boolean={}",
+                    jdbc_config_.host, jdbc_config_.port, jdbc_config_.database,
+                    jdbc_config_.user.empty() ? "<unset>" : jdbc_config_.user,
+                    jdbc_config_.ssl,
+                    jdbc_config_.tinyint1_as_boolean);
+    }
+    THEMIS_INFO("MySQL/MariaDB Importer initialized ({} config type_overrides)",
+                config_type_overrides_.size());
     return true;
 }
 
@@ -784,9 +843,22 @@ bool MySQLImporter::parseInsert(const std::string& sql, const ImportOptions& opt
 
 std::string MySQLImporter::mapMySQLTypeToThemis(const std::string& mysql_type,
                                                  const ImportOptions& options) const {
-    // User-configurable overrides take priority
+    // 1. Per-call options overrides (highest priority)
     auto it = options.type_overrides.find(mysql_type);
     if (it != options.type_overrides.end()) return it->second;
+
+    // 2. Config-level overrides (from initialize())
+    auto ci = config_type_overrides_.find(mysql_type);
+    if (ci != config_type_overrides_.end()) return ci->second;
+
+    // 3. JDBC tinyInt1isBit: TINYINT(1) -> boolean when enabled
+    if (jdbc_config_.tinyint1_as_boolean) {
+        // Match both "tinyint(1)" and "TINYINT(1)" (case-insensitive)
+        std::string lower_type;
+        for (char c : mysql_type)
+            lower_type += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        if (lower_type == "tinyint(1)") return "boolean";
+    }
 
     // Normalise: strip size specifier, e.g. "varchar(255)" -> "varchar"
     std::string base_type = mysql_type;
@@ -991,6 +1063,97 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
     }
 
     return result;
+}
+
+// ============================================================================
+// JDBC URL Parser
+// ============================================================================
+
+/**
+ * @brief Parse a JDBC-style MySQL/MariaDB connection URL.
+ *
+ * Accepted formats:
+ *   jdbc:mysql://host:port/database?param1=val1&param2=val2
+ *   jdbc:mariadb://host:port/database?param1=val1&param2=val2
+ *   jdbc:mysql://host/database
+ *   jdbc:mysql://host:3306/
+ *
+ * Recognised query parameters:
+ *   tinyInt1isBit=true/false  -> jdbc_config_.tinyint1_as_boolean
+ *   useSSL=true/false         -> jdbc_config_.ssl
+ */
+bool MySQLImporter::parseJdbcUrl(const std::string& url, JdbcConfig& out) {
+    // Validate prefix
+    const std::string mysql_prefix   = "jdbc:mysql://";
+    const std::string mariadb_prefix = "jdbc:mariadb://";
+    size_t authority_start = 0;
+    if (url.size() > mysql_prefix.size() &&
+        url.substr(0, mysql_prefix.size()) == mysql_prefix) {
+        authority_start = mysql_prefix.size();
+    } else if (url.size() > mariadb_prefix.size() &&
+               url.substr(0, mariadb_prefix.size()) == mariadb_prefix) {
+        authority_start = mariadb_prefix.size();
+    } else {
+        return false;
+    }
+
+    // Split authority+path from query string
+    std::string authority_path;
+    std::string query_string;
+    size_t q_pos = url.find('?', authority_start);
+    if (q_pos != std::string::npos) {
+        authority_path = url.substr(authority_start, q_pos - authority_start);
+        query_string   = url.substr(q_pos + 1);
+    } else {
+        authority_path = url.substr(authority_start);
+    }
+
+    // Split host[:port] from /database
+    size_t slash_pos = authority_path.find('/');
+    std::string host_port = slash_pos != std::string::npos
+                            ? authority_path.substr(0, slash_pos)
+                            : authority_path;
+    std::string db_path   = slash_pos != std::string::npos
+                            ? authority_path.substr(slash_pos + 1)
+                            : "";
+
+    // Parse host and optional port
+    size_t colon_pos = host_port.find(':');
+    if (colon_pos != std::string::npos) {
+        out.host = host_port.substr(0, colon_pos);
+        std::string port_str = host_port.substr(colon_pos + 1);
+        if (!port_str.empty()) {
+            try { out.port = std::stoi(port_str); } catch (...) {
+                THEMIS_WARN("MySQL/MariaDB Importer: invalid port '{}' in JDBC URL; using default {}",
+                            port_str, out.port);
+            }
+        }
+    } else {
+        out.host = host_port;
+    }
+    out.database = db_path;
+
+    // Parse query parameters
+    std::istringstream qs(query_string);
+    std::string param;
+    while (std::getline(qs, param, '&')) {
+        size_t eq = param.find('=');
+        if (eq == std::string::npos) continue;
+        std::string key   = param.substr(0, eq);
+        std::string value = param.substr(eq + 1);
+        std::string lower_key;
+        for (char c : key) lower_key += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        std::string lower_val;
+        for (char c : value) lower_val += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+
+        if (lower_key == "tinyint1isbit") {
+            out.tinyint1_as_boolean = (lower_val == "true" || lower_val == "1");
+        } else if (lower_key == "usessl") {
+            out.ssl = (lower_val == "true" || lower_val == "1");
+        }
+    }
+
+    return !out.host.empty();
 }
 
 std::string MySQLImporter::unquoteIdentifier(const std::string& s) {

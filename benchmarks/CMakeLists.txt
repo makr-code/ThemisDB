@@ -865,6 +865,96 @@ else()
 endif()
 
 # ============================================================================
+# Graph Traversal Benchmarks (parallel multi-source BFS/DFS, graph analytics)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_traversal.cpp")
+    message(STATUS "Adding Graph Traversal benchmarks")
+
+    add_executable(bench_graph_traversal
+        bench_graph_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(bench_graph_traversal PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_graph_traversal PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_graph_traversal PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_graph_traversal
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Graph Traversal: BFS/DFS, parallel multi-source traversal, fan-out threshold, graph analytics")
+endif()
+
+# Graph Query Optimizer Benchmarks (cost-based algorithm selection, plan caching)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_query_optimizer.cpp")
+    message(STATUS "Adding Graph Query Optimizer benchmarks")
+
+    add_executable(bench_graph_query_optimizer
+        bench_graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(bench_graph_query_optimizer PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_graph_query_optimizer PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_graph_query_optimizer PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_graph_query_optimizer
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*, plan caching, parallel execution, adaptive cost model")
+endif()
+
+# ============================================================================
 # Real Performance Benchmarks (Issue: Implement Real Google Benchmark Tests)
 # ============================================================================
 
