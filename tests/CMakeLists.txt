@@ -93,6 +93,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_gpu_lora_layers\\.cpp$"
         ".*test_gradient_checkpointing\\.cpp$"
         ".*test_inference_engine_enhanced\\.cpp$"
+        ".*test_speculative_decoder\\.cpp$"
         ".*test_kernel_fusion\\.cpp$"
         ".*test_kernel_fusion_cpu_fallback\\.cpp$"
         ".*test_kernel_fusion_cuda\\.cpp$"

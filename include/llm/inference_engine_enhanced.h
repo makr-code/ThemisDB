@@ -30,6 +30,7 @@
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/shared_worker_pool.h"
+#include "llm/speculative_decoder.h"
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -95,6 +96,17 @@ public:
         
         // Worker threads
         size_t num_worker_threads = 4;
+
+        // Speculative decoding (Phase 3 — latency reduction)
+        // Requires a draft model registered under speculative_draft_model_id.
+        // Automatically disabled when grammar constraints are active on a request.
+        bool enable_speculative_decoding = false;
+        /// Number of draft tokens generated per speculative step (K).
+        size_t speculative_draft_tokens = 4;
+        /// Model ID of the draft model registered via registerModel().
+        /// The draft model is typically a small, quantised variant of the
+        /// target model (e.g., INT4-quantised 0.5 B parameters).
+        std::string speculative_draft_model_id;
     };
     
     /**
@@ -130,6 +142,13 @@ public:
         double p95_latency_ms = 0.0;
         double p99_latency_ms = 0.0;
         double tokens_per_second = 0.0;
+
+        // Speculative decoding metrics
+        size_t speculative_draft_tokens_total = 0;    ///< Total draft tokens proposed.
+        size_t speculative_accepted_tokens = 0;       ///< Draft tokens accepted.
+        size_t speculative_rejected_tokens = 0;       ///< Draft tokens rejected.
+        double speculative_avg_acceptance_rate = 0.0; ///< Running avg acceptance rate (0-1).
+        size_t speculative_steps = 0;                 ///< Total verify() calls.
     };
     
     /**
@@ -272,6 +291,10 @@ private:
     std::shared_ptr<PagedKVCache> kv_cache_;
     std::shared_ptr<PagedBlockManager> block_manager_;
     std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;
+
+    // Speculative decoding — one decoder per engine instance.
+    // nullptr when enable_speculative_decoding == false.
+    std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
     
     // Model registry for load balancing
     std::unordered_map<std::string, ModelInfo> models_;
@@ -338,6 +361,17 @@ private:
     void recordBatchCompletion(size_t batch_size);
     void recordRequestCompletion(double latency_ms, const std::string& model_id);
     void recordRequestTimeout();
+    void recordSpeculativeStep(const SpeculativeDecoder::VerifyResult& result);
+
+    // Speculative decoding helpers
+    // Returns true and fills `response` when speculative generation succeeds.
+    // Returns false to fall back to standard generation.
+    bool trySpeculativeGeneration(
+        const InferenceRequest&    request,
+        std::shared_ptr<ILLMPlugin> target_plugin,
+        std::shared_ptr<ILLMPlugin> draft_plugin,
+        InferenceResponse&         response
+    );
     
     // Helper methods
     std::string generateRequestId();
