@@ -316,6 +316,20 @@ TEST_F(DiskAnnAdapterTest, Add_Single_Vector) {
     std::vector<float> new_vec = make_random_vectors(1, DIM, 888)[0];
     EXPECT_TRUE(adapter.add(static_cast<int64_t>(N + 1), new_vec.data(), DIM));
 }
+
+TEST_F(DiskAnnAdapterTest, Save_And_Load_Metadata_Roundtrip) {
+    std::string graph_path = (tmp_dir_ / "diskann_save.graph").string();
+    DiskAnnAdapter adapter(graph_path);
+    ASSERT_TRUE(adapter.build(flat_db_.data(), ids_.data(), N, DIM));
+
+    std::string meta_path = (tmp_dir_ / "diskann_save.meta").string();
+    ASSERT_TRUE(adapter.save(meta_path));
+
+    // A new adapter loading the saved metadata should report same size
+    DiskAnnAdapter loaded(graph_path, 64);
+    loaded.load(meta_path);
+    EXPECT_EQ(loaded.size(), N);
+}
 #endif // THEMIS_ENABLE_DISKANN
 
 // ---------------------------------------------------------------------------

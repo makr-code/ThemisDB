@@ -28,7 +28,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
+- [x] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
 - [I] Index statistics export to metadata module (Issue: #1866)
 - [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
@@ -63,7 +63,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026)
 
 ### Phase 3: Learned Structures & GPU Build (Status: Planned 📋)
-- [P] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
+- [x] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
 - [P] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
 - [~] Distributed vector index across shards
