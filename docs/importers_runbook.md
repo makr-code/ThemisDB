@@ -26,6 +26,10 @@ procedures, and tuning guidance.
 | Exclude a table | Add to `ImportOptions.exclude_tables` |
 | Override a type mapping | Add to `ImportOptions.type_overrides` |
 | Read structured errors | Inspect `ImportStats.structured_errors` |
+| Skip duplicate rows | `ImportOptions.conflict_strategy = ConflictStrategy::SKIP` |
+| Overwrite duplicates | `ImportOptions.conflict_strategy = ConflictStrategy::OVERWRITE` (default) |
+| Merge duplicate fields | `ImportOptions.conflict_strategy = ConflictStrategy::MERGE` |
+| Abort on duplicate | `ImportOptions.conflict_strategy = ConflictStrategy::ERROR` |
 
 ---
 
@@ -330,6 +334,77 @@ audit_logger.logSecurityEvent(
     stats.toJson()
 );
 ```
+
+---
+
+## Scenario 10: Handling Duplicate / Conflicting Rows
+
+### Symptoms
+
+- `ImportStats.conflicts_skipped`, `conflicts_overwritten`, or `conflicts_merged` > 0.
+- Prometheus counter `importers_conflicts_total` is non-zero.
+- With `ConflictStrategy::ERROR`: `ImportStats.structured_errors` contains entries with
+  `ImportErrorCode::CONFLICT_ERROR` (600) and import may have stopped early.
+
+### Diagnosis
+
+Conflicts occur when two or more rows in the dump share the same value(s) in the columns
+listed in `ImportOptions.conflict_key_columns`.  If `conflict_key_columns` is empty, no
+conflict detection is performed.
+
+```cpp
+# Check conflict counts after import
+stats.conflicts_skipped     // rows dropped by SKIP strategy
+stats.conflicts_overwritten // rows replaced by OVERWRITE strategy
+stats.conflicts_merged      // rows merged by MERGE strategy
+
+// Check structured errors for ERROR strategy
+for (const auto& err : stats.structured_errors) {
+    if (err.code == ImportErrorCode::CONFLICT_ERROR) {
+        // err.message contains the conflicting key and table name
+        // err.location contains the row number or line number
+    }
+}
+```
+
+### Resolution
+
+Choose the strategy that matches the desired semantics and set it in `ImportOptions`:
+
+```cpp
+ImportOptions opts;
+opts.conflict_key_columns = {"id"};          // column(s) that identify a duplicate
+
+// Strategy A: keep the first occurrence, discard later duplicates
+opts.conflict_strategy = ConflictStrategy::SKIP;
+
+// Strategy B: replace the earlier row with the later one (default)
+opts.conflict_strategy = ConflictStrategy::OVERWRITE;
+
+// Strategy C: merge fields from both rows; incoming wins unless field is protected
+opts.conflict_strategy    = ConflictStrategy::MERGE;
+opts.protected_fields     = {"created_at", "original_owner"};
+opts.merge_depth          = 1;   // 1 = top-level only; -1 = deep recursive merge
+
+// Strategy D: abort on first conflict (use continue_on_error to skip instead of abort)
+opts.conflict_strategy    = ConflictStrategy::ERROR;
+opts.continue_on_error    = false;  // hard abort on first conflict
+```
+
+### Tuning notes
+
+- **Composite keys:** list multiple columns in `conflict_key_columns`; the key is formed
+  by concatenating their string values with ASCII unit-separator (0x1F).
+- **MERGE + protected_fields:** fields listed in `protected_fields` are never overwritten
+  by the MERGE strategy even if the incoming row carries a different value.  Use this to
+  preserve audit fields such as `created_at` or `inserted_by`.
+- **MERGE depth:** `merge_depth = 1` (default) replaces nested objects wholesale;
+  `merge_depth = -1` recurses into every level of nesting.  Use `-1` only when nested
+  objects are additive (e.g., metadata maps); avoid it for arrays, which are always
+  replaced entirely.
+- **Throughput impact:** SKIP and OVERWRITE add a single hash-map lookup per row
+  (< 5 % overhead).  MERGE adds field-by-field iteration; the overhead is proportional
+  to the number of fields per row.
 
 ---
 
