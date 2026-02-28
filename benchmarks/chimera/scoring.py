@@ -24,7 +24,7 @@ References:
 """
 
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -83,6 +83,8 @@ class NormalizedScore:
         raw_std: Sample standard deviation of the raw measurements.
         normalized_score: Score in [0, 100]; higher is always better.
         rank: Rank among all evaluated systems (1 = best).
+        confidence_interval_95: 95 % confidence interval on the raw mean as
+            ``(lower, upper)``, or *None* when the sample size is < 2.
     """
     system_name: str
     metric_name: str
@@ -90,6 +92,7 @@ class NormalizedScore:
     raw_std: float
     normalized_score: float
     rank: int = 0
+    confidence_interval_95: Optional[Tuple[float, float]] = None
 
 
 @dataclass
@@ -159,6 +162,8 @@ class BenchmarkScorer:
         self._raw_data: Dict[str, Dict[str, List[float]]] = {
             m.name: {} for m in metrics
         }
+        from .statistics import StatisticalAnalyzer
+        self._stat_analyzer = StatisticalAnalyzer()
 
     # ------------------------------------------------------------------
     # Public API
@@ -213,10 +218,14 @@ class BenchmarkScorer:
 
             raw_means: Dict[str, float] = {}
             raw_stds: Dict[str, float] = {}
+            confidence_intervals: Dict[str, Optional[Tuple[float, float]]] = {}
             for system, samples in system_data.items():
                 arr = np.array(samples, dtype=float)
                 raw_means[system] = float(np.mean(arr))
                 raw_stds[system] = float(np.std(arr, ddof=1)) if len(arr) > 1 else 0.0
+                confidence_intervals[system] = (
+                    self._stat_analyzer.confidence_interval(samples) if len(samples) >= 2 else None
+                )
 
             normalized = self._apply_normalization(
                 metric_name, metric_cfg, raw_means
@@ -236,6 +245,7 @@ class BenchmarkScorer:
                     raw_std=raw_stds[system],
                     normalized_score=normalized[system],
                     rank=ranks[system],
+                    confidence_interval_95=confidence_intervals[system],
                 )
                 for system in normalized
             }
@@ -299,7 +309,10 @@ class BenchmarkScorer:
 
         Returns:
             Dictionary with keys ``"rankings"``, ``"metrics"``, and
-            ``"normalization_method"``.
+            ``"normalization_method"``.  Each per-metric entry includes a
+            ``"confidence_interval_95"`` key with the 95 % CI as
+            ``[lower, upper]``, or *null* when fewer than two samples were
+            provided.
         """
         ranked = self.rank_systems()
         return {
@@ -324,6 +337,12 @@ class BenchmarkScorer:
                             "raw_std": round(ns.raw_std, 4),
                             "normalized_score": round(ns.normalized_score, 2),
                             "metric_rank": ns.rank,
+                            "confidence_interval_95": (
+                                [round(ns.confidence_interval_95[0], 4),
+                                 round(ns.confidence_interval_95[1], 4)]
+                                if ns.confidence_interval_95 is not None
+                                else None
+                            ),
                         }
                         for metric, ns in cs.metric_scores.items()
                     },

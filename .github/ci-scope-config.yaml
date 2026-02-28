@@ -118,6 +118,17 @@ scopes:
       - 'vcpkg.json'
       - 'vcpkg-configuration.json'
 
+  # ── Chimera benchmark changes ─────────────────────────────────────────────
+  has_chimera_changes:
+    patterns:
+      - 'src/chimera/**'
+      - 'include/chimera/**'
+      - 'adapters/chimera/**'
+      - 'benchmarks/chimera/**'
+      - 'benchmarks/baselines/chimera/**'
+      - 'tests/chimera/**'
+      - '.github/workflows/chimera-benchmark-ci.yml'
+
   # ── Grafana dashboard changes ─────────────────────────────────────────────
   has_grafana_changes:
     patterns:
@@ -140,5 +151,6 @@ workflow_scope_map:
   themis-core-ci:             [has_code_changes]
   pii-redaction-check:        [has_code_changes]
   validate-config-mapping:    [has_config_changes]
+  chimera-benchmark-ci:      [has_chimera_changes]
   chimera-tests:              [has_code_changes]
   importer-tests:             [has_code_changes]

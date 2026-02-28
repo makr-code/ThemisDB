@@ -288,6 +288,16 @@ public:
      */
     std::string describeConstraints() const;
 
+    // ── Security constants ──────────────────────────────────────────────────
+    /// Maximum allowed byte length for a node or edge identifier.
+    static constexpr size_t MAX_ID_LENGTH = 1024;
+    /// Maximum allowed byte length for a property field name.
+    static constexpr size_t MAX_FIELD_NAME_LENGTH = 256;
+    /// Maximum allowed byte length for a property expected value.
+    static constexpr size_t MAX_FIELD_VALUE_LENGTH = 4096;
+    /// Upper bound on max_results accepted by findConstrainedPaths.
+    static constexpr int MAX_RESULTS_LIMIT = 10000;
+
 private:
     std::vector<Constraint> constraints_;
     std::unordered_set<std::string> forbidden_nodes_;
@@ -295,6 +305,25 @@ private:
     std::unordered_set<std::string> forbidden_edges_;
     std::unordered_set<std::string> required_edges_;
     GraphIndexManager* graph_mgr_ = nullptr;
+
+    /**
+     * @brief Validate a node or edge identifier supplied as user input.
+     *
+     * Accepts identifiers that are non-empty, do not contain null bytes, and
+     * do not exceed MAX_ID_LENGTH bytes.  Returns true when the identifier is
+     * safe to use as a constraint value.
+     */
+    static bool isValidIdentifier(std::string_view s) noexcept;
+
+    /**
+     * @brief Validate a property field name supplied as user input.
+     *
+     * In addition to the identifier checks, field names must consist solely of
+     * alphanumeric characters, underscores, hyphens, or dots
+     * (pattern: [A-Za-z0-9_.\-]+) and must not exceed MAX_FIELD_NAME_LENGTH
+     * bytes.  This prevents injection of arbitrary storage keys.
+     */
+    static bool isValidFieldName(std::string_view s) noexcept;
 };
 
 } // namespace graph

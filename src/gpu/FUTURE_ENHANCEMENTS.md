@@ -239,20 +239,20 @@ the [cuVS/RAFT](https://github.com/rapidsai/cuvs) library on NVIDIA GPUs.
   `QueryShape::OpType::ANN_SEARCH`; hit/miss counters visible in
   `GPUQueryAccelerator::Stats::graph_cache_hits` / `graph_cache_misses`.
 - ✅ `Stats::total_ann_searches` counter for observability.
-- ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`)
+- ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`);
+  test binary also included in `themis_tests` bundle via `tests/CMakeLists.txt`.
+- ✅ `THEMIS_ENABLE_CUDA` guard wired around the cuVS/RAFT path in
+  `src/gpu/query_accelerator.cpp`; falls through to CPU brute-force on any
+  failure (cuVS exception, no CUDA hardware, or `cudaMalloc` failure).
+- ✅ `THEMIS_ENABLE_CUVS` cmake option added (`cmake/CMakeLists.txt`); when ON,
+  `find_package(cuvs)` is called and `THEMIS_ENABLE_CUVS` is propagated to the
+  build so the IVF-Flat index build/search calls are compiled in.
 
 **Remaining (hardware required):**
-- Allocate device buffers via `cudaMalloc` and copy database + queries with
-  `cudaMemcpy`.
-- Build an IVF-Flat index using
-  `cuvs::neighbors::ivf_flat::build(handle, idx_params, db_view)`.
-- Execute the search with
-  `cuvs::neighbors::ivf_flat::search(handle, search_params, index, q_view,
-  neighbors_view, distances_view)`.
-- Copy `neighbors` and `distances` device arrays back to host and populate
-  `AnnResult`.
-- Wire `THEMIS_ENABLE_CUDA` guard around the cuVS path; fall back to CPU on
-  `cudaMalloc` failure.
+- Verify IVF-Flat index build and search on an NVIDIA GPU with cuVS installed:
+  - `conda install -c rapidsai cuvs` + `-DTHEMIS_ENABLE_CUVS=ON` + GPU hardware.
+  - Benchmark k-NN throughput (target: ≥ 10× CPU brute-force for 1 M float32
+    vectors of dimension 128, k=10) using CUDA events.
 
 ---
 

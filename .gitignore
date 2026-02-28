@@ -232,6 +232,7 @@ namespace_analysis/
 # Test / coverage / profiling
 .pytest_cache/
 coverage/
+.coverage
 *.gcov
 *.gcda
 *.gcno

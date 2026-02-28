@@ -38,7 +38,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Distributed vector index across shards (Issue: #1879)
 - [x] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
 - [P] Multi-tenancy index isolation (Issue: #1872)
-- [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
+- [x] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
 - [x] Index compression using sparse encoding (Issue: #1874)
 
 ## Implementation Phases
@@ -68,7 +68,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
 - [x] Distributed vector index across shards
 - [x] Partial / filtered indexes on secondary index manager
-- [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
+- [x] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
 - [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)
 
 ## Production Readiness Checklist

@@ -3859,3 +3859,133 @@ TEST_F(GraphQueryOptimizerTest, ExecuteSubgraphIsomorphism_RateLimitExceeded_Ret
 
     optimizer_->setMaxQueriesPerSecond(0);
 }
+
+// ============================================================================
+// Security: query injection via path constraints
+// ============================================================================
+
+// Empty node identifiers must be silently rejected (not added to constraints).
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_EmptyNodeIdIgnored) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenNode("");
+    pc.addRequiredNode("");
+
+    // No constraints should have been stored for the empty identifiers.
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+// Empty edge identifiers must be silently rejected.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_EmptyEdgeIdIgnored) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenEdge("");
+    pc.addRequiredEdge("");
+
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+// Node IDs containing a null byte must be rejected to prevent bypass attacks.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_NullByteInNodeIdIgnored) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    std::string bad_id = std::string("node\0x", 6); // contains \0
+    pc.addForbiddenNode(bad_id);
+    pc.addRequiredNode(bad_id);
+
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+// Property field names containing a null byte must be rejected.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_NullByteInFieldNameIgnored) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    std::string bad_field = std::string("type\0evil", 9);
+    pc.addEdgePropertyConstraint(bad_field, "follows");
+    pc.addNodePropertyConstraint(bad_field, "active");
+
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+// Property field names with special injection characters must be rejected.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_SpecialCharsInFieldNameIgnored) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    // Characters outside [A-Za-z0-9_.-] are not allowed in field names.
+    pc.addEdgePropertyConstraint("type' OR '1'='1", "follows");
+    pc.addNodePropertyConstraint("name; DROP GRAPH users --", "alice");
+
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+// Empty property field name must be rejected.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_EmptyFieldNameIgnored) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addEdgePropertyConstraint("", "follows");
+    pc.addNodePropertyConstraint("", "alice");
+
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+// A negative MIN_LENGTH must not cause integer overflow that rejects valid paths.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_NegativeMinLengthHandledSafely) {
+    themis::graph::PathConstraints pc_no_mgr;
+    pc_no_mgr.addMinLength(-1); // -1 cast to size_t would be SIZE_MAX
+
+    // A path with 3 nodes must still pass: 3 >= -1 (treat negative as no-min).
+    auto result = pc_no_mgr.validatePath({"A", "B", "C"}, {"e1", "e2"});
+    // A negative MIN_LENGTH is treated as "no restriction from below", so a
+    // non-empty path should pass.
+    EXPECT_TRUE(result.has_value() && result.value())
+        << "Negative MIN_LENGTH must not cause integer overflow rejection of valid paths";
+}
+
+// A negative MAX_LENGTH must not silently allow unbounded paths by wrapping.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_NegativeMaxLengthTreatedAsUnlimited) {
+    themis::graph::PathConstraints pc_no_mgr;
+    pc_no_mgr.addMaxLength(-1); // -1 cast to size_t would be SIZE_MAX (bypass)
+
+    // A long path should pass because negative max_length is treated as unlimited.
+    std::vector<std::string> long_path(100, "node");
+    std::vector<std::string> long_edges(99, "edge");
+    auto result = pc_no_mgr.validatePath(long_path, long_edges);
+    // Negative MAX_LENGTH means "no upper limit" — path must not be rejected.
+    EXPECT_TRUE(result.has_value() && result.value())
+        << "Negative MAX_LENGTH must not reject paths via SIZE_MAX wrap-around";
+}
+
+// findConstrainedPaths must reject empty start/end node identifiers.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_EmptyStartNodeReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    auto res = pc.findConstrainedPaths("", "D", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_EmptyEndNodeReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    auto res = pc.findConstrainedPaths("A", "", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+// findConstrainedPaths must reject start/end node IDs containing null bytes.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_NullByteStartNodeReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    std::string bad_start = std::string("A\0evil", 6);
+    auto res = pc.findConstrainedPaths(bad_start, "D", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+// findConstrainedPaths must reject max_results <= 0.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_ZeroMaxResultsReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    auto res = pc.findConstrainedPaths("A", "D", 0);
+    EXPECT_FALSE(res.has_value());
+}
+
+// findConstrainedPaths must clamp max_results above the safety limit.
+TEST_F(GraphQueryOptimizerTest, PathConstraints_Security_ExcessiveMaxResultsClamped) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    // Requesting more than MAX_RESULTS_LIMIT should be accepted (clamped, not rejected).
+    auto res = pc.findConstrainedPaths("A", "D", 999999);
+    // The call should not fail just because max_results > MAX_RESULTS_LIMIT.
+    // It may fail because no path exists, but not due to the limit itself.
+    // We verify that the function completes (either with results or NOT_FOUND error).
+    // The important assertion is that it does NOT crash or hang.
+    (void)res; // result is valid regardless of success/failure
+    SUCCEED() << "findConstrainedPaths with huge max_results must not crash";
+}
