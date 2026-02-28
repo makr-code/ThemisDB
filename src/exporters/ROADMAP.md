@@ -28,7 +28,7 @@
 - [I] Export filtering with AQL predicates (Issue: #1715)
 - [x] Incremental/delta export (only changed documents since last export) (Issue: #1716)
 - [I] Export progress tracking and resumability (Issue: #1717)
-- [I] Configurable output compression (zstd, gzip) (Issue: #1718)
+- [x] Configurable output compression (zstd, gzip) (Issue: #1718)
 
 ### Long-term (6-12 months)
 - [I] Hugging Face Hub direct upload integration (Issue: #1719)

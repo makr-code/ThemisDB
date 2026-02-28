@@ -8,8 +8,10 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/base/module_loader.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
+    ../src/base/ab_test_manager.cpp
     ../src/base/wasm_plugin_sandbox.cpp
     ../src/base/remote_registry_client.cpp
+    ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_dependency_resolver.cpp
     ../src/themis/module_hash_verifier.cpp
     ../src/themis/edition_manager.cpp

@@ -1405,3 +1405,37 @@ TEST(GpuBackendCircuitBreaker, NoGpu_StatsJson_GpuPresentFalse) {
     EXPECT_NE(json.find("\"circuit_open\":false"), std::string::npos)
         << "circuit_open must be false (FAILED != CIRCUIT_OPEN). JSON: " << json;
 }
+
+// ============================================================
+// getGeoDeviceReportJson() — device capability observability
+// ============================================================
+
+TEST(GeoDeviceReportJson, ReturnsNonEmptyString) {
+    const std::string json = themis::geo::getGeoDeviceReportJson();
+    EXPECT_FALSE(json.empty());
+}
+
+TEST(GeoDeviceReportJson, ContainsRequiredTopLevelKeys) {
+    const std::string json = themis::geo::getGeoDeviceReportJson();
+    EXPECT_NE(json.find("\"has_suitable_device\""), std::string::npos)
+        << "Missing has_suitable_device in: " << json;
+    EXPECT_NE(json.find("\"devices\""), std::string::npos)
+        << "Missing devices array in: " << json;
+}
+
+TEST(GeoDeviceReportJson, ContainsDeviceLevelFields) {
+    const std::string json = themis::geo::getGeoDeviceReportJson();
+    EXPECT_NE(json.find("\"name\""),               std::string::npos);
+    EXPECT_NE(json.find("\"backend\""),            std::string::npos);
+    EXPECT_NE(json.find("\"suitable_for_geo\""),   std::string::npos);
+    EXPECT_NE(json.find("\"compute_capability\""), std::string::npos);
+}
+
+TEST(GeoDeviceReportJson, NoGpu_HasSuitableDeviceFalse) {
+    if (themis::gpu::DeviceDiscovery::HasGPU()) {
+        GTEST_SKIP() << "Skipped: real GPU device detected";
+    }
+    const std::string json = themis::geo::getGeoDeviceReportJson();
+    EXPECT_NE(json.find("\"has_suitable_device\":false"), std::string::npos)
+        << "has_suitable_device must be false when no GPU is present. JSON: " << json;
+}

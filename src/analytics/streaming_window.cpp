@@ -254,10 +254,24 @@ StreamRecord makeRecord(
 // ============================================================================
 
 TumblingWindow::TumblingWindow(const TumblingWindowConfig& config)
-    : config_(config) {}
+        : config_(config),
+            callback_(),
+            agg_specs_(),
+            open_windows_(),
+            watermark_us_(0),
+            windows_opened_(0),
+            windows_closed_(0),
+            records_ingested_(0),
+            records_dropped_(0),
+            late_records_(0),
+            results_emitted_(0) {}
 
 TumblingWindow::~TumblingWindow() {
     flush();
+}
+
+std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config) {
+    return std::make_unique<TumblingWindow>(config);
 }
 
 void TumblingWindow::addAggregation(const AggregateSpec& spec) {
@@ -363,7 +377,7 @@ bool TumblingWindow::ingest(const StreamRecord& record) {
     // BUG 3 FIX: fire callbacks outside the lock to prevent re-entrant deadlock.
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
     return true;
@@ -377,7 +391,7 @@ void TumblingWindow::flush() {
     } // mutex_ released
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
 }
@@ -398,10 +412,24 @@ WindowStats TumblingWindow::getStats() const {
 // ============================================================================
 
 SlidingWindow::SlidingWindow(const SlidingWindowConfig& config)
-    : config_(config) {}
+        : config_(config),
+            callback_(),
+            agg_specs_(),
+            windows_(),
+            watermark_us_(0),
+            windows_opened_(0),
+            windows_closed_(0),
+            records_ingested_(0),
+            records_dropped_(0),
+            late_records_(0),
+            results_emitted_(0) {}
 
 SlidingWindow::~SlidingWindow() {
     flush();
+}
+
+std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig& config) {
+    return std::make_unique<SlidingWindow>(config);
 }
 
 void SlidingWindow::addAggregation(const AggregateSpec& spec) {
@@ -530,7 +558,7 @@ bool SlidingWindow::ingest(const StreamRecord& record) {
     // BUG 3 FIX: fire callbacks outside the lock.
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
     return true;
@@ -544,7 +572,7 @@ void SlidingWindow::flush() {
     }
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
 }
@@ -565,7 +593,18 @@ WindowStats SlidingWindow::getStats() const {
 // ============================================================================
 
 SessionWindow::SessionWindow(const SessionWindowConfig& config)
-    : config_(config) {
+        : config_(config),
+            callback_(),
+            agg_specs_(),
+            sessions_(),
+            running_(false),
+            watermark_us_(0),
+            windows_opened_(0),
+            windows_closed_(0),
+            records_ingested_(0),
+            records_dropped_(0),
+            late_records_(0),
+            results_emitted_(0) {
     running_ = true;
     expiry_thread_ = std::thread([this] { expiryLoop(); });
 }
@@ -575,6 +614,10 @@ SessionWindow::~SessionWindow() {
     running_ = false;
     expiry_cv_.notify_all();
     if (expiry_thread_.joinable()) expiry_thread_.join();
+}
+
+std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& config) {
+    return std::make_unique<SessionWindow>(config);
 }
 
 void SessionWindow::addAggregation(const AggregateSpec& spec) {
@@ -674,7 +717,7 @@ bool SessionWindow::ingest(const StreamRecord& record) {
 
     // BUG 3 FIX: invoke callback outside the mutex to prevent re-entrant deadlock.
     if (has_pending && callback_) {
-        try { callback_(std::move(pending_result)); } catch (...) {}
+        try { callback_(pending_result); } catch (...) {}
     }
     return true;
 }
@@ -695,7 +738,7 @@ void SessionWindow::flush() {
     // BUG 3 FIX: invoke callbacks outside the mutex.
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
 }
@@ -744,7 +787,7 @@ void SessionWindow::expiryLoop() {
         } // mutex_ released before callback (BUG 3 FIX)
         if (callback_) {
             for (auto& r : pending) {
-                try { callback_(std::move(r)); } catch (...) {}
+                try { callback_(r); } catch (...) {}
             }
         }
     }
@@ -755,10 +798,24 @@ void SessionWindow::expiryLoop() {
 // ============================================================================
 
 HoppingWindow::HoppingWindow(const HoppingWindowConfig& config)
-    : config_(config) {}
+        : config_(config),
+            callback_(),
+            agg_specs_(),
+            windows_(),
+            watermark_us_(0),
+            windows_opened_(0),
+            windows_closed_(0),
+            records_ingested_(0),
+            records_dropped_(0),
+            late_records_(0),
+            results_emitted_(0) {}
 
 HoppingWindow::~HoppingWindow() {
     flush();
+}
+
+std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config) {
+    return std::make_unique<HoppingWindow>(config);
 }
 
 void HoppingWindow::addAggregation(const AggregateSpec& spec) {
@@ -873,7 +930,7 @@ bool HoppingWindow::ingest(const StreamRecord& record) {
     // BUG 3 FIX: fire callbacks outside the lock.
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
     return true;
@@ -887,7 +944,7 @@ void HoppingWindow::flush() {
     }
     if (callback_) {
         for (auto& r : pending) {
-            try { callback_(std::move(r)); } catch (...) {}
+            try { callback_(r); } catch (...) {}
         }
     }
 }

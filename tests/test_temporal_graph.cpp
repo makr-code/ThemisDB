@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     491                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     779                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -487,5 +487,293 @@ TEST_F(TemporalGraphTest, RealWorld_KnowledgeGraphEvolution) {
     EXPECT_TRUE(std::find(r2.begin(), r2.end(), "Doc2") == r2.end()); // Citation retracted
 }
 
+// ===== TimeRangeFilter Unit Tests =====
 
+TEST_F(TemporalGraphTest, TimeRangeFilter_NoFilter_AcceptsAll) {
+    themis::TimeRangeFilter filter = themis::TimeRangeFilter::all();
+
+    EXPECT_TRUE(filter.hasOverlap(std::nullopt, std::nullopt));
+    EXPECT_TRUE(filter.hasOverlap(t_2020_jan, std::nullopt));
+    EXPECT_TRUE(filter.hasOverlap(std::nullopt, t_2025_jan));
+    EXPECT_TRUE(filter.hasOverlap(t_2020_jan, t_2025_jan));
+}
+
+TEST_F(TemporalGraphTest, TimeRangeFilter_HasOverlap_DetectsOverlap) {
+    themis::TimeRangeFilter filter = themis::TimeRangeFilter::between(t_2021_jan, t_2023_jan);
+
+    // Edge fully within range: overlap
+    EXPECT_TRUE(filter.hasOverlap(t_2021_jan, t_2022_jan));
+
+    // Edge starts before range and ends within: overlap
+    EXPECT_TRUE(filter.hasOverlap(t_2020_jan, t_2022_jan));
+
+    // Edge starts within range and ends after: overlap
+    EXPECT_TRUE(filter.hasOverlap(t_2022_jan, t_2025_jan));
+
+    // Edge fully covers range: overlap
+    EXPECT_TRUE(filter.hasOverlap(t_2020_jan, t_2025_jan));
+
+    // Edge ends before range starts: no overlap
+    EXPECT_FALSE(filter.hasOverlap(t_2020_jan, t_2020_jan));
+
+    // Edge starts after range ends: no overlap
+    EXPECT_FALSE(filter.hasOverlap(t_2024_jan, t_2025_jan));
+}
+
+TEST_F(TemporalGraphTest, TimeRangeFilter_HasOverlap_UnboundedEdge) {
+    themis::TimeRangeFilter filter = themis::TimeRangeFilter::between(t_2021_jan, t_2023_jan);
+
+    // Edge valid from past to future: overlap with any range
+    EXPECT_TRUE(filter.hasOverlap(std::nullopt, std::nullopt));
+
+    // Edge valid from past, ends within range
+    EXPECT_TRUE(filter.hasOverlap(std::nullopt, t_2022_jan));
+
+    // Edge valid from past, ends before range
+    EXPECT_FALSE(filter.hasOverlap(std::nullopt, t_2020_jan));
+
+    // Edge starts within range, valid forever
+    EXPECT_TRUE(filter.hasOverlap(t_2022_jan, std::nullopt));
+
+    // Edge starts after range, valid forever
+    EXPECT_FALSE(filter.hasOverlap(t_2024_jan, std::nullopt));
+}
+
+TEST_F(TemporalGraphTest, TimeRangeFilter_FullyContains_DetectsContainment) {
+    themis::TimeRangeFilter filter = themis::TimeRangeFilter::between(t_2021_jan, t_2023_jan);
+
+    // Edge fully within range: contained
+    EXPECT_TRUE(filter.fullyContains(t_2021_jan, t_2022_jan));
+    EXPECT_TRUE(filter.fullyContains(t_2021_jan, t_2023_jan));
+
+    // Edge starts before range: not contained
+    EXPECT_FALSE(filter.fullyContains(t_2020_jan, t_2022_jan));
+
+    // Edge ends after range: not contained
+    EXPECT_FALSE(filter.fullyContains(t_2022_jan, t_2025_jan));
+
+    // Edge unbounded: not contained
+    EXPECT_FALSE(filter.fullyContains(std::nullopt, t_2022_jan));
+    EXPECT_FALSE(filter.fullyContains(t_2022_jan, std::nullopt));
+}
+
+TEST_F(TemporalGraphTest, TimeRangeFilter_Since_OneSidedBound) {
+    themis::TimeRangeFilter filter = themis::TimeRangeFilter::since(t_2022_jan);
+
+    // Edge starting after lower bound: overlap
+    EXPECT_TRUE(filter.hasOverlap(t_2023_jan, std::nullopt));
+
+    // Edge ending before lower bound: no overlap
+    EXPECT_FALSE(filter.hasOverlap(t_2020_jan, t_2021_jan));
+}
+
+TEST_F(TemporalGraphTest, TimeRangeFilter_Until_OneSidedBound) {
+    themis::TimeRangeFilter filter = themis::TimeRangeFilter::until(t_2022_jan);
+
+    // Edge starting before upper bound: overlap
+    EXPECT_TRUE(filter.hasOverlap(t_2020_jan, t_2021_jan));
+
+    // Edge starting after upper bound: no overlap
+    EXPECT_FALSE(filter.hasOverlap(t_2023_jan, t_2025_jan));
+}
+
+// ===== Time-Range Query Tests =====
+
+TEST_F(TemporalGraphTest, GetEdgesInTimeRange_ReturnsOverlappingEdges) {
+    // e1: A->B valid [2021, 2023]
+    // e2: B->C valid [2022, 2024]
+    // e3: C->D valid [2020, 2020] (before query range)
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2022_jan, t_2024_jan);
+    auto e3 = createTemporalEdge("e3", "C", "D", t_2020_jan, t_2020_jan);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e3).ok);
+
+    // Query range [2022, 2023]: e1 and e2 overlap, e3 does not
+    auto [status, edges] = graph_mgr_->getEdgesInTimeRange(t_2022_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    std::vector<std::string> ids;
+    for (const auto& e : edges) ids.push_back(e.edgeId);
+
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "e1"), ids.end());
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "e2"), ids.end());
+    EXPECT_EQ(std::find(ids.begin(), ids.end(), "e3"), ids.end());
+}
+
+TEST_F(TemporalGraphTest, GetEdgesInTimeRange_FullContainment) {
+    // e1: A->B valid [2021, 2023] — fully contained in [2021, 2023]
+    // e2: B->C valid [2020, 2024] — NOT fully contained in [2021, 2023]
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2020_jan, t_2024_jan);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+
+    auto [status, edges] = graph_mgr_->getEdgesInTimeRange(t_2021_jan, t_2023_jan, true);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    std::vector<std::string> ids;
+    for (const auto& e : edges) ids.push_back(e.edgeId);
+
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "e1"), ids.end());
+    EXPECT_EQ(std::find(ids.begin(), ids.end(), "e2"), ids.end());
+}
+
+TEST_F(TemporalGraphTest, GetOutEdgesInTimeRange_FiltersFromNode) {
+    // A->B valid [2021, 2023], A->C valid [2024, 2025], B->D valid [2021, 2023]
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan);
+    auto e2 = createTemporalEdge("e2", "A", "C", t_2024_jan, t_2025_jan);
+    auto e3 = createTemporalEdge("e3", "B", "D", t_2021_jan, t_2023_jan);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e3).ok);
+
+    // From A, range [2021, 2023]: only e1 qualifies
+    auto [status, edges] = graph_mgr_->getOutEdgesInTimeRange("A", t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    std::vector<std::string> ids;
+    for (const auto& e : edges) ids.push_back(e.edgeId);
+
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "e1"), ids.end());
+    EXPECT_EQ(std::find(ids.begin(), ids.end(), "e2"), ids.end());
+    EXPECT_EQ(std::find(ids.begin(), ids.end(), "e3"), ids.end()); // from B, not A
+}
+
+TEST_F(TemporalGraphTest, GetOutEdgesInTimeRange_EmptyNodeReturnsError) {
+    auto [status, edges] = graph_mgr_->getOutEdgesInTimeRange("", t_2021_jan, t_2023_jan, false);
+    EXPECT_FALSE(status.ok);
+}
+
+TEST_F(TemporalGraphTest, GetTemporalStats_ReturnsCorrectCounts) {
+    // Add 3 edges: 2 overlap range [2021,2023], 1 is fully contained
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan); // fully contained
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2020_jan, t_2024_jan); // overlap only
+    auto e3 = createTemporalEdge("e3", "C", "D", t_2024_jan, t_2025_jan); // no overlap
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e3).ok);
+
+    auto [status, stats] = graph_mgr_->getTemporalStats(t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    EXPECT_EQ(stats.edge_count, 2u);          // e1 and e2 overlap range
+    EXPECT_EQ(stats.fully_contained_count, 1u); // only e1 is fully contained
+}
+
+TEST_F(TemporalGraphTest, GetTemporalStats_DurationStatistics) {
+    // e1: A->B valid [2021, 2023] — duration = 2 years
+    // e2: B->C valid [2022, 2023] — duration = 1 year
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2022_jan, t_2023_jan);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+
+    auto [status, stats] = graph_mgr_->getTemporalStats(t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    EXPECT_EQ(stats.bounded_edge_count, 2u);
+    EXPECT_GT(stats.total_duration_ms, 0.0);
+    EXPECT_GT(stats.avg_duration_ms, 0.0);
+    ASSERT_TRUE(stats.min_duration_ms.has_value());
+    ASSERT_TRUE(stats.max_duration_ms.has_value());
+    EXPECT_LE(*stats.min_duration_ms, *stats.max_duration_ms);
+}
+
+TEST_F(TemporalGraphTest, TemporalStats_ToString_ContainsMetrics) {
+    themis::TemporalStats stats;
+    stats.edge_count = 5;
+    stats.fully_contained_count = 3;
+    stats.bounded_edge_count = 4;
+    stats.avg_duration_ms = 1000.0;
+    stats.total_duration_ms = 4000.0;
+    stats.min_duration_ms = 500;
+    stats.max_duration_ms = 2000;
+    stats.earliest_start = t_2020_jan;
+    stats.latest_end = t_2025_jan;
+
+    std::string output = stats.toString();
+    EXPECT_NE(output.find("5"), std::string::npos);       // edge_count
+    EXPECT_NE(output.find("3"), std::string::npos);       // fully_contained_count
+    EXPECT_NE(output.find("1000"), std::string::npos);    // avg_duration_ms
+}
+
+TEST_F(TemporalGraphTest, AggregateEdgePropertyInTimeRange_Count) {
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan, 2.0);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2022_jan, t_2024_jan, 3.0);
+    auto e3 = createTemporalEdge("e3", "C", "D", t_2024_jan, t_2025_jan, 5.0);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e3).ok);
+
+    auto [status, result] = graph_mgr_->aggregateEdgePropertyInTimeRange(
+        "_weight", themis::GraphIndexManager::Aggregation::COUNT,
+        t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    // e1 and e2 overlap range [2021, 2023]
+    EXPECT_EQ(result.count, 2u);
+}
+
+TEST_F(TemporalGraphTest, AggregateEdgePropertyInTimeRange_Sum) {
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan, 2.0);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2022_jan, t_2024_jan, 3.0);
+    auto e3 = createTemporalEdge("e3", "C", "D", t_2024_jan, t_2025_jan, 5.0);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e3).ok);
+
+    auto [status, result] = graph_mgr_->aggregateEdgePropertyInTimeRange(
+        "_weight", themis::GraphIndexManager::Aggregation::SUM,
+        t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    // Sum of weights for e1 (2.0) and e2 (3.0)
+    EXPECT_NEAR(result.value, 5.0, 1e-9);
+}
+
+TEST_F(TemporalGraphTest, AggregateEdgePropertyInTimeRange_Avg) {
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan, 2.0);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2022_jan, t_2024_jan, 4.0);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+
+    auto [status, result] = graph_mgr_->aggregateEdgePropertyInTimeRange(
+        "_weight", themis::GraphIndexManager::Aggregation::AVG,
+        t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(status.ok) << status.message;
+
+    EXPECT_NEAR(result.value, 3.0, 1e-9); // (2 + 4) / 2
+}
+
+TEST_F(TemporalGraphTest, AggregateEdgePropertyInTimeRange_MinMax) {
+    auto e1 = createTemporalEdge("e1", "A", "B", t_2021_jan, t_2023_jan, 2.0);
+    auto e2 = createTemporalEdge("e2", "B", "C", t_2022_jan, t_2024_jan, 4.0);
+    auto e3 = createTemporalEdge("e3", "C", "D", t_2021_jan, t_2023_jan, 6.0);
+
+    ASSERT_TRUE(graph_mgr_->addEdge(e1).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e2).ok);
+    ASSERT_TRUE(graph_mgr_->addEdge(e3).ok);
+
+    auto [s1, min_result] = graph_mgr_->aggregateEdgePropertyInTimeRange(
+        "_weight", themis::GraphIndexManager::Aggregation::MIN,
+        t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(s1.ok) << s1.message;
+    EXPECT_NEAR(min_result.value, 2.0, 1e-9);
+
+    auto [s2, max_result] = graph_mgr_->aggregateEdgePropertyInTimeRange(
+        "_weight", themis::GraphIndexManager::Aggregation::MAX,
+        t_2021_jan, t_2023_jan, false);
+    ASSERT_TRUE(s2.ok) << s2.message;
+    EXPECT_NEAR(max_result.value, 6.0, 1e-9);
+}
 

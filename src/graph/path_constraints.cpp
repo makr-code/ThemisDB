@@ -31,6 +31,34 @@
 namespace themis {
 namespace graph {
 
+namespace {
+
+struct ErrorRegistry {
+    enum class ErrorCode {
+        VALIDATION_FAILED,
+        INVALID_STATE,
+        NOT_FOUND
+    };
+};
+
+inline errors::ErrorCode mapErrorCode(ErrorRegistry::ErrorCode code) {
+    switch (code) {
+        case ErrorRegistry::ErrorCode::VALIDATION_FAILED:
+            return errors::ErrorCode::ERR_QUERY_INVALID_INPUT;
+        case ErrorRegistry::ErrorCode::INVALID_STATE:
+            return errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED;
+        case ErrorRegistry::ErrorCode::NOT_FOUND:
+            return errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND;
+    }
+    return errors::ErrorCode::ERR_UNKNOWN;
+}
+
+inline tl::unexpected<Error> makeError(ErrorRegistry::ErrorCode code, std::string message) {
+    return tl::unexpected<Error>(Error(mapErrorCode(code), std::move(message)));
+}
+
+} // namespace
+
 PathConstraints::PathConstraints(GraphIndexManager* graph_mgr) 
     : graph_mgr_(graph_mgr) {}
 

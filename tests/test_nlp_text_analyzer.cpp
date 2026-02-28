@@ -236,6 +236,7 @@ TEST_F(NlpLemmatizeTest, TokenizeSetsLemma) {
 // ---------------------------------------------------------------------------
 TEST_F(NlpLemmatizeTest, UnknownLanguageFallback) {
     EXPECT_EQ(analyzer.lemmatizeWord("Running", NlpTextAnalyzer::Language::UNKNOWN), "running");
+}
 
 using namespace themis::analytics;
 

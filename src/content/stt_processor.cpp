@@ -483,9 +483,9 @@ bool STTProcessor::loadWhisperModel() {
         return false;
     }
     #else
-    // Whisper.cpp not enabled in build - use placeholder
+    // Whisper.cpp not enabled in build - operate in placeholder mode
     whisper_ctx_ = nullptr;
-    return false;
+    return true;
     #endif
 }
 

@@ -55,7 +55,7 @@
 ### Phase 2: GPU Backend Stub and Device Detection (Status: Completed)
 - [x] Implemented GPU backend stub with automatic CPU fallback (`geo/gpu_backend_stub.cpp`) (Issue: #1756)
 - [x] Implemented circuit-breaker fallback when no CUDA-capable device is present (Issue: #1757)
-- [x] Implement runtime GPU device discovery and capability reporting (`include/themis/gpu/device_discovery.h` + `src/gpu/device_discovery.cpp`) (Issue: #1758)
+- [x] Implement runtime GPU device discovery and capability reporting (`include/geo/device_detector.h` + `src/geo/device_detector.cpp`; wraps `themis::gpu::DeviceDiscovery` with geo-specific compute-capability and VRAM checks) (Issue: #1758)
 
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Completed)
 - [x] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
