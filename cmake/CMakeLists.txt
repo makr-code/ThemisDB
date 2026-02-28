@@ -3226,6 +3226,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
         ../src/llm/llm_plugin_manager.cpp
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
+        ../src/llm/model_quantization_pipeline.cpp  # GGUF/AWQ/GPTQ quantization pipeline (Phase 3)
         ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
         ../src/llm/async_inference_engine.cpp # Async threading (independent from DB)
         ../src/llm/shared_worker_pool.cpp    # Shared work-stealing thread pool (Phase 2)

@@ -41,7 +41,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [P] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [!] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [P] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 
 ## Implementation Phases
 
@@ -66,7 +66,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [P] Speculative decoding for latency reduction (Issue: #1934)
 - [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
 - [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
-- [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
+- [~] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1938)

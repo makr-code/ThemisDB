@@ -1,0 +1,386 @@
+#include <gtest/gtest.h>
+#include "llm/model_quantization_pipeline.h"
+#include "llm/lora_framework/quantization.h"
+#include "llm/lora_framework/quantized_model.h"
+
+#include <filesystem>
+#include <fstream>
+#include <cstring>
+#include <cstdint>
+#include <vector>
+#include <string>
+
+namespace fs = std::filesystem;
+
+using namespace themis::llm;
+using namespace themis::llm::lora;
+
+// ---------------------------------------------------------------------------
+// Helpers for building synthetic SafeTensors files on the fly
+// ---------------------------------------------------------------------------
+
+namespace {
+
+// Pack 4-bit integers into an INT32 stream (LSB first)
+std::vector<uint32_t> pack_int4(const std::vector<int>& values)
+{
+    std::vector<uint32_t> packed;
+    for (size_t i = 0; i < values.size(); i += 8) {
+        uint32_t word = 0;
+        for (int b = 0; b < 8 && (i + b) < values.size(); ++b) {
+            word |= (static_cast<uint32_t>(values[i + b] & 0xF) << (b * 4));
+        }
+        packed.push_back(word);
+    }
+    return packed;
+}
+
+// Convert float → FP16 (uint16_t)
+uint16_t fp32_to_fp16(float v)
+{
+    uint32_t bits;
+    std::memcpy(&bits, &v, 4);
+    const uint16_t sign = (bits >> 16) & 0x8000;
+    const int exp  = static_cast<int>((bits >> 23) & 0xFF) - 127 + 15;
+    const uint32_t mant = (bits >> 13) & 0x3FF;
+    if (exp <= 0)  return sign;
+    if (exp >= 31) return static_cast<uint16_t>(sign | 0x7C00);
+    return static_cast<uint16_t>(sign | (static_cast<uint16_t>(exp) << 10) | mant);
+}
+
+// Build a minimal SafeTensors binary blob (no __metadata__).
+// tensors: list of (name, dtype, shape, raw_data)
+std::vector<uint8_t> make_safetensors(
+    const std::vector<std::tuple<std::string,
+                                 std::string,
+                                 std::vector<int64_t>,
+                                 std::vector<uint8_t>>>& tensors)
+{
+    // Build data region and header simultaneously
+    std::string hdr_json = "{";
+    std::vector<uint8_t> data;
+
+    uint64_t offset = 0;
+    for (size_t ti = 0; ti < tensors.size(); ++ti) {
+        const auto& [name, dtype, shape, raw] = tensors[ti];
+
+        uint64_t begin = offset;
+        uint64_t end   = offset + raw.size();
+        data.insert(data.end(), raw.begin(), raw.end());
+        offset = end;
+
+        if (ti > 0) hdr_json += ",";
+        hdr_json += "\"" + name + "\":{\"dtype\":\"" + dtype + "\",\"shape\":[";
+        for (size_t si = 0; si < shape.size(); ++si) {
+            if (si) hdr_json += ",";
+            hdr_json += std::to_string(shape[si]);
+        }
+        hdr_json += "],\"data_offsets\":[" +
+                    std::to_string(begin) + "," +
+                    std::to_string(end) + "]}";
+    }
+    hdr_json += "}";
+
+    // Assemble: [uint64 header_len][header bytes][data bytes]
+    std::vector<uint8_t> blob;
+    const uint64_t hlen = hdr_json.size();
+    blob.resize(8 + hlen + data.size());
+    std::memcpy(blob.data(), &hlen, 8);
+    std::memcpy(blob.data() + 8, hdr_json.data(), hlen);
+    std::memcpy(blob.data() + 8 + hlen, data.data(), data.size());
+    return blob;
+}
+
+// Write a file from a vector of bytes
+void write_file(const std::string& path, const std::vector<uint8_t>& data)
+{
+    std::ofstream f(path, std::ios::binary);
+    f.write(reinterpret_cast<const char*>(data.data()),
+            static_cast<std::streamsize>(data.size()));
+}
+
+// Write a minimal config.json for AWQ or GPTQ
+void write_config(const std::string& dir,
+                  const std::string& quant_type,
+                  int bits, int group_size)
+{
+    std::ofstream f(fs::path(dir) / "config.json");
+    f << "{\"quantization_config\":{\"quant_type\":\"" << quant_type
+      << "\",\"w_bit\":" << bits
+      << ",\"bits\":" << bits
+      << ",\"group_size\":" << group_size << "}}";
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Tests: format detection
+// ---------------------------------------------------------------------------
+
+class ModelQuantizationPipelineTest : public ::testing::Test {
+protected:
+    fs::path tmp_dir_;
+
+    void SetUp() override {
+        tmp_dir_ = fs::temp_directory_path() / "themis_mqp_test";
+        fs::create_directories(tmp_dir_);
+    }
+
+    void TearDown() override {
+        fs::remove_all(tmp_dir_);
+    }
+};
+
+TEST_F(ModelQuantizationPipelineTest, DetectGGUF_FileExtension)
+{
+    const std::string p = (tmp_dir_ / "model.gguf").string();
+    EXPECT_EQ(ModelQuantizationPipeline::detect_format(p), ModelFormat::GGUF);
+}
+
+TEST_F(ModelQuantizationPipelineTest, DetectAWQ_FromConfigJson)
+{
+    const std::string dir = (tmp_dir_ / "awq_model").string();
+    fs::create_directories(dir);
+    write_config(dir, "awq", 4, 128);
+
+    EXPECT_EQ(ModelQuantizationPipeline::detect_format(dir), ModelFormat::AWQ);
+}
+
+TEST_F(ModelQuantizationPipelineTest, DetectGPTQ_FromConfigJson)
+{
+    const std::string dir = (tmp_dir_ / "gptq_model").string();
+    fs::create_directories(dir);
+    write_config(dir, "gptq", 4, 128);
+
+    EXPECT_EQ(ModelQuantizationPipeline::detect_format(dir), ModelFormat::GPTQ);
+}
+
+TEST_F(ModelQuantizationPipelineTest, FormatName)
+{
+    EXPECT_STREQ(ModelQuantizationPipeline::format_name(ModelFormat::GGUF), "GGUF");
+    EXPECT_STREQ(ModelQuantizationPipeline::format_name(ModelFormat::AWQ),  "AWQ");
+    EXPECT_STREQ(ModelQuantizationPipeline::format_name(ModelFormat::GPTQ), "GPTQ");
+}
+
+// ---------------------------------------------------------------------------
+// Tests: GPTQ SafeTensors loading (synthetic model)
+// ---------------------------------------------------------------------------
+
+TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_SyntheticLayer)
+{
+    // Build a tiny synthetic GPTQ model:
+    //   in_features=8, out_features=4, group_size=8, bits=4
+    //
+    //   qweight shape: [8/8, 4] = [1, 4]  → one INT32 per column (8 4-bit weights)
+    //   qzeros  shape: [1, 4/8] = [1, 1]  → one INT32 (zeros for col 0..3 packed)
+    //   scales  shape: [1, 4]             → four FP16 scales
+
+    const int bits       = 4;
+    const int vpw        = 32 / bits;   // 8
+    const int in_f       = 8;
+    const int out_f      = 4;
+    const int group_size = 8;
+
+    // qweight: [in_f/vpw, out_f] = [1, 4]
+    // Each column holds 8 4-bit weights packed into one INT32
+    // Col 0: weights [2,2,2,2,2,2,2,2], Col 1: [3,...], Col 2: [1,...], Col 3: [4,...]
+    auto make_qw_col = [&](int val) -> uint32_t {
+        uint32_t w = 0;
+        for (int b = 0; b < vpw; ++b) w |= (static_cast<uint32_t>(val & 0xF) << (b * 4));
+        return w;
+    };
+    std::vector<uint32_t> qweight_raw = {
+        make_qw_col(2), make_qw_col(3), make_qw_col(1), make_qw_col(4)
+    };
+
+    // qzeros: [n_groups=1, out_f/vpw=1] → one INT32 holding zeros for all 4 cols
+    // zero[col] = 1 for all cols (packed into one INT32, cols 0..3 in bits 0..15)
+    uint32_t qzeros_raw = 0;
+    for (int c = 0; c < out_f; ++c)
+        qzeros_raw |= (1u << (c * bits));
+    std::vector<uint32_t> qzeros_vec = { qzeros_raw };
+
+    // scales: [n_groups=1, out_f=4] → four FP16 values = 0.5f each
+    std::vector<uint16_t> scales_raw(out_f, fp32_to_fp16(0.5f));
+
+    // Build raw byte vectors
+    auto to_bytes = [](const auto& v) -> std::vector<uint8_t> {
+        std::vector<uint8_t> b(v.size() * sizeof(v[0]));
+        std::memcpy(b.data(), v.data(), b.size());
+        return b;
+    };
+
+    std::vector<uint8_t> qw_bytes = to_bytes(qweight_raw);
+    std::vector<uint8_t> qz_bytes = to_bytes(qzeros_vec);
+    std::vector<uint8_t> sc_bytes = to_bytes(scales_raw);
+
+    // Create SafeTensors file
+    const std::string model_dir = (tmp_dir_ / "gptq_synthetic").string();
+    fs::create_directories(model_dir);
+    write_config(model_dir, "gptq", bits, group_size);
+
+    auto blob = make_safetensors({
+        {"model.layers.0.attn.qweight",
+            "I32", {in_f / vpw, out_f}, qw_bytes},
+        {"model.layers.0.attn.qzeros",
+            "I32", {1, out_f / vpw}, qz_bytes},
+        {"model.layers.0.attn.scales",
+            "F16", {1, out_f},       sc_bytes},
+    });
+    write_file((fs::path(model_dir) / "model.safetensors").string(), blob);
+
+    QuantizationPipelineConfig cfg;
+    cfg.bits       = bits;
+    cfg.group_size = group_size;
+    cfg.max_tensors = 1;
+
+    auto model = ModelQuantizationPipeline::load(
+        model_dir, ModelFormat::GPTQ, cfg);
+
+    EXPECT_EQ(model.num_layers(), 1u);
+    EXPECT_NE(model.get_layer("model.layers.0.attn"), nullptr);
+
+    // Dequantize and verify approximate values
+    // Expected: weight[i][c] = (q[c] - zero) * scale = (q[c] - 1) * 0.5
+    //   col 0: (2-1)*0.5 = 0.5, col 1: (3-1)*0.5 = 1.0,
+    //   col 2: (1-1)*0.5 = 0.0, col 3: (4-1)*0.5 = 1.5
+    auto deq = model.dequantize_layer("model.layers.0.attn");
+    ASSERT_EQ(deq.data().size(), static_cast<size_t>(in_f * out_f));
+
+    // Allow quantization round-trip tolerance
+    for (int i = 0; i < in_f; ++i) {
+        EXPECT_NEAR(deq.data()[static_cast<size_t>(i * out_f + 0)], 0.5f,  0.15f);
+        EXPECT_NEAR(deq.data()[static_cast<size_t>(i * out_f + 1)], 1.0f,  0.15f);
+        EXPECT_NEAR(deq.data()[static_cast<size_t>(i * out_f + 2)], 0.0f,  0.15f);
+        EXPECT_NEAR(deq.data()[static_cast<size_t>(i * out_f + 3)], 1.5f,  0.15f);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Tests: AWQ SafeTensors loading (synthetic model)
+// ---------------------------------------------------------------------------
+
+TEST_F(ModelQuantizationPipelineTest, LoadAWQ_SyntheticLayer)
+{
+    // AWQ layout (AutoAWQ format):
+    //   weight shape: [in_f, out_f/vpw]  (packs along OUT dimension)
+    //   zeros  shape: [n_groups, out_f/vpw]
+    //   scales shape: [n_groups, out_f]  FP16
+    //
+    // weight[i, j] = (qweight[i, j//vpw] >> ((j%vpw)*bits)) & mask
+    // zero[g, j]   = (qzeros[g,  j//vpw] >> ((j%vpw)*bits)) & mask
+    // fp = (w - z) * scale
+
+    const int bits       = 4;
+    const int vpw        = 32 / bits;   // 8
+    const int in_f       = 8;
+    const int out_f      = 4;
+    const int group_size = 8;
+    // Out features packed into ceil(4/8)=1 INT32 per row
+    const int out_packed = (out_f + vpw - 1) / vpw;  // 1
+
+    // Build qweight: [in_f=8, out_packed=1]
+    // Each row packs 4 output features (bits 0..15) with value 5
+    // qweight[i, 0] = 5 | (5<<4) | (5<<8) | (5<<12) = 0x5555
+    const uint32_t w_word = (5u) | (5u << 4) | (5u << 8) | (5u << 12);
+    std::vector<uint32_t> weight_raw(static_cast<size_t>(in_f * out_packed), w_word);
+
+    // Build qzeros: [n_groups=1, out_packed=1]
+    // zero = 3 for all cols: qzeros[0, 0] = 3 | (3<<4) | (3<<8) | (3<<12)
+    const uint32_t z_word = (3u) | (3u << 4) | (3u << 8) | (3u << 12);
+    std::vector<uint32_t> zeros_raw = { z_word };
+
+    // scales: [n_groups=1, out_f=4] = 0.25f
+    std::vector<uint16_t> scales_raw(static_cast<size_t>(out_f), fp32_to_fp16(0.25f));
+
+    auto to_bytes = [](const auto& v) -> std::vector<uint8_t> {
+        std::vector<uint8_t> b(v.size() * sizeof(v[0]));
+        std::memcpy(b.data(), v.data(), b.size());
+        return b;
+    };
+
+    const std::string model_dir = (tmp_dir_ / "awq_synthetic").string();
+    fs::create_directories(model_dir);
+    write_config(model_dir, "awq", bits, group_size);
+
+    auto blob = make_safetensors({
+        {"model.layers.0.mlp.weight",
+            "I32", {in_f, out_packed},       to_bytes(weight_raw)},
+        {"model.layers.0.mlp.zeros",
+            "I32", {1, out_packed},           to_bytes(zeros_raw)},
+        {"model.layers.0.mlp.scales",
+            "F16", {1, out_f},               to_bytes(scales_raw)},
+    });
+    write_file((fs::path(model_dir) / "model.safetensors").string(), blob);
+
+    QuantizationPipelineConfig cfg;
+    cfg.bits       = bits;
+    cfg.group_size = group_size;
+    cfg.max_tensors = 1;
+
+    auto model = ModelQuantizationPipeline::load(
+        model_dir, ModelFormat::AWQ, cfg);
+
+    EXPECT_EQ(model.num_layers(), 1u);
+    EXPECT_NE(model.get_layer("model.layers.0.mlp"), nullptr);
+
+    // Expected: (5 - 3) * 0.25 = 0.5 for all entries
+    auto deq = model.dequantize_layer("model.layers.0.mlp");
+    ASSERT_EQ(deq.data().size(), static_cast<size_t>(in_f * out_f));
+    for (float v : deq.data()) {
+        EXPECT_NEAR(v, 0.5f, 0.15f);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Tests: Missing directory / empty directory
+// ---------------------------------------------------------------------------
+
+TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_MissingDirectory_Throws)
+{
+    EXPECT_THROW(
+        ModelQuantizationPipeline::load("/nonexistent/path", ModelFormat::GPTQ),
+        std::runtime_error);
+}
+
+TEST_F(ModelQuantizationPipelineTest, LoadAWQ_NoShards_Throws)
+{
+    const std::string dir = (tmp_dir_ / "awq_empty").string();
+    fs::create_directories(dir);
+    write_config(dir, "awq", 4, 128);
+
+    EXPECT_THROW(
+        ModelQuantizationPipeline::load(dir, ModelFormat::AWQ),
+        std::runtime_error);
+}
+
+TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_NoShards_Throws)
+{
+    const std::string dir = (tmp_dir_ / "gptq_empty").string();
+    fs::create_directories(dir);
+    write_config(dir, "gptq", 4, 128);
+
+    EXPECT_THROW(
+        ModelQuantizationPipeline::load(dir, ModelFormat::GPTQ),
+        std::runtime_error);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: Auto-detection via shard header heuristic
+// ---------------------------------------------------------------------------
+
+TEST_F(ModelQuantizationPipelineTest, DetectGPTQ_FromShardHeader)
+{
+    const std::string dir = (tmp_dir_ / "gptq_heuristic").string();
+    fs::create_directories(dir);
+    // No config.json → rely on header scan
+
+    // Build a minimal safetensors with a "qweight" tensor
+    const std::vector<uint8_t> dummy_data(4, 0);
+    auto blob = make_safetensors({
+        {"model.layer.0.qweight", "I32", {1, 1}, dummy_data},
+    });
+    write_file((fs::path(dir) / "model.safetensors").string(), blob);
+
+    EXPECT_EQ(ModelQuantizationPipeline::detect_format(dir), ModelFormat::GPTQ);
+}
