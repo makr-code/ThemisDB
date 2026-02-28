@@ -16,30 +16,39 @@ using json = nlohmann::json;
 /**
  * @brief Configuration for a single processing stage in the ingestion pipeline.
  *
- * Each stage can be independently enabled or disabled.
+ * Each stage can be independently enabled or disabled and optionally configured
+ * with retry logic and graceful degradation (continue_on_error).
  */
 struct StageConfig {
-    bool enabled = true;  ///< Whether the stage is active. Defaults to true.
+    bool enabled = true;            ///< Whether the stage is active. Defaults to true.
+    int max_retries = 0;            ///< Maximum retry attempts on failure (0 = no retry).
+    int retry_delay_ms = 100;       ///< Milliseconds to wait between retry attempts.
+    bool continue_on_error = false; ///< If true, skip this stage on failure instead of aborting ingestion.
 };
 
 /**
  * @brief Per-content-type pipeline configuration specifying which stages to run.
  *
- * Controls the four main stages of the content ingestion pipeline:
+ * Controls the five main stages of the content ingestion pipeline:
  *  - extraction:    Text / metadata extraction (e.g. HTML boilerplate removal,
  *                   Markdown front-matter parsing, EXIF data, etc.)
  *  - chunking:      Splitting extracted text into index-ready chunks.
  *  - embedding:     Vector embedding generation (requires EmbeddingPipeline).
  *  - deduplication: Near-duplicate detection via pHash / MinHash
  *                   (requires DeduplicationChecker).
+ *  - storage:       Final persistence via importContent(); retried independently.
  *
- * All stages default to enabled, preserving backward-compatible behaviour.
+ * All stages default to enabled with no retries, preserving backward-compatible
+ * behaviour.  Set `max_retries > 0` on a stage to enable retry on transient
+ * failures.  Set `continue_on_error = true` (extraction) to continue with
+ * degraded ingestion (no text chunks) when extraction fails.
  */
 struct ContentTypePipelineConfig {
     StageConfig extraction;    ///< Text / metadata extraction stage.
     StageConfig chunking;      ///< Content chunking stage.
     StageConfig embedding;     ///< Embedding generation stage.
     StageConfig deduplication; ///< Near-duplicate detection stage.
+    StageConfig storage;       ///< Storage (importContent) retry stage.
 };
 
 /**
@@ -116,10 +125,17 @@ public:
     /**
      * @brief Deserialize from JSON.
      *
-     * Expected JSON structure:
+     * Each stage can be specified as a boolean (backward compatible) or as an
+     * object with the full retry configuration:
      * @code
      * {
-     *   "default": { "extraction": true, "chunking": true, "embedding": true, "deduplication": true },
+     *   "default": {
+     *     "extraction": { "enabled": true, "max_retries": 2, "retry_delay_ms": 200, "continue_on_error": true },
+     *     "chunking": true,
+     *     "embedding": true,
+     *     "deduplication": { "enabled": true, "max_retries": 1 },
+     *     "storage": { "enabled": true, "max_retries": 3, "retry_delay_ms": 500 }
+     *   },
      *   "mime_types": {
      *     "application/pdf": { "embedding": false }
      *   },
@@ -129,21 +145,37 @@ public:
      * }
      * @endcode
      *
-     * Omitted keys retain the default value of `true`.
+     * Boolean stage values retain backward compatibility (only `enabled` is set).
+     * Omitted keys retain the default values.
      */
     static ProcessorChainConfig fromJson(const json& j) {
         ProcessorChainConfig cfg;
 
-        auto load_stage_cfg = [](const json& obj) -> ContentTypePipelineConfig {
+        // Parse a single StageConfig from a JSON value (bool or object).
+        auto load_stage = [](const json& v) -> StageConfig {
+            StageConfig s;
+            if (v.is_boolean()) {
+                s.enabled = v.get<bool>();
+            } else if (v.is_object()) {
+                if (v.contains("enabled") && v["enabled"].is_boolean())
+                    s.enabled = v["enabled"].get<bool>();
+                if (v.contains("max_retries") && v["max_retries"].is_number_integer())
+                    s.max_retries = v["max_retries"].get<int>();
+                if (v.contains("retry_delay_ms") && v["retry_delay_ms"].is_number_integer())
+                    s.retry_delay_ms = v["retry_delay_ms"].get<int>();
+                if (v.contains("continue_on_error") && v["continue_on_error"].is_boolean())
+                    s.continue_on_error = v["continue_on_error"].get<bool>();
+            }
+            return s;
+        };
+
+        auto load_stage_cfg = [&load_stage](const json& obj) -> ContentTypePipelineConfig {
             ContentTypePipelineConfig c;
-            if (obj.contains("extraction") && obj["extraction"].is_boolean())
-                c.extraction.enabled = obj["extraction"].get<bool>();
-            if (obj.contains("chunking") && obj["chunking"].is_boolean())
-                c.chunking.enabled = obj["chunking"].get<bool>();
-            if (obj.contains("embedding") && obj["embedding"].is_boolean())
-                c.embedding.enabled = obj["embedding"].get<bool>();
-            if (obj.contains("deduplication") && obj["deduplication"].is_boolean())
-                c.deduplication.enabled = obj["deduplication"].get<bool>();
+            if (obj.contains("extraction"))    c.extraction    = load_stage(obj["extraction"]);
+            if (obj.contains("chunking"))      c.chunking      = load_stage(obj["chunking"]);
+            if (obj.contains("embedding"))     c.embedding     = load_stage(obj["embedding"]);
+            if (obj.contains("deduplication")) c.deduplication = load_stage(obj["deduplication"]);
+            if (obj.contains("storage"))       c.storage       = load_stage(obj["storage"]);
             return c;
         };
 
@@ -173,14 +205,32 @@ public:
 
     /**
      * @brief Serialize to JSON.
+     *
+     * Stages with non-default retry fields are serialized as objects; stages
+     * with only `enabled` modified are serialized as booleans (backward compat).
      */
     json toJson() const {
-        auto dump_stage_cfg = [](const ContentTypePipelineConfig& c) -> json {
+        // Serialize a single StageConfig: boolean when retry fields are at defaults,
+        // full object otherwise (preserves backward compatibility with old consumers).
+        auto dump_stage = [](const StageConfig& s) -> json {
+            if (s.max_retries == 0 && s.retry_delay_ms == 100 && !s.continue_on_error) {
+                return s.enabled;  // backward-compatible simple form
+            }
             return json{
-                {"extraction",    c.extraction.enabled},
-                {"chunking",      c.chunking.enabled},
-                {"embedding",     c.embedding.enabled},
-                {"deduplication", c.deduplication.enabled}
+                {"enabled",          s.enabled},
+                {"max_retries",      s.max_retries},
+                {"retry_delay_ms",   s.retry_delay_ms},
+                {"continue_on_error", s.continue_on_error}
+            };
+        };
+
+        auto dump_stage_cfg = [&dump_stage](const ContentTypePipelineConfig& c) -> json {
+            return json{
+                {"extraction",    dump_stage(c.extraction)},
+                {"chunking",      dump_stage(c.chunking)},
+                {"embedding",     dump_stage(c.embedding)},
+                {"deduplication", dump_stage(c.deduplication)},
+                {"storage",       dump_stage(c.storage)}
             };
         };
 

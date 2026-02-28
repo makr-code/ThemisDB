@@ -41,11 +41,37 @@
 #include <set>
 #include <sstream>
 #include <fstream>
+#include <thread>
 
 namespace themis {
 namespace content {
 
 using namespace std::chrono;
+
+// ---------------------------------------------------------------------------
+// Pipeline retry helper
+// ---------------------------------------------------------------------------
+// Calls fn(error_out) up to 1 + max_retries times, waiting retry_delay_ms
+// between attempts.  Returns true as soon as fn returns true; otherwise
+// returns false after all attempts are exhausted.
+// attempts_out receives the total number of calls made.
+namespace {
+template <typename Fn>
+bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
+                      std::string& error_out, int& attempts_out) {
+    attempts_out = 0;
+    for (int i = 0; i <= max_retries; ++i) {
+        if (i > 0 && retry_delay_ms > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+        }
+        ++attempts_out;
+        error_out.clear();
+        if (fn(error_out)) return true;
+    }
+    return false;
+}
+} // anonymous namespace
+// ---------------------------------------------------------------------------
 
 static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
@@ -2013,70 +2039,124 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     json chunks_json = json::array();
     if (stage_cfg.extraction.enabled &&
         (detected_mime == "text/html" || detected_mime == "application/xhtml+xml")) {
-        HtmlProcessor html_proc;
-        ContentType ct;
-        ct.mime_type = detected_mime;
-        ct.category  = category;
-        auto extraction = html_proc.extract(blob, ct);
-        if (extraction.ok) {
-            meta.text_extracted      = true;
-            meta.extracted_metadata  = extraction.metadata;
-            int chunk_size = config.value("chunk_size", 512);
-            int overlap    = config.value("chunk_overlap", 50);
-            auto raw_chunks = html_proc.chunk(extraction, chunk_size, overlap);
-            int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
-            for (const auto& rc : raw_chunks) {
-                ChunkMeta cm;
-                cm.id         = generateUuid();
-                cm.content_id = content_id;
-                cm.seq_num    = rc.value("seq_num", 0);
-                cm.chunk_type = rc.value("chunk_type", std::string("text"));
-                cm.text       = rc.value("text", std::string{});
-                cm.created_at = now;
-                chunks_json.push_back(cm.toJson());
+        std::string extraction_error;
+        int extraction_attempts = 0;
+        bool extraction_ok = executeWithRetry(
+            [&](std::string& err) -> bool {
+                chunks_json = json::array();  // Reset on each attempt to avoid stale data.
+                HtmlProcessor html_proc;
+                ContentType ct;
+                ct.mime_type = detected_mime;
+                ct.category  = category;
+                auto extraction = html_proc.extract(blob, ct);
+                if (!extraction.ok) { err = extraction.error_message; return false; }
+                meta.text_extracted     = true;
+                meta.extracted_metadata = extraction.metadata;
+                int chunk_size = config.value("chunk_size", 512);
+                int overlap    = config.value("chunk_overlap", 50);
+                auto raw_chunks = html_proc.chunk(extraction, chunk_size, overlap);
+                int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+                for (const auto& rc : raw_chunks) {
+                    ChunkMeta cm;
+                    cm.id         = generateUuid();
+                    cm.content_id = content_id;
+                    cm.seq_num    = rc.value("seq_num", 0);
+                    cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                    cm.text       = rc.value("text", std::string{});
+                    cm.created_at = now;
+                    chunks_json.push_back(cm.toJson());
+                }
+                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunked     = !chunks_json.empty();
+                THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
+                            extraction.metadata.value("token_count", 0),
+                            chunks_json.size(), filename);
+                return true;
+            },
+            stage_cfg.extraction.max_retries,
+            stage_cfg.extraction.retry_delay_ms,
+            extraction_error,
+            extraction_attempts
+        );
+
+        IngestResult::StageOutcome extraction_outcome;
+        extraction_outcome.stage_name    = "extraction";
+        extraction_outcome.succeeded     = extraction_ok;
+        extraction_outcome.attempts      = extraction_attempts;
+        extraction_outcome.error_message = extraction_error;
+
+        if (!extraction_ok) {
+            THEMIS_WARN("HTML extraction failed for '{}' after {} attempt(s): {}",
+                        filename, extraction_attempts, extraction_error);
+            if (!stage_cfg.extraction.continue_on_error) {
+                result.error_message = "Extraction failed: " + extraction_error;
+                result.stage_outcomes.push_back(std::move(extraction_outcome));
+                return result;
             }
-            meta.chunk_count = static_cast<int>(chunks_json.size());
-            meta.chunked     = !chunks_json.empty();
-            THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
-                        extraction.metadata.value("token_count", 0),
-                        chunks_json.size(), filename);
-        } else {
-            THEMIS_WARN("HTML processor extraction failed for '{}': {}", filename, extraction.error_message);
+            extraction_outcome.skipped = true;
         }
+        result.stage_outcomes.push_back(std::move(extraction_outcome));
     }
 
     // Markdown: parse frontmatter and extract plain text
     if (stage_cfg.extraction.enabled && detected_mime == "text/markdown") {
-        MarkdownProcessor md_proc;
-        ContentType ct;
-        ct.mime_type = detected_mime;
-        ct.category  = category;
-        auto extraction = md_proc.extract(blob, ct);
-        if (extraction.ok) {
-            meta.text_extracted      = true;
-            meta.extracted_metadata  = extraction.metadata;
-            int chunk_size = config.value("chunk_size", 512);
-            int overlap    = config.value("chunk_overlap", 50);
-            auto raw_chunks = md_proc.chunk(extraction, chunk_size, overlap);
-            int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
-            for (const auto& rc : raw_chunks) {
-                ChunkMeta cm;
-                cm.id         = generateUuid();
-                cm.content_id = content_id;
-                cm.seq_num    = rc.value("seq_num", 0);
-                cm.chunk_type = rc.value("chunk_type", std::string("text"));
-                cm.text       = rc.value("text", std::string{});
-                cm.created_at = now;
-                chunks_json.push_back(cm.toJson());
+        std::string extraction_error;
+        int extraction_attempts = 0;
+        bool extraction_ok = executeWithRetry(
+            [&](std::string& err) -> bool {
+                chunks_json = json::array();  // Reset on each attempt to avoid stale data.
+                MarkdownProcessor md_proc;
+                ContentType ct;
+                ct.mime_type = detected_mime;
+                ct.category  = category;
+                auto extraction = md_proc.extract(blob, ct);
+                if (!extraction.ok) { err = extraction.error_message; return false; }
+                meta.text_extracted     = true;
+                meta.extracted_metadata = extraction.metadata;
+                int chunk_size = config.value("chunk_size", 512);
+                int overlap    = config.value("chunk_overlap", 50);
+                auto raw_chunks = md_proc.chunk(extraction, chunk_size, overlap);
+                int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+                for (const auto& rc : raw_chunks) {
+                    ChunkMeta cm;
+                    cm.id         = generateUuid();
+                    cm.content_id = content_id;
+                    cm.seq_num    = rc.value("seq_num", 0);
+                    cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                    cm.text       = rc.value("text", std::string{});
+                    cm.created_at = now;
+                    chunks_json.push_back(cm.toJson());
+                }
+                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunked     = !chunks_json.empty();
+                THEMIS_INFO("Markdown processor: extracted {} tokens, {} chunks from '{}'",
+                            extraction.metadata.value("token_count", 0),
+                            chunks_json.size(), filename);
+                return true;
+            },
+            stage_cfg.extraction.max_retries,
+            stage_cfg.extraction.retry_delay_ms,
+            extraction_error,
+            extraction_attempts
+        );
+
+        IngestResult::StageOutcome extraction_outcome;
+        extraction_outcome.stage_name    = "extraction";
+        extraction_outcome.succeeded     = extraction_ok;
+        extraction_outcome.attempts      = extraction_attempts;
+        extraction_outcome.error_message = extraction_error;
+
+        if (!extraction_ok) {
+            THEMIS_WARN("Markdown extraction failed for '{}' after {} attempt(s): {}",
+                        filename, extraction_attempts, extraction_error);
+            if (!stage_cfg.extraction.continue_on_error) {
+                result.error_message = "Extraction failed: " + extraction_error;
+                result.stage_outcomes.push_back(std::move(extraction_outcome));
+                return result;
             }
-            meta.chunk_count = static_cast<int>(chunks_json.size());
-            meta.chunked     = !chunks_json.empty();
-            THEMIS_INFO("Markdown processor: extracted {} tokens, {} chunks from '{}'",
-                        extraction.metadata.value("token_count", 0),
-                        chunks_json.size(), filename);
-        } else {
-            THEMIS_WARN("Markdown processor extraction failed for '{}': {}", filename, extraction.error_message);
+            extraction_outcome.skipped = true;
         }
+        result.stage_outcomes.push_back(std::move(extraction_outcome));
     }
 
     json spec = {
@@ -2090,10 +2170,37 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
     // it is never persisted to storage.
     spec["__embedding_enabled"] = stage_cfg.embedding.enabled;
 
-    auto status = importContent(spec, blob, user_context);
-    if (!status.ok) {
-        result.error_message = status.message;
-        return result;
+    // Storage stage: importContent with per-stage retry.
+    {
+        std::string storage_error;
+        int storage_attempts = 0;
+        bool stored = executeWithRetry(
+            [&](std::string& err) -> bool {
+                auto status = importContent(spec, blob, user_context);
+                if (!status.ok) { err = status.message; return false; }
+                return true;
+            },
+            stage_cfg.storage.max_retries,
+            stage_cfg.storage.retry_delay_ms,
+            storage_error,
+            storage_attempts
+        );
+
+        IngestResult::StageOutcome storage_outcome;
+        storage_outcome.stage_name    = "storage";
+        storage_outcome.succeeded     = stored;
+        storage_outcome.attempts      = storage_attempts;
+        storage_outcome.error_message = storage_error;
+        result.stage_outcomes.push_back(std::move(storage_outcome));
+
+        if (!stored) {
+            if (storage_attempts > 1) {
+                THEMIS_WARN("Storage stage failed for '{}' after {} attempt(s): {}",
+                            filename, storage_attempts, storage_error);
+            }
+            result.error_message = storage_error;
+            return result;
+        }
     }
 
     // Register with the deduplication index after successful storage.
