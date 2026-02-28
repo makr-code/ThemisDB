@@ -33,6 +33,7 @@
 #include <unordered_map>
 #include <memory>
 #include <cstdint>
+#include <climits>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -122,6 +123,54 @@ struct ComplianceReport {
     nlohmann::json toJson() const;
 };
 
+/// Represents a single policy rule evaluation event emitted by PolicyEngine::evaluate().
+/// Callers populate this from the JSON records in the utils::AuditLogger log
+/// (event_type == "policy_evaluation").
+struct RuleEvaluationEntry {
+    int64_t     timestamp_ms              = 0;     ///< Unix epoch milliseconds
+    std::string route;                             ///< API route / resource evaluated
+    std::string classification;                    ///< Classification level applied
+    std::string mode;                              ///< "enforce" or "observe"
+    bool        require_content_encryption = false;
+    bool        ccpa_opted_out             = false;
+    bool        export_allowed             = true;
+    std::string user_id;                           ///< Optional requesting user
+
+    /// Populate from a JSON audit-log record produced by PolicyEngine::evaluate().
+    /// Unknown or missing fields are silently ignored.
+    static RuleEvaluationEntry fromJson(const nlohmann::json& j);
+};
+
+/// Compliance summary report for a specific time window.
+/// Produced by ComplianceReporter::generateTimeWindowReport().
+struct TimeWindowReport {
+    int64_t window_start_ms = 0;          ///< Inclusive window start (Unix ms; 0 = epoch)
+    int64_t window_end_ms   = INT64_MAX;  ///< Inclusive window end (Unix ms)
+    int64_t generated_at    = 0;          ///< Report generation time (Unix seconds)
+
+    /// Optional compliance framework label (informational only, e.g. "GDPR").
+    std::string framework;
+
+    // ── Evaluation counters ──────────────────────────────────────────────────
+    int total_evaluations            = 0;
+    int enforce_mode_evaluations     = 0;
+    int observe_mode_evaluations     = 0;
+    int ccpa_opted_out_count         = 0;
+    int encryption_required_count    = 0;
+    int export_blocked_count         = 0;
+
+    // ── Breakdowns ───────────────────────────────────────────────────────────
+    std::unordered_map<std::string, int> evaluations_by_classification;
+    std::unordered_map<std::string, int> evaluations_by_route;
+
+    // ── Policy-level compliance ───────────────────────────────────────────────
+    double compliance_score = 0.0;         ///< 0–100
+    std::vector<ComplianceGap> gaps;
+
+    nlohmann::json toJson() const;
+    std::string toCSV() const;
+};
+
 /// Compliance reporter and analyzer
 class ComplianceReporter {
 public:
@@ -187,7 +236,31 @@ public:
     /// Generate risk assessment report
     /// @return Compliance report focused on risk
     ComplianceReport generateRiskAssessmentReport() const;
-    
+
+    /// Generate a compliance summary for a specific time window.
+    ///
+    /// Aggregates the supplied @p entries (policy evaluation events produced by
+    /// PolicyEngine::evaluate() and persisted via utils::AuditLogger) into a
+    /// structured TimeWindowReport.  Only entries whose timestamp_ms falls in
+    /// [@p window_start_ms, @p window_end_ms] are included.
+    ///
+    /// The report covers:
+    ///  - Total evaluation count and enforce/observe split.
+    ///  - Per-classification and per-route evaluation breakdowns.
+    ///  - CCPA opt-out events, encryption-required counts, export-blocked counts.
+    ///  - Policy-level compliance gaps (from detectGaps()) and a 0–100 score.
+    ///
+    /// @param entries          Policy evaluation entries to aggregate.
+    /// @param window_start_ms  Inclusive window start in Unix milliseconds (0 = epoch).
+    /// @param window_end_ms    Inclusive window end in Unix milliseconds (INT64_MAX = all).
+    /// @param framework        Optional compliance framework label stored in the report.
+    /// @return Populated TimeWindowReport.
+    TimeWindowReport generateTimeWindowReport(
+        const std::vector<RuleEvaluationEntry>& entries,
+        int64_t window_start_ms = 0,
+        int64_t window_end_ms   = INT64_MAX,
+        const std::string& framework = "") const;
+
     /// Export report in specified format
     /// @param report Report to export
     /// @param format Export format ("json", "csv")
