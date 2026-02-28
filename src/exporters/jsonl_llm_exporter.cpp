@@ -136,6 +136,7 @@ ExportStats JSONLLLMExporter::exportEntities(
         }
 
         std::set<std::string> seen_hashes;  // For duplicate detection
+        const size_t total_count = entities.size();  // Known in advance for ETA calculation
         
         for (const auto& entity : entities) {
             stats.total_entities++;
@@ -276,9 +277,21 @@ ExportStats JSONLLLMExporter::exportEntities(
                 stats.bytes_written += line.size();
                 stats.exported_entities++;
                 
-                // Progress reporting
-                if (options.progress_callback && 
+                // Progress reporting with duration and ETA
+                if (options.progress_callback &&
                     stats.exported_entities % options.progress_interval == 0) {
+                    auto now = std::chrono::steady_clock::now();
+                    stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        now - start_time);
+                    if (total_count > 0 && stats.exported_entities < total_count) {
+                        double elapsed = std::chrono::duration<double>(
+                            now - start_time).count();
+                        double rate = static_cast<double>(stats.exported_entities) / elapsed;
+                        stats.estimated_eta_seconds =
+                            static_cast<double>(total_count - stats.exported_entities) / rate;
+                    } else {
+                        stats.estimated_eta_seconds = 0.0;
+                    }
                     options.progress_callback(stats);
                 }
                 
@@ -323,6 +336,9 @@ ExportStats JSONLLLMExporter::exportEntities(
         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             end_time - start_time
         );
+        
+        // ETA is zero at completion
+        stats.estimated_eta_seconds = 0.0;
         
         // P2: Record compression metrics
         if (options.compress) {
