@@ -61,7 +61,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Wake-word detection for hands-free activation
 - [~] Multi-speaker diarization improvements
 
-### Phase 3: Voice Macros & Browser Streaming (Status: In Progress 🚧)
+### Phase 3: Voice Macros & Browser Streaming [~] (Status: In Progress 🚧)
 - [x] Voice command macros (user-defined shortcuts to AQL queries)
 - [ ] Language detection and automatic locale switching
 - [ ] Noise suppression preprocessing (RNNoise integration)
