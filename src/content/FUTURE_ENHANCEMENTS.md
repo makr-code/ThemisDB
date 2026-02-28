@@ -155,3 +155,27 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 - `[ ]` `content_security.cpp` must scan all uploaded archives (ZIP, tar) for zip-bomb patterns before extraction in `archive_processor.cpp`; enforce a maximum decompressed-to-compressed ratio of 100× and a maximum extracted file count of 1,000.
 - `[ ]` LibreOffice headless subprocess spawned by `office_processor.cpp` must run in a separate OS user with no write access to the ThemisDB data directory; use `posix_spawn` with a restricted environment rather than `system()`.
 - `[ ]` OCR output from `ocr_processor.cpp` must pass through `content_validator.cpp` before indexing to prevent injection of control characters or oversized text fields into the document store.
+
+---
+
+### Audio Transcription Integration (Whisper / Speech-to-Text)
+**Priority:** Medium
+**Target Version:** v2.0.0
+
+`audio_processor.cpp` now delegates optional speech-to-text transcription to `stt_processor.cpp` (`STTProcessor`). When `transcription.enabled=true` in the `AudioProcessor` configuration, an internal `STTProcessor` instance is initialised and invoked during `extract()`. Without the Whisper.cpp model the processor returns a descriptive placeholder; with a valid model path and `THEMIS_ENABLE_WHISPER=ON` it produces real transcriptions.
+
+**Implementation Notes:**
+- `[x]` `AudioProcessor::initialize()` constructs and initialises an `STTProcessor` when `transcription.enabled=true`; `AudioProcessor::shutdown()` tears it down.
+- `[x]` `AudioProcessor::transcribe()` delegates to `STTProcessor::transcribe()` and returns `full_text` on success, empty string on failure or when no STT processor is configured.
+- `[x]` `STTProcessor` is built as part of the content module when `THEMIS_ENABLE_CONTENT=ON` and `THEMIS_ENABLE_VOICE_ASSISTANT=OFF`; when voice assistant is enabled it is already included by `VoiceAssistant.cmake`.
+- `[x]` Configuration keys forwarded: `transcription.model_path`, `transcription.model` (size), `transcription.language`.
+- `[ ]` Full Whisper.cpp model integration requires `THEMIS_ENABLE_WHISPER=ON` and a valid GGML model file at `transcription.model_path`.
+- `[ ]` Speaker diarization (via `STTProcessor::performSpeakerDiarization`) remains a stub; real implementation requires a clustering library.
+
+**Performance Targets:**
+- Transcription latency for a 60 s audio clip (base model, CPU): < 30 s.
+- Memory overhead per transcription request: < 512 MB RSS with the `base` Whisper model.
+
+**Test Strategy:**
+- Unit: `AudioProcessorTranscriptionTest` in `tests/test_content_audio_processor.cpp` covers init with transcription enabled, stat counter increments, and shutdown/reinit cycle; no external model required (fallback placeholder text).
+- Integration: enable `THEMIS_ENABLE_WHISPER=ON` with a bundled `ggml-tiny.bin` fixture to exercise the real Whisper path.

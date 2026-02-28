@@ -106,6 +106,7 @@
   - sampling_strategy.cpp
   - module_loader.cpp
   - ab_test_manager.cpp
+  - plugin_dependency_graph.cpp
 
 ### 11. RPCServices.cmake
 - **Enabled by**: Always (core functionality)

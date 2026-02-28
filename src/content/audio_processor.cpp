@@ -92,6 +92,21 @@ bool AudioProcessor::initialize(const PluginConfig& config) {
     extract_waveform_ = config.get<bool>("waveform.enabled", false);
     waveform_samples_ = config.get<int>("waveform.samples", 1000);
     
+    // Initialize STTProcessor when transcription is enabled
+    if (enable_transcription_) {
+        stt_processor_ = std::make_unique<STTProcessor>();
+        json stt_settings;
+        stt_settings["model_path"] = config.get<std::string>("transcription.model_path", "./models/ggml-base.bin");
+        stt_settings["model_size"] = transcription_model_;
+        stt_settings["language"] = transcription_language_;
+        stt_settings["timestamps"] = true;
+        PluginConfig stt_config(stt_settings);
+        if (!stt_processor_->initialize(stt_config)) {
+            stt_processor_.reset();
+            enable_transcription_ = false;
+        }
+    }
+    
     // Note: Initialize FFmpeg audio decoder
     
     initialized_ = true;
@@ -101,6 +116,11 @@ bool AudioProcessor::initialize(const PluginConfig& config) {
 void AudioProcessor::shutdown() {
     if (!initialized_) {
         return;
+    }
+    
+    if (stt_processor_) {
+        stt_processor_->shutdown();
+        stt_processor_.reset();
     }
     
     initialized_ = false;
@@ -201,9 +221,34 @@ ContentExtractionResult AudioProcessor::extract(
         }
         
         // Transcription (if enabled and requested)
-        if (enable_transcription_ && options.extract_text) {
-            result.text = transcribe(blob);
-            transcriptions_performed_++;
+        if (enable_transcription_ && options.extract_text && stt_processor_) {
+            auto transcription = stt_processor_->transcribe(blob);
+            if (transcription.success) {
+                result.text = transcription.full_text;
+
+                // Propagate rich transcription metadata
+                json trans_meta;
+                trans_meta["language"] = transcription.detected_language;
+                trans_meta["confidence"] = transcription.average_confidence;
+                trans_meta["audio_duration_ms"] = transcription.audio_duration_ms;
+                trans_meta["segment_count"] = transcription.segments.size();
+
+                json segments_json = json::array();
+                for (const auto& seg : transcription.segments) {
+                    json seg_json;
+                    seg_json["text"] = seg.text;
+                    seg_json["start_ms"] = seg.start_ms;
+                    seg_json["end_ms"] = seg.end_ms;
+                    seg_json["confidence"] = seg.confidence;
+                    if (seg.speaker_id >= 0) {
+                        seg_json["speaker_id"] = seg.speaker_id;
+                    }
+                    segments_json.push_back(seg_json);
+                }
+                trans_meta["segments"] = segments_json;
+                result.metadata["transcription"] = trans_meta;
+                transcriptions_performed_++;
+            }
         }
         
         result.success = true;
@@ -829,11 +874,14 @@ std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t>& b
 }
 
 std::string AudioProcessor::transcribe(const std::vector<uint8_t>& blob) {
-    // Real implementation would:
-    // 1. Decode audio to PCM
-    // 2. Send to Whisper/speech recognition model
-    // 3. Return transcription text
+    if (!stt_processor_) {
+        return "";
+    }
     
+    auto result = stt_processor_->transcribe(blob);
+    if (result.success) {
+        return result.full_text;
+    }
     return "";
 }
 

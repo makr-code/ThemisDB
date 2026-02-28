@@ -10,15 +10,18 @@ on:
       - 'src/auth/**'
       - 'src/security/**'
       - 'src/server/api_auth_config.cpp'
+      - 'src/server/api_security_audit.cpp'
       - 'src/server/auth_middleware.cpp'
       - 'include/auth/**'
       - 'include/security/**'
       - 'include/server/api_auth_config.h'
+      - 'include/server/api_security_audit.h'
       - 'include/server/auth_middleware.h'
       - 'tests/security/**'
       - 'tests/test_jwt_validator.cpp'
       - 'tests/test_jwt_validation_hardening.cpp'
       - 'tests/test_rbac_comprehensive.cpp'
+      - 'tests/test_api_security_audit.cpp'
       - 'tests/test_vault_key_provider.cpp'
       - 'tests/test_vault_signing_provider_errors.cpp'
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
@@ -31,15 +34,18 @@ on:
       - 'src/auth/**'
       - 'src/security/**'
       - 'src/server/api_auth_config.cpp'
+      - 'src/server/api_security_audit.cpp'
       - 'src/server/auth_middleware.cpp'
       - 'include/auth/**'
       - 'include/security/**'
       - 'include/server/api_auth_config.h'
+      - 'include/server/api_security_audit.h'
       - 'include/server/auth_middleware.h'
       - 'tests/security/**'
       - 'tests/test_jwt_validator.cpp'
       - 'tests/test_jwt_validation_hardening.cpp'
       - 'tests/test_rbac_comprehensive.cpp'
+      - 'tests/test_api_security_audit.cpp'
       - 'tests/test_vault_key_provider.cpp'
       - 'tests/test_vault_signing_provider_errors.cpp'
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
@@ -360,6 +366,7 @@ jobs:
             src/security/vault_signing_provider.cpp
             src/server/auth_middleware.cpp
             src/server/api_auth_config.cpp
+            src/server/api_security_audit.cpp
           )
 
           TIDY_FLAGS="-p build --config-file=.clang-tidy"
@@ -404,7 +411,7 @@ jobs:
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "### Sources analysed" >> "$GITHUB_STEP_SUMMARY"
-          echo "jwt_validator, jwks_security, jwt_key_rotation_manager, rbac, vault_key_provider, vault_signing_provider, auth_middleware, api_auth_config" >> "$GITHUB_STEP_SUMMARY"
+          echo "jwt_validator, jwks_security, jwt_key_rotation_manager, rbac, vault_key_provider, vault_signing_provider, auth_middleware, api_auth_config, api_security_audit" >> "$GITHUB_STEP_SUMMARY"
           if [ -f clang_tidy_output.txt ]; then
             ERRORS=$(grep -c ": error:" clang_tidy_output.txt 2>/dev/null || echo 0)
             WARNINGS=$(grep -c ": warning:" clang_tidy_output.txt 2>/dev/null || echo 0)

@@ -1441,3 +1441,55 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
 
     message(STATUS "  API benchmarks: GraphQL parse/execute, correlation ID UUID, JSON serialisation, HTTP endpoint roundtrips")
 endif()
+
+# ============================================================================
+# ConfigPathResolver Performance Benchmarks (Issue #1675)
+# Measures cache hit rate and resolution latency for config path resolution.
+#
+# Targets (src/config/FUTURE_ENHANCEMENTS.md):
+#   - resolve() cache hit:                 < 1 µs
+#   - resolve() cache miss (mapped path):  < 200 µs
+#   - mapLegacyToNew() lookup:             < 1 µs
+#   - DeprecationAggregator hot path:      < 50 ns
+#   - Prometheus metrics scrape:           < 1 ms
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
+    message(STATUS "Adding ConfigPathResolver cache hit rate and resolution latency benchmarks")
+
+    add_executable(bench_config_path_resolver
+        bench_config_path_resolver.cpp
+    )
+
+    target_link_libraries(bench_config_path_resolver PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_config_path_resolver PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_config_path_resolver PRIVATE
+        target_compile_options(bench_changefeed_throughput PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_config_path_resolver
+    install(TARGETS bench_changefeed_throughput
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
+    message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
+endif()
