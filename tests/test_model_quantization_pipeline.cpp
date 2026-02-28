@@ -21,20 +21,6 @@ using namespace themis::llm::lora;
 
 namespace {
 
-// Pack 4-bit integers into an INT32 stream (LSB first)
-std::vector<uint32_t> pack_int4(const std::vector<int>& values)
-{
-    std::vector<uint32_t> packed;
-    for (size_t i = 0; i < values.size(); i += 8) {
-        uint32_t word = 0;
-        for (int b = 0; b < 8 && (i + b) < values.size(); ++b) {
-            word |= (static_cast<uint32_t>(values[i + b] & 0xF) << (b * 4));
-        }
-        packed.push_back(word);
-    }
-    return packed;
-}
-
 // Convert float → FP16 (uint16_t)
 uint16_t fp32_to_fp16(float v)
 {
@@ -389,4 +375,94 @@ TEST_F(ModelQuantizationPipelineTest, DetectGPTQ_FromShardHeader)
     write_file((fs::path(dir) / "model.safetensors").string(), blob);
 
     EXPECT_EQ(ModelQuantizationPipeline::detect_format(dir), ModelFormat::GPTQ);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: Security – malicious SafeTensors file (out-of-bounds offsets)
+// ---------------------------------------------------------------------------
+
+TEST_F(ModelQuantizationPipelineTest, ParseSafetensors_OOBOffsets_Throws)
+{
+    // Craft a safetensors file whose data_offsets claim a range exceeding
+    // the actual data region → parse_safetensors must reject it.
+    const std::string dir = (tmp_dir_ / "oob_shard").string();
+    fs::create_directories(dir);
+    // No config.json needed – the malicious safetensors shard is rejected
+    // during parsing, before any config is read.
+
+    // Manually build a blob with a malicious offset
+    // Header claims data_end = 999999999, but actual data is only 4 bytes.
+    const std::string hdr =
+        R"({"tensor":{"dtype":"I32","shape":[1,1],"data_offsets":[0,999999999]}})";
+    const uint64_t hlen = hdr.size();
+    const std::vector<uint8_t> payload = {0x01, 0x02, 0x03, 0x04};  // 4 bytes
+
+    std::vector<uint8_t> blob(8 + hlen + payload.size());
+    std::memcpy(blob.data(), &hlen, 8);
+    std::memcpy(blob.data() + 8, hdr.data(), hlen);
+    std::memcpy(blob.data() + 8 + hlen, payload.data(), payload.size());
+
+    write_file((fs::path(dir) / "model.safetensors").string(), blob);
+
+    EXPECT_THROW(
+        ModelQuantizationPipeline::load(dir, ModelFormat::GPTQ),
+        std::runtime_error);
+}
+
+// ---------------------------------------------------------------------------
+// Tests: Security – invalid bits / group_size guard
+// ---------------------------------------------------------------------------
+
+TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_InvalidBits_Throws)
+{
+    // A config.json with bits=0 must be rejected before any division.
+    const std::string dir = (tmp_dir_ / "gptq_bad_bits").string();
+    fs::create_directories(dir);
+
+    {
+        std::ofstream f(fs::path(dir) / "config.json");
+        f << R"({"quantization_config":{"bits":0,"group_size":128}})";
+    }
+
+    // Build a minimal valid-looking shard (will be rejected at dequant time).
+    const std::vector<uint8_t> dummy(4, 0);
+    auto blob = make_safetensors({
+        {"layer.qweight", "I32", {1, 1}, dummy},
+        {"layer.qzeros",  "I32", {1, 1}, dummy},
+        {"layer.scales",  "F16", {1, 1}, dummy},
+    });
+    write_file((fs::path(dir) / "model.safetensors").string(), blob);
+
+    QuantizationPipelineConfig cfg;
+    cfg.bits = 0;
+    EXPECT_THROW(
+        ModelQuantizationPipeline::load(dir, ModelFormat::GPTQ, cfg),
+        std::runtime_error);
+}
+
+TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_InvalidGroupSize_Throws)
+{
+    // A config.json with group_size=0 must be rejected before any division.
+    const std::string dir = (tmp_dir_ / "gptq_bad_gs").string();
+    fs::create_directories(dir);
+
+    {
+        std::ofstream f(fs::path(dir) / "config.json");
+        f << R"({"quantization_config":{"bits":4,"group_size":0}})";
+    }
+
+    const std::vector<uint8_t> dummy(4, 0);
+    auto blob = make_safetensors({
+        {"layer.qweight", "I32", {1, 1}, dummy},
+        {"layer.qzeros",  "I32", {1, 1}, dummy},
+        {"layer.scales",  "F16", {1, 1}, dummy},
+    });
+    write_file((fs::path(dir) / "model.safetensors").string(), blob);
+
+    QuantizationPipelineConfig cfg;
+    cfg.bits       = 4;
+    cfg.group_size = 0;
+    EXPECT_THROW(
+        ModelQuantizationPipeline::load(dir, ModelFormat::GPTQ, cfg),
+        std::runtime_error);
 }

@@ -15,11 +15,9 @@ namespace spdlog {
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
-#include <cmath>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -177,7 +175,9 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     // Read 8-byte header length (little-endian uint64)
     uint64_t hdr_len = 0;
     f.read(reinterpret_cast<char*>(&hdr_len), sizeof(hdr_len));
-    if (hdr_len == 0 || hdr_len > file_size - 8) {
+    // Guard: header must fit in the file and not exceed 64 MB to prevent OOM
+    constexpr uint64_t kMaxHeaderBytes = 64ULL * 1024 * 1024;
+    if (hdr_len == 0 || hdr_len > file_size - 8 || hdr_len > kMaxHeaderBytes) {
         throw std::runtime_error(
             "Safetensors: invalid header length in " + file_path);
     }
@@ -222,8 +222,16 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
             }
         }
         if (val.contains("data_offsets")) {
-            desc.data_begin = val["data_offsets"][0].get<uint64_t>();
-            desc.data_end   = val["data_offsets"][1].get<uint64_t>();
+            const uint64_t begin = val["data_offsets"][0].get<uint64_t>();
+            const uint64_t end   = val["data_offsets"][1].get<uint64_t>();
+            // Validate offsets against the data buffer to prevent OOB reads
+            if (begin > end || end > result.data.size()) {
+                throw std::runtime_error(
+                    "Safetensors: tensor '" + it.key() +
+                    "' has out-of-bounds data_offsets in " + file_path);
+            }
+            desc.data_begin = begin;
+            desc.data_end   = end;
         }
         result.tensors[it.key()] = std::move(desc);
     }
@@ -317,6 +325,14 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     int group_size,
     int bits)
 {
+    if (bits <= 0 || bits > 8) {
+        throw std::runtime_error("dequantize_awq_layer: bits must be in [1, 8], got " +
+                                 std::to_string(bits));
+    }
+    if (group_size <= 0) {
+        throw std::runtime_error("dequantize_awq_layer: group_size must be > 0, got " +
+                                 std::to_string(group_size));
+    }
     // AWQ layout (AutoAWQ convention):
     //   qweight[i, pc] – INT32, shape [in_features, out_features / vpw]
     //     weight[i, pc*vpw + b] = (qweight[i, pc] >> (b * bits)) & mask
@@ -330,8 +346,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
     const int vpw    = 32 / bits;
     const uint32_t mask = (1u << bits) - 1u;
 
-    const int64_t qw_cols = (out_features + vpw - 1) / vpw;   // packed cols in qweight
-    const int64_t qz_cols = (out_features + vpw - 1) / vpw;   // packed cols in qzeros
+    const int64_t qw_cols = (out_features + vpw - 1) / vpw;   // packed cols in qweight/qzeros
     const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
 
     const auto* qw = static_cast<const uint32_t*>(qweight_packed);
@@ -355,7 +370,7 @@ std::vector<float> ModelQuantizationPipeline::dequantize_awq_layer(
             const float w = static_cast<float>((w_packed >> (b * bits)) & mask);
 
             // Unpack zero-point
-            const uint32_t z_packed = qz[static_cast<size_t>(g * qz_cols + pc)];
+            const uint32_t z_packed = qz[static_cast<size_t>(g * qw_cols + pc)];
             const float z = static_cast<float>((z_packed >> (b * bits)) & mask);
 
             const float s = sc_f[static_cast<size_t>(g * out_features + j)];
@@ -374,6 +389,14 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
     int group_size,
     int bits)
 {
+    if (bits <= 0 || bits > 8) {
+        throw std::runtime_error("dequantize_gptq_layer: bits must be in [1, 8], got " +
+                                 std::to_string(bits));
+    }
+    if (group_size <= 0) {
+        throw std::runtime_error("dequantize_gptq_layer: group_size must be > 0, got " +
+                                 std::to_string(group_size));
+    }
     // GPTQ layout (AutoGPTQ / ExLlama convention):
     //   qweight[r, c]  – INT32, shape [in_features / vpw, out_features]
     //     weight[r*vpw + b, c] = (qweight[r, c] >> (b * bits)) & mask
@@ -387,7 +410,6 @@ std::vector<float> ModelQuantizationPipeline::dequantize_gptq_layer(
     const int vpw    = 32 / bits;
     const uint32_t mask = (1u << bits) - 1u;
 
-    const int64_t qw_rows = (in_features  + vpw - 1) / vpw;
     const int64_t qz_cols = (out_features + vpw - 1) / vpw;
     const int     n_groups = static_cast<int>((in_features + group_size - 1) / group_size);
 
