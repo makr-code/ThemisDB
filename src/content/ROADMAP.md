@@ -30,7 +30,7 @@
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
 ### Long-term (6-12 months)
-- [I] Audio transcription integration (Whisper / speech-to-text) (Issue: #1687)
+- [P] Audio transcription integration (Whisper / speech-to-text) (Issue: #1687)
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [I] OCR for image-embedded text (Tesseract integration) (Issue: #1689)
 - [I] Multi-language text detection and routing (Issue: #1690)
