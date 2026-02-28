@@ -603,6 +603,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llamacpp_inference_engine.cpp
     ../src/llm/shared_worker_pool.cpp
     ../src/llm/async_inference_engine.cpp
+    ../src/llm/model_router.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
     ../src/llm/openai_compat_adapter.cpp
