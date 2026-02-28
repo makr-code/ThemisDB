@@ -493,3 +493,46 @@ TEST(CacheStatsTest, HitRateHalfWhenEqualHitsAndMisses) {
     stats.misses = 3;
     EXPECT_DOUBLE_EQ(stats.hit_rate(), 0.5);
 }
+
+// ===========================================================================
+// sanitizeApiKey() tests
+// ===========================================================================
+
+TEST(SanitizeApiKeyTest, EmptyKeyReturnsNotSet) {
+    EXPECT_EQ(sanitizeApiKey(""), "<not set>");
+}
+
+TEST(SanitizeApiKeyTest, ShortKeyFullyMasked) {
+    // 8 chars or fewer: fully masked
+    EXPECT_EQ(sanitizeApiKey("abcd"),     "****");
+    EXPECT_EQ(sanitizeApiKey("12345678"), "********");
+}
+
+TEST(SanitizeApiKeyTest, LongKeyShowsPrefixAndSuffix) {
+    // Key of 20 chars: first 4 and last 4 visible
+    std::string key = "sk-abcdefghij1234xyz";  // 20 chars
+    std::string masked = sanitizeApiKey(key);
+
+    EXPECT_EQ(masked.substr(0, 4), "sk-a");
+    EXPECT_NE(masked.find("***...***"), std::string::npos);
+    EXPECT_EQ(masked.substr(masked.size() - 4), "4xyz");
+}
+
+TEST(SanitizeApiKeyTest, RawKeyDoesNotAppearInMasked) {
+    std::string raw_key = "sk-supersecretapikey123456";
+    std::string masked = sanitizeApiKey(raw_key);
+
+    // The full raw key must not appear in the masked output
+    EXPECT_EQ(masked.find(raw_key), std::string::npos);
+    // Middle portion (not prefix or suffix) must not appear
+    std::string middle = raw_key.substr(4, raw_key.size() - 8);
+    EXPECT_EQ(masked.find(middle), std::string::npos);
+}
+
+TEST(SanitizeApiKeyTest, ExactlyNineLengthIsNotFullyMasked) {
+    // 9 chars: 4 visible + "***...***" + 4 visible, not fully masked
+    std::string key = "abcde6789";  // 9 chars
+    std::string masked = sanitizeApiKey(key);
+    EXPECT_EQ(masked.substr(0, 4), "abcd");
+    EXPECT_EQ(masked.substr(masked.size() - 4), "6789");
+}

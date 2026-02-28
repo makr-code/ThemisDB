@@ -25,8 +25,26 @@
 #include <mutex>
 #include <thread>
 #include <cmath>
+#include <spdlog/spdlog.h>
 
 namespace themis {
+
+// ============================================================================
+// API Key Sanitization
+// ============================================================================
+
+std::string sanitizeApiKey(const std::string& api_key) {
+    if (api_key.empty()) {
+        return "<not set>";
+    }
+    constexpr size_t kVisible = 4;
+    if (api_key.size() <= kVisible * 2) {
+        return std::string(api_key.size(), '*');
+    }
+    return api_key.substr(0, kVisible) +
+           "***...***" +
+           api_key.substr(api_key.size() - kVisible);
+}
 
 // ============================================================================
 // Implementation Details
@@ -363,6 +381,13 @@ std::string LLMProcessAnalyzer::callLLM(
     const std::map<std::string, std::string>& params
 ) {
     // TODO: Integrate with actual LLM API (OpenAI, Anthropic, local models)
+    // SECURITY: Always use sanitizeApiKey(pImpl->config.api_key) in log
+    // messages — never log or expose the raw API key value.
+    spdlog::debug("LLM call (stub): provider={}, model={}, key={}",
+                  static_cast<int>(pImpl->config.provider),
+                  pImpl->config.model_name,
+                  sanitizeApiKey(pImpl->config.api_key));
+
     // For now, return simulated responses
     
     nlohmann::json simulated_response;
