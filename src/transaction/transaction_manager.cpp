@@ -624,6 +624,16 @@ void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
 
 // ── Per-tenant transaction namespace ─────────────────────────────────────────
 
+size_t TransactionManager::countActiveTenantTransactionsLocked(std::string_view tenant_id) const {
+    size_t count = 0;
+    for (const auto& [txn_id, txn] : active_transactions_) {
+        if (txn->tenant_id_ == tenant_id) {
+            count++;
+        }
+    }
+    return count;
+}
+
 TransactionManager::TenantTransactionStats
 TransactionManager::getTenantTransactionStats(std::string_view tenant_id) const {
     TenantTransactionStats result;
@@ -639,13 +649,7 @@ TransactionManager::getTenantTransactionStats(std::string_view tenant_id) const 
         result.total_aborted   = it->second.total_aborted;
     }
 
-    // Count active transactions for this tenant
-    for (const auto& [txn_id, txn] : active_transactions_) {
-        if (txn->tenant_id_ == tenant_id) {
-            result.active_count++;
-        }
-    }
-
+    result.active_count = countActiveTenantTransactionsLocked(tenant_id);
     return result;
 }
 
@@ -678,13 +682,7 @@ TransactionManager::getAllTenantTransactionStats() const {
 
 size_t TransactionManager::getActiveTenantTransactionCount(std::string_view tenant_id) const {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
-    size_t count = 0;
-    for (const auto& [txn_id, txn] : active_transactions_) {
-        if (txn->tenant_id_ == tenant_id) {
-            count++;
-        }
-    }
-    return count;
+    return countActiveTenantTransactionsLocked(tenant_id);
 }
 
 std::vector<TransactionManager::TransactionId>
@@ -803,11 +801,11 @@ TransactionManager::Transaction::Transaction(TransactionId id,
                                              VectorIndexManager& vecIdx,
                                              IsolationLevel isolation,
                                              LockManager* lock_manager,
-                                             std::string tenant_id)
+                                             std::string_view tenant_id)
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()),
       lock_manager_(lock_manager),
-      tenant_id_(std::move(tenant_id)) {
+      tenant_id_(tenant_id) {
     // Map ThemisDB IsolationLevel to the appropriate RocksDB isolation level.
     // SERIALIZABLE and REPEATABLE_READ use snapshot isolation at the storage layer;
     // additional write-conflict checks are performed at commit time.

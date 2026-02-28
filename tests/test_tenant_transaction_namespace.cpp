@@ -29,12 +29,11 @@ using namespace themis;
 
 class TenantTxnTest : public ::testing::Test {
 protected:
-    static constexpr const char* DB_PATH = "/tmp/themis_tenant_txn_test_db";
-
     void SetUp() override {
-        std::filesystem::remove_all(DB_PATH);
+        db_path_ = (std::filesystem::temp_directory_path() / "themis_tenant_txn_test_db").string();
+        std::filesystem::remove_all(db_path_);
         RocksDBWrapper::Config cfg;
-        cfg.db_path = DB_PATH;
+        cfg.db_path = db_path_;
         cfg.enable_statistics = false;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db_->open());
@@ -52,7 +51,7 @@ protected:
         sec_idx_.reset();
         db_->close();
         db_.reset();
-        std::filesystem::remove_all(DB_PATH);
+        std::filesystem::remove_all(db_path_);
     }
 
     static BaseEntity makeEntity(const std::string& pk,
@@ -63,6 +62,7 @@ protected:
         return e;
     }
 
+    std::string                            db_path_;
     std::unique_ptr<RocksDBWrapper>        db_;
     std::unique_ptr<SecondaryIndexManager> sec_idx_;
     std::unique_ptr<GraphIndexManager>     graph_idx_;

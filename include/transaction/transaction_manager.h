@@ -111,7 +111,7 @@ public:
                     VectorIndexManager& vecIdx,
                     IsolationLevel isolation,
                     LockManager* lock_manager = nullptr,
-                    std::string tenant_id = "");
+                    std::string_view tenant_id = {});
         ~Transaction();
 
         // Keine Kopie, aber Move
@@ -951,6 +951,10 @@ private:
         uint64_t total_aborted{0};
     };
     std::unordered_map<std::string, TenantStatsEntry> tenant_stats_;  ///< keyed by tenant_id
+
+    /// Count active transactions for a tenant without acquiring sessions_mutex_.
+    /// Must be called with sessions_mutex_ already held.
+    size_t countActiveTenantTransactionsLocked(std::string_view tenant_id) const;
 
     // Transaction timeout
     std::atomic<uint64_t> default_transaction_timeout_ms_{0}; ///< 0 = no default timeout
