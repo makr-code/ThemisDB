@@ -145,6 +145,7 @@ public:
         double p95_latency_ms = 0.0;
         double p99_latency_ms = 0.0;
         double tokens_per_second = 0.0;
+        size_t total_tokens_generated = 0;
 
         // Speculative decoding metrics
         size_t speculative_draft_tokens_total = 0;    ///< Total draft tokens proposed.
@@ -412,6 +413,7 @@ private:
     Statistics stats_;
     mutable std::mutex stats_mutex_;
     std::vector<double> latency_samples_;  // For percentile calculation
+    std::chrono::steady_clock::time_point engine_start_time_{std::chrono::steady_clock::now()};
     
     // Worker threads for request processing
     std::vector<std::thread> worker_threads_;
@@ -452,7 +454,8 @@ private:
     void recordCacheHit(size_t tokens_saved);
     void recordCacheMiss();
     void recordBatchCompletion(size_t batch_size);
-    void recordRequestCompletion(double latency_ms, const std::string& model_id);
+    void recordRequestCompletion(double latency_ms, const std::string& model_id,
+                                 size_t tokens_generated = 0);
     void recordRequestTimeout();
     void recordSpeculativeStep(const SpeculativeDecoder::VerifyResult& result);
 

@@ -32,6 +32,7 @@
 #include "llm/shared_worker_pool.h"
 #include <thread>
 #include <algorithm>
+#include <deque>
 #include <vector>
 #include <mutex>
 #include <shared_mutex>
@@ -340,8 +341,17 @@ private:
         std::atomic<double> total_queue_time_ms{0.0};
         std::atomic<size_t> total_dedup_cache_hits{0};
         std::atomic<size_t> total_dedup_cache_misses{0};
+        std::atomic<size_t> total_tokens_generated{0};
     };
     Stats stats_;
+
+    // Engine start time for tokens/sec wall-clock calculation.
+    std::chrono::steady_clock::time_point engine_start_time_{std::chrono::steady_clock::now()};
+
+    // Per-request latency samples for p99 computation (protected by latency_mutex_).
+    // Using deque for O(1) front-removal when the window exceeds 10 000 samples.
+    std::deque<double> latency_samples_;
+    mutable std::mutex latency_mutex_;
     
     // Worker thread function
     void workerLoop(size_t worker_id);

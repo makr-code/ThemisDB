@@ -43,6 +43,7 @@
 #include <benchmark/benchmark.h>
 
 #include "llm/speculative_decoder.h"
+#include "llm/async_inference_engine.h"
 #include "llm/inference_engine_enhanced.h"
 #include "llm/llm_plugin_interface.h"
 
@@ -53,6 +54,7 @@
 #include <atomic>
 #include <random>
 #include <numeric>
+#include <algorithm>
 
 using namespace themis::llm;
 
@@ -109,8 +111,10 @@ static void buildAllRejectedInput(
 
 class MockPlugin : public ILLMPlugin {
 public:
-    explicit MockPlugin(const std::string& model_id, int latency_us = 100)
-        : model_id_(model_id), latency_us_(latency_us) {}
+    explicit MockPlugin(const std::string& model_id, int latency_us = 100,
+                        int tokens_per_response = 10)
+        : model_id_(model_id), latency_us_(latency_us),
+          tokens_per_response_(tokens_per_response) {}
 
     bool loadModel(const std::string&, const json&) override { return true; }
     void unloadModel() override {}
@@ -126,12 +130,15 @@ public:
         if (latency_us_ > 0)
             std::this_thread::sleep_for(std::chrono::microseconds(latency_us_));
         InferenceResponse r;
-        r.request_id       = req.request_id;
-        r.text             = "ok";
-        r.model_id         = model_id_;
-        r.tokens_generated = 10;
+        r.request_id        = req.request_id;
+        r.text              = "ok";
+        r.model_id          = model_id_;
+        r.tokens_generated  = tokens_per_response_;
         r.inference_time_ms = latency_us_ / 1000.0f;
         r.latency_ms        = latency_us_ / 1000;
+        r.tokens_per_second = (latency_us_ > 0)
+            ? (tokens_per_response_ * 1e6f / latency_us_)
+            : 0.0f;
         return r;
     }
     InferenceResponse generateRAG(const RAGContext&,
@@ -154,6 +161,7 @@ public:
 private:
     std::string model_id_;
     int latency_us_;
+    int tokens_per_response_;
 };
 
 } // anonymous namespace
@@ -472,6 +480,225 @@ BENCHMARK(BM_InferenceEngine_Speculative)
     ->Arg(4)
     ->Arg(8)
     ->Iterations(10);
+
+// ═══════════════════════════════════════════════════════════════════
+// BM_AsyncEngine_TokensPerSec
+// Measures tokens/sec throughput through AsyncInferenceEngine.
+// Reports both Google Benchmark's items/sec (tokens) and the engine's
+// own tokens_per_second counter from getWorkerStats().
+// Acceptance criterion: regression < 5% vs. stored baseline.
+// ═══════════════════════════════════════════════════════════════════
+
+static void BM_AsyncEngine_TokensPerSec(benchmark::State& state) {
+    constexpr int kLatencyUs       = 200;
+    constexpr int kTokensPerResp   = 50;
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = static_cast<size_t>(state.range(0));
+    cfg.max_queue_size     = 1000;
+
+    AsyncInferenceEngine engine(
+        std::make_shared<MockPlugin>("model", kLatencyUs, kTokensPerResp), cfg);
+
+    InferenceRequest req;
+    req.prompt     = "benchmark prompt";
+    req.max_tokens = kTokensPerResp;
+
+    size_t counter = 0;
+    int64_t total_tokens = 0;
+
+    for (auto _ : state) {
+        req.request_id = "tps_" + std::to_string(counter++);
+        auto handle   = engine.submit(req);
+        auto response = handle.get();
+        total_tokens += response.tokens_generated;
+        benchmark::DoNotOptimize(response.tokens_generated);
+        benchmark::ClobberMemory();
+    }
+
+    // Report actual tokens generated as items processed → benchmark computes tokens/sec.
+    state.SetItemsProcessed(total_tokens);
+    state.SetLabel("async_tokens_per_sec");
+
+    // Expose engine-computed tokens/sec for CI regression tracking.
+    auto ws = engine.getWorkerStats();
+    if (ws.contains("tokens_per_second")) {
+        state.counters["engine_tokens_per_sec"] =
+            benchmark::Counter(static_cast<double>(ws["tokens_per_second"]));
+    }
+
+    engine.shutdown();
+}
+BENCHMARK(BM_AsyncEngine_TokensPerSec)
+    ->Arg(1)
+    ->Arg(2)
+    ->Iterations(20);
+
+// ═══════════════════════════════════════════════════════════════════
+// BM_AsyncEngine_LatencyP99
+// Submits a burst of requests to AsyncInferenceEngine and reports
+// the p99 end-to-end inference latency recorded by the engine.
+// ═══════════════════════════════════════════════════════════════════
+
+static void BM_AsyncEngine_LatencyP99(benchmark::State& state) {
+    constexpr int kLatencyUs     = 500;   // 0.5 ms simulated inference
+    constexpr int kBurstRequests = 200;   // enough samples for stable p99
+
+    AsyncInferenceEngine::Config cfg;
+    cfg.num_worker_threads = 2;
+    cfg.max_queue_size     = 1000;
+
+    AsyncInferenceEngine engine(
+        std::make_shared<MockPlugin>("model", kLatencyUs), cfg);
+
+    InferenceRequest req;
+    req.prompt     = "latency benchmark";
+    req.max_tokens = 10;
+
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        // Submit a burst; collect per-request latency for in-benchmark p99.
+        std::vector<double> latencies;
+        latencies.reserve(kBurstRequests);
+
+        for (int i = 0; i < kBurstRequests; ++i) {
+            req.request_id        = "p99_" + std::to_string(counter++);
+            auto t0               = std::chrono::steady_clock::now();
+            auto handle           = engine.submit(req);
+            auto response         = handle.get();
+            auto t1               = std::chrono::steady_clock::now();
+            double latency_ms     = std::chrono::duration<double, std::milli>(t1 - t0).count();
+            latencies.push_back(latency_ms);
+            benchmark::DoNotOptimize(response.text.size());
+        }
+
+        // Compute in-benchmark p99 for this iteration.
+        std::sort(latencies.begin(), latencies.end());
+        size_t p99_idx      = static_cast<size_t>(latencies.size() * 0.99);
+        double p99_bench_ms = latencies[std::min(p99_idx, latencies.size() - 1)];
+        benchmark::DoNotOptimize(p99_bench_ms);
+        benchmark::ClobberMemory();
+    }
+
+    state.SetItemsProcessed(state.iterations() * kBurstRequests);
+    state.SetLabel("async_latency_p99");
+
+    // Report engine-computed p99 latency.
+    auto ws = engine.getWorkerStats();
+    if (ws.contains("p99_latency_ms")) {
+        state.counters["latency_p99_ms"] =
+            benchmark::Counter(static_cast<double>(ws["p99_latency_ms"]));
+    }
+
+    engine.shutdown();
+}
+BENCHMARK(BM_AsyncEngine_LatencyP99)->Iterations(3);
+
+// ═══════════════════════════════════════════════════════════════════
+// BM_EnhancedEngine_TokensPerSec
+// Measures tokens/sec throughput through InferenceEngineEnhanced.
+// Targets the `tokens_per_second` field in Statistics (previously stub).
+// ═══════════════════════════════════════════════════════════════════
+
+static void BM_EnhancedEngine_TokensPerSec(benchmark::State& state) {
+    constexpr int kLatencyUs     = 200;
+    constexpr int kTokensPerResp = 50;
+
+    InferenceEngineEnhanced::Config cfg;
+    cfg.num_worker_threads     = static_cast<size_t>(state.range(0));
+    cfg.enable_context_caching = false;
+    cfg.batch_timeout_ms       = 20;
+
+    InferenceEngineEnhanced engine(cfg);
+    engine.registerModel("model",
+        std::make_shared<MockPlugin>("model", kLatencyUs, kTokensPerResp));
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.base_request.prompt    = "benchmark prompt";
+    req.base_request.max_tokens = kTokensPerResp;
+    req.allow_caching          = false;
+    req.preferred_model_id     = "model";
+
+    size_t counter = 0;
+    int64_t total_tokens = 0;
+
+    for (auto _ : state) {
+        req.request_id = "etps_" + std::to_string(counter++);
+        auto handle   = engine.submit(req);
+        auto response = handle.get();
+        total_tokens += response.tokens_generated;
+        benchmark::DoNotOptimize(response.tokens_generated);
+        benchmark::ClobberMemory();
+    }
+
+    state.SetItemsProcessed(total_tokens);
+    state.SetLabel("enhanced_tokens_per_sec");
+
+    // Expose engine-computed tokens_per_second for CI regression tracking.
+    auto stats = engine.getStatistics();
+    state.counters["engine_tokens_per_sec"] =
+        benchmark::Counter(stats.tokens_per_second);
+
+    engine.shutdown();
+}
+BENCHMARK(BM_EnhancedEngine_TokensPerSec)
+    ->Arg(1)
+    ->Arg(2)
+    ->Iterations(20);
+
+// ═══════════════════════════════════════════════════════════════════
+// BM_EnhancedEngine_LatencyP99
+// Submits a burst of requests to InferenceEngineEnhanced and reports
+// the p99 latency from Statistics.
+// ═══════════════════════════════════════════════════════════════════
+
+static void BM_EnhancedEngine_LatencyP99(benchmark::State& state) {
+    constexpr int kLatencyUs     = 500;
+    constexpr int kBurstRequests = 200;
+
+    InferenceEngineEnhanced::Config cfg;
+    cfg.num_worker_threads     = 2;
+    cfg.enable_context_caching = false;
+    cfg.batch_timeout_ms       = 20;
+
+    InferenceEngineEnhanced engine(cfg);
+    engine.registerModel("model",
+        std::make_shared<MockPlugin>("model", kLatencyUs));
+    engine.start();
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.base_request.prompt    = "latency benchmark";
+    req.base_request.max_tokens = 10;
+    req.allow_caching          = false;
+    req.preferred_model_id     = "model";
+
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        for (int i = 0; i < kBurstRequests; ++i) {
+            req.request_id = "ep99_" + std::to_string(counter++);
+            auto handle   = engine.submit(req);
+            auto response = handle.get();
+            benchmark::DoNotOptimize(response.text.size());
+        }
+        benchmark::ClobberMemory();
+    }
+
+    state.SetItemsProcessed(state.iterations() * kBurstRequests);
+    state.SetLabel("enhanced_latency_p99");
+
+    // Report engine-computed p99 latency from Statistics.
+    auto stats = engine.getStatistics();
+    state.counters["latency_p99_ms"] =
+        benchmark::Counter(stats.p99_latency_ms);
+    state.counters["latency_p95_ms"] =
+        benchmark::Counter(stats.p95_latency_ms);
+
+    engine.shutdown();
+}
+BENCHMARK(BM_EnhancedEngine_LatencyP99)->Iterations(3);
 
 // ═══════════════════════════════════════════════════════════════════
 // Main
