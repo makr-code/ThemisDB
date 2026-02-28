@@ -61,7 +61,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1729)
 - [x] Integration tests (JSONL export, LoRA metadata)
 - [I] Performance benchmarks (export throughput) (Issue: #1730)
-- [I] Security audit (sensitive field redaction, export authorization) (Issue: #1731)
+- [x] Security audit (sensitive field redaction, export authorization) (Issue: #1731)
 - [x] Documentation complete (JSONL exporter, LoRA metadata, vLLM integration)
 - [x] API stability guaranteed for JSONL exporter
 
