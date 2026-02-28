@@ -578,8 +578,26 @@ TEST_F(AudioProcessorTranscriptionTest, Transcription_StatisticsCountIncrement) 
     auto stats_before = processor.getStatistics();
     processor.extract(blob, "audio/wav", opts);
     auto stats_after = processor.getStatistics();
-    EXPECT_GE(stats_after["transcriptions_performed"].get<uint64_t>(),
+    EXPECT_GT(stats_after["transcriptions_performed"].get<uint64_t>(),
               stats_before["transcriptions_performed"].get<uint64_t>());
+}
+
+TEST_F(AudioProcessorTranscriptionTest, Transcription_MetadataPopulated) {
+    // Transcription metadata (language, confidence, segments) must be
+    // present in result.metadata["transcription"] after a successful extract.
+    auto blob = buildWavBlob(16000, 1, 16, 500);
+    ExtractionOptions opts;
+    opts.extract_text = true;
+    auto result = processor.extract(blob, "audio/wav", opts);
+    ASSERT_TRUE(result.success);
+    ASSERT_TRUE(result.metadata.contains("transcription"));
+    const auto& tmeta = result.metadata["transcription"];
+    EXPECT_TRUE(tmeta.contains("language"));
+    EXPECT_TRUE(tmeta.contains("confidence"));
+    EXPECT_TRUE(tmeta.contains("audio_duration_ms"));
+    EXPECT_TRUE(tmeta.contains("segment_count"));
+    EXPECT_TRUE(tmeta.contains("segments"));
+    EXPECT_TRUE(tmeta["segments"].is_array());
 }
 
 TEST_F(AudioProcessorTranscriptionTest, Transcription_ShutdownAndReinitialize) {

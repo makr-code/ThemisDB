@@ -221,9 +221,34 @@ ContentExtractionResult AudioProcessor::extract(
         }
         
         // Transcription (if enabled and requested)
-        if (enable_transcription_ && options.extract_text) {
-            result.text = transcribe(blob);
-            transcriptions_performed_++;
+        if (enable_transcription_ && options.extract_text && stt_processor_) {
+            auto transcription = stt_processor_->transcribe(blob);
+            if (transcription.success) {
+                result.text = transcription.full_text;
+
+                // Propagate rich transcription metadata
+                json trans_meta;
+                trans_meta["language"] = transcription.detected_language;
+                trans_meta["confidence"] = transcription.average_confidence;
+                trans_meta["audio_duration_ms"] = transcription.audio_duration_ms;
+                trans_meta["segment_count"] = transcription.segments.size();
+
+                json segments_json = json::array();
+                for (const auto& seg : transcription.segments) {
+                    json seg_json;
+                    seg_json["text"] = seg.text;
+                    seg_json["start_ms"] = seg.start_ms;
+                    seg_json["end_ms"] = seg.end_ms;
+                    seg_json["confidence"] = seg.confidence;
+                    if (seg.speaker_id >= 0) {
+                        seg_json["speaker_id"] = seg.speaker_id;
+                    }
+                    segments_json.push_back(seg_json);
+                }
+                trans_meta["segments"] = segments_json;
+                result.metadata["transcription"] = trans_meta;
+                transcriptions_performed_++;
+            }
         }
         
         result.success = true;
