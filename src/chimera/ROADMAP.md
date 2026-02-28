@@ -29,7 +29,7 @@
 - [!] Weaviate adapter (native vector database) (Issue: #2374)
 - [x] Qdrant adapter (native vector database) (Issue: #1646)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
-- [I] Adapter capability matrix (which operations each system supports) (Issue: #2376)
+- [x] Adapter capability matrix (which operations each system supports) (Issue: #2376)
 
 ### Long-term (6-12 months)
 - [I] Neo4j adapter (native graph database) (Issue: #1650)
@@ -61,7 +61,7 @@
 - [P] Weaviate adapter (native vector database)
 - [x] Qdrant adapter (native vector database)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report)
-- [ ] Adapter capability matrix (which operations each system supports)
+- [x] Adapter capability matrix (which operations each system supports)
 - [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
 - [ ] Neo4j adapter (native graph database)
 
