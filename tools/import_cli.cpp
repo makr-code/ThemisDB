@@ -320,7 +320,7 @@ static int runImport(const Config& cfg) {
             if (cfg.max_row_size > 0 && data_line.size() > cfg.max_row_size) {
                 std::string reason = "ROW_TOO_LARGE: table " + table_name + " row " + std::to_string(row);
                 if (cfg.progress) std::cerr << "WARN: " << reason << "\n";
-                quarantineRow(cfg, table_name, data_line, reason);
+                if (!cfg.dry_run) quarantineRow(cfg, table_name, data_line, reason);
                 stats.failed++; stats.quarantined++;
                 if (!cfg.continue_on_error) return;
                 continue;
@@ -329,7 +329,7 @@ static int runImport(const Config& cfg) {
             if (cfg.enforce_utf8 && !isValidUtf8(data_line)) {
                 std::string reason = "INVALID_UTF8: table " + table_name + " row " + std::to_string(row);
                 if (cfg.progress) std::cerr << "WARN: " << reason << "\n";
-                quarantineRow(cfg, table_name, data_line, reason);
+                if (!cfg.dry_run) quarantineRow(cfg, table_name, data_line, reason);
                 stats.failed++; stats.quarantined++;
                 if (!cfg.continue_on_error) return;
                 continue;
@@ -445,7 +445,7 @@ static int runImport(const Config& cfg) {
     auto t1 = std::chrono::steady_clock::now();
     stats.elapsed_s = std::chrono::duration<double>(t1 - t0).count();
 
-    if (!cfg.delta_hash_file.empty() && !delta_hashes.empty())
+    if (!cfg.dry_run && !cfg.delta_hash_file.empty() && !delta_hashes.empty())
         saveDeltaHashes(cfg.delta_hash_file, delta_hashes);
 
     // ---- Output ------------------------------------------------------------

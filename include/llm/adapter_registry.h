@@ -29,6 +29,7 @@
 #include <optional>
 #include <map>
 #include <memory>
+#include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -275,7 +276,43 @@ public:
     };
     
     RegistryStats getStats() const;
-    
+
+    // Hot-Loading Interface
+
+    /// Callback type invoked when an adapter is hot-loaded via hotLoad().
+    /// @param adapter_id   The unique adapter identifier.
+    /// @param weights_path Filesystem path to the adapter weights file.
+    /// @param scale        LoRA scaling factor.
+    using HotLoadCallback = std::function<void(const std::string& adapter_id,
+                                               const std::string& weights_path,
+                                               float scale)>;
+
+    /// Register a LoRA adapter for hot-loading at inference time without
+    /// engine restart.  Registers (or updates) the adapter metadata and then
+    /// invokes all callbacks previously registered with addHotLoadObserver().
+    ///
+    /// Thread-safe: metadata update is protected by the registry mutex;
+    /// callbacks are dispatched outside the lock to avoid inversion.
+    ///
+    /// @param adapter_id   Unique identifier for the adapter; must not be empty.
+    /// @param weights_path Filesystem path to the adapter weights; must not be empty.
+    /// @param metadata     Adapter metadata (base_model_name, version, etc.).
+    /// @param scale        LoRA scaling factor (default 1.0).
+    /// @return true if the adapter was registered/updated and callbacks fired
+    ///         successfully, false on validation failure.
+    bool hotLoad(const std::string& adapter_id,
+                 const std::string& weights_path,
+                 const AdapterMetadata& metadata,
+                 float scale = 1.0f);
+
+    /// Register an observer callback that is invoked whenever hotLoad() is
+    /// called successfully.  Callbacks are dispatched in registration order.
+    ///
+    /// Thread-safe: protected by the registry mutex.
+    ///
+    /// @param callback Observer to register; must be non-null.
+    void addHotLoadObserver(HotLoadCallback callback);
+
     // Provenance Integration
     
     /// Attach a cryptographic provenance record to a registered adapter.

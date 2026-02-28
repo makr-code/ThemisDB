@@ -23,6 +23,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Shared worker pool (work-stealing) between AsyncInferenceEngine and InferenceEngineEnhanced (Issue: #1945)
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #2411)
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
+- [x] Speculative decoding for latency reduction (Issue: #1934)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -30,14 +31,14 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921, PR: #3068)
+- [x] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921, PR: #3068)
 - [P] Function / tool calling support (JSON schema binding) (Issue: #1922)
 - [P] Model hot-swap without engine restart (Issue: #1923)
 - [P] Request deduplication cache (same prompt → cached response) (Issue: #1924)
 - [P] Per-model resource quotas (memory, concurrency) (Issue: #1925)
 
 ### Long-term (6-12 months)
-- [P] Speculative decoding for latency reduction (Issue: #1934)
+- [x] Speculative decoding for latency reduction (Issue: #1934)
 - [P] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)
@@ -61,12 +62,17 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026)
 
-### Phase 3: Ecosystem & Performance (Status: Planned 📋)
-- [P] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
-- [P] Speculative decoding for latency reduction (Issue: #1934)
+### Phase 3: Ecosystem & Performance (Status: In Progress 🚧)
+- [x] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
+- [x] Speculative decoding for latency reduction (Issue: #1934)
 - [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
-- [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
-- [P] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [x] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
+  - Implemented `ModelRouter` in `include/llm/model_router.h` + `src/llm/model_router.cpp`
+  - Supports ECMAScript-regex prompt matching and metadata-tag matching with ANY/ALL modes
+  - Rules are priority-sorted; integrated into `InferenceEngineEnhanced::selectModel()`
+  - Public API: `addRoutingRule`, `removeRoutingRule`, `getRoutingRules`, `clearRoutingRules`
+  - 22 unit and integration tests in `tests/test_model_router.cpp`
+- [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1938)

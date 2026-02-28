@@ -123,6 +123,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_json_schema_binding\\.cpp$"
         ".*test_openai_compat_adapter\\.cpp$"
         ".*test_model_quantization_pipeline\\.cpp$"
+        ".*test_model_router\\.cpp$"
     )
 endif()
 
@@ -310,6 +311,10 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # binary causes a duplicate-symbol linker error.  Build it as a dedicated
     # standalone target below instead.
     ".*test_importer_plugin_api\\.cpp$"
+    # test_plugin_capability_negotiation is built as a dedicated standalone
+    # target below (PluginCapabilityNegotiationTests) to allow running the
+    # capability-negotiation tests in isolation.
+    ".*test_plugin_capability_negotiation\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -2984,6 +2989,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
     message(STATUS "  ImporterPluginApi: registry, loader, macro, descriptor, thread safety")
 else()
     message(STATUS "Importer Plugin API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
+endif()
+
+# ============================================================================
+# Plugin Capability Negotiation Tests (standalone target for Issue #1984)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
+    message(STATUS "Adding Plugin Capability Negotiation tests (Issue #1984, standalone binary)")
+
+    add_executable(test_plugin_capability_negotiation
+        test_plugin_capability_negotiation.cpp
+    )
+
+    target_include_directories(test_plugin_capability_negotiation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_capability_negotiation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_capability_negotiation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginCapabilityNegotiationTests COMMAND test_plugin_capability_negotiation)
+
+    set_tests_properties(PluginCapabilityNegotiationTests PROPERTIES
+        LABELS "plugins;capability;negotiation;version-range;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginCapabilityNegotiation: PluginVersionRange, PluginCapabilityNegotiator, PluginManager::negotiateCapabilities")
+else()
+    message(STATUS "Plugin Capability Negotiation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
 endif()
 
 # ============================================================================

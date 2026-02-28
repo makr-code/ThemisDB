@@ -733,3 +733,145 @@ TEST(IngestionCoordinatorErrorKeyTest, WorkerTimeoutErrorCodeIsNotRetryable) {
     coordinator.stop();
 }
 
+// ============================================================================
+// WorkStealingPool — unit tests
+// ============================================================================
+
+TEST(WorkStealingPoolTest, EmptyPoolReturnsEmpty) {
+    auto mock = std::make_shared<MockWorkerNode>("ws-empty");
+    WorkStealingPool pool({mock}, "col", std::chrono::seconds(30));
+    // No sources submitted — run() must return empty immediately.
+    auto results = pool.run(nullptr);
+    EXPECT_TRUE(results.empty());
+    EXPECT_EQ(mock->callCount(), 0u);
+}
+
+TEST(WorkStealingPoolTest, SingleWorkerProcessesAllSources) {
+    auto mock = std::make_shared<MockWorkerNode>("ws-single");
+    mock->docs_per_source_ = 3;
+
+    WorkStealingPool pool({mock}, "col", std::chrono::seconds(30));
+    for (int i = 0; i < 5; ++i) {
+        pool.submitTo(0, makeSource("src-" + std::to_string(i)));
+    }
+
+    auto results = pool.run(nullptr);
+    EXPECT_EQ(results.size(), 5u);
+
+    size_t total_docs = 0;
+    for (const auto& r : results) total_docs += r.total_documents;
+    EXPECT_EQ(total_docs, 15u);  // 5 sources × 3 docs
+}
+
+TEST(WorkStealingPoolTest, IdleWorkerStealsFromBusyWorker) {
+    // Submit 4 sources to worker 0, none to worker 1.
+    // Worker 1 should steal at least one source from worker 0.
+    auto mock0 = std::make_shared<MockWorkerNode>("ws-steal-0");
+    auto mock1 = std::make_shared<MockWorkerNode>("ws-steal-1");
+    mock0->docs_per_source_ = 1;
+    mock1->docs_per_source_ = 1;
+
+    WorkStealingPool pool({mock0, mock1}, "col", std::chrono::seconds(30));
+    for (int i = 0; i < 4; ++i) {
+        pool.submitTo(0, makeSource("steal-src-" + std::to_string(i)));
+    }
+
+    EXPECT_EQ(pool.pendingCount(), 4u);
+
+    auto results = pool.run(nullptr);
+
+    // All 4 sources must be processed regardless of which worker handled them.
+    EXPECT_EQ(results.size(), 4u);
+
+    size_t total_docs = 0;
+    for (const auto& r : results) total_docs += r.total_documents;
+    EXPECT_EQ(total_docs, 4u);
+
+    // Worker 1 must have stolen at least one source.
+    EXPECT_GT(mock1->callCount(), 0u)
+        << "Worker 1 should have stolen work from worker 0";
+    // Together they must account for all 4 sources.
+    EXPECT_EQ(mock0->callCount() + mock1->callCount(), 4u);
+}
+
+TEST(WorkStealingPoolTest, MultipleWorkersBalanceLoad) {
+    // 3 workers, all sources go to worker 0 initially.
+    // Workers 1 and 2 should steal to balance the load.
+    auto mock0 = std::make_shared<MockWorkerNode>("ws-bal-0");
+    auto mock1 = std::make_shared<MockWorkerNode>("ws-bal-1");
+    auto mock2 = std::make_shared<MockWorkerNode>("ws-bal-2");
+    mock0->docs_per_source_ = 1;
+    mock1->docs_per_source_ = 1;
+    mock2->docs_per_source_ = 1;
+
+    WorkStealingPool pool({mock0, mock1, mock2}, "col", std::chrono::seconds(30));
+    const size_t num_sources = 9;
+    for (size_t i = 0; i < num_sources; ++i) {
+        pool.submitTo(0, makeSource("bal-src-" + std::to_string(i)));
+    }
+
+    auto results = pool.run(nullptr);
+
+    EXPECT_EQ(results.size(), num_sources);
+    EXPECT_EQ(mock0->callCount() + mock1->callCount() + mock2->callCount(),
+              num_sources);
+}
+
+TEST(WorkStealingPoolTest, NodeCountReflectsWorkers) {
+    auto m0 = std::make_shared<MockWorkerNode>("nc-0");
+    auto m1 = std::make_shared<MockWorkerNode>("nc-1");
+    auto m2 = std::make_shared<MockWorkerNode>("nc-2");
+
+    WorkStealingPool pool({m0, m1, m2}, "col", std::chrono::seconds(30));
+    EXPECT_EQ(pool.nodeCount(), 3u);
+}
+
+TEST(WorkStealingPoolTest, PendingCountDecreasesAfterRun) {
+    auto mock = std::make_shared<MockWorkerNode>("pc-0");
+    mock->docs_per_source_ = 1;
+
+    WorkStealingPool pool({mock}, "col", std::chrono::seconds(30));
+    pool.submitTo(0, makeSource("pc-src-0"));
+    pool.submitTo(0, makeSource("pc-src-1"));
+    EXPECT_EQ(pool.pendingCount(), 2u);
+
+    pool.run(nullptr);
+    EXPECT_EQ(pool.pendingCount(), 0u);
+}
+
+// ============================================================================
+// IngestionCoordinator — work-stealing integration tests
+// ============================================================================
+
+TEST(IngestionCoordinatorWorkStealingTest, UnbalancedLoadIsProcessedCorrectly) {
+    // One of the two workers gets more sources via hash ring; both should
+    // contribute to the final aggregated result.
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 0;
+    cfg.db_connection = "test_db";
+
+    IngestionCoordinator coordinator(cfg);
+
+    auto mock0 = std::make_shared<MockWorkerNode>("unbal-0");
+    auto mock1 = std::make_shared<MockWorkerNode>("unbal-1");
+    mock0->docs_per_source_ = 2;
+    mock1->docs_per_source_ = 2;
+
+    coordinator.registerNode(mock0);
+    coordinator.registerNode(mock1);
+    coordinator.start();
+
+    // Use enough sources so that hash ring distributes them across nodes.
+    std::vector<SourceConfig> sources;
+    for (int i = 0; i < 12; ++i) {
+        sources.push_back(makeSource("unbal-src-" + std::to_string(i)));
+    }
+
+    auto report = coordinator.ingestAll(sources);
+
+    EXPECT_EQ(report.total_documents, 24u);  // 12 × 2 docs
+    EXPECT_EQ(report.source_stats.size(), 12u);
+
+    coordinator.stop();
+}
+
