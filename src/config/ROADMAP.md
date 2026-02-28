@@ -63,7 +63,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1674)
+- [~] Unit tests coverage > 80% (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
 - [I] Performance benchmarks (cache hit rate, resolution latency) (Issue: #1675)
 - [x] Security audit (path traversal prevention, symlink escape hardening)
