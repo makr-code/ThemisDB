@@ -21,9 +21,9 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Audit logging for vector operations
 - [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
 - [x] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
+- [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## In Progress 🚧
-- [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## Planned Features 📋
 
@@ -84,10 +84,10 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - HNSW incremental re-indexing implemented via `VectorIndexManager::incrementalReindex()`.
 - Full-text search is implemented via `InvertedIndex` (standalone) and `SecondaryIndexManager` (integrated).
 - Multi-tenancy index isolation uses RocksDB key-prefix format `tenant:<id>:<index_name>`;
-  index registry isolation is enforced at the `IndexManager` layer.  Adapter classes that
-  bridge `ISecondaryIndex` / `IVectorIndex` interface pointers to the concrete managers are
-  not yet implemented (known stub); tenant-scoped create/get calls that succeed return nullptr
-  for those pointer types until the adapters are added.
+  index registry isolation is enforced at the `IndexManager` layer.  `IVectorIndex` adapter
+  (`VectorIndexAdapter`) is implemented and returned by `IndexManager::createVectorIndex()`.
+  `ISecondaryIndex` adapter is not yet implemented; secondary-index create/get calls via
+  `IIndexManager` return `nullptr` for that pointer type until the adapter is added.
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.
