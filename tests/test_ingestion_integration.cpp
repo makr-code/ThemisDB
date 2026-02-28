@@ -1,4 +1,4 @@
-/*
+/**
  * @file test_ingestion_integration.cpp
  * @brief Integration tests for the ingestion module:
  *        filesystem, HuggingFace, and generic API connectors.
