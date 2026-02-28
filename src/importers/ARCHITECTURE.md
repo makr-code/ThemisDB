@@ -12,7 +12,7 @@ The Importers module provides one-time and incremental data import from external
 systems into ThemisDB. It handles schema discovery, schema mapping to ThemisDB's multi-model
 layout, batch data transfer, and incremental sync via change tracking.
 
-Current connectors: PostgreSQL (production-ready), MySQL and MongoDB (in progress).
+Current connectors: PostgreSQL (production-ready), MySQL (in progress), MongoDB (production-ready).
 
 ---
 
@@ -39,7 +39,7 @@ Current connectors: PostgreSQL (production-ready), MySQL and MongoDB (in progres
 |---|---|
 | `postgres_importer.cpp` | PostgreSQL source connector: schema discovery, data transfer |
 | `mysql_importer.cpp` | MySQL source connector (in progress) |
-| `mongo_importer.cpp` | MongoDB source connector (in progress) |
+| `mongo_importer.cpp` | MongoDB source connector (production-ready) |
 
 ### 3.2 Component Diagram
 
@@ -64,9 +64,9 @@ Current connectors: PostgreSQL (production-ready), MySQL and MongoDB (in progres
          │                                     │
 ┌────────▼──────────┐             ┌────────────▼──────────────────┐
 │ PostgresImporter  │             │ MySQLImporter / MongoImporter  │
-│ libpq connection  │             │ (in progress)                  │
-│ schema discovery  │             └───────────────────────────────┘
-│ batch cursor      │
+│ libpq connection  │             │ (MySQL: in progress;           │
+│ schema discovery  │             │  MongoDB: production-ready)    │
+│ batch cursor      │             └───────────────────────────────┘
 └───────────────────┘
 ```
 
@@ -184,7 +184,8 @@ Update cursor to current timestamp
 
 ## 11. Known Limitations & Future Work
 
-- MySQL and MongoDB importers are in progress.
+- MySQL importer is in progress.
+- MongoDB importer is production-ready (JSON-Lines/NDJSON and JSON array formats via mongoexport).
 - WAL-based CDC incremental import (PostgreSQL logical replication) is planned.
 - Flat-file importers (CSV, JSON Lines) are planned.
 - Schema migration on re-import (schema drift detection) is not yet implemented.

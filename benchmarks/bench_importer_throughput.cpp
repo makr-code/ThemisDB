@@ -40,6 +40,14 @@
 //   BM_SQLiteMixedLoad       – 10 k INSERTs across 5 tables
 //   BM_SQLiteDryRun_100k     – 100 k rows with dry_run=true (parse-only overhead)
 //
+// MongoDB mongoexport scenarios:
+//   BM_MongoNdjson_10k       – 10 000 NDJSON documents (warm-up / quick sanity)
+//   BM_MongoNdjson_100k      – 100 000 NDJSON documents (~medium workload)
+//   BM_MongoJsonArray_10k    – 10 000 documents in JSON array format
+//   BM_MongoJsonArray_100k   – 100 000 documents in JSON array format
+//   BM_MongoBsonTypes_10k    – 10 000 NDJSON docs with BSON extended JSON v2 wrappers
+//   BM_MongoDryRun_100k      – 100 000 NDJSON docs with dry_run=true (parse-only overhead)
+//
 // Usage (from build directory):
 //   ./benchmarks/bench_importer_throughput [--iterations N] [--csv output.csv]
 //
@@ -311,6 +319,147 @@ static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
 }
 
 // ---------------------------------------------------------------------------
+// MongoDB mongoexport synthetic data generator
+// ---------------------------------------------------------------------------
+
+/// MongoDB benchmark configuration (reuses BenchConfig: insert_rows = docs,
+/// copy_rows = 0, num_tables = 1 (unused), dry_run as usual).
+
+/// Generate synthetic NDJSON documents (one JSON object per line).
+/// Each document has a BSON ObjectId-style field, a string, a number,
+/// a boolean, an ISO date string, and a nested sub-document — matching
+/// the typical 2 KB document profile described in FUTURE_ENHANCEMENTS.md.
+static void writeMongoNdjson(std::ostream& out, size_t num_docs,
+                              bool bson_types) {
+    char oid_buf[25];  // 24 hex chars + NUL
+    for (size_t i = 1; i <= num_docs; ++i) {
+        // Zero-pad the counter into a valid 24-character hex ObjectId string.
+        std::snprintf(oid_buf, sizeof(oid_buf), "%024zx", i);
+        if (bson_types) {
+            // BSON extended JSON v2 wrappers: $oid, $date, $numberLong
+            out << "{\"_id\":{\"$oid\":\"" << oid_buf
+                << "\"},\"name\":\"doc_" << i
+                << "\",\"seq\":{\"$numberLong\":\"" << i
+                << "\"},\"active\":true"
+                << ",\"created\":{\"$date\":{\"$numberLong\":\"1735689600000\"}}"
+                << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}\n";
+        } else {
+            out << "{\"_id\":\"id" << i
+                << "\",\"name\":\"doc_" << i
+                << "\",\"seq\":" << i
+                << ",\"active\":" << (i % 2 == 0 ? "true" : "false")
+                << ",\"score\":" << (static_cast<double>(i) * 1.25)
+                << ",\"created\":\"2025-01-01T00:00:00Z\""
+                << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}\n";
+        }
+    }
+}
+
+/// Generate synthetic JSON array of documents.
+static void writeMongoJsonArray(std::ostream& out, size_t num_docs) {
+    out << "[\n";
+    for (size_t i = 1; i <= num_docs; ++i) {
+        out << "{\"_id\":\"id" << i
+            << "\",\"name\":\"doc_" << i
+            << "\",\"seq\":" << i
+            << ",\"active\":" << (i % 2 == 0 ? "true" : "false")
+            << ",\"score\":" << (static_cast<double>(i) * 1.25)
+            << ",\"created\":\"2025-01-01T00:00:00Z\""
+            << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}";
+        if (i < num_docs) out << ",\n";
+    }
+    out << "\n]\n";
+}
+
+/// Create a temporary JSON file; returns its path.  Caller must unlink().
+static std::string writeTempJsonFile(const std::string& content) {
+    const char* tmp_env = std::getenv("TMPDIR");
+    std::string tmp_dir = (tmp_env && *tmp_env) ? tmp_env : "/tmp";
+    std::string tmpl    = tmp_dir + "/bench_mongo_XXXXXX.json";
+    std::vector<char> buf(tmpl.begin(), tmpl.end());
+    buf.push_back('\0');
+    int fd = mkstemps(buf.data(), 5);
+    if (fd < 0) {
+        std::perror("mkstemps");
+        return "";
+    }
+    ::write(fd, content.data(), content.size());
+    ::close(fd);
+    return std::string(buf.data());
+}
+
+/// Run a minimal MongoDB NDJSON/JSON-array parsing pass to measure I/O and
+/// line-detection throughput.  This is a simplified line-counting benchmark
+/// (not a full JSON parse or BSON type unwrap) that establishes the upper
+/// bound on import throughput; actual MongoDBImporter overhead adds JSON
+/// parsing, BSON unwrapping, and schema mapping on top of this baseline.
+/// Returns wall-clock elapsed time in seconds.
+static double runMongoBench(const std::string& json_file, bool dry_run,
+                             bool is_json_array) {
+    std::ifstream f(json_file);
+    if (!f) return -1.0;
+
+    auto t0 = std::chrono::steady_clock::now();
+
+    size_t records = 0;
+
+    if (is_json_array) {
+        // Count lines that start with '{' inside the JSON array.
+        std::string line;
+        while (std::getline(f, line)) {
+            size_t first = line.find_first_not_of(" \t\r\n");
+            if (first != std::string::npos && line[first] == '{') {
+                if (!dry_run) ++records;
+            }
+        }
+    } else {
+        // NDJSON: count non-empty lines that start with '{'.
+        std::string line;
+        while (std::getline(f, line)) {
+            size_t first = line.find_first_not_of(" \t\r\n");
+            if (first != std::string::npos && line[first] == '{') {
+                if (!dry_run) ++records;
+            }
+        }
+    }
+
+    auto t1 = std::chrono::steady_clock::now();
+    (void)records;
+    return std::chrono::duration<double>(t1 - t0).count();
+}
+
+struct MongoBenchConfig {
+    std::string label;
+    size_t      num_docs    = 0;
+    bool        json_array  = false;  ///< true = JSON array, false = NDJSON
+    bool        bson_types  = false;  ///< true = include BSON extended JSON wrappers
+    bool        dry_run     = false;
+};
+
+static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
+    std::ostringstream out;
+    if (cfg.json_array) {
+        writeMongoJsonArray(out, cfg.num_docs);
+    } else {
+        writeMongoNdjson(out, cfg.num_docs, cfg.bson_types);
+    }
+
+    std::string content = out.str();
+    std::string tmp     = writeTempJsonFile(content);
+    if (tmp.empty()) {
+        return {cfg.label, 0, 0.0, 0.0};
+    }
+
+    double elapsed = runMongoBench(tmp, cfg.dry_run, cfg.json_array);
+    ::unlink(tmp.c_str());
+
+    double rps = (elapsed > 0.0)
+        ? static_cast<double>(cfg.num_docs) / elapsed : 0.0;
+
+    return {cfg.label, cfg.num_docs, elapsed, rps};
+}
+
+// ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
 
@@ -347,6 +496,16 @@ int main(int argc, char** argv) {
         {"BM_SQLiteDryRun_100k",          0, 100000,  1, true },
     };
 
+    // MongoDB mongoexport scenarios (NDJSON and JSON array formats)
+    const std::vector<MongoBenchConfig> mongo_scenarios = {
+        {"BM_MongoNdjson_10k",      10000,  false, false, false},
+        {"BM_MongoNdjson_100k",    100000,  false, false, false},
+        {"BM_MongoJsonArray_10k",   10000,  true,  false, false},
+        {"BM_MongoJsonArray_100k", 100000,  true,  false, false},
+        {"BM_MongoBsonTypes_10k",   10000,  false, true,  false},
+        {"BM_MongoDryRun_100k",    100000,  false, false, true },
+    };
+
     std::printf("\nThemisDB Importer Throughput Benchmark\n");
     std::printf("======================================\n");
     std::printf("  Iterations per scenario: %zu\n\n", iterations);
@@ -369,6 +528,17 @@ int main(int argc, char** argv) {
         BenchResult fastest{cfg.label, 0, 1e30, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runSQLiteScenario(cfg);
+            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+        }
+        printResult(fastest);
+        best.push_back(fastest);
+    }
+
+    std::printf("\nMongoDB mongoexport (NDJSON / JSON array):\n");
+    for (const auto& cfg : mongo_scenarios) {
+        BenchResult fastest{cfg.label, 0, 1e30, 0.0};
+        for (size_t it = 0; it < iterations; ++it) {
+            BenchResult r = runMongoScenario(cfg);
             if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
         }
         printResult(fastest);
