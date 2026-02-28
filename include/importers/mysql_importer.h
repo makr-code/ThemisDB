@@ -78,8 +78,20 @@ private:
         std::vector<std::string> primary_keys;
     };
 
+    /// JDBC-compatible connection parameters stored from initialize().
+    struct JdbcConfig {
+        std::string host;
+        int         port     = 3306;
+        std::string database;
+        std::string user;
+        bool        ssl                 = false;
+        bool        tinyint1_as_boolean = false;  ///< Map TINYINT(1) -> boolean (JDBC default)
+    };
+
     std::atomic<bool> cancelled_{false};
     std::map<std::string, TableSchema> schemas_;
+    JdbcConfig jdbc_config_;                               ///< Parsed JDBC config from initialize()
+    std::map<std::string, std::string> config_type_overrides_; ///< Type overrides from initialize()
 
     // Parsing methods
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options,
@@ -92,6 +104,10 @@ private:
     std::string mapMySQLTypeToThemis(const std::string& mysql_type,
                                      const ImportOptions& options) const;
     bool shouldImportTable(const std::string& table_name, const ImportOptions& options) const;
+
+    // JDBC URL parsing: "jdbc:mysql://host:port/database?param=val&..."
+    // Returns true if @p url is a valid JDBC URL; populates @p out on success.
+    static bool parseJdbcUrl(const std::string& url, JdbcConfig& out);
 
     // Data conversion
     json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);

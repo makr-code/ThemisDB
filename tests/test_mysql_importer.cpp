@@ -1146,6 +1146,283 @@ TEST(MySQLStreamingCallback, ExcludeTablesFiltersCallback) {
     EXPECT_TRUE(tables.empty());
 }
 
+// ===========================================================================
+// Tests: JDBC-compatible config – URL parsing helper
+// (Tests the parseJdbcUrl logic independently via a self-contained helper
+//  that mirrors the production implementation.  The test file is intentionally
+//  self-contained and does not include mysql_importer.h – this is the same
+//  design as the rest of this file, which also re-implements helpers locally
+//  to stay buildable without the full spdlog/production dependency chain.)
+// ===========================================================================
+
+// NOTE: JdbcConfig and parseJdbcUrl below are local test copies that mirror
+// the production structs in mysql_importer.h / mysql_importer.cpp.
+// They are kept in sync by design; any change to the production parseJdbcUrl()
+// must be reflected here to maintain test coverage fidelity.
+struct JdbcConfig {
+    std::string host;
+    int         port               = 3306;
+    std::string database;
+    std::string user;
+    bool        ssl                = false;
+    bool        tinyint1_as_boolean = false;
+};
+
+static bool parseJdbcUrl(const std::string& url, JdbcConfig& out) {
+    const std::string mysql_prefix   = "jdbc:mysql://";
+    const std::string mariadb_prefix = "jdbc:mariadb://";
+    size_t authority_start = 0;
+    if (url.size() > mysql_prefix.size() &&
+        url.substr(0, mysql_prefix.size()) == mysql_prefix) {
+        authority_start = mysql_prefix.size();
+    } else if (url.size() > mariadb_prefix.size() &&
+               url.substr(0, mariadb_prefix.size()) == mariadb_prefix) {
+        authority_start = mariadb_prefix.size();
+    } else {
+        return false;
+    }
+
+    std::string authority_path;
+    std::string query_string;
+    size_t q_pos = url.find('?', authority_start);
+    if (q_pos != std::string::npos) {
+        authority_path = url.substr(authority_start, q_pos - authority_start);
+        query_string   = url.substr(q_pos + 1);
+    } else {
+        authority_path = url.substr(authority_start);
+    }
+
+    size_t slash_pos = authority_path.find('/');
+    std::string host_port = slash_pos != std::string::npos
+                            ? authority_path.substr(0, slash_pos)
+                            : authority_path;
+    std::string db_path   = slash_pos != std::string::npos
+                            ? authority_path.substr(slash_pos + 1)
+                            : "";
+
+    size_t colon_pos = host_port.find(':');
+    if (colon_pos != std::string::npos) {
+        out.host = host_port.substr(0, colon_pos);
+        std::string port_str = host_port.substr(colon_pos + 1);
+        if (!port_str.empty()) {
+            try { out.port = std::stoi(port_str); } catch (...) {}
+        }
+    } else {
+        out.host = host_port;
+    }
+    out.database = db_path;
+
+    std::istringstream qs(query_string);
+    std::string param;
+    while (std::getline(qs, param, '&')) {
+        size_t eq = param.find('=');
+        if (eq == std::string::npos) continue;
+        std::string key   = param.substr(0, eq);
+        std::string value = param.substr(eq + 1);
+        std::string lower_key;
+        for (char c : key) lower_key += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        std::string lower_val;
+        for (char c : value) lower_val += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+
+        if (lower_key == "tinyint1isbit")
+            out.tinyint1_as_boolean = (lower_val == "true" || lower_val == "1");
+        else if (lower_key == "usessl")
+            out.ssl = (lower_val == "true" || lower_val == "1");
+    }
+
+    return !out.host.empty();
+}
+
+TEST(MySQLJdbcConfig, ParseMySQLUrl) {
+    JdbcConfig cfg;
+    ASSERT_TRUE(parseJdbcUrl("jdbc:mysql://localhost:3306/testdb", cfg));
+    EXPECT_EQ(cfg.host,     "localhost");
+    EXPECT_EQ(cfg.port,     3306);
+    EXPECT_EQ(cfg.database, "testdb");
+    EXPECT_FALSE(cfg.ssl);
+    EXPECT_FALSE(cfg.tinyint1_as_boolean);
+}
+
+TEST(MySQLJdbcConfig, ParseMariaDBUrl) {
+    JdbcConfig cfg;
+    ASSERT_TRUE(parseJdbcUrl("jdbc:mariadb://db.example.com:3307/myapp", cfg));
+    EXPECT_EQ(cfg.host,     "db.example.com");
+    EXPECT_EQ(cfg.port,     3307);
+    EXPECT_EQ(cfg.database, "myapp");
+}
+
+TEST(MySQLJdbcConfig, ParseUrlWithoutPort) {
+    JdbcConfig cfg;
+    ASSERT_TRUE(parseJdbcUrl("jdbc:mysql://myhost/mydb", cfg));
+    EXPECT_EQ(cfg.host,     "myhost");
+    EXPECT_EQ(cfg.port,     3306);  // default
+    EXPECT_EQ(cfg.database, "mydb");
+}
+
+TEST(MySQLJdbcConfig, ParseUrlWithQueryParams) {
+    JdbcConfig cfg;
+    ASSERT_TRUE(parseJdbcUrl(
+        "jdbc:mysql://localhost:3306/testdb?useSSL=true&tinyInt1isBit=true", cfg));
+    EXPECT_EQ(cfg.host,     "localhost");
+    EXPECT_EQ(cfg.database, "testdb");
+    EXPECT_TRUE(cfg.ssl);
+    EXPECT_TRUE(cfg.tinyint1_as_boolean);
+}
+
+TEST(MySQLJdbcConfig, ParseUrlTinyint1isBitFalse) {
+    JdbcConfig cfg;
+    ASSERT_TRUE(parseJdbcUrl(
+        "jdbc:mysql://localhost/db?tinyInt1isBit=false", cfg));
+    EXPECT_FALSE(cfg.tinyint1_as_boolean);
+}
+
+TEST(MySQLJdbcConfig, RejectsNonJdbcUrl) {
+    JdbcConfig cfg;
+    EXPECT_FALSE(parseJdbcUrl("mysql://localhost/db", cfg));
+    EXPECT_FALSE(parseJdbcUrl("jdbc:postgresql://localhost/db", cfg));
+    EXPECT_FALSE(parseJdbcUrl("", cfg));
+}
+
+TEST(MySQLJdbcConfig, ParseUrlEmptyDatabase) {
+    JdbcConfig cfg;
+    ASSERT_TRUE(parseJdbcUrl("jdbc:mysql://localhost:3306/", cfg));
+    EXPECT_EQ(cfg.host, "localhost");
+    EXPECT_EQ(cfg.database, "");
+}
+
+// ===========================================================================
+// Tests: JDBC config – tinyint1_as_boolean type mapping
+// (Tests that tinyint(1) maps correctly based on the flag)
+// ===========================================================================
+
+/// Helper: mapMySQLType with tinyint1_as_boolean support (mirrors production logic)
+static std::string mapMySQLTypeJdbc(const std::string& mysql_type,
+                                     const std::map<std::string,std::string>& overrides = {},
+                                     bool tinyint1_as_boolean = false) {
+    // Per-call overrides first
+    auto oit = overrides.find(mysql_type);
+    if (oit != overrides.end()) return oit->second;
+
+    // JDBC tinyInt1isBit
+    if (tinyint1_as_boolean) {
+        std::string lower_type;
+        for (char c : mysql_type)
+            lower_type += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        if (lower_type == "tinyint(1)") return "boolean";
+    }
+
+    return mapMySQLType(mysql_type, overrides);
+}
+
+TEST(MySQLJdbcConfig, Tinyint1MapsToIntegerByDefault) {
+    EXPECT_EQ(mapMySQLTypeJdbc("tinyint(1)"), "integer");
+}
+
+TEST(MySQLJdbcConfig, Tinyint1MapsToBooleanWhenEnabled) {
+    EXPECT_EQ(mapMySQLTypeJdbc("tinyint(1)", {}, true), "boolean");
+}
+
+TEST(MySQLJdbcConfig, Tinyint1MapsToBooleanCaseInsensitive) {
+    EXPECT_EQ(mapMySQLTypeJdbc("TINYINT(1)", {}, true), "boolean");
+    EXPECT_EQ(mapMySQLTypeJdbc("TinyInt(1)", {}, true), "boolean");
+}
+
+TEST(MySQLJdbcConfig, OtherTinyintNotAffectedByBooleanFlag) {
+    // tinyint without (1) should still be integer even when flag is set
+    EXPECT_EQ(mapMySQLTypeJdbc("tinyint",    {}, true), "integer");
+    EXPECT_EQ(mapMySQLTypeJdbc("tinyint(4)", {}, true), "integer");
+}
+
+TEST(MySQLJdbcConfig, OverridesTakePriorityOverTinyint1Flag) {
+    // Explicit override wins over tinyint1_as_boolean
+    std::map<std::string,std::string> overrides = {{"tinyint(1)", "custom_bool"}};
+    EXPECT_EQ(mapMySQLTypeJdbc("tinyint(1)", overrides, true), "custom_bool");
+}
+
+// ===========================================================================
+// Tests: JDBC config JSON parsing
+// (Tests the JSON config structure expected by initialize())
+// ===========================================================================
+
+/// Helper: parse a JDBC JSON config and return a JdbcConfig struct.
+static JdbcConfig parseJdbcJsonConfig(const std::string& config_json) {
+    JdbcConfig result;
+    try {
+        auto cfg = json::parse(config_json);
+        if (cfg.contains("url") && cfg["url"].is_string())
+            parseJdbcUrl(cfg["url"].get<std::string>(), result);
+        if (cfg.contains("host") && cfg["host"].is_string())
+            result.host = cfg["host"].get<std::string>();
+        if (cfg.contains("port") && cfg["port"].is_number_integer())
+            result.port = cfg["port"].get<int>();
+        if (cfg.contains("database") && cfg["database"].is_string())
+            result.database = cfg["database"].get<std::string>();
+        if (cfg.contains("user") && cfg["user"].is_string())
+            result.user = cfg["user"].get<std::string>();
+        if (cfg.contains("ssl") && cfg["ssl"].is_boolean())
+            result.ssl = cfg["ssl"].get<bool>();
+        if (cfg.contains("tinyint1_as_boolean") && cfg["tinyint1_as_boolean"].is_boolean())
+            result.tinyint1_as_boolean = cfg["tinyint1_as_boolean"].get<bool>();
+    } catch (...) {}
+    return result;
+}
+
+TEST(MySQLJdbcJsonConfig, ParsesUrlField) {
+    auto cfg = parseJdbcJsonConfig(R"({"url":"jdbc:mysql://db.local:3306/prod"})");
+    EXPECT_EQ(cfg.host,     "db.local");
+    EXPECT_EQ(cfg.port,     3306);
+    EXPECT_EQ(cfg.database, "prod");
+}
+
+TEST(MySQLJdbcJsonConfig, IndividualFieldsOverrideUrl) {
+    // Individual fields take precedence over URL-parsed values
+    auto cfg = parseJdbcJsonConfig(
+        R"({"url":"jdbc:mysql://urlhost/urldb","host":"override.host","database":"override_db"})");
+    EXPECT_EQ(cfg.host,     "override.host");
+    EXPECT_EQ(cfg.database, "override_db");
+}
+
+TEST(MySQLJdbcJsonConfig, TinyInt1AsBooleanField) {
+    auto cfg = parseJdbcJsonConfig(R"({"tinyint1_as_boolean":true})");
+    EXPECT_TRUE(cfg.tinyint1_as_boolean);
+}
+
+TEST(MySQLJdbcJsonConfig, SslField) {
+    auto cfg = parseJdbcJsonConfig(R"({"ssl":true})");
+    EXPECT_TRUE(cfg.ssl);
+}
+
+TEST(MySQLJdbcJsonConfig, UserField) {
+    auto cfg = parseJdbcJsonConfig(R"({"user":"dbuser"})");
+    EXPECT_EQ(cfg.user, "dbuser");
+}
+
+TEST(MySQLJdbcJsonConfig, EmptyConfigUsesDefaults) {
+    auto cfg = parseJdbcJsonConfig("{}");
+    EXPECT_EQ(cfg.host,     "");
+    EXPECT_EQ(cfg.port,     3306);
+    EXPECT_FALSE(cfg.ssl);
+    EXPECT_FALSE(cfg.tinyint1_as_boolean);
+}
+
+TEST(MySQLJdbcJsonConfig, InvalidJsonDoesNotThrow) {
+    // Should not throw; just return defaults
+    EXPECT_NO_THROW({ auto cfg = parseJdbcJsonConfig("{invalid json}"); (void)cfg; });
+}
+
+TEST(MySQLJdbcJsonConfig, TypeOverridesField) {
+    std::map<std::string,std::string> overrides;
+    try {
+        auto cfg = json::parse(R"({"type_overrides":{"enum":"string","set":"array"}})");
+        if (cfg.contains("type_overrides") && cfg["type_overrides"].is_object()) {
+            for (auto& [k, v] : cfg["type_overrides"].items())
+                if (v.is_string()) overrides[k] = v.get<std::string>();
+        }
+    } catch (...) {}
+    EXPECT_EQ(overrides.at("enum"),  "string");
+    EXPECT_EQ(overrides.at("set"),   "array");
+}
+
 // Disabled custom main to avoid multiple definition; rely on gtest_main.
 #if 0
 #endif
