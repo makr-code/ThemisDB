@@ -163,26 +163,42 @@ std::vector<PolicyConflict> PolicyValidator::detectOverlappingPermissions() cons
             const auto& r2 = rules[j];
             
             // Check resource overlap
-            bool has_overlap = false;
+            bool res_overlap = false;
             for (const auto& res1 : r1.resources) {
                 for (const auto& res2 : r2.resources) {
                     if (res1 == res2 || res1 == "*" || res2 == "*") {
-                        has_overlap = true;
+                        res_overlap = true;
                         break;
                     }
                 }
-                if (has_overlap) break;
+                if (res_overlap) break;
             }
-            
-            if (has_overlap && r1.priority == r2.priority) {
+            if (!res_overlap) continue;
+
+            // Check action overlap
+            bool act_overlap = false;
+            for (const auto& act1 : r1.actions) {
+                for (const auto& act2 : r2.actions) {
+                    if (act1 == act2 || act1 == "*" || act2 == "*") {
+                        act_overlap = true;
+                        break;
+                    }
+                }
+                if (act_overlap) break;
+            }
+
+            if (act_overlap && r1.priority == r2.priority) {
                 PolicyConflict conflict;
                 conflict.conflict_type = "overlapping";
                 conflict.severity = "medium";
                 conflict.affected_rules = {r1.id, r2.id};
-                conflict.description = "Rules overlap with same priority";
+                conflict.description = "Rules '" + r1.name + "' and '" + r2.name +
+                    "' overlap on the same resource and action with equal priority,"
+                    " creating evaluation ambiguity";
                 conflict.resolution_suggestions = {
-                    "Adjust rule priorities",
-                    "Make resource patterns more specific"
+                    "Assign distinct priorities to establish a clear evaluation order",
+                    "Narrow the resource or action patterns to eliminate the overlap",
+                    "Consider merging rules if they have identical effects"
                 };
                 overlaps.push_back(conflict);
             }
