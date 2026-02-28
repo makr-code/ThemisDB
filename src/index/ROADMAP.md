@@ -39,7 +39,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [P] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
 - [P] Multi-tenancy index isolation (Issue: #1872)
 - [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
-- [I] Index compression using sparse encoding (Issue: #1874)
+- [x] Index compression using sparse encoding (Issue: #1874)
 
 ## Implementation Phases
 
