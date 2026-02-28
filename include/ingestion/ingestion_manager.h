@@ -610,7 +610,26 @@ public:
      * @return true if source was found and removed
      */
     bool unregisterSource(const std::string& source_id);
-    
+
+    /**
+     * @brief Update the configuration of an already-registered source at runtime
+     *
+     * Atomically replaces the stored `SourceConfig` for `source_id` with
+     * `new_config`.  The change takes effect on the next call to
+     * `ingestSource()` or `ingestAll()` – no restart required.
+     *
+     * The `new_config.source_id` field is ignored; the source is always
+     * identified by the `source_id` parameter so callers cannot accidentally
+     * reassign an entry to a different key.
+     *
+     * @param source_id  Identifier of the source to update
+     * @param new_config New configuration to apply
+     * @return true  if the source was found and its configuration replaced
+     * @return false if no source with `source_id` is registered
+     */
+    bool reconfigureSource(const std::string& source_id,
+                           const SourceConfig& new_config);
+
     /**
      * @brief Ingest data from a specific source
      * @param source_id Source identifier
@@ -1352,6 +1371,20 @@ public:
      * @return true if source was found and re-enabled
      */
     bool resumeSource(const std::string& source_id);
+
+    /**
+     * @brief Update the configuration of an already-registered source at runtime
+     *
+     * Delegates to `IngestionManager::reconfigureSource()`.  The change takes
+     * effect on the next ingestion run – no restart required.
+     *
+     * @param source_id  Identifier of the source to update
+     * @param new_config New configuration to apply
+     * @return true  if the source was found and its configuration replaced
+     * @return false if no source with `source_id` is registered
+     */
+    bool reconfigureSource(const std::string& source_id,
+                           const SourceConfig& new_config);
 
     // ── Quarantine management ──────────────────────────────────────────────
 
