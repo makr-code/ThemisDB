@@ -33,7 +33,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [I] Microsoft SQL Server importer (Issue: #1845)
 - [x] Plugin API for third-party importer extensions (Issue: #1846)
 - [~] GUI-based import wizard (web UI) (Issue: #1847)
-- [P] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #1848)
+- [x] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #1848)
 
 ## Implementation Phases
 
@@ -45,10 +45,10 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [x] Custom import format handler registration API
 - [x] Import pipeline infrastructure (source → transform → sink)
 
-### Phase 2: Streaming & Conflict Resolution (Status: In Progress 🚧)
+### Phase 2: Streaming & Conflict Resolution (Status: Completed ✅)
 - [x] Streaming import for large datasets without full in-memory load (Target: Q2 2026) (Issue: #1863)
 - [x] Import progress reporting with streaming callbacks (Target: Q2 2026)
-- [P] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
+- [x] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
 - [x] Dry-run mode to preview import without writing data (Target: Q3 2026)
 
 ### Phase 3: Multi-Source & Plugin API (Status: Planned 📋)
