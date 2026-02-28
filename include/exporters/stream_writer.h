@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     91                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -42,7 +42,7 @@ public:
     struct Config {
         std::string output_path;
         CompressionType compression = CompressionType::NONE;
-        int compression_level = 6;  // 1-9 for gzip (zstd support planned)
+        int compression_level = 6;  // 1-9 for gzip, 1-22 for zstd
         size_t buffer_size = 8192;
         size_t max_file_size = 0;  // 0 = unlimited
     };

@@ -43,7 +43,7 @@
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
-- [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
+- [x] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 
 ## Implementation Phases

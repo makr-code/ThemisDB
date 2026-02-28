@@ -1793,6 +1793,7 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/raster.cpp
     ../src/geo/temporal_spatial_query.cpp
     ../src/geo/tile_server.cpp
+    ../src/geo/device_detector.cpp
     ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)

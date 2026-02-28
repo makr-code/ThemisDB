@@ -53,5 +53,8 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/unified_memory.cpp
         ../src/gpu/time_slice_scheduler.cpp
         ../src/gpu/wasm_kernel_sandbox.cpp
+        ../src/gpu/mig_manager.cpp
+        ../src/gpu/vulkan_backend.cpp
+        ../src/gpu/p2p_transfer.cpp
     )
 endif()
