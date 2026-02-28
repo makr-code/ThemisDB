@@ -43,6 +43,8 @@
 #include <random>
 #include <filesystem>
 #include <fstream>
+#include <regex>
+#include <optional>
 
 namespace themis {
 namespace ingestion {
@@ -81,6 +83,217 @@ static std::string sourceTypeLabel(SourceType t) {
 static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
+
+// ============================================================================
+// Schema validation helpers
+// ============================================================================
+
+/// Escape all regex metacharacters in `s` so it can be used as a literal
+/// substring inside a larger regex pattern.
+static std::string regexEscape(const std::string& s) {
+    static const std::string kMeta = R"(\.^$*+?()[]{}|)";
+    std::string out;
+    out.reserve(s.size() * 2);
+    for (char c : s) {
+        if (kMeta.find(c) != std::string::npos) out += '\\';
+        out += c;
+    }
+    return out;
+}
+
+/// Build a compiled regex that matches `"key"\s*:` at a JSON object key position
+/// (preceded by `{` or `,`).  Field names are literal-escaped before insertion.
+static std::regex buildKeyRegex(const std::string& key) {
+    return std::regex(R"([{,]\s*\")" + regexEscape(key) + R"(\"\s*:)");
+}
+
+/// Extract a minimal JSON string value for a named key using a pre-compiled regex.
+/// Returns true and populates `value` when the key exists at a JSON object key
+/// position and its value is a JSON string.
+static bool findJsonStringValueRe(const std::string& json,
+                                   const std::regex& key_re,
+                                   std::string& value) {
+    std::smatch m;
+    if (!std::regex_search(json, m, key_re)) return false;
+    auto pos = static_cast<std::string::size_type>(m.position() + m.length());
+    // Skip whitespace before the value token
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
+                                  json[pos] == '\r' || json[pos] == '\n'))
+        ++pos;
+    if (pos >= json.size() || json[pos] != '"') return false;
+    ++pos;
+    value.clear();
+    bool esc = false;
+    while (pos < json.size()) {
+        char c = json[pos++];
+        if (esc) {
+            switch (c) {
+                case 'n':  value += '\n'; break;
+                case 'r':  value += '\r'; break;
+                case 't':  value += '\t'; break;
+                case '"':  value += '"';  break;
+                case '\\': value += '\\'; break;
+                default:   value += c;    break;
+            }
+            esc = false;
+            continue;
+        }
+        if (c == '\\') { esc = true; continue; }
+        if (c == '"') break;
+        value += c;
+    }
+    return true;
+}
+
+/// Returns true when the document looks like a JSON object or array.
+static bool looksLikeJson(const std::string& content) {
+    for (char c : content) {
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') continue;
+        return c == '{' || c == '[';
+    }
+    return false;
+}
+
+// ============================================================================
+// Compiled schema for a single field (avoids per-document regex construction)
+// ============================================================================
+struct CompiledFieldRule {
+    std::string            name;
+    SchemaFieldRule        rule;
+    std::regex             key_re;     ///< compiled [{,]\s*"name"\s*: pattern
+    std::optional<std::regex> value_re; ///< compiled field-value pattern (if any)
+    bool                   key_re_ok    = false;
+    bool                   value_re_ok  = false;
+
+    explicit CompiledFieldRule(const std::string& n, const SchemaFieldRule& r)
+        : name(n), rule(r) {
+        try {
+            key_re    = buildKeyRegex(n);
+            key_re_ok = true;
+        } catch (const std::regex_error&) {}
+        if (!r.pattern.empty()) {
+            try {
+                value_re    = std::regex(r.pattern);
+                value_re_ok = true;
+            } catch (const std::regex_error&) {}
+        }
+    }
+};
+
+/**
+ * @brief Build a DocumentValidatorFn from a SchemaConfig.
+ *
+ * All regex patterns (content-level and field-level) are compiled once here
+ * and captured in the returned lambda, avoiding repeated compilation per document.
+ *
+ * Validates:
+ * 1. Content length (min/max)
+ * 2. Required content pattern (regex applied to raw content)
+ * 3. Required JSON fields and their types/lengths/patterns
+ */
+static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) {
+    // Pre-compile the content-level pattern
+    bool content_re_ok = false;
+    std::regex content_re;
+    if (!schema.required_content_pattern.empty()) {
+        try {
+            content_re    = std::regex(schema.required_content_pattern);
+            content_re_ok = true;
+        } catch (const std::regex_error&) {}
+    }
+
+    // Pre-compile per-field key patterns and value patterns
+    std::vector<CompiledFieldRule> compiled_fields;
+    compiled_fields.reserve(schema.fields.size());
+    for (const auto& kv : schema.fields) {
+        compiled_fields.emplace_back(kv.first, kv.second);
+    }
+
+    // Capture by value (SchemaConfig copy + compiled regexes)
+    return [schema, content_re, content_re_ok,
+            compiled_fields](const std::string& content) mutable
+           -> DocumentValidationResult {
+        DocumentValidationResult result;
+
+        // --- content-level checks ---
+        if (schema.min_content_length > 0 &&
+            content.size() < schema.min_content_length) {
+            result.addViolation("",
+                "document too short: " + std::to_string(content.size()) +
+                " bytes (minimum " + std::to_string(schema.min_content_length) + ")");
+        }
+        if (schema.max_content_length > 0 &&
+            content.size() > schema.max_content_length) {
+            result.addViolation("",
+                "document too long: " + std::to_string(content.size()) +
+                " bytes (maximum " + std::to_string(schema.max_content_length) + ")");
+        }
+        if (!schema.required_content_pattern.empty()) {
+            if (!content_re_ok) {
+                result.addViolation("",
+                    "invalid required_content_pattern: " +
+                    schema.required_content_pattern);
+            } else if (!std::regex_search(content, content_re)) {
+                result.addViolation("",
+                    "document does not match required pattern: " +
+                    schema.required_content_pattern);
+            }
+        }
+
+        // --- field-level checks (JSON documents only) ---
+        if (!compiled_fields.empty() && looksLikeJson(content)) {
+            for (const auto& cf : compiled_fields) {
+                if (!cf.key_re_ok) {
+                    result.addViolation(cf.name, "invalid field name (regex error)");
+                    continue;
+                }
+                bool exists = std::regex_search(content, cf.key_re);
+
+                if (!exists) {
+                    if (cf.rule.required) {
+                        result.addViolation(cf.name, "required field is missing");
+                    }
+                    continue;
+                }
+
+                // Type / value checks for string fields
+                if (cf.rule.expected_type == SchemaFieldType::STRING ||
+                    cf.rule.min_length > 0 || cf.rule.max_length > 0 ||
+                    !cf.rule.pattern.empty()) {
+                    std::string str_val;
+                    bool is_string = findJsonStringValueRe(content, cf.key_re, str_val);
+
+                    if (cf.rule.expected_type == SchemaFieldType::STRING && !is_string) {
+                        result.addViolation(cf.name, "expected a string value");
+                    } else if (is_string) {
+                        if (cf.rule.min_length > 0 && str_val.size() < cf.rule.min_length) {
+                            result.addViolation(cf.name,
+                                "string too short: " + std::to_string(str_val.size()) +
+                                " chars (minimum " + std::to_string(cf.rule.min_length) + ")");
+                        }
+                        if (cf.rule.max_length > 0 && str_val.size() > cf.rule.max_length) {
+                            result.addViolation(cf.name,
+                                "string too long: " + std::to_string(str_val.size()) +
+                                " chars (maximum " + std::to_string(cf.rule.max_length) + ")");
+                        }
+                        if (!cf.rule.pattern.empty()) {
+                            if (!cf.value_re_ok) {
+                                result.addViolation(cf.name,
+                                    "invalid pattern: " + cf.rule.pattern);
+                            } else if (!std::regex_search(str_val, *cf.value_re)) {
+                                result.addViolation(cf.name,
+                                    "value does not match pattern: " + cf.rule.pattern);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    };
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -414,6 +627,23 @@ public:
                 return stats;
             }
 
+            // Inject per-source schema validator when configured
+            {
+                SchemaConfig schema;
+                bool has_schema = false;
+                {
+                    std::lock_guard<std::mutex> lock(mutex_);
+                    auto it = schema_configs_.find(source_id);
+                    if (it != schema_configs_.end()) {
+                        schema = it->second;
+                        has_schema = true;
+                    }
+                }
+                if (has_schema && schema.isEnabled()) {
+                    connector->setDocumentValidator(buildValidatorFromSchema(schema));
+                }
+            }
+
             if (dry_run_) {
                 stats.documents_processed = connector->getDocumentCount();
                 stats.documents_failed    = 0;
@@ -602,6 +832,23 @@ public:
 
     void setRetryConfig(const RetryConfig& config) {
         retry_config_ = config;
+    }
+
+    void setSchemaConfig(const std::string& source_id, const SchemaConfig& config) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!config.isEnabled()) {
+            schema_configs_.erase(source_id);
+        } else {
+            schema_configs_[source_id] = config;
+        }
+    }
+
+    bool getSchemaConfig(const std::string& source_id, SchemaConfig& out) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = schema_configs_.find(source_id);
+        if (it == schema_configs_.end()) return false;
+        out = it->second;
+        return true;
     }
 
     void setDryRun(bool enabled) { dry_run_ = enabled; }
@@ -870,6 +1117,7 @@ private:
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>> per_source_buckets_;
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
+    std::unordered_map<std::string, SchemaConfig> schema_configs_; ///< Per-source schema configs
     std::vector<QuarantineEntry> quarantine_;
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
@@ -917,6 +1165,16 @@ void IngestionManager::setParallelProcessing(bool enabled, size_t max_threads) {
 
 void IngestionManager::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
+}
+
+void IngestionManager::setSchemaConfig(const std::string& source_id,
+                                       const SchemaConfig& config) {
+    impl_->setSchemaConfig(source_id, config);
+}
+
+bool IngestionManager::getSchemaConfig(const std::string& source_id,
+                                       SchemaConfig& out) const {
+    return impl_->getSchemaConfig(source_id, out);
 }
 
 void IngestionManager::setDryRun(bool enabled) {
@@ -1317,6 +1575,12 @@ IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withSchemaValidation(
+        const std::string& source_id, const SchemaConfig& config) {
+    opts_->schema_configs[source_id] = config;
+    return *this;
+}
+
 std::unique_ptr<IngestionManager> IngestionBuilder::build() {
     auto mgr = std::make_unique<IngestionManager>(opts_->db_connection);
 
@@ -1328,6 +1592,10 @@ std::unique_ptr<IngestionManager> IngestionBuilder::build() {
 
     for (const auto& src : opts_->sources) {
         mgr->registerSource(src);
+    }
+
+    for (const auto& kv : opts_->schema_configs) {
+        mgr->setSchemaConfig(kv.first, kv.second);
     }
 
     return mgr;

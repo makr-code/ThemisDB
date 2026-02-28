@@ -424,6 +424,29 @@ public:
                     std::string content = extractTextFromFile(file_path);
                     
                     if (!content.empty()) {
+                        // Validate against schema if a validator is set
+                        if (document_validator_) {
+                            auto vr = document_validator_(content);
+                            if (!vr.is_valid) {
+                                stats.documents_failed++;
+                                stats.addError(
+                                    IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                    IngestionErrorSeverity::WARNING,
+                                    "Schema validation failed for: " +
+                                        file_path.filename().string() +
+                                        " – " + vr.summary(),
+                                    config_.source_id,
+                                    file_path.string());
+                                ++processed;
+                                if (progress_callback && processed % 10 == 0) {
+                                    progress_callback(config_.source_id, processed,
+                                                      files_to_process.size(),
+                                                      "Validation failed: " +
+                                                          file_path.filename().string());
+                                }
+                                continue;
+                            }
+                        }
                         // In production: Insert into target_collection
                         stats.documents_processed++;
                         stats.bytes_processed += content.size();
@@ -558,6 +581,10 @@ public:
         binary_converter_ = config;
     }
 
+    void setDocumentValidator(DocumentValidatorFn validator) {
+        document_validator_ = std::move(validator);
+    }
+
 private:
     bool matchesFilter(const fs::path& file_path) const {
         // Check extension
@@ -606,6 +633,7 @@ private:
     FileFilter filter_;
     BinaryConverter binary_converter_;
     bool metadata_extraction_;
+    DocumentValidatorFn document_validator_; ///< Optional per-document validator
 };
 
 // Public API implementation
@@ -650,6 +678,10 @@ void FileSystemIngester::setMetadataExtraction(bool enabled) {
 
 void FileSystemIngester::setBinaryConverter(const BinaryConverter& config) {
     impl_->setBinaryConverter(config);
+}
+
+void FileSystemIngester::setDocumentValidator(DocumentValidatorFn validator) {
+    impl_->setDocumentValidator(std::move(validator));
 }
 
 } // namespace ingestion
