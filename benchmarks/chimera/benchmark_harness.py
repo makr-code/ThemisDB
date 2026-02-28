@@ -148,6 +148,11 @@ class BenchmarkHarness:
         self._workloads: Dict[str, WorkloadDefinition] = {}
         self._results: Dict[str, WorkloadResult] = {}
 
+    @property
+    def system_name(self) -> str:
+        """Vendor-neutral identifier for the system under test."""
+        return self._system_name
+
     # ------------------------------------------------------------------
     # Workload registration
     # ------------------------------------------------------------------

@@ -1129,5 +1129,317 @@ class TestBenchmarkHarnessReport:
         assert "<html" in content.lower()
 
 
+# ---------------------------------------------------------------------------
+# BenchmarkDashboard tests
+# ---------------------------------------------------------------------------
+
+from chimera import BenchmarkDashboard
+from chimera.scoring import NormalizationMethod
+
+
+def _make_harness(system_name: str, workload_id: str = "noop") -> BenchmarkHarness:
+    cfg = HarnessConfig(warmup_iterations=0, run_iterations=10)
+    h = BenchmarkHarness(system_name, cfg)
+    h.add_workload(WorkloadDefinition(workload_id, lambda: None))
+    h.run(workload_id)
+    return h
+
+
+class TestBenchmarkDashboardConstruction:
+    """Tests for BenchmarkDashboard construction and accessors."""
+
+    def test_default_title(self):
+        d = BenchmarkDashboard()
+        assert "CHIMERA" in d.title
+
+    def test_custom_title(self):
+        d = BenchmarkDashboard(title="My Suite")
+        assert d.title == "My Suite"
+
+    def test_get_system_names_empty(self):
+        d = BenchmarkDashboard()
+        assert d.get_system_names() == []
+
+    def test_get_workload_ids_empty(self):
+        d = BenchmarkDashboard()
+        assert d.get_workload_ids() == []
+
+
+class TestBenchmarkDashboardIngestion:
+    """Tests for add_harness_results and add_workload_result."""
+
+    def test_add_harness_results_registers_system(self):
+        d = BenchmarkDashboard()
+        h = _make_harness("Alpha")
+        d.add_harness_results(h)
+        assert "Alpha" in d.get_system_names()
+
+    def test_add_harness_results_registers_workload(self):
+        d = BenchmarkDashboard()
+        h = _make_harness("Alpha", workload_id="ycsb_a")
+        d.add_harness_results(h)
+        assert "ycsb_a" in d.get_workload_ids()
+
+    def test_add_harness_results_empty_harness_raises(self):
+        d = BenchmarkDashboard()
+        h = BenchmarkHarness("Empty", HarnessConfig(run_iterations=5))
+        # No workloads added → no results → should raise
+        with pytest.raises(ValueError, match="no completed workload results"):
+            d.add_harness_results(h)
+
+    def test_add_workload_result_direct(self):
+        d = BenchmarkDashboard()
+        result = WorkloadResult(
+            workload_id="load",
+            system_name="SysX",
+            latencies_ms=[1.0, 2.0, 3.0],
+            throughput_ops_per_sec=5000.0,
+            error_count=0,
+            warmup_iterations=0,
+            run_iterations=3,
+            elapsed_seconds=0.001,
+            mean_latency_ms=2.0,
+            p50_latency_ms=2.0,
+            p95_latency_ms=3.0,
+            p99_latency_ms=3.0,
+        )
+        d.add_workload_result(result)
+        assert "SysX" in d.get_system_names()
+        assert "load" in d.get_workload_ids()
+
+    def test_multiple_systems_registered(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        d.add_harness_results(_make_harness("Beta"))
+        assert set(d.get_system_names()) == {"Alpha", "Beta"}
+
+    def test_multiple_workloads_registered(self):
+        d = BenchmarkDashboard()
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=5)
+        h = BenchmarkHarness("Sys", cfg)
+        h.add_workload(WorkloadDefinition("wl_a", lambda: None))
+        h.add_workload(WorkloadDefinition("wl_b", lambda: None))
+        h.run_all(warmup=False)
+        d.add_harness_results(h)
+        assert "wl_a" in d.get_workload_ids()
+        assert "wl_b" in d.get_workload_ids()
+
+    def test_later_harness_results_replace_earlier(self):
+        """Re-registering same workload_id for same system replaces the result."""
+        d = BenchmarkDashboard()
+        h1 = _make_harness("Alpha", "noop")
+        d.add_harness_results(h1)
+        h2 = _make_harness("Alpha", "noop")
+        d.add_harness_results(h2)
+        # System still registered once
+        assert d.get_system_names().count("Alpha") == 1
+
+
+class TestBenchmarkDashboardAggregate:
+    """Tests for the aggregate() method."""
+
+    def test_aggregate_raises_when_empty(self):
+        d = BenchmarkDashboard()
+        with pytest.raises(ValueError, match="No results"):
+            d.aggregate()
+
+    def test_aggregate_structure(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        d.add_harness_results(_make_harness("Beta"))
+        summary = d.aggregate()
+
+        assert "title" in summary
+        assert "generated_at" in summary
+        assert "normalization_method" in summary
+        assert "systems" in summary
+        assert "workloads" in summary
+        assert "results" in summary
+        assert "composite_rankings" in summary
+
+    def test_aggregate_systems_sorted(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Zebra"))
+        d.add_harness_results(_make_harness("Alpha"))
+        summary = d.aggregate()
+        assert summary["systems"] == sorted(summary["systems"])
+
+    def test_aggregate_workloads_sorted(self):
+        d = BenchmarkDashboard()
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=5)
+        h = BenchmarkHarness("S", cfg)
+        h.add_workload(WorkloadDefinition("z_wl", lambda: None))
+        h.add_workload(WorkloadDefinition("a_wl", lambda: None))
+        h.run_all(warmup=False)
+        d.add_harness_results(h)
+        summary = d.aggregate()
+        assert summary["workloads"] == sorted(summary["workloads"])
+
+    def test_aggregate_results_contain_metrics(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha", "wl1"))
+        summary = d.aggregate()
+        wl1 = summary["results"]["wl1"]["Alpha"]
+        assert "throughput_ops_per_sec" in wl1
+        assert "mean_latency_ms" in wl1
+        assert "p50_latency_ms" in wl1
+        assert "p95_latency_ms" in wl1
+        assert "p99_latency_ms" in wl1
+        assert "error_count" in wl1
+
+    def test_aggregate_composite_rankings_present(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        d.add_harness_results(_make_harness("Beta"))
+        summary = d.aggregate()
+        assert len(summary["composite_rankings"]) == 2
+
+    def test_aggregate_composite_ranking_fields(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        summary = d.aggregate()
+        entry = summary["composite_rankings"][0]
+        assert "rank" in entry
+        assert "system" in entry
+        assert "composite_score" in entry
+
+    def test_aggregate_composite_score_in_range(self):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        d.add_harness_results(_make_harness("Beta"))
+        summary = d.aggregate()
+        for entry in summary["composite_rankings"]:
+            assert 0.0 <= entry["composite_score"] <= 100.0
+
+    def test_aggregate_json_serializable(self):
+        import json as _json
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("A"))
+        d.add_harness_results(_make_harness("B"))
+        summary = d.aggregate()
+        # Must not raise
+        serialised = _json.dumps(summary)
+        assert "A" in serialised
+        assert "B" in serialised
+
+    def test_aggregate_normalization_method_recorded(self):
+        d = BenchmarkDashboard(normalization_method=NormalizationMethod.Z_SCORE)
+        d.add_harness_results(_make_harness("X"))
+        summary = d.aggregate()
+        assert summary["normalization_method"] == "z_score"
+
+    def test_aggregate_missing_system_workload_combination(self):
+        """A system that lacks data for a workload should appear as absent in results."""
+        d = BenchmarkDashboard()
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=5)
+
+        h_a = BenchmarkHarness("Alpha", cfg)
+        h_a.add_workload(WorkloadDefinition("wl_shared", lambda: None))
+        h_a.add_workload(WorkloadDefinition("wl_alpha_only", lambda: None))
+        h_a.run_all(warmup=False)
+        d.add_harness_results(h_a)
+
+        h_b = BenchmarkHarness("Beta", cfg)
+        h_b.add_workload(WorkloadDefinition("wl_shared", lambda: None))
+        h_b.run_all(warmup=False)
+        d.add_harness_results(h_b)
+
+        summary = d.aggregate()
+        # Beta has no result for wl_alpha_only
+        assert "Beta" not in summary["results"].get("wl_alpha_only", {})
+        # Both have results for wl_shared
+        assert "Alpha" in summary["results"]["wl_shared"]
+        assert "Beta" in summary["results"]["wl_shared"]
+
+
+class TestBenchmarkDashboardExport:
+    """Tests for generate_json_report and generate_html_dashboard."""
+
+    def test_generate_json_report_creates_file(self, tmp_path):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        out = str(tmp_path / "report.json")
+        d.generate_json_report(out)
+        import os
+        assert os.path.exists(out)
+
+    def test_generate_json_report_valid_json(self, tmp_path):
+        import json as _json
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        d.add_harness_results(_make_harness("Beta"))
+        out = str(tmp_path / "report.json")
+        d.generate_json_report(out)
+        with open(out) as fh:
+            data = _json.load(fh)
+        assert "systems" in data
+        assert "Alpha" in data["systems"]
+
+    def test_generate_json_report_creates_parent_dirs(self, tmp_path):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        out = str(tmp_path / "deep" / "nested" / "report.json")
+        d.generate_json_report(out)
+        import os
+        assert os.path.exists(out)
+
+    def test_generate_html_dashboard_creates_file(self, tmp_path):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        out = str(tmp_path / "dashboard.html")
+        d.generate_html_dashboard(out)
+        import os
+        assert os.path.exists(out)
+
+    def test_generate_html_dashboard_valid_html(self, tmp_path):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("Alpha"))
+        d.add_harness_results(_make_harness("Beta"))
+        out = str(tmp_path / "dashboard.html")
+        d.generate_html_dashboard(out)
+        content = open(out, encoding="utf-8").read()
+        assert "<!DOCTYPE html>" in content
+        assert "<html" in content
+        assert "</html>" in content
+
+    def test_generate_html_dashboard_contains_system_names(self, tmp_path):
+        d = BenchmarkDashboard(title="Test Dashboard")
+        d.add_harness_results(_make_harness("SystemAlpha"))
+        d.add_harness_results(_make_harness("SystemBeta"))
+        out = str(tmp_path / "dashboard.html")
+        d.generate_html_dashboard(out)
+        content = open(out, encoding="utf-8").read()
+        assert "SystemAlpha" in content
+        assert "SystemBeta" in content
+
+    def test_generate_html_dashboard_contains_title(self, tmp_path):
+        d = BenchmarkDashboard(title="My Benchmark Suite 2026")
+        d.add_harness_results(_make_harness("X"))
+        out = str(tmp_path / "dashboard.html")
+        d.generate_html_dashboard(out)
+        content = open(out, encoding="utf-8").read()
+        assert "My Benchmark Suite 2026" in content
+
+    def test_generate_html_dashboard_contains_workload_ids(self, tmp_path):
+        cfg = HarnessConfig(warmup_iterations=0, run_iterations=5)
+        h = BenchmarkHarness("Sys", cfg)
+        h.add_workload(WorkloadDefinition("ycsb_read", lambda: None))
+        h.run("ycsb_read")
+        d = BenchmarkDashboard()
+        d.add_harness_results(h)
+        out = str(tmp_path / "dashboard.html")
+        d.generate_html_dashboard(out)
+        content = open(out, encoding="utf-8").read()
+        assert "ycsb_read" in content
+
+    def test_generate_html_dashboard_creates_parent_dirs(self, tmp_path):
+        d = BenchmarkDashboard()
+        d.add_harness_results(_make_harness("X"))
+        out = str(tmp_path / "sub" / "dashboard.html")
+        d.generate_html_dashboard(out)
+        import os
+        assert os.path.exists(out)
+
+
 if __name__ == '__main__':
     pytest.main([__file__, '-v'])

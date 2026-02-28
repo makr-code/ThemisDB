@@ -59,6 +59,7 @@ from .citations import CitationManager
 from .scoring import BenchmarkScorer, MetricConfig, MetricDirection, NormalizationMethod, NormalizedScore, CompositeScore
 from .benchmark_harness import BenchmarkHarness, WorkloadDefinition, HarnessConfig, WorkloadResult
 from .capability_matrix import CapabilityMatrix, CapableAdapter
+from .dashboard import BenchmarkDashboard
 
 __all__ = [
     "ChimeraReporter",
@@ -77,4 +78,5 @@ __all__ = [
     "WorkloadResult",
     "CapabilityMatrix",
     "CapableAdapter",
+    "BenchmarkDashboard",
 ]
