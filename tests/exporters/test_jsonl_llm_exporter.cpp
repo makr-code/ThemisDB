@@ -748,7 +748,29 @@ TEST_F(JSONLLLMExporterTest, CompressionGzip) {
     EXPECT_LT(compression_ratio, 1.0);  // Compressed should be smaller
 }
 
-TEST_F(JSONLLLMExporterTest, CompressionDisabled) {
+TEST_F(JSONLLLMExporterTest, CompressionZstd) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ + "/compressed.jsonl.zst";
+    options.compress = true;
+    options.compression_type = "zstd";
+    options.compression_level = 3;
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    EXPECT_GT(stats.exported_entities, 0);
+    EXPECT_TRUE(std::filesystem::exists(options.output_path));
+    
+    // Check compression metrics
+    auto metrics = exporter.getMetrics();
+    double compression_ratio = metrics->getCompressionRatio();
+    EXPECT_GT(compression_ratio, 0.0);
+    EXPECT_LT(compression_ratio, 1.0);  // Compressed should be smaller
+}
+
+
     JSONLLLMConfig config;
     JSONLLLMExporter exporter(config);
     

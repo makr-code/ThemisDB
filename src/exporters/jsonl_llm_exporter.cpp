@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     874                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -116,11 +116,7 @@ ExportStats JSONLLLMExporter::exportEntities(
             if (options.compression_type == "gzip") {
                 writer_config.compression = CompressionType::GZIP;
             } else if (options.compression_type == "zstd") {
-                // ZSTD not yet implemented
-                throw ConfigException(
-                    "ZSTD compression not yet supported",
-                    "compression_type"
-                );
+                writer_config.compression = CompressionType::ZSTD;
             }
             writer_config.compression_level = options.compression_level;
         }

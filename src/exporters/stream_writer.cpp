@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     204                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -20,6 +20,9 @@
 #include "exporters/stream_writer.h"
 #include "exporters/exporter_errors.h"
 #include <zlib.h>
+#ifdef THEMIS_HAS_ZSTD
+#include <zstd.h>
+#endif
 #include <cstring>
 
 namespace themis::exporters {
@@ -88,22 +91,38 @@ void StreamWriter::flush() {
     if (config_.compression != CompressionType::NONE) {
         // For compression, finalize current block
         if (compression_state_) {
-            z_stream* strm = static_cast<z_stream*>(compression_state_);
-            strm->avail_in = 0;
-            strm->next_in = Z_NULL;
-            
-            int ret = Z_OK;
-            do {
-                strm->avail_out = buffer_.size();
-                strm->next_out = reinterpret_cast<Bytef*>(buffer_.data());
-                ret = deflate(strm, Z_SYNC_FLUSH);
+            if (config_.compression == CompressionType::GZIP) {
+                z_stream* strm = static_cast<z_stream*>(compression_state_);
+                strm->avail_in = 0;
+                strm->next_in = Z_NULL;
                 
-                size_t have = buffer_.size() - strm->avail_out;
-                if (have > 0) {
-                    file_.write(buffer_.data(), have);
-                    compressed_bytes_written_ += have;
-                }
-            } while (ret == Z_OK && strm->avail_out == 0);
+                int ret = Z_OK;
+                do {
+                    strm->avail_out = buffer_.size();
+                    strm->next_out = reinterpret_cast<Bytef*>(buffer_.data());
+                    ret = deflate(strm, Z_SYNC_FLUSH);
+                    
+                    size_t have = buffer_.size() - strm->avail_out;
+                    if (have > 0) {
+                        file_.write(buffer_.data(), have);
+                        compressed_bytes_written_ += have;
+                    }
+                } while (ret == Z_OK && strm->avail_out == 0);
+            }
+#ifdef THEMIS_HAS_ZSTD
+            else if (config_.compression == CompressionType::ZSTD) {
+                ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
+                size_t remaining = 0;
+                do {
+                    ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+                    remaining = ZSTD_flushStream(cstream, &out_buf);
+                    if (out_buf.pos > 0) {
+                        file_.write(buffer_.data(), out_buf.pos);
+                        compressed_bytes_written_ += out_buf.pos;
+                    }
+                } while (remaining > 0);
+            }
+#endif
         }
     } else {
         writeBuffer();
@@ -141,6 +160,27 @@ void StreamWriter::initCompression() {
         }
         
         compression_state_ = strm.release();  // Transfer ownership
+    } else if (config_.compression == CompressionType::ZSTD) {
+#ifdef THEMIS_HAS_ZSTD
+        ZSTD_CStream* cstream = ZSTD_createCStream();
+        if (!cstream) {
+            throw ExportIOException("Failed to create zstd compression stream", config_.output_path, 0);
+        }
+        // Clamp level to valid zstd range [1, 22]
+        int level = config_.compression_level;
+        if (level < 1) level = 1;
+        if (level > 22) level = 22;
+        size_t init_result = ZSTD_initCStream(cstream, level);
+        if (ZSTD_isError(init_result)) {
+            ZSTD_freeCStream(cstream);
+            throw ExportIOException("Failed to initialize zstd compression stream",
+                                    config_.output_path, static_cast<int>(init_result));
+        }
+        compression_state_ = cstream;
+#else
+        throw ExportIOException("ZSTD compression not available (not compiled with THEMIS_HAS_ZSTD)",
+                                config_.output_path, 0);
+#endif
     }
 }
 
@@ -174,6 +214,25 @@ void StreamWriter::compressAndWrite(const char* data, size_t size) {
             }
         } while (strm->avail_out == 0);
     }
+#ifdef THEMIS_HAS_ZSTD
+    else if (config_.compression == CompressionType::ZSTD && compression_state_) {
+        ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
+        ZSTD_inBuffer in_buf = { data, size, 0 };
+
+        while (in_buf.pos < in_buf.size) {
+            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+            size_t ret = ZSTD_compressStream(cstream, &out_buf, &in_buf);
+            if (ZSTD_isError(ret)) {
+                throw ExportIOException("ZSTD compression stream error", config_.output_path,
+                                        static_cast<int>(ret));
+            }
+            if (out_buf.pos > 0) {
+                file_.write(buffer_.data(), out_buf.pos);
+                compressed_bytes_written_ += out_buf.pos;
+            }
+        }
+    }
+#endif
 }
 
 void StreamWriter::finalizeCompression() {
@@ -199,6 +258,22 @@ void StreamWriter::finalizeCompression() {
         delete strm;
         compression_state_ = nullptr;
     }
+#ifdef THEMIS_HAS_ZSTD
+    else if (config_.compression == CompressionType::ZSTD && compression_state_) {
+        ZSTD_CStream* cstream = static_cast<ZSTD_CStream*>(compression_state_);
+        size_t remaining = 0;
+        do {
+            ZSTD_outBuffer out_buf = { buffer_.data(), buffer_.size(), 0 };
+            remaining = ZSTD_endStream(cstream, &out_buf);
+            if (out_buf.pos > 0) {
+                file_.write(buffer_.data(), out_buf.pos);
+                compressed_bytes_written_ += out_buf.pos;
+            }
+        } while (remaining > 0);
+        ZSTD_freeCStream(cstream);
+        compression_state_ = nullptr;
+    }
+#endif
 }
 
 } // namespace themis::exporters
