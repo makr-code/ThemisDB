@@ -31,6 +31,7 @@
 #include <optional>
 #include "exporters/export_encryption.h"
 #include "storage/base_entity.h"
+#include "exporters/export_encryption.h"
 
 namespace themis::exporters {
 
@@ -104,6 +105,8 @@ struct ExportOptions {
     bool continue_on_error = true;
     size_t max_errors = 100;
 
+    // Encryption (optional, disabled by default)
+    ExportEncryptionConfig encryption;
     // Export encryption: when set and non-empty, the output file is encrypted
     // with AES-256-GCM using a per-job DEK derived via HKDF-SHA256 from the
     // KEK referenced by ExportEncryptionConfig::kek_id.
