@@ -24,6 +24,7 @@
  */
 
 #include "llm/inference_engine_enhanced.h"
+#include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
 #include <spdlog/spdlog.h>
@@ -1204,7 +1205,35 @@ std::string InferenceEngineEnhanced::generateCacheKey(const InferenceRequest& re
 
 std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest& request) {
     std::lock_guard<std::mutex> lock(models_mutex_);
-    
+
+    // ── Step 1: Content-based / metadata-tag routing ────────────────────────
+    // Evaluate ModelRouter rules before load-balancing strategies.
+    // model_router_ uses its own internal mutex; it is safe to call while
+    // holding models_mutex_ because no code ever acquires models_mutex_ while
+    // already holding model_router_.mutex_.
+    {
+        RoutingResult routed = model_router_.route(
+            request.base_request.prompt,
+            request.base_request.metadata);
+        if (routed.matched) {
+            auto it = models_.find(routed.model_id);
+            if (it != models_.end() && it->second.is_available) {
+                const auto& quota = it->second.quota;
+                if (quota.max_concurrent_requests == 0 ||
+                    it->second.active_requests < quota.max_concurrent_requests) {
+                    spdlog::debug("InferenceEngineEnhanced: content-routing rule '{}' selected model '{}'",
+                                  routed.rule_id, routed.model_id);
+                    return routed.model_id;
+                }
+            }
+            // Matched model unavailable – fall through to load balancing.
+            spdlog::debug("InferenceEngineEnhanced: content-routing rule '{}' target '{}' "
+                          "unavailable, falling back to load balancer",
+                          routed.rule_id, routed.model_id);
+        }
+    }
+
+    // ── Step 2: Explicit caller preference ──────────────────────────────────
     // If specific model requested and available, use it (honour concurrency quota)
     if (!request.preferred_model_id.empty()) {
         auto it = models_.find(request.preferred_model_id);
@@ -1507,6 +1536,26 @@ std::string InferenceEngineEnhanced::generateRequestId() {
     std::ostringstream oss;
     oss << "req_" << timestamp << "_" << count;
     return oss.str();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Content-based / metadata-tag routing
+// ═══════════════════════════════════════════════════════════
+
+void InferenceEngineEnhanced::addRoutingRule(const RoutingRule& rule) {
+    model_router_.addRule(rule);
+}
+
+bool InferenceEngineEnhanced::removeRoutingRule(const std::string& rule_id) {
+    return model_router_.removeRule(rule_id);
+}
+
+std::vector<RoutingRule> InferenceEngineEnhanced::getRoutingRules() const {
+    return model_router_.getRules();
+}
+
+void InferenceEngineEnhanced::clearRoutingRules() {
+    model_router_.clearRules();
 }
 
 } // namespace llm

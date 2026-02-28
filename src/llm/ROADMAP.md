@@ -31,7 +31,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921, PR: #3068)
+- [x] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921, PR: #3068)
 - [P] Function / tool calling support (JSON schema binding) (Issue: #1922)
 - [P] Model hot-swap without engine restart (Issue: #1923)
 - [P] Request deduplication cache (same prompt → cached response) (Issue: #1924)
@@ -62,11 +62,16 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [x] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [x] Unified metrics dashboard for both engines (Target: Q3 2026)
 
-### Phase 3: Ecosystem & Performance (Status: Planned 📋)
-- [P] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
+### Phase 3: Ecosystem & Performance (Status: In Progress 🚧)
+- [x] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933, PR: #3068)
 - [x] Speculative decoding for latency reduction (Issue: #1934)
 - [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
-- [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
+- [x] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
+  - Implemented `ModelRouter` in `include/llm/model_router.h` + `src/llm/model_router.cpp`
+  - Supports ECMAScript-regex prompt matching and metadata-tag matching with ANY/ALL modes
+  - Rules are priority-sorted; integrated into `InferenceEngineEnhanced::selectModel()`
+  - Public API: `addRoutingRule`, `removeRoutingRule`, `getRoutingRules`, `clearRoutingRules`
+  - 22 unit and integration tests in `tests/test_model_router.cpp`
 - [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
 
 ## Production Readiness Checklist

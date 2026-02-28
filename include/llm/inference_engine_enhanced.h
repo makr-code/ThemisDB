@@ -29,6 +29,7 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/model_router.h"
 #include "llm/multi_lora_manager.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
@@ -302,7 +303,38 @@ public:
      * @return Current quota, or a zero-limit quota if @p model_id is unknown.
      */
     ModelResourceQuota getModelQuota(const std::string& model_id) const;
-    
+
+    // ── Content-based / metadata-tag routing ────────────────────────────────
+
+    /**
+     * @brief Add (or replace) a routing rule.
+     *
+     * When a rule matches the prompt or metadata tags of an incoming request
+     * its `target_model_id` is preferred before the normal load-balancing
+     * strategy runs.  Multiple rules are evaluated in descending priority order.
+     *
+     * @param rule  Rule to register.  Must have a non-empty `id` and
+     *              `target_model_id`, and at least one pattern or tag.
+     * @throws std::invalid_argument on invalid rule fields or bad regex.
+     */
+    void addRoutingRule(const RoutingRule& rule);
+
+    /**
+     * @brief Remove a routing rule by ID.
+     * @return true if the rule existed and was removed.
+     */
+    bool removeRoutingRule(const std::string& rule_id);
+
+    /**
+     * @brief Return all registered routing rules in priority order.
+     */
+    std::vector<RoutingRule> getRoutingRules() const;
+
+    /**
+     * @brief Remove all routing rules, restoring pure load-balancing behaviour.
+     */
+    void clearRoutingRules();
+
     // Inference submission
     InferenceHandle submit(const EnhancedInferenceRequest& request);
     std::string submitAsync(
@@ -343,6 +375,10 @@ private:
     // Speculative decoding — one decoder per engine instance.
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Content-based / metadata-tag model router (Phase 3).
+    // Evaluated in selectModel() before load-balancing strategies.
+    ModelRouter model_router_;
     
     // Model registry for load balancing
     std::unordered_map<std::string, ModelInfo> models_;

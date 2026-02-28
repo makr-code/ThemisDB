@@ -200,6 +200,110 @@ IngestionReport InProcessWorkerNode::ingest(
 }
 
 // ============================================================================
+// WorkStealingPool
+// ============================================================================
+
+WorkStealingPool::WorkStealingPool(
+    std::vector<std::shared_ptr<IIngestionWorkerNode>> nodes,
+    std::string target_collection,
+    std::chrono::seconds worker_timeout)
+    : nodes_(std::move(nodes))
+    , target_collection_(std::move(target_collection))
+    , worker_timeout_(worker_timeout)
+    , deques_(nodes_.size())
+{}
+
+void WorkStealingPool::submitTo(size_t worker_idx, SourceConfig source) {
+    assert(worker_idx < deques_.size());
+    {
+        std::lock_guard<std::mutex> lock(deques_[worker_idx].mtx);
+        deques_[worker_idx].tasks.push_back(std::move(source));
+    }
+    remaining_.fetch_add(1, std::memory_order_relaxed);
+}
+
+bool WorkStealingPool::tryPopOwn(size_t idx, SourceConfig& out) {
+    std::lock_guard<std::mutex> lock(deques_[idx].mtx);
+    if (deques_[idx].tasks.empty()) return false;
+    out = std::move(deques_[idx].tasks.front());
+    deques_[idx].tasks.pop_front();
+    return true;
+}
+
+bool WorkStealingPool::trySteal(size_t thief_idx, SourceConfig& out) {
+    size_t n = deques_.size();
+    for (size_t i = 1; i < n; ++i) {
+        size_t victim = (thief_idx + i) % n;
+        std::unique_lock<std::mutex> lock(deques_[victim].mtx, std::try_to_lock);
+        if (!lock || deques_[victim].tasks.empty()) continue;
+        // Steal from the back (classic work-stealing pattern).
+        out = std::move(deques_[victim].tasks.back());
+        deques_[victim].tasks.pop_back();
+        return true;
+    }
+    return false;
+}
+
+void WorkStealingPool::workerFn(size_t my_idx, ProgressCallback cb) {
+    SourceConfig src;
+    while (true) {
+        // Try own queue first, then steal from another worker.
+        bool got = tryPopOwn(my_idx, src);
+        if (!got) got = trySteal(my_idx, src);
+
+        if (!got) {
+            // No task found.  If remaining is 0 all work is done; otherwise
+            // another worker might push nothing new so we check once more
+            // after a brief yield to avoid a tight spin loop.
+            if (remaining_.load(std::memory_order_acquire) == 0) break;
+            std::this_thread::yield();
+            got = tryPopOwn(my_idx, src);
+            if (!got) got = trySteal(my_idx, src);
+            if (!got) break;
+        }
+
+        // We own `src` — decrement the global remaining count.
+        remaining_.fetch_sub(1, std::memory_order_release);
+
+        try {
+            IngestionReport report =
+                nodes_[my_idx]->ingest({src}, target_collection_, cb);
+            std::lock_guard<std::mutex> lock(results_mtx_);
+            results_.push_back(std::move(report));
+        } catch (const std::exception& ex) {
+            // Record the error rather than silently dropping the task.
+            IngestionReport err_report;
+            IngestionStats err_stats;
+            err_stats.addError(
+                IngestionErrorCode::INTERNAL_ERROR,
+                IngestionErrorSeverity::ERROR,
+                std::string("WorkStealingPool: worker threw: ") + ex.what());
+            err_report.source_stats[src.source_id] = err_stats;
+            std::lock_guard<std::mutex> lock(results_mtx_);
+            results_.push_back(std::move(err_report));
+        }
+    }
+}
+
+std::vector<IngestionReport> WorkStealingPool::run(ProgressCallback cb) {
+    if (nodes_.empty() || remaining_.load(std::memory_order_relaxed) == 0) {
+        return {};
+    }
+
+    std::vector<std::thread> threads;
+    threads.reserve(nodes_.size());
+    for (size_t i = 0; i < nodes_.size(); ++i) {
+        threads.emplace_back(&WorkStealingPool::workerFn, this, i, cb);
+    }
+    for (auto& t : threads) {
+        if (t.joinable()) t.join();
+    }
+
+    std::lock_guard<std::mutex> lock(results_mtx_);
+    return std::move(results_);
+}
+
+// ============================================================================
 // IngestionCoordinator — helpers
 // ============================================================================
 
@@ -381,100 +485,47 @@ IngestionReport IngestionCoordinator::ingestAll(
         ++metrics_.leader_elections;
     }
 
-    // Step 2 — Partition sources AND snapshot the active-node list under the
-    // same lock to guarantee consistency: no node appears in active_nodes
-    // without also being reflected in the partition map, and vice-versa.
-    std::unordered_map<std::string, std::vector<SourceConfig>> partitions;
+    // Step 2 — Snapshot active nodes and build an index under the nodes lock
+    // so that hash-ring lookups and node list are consistent.
     std::vector<std::shared_ptr<IIngestionWorkerNode>> active_nodes;
+    std::unordered_map<std::string, size_t> node_idx_map;
     {
         std::lock_guard<std::mutex> lock(nodes_mutex_);
-
-        if (!hash_ring_.empty()) {
-            for (const auto& src : sources) {
-                partitions[hash_ring_.getNode(src.source_id)].push_back(src);
-            }
-        } else {
-            // Degenerate case: no nodes registered.
-            partitions[""] = sources;
-        }
-
-        for (const auto& n : nodes_) {
-            active_nodes.push_back(n);
+        active_nodes = nodes_;
+        for (size_t i = 0; i < active_nodes.size(); ++i) {
+            node_idx_map[active_nodes[i]->nodeId()] = i;
         }
     }
 
-    // Step 3 — Dispatch each partition to its owning node concurrently.
-    using FutureResult = std::future<IngestionReport>;
-    std::vector<FutureResult> futures;
-    futures.reserve(active_nodes.size());
+    if (active_nodes.empty()) {
+        return IngestionReport{};
+    }
+
+    // Step 3 — Build a WorkStealingPool and assign each source to the worker
+    // indicated by the consistent hash ring (initial placement).
+    WorkStealingPool pool(active_nodes,
+                          config_.target_collection,
+                          config_.worker_timeout);
 
     size_t tasks_submitted = 0;
-    for (const auto& node : active_nodes) {
-        auto it = partitions.find(node->nodeId());
-        if (it == partitions.end() || it->second.empty()) {
-            // No work for this node — submit a no-op future.
-            futures.push_back(
-                std::async(std::launch::deferred, []() -> IngestionReport {
-                    return IngestionReport{};
-                }));
-            continue;
-        }
-
-        const auto& node_sources = it->second;
-        ++tasks_submitted;
-
-        // Capture by value so the lambda owns the data.
-        futures.push_back(std::async(
-            std::launch::async,
-            [node, node_sources, this, progress_callback]() -> IngestionReport {
-                return node->ingest(node_sources,
-                                    config_.target_collection,
-                                    progress_callback);
-            }));
-    }
-
-    // Step 4 — Collect results with per-worker timeout.
-    std::vector<IngestionReport> partial_reports;
-    partial_reports.reserve(futures.size());
-
-    size_t error_seq = 0;  // sequence counter for unique error-stat keys
-    for (auto& fut : futures) {
-        if (config_.worker_timeout.count() > 0) {
-            auto status = fut.wait_for(config_.worker_timeout);
-            if (status == std::future_status::timeout) {
-                // Worker timed out — record an error report and move on.
-                // Use INTERNAL_ERROR: this is a coordinator-level timeout, not
-                // an HTTP timeout, and must NOT be treated as retryable.
-                IngestionReport err_report;
-                IngestionStats err_stats;
-                err_stats.addError(
-                    IngestionErrorCode::INTERNAL_ERROR,
-                    IngestionErrorSeverity::ERROR,
-                    "IngestionCoordinator: worker node timed out");
-                // Use a unique key so multiple timeouts are all recorded.
-                err_report.source_stats["__timeout_" + std::to_string(++error_seq) + "__"] =
-                    err_stats;
-                partial_reports.push_back(err_report);
-                continue;
+    {
+        std::lock_guard<std::mutex> lock(nodes_mutex_);
+        for (const auto& src : sources) {
+            size_t worker_idx = 0;
+            if (!hash_ring_.empty()) {
+                std::string nid = hash_ring_.getNode(src.source_id);
+                auto it = node_idx_map.find(nid);
+                if (it != node_idx_map.end()) {
+                    worker_idx = it->second;
+                }
             }
-            // std::future_status::deferred: the future is a no-op stub
-            // submitted for nodes with no assigned work; fall through to get().
-        }
-        try {
-            partial_reports.push_back(fut.get());
-        } catch (const std::exception& ex) {
-            IngestionReport err_report;
-            IngestionStats err_stats;
-            err_stats.addError(
-                IngestionErrorCode::INTERNAL_ERROR,
-                IngestionErrorSeverity::ERROR,
-                std::string("IngestionCoordinator: worker threw: ") + ex.what());
-            // Use a unique key so multiple exceptions are all recorded.
-            err_report.source_stats["__exception_" + std::to_string(++error_seq) + "__"] =
-                err_stats;
-            partial_reports.push_back(err_report);
+            pool.submitTo(worker_idx, src);
+            ++tasks_submitted;
         }
     }
+
+    // Step 4 — Run the pool; idle workers steal from busy workers' deques.
+    std::vector<IngestionReport> partial_reports = pool.run(progress_callback);
 
     // Step 5 — Aggregate.
     IngestionReport final_report = aggregateReports(partial_reports);
