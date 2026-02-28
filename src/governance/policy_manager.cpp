@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     607                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -505,10 +505,12 @@ bool PolicyManager::updateRule(const std::string& rule_id, const PolicyRule& upd
     // Save current version to history
     std::string timestamp_str = std::to_string(std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::system_clock::now().time_since_epoch()).count());
+    const std::string& author = !modified_by.empty() ? modified_by :
+        (!it->second.last_modified_by.empty() ? it->second.last_modified_by : it->second.created_by);
     version_history_.recordVersion(
         rule_id,
         it->second,
-        it->second.last_modified_by.empty() ? it->second.created_by : it->second.last_modified_by,
+        author,
         "Version saved before update"
     );
     
@@ -541,8 +543,8 @@ bool PolicyManager::rollbackToVersion(const std::string& rule_id, const std::str
     std::lock_guard<std::mutex> lock(mutex_);
     
     auto version_record = version_history_.getVersion(rule_id, version);
-    if (!version_record) {
-        THEMIS_WARN("Version {} not found for rule {}", version, rule_id);
+    if (!version_record || version_record->rule_snapshot.empty()) {
+        THEMIS_WARN("Version {} not found or has no snapshot for rule {}", version, rule_id);
         return false;
     }
     
@@ -560,27 +562,51 @@ bool PolicyManager::rollbackToVersion(const std::string& rule_id, const std::str
         "Version saved before rollback"
     );
 
-    // NOTE: The version history currently stores rule_id references only (PolicyRuleVersion struct).
-    // For a complete rollback implementation, we would need the full rule snapshot stored in history.
-    // For now, we just log the intention to rollback. A full implementation would require
-    // changing PolicyRuleVersion to store complete rule snapshots, not just rule_id.
+    // Restore rule from snapshot, preserving new incremented version number (level 2 = patch)
+    PolicyRule restored = PolicyRule::fromJson(version_record->rule_snapshot);
+    restored.id = rule_id;  // Ensure ID doesn't change
+    restored.version = incrementVersion(it->second.version, 2);
+    restored.last_modified_by = modified_by;
+    restored.change_description = "Rollback to version " + version;
+    restored.updated_at = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    rules_[rule_id] = restored;
     
-    // Placeholder: Could retrieve from external audit/backup system
-    THEMIS_WARN("Explicit rollback requires full rule snapshots in version history (not yet implemented)");
-    return false;
+    THEMIS_INFO("Rolled back rule {} to version {} (new version: {})", rule_id, version, restored.version);
+    return true;
 }
 
 bool PolicyManager::rollbackToPreviousVersion(const std::string& rule_id, const std::string& modified_by) {
-    THEMIS_WARN("Rollback to previous version not fully implemented");
-    return false;
+    std::string latest = version_history_.getLastRecordedVersion(rule_id);
+    if (latest.empty()) {
+        THEMIS_WARN("No version history found for rule {}", rule_id);
+        return false;
+    }
+    return rollbackToVersion(rule_id, latest, modified_by);
 }
 
 std::vector<VersionDiff> PolicyManager::previewRollback(
     const std::string& rule_id, const std::string& target_version) const {
-    // Placeholder implementation
-    std::vector<VersionDiff> diffs;
-    THEMIS_WARN("Preview rollback not fully implemented");
-    return diffs;
+    auto version_record = version_history_.getVersion(rule_id, target_version);
+    if (!version_record || version_record->rule_snapshot.empty()) {
+        THEMIS_WARN("Version {} not found or has no snapshot for rule {}", target_version, rule_id);
+        return {};
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = rules_.find(rule_id);
+    if (it == rules_.end()) {
+        return {};
+    }
+
+    // Compare target snapshot against current rule to show what would change
+    PolicyRule target_rule = PolicyRule::fromJson(version_record->rule_snapshot);
+    VersionDiff diff = version_history_.compareRules(target_rule, it->second);
+    diff.rule_id = rule_id;
+    diff.version1 = target_version;
+    diff.version2 = it->second.version;
+    return {diff};
 }
 
 std::vector<VersionDiff> PolicyManager::compareRuleVersions(
@@ -597,10 +623,25 @@ std::vector<PolicyRuleVersion> PolicyManager::getAuditTrail(
 
 std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(
     const std::string& user, int64_t start_time, int64_t end_time) const {
-    // Placeholder: return all versions (would need audit log with user tracking to implement fully)
-    // For now just return empty since this requires full audit trail infrastructure
-    std::lock_guard<std::mutex> lock(mutex_);
-    return {};
+    // Collect all rule IDs under the rules mutex, then query version history
+    std::vector<std::string> rule_ids;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& [id, rule_value] : rules_) {
+            rule_ids.push_back(id);
+        }
+    }
+
+    std::vector<PolicyRuleVersion> result;
+    for (const auto& rule_id : rule_ids) {
+        auto versions = version_history_.getVersions(rule_id);
+        for (const auto& v : versions) {
+            if (v.author == user) {
+                result.push_back(v);
+            }
+        }
+    }
+    return result;
 }
 
 } // namespace governance

@@ -39,10 +39,11 @@ struct PolicyRule;
 /// Represents a versioned snapshot of a PolicyRule
 struct PolicyRuleVersion {
     std::string version;                               // Semantic version (major.minor.patch)
-    std::string rule_id;                               // ID of the rule (instead of full rule object)
+    std::string rule_id;                               // ID of the rule
     std::string author;                                // Who made this version
     std::int64_t timestamp;                            // When this version was created
     std::string change_description;                    // Description of changes
+    nlohmann::json rule_snapshot;                      // Full rule state at this version (JSON)
     
     nlohmann::json toJson() const;
     static PolicyRuleVersion fromJson(const nlohmann::json& j);
@@ -114,6 +115,11 @@ public:
     /// @param rule_id Rule identifier
     /// @return Previous version number or empty if no previous version
     std::optional<std::string> getPreviousVersion(const std::string& rule_id) const;
+
+    /// Get the last recorded version number (most recent entry in history)
+    /// @param rule_id Rule identifier
+    /// @return Last recorded version string, or empty string if no history
+    std::string getLastRecordedVersion(const std::string& rule_id) const;
     
     /// Compare two versions of a rule
     /// @param rule_id Rule identifier
@@ -125,6 +131,12 @@ public:
         const std::string& version1,
         const std::string& version2
     ) const;
+
+    /// Compare two PolicyRule objects directly and return field-level differences.
+    /// @param rule1 First rule
+    /// @param rule2 Second rule
+    /// @return VersionDiff populated with rule_id, versions, and changed field names
+    VersionDiff compareRules(const PolicyRule& rule1, const PolicyRule& rule2) const;
     
     /// Record an audit log entry
     /// @param entry Audit log entry

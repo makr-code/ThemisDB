@@ -72,15 +72,15 @@ Implementation tasks:
 - [x] Validation and error messages (`CronExpression::validate`)
 - [x] 6-field year constraint (optional year field, range 1970–2199)
 
-### Advanced Retry Policies
+### ~~Advanced Retry Policies~~ ✅ Implemented (v0.0.32)
 **Target:** v1.6.0
 
 Implementation tasks:
-- [ ] Exponential backoff implementation
-- [ ] Jittered backoff for thundering herd
+- [x] Exponential backoff implementation
+- [x] Jittered backoff for thundering herd
 - [ ] Fibonacci backoff
-- [ ] Conditional retry based on error type
-- [ ] Per-task retry strategy configuration
+- [x] Conditional retry based on error type
+- [x] Per-task retry strategy configuration
 
 ### Task Templates and Parameterization
 **Target:** v1.8.0
