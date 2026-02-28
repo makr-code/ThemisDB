@@ -58,6 +58,12 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [?] Parquet export bridge for analytical pipeline integration
 - [ ] Columnar storage layout for analytical scan queries
 - [~] Prometheus remote-write endpoint compatibility (Issue: #2037)
+  - Endpoint: `POST /api/v1/prom/write`; headers: `Content-Encoding: snappy`, `Content-Type: application/x-protobuf`
+  - Implemented in `prometheus_remote_write.{h,cpp}` (hand-rolled protobuf decoder) + `timeseries_api_handler.cpp`
+  - Label mapping: `__name__` → metric, `instance` → entity, all other labels → tags JSON
+  - Returns HTTP 204 No Content on success per Prometheus remote-write 1.0 spec
+  - Error cases: 400 on malformed protobuf/snappy payload; 400 on unsupported encoding; 501 when ts feature disabled
+  - Tests: 12 unit/integration tests in `tests/test_prometheus_remote_write.cpp`
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%
