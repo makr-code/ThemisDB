@@ -1443,6 +1443,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
 endif()
 
 # ============================================================================
+# Governance Policy Evaluation Latency Benchmarks (Issue #1779)
+# Measures per-operation latency of PolicyEngine::evaluate() and
+# PolicyEngine::checkQueryPermission() at query time.
+# Test matrix: heuristic fallback vs YAML-loaded profiles, all four VS
+# classification levels, CCPA opt-out overhead, field-masking overhead,
+# high-volume throughput (1/10/100/1 000 requests per batch).
+# Targets: evaluate() p99 < 0.5 ms, checkQueryPermission() p99 < 0.5 ms.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
+    message(STATUS "Adding governance policy evaluation latency benchmarks")
+
+    add_executable(bench_governance_policy_latency
+        bench_governance_policy_latency.cpp
+    )
+
+    target_link_libraries(bench_governance_policy_latency PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        yaml-cpp
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_governance_policy_latency PRIVATE
 # ConfigPathResolver Performance Benchmarks (Issue #1675)
 # Measures cache hit rate and resolution latency for config path resolution.
 #
@@ -1476,6 +1501,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
+        target_compile_options(bench_governance_policy_latency PRIVATE
         target_compile_options(bench_config_path_resolver PRIVATE
         target_compile_options(bench_changefeed_throughput PRIVATE
             -O3
@@ -1484,12 +1510,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
         )
     endif()
 
+    install(TARGETS bench_governance_policy_latency
     install(TARGETS bench_config_path_resolver
     install(TARGETS bench_changefeed_throughput
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
+    message(STATUS "  Governance benchmarks: evaluate(), checkQueryPermission(), CCPA overhead, masking overhead, throughput")
     message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
     message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
 endif()
