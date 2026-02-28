@@ -1477,6 +1477,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
         target_compile_options(bench_config_path_resolver PRIVATE
+        target_compile_options(bench_changefeed_throughput PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
@@ -1484,9 +1485,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
     endif()
 
     install(TARGETS bench_config_path_resolver
+    install(TARGETS bench_changefeed_throughput
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
     message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
+    message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
 endif()

@@ -105,6 +105,7 @@
   - http_type_adapter.cpp
   - sampling_strategy.cpp
   - module_loader.cpp
+  - plugin_dependency_graph.cpp
 
 ### 11. RPCServices.cmake
 - **Enabled by**: Always (core functionality)

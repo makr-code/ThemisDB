@@ -213,7 +213,6 @@ nlohmann::json DataMasker::maskFieldsArray(const nlohmann::json &docs, const Fie
     }
 
     nlohmann::json out = nlohmann::json::array();
-    out.reserve(docs.size());
     for (const auto &doc : docs) {
         out.push_back(maskNode(doc, "", rule_index));
     }

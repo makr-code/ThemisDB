@@ -20,6 +20,7 @@
 #include <thread>
 #include <future>
 #include <cctype>
+#include <regex>
 
 namespace themis {
 namespace importers {

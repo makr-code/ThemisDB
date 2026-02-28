@@ -2088,6 +2088,8 @@ TEST_F(GraphQueryOptimizerTest, QueryConstraints_HasTemporalRange_TrueWhenBothSe
     c.time_range_start_ms = kT2020;
     c.time_range_end_ms   = kT2025;
     EXPECT_TRUE(c.hasTemporalRange());
+}
+
 // Property graph schema-aware optimizer hints (Issue #1819)
 // ============================================================================
 
@@ -2385,6 +2387,8 @@ TEST_F(GraphQueryOptimizerTest, SetNodeLabelStats_ClearsOldEntries) {
     EXPECT_EQ(stats.node_label_counts.find("Person"), stats.node_label_counts.end());
     ASSERT_NE(stats.node_label_counts.find("Company"), stats.node_label_counts.end());
     EXPECT_EQ(stats.node_label_counts.at("Company"), 1u);
+}
+
 // Incremental Graph Query Execution Tests (v1.9.0)
 // ============================================================================
 
@@ -2677,6 +2681,8 @@ TEST_F(GraphQueryOptimizerTest, IncrementalBFS_CallbackCanSafelyUnregisterItself
     EXPECT_EQ(cb_count, 1);
 
     optimizer_->unregisterIncrementalQuery(h2);
+}
+
 // Plan Cache Eviction: Size (LRU) and TTL Tests
 // ============================================================================
 
@@ -2839,6 +2845,8 @@ TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContainsPlanCacheEvic
     auto res = handler_->handleMetricsPrometheus(req);
     EXPECT_NE(res.body().find("themis_graph_plan_cache_evictions_total"),
               std::string::npos);
+}
+
 // Graph Query Result Streaming Tests (Issue #1822)
 // ============================================================================
 
