@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:37                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-28                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     184                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     215                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7bdfe2d  2026-02-28  feat(voice): voice command macros for user-defined AQL queries  ║
     • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

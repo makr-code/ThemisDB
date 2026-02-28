@@ -217,9 +217,9 @@ std::string VoiceAssistant::processTextCommand(
     }
     
     // Check if the text matches a registered voice macro trigger.
-    const MacroInfo* macro = macro_manager_.matchTrigger(text);
-    if (macro != nullptr) {
-        MacroResult result = macro_manager_.executeMacro(macro->macro_id);
+    const MacroID matched_id = macro_manager_.matchTrigger(text);
+    if (!matched_id.empty()) {
+        MacroResult result = macro_manager_.executeMacro(matched_id);
         if (result.success) {
             return result.output;
         }
@@ -564,6 +564,8 @@ json VoiceAssistant::getStatistics() const {
     }
 
     stats["voice_auth"] = voice_authenticator_.get_statistics();
+
+    stats["macros"] = macro_manager_.getStatistics();
 
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));

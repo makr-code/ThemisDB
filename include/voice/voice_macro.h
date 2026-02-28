@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
+    • Total Lines:     288                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -33,6 +33,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <optional>
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
@@ -195,11 +196,15 @@ public:
         const MacroOptions& options = {});
 
     /**
-     * @brief Retrieve metadata for a single macro.
+     * @brief Retrieve a copy of metadata for a single macro.
+     *
+     * Returns a value copy so callers are not exposed to the internal map
+     * storage (which could be invalidated by concurrent modifications).
+     *
      * @param macro_id  Macro identifier.
-     * @return Pointer to MacroInfo, nullptr if not found.
+     * @return Copy of MacroInfo, or std::nullopt if not found.
      */
-    const MacroInfo* getMacro(const MacroID& macro_id) const;
+    std::optional<MacroInfo> getMacro(const MacroID& macro_id) const;
 
     /**
      * @brief List all macros, optionally filtered by tag.
@@ -242,9 +247,13 @@ public:
 
     /**
      * @brief Try to match @p utterance against registered trigger phrases.
-     * @return Pointer to the first matching enabled MacroInfo, nullptr if none.
+     *
+     * Returns a copy of the matched macro's ID so callers are not exposed to
+     * internal storage.  The empty string signals no match.
+     *
+     * @return MacroID of the first matching enabled macro, or empty string.
      */
-    const MacroInfo* matchTrigger(const std::string& utterance) const;
+    MacroID matchTrigger(const std::string& utterance) const;
 
     // -----------------------------------------------------------------------
     // Import / Export (JSON)

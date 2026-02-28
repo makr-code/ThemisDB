@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     360                                            ║
+    • Total Lines:     489                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <chrono>
 #include <mutex>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <thread>
@@ -294,11 +295,11 @@ MacroID VoiceMacroManager::createMacro(
     return id;
 }
 
-const MacroInfo* VoiceMacroManager::getMacro(const MacroID& macro_id) const {
+std::optional<MacroInfo> VoiceMacroManager::getMacro(const MacroID& macro_id) const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     auto it = impl_->macros.find(macro_id);
-    if (it == impl_->macros.end()) return nullptr;
-    return &it->second;
+    if (it == impl_->macros.end()) return std::nullopt;
+    return it->second;   // return a copy while the lock is held
 }
 
 std::vector<MacroInfo> VoiceMacroManager::listMacros(
@@ -405,8 +406,8 @@ MacroResult VoiceMacroManager::executeMacro(
     return result;
 }
 
-const MacroInfo* VoiceMacroManager::matchTrigger(const std::string& utterance) const {
-    if (utterance.empty()) return nullptr;
+MacroID VoiceMacroManager::matchTrigger(const std::string& utterance) const {
+    if (utterance.empty()) return {};
 
     const std::string norm_utt = normalise(utterance);
 
@@ -415,10 +416,10 @@ const MacroInfo* VoiceMacroManager::matchTrigger(const std::string& utterance) c
         const MacroInfo& m = kv.second;
         if (!m.enabled) continue;
         if (norm_utt.find(m.trigger_phrase) != std::string::npos) {
-            return &m;
+            return m.macro_id;   // return a copy of the ID while the lock is held
         }
     }
-    return nullptr;
+    return {};
 }
 
 std::string VoiceMacroManager::exportMacros(const std::vector<MacroID>& macro_ids) const {

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-28                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     822                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1100                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7bdfe2d  2026-02-28  feat(voice): voice command macros for user-defined AQL queries  ║
     • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -744,7 +745,7 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
             "Failed to create macro");
     }
 
-    const voice::MacroInfo* info = voice_assistant_->macroManager().getMacro(id);
+    auto info = voice_assistant_->macroManager().getMacro(id);
     if (!info) {
         return createErrorResponse(
             http::status::internal_server_error, "Internal Error",
@@ -777,8 +778,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
 ) {
-    const voice::MacroInfo* info =
-        voice_assistant_->macroManager().getMacro(macro_id);
+    auto info = voice_assistant_->macroManager().getMacro(macro_id);
     if (!info) {
         return createErrorResponse(
             http::status::not_found, "Not Found",
@@ -827,8 +827,7 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
             "Macro not found: " + macro_id);
     }
 
-    const voice::MacroInfo* info =
-        voice_assistant_->macroManager().getMacro(macro_id);
+    auto info = voice_assistant_->macroManager().getMacro(macro_id);
 
     json result;
     result["success"] = true;

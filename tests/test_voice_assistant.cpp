@@ -886,8 +886,8 @@ TEST(VoiceMacroManager, CreateMacroSucceeds) {
     auto id = mgr.createMacro("list customers", {step});
     EXPECT_FALSE(id.empty());
 
-    const MacroInfo* info = mgr.getMacro(id);
-    ASSERT_NE(info, nullptr);
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
     EXPECT_EQ(info->macro_id, id);
     EXPECT_EQ(info->trigger_phrase, "list customers");
     EXPECT_EQ(info->steps.size(), 1u);
@@ -896,7 +896,7 @@ TEST(VoiceMacroManager, CreateMacroSucceeds) {
 
 TEST(VoiceMacroManager, GetMacroReturnsNullForUnknownId) {
     VoiceMacroManager mgr;
-    EXPECT_EQ(mgr.getMacro("nonexistent"), nullptr);
+    EXPECT_FALSE(mgr.getMacro("nonexistent").has_value());
 }
 
 // ---------------------------------------------------------------------------
@@ -955,8 +955,8 @@ TEST(VoiceMacroManager, UpdateMacroChangesSteps) {
     bool ok = mgr.updateMacro(id, {s2}, opts);
     EXPECT_TRUE(ok);
 
-    const MacroInfo* info = mgr.getMacro(id);
-    ASSERT_NE(info, nullptr);
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
     EXPECT_EQ(info->steps.size(), 1u);
     EXPECT_EQ(info->steps[0].action, "FOR o IN orders RETURN o");
 }
@@ -993,13 +993,13 @@ TEST(VoiceMacroManager, MatchTriggerFindsSubstring) {
     mgr.createMacro("morning report", {s});
 
     // Exact match
-    EXPECT_NE(mgr.matchTrigger("morning report"), nullptr);
+    EXPECT_FALSE(mgr.matchTrigger("morning report").empty());
     // Substring match (user says more words)
-    EXPECT_NE(mgr.matchTrigger("please run morning report now"), nullptr);
+    EXPECT_FALSE(mgr.matchTrigger("please run morning report now").empty());
     // Case insensitive
-    EXPECT_NE(mgr.matchTrigger("MORNING REPORT"), nullptr);
+    EXPECT_FALSE(mgr.matchTrigger("MORNING REPORT").empty());
     // No match
-    EXPECT_EQ(mgr.matchTrigger("good evening"), nullptr);
+    EXPECT_TRUE(mgr.matchTrigger("good evening").empty());
 }
 
 TEST(VoiceMacroManager, MatchTriggerIgnoresDisabledMacros) {
@@ -1017,7 +1017,7 @@ TEST(VoiceMacroManager, MatchTriggerIgnoresDisabledMacros) {
 
     // The macro imported with the same trigger_phrase but enabled=false
     // should not be matched.
-    EXPECT_EQ(mgr.matchTrigger("disabled trigger"), nullptr);
+    EXPECT_TRUE(mgr.matchTrigger("disabled trigger").empty());
 }
 
 TEST(VoiceMacroManager, MatchTriggerEmptyUtteranceReturnsNull) {
@@ -1026,7 +1026,7 @@ TEST(VoiceMacroManager, MatchTriggerEmptyUtteranceReturnsNull) {
     s.type   = StepType::QUERY;
     s.action = "RETURN 1";
     mgr.createMacro("some trigger", {s});
-    EXPECT_EQ(mgr.matchTrigger(""), nullptr);
+    EXPECT_TRUE(mgr.matchTrigger("").empty());
 }
 
 // ---------------------------------------------------------------------------
@@ -1092,8 +1092,8 @@ TEST(VoiceMacroManager, ExecuteMacroIncrementsUsageStats) {
     auto stats = mgr.getStatistics();
     EXPECT_EQ(stats["total_executions"].get<uint64_t>(), 2u);
 
-    const MacroInfo* info = mgr.getMacro(id);
-    ASSERT_NE(info, nullptr);
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
     EXPECT_EQ(info->use_count, 2);
 }
 
