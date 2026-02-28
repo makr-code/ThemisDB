@@ -427,6 +427,60 @@ auto results2 = mms.searchTextAndImage(
 
 ---
 
+### multi_field_search.h
+**Purpose:** Multi-field boosted full-text search that ranks documents by combining BM25 scores
+across several fields (e.g. title, body, tags) with per-field boost weights.
+
+**Key Classes:**
+- `MultiFieldBoostedSearch`: Executes per-field BM25 queries, normalizes scores, applies boosts, returns top-k
+- `MultiFieldBoostedSearch::Config`: `k`, `candidates_per_field`
+- `MultiFieldBoostedSearch::FieldConfig`: `table`, `column`, `boost`
+- `MultiFieldBoostedSearch::Result`: `document_id`, combined `score`, per-field `field_scores`
+
+**Usage:**
+```cpp
+#include "search/multi_field_search.h"
+
+using namespace themis;
+
+MultiFieldBoostedSearch::Config cfg;
+cfg.k = 10;
+MultiFieldBoostedSearch mfs(&sec_index_mgr, cfg);
+
+// Use the canonical title / body / tags preset (boosts 3.0 / 1.0 / 0.5)
+auto fields = MultiFieldBoostedSearch::defaultFields("articles");
+auto results = mfs.search("database engine", fields);
+
+// Or specify custom fields
+std::vector<MultiFieldBoostedSearch::FieldConfig> custom = {
+    {"posts", "title",   3.0},
+    {"posts", "summary", 2.0},
+    {"posts", "body",    1.0},
+};
+auto results2 = mfs.search("open source", custom);
+
+for (const auto& r : results) {
+    std::cout << r.document_id << " score=" << r.score << "\n";
+}
+```
+
+**Config Fields:**
+- `k`: Maximum number of results to return (default 10)
+- `candidates_per_field`: BM25 candidates fetched per field before score combination (default 100)
+
+**Score Combination:**
+```
+score(doc) = Σ_f( boost_f × normalized_bm25_f(doc) )
+```
+where `normalized_bm25_f` is the per-field BM25 score linearly rescaled to [0, 1].
+
+**Notes:**
+- `normalizeScores()` is a public static method for direct unit testing.
+- Fields with negative boost are skipped with a warning; fields with boost = 0.0 contribute 0 to the score.
+- `search()` never throws; all index exceptions are caught and logged.
+
+---
+
 ## Integration Points
 
 ### With Index Module
@@ -541,4 +595,4 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 ---
 
 *Last Updated: February 2026*
-*API Version: v1.8.0*
+*API Version: v1.9.0*

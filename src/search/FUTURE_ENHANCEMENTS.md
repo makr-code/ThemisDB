@@ -129,6 +129,25 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v1.9.0
+
+### MultiFieldBoostedSearch (`include/search/multi_field_search.h`)
+- Multi-field boosted full-text search with per-field BM25 scoring and configurable boost weights
+- Implements the "title > body > tags" priority: title boost=3.0, body boost=1.0, tags boost=0.5
+- `FieldConfig` value type: `{table, column, boost}` — fully configurable, any field combination
+- `search(query, fields)` — queries each field independently, normalises BM25 scores to [0, 1]
+  per field, multiplies by the field boost, and accumulates into a combined per-document score
+- Score combination formula: `score(doc) = Σ_f( boost_f × normalised_bm25_score_f(doc) )`
+- Documents appearing in only a subset of fields are still ranked (missing fields contribute 0)
+- `defaultFields(table)` — convenience factory: title/body/tags with the canonical boost hierarchy
+- `Result` struct: `document_id`, combined `score`, and per-field `field_scores` breakdown
+- Graceful handling: negative-boost fields are skipped with a warning; empty query/fields return
+  immediately; null index returns empty without throwing; all exceptions caught inside `search()`
+- Exception safety: `search()` never throws; errors logged via `THEMIS_WARN`/`THEMIS_ERROR`
+- Tests: `tests/test_multi_field_search.cpp`
+
+---
+
 ### Query Expansion and Rewriting
 **Priority:** High  
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
