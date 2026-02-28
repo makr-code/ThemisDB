@@ -72,6 +72,22 @@ fusion across all modalities.
 
 ---
 
+## Delivered in v1.9.0
+
+### MultiFieldBoostedSearch API (`include/search/multi_field_search.h`)
+**Status:** ✅ Delivered in v1.9.0
+
+`MultiFieldBoostedSearch` provides configurable per-field boost weighting over BM25
+full-text scores, implementing the "title > body > tags" search priority.
+
+Key API surface:
+- `search(query, fields)` — per-field BM25 + normalization + boost-weighted combination
+- `defaultFields(table)` — canonical `title/body/tags` preset (boosts 3.0 / 1.0 / 0.5)
+- `normalizeScores(scored)` — public static helper, directly unit-testable
+- `setConfig(config)` — runtime config replacement
+
+---
+
 ## Planned for v1.6.0
 
 - **Personalized autocomplete**: per-user click-history weighting in `AutocompleteEngine`
@@ -89,5 +105,5 @@ fusion across all modalities.
 ---
 
 *Last Updated: February 2026*  
-*Current API Version: v1.7.0*  
-*Next Target: v1.8.0*
+*Current API Version: v1.9.0*  
+*Next Target: v2.0.0*

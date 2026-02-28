@@ -22,6 +22,7 @@
 
 #include <gtest/gtest.h>
 #include "search/multi_field_search.h"
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -225,4 +226,94 @@ TEST(MultiFieldBoostedSearchDefaultFields, UniqueColumnNames) {
     EXPECT_NE(fields[0].column, fields[1].column);
     EXPECT_NE(fields[1].column, fields[2].column);
     EXPECT_NE(fields[0].column, fields[2].column);
+}
+
+// ============================================================================
+// setConfig()
+// ============================================================================
+
+TEST(MultiFieldBoostedSearchConfig, SetConfigUpdatesK) {
+    MultiFieldBoostedSearch mfs(nullptr);
+    MultiFieldBoostedSearch::Config cfg;
+    cfg.k = 42;
+    cfg.candidates_per_field = 200;
+    mfs.setConfig(cfg);
+    EXPECT_EQ(mfs.getConfig().k, 42u);
+    EXPECT_EQ(mfs.getConfig().candidates_per_field, 200u);
+}
+
+// ============================================================================
+// normalizeScores() — public static, tested directly
+// ============================================================================
+
+// Helper: build a pair list
+static std::vector<std::pair<std::string, double>> makePairs(
+    std::initializer_list<std::pair<std::string, double>> items) {
+    return {items};
+}
+
+TEST(MultiFieldNormalizeScores, EmptyIsNoOp) {
+    std::vector<std::pair<std::string, double>> empty;
+    EXPECT_NO_THROW(MultiFieldBoostedSearch::normalizeScores(empty));
+    EXPECT_TRUE(empty.empty());
+}
+
+TEST(MultiFieldNormalizeScores, SinglePositiveScoreBecomesOne) {
+    auto v = makePairs({{"doc1", 3.7}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    EXPECT_DOUBLE_EQ(v[0].second, 1.0);
+}
+
+TEST(MultiFieldNormalizeScores, SingleZeroScoreBecomesZero) {
+    auto v = makePairs({{"doc1", 0.0}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    EXPECT_DOUBLE_EQ(v[0].second, 0.0);
+}
+
+TEST(MultiFieldNormalizeScores, AllEqualPositiveBecomesOne) {
+    auto v = makePairs({{"a", 5.0}, {"b", 5.0}, {"c", 5.0}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    for (const auto& p : v) {
+        EXPECT_DOUBLE_EQ(p.second, 1.0);
+    }
+}
+
+TEST(MultiFieldNormalizeScores, AllEqualZeroBecomesZero) {
+    auto v = makePairs({{"a", 0.0}, {"b", 0.0}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    for (const auto& p : v) {
+        EXPECT_DOUBLE_EQ(p.second, 0.0);
+    }
+}
+
+TEST(MultiFieldNormalizeScores, RangeNormalizationIsCorrect) {
+    // min=1, max=5 -> range=4; doc "a"->(1-1)/4=0.0; "b"->(3-1)/4=0.5; "c"->(5-1)/4=1.0
+    auto v = makePairs({{"a", 1.0}, {"b", 3.0}, {"c", 5.0}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    EXPECT_DOUBLE_EQ(v[0].second, 0.0);
+    EXPECT_DOUBLE_EQ(v[1].second, 0.5);
+    EXPECT_DOUBLE_EQ(v[2].second, 1.0);
+}
+
+TEST(MultiFieldNormalizeScores, DocIdsPreservedAfterNormalization) {
+    auto v = makePairs({{"alpha", 10.0}, {"beta", 20.0}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    EXPECT_EQ(v[0].first, "alpha");
+    EXPECT_EQ(v[1].first, "beta");
+}
+
+TEST(MultiFieldNormalizeScores, NormalizedBoundsAreZeroToOne) {
+    auto v = makePairs({{"a", 2.0}, {"b", 4.0}, {"c", 8.0}});
+    MultiFieldBoostedSearch::normalizeScores(v);
+    for (const auto& p : v) {
+        EXPECT_GE(p.second, 0.0);
+        EXPECT_LE(p.second, 1.0);
+    }
+    // Min becomes 0.0 and max becomes 1.0
+    double min_s = std::min_element(v.begin(), v.end(),
+        [](const auto& a, const auto& b){ return a.second < b.second; })->second;
+    double max_s = std::max_element(v.begin(), v.end(),
+        [](const auto& a, const auto& b){ return a.second < b.second; })->second;
+    EXPECT_DOUBLE_EQ(min_s, 0.0);
+    EXPECT_DOUBLE_EQ(max_s, 1.0);
 }

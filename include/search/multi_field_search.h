@@ -140,14 +140,23 @@ public:
     static std::vector<FieldConfig> defaultFields(const std::string& table);
 
     const Config& getConfig() const { return config_; }
+    void setConfig(const Config& config) { config_ = config; }
+
+    /**
+     * @brief Normalize a list of (doc_id, raw_score) pairs to [0, 1] in place.
+     *
+     * When all scores are equal (range == 0):
+     *  - score > 0 → all normalized to 1.0
+     *  - score == 0 → all normalized to 0.0
+     *
+     * Promoted to public static for direct unit testing (same pattern as
+     * HybridSearch::normalizeScores).
+     */
+    static void normalizeScores(std::vector<std::pair<std::string, double>>& scored);
 
 private:
     SecondaryIndexManager* index_;
     Config config_;
-
-    // Normalize a list of (doc_id, raw_score) pairs to [0, 1].
-    // When all scores are equal: score > 0 → 1.0, score == 0 → 0.0.
-    static void normalizeScores(std::vector<std::pair<std::string, double>>& scored);
 };
 
 } // namespace themis
