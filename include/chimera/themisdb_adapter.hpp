@@ -167,6 +167,10 @@ public:
 private:
     bool connected_ = false;
     std::string connection_string_;
+
+    // Credential security helpers
+    static bool is_valid_connection_string(const std::string& connection_string);
+    static std::string mask_credentials(const std::string& connection_string);
 };
 
 } // namespace chimera
