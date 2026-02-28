@@ -14,6 +14,7 @@
 #include "exporters/streaming_exporter.h"
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
+#include "exporters/export_encryption.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -220,6 +221,29 @@ ExportStats StreamingExporter::exportFromCursor(
         if (options.compress) {
             metrics_->recordCompression(writer.getBytesWritten(),
                                         writer.getCompressedBytesWritten());
+        }
+
+        // P3: Encrypt output file if configured
+        if (options.encryption_config && !options.encryption_config->empty()) {
+            const std::string enc_tmp = options.output_path + ".enc_tmp";
+            try {
+                ExportEncryptor encryptor(*options.encryption_config);
+                const size_t enc_bytes =
+                    encryptor.encryptFile(options.output_path, enc_tmp);
+                std::error_code rename_ec;
+                std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
+                if (rename_ec) {
+                    std::filesystem::remove(enc_tmp);
+                    throw ExportIOException(
+                        "Failed to rename encrypted file: " + rename_ec.message(),
+                        enc_tmp);
+                }
+                metrics_->recordEncryption(enc_bytes);
+            } catch (const std::exception& e) {
+                std::error_code ec;
+                std::filesystem::remove(enc_tmp, ec);
+                throw;
+            }
         }
 
     } catch (const ExportIOException& e) {

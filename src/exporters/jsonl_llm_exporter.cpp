@@ -21,10 +21,12 @@
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "exporters/export_encryption.h"
 #include "exporters/format_template.h"
 #include "exporters/pii_detector.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -327,7 +329,30 @@ ExportStats JSONLLLMExporter::exportEntities(
             metrics_->recordCompression(writer.getBytesWritten(), 
                                        writer.getCompressedBytesWritten());
         }
-        
+
+        // P3: Encrypt output file if configured
+        if (options.encryption_config && !options.encryption_config->empty()) {
+            const std::string enc_tmp = options.output_path + ".enc_tmp";
+            try {
+                ExportEncryptor encryptor(*options.encryption_config);
+                const size_t enc_bytes =
+                    encryptor.encryptFile(options.output_path, enc_tmp);
+                std::error_code rename_ec;
+                std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
+                if (rename_ec) {
+                    std::filesystem::remove(enc_tmp);
+                    throw ExportIOException(
+                        "Failed to rename encrypted file: " + rename_ec.message(),
+                        enc_tmp);
+                }
+                metrics_->recordEncryption(enc_bytes);
+            } catch (const std::exception& e) {
+                std::error_code ec;
+                std::filesystem::remove(enc_tmp, ec);
+                throw;
+            }
+        }
+
         // Record export metrics
         metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
         
