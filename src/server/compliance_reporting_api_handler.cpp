@@ -21,6 +21,7 @@
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 
+#include <climits>
 #include <sstream>
 
 namespace themis {
@@ -157,21 +158,65 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateR
             report_type = body["type"].get<std::string>();
         }
         
-        themis::governance::ComplianceReport report;
-        
         if (report_type == "summary") {
-            report = reporter_->generateSummaryReport();
+            auto report = reporter_->generateSummaryReport();
+            return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "compliance") {
             std::string framework = body.value("framework", "");
-            report = reporter_->generateComplianceReport(framework);
+            auto report = reporter_->generateComplianceReport(framework);
+            return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else if (report_type == "risk") {
-            report = reporter_->generateRiskAssessmentReport();
+            auto report = reporter_->generateRiskAssessmentReport();
+            return makeResponse(http::status::ok, report.toJson().dump(2), req);
+        } else if (report_type == "time_window") {
+            // Parse time window bounds (Unix milliseconds).
+            // Defaults: start=0 (epoch), end=INT64_MAX (no upper bound = all time).
+            int64_t window_start_ms = 0;
+            int64_t window_end_ms   = INT64_MAX;
+            if (body.contains("window_start_ms") && body["window_start_ms"].is_number_integer())
+                window_start_ms = body["window_start_ms"].get<int64_t>();
+            else if (body.contains("window_start_ms") && !body["window_start_ms"].is_number_integer())
+                return makeErrorResponse(http::status::bad_request,
+                    "window_start_ms must be an integer (Unix milliseconds)", req);
+            if (body.contains("window_end_ms") && body["window_end_ms"].is_number_integer())
+                window_end_ms = body["window_end_ms"].get<int64_t>();
+            else if (body.contains("window_end_ms") && !body["window_end_ms"].is_number_integer())
+                return makeErrorResponse(http::status::bad_request,
+                    "window_end_ms must be an integer (Unix milliseconds)", req);
+
+            if (window_start_ms < 0 || window_end_ms < 0) {
+                return makeErrorResponse(http::status::bad_request,
+                    "window_start_ms and window_end_ms must be non-negative", req);
+            }
+            if (window_start_ms > window_end_ms) {
+                return makeErrorResponse(http::status::bad_request,
+                    "window_start_ms must be <= window_end_ms", req);
+            }
+
+            std::string framework = body.value("framework", "");
+
+            // Optional: caller may supply pre-parsed evaluation entries inline.
+            std::vector<themis::governance::RuleEvaluationEntry> entries;
+            if (body.contains("entries") && body["entries"].is_array()) {
+                try {
+                    for (const auto& item : body["entries"]) {
+                        entries.push_back(
+                            themis::governance::RuleEvaluationEntry::fromJson(item));
+                    }
+                } catch (const std::exception& parse_err) {
+                    THEMIS_WARN("time_window report: failed to parse entries array: {}", parse_err.what());
+                    return makeErrorResponse(http::status::bad_request,
+                        std::string("Invalid entry in entries array: ") + parse_err.what(), req);
+                }
+            }
+
+            auto report = reporter_->generateTimeWindowReport(
+                entries, window_start_ms, window_end_ms, framework);
+            return makeResponse(http::status::ok, report.toJson().dump(2), req);
         } else {
             return makeErrorResponse(http::status::bad_request, 
                 "Invalid report type: " + report_type, req);
         }
-        
-        return makeResponse(http::status::ok, report.toJson().dump(2), req);
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Error generating report: {}", e.what());

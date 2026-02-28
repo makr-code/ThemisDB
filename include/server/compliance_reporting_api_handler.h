@@ -41,6 +41,9 @@ namespace server {
  * - GET /policies/reports/compliance - Compliance status
  * - GET /policies/reports/gaps - Gap analysis
  * - POST /policies/reports/generate - Generate custom report
+ *     Supported types: "summary", "compliance", "risk", "time_window"
+ *     For "time_window": body fields window_start_ms, window_end_ms (Unix ms),
+ *     optional framework string, optional entries array of audit-log JSON objects.
  * - GET /policies/reports/:id/export - Export report
  */
 class ComplianceReportingApiHandler {
