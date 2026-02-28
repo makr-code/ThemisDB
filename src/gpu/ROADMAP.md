@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), GPU-accelerated ANN (vector similarity) via cuVS/RAFT, and MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), GPU-accelerated ANN (vector similarity) via cuVS/RAFT, MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series, Vulkan compute backend, and peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -97,6 +97,13 @@
   - CPU simulation path (in-memory registry) always active; tests pass without Vulkan hardware.
   - Tests: `tests/test_gpu_vulkan_backend.cpp`
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
+  - Implementation: `include/themis/gpu/p2p_transfer.h`, `src/gpu/p2p_transfer.cpp`
+  - Interfaces: `GPUP2PTransferManager::{canAccessPeer, enablePeerAccess, disablePeerAccess, isPeerAccessEnabled, transfer, getStats, reset}` + `TransferRequest`, `TransferResult`, `Status` enum, `Stats`
+  - Feature gate: `GPUFeatureFlags::Feature::PEER_TO_PEER` (Enterprise/Hyperscaler editions)
+  - CUDA path: `cudaDeviceCanAccessPeer`, `cudaDeviceEnablePeerAccess`, `cudaMemcpyPeer`
+  - HIP path: `hipDeviceCanAccessPeer`, `hipDeviceEnablePeerAccess`, `hipMemcpyPeer`
+  - CPU simulation path (memcpy fallback) always active; tests pass without GPU hardware.
+  - Tests: `tests/test_gpu_p2p_transfer.cpp`
 - [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
 - [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series

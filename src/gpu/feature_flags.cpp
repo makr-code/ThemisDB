@@ -41,6 +41,7 @@ const char* GPUFeatureFlags::featureName(Feature feature) noexcept {
         case Feature::WASM_SANDBOX:      return "WASM_SANDBOX";
         case Feature::MIG_MANAGER:       return "MIG_MANAGER";
         case Feature::VULKAN_BACKEND:    return "VULKAN_BACKEND";
+        case Feature::PEER_TO_PEER:      return "PEER_TO_PEER";
     }
     return "UNKNOWN";
 }
@@ -71,6 +72,7 @@ std::string GPUFeatureFlags::editionName() {
  * | WASM_SANDBOX     |    no     |    yes     |    yes      |
  * | MIG_MANAGER      |    no     |    yes     |    yes      |
  * | VULKAN_BACKEND   |    yes    |    yes     |    yes      |
+ * | PEER_TO_PEER     |    no     |    yes     |    yes      |
  */
 bool GPUFeatureFlags::editionDefaultFor(Feature f) {
     const auto ed = edition::GetEditionType();
@@ -104,6 +106,12 @@ bool GPUFeatureFlags::editionDefaultFor(Feature f) {
         return ed != edition::EditionType::UNKNOWN;
     }
 
+    // Peer-to-peer GPU transfers require Enterprise or above.
+    if (f == Feature::PEER_TO_PEER) {
+        return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::HYPERSCALER;
+    }
+
     // All other features are available in Community and above
     // (i.e. always true for any known edition).
     return ed != edition::EditionType::UNKNOWN;
@@ -115,7 +123,7 @@ void GPUFeatureFlags::initDefaults() {
         Feature::TENSOR_OPS,  Feature::POLICY_GATE,    Feature::AUDIT_LOG,
         Feature::METRICS,     Feature::LOAD_BALANCER,  Feature::KERNEL_VALIDATOR,
         Feature::ALERTS,      Feature::WASM_SANDBOX,   Feature::MIG_MANAGER,
-        Feature::VULKAN_BACKEND,
+        Feature::VULKAN_BACKEND, Feature::PEER_TO_PEER,
     };
     for (auto f : all) {
         defaults_[key(f)] = editionDefaultFor(f);
@@ -180,7 +188,7 @@ std::vector<GPUFeatureFlags::FeatureStatus> GPUFeatureFlags::getAll() const {
         Feature::TENSOR_OPS,  Feature::POLICY_GATE,    Feature::AUDIT_LOG,
         Feature::METRICS,     Feature::LOAD_BALANCER,  Feature::KERNEL_VALIDATOR,
         Feature::ALERTS,      Feature::WASM_SANDBOX,   Feature::MIG_MANAGER,
-        Feature::VULKAN_BACKEND,
+        Feature::VULKAN_BACKEND, Feature::PEER_TO_PEER,
     };
     std::vector<FeatureStatus> result;
     result.reserve(std::size(all));
