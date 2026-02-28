@@ -81,6 +81,15 @@ void GPULoadBalancer::resetDevice(int device_index) {
 }
 
 // ============================================================================
+// setTopology
+// ============================================================================
+
+void GPULoadBalancer::setTopology(const GPUClusterTopology& topology) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    topology_ = topology;
+}
+
+// ============================================================================
 // isEligible (called under mutex_)
 // ============================================================================
 
@@ -134,6 +143,40 @@ GPULoadBalancer::selectFirstHealthy(uint64_t required_vram) {
     return nullptr;
 }
 
+GPULoadBalancer::DeviceEntry*
+GPULoadBalancer::selectTopologyAware(uint64_t required_vram) {
+    // If no NVLink topology is available, fall back to least-loaded selection.
+    if (!topology_.has_nvlink || topology_.num_gpus == 0) {
+        return selectLeastLoaded(required_vram);
+    }
+
+    // For each eligible device, sum its outgoing bandwidths from the topology's
+    // bandwidth_matrix to find the device that is best-connected over NVLink.
+    DeviceEntry* best      = nullptr;
+    float        best_bw   = -1.0f;
+
+    for (auto& e : devices_) {
+        if (!isEligible(e, required_vram)) continue;
+
+        const int idx = e.info.index;
+        if (idx < 0 || idx >= topology_.num_gpus) continue;
+
+        float bw_sum = 0.0f;
+        for (int j = 0; j < topology_.num_gpus; ++j) {
+            if (j == idx) continue;
+            bw_sum += topology_.bandwidthBetween(idx, j);
+        }
+
+        if (bw_sum > best_bw) {
+            best_bw = bw_sum;
+            best    = &e;
+        }
+    }
+
+    // If no device in the topology is eligible, fall back to least-loaded.
+    return best ? best : selectLeastLoaded(required_vram);
+}
+
 // ============================================================================
 // selectDevice
 // ============================================================================
@@ -148,6 +191,8 @@ const DeviceInfo* GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
             entry = selectLeastLoaded(required_vram_bytes);  break;
         case Strategy::FIRST_HEALTHY:
             entry = selectFirstHealthy(required_vram_bytes); break;
+        case Strategy::TOPOLOGY_AWARE:
+            entry = selectTopologyAware(required_vram_bytes); break;
     }
     return entry ? &entry->info : nullptr;
 }
