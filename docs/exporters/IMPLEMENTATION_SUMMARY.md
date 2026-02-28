@@ -2,12 +2,13 @@
 
 ## Overview
 
-Complete implementation of production-readiness roadmap for the exporters module, progressing from P0 (Critical) through P2 (Medium Priority).
+Complete implementation of production-readiness roadmap for the exporters module, progressing from P0 (Critical) through P3 (Incremental Export).
 
 ## Timeline
 
 1. **Session 1**: P0 Implementation (Critical)
 2. **Session 2**: P1 & P2 Implementation (High & Medium Priority)
+3. **Session 3**: P3 Implementation (Incremental/Delta Export Tracking)
 
 ## Complete Feature Set
 
@@ -105,18 +106,43 @@ Complete implementation of production-readiness roadmap for the exporters module
 - `exporter_parquet_bytes_written_total` Prometheus counter in `ExporterMetrics`
 - Produces files readable by pyarrow, Pandas, Spark, and all compliant Parquet readers
 
+### Phase 3 (Incremental Export) ✅ - Delta Tracking
+
+**Incremental / Delta Export**
+- `IncrementalExporter` class implementing `IExporter`
+- Watermark-based tracking of the highest exported sequence number per collection
+- Configurable sequence field (`IncrementalExportConfig::sequence_field`, default `"_seq"`)
+- Watermark persistence via a JSON file (`watermark_path`) with atomic tmp-then-rename writes
+- Full-export mode when `watermark_path` is empty (no watermark file)
+- Fail-open behaviour: entities without the sequence field are exported by default (`export_missing_sequence = true`); configurable to fail-closed
+- Integer and floating-point sequence field support
+- Watermark updated only after a successful write, preventing watermark advance on IO error
+- `exporter_delta_docs_skipped_total` Prometheus counter in `ExporterMetrics`
+- Full field filtering (include_fields / exclude_fields) identical to JSONL exporter
+- Progress callbacks with configurable interval
+- Resumable across restarts: re-runs with the same watermark file export only new documents
+
+**Watermark File Format:**
+```json
+{
+  "last_sequence": 1234567890,
+  "last_export_time": "2026-02-27T07:00:00Z",
+  "exported_count": 500
+}
+```
+
 ## Implementation Statistics
 
 ### Code Metrics
 
 | Metric | Count |
 |--------|-------|
-| New Files Created | 11 |
-| Files Modified | 7 |
-| Total Lines Added | ~4,400 |
-| New Classes | 9 |
-| New Features | 25+ |
-| Test Cases | 47 (20 P0 + 11 P1/P2 + 16 streaming) |
+| New Files Created | 13 |
+| Files Modified | 8 |
+| Total Lines Added | ~5,000 |
+| New Classes | 11 |
+| New Features | 27+ |
+| Test Cases | 68 (20 P0 + 11 P1/P2 + 16 streaming + 21 incremental) |
 | Error Codes | 10 |
 | Exception Types | 7 |
 
@@ -124,24 +150,27 @@ Complete implementation of production-readiness roadmap for the exporters module
 
 **Headers (6):**
 - `include/exporters/exporter_errors.h` (159 lines)
-- `include/exporters/exporter_metrics.h` (148 lines)
+- `include/exporters/exporter_metrics.h` (195 lines)
 - `include/exporters/pii_detector.h` (107 lines)
 - `include/exporters/stream_writer.h` (62 lines)
 - `include/exporters/streaming_exporter.h` (139 lines)
 - `include/exporters/parquet_exporter.h` (155 lines)
+- `include/exporters/incremental_exporter.h` (120 lines)
 
 **Implementation (6):**
-- `src/exporters/exporter_metrics.cpp` (280 lines)
+- `src/exporters/exporter_metrics.cpp` (326 lines)
 - `src/exporters/pii_detector.cpp` (214 lines)
 - `src/exporters/stream_writer.cpp` (183 lines)
 - `src/exporters/streaming_exporter.cpp` (335 lines)
 - `src/exporters/jsonl_llm_exporter.cpp` (300+ lines modified)
 - `src/exporters/parquet_exporter.cpp` (960 lines)
+- `src/exporters/incremental_exporter.cpp` (337 lines)
 
 **Tests (3):**
 - `tests/exporters/test_jsonl_llm_exporter.cpp` (780 lines total)
 - `tests/exporters/test_streaming_exporter.cpp` (419 lines)
 - `tests/exporters/test_parquet_exporter.cpp` (430 lines)
+- `tests/exporters/test_incremental_exporter.cpp` (579 lines)
 
 **Documentation (3):**
 - `docs/exporters_roadmap.md` (297 lines)
@@ -193,7 +222,29 @@ Complete implementation of production-readiness roadmap for the exporters module
 - `getName()`, `getVersion()` metadata
 - Supported formats list
 - Metrics attached to stats
-### Parquet Export Tests (29)
+### Incremental Export Tests (21)
+- Full export without watermark file (all entities exported)
+- Full export writes watermark file on success
+- Delta export skips entities at or below watermark
+- Watermark updated after delta export
+- Second run exports nothing when no new entities
+- New entities exported after watermark is set
+- `readWatermark()` returns `INT64_MIN` when file absent
+- `readWatermark()` returns `INT64_MIN` when path empty
+- Entities without sequence field exported by default (fail-open)
+- Entities without sequence field skipped when fail-closed
+- Metrics track skipped entities (`exporter_delta_docs_skipped_total`)
+- Metrics JSON contains delta field
+- Floating-point sequence field respected
+- Field filtering (include/exclude) passed through
+- `getName()` and `getVersion()` metadata
+- Supported formats list includes `"jsonl"`
+- Progress callback invoked
+- Watermark unchanged when nothing is exported
+- Corrupt watermark falls back to full export
+- `ExportStats::toJson()` includes `skipped_entities`
+
+
 - Basic export with magic bytes validation
 - Non-empty file assertion
 - Empty entity set produces valid Parquet file
@@ -284,7 +335,29 @@ JSONLLLMExporter exporter(config);
 auto stats = exporter.exportEntities(large_dataset, options);
 ```
 
-## Performance Characteristics
+### Example 4: Incremental Delta Export
+
+```cpp
+// First run: export all entities and save watermark
+IncrementalExportConfig cfg;
+cfg.sequence_field = "_seq";
+cfg.watermark_path = "/var/lib/themis/exports/my_collection.watermark.json";
+IncrementalExporter exporter(cfg);
+
+ExportOptions opts;
+opts.output_path = "/data/exports/run_001.jsonl";
+auto stats = exporter.exportEntities(entities, opts);
+// stats.exported_entities == all entities
+// Watermark file now records the highest _seq observed
+
+// Subsequent run: only new/changed entities exported
+opts.output_path = "/data/exports/run_002.jsonl";
+auto stats2 = exporter.exportEntities(updated_entities, opts);
+// stats2.skipped_entities == entities with _seq <= previous watermark
+// stats2.exported_entities == only entities with _seq > previous watermark
+```
+
+
 
 ### Throughput
 
@@ -419,6 +492,7 @@ The exporters module is production-ready for:
 - ✅ Resource-constrained environments
 - ✅ High-throughput scenarios
 - ✅ Compressed storage requirements
+- ✅ Incremental/delta exports (only changed documents since last export)
 
 ## Conclusion
 
@@ -428,7 +502,8 @@ The exporters module has been successfully upgraded from basic functionality to 
 - **Performance**: Streaming IO, compression, resource limits
 - **Reliability**: Structured errors, comprehensive metrics, extensive testing
 - **Compliance**: GDPR/CCPA support, configurable privacy controls
-- **Quality**: Code review passed, security scan clean, 31 tests passing
+- **Incremental**: Delta/watermark-based export tracking per collection
+- **Quality**: Code review passed, security scan clean, 68 tests passing
 
 The implementation follows best practices for:
 - Memory safety (RAII, smart pointers)
@@ -440,6 +515,6 @@ The implementation follows best practices for:
 ## References
 
 - Source code: `src/exporters/`, `include/exporters/`
-- Tests: `tests/exporters/test_jsonl_llm_exporter.cpp`, `tests/exporters/test_streaming_exporter.cpp`, `tests/exporters/test_parquet_exporter.cpp`
+- Tests: `tests/exporters/test_jsonl_llm_exporter.cpp`, `tests/exporters/test_streaming_exporter.cpp`, `tests/exporters/test_parquet_exporter.cpp`, `tests/exporters/test_incremental_exporter.cpp`
 - Documentation: `docs/exporters/`
 - Error codes: `include/utils/error_registry.h`

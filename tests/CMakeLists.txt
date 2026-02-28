@@ -194,6 +194,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_html_processor\\.cpp$"
         ".*test_content_markdown_processor\\.cpp$"
         ".*test_content_version_manager\\.cpp$"
+        ".*test_content_streaming_ingestion\\.cpp$"
     )
 endif()
 
@@ -590,6 +591,7 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/qdrant_adapter.cpp
     ../src/chimera/pinecone_adapter.cpp
     ../src/chimera/elasticsearch_adapter.cpp
+    ../src/chimera/neo4j_adapter.cpp
 )
 
 set(_themis_test_core_libs)
