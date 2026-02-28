@@ -260,6 +260,96 @@ TEST(GPUStreamManagerTest, CreateAndDestroy_MultipleStreams_CudaPathClean) {
 }
 
 // ---------------------------------------------------------------------------
+// createCudaStream — CUDA-specific stream creation with CPU fallback
+// (covers Issue: #1801 — recurring query pattern capture via CUDA streams)
+// ---------------------------------------------------------------------------
+
+TEST(GPUStreamManagerTest, CreateCudaStream_SucceedsForNewName) {
+    GPUStreamManager sm;
+    EXPECT_TRUE(sm.createCudaStream({"cuda_stream_a"}));
+    EXPECT_TRUE(sm.hasStream("cuda_stream_a"));
+    sm.destroyStream("cuda_stream_a");
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_FailsForEmptyName) {
+    GPUStreamManager sm;
+    EXPECT_FALSE(sm.createCudaStream({""}));
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_FailsForDuplicateName) {
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createCudaStream({"dup_cuda"}));
+    EXPECT_FALSE(sm.createCudaStream({"dup_cuda"}));
+    sm.destroyStream("dup_cuda");
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_FailsWhenNameAlreadyUsedByCreateStream) {
+    // A stream created with createStream() blocks createCudaStream() for the same name.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createStream({"mixed_name"}));
+    EXPECT_FALSE(sm.createCudaStream({"mixed_name"}));
+    sm.destroyStream("mixed_name");
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_WorkItemSucceeds) {
+    // Work submitted to a CUDA-path stream must still succeed on CPU fallback.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createCudaStream({"cuda_work_stream"}));
+    auto fut = sm.submit("cuda_work_stream", makeItem("cuda_k"));
+    const auto res = fut.get();
+    EXPECT_TRUE(res.success);
+    sm.destroyStream("cuda_work_stream");
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_StatsTracked) {
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createCudaStream({"cuda_stats_stream"}));
+    sm.submit("cuda_stats_stream", makeItem("k1")).get();
+    sm.submit("cuda_stats_stream", makeItem("k2")).get();
+    const auto st = sm.getStreamStats("cuda_stats_stream");
+    EXPECT_EQ(st.submitted, 2u);
+    EXPECT_EQ(st.succeeded, 2u);
+    sm.destroyStream("cuda_stats_stream");
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_DestroySucceeds) {
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createCudaStream({"cuda_destroy_stream"}));
+    EXPECT_TRUE(sm.destroyStream("cuda_destroy_stream"));
+    EXPECT_FALSE(sm.hasStream("cuda_destroy_stream"));
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_MultipleDistinctStreams) {
+    // Multiple CUDA streams can coexist with independent lifecycles.
+    GPUStreamManager sm;
+    ASSERT_TRUE(sm.createCudaStream({"cs_a"}));
+    ASSERT_TRUE(sm.createCudaStream({"cs_b"}));
+    ASSERT_TRUE(sm.createCudaStream({"cs_c"}));
+    EXPECT_EQ(sm.streamCount(), 3u);
+
+    sm.submit("cs_a", makeItem("ka")).get();
+    sm.submit("cs_b", makeItem("kb")).get();
+    sm.submit("cs_c", makeItem("kc")).get();
+
+    EXPECT_EQ(sm.getStreamStats("cs_a").succeeded, 1u);
+    EXPECT_EQ(sm.getStreamStats("cs_b").succeeded, 1u);
+    EXPECT_EQ(sm.getStreamStats("cs_c").succeeded, 1u);
+
+    sm.destroyStream("cs_a");
+    sm.destroyStream("cs_b");
+    sm.destroyStream("cs_c");
+    EXPECT_EQ(sm.streamCount(), 0u);
+}
+
+TEST(GPUStreamManagerTest, CreateCudaStream_WithDeviceIndex_Succeeds) {
+    // Device index 0 always resolves (CPU fallback when no CUDA hardware).
+    GPUStreamManager sm;
+    EXPECT_TRUE(sm.createCudaStream({"cuda_dev0"}, /*device_index=*/0));
+    EXPECT_TRUE(sm.hasStream("cuda_dev0"));
+    sm.destroyStream("cuda_dev0");
+}
+
+// ---------------------------------------------------------------------------
 // ROCm stream lifecycle (CPU fallback path when THEMIS_ENABLE_HIP is absent)
 // ---------------------------------------------------------------------------
 
