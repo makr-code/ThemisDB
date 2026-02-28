@@ -37,7 +37,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 ### Long-term (6-12 months)
 - [I] Distributed ingestion coordinator across nodes (Issue: #1897)
 - [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
-- [I] Plugin API for third-party source connectors (Issue: #1908)
+- [x] Plugin API for third-party source connectors (Issue: #1908)
 - [I] Dynamic source reconfiguration without restart (Issue: #1900)
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)
 
@@ -72,6 +72,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
 - [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
 - [P] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)
+- [x] Plugin API for third-party source connectors (`ingestion_manager.h`: `ConnectorPluginRegistry`, `IngestionManager::registerConnectorPlugin`, `IngestionBuilder::withPluginSource`) (Issue: #1908)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1909)
