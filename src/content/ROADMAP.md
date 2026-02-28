@@ -25,7 +25,7 @@
 - [I] PDF and Office document text extraction (pdfmium / LibreOffice headless) (Issue: #1681)
 - [P] HTML content extraction with boilerplate removal (Issue: #1682)
 - [P] Markdown processing and frontmatter parsing (Issue: #1683)
-- [I] Streaming ingestion for large files (chunked processing) (Issue: #1684)
+- [x] Streaming ingestion for large files (chunked processing) (Issue: #1684)
 - [x] Content deduplication via perceptual hashing (Issue: #1685)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
@@ -55,7 +55,7 @@
 ### Phase 3: Advanced Format Support (Status: In Progress)
 - [x] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
 - [x] Add Office document text extraction via libzip+pugixml for OOXML and ODF formats (`content/office_processor.cpp`) (Issue: #1694)
-- [~] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
+- [x] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
 
