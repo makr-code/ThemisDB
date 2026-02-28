@@ -1,8 +1,10 @@
 // Test: Plugin Capability Negotiation (Version Ranges)
 // Tests for PluginCapabilityNegotiator, PluginVersionRange, and related types.
+// Also tests PluginManager::negotiateCapabilities().
 
 #include <gtest/gtest.h>
 #include "plugins/plugin_interface.h"
+#include "plugins/plugin_manager.h"
 #include <string>
 #include <vector>
 
@@ -321,4 +323,25 @@ TEST(PluginCapabilityNegotiatorNegotiate, NullVersionTreatedAsEmpty) {
     auto r2 = PluginCapabilityNegotiator::negotiate(plugin,
         {{"streaming", {"1.0.0", ""}}});
     EXPECT_FALSE(r2.success);
+}
+
+// ============================================================================
+// PluginManager::negotiateCapabilities tests
+// ============================================================================
+
+TEST(PluginManagerNegotiateCapabilities, UnknownPluginReturnsFalse) {
+    PluginManager mgr;
+    auto result = mgr.negotiateCapabilities("nonexistent_plugin", {});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_NE(result.error_message.find("nonexistent_plugin"), std::string::npos);
+}
+
+TEST(PluginManagerNegotiateCapabilities, UnknownPluginWithRequirementsReturnsFalse) {
+    PluginManager mgr;
+    std::vector<PluginCapabilityRequirement> reqs{{"streaming", {}}};
+    auto result = mgr.negotiateCapabilities("missing", reqs);
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_NE(result.error_message.find("missing"), std::string::npos);
 }

@@ -234,6 +234,22 @@ public:
      * @return Result<PluginManifest> - Manifest or error if not found
      */
     Result<PluginManifest> getManifest(const std::string& name) const;
+
+    /**
+     * @brief Negotiate capabilities between a loaded plugin and a set of requirements.
+     *
+     * Checks that the named plugin is loaded, then delegates to
+     * PluginCapabilityNegotiator::negotiate() to verify each requirement against
+     * the plugin's capability flags and version.
+     *
+     * @param name         Name of the loaded plugin.
+     * @param requirements List of capability requirements (name + optional version range).
+     * @return PluginNegotiationResult with success flag and per-requirement details.
+     *         If the plugin is not found/loaded, success is false and error_message is set.
+     */
+    PluginNegotiationResult negotiateCapabilities(
+        const std::string& name,
+        const std::vector<PluginCapabilityRequirement>& requirements) const;
     
     /**
      * @brief Get plugin metrics
