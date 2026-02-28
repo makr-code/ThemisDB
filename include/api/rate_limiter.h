@@ -23,6 +23,7 @@
 #pragma once
 
 #include <chrono>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <mutex>
@@ -233,9 +234,9 @@ private:
  * Generates standard rate limit headers for HTTP responses.
  */
 struct RateLimitHeaders {
-    size_t limit;       // X-RateLimit-Limit
-    size_t remaining;   // X-RateLimit-Remaining
-    std::chrono::seconds reset;  // X-RateLimit-Reset
+    size_t limit = 0;       // X-RateLimit-Limit
+    size_t remaining = 0;   // X-RateLimit-Remaining
+    std::chrono::seconds reset{0};  // X-RateLimit-Reset
     
     /**
      * @brief Convert to header map
