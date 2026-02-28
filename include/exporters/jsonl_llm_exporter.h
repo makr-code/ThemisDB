@@ -227,14 +227,23 @@ private:
     std::unique_ptr<IFormatTemplate> format_template_;  // non-null when format_template_type != NONE
 
     // Export helpers
-    std::string formatInstructionTuning(const BaseEntity& entity, double& weight);
-    std::string formatChatCompletion(const BaseEntity& entity, double& weight);
-    std::string formatTextCompletion(const BaseEntity& entity, double& weight);
-    std::string formatWithTemplate(const BaseEntity& entity, double& weight);
-    
+    std::string formatInstructionTuning(const BaseEntity& entity, double& weight,
+                                        const ExportOptions& options);
+    std::string formatChatCompletion(const BaseEntity& entity, double& weight,
+                                     const ExportOptions& options);
+    std::string formatTextCompletion(const BaseEntity& entity, double& weight,
+                                     const ExportOptions& options);
+    std::string formatWithTemplate(const BaseEntity& entity, double& weight,
+                                   const ExportOptions& options);
+
     double calculateWeight(const BaseEntity& entity);
     bool passesQualityFilter(const BaseEntity& entity);
-    std::string extractMetadata(const BaseEntity& entity);
+    std::string extractMetadata(const BaseEntity& entity, const ExportOptions& options);
+
+    /// Returns true if field_name is allowed given include/exclude lists.
+    static bool isFieldAllowed(const std::string& field_name,
+                                const std::vector<std::string>& include_fields,
+                                const std::vector<std::string>& exclude_fields);
     
     // Schema validation helpers
     bool validateJsonSchema(const std::string& json_str, const std::string& schema, std::string* error) const;
