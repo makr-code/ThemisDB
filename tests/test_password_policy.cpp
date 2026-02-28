@@ -331,3 +331,95 @@ TEST(PasswordPolicyTest, EmptyPassword_Fails) {
     EXPECT_FALSE(result.valid);
     EXPECT_FALSE(result.violations.empty());
 }
+
+// ============================================================================
+// Shannon entropy checks
+// ============================================================================
+
+TEST(PasswordPolicyTest, ComputeEntropy_EmptyPassword) {
+    EXPECT_DOUBLE_EQ(PasswordPolicy::computeEntropy(""), 0.0);
+}
+
+TEST(PasswordPolicyTest, ComputeEntropy_AllSameChars) {
+    // "aaaa" → only one distinct char → 0 bits entropy
+    EXPECT_DOUBLE_EQ(PasswordPolicy::computeEntropy("aaaa"), 0.0);
+}
+
+TEST(PasswordPolicyTest, ComputeEntropy_TwoDifferentChars) {
+    // "abab" → 2 equally-likely chars → H = 1.0 bit/char × 4 chars = 4.0 bits
+    EXPECT_NEAR(PasswordPolicy::computeEntropy("abab"), 4.0, 1e-9);
+}
+
+TEST(PasswordPolicyTest, ComputeEntropy_GrowsWithDiversity) {
+    // More distinct characters → higher entropy
+    double low  = PasswordPolicy::computeEntropy("aaabbbccc");
+    double high = PasswordPolicy::computeEntropy("abcdefghi");
+    EXPECT_GT(high, low);
+}
+
+TEST(PasswordPolicyTest, MinEntropy_Pass) {
+    PasswordPolicy::Config cfg;
+    cfg.min_length = 4;
+    cfg.require_uppercase = false;
+    cfg.require_lowercase = false;
+    cfg.require_digit = false;
+    cfg.require_special = false;
+    cfg.min_entropy_bits = 4.0;
+    PasswordPolicy policy(cfg);
+
+    // "abcd" → 4 equally-likely distinct chars, p=0.25 each,
+    //  H = -4*(0.25*log2(0.25))*4 = log2(4)*4 = 8.0 bits > 4 → pass
+    EXPECT_TRUE(policy.isCompliant("abcd"));
+}
+
+TEST(PasswordPolicyTest, MinEntropy_Fail) {
+    PasswordPolicy::Config cfg;
+    cfg.min_length = 4;
+    cfg.require_uppercase = false;
+    cfg.require_lowercase = false;
+    cfg.require_digit = false;
+    cfg.require_special = false;
+    cfg.min_entropy_bits = 10.0;
+    PasswordPolicy policy(cfg);
+
+    // "aaaa" → 0 bits entropy < 10 → fail
+    EXPECT_FALSE(policy.isCompliant("aaaa"));
+}
+
+TEST(PasswordPolicyTest, MinEntropy_ViolationMessage) {
+    PasswordPolicy::Config cfg;
+    cfg.min_length = 4;
+    cfg.require_uppercase = false;
+    cfg.require_lowercase = false;
+    cfg.require_digit = false;
+    cfg.require_special = false;
+    cfg.min_entropy_bits = 10.0;
+    PasswordPolicy policy(cfg);
+
+    auto result = policy.validate("aaaa");
+    EXPECT_FALSE(result.valid);
+    bool found = false;
+    for (const auto& v : result.violations) {
+        if (v.find("entropy") != std::string::npos) { found = true; break; }
+    }
+    EXPECT_TRUE(found);
+}
+
+TEST(PasswordPolicyTest, MinEntropy_ZeroDisablesCheck) {
+    PasswordPolicy::Config cfg;
+    cfg.min_length = 4;
+    cfg.require_uppercase = false;
+    cfg.require_lowercase = false;
+    cfg.require_digit = false;
+    cfg.require_special = false;
+    cfg.min_entropy_bits = 0.0;  // disabled
+    PasswordPolicy policy(cfg);
+
+    // Passes because entropy check is disabled
+    EXPECT_TRUE(policy.isCompliant("aaaa"));
+}
+
+TEST(PasswordPolicyTest, Preset_Strict_HasEntropyRequirement) {
+    auto policy = PasswordPolicy::strict();
+    EXPECT_GT(policy.getConfig().min_entropy_bits, 0.0);
+}
