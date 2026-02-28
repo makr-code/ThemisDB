@@ -2805,6 +2805,79 @@ else()
     message(STATUS "TieredIndexMigration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
 endif()
 
+# HNSW recall@10 integration tests (Production Readiness Checklist)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_hnsw_recall_integration.cpp")
+    message(STATUS "Adding HNSW recall@10 integration tests")
+
+    add_executable(test_hnsw_recall_integration
+        index/test_hnsw_recall_integration.cpp
+    )
+
+    target_include_directories(test_hnsw_recall_integration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_hnsw_recall_integration PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    if(TARGET hnswlib::hnswlib)
+        target_link_libraries(test_hnsw_recall_integration PRIVATE hnswlib::hnswlib)
+    endif()
+
+    target_compile_definitions(test_hnsw_recall_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HnswRecallIntegrationTests COMMAND test_hnsw_recall_integration)
+
+    set_tests_properties(HnswRecallIntegrationTests PROPERTIES
+        LABELS "index;hnsw;recall;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  HnswRecall: recall@10 >= 0.90 for L2, Cosine, Dot Product; ef sensitivity; brute-force baseline")
+else()
+    message(STATUS "HNSW recall@10 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_hnsw_recall_integration.cpp")
+endif()
+
+# Spatial index correctness integration tests (Production Readiness Checklist)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_spatial_correctness_integration.cpp")
+    message(STATUS "Adding Spatial correctness integration tests")
+
+    add_executable(test_spatial_correctness_integration
+        index/test_spatial_correctness_integration.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/spatial_index.cpp
+    )
+
+    target_include_directories(test_spatial_correctness_integration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_spatial_correctness_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_spatial_correctness_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SpatialCorrectnessIntegrationTests COMMAND test_spatial_correctness_integration)
+
+    set_tests_properties(SpatialCorrectnessIntegrationTests PROPERTIES
+        LABELS "index;spatial;correctness;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SpatialCorrectness: intersects, within, contains, nearby, KNN, Z-range, precision, recall")
+else()
+    message(STATUS "Spatial correctness integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_spatial_correctness_integration.cpp")
+endif()
+
 # Cloud Storage Backup Comprehensive Tests (GAP-008)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.cpp")
     message(STATUS "Adding Cloud Storage Backup comprehensive tests (GAP-008)")
