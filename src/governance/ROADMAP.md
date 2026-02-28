@@ -76,7 +76,14 @@
 
 - [I] Unit tests coverage > 80% (Issue: #1778)
 - [x] Integration tests (policy evaluation, retention enforcement, audit trail)
-- [I] Performance benchmarks (policy evaluation latency at query time) (Issue: #1779)
+- [x] Performance benchmarks (policy evaluation latency at query time) (Issue: #1779)
+  - Benchmark file: `benchmarks/bench_governance_policy_latency.cpp`
+  - Subsystems: `governance/policy_engine.cpp`, `governance/data_masker.cpp`, CCPA opt-out registry
+  - Measured operations: `PolicyEngine::evaluate()`, `PolicyEngine::checkQueryPermission()`
+  - Test matrix: heuristic fallback vs YAML-loaded profiles; all four VS classifications; CCPA opt-out overhead; field-masking overhead; high-volume batches (1 / 10 / 100 / 1 000 requests)
+  - Performance targets: `evaluate()` p99 < 0.5 ms, `checkQueryPermission()` p99 < 0.5 ms (single-threaded, no I/O, no audit log)
+  - Error cases: YAML absent → heuristic fallback (benchmark runs without abort); CCPA registry empty → opted-out flag false
+  - Build: registered in `benchmarks/CMakeLists.txt` as `bench_governance_policy_latency`; requires `themis_core`, `yaml-cpp`, `nlohmann_json`
 - [x] Security audit (policy bypass prevention, audit trail integrity)
 - [x] Documentation complete (policy engine, compliance governance, integration guide)
 - [x] API stability guaranteed for policy engine and rule evaluation

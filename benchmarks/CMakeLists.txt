@@ -1441,3 +1441,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
 
     message(STATUS "  API benchmarks: GraphQL parse/execute, correlation ID UUID, JSON serialisation, HTTP endpoint roundtrips")
 endif()
+
+# ============================================================================
+# Governance Policy Evaluation Latency Benchmarks (Issue #1779)
+# Measures per-operation latency of PolicyEngine::evaluate() and
+# PolicyEngine::checkQueryPermission() at query time.
+# Test matrix: heuristic fallback vs YAML-loaded profiles, all four VS
+# classification levels, CCPA opt-out overhead, field-masking overhead,
+# high-volume throughput (1/10/100/1 000 requests per batch).
+# Targets: evaluate() p99 < 0.5 ms, checkQueryPermission() p99 < 0.5 ms.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
+    message(STATUS "Adding governance policy evaluation latency benchmarks")
+
+    add_executable(bench_governance_policy_latency
+        bench_governance_policy_latency.cpp
+    )
+
+    target_link_libraries(bench_governance_policy_latency PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        yaml-cpp
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_governance_policy_latency PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_governance_policy_latency PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_governance_policy_latency
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Governance benchmarks: evaluate(), checkQueryPermission(), CCPA overhead, masking overhead, throughput")
+endif()
