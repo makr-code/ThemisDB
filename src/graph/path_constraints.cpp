@@ -27,6 +27,7 @@
 #include <queue>
 #include <unordered_map>
 #include <algorithm>
+#include <cctype>
 
 namespace themis {
 namespace graph {
@@ -62,6 +63,30 @@ inline tl::unexpected<Error> makeError(ErrorRegistry::ErrorCode code, std::strin
 PathConstraints::PathConstraints(GraphIndexManager* graph_mgr) 
     : graph_mgr_(graph_mgr) {}
 
+// ── Security helpers ─────────────────────────────────────────────────────────
+
+bool PathConstraints::isValidIdentifier(std::string_view s) noexcept {
+    if (s.empty() || s.size() > MAX_ID_LENGTH) {
+        return false;
+    }
+    // Reject null bytes — they can cause string-comparison bypass via early
+    // termination in underlying C-string APIs.
+    return s.find('\0') == std::string_view::npos;
+}
+
+bool PathConstraints::isValidFieldName(std::string_view s) noexcept {
+    if (s.empty() || s.size() > MAX_FIELD_NAME_LENGTH) {
+        return false;
+    }
+    for (char ch : s) {
+        unsigned char c = static_cast<unsigned char>(ch);
+        if (!std::isalnum(c) && c != '_' && c != '-' && c != '.') {
+            return false;
+        }
+    }
+    return true;
+}
+
 void PathConstraints::setGraphManager(GraphIndexManager* graph_mgr) {
     graph_mgr_ = graph_mgr;
 }
@@ -75,27 +100,34 @@ void PathConstraints::addMaxLength(int max_length) {
 }
 
 void PathConstraints::addForbiddenNode(std::string_view node_id) {
+    if (!isValidIdentifier(node_id)) return;
     forbidden_nodes_.insert(std::string(node_id));
     constraints_.emplace_back(ConstraintType::FORBIDDEN_NODE, std::string(node_id));
 }
 
 void PathConstraints::addRequiredNode(std::string_view node_id) {
+    if (!isValidIdentifier(node_id)) return;
     required_nodes_.insert(std::string(node_id));
     constraints_.emplace_back(ConstraintType::REQUIRED_NODE, std::string(node_id));
 }
 
 void PathConstraints::addForbiddenEdge(std::string_view edge_id) {
+    if (!isValidIdentifier(edge_id)) return;
     forbidden_edges_.insert(std::string(edge_id));
     constraints_.emplace_back(ConstraintType::FORBIDDEN_EDGE, std::string(edge_id));
 }
 
 void PathConstraints::addRequiredEdge(std::string_view edge_id) {
+    if (!isValidIdentifier(edge_id)) return;
     required_edges_.insert(std::string(edge_id));
     constraints_.emplace_back(ConstraintType::REQUIRED_EDGE, std::string(edge_id));
 }
 
 void PathConstraints::addEdgePropertyConstraint(std::string_view field_name,
                                                 std::string_view expected_value) {
+    if (!isValidFieldName(field_name)) return;
+    if (expected_value.size() > MAX_FIELD_VALUE_LENGTH) return;
+    if (expected_value.find('\0') != std::string_view::npos) return;
     Constraint c(ConstraintType::EDGE_PROPERTY,
                  std::string(field_name),
                  std::string(expected_value));
@@ -104,6 +136,9 @@ void PathConstraints::addEdgePropertyConstraint(std::string_view field_name,
 
 void PathConstraints::addNodePropertyConstraint(std::string_view field_name,
                                                 std::string_view expected_value) {
+    if (!isValidFieldName(field_name)) return;
+    if (expected_value.size() > MAX_FIELD_VALUE_LENGTH) return;
+    if (expected_value.find('\0') != std::string_view::npos) return;
     Constraint c(ConstraintType::NODE_PROPERTY,
                  std::string(field_name),
                  std::string(expected_value));
@@ -150,18 +185,29 @@ Result<bool> PathConstraints::validatePath(
     for (const auto& constraint : constraints_) {
         switch (constraint.type) {
             case ConstraintType::MIN_LENGTH:
-                if (constraint.int_value && nodes.size() < static_cast<size_t>(*constraint.int_value)) {
-                    return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
-                                   "Path too short: " + std::to_string(nodes.size()) + 
-                                   " < " + std::to_string(*constraint.int_value));
+                if (constraint.int_value) {
+                    const int limit = *constraint.int_value;
+                    // Guard against negative values: a negative int cast to
+                    // size_t becomes SIZE_MAX, causing every path to fail.
+                    // Treat a negative limit as "no minimum restriction".
+                    if (limit >= 0 && nodes.size() < static_cast<size_t>(limit)) {
+                        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                       "Path too short: " + std::to_string(nodes.size()) + 
+                                       " < " + std::to_string(limit));
+                    }
                 }
                 break;
                 
             case ConstraintType::MAX_LENGTH:
-                if (constraint.int_value && nodes.size() > static_cast<size_t>(*constraint.int_value)) {
-                    return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
-                                   "Path too long: " + std::to_string(nodes.size()) + 
-                                   " > " + std::to_string(*constraint.int_value));
+                if (constraint.int_value) {
+                    const int limit = *constraint.int_value;
+                    // A negative limit would wrap to SIZE_MAX, making this
+                    // constraint a no-op; treat it as unlimited instead.
+                    if (limit >= 0 && nodes.size() > static_cast<size_t>(limit)) {
+                        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                       "Path too long: " + std::to_string(nodes.size()) + 
+                                       " > " + std::to_string(limit));
+                    }
                 }
                 break;
                 
@@ -310,10 +356,23 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
                         "GraphIndexManager not set. Call setGraphManager() first.");
     }
     
-    // Validate input
-    if (start_node.empty() || end_node.empty()) {
+    // Validate start/end node identifiers
+    if (!isValidIdentifier(start_node)) {
         return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
-                        "Start and end nodes must not be empty");
+                        "Invalid start node identifier");
+    }
+    if (!isValidIdentifier(end_node)) {
+        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                        "Invalid end node identifier");
+    }
+
+    // Clamp max_results to a safe upper bound to prevent memory exhaustion.
+    if (max_results <= 0) {
+        return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                        "max_results must be positive");
+    }
+    if (max_results > MAX_RESULTS_LIMIT) {
+        max_results = MAX_RESULTS_LIMIT;
     }
     
     // Extract constraint values for efficient access
