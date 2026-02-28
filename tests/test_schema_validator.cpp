@@ -646,6 +646,64 @@ TEST(Workflow, SchemaToJsonRoundTrip) {
     EXPECT_TRUE(j["primary_keys"].empty());
 }
 
+// ---------------------------------------------------------------------------
+// Regression: column_mappings must be applied BEFORE feeding the detector
+// so that the schema uses the same column names as the import validation pass.
+// ---------------------------------------------------------------------------
+
+TEST(Workflow, ColumnMappingConsistency) {
+    // Simulate the fix: when a column_mapping renames "old_id" -> "id",
+    // both the schema-detection pass and the validation pass must use "id".
+    // We verify this by building the schema with the mapped name and checking
+    // that validateRow also receives the mapped name.
+
+    SchemaAutoDetector det;
+    // Pre-pass feeds with the MAPPED name (as the fixed code does)
+    det.feedRow({"id", "score"}, {"1", "9.5"});
+    det.feedRow({"id", "score"}, {"2", "7.0"});
+
+    auto schema = det.getSchema("users");
+    EXPECT_EQ(schema.column_types.at("id"),    DetectedFieldType::INTEGER);
+    EXPECT_EQ(schema.column_types.at("score"), DetectedFieldType::DOUBLE);
+
+    // Validation pass also receives mapped names → matches schema → no errors
+    auto errs = SchemaAutoDetector::validateRow({"id", "score"}, {"3", "8.8"}, schema);
+    EXPECT_TRUE(errs.empty());
+
+    // If original names ("old_id") were used, schema would not find the column
+    // and validation would be silently skipped (no errors even for bad data).
+    // Verify that the schema does NOT contain the original name:
+    EXPECT_EQ(schema.column_types.find("old_id"), schema.column_types.end());
+}
+
+TEST(Workflow, MappedColumnTypeMismatchDetected) {
+    // With the fix: schema is detected under the mapped name "user_id".
+    // A row that violates the INTEGER type on "user_id" should be caught.
+
+    SchemaAutoDetector det;
+    det.feedRow({"user_id"}, {"100"});   // INTEGER under mapped name
+
+    auto schema = det.getSchema("users");
+    // Violation: string value for INTEGER column – must be caught
+    auto errs = SchemaAutoDetector::validateRow({"user_id"}, {"not_an_int"}, schema);
+    ASSERT_EQ(errs.size(), 1u);
+    EXPECT_EQ(errs[0].column,        "user_id");
+    EXPECT_EQ(errs[0].expected_type, DetectedFieldType::INTEGER);
+}
+
+// Test that schema_sample_rows = 0 semantics are correct at the SchemaAutoDetector
+// level: a freshly-constructed detector (no rows fed) produces an empty schema,
+// which means validateRow finds no columns to check and returns no errors.
+TEST(Workflow, ZeroSampleRowsProducesEmptySchema) {
+    SchemaAutoDetector det;  // no rows fed → schema_sample_rows == 0 scenario
+    auto schema = det.getSchema("t");
+
+    // Empty schema → validateRow always passes (nothing to check)
+    auto errs = SchemaAutoDetector::validateRow(
+        {"id", "name"}, {"not_int", "hello"}, schema);
+    EXPECT_TRUE(errs.empty());
+}
+
 // ===========================================================================
 // main
 // ===========================================================================

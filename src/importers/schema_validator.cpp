@@ -13,7 +13,6 @@
 
 #include <algorithm>
 #include <cctype>
-#include <stdexcept>
 
 namespace themis {
 namespace importers {

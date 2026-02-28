@@ -636,7 +636,10 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     // ---- Schema auto-detection (optional pre-pass) ----
     // When validate_schema is enabled and we already know the column names,
     // sample the first N data rows to detect types, then seek back.
-    bool schema_validation_active = options.validate_schema && !columns.empty();
+    // schema_sample_rows == 0 disables detection (nothing to sample).
+    bool schema_validation_active = options.validate_schema &&
+                                    !columns.empty() &&
+                                    options.schema_sample_rows > 0;
     DetectedSchema detected_schema;
     if (schema_validation_active) {
         auto data_start = file.tellg();
@@ -800,7 +803,9 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
 
     // ---- Schema auto-detection pre-pass (optional) ----
     // Sample up to schema_sample_rows to detect types; then seek back to start.
-    bool schema_validation_active = options.validate_schema;
+    // schema_sample_rows == 0 disables detection (nothing to sample).
+    bool schema_validation_active = options.validate_schema &&
+                                    options.schema_sample_rows > 0;
     DetectedSchema jsonl_schema;
     if (schema_validation_active) {
         SchemaAutoDetector detector;
@@ -827,6 +832,14 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
                     else if (val.is_number_float())   vals.push_back(std::to_string(val.get<double>()));
                     else if (val.is_string())         vals.push_back(val.get<std::string>());
                     else                              vals.push_back(val.dump());
+                }
+                // Apply column_mappings so the detected schema matches the
+                // names that will be used during the actual import pass.
+                if (!options.column_mappings.empty()) {
+                    for (auto& col : cols) {
+                        auto it = options.column_mappings.find(col);
+                        if (it != options.column_mappings.end()) col = it->second;
+                    }
                 }
                 if (sampled == 0) first_cols = cols;
                 detector.feedRow(cols, vals);

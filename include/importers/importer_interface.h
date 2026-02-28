@@ -437,6 +437,8 @@ struct ImportOptions {
 
     /// Number of data rows to sample for schema type inference.
     /// Only used when validate_schema is true.  Defaults to 100.
+    /// Setting this to 0 effectively disables schema detection (no rows are
+    /// sampled → no schema is built → per-row validation is skipped).
     size_t schema_sample_rows = 100;
 
     json toJson() const {
