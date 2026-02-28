@@ -842,3 +842,341 @@ TEST(BatchProcessorStreamingSTT, WERComputedWithTranscriptAndReference) {
         EXPECT_GE(result.wer_score, 0.0f);
     }
 }
+
+// ============================================================
+// VoiceMacroManager unit tests
+// ============================================================
+
+#include "voice/voice_macro.h"
+
+using namespace themis::voice;
+
+// ---------------------------------------------------------------------------
+// Default state
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, DefaultStateIsEmpty) {
+    VoiceMacroManager mgr;
+    EXPECT_TRUE(mgr.listMacros().empty());
+
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["total_macros"].get<size_t>(), 0u);
+    EXPECT_EQ(stats["total_executions"].get<uint64_t>(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// createMacro / getMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, CreateMacroRejectsEmptyTrigger) {
+    VoiceMacroManager mgr;
+    MacroStep step;
+    step.type   = StepType::QUERY;
+    step.action = "FOR c IN customers RETURN c";
+    auto id = mgr.createMacro("", {step});
+    EXPECT_TRUE(id.empty());
+    EXPECT_TRUE(mgr.listMacros().empty());
+}
+
+TEST(VoiceMacroManager, CreateMacroSucceeds) {
+    VoiceMacroManager mgr;
+    MacroStep step;
+    step.type   = StepType::QUERY;
+    step.action = "FOR c IN customers RETURN c";
+    auto id = mgr.createMacro("list customers", {step});
+    EXPECT_FALSE(id.empty());
+
+    const MacroInfo* info = mgr.getMacro(id);
+    ASSERT_NE(info, nullptr);
+    EXPECT_EQ(info->macro_id, id);
+    EXPECT_EQ(info->trigger_phrase, "list customers");
+    EXPECT_EQ(info->steps.size(), 1u);
+    EXPECT_TRUE(info->enabled);
+}
+
+TEST(VoiceMacroManager, GetMacroReturnsNullForUnknownId) {
+    VoiceMacroManager mgr;
+    EXPECT_EQ(mgr.getMacro("nonexistent"), nullptr);
+}
+
+// ---------------------------------------------------------------------------
+// listMacros
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, ListMacrosReturnsAllMacros) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    mgr.createMacro("trigger one", {s});
+    mgr.createMacro("trigger two", {s});
+    EXPECT_EQ(mgr.listMacros().size(), 2u);
+}
+
+TEST(VoiceMacroManager, ListMacrosFiltersByTag) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+
+    // Create a macro, then export and re-import with a tag added.
+    auto id1 = mgr.createMacro("trigger one", {s});
+    mgr.createMacro("trigger two", {s});
+
+    // Export macro 1, inject a tag into the JSON, and re-import it.
+    std::string exported = mgr.exportMacros({id1});
+    json arr = json::parse(exported);
+    arr[0]["tags"] = json::array({"reporting"});
+    // Replace existing macro via import (same id → overwrites).
+    mgr.importMacros(arr.dump());
+
+    auto filtered = mgr.listMacros("", {"reporting"});
+    // After import the macro with the "reporting" tag should be present.
+    // (There may be an additional duplicate from import if ids differ.)
+    EXPECT_GE(filtered.size(), 1u);
+    EXPECT_EQ(filtered[0].tags[0], "reporting");
+}
+
+// ---------------------------------------------------------------------------
+// updateMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, UpdateMacroChangesSteps) {
+    VoiceMacroManager mgr;
+    MacroStep s1;
+    s1.type   = StepType::QUERY;
+    s1.action = "FOR c IN customers RETURN c";
+    auto id = mgr.createMacro("customers", {s1});
+
+    MacroStep s2;
+    s2.type   = StepType::QUERY;
+    s2.action = "FOR o IN orders RETURN o";
+    MacroOptions opts;
+    bool ok = mgr.updateMacro(id, {s2}, opts);
+    EXPECT_TRUE(ok);
+
+    const MacroInfo* info = mgr.getMacro(id);
+    ASSERT_NE(info, nullptr);
+    EXPECT_EQ(info->steps.size(), 1u);
+    EXPECT_EQ(info->steps[0].action, "FOR o IN orders RETURN o");
+}
+
+TEST(VoiceMacroManager, UpdateMacroReturnsFalseForUnknownId) {
+    VoiceMacroManager mgr;
+    EXPECT_FALSE(mgr.updateMacro("no-such-id", {}, {}));
+}
+
+// ---------------------------------------------------------------------------
+// deleteMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, DeleteMacroRemovesIt) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("del trigger", {s});
+    EXPECT_TRUE(mgr.deleteMacro(id));
+    EXPECT_FALSE(mgr.deleteMacro(id));  // already removed
+    EXPECT_EQ(mgr.listMacros().size(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// matchTrigger
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, MatchTriggerFindsSubstring) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "FOR c IN customers RETURN c";
+    mgr.createMacro("morning report", {s});
+
+    // Exact match
+    EXPECT_NE(mgr.matchTrigger("morning report"), nullptr);
+    // Substring match (user says more words)
+    EXPECT_NE(mgr.matchTrigger("please run morning report now"), nullptr);
+    // Case insensitive
+    EXPECT_NE(mgr.matchTrigger("MORNING REPORT"), nullptr);
+    // No match
+    EXPECT_EQ(mgr.matchTrigger("good evening"), nullptr);
+}
+
+TEST(VoiceMacroManager, MatchTriggerIgnoresDisabledMacros) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("disabled trigger", {s});
+
+    // Export, set enabled=false, re-import (overwrites same id).
+    std::string exported = mgr.exportMacros({id});
+    json arr = json::parse(exported);
+    arr[0]["enabled"] = false;
+    mgr.importMacros(arr.dump());
+
+    // The macro imported with the same trigger_phrase but enabled=false
+    // should not be matched.
+    EXPECT_EQ(mgr.matchTrigger("disabled trigger"), nullptr);
+}
+
+TEST(VoiceMacroManager, MatchTriggerEmptyUtteranceReturnsNull) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    mgr.createMacro("some trigger", {s});
+    EXPECT_EQ(mgr.matchTrigger(""), nullptr);
+}
+
+// ---------------------------------------------------------------------------
+// executeMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, ExecuteMacroQueryStepSubstitutesParameters) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type       = StepType::QUERY;
+    s.action     = "FOR c IN customers FILTER c.age > @min_age RETURN c";
+    s.parameters = {{"min_age", "18"}};
+    auto id = mgr.createMacro("find adults", {s});
+
+    auto result = mgr.executeMacro(id);
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.output.empty());
+    // The AQL should contain the substituted value.
+    EXPECT_NE(result.output.find("18"), std::string::npos);
+}
+
+TEST(VoiceMacroManager, ExecuteMacroRuntimeParamOverridesDefault) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type       = StepType::QUERY;
+    s.action     = "FOR c IN customers FILTER c.age > @min_age RETURN c";
+    s.parameters = {{"min_age", "18"}};
+    auto id = mgr.createMacro("find by age", {s});
+
+    auto result = mgr.executeMacro(id, {{"min_age", "25"}});
+    EXPECT_TRUE(result.success);
+    EXPECT_NE(result.output.find("25"), std::string::npos);
+}
+
+TEST(VoiceMacroManager, ExecuteMacroNotifyStep) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::NOTIFY;
+    s.action = "Query complete!";
+    auto id = mgr.createMacro("notify me", {s});
+
+    auto result = mgr.executeMacro(id);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.output, "Query complete!");
+}
+
+TEST(VoiceMacroManager, ExecuteMacroUnknownIdFails) {
+    VoiceMacroManager mgr;
+    auto result = mgr.executeMacro("no-such-macro");
+    EXPECT_FALSE(result.success);
+}
+
+TEST(VoiceMacroManager, ExecuteMacroIncrementsUsageStats) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("count trigger", {s});
+
+    mgr.executeMacro(id);
+    mgr.executeMacro(id);
+
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["total_executions"].get<uint64_t>(), 2u);
+
+    const MacroInfo* info = mgr.getMacro(id);
+    ASSERT_NE(info, nullptr);
+    EXPECT_EQ(info->use_count, 2);
+}
+
+// ---------------------------------------------------------------------------
+// Multi-step macro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, MultiStepMacroExecutesAllSteps) {
+    VoiceMacroManager mgr;
+
+    MacroStep s1;
+    s1.type   = StepType::QUERY;
+    s1.action = "FOR s IN sales RETURN s.total";
+
+    MacroStep s2;
+    s2.type   = StepType::NOTIFY;
+    s2.action = "Sales report ready";
+
+    auto id = mgr.createMacro("sales report", {s1, s2});
+    auto result = mgr.executeMacro(id);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.step_results.size(), 2u);
+    EXPECT_TRUE(result.step_results[0].success);
+    EXPECT_TRUE(result.step_results[1].success);
+}
+
+// ---------------------------------------------------------------------------
+// Export / Import
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, ExportAndImportRoundTrip) {
+    VoiceMacroManager mgr1;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "FOR c IN customers RETURN c";
+    s.parameters = {{"limit", "10"}};
+    auto id = mgr1.createMacro("export trigger", {s});
+
+    std::string exported = mgr1.exportMacros();
+    EXPECT_FALSE(exported.empty());
+
+    VoiceMacroManager mgr2;
+    auto imported = mgr2.importMacros(exported);
+    EXPECT_EQ(imported.size(), 1u);
+
+    auto macros2 = mgr2.listMacros();
+    ASSERT_EQ(macros2.size(), 1u);
+    EXPECT_EQ(macros2[0].trigger_phrase, "export trigger");
+    EXPECT_EQ(macros2[0].steps.size(), 1u);
+    EXPECT_EQ(macros2[0].steps[0].action, "FOR c IN customers RETURN c");
+    (void)id;
+}
+
+TEST(VoiceMacroManager, ImportIgnoresMalformedJson) {
+    VoiceMacroManager mgr;
+    auto imported = mgr.importMacros("{not valid json}");
+    EXPECT_TRUE(imported.empty());
+    EXPECT_TRUE(mgr.listMacros().empty());
+}
+
+TEST(VoiceMacroManager, ExportSelectiveMacros) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id1 = mgr.createMacro("trigger one", {s});
+    mgr.createMacro("trigger two", {s});
+
+    std::string exported = mgr.exportMacros({id1});
+    // Parse back and verify only one macro is exported.
+    json arr = json::parse(exported);
+    EXPECT_EQ(arr.size(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// Statistics
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, StatisticsKeys) {
+    VoiceMacroManager mgr;
+    auto stats = mgr.getStatistics();
+    EXPECT_TRUE(stats.contains("total_macros"));
+    EXPECT_TRUE(stats.contains("total_executions"));
+    EXPECT_TRUE(stats.contains("enabled_macros"));
+}

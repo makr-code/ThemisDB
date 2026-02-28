@@ -28,7 +28,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
+- [x] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
 - [I] Language detection and automatic locale switching (Issue: #2492)
 - [I] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
 - [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
@@ -62,7 +62,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [~] Multi-speaker diarization improvements
 
 ### Phase 3: Voice Macros & Browser Streaming (Status: Planned 📋)
-- [ ] Voice command macros (user-defined shortcuts to AQL queries)
+- [x] Voice command macros (user-defined shortcuts to AQL queries)
 - [ ] Language detection and automatic locale switching
 - [ ] Noise suppression preprocessing (RNNoise integration)
 - [ ] WebSocket audio streaming endpoint for browser clients

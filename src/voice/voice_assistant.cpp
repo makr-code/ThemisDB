@@ -216,6 +216,16 @@ std::string VoiceAssistant::processTextCommand(
         return "Voice assistant not initialized";
     }
     
+    // Check if the text matches a registered voice macro trigger.
+    const MacroInfo* macro = macro_manager_.matchTrigger(text);
+    if (macro != nullptr) {
+        MacroResult result = macro_manager_.executeMacro(macro->macro_id);
+        if (result.success) {
+            return result.output;
+        }
+        // Fall through to LLM on macro failure.
+    }
+
     // Get or create session
     auto session = getSession(session_id);
     
@@ -613,6 +623,14 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
 
 void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
     wake_word_detector_->setDetectionCallback(std::move(callback));
+}
+
+VoiceMacroManager& VoiceAssistant::macroManager() {
+    return macro_manager_;
+}
+
+const VoiceMacroManager& VoiceAssistant::macroManager() const {
+    return macro_manager_;
 }
 
 } // namespace voice

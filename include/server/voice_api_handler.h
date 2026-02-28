@@ -78,6 +78,11 @@ using json = nlohmann::json;
  * - GET  /api/v1/voice/health - Health check
  * - GET  /api/v1/voice/voices - List available TTS voices
  * - GET  /api/v1/voice/languages - List supported languages
+ * - POST /api/v1/voice/macros - Create voice command macro
+ * - GET  /api/v1/voice/macros - List voice command macros
+ * - GET  /api/v1/voice/macros/{id} - Get a specific macro
+ * - PUT  /api/v1/voice/macros/{id} - Update a macro
+ * - DELETE /api/v1/voice/macros/{id} - Delete a macro
  * - WS  /ws/voice/stream - WebSocket for real-time voice interaction
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
@@ -149,6 +154,25 @@ private:
     http::response<http::string_body> handleGetLanguages(
         const http::request<http::string_body>& req);
     
+    // Voice macro CRUD endpoints
+    http::response<http::string_body> handleCreateMacro(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleListMacros(
+        const http::request<http::string_body>& req);
+    
+    http::response<http::string_body> handleGetMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+    
+    http::response<http::string_body> handleUpdateMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+    
+    http::response<http::string_body> handleDeleteMacro(
+        const http::request<http::string_body>& req,
+        const std::string& macro_id);
+
     // Statistics and health
     http::response<http::string_body> handleStats(
         const http::request<http::string_body>& req);

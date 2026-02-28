@@ -31,6 +31,7 @@
 
 #include "server/voice_api_handler.h"
 #include "voice/voice_assistant.h"
+#include "voice/voice_macro.h"
 #include "utils/http_client_pool.h"
 #include <sstream>
 #include <algorithm>
@@ -166,6 +167,28 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     }
     else if (path == "/api/v1/voice/health" && method == http::verb::get) {
         return handleHealth(req);
+    }
+    else if (path == "/api/v1/voice/macros" && method == http::verb::post) {
+        return handleCreateMacro(req);
+    }
+    else if (path == "/api/v1/voice/macros" && method == http::verb::get) {
+        return handleListMacros(req);
+    }
+    else if (path.find("/api/v1/voice/macros/") == 0) {
+        std::string macro_id = path.substr(21);  // Length of "/api/v1/voice/macros/"
+        if (macro_id.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Missing macro ID");
+        }
+        if (method == http::verb::get) {
+            return handleGetMacro(req, macro_id);
+        }
+        else if (method == http::verb::put) {
+            return handleUpdateMacro(req, macro_id);
+        }
+        else if (method == http::verb::delete_) {
+            return handleDeleteMacro(req, macro_id);
+        }
     }
     else if (path.find("/api/v1/voice/sessions/") == 0) {
         // Extract session ID
@@ -596,6 +619,236 @@ http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
         "en", "de", "es", "fr", "it", "pt", "ru", "zh", "ja", "ko"
     });
     
+    return createJsonResponse(result);
+}
+
+// ---------------------------------------------------------------------------
+// Voice macro handlers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/** Convert a MacroStep JSON object from the request body into a MacroStep. */
+voice::MacroStep parseStep(const json& j) {
+    voice::MacroStep step;
+    std::string type_str = j.value("type", "QUERY");
+    if (type_str == "COMMAND")   step.type = voice::StepType::COMMAND;
+    else if (type_str == "CONDITION") step.type = voice::StepType::CONDITION;
+    else if (type_str == "LOOP")  step.type = voice::StepType::LOOP;
+    else if (type_str == "WAIT")  step.type = voice::StepType::WAIT;
+    else if (type_str == "NOTIFY") step.type = voice::StepType::NOTIFY;
+    else                          step.type = voice::StepType::QUERY;
+
+    step.action = j.value("action", "");
+
+    if (j.contains("parameters") && j["parameters"].is_object()) {
+        for (auto it = j["parameters"].begin(); it != j["parameters"].end(); ++it) {
+            step.parameters[it.key()] = it.value().get<std::string>();
+        }
+    }
+    return step;
+}
+
+std::string stepTypeToString(voice::StepType t) {
+    switch (t) {
+    case voice::StepType::COMMAND:   return "COMMAND";
+    case voice::StepType::CONDITION: return "CONDITION";
+    case voice::StepType::LOOP:      return "LOOP";
+    case voice::StepType::WAIT:      return "WAIT";
+    case voice::StepType::NOTIFY:    return "NOTIFY";
+    default:                         return "QUERY";
+    }
+}
+
+json macroInfoToResponseJson(const voice::MacroInfo& m) {
+    json j;
+    j["macro_id"]       = m.macro_id;
+    j["name"]           = m.name;
+    j["trigger_phrase"] = m.trigger_phrase;
+    j["description"]    = m.description;
+    j["tags"]           = m.tags;
+    j["created_at"]     = m.created_at;
+    j["last_used"]      = m.last_used;
+    j["use_count"]      = m.use_count;
+    j["enabled"]        = m.enabled;
+
+    json steps = json::array();
+    for (const auto& s : m.steps) {
+        json sj;
+        sj["type"]       = stepTypeToString(s.type);
+        sj["action"]     = s.action;
+        json params = json::object();
+        for (const auto& kv : s.parameters) {
+            params[kv.first] = kv.second;
+        }
+        sj["parameters"] = params;
+        steps.push_back(sj);
+    }
+    j["steps"] = steps;
+
+    json opts;
+    opts["require_confirmation"]  = m.options.require_confirmation;
+    opts["max_execution_time_ms"] = m.options.max_execution_time_ms;
+    opts["log_execution"]         = m.options.log_execution;
+    j["options"] = opts;
+
+    return j;
+}
+
+} // anonymous namespace
+
+http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
+    const http::request<http::string_body>& req
+) {
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("trigger_phrase") || !body->contains("steps")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Fields 'trigger_phrase' and 'steps' are required");
+    }
+
+    std::string trigger = (*body)["trigger_phrase"].get<std::string>();
+    if (trigger.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "trigger_phrase must not be empty");
+    }
+
+    std::vector<voice::MacroStep> steps;
+    if (!(*body)["steps"].is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "'steps' must be an array");
+    }
+    for (const auto& sj : (*body)["steps"]) {
+        steps.push_back(parseStep(sj));
+    }
+
+    voice::MacroOptions options;
+    if (body->contains("options") && (*body)["options"].is_object()) {
+        const auto& opts = (*body)["options"];
+        options.require_confirmation  = opts.value("require_confirmation", false);
+        options.max_execution_time_ms = opts.value("max_execution_time_ms", 30000);
+        options.log_execution         = opts.value("log_execution", true);
+    }
+
+    voice::MacroID id = voice_assistant_->macroManager().createMacro(
+        trigger, steps, options);
+
+    if (id.empty()) {
+        return createErrorResponse(
+            http::status::internal_server_error, "Internal Error",
+            "Failed to create macro");
+    }
+
+    const voice::MacroInfo* info = voice_assistant_->macroManager().getMacro(id);
+    if (!info) {
+        return createErrorResponse(
+            http::status::internal_server_error, "Internal Error",
+            "Macro created but could not be retrieved");
+    }
+
+    json result;
+    result["success"] = true;
+    result["macro"]   = macroInfoToResponseJson(*info);
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleListMacros(
+    const http::request<http::string_body>& req
+) {
+    auto macros = voice_assistant_->macroManager().listMacros();
+
+    json arr = json::array();
+    for (const auto& m : macros) {
+        arr.push_back(macroInfoToResponseJson(m));
+    }
+
+    json result;
+    result["macros"] = arr;
+    result["count"]  = arr.size();
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleGetMacro(
+    const http::request<http::string_body>& req,
+    const std::string& macro_id
+) {
+    const voice::MacroInfo* info =
+        voice_assistant_->macroManager().getMacro(macro_id);
+    if (!info) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Macro not found: " + macro_id);
+    }
+    return createJsonResponse(macroInfoToResponseJson(*info));
+}
+
+http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
+    const http::request<http::string_body>& req,
+    const std::string& macro_id
+) {
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("steps")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Field 'steps' is required");
+    }
+    if (!(*body)["steps"].is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "'steps' must be an array");
+    }
+
+    std::vector<voice::MacroStep> steps;
+    for (const auto& sj : (*body)["steps"]) {
+        steps.push_back(parseStep(sj));
+    }
+
+    voice::MacroOptions options;
+    if (body->contains("options") && (*body)["options"].is_object()) {
+        const auto& opts = (*body)["options"];
+        options.require_confirmation  = opts.value("require_confirmation", false);
+        options.max_execution_time_ms = opts.value("max_execution_time_ms", 30000);
+        options.log_execution         = opts.value("log_execution", true);
+    }
+
+    bool ok = voice_assistant_->macroManager().updateMacro(macro_id, steps, options);
+    if (!ok) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Macro not found: " + macro_id);
+    }
+
+    const voice::MacroInfo* info =
+        voice_assistant_->macroManager().getMacro(macro_id);
+
+    json result;
+    result["success"] = true;
+    result["macro"]   = info ? macroInfoToResponseJson(*info) : json(nullptr);
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
+    const http::request<http::string_body>& req,
+    const std::string& macro_id
+) {
+    bool ok = voice_assistant_->macroManager().deleteMacro(macro_id);
+    if (!ok) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Macro not found: " + macro_id);
+    }
+    json result;
+    result["success"]  = true;
+    result["macro_id"] = macro_id;
     return createJsonResponse(result);
 }
 
