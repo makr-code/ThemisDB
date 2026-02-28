@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     502                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -426,6 +426,26 @@ TEST_F(PostgresImporterIntegrationTest, DryRunCountsRowsWithoutImporting) {
     // 3 tables worth of COPY data (3 + 3 + 3 = 9 data rows)
     EXPECT_EQ(stats.imported_records, 0u);
     EXPECT_EQ(stats.total_records, 9u);
+}
+
+// Dry-run must still apply row-level validation (max_row_size_bytes) and report
+// validation errors in structured_errors even though no rows are written.
+TEST_F(PostgresImporterIntegrationTest, DryRunReportsValidationErrorsWithoutImporting) {
+    MiniImporter imp;
+    ImportOptions opts;
+    opts.dry_run            = true;
+    // 49 bytes: threshold guaranteed to exceed every row in the fixture
+    opts.max_row_size_bytes = 49;
+    opts.continue_on_error  = true;
+    auto stats = imp.importData(fixture_path_, opts);
+    // Nothing must be imported (dry-run)
+    EXPECT_EQ(stats.imported_records, 0u);
+    // Validation errors must be reported even in dry-run
+    EXPECT_GT(stats.failed_records, 0u);
+    EXPECT_FALSE(stats.structured_errors.empty());
+    for (const auto& e : stats.structured_errors) {
+        EXPECT_EQ(e.code, ImportErrorCode::ROW_TOO_LARGE);
+    }
 }
 
 TEST_F(PostgresImporterIntegrationTest, NormalImportCountsAllRows) {
