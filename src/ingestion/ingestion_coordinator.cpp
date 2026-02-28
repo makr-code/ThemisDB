@@ -271,8 +271,13 @@ void IngestionCoordinator::stop() {
         return;  // already stopped
     }
 
-    // Stop lease renewal thread.
-    lease_renewal_running_.store(false);
+    // Wake the lease renewal thread so it exits promptly instead of
+    // sleeping for up to lease_ttl/2.
+    {
+        std::lock_guard<std::mutex> lk(lease_renewal_cv_mutex_);
+        lease_renewal_running_.store(false);
+    }
+    lease_renewal_cv_.notify_all();
     if (lease_renewal_thread_.joinable()) {
         lease_renewal_thread_.join();
     }
@@ -376,13 +381,23 @@ IngestionReport IngestionCoordinator::ingestAll(
         ++metrics_.leader_elections;
     }
 
-    // Step 2 — Partition sources.
-    auto partitions = partitionSources(sources);
-
-    // Grab a snapshot of available nodes (under the nodes lock).
+    // Step 2 — Partition sources AND snapshot the active-node list under the
+    // same lock to guarantee consistency: no node appears in active_nodes
+    // without also being reflected in the partition map, and vice-versa.
+    std::unordered_map<std::string, std::vector<SourceConfig>> partitions;
     std::vector<std::shared_ptr<IIngestionWorkerNode>> active_nodes;
     {
         std::lock_guard<std::mutex> lock(nodes_mutex_);
+
+        if (!hash_ring_.empty()) {
+            for (const auto& src : sources) {
+                partitions[hash_ring_.getNode(src.source_id)].push_back(src);
+            }
+        } else {
+            // Degenerate case: no nodes registered.
+            partitions[""] = sources;
+        }
+
         for (const auto& n : nodes_) {
             active_nodes.push_back(n);
         }
@@ -422,21 +437,28 @@ IngestionReport IngestionCoordinator::ingestAll(
     std::vector<IngestionReport> partial_reports;
     partial_reports.reserve(futures.size());
 
+    size_t error_seq = 0;  // sequence counter for unique error-stat keys
     for (auto& fut : futures) {
         if (config_.worker_timeout.count() > 0) {
             auto status = fut.wait_for(config_.worker_timeout);
             if (status == std::future_status::timeout) {
                 // Worker timed out — record an error report and move on.
+                // Use INTERNAL_ERROR: this is a coordinator-level timeout, not
+                // an HTTP timeout, and must NOT be treated as retryable.
                 IngestionReport err_report;
                 IngestionStats err_stats;
                 err_stats.addError(
-                    IngestionErrorCode::HTTP_TIMEOUT,
+                    IngestionErrorCode::INTERNAL_ERROR,
                     IngestionErrorSeverity::ERROR,
                     "IngestionCoordinator: worker node timed out");
-                err_report.source_stats["__timeout__"] = err_stats;
+                // Use a unique key so multiple timeouts are all recorded.
+                err_report.source_stats["__timeout_" + std::to_string(++error_seq) + "__"] =
+                    err_stats;
                 partial_reports.push_back(err_report);
                 continue;
             }
+            // std::future_status::deferred: the future is a no-op stub
+            // submitted for nodes with no assigned work; fall through to get().
         }
         try {
             partial_reports.push_back(fut.get());
@@ -447,7 +469,9 @@ IngestionReport IngestionCoordinator::ingestAll(
                 IngestionErrorCode::INTERNAL_ERROR,
                 IngestionErrorSeverity::ERROR,
                 std::string("IngestionCoordinator: worker threw: ") + ex.what());
-            err_report.source_stats["__exception__"] = err_stats;
+            // Use a unique key so multiple exceptions are all recorded.
+            err_report.source_stats["__exception_" + std::to_string(++error_seq) + "__"] =
+                err_stats;
             partial_reports.push_back(err_report);
         }
     }
@@ -501,13 +525,22 @@ void IngestionCoordinator::leaseRenewalLoop() {
         interval = std::chrono::milliseconds(100);
     }
 
+    std::unique_lock<std::mutex> lk(lease_renewal_cv_mutex_);
     while (lease_renewal_running_.load()) {
+        // Wait for the interval or until stop() wakes us up.
+        lease_renewal_cv_.wait_for(lk, interval, [this] {
+            return !lease_renewal_running_.load();
+        });
+
+        if (!lease_renewal_running_.load()) {
+            break;
+        }
+
         // Only renew if we currently hold the lease.
         auto lease = leader_election_->getCurrentLease();
         if (lease.isValid() && lease.owner_node_id == my_node_id_) {
             leader_election_->tryAcquireLease(my_node_id_, config_.lease_ttl);
         }
-        std::this_thread::sleep_for(interval);
     }
 }
 

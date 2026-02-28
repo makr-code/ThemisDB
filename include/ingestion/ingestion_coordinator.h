@@ -21,6 +21,7 @@
 #include <chrono>
 #include <mutex>
 #include <atomic>
+#include <condition_variable>
 #include <map>
 #include <unordered_map>
 #include <future>
@@ -470,6 +471,8 @@ private:
     // Lease renewal background thread
     std::thread lease_renewal_thread_;
     std::atomic<bool> lease_renewal_running_{false};
+    std::mutex lease_renewal_cv_mutex_;
+    std::condition_variable lease_renewal_cv_;
 
     void leaseRenewalLoop();
     IngestionReport aggregateReports(

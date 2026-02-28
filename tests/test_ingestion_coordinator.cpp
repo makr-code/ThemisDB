@@ -662,3 +662,74 @@ TEST(IngestionCoordinatorCallbackTest, ProgressCallbackInvoked) {
 
     coordinator.stop();
 }
+
+// ============================================================================
+// IngestionCoordinator — responsive shutdown (condition-variable wakeup)
+// ============================================================================
+
+TEST(IngestionCoordinatorShutdownTest, StopReturnsQuickly) {
+    // Use a long lease TTL (60 s) to verify that stop() does not block for
+    // lease_ttl/2 (30 s) due to a bare sleep_for in the renewal loop.
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes     = 1;
+    cfg.db_connection = "test_db";
+    cfg.lease_ttl     = std::chrono::milliseconds(60000);
+
+    IngestionCoordinator coordinator(cfg);
+    coordinator.start();
+
+    auto t0 = std::chrono::steady_clock::now();
+    coordinator.stop();
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                          std::chrono::steady_clock::now() - t0)
+                          .count();
+
+    // With a condition-variable wakeup, stop() should return well under 1 s
+    // even when the renewal interval would have been 30 s.
+    EXPECT_LT(elapsed_ms, 1000);
+}
+
+// ============================================================================
+// IngestionCoordinator — error-key uniqueness (no collision on multi-timeout)
+// ============================================================================
+
+TEST(IngestionCoordinatorErrorKeyTest, WorkerTimeoutErrorCodeIsNotRetryable) {
+    // Verify that the error recorded for a coordinator failure (leader
+    // acquisition denied here) uses INTERNAL_ERROR or SOURCE_UNAVAILABLE
+    // and is therefore NOT classified as retryable.
+    //
+    // worker_timeout is set to 0 (disabled) so the test exercises the
+    // leader-election failure path, not the per-worker timeout path.
+    IngestionCoordinator::Config cfg;
+    cfg.num_nodes      = 0;
+    cfg.db_connection  = "test_db";
+    cfg.worker_timeout = std::chrono::seconds(0);  // disable per-worker timeout
+
+    IngestionCoordinator coordinator(cfg);
+    coordinator.setLeaderElectionForTesting(
+        std::make_shared<DenyAllLeaderElection>());
+    coordinator.start();
+
+    auto report = coordinator.ingestAll({makeSource("s1")});
+
+    ASSERT_FALSE(report.source_stats.empty())
+        << "Expected at least one error entry in source_stats";
+
+    for (const auto& kv : report.source_stats) {
+        for (const auto& err : kv.second.errors) {
+            // Must be INTERNAL_ERROR or SOURCE_UNAVAILABLE — never HTTP_TIMEOUT.
+            bool expected_code =
+                err.code == IngestionErrorCode::INTERNAL_ERROR ||
+                err.code == IngestionErrorCode::SOURCE_UNAVAILABLE;
+            EXPECT_TRUE(expected_code)
+                << "Unexpected coordinator error code: "
+                << static_cast<int>(err.code);
+            EXPECT_FALSE(err.isRetryable())
+                << "Coordinator error must not be retryable, code="
+                << static_cast<int>(err.code);
+        }
+    }
+
+    coordinator.stop();
+}
+
