@@ -984,3 +984,64 @@ TEST_F(GPUVectorIndexTest, LoadIndex_OverwritesExistingVectors) {
 
     std::remove(indexPath.c_str());
 }
+
+// ============================================================================
+// Audit: VRAM accounting correctness after loadIndex() overwrite
+// ============================================================================
+
+TEST_F(GPUVectorIndexTest, VRAMBudget_CorrectAfterLoadIndexOverwrite) {
+    if (themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "VRAM budget enforcement requires a GPU-capable edition";
+    }
+
+    const std::string indexPath = "/tmp/test_gpu_vram_overwrite.bin";
+
+    // Save a small (10-vector) index
+    {
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::CPU;
+
+        GPUVectorIndex saveIdx(config);
+        ASSERT_TRUE(saveIdx.initialize(dimension));
+        std::vector<std::string> smallIds(testIds.begin(), testIds.begin() + 10);
+        std::vector<std::vector<float>> smallVecs(testVectors.begin(), testVectors.begin() + 10);
+        ASSERT_TRUE(saveIdx.addVectorBatch(smallIds, smallVecs));
+        ASSERT_TRUE(saveIdx.saveIndex(indexPath));
+        saveIdx.shutdown();
+    }
+
+    // Load the small index into an already-populated (large) index
+    {
+        constexpr size_t kTestVRAMBudgetMB = 1;
+        GPUVectorIndex::Config config;
+        config.backend = GPUVectorIndex::Backend::CPU;
+        config.maxVRAM_MB = kTestVRAMBudgetMB;
+
+        GPUVectorIndex index(config);
+        ASSERT_TRUE(index.initialize(dimension));
+
+        // Populate with some vectors first
+        const size_t bytesPerVec = static_cast<size_t>(dimension) * sizeof(float);
+        const size_t fillCount = (kTestVRAMBudgetMB * 1024ULL * 1024ULL) / bytesPerVec / 2;
+        for (size_t i = 0; i < fillCount; ++i) {
+            ASSERT_TRUE(index.addVector("pre_" + std::to_string(i),
+                                        testVectors[i % testVectors.size()]));
+        }
+        EXPECT_GT(index.getStatistics().vramUsageBytes, 0u);
+
+        // loadIndex() must release pre-load allocations and re-account correctly
+        ASSERT_TRUE(index.loadIndex(indexPath));
+        EXPECT_EQ(index.getStatistics().numVectors, 10u);
+
+        // After load, vramUsageBytes must reflect only the 10 loaded vectors
+        const uint64_t expectedAfter = 10u * static_cast<uint64_t>(bytesPerVec);
+        EXPECT_EQ(index.getStatistics().vramUsageBytes, expectedAfter);
+
+        // The freed budget headroom should be usable
+        EXPECT_TRUE(index.addVector("extra", testVectors[0]));
+
+        index.shutdown();
+    }
+
+    std::remove(indexPath.c_str());
+}
