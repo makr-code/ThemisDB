@@ -35,7 +35,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 
 ### Long-term (6-12 months)
 - [I] Distributed ingestion coordinator across nodes (Issue: #1897)
-- [P] Change-data-capture (CDC) source for live database streams (Issue: #2199)
+- [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
 - [I] Plugin API for third-party source connectors (Issue: #1908)
 - [I] Dynamic source reconfiguration without restart (Issue: #1900)
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)
@@ -65,7 +65,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [P] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
 - [P] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
 - [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
-- [P] Change-data-capture (CDC) source for live database streams (Issue: #2199)
+- [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
 - [P] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)
 
 ## Production Readiness Checklist
