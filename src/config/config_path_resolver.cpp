@@ -1543,14 +1543,45 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     if (std::filesystem::is_symlink(fs_path, ec) && !ec) {
         auto canonical = std::filesystem::canonical(fs_path, ec);
         if (!ec) {
-            auto cwd = std::filesystem::current_path(ec);
-            if (!ec) {
-                // The symlink target must reside under cwd (our effective config root)
-                auto cwd_str      = cwd.generic_string();
-                auto canonical_str = canonical.generic_string();
-                if (canonical_str.find(cwd_str) != 0) {
-                    throw InvalidPathException(path, "symlink escapes config root");
+            std::filesystem::path config_root;
+            if (fs_path.is_absolute()) {
+                // For absolute paths, derive the config root by walking path components
+                // up to and including the first "config" directory component.
+                // The absolute-path check above guarantees the path already contains
+                // "/config/" or ends with "/config", so this loop always finds a match.
+                // Path traversal ("..") is already rejected before this point, so no
+                // component can escape the derived config root.
+                std::filesystem::path acc;
+                for (const auto& component : fs_path) {
+                    acc /= component;
+                    if (component.string() == "config") {
+                        config_root = acc;
+                        break;
+                    }
                 }
+                if (config_root.empty()) {
+                    // Dead-code defensive guard: the absolute-path check above should
+                    // have already thrown InvalidPathException for any path that lacks a
+                    // "config" component, so this branch is never reached in practice.
+                    config_root = fs_path.parent_path();
+                }
+            } else {
+                config_root = std::filesystem::current_path(ec);
+                if (ec) {
+                    // Cannot determine config root; skip symlink check.
+                    return;
+                }
+            }
+            auto config_root_str = config_root.generic_string();
+            auto canonical_str   = canonical.generic_string();
+            // The canonical target must reside inside the config root tree.
+            // We accept an exact match (symlink to the config root dir itself)
+            // and any proper subdirectory (canonical starts with root + "/").
+            // Appending "/" prevents false passes from directory-name prefixes
+            // (e.g. "/opt/config_other" must not match root "/opt/config").
+            if (canonical_str != config_root_str &&
+                canonical_str.find(config_root_str + "/") != 0) {
+                throw InvalidPathException(path, "symlink escapes config root");
             }
         }
     }
