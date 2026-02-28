@@ -31,6 +31,7 @@
 #include "ingestion/kafka_connector.h"
 #include "ingestion/object_storage_connector.h"
 #include "ingestion/database_connector.h"
+#include "ingestion/web_crawler_connector.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -71,6 +72,7 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::DATABASE:       return "DATABASE";
         case SourceType::KAFKA:          return "KAFKA";
         case SourceType::OBJECT_STORAGE: return "OBJECT_STORAGE";
+        case SourceType::WEB_CRAWLER:    return "WEB_CRAWLER";
         default:                         return "UNKNOWN";
     }
 }
@@ -378,6 +380,20 @@ public:
                         return stats;
                     }
                     connector = std::move(db_connector);
+                    break;
+                }
+
+                case SourceType::WEB_CRAWLER: {
+                    auto crawler = std::make_unique<WebCrawlerConnector>();
+                    crawler->setRetryConfig(retry_config_);
+                    if (!crawler->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize WebCrawler connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(crawler);
                     break;
                 }
 
@@ -1250,6 +1266,22 @@ IngestionBuilder& IngestionBuilder::withDatabaseSource(
     cfg.source_id = source_id;
     cfg.type      = SourceType::DATABASE;
     cfg.location  = jdbc_url;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withWebCrawlerSource(
+        const std::string& source_id,
+        const std::string& seed_url,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::WEB_CRAWLER;
+    cfg.location  = seed_url;
     cfg.options   = std::move(options);
     cfg.priority  = priority;
     cfg.enabled   = true;

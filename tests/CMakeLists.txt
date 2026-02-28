@@ -523,6 +523,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/kafka_connector.cpp
         ../src/ingestion/object_storage_connector.cpp
         ../src/ingestion/database_connector.cpp
+        ../src/ingestion/web_crawler_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
