@@ -114,7 +114,7 @@ struct ImportOptions {
 // These are tested independently so we can verify the logic in isolation.
 // ---------------------------------------------------------------------------
 
-enum class FlatFileFormat { AUTO, CSV, TSV, JSONL };
+enum class FlatFileFormat { AUTO, CSV, TSV, JSONL, PARQUET };
 
 static FlatFileFormat detectFormat(const std::string& path) {
     auto dot = path.rfind('.');
@@ -125,6 +125,7 @@ static FlatFileFormat detectFormat(const std::string& path) {
     if (ext == "csv")                       return FlatFileFormat::CSV;
     if (ext == "tsv")                       return FlatFileFormat::TSV;
     if (ext == "jsonl" || ext == "ndjson")  return FlatFileFormat::JSONL;
+    if (ext == "parquet")                   return FlatFileFormat::PARQUET;
     return FlatFileFormat::AUTO;
 }
 
@@ -465,6 +466,12 @@ TEST(FormatDetection, TsvExtension) {
 TEST(FormatDetection, JsonlExtension) {
     EXPECT_EQ(detectFormat("data.jsonl"), FlatFileFormat::JSONL);
     EXPECT_EQ(detectFormat("data.ndjson"), FlatFileFormat::JSONL);
+}
+
+TEST(FormatDetection, ParquetExtension) {
+    EXPECT_EQ(detectFormat("data.parquet"), FlatFileFormat::PARQUET);
+    EXPECT_EQ(detectFormat("/path/to/file.PARQUET"), FlatFileFormat::PARQUET);
+    EXPECT_EQ(detectFormat("archive.2024.parquet"), FlatFileFormat::PARQUET);
 }
 
 TEST(FormatDetection, UnknownExtension) {
@@ -896,6 +903,27 @@ TEST(JsonlFixture, ImportSampleJsonl) {
     // Row 3: null fields
     ASSERT_GE(rows.size(), 3u);
     EXPECT_TRUE(rows[2]["email"].is_null());
+}
+
+// ===========================================================================
+// Test Suite: Parquet format support
+// ===========================================================================
+
+// Verify PARQUET is distinct from all other format values.
+TEST(FormatDetection, ParquetDistinctFromOtherFormats) {
+    EXPECT_NE(FlatFileFormat::PARQUET, FlatFileFormat::AUTO);
+    EXPECT_NE(FlatFileFormat::PARQUET, FlatFileFormat::CSV);
+    EXPECT_NE(FlatFileFormat::PARQUET, FlatFileFormat::TSV);
+    EXPECT_NE(FlatFileFormat::PARQUET, FlatFileFormat::JSONL);
+}
+
+// Verify a non-Parquet extension is not matched as PARQUET.
+TEST(FormatDetection, OtherExtensionsNotParquet) {
+    EXPECT_NE(detectFormat("data.csv"),   FlatFileFormat::PARQUET);
+    EXPECT_NE(detectFormat("data.tsv"),   FlatFileFormat::PARQUET);
+    EXPECT_NE(detectFormat("data.jsonl"), FlatFileFormat::PARQUET);
+    EXPECT_NE(detectFormat("data.orc"),   FlatFileFormat::PARQUET);
+    EXPECT_NE(detectFormat("data.avro"),  FlatFileFormat::PARQUET);
 }
 
 // ===========================================================================
