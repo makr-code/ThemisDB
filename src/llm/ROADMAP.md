@@ -66,7 +66,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [P] Speculative decoding for latency reduction (Issue: #1934)
 - [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
 - [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
-- [~] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [P] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1938)

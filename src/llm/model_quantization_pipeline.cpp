@@ -87,7 +87,7 @@ ModelFormat ModelQuantizationPipeline::detect_format(const std::string& path)
                     }
                     // Normalize to lowercase
                     std::transform(qtype.begin(), qtype.end(), qtype.begin(),
-                                   [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
+                                   [](unsigned char c){ return static_cast<unsigned char>(std::tolower(c)); });
                     if (qtype == "awq") return ModelFormat::AWQ;
                     if (qtype == "gptq") return ModelFormat::GPTQ;
                 }
@@ -199,7 +199,7 @@ ModelQuantizationPipeline::parse_safetensors(const std::string& file_path)
     if (data_size > 0) {
         f.read(reinterpret_cast<char*>(data.data()),
                static_cast<std::streamsize>(data_size));
-        if (!f && !f.eof()) {
+        if (f.bad()) {
             throw std::runtime_error(
                 "Safetensors: failed to read data from " + file_path);
         }

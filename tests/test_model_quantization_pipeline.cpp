@@ -48,6 +48,12 @@ uint16_t fp32_to_fp16(float v)
     return static_cast<uint16_t>(sign | (static_cast<uint16_t>(exp) << 10) | mant);
 }
 
+// Helper: make a vector of n FP16 values all equal to v
+std::vector<uint16_t> make_fp16_scales(size_t n, float v)
+{
+    return std::vector<uint16_t>(n, fp32_to_fp16(v));
+}
+
 // Build a minimal SafeTensors binary blob (no __metadata__).
 // tensors: list of (name, dtype, shape, raw_data)
 std::vector<uint8_t> make_safetensors(
@@ -201,7 +207,7 @@ TEST_F(ModelQuantizationPipelineTest, LoadGPTQ_SyntheticLayer)
     std::vector<uint32_t> qzeros_vec = { qzeros_raw };
 
     // scales: [n_groups=1, out_f=4] → four FP16 values = 0.5f each
-    std::vector<uint16_t> scales_raw(out_f, fp32_to_fp16(0.5f));
+    auto scales_raw = make_fp16_scales(static_cast<size_t>(out_f), 0.5f);
 
     // Build raw byte vectors
     auto to_bytes = [](const auto& v) -> std::vector<uint8_t> {
@@ -291,7 +297,7 @@ TEST_F(ModelQuantizationPipelineTest, LoadAWQ_SyntheticLayer)
     std::vector<uint32_t> zeros_raw = { z_word };
 
     // scales: [n_groups=1, out_f=4] = 0.25f
-    std::vector<uint16_t> scales_raw(static_cast<size_t>(out_f), fp32_to_fp16(0.25f));
+    auto scales_raw = make_fp16_scales(static_cast<size_t>(out_f), 0.25f);
 
     auto to_bytes = [](const auto& v) -> std::vector<uint8_t> {
         std::vector<uint8_t> b(v.size() * sizeof(v[0]));
