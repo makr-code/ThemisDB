@@ -87,6 +87,13 @@ public:
     bool avx512_distance_enabled() const { return avx512_distance_enabled_.load(std::memory_order_relaxed); }
     void set_avx512_distance_enabled(bool enabled) { avx512_distance_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // Adaptive batch size tuning for LLM inference (Phase 3, Issue #1996)
+    // Dynamically adjusts the LLM inference batch size based on measured
+    // throughput and latency using hardware cycle counters.
+    // Expected gain: +15-40% throughput for variable-length LLM inference workloads.
+    bool adaptive_batch_tuner_enabled() const { return adaptive_batch_tuner_enabled_.load(std::memory_order_relaxed); }
+    void set_adaptive_batch_tuner_enabled(bool enabled) { adaptive_batch_tuner_enabled_.store(enabled, std::memory_order_relaxed); }
+
     // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
@@ -110,6 +117,7 @@ private:
         false
 #endif
     };
+    std::atomic<bool> adaptive_batch_tuner_enabled_{true};
 };
 
 // Macro helpers for compile-time + runtime checks
@@ -162,6 +170,11 @@ private:
 #else
     #define THEMIS_PHASE3_AVX512_DISTANCE_ENABLED() (false)
 #endif
+
+// Adaptive batch size tuning for LLM inference (Phase 3, Issue #1996).
+// Enabled by default; disable at runtime for A/B testing or fixed-batch mode.
+#define THEMIS_PHASE3_ADAPTIVE_BATCH_TUNER_ENABLED() \
+    (::themis::performance::phase3::Phase3FeatureFlags::instance().adaptive_batch_tuner_enabled())
 
 } // namespace phase3
 } // namespace performance
