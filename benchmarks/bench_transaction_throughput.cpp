@@ -465,6 +465,160 @@ BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, SavepointRelease)
     ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
+// Benchmark: Optimistic Concurrency Control (OCC) – new entity creation
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticPut)(benchmark::State& state) {
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // Create a new entity with expected_version=0 (OCC insert)
+        std::string pk = "occ_new_" + std::to_string(counter++);
+        BaseEntity entity(pk);
+        entity.setField("value", static_cast<int64_t>(counter));
+
+        auto st = txn->optimisticPut("occ_bench", entity, 0);
+        if (!st.ok) {
+            state.SkipWithError("optimisticPut failed");
+            break;
+        }
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccOptimisticPut)
+    ->Threads(1)
+    ->Threads(2)
+    ->Threads(4)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: OCC Read-Modify-Write pattern (getEntityVersion + optimisticPut)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)(benchmark::State& state) {
+    // Pre-insert a set of entities that the benchmark will update
+    const int num_entities = 100;
+    for (int i = 0; i < num_entities; ++i) {
+        auto setup_id = tx_manager_->beginTransaction();
+        auto setup_txn = tx_manager_->getTransaction(setup_id);
+        BaseEntity e("occ_rmw_" + std::to_string(i));
+        e.setField("counter", static_cast<int64_t>(0));
+        auto setup_st = setup_txn->optimisticPut("occ_rmw", e, 0);
+        if (!setup_st.ok) {
+            state.SkipWithError("OccReadVersionAndUpdate setup: optimisticPut failed");
+            return;
+        }
+        auto commit_st = tx_manager_->commitTransaction(setup_id);
+        if (!commit_st.ok) {
+            state.SkipWithError("OccReadVersionAndUpdate setup: commit failed");
+            return;
+        }
+    }
+
+    // Fixed seed for reproducible benchmark results across threads
+    std::mt19937 rng(42u + static_cast<unsigned>(state.thread_index()));
+    std::uniform_int_distribution<int> key_dist(0, num_entities - 1);
+    uint64_t conflicts = 0;
+
+    for (auto _ : state) {
+        std::string pk = "occ_rmw_" + std::to_string(key_dist(rng));
+
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        // OCC read-modify-write: read version, then write with version check
+        auto ver = txn->getEntityVersion("occ_rmw", pk);
+        if (!ver.has_value() || *ver == 0) {
+            tx_manager_->rollbackTransaction(txn_id);
+            continue;
+        }
+
+        BaseEntity updated(pk);
+        updated.setField("counter", static_cast<int64_t>(*ver));
+
+        auto st = txn->optimisticPut("occ_rmw", updated, *ver);
+        if (!st.ok) {
+            // OCC conflict: another writer changed the version
+            ++conflicts;
+            tx_manager_->rollbackTransaction(txn_id);
+            continue;
+        }
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            ++conflicts;
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["tps"]       = benchmark::Counter(state.iterations(), benchmark::Counter::kIsRate);
+    state.counters["conflicts"] = benchmark::Counter(static_cast<double>(conflicts));
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccReadVersionAndUpdate)
+    ->Threads(1)
+    ->Threads(2)
+    ->Threads(4)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// Benchmark: OCC erase (optimisticErase)
+// ============================================================================
+
+BENCHMARK_DEFINE_F(TransactionBenchmarkFixture, OccOptimisticErase)(benchmark::State& state) {
+    size_t counter = 0;
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        // Create entity to be erased
+        std::string pk = "occ_erase_" + std::to_string(counter++);
+        {
+            auto ins_id = tx_manager_->beginTransaction();
+            auto ins_txn = tx_manager_->getTransaction(ins_id);
+            BaseEntity e(pk);
+            e.setField("v", static_cast<int64_t>(1));
+            ins_txn->optimisticPut("occ_erase", e, 0);
+            tx_manager_->commitTransaction(ins_id);
+        }
+        state.ResumeTiming();
+
+        auto txn_id = tx_manager_->beginTransaction();
+        auto txn    = tx_manager_->getTransaction(txn_id);
+
+        auto st = txn->optimisticErase("occ_erase", pk, 1);
+        if (!st.ok) {
+            state.SkipWithError("optimisticErase failed");
+            break;
+        }
+
+        auto commit_status = tx_manager_->commitTransaction(txn_id);
+        if (!commit_status.ok) {
+            state.SkipWithError("Transaction commit failed");
+        }
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["tps"] = benchmark::Counter(
+        state.iterations(), benchmark::Counter::kIsRate);
+}
+
+BENCHMARK_REGISTER_F(TransactionBenchmarkFixture, OccOptimisticErase)
+    ->Threads(1)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
 // Benchmark: Concurrent Transaction Contention
 // ============================================================================
 
