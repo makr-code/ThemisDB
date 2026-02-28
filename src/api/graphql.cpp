@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     1368                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d1b7d6452  2026-02-22  Code audit bugfixes: eliminate hash collision, add defaul... ║
@@ -1500,6 +1500,7 @@ void ThemisSchemaBuilder::addSubscriptionType(Schema& schema) {
     subscriptionType.fields.push_back(onChangeField);
 
     schema.addType(subscriptionType);
+    schema.setSubscriptionType("Subscription");
 }
 
 } // namespace graphql
