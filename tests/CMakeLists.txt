@@ -2635,6 +2635,41 @@ else()
     message(STATUS "Learned Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
 endif()
 
+# Distributed Vector Index across Shards (Issue #1879)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
+    message(STATUS "Adding Distributed Vector Index tests (Issue #1879)")
+
+    add_executable(test_distributed_vector_index
+        index/test_distributed_vector_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/distributed_vector_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/ann_index.cpp
+    )
+
+    target_include_directories(test_distributed_vector_index PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_distributed_vector_index PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_vector_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedVectorIndexTests COMMAND test_distributed_vector_index)
+
+    set_tests_properties(DistributedVectorIndexTests PROPERTIES
+        LABELS "index;distributed;vector;shards;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedVectorIndex: insert/remove, scatter-gather KNN, shard routing, stats")
+else()
+    message(STATUS "Distributed Vector Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
+endif()
+
 # Cold/Warm Tier Index Migration Tests (Issue #2407)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
     message(STATUS "Adding Cold/Warm Tier Index Migration tests (Issue #2407)")
