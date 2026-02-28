@@ -61,7 +61,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1857)
-- [I] Integration tests against live PostgreSQL (Issue: #1858)
+- [x] Integration tests against live PostgreSQL (Issue: #1858)
 - [I] Performance benchmarks (rows/sec, GB/hr) (Issue: #1859)
 - [I] Security audit (SQL injection, credential handling) (Issue: #1860)
 - [I] Documentation complete (Issue: #1861)
