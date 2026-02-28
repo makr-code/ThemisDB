@@ -2021,22 +2021,24 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         if (extraction.ok) {
             meta.text_extracted      = true;
             meta.extracted_metadata  = extraction.metadata;
-            int chunk_size = config.value("chunk_size", 512);
-            int overlap    = config.value("chunk_overlap", 50);
-            auto raw_chunks = html_proc.chunk(extraction, chunk_size, overlap);
-            int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
-            for (const auto& rc : raw_chunks) {
-                ChunkMeta cm;
-                cm.id         = generateUuid();
-                cm.content_id = content_id;
-                cm.seq_num    = rc.value("seq_num", 0);
-                cm.chunk_type = rc.value("chunk_type", std::string("text"));
-                cm.text       = rc.value("text", std::string{});
-                cm.created_at = now;
-                chunks_json.push_back(cm.toJson());
+            if (stage_cfg.chunking.enabled) {
+                int chunk_size = config.value("chunk_size", 512);
+                int overlap    = config.value("chunk_overlap", 50);
+                auto raw_chunks = html_proc.chunk(extraction, chunk_size, overlap);
+                int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+                for (const auto& rc : raw_chunks) {
+                    ChunkMeta cm;
+                    cm.id         = generateUuid();
+                    cm.content_id = content_id;
+                    cm.seq_num    = rc.value("seq_num", 0);
+                    cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                    cm.text       = rc.value("text", std::string{});
+                    cm.created_at = now;
+                    chunks_json.push_back(cm.toJson());
+                }
+                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunked     = !chunks_json.empty();
             }
-            meta.chunk_count = static_cast<int>(chunks_json.size());
-            meta.chunked     = !chunks_json.empty();
             THEMIS_INFO("HTML processor: extracted {} tokens, {} chunks from '{}'",
                         extraction.metadata.value("token_count", 0),
                         chunks_json.size(), filename);
@@ -2055,22 +2057,24 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         if (extraction.ok) {
             meta.text_extracted      = true;
             meta.extracted_metadata  = extraction.metadata;
-            int chunk_size = config.value("chunk_size", 512);
-            int overlap    = config.value("chunk_overlap", 50);
-            auto raw_chunks = md_proc.chunk(extraction, chunk_size, overlap);
-            int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
-            for (const auto& rc : raw_chunks) {
-                ChunkMeta cm;
-                cm.id         = generateUuid();
-                cm.content_id = content_id;
-                cm.seq_num    = rc.value("seq_num", 0);
-                cm.chunk_type = rc.value("chunk_type", std::string("text"));
-                cm.text       = rc.value("text", std::string{});
-                cm.created_at = now;
-                chunks_json.push_back(cm.toJson());
+            if (stage_cfg.chunking.enabled) {
+                int chunk_size = config.value("chunk_size", 512);
+                int overlap    = config.value("chunk_overlap", 50);
+                auto raw_chunks = md_proc.chunk(extraction, chunk_size, overlap);
+                int64_t now = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+                for (const auto& rc : raw_chunks) {
+                    ChunkMeta cm;
+                    cm.id         = generateUuid();
+                    cm.content_id = content_id;
+                    cm.seq_num    = rc.value("seq_num", 0);
+                    cm.chunk_type = rc.value("chunk_type", std::string("text"));
+                    cm.text       = rc.value("text", std::string{});
+                    cm.created_at = now;
+                    chunks_json.push_back(cm.toJson());
+                }
+                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunked     = !chunks_json.empty();
             }
-            meta.chunk_count = static_cast<int>(chunks_json.size());
-            meta.chunked     = !chunks_json.empty();
             THEMIS_INFO("Markdown processor: extracted {} tokens, {} chunks from '{}'",
                         extraction.metadata.value("token_count", 0),
                         chunks_json.size(), filename);
@@ -2295,6 +2299,7 @@ ContentManager::IngestResult ContentManager::ingestStream(
     auto storeTextChunk = [&](const std::string& text) {
         if (text.empty()) return;
         updateHash(text);
+        if (!stream_stage_cfg.chunking.enabled) return;
         ChunkMeta cm;
         cm.id         = generateUuid();
         cm.content_id = content_id;
