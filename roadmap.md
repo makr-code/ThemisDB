@@ -114,7 +114,7 @@ cross-backend consistency, error handling, and resource management.
 #### 1.4 Chimera — Vendor Adapter Implementations
 - [I] PostgreSQL adapter (Issue: alpha) (Target: Q3 2026)
 - [I] MongoDB adapter (Target: Q3 2026)
-- [I] Weaviate adapter (Target: Q4 2026)
+- [x] Weaviate adapter (Target: Q4 2026)
 
 #### 1.5 Content — Binary Format Support
 - [I] PDF text extraction (Target: Q2 2026)

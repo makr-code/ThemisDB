@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. PostgreSQL, MongoDB, and Weaviate adapters are planned.
+**Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. MongoDB, Weaviate, and Qdrant adapters are implemented. PostgreSQL adapter is in progress.
 
 ## Completed ✅
 - [x] Adapter factory with thread-safe singleton registry
@@ -26,7 +26,7 @@
 
 ### Short-term (Next 3-6 months)
 - [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
-- [!] Weaviate adapter (native vector database) (Issue: #2374)
+- [x] Weaviate adapter (native vector database) (Issue: #2374)
 - [x] Qdrant adapter (native vector database) (Issue: #1646)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
 - [x] Adapter capability matrix (which operations each system supports) (Issue: #2376)
@@ -58,7 +58,7 @@
 - [x] Benchmark result normalization and scoring framework (Target: Q3 2026)
 
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
-- [P] Weaviate adapter (native vector database)
+- [x] Weaviate adapter (native vector database)
 - [x] Qdrant adapter (native vector database)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report)
 - [x] Adapter capability matrix (which operations each system supports)
