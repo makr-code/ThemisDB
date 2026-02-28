@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     963                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 450c6d7a4  2026-02-22  audit: update ROADMAP, fix stale Stubs metadata after str... ║
@@ -889,7 +889,12 @@ TranscriptionResult STTProcessor::transcribeInternal(
     segment.confidence = 0.0f;
     result.segments.push_back(segment);
     #endif
-    
+
+    // Apply speaker diarization when requested and more than one segment exists.
+    if (options.value("speaker_diarization", false) && result.segments.size() >= 2) {
+        result.segments = performSpeakerDiarization(result.segments, pcm_data);
+    }
+
     auto end = std::chrono::steady_clock::now();
     result.processing_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     
@@ -900,13 +905,226 @@ std::vector<TranscriptionSegment> STTProcessor::performSpeakerDiarization(
     const std::vector<TranscriptionSegment>& segments,
     const std::vector<float>& pcm_data
 ) {
-    // Real implementation would:
-    // 1. Extract speaker embeddings
-    // 2. Cluster speakers
-    // 3. Assign speaker IDs to segments
-    
-    // Placeholder: return segments unchanged
-    return segments;
+    return diarizeSegments(segments, pcm_data, max_speakers_);
+}
+
+std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(
+    const std::vector<TranscriptionSegment>& segments,
+    const std::vector<float>& pcm_data,
+    int max_speakers
+) {
+    // Need at least 2 segments and PCM data to perform meaningful diarization.
+    if (segments.size() < 2 || pcm_data.empty()) {
+        return segments;
+    }
+
+    // Sub-band acoustic feature extraction:
+    //   Indices 0–7:   Sub-band RMS energy (normalised by band maximum)
+    //   Indices 8–15:  Sub-band zero-crossing rate (normalised by band maximum)
+    // Total: 16 dimensions (kFeatureDim)
+    constexpr int SAMPLE_RATE = 16000;
+    constexpr int kBands      = 8;
+    constexpr int kFeatureDim = kBands * 2;
+
+    // -----------------------------------------------------------------------
+    // Step 1: Extract an L2-normalised acoustic feature vector for each
+    //         segment by analysing the corresponding PCM audio window.
+    // -----------------------------------------------------------------------
+    auto extractFeatures = [&](const TranscriptionSegment& seg) -> std::vector<float> {
+        int64_t s0 = std::max(int64_t(0),
+                              seg.start_ms * SAMPLE_RATE / 1000);
+        int64_t s1 = std::min(static_cast<int64_t>(pcm_data.size()),
+                              seg.end_ms   * SAMPLE_RATE / 1000);
+
+        std::vector<float> fv(kFeatureDim, 0.0f);
+        if (s1 <= s0) {
+            return fv;
+        }
+
+        const float* data = pcm_data.data() + s0;
+        const size_t n    = static_cast<size_t>(s1 - s0);
+        const size_t band_size = n / kBands;
+
+        if (band_size == 0) {
+            // Window too short: use global RMS for all sub-band RMS slots.
+            float rms = 0.0f;
+            for (size_t i = 0; i < n; ++i) {
+                rms += data[i] * data[i];
+            }
+            rms = std::sqrt(rms / static_cast<float>(n));
+            for (int b = 0; b < kBands; ++b) {
+                fv[b] = rms;
+            }
+            return fv;
+        }
+
+        float max_rms = 0.0f;
+        float max_zcr = 0.0f;
+        std::vector<float> band_rms(kBands, 0.0f);
+        std::vector<float> band_zcr(kBands, 0.0f);
+
+        for (int b = 0; b < kBands; ++b) {
+            size_t bs  = static_cast<size_t>(b) * band_size;
+            size_t be  = (b == kBands - 1) ? n : bs + band_size;
+            size_t len = be - bs;
+
+            float  rms = 0.0f;
+            size_t zc  = 0;
+            for (size_t i = bs; i < be; ++i) {
+                rms += data[i] * data[i];
+            }
+            rms = std::sqrt(rms / static_cast<float>(len));
+
+            for (size_t i = bs + 1; i < be; ++i) {
+                if ((data[i] >= 0.0f) != (data[i - 1] >= 0.0f)) {
+                    ++zc;
+                }
+            }
+
+            band_rms[b] = rms;
+            band_zcr[b] = static_cast<float>(zc) / static_cast<float>(len);
+
+            if (rms          > max_rms) max_rms = rms;
+            if (band_zcr[b]  > max_zcr) max_zcr = band_zcr[b];
+        }
+
+        for (int b = 0; b < kBands; ++b) {
+            fv[b]          = (max_rms > 1e-9f) ? band_rms[b] / max_rms : 0.0f;
+            fv[kBands + b] = (max_zcr > 1e-9f) ? band_zcr[b] / max_zcr : 0.0f;
+        }
+
+        return fv;
+    };
+
+    // -----------------------------------------------------------------------
+    // Step 2: L2-normalise helper and cosine similarity on unit vectors.
+    // -----------------------------------------------------------------------
+    auto l2Normalize = [](std::vector<float>& v) {
+        float norm = 0.0f;
+        for (float x : v) {
+            norm += x * x;
+        }
+        norm = std::sqrt(norm);
+        if (norm < 1e-9f) return;
+        for (float& x : v) {
+            x /= norm;
+        }
+    };
+
+    // Assumes both inputs are L2-normalised; result is in [-1, 1].
+    auto cosineSim = [](const std::vector<float>& a,
+                        const std::vector<float>& b) -> float {
+        float dot = 0.0f;
+        for (size_t i = 0; i < a.size(); ++i) {
+            dot += a[i] * b[i];
+        }
+        return std::max(-1.0f, std::min(1.0f, dot));
+    };
+
+    // Extract and normalise a feature vector for every segment.
+    const int n_segs = static_cast<int>(segments.size());
+    std::vector<std::vector<float>> features;
+    features.reserve(static_cast<size_t>(n_segs));
+    for (const auto& seg : segments) {
+        auto fv = extractFeatures(seg);
+        l2Normalize(fv);
+        features.push_back(std::move(fv));
+    }
+
+    // -----------------------------------------------------------------------
+    // Step 3: Determine the number of speakers k.
+    //   • max_speakers > 0: use the caller-configured cap (capped by n_segs).
+    //   • Otherwise: default to min(4, n_segs) – the known accuracy limit.
+    // -----------------------------------------------------------------------
+    const int best_k = (max_speakers > 0)
+                       ? std::min(max_speakers, n_segs)
+                       : std::min(4, n_segs);
+
+    if (best_k <= 1) {
+        // Only one speaker assumed: assign every segment to speaker 0.
+        std::vector<TranscriptionSegment> result = segments;
+        for (auto& seg : result) {
+            seg.speaker_id = 0;
+        }
+        return result;
+    }
+
+    // -----------------------------------------------------------------------
+    // Step 4: K-means with k-means++ seeding (20 iterations, cosine distance).
+    // -----------------------------------------------------------------------
+    // k-means++ seed selection: greedily maximise distance from existing seeds.
+    std::vector<std::vector<float>> centroids;
+    centroids.reserve(static_cast<size_t>(best_k));
+    centroids.push_back(features[0]);
+
+    for (int c = 1; c < best_k; ++c) {
+        float max_dist = -1.0f;
+        int   best_idx = 0;
+        for (int i = 0; i < n_segs; ++i) {
+            float max_sim = -1.0f;
+            for (const auto& centroid : centroids) {
+                float sim = cosineSim(features[i], centroid);
+                if (sim > max_sim) max_sim = sim;
+            }
+            float dist = 1.0f - max_sim;  // cosine distance
+            if (dist > max_dist) {
+                max_dist = dist;
+                best_idx = i;
+            }
+        }
+        centroids.push_back(features[best_idx]);
+    }
+
+    std::vector<int> labels(static_cast<size_t>(n_segs), 0);
+    for (int iter = 0; iter < 20; ++iter) {
+        // Assignment step.
+        bool changed = false;
+        for (int i = 0; i < n_segs; ++i) {
+            float best_sim = -2.0f;
+            int   best_c   = 0;
+            for (int c = 0; c < best_k; ++c) {
+                float sim = cosineSim(features[i], centroids[c]);
+                if (sim > best_sim) {
+                    best_sim = sim;
+                    best_c   = c;
+                }
+            }
+            if (labels[i] != best_c) {
+                labels[i] = best_c;
+                changed   = true;
+            }
+        }
+        if (!changed) break;
+
+        // Update step: recompute centroids as normalised mean of assigned features.
+        std::vector<std::vector<float>> new_centroids(
+            static_cast<size_t>(best_k), std::vector<float>(kFeatureDim, 0.0f));
+        std::vector<int> counts(static_cast<size_t>(best_k), 0);
+        for (int i = 0; i < n_segs; ++i) {
+            int c = labels[i];
+            for (int d = 0; d < kFeatureDim; ++d) {
+                new_centroids[c][d] += features[i][d];
+            }
+            counts[c]++;
+        }
+        for (int c = 0; c < best_k; ++c) {
+            if (counts[c] > 0) {
+                float inv = 1.0f / static_cast<float>(counts[c]);
+                for (float& v : new_centroids[c]) v *= inv;
+                l2Normalize(new_centroids[c]);
+                centroids[c] = std::move(new_centroids[c]);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Step 5: Write speaker IDs back into the output segments.
+    // -----------------------------------------------------------------------
+    std::vector<TranscriptionSegment> result = segments;
+    for (int i = 0; i < n_segs; ++i) {
+        result[i].speaker_id = labels[i];
+    }
+    return result;
 }
 
 json STTProcessor::formatAsProtocol(
