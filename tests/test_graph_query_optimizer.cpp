@@ -3339,3 +3339,523 @@ TEST_F(GraphAnalyticsIntegrationTest, ExecuteKShortestPaths_AfterDetach_ReturnsE
     auto result = optimizer_->executeKShortestPaths("A", "D", 1, c);
     EXPECT_FALSE(result.has_value());
 }
+
+// ============================================================================
+// PathConstraints: Previously Untested Methods
+// Covers: addForbiddenEdge, addRequiredEdge, requireAcyclic, requireUniqueNodes,
+//         requireUniqueEdges, addCustomPredicate, clearConstraints, and the
+//         corresponding validatePath / findConstrainedPaths code paths.
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ForbiddenEdge_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenEdge("edge1");
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Forbidden edge"), std::string::npos);
+    EXPECT_NE(desc.find("edge1"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ForbiddenEdge_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenEdge("edge2");
+
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::FORBIDDEN_EDGE);
+    ASSERT_TRUE(pc.getConstraints()[0].string_value.has_value());
+    EXPECT_EQ(*pc.getConstraints()[0].string_value, "edge2");
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsOnForbiddenEdge) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenEdge("edge1");
+
+    // Path uses edge1 (A->B) – should fail
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_PassesWhenForbiddenEdgeAbsent) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenEdge("edge_does_not_exist");
+
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequiredEdge_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredEdge("edge1");
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Required edge"), std::string::npos);
+    EXPECT_NE(desc.find("edge1"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequiredEdge_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredEdge("edge3");
+
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::REQUIRED_EDGE);
+    ASSERT_TRUE(pc.getConstraints()[0].string_value.has_value());
+    EXPECT_EQ(*pc.getConstraints()[0].string_value, "edge3");
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsWhenRequiredEdgeMissing) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredEdge("edge3"); // C->D edge
+
+    // Path A->B does NOT include edge3 – should fail
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_PassesWhenRequiredEdgePresent) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredEdge("edge1");
+
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequireAcyclic_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireAcyclic();
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("No cycles"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequireAcyclic_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireAcyclic();
+
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::NO_CYCLES);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsOnCycle) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireAcyclic();
+
+    // Path containing duplicate node ("A" repeated) violates NO_CYCLES
+    auto res = pc.validatePath({"A", "B", "A"}, {"edge1", "edge_back"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_AcyclicPassesForSimplePath) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireAcyclic();
+
+    auto res = pc.validatePath({"A", "B", "C"}, {"edge1", "edge2"});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequireUniqueNodes_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueNodes();
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Unique nodes"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequireUniqueNodes_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueNodes();
+
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::UNIQUE_NODES);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsOnDuplicateNode) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueNodes();
+
+    auto res = pc.validatePath({"A", "B", "A"}, {"e1", "e2"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_UniqueNodesPasses) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueNodes();
+
+    auto res = pc.validatePath({"A", "B", "C"}, {"edge1", "edge2"});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequireUniqueEdges_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueEdges();
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Unique edges"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_RequireUniqueEdges_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueEdges();
+
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::UNIQUE_EDGES);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsOnDuplicateEdge) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueEdges();
+
+    auto res = pc.validatePath({"A", "B", "C"}, {"edge1", "edge1"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_UniqueEdgesPasses) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueEdges();
+
+    auto res = pc.validatePath({"A", "B", "C"}, {"edge1", "edge2"});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_CustomPredicate_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addCustomPredicate([](const std::vector<std::string>&) { return true; });
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Custom predicate"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_CustomPredicate_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addCustomPredicate([](const std::vector<std::string>&) { return true; });
+
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::CUSTOM_PREDICATE);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_CustomPredicatePasses) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addCustomPredicate([](const std::vector<std::string>&) { return true; });
+
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_CustomPredicateFails) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addCustomPredicate([](const std::vector<std::string>&) { return false; });
+
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ClearConstraints_EmptiesAll) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMinLength(2);
+    pc.addMaxLength(5);
+    pc.addForbiddenNode("X");
+    pc.addForbiddenEdge("edgeX");
+    pc.addRequiredNode("A");
+    pc.addRequiredEdge("edge1");
+    EXPECT_GT(pc.getConstraints().size(), 0u);
+
+    pc.clearConstraints();
+
+    EXPECT_EQ(pc.getConstraints().size(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ClearConstraints_AllowsRevalidation) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenNode("B");
+
+    // Before clear: B is forbidden
+    auto before = pc.validatePath({"A", "B"}, {"edge1"});
+    EXPECT_FALSE(before.has_value() && *before);
+
+    pc.clearConstraints();
+
+    // After clear: no constraints – path A->B should pass
+    auto after = pc.validatePath({"A", "B"}, {"edge1"});
+    ASSERT_TRUE(after.has_value());
+    EXPECT_TRUE(*after);
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithForbiddenNode_ExcludesNode) {
+    // Test graph: A->B->C->D, A->C
+    // Forbid B: only path from A to C should be A->C directly
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addForbiddenNode("B");
+
+    auto res = pc.findConstrainedPaths("A", "C", 10);
+    ASSERT_TRUE(res.has_value());
+    for (const auto& path : res.value()) {
+        const auto& nodes = path.nodes;
+        EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+            << "B must not appear in any path when forbidden";
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequiredNode_IncludesNode) {
+    // A->B->C->D: require B to be on the path from A to C
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredNode("B");
+
+    auto res = pc.findConstrainedPaths("A", "C", 10);
+    ASSERT_TRUE(res.has_value());
+    // Every returned path must pass through B
+    for (const auto& path : res.value()) {
+        const auto& nodes = path.nodes;
+        EXPECT_NE(std::find(nodes.begin(), nodes.end(), "B"), nodes.end())
+            << "B must appear in every path when required";
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequireUniqueNodes_NoDuplicates) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueNodes();
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    ASSERT_TRUE(res.has_value());
+    for (const auto& path : res.value()) {
+        std::unordered_set<std::string> seen;
+        for (const auto& n : path.nodes) {
+            EXPECT_EQ(seen.count(n), 0u) << "Duplicate node found: " << n;
+            seen.insert(n);
+        }
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequireAcyclic_NoDuplicateNodes) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireAcyclic();
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    ASSERT_TRUE(res.has_value());
+    for (const auto& path : res.value()) {
+        std::unordered_set<std::string> seen;
+        for (const auto& n : path.nodes) {
+            EXPECT_EQ(seen.count(n), 0u) << "Duplicate node found: " << n;
+            seen.insert(n);
+        }
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_MinLengthGreaterThanMaxLength_ReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMinLength(5);
+    pc.addMaxLength(2);
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_SameNodeRequiredAndForbidden_ReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredNode("B");
+    pc.addForbiddenNode("B");
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_SameEdgeRequiredAndForbidden_ReturnsError) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addRequiredEdge("edge1");
+    pc.addForbiddenEdge("edge1");
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST_F(GraphQueryOptimizerTest, FindConstrainedPaths_WithRequireUniqueEdges_NoDuplicateEdges) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueEdges();
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    ASSERT_TRUE(res.has_value());
+    for (const auto& path : res.value()) {
+        std::unordered_set<std::string> seen;
+        for (const auto& e : path.edges) {
+            EXPECT_EQ(seen.count(e), 0u) << "Duplicate edge found: " << e;
+            seen.insert(e);
+        }
+    }
+}
+
+// ============================================================================
+// Temporal BFS: time_range_require_containment
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_Containment_ExcludesOverlapOnlyEdges) {
+    // Edge te1: TA->TB valid [kT2020, kT2022)
+    // Query window: [kT2019, kT2021] overlaps te1 but does NOT contain it.
+    // With containment=true, te1 must be excluded.
+    addTemporalEdges(*graph_mgr_);
+
+    constexpr int64_t kT2019 = 1546300800000LL; // 2019-01-01
+    constexpr int64_t kT2021 = 1609459200000LL; // 2021-01-01
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2019;
+    c.time_range_end_ms   = kT2021;
+    c.time_range_require_containment = true; // Only fully-contained edges
+
+    auto result = optimizer_->executeTemporalBFS("TA", 2, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // te1 (TA->TB, valid [kT2020, kT2022)) is NOT fully within [kT2019, kT2021]
+    // because its valid_to (kT2022) > kT2021, so TB should NOT be reachable.
+    // te3 (TA->TC, no bounds) is always valid and has no valid_from/valid_to
+    // so it may or may not be included depending on implementation behaviour.
+    // We only assert that te1's destination (TB) is excluded.
+    EXPECT_EQ(std::find(nodes.begin(), nodes.end(), "TB"), nodes.end())
+        << "TB should be unreachable when te1 is not fully contained in the window";
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_Containment_IncludesFullyContainedEdge) {
+    // Add a custom edge whose validity period fits entirely inside the query window.
+    themis::BaseEntity contained("tc1");
+    contained.setField("id", "tc1");
+    contained.setField("_from", "X1");
+    contained.setField("_to", "X2");
+    // valid [kT2022, kT2022 + 1 day] – fits inside query window [kT2020, kT2025]
+    contained.setField("valid_from", std::to_string(kT2022));
+    contained.setField("valid_to",   std::to_string(kT2022 + 86400000LL));
+    graph_mgr_->addEdge(contained);
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+    c.time_range_require_containment = true;
+
+    auto result = optimizer_->executeTemporalBFS("X1", 1, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "X2"), nodes.end())
+        << "X2 should be reachable via a fully-contained edge";
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_ContainmentFalse_IncludesOverlappingEdge) {
+    // With containment=false (default), overlapping edges are included.
+    addTemporalEdges(*graph_mgr_);
+
+    constexpr int64_t kT2019 = 1546300800000LL;
+    constexpr int64_t kT2021 = 1609459200000LL;
+
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2019;
+    c.time_range_end_ms   = kT2021;
+    c.time_range_require_containment = false; // overlap is sufficient
+
+    auto result = optimizer_->executeTemporalBFS("TA", 2, c);
+    ASSERT_TRUE(result);
+
+    const auto& nodes = result.value();
+    // te1 overlaps [kT2019, kT2021] so TB is reachable
+    EXPECT_NE(std::find(nodes.begin(), nodes.end(), "TB"), nodes.end())
+        << "TB should be reachable when overlap mode is used";
+}
+
+// ============================================================================
+// optimizeConstrainedPath: UNIQUE_NODES / NO_CYCLES cost multiplier paths
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_UniqueNodes_AffectsCostEstimate) {
+    // Adding UNIQUE_NODES should increase the cost estimate relative to no constraint.
+    themis::graph::PathConstraints base_constraints(graph_mgr_.get());
+    auto base_plan = optimizer_->explainConstrainedPath("A", "D", base_constraints);
+    ASSERT_TRUE(base_plan);
+
+    themis::graph::PathConstraints unique_constraints(graph_mgr_.get());
+    unique_constraints.requireUniqueNodes();
+    auto unique_plan = optimizer_->explainConstrainedPath("A", "D", unique_constraints);
+    ASSERT_TRUE(unique_plan);
+
+    // requireUniqueNodes adds overhead; cost must be >= base
+    EXPECT_GE(unique_plan->estimated_cost, base_plan->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_NoCycles_AffectsCostEstimate) {
+    themis::graph::PathConstraints base_constraints(graph_mgr_.get());
+    auto base_plan = optimizer_->explainConstrainedPath("A", "D", base_constraints);
+    ASSERT_TRUE(base_plan);
+
+    themis::graph::PathConstraints acyclic_constraints(graph_mgr_.get());
+    acyclic_constraints.requireAcyclic();
+    auto acyclic_plan = optimizer_->explainConstrainedPath("A", "D", acyclic_constraints);
+    ASSERT_TRUE(acyclic_plan);
+
+    EXPECT_GE(acyclic_plan->estimated_cost, base_plan->estimated_cost);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_MultipleConstraints_IncreasesComplexity) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMinLength(1);
+    pc.addMaxLength(5);
+    pc.addRequiredNode("B");
+    pc.requireUniqueNodes();
+
+    auto plan = optimizer_->explainConstrainedPath("A", "D", pc);
+    ASSERT_TRUE(plan);
+    EXPECT_GT(plan->estimated_cost, 0.0);
+    EXPECT_NE(plan->explanation.find("Constraints"), std::string::npos);
+    EXPECT_NE(plan->explanation.find("4 active"), std::string::npos); // 4 constraints active
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_UniqueEdges_AffectsCostEstimate) {
+    // requireUniqueEdges maps to UNIQUE_EDGES in optimizeConstrainedPath
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.requireUniqueEdges();
+
+    auto plan = optimizer_->explainConstrainedPath("A", "D", pc);
+    ASSERT_TRUE(plan);
+    // UNIQUE_EDGES triggers requires_unique=true path in optimizeConstrainedPath
+    EXPECT_GT(plan->estimated_cost, 0.0);
+}
+
+// ============================================================================
+// Rate limit exceeded: executeTemporalBFS and executeSubgraphIsomorphism
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, ExecuteTemporalBFS_RateLimitExceeded_ReturnsError) {
+    optimizer_->setMaxQueriesPerSecond(1);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.time_range_start_ms = kT2020;
+    c.time_range_end_ms   = kT2025;
+
+    // Consume the rate budget
+    optimizer_->executeTemporalBFS("A", 1, c);
+    // Second call in the same second should be rejected
+    auto second = optimizer_->executeTemporalBFS("A", 1, c);
+    EXPECT_FALSE(second.has_value());
+
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExecuteSubgraphIsomorphism_RateLimitExceeded_ReturnsError) {
+    optimizer_->setMaxQueriesPerSecond(1);
+
+    std::vector<std::string> verts = {"u"};
+    std::vector<std::pair<std::string, std::string>> edges;
+
+    // Consume the budget
+    optimizer_->executeSubgraphIsomorphism(verts, edges, {});
+    // Second call should be rate-limited
+    auto second = optimizer_->executeSubgraphIsomorphism(verts, edges, {});
+    EXPECT_FALSE(second.has_value());
+
+    optimizer_->setMaxQueriesPerSecond(0);
+}
