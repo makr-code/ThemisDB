@@ -21,6 +21,7 @@
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "exporters/format_template.h"
 #include "exporters/pii_detector.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
@@ -56,7 +57,9 @@ std::string ExportStats::toJson() const {
 }
 
 JSONLLLMExporter::JSONLLLMExporter(const JSONLLLMConfig& config)
-    : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
+    : config_(config),
+      metrics_(std::make_shared<ExporterMetrics>()),
+      format_template_(makeFormatTemplate(config.format_template_type)) {}
 
 ExportStats JSONLLLMExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
@@ -166,20 +169,24 @@ ExportStats JSONLLLMExporter::exportEntities(
                 // Calculate weight
                 double weight = calculateWeight(entity);
                 
-                // Format based on style
+                // Format based on style or named template
                 std::string line;
-                switch (config_.style) {
-                    case JSONLFormat::Style::INSTRUCTION_TUNING:
-                        line = formatInstructionTuning(entity, weight);
-                        break;
-                    case JSONLFormat::Style::CHAT_COMPLETION:
-                        line = formatChatCompletion(entity, weight);
-                        break;
-                    case JSONLFormat::Style::TEXT_COMPLETION:
-                        line = formatTextCompletion(entity, weight);
-                        break;
-                    default:
-                        line = formatInstructionTuning(entity, weight);
+                if (format_template_) {
+                    line = formatWithTemplate(entity, weight);
+                } else {
+                    switch (config_.style) {
+                        case JSONLFormat::Style::INSTRUCTION_TUNING:
+                            line = formatInstructionTuning(entity, weight);
+                            break;
+                        case JSONLFormat::Style::CHAT_COMPLETION:
+                            line = formatChatCompletion(entity, weight);
+                            break;
+                        case JSONLFormat::Style::TEXT_COMPLETION:
+                            line = formatTextCompletion(entity, weight);
+                            break;
+                        default:
+                            line = formatInstructionTuning(entity, weight);
+                    }
                 }
                 
                 if (line.empty()) {
@@ -475,6 +482,35 @@ std::string JSONLLLMExporter::formatTextCompletion(
     return j.dump();
 }
 
+std::string JSONLLLMExporter::formatWithTemplate(
+    const BaseEntity& entity,
+    double& weight
+) {
+    if (!format_template_) {
+        return {};
+    }
+
+    std::string line = format_template_->render(entity, config_.template_field_mapping);
+    if (line.empty()) {
+        return {};
+    }
+
+    // Optionally inject weight into the rendered object
+    if (config_.weighting.enable_weights) {
+        try {
+            auto j = json::parse(line);
+            j["weight"] = weight;
+            line = j.dump();
+        } catch (const std::exception& e) {
+            // Weight injection requires a JSON object at the top level.
+            // If the rendered output cannot be parsed, log and skip injection.
+            THEMIS_WARN("format_template: weight injection skipped ({})", e.what());
+        }
+    }
+
+    return line;
+}
+
 double JSONLLLMExporter::calculateWeight(const BaseEntity& entity) {
     auto& weight_cfg = config_.weighting;
     
@@ -584,20 +620,31 @@ static double computeToxicityScore(const std::string& text) {
 bool JSONLLLMExporter::passesQualityFilter(const BaseEntity& entity) {
     auto& quality = config_.quality;
     
-    // Get output field based on style
+    // Determine which field carries the "output" text for quality checks.
+    // Alpaca (completion format): uses the dedicated output field.
+    // ShareGPT / ChatML / OpenAI fine-tuning (conversation format): uses the assistant field.
+    // The style-based path is unchanged for backward compatibility.
     std::string output_field;
-    switch (config_.style) {
-        case JSONLFormat::Style::INSTRUCTION_TUNING:
-            output_field = config_.field_mapping.output_field;
-            break;
-        case JSONLFormat::Style::CHAT_COMPLETION:
-            output_field = config_.field_mapping.assistant_field;
-            break;
-        case JSONLFormat::Style::TEXT_COMPLETION:
-            output_field = config_.field_mapping.text_field;
-            break;
-        default:
-            output_field = config_.field_mapping.output_field;
+    if (config_.format_template_type != FormatTemplateType::NONE) {
+        if (config_.format_template_type == FormatTemplateType::ALPACA) {
+            output_field = config_.template_field_mapping.output_field;
+        } else {
+            output_field = config_.template_field_mapping.assistant_field;
+        }
+    } else {
+        switch (config_.style) {
+            case JSONLFormat::Style::INSTRUCTION_TUNING:
+                output_field = config_.field_mapping.output_field;
+                break;
+            case JSONLFormat::Style::CHAT_COMPLETION:
+                output_field = config_.field_mapping.assistant_field;
+                break;
+            case JSONLFormat::Style::TEXT_COMPLETION:
+                output_field = config_.field_mapping.text_field;
+                break;
+            default:
+                output_field = config_.field_mapping.output_field;
+        }
     }
     
     auto output = entity.getFieldAsString(output_field);

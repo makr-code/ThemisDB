@@ -33,7 +33,7 @@
 ### Long-term (6-12 months)
 - [I] Hugging Face Hub direct upload integration (Issue: #1719)
 - [x] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
-- [I] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
+- [x] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
 - [I] Synthetic data augmentation pipeline (Issue: #1723)
 - [I] Export encryption for sensitive training data (Issue: #1724)
@@ -54,7 +54,7 @@
 ### Phase 3: Parquet, Incremental Export, and Security (Status: In Progress)
 - [x] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 - [x] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
-- [I] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
+- [x] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
 - [I] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1728)
 
 ## Production Readiness Checklist

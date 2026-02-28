@@ -1933,6 +1933,7 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/format_template.cpp
     ../src/exporters/parquet_exporter.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp

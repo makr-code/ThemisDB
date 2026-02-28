@@ -24,6 +24,7 @@
 
 #include "exporter_interface.h"
 #include "exporter_metrics.h"
+#include "format_template.h"
 #include "plugins/plugin_interface.h"
 #include <map>
 #include <memory>
@@ -165,6 +166,15 @@ struct JSONLLLMConfig {
         // Fail export on PII detection (without redaction)
         bool fail_on_pii = false;
     } pii_config;
+
+    // Instruction-tuning format template.
+    // When set to anything other than NONE this overrides the `style` field
+    // and the entity is rendered through the selected named template.
+    FormatTemplateType format_template_type = FormatTemplateType::NONE;
+
+    // Field-name overrides for format templates.
+    // Mirrors FieldMapping but is forwarded to IFormatTemplate::render().
+    FormatTemplateFieldMapping template_field_mapping;
 };
 
 /// JSONL exporter for LLM fine-tuning (LoRA/QLoRA)
@@ -185,7 +195,10 @@ public:
     std::string getVersion() const override { return "1.0.0"; }
     
     /// Set custom configuration
-    void setConfig(const JSONLLLMConfig& config) { config_ = config; }
+    void setConfig(const JSONLLLMConfig& config) {
+        config_ = config;
+        format_template_ = makeFormatTemplate(config.format_template_type);
+    }
     
     /// Get current configuration
     const JSONLLLMConfig& getConfig() const { return config_; }
@@ -211,11 +224,13 @@ public:
 private:
     JSONLLLMConfig config_;
     std::shared_ptr<ExporterMetrics> metrics_;
-    
+    std::unique_ptr<IFormatTemplate> format_template_;  // non-null when format_template_type != NONE
+
     // Export helpers
     std::string formatInstructionTuning(const BaseEntity& entity, double& weight);
     std::string formatChatCompletion(const BaseEntity& entity, double& weight);
     std::string formatTextCompletion(const BaseEntity& entity, double& weight);
+    std::string formatWithTemplate(const BaseEntity& entity, double& weight);
     
     double calculateWeight(const BaseEntity& entity);
     bool passesQualityFilter(const BaseEntity& entity);
