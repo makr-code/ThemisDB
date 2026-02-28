@@ -1944,6 +1944,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/qos_manager.cpp
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
 
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
     ../src/themis/wire_protocol_server.cpp

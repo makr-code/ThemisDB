@@ -182,6 +182,13 @@ if(NOT THEMIS_ENABLE_WEBSOCKET)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_HTTP3)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_http3_protocol\\.cpp$"
+        ".*test_quic_transport\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"

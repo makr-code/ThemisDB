@@ -858,6 +858,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
 
     # Modular globals shared across handlers
     ../src/server/hsm_provider_global.cpp
