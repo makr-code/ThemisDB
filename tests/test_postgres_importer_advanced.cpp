@@ -300,7 +300,7 @@ static ImportStats importContent(const std::string& content,
         }
     }
 
-    if (!options.delta_hash_file.empty() && !delta_hashes.empty())
+    if (!options.dry_run && !options.delta_hash_file.empty() && !delta_hashes.empty())
         saveDeltaHashes(options.delta_hash_file, delta_hashes);
 
     return stats;
@@ -996,4 +996,28 @@ TEST(DryRunPreviewTest, DryRunZeroImportedOnEmptyInput) {
     ImportStats stats = importContent(content, opts);
     EXPECT_EQ(stats.imported_records, 0u);
     EXPECT_EQ(stats.total_records, 0u);
+}
+
+TEST(DryRunPreviewTest, DryRunDoesNotSaveDeltaHashFile) {
+    std::string hash_file = tmpFile(".dryrun_delta.txt");
+    std::remove(hash_file.c_str());
+
+    ImportOptions opts;
+    opts.dry_run = true;
+    opts.delta_hash_file = hash_file;
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY t (id) FROM stdin;\n"
+        "1\n"
+        "2\n"
+        "\\.\n";
+
+    importContent(content, opts);
+
+    // Delta hash file must not be created in dry_run mode
+    std::ifstream f(hash_file);
+    EXPECT_FALSE(f.good()) << "Delta hash file should not be created during dry_run";
+
+    std::remove(hash_file.c_str());
 }
