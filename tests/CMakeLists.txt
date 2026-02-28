@@ -588,6 +588,7 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/qdrant_adapter.cpp
     ../src/chimera/pinecone_adapter.cpp
     ../src/chimera/elasticsearch_adapter.cpp
+    ../src/chimera/neo4j_adapter.cpp
 )
 
 set(_themis_test_core_libs)
