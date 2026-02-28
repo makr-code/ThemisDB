@@ -42,7 +42,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [P] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)
-- [!] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [P] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 
 ## Implementation Phases
 
@@ -78,7 +78,7 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 - [I] Unit tests coverage > 80% (Issue: #1938)
 - [I] Integration tests (single-model and multi-model scenarios) (Issue: #1939)
 - [I] Performance benchmarks (tokens/sec, latency p99) (Issue: #1940)
-- [I] Security audit (prompt injection mitigation, API key handling) (Issue: #1941)
+- [x] Security audit (prompt injection mitigation, API key handling) (Issue: #1941)
 - [I] Documentation complete (Issue: #1942)
 - [I] API stability guaranteed (Issue: #1943)
 

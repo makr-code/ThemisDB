@@ -29,10 +29,12 @@
 #include "llm/inference_handle.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llm_response_cache.h"
+#include "llm/prompt_policy.h"
 #include "llm/shared_worker_pool.h"
 #include <thread>
 #include <algorithm>
 #include <deque>
+#include <memory>
 #include <vector>
 #include <mutex>
 #include <shared_mutex>
@@ -283,7 +285,23 @@ public:
      * @throws std::invalid_argument if @p new_plugin is null.
      */
     void swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin);
-    
+
+    /**
+     * @brief Attach a prompt safety policy to the engine.
+     *
+     * When a non-null policy is set, every inference request is validated
+     * against the policy before being dispatched to the plugin.  Blocked
+     * prompts receive an immediate error response with
+     * @c metadata["blocked"] == true and no plugin call is made.  Redact
+     * rules are applied to the prompt in-place before inference.
+     *
+     * Thread-safety: must be called before inference requests are submitted
+     * (i.e. during engine setup, not while worker threads are active).
+     *
+     * @param policy Shared PromptPolicy instance; nullptr disables the check.
+     */
+    void setPromptPolicy(std::shared_ptr<PromptPolicy> policy);
+
 private:
     Config config_;
     ILLMPlugin* plugin_;
@@ -300,6 +318,9 @@ private:
 
     // Optional deduplication cache (nullptr if disabled)
     std::shared_ptr<LLMResponseCache> dedup_cache_;
+
+    // Optional prompt safety policy (nullptr → no prompt validation)
+    std::shared_ptr<PromptPolicy> prompt_policy_;
 
     // Worker threads
     std::vector<std::thread> workers_;

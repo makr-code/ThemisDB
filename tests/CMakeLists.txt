@@ -122,6 +122,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_shared_worker_pool\\.cpp$"
         ".*test_json_schema_binding\\.cpp$"
         ".*test_openai_compat_adapter\\.cpp$"
+        ".*test_model_quantization_pipeline\\.cpp$"
         ".*test_model_router\\.cpp$"
     )
 endif()
@@ -2375,6 +2376,48 @@ else()
     message(STATUS "Transaction OCC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
 endif()
 
+# Transaction Bulk API Tests
+# APIs under test : Transaction::bulkPutEntities, Transaction::bulkEraseEntities
+# Test count      : 12 tests (unit + integration)
+# Test types      : unit (empty-vector no-op, single entity, invalid PK rejection,
+#                         finished-transaction guard, large-batch commit)
+#                   integration (multi-entity commit with secondary-index verification,
+#                                rollback atomicity, mixed put+erase in one transaction,
+#                                bulk erase of previously inserted rows)
+# Acceptance      : All bulk operations commit/rollback atomically; secondary indexes
+#                   stay consistent; empty or invalid inputs are rejected with a
+#                   descriptive error message.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Adding Transaction Bulk API tests")
+
+    add_executable(test_transaction_bulk
+        test_transaction_bulk.cpp
+    )
+
+    target_link_libraries(test_transaction_bulk PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_bulk PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+
+    set_tests_properties(TransactionBulkTests PROPERTIES
+        LABELS "transaction;bulk;batch;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete")
+else()
+    message(STATUS "Transaction Bulk API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+endif()
+
 # Transaction Retry Manager Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
     message(STATUS "Adding Transaction Retry Manager tests")
@@ -2404,6 +2447,61 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
     message(STATUS "  Transaction Retry: executeWithRetry, backoff, circuit breaker, error classification")
 else()
     message(STATUS "Transaction Retry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
+endif()
+
+# Per-tenant Transaction Namespace Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+    message(STATUS "Adding Per-tenant Transaction Namespace tests")
+
+    add_executable(test_tenant_transaction_namespace
+        test_tenant_transaction_namespace.cpp
+    )
+
+    target_link_libraries(test_tenant_transaction_namespace PRIVATE
+# Transaction Bulk API Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Adding Transaction Bulk API tests")
+
+    add_executable(test_transaction_bulk
+        test_transaction_bulk.cpp
+    )
+
+    target_link_libraries(test_transaction_bulk PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tenant_transaction_namespace PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TenantTransactionNamespaceTests COMMAND test_tenant_transaction_namespace)
+
+    set_tests_properties(TenantTransactionNamespaceTests PROPERTIES
+        LABELS "transaction;tenant;namespace;isolation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Tenant Transaction Namespace: tenant-scoped keys, per-tenant stats, abortTenantTransactions")
+else()
+    message(STATUS "Per-tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+    target_compile_definitions(test_transaction_bulk PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+
+    set_tests_properties(TransactionBulkTests PROPERTIES
+        LABELS "transaction;bulk;batch;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete without per-row overhead")
+else()
+    message(STATUS "Transaction Bulk tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
 endif()
 
 # Utilities Comprehensive Tests
@@ -3027,6 +3125,64 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
     message(STATUS "  PluginCapabilityNegotiation: PluginVersionRange, PluginCapabilityNegotiator, PluginManager::negotiateCapabilities")
 else()
     message(STATUS "Plugin Capability Negotiation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
+endif()
+
+# ============================================================================
+# LLM Timeout and Cancellation Tests (standalone – requires themis_llm / themis_core)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND THEMIS_ENABLE_LLM)
+    message(STATUS "Adding LLM Timeout and Cancellation tests (Issue #1931, standalone binary)")
+
+    add_executable(test_llm_timeout_cancellation
+        test_llm_timeout_cancellation.cpp
+    )
+
+    target_include_directories(test_llm_timeout_cancellation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_llm_timeout_cancellation PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_llm_timeout_cancellation PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_llm_timeout_cancellation PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME LLMTimeoutCancellationTests COMMAND test_llm_timeout_cancellation)
+
+    set_tests_properties(LLMTimeoutCancellationTests PROPERTIES
+        LABELS "llm;timeout;cancellation;async;inference;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LLMTimeoutCancellation: per-request timeout propagation, cancel(), streaming stop, DROP_OLDEST, dedup cache")
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "LLM Timeout Cancellation tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "LLM Timeout Cancellation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp")
+    endif()
 endif()
 
 # ============================================================================
