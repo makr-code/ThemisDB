@@ -155,4 +155,4 @@ The following connectors from this enhancement document have been implemented an
 | JDBC-Compatible Database Source | `database_connector.cpp` | ✅ Implemented |
 | Web Crawler / Sitemap Source | `web_crawler_connector.cpp` | ✅ Implemented |
 | Per-Document Quarantine Retry | `ingestion_manager.cpp` | ✅ Implemented |
-| Distributed Ingestion Coordinator | — | 📋 Planned (v1.8.0) |
+| Distributed Ingestion Coordinator | `ingestion_coordinator.cpp` | ✅ Implemented |
