@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     148                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -204,7 +204,8 @@ private:
     std::unordered_map<std::string, IGraphIndex*> graph_indices_;
     std::unordered_map<std::string, IndexType> index_types_;
 
-    // Owned vector index adapters (lifetime tied to this IndexManager)
+    // Owned index adapters (lifetime tied to this IndexManager)
+    std::unordered_map<std::string, std::unique_ptr<ISecondaryIndex>> owned_secondary_adapters_;
     std::unordered_map<std::string, std::unique_ptr<IVectorIndex>> owned_vector_adapters_;
     
     // Helper method to propagate evaluator to all managers
