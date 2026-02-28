@@ -458,12 +458,18 @@ TEST_F(JSONLLLMExporterTest, ProgressCallback) {
     options.progress_interval = 3;
     options.progress_callback = [&callback_count](const ExportStats& stats) {
         callback_count++;
+        EXPECT_GT(stats.exported_entities, 0u);
+        EXPECT_GT(stats.bytes_written, 0u);
+        EXPECT_GE(stats.duration.count(), 0);
+        EXPECT_GE(stats.estimated_eta_seconds, 0.0);
     };
     
     auto stats = exporter.exportEntities(test_entities_, options);
     
     // Callback should have been called
     EXPECT_GT(callback_count, 0);
+    // ETA must be zero at completion
+    EXPECT_DOUBLE_EQ(stats.estimated_eta_seconds, 0.0);
 }
 
 // ===== ExportStats JSON Tests =====
