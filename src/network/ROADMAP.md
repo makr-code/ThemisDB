@@ -31,7 +31,13 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 
 ## In Progress 🚧
-- [I] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962)
+- [~] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
+  - UDP socket on port 8769 (dedicated, separate from TCP wire protocol port 8766)
+  - Read-only opcodes only: GET, QUERY_AQL, VECTOR_SEARCH, PING
+  - Per-source-IP rate limiting (configurable packets/second)
+  - Compact 10-byte binary header with request-ID echo for correlation
+  - `UDPFastPath` class in `include/network/udp_fast_path.h` / `src/network/udp_fast_path.cpp`
+  - Unit tests in `tests/test_udp_fast_path.cpp` (config, packet validation, opcode filter, response builder)
 - [I] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
 
 ## Planned Features 📋
@@ -69,7 +75,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `WireProtocolWebSocketSession` (include/network/wire_protocol_websocket.h)
   - JSON text-frame messages: ping, get, put, delete, query
   - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `enable_websocket_upgrade`
-- [ ] UDP-based fast-path for read-only queries (Target: Q3 2026)
+- [~] UDP-based fast-path for read-only queries (Target: Q3 2026)
 - [ ] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
 
 ### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
