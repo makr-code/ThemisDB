@@ -39,6 +39,9 @@ nlohmann::json PolicyRuleVersion::toJson() const {
     j["author"] = author;
     j["timestamp"] = timestamp;
     j["change_description"] = change_description;
+    if (!rule_snapshot.empty()) {
+        j["rule_snapshot"] = rule_snapshot;
+    }
     return j;
 }
 
@@ -50,6 +53,7 @@ PolicyRuleVersion PolicyRuleVersion::fromJson(const nlohmann::json& j) {
     if (j.contains("author")) v.author = j["author"].get<std::string>();
     if (j.contains("timestamp")) v.timestamp = j["timestamp"].get<std::int64_t>();
     if (j.contains("change_description")) v.change_description = j["change_description"].get<std::string>();
+    if (j.contains("rule_snapshot")) v.rule_snapshot = j["rule_snapshot"];
     return v;
 }
 
@@ -115,6 +119,7 @@ std::string PolicyVersionHistory::recordVersion(
     version.author = author;
     version.timestamp = std::chrono::system_clock::now().time_since_epoch().count() / 1000000000;
     version.change_description = change_description;
+    version.rule_snapshot = rule.toJson();  // Capture full rule state
     
     // Store version
     versions_[rule_id].push_back(version);
@@ -181,6 +186,27 @@ std::optional<std::string> PolicyVersionHistory::getPreviousVersion(const std::s
     return it->second[it->second.size() - 2].version;
 }
 
+std::string PolicyVersionHistory::getLastRecordedVersion(const std::string& rule_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = versions_.find(rule_id);
+    if (it == versions_.end() || it->second.empty()) {
+        return "";
+    }
+    
+    return it->second.back().version;
+}
+
+VersionDiff PolicyVersionHistory::compareRules(
+    const PolicyRule& rule1, const PolicyRule& rule2) const {
+    VersionDiff diff;
+    diff.rule_id = rule1.id;
+    diff.version1 = rule1.version;
+    diff.version2 = rule2.version;
+    diff.changes = identifyChanges(rule1, rule2);
+    return diff;
+}
+
 VersionDiff PolicyVersionHistory::compareVersions(
     const std::string& rule_id,
     const std::string& version1,
@@ -200,8 +226,15 @@ VersionDiff PolicyVersionHistory::compareVersions(
         return diff;
     }
     
-    // Since we only store rule_id, we can only note that versions differ
-    diff.changes.push_back(fmt::format("Version {} -> {}", version1, version2));
+    // Use stored rule snapshots for field-level diff when available
+    if (!v1->rule_snapshot.empty() && !v2->rule_snapshot.empty()) {
+        PolicyRule rule1 = PolicyRule::fromJson(v1->rule_snapshot);
+        PolicyRule rule2 = PolicyRule::fromJson(v2->rule_snapshot);
+        diff.changes = identifyChanges(rule1, rule2);
+    } else {
+        // Fallback: note that versions differ without field-level detail
+        diff.changes.push_back(fmt::format("Version {} -> {}", version1, version2));
+    }
     
     // Create detailed diff with version metadata
     nlohmann::json v1_data;

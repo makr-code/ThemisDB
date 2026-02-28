@@ -21,6 +21,7 @@
 
 #include <string>
 #include <memory>
+#include <stdexcept>
 #include <nlohmann/json.hpp>
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -28,6 +29,18 @@
 #endif
 
 namespace themis::sharding {
+
+/**
+ * @brief Exception thrown for non-retryable RPC errors.
+ *
+ * Thrown when a gRPC status code is classified as non-retryable
+ * (e.g., INVALID_ARGUMENT, ALREADY_EXISTS, PERMISSION_DENIED).
+ * The retry loop will rethrow this immediately without further attempts.
+ */
+class NonRetryableRpcError : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
 
 /**
  * @brief RPC Client for shard-to-shard communication
@@ -56,6 +69,11 @@ public:
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)
         bool tls_verify_server = true;  // Verify server certificate against CA
+
+        // Circuit Breaker Configuration
+        bool enable_circuit_breaker = true;          // Enable circuit breaker protection
+        int circuit_breaker_failure_threshold = 5;   // Failures before opening circuit
+        int circuit_breaker_recovery_ms = 5000;      // Milliseconds before half-open probe
     };
     
     explicit ShardRPCClient(const Config& config);

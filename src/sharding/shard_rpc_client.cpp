@@ -21,6 +21,7 @@
 // Licensed under MIT License
 
 #include "sharding/shard_rpc_client.h"
+#include "sharding/circuit_breaker.h"
 #include "utils/logger.h"
 #include "utils/file_utils.h"
 #include <thread>
@@ -44,17 +45,38 @@
 
 namespace themis::sharding {
 
+// Maximum delay between retry attempts (milliseconds).  Both sendRequestGrpc
+// and sendRequestInProcess use this cap so that a single constant controls the
+// ceiling across both paths.
+static constexpr int kMaxRetryDelayMs = 5000;
 
 struct ShardRPCClient::Impl {
     Config config;
     bool use_grpc = false;
+    CircuitBreaker circuit_breaker;
     
 #if THEMIS_HAS_SHARD_GRPC
     std::shared_ptr<grpc::Channel> channel;
     std::unique_ptr<themis::sharding::proto::ShardService::Stub> stub;
 #endif
     
-    explicit Impl(const Config& cfg) : config(cfg) {
+    static CircuitBreaker makeCb(const Config& cfg) {
+        CircuitBreaker::Config cb;
+        // Negative values are invalid; leave the field at its default rather than
+        // casting to size_t (which would underflow to SIZE_MAX, preventing the
+        // circuit from ever opening) or producing a negative chrono duration
+        // (which would make isTimeoutElapsed() always true).
+        if (cfg.circuit_breaker_failure_threshold > 0) {
+            cb.failure_threshold =
+                static_cast<size_t>(cfg.circuit_breaker_failure_threshold);
+        }
+        if (cfg.circuit_breaker_recovery_ms > 0) {
+            cb.timeout = std::chrono::milliseconds(cfg.circuit_breaker_recovery_ms);
+        }
+        return CircuitBreaker(cb);
+    }
+
+    explicit Impl(const Config& cfg) : config(cfg), circuit_breaker(makeCb(cfg)) {
         // Detect if we should use gRPC or in-process simulation
         // Use in-process if endpoint contains loopback addresses
         use_grpc = !isLoopbackEndpoint(config.endpoint);
@@ -323,6 +345,15 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
+
+        // Re-check the circuit breaker before every attempt so that a circuit
+        // that opens mid-loop (due to recordFailure() exceeding the threshold)
+        // blocks the remaining retry attempts immediately.
+        if (impl_->config.enable_circuit_breaker &&
+                !impl_->circuit_breaker.allowRequest()) {
+            throw std::runtime_error("Circuit breaker is OPEN for endpoint: " +
+                                     impl_->config.endpoint);
+        }
         
         try {
             THEMIS_DEBUG("gRPC {} attempt {}/{} to {}",
@@ -340,29 +371,50 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
             context.set_deadline(deadline);
             
             // Route to appropriate gRPC method
+            nlohmann::json result;
             if (method == "prepare") {
-                return handlePrepareGrpc(context, params);
+                result = handlePrepareGrpc(context, params);
             } else if (method == "commit") {
-                return handleCommitGrpc(context, params);
+                result = handleCommitGrpc(context, params);
             } else if (method == "abort") {
-                return handleAbortGrpc(context, params);
+                result = handleAbortGrpc(context, params);
             } else if (method == "snapshot_read") {
-                return handleSnapshotReadGrpc(context, params);
+                result = handleSnapshotReadGrpc(context, params);
             } else if (method == "ping") {
-                return handleHealthCheckGrpc(context);
+                result = handleHealthCheckGrpc(context);
             } else {
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
+
+            if (impl_->config.enable_circuit_breaker) {
+                impl_->circuit_breaker.recordSuccess();
+            }
+            return result;
             
+        } catch (const NonRetryableRpcError& e) {
+            if (impl_->config.enable_circuit_breaker) {
+                impl_->circuit_breaker.recordFailure();
+            }
+            THEMIS_WARN("gRPC {} non-retryable error: {}", method, e.what());
+            throw;  // Rethrow immediately without further retry attempts
+
         } catch (const std::exception& e) {
             last_exception = std::current_exception();
+            std::string err_msg = e.what();
+
+            if (impl_->config.enable_circuit_breaker) {
+                impl_->circuit_breaker.recordFailure();
+            }
+
             THEMIS_WARN("gRPC {} attempt {}/{} failed: {}",
-                       method, attempts, impl_->config.max_retries, e.what());
-            
+                       method, attempts, impl_->config.max_retries, err_msg);
+
             if (attempts < impl_->config.max_retries) {
-                // Exponential backoff
-                int delay_ms = impl_->config.retry_delay_ms * (1 << (attempts - 1));
-                delay_ms = std::min(delay_ms, 5000);  // Cap at 5 seconds
+                // Exponential backoff; cap the shift to prevent signed-int overflow
+                // (shift <= 12 ensures retry_delay_ms * 4096 fits in int32 for any
+                // reasonable retry_delay_ms, and the result is capped at 5s anyway)
+                const int shift = std::min(attempts - 1, 12);
+                int delay_ms = std::min(impl_->config.retry_delay_ms * (1 << shift), kMaxRetryDelayMs);
                 
                 std::this_thread::sleep_for(
                     std::chrono::milliseconds(delay_ms)
@@ -401,7 +453,7 @@ nlohmann::json ShardRPCClient::handlePrepareGrpc(
         if (isRetryableError(status.error_code())) {
             throw std::runtime_error("Retryable error: " + status.error_message());
         }
-        throw std::runtime_error("Non-retryable error: " + status.error_message());
+        throw NonRetryableRpcError(status.error_message());
     }
     
     nlohmann::json result = {
@@ -427,7 +479,7 @@ nlohmann::json ShardRPCClient::handleCommitGrpc(
         if (isRetryableError(status.error_code())) {
             throw std::runtime_error("Retryable error: " + status.error_message());
         }
-        throw std::runtime_error("Non-retryable error: " + status.error_message());
+        throw NonRetryableRpcError(status.error_message());
     }
     
     nlohmann::json result = {
@@ -452,7 +504,7 @@ nlohmann::json ShardRPCClient::handleAbortGrpc(
         if (isRetryableError(status.error_code())) {
             throw std::runtime_error("Retryable error: " + status.error_message());
         }
-        throw std::runtime_error("Non-retryable error: " + status.error_message());
+        throw NonRetryableRpcError(status.error_message());
     }
     
     nlohmann::json result = {
@@ -567,6 +619,13 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
+
+        // Re-check circuit breaker before every attempt (mirrors sendRequestGrpc).
+        if (impl_->config.enable_circuit_breaker &&
+                !impl_->circuit_breaker.allowRequest()) {
+            throw std::runtime_error("Circuit breaker is OPEN for endpoint: " +
+                                     impl_->config.endpoint);
+        }
         
         try {
             THEMIS_DEBUG("RPC {} attempt {}/{} to {} (in-process)",
@@ -607,16 +666,27 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                 throw std::runtime_error("Unknown RPC method: " + method);
             }
             
+            if (impl_->config.enable_circuit_breaker) {
+                impl_->circuit_breaker.recordSuccess();
+            }
             return response;
             
         } catch (const std::exception& e) {
             last_exception = std::current_exception();
+
+            if (impl_->config.enable_circuit_breaker) {
+                impl_->circuit_breaker.recordFailure();
+            }
+
             THEMIS_WARN("RPC {} attempt {}/{} failed: {}",
                        method, attempts, impl_->config.max_retries, e.what());
             
             if (attempts < impl_->config.max_retries) {
+                // Exponential backoff; same overflow-safe calculation as sendRequestGrpc
+                const int shift = std::min(attempts - 1, 12);
+                const int delay_ms = std::min(impl_->config.retry_delay_ms * (1 << shift), kMaxRetryDelayMs);
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(impl_->config.retry_delay_ms)
+                    std::chrono::milliseconds(delay_ms)
                 );
             }
         }

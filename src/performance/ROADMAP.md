@@ -20,23 +20,24 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Zero-cost abstractions via compile-time macros
 - [x] Thread and connection pool management
 - [x] Benchmark infrastructure
-
-## In Progress 🚧
 - [x] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026) (Issue: #2425)
 - [x] Auto-tuner for HNSW `ef_construction` and `M` based on workload (Target: Q2 2026) (Issue: #2220)
 - [x] NUMA topology detection and automatic thread pinning (Target: Q3 2026) (Issue: #2426)
+- [x] Per-query cost model integration with query optimizer (Issue: #2419)
+- [x] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
+- [x] Jemalloc integration as alternative allocator (Issue: #2421)
+- [x] ML-based workload predictor for proactive resource scaling (Issue: #2214)
+
+## In Progress 🚧
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] AVX-512 SIMD path for vector distance computations (Issue: #1964)
+- [x] AVX-512 SIMD path for vector distance computations (Issue: #1964)
 - [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
-- [x] Per-query cost model integration with query optimizer (Issue: #2419)
-- [x] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
-- [x] Jemalloc integration as alternative allocator (Issue: #2421)
 
 ### Long-term (6-12 months)
-- [x] ML-based workload predictor for proactive resource scaling (Issue: #2214)
 - [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
 - [I] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
@@ -66,7 +67,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] NUMA topology detection and automatic thread pinning
 
 ### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
-- [ ] AVX-512 SIMD path for vector distance computations
+- [x] AVX-512 SIMD path for vector distance computations
 - [ ] Adaptive batch size tuning for LLM inference
 - [x] Per-query cost model integration with query optimizer
 - [x] Memory pressure monitoring with automatic cache eviction

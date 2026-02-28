@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:24                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-27 07:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     8361                                           ║
-    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+    • Total Lines:     9406                                           ║
+    • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0ba7cfc  2026-02-27  feat(graph): route incremental graph query and /graph/changes endpoints ║
     • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
     • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
     • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
@@ -808,6 +809,7 @@ HttpServer::HttpServer(
         config_.feature_llm_query_enhancement,
         config_.feature_llm_store
     );
+    query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
     THEMIS_INFO("Query API Handler initialized");
     // Initialize Policy API Handler
     const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
@@ -1990,6 +1992,9 @@ namespace {
     GraphEdgeDelete,
     GraphMetricsGet,
     GraphMetricsPrometheusGet,
+    GraphQueryIncrementalPost,
+    GraphQueryIncrementalDelete,
+    GraphChangesPost,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -2339,6 +2344,9 @@ namespace {
     if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) return Route::GraphEdgeDelete;
     if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) return Route::GraphMetricsGet;
     if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) return Route::GraphMetricsPrometheusGet;
+    if (target == "/graph/query/incremental" && method == http::verb::post) return Route::GraphQueryIncrementalPost;
+    if (target.rfind("/graph/query/incremental/", 0) == 0 && method == http::verb::delete_) return Route::GraphQueryIncrementalDelete;
+    if (target == "/graph/changes" && method == http::verb::post) return Route::GraphChangesPost;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -3180,6 +3188,27 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::GraphMetricsPrometheusGet:
             if (graph_api_) {
                 response = graph_api_->handleMetricsPrometheus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryIncrementalPost:
+            if (graph_api_) {
+                response = graph_api_->handleIncrementalQueryRegister(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryIncrementalDelete:
+            if (graph_api_) {
+                response = graph_api_->handleIncrementalQueryUnregister(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphChangesPost:
+            if (graph_api_) {
+                response = graph_api_->handleGraphChanges(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
             }

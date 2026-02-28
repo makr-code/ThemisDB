@@ -76,6 +76,14 @@ void ContentMetrics::recordEmbeddingFailure() {
     embedding_failures_++;
 }
 
+void ContentMetrics::recordDedupCheck() {
+    dedup_checks_++;
+}
+
+void ContentMetrics::recordDedupHit() {
+    dedup_hits_++;
+}
+
 void ContentMetrics::recordPdfExtracted() {
     pdf_extracted_total_++;
 }
@@ -262,6 +270,8 @@ json ContentMetrics::toJson() const {
     j["throughput"]["total_chunks"] = total_chunks_.load();
     j["throughput"]["total_embeddings"] = total_embeddings_.load();
     j["throughput"]["embedding_failures"] = embedding_failures_.load();
+    j["throughput"]["dedup_checks"] = dedup_checks_.load();
+    j["throughput"]["dedup_hits"] = dedup_hits_.load();
     
     // Success rates
     j["rates"]["validation_success_rate"] = getValidationSuccessRate();
@@ -381,6 +391,14 @@ std::string ContentMetrics::toPrometheusFormat() const {
     oss << "# HELP content_embedding_failures_total Total embedding generation failures (timeout or model error)\n";
     oss << "# TYPE content_embedding_failures_total counter\n";
     oss << "content_embedding_failures_total " << embedding_failures_.load() << "\n\n";
+
+    oss << "# HELP content_dedup_checks_total Total perceptual deduplication checks performed\n";
+    oss << "# TYPE content_dedup_checks_total counter\n";
+    oss << "content_dedup_checks_total " << dedup_checks_.load() << "\n\n";
+
+    oss << "# HELP content_dedup_hits_total Total near-duplicate items detected and rejected\n";
+    oss << "# TYPE content_dedup_hits_total counter\n";
+    oss << "content_dedup_hits_total " << dedup_hits_.load() << "\n\n";
     
     // Cache metrics
     oss << "# HELP content_cache_requests_total Total cache requests\n";
@@ -473,6 +491,8 @@ void ContentMetrics::reset() {
     office_extracted_total_ = 0;
     extract_errors_total_ = 0;
     embedding_failures_ = 0;
+    dedup_checks_ = 0;
+    dedup_hits_ = 0;
     cache_hits_ = 0;
     cache_misses_ = 0;
     

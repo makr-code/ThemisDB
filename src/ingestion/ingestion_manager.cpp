@@ -29,6 +29,8 @@
 #include "ingestion/filesystem_ingester.h"
 #include "ingestion/api_connector.h"
 #include "ingestion/kafka_connector.h"
+#include "ingestion/object_storage_connector.h"
+#include "ingestion/database_connector.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -63,12 +65,13 @@ static std::string generateCorrelationId() {
 /// Map SourceType to a short string label for Prometheus
 static std::string sourceTypeLabel(SourceType t) {
     switch (t) {
-        case SourceType::HUGGINGFACE: return "HUGGINGFACE";
-        case SourceType::FILESYSTEM:  return "FILESYSTEM";
-        case SourceType::API:         return "API";
-        case SourceType::DATABASE:    return "DATABASE";
-        case SourceType::KAFKA:       return "KAFKA";
-        default:                      return "UNKNOWN";
+        case SourceType::HUGGINGFACE:    return "HUGGINGFACE";
+        case SourceType::FILESYSTEM:     return "FILESYSTEM";
+        case SourceType::API:            return "API";
+        case SourceType::DATABASE:       return "DATABASE";
+        case SourceType::KAFKA:          return "KAFKA";
+        case SourceType::OBJECT_STORAGE: return "OBJECT_STORAGE";
+        default:                         return "UNKNOWN";
     }
 }
 
@@ -350,7 +353,34 @@ public:
                     break;
                 }
 
-                case SourceType::DATABASE:
+                case SourceType::OBJECT_STORAGE: {
+                    auto obj_connector = std::make_unique<ObjectStorageConnector>();
+                    obj_connector->setRetryConfig(retry_config_);
+                    if (!obj_connector->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize ObjectStorage connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(obj_connector);
+                    break;
+                }
+
+                case SourceType::DATABASE: {
+                    auto db_connector = std::make_unique<DatabaseConnector>();
+                    db_connector->setRetryConfig(retry_config_);
+                    if (!db_connector->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize Database connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(db_connector);
+                    break;
+                }
+
                 default:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
                                    IngestionErrorSeverity::ERROR,
@@ -1191,6 +1221,38 @@ IngestionBuilder& IngestionBuilder::withKafkaSource(
     cfg.options["topic"]    = topic;  // ensure topic is always set in options
     cfg.priority            = priority;
     cfg.enabled             = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withObjectStorageSource(
+        const std::string& source_id,
+        const std::string& bucket,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::OBJECT_STORAGE;
+    cfg.location  = bucket;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withDatabaseSource(
+        const std::string& source_id,
+        const std::string& jdbc_url,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::DATABASE;
+    cfg.location  = jdbc_url;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
     opts_->sources.push_back(std::move(cfg));
     return *this;
 }

@@ -1,7 +1,7 @@
 # Releases & Updates Dokumentation
 
-**Stand:** 28. Dezember 2025  
-**Aktuelle Version:** 1.3.5  
+**Stand:** 27. Februar 2026  
+**Aktuelle Version:** 1.5.0  
 **Kategorie:** Releases & Updates
 
 ---
@@ -14,6 +14,12 @@ ThemisDB Release-Dokumentation enthält:
 - Release-Verteilungsstrategie
 
 ## 🎉 Aktuelle Releases
+
+### v1.5.x Serie (Februar 2026)
+
+| Version | Datum | Fokus | Dokumentation |
+|---------|-------|-------|---------------|
+| **v1.5.0** | 03.02.2026 | GPU Kernel Sandbox, QueryMaskingPolicy, Geo CPU/GPU Benchmarks, Full GeoJSON RFC 7946, FAISS Quantizer, RFC 3161 TSA | [Release Notes](./RELEASE_NOTES_v1.5.0.md) |
 
 ### v1.3.x Serie (Dezember 2025)
 

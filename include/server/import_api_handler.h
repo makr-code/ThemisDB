@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     106                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -21,6 +21,7 @@
 
 #include "importers/importer_interface.h"
 #include "importers/postgres_importer.h"
+#include "importers/s3_importer.h"
 
 #include <memory>
 #include <string>
@@ -37,16 +38,22 @@ namespace themis {
 namespace server {
 
 /**
- * @brief HTTP API handler for asynchronous PostgreSQL dump imports.
+ * @brief HTTP API handler for asynchronous data imports.
  *
  * Registers routes on a cpp-httplib `Server` instance and delegates to
- * `PostgreSQLImporter::importDataAsync()`.  An in-process
+ * the appropriate importer's `importDataAsync()`.  An in-process
  * `ImportJobRegistry` tracks all submitted jobs.
  *
  * Routes
  * ------
  * POST   /api/v1/import/postgresql
  *   Body (JSON): { "source_path": "...", "options": { ... } }
+ *   Response: { "job_id": "...", "status": "running", ... }
+ *
+ * POST   /api/v1/import/s3
+ *   Body (JSON): { "source_path": "s3://bucket/key", "options": { ... } }
+ *   Imports CSV/TSV/JSONL objects from S3-compatible object storage.
+ *   source_path must be a valid s3:// URL (single object or prefix/).
  *   Response: { "job_id": "...", "status": "running", ... }
  *
  * GET    /api/v1/import/{job_id}/status
@@ -65,12 +72,15 @@ namespace server {
 class ImportApiHandler {
 public:
     /**
-     * @param registry  Shared job registry (may be shared with other handlers)
-     * @param importer  The importer to use (must outlive this handler)
+     * @param registry    Shared job registry (may be shared with other handlers)
+     * @param importer    The default importer (PostgreSQL / generic)
+     * @param s3_importer The S3 importer instance for s3:// source paths
+     *                    (may be nullptr to disable the /api/v1/import/s3 route)
      */
     explicit ImportApiHandler(
         std::shared_ptr<importers::ImportJobRegistry> registry,
-        std::shared_ptr<importers::IImporter>        importer
+        std::shared_ptr<importers::IImporter>        importer,
+        std::shared_ptr<importers::IImporter>        s3_importer = nullptr
     );
 
     ~ImportApiHandler() = default;
@@ -85,11 +95,12 @@ public:
 
 private:
     // Route handlers
-    void handleStartImport (const httplib::Request& req, httplib::Response& res);
-    void handleJobStatus   (const httplib::Request& req, httplib::Response& res);
-    void handleCancelJob   (const httplib::Request& req, httplib::Response& res);
-    void handleListJobs    (const httplib::Request& req, httplib::Response& res);
-    void handleMetrics     (const httplib::Request& req, httplib::Response& res);
+    void handleStartImport   (const httplib::Request& req, httplib::Response& res);
+    void handleStartS3Import (const httplib::Request& req, httplib::Response& res);
+    void handleJobStatus     (const httplib::Request& req, httplib::Response& res);
+    void handleCancelJob     (const httplib::Request& req, httplib::Response& res);
+    void handleListJobs      (const httplib::Request& req, httplib::Response& res);
+    void handleMetrics       (const httplib::Request& req, httplib::Response& res);
 
     // Helpers
     static nlohmann::json parseRequestBody(const std::string& body);
@@ -100,6 +111,7 @@ private:
 
     std::shared_ptr<importers::ImportJobRegistry> registry_;
     std::shared_ptr<importers::IImporter>         importer_;
+    std::shared_ptr<importers::IImporter>         s3_importer_;
 };
 
 } // namespace server

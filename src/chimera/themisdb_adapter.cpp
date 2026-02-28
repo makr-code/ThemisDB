@@ -29,7 +29,26 @@
 
 #include "chimera/themisdb_adapter.hpp"
 
+#include <cassert>
+
 namespace chimera {
+
+// ---------------------------------------------------------------------------
+// Auto-registration
+// ---------------------------------------------------------------------------
+
+namespace {
+// Register ThemisDBAdapter with the factory when this translation unit is linked.
+// NOLINTNEXTLINE(cert-err58-cpp)
+const bool themisdb_registered = []() noexcept {
+    const bool ok = AdapterFactory::register_adapter(
+        "ThemisDB",
+        []() { return std::make_unique<ThemisDBAdapter>(); }
+    );
+    assert(ok && "ThemisDBAdapter: 'ThemisDB' adapter name already registered");
+    return ok;
+}();
+} // namespace
 
 // Connection Management
 Result<bool> ThemisDBAdapter::connect(

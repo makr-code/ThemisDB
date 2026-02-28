@@ -17,6 +17,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Automatic resource cleanup on unload
 - [x] Cross-platform export/import macros
 - [x] Version compatibility checking
+- [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
+- [x] Plugin health monitoring and automatic restart (Issue: #2373)
+- [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
 
 ## In Progress 🚧
 - [P] Hot-reload support for plugins without database restart (Target: Q2 2026) (Issue: #1554, PR: #2396)
@@ -27,13 +30,11 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ### Short-term (Next 3-6 months)
 - [P] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
 - [P] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
-- [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
-- [x] Plugin health monitoring and automatic restart (Issue: #2373)
 - [P] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
-- [I] WASM-based plugin isolation for untrusted code (Issue: #1572)
-- [I] Remote plugin loading from authenticated registry (Issue: #1562)
+- [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
+- [x] Remote plugin loading from authenticated registry (Issue: #1562) → implemented `RemoteRegistryClient` (`base/remote_registry_client.cpp`)
 - [I] Plugin dependency graph visualization (Issue: #1563)
 - [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
 - [I] A/B testing framework using module swapping (Issue: #1565)
@@ -62,7 +63,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin sandboxing with resource limits (memory, CPU)
 - [x] Plugin health monitoring and automatic restart
 - [x] Signed plugin repository with key pinning
-- [ ] WASM-based plugin isolation for untrusted code
+- [x] WASM-based plugin isolation for untrusted code
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1573)
@@ -74,8 +75,8 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ## Known Issues & Limitations
 - Hot-reload is supported via `HotReloadManager` (`include/themis/base/hot_reload_manager.h`); see Phase 2 above
-- WASM plugin isolation is not yet implemented
-- Remote plugin loading from a registry is not yet available
+- WASM plugin isolation is implemented via `WasmPluginSandbox` (`wasm_plugin_sandbox.cpp`); see `include/themis/base/wasm_plugin_sandbox.h`
+- Remote plugin loading from a registry is available via `RemoteRegistryClient` (`include/themis/base/remote_registry_client.h`)
 - Plugin dependency resolution is manual (loading order not enforced)
 
 ## Breaking Changes

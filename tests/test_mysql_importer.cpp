@@ -43,6 +43,9 @@
 #include <functional>
 #include <regex>
 #include <cctype>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 // ---------------------------------------------------------------------------
 // Minimal re-implementation of relevant types (mirrors importer_interface.h)
@@ -88,6 +91,9 @@ struct ImportStats {
     std::vector<ImportError>  structured_errors;
 };
 
+using RowCallback = std::function<bool(const std::string& table_name,
+                                       const nlohmann::json& entity)>;
+
 struct ImportOptions {
     bool                             dry_run             = false;
     bool                             continue_on_error   = true;
@@ -98,6 +104,7 @@ struct ImportOptions {
     size_t                           max_row_size_bytes       = 0;
     size_t                           max_statement_size_bytes = 0;
     std::function<bool(const std::string&, const std::string&)> permission_check;
+    RowCallback                      streaming_row_callback;
 };
 
 // ---------------------------------------------------------------------------
@@ -902,6 +909,241 @@ TEST(MySQLPermissionCheck, AllowedByCallback) {
     ImportOptions opts;
     opts.permission_check = [](const std::string&, const std::string&) { return true; };
     EXPECT_TRUE(opts.permission_check("import", "write"));
+}
+
+// ===========================================================================
+// Tests: Streaming row callback
+// ===========================================================================
+
+/// Minimal MySQL streaming importer driven from in-memory dump text.
+/// Mirrors the logic of MySQLImporter::parseInsert() with streaming support.
+static ImportStats mysqlStreamingImportContent(const std::string& content,
+                                                const ImportOptions& options) {
+    ImportStats stats;
+    bool cancelled = false;
+
+    // First pass: build table schemas from CREATE TABLE statements
+    std::map<std::string, TableSchema> schemas;
+    {
+        std::istringstream ss(content);
+        std::string line, sql;
+        while (std::getline(ss, line)) {
+            if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
+                continue;
+            sql += line + " ";
+            if (line.find(';') != std::string::npos) {
+                std::string upper = sql;
+                std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+                if (upper.find("CREATE TABLE") != std::string::npos) {
+                    TableSchema ts;
+                    if (parseCreateTable(sql, ts)) {
+                        schemas[ts.name] = ts;
+                        stats.tables_processed++;
+                    }
+                }
+                sql.clear();
+            }
+        }
+    }
+
+    // Second pass: process INSERT statements
+    std::istringstream ss(content);
+    std::string line, sql;
+    while (std::getline(ss, line) && !cancelled) {
+        if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
+            continue;
+        sql += line + " ";
+        if (line.find(';') == std::string::npos) continue;
+
+        std::string upper = sql;
+        std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+
+        if (upper.find("INSERT") != std::string::npos) {
+            // Extract table name
+            std::regex insert_re(
+                R"(INSERT\s+(?:LOW_PRIORITY\s+|DELAYED\s+|HIGH_PRIORITY\s+)?(?:IGNORE\s+)?INTO\s+(?:`([^`]+)`\.)?(?:`([^`]+)`|(\w+))\s*(?:\(([^)]*)\))?\s+VALUES\s*(.+?)\s*;?\s*$)",
+                std::regex_constants::icase);
+            std::smatch m;
+            if (std::regex_search(sql, m, insert_re)) {
+                std::string table_name = m[2].matched ? m[2].str() : m[3].str();
+
+                if (!shouldImportTable(table_name, options)) {
+                    stats.skipped_records++;
+                    sql.clear();
+                    continue;
+                }
+
+                // Resolve column list
+                std::vector<std::string> col_list;
+                if (m[4].matched && !m[4].str().empty()) {
+                    std::istringstream css(m[4].str());
+                    std::string col;
+                    while (std::getline(css, col, ',')) {
+                        col.erase(0, col.find_first_not_of(" \t`"));
+                        col.erase(col.find_last_not_of(" \t`") + 1);
+                        if (!col.empty()) col_list.push_back(col);
+                    }
+                } else if (schemas.count(table_name)) {
+                    col_list = schemas[table_name].columns;
+                }
+
+                std::string values_payload = m[5].str();
+                auto tuples = parseMultiRowInsert(values_payload);
+
+                for (auto& vals : tuples) {
+                    stats.total_records++;
+                    // Build entity
+                    json entity;
+                    entity["_table"] = table_name;
+                    for (size_t i = 0; i < col_list.size() && i < vals.size(); ++i)
+                        entity[col_list[i]] = vals[i];
+
+                    if (options.streaming_row_callback) {
+                        if (!options.streaming_row_callback(table_name, entity)) {
+                            cancelled = true;
+                        }
+                    }
+                    stats.imported_records++;
+                    if (cancelled) break;
+                }
+            }
+        }
+        sql.clear();
+    }
+
+    return stats;
+}
+
+static const std::string kMySQLDump = R"(
+-- MySQL dump 8.0
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(200),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `users` (`id`,`name`,`email`) VALUES (1,'Alice','alice@example.com');
+INSERT INTO `users` (`id`,`name`,`email`) VALUES (2,'Bob','bob@example.com');
+INSERT INTO `users` (`id`,`name`,`email`) VALUES (3,'Carol','carol@example.com');
+)";
+
+static const std::string kMySQLMultiRowDump = R"(
+-- MySQL dump 8.0
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100),
+  `price` decimal(10,2),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+INSERT INTO `products` (`id`,`title`,`price`) VALUES (1,'Widget','9.99'),(2,'Gadget','19.99');
+)";
+
+TEST(MySQLStreamingCallback, CallbackInvokedForEachRow) {
+    ImportOptions opts;
+    std::vector<std::string> tables;
+    std::vector<json>        entities;
+    opts.streaming_row_callback = [&](const std::string& t, const json& e) -> bool {
+        tables.push_back(t);
+        entities.push_back(e);
+        return true;
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_EQ(tables.size(), 3u);
+    for (auto& t : tables) EXPECT_EQ(t, "users");
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(MySQLStreamingCallback, CallbackReceivesCorrectFieldValues) {
+    ImportOptions opts;
+    std::vector<json> rows;
+    opts.streaming_row_callback = [&](const std::string&, const json& e) -> bool {
+        rows.push_back(e);
+        return true;
+    };
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    ASSERT_EQ(rows.size(), 3u);
+    EXPECT_EQ(rows[0]["name"].get<std::string>(), "Alice");
+    EXPECT_EQ(rows[1]["name"].get<std::string>(), "Bob");
+    EXPECT_EQ(rows[2]["name"].get<std::string>(), "Carol");
+}
+
+TEST(MySQLStreamingCallback, AbortOnFalseFromCallback) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return call_count < 2;  // abort after second row
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_EQ(call_count, 2u);
+    EXPECT_LE(stats.imported_records, 2u);
+}
+
+TEST(MySQLStreamingCallback, AbortOnFirstRowStopsImmediately) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return false;
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_EQ(call_count, 1u);
+    EXPECT_EQ(stats.imported_records, 1u);
+}
+
+TEST(MySQLStreamingCallback, NullCallbackAllowsNormalImport) {
+    ImportOptions opts;
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(MySQLStreamingCallback, MultiRowInsertCallbackInvokedPerTuple) {
+    ImportOptions opts;
+    size_t call_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++call_count;
+        return true;
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLMultiRowDump, opts);
+
+    EXPECT_EQ(call_count, 2u);
+    EXPECT_EQ(stats.imported_records, 2u);
+}
+
+TEST(MySQLStreamingCallback, StatsMatchRowsDeliveredToCallback) {
+    ImportOptions opts;
+    size_t callback_count = 0;
+    opts.streaming_row_callback = [&](const std::string&, const json&) -> bool {
+        ++callback_count;
+        return true;
+    };
+
+    auto stats = mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_EQ(stats.imported_records, callback_count);
+}
+
+TEST(MySQLStreamingCallback, ExcludeTablesFiltersCallback) {
+    ImportOptions opts;
+    opts.exclude_tables = {"users"};
+    std::vector<std::string> tables;
+    opts.streaming_row_callback = [&](const std::string& t, const json&) -> bool {
+        tables.push_back(t);
+        return true;
+    };
+
+    mysqlStreamingImportContent(kMySQLDump, opts);
+
+    EXPECT_TRUE(tables.empty());
 }
 
 // Disabled custom main to avoid multiple definition; rely on gtest_main.

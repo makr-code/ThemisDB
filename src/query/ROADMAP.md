@@ -21,9 +21,10 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] LLM integration (LLM INFER, LLM RAG, LLM EMBED)
 - [x] Process mining and ethics functions
 - [x] JSON query support (`aql_parser_json.cpp`)
+- [x] Parallel scan for large collection full-table queries (Issue: #2432)
 
 ## In Progress 🚧
-- [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
+- [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
 - [P] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (PR: #2075)
 - [P] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
@@ -31,11 +32,11 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Short-term (Next 3-6 months)
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
-- [P] Per-query resource limits (max rows, max memory, timeout) (Issue: #2430)
+- [x] Per-query resource limits (max rows, max memory, timeout) (Issue: #1967)
+  - Implemented in `include/query/query_resource_limits.h` (`QueryResourceLimits`, `QueryResourceGuard`) and `src/query/aql_runner.cpp` (`executeAqlWithLimits`)
+  - Enforces max rows, max memory bytes (serialised JSON proxy), and wall-clock timeout per query
+  - Tests: `tests/test_query_resource_limits.cpp` (guard unit tests + integration tests)
 - [!] Query cancellation via request ID (Issue: #2431)
-- [x] Parallel scan for large collection full-table queries (Issue: #2432)
-  - Implemented in `include/query/parallel_scan.h` + `src/query/query_engine.cpp` (morsel-driven TBB path in `fullScanAndFilter_`)
-  - Tests: `tests/test_parallel_scan.cpp` (sequential path, parallel path, range predicates, empty table)
 - [I] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)
@@ -63,13 +64,13 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Process mining and ethics functions
 
 ### Phase 2: SQL Compatibility & Plan Visualization (Status: In Progress 🚧)
-- [~] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
+- [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
 - [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
 - [x] Incremental view maintenance for materialized CTEs
 
 ### Phase 3: Resource Management & UDF (Status: Planned 📋)
 - [x] Query result type annotations for client SDK code generation
-- [P] Per-query resource limits (max rows, max memory, timeout)
+- [x] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [x] Parallel scan for large collection full-table queries
 - [P] User-defined functions (UDF) registration API
@@ -91,7 +92,14 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ## Known Issues & Limitations
 - AQLParser instances are NOT thread-safe; create per-thread or protect with a mutex.
-- SQL dialect support is not yet implemented; see `FUTURE_ENHANCEMENTS.md`.
+- SQL dialect support covers SELECT/INSERT/UPDATE/DELETE (basic syntax only); the following
+  SQL features are **not** currently supported by the transpiler and will return a parse error:
+  - JOINs (INNER JOIN, LEFT JOIN, etc.)
+  - Subqueries in SELECT / WHERE
+  - GROUP BY / HAVING
+  - Window functions (OVER, PARTITION BY)
+  - DDL statements (CREATE TABLE, ALTER TABLE, DROP TABLE, TRUNCATE)
+  - MERGE / UPSERT
 - Distributed federation cost estimation is approximate.
 
 ## Breaking Changes

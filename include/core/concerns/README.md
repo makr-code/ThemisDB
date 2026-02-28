@@ -40,6 +40,34 @@ void myFunction(ITracer& tracer) {
 }
 ```
 
+### W3CTraceContextPropagator
+Stateless W3C Trace Context Level 1 propagator that bridges HTTP headers to/from the
+`IContext`/`ContextPropagation` key-value store.  Use it at HTTP request boundaries
+to populate `kTraceId` / `kSpanId` automatically in the thread-local context.
+
+**Usage:**
+```cpp
+#include "core/concerns/w3c_trace_context_propagator.h"
+#include "core/concerns/context_propagation.h"
+
+// Inbound HTTP request handler
+void onRequest(const HttpRequest& req) {
+    // Extract traceparent/tracestate into a new IContext
+    auto ctx = W3CTraceContextPropagator::extract(req.headers);
+    ContextScope scope(ctx);     // install as current thread context
+
+    // All downstream code can now call ContextPropagation::current()
+    // ctx->get(context_keys::kTraceId) → "4bf92f3577b34da6a3ce929d0e0e4736"
+    // ctx->get(context_keys::kSpanId)  → "00f067aa0ba902b7"
+}
+
+// Outbound HTTP call to downstream service
+void callDownstream(const IContext& ctx, HttpRequest& out_req) {
+    W3CTraceContextPropagator::inject(ctx, out_req.headers);
+    // out_req.headers["traceparent"] == "00-<trace_id>-<span_id>-01"
+}
+```
+
 ### IMetrics
 Abstract metrics interface for counters, gauges, and histograms.
 
@@ -454,6 +482,8 @@ from destructors, signal handlers, and other non-throwing contexts:
 - `include/core/concerns/i_context.h` - `IContext` interface, `SimpleContext` impl, and `context_keys::k*` constants
 - `include/core/concerns/i_async_logger.h` - `IAsyncLogger` interface and `NoOpAsyncLogger` impl
 - `include/core/concerns/i_async_cache.h` - `IAsyncCache` interface and `NoOpAsyncCache` impl
+- `include/core/concerns/w3c_trace_context_propagator.h` - `W3CTraceContextPropagator` for W3C TraceContext extract/inject
+- `include/core/concerns/context_propagation.h` - `ContextPropagation` thread-local store and `ContextScope` RAII guard
 
 ### Implementations
 - `include/core/concerns/spdlog_logger_adapter.h` - Spdlog adapter
@@ -468,6 +498,8 @@ from destructors, signal handlers, and other non-throwing contexts:
 
 ### Tests
 - `tests/test_concerns_context.cpp` - Comprehensive test suite
+- `tests/test_context_propagation.cpp` - ContextPropagation / ContextScope tests
+- `tests/test_w3c_trace_context_propagator.cpp` - W3CTraceContextPropagator tests (23 cases)
 
 ### Examples
 - `examples/concerns_example.cpp` - End-to-end demonstration of all interfaces: `ILogger`, `ITracer`, `IMetrics`, `ICache`, `IContext`, `MetricLabels`, lifecycle hooks, health/readiness probes

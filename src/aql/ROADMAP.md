@@ -22,11 +22,11 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] AQL function documentation auto-generation from C++ headers (Issue: #1362)
 - [x] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
 - [x] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
+- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## In Progress 🚧
 - [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
 - [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
-- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ## Planned Features 📋
 ### Short-term (Next 3-6 months)
@@ -47,21 +47,14 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
 
 ### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
-- [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
-- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
-- [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 
 ### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
-- [x] AQL syntax highlighting and error annotation in LLM responses (Issue: #1353)
-- [x] Confidence scoring for generated AQL queries (`LLMAQLHandler::translateNLToAQLWithConfidence`) (Issue: #1357)
-- [x] Schema-aware query generation using live collection metadata (Issue: #1361)
 - [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
-- [x] Multi-turn conversation context for iterative query refinement (Issue: #1358)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler)
 - [x] Integration tests (handler ↔ highlighter path covered)
-- [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; general AQL handler benchmarks tracked in Issue: #1523)
+- [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
 - [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`)  
 - [x] Documentation complete (README.md and ROADMAP.md updated)
 - [x] API stability guaranteed (Issue: #1524)

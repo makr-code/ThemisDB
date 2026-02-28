@@ -30,6 +30,7 @@
 #include "query/aql_translator.h"
 #include "query/result_type_annotation.h"
 #include "query/query_resource_limits.h"
+#include "query/sql_parser.h"
 #include "query_engine.h"
 #include "utils/expected.h"
 
@@ -48,6 +49,22 @@ namespace themis {
 // Returns Result<nlohmann::json> for unified error handling.
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
 Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine);
+
+/// Execute a SQL query (SELECT / INSERT INTO / UPDATE … SET / DELETE FROM) via
+/// the SQL dialect compatibility layer.
+///
+/// The SQL statement is first parsed by SQLParser into an AST, then transpiled
+/// to AQL by SQLToAQLTranspiler, and finally executed through the same pipeline
+/// as executeAql().  The returned JSON envelope has the same shape as executeAql().
+///
+/// Supported statements: SELECT, INSERT INTO, UPDATE … SET, DELETE FROM.
+///
+/// @param sql    The SQL statement to execute.
+/// @param engine The QueryEngine instance to execute against.
+/// @return       Result<nlohmann::json> on success, or an Err with
+///               ERR_QUERY_PARSE_FAILED when the SQL cannot be parsed /
+///               transpiled.
+Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine);
 
 /// Execute AQL with per-query resource limits (max rows, max memory, timeout).
 ///

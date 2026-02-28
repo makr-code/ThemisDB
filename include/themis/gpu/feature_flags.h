@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     155                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -50,6 +50,9 @@ namespace gpu {
  * | LOAD_BALANCER    |    no     |    yes     |    yes      |
  * | KERNEL_VALIDATOR |    yes    |    yes     |    yes      |
  * | ALERTS           |    yes    |    yes     |    yes      |
+ * | WASM_SANDBOX     |    no     |    yes     |    yes      |
+ * | MIG_MANAGER      |    no     |    yes     |    yes      |
+ * | VULKAN_BACKEND   |    yes    |    yes     |    yes      |
  *
  * Thread safety: all public methods are protected by an internal mutex.
  */
@@ -69,6 +72,9 @@ public:
         LOAD_BALANCER,     ///< Load balancing across devices (GPULoadBalancer)
         KERNEL_VALIDATOR,  ///< Kernel checksum/signature validation
         ALERTS,            ///< Threshold-based alert manager (GPUAlertManager)
+        WASM_SANDBOX,      ///< WASM-based kernel sandbox for untrusted third-party kernels
+        MIG_MANAGER,       ///< MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series
+        VULKAN_BACKEND,    ///< Vulkan compute backend for cross-vendor GPU support
     };
 
     // -----------------------------------------------------------------------

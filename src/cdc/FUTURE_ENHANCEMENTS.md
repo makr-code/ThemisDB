@@ -15,7 +15,7 @@ This document covers implementation-specific future enhancements for the CDC (Ch
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `Changefeed::subscribe(filter, callback)` | SSE handler, planned WebSocket handler, planned Kafka producer | Filter by collection, key prefix, and event type |
+| `Changefeed::subscribe(filter, callback)` | SSE handler, WebSocket handler (`WsTransport`), Kafka producer (`KafkaCDCProducer`) | Filter by collection, key prefix, and event type |
 | `Changefeed::ChangeEvent::toJson()` | All transports (SSE, WebSocket, Kafka) | Serialization format is the external contract |
 | `CDCAdmin::purgeAll()` / `purgeByTenant()` | Admin REST API, planned admin CLI | Must be safe to call while subscriptions are active |
 | `TenantBufferManager` | Multi-tenant CDC paths | Per-tenant buffer size quota must be enforced |
@@ -312,6 +312,7 @@ For enterprise deployments that use Kafka as a message bus, add a CDC-to-Kafka b
 
 **Implementation Notes:**
 - `[x]` Create `kafka_cdc_producer.cpp`; implement `KafkaCDCProducer` class (`include/cdc/kafka_cdc_producer.h`, `src/cdc/kafka_cdc_producer.cpp`).
+- `[x]` Define `ICDCTransport` abstract interface (`include/cdc/icdc_transport.h`); `KafkaCDCProducer` inherits from it enabling polymorphic transport use.
 - `[x]` Topic routing: one topic per collection (e.g., `themis.cdc.orders`) or a single multiplexed topic; configurable via `config/data_management/cdc_kafka.yaml`.
 - `[x]` Message key: `ChangeEvent::key`; message value: `ChangeEvent::toJson()` serialized to UTF-8 bytes.
 - `[x]` Use `librdkafka` producer with `acks=all` and `enable.idempotence=true` for exactly-once semantics where broker supports it.

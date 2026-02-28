@@ -10,8 +10,8 @@ The Chimera module provides the core implementation for the **CHIMERA** (Compreh
 |-----------------|------|
 | `adapter_factory.cpp` | Thread-safe singleton adapter registry |
 | `themisdb_adapter.cpp` | ThemisDB reference implementation adapter |
-| `adapters/postgres_adapter.cpp` | PostgreSQL adapter (planned) |
-| `benchmark_harness.cpp` | Benchmark execution and result collection |
+| `mongodb_adapter.cpp` | MongoDB adapter (document + Atlas Vector Search) |
+| `postgresql_adapter.cpp` | PostgreSQL adapter (relational + pgvector) |
 
 ## Scope
 
@@ -442,6 +442,103 @@ public:
 };
 ```
 
+### mongodb_adapter.cpp
+**Location:** `/src/chimera/mongodb_adapter.cpp`
+
+MongoDB adapter implementing document storage and Atlas Vector Search for the CHIMERA Suite.
+
+**Key Features:**
+- **Document CRUD**: Insert, batch-insert, find (with field filters), update operations
+- **Atlas Vector Search**: k-NN cosine-similarity search (`$vectorSearch` pattern), metadata filtering
+- **Transaction Support**: Multi-document ACID transactions (MongoDB 4.0+ style)
+- **Security**: Automatic credential masking (`user:pass@` → `***:***@`) in stored strings
+- **Simulation Mode**: In-process storage backed by `std::unordered_map` – no live server required for testing
+- **Auto-Registration**: Registers itself as `"MongoDB"` in `AdapterFactory` at static-init time
+
+**Supported Capabilities:**
+`DOCUMENT_STORE`, `VECTOR_SEARCH`, `FULL_TEXT_SEARCH`, `TRANSACTIONS`, `BATCH_OPERATIONS`, `SECONDARY_INDEXES`
+
+**Unsupported (returns `NOT_IMPLEMENTED`):**
+`RELATIONAL_QUERIES`, `GRAPH_TRAVERSAL`
+
+**Connection Strings:**
+```
+mongodb://[user:pass@]host[:port][/dbname]
+mongodb+srv://[user:pass@]cluster.mongodb.net[/dbname]
+```
+
+**Usage Example:**
+```cpp
+#include "chimera/mongodb_adapter.hpp"
+
+// Adapter auto-registers as "MongoDB" – factory is ready immediately.
+auto adapter = chimera::AdapterFactory::create("MongoDB");
+adapter->connect("mongodb://localhost:27017/mydb");
+
+// Document operations
+chimera::Document doc;
+doc.id = "user_001";
+doc.fields["name"] = chimera::Scalar{std::string{"Alice"}};
+adapter->insert_document("users", doc);
+
+auto result = adapter->find_documents("users",
+    {{"name", chimera::Scalar{std::string{"Alice"}}}});
+
+// Atlas Vector Search
+chimera::Vector query;
+query.data = {0.9f, 0.1f, 0.0f};
+auto hits = adapter->search_vectors("embeddings", query, /*k=*/10);
+```
+
+---
+
+### postgresql_adapter.cpp
+**Location:** `/src/chimera/postgresql_adapter.cpp`
+
+PostgreSQL + pgvector adapter for relational workloads and optional vector similarity search.
+
+**Key Features:**
+- **Relational CRUD**: SQL-style row insert, batch insert, query execution
+- **pgvector**: L2 / cosine-similarity vector search via pgvector extension pattern
+- **Document Store**: JSONB-style document storage over relational rows
+- **Transaction Support**: Multi-statement ACID transactions
+- **Security**: Automatic credential masking in stored connection strings
+- **Simulation Mode**: In-process storage – no live PostgreSQL server required for testing
+- **Auto-Registration**: Registers itself as `"PostgreSQL"` in `AdapterFactory` at static-init time
+
+**Supported Capabilities:**
+`RELATIONAL_QUERIES`, `VECTOR_SEARCH`, `DOCUMENT_STORE`, `FULL_TEXT_SEARCH`, `TRANSACTIONS`, `BATCH_OPERATIONS`, `SECONDARY_INDEXES`
+
+**Unsupported (returns `NOT_IMPLEMENTED`):**
+`GRAPH_TRAVERSAL`
+
+**Connection Strings:**
+```
+postgresql://[user:pass@]host[:port][/dbname]
+postgres://[user:pass@]host[:port][/dbname]
+```
+
+**Usage Example:**
+```cpp
+#include "chimera/postgresql_adapter.hpp"
+
+auto adapter = chimera::AdapterFactory::create("PostgreSQL");
+adapter->connect("postgresql://localhost:5432/mydb");
+
+// Relational row insert
+chimera::RelationalRow row;
+row.columns["name"]  = chimera::Scalar{std::string{"Alice"}};
+row.columns["score"] = chimera::Scalar{int64_t{95}};
+adapter->insert_row("users", row);
+
+// pgvector similarity search
+chimera::Vector query;
+query.data = {0.1f, 0.8f, 0.5f};
+auto hits = adapter->search_vectors("embeddings", query, /*k=*/5);
+```
+
+---
+
 ## Architecture
 
 ### Component Interaction
@@ -449,15 +546,13 @@ public:
 ```
 Benchmark Suite
       ↓
-AdapterFactory::create("ThemisDB")
+AdapterFactory::create("ThemisDB" or "MongoDB" or "PostgreSQL")
       ↓
-ThemisDBAdapter instance
+Concrete adapter instance (ThemisDBAdapter / MongoDBAdapter / PostgreSQLAdapter)
       ↓
-connect() → ThemisDB Client
+connect() → target database (or in-process simulation)
       ↓
-execute_query() → AQL Execution
-insert_vector() → Vector Index
-insert_node() → Graph Storage
+execute_query() / insert_document() / search_vectors() / …
       ↓
 Result<T> → Benchmark Metrics
 ```
@@ -475,6 +570,21 @@ IDatabaseAdapter (abstract interface)
 
 ThemisDBAdapter (concrete implementation)
   └─ implements all 6 interfaces
+
+MongoDBAdapter (concrete implementation)
+  ├─ implements IVectorAdapter (Atlas Vector Search)
+  ├─ implements IDocumentAdapter
+  ├─ implements ITransactionAdapter
+  ├─ implements ISystemInfoAdapter
+  └─ returns NOT_IMPLEMENTED for IRelationalAdapter / IGraphAdapter
+
+PostgreSQLAdapter (concrete implementation)
+  ├─ implements IRelationalAdapter (primary)
+  ├─ implements IVectorAdapter (pgvector)
+  ├─ implements IDocumentAdapter (JSONB)
+  ├─ implements ITransactionAdapter
+  ├─ implements ISystemInfoAdapter
+  └─ returns NOT_IMPLEMENTED for IGraphAdapter
 ```
 
 ### Factory Registration Flow
@@ -482,12 +592,12 @@ ThemisDBAdapter (concrete implementation)
 ```
 Static Initialization (before main())
       ↓
-register_adapter("ThemisDB", creator_lambda)
+register_adapter("ThemisDB" or "MongoDB" or "PostgreSQL", creator_lambda)
       ↓
 Insert into static registry map
       ↓
 Runtime Usage:
-create("ThemisDB") → lookup registry → invoke creator → return adapter
+create("MongoDB") → lookup registry → invoke creator → return MongoDBAdapter
 ```
 
 ## Integration Points
@@ -709,28 +819,29 @@ target_link_libraries(themisdb_chimera
 
 ## Status
 
-**Current Status:** Reference Implementation (Stub)
+**Current Status:** Alpha — Vendor adapters complete in simulation mode (no live server required)
 
 ✅ **Complete:**
-- Factory pattern implementation
-- Interface implementation (all methods)
+- Factory pattern implementation with auto-registration (static init)
+- Interface implementation (all methods across all adapters)
 - Error handling infrastructure
 - Capability reporting
 - Thread-safe registry
+- MongoDB adapter: document CRUD + Atlas Vector Search (cosine similarity)
+- MongoDB adapter: transaction lifecycle + security (credential masking)
+- PostgreSQL adapter: relational CRUD + pgvector similarity search
+- PostgreSQL adapter: JSONB document store + transaction lifecycle
+- ThemisDB reference adapter (stub demonstrating all interfaces)
 
-⚠️ **Incomplete (Stub):**
-- ThemisDB client integration
-- Actual query execution
-- Vector index operations
-- Graph algorithms
-- Transaction management
+⚠️ **Simulation Mode (no live server required):**
+- MongoDB and PostgreSQL adapters use in-process `std::unordered_map` storage for tests
+- Production deployments require linking `libmongocxx` / `libpqxx` and replacing simulation blocks
 
 🔮 **Future Work:**
-- Production ThemisDB integration
+- Weaviate, Qdrant, Neo4j vendor adapters
+- Production driver integration (libmongocxx, libpqxx)
 - Connection pooling
 - Retry logic and error recovery
-- Performance optimizations
-- Comprehensive testing
 
 ## Related Documentation
 

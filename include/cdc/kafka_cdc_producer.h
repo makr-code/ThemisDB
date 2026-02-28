@@ -27,6 +27,8 @@
 
 #include "cdc/changefeed.h"
 #include "cdc/cdc_metrics.h"
+#include "cdc/debezium_format.h"
+#include "cdc/icdc_transport.h"
 
 #include <atomic>
 #include <chrono>
@@ -97,6 +99,14 @@ struct KafkaProducerConfig {
 
     /// Flush timeout when stopping the producer (milliseconds).
     uint32_t flush_timeout_ms{10000};
+
+    /// When true, events are serialized as Debezium-compatible envelopes
+    /// instead of the native ThemisDB JSON format.  Set this when publishing
+    /// to topics consumed by Kafka Connect transforms or Debezium Server sinks.
+    bool use_debezium_format{false};
+
+    /// Debezium formatter configuration (used only when use_debezium_format is true).
+    DebeziumFormatter::Config debezium_config{};
 };
 
 // ── Statistics ────────────────────────────────────────────────────────────────
@@ -130,7 +140,7 @@ struct KafkaProducerStats {
  * Thread-safety: start()/stop() must not be called concurrently.  getStats()
  * is safe to call from any thread.
  */
-class KafkaCDCProducer {
+class KafkaCDCProducer : public ICDCTransport {
 public:
     /**
      * @brief Construct the producer.
@@ -155,13 +165,13 @@ public:
      *        thread.  No-op if already started.
      * @return true on success, false if librdkafka initialisation failed.
      */
-    bool start();
+    bool start() override;
 
     /**
      * @brief Flush pending messages, stop the background thread, and destroy
      *        the librdkafka producer.  No-op if already stopped.
      */
-    void stop();
+    void stop() override;
 
     // ── Manual publish ─────────────────────────────────────────────────────
 
@@ -174,7 +184,7 @@ public:
      * @param event  Event to publish.
      * @return true if the message was enqueued, false on error.
      */
-    bool publish(const Changefeed::ChangeEvent& event);
+    bool publish(const Changefeed::ChangeEvent& event) override;
 
     // ── Observability ──────────────────────────────────────────────────────
 
@@ -238,7 +248,7 @@ private:
  * All methods are inline no-ops so the rest of the codebase can reference
  * KafkaCDCProducer without introducing a Kafka dependency.
  */
-class KafkaCDCProducer {
+class KafkaCDCProducer : public ICDCTransport {
 public:
     explicit KafkaCDCProducer(Changefeed* /*changefeed*/,
                                KafkaProducerConfig /*config*/ = {},
@@ -248,10 +258,10 @@ public:
     KafkaCDCProducer(const KafkaCDCProducer&) = delete;
     KafkaCDCProducer& operator=(const KafkaCDCProducer&) = delete;
 
-    bool start() { return false; }  ///< No-op; returns false (Kafka not available).
-    void stop()  {}
+    bool start() override { return false; }  ///< No-op; returns false (Kafka not available).
+    void stop()  override {}
 
-    bool publish(const Changefeed::ChangeEvent& /*event*/) { return false; }
+    bool publish(const Changefeed::ChangeEvent& /*event*/) override { return false; }
 
     KafkaProducerStats getStats() const { return {}; }
 };

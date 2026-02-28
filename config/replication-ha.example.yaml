@@ -125,6 +125,29 @@ replication:
 # - degraded_lag_threshold_ms: 10000 (higher for cross-DC)
 # - Datacenter-aware failover
 
+# Example 4: 2-Node + Witness (minimal HA, cost-efficient)
+# --------------------------------------------------------
+# node-01: Primary (LEADER, stores data)
+# node-02: Standby (FOLLOWER, stores data, voting)
+# witness-01: Witness (WITNESS, vote-only, stores NO data)
+#
+# The witness contributes to quorum (3 voting members, quorum = ⌊3/2⌋ + 1 = 2) so the
+# cluster survives the loss of any single node — without provisioning a third
+# full data replica.
+#
+# Configuration:
+# - mode: "semi_sync"
+# - min_sync_replicas: 1   (wait only for the data follower)
+# - min_quorum_for_failover: 2
+#
+# Runtime API (add witness node after initialization):
+#   replication_manager.addWitnessNode("witness-01", "10.0.0.3:8765");
+#
+# Note on seed_nodes: A witness may optionally appear in seed_nodes for
+# cluster-membership discovery (heartbeat/election RPCs). ThemisDB never
+# creates a WAL data stream to a WITNESS node regardless — the data/vote
+# distinction is enforced by the node role, not by seed_nodes membership.
+
 # ===================================================================
 # MONITORING AND OBSERVABILITY
 # ===================================================================

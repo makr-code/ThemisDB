@@ -20,29 +20,30 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Audit logging for all authentication events (`auth/auth_audit_logger.cpp`)
 - [x] WebAuthn/FIDO2 hardware token support (`auth/webauthn_authenticator.cpp`)
 - [x] Configurable password policy enforcement (`auth/password_policy.cpp`)
-
-## In Progress 🚧
 - [x] OAuth 2.0 device authorization flow (Target: Q2 2026)
 - [x] SAML 2.0 identity provider integration (Target: Q2 2026)
 - [x] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
 - [x] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
 - [x] API key authentication (static key + secret) (Issue: #1544)
 - [x] Session management and revocation endpoint (Issue: #1983)
 - [x] WebAuthn/FIDO2 hardware token support (Issue: #1533)
 - [x] Audit logging for all authentication events (Issue: #1534)
 - [x] Configurable password policy enforcement (Issue: #2013)
-
-### Long-term (6-12 months)
 - [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [x] LDAP/Active Directory direct bind authentication (Issue: #1537)
-- [P] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 - [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [x] Federated identity across multiple realms (Issue: #1540)
 - [x] Zero-trust access model with continuous verification (Issue: #1541)
+
+## In Progress 🚧
+*(none currently in progress)*
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+
+### Long-term (6-12 months)
+- [P] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
 
 ## Implementation Phases
 
@@ -80,10 +81,9 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
 
 ## Known Issues & Limitations
-- ABAC (attribute-based) access control is limited to role-based rules currently
-- WebAuthn support is planned but not started
-- LDAP direct bind requires OpenLDAP (libldap) on Linux or WinLDAP on Windows; build with -DTHEMIS_ENABLE_LDAP=ON (default)
+- Fine-grained ABAC with OPA/Rego policy expressions is not yet implemented; the current `PolicyEngine` evaluates structured JSON-based policies but does not integrate an OPA runtime (Issue: #1538, Target: Q3 2026).
+- LDAP direct bind requires OpenLDAP (libldap) on Linux or WinLDAP on Windows; build with -DTHEMIS_ENABLE_LDAP=ON (default).
 
 ## Breaking Changes
-- ABAC engine introduces new policy evaluation APIs (additive to existing RBAC, backward-compatible)
-- mTLS support will require configuration changes at the TLS layer
+- ABAC engine (`PolicyEngine`) API is additive to existing RBAC and backward-compatible.
+- mTLS (`MtlsAuthenticator`) requires TLS layer configuration changes; see auth/mtls_authenticator.h for details.

@@ -13,9 +13,9 @@
 - [x] JSON ingestion
 - [x] Content compression using zstd
 - [x] Content type detection for routing to specialized processors
+- [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 
 ## In Progress 🚧
-- [I] PDF text extraction with layout preservation (Target: Q2 2026) (Issue: #1678)
 - [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
 - [P] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
 
@@ -24,9 +24,9 @@
 ### Short-term (Next 3-6 months)
 - [I] PDF and Office document text extraction (pdfmium / LibreOffice headless) (Issue: #1681)
 - [P] HTML content extraction with boilerplate removal (Issue: #1682)
-- [I] Markdown processing and frontmatter parsing (Issue: #1683)
+- [P] Markdown processing and frontmatter parsing (Issue: #1683)
 - [I] Streaming ingestion for large files (chunked processing) (Issue: #1684)
-- [I] Content deduplication via perceptual hashing (Issue: #1685)
+- [x] Content deduplication via perceptual hashing (Issue: #1685)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
 ### Long-term (6-12 months)
@@ -34,7 +34,6 @@
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [I] OCR for image-embedded text (Tesseract integration) (Issue: #1689)
 - [I] Multi-language text detection and routing (Issue: #1690)
-- [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 - [I] Content versioning and delta storage (Issue: #1692)
 
 ## Implementation Phases
@@ -56,7 +55,7 @@
 ### Phase 3: Advanced Format Support (Status: In Progress)
 - [x] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
 - [x] Add Office document text extraction via libzip+pugixml for OOXML and ODF formats (`content/office_processor.cpp`) (Issue: #1694)
-- [I] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
+- [~] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
 
@@ -72,7 +71,9 @@
 - Legacy Office formats (DOC/XLS/PPT via OLE/Compound Document) not fully supported; OOXML (DOCX/XLSX/PPTX) and ODF are handled
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
 - OCR is not yet integrated
-- Large file streaming ingestion may buffer entire file in memory
+- Large file streaming ingestion:
+  - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size
+  - Non-streaming types (image, PDF, binary, etc.): buffered up to `max_buffered_bytes` (default 256 MB) before delegating to `ingestRawBlob`; files exceeding the limit are rejected
 
 ## Breaking Changes
 - Processor plugin API may be refined when the plugin-based pipeline is introduced

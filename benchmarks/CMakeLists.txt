@@ -1388,3 +1388,56 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_auth_token_validation.cpp")
 
     message(STATUS "  Auth benchmarks: JWT RS256 (cached JWKS), JTI blacklist, TOTP, API token lookup")
 endif()
+
+# ============================================================================
+# API Endpoint Performance Benchmarks (Issue #1511)
+# Measures per-operation latency for GraphQL parsing (cached/uncached),
+# GraphQL execution with mock resolvers, correlation ID UUID v4 generation,
+# JSON response serialisation, HTTP message construction, and end-to-end
+# REST endpoint roundtrips via an in-process HttpServer.
+#
+# Targets (src/api/FUTURE_ENHANCEMENTS.md):
+#   - GraphQL parse+execute (10-field query): < 2 ms p99
+#   - Correlation ID generation overhead:     < 10 µs/req
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
+    message(STATUS "Adding API endpoint performance benchmarks")
+
+    add_executable(bench_api_endpoints
+        bench_api_endpoints.cpp
+    )
+
+    target_link_libraries(bench_api_endpoints PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Boost::asio
+        Boost::beast
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_api_endpoints PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_api_endpoints PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_api_endpoints
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  API benchmarks: GraphQL parse/execute, correlation ID UUID, JSON serialisation, HTTP endpoint roundtrips")
+endif()

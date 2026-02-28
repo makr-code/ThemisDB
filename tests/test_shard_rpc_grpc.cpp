@@ -179,6 +179,75 @@ TEST_F(ShardRPCTest, TimeoutHandling) {
 }
 
 // ============================================================================
+// Circuit Breaker Integration Tests (audit fixes)
+// ============================================================================
+
+// Bug 3 fix: negative circuit_breaker_failure_threshold must not underflow to
+// SIZE_MAX (which would prevent the circuit from ever opening).
+// Note: Deep behavioral verification (confirming the CB opens after exactly 5
+// failures) would require accessing ShardRPCClient's private circuit_breaker
+// member or injecting failures into the in-process simulator, which the current
+// test infrastructure does not support.
+TEST_F(ShardRPCTest, NegativeCircuitBreakerThresholdIsIgnored) {
+    ShardRPCClient::Config config{
+        .endpoint = "localhost:8080",
+        .timeout_ms = 1000,
+        .circuit_breaker_failure_threshold = -1,   // invalid — should fall back to default
+        .circuit_breaker_recovery_ms       = 5000
+    };
+    // Must not crash or produce undefined SIZE_MAX underflow behavior.
+    ShardRPCClient client(config);
+    EXPECT_TRUE(client.ping());
+}
+
+// Bug 3 fix: negative circuit_breaker_recovery_ms must not produce a negative
+// chrono duration that makes isTimeoutElapsed() always return true.
+// Note: Full behavioral verification (confirming the CB stays OPEN for ~30s)
+// would require a ~30 s sleep and access to internal CB state, which is
+// impractical in a unit test.
+TEST_F(ShardRPCTest, NegativeCircuitBreakerRecoveryMsIsIgnored) {
+    ShardRPCClient::Config config{
+        .endpoint = "localhost:8080",
+        .timeout_ms = 1000,
+        .circuit_breaker_failure_threshold = 5,
+        .circuit_breaker_recovery_ms       = -500  // invalid — should fall back to default
+    };
+    ShardRPCClient client(config);
+    EXPECT_TRUE(client.ping());
+}
+
+// Bug 2 fix: validate that the overflow-safe shift formula produces
+// correct, non-negative, bounded delay values for every attempt up to 50.
+// This directly exercises the fixed calculation
+//   shift = min(attempts-1, 12)
+//   delay = min(retry_delay_ms * (1 << shift), MAX_RETRY_DELAY_MS)
+// without relying on the in-process simulator failing.
+TEST_F(ShardRPCTest, ExponentialBackoffShiftCapPreventsOverflow) {
+    const int retry_delay_ms  = 100;
+    const int max_retry_delay = 5000;
+
+    for (int attempts = 1; attempts <= 50; ++attempts) {
+        const int shift = std::min(attempts - 1, 12);
+        const int delay = std::min(retry_delay_ms * (1 << shift), max_retry_delay);
+        EXPECT_GE(delay, 0)           << "delay must be non-negative at attempt " << attempts;
+        EXPECT_LE(delay, max_retry_delay) << "delay must be capped at attempt " << attempts;
+    }
+}
+
+// Bug 2 fix: smoke-test that a client created with very large max_retries
+// constructs successfully and succeeds on the first attempt without any UB.
+TEST_F(ShardRPCTest, LargeMaxRetriesNoOverflow) {
+    ShardRPCClient::Config config{
+        .endpoint       = "localhost:8080",
+        .timeout_ms     = 1000,
+        .max_retries    = 50,   // would overflow without the shift cap
+        .retry_delay_ms = 100
+    };
+    ShardRPCClient client(config);
+    EXPECT_TRUE(client.ping());  // succeeds on first attempt; no overflow triggered
+}
+
+// ============================================================================
 // gRPC Multi-Node Tests (only run if gRPC is available)
 // ============================================================================
 

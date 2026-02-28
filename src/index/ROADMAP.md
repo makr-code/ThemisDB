@@ -19,10 +19,10 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] IndexManager with dependency injection (breaks circular deps)
 - [x] RocksDB persistence for vector indexes with WriteBatch atomicity
 - [x] Audit logging for vector operations
-
-## In Progress 🚧
 - [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
 - [x] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
+
+## In Progress 🚧
 - [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## Planned Features 📋
@@ -36,9 +36,9 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ### Long-term (6-12 months)
 - [~] Distributed vector index across shards (Issue: #1879)
-- [I] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
+- [P] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
 - [P] Multi-tenancy index isolation (Issue: #1872)
-- [!] Cold/warm tier index migration (Issue: #2407)
+- [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
 - [I] Index compression using sparse encoding (Issue: #1874)
 
 ## Implementation Phases
@@ -64,11 +64,11 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ### Phase 3: Learned Structures & GPU Build (Status: Planned 📋)
 - [P] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
-- [ ] Learned index structures (ML-based B-tree replacement)
+- [P] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
 - [~] Distributed vector index across shards
 - [ ] Partial / filtered indexes on secondary index manager
-- [ ] Cold/warm tier index migration
+- [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
 - [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)
 
 ## Production Readiness Checklist

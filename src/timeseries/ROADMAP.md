@@ -14,10 +14,10 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] High-frequency data ingestion
 - [x] Configurable compression strategies
 - [x] RocksDB-backed persistence
+- [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
 
 ## In Progress 🚧
 - [?] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
-- [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
 - [?] Distributed time series partitioning across shards (Target: Q3 2026)
 
 ## Planned Features 📋

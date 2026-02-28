@@ -75,8 +75,12 @@ using json = nlohmann::json;
  * - GET  /api/v1/llm/feedback/{id} - Retrieve specific feedback
  * - GET  /api/v1/llm/feedback - List feedback with filters
  * - GET  /api/v1/llm/feedback/stats - Get feedback statistics
+ * - POST /v1/chat/completions - OpenAI-compatible chat completions passthrough
+ * - GET  /v1/models - OpenAI-compatible model list
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
+ * Exception: /v1/chat/completions and /v1/models accept the API key in the
+ * Authorization: Bearer header for drop-in OpenAI SDK compatibility.
  */
 class LLMApiHandler {
 public:
@@ -198,6 +202,13 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleFeedbackStats(
+        const http::request<http::string_body>& req);
+
+    // OpenAI-compatible endpoints
+    http::response<http::string_body> handleOpenAIChatCompletions(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleOpenAIListModels(
         const http::request<http::string_body>& req);
     
     // Helper methods

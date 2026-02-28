@@ -12,8 +12,9 @@ The Change Data Capture (CDC) module intercepts mutations written to ThemisDB an
 them to subscribers in real time. Consumers use CDC to drive downstream analytics pipelines,
 cache invalidation, audit trails, replication, and event-driven architectures.
 
-The primary delivery mechanism today is Server-Sent Events (SSE); WebSocket transport and
-Kafka integration are on the roadmap.
+The primary delivery mechanisms are Server-Sent Events (SSE), WebSocket, and Apache Kafka
+(via `KafkaCDCProducer`, built with `THEMIS_ENABLE_KAFKA`).  All transport backends implement
+the `ICDCTransport` abstract interface (`include/cdc/icdc_transport.h`).
 
 ---
 
@@ -43,6 +44,8 @@ Kafka integration are on the roadmap.
 | `tenant_buffer_manager.cpp` | Manages per-tenant buffer lifecycle and quota enforcement |
 | `cdc_admin.cpp` | Admin API: list/create/delete subscriptions, flush buffers |
 | `cdc_materialized_view.cpp` | CDC-driven incremental materialized view maintenance: bridges `Changefeed::ChangeEvent` to `analytics::IncrementalViewManager` |
+| `kafka_cdc_producer.cpp` | Kafka transport backend: polls changefeed and publishes events to Apache Kafka topics via librdkafka (opt-in, `THEMIS_ENABLE_KAFKA`) |
+| `icdc_transport.h` | Abstract transport interface (`ICDCTransport`) implemented by all CDC delivery backends |
 
 ### 3.2 Component Diagram
 
@@ -182,9 +185,9 @@ Transition seamlessly to live feed at log tail
 
 ## 11. Known Limitations & Future Work
 
-- WebSocket transport is in progress; currently only SSE is supported.
-- Kafka/message broker integration is planned but not implemented.
-- Consumer offset tracking (durable cursor persistence per consumer) is planned.
+- WebSocket transport is implemented (`cdc_ws_handler.cpp`); HTTP server wiring is a follow-up item.
+- Kafka transport (`kafka_cdc_producer.cpp`) is implemented; requires `THEMIS_ENABLE_KAFKA` build flag and a librdkafka installation.
+- Consumer offset tracking (durable cursor persistence per consumer) is available via `ConsumerGroupManager`.
 - Per-subscription delivery guarantees are at-least-once; exactly-once requires consumer
   idempotency.
 

@@ -176,6 +176,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/module_loader.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
+    ../src/base/wasm_plugin_sandbox.cpp
     ../src/themis/module_hash_verifier.cpp
     
     # Stubs for missing symbols
@@ -219,6 +220,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_audit_log.cpp
     ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/catalog_exporter.cpp
+    ../src/metadata/distributed_catalog.cpp
     
     # Indexes
     ../src/index/secondary_index.cpp
@@ -351,6 +353,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/stream_writer.cpp
     ../src/exporters/parquet_exporter.cpp
     ../src/exporters/streaming_exporter.cpp
+    ../src/exporters/aql_predicate_filter.cpp
+    ../src/exporters/arrow_ipc_exporter.cpp
+    ../src/exporters/incremental_exporter.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
 
@@ -423,6 +428,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/policy_version_history.cpp
+    ../src/governance/opa_adapter.cpp
     ../src/governance/data_lineage.cpp
     ../src/governance/ccpa_rules.cpp
     ../src/governance/model_governance.cpp
@@ -595,6 +601,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/async_inference_engine.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
+    ../src/llm/openai_compat_adapter.cpp
     ../src/llm/embedded_llm.cpp
     ../src/llm/ethical_guidelines_manager.cpp
     ../src/llm/docs_assistant.cpp
@@ -880,6 +887,8 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/path_constraints.cpp
+    ../src/graph/distributed_graph.cpp
     ../src/query/result_stream.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp

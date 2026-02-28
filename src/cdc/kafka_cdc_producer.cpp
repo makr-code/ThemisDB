@@ -14,6 +14,7 @@
 #ifdef THEMIS_ENABLE_KAFKA
 
 #include "cdc/kafka_cdc_producer.h"
+#include "cdc/debezium_format.h"
 #include "utils/logger.h"
 
 #include <chrono>
@@ -219,8 +220,17 @@ bool KafkaCDCProducer::publish(const Changefeed::ChangeEvent& event) {
     }
 
     // Serialise value to UTF-8.
-    const std::string payload = event.toJson().dump();
-    const std::string& key    = event.key;
+    // Use Debezium envelope format when configured; fall back to native JSON.
+    std::string payload;
+    if (config_.use_debezium_format) {
+        DebeziumFormatter fmt(config_.debezium_config);
+        // Pass an empty collection name so the formatter derives it from the
+        // event key prefix (consistent with topicForEvent() routing logic).
+        payload = fmt.toJson(event).dump();
+    } else {
+        payload = event.toJson().dump();
+    }
+    const std::string& key = event.key;
 
     RdKafka::ErrorCode rc = producer_->produce(
         topic,

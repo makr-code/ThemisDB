@@ -195,6 +195,18 @@ int launchGeoContainmentKernel(
 
 } // extern "C"
 
+/**
+ * Populate a GeoKernelDispatch table with the CUDA kernel launchers defined
+ * in this translation unit.
+ *
+ * Call this function during CUDA backend initialisation to wire the dispatch
+ * table used by the BackendRegistry.
+ */
+void populateCudaGeoDispatch(GeoKernelDispatch& dispatch) {
+    dispatch.launchDistance    = &launchGeoDistanceKernel;
+    dispatch.launchContainment = &launchGeoContainmentKernel;
+}
+
 } // namespace cuda
 } // namespace acceleration
 } // namespace themis

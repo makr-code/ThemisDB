@@ -283,6 +283,152 @@ tenant a configurable time quantum and dispatching work in round-robin order.
 
 ---
 
+### WASM-based GPU Kernel Sandbox for Untrusted Third-Party Kernels
+**Priority:** High | **Target Version:** v1.6.0 | **Status:** ✅ Infrastructure implemented
+
+Provides an isolated execution environment for GPU kernel blobs submitted by
+untrusted third parties.  Two enforcement layers prevent unauthorized or
+tampered code from reaching the GPU:
+
+1. **Whitelist + checksum gate** — delegated to `GPUKernelValidator`; only
+   registered kernel IDs with matching FNV-1a checksums are admitted.
+2. **Sandbox execution** — memory ceiling and wall-clock timeout enforced
+   before the kernel blob reaches the GPU backend.
+
+**Implemented infrastructure:**
+- ✅ `WASMKernelSandbox` (`include/themis/gpu/wasm_kernel_sandbox.h`,
+  `src/gpu/wasm_kernel_sandbox.cpp`) — feature-gated sandbox with
+  `SandboxConfig` (memory limit, timeout, host-call toggle), `ExecutionResult`,
+  `Status` enum (8 values), and `Stats`.
+- ✅ `execute(kernel_id, blob, backend)` — full validation pipeline:
+  feature-gate → empty-blob check → memory-limit check →
+  `GPUKernelValidator` whitelist/checksum → sandboxed CPU execution with
+  optional timeout via `std::async` + `wait_for`.
+- ✅ `isWASMSupported()` — returns `true` when `THEMIS_ENABLE_WASM` is
+  defined; always `false` in the current CPU simulation build.
+- ✅ `WASM_SANDBOX` feature flag added to `GPUFeatureFlags::Feature` and
+  `GPUFeatureFlags::getAll()`; enabled by default for ENTERPRISE and
+  HYPERSCALER editions only.
+- ✅ `sandboxStatusName()` free function for human-readable status strings.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_wasm_kernel_sandbox.cpp`):
+  feature-gate, empty blob, whitelist, checksum mismatch, memory limit,
+  timeout, custom backend, stats, concurrent safety.
+
+**Remaining (WASM runtime required):**
+- Add `wasm_plugin_loader.cpp` alongside `wasm_kernel_sandbox.cpp`; select
+  loader via `SandboxConfig::runtime` field (`"cpu"` | `"wasmtime"` | `"wasmedge"`).
+- Replace the `runInSandbox` CPU-simulation path with Wasmtime / WasmEdge
+  WASM module instantiation gated on `THEMIS_ENABLE_WASM`.
+- Enforce linear-memory hard ceiling at the WASM runtime level
+  (`wasmtime_store_limiter` / `WasmEdge_ConfigureCompilerSetMemoryImportExportPolicy`).
+- Wire `SandboxConfig::allow_host_calls` to the WASM import resolution
+  callback so that only explicitly allowlisted host functions are importable.
+- Add SHA-256 or BLAKE3 hash verification in addition to FNV-1a for
+  cryptographic-strength blob integrity assurance.
+- Benchmark WASM sandbox overhead vs. native dispatch for 1 M lightweight
+  kernel invocations: target < 2× overhead vs. unsandboxed CPU path.
+
+---
+
+### MIG (Multi-Instance GPU) Partitioning for NVIDIA A/H Series
+**Priority:** High | **Target Version:** v1.7.0 | **Status:** ✅ Infrastructure implemented
+
+Partitions a single NVIDIA Ampere (A100) or Hopper (H100) GPU into up to 7
+independent GPU Instances (GIs), each with isolated VRAM and compute slices
+and hardware-level fault isolation.
+
+**Implemented infrastructure:**
+- ✅ `MIGManager` (`include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`)
+  — full MIG partition lifecycle: `createPartition`, `destroyPartition`,
+  `assignToTenant`, `unassignFromTenant`, `getInstances`,
+  `getInstancesForDevice`, `getInstancesForTenant`, `getInstance`, `reset`.
+- ✅ 8 well-known MIG profiles with VRAM sizes:
+  `1g.5gb`, `2g.10gb`, `3g.20gb`, `4g.20gb`, `7g.40gb`,
+  `1g.10gb`, `1g.12gb`, `7g.80gb`.
+- ✅ `deviceSupportsMIG(DeviceInfo)` — returns `true` for CUDA devices with
+  compute major ≥ 8 (Ampere / Hopper).
+- ✅ `isKnownProfile(profile)` / `profileMemoryBytes(profile)` — profile
+  validation and VRAM-size lookup.
+- ✅ Per-device instance limit enforcement (max 7 per device).
+- ✅ `MIGInstance` struct: `instance_id`, `device_index`, `gi_id`, `profile`,
+  `memory_bytes`, `is_active`, `tenant_id`.
+- ✅ `Status` enum (9 values) + `migStatusName()` free function.
+- ✅ `Stats` struct: `total_created`, `total_destroyed`, `total_assigned`,
+  `total_unassigned`, `active_instances`.
+- ✅ `MIG_MANAGER` feature flag added to `GPUFeatureFlags::Feature` and
+  `GPUFeatureFlags::getAll()`; enabled by default for ENTERPRISE and
+  HYPERSCALER editions only.
+- ✅ MIG fields added to `DeviceInfo`: `mig_enabled`, `mig_max_instances`.
+- ✅ NVML stub (`THEMIS_ENABLE_CUDA` + `THEMIS_ENABLE_NVML` guards) ready for
+  real `nvmlDeviceCreateGpuInstance` / `nvmlGpuInstanceDestroy` wiring.
+- ✅ CPU simulation path (in-memory registry) always active; all tests pass
+  without GPU hardware.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_mig_manager.cpp`):
+  deviceSupportsMIG, profile validation, feature-gate enforcement, partition
+  lifecycle, tenant assignment, stats, concurrent safety.
+
+**Remaining (hardware required):**
+- Enable MIG mode on the physical device via
+  `nvmlDeviceSetMIGMode(dev, NVML_DEVICE_MIG_ENABLE, &activationStatus)` and
+  call `nvmlDeviceGetMIGMode` to verify.
+- Create a real GPU Instance via `nvmlDeviceCreateGpuInstance(dev, profileId,
+  &gpu_inst)` and a Compute Instance via
+  `nvmlGpuInstanceCreateComputeInstance(gpu_inst, ciProfileId, &ci)`.
+- Persist `nvmlGpuInstance_t` / `nvmlComputeInstance_t` handles in
+  `MIGInstance` and call `nvmlGpuInstanceDestroy` / `nvmlComputeInstanceDestroy`
+  in `destroyPartition`.
+- Update `DeviceDiscovery::Enumerate()` to set `mig_enabled = true` and
+  `mig_max_instances` for Ampere/Hopper devices detected via NVML.
+- Benchmark MIG isolation: verify that two concurrent 1g.5gb instances on an
+  A100 achieve ≥ 0.9× of the theoretical throughput of a single 2g.10gb
+  instance (measured with `nvmlDeviceGetUtilizationRates`).
+
+---
+
+## Vulkan Compute Backend for Cross-Vendor GPU Support
+
+**Priority:** High | **Target Version:** v1.8.0 | **Status:** ✅ Infrastructure implemented
+
+Provides Vulkan-backed compute dispatch for AMD, Intel, ARM, Qualcomm, and NVIDIA
+hardware without requiring vendor-specific CUDA or HIP drivers.
+
+**Implemented infrastructure:**
+- ✅ `VulkanComputeBackend` (`include/themis/gpu/vulkan_backend.h`,
+  `src/gpu/vulkan_backend.cpp`) — thread-safe singleton with:
+  - `deviceCount()` / `isAvailable()` / `vendorName()` — lazy device probe via
+    `vkEnumeratePhysicalDevices`; vendor name mapped from PCI vendor ID and cached.
+  - `createBackendFn(device_index)` — returns a `GPULauncher::BackendFn` usable
+    with `GPUStreamManager::createStream()` or `GPULauncher` directly.
+  - Named logical stream lifecycle: `createStream` / `destroyStream` /
+    `synchronizeStream` / `getStream` / `hasStream` / `streamNames`.
+  - `Stats` struct: `streams_created`, `streams_destroyed`, `dispatched`,
+    `dispatch_errors`, `cpu_fallbacks`; plus `getStats()` / `resetStats()`.
+- ✅ `VULKAN_BACKEND` feature flag added to `GPUFeatureFlags::Feature`; enabled by
+  default for all editions (Community and above).
+- ✅ CPU simulation path (in-memory registry + CPU fallback) always active; all
+  tests pass without Vulkan hardware.
+- ✅ Real Vulkan calls (`vkEnumeratePhysicalDevices`, `vkGetPhysicalDeviceQueueFamilyProperties`)
+  gated behind `THEMIS_ENABLE_VULKAN`.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`; single
+  lock per lambda body avoids recursive-lock deadlock.
+- ✅ Full unit-test coverage (`tests/test_gpu_vulkan_backend.cpp`): device query,
+  launcher backend, stream lifecycle, stats, `GPUStreamManager` integration, and
+  feature-flag enable/disable round-trip.
+
+**Remaining (hardware required):**
+- Store real `VkQueue` handle in `StreamHandle::native` (currently uses
+  `device_index + 1` as a sentinel when `THEMIS_ENABLE_VULKAN` is active).
+- Replace the `createBackendFn` dispatch stub with real Vulkan command buffer
+  submission: `vkBeginCommandBuffer` → compute dispatch → `vkQueueSubmit` →
+  `vkWaitForFences`.
+- Wire `synchronizeStream` to call `vkQueueWaitIdle` on the stored `VkQueue`.
+- Benchmark Vulkan vs CUDA/HIP dispatch latency for a representative ThemisDB
+  workload (target: ≤ 1.2× CUDA dispatch latency on AMD RDNA 3+ hardware).
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation

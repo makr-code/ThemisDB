@@ -438,49 +438,44 @@ std::string html = plan.toHTML();
 
 ---
 
-### Query Timeout and Resource Limits
-**Priority:** High  
-**Target Version:** v1.6.0
+### ~~Query Timeout and Resource Limits~~ ✅ Implemented (v0.0.33)
 
 Per-query resource limits to prevent runaway queries.
 
-**Features:**
-- Query timeout (wall-clock time)
-- CPU time limits
-- Memory limits
-- I/O limits (bytes read)
-- Result set size limits
+**Implemented in:**
+- `include/query/query_resource_limits.h` — `QueryResourceLimits` struct and `QueryResourceGuard` RAII class
+- `src/query/aql_runner.cpp` — `executeAqlWithLimits()` free function
+- `tests/test_query_resource_limits.cpp` — unit and integration tests
 
-**Configuration:**
+**Implemented features:**
+- Query timeout (wall-clock time via `timeout_ms`)
+- Memory limit (serialised JSON result size via `max_memory_bytes`)
+- Result set size limit (via `max_rows`)
+
+**Usage:**
 ```cpp
-QueryEngine::ResourceLimits limits;
-limits.max_execution_time_ms = 30000;  // 30 seconds
-limits.max_cpu_time_ms = 20000;  // 20 seconds CPU time
-limits.max_memory_bytes = 1024 * 1024 * 1024;  // 1GB
-limits.max_io_bytes = 10 * 1024 * 1024 * 1024;  // 10GB I/O
-limits.max_result_rows = 1000000;  // 1M rows
+#include "query/aql_runner.h"
+#include "query/query_resource_limits.h"
 
-auto result = engine.execute(query, limits);
+QueryResourceLimits limits;
+limits.max_rows         = 1000;             // max result rows  (0 = unlimited)
+limits.max_memory_bytes = 4 * 1024 * 1024;  // 4 MB result size (0 = unlimited)
+limits.timeout_ms       = 5000;             // 5 s wall-clock   (0 = unlimited)
+
+auto result = executeAqlWithLimits(aql, engine, limits);
 if (!result) {
-    if (result.error().code() == ErrorCode::QUERY_TIMEOUT) {
+    if (result.error().code() == errors::ErrorCode::ERR_QUERY_TIMEOUT) {
         std::cerr << "Query exceeded time limit" << std::endl;
-    } else if (result.error().code() == ErrorCode::MEMORY_LIMIT_EXCEEDED) {
-        std::cerr << "Query exceeded memory limit" << std::endl;
+    } else if (result.error().code() == errors::ErrorCode::ERR_QUERY_RESOURCE_EXHAUSTED) {
+        std::cerr << "Query exceeded row or memory limit" << std::endl;
     }
 }
 ```
 
-**Per-User Limits:**
-```cpp
-// Different limits for different user roles
-ResourceLimits admin_limits;  // No limits
-ResourceLimits user_limits;   // Standard limits
-ResourceLimits anon_limits;   // Strict limits
-
-engine.setUserLimits("admin", admin_limits);
-engine.setUserLimits("user", user_limits);
-engine.setUserLimits("anonymous", anon_limits);
-```
+**Future extensions (not yet implemented):**
+- CPU time limits
+- I/O limits (bytes read)
+- Per-user limit profiles
 
 ---
 

@@ -628,7 +628,7 @@ Result<nlohmann::json> executeAqlWithLimits(
     if (limits.timeout_ms > 0) {
         auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start).count();
-        if (static_cast<uint32_t>(elapsed_ms) >= limits.timeout_ms) {
+        if (elapsed_ms >= static_cast<long long>(limits.timeout_ms)) {
             return Err<nlohmann::json>(
                 errors::ErrorCode::ERR_QUERY_TIMEOUT,
                 "query exceeded timeout of " + std::to_string(limits.timeout_ms) + " ms"
@@ -671,6 +671,33 @@ Result<nlohmann::json> executeAqlWithLimits(
     }
 
     return result;
+}
+
+// ── SQL dialect compatibility layer ──────────────────────────────────────────
+
+Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine) {
+    // Parse the SQL statement into an AST.
+    query::SQLParser parser;
+    auto parse_result = parser.parse(sql);
+    if (!parse_result) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            parse_result.error().message()
+        );
+    }
+
+    // Transpile the SQL AST to an AQL query string.
+    query::SQLToAQLTranspiler transpiler;
+    auto transpile_result = transpiler.transpile(parse_result.value());
+    if (!transpile_result) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            transpile_result.error().message()
+        );
+    }
+
+    // Execute the generated AQL query through the standard pipeline.
+    return executeAql(transpile_result.value(), engine);
 }
 
 } // namespace themis

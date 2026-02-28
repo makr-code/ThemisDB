@@ -76,7 +76,7 @@ public:
         return Result<size_t>::ok(rows.size());
     }
     
-    Result<QueryStatistics> get_query_statistics() override {
+    Result<QueryStatistics> get_query_statistics() const override {
         QueryStatistics stats;
         stats.execution_time = std::chrono::microseconds(0);
         stats.rows_read = 0;
@@ -198,14 +198,14 @@ public:
     }
     
     // ISystemInfoAdapter
-    Result<SystemInfo> get_system_info() override {
+    Result<SystemInfo> get_system_info() const override {
         SystemInfo info;
         info.system_name = "MockDB";
         info.version = "1.0.0";
         return Result<SystemInfo>::ok(std::move(info));
     }
     
-    Result<SystemMetrics> get_metrics() override {
+    Result<SystemMetrics> get_metrics() const override {
         SystemMetrics metrics;
         metrics.memory.total_bytes = 0;
         metrics.memory.used_bytes = 0;
@@ -218,11 +218,11 @@ public:
         return Result<SystemMetrics>::ok(std::move(metrics));
     }
     
-    bool has_capability(Capability cap) override {
+    bool has_capability(Capability cap) const override {
         return false;
     }
     
-    std::vector<Capability> get_capabilities() override {
+    std::vector<Capability> get_capabilities() const override {
         return {};
     }
 };

@@ -23,6 +23,8 @@
 #include "core/concerns/concerns_context.h"
 #include "core/concerns/spdlog_logger_adapter.h"
 #include "core/concerns/otel_tracer_adapter.h"
+#include "core/concerns/jaeger_tracer_adapter.h"
+#include "core/concerns/zipkin_tracer_adapter.h"
 #include "core/concerns/prometheus_metrics_adapter.h"
 #include "core/concerns/inmemory_cache_impl.h"
 #include "core/concerns/noop_implementations.h"
@@ -98,12 +100,22 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
         auto otelTracer = std::make_unique<OpenTelemetryTracerAdapter>();
         otelTracer->initialize(config.tracingServiceName, config.tracingEndpoint);
         tracer = std::move(otelTracer);
+    } else if (effective_tracer == "jaeger") {
+        auto jaegerTracer = std::make_unique<JaegerTracerAdapter>();
+        jaegerTracer->initialize(config.tracingServiceName, config.tracingEndpoint);
+        tracer = std::move(jaegerTracer);
+    } else if (effective_tracer == "zipkin") {
+        auto zipkinTracer = std::make_unique<ZipkinTracerAdapter>();
+        zipkinTracer->initialize(config.tracingServiceName, config.tracingEndpoint);
+        tracer = std::move(zipkinTracer);
     } else {
         // "noop" — only reachable after validation passes
-        if (production_mode && effective_tracer != "otel") {
+        if (production_mode && effective_tracer != "otel" &&
+            effective_tracer != "jaeger" && effective_tracer != "zipkin") {
             throw std::runtime_error(
                 "Production mode violation: Tracing is disabled. "
-                "Set tracingEnabled=true or tracerAdapter=\"otel\" in ConcernsContext::Config for production deployments."
+                "Set tracingEnabled=true or tracerAdapter=\"otel\", \"jaeger\", or \"zipkin\" "
+                "in ConcernsContext::Config for production deployments."
             );
         }
         tracer = std::make_unique<NoOpTracer>();

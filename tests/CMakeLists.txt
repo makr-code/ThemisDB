@@ -109,8 +109,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_docs_assistant_aql\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
         ".*test_claim_extractor\\.cpp$"
+        ".*test_learning_metrics\\.cpp$"
         ".*test_adapter_sync\\.cpp$"
-        ".*test_adapter_factory\\.cpp$"
         ".*test_cross_functional_voice_observability\\.cpp$"
         ".*test_process_mining_e2e\\.cpp$"
         ".*test_extended_context\\.cpp$"
@@ -121,6 +121,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_streaming_handler\\.cpp$"
         ".*test_shared_worker_pool\\.cpp$"
         ".*test_json_schema_binding\\.cpp$"
+        ".*test_openai_compat_adapter\\.cpp$"
     )
 endif()
 
@@ -190,6 +191,7 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_pdf_processor\\.cpp$"
         ".*test_content_embedding_pipeline\\.cpp$"
         ".*test_content_html_processor\\.cpp$"
+        ".*test_content_markdown_processor\\.cpp$"
     )
 endif()
 
@@ -229,7 +231,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
-    ".*test_adapter_factory\\.cpp$"
     ".*test_cross_functional_voice_observability\\.cpp$"
     ".*test_adaptive_query_cache\\.cpp$"
     ".*test_byzantine_detector\\.cpp$"
@@ -287,6 +288,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_acceleration_dispatch\\.cpp$"
     ".*test_context_propagation\\.cpp$"
     ".*test_graph_query_optimizer\\.cpp$"
+    ".*test_graph_distributed\\.cpp$"
     ".*test_llm_timeout_cancellation\\.cpp$"
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
@@ -295,8 +297,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
-    ".*test_arrow_export\\.cpp$"
-    ".*test_analytics/test_arrow_export\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
 )
@@ -344,6 +344,16 @@ target_sources(themis_tests PRIVATE
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_rocm_backend.cpp
+    )
+endif()
+
+# Re-include the Vulkan compute backend test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern (see line 267 above).  This test exercises
+# the Vulkan backend CPU fallback path and is fully functional without
+# Vulkan hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_vulkan_backend.cpp
     )
 endif()
 
@@ -451,6 +461,28 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the WASM kernel sandbox test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates WASMKernelSandbox
+# (feature-gate enforcement, whitelist/checksum integration, memory-limit
+# rejection, timeout enforcement, statistics, and concurrent safety).
+# It uses only CPU-side bookkeeping and requires no GPU or WASM hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_wasm_kernel_sandbox.cpp
+    )
+endif()
+
+# Re-include the MIG manager test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates MIGManager (feature-gate enforcement, device
+# capability detection, profile validation, partition lifecycle, tenant
+# assignment, statistics, and concurrent safety).  It uses only CPU-side
+# bookkeeping and requires no GPU or NVML hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_mig_manager.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -460,6 +492,9 @@ if(NOT THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_reranker.cpp
+        # LLMProcessAnalyzer has no actual LLM library dependency (uses a
+        # simulated callLLM stub) — include in every build variant.
+        ${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp
     )
 endif()
 
@@ -476,6 +511,8 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/filesystem_ingester.cpp
         ../src/ingestion/api_connector.cpp
         ../src/ingestion/kafka_connector.cpp
+        ../src/ingestion/object_storage_connector.cpp
+        ../src/ingestion/database_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -505,6 +542,16 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
     )
 endif()
 
+# CHIMERA adapter sources (no external library dependencies – run in simulation mode)
+target_sources(themis_tests PRIVATE
+    ../src/chimera/adapter_factory.cpp
+    ../src/chimera/mongodb_adapter.cpp
+    ../src/chimera/postgresql_adapter.cpp
+    ../src/chimera/themisdb_adapter.cpp
+    ../src/chimera/weaviate_adapter.cpp
+    ../src/chimera/qdrant_adapter.cpp
+)
+
 set(_themis_test_core_libs)
 if(THEMIS_BUILD_MODULAR)
     if(DEFINED THEMIS_CORE_SOURCES AND THEMIS_CORE_SOURCES)
@@ -518,8 +565,6 @@ if(THEMIS_BUILD_MODULAR)
         endif()
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/http_server\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]http_server\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/analytics/analytics_export\\.cpp$")
-        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]analytics[\\\\/]analytics_export\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/pii_redaction_policy\\.cpp$")
@@ -1041,6 +1086,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
     message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism")
 else()
     message(STATUS "Graph Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+endif()
+
+# ============================================================================
+# Distributed Graph Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
+    message(STATUS "Adding Distributed Graph tests")
+
+    add_executable(test_graph_distributed
+        test_graph_distributed.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_distributed PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_distributed PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME DistributedGraphTests COMMAND test_graph_distributed)
+
+    set_tests_properties(DistributedGraphTests PROPERTIES
+        LABELS "graph;distributed;shards;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Distributed Graph: shard-aware query execution, BFS/Dijkstra fan-out, plan generation")
+else()
+    message(STATUS "Distributed Graph tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_distributed.cpp")
 endif()
 
 # ============================================================================
@@ -2227,6 +2314,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
+# Phase 2 – Jaeger tracing backend adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jaeger_tracer_adapter.cpp")
+    message(STATUS "Adding JaegerTracerAdapter unit tests (Phase 2)")
+    add_executable(test_jaeger_tracer_adapter test_jaeger_tracer_adapter.cpp)
+    target_link_libraries(test_jaeger_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_jaeger_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME JaegerTracerAdapterTests COMMAND test_jaeger_tracer_adapter)
+    set_tests_properties(JaegerTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;jaeger;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  JaegerTracerAdapter: adapter construction, span lifecycle, uber-trace-id propagation, circuit-breaker, health")
+endif()
+
+# Phase 2 – Zipkin tracing backend adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zipkin_tracer_adapter.cpp")
+    message(STATUS "Adding ZipkinTracerAdapter unit tests (Phase 2)")
+    add_executable(test_zipkin_tracer_adapter test_zipkin_tracer_adapter.cpp)
+    target_link_libraries(test_zipkin_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_zipkin_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ZipkinTracerAdapterTests COMMAND test_zipkin_tracer_adapter)
+    set_tests_properties(ZipkinTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;zipkin;b3;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ZipkinTracerAdapter: adapter construction, span lifecycle, B3 propagation, circuit-breaker, health")
+endif()
+
 # Phase 2 – OpenTelemetry trace and span propagation tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
     message(STATUS "Adding OTel propagation tests (Phase 2)")
@@ -2318,6 +2441,25 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
     message(STATUS "  Audit Logger Production: search API, compliance reporting, retention")
 endif()
 
+# Phase 3 – Governance policy hot-reload tests (Issue: #1774)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
+    message(STATUS "Adding Governance Policy Hot-Reload tests (Phase 3 - Issue #1774)")
+    add_executable(test_governance_policy_hot_reload test_governance_policy_hot_reload.cpp)
+    target_link_libraries(test_governance_policy_hot_reload PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_policy_hot_reload PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernancePolicyHotReloadTests COMMAND test_governance_policy_hot_reload)
+    set_tests_properties(GovernancePolicyHotReloadTests PROPERTIES
+        LABELS "governance;policy;hot-reload;file-watcher;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry")
+endif()
+
 # Phase 5 – LEK Manager lifecycle tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
     message(STATUS "Adding LEK Manager lifecycle tests (Phase 5)")
@@ -2387,6 +2529,40 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
     message(STATUS "  Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs")
 else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+endif()
+
+# Cold/Warm Tier Index Migration Tests (Issue #2407)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
+    message(STATUS "Adding Cold/Warm Tier Index Migration tests (Issue #2407)")
+
+    add_executable(test_tiered_index_migration
+        index/test_tiered_index_migration.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/tiered_index_manager.cpp
+    )
+
+    target_include_directories(test_tiered_index_migration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_tiered_index_migration PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tiered_index_migration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TieredIndexMigrationTests COMMAND test_tiered_index_migration)
+
+    set_tests_properties(TieredIndexMigrationTests PROPERTIES
+        LABELS "index;tiered;cold;warm;migration;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TieredIndexMigration: register, access tracking, demotion, promotion, auto-pass")
+else()
+    message(STATUS "TieredIndexMigration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
 endif()
 
 # Cloud Storage Backup Comprehensive Tests (GAP-008)

@@ -22,9 +22,9 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ### Short-term (Next 3-6 months)
 - [P] SQLite importer (Issue: #1838)
-- [I] CSV / TSV / Parquet flat-file importer (Issue: #1839)
-- [I] S3-compatible object-storage source (Issue: #1840)
-- [I] Schema auto-detection and validation on import (Issue: #1856)
+- [P] CSV / TSV / Parquet flat-file importer (Issue: #1839)
+- [P] S3-compatible object-storage source (Issue: #1840)
+- [P] Schema auto-detection and validation on import (Issue: #1856)
 - [I] Dry-run mode to preview import without writing data (Issue: #2406)
 
 ### Long-term (6-12 months)
@@ -47,17 +47,17 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 
 ### Phase 2: Streaming & Conflict Resolution (Status: In Progress 🚧)
 - [x] Streaming import for large datasets without full in-memory load (Target: Q2 2026) (Issue: #1863)
-- [~] Import progress reporting with streaming callbacks (Target: Q2 2026)
+- [x] Import progress reporting with streaming callbacks (Target: Q2 2026)
 - [P] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
 - [ ] Dry-run mode to preview import without writing data (Target: Q3 2026)
 
 ### Phase 3: Multi-Source & Plugin API (Status: Planned 📋)
 - [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
 - [~] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
-- [I] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: #1853)
+- [P] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: #1853)
 - [I] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
-- [I] S3-compatible object-storage source connector (Issue: #1855)
-- [ ] Schema auto-detection and validation on import
+- [P] S3-compatible object-storage source connector (Issue: #1855)
+- [P] Schema auto-detection and validation on import
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1857)

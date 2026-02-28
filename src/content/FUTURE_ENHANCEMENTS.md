@@ -63,11 +63,11 @@ public:
 Currently `ContentManager::ingest()` buffers the entire content in memory before processing. Files larger than `config_.max_content_size_bytes` are rejected. Implement chunked streaming ingestion in `async_ingestion_worker.cpp` that processes content in configurable chunks, enabling ingestion of files up to several GB.
 
 **Implementation Notes:**
-- `[ ]` Add `ContentManager::ingestStream(std::istream& stream, const ContentMetadata& meta)` overload.
-- `[ ]` `async_ingestion_worker.cpp` reads chunks of `chunk_size_bytes` (default: 4 MB, configurable) from the stream; each chunk is processed by the appropriate `IIngestionPlugin::processChunk()` method.
-- `[ ]` Processors that support streaming (text, CSV, NDJSON) implement `processChunk()`; processors that require full data (PDF, image) buffer up to a configurable `max_buffered_bytes` limit (default: 256 MB) before falling back to error.
+- `[x]` Add `ContentManager::ingestStream(std::istream& stream, const ContentMetadata& meta)` overload.
+- `[x]` `async_ingestion_worker.cpp` reads chunks of `chunk_size_bytes` (default: 4 MB, configurable) from the stream; each chunk is processed by the appropriate `IIngestionPlugin::processChunk()` method.
+- `[x]` Processors that support streaming (text, CSV, NDJSON) implement `processChunk()`; processors that require full data (PDF, image) buffer up to a configurable `max_buffered_bytes` limit (default: 256 MB) before falling back to error.
 - `[ ]` Back-pressure: `ingestStream()` blocks the caller when the worker queue depth exceeds `config_.max_queue_depth`; returns a `std::future<ContentId>` for async callers.
-- `[ ]` Partial failure: if a chunk fails validation in `content_validator.cpp`, the entire ingestion transaction is rolled back and the partial content is purged from storage.
+- `[x]` Partial failure: if a chunk fails validation in `content_validator.cpp`, the entire ingestion transaction is rolled back and the partial content is purged from storage.
 
 **Performance Targets:**
 - 1 GB NDJSON file ingested at ≥ 100 MB/s sustained throughput on NVMe storage.
@@ -82,11 +82,11 @@ Currently `ContentManager::ingest()` buffers the entire content in memory before
 Exact duplicate detection (SHA-256 of raw bytes) is already performed in `content_manager.cpp`. Add near-duplicate detection using perceptual hashing (pHash for images, MinHash for text documents) to reject semantically identical content before storage.
 
 **Implementation Notes:**
-- `[ ]` Images: compute pHash (DCT-based 64-bit hash) in `image_processor.cpp` using a pure C++ implementation (no OpenCV dependency); store hash in content metadata as `phash_hex`.
-- `[ ]` Text documents: compute MinHash signature (128 hash functions, Jaccard threshold 0.85) in `text_processor.cpp`; use a band LSH index stored in `cache::BoundedLRUCache` for fast lookup.
-- `[ ]` `ContentManager::ingest()` calls `DeduplicationChecker::isDuplicate(content_id, phash_or_minhash)` before committing; returns `DuplicateOf{existing_id}` if a near-duplicate is found.
-- `[ ]` Deduplication is opt-in per collection via `ContentPolicy` in `content_policy.cpp`; default off.
-- `[ ]` Expose `content_dedup_hits_total` and `content_dedup_checks_total` Prometheus counters.
+- `[x]` Images: compute pHash (DCT-based 64-bit hash) in `image_processor.cpp` using a pure C++ implementation (no OpenCV dependency); store hash in content metadata as `phash_hex`.
+- `[x]` Text documents: compute MinHash signature (128 hash functions, Jaccard threshold 0.85) in `text_processor.cpp`; use a band LSH index stored in `cache::BoundedLRUCache` for fast lookup.
+- `[x]` `ContentManager::ingest()` calls `DeduplicationChecker::isDuplicate(content_id, phash_or_minhash)` before committing; returns `DuplicateOf{existing_id}` if a near-duplicate is found.
+- `[x]` Deduplication is opt-in per collection via `ContentPolicy` in `content_policy.cpp`; default off.
+- `[x]` Expose `content_dedup_hits_total` and `content_dedup_checks_total` Prometheus counters.
 
 **Performance Targets:**
 - pHash computation for a 4 MP JPEG in < 5 ms.

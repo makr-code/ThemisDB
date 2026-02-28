@@ -71,6 +71,8 @@ void ExporterMetrics::reset() {
     parquet_bytes_written_ = 0;
 
     checkpoint_count_ = 0;
+
+    delta_docs_skipped_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -223,6 +225,14 @@ size_t ExporterMetrics::getCheckpointCount() const {
     return checkpoint_count_.load();
 }
 
+void ExporterMetrics::recordDeltaDocSkipped(size_t count) {
+    delta_docs_skipped_ += count;
+}
+
+size_t ExporterMetrics::getDeltaDocsSkipped() const {
+    return delta_docs_skipped_.load();
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -283,6 +293,9 @@ json ExporterMetrics::toJson() const {
 
     // Streaming: checkpoint events
     j["checkpoint_count"] = checkpoint_count_.load();
+
+    // Delta: incremental export skipped docs (exporter_delta_docs_skipped_total)
+    j["exporter_delta_docs_skipped_total"] = delta_docs_skipped_.load();
     
     return j;
 }

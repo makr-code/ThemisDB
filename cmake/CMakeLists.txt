@@ -1384,6 +1384,7 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/index_recommender.cpp
     ../src/metadata/column_lineage.cpp
     ../src/metadata/catalog_exporter.cpp
+    ../src/metadata/distributed_catalog.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
@@ -1447,6 +1448,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
     ../src/graph/distributed_graph.cpp
@@ -1564,6 +1566,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
@@ -1757,6 +1760,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_key_rotation_manager.cpp
     ../src/auth/principal_validator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/opa_adapter.cpp
     ../src/governance/policy_manager.cpp
     ../src/governance/cross_tenant_policy_inheritance.cpp
     ../src/governance/policy_template.cpp
@@ -1899,6 +1903,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
+    ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
 
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
@@ -1928,10 +1933,14 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
     ../src/exporters/streaming_exporter.cpp
+    ../src/exporters/aql_predicate_filter.cpp
+    ../src/exporters/arrow_ipc_exporter.cpp
+    ../src/exporters/incremental_exporter.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
     ../src/importers/sqlite_importer.cpp
+    ../src/importers/flatfile_importer.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
@@ -1944,6 +1953,9 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/arrow_export.cpp
     ../src/analytics/analytics_export.cpp
     ../src/analytics/incremental_view.cpp
+
+    # CEP Engine – NFA pattern matching, EPL parser, window+aggregation pipeline (Phase 2)
+    ../src/analytics/cep_engine.cpp
 
     # Streaming Aggregation Windows (Phase 2)
     ../src/analytics/streaming_window.cpp
@@ -3212,6 +3224,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
+        ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
@@ -3711,6 +3724,22 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
         )
     endif()
+
+    # AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
+    add_executable(test_simd_distance
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_simd_distance.cpp
+    )
+    target_link_libraries(test_simd_distance
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_simd_distance
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_simd_distance>
+        EXTRA_ARGS --gtest_color=yes
+    )
 
     # Phase 4 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_PMEM)
@@ -4410,6 +4439,12 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         ${THEMIS_ROOT_DIR}/benchmarks/bench_spatial_index.cpp
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Geo CPU vs GPU Throughput Benchmark
+    add_executable(bench_geo_cpu_gpu
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_geo_cpu_gpu.cpp
+    )
+    target_link_libraries(bench_geo_cpu_gpu PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # V1.3.0 Features Benchmark (Critical for Release Testing)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp")

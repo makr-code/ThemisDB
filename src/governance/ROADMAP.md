@@ -3,7 +3,7 @@
 
 ## Current Status
 
-**Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, data classification, and CCPA/CPRA data subject rights are functional. OPA integration is planned.
+**Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, data classification, CCPA/CPRA data subject rights, and OPA integration are functional.
 
 ## Completed ✅
 
@@ -14,10 +14,18 @@
 - [x] Audit trail integration for governance events
 - [x] Policy-based governance enforcement at query time
 - [x] CCPA/CPRA data subject rights enforcement (right-to-know, right-to-delete, opt-out-of-sale, data portability)
+- [x] Policy hot-reload on configuration change (Issue: #1762)
+- [x] Conflict detection for overlapping access control policies (Issue: #1763)
+- [x] CCPA / CPRA data subject rights enforcement (Issue: #1764)
+- [x] Data lineage tracking for governed datasets (Issue: #1765)
+- [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
+- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
+- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
+- [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
+- [x] Automated data masking for sensitive fields in query results (Issue: #1773)
 
 ## In Progress 🚧
 
-- [I] Dynamic policy hot-reload without restart (Target: Q2 2026) (Issue: #1759)
 - [I] Policy conflict detection and resolution reporting (Target: Q2 2026) (Issue: #1760)
 - [~] CCPA compliance rule set (Target: Q3 2026) (Issue: #1761)
 
@@ -25,21 +33,12 @@
 
 ### Short-term (Next 3-6 months)
 
-- [x] Policy hot-reload on configuration change (Issue: #1762)
-- [x] Conflict detection for overlapping access control policies (Issue: #1763)
-- [x] CCPA / CPRA data subject rights enforcement (Issue: #1764)
-- [x] Data lineage tracking for governed datasets (Issue: #1765)
 - [P] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
-- [x] Compliance report generation (PDF / JSON summary) (Issue: #1767)
 
 ### Long-term (6-12 months)
 
 - [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
-- [x] SOC 2 compliance controls and evidence collection (Issue: #1769)
 - [I] PCI-DSS data isolation rules (Issue: #1770)
-- [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
-- [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
-- [x] Automated data masking for sensitive fields in query results (Issue: #1773)
 
 ## Implementation Phases
 
@@ -57,12 +56,12 @@
 - [x] Implement compliance report generation summarizing rule evaluations per time window (Issue: #1781)
 - [x] Implement policy conflict detection for overlapping access control rules (Issue: #1782)
 
-### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: In Progress)
+### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: Completed)
 
 - [x] Implement policy hot-reload on config file change without service restart (Issue: #1774)
 - [x] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know) (Issue: #1775)
 - [x] Implement automated data masking for configured sensitive fields in query results (Issue: #1776)
-- [P] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
+- [x] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine (Issue: #1777)
 
 ### Phase 4: Cross-Tenant Policy Inheritance (Status: Completed)
 
@@ -85,12 +84,12 @@
 ## Known Issues & Limitations
 
 - CCPA rule set is implemented in `src/governance/ccpa_rules.cpp` (CcpaRuleSet)
-- OPA integration implemented: `OpaAdapter` in `src/server/opa_adapter.cpp`; configure via `THEMIS_OPA_ENDPOINT_URL`, `THEMIS_OPA_POLICY_PATH`, and `THEMIS_OPA_TIMEOUT_MS` environment variables
+- OPA integration implemented: `governance::OpaAdapter` in `src/governance/opa_adapter.cpp`; attach via `PolicyEngine::setOpaEvaluator()`; falls back to native evaluation when OPA is unavailable and emits `governance_opa_fallback_total` counter
 - Automated data masking in query results is implemented (`governance/data_masker.cpp`; `DataMasker`)
 - Data lineage tracking is implemented (`governance/data_lineage.cpp`; `DataLineageTracker`)
 - AI/ML model governance is implemented (`governance/model_governance.cpp`; `ModelGovernancePolicy`)
 
 ## Breaking Changes
 
-- OPA integration will introduce a new policy language alongside existing rule format (additive)
-- Policy simulation API will be a new endpoint (non-breaking)
+- OPA integration introduces a new policy language alongside the existing native rule format (additive, non-breaking)
+- Policy simulation API is a new endpoint (non-breaking)

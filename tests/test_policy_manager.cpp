@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     721                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -514,21 +514,20 @@ TEST_F(PolicyManagerTest, PreviewRollback) {
     manager->updateRule("rule_v006", updated, "user1", "Update");
     
     auto diffs = manager->previewRollback("rule_v006", "1.0.0");
-    // Note: previewRollback is a placeholder, may return empty vector
-    if (!diffs.empty()) {
-        // Check that changes list contains expected fields
-        bool found_name_change = false;
-        bool found_encryption_change = false;
-        
-        for (const auto& diff : diffs) {
-            for (const auto& changed_field : diff.changes) {
-                if (changed_field == "name") found_name_change = true;
-                if (changed_field == "require_encryption") found_encryption_change = true;
-            }
+    ASSERT_FALSE(diffs.empty());
+    
+    bool found_name_change = false;
+    bool found_encryption_change = false;
+    
+    for (const auto& diff : diffs) {
+        for (const auto& changed_field : diff.changes) {
+            if (changed_field == "name") found_name_change = true;
+            if (changed_field == "require_encryption") found_encryption_change = true;
         }
-        
-        EXPECT_TRUE(found_name_change || found_encryption_change);
     }
+    
+    EXPECT_TRUE(found_name_change);
+    EXPECT_TRUE(found_encryption_change);
 }
 
 TEST_F(PolicyManagerTest, CompareVersions) {

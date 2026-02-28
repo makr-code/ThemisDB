@@ -18,6 +18,7 @@
  */
 
 #include "exporters/jsonl_llm_exporter.h"
+#include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
 #include "exporters/pii_detector.h"
@@ -39,6 +40,7 @@ std::string ExportStats::toJson() const {
     j["total_entities"] = total_entities;
     j["exported_entities"] = exported_entities;
     j["failed_entities"] = failed_entities;
+    j["skipped_entities"] = skipped_entities;
     j["bytes_written"] = bytes_written;
     j["duration_ms"] = duration.count();
     j["estimated_eta_seconds"] = estimated_eta_seconds;
@@ -124,7 +126,13 @@ ExportStats JSONLLLMExporter::exportEntities(
         }
         
         StreamWriter writer(writer_config);
-        
+
+        // AQL predicate filter (compiled once, reused per entity)
+        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        if (!options.filter_expression.empty()) {
+            aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+        }
+
         std::set<std::string> seen_hashes;  // For duplicate detection
         
         for (const auto& entity : entities) {
@@ -144,6 +152,12 @@ ExportStats JSONLLLMExporter::exportEntities(
                         metrics_->recordError("tenant_isolation_violation");
                         continue;  // Skip entity from different tenant
                     }
+                }
+
+                // AQL predicate filter
+                if (aql_filter && !aql_filter->evaluate(entity)) {
+                    metrics_->recordQualityFilterRejection("aql_predicate_filtered");
+                    continue;
                 }
                 
                 // Quality filtering

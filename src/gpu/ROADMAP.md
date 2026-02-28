@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), and GPU-accelerated ANN (vector similarity) via cuVS/RAFT are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), GPU-accelerated ANN (vector similarity) via cuVS/RAFT, and MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -32,34 +32,39 @@
 - [x] Multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness (`gpu/cluster_topology.cpp`, `gpu/cluster_coordinator.cpp`)
 - [x] GPU profiling integration with NVIDIA Nsight (NVTX markers) and ROCm Profiler (rocTX markers) (`gpu/profiler.cpp`)
 - [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT — infrastructure with CPU brute-force fallback and cuVS/RAFT stub (`gpu/query_accelerator.cpp`, Issue: #2381)
-
-## In Progress 🚧
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
 - [x] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
 - [x] CUDA graph capture for recurring query execution patterns (Issue: #2379)
 - [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [x] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
+- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
+- [x] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
+- [x] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
+- [x] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+
+## In Progress 🚧
+*(none currently in progress)*
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #2381)
-- [x] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
-  - Implementation: `include/themis/gpu/unified_memory.h`, `src/gpu/unified_memory.cpp`
-  - Interfaces: `GPUUnifiedMemoryAllocator::{allocate, free, prefetch, advise, isSupported, getStats, getTenantBytes, reset}` + `MemAdvice` enum
-  - Tests: `tests/test_gpu_unified_memory.cpp` (24 tests, 100% public-API coverage)
-- [x] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
-  - Implementation: `include/themis/gpu/time_slice_scheduler.h`, `src/gpu/time_slice_scheduler.cpp`
-  - Interfaces: `GPUTimeSliceScheduler::{registerTenant, unregisterTenant, hasTenant, submit, dispatch, drainAll, allQueuesEmpty, getTenantStats, getAllTenantStats, getStats, resetStats}` + `TenantConfig`, `TenantStats`, `Stats`
-  - Tests: `tests/test_gpu_time_slice_scheduler.cpp`
-- [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
 - [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
 
+  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
+  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
+  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
+  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
+- [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
+  - Implementation: `include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`
+  - Interfaces: `MIGManager::{createPartition, destroyPartition, assignToTenant, unassignFromTenant, getInstances, getInstancesForDevice, getInstancesForTenant, getInstance, deviceSupportsMIG, isKnownProfile, profileMemoryBytes, getStats, reset}` + `MIGInstance`, `Status` enum, `Stats`
+  - Feature gate: `GPUFeatureFlags::Feature::MIG_MANAGER` (Enterprise/Hyperscaler editions)
+  - MIG fields added to `DeviceInfo`: `mig_enabled`, `mig_max_instances`
+  - Tests: `tests/test_gpu_mig_manager.cpp`
 ## Implementation Phases
 
 ### Phase 1: GPU Resource Management & Acceleration (Status: Completed ✅)
@@ -85,11 +90,16 @@
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`, Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
-- [I] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
+- [x] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
+  - Implementation: `include/themis/gpu/vulkan_backend.h`, `src/gpu/vulkan_backend.cpp`
+  - Interfaces: `VulkanComputeBackend::{deviceCount, isAvailable, vendorName, createBackendFn, createStream, destroyStream, synchronizeStream, getStream, hasStream, streamNames, getStats, resetStats}` + `StreamHandle`, `Result`, `Stats`
+  - Feature gate: `GPUFeatureFlags::Feature::VULKAN_BACKEND` (all editions)
+  - CPU simulation path (in-memory registry) always active; tests pass without Vulkan hardware.
+  - Tests: `tests/test_gpu_vulkan_backend.cpp`
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
 - [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
-- [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
+- [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
 - [x] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
 
 ## Production Readiness Checklist
@@ -104,7 +114,8 @@
 - CUDA graph capture is not yet implemented
 - Multi-node GPU cluster coordination requires external orchestration
 - CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
-- MIG partitioning is not yet supported
+- MIG partitioning infrastructure is implemented (`MIGManager`); real `nvmlDeviceCreateGpuInstance` calls require CUDA + NVML hardware
+- Vulkan compute backend infrastructure is implemented (`VulkanComputeBackend`); real `VkQueue` submission and `synchronizeStream` (`vkQueueWaitIdle`) require Vulkan SDK + hardware
 
 ## Breaking Changes
 - Multi-node coordination will introduce cluster configuration block (new optional config)

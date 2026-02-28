@@ -79,6 +79,14 @@ public:
     bool memory_pressure_enabled() const { return memory_pressure_enabled_.load(std::memory_order_relaxed); }
     void set_memory_pressure_enabled(bool enabled) { memory_pressure_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
+    // Enables 4-wide unrolled AVX-512 kernels for L2, inner-product, and cosine
+    // distance calculations. Falls back to AVX2/NEON/scalar at compile time when
+    // the target CPU does not support AVX-512.
+    // Expected gain: +200-400% throughput for high-dimensional (>=256D) vector search.
+    bool avx512_distance_enabled() const { return avx512_distance_enabled_.load(std::memory_order_relaxed); }
+    void set_avx512_distance_enabled(bool enabled) { avx512_distance_enabled_.store(enabled, std::memory_order_relaxed); }
+
     // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
@@ -95,6 +103,13 @@ private:
     std::atomic<bool> bao_enabled_{false};
     std::atomic<bool> per_query_cost_model_enabled_{false};
     std::atomic<bool> memory_pressure_enabled_{false};
+    std::atomic<bool> avx512_distance_enabled_{
+#if defined(__AVX512F__)
+        true
+#else
+        false
+#endif
+    };
 };
 
 // Macro helpers for compile-time + runtime checks
@@ -138,6 +153,14 @@ private:
     #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().memory_pressure_enabled())
 #else
     #define THEMIS_PHASE3_MEMORY_PRESSURE_ENABLED() (false)
+#endif
+
+// AVX-512 SIMD distance flag: enabled at compile time when __AVX512F__ is set,
+// and can be toggled at runtime for testing/diagnostics.
+#ifdef __AVX512F__
+    #define THEMIS_PHASE3_AVX512_DISTANCE_ENABLED() (::themis::performance::phase3::Phase3FeatureFlags::instance().avx512_distance_enabled())
+#else
+    #define THEMIS_PHASE3_AVX512_DISTANCE_ENABLED() (false)
 #endif
 
 } // namespace phase3

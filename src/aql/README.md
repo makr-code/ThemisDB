@@ -657,6 +657,30 @@ auto result = handler.execute(embed_query);
 - **GPU Acceleration**: Offload model layers to GPU (CUDA, Vulkan, Metal)
 - **Model Quantization**: Use 4-bit or 8-bit quantized models (GGUF format)
 
+### Performance Benchmarks
+
+Two Google Benchmark suites cover the deterministic (LLM-independent) layers of the AQL module:
+
+| Benchmark file | What is measured |
+|----------------|-----------------|
+| `benchmarks/bench_hybrid_aql_sugar.cpp` | `AQLSyntaxHighlighter` (tokenize, highlight, annotateErrors, formatLLMResponse); `AQLConfidenceScorer` (score with/without schema context); `AQLFewShotExampleLibrary` (findRelevant, buildPromptSection, findByDomain, formatForPrompt) |
+| `benchmarks/bench_aql_functions.cpp` | AQL function registry: string, math, array, date, geo, vector, graph, collection, security, and registry overhead |
+
+Run the benchmarks after a Release build:
+
+```bash
+# Syntax-sugar components (tokenizer, confidence scorer, few-shot library)
+./build/benchmarks/bench_hybrid_aql_sugar
+
+# AQL function registry
+./build/benchmarks/bench_aql_functions
+
+# Filter to a specific benchmark group
+./build/benchmarks/bench_hybrid_aql_sugar --benchmark_filter=Highlighter
+./build/benchmarks/bench_hybrid_aql_sugar --benchmark_filter=ConfidenceScorer
+./build/benchmarks/bench_hybrid_aql_sugar --benchmark_filter=FewShot
+```
+
 ## Known Limitations
 
 1. **Model Size Constraints**

@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_api_handler.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:35                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-27 07:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     164                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     252                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0ba7cfc  2026-02-27  feat(graph): incremental graph query HTTP API (live updates) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,6 +26,7 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -145,6 +149,74 @@ public:
      */
     http::response<http::string_body> handleMetricsPrometheus(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle POST /graph/query/incremental request
+     *
+     * Registers a BFS query for incremental re-execution when the graph changes.
+     * The query is executed immediately to capture the initial result set.
+     *
+     * Request body:
+     * ```json
+     * {
+     *   "start_vertex": "A",
+     *   "max_depth": 3,
+     *   "edge_type": "knows",     // optional
+     *   "max_results": 100        // optional
+     * }
+     * ```
+     *
+     * Response:
+     * ```json
+     * {
+     *   "handle": 1,
+     *   "initial_results": ["B", "C", "D"]
+     * }
+     * ```
+     *
+     * @param req HTTP request with registration parameters
+     * @return HTTP 201 response with handle and initial results
+     */
+    http::response<http::string_body> handleIncrementalQueryRegister(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle DELETE /graph/query/incremental/:handle request
+     *
+     * Unregisters a previously registered incremental query identified by
+     * its numeric handle.
+     *
+     * @param req HTTP DELETE request with handle in the path
+     * @return HTTP 200 on success, 404 if the handle is not found
+     */
+    http::response<http::string_body> handleIncrementalQueryUnregister(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle POST /graph/changes request
+     *
+     * Notifies the graph query optimizer that the graph has changed and
+     * triggers re-execution of all affected registered incremental queries.
+     *
+     * Request body:
+     * ```json
+     * {
+     *   "changes": [
+     *     {"type": "edge_added",    "id": "e1", "from": "A", "to": "B"},
+     *     {"type": "edge_removed",  "id": "e2", "from": "B", "to": "C"},
+     *     {"type": "vertex_added",  "id": "D"},
+     *     {"type": "vertex_removed","id": "E"}
+     *   ]
+     * }
+     * ```
+     *
+     * Response:
+     * ```json
+     * { "queries_reexecuted": 2, "changes_applied": 4 }
+     * ```
+     *
+     * @param req HTTP request with change set
+     * @return HTTP 200 response with reexecution count
+     */
+    http::response<http::string_body> handleGraphChanges(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<GraphIndexManager> graph_index_;
@@ -152,6 +224,21 @@ private:
     /// Optimizer instance used for query execution and metrics collection.
     /// Owned by this handler; lazily used for metrics export.
     std::unique_ptr<themis::graph::GraphQueryOptimizer> optimizer_;
+
+    /// Server-side cache of the latest IncrementalQueryResult per registered
+    /// query handle.  Updated by the callback installed in
+    /// handleIncrementalQueryRegister() whenever onGraphChange() fires.
+    /// Accessed only from the HTTP request thread (single-threaded handler),
+    /// so no mutex is required.
+    std::unordered_map<
+        themis::graph::GraphQueryOptimizer::IncrementalQueryHandle,
+        themis::graph::GraphQueryOptimizer::IncrementalQueryResult
+    > incremental_results_;
+
+    /// Parse a GraphChangeSet from a JSON array of change objects.
+    /// Returns an empty change set on parse error.
+    static themis::graph::GraphQueryOptimizer::GraphChangeSet
+    parseChangeSet(const nlohmann::json& changes_array);
 
     // Helper methods
     std::string extractPathParam(const std::string& target, const std::string& prefix);

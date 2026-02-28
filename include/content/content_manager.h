@@ -28,10 +28,13 @@
 #include <optional>
 #include <unordered_map>
 #include <atomic>
+#include <istream>
 #include <nlohmann/json.hpp>
 #include "content/content_type.h"
 #include "content/content_processor.h"
+#include "content/deduplication_checker.h"
 #include "content/embedding_pipeline.h"
+#include "content/processor_chain_config.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/vector_index.h"
@@ -220,6 +223,35 @@ public:
     
     IngestResult ingestRawBlob(
         const std::string& blob,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
+    /**
+     * @brief Ingest content from a stream with chunked processing for large files
+     *
+     * Reads the stream in configurable chunks to avoid full in-memory buffering.
+     * Streaming-capable types (text/plain, text/csv, NDJSON, Markdown) are
+     * processed incrementally, storing each chunk directly to RocksDB.
+     * Other types are buffered up to `max_buffered_bytes` before processing.
+     *
+     * Supported config keys:
+     *   - chunk_size_bytes  (size_t): read chunk size in bytes (default: 4 MB)
+     *   - max_buffered_bytes (size_t): max buffer for non-streaming types (default: 256 MB)
+     *   - chunk_size (int): text segment size in characters (default: 512)
+     *   - chunk_overlap (int): not used in streaming path; reserved for future
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename used for MIME type detection
+     * @param mime_type    Optional MIME type override (empty = auto-detect)
+     * @param user_context User context for encryption / authorization
+     * @param config       Optional JSON configuration overrides
+     * @return IngestResult with success flag and content_id on success
+     */
+    IngestResult ingestStream(
+        std::istream& stream,
         const std::string& filename,
         const std::string& mime_type = "",
         const std::string& user_context = "",
@@ -432,6 +464,10 @@ public:
         // Sum/count for average compression ratio (sum stored as milli * 1000)
         std::atomic<uint64_t> comp_ratio_sum_milli{0};
         std::atomic<uint64_t> comp_ratio_count{0};
+
+        // Deduplication counters (content_dedup_checks_total / content_dedup_hits_total)
+        std::atomic<uint64_t> dedup_checks_total{0};  ///< Number of dedup checks performed
+        std::atomic<uint64_t> dedup_hits_total{0};    ///< Number of near-duplicates detected
     };
 
     const Metrics& getMetrics() const;
@@ -487,6 +523,43 @@ public:
     std::vector<float> generateEmbedding(const std::string& text,
                                           const std::string& model_name = "");
 
+    /**
+     * @brief Attach a deduplication checker for near-duplicate detection.
+     *
+     * When set and `ContentPolicy::enable_deduplication` is true for a given
+     * ingestion call, `ingestRawBlob()` will:
+     *  - Compute a pHash for IMAGE content and call `isDuplicateImage()`.
+     *  - Compute a MinHash for TEXT content and call `isDuplicateText()`.
+     * Detected near-duplicates are rejected before storage and the existing
+     * content ID is returned in `IngestResult::primary_content_id`.
+     *
+     * @param checker  DeduplicationChecker instance (nullptr disables dedup).
+     */
+    void setDeduplicationChecker(std::shared_ptr<DeduplicationChecker> checker);
+
+    /**
+     * @brief Get the attached deduplication checker (may be nullptr).
+     */
+    std::shared_ptr<DeduplicationChecker> getDeduplicationChecker() const;
+
+    /**
+     * @brief Set the processor chain configuration.
+     *
+     * Controls which processing stages (extraction, chunking, embedding,
+     * deduplication) run for each content type during `ingestRawBlob()`.
+     * Stages are matched by MIME type first, then by category, then by the
+     * global default.  All stages are enabled by default, preserving
+     * backward-compatible behaviour when no configuration is set.
+     *
+     * @param config  ProcessorChainConfig to apply.
+     */
+    void setProcessorChainConfig(const ProcessorChainConfig& config);
+
+    /**
+     * @brief Get the current processor chain configuration.
+     */
+    const ProcessorChainConfig& getProcessorChainConfig() const;
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
@@ -495,6 +568,8 @@ private:
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_;
     std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
+    std::shared_ptr<DeduplicationChecker> dedup_checker_;
+    ProcessorChainConfig processor_chain_config_;  ///< Configurable stage chain.
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;

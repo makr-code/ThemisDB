@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     498                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 2                             ║
+    • Total Lines:     691                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 25e932e7f  2026-02-22  feat(geo): implement ST_Buffer operation (Point + Polygon... ║
@@ -210,6 +210,11 @@ public:
             THEMIS_WARN("GPU spatial backend: no GPU device found; using CPU fallback");
             audit_log_.recordDeviceUnavailable("no GPU at startup; CPU fallback active");
             themis::gpu::GPUMetrics::GetInstance().recordFallback("device_unavailable");
+            // Immediately set the circuit-breaker to FAILED so that no spurious
+            // GPU-op failures accumulate on every batchIntersects() call.
+            // shouldAttemptGPU() will return false from this point on, and all
+            // operations will be routed directly to the CPU fallback path.
+            safe_fail_.forceFailed("no CUDA-capable device present at startup");
         }
     }
 
