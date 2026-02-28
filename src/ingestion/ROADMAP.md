@@ -20,15 +20,16 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Fluent IngestionBuilder API
 - [x] Cursor-based pagination support alongside offset/limit (Issue: #2409)
 - [x] PDF and DOCX binary format ingestion via external converters (Issue: #1889)
-
-## In Progress 🚧
+- [x] S3 / GCS / Azure Blob object-storage source connector (`ingestion/object_storage_connector.cpp`) (Issue: #1905)
+  - Providers: AWS S3, GCS, Azure Blob (compile-time SDK flags); mock-injection path for unit tests
+  - 28 unit tests; path-traversal protection; JSON `text_field` extraction; credentials never logged 🚧
 *(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [x] Kafka consumer source connector (Issue: #1892) ✅ Completed Q1 2026
-- [P] S3/GCS/Azure Blob object-storage source (Issue: #1893)
+- [x] S3/GCS/Azure Blob object-storage source (Issue: #1893)
 - [P] JDBC-compatible database source (Issue: #1894)
 - [P] Web crawler / sitemap ingestion source (Issue: #1895)
 - [P] Per-source schema validation before write (Issue: #1896)
@@ -62,8 +63,12 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
 
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
-- [x] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904) ✅ Completed Q1 2026
-- [P] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
+- [x] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
+- [x] S3 / GCS / Azure Blob object-storage source connector (`ingestion/object_storage_connector.cpp`) (Issue: #1905)
+  - Providers: AWS S3 (`THEMIS_ENABLE_S3`), GCS (`THEMIS_ENABLE_GCS`), Azure Blob (`THEMIS_ENABLE_AZURE`); graceful `CONNECTOR_NOT_SUPPORTED` when no SDK is compiled
+  - Features: prefix filtering, `max_keys` cap, JSON `text_field` extraction, path-traversal rejection, `RetryConfig` passthrough, throughput metrics
+  - Test coverage: 28 unit tests via mock-injection in `tests/test_ingestion_object_storage.cpp` (no cloud credentials required)
+  - Security: `..` path components rejected; credentials never logged
 - [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
 - [P] Change-data-capture (CDC) source for live database streams (Issue: #2199)
 - [P] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)

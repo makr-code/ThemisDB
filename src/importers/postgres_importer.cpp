@@ -881,7 +881,12 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
         }
     }
 
-    if (!options.dry_run) {
+    if (options.dry_run) {
+        addError(stats, ImportErrorCode::DRY_RUN_ONLY, ImportErrorSeverity::INFO,
+                 "dry-run: row would be imported",
+                 "table " + table_name + ", line " + std::to_string(line_number));
+        stats.imported_records++;
+    } else {
         if (options.streaming_row_callback) {
             if (!options.streaming_row_callback(table_name, entity)) {
                 cancelled_ = true;  // abort the import
@@ -1107,7 +1112,12 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             }
         }
 
-        if (!options.dry_run) {
+        if (options.dry_run) {
+            addError(stats, ImportErrorCode::DRY_RUN_ONLY, ImportErrorSeverity::INFO,
+                     "dry-run: row would be imported",
+                     "table " + table_name + ", row " + std::to_string(row_num));
+            stats.imported_records++;
+        } else {
             if (options.streaming_row_callback) {
                 if (!options.streaming_row_callback(table_name, entity)) {
                     cancelled_ = true;  // caller requested abort

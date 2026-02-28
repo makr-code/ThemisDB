@@ -472,6 +472,74 @@ Added explicit mappings for previously unmapped types:
 
 ---
 
+## Changes Delivered (v1.8)
+
+### Import Conflict Resolution Strategies ✅
+
+Adds an `ImportConflictResolver` that handles documents where the target collection
+already contains a document with the same key.  Operators now have explicit control
+over upsert, merge, and skip workflows via `ImportOptions.conflict_strategy`.
+
+**Files added / modified:**
+
+| File | Change |
+|------|--------|
+| `include/importers/conflict_resolver.h` | New: `ImportConflictResolver` class declaration |
+| `src/importers/conflict_resolver.cpp` | New: full strategy implementation |
+| `src/importers/postgres_importer.cpp` | Integrated in `parseInsert` and `parseCopy` paths |
+| `tests/test_importer_conflict_resolver.cpp` | New: 28 unit tests covering all strategies |
+| `cmake/ModularBuild.cmake` | `conflict_resolver.cpp` added to `themis_core` sources |
+
+**Strategy summary:**
+
+| `ConflictStrategy` | Behaviour |
+|--------------------|-----------|
+| `OVERWRITE` *(default)* | Replace existing entity with the incoming one |
+| `SKIP` | Keep existing entity; discard the incoming duplicate |
+| `MERGE` | Field-level merge; incoming fields win unless listed in `protected_fields` |
+| `ERROR` | Treat the conflict as a fatal error; honours `continue_on_error` |
+
+**Key `ImportOptions` fields:**
+
+- `conflict_strategy` – one of the four strategies above; default `OVERWRITE` for backward
+  compatibility.
+- `conflict_key_columns` – list of column names whose values are concatenated to form the
+  per-row conflict key.  When empty, conflict detection is disabled.
+- `protected_fields` – fields the MERGE strategy must not overwrite.
+- `merge_depth` – recursion depth for MERGE (`1` = top-level only, `-1` = unlimited deep
+  merge).
+
+**Metrics:**
+
+`importers_conflicts_total` Prometheus counter incremented on every conflict, labelled:
+
+- `table` – source table name
+- `strategy` – `skip` | `overwrite` | `merge` | `error`
+- `outcome` – `skipped` | `overwritten` | `merged` | `error`
+
+**Test coverage:**
+
+- `ConflictResolverSkip` – 4 cases: first occurrence imported; duplicate discarded;
+  multiple duplicates all discarded; different keys not treated as conflicts.
+- `ConflictResolverOverwrite` – 3 cases: duplicate replaces original; OVERWRITE is the
+  default strategy; no conflict counter when no duplicate.
+- `ConflictResolverMerge` – 3 cases: top-level incoming fields win; protected fields
+  preserved; depth-1 nested object replaced entirely.
+- `ConflictResolverMergeDeep` – 2 cases: nested objects merged recursively at depth −1;
+  depth-2 limits recursion correctly.
+- `ConflictResolverError` – 3 cases: conflict produces structured error;
+  `continue_on_error = false` aborts import; `continue_on_error = true` skips conflicting row.
+- `ConflictResolverCompositeKey` – 2 cases: two-column composite key; keys must match
+  exactly.
+- `ConflictResolverNoKey` – all rows imported when key columns list is empty.
+- `ConflictResolverMetrics` – 2 cases: SKIP and MERGE each emit `importers_conflicts_total`.
+- `ConflictResolverComputeKey` – 4 cases: empty columns; single column; string column;
+  missing column contributes empty segment.
+- `MergeEntitiesTest` – 4 cases: non-object incoming wins; all incoming fields added;
+  protected fields skipped; deep merge preserves existing nested keys.
+
+---
+
 ## See Also
 
 - [PostgreSQL Importer Source](../src/importers/postgres_importer.cpp)
