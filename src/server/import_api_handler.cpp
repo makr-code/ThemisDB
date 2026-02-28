@@ -18,6 +18,7 @@
  */
 
 #include "server/import_api_handler.h"
+#include "server/import_wizard_builder.h"
 #include "utils/logger.h"
 
 #include <httplib.h>
@@ -81,6 +82,12 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
     server.Post(R"(/api/v1/import/([^/]+)/cancel)",
         [this](const httplib::Request& req, httplib::Response& res) {
             handleCancelJob(req, res);
+        });
+
+    // GET /import/wizard – interactive web-based import wizard UI
+    server.Get("/import/wizard",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleImportWizard(req, res);
         });
 }
 
@@ -255,6 +262,15 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
          << "themisdb_import_duration_seconds_total " << total_duration << "\n";
 
     res.set_content(prom.str(), "text/plain; version=0.0.4; charset=utf-8");
+}
+
+// ============================================================================
+// Import wizard UI (web-based single-page application)
+// ============================================================================
+
+void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
+                                           httplib::Response& res) {
+    res.set_content(buildImportWizardHtml(), "text/html; charset=utf-8");
 }
 
 // ============================================================================

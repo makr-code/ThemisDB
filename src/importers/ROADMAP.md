@@ -32,7 +32,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [~] Oracle Database importer (Issue: #1844)
 - [I] Microsoft SQL Server importer (Issue: #1845)
 - [I] Plugin API for third-party importer extensions (Issue: #1846)
-- [I] GUI-based import wizard (web UI) (Issue: #1847)
+- [~] GUI-based import wizard (web UI) (Issue: #1847)
 - [P] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #1848)
 
 ## Implementation Phases
