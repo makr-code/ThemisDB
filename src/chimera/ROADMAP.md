@@ -34,7 +34,7 @@
 ### Long-term (6-12 months)
 - [I] Neo4j adapter (native graph database) (Issue: #1650)
 - [P] Pinecone adapter (managed vector search) (Issue: #1639)
-- [P] Elasticsearch adapter (full-text + vector) (Issue: #1640)
+- [P] Elasticsearch adapter (full-text + vector) (Issue: #1640, Target: Q2 2026)
 - [I] Cassandra adapter (wide-column) (Issue: #1641)
 - [I] Cross-system query federation for hybrid benchmarks (Issue: #1642)
 - [I] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
