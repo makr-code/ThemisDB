@@ -2376,6 +2376,48 @@ else()
     message(STATUS "Transaction OCC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
 endif()
 
+# Transaction Bulk API Tests
+# APIs under test : Transaction::bulkPutEntities, Transaction::bulkEraseEntities
+# Test count      : 12 tests (unit + integration)
+# Test types      : unit (empty-vector no-op, single entity, invalid PK rejection,
+#                         finished-transaction guard, large-batch commit)
+#                   integration (multi-entity commit with secondary-index verification,
+#                                rollback atomicity, mixed put+erase in one transaction,
+#                                bulk erase of previously inserted rows)
+# Acceptance      : All bulk operations commit/rollback atomically; secondary indexes
+#                   stay consistent; empty or invalid inputs are rejected with a
+#                   descriptive error message.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Adding Transaction Bulk API tests")
+
+    add_executable(test_transaction_bulk
+        test_transaction_bulk.cpp
+    )
+
+    target_link_libraries(test_transaction_bulk PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_bulk PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+
+    set_tests_properties(TransactionBulkTests PROPERTIES
+        LABELS "transaction;bulk;batch;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete")
+else()
+    message(STATUS "Transaction Bulk API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+endif()
+
 # Transaction Retry Manager Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
     message(STATUS "Adding Transaction Retry Manager tests")
