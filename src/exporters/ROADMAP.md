@@ -55,7 +55,7 @@
 - [x] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 - [x] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
 - [x] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
-- [x] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1724)
+- [x] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1728)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1729)

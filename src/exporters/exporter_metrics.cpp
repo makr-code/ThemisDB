@@ -74,6 +74,8 @@ void ExporterMetrics::reset() {
 
     delta_docs_skipped_ = 0;
 
+    encryption_plaintext_bytes_ = 0;
+    encryption_output_bytes_    = 0;
     encrypted_bytes_written_ = 0;
 }
 
@@ -235,6 +237,18 @@ size_t ExporterMetrics::getDeltaDocsSkipped() const {
     return delta_docs_skipped_.load();
 }
 
+void ExporterMetrics::recordEncryption(size_t plaintext_bytes,
+                                        size_t encrypted_bytes) {
+    encryption_plaintext_bytes_ += plaintext_bytes;
+    encryption_output_bytes_    += encrypted_bytes;
+}
+
+size_t ExporterMetrics::getEncryptedPlaintextBytes() const {
+    return encryption_plaintext_bytes_.load();
+}
+
+size_t ExporterMetrics::getEncryptedOutputBytes() const {
+    return encryption_output_bytes_.load();
 void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
     encrypted_bytes_written_ += encrypted_bytes;
 }
@@ -307,6 +321,11 @@ json ExporterMetrics::toJson() const {
     // Delta: incremental export skipped docs (exporter_delta_docs_skipped_total)
     j["exporter_delta_docs_skipped_total"] = delta_docs_skipped_.load();
 
+    // P3/Security: encryption metrics (exporter_encrypted_bytes_total)
+    j["encryption"] = {
+        {"plaintext_bytes", encryption_plaintext_bytes_.load()},
+        {"output_bytes",    encryption_output_bytes_.load()}
+    };
     // Encryption: bytes written to encrypted export files
     // (exporter_encrypted_bytes_written_total)
     j["exporter_encrypted_bytes_written_total"] = encrypted_bytes_written_.load();
