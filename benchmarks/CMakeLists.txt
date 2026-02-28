@@ -1154,6 +1154,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_cache.cpp")
     message(STATUS "  Adaptive Query Cache: L1/L2 put/get, miss, tenant isolation, circuit breaker, concurrent access, invalidation")
 endif()
 
+# LLM Speculative Decoding & Inference Engine Benchmarks
+# Runs automatically on every PR touching async_inference_engine.cpp or
+# inference_engine_enhanced.cpp.  Acceptance criterion: tokens/sec regression < 5 %.
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_bench.cpp")
+    message(STATUS "Adding LLM speculative-decoding benchmarks")
+
+    add_executable(llm_bench
+        llm_bench.cpp
+    )
+
+    target_link_libraries(llm_bench PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(llm_bench PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(llm_bench PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS llm_bench
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LLM: Speculative decoding verify(), InferenceEngineEnhanced throughput")
+endif()
+
 # LLM Inference Performance Benchmarks
 if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference_performance.cpp")
     message(STATUS "Adding LLM Inference Performance benchmarks")
