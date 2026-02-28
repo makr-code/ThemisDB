@@ -359,6 +359,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/aql_predicate_filter.cpp
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
+    ../src/exporters/export_encryption.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
 

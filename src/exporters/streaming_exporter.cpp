@@ -13,6 +13,7 @@
 
 #include "exporters/streaming_exporter.h"
 #include "exporters/aql_predicate_filter.h"
+#include "exporters/export_encryption.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
@@ -220,6 +221,35 @@ ExportStats StreamingExporter::exportFromCursor(
         if (options.compress) {
             metrics_->recordCompression(writer.getBytesWritten(),
                                         writer.getCompressedBytesWritten());
+        }
+
+        // Optional AES-256-GCM encryption of the output file.
+        // When enabled, the plaintext export file is encrypted in-place:
+        // the ciphertext overwrites the original file at output_path, and
+        // the plaintext bytes are securely discarded from memory.
+        if (options.encryption.enabled && !options.output_path.empty()) {
+            const std::string tmp_path = options.output_path + ".enc_tmp";
+            ExportEncryption encryptor(options.encryption);
+            encryptor.encryptFile(options.output_path, tmp_path);
+            // Atomic replace: rename temp -> output_path
+            std::error_code ec;
+            std::filesystem::rename(tmp_path, options.output_path, ec);
+            if (ec) {
+                throw ExportIOException(
+                    "ExportEncryption: rename failed: " + ec.message(),
+                    options.output_path);
+            }
+            const auto encrypted_size =
+                static_cast<size_t>(
+                    std::filesystem::file_size(options.output_path, ec));
+            if (!ec) {
+                metrics_->recordEncryption(stats.bytes_written, encrypted_size);
+            }
+            THEMIS_INFO(
+                "StreamingExporter: encrypted output file ({} plaintext bytes, "
+                "{} encrypted bytes, job_id={})",
+                stats.bytes_written, encrypted_size,
+                options.encryption.job_id);
         }
 
     } catch (const ExportIOException& e) {

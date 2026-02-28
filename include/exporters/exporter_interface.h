@@ -30,6 +30,7 @@
 #include <memory>
 #include <optional>
 #include "storage/base_entity.h"
+#include "exporters/export_encryption.h"
 
 namespace themis::exporters {
 
@@ -102,6 +103,9 @@ struct ExportOptions {
     // Error handling
     bool continue_on_error = true;
     size_t max_errors = 100;
+
+    // Encryption (optional, disabled by default)
+    ExportEncryptionConfig encryption;
 };
 
 /// Generic exporter interface

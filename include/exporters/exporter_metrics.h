@@ -128,7 +128,18 @@ public:
 
     /// Delta: Get total documents skipped by incremental export
     size_t getDeltaDocsSkipped() const;
-    
+
+    /// P3/Security: Record an export encryption event (exporter_encrypted_bytes_total)
+    /// @param plaintext_bytes  Number of plaintext bytes submitted for encryption.
+    /// @param encrypted_bytes  Number of bytes written to the encrypted container.
+    void recordEncryption(size_t plaintext_bytes, size_t encrypted_bytes);
+
+    /// P3/Security: Get total plaintext bytes that were encrypted
+    size_t getEncryptedPlaintextBytes() const;
+
+    /// P3/Security: Get total bytes written to encrypted containers
+    size_t getEncryptedOutputBytes() const;
+
     /// Export metrics as JSON
     nlohmann::json toJson() const;
     
@@ -184,6 +195,10 @@ private:
 
     // Delta: documents skipped by incremental filter (exporter_delta_docs_skipped_total)
     std::atomic<size_t> delta_docs_skipped_{0};
+
+    // P3/Security: encryption metrics (exporter_encrypted_bytes_total)
+    std::atomic<size_t> encryption_plaintext_bytes_{0};
+    std::atomic<size_t> encryption_output_bytes_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);
