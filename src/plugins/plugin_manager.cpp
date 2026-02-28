@@ -1204,6 +1204,30 @@ Result<PluginManifest> PluginManager::getManifest(const std::string& name) const
                                 fmt::format("Plugin manifest not found: {}", name));
 }
 
+PluginNegotiationResult PluginManager::negotiateCapabilities(
+    const std::string& name,
+    const std::vector<PluginCapabilityRequirement>& requirements) const
+{
+    IThemisPlugin* plugin = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = plugins_.find(name);
+        if (it == plugins_.end() || !it->second.loaded || !it->second.instance) {
+            PluginNegotiationResult result;
+            result.success = false;
+            result.error_message = fmt::format("Plugin '{}' not found or not loaded", name);
+            return result;
+        }
+        plugin = it->second.instance.get();
+    }
+
+    auto result = PluginCapabilityNegotiator::negotiate(*plugin, requirements);
+    if (!result.success) {
+        THEMIS_DEBUG("Capability negotiation failed for plugin '{}': {}", name, result.error_message);
+    }
+    return result;
+}
+
 PluginManager::~PluginManager() {
     unloadAllPlugins();
 }
