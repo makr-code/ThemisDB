@@ -29,9 +29,11 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/multi_lora_manager.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
 #include <memory>
+#include <mutex>
 #include <vector>
 #include <unordered_map>
 #include <queue>
@@ -237,6 +239,52 @@ public:
     void swapModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> new_plugin);
 
     /**
+     * @brief Hot-load a LoRA adapter into all registered model plugins at inference time.
+     *
+     * Registers the adapter metadata and immediately calls plugin->loadLoRA() on
+     * every model plugin that is currently registered with this engine (or only on
+     * @p model_id when non-empty).  Requests submitted after this call that carry
+     * the same @p adapter_id in InferenceRequest::lora_adapter_id will use the
+     * newly loaded adapter without any engine restart.
+     *
+     * Thread-safe: protected by lora_adapters_mutex_ and models_mutex_.
+     *
+     * @param adapter_id  Unique identifier for the adapter.
+     * @param path        Filesystem path to the adapter weights file.
+     * @param scale       LoRA scaling factor (default 1.0).
+     * @param model_id    Optional: restrict loading to this model only.
+     *                    When empty the adapter is loaded on all registered models.
+     * @throws std::invalid_argument if @p adapter_id or @p path is empty.
+     */
+    void loadLoRAAdapter(const std::string& adapter_id,
+                         const std::string& path,
+                         float scale = 1.0f,
+                         const std::string& model_id = "");
+
+    /**
+     * @brief Hot-unload a LoRA adapter from all registered model plugins.
+     *
+     * Removes the adapter registration and calls plugin->unloadLoRA() on every
+     * model plugin (or only @p model_id when non-empty).  In-flight requests that
+     * have already started generating with this adapter will complete normally.
+     *
+     * Thread-safe: protected by lora_adapters_mutex_ and models_mutex_.
+     *
+     * @param adapter_id Adapter to unload; no-op when not registered.
+     * @param model_id   Optional: restrict unloading to this model only.
+     * @return true if the adapter was registered and unloaded, false otherwise.
+     */
+    bool unloadLoRAAdapter(const std::string& adapter_id,
+                           const std::string& model_id = "");
+
+    /**
+     * @brief Return metadata for all currently hot-loaded LoRA adapters.
+     *
+     * @return Vector of LoRAInfo for every adapter registered via loadLoRAAdapter().
+     */
+    std::vector<LoRAInfo> getLoadedLoRAAdapters() const;
+
+    /**
      * @brief Set (or replace) the resource quota for a registered model.
      *
      * Thread-safe: protected by models_mutex_.
@@ -300,7 +348,16 @@ private:
     std::unordered_map<std::string, ModelInfo> models_;
     mutable std::mutex models_mutex_;
     std::atomic<size_t> round_robin_index_{0};
-    
+
+    // LoRA adapter registry for hot-loading
+    struct LoRAAdapterEntry {
+        std::string path;          ///< Filesystem path to adapter weights
+        float       scale = 1.0f; ///< LoRA scaling factor
+        std::string model_id;      ///< Pinned model (empty = all models)
+    };
+    std::unordered_map<std::string, LoRAAdapterEntry> lora_adapters_;
+    mutable std::mutex lora_adapters_mutex_;
+
     // Request tracking
     struct TrackedRequest {
         EnhancedInferenceRequest request;

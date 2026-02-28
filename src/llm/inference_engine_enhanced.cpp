@@ -129,16 +129,39 @@ void InferenceEngineEnhanced::registerModel(
     const std::string& model_id,
     std::shared_ptr<ILLMPlugin> plugin
 ) {
-    std::lock_guard<std::mutex> lock(models_mutex_);
-    
-    ModelInfo info;
-    info.model_id = model_id;
-    info.plugin = plugin;
-    info.is_available = true;
-    
-    models_[model_id] = info;
-    
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        ModelInfo info;
+        info.model_id = model_id;
+        info.plugin = plugin;
+        info.is_available = true;
+        models_[model_id] = info;
+    }
     spdlog::info("Registered model: {}", model_id);
+
+    // Pre-load any LoRA adapters that are registered for this model (or for
+    // all models).  The lock ordering mirrors loadLoRAAdapter(): acquire
+    // lora_adapters_mutex_ first, models_mutex_ never held at the same time.
+    // Note: if an adapter is concurrently unloaded between snapshotting
+    // lora_adapters_ and calling plugin->loadLoRA(), the plugin will attempt
+    // to load a path that the engine no longer tracks.  The plugin's
+    // loadLoRA() is expected to handle unknown/missing paths gracefully
+    // (returning false), which is the correct degraded-mode behaviour.
+    std::vector<std::tuple<std::string, std::string, float>> to_load;
+    {
+        std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+        for (const auto& [aid, entry] : lora_adapters_) {
+            if (entry.model_id.empty() || entry.model_id == model_id) {
+                to_load.emplace_back(aid, entry.path, entry.scale);
+            }
+        }
+    }
+    for (const auto& [aid, apath, ascale] : to_load) {
+        if (plugin && plugin->loadLoRA(aid, apath, ascale)) {
+            spdlog::info("Pre-loaded LoRA adapter '{}' on newly registered model '{}'",
+                         aid, model_id);
+        }
+    }
 }
 
 void InferenceEngineEnhanced::unregisterModel(const std::string& model_id) {
@@ -176,6 +199,123 @@ void InferenceEngineEnhanced::swapModel(
     }
     it->second.plugin = std::move(new_plugin);
     spdlog::info("Hot-swapped plugin for model: {}", model_id);
+}
+
+// ═══════════════════════════════════════════════════════════
+// LoRA Adapter Hot-Loading
+// ═══════════════════════════════════════════════════════════
+
+void InferenceEngineEnhanced::loadLoRAAdapter(
+    const std::string& adapter_id,
+    const std::string& path,
+    float scale,
+    const std::string& model_id
+) {
+    if (adapter_id.empty()) {
+        throw std::invalid_argument("adapter_id must not be empty");
+    }
+    if (path.empty()) {
+        throw std::invalid_argument("path must not be empty");
+    }
+
+    // Register adapter metadata first (under lora_adapters_mutex_)
+    {
+        std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+        lora_adapters_[adapter_id] = LoRAAdapterEntry{path, scale, model_id};
+    }
+
+    // Propagate to model plugin(s) so the adapter is pre-loaded before any
+    // request arrives.  Iterate under models_mutex_ to get a stable snapshot
+    // of registered plugins; release the lock before calling into the plugin
+    // to avoid holding two locks at once.
+    std::vector<std::pair<std::string, std::shared_ptr<ILLMPlugin>>> targets;
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        for (const auto& [id, info] : models_) {
+            if (model_id.empty() || id == model_id) {
+                targets.emplace_back(id, info.plugin);
+            }
+        }
+    }
+
+    for (const auto& [mid, plugin] : targets) {
+        if (plugin) {
+            if (plugin->loadLoRA(adapter_id, path, scale)) {
+                spdlog::info("Hot-loaded LoRA adapter '{}' on model '{}'",
+                             adapter_id, mid);
+            } else {
+                spdlog::warn("Hot-load of LoRA adapter '{}' on model '{}' "
+                             "returned false", adapter_id, mid);
+            }
+        }
+    }
+
+    if (targets.empty()) {
+        spdlog::info("Hot-loaded LoRA adapter '{}' (no matching models registered "
+                     "yet; will be applied when a model is registered)", adapter_id);
+    }
+}
+
+bool InferenceEngineEnhanced::unloadLoRAAdapter(
+    const std::string& adapter_id,
+    const std::string& model_id
+) {
+    // Remove registration first
+    {
+        std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+        auto it = lora_adapters_.find(adapter_id);
+        if (it == lora_adapters_.end()) {
+            spdlog::debug("unloadLoRAAdapter: '{}' not registered", adapter_id);
+            return false;
+        }
+        lora_adapters_.erase(it);
+    }
+
+    // Propagate unload to model plugin(s)
+    std::vector<std::pair<std::string, std::shared_ptr<ILLMPlugin>>> targets;
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        for (const auto& [id, info] : models_) {
+            if (model_id.empty() || id == model_id) {
+                targets.emplace_back(id, info.plugin);
+            }
+        }
+    }
+
+    for (const auto& [mid, plugin] : targets) {
+        if (plugin) {
+            if (plugin->unloadLoRA(adapter_id)) {
+                spdlog::info("Hot-unloaded LoRA adapter '{}' from model '{}'",
+                             adapter_id, mid);
+            } else {
+                spdlog::debug("LoRA adapter '{}' was not loaded on model '{}'",
+                              adapter_id, mid);
+            }
+        }
+    }
+
+    return true;
+}
+
+std::vector<LoRAInfo> InferenceEngineEnhanced::getLoadedLoRAAdapters() const {
+    std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+    std::vector<LoRAInfo> result;
+    result.reserve(lora_adapters_.size());
+    for (const auto& [id, entry] : lora_adapters_) {
+        LoRAInfo info;
+        info.id = id;
+        // lora_id and adapter_id are documented aliases of id in LoRAInfo
+        // (see llm_plugin_interface.h) — populate all three for compatibility.
+        info.lora_id = id;
+        info.adapter_id = id;
+        info.path = entry.path;
+        info.scale = entry.scale;
+        info.base_model = entry.model_id;
+        info.base_model_id = entry.model_id;
+        info.is_loaded = true;
+        result.push_back(std::move(info));
+    }
+    return result;
 }
 
 void InferenceEngineEnhanced::setModelQuota(
@@ -772,6 +912,21 @@ void InferenceEngineEnhanced::processBatch(
             
             if (!plugin) {
                 throw std::runtime_error("No available model for request");
+            }
+
+            // Validate requested LoRA adapter (if any) is registered.
+            // The adapter was pre-loaded on the plugin via loadLoRAAdapter(); if
+            // it is missing here the request will still execute — the plugin will
+            // use its default behaviour when lora_adapter_id is set but unknown.
+            if (req.base_request.lora_adapter_id.has_value() &&
+                !req.base_request.lora_adapter_id->empty()) {
+                const auto& aid = *req.base_request.lora_adapter_id;
+                std::lock_guard<std::mutex> lock(lora_adapters_mutex_);
+                if (lora_adapters_.find(aid) == lora_adapters_.end()) {
+                    spdlog::warn("Request {} references unknown LoRA adapter '{}'; "
+                                 "proceeding without adapter",
+                                 req.request_id, aid);
+                }
             }
 
             // Build an effective request that wraps the stream_callback so
