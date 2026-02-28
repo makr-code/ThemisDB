@@ -445,3 +445,52 @@ class TestCLI:
         data = json.loads(json_path.read_text())
         assert "summary" in data
         assert "comparisons" in data
+
+
+# ---------------------------------------------------------------------------
+# Baseline file sanity-check (mirrors TestAccelerationBaseline pattern)
+# ---------------------------------------------------------------------------
+
+class TestChimeraBaseline:
+    """
+    Sanity-check the committed chimera baseline file used by the CI workflow
+    to ensure it is well-formed and compatible with the regression detector.
+    """
+
+    BASELINE_PATH = (
+        Path(__file__).parent.parent / "baselines" / "chimera" / "baseline.json"
+    )
+
+    def test_baseline_file_exists(self):
+        assert self.BASELINE_PATH.exists(), (
+            f"Chimera baseline file not found: {self.BASELINE_PATH}"
+        )
+
+    def test_baseline_has_required_fields(self):
+        with open(self.BASELINE_PATH, encoding="utf-8") as fh:
+            data = json.load(fh)
+        for field in ("version", "branch", "commit", "timestamp", "workloads"):
+            assert field in data, f"Missing required field in chimera baseline: {field!r}"
+
+    def test_baseline_workloads_is_dict(self):
+        with open(self.BASELINE_PATH, encoding="utf-8") as fh:
+            data = json.load(fh)
+        assert isinstance(data["workloads"], dict), (
+            "'workloads' must be a dict (may be empty for a seed baseline)"
+        )
+
+    def test_baseline_compatible_with_regression_detector(self):
+        """The detector must be able to load and use the baseline without errors."""
+        with open(self.BASELINE_PATH, encoding="utf-8") as fh:
+            baseline = json.load(fh)
+        # A seed baseline has no workloads; compare() must return an empty list.
+        det = ChimeraRegressionDetector()
+        current = {
+            "version": "test",
+            "branch": "test",
+            "commit": "test",
+            "timestamp": "2026-01-01T00:00:00Z",
+            "workloads": {},
+        }
+        comps = det.compare(baseline, current)
+        assert isinstance(comps, list)
