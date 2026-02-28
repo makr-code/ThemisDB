@@ -2407,6 +2407,38 @@ else()
     message(STATUS "Transaction Retry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
 endif()
 
+# Transaction Bulk API Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Adding Transaction Bulk API tests")
+
+    add_executable(test_transaction_bulk
+        test_transaction_bulk.cpp
+    )
+
+    target_link_libraries(test_transaction_bulk PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_bulk PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+
+    set_tests_properties(TransactionBulkTests PROPERTIES
+        LABELS "transaction;bulk;batch;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete without per-row overhead")
+else()
+    message(STATUS "Transaction Bulk tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")
