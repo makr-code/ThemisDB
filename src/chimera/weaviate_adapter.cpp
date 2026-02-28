@@ -37,11 +37,29 @@
 #include "chimera/weaviate_adapter.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <chrono>
 #include <cmath>
 #include <sstream>
 
 namespace chimera {
+
+// ---------------------------------------------------------------------------
+// Auto-registration
+// ---------------------------------------------------------------------------
+
+namespace {
+// Register WeaviateAdapter with the factory when this translation unit is linked.
+// NOLINTNEXTLINE(cert-err58-cpp)
+const bool weaviate_registered = []() noexcept {
+    const bool ok = AdapterFactory::register_adapter(
+        "Weaviate",
+        []() { return std::make_unique<WeaviateAdapter>(); }
+    );
+    assert(ok && "WeaviateAdapter: 'Weaviate' adapter name already registered");
+    return ok;
+}();
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Construction / Destruction
