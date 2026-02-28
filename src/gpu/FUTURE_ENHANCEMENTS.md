@@ -387,6 +387,48 @@ and hardware-level fault isolation.
 
 ---
 
+## Vulkan Compute Backend for Cross-Vendor GPU Support
+
+**Priority:** High | **Target Version:** v1.8.0 | **Status:** ✅ Infrastructure implemented
+
+Provides Vulkan-backed compute dispatch for AMD, Intel, ARM, Qualcomm, and NVIDIA
+hardware without requiring vendor-specific CUDA or HIP drivers.
+
+**Implemented infrastructure:**
+- ✅ `VulkanComputeBackend` (`include/themis/gpu/vulkan_backend.h`,
+  `src/gpu/vulkan_backend.cpp`) — thread-safe singleton with:
+  - `deviceCount()` / `isAvailable()` / `vendorName()` — lazy device probe via
+    `vkEnumeratePhysicalDevices`; vendor name mapped from PCI vendor ID and cached.
+  - `createBackendFn(device_index)` — returns a `GPULauncher::BackendFn` usable
+    with `GPUStreamManager::createStream()` or `GPULauncher` directly.
+  - Named logical stream lifecycle: `createStream` / `destroyStream` /
+    `synchronizeStream` / `getStream` / `hasStream` / `streamNames`.
+  - `Stats` struct: `streams_created`, `streams_destroyed`, `dispatched`,
+    `dispatch_errors`, `cpu_fallbacks`; plus `getStats()` / `resetStats()`.
+- ✅ `VULKAN_BACKEND` feature flag added to `GPUFeatureFlags::Feature`; enabled by
+  default for all editions (Community and above).
+- ✅ CPU simulation path (in-memory registry + CPU fallback) always active; all
+  tests pass without Vulkan hardware.
+- ✅ Real Vulkan calls (`vkEnumeratePhysicalDevices`, `vkGetPhysicalDeviceQueueFamilyProperties`)
+  gated behind `THEMIS_ENABLE_VULKAN`.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`; single
+  lock per lambda body avoids recursive-lock deadlock.
+- ✅ Full unit-test coverage (`tests/test_gpu_vulkan_backend.cpp`): device query,
+  launcher backend, stream lifecycle, stats, `GPUStreamManager` integration, and
+  feature-flag enable/disable round-trip.
+
+**Remaining (hardware required):**
+- Store real `VkQueue` handle in `StreamHandle::native` (currently uses
+  `device_index + 1` as a sentinel when `THEMIS_ENABLE_VULKAN` is active).
+- Replace the `createBackendFn` dispatch stub with real Vulkan command buffer
+  submission: `vkBeginCommandBuffer` → compute dispatch → `vkQueueSubmit` →
+  `vkWaitForFences`.
+- Wire `synchronizeStream` to call `vkQueueWaitIdle` on the stored `VkQueue`.
+- Benchmark Vulkan vs CUDA/HIP dispatch latency for a representative ThemisDB
+  workload (target: ≤ 1.2× CUDA dispatch latency on AMD RDNA 3+ hardware).
+
+---
+
 ## See Also
 
 - [README.md](README.md) — Current module documentation
