@@ -68,6 +68,11 @@ namespace server {
  *
  * GET    /api/v1/import/jobs
  *   Returns JSON array of all known job statuses.
+ *
+ * GET    /import/wizard
+ *   Serves the interactive web-based import wizard (single-page HTML application).
+ *   No authentication required for the page itself; all data operations are
+ *   delegated to the existing /api/v1/import/* REST endpoints.
  */
 class ImportApiHandler {
 public:
@@ -101,6 +106,7 @@ private:
     void handleCancelJob     (const httplib::Request& req, httplib::Response& res);
     void handleListJobs      (const httplib::Request& req, httplib::Response& res);
     void handleMetrics       (const httplib::Request& req, httplib::Response& res);
+    void handleImportWizard  (const httplib::Request& req, httplib::Response& res);
 
     // Helpers
     static nlohmann::json parseRequestBody(const std::string& body);
