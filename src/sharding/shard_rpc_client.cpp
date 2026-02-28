@@ -45,6 +45,10 @@
 
 namespace themis::sharding {
 
+// Maximum delay between retry attempts (milliseconds).  Both sendRequestGrpc
+// and sendRequestInProcess use this cap so that a single constant controls the
+// ceiling across both paths.
+static constexpr int kMaxRetryDelayMs = 5000;
 
 struct ShardRPCClient::Impl {
     Config config;
@@ -58,8 +62,17 @@ struct ShardRPCClient::Impl {
     
     static CircuitBreaker makeCb(const Config& cfg) {
         CircuitBreaker::Config cb;
-        cb.failure_threshold = static_cast<size_t>(cfg.circuit_breaker_failure_threshold);
-        cb.timeout = std::chrono::milliseconds(cfg.circuit_breaker_recovery_ms);
+        // Negative values are invalid; leave the field at its default rather than
+        // casting to size_t (which would underflow to SIZE_MAX, preventing the
+        // circuit from ever opening) or producing a negative chrono duration
+        // (which would make isTimeoutElapsed() always true).
+        if (cfg.circuit_breaker_failure_threshold > 0) {
+            cb.failure_threshold =
+                static_cast<size_t>(cfg.circuit_breaker_failure_threshold);
+        }
+        if (cfg.circuit_breaker_recovery_ms > 0) {
+            cb.timeout = std::chrono::milliseconds(cfg.circuit_breaker_recovery_ms);
+        }
         return CircuitBreaker(cb);
     }
 
@@ -327,18 +340,20 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
     const std::string& method,
     const nlohmann::json& params
 ) {
-    // Check circuit breaker before attempting any request
-    if (impl_->config.enable_circuit_breaker &&
-            !impl_->circuit_breaker.allowRequest()) {
-        throw std::runtime_error("Circuit breaker is OPEN for endpoint: " +
-                                 impl_->config.endpoint);
-    }
-
     int attempts = 0;
     std::exception_ptr last_exception;
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
+
+        // Re-check the circuit breaker before every attempt so that a circuit
+        // that opens mid-loop (due to recordFailure() exceeding the threshold)
+        // blocks the remaining retry attempts immediately.
+        if (impl_->config.enable_circuit_breaker &&
+                !impl_->circuit_breaker.allowRequest()) {
+            throw std::runtime_error("Circuit breaker is OPEN for endpoint: " +
+                                     impl_->config.endpoint);
+        }
         
         try {
             THEMIS_DEBUG("gRPC {} attempt {}/{} to {}",
@@ -395,9 +410,11 @@ nlohmann::json ShardRPCClient::sendRequestGrpc(
                        method, attempts, impl_->config.max_retries, err_msg);
 
             if (attempts < impl_->config.max_retries) {
-                // Exponential backoff
-                int delay_ms = impl_->config.retry_delay_ms * (1 << (attempts - 1));
-                delay_ms = std::min(delay_ms, 5000);  // Cap at 5 seconds
+                // Exponential backoff; cap the shift to prevent signed-int overflow
+                // (shift <= 12 ensures retry_delay_ms * 4096 fits in int32 for any
+                // reasonable retry_delay_ms, and the result is capped at 5s anyway)
+                const int shift = std::min(attempts - 1, 12);
+                int delay_ms = std::min(impl_->config.retry_delay_ms * (1 << shift), kMaxRetryDelayMs);
                 
                 std::this_thread::sleep_for(
                     std::chrono::milliseconds(delay_ms)
@@ -596,19 +613,19 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     const std::string& method,
     const nlohmann::json& params
 ) {
-    // Circuit breaker check before attempting any request
-    if (impl_->config.enable_circuit_breaker &&
-            !impl_->circuit_breaker.allowRequest()) {
-        throw std::runtime_error("Circuit breaker is OPEN for endpoint: " +
-                                 impl_->config.endpoint);
-    }
-
     // In-process simulation for single-node deployments
     int attempts = 0;
     std::exception_ptr last_exception;
     
     while (attempts < impl_->config.max_retries) {
         ++attempts;
+
+        // Re-check circuit breaker before every attempt (mirrors sendRequestGrpc).
+        if (impl_->config.enable_circuit_breaker &&
+                !impl_->circuit_breaker.allowRequest()) {
+            throw std::runtime_error("Circuit breaker is OPEN for endpoint: " +
+                                     impl_->config.endpoint);
+        }
         
         try {
             THEMIS_DEBUG("RPC {} attempt {}/{} to {} (in-process)",
@@ -665,9 +682,9 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                        method, attempts, impl_->config.max_retries, e.what());
             
             if (attempts < impl_->config.max_retries) {
-                // Exponential backoff
-                int delay_ms = impl_->config.retry_delay_ms * (1 << (attempts - 1));
-                delay_ms = std::min(delay_ms, 5000);  // Cap at 5 seconds
+                // Exponential backoff; same overflow-safe calculation as sendRequestGrpc
+                const int shift = std::min(attempts - 1, 12);
+                const int delay_ms = std::min(impl_->config.retry_delay_ms * (1 << shift), kMaxRetryDelayMs);
                 std::this_thread::sleep_for(
                     std::chrono::milliseconds(delay_ms)
                 );
