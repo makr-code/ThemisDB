@@ -429,6 +429,7 @@ public:
                             auto vr = document_validator_(content);
                             if (!vr.is_valid) {
                                 stats.documents_failed++;
+                                ++stats.metrics.schema_violations;
                                 stats.addError(
                                     IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
                                     IngestionErrorSeverity::WARNING,
@@ -445,6 +446,17 @@ public:
                                                           file_path.filename().string());
                                 }
                                 continue;
+                            } else if (!vr.violations.empty()) {
+                                // reject_invalid=false: violations but document still accepted
+                                ++stats.metrics.schema_violations;
+                                stats.addError(
+                                    IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                    IngestionErrorSeverity::INFO,
+                                    "Schema warning for: " +
+                                        file_path.filename().string() +
+                                        " – " + vr.summary(),
+                                    config_.source_id,
+                                    file_path.string());
                             }
                         }
                         // In production: Insert into target_collection

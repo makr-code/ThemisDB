@@ -211,6 +211,7 @@ struct IngestionMetrics {
     size_t error_count      = 0;  ///< Total individual errors encountered
     double throughput_docs_per_sec = 0.0; ///< Documents / second
     size_t quota_violations = 0;  ///< Times rate/byte-quota was exceeded
+    size_t schema_violations = 0; ///< Documents rejected or warned by schema validation
 
     IngestionMetrics() = default;
 };

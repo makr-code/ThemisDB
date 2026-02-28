@@ -585,3 +585,143 @@ TEST(ApiConnectorSchemaTest, ValidatorRejectsInvalidDocs) {
     EXPECT_EQ(stats.documents_processed, 2u); // 2 contain "keyword"
     EXPECT_EQ(stats.documents_failed,    1u); // 1 rejected
 }
+
+// ============================================================================
+// reject_invalid = false (warning-only mode)
+// ============================================================================
+
+class RejectInvalidFalseTest : public ::testing::Test {
+protected:
+    fs::path tmp_dir_;
+
+    void SetUp() override {
+        tmp_dir_ = fs::temp_directory_path() / "themis_reject_invalid_test";
+        fs::remove_all(tmp_dir_);
+        fs::create_directories(tmp_dir_);
+    }
+    void TearDown() override {
+        fs::remove_all(tmp_dir_);
+    }
+};
+
+TEST_F(RejectInvalidFalseTest, WarningOnlyDoesNotCountAsFailed) {
+    writeTmp(tmp_dir_, "short.txt", "hi");          // 2 bytes < 10 → violation but NOT rejected
+    writeTmp(tmp_dir_, "long.txt",  "hello world"); // passes
+
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id = "warn_src";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = tmp_dir_.string();
+    mgr.registerSource(cfg);
+
+    SchemaConfig sc;
+    sc.min_content_length = 10;
+    sc.reject_invalid     = false; // warning-only
+    mgr.setSchemaConfig("warn_src", sc);
+
+    auto stats = mgr.ingestSource("warn_src");
+    // Both docs must be processed (not failed)
+    EXPECT_EQ(stats.documents_processed, 2u);
+    EXPECT_EQ(stats.documents_failed,    0u);
+}
+
+TEST_F(RejectInvalidFalseTest, WarningOnlyRecordsInfoError) {
+    writeTmp(tmp_dir_, "short.txt", "hi"); // 2 bytes < 10 → INFO warning
+
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id = "warn_src";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = tmp_dir_.string();
+    mgr.registerSource(cfg);
+
+    SchemaConfig sc;
+    sc.min_content_length = 10;
+    sc.reject_invalid     = false;
+    mgr.setSchemaConfig("warn_src", sc);
+
+    auto stats = mgr.ingestSource("warn_src");
+    EXPECT_EQ(stats.documents_processed, 1u);
+
+    bool found_info = false;
+    for (const auto& err : stats.errors) {
+        if (err.code == IngestionErrorCode::SCHEMA_VALIDATION_FAILED &&
+            err.severity == IngestionErrorSeverity::INFO) {
+            found_info = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_info) << "Expected INFO-level schema warning in stats.errors";
+}
+
+TEST_F(RejectInvalidFalseTest, WarningOnlyIncrementsSchemaViolationsMetric) {
+    writeTmp(tmp_dir_, "short.txt", "hi"); // violation
+
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id = "warn_src";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = tmp_dir_.string();
+    mgr.registerSource(cfg);
+
+    SchemaConfig sc;
+    sc.min_content_length = 10;
+    sc.reject_invalid     = false;
+    mgr.setSchemaConfig("warn_src", sc);
+
+    auto stats = mgr.ingestSource("warn_src");
+    EXPECT_EQ(stats.metrics.schema_violations, 1u);
+    EXPECT_EQ(stats.documents_processed, 1u); // still processed
+}
+
+TEST_F(RejectInvalidFalseTest, RejectInvalidTrueStillFails) {
+    writeTmp(tmp_dir_, "short.txt", "hi"); // violation + reject
+
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id = "reject_src";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = tmp_dir_.string();
+    mgr.registerSource(cfg);
+
+    SchemaConfig sc;
+    sc.min_content_length = 10;
+    sc.reject_invalid     = true; // default – should reject
+    mgr.setSchemaConfig("reject_src", sc);
+
+    auto stats = mgr.ingestSource("reject_src");
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed,    1u);
+    EXPECT_EQ(stats.metrics.schema_violations, 1u);
+}
+
+// ============================================================================
+// schema_violations metric in Prometheus export
+// ============================================================================
+
+TEST(SchemaMetricsTest, SchemaViolationsExportedInPrometheus) {
+    IngestionStats stats;
+    stats.documents_processed = 5;
+    stats.documents_failed    = 2;
+    stats.metrics.schema_violations = 3;
+
+    IngestionMetricsExporter exporter;
+    std::string output = exporter.exportText(stats, "src1", "FILESYSTEM");
+
+    EXPECT_NE(output.find("schema_violations_total"), std::string::npos)
+        << "Expected schema_violations_total metric in Prometheus output";
+
+    // Verify the specific metric line contains the value 3.
+    // The Prometheus line looks like: prefix_schema_violations_total{source_id="src1",...} 3
+    auto pos = output.find("schema_violations_total");
+    ASSERT_NE(pos, std::string::npos);
+    auto newline = output.find('\n', pos);
+    ASSERT_NE(newline, std::string::npos);
+    // Find the metric value after the label block on the same line
+    auto brace_close = output.find('}', pos);
+    ASSERT_NE(brace_close, std::string::npos);
+    std::string metric_line = output.substr(brace_close, newline - brace_close);
+    EXPECT_NE(metric_line.find("3"), std::string::npos)
+        << "Expected value 3 in schema_violations_total metric line: " << metric_line;
+}

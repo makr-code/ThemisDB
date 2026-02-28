@@ -436,8 +436,18 @@ public:
                         if (vr.is_valid) {
                             ++stats.documents_processed;
                             stats.bytes_processed += doc.size();
+                            // reject_invalid=false: log INFO warning when violations present
+                            if (!vr.violations.empty()) {
+                                ++stats.metrics.schema_violations;
+                                stats.addError(
+                                    IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                    IngestionErrorSeverity::INFO,
+                                    "Schema warning – " + vr.summary(),
+                                    config_.source_id);
+                            }
                         } else {
                             ++stats.documents_failed;
+                            ++stats.metrics.schema_violations;
                             stats.addError(
                                 IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
                                 IngestionErrorSeverity::WARNING,

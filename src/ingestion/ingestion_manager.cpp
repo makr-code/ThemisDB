@@ -190,6 +190,10 @@ struct CompiledFieldRule {
  * 1. Content length (min/max)
  * 2. Required content pattern (regex applied to raw content)
  * 3. Required JSON fields and their types/lengths/patterns
+ *
+ * When `schema.reject_invalid` is `false`, the returned function always sets
+ * `is_valid = true` (warning-only mode): violations are still populated in the
+ * result so callers can log them, but the document is not counted as failed.
  */
 static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) {
     // Pre-compile the content-level pattern
@@ -209,9 +213,11 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
         compiled_fields.emplace_back(kv.first, kv.second);
     }
 
+    const bool reject_invalid = schema.reject_invalid;
+
     // Capture by value (SchemaConfig copy + compiled regexes)
     return [schema, content_re, content_re_ok,
-            compiled_fields](const std::string& content) mutable
+            compiled_fields, reject_invalid](const std::string& content) mutable
            -> DocumentValidationResult {
         DocumentValidationResult result;
 
@@ -288,6 +294,12 @@ static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) 
                     }
                 }
             }
+        }
+
+        // When reject_invalid is false, treat the document as valid regardless of
+        // violations – violations are retained for warning-level logging by callers.
+        if (!reject_invalid) {
+            result.is_valid = true;
         }
 
         return result;
@@ -1396,6 +1408,9 @@ std::string IngestionMetricsExporter::exportText(
     writeStat("_throughput_docs_per_sec",
               "Document throughput (docs/second)", "gauge",
               stats.metrics.throughput_docs_per_sec);
+    writeStat("_schema_violations_total",
+              "Documents rejected or warned by schema validation", "counter",
+              static_cast<double>(stats.metrics.schema_violations));
 
     // Per-error-code breakdown
     if (!stats.errors.empty()) {
