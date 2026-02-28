@@ -727,6 +727,136 @@ private:
     static std::map<std::string, AdapterCreator>& get_registry();
 };
 
+/**
+ * @class AdapterCapabilityMatrix
+ * @brief Cross-system adapter capability comparison matrix
+ *
+ * @details
+ * Aggregates per-adapter capability information into a queryable matrix that
+ * allows benchmark harnesses and reporting tools to determine:
+ *   - Which capabilities a given adapter supports
+ *   - Which adapters support a given capability
+ *   - A complete cross-system comparison view
+ *
+ * The matrix is populated either manually via add_entry() / add_adapter(), or
+ * automatically from all adapters registered in AdapterFactory via
+ * build_from_factory().
+ *
+ * @example
+ * @code
+ * // Build from all registered adapters
+ * auto matrix = AdapterCapabilityMatrix::build_from_factory();
+ *
+ * // Check a single cell
+ * bool pg_has_vector = matrix.supports("PostgreSQL", Capability::VECTOR_SEARCH);
+ *
+ * // Find all adapters that support graph traversal
+ * auto graph_adapters = matrix.adapters_supporting(Capability::GRAPH_TRAVERSAL);
+ *
+ * // Get the full capability list for one adapter
+ * auto caps = matrix.capabilities_of("MongoDB");
+ * @endcode
+ */
+class AdapterCapabilityMatrix {
+public:
+    /// One row in the matrix: maps every Capability enum value to true/false.
+    using CapabilityRow = std::map<Capability, bool>;
+
+    /// The full matrix: system name → capability row.
+    using MatrixData = std::map<std::string, CapabilityRow>;
+
+    // -----------------------------------------------------------------------
+    // Population
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Add an entry using an explicit capability list.
+     * @param system_name Adapter/system name (e.g. "PostgreSQL")
+     * @param capabilities List of capabilities the system supports
+     */
+    void add_entry(const std::string& system_name,
+                   const std::vector<Capability>& capabilities);
+
+    /**
+     * @brief Add an entry by querying a live adapter instance.
+     * @param system_name Adapter/system name
+     * @param adapter     Adapter instance whose get_capabilities() is called
+     */
+    void add_adapter(const std::string& system_name,
+                     const ISystemInfoAdapter& adapter);
+
+    // -----------------------------------------------------------------------
+    // Factory integration
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Build the matrix from all adapters registered in AdapterFactory.
+     *
+     * @details Instantiates each registered adapter (no connection required)
+     *          and calls get_capabilities() to populate the matrix.
+     * @return Populated AdapterCapabilityMatrix
+     */
+    static AdapterCapabilityMatrix build_from_factory();
+
+    // -----------------------------------------------------------------------
+    // Queries
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Check whether a system supports a capability.
+     * @param system_name Adapter/system name
+     * @param cap         Capability to check
+     * @return true if supported; false if not supported or system not found
+     */
+    bool supports(const std::string& system_name, Capability cap) const;
+
+    /**
+     * @brief Get all system names whose entries support the given capability.
+     * @param cap Capability to query
+     * @return Alphabetically sorted list of supporting system names
+     */
+    std::vector<std::string> adapters_supporting(Capability cap) const;
+
+    /**
+     * @brief Get the capabilities supported by a system.
+     * @param system_name Adapter/system name
+     * @return List of supported capabilities (empty if system not found)
+     */
+    std::vector<Capability> capabilities_of(const std::string& system_name) const;
+
+    /**
+     * @brief Get all system names present in the matrix.
+     * @return Alphabetically sorted list of system names
+     */
+    std::vector<std::string> system_names() const;
+
+    // -----------------------------------------------------------------------
+    // Utilities
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Return all defined Capability enum values in declaration order.
+     * @return Complete list of Capability values
+     */
+    static std::vector<Capability> all_capabilities();
+
+    /**
+     * @brief Convert a Capability enum value to its canonical string label.
+     * @param cap Capability value
+     * @return String label (e.g. "RELATIONAL_QUERIES")
+     */
+    static std::string capability_to_string(Capability cap);
+
+    /**
+     * @brief Direct read-only access to the underlying matrix data.
+     * @return Const reference to the MatrixData map
+     */
+    const MatrixData& data() const { return matrix_; }
+
+private:
+    MatrixData matrix_;
+};
+
 } // namespace chimera
 
 #endif // CHIMERA_DATABASE_ADAPTER_HPP
