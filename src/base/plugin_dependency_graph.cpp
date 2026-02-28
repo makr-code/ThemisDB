@@ -25,7 +25,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <stack>
 
 namespace themis {
 namespace modules {
@@ -142,7 +141,7 @@ PluginDependencyGraph::buildAdjacency() const
     return adj;
 }
 
-bool PluginDependencyGraph::dfsVisit(
+void PluginDependencyGraph::dfsVisit(
     const std::string& node,
     const std::map<std::string, std::set<std::string>>& adj,
     std::map<std::string, int>& color,
@@ -173,7 +172,6 @@ bool PluginDependencyGraph::dfsVisit(
 
     path.pop_back();
     color[node] = 2;
-    return false;
 }
 
 std::vector<std::vector<std::string>>
@@ -239,6 +237,14 @@ std::vector<std::string> PluginDependencyGraph::topologicalOrder() const
         // Cycle exists — topological order is undefined.
         return {};
     }
+    // Our edges are "from → to" where from is the dependent and to is the
+    // dependency (inverse of the standard Kahn prerequisite direction).
+    // Using inDegree[e.to]++ gives dependencies a high in-degree and
+    // top-level consumers an in-degree of 0, so Kahn's processes consumers
+    // first and leaf dependencies last — the reverse of the desired load
+    // order.  Reversing the result gives the correct order: leaf
+    // dependencies first, top-level consumers last.
+    std::reverse(order.begin(), order.end());
     return order;
 }
 

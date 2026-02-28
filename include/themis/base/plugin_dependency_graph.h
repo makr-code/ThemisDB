@@ -240,7 +240,7 @@ private:
     std::map<std::string, std::set<std::string>> buildAdjacency() const;
 
     /// DFS helper used by detectCycles().
-    bool dfsVisit(const std::string& node,
+    void dfsVisit(const std::string& node,
                   const std::map<std::string, std::set<std::string>>& adj,
                   std::map<std::string, int>& color,
                   std::vector<std::string>& path,
