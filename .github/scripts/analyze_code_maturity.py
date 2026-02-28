@@ -170,8 +170,17 @@ def analyze_file(file_path: Path) -> Dict[str, Any]:
     except OSError as exc:
         return {'error': str(exc)}
 
-    lines = content.splitlines()
-    total_lines = len(lines)
+    ext = file_path.suffix.lower()
+    comment_style = SUPPORTED_EXTENSIONS.get(ext, 'c')
+    # Strip the auto-generated header before analysis to avoid circular
+    # detection of quality-metric keywords (e.g. "Stubs: 0") written by
+    # a previous run of this script.
+    body = _strip_existing_header(content, comment_style)
+
+    lines = body.splitlines()
+    # total_lines counts the full file (including the header block) so that
+    # the reported line count reflects the actual size of the file on disk.
+    total_lines = len(content.splitlines())
 
     # Vorkommen pro Pattern mit Zeilennummern
     findings: Dict[str, List[Tuple[int, str]]] = {
