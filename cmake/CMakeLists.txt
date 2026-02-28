@@ -3778,6 +3778,58 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
+    # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
+    if(THEMIS_ENABLE_GPU)
+        add_executable(test_gpu_graph_cache
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_graph_cache.cpp
+        )
+        target_link_libraries(test_gpu_graph_cache
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_graph_cache
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_graph_cache>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_gpu_query_accelerator
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_query_accelerator.cpp
+        )
+        target_link_libraries(test_gpu_query_accelerator
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_query_accelerator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_query_accelerator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_gpu_stream_manager
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_stream_manager.cpp
+        )
+        target_link_libraries(test_gpu_stream_manager
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_stream_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_stream_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif() # THEMIS_ENABLE_GPU
+
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
         add_executable(test_gpu_vector_index
