@@ -186,13 +186,16 @@ InferenceHandle AsyncInferenceEngine::submit(
     if (shared_pool_) {
         // ── Shared-pool path: submit directly; no internal queue ─────
         auto promise = std::make_shared<std::promise<InferenceResponse>>();
+        async_req->shared_promise = promise;  // allow timeout monitor to resolve future
         future = promise->get_future().share();
 
         bool queued = shared_pool_->submit(
             [this, async_req, promise, submit_time]() {
                 if (async_req->cancel_token->load(std::memory_order_acquire)) {
-                    promise->set_exception(std::make_exception_ptr(
-                        std::runtime_error("Request cancelled")));
+                    try {
+                        promise->set_exception(std::make_exception_ptr(
+                            std::runtime_error("Request cancelled")));
+                    } catch (...) { /* Promise already satisfied; ignore. */ }
                     std::lock_guard<std::mutex> lock(tracking_mutex_);
                     active_requests_.erase(async_req->request_id);
                     return;
@@ -203,9 +206,9 @@ InferenceHandle AsyncInferenceEngine::submit(
                     if (async_req->callback) {
                         async_req->callback(response);
                     }
-                    promise->set_value(response);
+                    try { promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
                 } catch (...) {
-                    promise->set_exception(std::current_exception());
+                    try { promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
                 }
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(async_req->request_id);
@@ -501,11 +504,14 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             spdlog::debug("Skipping cancelled request: {}", 
                          item.request->request_id);
             
-            // Set exception in promise
+            // Set exception in promise — guard against double-resolve (timeout
+            // monitor may have already resolved it).
             if (item.promise) {
-                item.promise->set_exception(
-                    std::make_exception_ptr(std::runtime_error("Request cancelled"))
-                );
+                try {
+                    item.promise->set_exception(
+                        std::make_exception_ptr(std::runtime_error("Request cancelled"))
+                    );
+                } catch (...) { /* Promise already satisfied; ignore. */ }
             }
             
             // Remove from tracking
@@ -535,8 +541,10 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
                 // Call callback on worker thread
                 item.request->callback(response);
             }
+            // Guard against double-resolve: timeout monitor may have already
+            // resolved the promise while the plugin was still running.
             if (item.promise) {
-                item.promise->set_value(response);
+                try { item.promise->set_value(response); } catch (...) { /* Promise already satisfied; ignore. */ }
             }
             
             spdlog::debug("Worker {} completed request {} in {:.1f}ms",
@@ -547,9 +555,9 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             spdlog::error("Worker {} failed to process request {}: {}",
                          worker_id, item.request->request_id, e.what());
             
-            // Set exception in promise
+            // Set exception in promise — guard against double-resolve.
             if (item.promise) {
-                item.promise->set_exception(std::current_exception());
+                try { item.promise->set_exception(std::current_exception()); } catch (...) { /* Promise already satisfied; ignore. */ }
             }
         }
         
@@ -615,7 +623,33 @@ InferenceResponse AsyncInferenceEngine::processRequest(
         }
         stats_.total_dedup_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
-    
+
+    // Apply prompt safety policy (prompt injection mitigation).
+    // Take a local snapshot of the policy pointer so that a concurrent
+    // setPromptPolicy(nullptr) call does not race with the apply() invocation.
+    // Redact rules modify the prompt in-place; block rules return an error
+    // response immediately without invoking the plugin.
+    auto policy_snapshot = prompt_policy_;
+    if (policy_snapshot) {
+        auto policy_result = policy_snapshot->apply(effective_request.prompt);
+        if (!policy_result.allowed) {
+            spdlog::warn(
+                "AsyncInferenceEngine: request {} blocked by prompt policy rule '{}'",
+                request.request_id, policy_result.rule_name);
+            InferenceResponse blocked;
+            blocked.request_id = request.request_id;
+            blocked.metadata["async"] = true;
+            blocked.metadata["blocked"] = true;
+            blocked.metadata["blocked_rule"] = policy_result.rule_name;
+            blocked.metadata["blocked_reason"] = policy_result.reason;
+            blocked.metadata["queue_time_ms"] = queue_time;
+            blocked.metadata["request_id"] = request.request_id;
+            return blocked;
+        }
+        // Apply any redactions to the effective prompt
+        effective_request.prompt = policy_result.sanitized_prompt;
+    }
+
     // Grab a snapshot of the active plugin under a shared (read) lock so that a
     // concurrent swapPlugin() call does not race with the generate() invocation.
     std::shared_ptr<ILLMPlugin> plugin_snapshot;
@@ -664,6 +698,10 @@ void AsyncInferenceEngine::swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin) {
     plugin_ = owned_plugin_.get();
     active_plugin_ = owned_plugin_;
     spdlog::info("AsyncInferenceEngine: plugin hot-swapped");
+}
+
+void AsyncInferenceEngine::setPromptPolicy(std::shared_ptr<PromptPolicy> policy) {
+    prompt_policy_ = std::move(policy);
 }
 
 std::string AsyncInferenceEngine::generateRequestId() {
@@ -780,6 +818,18 @@ void AsyncInferenceEngine::checkAndHandleTimeouts() {
             req->cancel_token->store(true, std::memory_order_release);
             stats_.total_timed_out++;
             stats_.total_cancelled++;
+
+            // Resolve the future immediately so handle.get() unblocks without
+            // waiting for the in-flight plugin call to finish.
+            if (req->shared_promise) {
+                try {
+                    req->shared_promise->set_exception(
+                        std::make_exception_ptr(
+                            std::runtime_error("Request timed out")));
+                } catch (...) {
+                    // Promise already satisfied; ignore.
+                }
+            }
         }
     }
 }

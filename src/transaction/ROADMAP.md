@@ -85,11 +85,11 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Branch merge conflict resolution UI
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_postgres_transactions.cpp`
-- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp` (`RollbackToSavepoint_TrimsSagaSteps`, `ReleaseSavepoint_PreservesSagaSteps`, etc.)
+- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests covering bulkPutEntities/bulkEraseEntities, empty-vector no-op, single/multi-entity commit, rollback atomicity, invalid-PK rejection, finished-transaction guard, mixed put+erase, large-batch stress test); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_postgres_transactions.cpp`
+- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp` (`RollbackToSavepoint_TrimsSagaSteps`, `ReleaseSavepoint_PreservesSagaSteps`, etc.); bulk API atomicity verified in `test_transaction_bulk.cpp` (`BulkPutRollbackLeavesNoData`, `BulkPutAndEraseInSameTransaction`, `BulkEraseRemovesInsertedEntities`)
 - [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
 - [?] Security audit (transaction isolation boundary, SAGA compensating action safety)
-- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
+- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
 - [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension
 
 ## Known Issues & Limitations

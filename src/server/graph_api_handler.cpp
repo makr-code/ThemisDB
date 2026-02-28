@@ -652,6 +652,111 @@ http::response<http::string_body> GraphApiHandler::handleGraphChanges(
     }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Cost model calibration HTTP API (v1.8.0)
+// ─────────────────────────────────────────────────────────────────────────────
+
+static const char* costModelAlgoName(
+    themis::graph::GraphQueryOptimizer::TraversalAlgorithm algo)
+{
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    switch (algo) {
+        case Algo::BFS:           return "BFS";
+        case Algo::DFS:           return "DFS";
+        case Algo::DIJKSTRA:      return "DIJKSTRA";
+        case Algo::ASTAR:         return "ASTAR";
+        case Algo::BIDIRECTIONAL: return "BIDIRECTIONAL";
+        default:                  return "UNKNOWN";
+    }
+}
+
+http::response<http::string_body> GraphApiHandler::handleCostModelCalibrate(
+    const http::request<http::string_body>& req)
+{
+    auto span = Tracer::startSpan("handleCostModelCalibrate");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/api/v1/graph/cost-model/calibrate");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    auto report = optimizer_->calibrateFromHistory();
+
+    json algo_stats_json = json::object();
+    for (const auto& [algo, stats] : report.algorithm_stats) {
+        json entry = {
+            {"mean_execution_ms",        stats.mean_execution_ms},
+            {"stddev_execution_ms",      stats.stddev_execution_ms},
+            {"min_execution_ms",         stats.min_execution_ms},
+            {"max_execution_ms",         stats.max_execution_ms},
+            {"sample_count",             stats.sample_count},
+            {"mean_estimated_ms",        stats.mean_estimated_ms},
+            {"mean_absolute_error_ms",   stats.mean_absolute_error_ms},
+            {"cost_ratio",               stats.cost_ratio},
+            {"estimation_sample_count",  stats.estimation_sample_count}
+        };
+        algo_stats_json[costModelAlgoName(algo)] = entry;
+    }
+
+    json response = {
+        {"total_samples",         report.total_samples},
+        {"algorithms_calibrated", report.algorithms_calibrated},
+        {"algorithm_stats",       algo_stats_json}
+    };
+
+    span.setAttribute("graph.total_samples",
+        static_cast<int64_t>(report.total_samples));
+    span.setAttribute("graph.algorithms_calibrated",
+        static_cast<int64_t>(report.algorithms_calibrated));
+    span.setStatus(true);
+    return makeResponse(http::status::ok, response.dump(), req);
+}
+
+http::response<http::string_body> GraphApiHandler::handleCostModelExport(
+    const http::request<http::string_body>& req)
+{
+    auto span = Tracer::startSpan("handleCostModelExport");
+    span.setAttribute("http.method", "GET");
+    span.setAttribute("http.path", "/api/v1/graph/cost-model");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    std::string model_json = optimizer_->exportCostModel();
+    span.setStatus(true);
+    return makeResponse(http::status::ok, model_json, req);
+}
+
+http::response<http::string_body> GraphApiHandler::handleCostModelImport(
+    const http::request<http::string_body>& req)
+{
+    auto span = Tracer::startSpan("handleCostModelImport");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/api/v1/graph/cost-model");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    if (!optimizer_->importCostModel(req.body())) {
+        span.setStatus(false, "invalid cost model JSON");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid cost model JSON", req);
+    }
+
+    span.setStatus(true);
+    json response = {{"imported", true}};
+    return makeResponse(http::status::ok, response.dump(), req);
+}
+
 http::response<http::string_body> GraphApiHandler::makeErrorResponse(
     http::status status, const std::string& message, const http::request<http::string_body>& req
 ) {

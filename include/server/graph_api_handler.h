@@ -217,6 +217,82 @@ public:
      */
     http::response<http::string_body> handleGraphChanges(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle POST /api/v1/graph/cost-model/calibrate request
+     *
+     * Triggers a batch recalibration of per-algorithm cost models from the
+     * full execution history recorded since the optimizer was started.
+     * Re-seeds each algorithm's EMA cost with the historical mean when at
+     * least MIN_CALIBRATION_SAMPLES observations are available.
+     *
+     * Response:
+     * ```json
+     * {
+     *   "total_samples": 42,
+     *   "algorithms_calibrated": 2,
+     *   "algorithm_stats": {
+     *     "BFS": {
+     *       "mean_execution_ms": 5.2,
+     *       "stddev_execution_ms": 1.3,
+     *       "min_execution_ms": 3.1,
+     *       "max_execution_ms": 8.5,
+     *       "sample_count": 15,
+     *       "mean_estimated_ms": 6.0,
+     *       "mean_absolute_error_ms": 0.8,
+     *       "cost_ratio": 1.15,
+     *       "estimation_sample_count": 15
+     *     }
+     *   }
+     * }
+     * ```
+     *
+     * @param req HTTP POST request (body ignored)
+     * @return HTTP 200 response with calibration report JSON
+     */
+    http::response<http::string_body> handleCostModelCalibrate(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /api/v1/graph/cost-model request
+     *
+     * Exports the current per-algorithm learned cost model as a JSON object.
+     * The exported JSON can be persisted and imported into a new optimizer
+     * instance via POST /api/v1/graph/cost-model.
+     *
+     * Response:
+     * ```json
+     * {
+     *   "BFS":           {"ema_cost_ms": 8.1, "exec_count": 42, "confidence": 0.42},
+     *   "DFS":           {"ema_cost_ms": 6.5, "exec_count": 10, "confidence": 0.10},
+     *   "DIJKSTRA":      {"ema_cost_ms": 12.3,"exec_count": 5,  "confidence": 0.05},
+     *   "ASTAR":         {"ema_cost_ms": 9.7, "exec_count": 3,  "confidence": 0.03},
+     *   "BIDIRECTIONAL": {"ema_cost_ms": 7.2, "exec_count": 8,  "confidence": 0.08}
+     * }
+     * ```
+     *
+     * @param req HTTP GET request
+     * @return HTTP 200 response with cost model JSON
+     */
+    http::response<http::string_body> handleCostModelExport(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle POST /api/v1/graph/cost-model request
+     *
+     * Imports a previously exported cost model JSON to seed the optimizer
+     * with pre-learned data.  Unknown algorithm keys are silently ignored;
+     * malformed JSON returns HTTP 400.
+     *
+     * Request body: JSON object as returned by GET /api/v1/graph/cost-model
+     *
+     * Response on success:
+     * ```json
+     * { "imported": true }
+     * ```
+     *
+     * @param req HTTP POST request with cost model JSON body
+     * @return HTTP 200 on success, 400 on invalid JSON
+     */
+    http::response<http::string_body> handleCostModelImport(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<GraphIndexManager> graph_index_;
