@@ -58,12 +58,6 @@
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
-
-  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
-  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
-  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
-  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
 - [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
   - Implementation: `include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`
   - Interfaces: `MIGManager::{createPartition, destroyPartition, assignToTenant, unassignFromTenant, getInstances, getInstancesForDevice, getInstancesForTenant, getInstance, deviceSupportsMIG, isKnownProfile, profileMemoryBytes, getStats, reset}` + `MIGInstance`, `Status` enum, `Stats`
