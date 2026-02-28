@@ -75,6 +75,11 @@ struct JSONLLLMConfig {
         size_t max_text_length = 8192;
         bool skip_empty_outputs = true;
         bool skip_duplicates = true;
+
+        // Toxicity filtering: skip samples whose toxicity score exceeds this
+        // threshold. Score is in [0.0, 1.0]; 1.0 disables filtering (default).
+        bool enable_toxicity_filter = false;
+        double max_toxicity_score = 0.8;
     } quality;
     
     // Metadata enrichment
