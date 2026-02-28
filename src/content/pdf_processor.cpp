@@ -44,6 +44,7 @@
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
 #include <poppler/cpp/poppler-global.h>
+#include <poppler/cpp/poppler-version.h>
 #define PDF_LIBRARY_AVAILABLE 1
 #define PDF_LIBRARY_NAME "poppler-cpp"
 #else
@@ -295,8 +296,8 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string& blob) {
         metadata.producer = to_string(doc->get_producer());
         
         // Convert times
-        time_t created = doc->get_creation_date();
-        time_t modified = doc->get_modification_date();
+        time_t created = doc->get_creation_date_t();
+        time_t modified = doc->get_modification_date_t();
         
         char buf[32];
         if (created > 0) {
