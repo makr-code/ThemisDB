@@ -91,6 +91,7 @@ private:
     int max_keyframes_ = 10;
     bool extract_subtitles_ = true;
     bool enable_scene_detection_ = false;
+    double scene_detection_threshold_ = 0.4;
     
     // Statistics
     mutable std::mutex stats_mutex_;
@@ -111,6 +112,8 @@ private:
     // FFmpeg-specific helper methods
     MediaExtractionData extractMetadataFFmpeg(const std::vector<uint8_t>& blob);
     std::vector<uint8_t> generateThumbnailFFmpeg(const std::vector<uint8_t>& blob);
+    std::vector<int64_t> extractKeyframesFFmpeg(const std::vector<uint8_t>& blob);
+    std::vector<int64_t> detectScenesFFmpeg(const std::vector<uint8_t>& blob);
 #endif
 };
 

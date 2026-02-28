@@ -483,6 +483,16 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the P2P transfer test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUP2PTransferManager (feature-gate enforcement,
+# peer access lifecycle, CPU fallback transfer, error handling, statistics, and
+# concurrent safety).  It uses only CPU-side simulation and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_p2p_transfer.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -1350,8 +1360,39 @@ else()
 endif()
 
 # ============================================================================
-# Enhanced Query Cache Tests
+# HNSW Incremental Re-index Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hnsw_incremental_reindex.cpp")
+    message(STATUS "Adding HNSW Incremental Re-index tests")
+
+    add_executable(test_hnsw_incremental_reindex
+        test_hnsw_incremental_reindex.cpp
+    )
+
+    target_link_libraries(test_hnsw_incremental_reindex PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+    )
+
+    target_compile_definitions(test_hnsw_incremental_reindex PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HnswIncrementalReindexTests COMMAND test_hnsw_incremental_reindex)
+
+    set_tests_properties(HnswIncrementalReindexTests PROPERTIES
+        LABELS "index;hnsw;incremental;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  HNSW Incremental Re-index: add/remove/update/unchanged, idempotency, full-rebuild trigger")
+else()
+    message(STATUS "HNSW Incremental Re-index tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
     message(STATUS "Adding Enhanced Query Cache tests")
@@ -2126,6 +2167,36 @@ else()
     message(STATUS "Vector Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
 endif()
 
+# Lossless Vector Compression Tests (sparse encoding for index compression)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_compression_lossless.cpp")
+    message(STATUS "Adding Lossless Vector Compression tests")
+
+    add_executable(test_vector_compression_lossless
+        test_vector_compression_lossless.cpp
+    )
+
+    target_link_libraries(test_vector_compression_lossless PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vector_compression_lossless PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorCompressionLosslessTests COMMAND test_vector_compression_lossless)
+
+    set_tests_properties(VectorCompressionLosslessTests PROPERTIES
+        LABELS "index;compression;sparse;lossless;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Lossless Vector Compression: sparse CSR, delta+varint, dictionary encoding")
+else()
+    message(STATUS "Lossless vector compression tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_compression_lossless.cpp")
+endif()
+
 # Transaction Savepoint Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_savepoints.cpp")
     message(STATUS "Adding Transaction Savepoint tests")
@@ -2529,6 +2600,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
     message(STATUS "  Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs")
 else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
+endif()
+
+# Learned Index Structures — ML-based B-tree replacement (Issue #1990)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
+    message(STATUS "Adding Learned Index tests (Issue #1990)")
+
+    add_executable(test_learned_index
+        index/test_learned_index.cpp
+    )
+
+    target_include_directories(test_learned_index PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_learned_index PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_learned_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LearnedIndexTests COMMAND test_learned_index)
+
+    set_tests_properties(LearnedIndexTests PROPERTIES
+        LABELS "index;learned;ml;btree;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LearnedIndex: training, point lookup, range query, serialisation, security, edge cases")
+else()
+    message(STATUS "Learned Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
 endif()
 
 # Cold/Warm Tier Index Migration Tests (Issue #2407)

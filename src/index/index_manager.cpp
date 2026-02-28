@@ -25,6 +25,7 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "utils/tracing.h"
@@ -32,6 +33,90 @@
 #include <stdexcept>
 
 namespace themis {
+
+// ---------------------------------------------------------------------------
+// VectorIndexAdapter: bridges VectorIndexManager to the IVectorIndex interface
+// ---------------------------------------------------------------------------
+namespace {
+
+/// @brief Adapter bridging VectorIndexManager to the IVectorIndex interface.
+///
+/// Each adapter owns a dedicated VectorIndexManager instance (per-index isolation).
+/// Lifetime is tied to the owning IndexManager via `owned_vector_adapters_`.
+///
+/// Maps IVectorIndex operations to VectorIndexManager equivalents:
+///   - insert()      → addEntity()  (wraps the vector in a BaseEntity)
+///   - remove()      → removeByPk()
+///   - search()      → searchKnn()
+///   - rangeSearch() → searchKnnRadius()
+class VectorIndexAdapter final : public IVectorIndex {
+public:
+    VectorIndexAdapter(std::shared_ptr<VectorIndexManager> manager, std::string name)
+        : manager_(std::move(manager)), name_(std::move(name)) {}
+
+    bool insert(std::string_view primary_key,
+                const std::vector<float>& vector) override {
+        BaseEntity e(primary_key);
+        e.setField("embedding", vector);
+        return manager_->addEntity(e, "embedding").ok;
+    }
+
+    bool remove(std::string_view primary_key) override {
+        return manager_->removeByPk(primary_key).ok;
+    }
+
+    std::vector<VectorSearchResult> search(
+        const std::vector<float>& query_vector,
+        uint32_t k,
+        const IExpressionEvaluator* /*filter*/ = nullptr) const override {
+
+        auto [status, results] = manager_->searchKnn(query_vector, k);
+        if (!status.ok) return {};
+        std::vector<VectorSearchResult> out;
+        out.reserve(results.size());
+        for (const auto& r : results) {
+            out.emplace_back(r.pk, r.distance);
+        }
+        return out;
+    }
+
+    std::vector<VectorSearchResult> rangeSearch(
+        const std::vector<float>& query_vector,
+        float max_distance,
+        const IExpressionEvaluator* /*filter*/ = nullptr) const override {
+
+        auto [status, results] = manager_->searchKnnRadius(
+            query_vector, max_distance, /*max_results=*/0, /*whitelist=*/nullptr);
+        if (!status.ok) return {};
+        std::vector<VectorSearchResult> out;
+        out.reserve(results.size());
+        for (const auto& r : results) {
+            out.emplace_back(r.pk, r.distance);
+        }
+        return out;
+    }
+
+    std::string getName() const override { return name_; }
+
+    uint32_t getDimension() const override {
+        return static_cast<uint32_t>(manager_->getDimension());
+    }
+
+    std::string getStatistics() const override {
+        auto [status, stats] = manager_->getStatistics();
+        if (!status.ok) return "{}";
+        return fmt::format(
+            R"({{"vector_count":{},"dimension":{},"metric":"{}","min_distance":{},"max_distance":{},"mean_distance":{}}})",
+            stats.vector_count, stats.dimension, stats.metric_name,
+            stats.min_distance, stats.max_distance, stats.mean_distance);
+    }
+
+private:
+    std::shared_ptr<VectorIndexManager> manager_;
+    std::string name_;
+};
+
+} // anonymous namespace
 
 IndexManager::IndexManager(
     IExpressionEvaluatorPtr evaluator,
@@ -197,16 +282,18 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
         return Ok<IVectorIndex*>(std::move(existing));
     }
     
-    // Initialize vector index
+    // Create a dedicated VectorIndexManager for this index (per-index isolation)
+    auto per_index_manager = std::make_shared<VectorIndexManager>(*db_);
     VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE;
     int M = 16;
     int efConstruction = 200;
     int efSearch = 64;
-    
+
     // Parse config (format: "metric:COSINE,M:16,ef:200")
     // For simplicity, use defaults for now
-    
-    auto status = vector_manager_->init(name, dimension, metric, M, efConstruction, efSearch);
+
+    auto status = per_index_manager->init(name, static_cast<int>(dimension),
+                                          metric, M, efConstruction, efSearch);
     if (!status.ok) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Failed to create index '{}': {}", 
                      name_str, status.message);
@@ -214,14 +301,18 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
         return Err<IVectorIndex*>(errors::ErrorCode::ERR_INDEX_CREATION_FAILED,
                                     fmt::format("Failed to create vector index '{}': {}", name_str, status.message));
     }
-    
-    // For now, we return nullptr as IVectorIndex wrapper is not yet implemented
+
+    // Wrap the manager in an adapter and register it
+    auto adapter = std::make_unique<VectorIndexAdapter>(std::move(per_index_manager), name_str);
+    IVectorIndex* raw_ptr = adapter.get();
+    owned_vector_adapters_[name_str] = std::move(adapter);
+    vector_indices_[name_str] = raw_ptr;
     index_types_[name_str] = IndexType::VECTOR;
-    
+
     THEMIS_INFO("IndexManager::createVectorIndex: Created index '{}' with dimension {}", 
                 name_str, dimension);
     span.setStatus(true);
-    return Ok<IVectorIndex*>(nullptr);
+    return Ok<IVectorIndex*>(raw_ptr);
 }
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(
@@ -322,8 +413,9 @@ Result<void> IndexManager::dropIndex(std::string_view name) {
             break;
             
         case IndexType::VECTOR:
-            // Vector index doesn't have explicit drop, just remove from registry
+            // Remove adapter from registry and release owned storage
             vector_indices_.erase(name_str);
+            owned_vector_adapters_.erase(name_str);
             success = true;
             break;
             

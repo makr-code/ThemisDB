@@ -62,7 +62,7 @@ ExportStats IncrementalExporter::exportEntities(
         if (options.compression_type == "gzip") {
             writer_config.compression = CompressionType::GZIP;
         } else if (options.compression_type == "zstd") {
-            throw ConfigException("ZSTD compression not yet supported", "compression_type");
+            writer_config.compression = CompressionType::ZSTD;
         }
         writer_config.compression_level = options.compression_level;
     }
