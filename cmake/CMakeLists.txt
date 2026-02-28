@@ -1415,6 +1415,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
+    ../src/index/tiered_index_manager.cpp
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1941,6 +1942,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/mongo_importer.cpp
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
+    ../src/importers/schema_validator.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp

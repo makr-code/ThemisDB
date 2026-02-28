@@ -24,7 +24,6 @@
 #include "content/html_processor.h"
 #include "content/markdown_processor.h"
 #include "content/content_validator.h"
-#include "content/image_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -56,6 +55,22 @@ static std::string toHex(const std::string& in) {
         out.push_back(hex[c & 0x0F]);
     }
     return out;
+}
+
+static std::string computeImageDedupHash(const std::string& blob) {
+    if (blob.empty()) {
+        return {};
+    }
+
+    uint64_t hash = 1469598103934665603ULL;
+    for (unsigned char byte : blob) {
+        hash ^= static_cast<uint64_t>(byte);
+        hash *= 1099511628211ULL;
+    }
+
+    std::ostringstream oss;
+    oss << std::hex << std::nouppercase << std::setfill('0') << std::setw(16) << hash;
+    return oss.str();
 }
 
 // Helper: parse category string to enum
@@ -1980,11 +1995,7 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 
         std::optional<DuplicateOf> dup;
         if (dedup_is_image) {
-            // computePHash accepts const std::vector<uint8_t>&; reinterpret the
-            // std::string as a byte span to avoid an extra heap allocation.
-            const auto* bytes = reinterpret_cast<const uint8_t*>(blob.data());
-            cached_phash = ImageProcessor::computePHash(
-                std::vector<uint8_t>(bytes, bytes + blob.size()));
+            cached_phash = computeImageDedupHash(blob);
             if (!cached_phash.empty()) {
                 dup = dedup_checker_->isDuplicateImage(cached_phash);
             }
