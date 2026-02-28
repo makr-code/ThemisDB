@@ -31,7 +31,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [~] Kafka consumer importer for real-time streaming ingestion (Issue: #1843)
 - [~] Oracle Database importer (Issue: #1844)
 - [I] Microsoft SQL Server importer (Issue: #1845)
-- [I] Plugin API for third-party importer extensions (Issue: #1846)
+- [x] Plugin API for third-party importer extensions (Issue: #1846)
 - [~] GUI-based import wizard (web UI) (Issue: #1847)
 - [P] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #1848)
 
@@ -55,7 +55,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
 - [~] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
 - [P] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: #1853)
-- [I] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
+- [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
 - [P] S3-compatible object-storage source connector (Issue: #1855)
 - [P] Schema auto-detection and validation on import
 

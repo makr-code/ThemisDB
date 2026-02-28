@@ -302,6 +302,13 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
+    # test_importer_plugin_api uses THEMIS_IMPORTER_PLUGIN_IMPL which generates
+    # C-linkage createPlugin/destroyPlugin symbols.  postgres_importer.cpp also
+    # exports these same symbols in its own extern "C" block (see the bottom of
+    # src/importers/postgres_importer.cpp).  Linking both into the same static
+    # binary causes a duplicate-symbol linker error.  Build it as a dedicated
+    # standalone target below instead.
+    ".*test_importer_plugin_api\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -2826,6 +2833,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.c
     message(STATUS "  Cloud Storage Backup: AWS S3, Azure Blob, Google Cloud Storage interfaces")
 else()
     message(STATUS "Cloud Storage Backup comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.cpp")
+endif()
+
+# ============================================================================
+# Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
+# symbol collision with postgres_importer.cpp in themis_core)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
+    message(STATUS "Adding Importer Plugin API tests (Issue #1854, standalone binary)")
+
+    add_executable(test_importer_plugin_api
+        test_importer_plugin_api.cpp
+    )
+
+    target_include_directories(test_importer_plugin_api PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_plugin_api PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_importer_plugin_api PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterPluginApiTests COMMAND test_importer_plugin_api)
+
+    set_tests_properties(ImporterPluginApiTests PROPERTIES
+        LABELS "importers;plugin;plugin-api;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterPluginApi: registry, loader, macro, descriptor, thread safety")
+else()
+    message(STATUS "Importer Plugin API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
 endif()
 
 # ============================================================================
