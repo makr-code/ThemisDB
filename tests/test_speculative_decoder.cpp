@@ -29,7 +29,7 @@
  * 10. InferenceEngineEnhanced: speculative decoding disabled by default.
  * 11. InferenceEngineEnhanced: grammar constraints disable speculative path.
  * 12. InferenceEngineEnhanced: speculative stats appear in getDetailedMetrics().
- * 13. InferenceEngineEnhanced: speculative stats appear in getStatistics().
+ * 13. InferenceEngineEnhanced: speculative stats keys present in getDetailedMetrics() JSON.
  */
 
 #include <gtest/gtest.h>

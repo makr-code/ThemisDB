@@ -55,7 +55,12 @@ SpeculativeDecoder::SpeculativeDecoder(const Config& config)
         std::random_device rd;
         rng_.seed(rd());
     } else {
-        rng_.seed(static_cast<uint32_t>(config_.rng_seed));
+        // Use std::seed_seq to honour all 64 bits of the seed rather than
+        // truncating to 32 bits with a direct seed() call.
+        const uint32_t lo = static_cast<uint32_t>(config_.rng_seed & 0xFFFFFFFFu);
+        const uint32_t hi = static_cast<uint32_t>(config_.rng_seed >> 32);
+        std::seed_seq seq{lo, hi};
+        rng_.seed(seq);
     }
     spdlog::debug("SpeculativeDecoder initialised: k={}, min_threshold={:.3f}",
                   config_.k, config_.min_acceptance_threshold);
@@ -106,6 +111,11 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
     }
 
     // ── Acceptance / rejection loop ──────────────────────────────────
+    // Acquire the lock covering both rng_ and stats_ for the entire loop.
+    // Precondition checks above are intentionally outside the lock because
+    // they only inspect the caller-supplied const arguments.
+    std::lock_guard<std::mutex> lk(verify_mutex_);
+
     VerifyResult result;
     result.accepted_tokens.reserve(K);
 
@@ -179,21 +189,19 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
                   accepted_count, K, result.all_accepted, result.bonus_token);
 
     // ── Update cumulative statistics ─────────────────────────────────
-    {
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        stats_.total_draft_tokens    += K;
-        stats_.total_accepted_tokens += accepted_count;
-        stats_.total_rejected_tokens += (K - accepted_count);
-        stats_.total_steps           += 1;
+    // (still holding verify_mutex_ from the top of the acceptance loop)
+    stats_.total_draft_tokens    += K;
+    stats_.total_accepted_tokens += accepted_count;
+    stats_.total_rejected_tokens += (K - accepted_count);
+    stats_.total_steps           += 1;
 
-        // Exponential moving average of acceptance rate.
-        if (stats_.total_steps == 1) {
-            stats_.avg_acceptance_rate = result.acceptance_rate;
-        } else {
-            stats_.avg_acceptance_rate =
-                0.95 * stats_.avg_acceptance_rate +
-                0.05 * result.acceptance_rate;
-        }
+    // Exponential moving average of acceptance rate.
+    if (stats_.total_steps == 1) {
+        stats_.avg_acceptance_rate = result.acceptance_rate;
+    } else {
+        stats_.avg_acceptance_rate =
+            0.95 * stats_.avg_acceptance_rate +
+            0.05 * result.acceptance_rate;
     }
 
     return result;
@@ -204,12 +212,12 @@ SpeculativeDecoder::VerifyResult SpeculativeDecoder::verify(
 // ═══════════════════════════════════════════════════════════
 
 SpeculativeDecoder::Statistics SpeculativeDecoder::getStatistics() const {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
+    std::lock_guard<std::mutex> lk(verify_mutex_);
     return stats_;
 }
 
 void SpeculativeDecoder::resetStatistics() {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
+    std::lock_guard<std::mutex> lk(verify_mutex_);
     stats_ = Statistics{};
 }
 

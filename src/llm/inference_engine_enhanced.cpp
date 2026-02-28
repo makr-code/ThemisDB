@@ -812,11 +812,12 @@ void InferenceEngineEnhanced::processBatch(
                               "(grammar constraints active)", req.request_id);
             }
 
-            if (speculative_decoder_ &&
-                config_.enable_speculative_decoding &&
-                !grammar_active &&
-                !config_.speculative_draft_model_id.empty())
-            {
+            if (speculative_decoder_ && !grammar_active) {
+                // speculative_decoder_ is non-null only when
+                // enable_speculative_decoding == true and
+                // speculative_draft_model_id is non-empty (enforced in
+                // the constructor), so those two conditions are redundant here.
+
                 // Retrieve the draft model plugin.
                 std::shared_ptr<ILLMPlugin> draft_plugin;
                 {

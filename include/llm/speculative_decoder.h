@@ -53,10 +53,10 @@ namespace llm {
 /**
  * @brief Stateful speculative decoding verifier.
  *
- * Thread-safety: verify() is NOT thread-safe by itself; each engine worker
- * should own its own SpeculativeDecoder instance, or the caller must
- * synchronise access.  Statistics are updated atomically and may be read
- * concurrently with verify() calls.
+ * Thread-safety: verify(), getStatistics(), and resetStatistics() are
+ * all individually thread-safe — each acquires `verify_mutex_` before
+ * touching any mutable state (RNG and statistics).  Multiple callers may
+ * therefore share one SpeculativeDecoder instance safely.
  */
 class SpeculativeDecoder {
 public:
@@ -184,9 +184,10 @@ private:
     Config     config_;
     std::mt19937 rng_;
 
-    // Statistics — protected by stats_mutex_ so getStatistics() is safe to
-    // call concurrently with verify() from the engine's monitoring thread.
-    mutable std::mutex stats_mutex_;
+    // Single mutex protecting all mutable state (rng_ and stats_).
+    // Taken for the entirety of verify() so that concurrent callers
+    // sharing one instance do not race on the RNG or the counters.
+    mutable std::mutex verify_mutex_;
     Statistics stats_;
 };
 
