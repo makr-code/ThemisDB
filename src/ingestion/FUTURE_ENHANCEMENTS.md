@@ -156,3 +156,4 @@ The following connectors from this enhancement document have been implemented an
 | Web Crawler / Sitemap Source | `web_crawler_connector.cpp` | ✅ Implemented |
 | Per-Document Quarantine Retry | `ingestion_manager.cpp` | ✅ Implemented |
 | Distributed Ingestion Coordinator | `ingestion_coordinator.cpp` | ✅ Implemented |
+| CDC Source (live database streams) | `cdc_connector.cpp`         | ✅ Implemented |
