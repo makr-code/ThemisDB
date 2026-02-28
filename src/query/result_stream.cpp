@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -20,7 +20,9 @@
 #include "query/result_stream.h"
 #include "utils/error_registry.h"
 #include <algorithm>
+#include <array>
 #include <limits>
+#include <type_traits>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -255,11 +257,40 @@ bool ResultStream<T>::shouldFillBuffer() const {
 template<typename T>
 void ResultStream<T>::updateCursor(const T& item) {
     cursor_.offset++;
-    
-    // For keyset pagination, we would extract the sort key value here
-    // This is a simplified version - actual implementation would depend on T
-    // and would need to extract the key field value
-    
+
+    // For cursor-based and keyset pagination, update the last seen key/value
+    // so that data sources can resume from the correct position on the next
+    // fillBuffer() call.
+    if (strategy_ == PaginationStrategy::CURSOR_BASED ||
+        strategy_ == PaginationStrategy::KEYSET) {
+
+        if constexpr (std::is_same_v<T, std::string>) {
+            // The item itself is the primary key
+            cursor_.last_key = item;
+            if (strategy_ == PaginationStrategy::KEYSET) {
+                cursor_.last_value = item;
+            }
+        } else if constexpr (std::is_same_v<T, nlohmann::json>) {
+            // Extract the primary key from well-known JSON key fields
+            if (item.is_object()) {
+                static constexpr std::array<const char*, 3> key_fields = {"_id", "id", "key"};
+                for (const auto* key_field : key_fields) {
+                    if (item.contains(key_field)) {
+                        const auto& key_value = item[key_field];
+                        cursor_.last_key = key_value.is_string()
+                            ? key_value.template get<std::string>()
+                            : key_value.dump();
+                        if (strategy_ == PaginationStrategy::KEYSET) {
+                            cursor_.last_value = cursor_.last_key;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        // For other numeric/scalar types the offset-based cursor is sufficient.
+    }
+
     if (buffer_pos_ >= buffer_.size()) {
         // Reached end of current buffer
         if (buffer_.empty()) {
