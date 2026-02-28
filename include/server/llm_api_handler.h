@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     224                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,6 +35,9 @@ class LLMPluginManager;
 class AsyncInferenceEngine;
 class FeedbackStore;
 }
+namespace aql {
+class LLMAQLHandler;
+}
 namespace auth {
 class JWTValidator;
 }
@@ -56,7 +59,8 @@ using json = nlohmann::json;
  * - POST /api/v1/llm/inference - Standard text generation
  * - POST /api/v1/llm/rag - Retrieval-Augmented Generation
  * - POST /api/v1/llm/embed - Generate embeddings
- * - GET  /api/v1/llm/stream - Server-Sent Events streaming
+ * - GET  /api/v1/llm/stream - Server-Sent Events streaming (general LLM inference)
+ * - POST /api/v1/llm/aql/explain/stream - Stream AQL natural language explanation as SSE
  * - GET  /api/v1/llm/models - List available models
  * - POST /api/v1/llm/models/load - Load a model
  * - POST /api/v1/llm/models/unload - Unload a model
@@ -140,6 +144,10 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleStreamInference(
+        const http::request<http::string_body>& req);
+    
+    // AQL streaming explanation endpoint
+    http::response<http::string_body> handleStreamExplainAql(
         const http::request<http::string_body>& req);
     
     // Model management endpoints

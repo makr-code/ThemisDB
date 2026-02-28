@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1334                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Total Lines:     1625                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,8 @@
 #include "llm/docs_assistant.h"
 #include "llm/feedback_store.h"
 #include "llm/openai_compat_adapter.h"
+#include "aql/llm_aql_handler.h"
+#include "aql/llm_error_codes.h"
 #include "storage/rocksdb_wrapper.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -152,6 +154,8 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         return handleFeedbackStats(req);
     } else if (target.starts_with("/api/v1/llm/feedback/") && method == http::verb::get) {
         return handleGetFeedback(req);
+    } else if (target == "/api/v1/llm/aql/explain/stream" && method == http::verb::post) {
+        return handleStreamExplainAql(req);
     } else if (target == "/v1/chat/completions" && method == http::verb::post) {
         return handleOpenAIChatCompletions(req);
     } else if (target == "/v1/models" && method == http::verb::get) {
@@ -360,10 +364,162 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
     }
 }
 
+static constexpr int kMaxTokensLimit = 4096;
+
 http::response<http::string_body> LLMApiHandler::handleStreamInference(
     const http::request<http::string_body>& req) {
-    (void)req;
-    return createErrorResponse(http::status::not_implemented, "Streaming not supported in this build");
+
+    // Parse query parameters from URL: prompt, request_id, max_tokens
+    std::string prompt;
+    std::string request_id;
+    int max_tokens = 512;
+
+    std::string target = std::string(req.target());
+    auto qpos = target.find('?');
+    if (qpos != std::string::npos) {
+        std::string qs = target.substr(qpos + 1);
+        auto extract = [&](const std::string& key) -> std::string {
+            std::string prefix = key + "=";
+            auto pos = qs.find(prefix);
+            if (pos == std::string::npos) return {};
+            auto end = qs.find('&', pos);
+            std::string raw = qs.substr(pos + prefix.size(),
+                end == std::string::npos ? std::string::npos : end - pos - prefix.size());
+            // Basic URL-decode
+            std::string decoded;
+            decoded.reserve(raw.size());
+            for (size_t i = 0; i < raw.size(); ) {
+                if (raw[i] == '+') { decoded += ' '; ++i; }
+                else if (raw[i] == '%' && i + 2 < raw.size()) {
+                    auto is_hex = [](char c) {
+                        return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+                    };
+                    if (is_hex(raw[i+1]) && is_hex(raw[i+2])) {
+                        char hex[3] = {raw[i+1], raw[i+2], '\0'};
+                        decoded += static_cast<char>(std::strtol(hex, nullptr, 16));
+                        i += 3;
+                    } else {
+                        decoded += raw[i++]; // keep invalid % sequence as-is
+                    }
+                } else {
+                    decoded += raw[i++];
+                }
+            }
+            return decoded;
+        };
+        prompt = extract("prompt");
+        request_id = extract("request_id");
+        std::string max_tokens_str = extract("max_tokens");
+        if (!max_tokens_str.empty()) {
+            try {
+                int n = std::stoi(max_tokens_str);
+                if (n > 0 && n <= kMaxTokensLimit) max_tokens = n;
+            } catch (...) {}
+        }
+    }
+
+    if (prompt.empty()) {
+        return createErrorResponse(http::status::bad_request,
+            "Missing 'prompt' query parameter");
+    }
+
+    // Collect SSE events from LLM streaming
+    std::string sse_body;
+    sse_body += "retry: 3000\n\n";
+
+    try {
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        llm.generateStreamingSSE(
+            prompt,
+            [&sse_body](const std::string& sse_event) {
+                sse_body += sse_event;
+            },
+            request_id,
+            max_tokens
+        );
+        // Emit terminal done event
+        sse_body += "event: done\ndata: {\"done\":true}\n\n";
+    } catch (const std::exception& e) {
+        json err_event = {{"error", true}, {"message", std::string(e.what())}};
+        sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    }
+
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::content_type, "text/event-stream");
+    res.set(http::field::cache_control, "no-cache, no-transform");
+    res.set(http::field::connection, "keep-alive");
+    res.set(http::field::access_control_allow_origin, "*");
+    res.set(http::field::server, "ThemisDB-LLM/1.3.0");
+    res.keep_alive(true);
+    res.body() = std::move(sse_body);
+    res.prepare_payload();
+    return res;
+}
+
+http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
+    const http::request<http::string_body>& req) {
+
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid JSON body");
+    }
+
+    std::string aql_query;
+    std::string schema_context;
+    std::string request_id;
+
+    try {
+        if (body->contains("query")) {
+            aql_query = body->at("query").get<std::string>();
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'query' field");
+        }
+        if (body->contains("schema_context")) {
+            schema_context = body->at("schema_context").get<std::string>();
+        }
+        if (body->contains("request_id")) {
+            request_id = body->at("request_id").get<std::string>();
+        }
+    } catch (const std::exception& e) {
+        return createErrorResponse(http::status::bad_request,
+            "Invalid request parameters", e.what());
+    }
+
+    // Collect SSE events from AQL explanation streaming
+    std::string sse_body;
+    sse_body += "retry: 3000\n\n";
+
+    try {
+        aql::LLMAQLHandler aql_handler;
+        aql_handler.streamExplainAQLAsSSE(
+            aql_query,
+            [&sse_body](const std::string& sse_event) {
+                sse_body += sse_event;
+            },
+            request_id,
+            schema_context
+        );
+        // Emit terminal done event
+        sse_body += "event: done\ndata: {\"done\":true}\n\n";
+    } catch (const aql::LLMException& e) {
+        json err_event = {{"error", true}, {"message", std::string(e.what())},
+                          {"code", static_cast<int>(e.getErrorCode())}};
+        sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    } catch (const std::exception& e) {
+        json err_event = {{"error", true}, {"message", std::string(e.what())}};
+        sse_body += "event: error\ndata: " + err_event.dump() + "\n\n";
+    }
+
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::content_type, "text/event-stream");
+    res.set(http::field::cache_control, "no-cache, no-transform");
+    res.set(http::field::connection, "keep-alive");
+    res.set(http::field::access_control_allow_origin, "*");
+    res.set(http::field::server, "ThemisDB-LLM/1.3.0");
+    res.keep_alive(true);
+    res.body() = std::move(sse_body);
+    res.prepare_payload();
+    return res;
 }
 
 http::response<http::string_body> LLMApiHandler::handleListModels(
