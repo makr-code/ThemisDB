@@ -29,6 +29,7 @@
 
 #include "geo/spatial_backend.h"
 #include "geo/gpu_kernel_dispatcher.h"
+#include "geo/device_detector.h"
 #include "themis/gpu/device_discovery.h"
 #include "themis/gpu/safe_fail.h"
 #include "themis/gpu/metrics.h"
@@ -195,11 +196,11 @@ public:
         , audit_log_(256)
         , kernel_dispatcher_(buildDispatchTable())
     {
-        auto devices = themis::gpu::DeviceDiscovery::Enumerate();
-        gpu_device_present_ = themis::gpu::DeviceDiscovery::HasGPU(devices);
+        auto caps = themis::geo::GeoDeviceDetector::Detect();
+        gpu_device_present_ = themis::geo::GeoDeviceDetector::HasSuitableDevice(caps);
 
         if (gpu_device_present_) {
-            active_device_ = themis::gpu::DeviceDiscovery::GetBestDevice(devices);
+            active_device_ = themis::geo::GeoDeviceDetector::BestDevice(caps).device;
             THEMIS_INFO("GPU spatial backend: using device '{}' ({} MiB VRAM)",
                         active_device_.name,
                         active_device_.free_vram_bytes / (1024 * 1024));
@@ -688,6 +689,10 @@ std::string getGpuSpatialBackendStatsJson() {
       << "\"batch_max_latency_us\":"     << s.batch_max_latency_us
       << "}";
     return j.str();
+}
+
+std::string getGeoDeviceReportJson() {
+    return themis::geo::GeoDeviceDetector::ReportJson();
 }
 
 // Ensure the translation unit is not discarded by the linker.
