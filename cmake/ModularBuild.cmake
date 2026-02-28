@@ -177,6 +177,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
     ../src/base/wasm_plugin_sandbox.cpp
+    ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
     
     # Stubs for missing symbols
