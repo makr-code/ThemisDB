@@ -10,5 +10,6 @@ if(THEMIS_ENABLE_CONTENT)
         ../src/content/pdf_processor.cpp
         ../src/content/cad_processor.cpp
         ../src/content/geo_processor.cpp
+        ../src/content/ocr_processor.cpp
     )
 endif()

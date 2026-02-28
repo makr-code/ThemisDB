@@ -123,12 +123,24 @@ ContentValidationResult ContentValidator::validate(
         stats_.failed_validations++;
         return result;
     }
-    
-    // Step 2: Detect MIME type
+
+    // Step 2: Validate filename for path traversal and control characters
+    if (!filename.empty()) {
+        auto filename_error = validateFilename(filename);
+        if (filename_error.failed()) {
+            result.error = filename_error;
+            result.error.correlation_id = correlation_id;
+            stats_.failed_validations++;
+            stats_.format_violations++;
+            return result;
+        }
+    }
+
+    // Step 3: Detect MIME type
     result.mime_type = detectMimeType(data, filename);
     result.category = mimeToCategory(result.mime_type);
     
-    // Step 3: Validate MIME type
+    // Step 4: Validate MIME type
     if (config_.enforce_mime_type_validation) {
         auto mime_error = validateMimeType(result.mime_type);
         if (mime_error.failed()) {
@@ -141,7 +153,7 @@ ContentValidationResult ContentValidator::validate(
         result.mime_validated = true;
     }
     
-    // Step 4: Validate size
+    // Step 5: Validate size
     auto size_error = validateSize(data.size(), result.mime_type);
     if (size_error.failed()) {
         result.error = size_error;
@@ -152,7 +164,7 @@ ContentValidationResult ContentValidator::validate(
     }
     result.size_validated = true;
     
-    // Step 5: Validate format (magic bytes)
+    // Step 6: Validate format (magic bytes)
     if (config_.enforce_format_verification && config_.check_file_magic_bytes) {
         auto format_error = validateFormat(data, result.mime_type);
         if (format_error.failed()) {
@@ -165,7 +177,7 @@ ContentValidationResult ContentValidator::validate(
         result.format_validated = true;
     }
     
-    // Step 6: Validate against policy
+    // Step 7: Validate against policy
     if (policy_) {
         auto policy_error = validateWithPolicy(result.mime_type, data.size());
         if (policy_error.failed()) {
@@ -248,6 +260,78 @@ ContentError ContentValidator::validateFormat(
         );
     }
     
+    return ContentError::ok();
+}
+
+ContentError ContentValidator::validateFilename(const std::string& filename) {
+    if (filename.empty()) {
+        return ContentError::ok();  // Empty filename is allowed (content addressed by ID)
+    }
+
+    static constexpr size_t MAX_FILENAME_LENGTH = 4096;
+
+    // Check length
+    if (filename.size() > MAX_FILENAME_LENGTH) {
+        return ContentError::error(
+            ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
+            "Filename exceeds maximum allowed length"
+        );
+    }
+
+    // Check for null bytes or ASCII control characters (0x00–0x1F, 0x7F)
+    for (unsigned char c : filename) {
+        if (c < 0x20 || c == 0x7F) {
+            return ContentError::error(
+                ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
+                "Filename contains invalid control characters"
+            );
+        }
+    }
+
+    // Safe to access filename[0] here – empty filename already returned OK above.
+
+    // Check for absolute Unix path ("/etc/passwd")
+    if (filename[0] == '/') {
+        return ContentError::error(
+            ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
+            "Filename must not be an absolute path"
+        );
+    }
+
+    // Check for Windows absolute path ("C:\..." or "\\server\share")
+    if (filename.size() >= 2) {
+        bool is_drive_path = (filename[1] == ':') &&
+                             ((filename[0] >= 'A' && filename[0] <= 'Z') ||
+                              (filename[0] >= 'a' && filename[0] <= 'z'));
+        bool is_unc_path = (filename[0] == '\\' && filename[1] == '\\');
+        if (is_drive_path || is_unc_path) {
+            return ContentError::error(
+                ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
+                "Filename must not be an absolute path"
+            );
+        }
+    }
+
+    // Check for path traversal sequences using both Unix ("/") and Windows ("\") separators
+    // Normalise to forward slashes for uniform traversal detection
+    std::string normalised;
+    normalised.reserve(filename.size());
+    for (char c : filename) {
+        normalised.push_back(c == '\\' ? '/' : c);
+    }
+
+    // Split by '/' and inspect each component
+    std::istringstream iss(normalised);
+    std::string component;
+    while (std::getline(iss, component, '/')) {
+        if (component == "..") {
+            return ContentError::error(
+                ContentErrorCode::CONTENT_FORMAT_UNSUPPORTED,
+                "Filename contains path traversal sequence"
+            );
+        }
+    }
+
     return ContentError::ok();
 }
 

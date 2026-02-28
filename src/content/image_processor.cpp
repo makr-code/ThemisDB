@@ -37,6 +37,11 @@
 #include <chrono>
 #include <cmath>
 
+// Use OcrProcessor for real OCR when Tesseract is available
+#ifdef THEMIS_ENABLE_OCR
+#include "content/ocr_processor.h"
+#endif
+
 namespace themis {
 namespace content {
 
@@ -386,13 +391,12 @@ std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t
 }
 
 std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
-    // Real implementation would use Tesseract:
-    // tesseract::TessBaseAPI api;
-    // api.Init(nullptr, ocr_language_.c_str());
-    // api.SetImage(...);
-    // return api.GetUTF8Text();
-    
+#ifdef THEMIS_ENABLE_OCR
+    return OcrProcessor::performOcr(blob, ocr_language_);
+#else
+    (void)blob;
     return "";
+#endif
 }
 
 std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const std::vector<uint8_t>& blob) {

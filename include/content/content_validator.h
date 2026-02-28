@@ -159,6 +159,20 @@ public:
     );
     
     /**
+     * @brief Validate filename for security issues
+     * 
+     * Rejects filenames that contain:
+     * - Path traversal sequences ("../" or "..\")
+     * - Absolute path prefixes ("/" or "C:\")
+     * - Null bytes or ASCII control characters
+     * - Excessively long names
+     * 
+     * @param filename Filename to validate
+     * @return ContentError (OK if safe)
+     */
+    ContentError validateFilename(const std::string& filename);
+    
+    /**
      * @brief Check if processing timeout has been exceeded
      * 
      * @param start_time Processing start time

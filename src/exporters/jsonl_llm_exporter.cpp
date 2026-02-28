@@ -21,10 +21,12 @@
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "exporters/export_encryption.h"
 #include "exporters/format_template.h"
 #include "exporters/pii_detector.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -134,6 +136,7 @@ ExportStats JSONLLLMExporter::exportEntities(
         }
 
         std::set<std::string> seen_hashes;  // For duplicate detection
+        const size_t total_count = entities.size();  // Known in advance for ETA calculation
         
         for (const auto& entity : entities) {
             stats.total_entities++;
@@ -274,9 +277,21 @@ ExportStats JSONLLLMExporter::exportEntities(
                 stats.bytes_written += line.size();
                 stats.exported_entities++;
                 
-                // Progress reporting
-                if (options.progress_callback && 
+                // Progress reporting with duration and ETA
+                if (options.progress_callback &&
                     stats.exported_entities % options.progress_interval == 0) {
+                    auto now = std::chrono::steady_clock::now();
+                    stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        now - start_time);
+                    if (total_count > 0 && stats.exported_entities < total_count) {
+                        double elapsed = std::chrono::duration<double>(
+                            now - start_time).count();
+                        double rate = static_cast<double>(stats.exported_entities) / elapsed;
+                        stats.estimated_eta_seconds =
+                            static_cast<double>(total_count - stats.exported_entities) / rate;
+                    } else {
+                        stats.estimated_eta_seconds = 0.0;
+                    }
                     options.progress_callback(stats);
                 }
                 
@@ -322,12 +337,38 @@ ExportStats JSONLLLMExporter::exportEntities(
             end_time - start_time
         );
         
+        // ETA is zero at completion
+        stats.estimated_eta_seconds = 0.0;
+        
         // P2: Record compression metrics
         if (options.compress) {
             metrics_->recordCompression(writer.getBytesWritten(), 
                                        writer.getCompressedBytesWritten());
         }
-        
+
+        // P3: Encrypt output file if configured
+        if (options.encryption_config && !options.encryption_config->empty()) {
+            const std::string enc_tmp = options.output_path + ".enc_tmp";
+            try {
+                ExportEncryptor encryptor(*options.encryption_config);
+                const size_t enc_bytes =
+                    encryptor.encryptFile(options.output_path, enc_tmp);
+                std::error_code rename_ec;
+                std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
+                if (rename_ec) {
+                    std::filesystem::remove(enc_tmp);
+                    throw ExportIOException(
+                        "Failed to rename encrypted file: " + rename_ec.message(),
+                        enc_tmp);
+                }
+                metrics_->recordEncryption(enc_bytes);
+            } catch (const std::exception& e) {
+                std::error_code ec;
+                std::filesystem::remove(enc_tmp, ec);
+                throw;
+            }
+        }
+
         // Record export metrics
         metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
         

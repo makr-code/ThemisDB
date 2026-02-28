@@ -397,3 +397,114 @@ TEST(ContentMetricsDedup, JsonContainsDedupCounters) {
     EXPECT_EQ(j["throughput"]["dedup_checks"].get<uint64_t>(), 2u);
     EXPECT_EQ(j["throughput"]["dedup_hits"].get<uint64_t>(), 1u);
 }
+
+// ============================================================================
+// SHA-256 hash-based exact-duplicate detection (ContentManager integration)
+// ============================================================================
+
+#include "content/content_manager.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/vector_index_manager.h"
+#include "index/graph_index.h"
+#include "index/secondary_index.h"
+#include <filesystem>
+#include <openssl/sha.h>
+
+using namespace themis;
+
+namespace {
+
+class ContentSHA256DedupTest : public ::testing::Test {
+protected:
+    std::shared_ptr<RocksDBWrapper>       storage_;
+    std::shared_ptr<VectorIndexManager>   vector_index_;
+    std::shared_ptr<GraphIndexManager>    graph_index_;
+    std::shared_ptr<SecondaryIndexManager> secondary_index_;
+    std::shared_ptr<ContentManager>       mgr_;
+    const std::string                     kDbPath = "./test_sha256_dedup_db";
+
+    void SetUp() override {
+        if (std::filesystem::exists(kDbPath))
+            std::filesystem::remove_all(kDbPath);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = kDbPath;
+        storage_ = std::make_shared<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+        vector_index_   = std::make_shared<VectorIndexManager>(*storage_);
+        graph_index_    = std::make_shared<GraphIndexManager>(*storage_);
+        secondary_index_ = std::make_shared<SecondaryIndexManager>(*storage_);
+        mgr_ = std::make_shared<ContentManager>(
+            storage_, vector_index_, graph_index_, secondary_index_);
+    }
+
+    void TearDown() override {
+        mgr_.reset();
+        secondary_index_.reset();
+        graph_index_.reset();
+        vector_index_.reset();
+        storage_.reset();
+        if (std::filesystem::exists(kDbPath))
+            std::filesystem::remove_all(kDbPath);
+    }
+
+    // Compute reference SHA-256 hex for a string.
+    static std::string sha256Hex(const std::string& data) {
+        unsigned char digest[SHA256_DIGEST_LENGTH];
+        SHA256(reinterpret_cast<const unsigned char*>(data.data()), data.size(), digest);
+        std::ostringstream oss;
+        oss << std::hex << std::setfill('0');
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
+            oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+        return oss.str();
+    }
+};
+
+} // namespace
+
+TEST_F(ContentSHA256DedupTest, FirstIngestionSucceeds) {
+    auto res = mgr_->ingestRawBlob("hello world text content", "test.txt", "text/plain");
+    ASSERT_TRUE(res.success);
+    EXPECT_FALSE(res.primary_content_id.empty());
+}
+
+TEST_F(ContentSHA256DedupTest, SecondIngestionOfIdenticalBlobReturnsSameId) {
+    const std::string blob = "identical content for SHA-256 dedup test";
+    auto res1 = mgr_->ingestRawBlob(blob, "file.txt", "text/plain");
+    ASSERT_TRUE(res1.success);
+
+    auto res2 = mgr_->ingestRawBlob(blob, "file.txt", "text/plain");
+    ASSERT_TRUE(res2.success);
+    EXPECT_EQ(res1.primary_content_id, res2.primary_content_id)
+        << "Second ingest of identical blob must return the existing content ID";
+}
+
+TEST_F(ContentSHA256DedupTest, DifferentBlobsGetDifferentIds) {
+    auto res1 = mgr_->ingestRawBlob("content alpha", "a.txt", "text/plain");
+    auto res2 = mgr_->ingestRawBlob("content beta",  "b.txt", "text/plain");
+    ASSERT_TRUE(res1.success);
+    ASSERT_TRUE(res2.success);
+    EXPECT_NE(res1.primary_content_id, res2.primary_content_id);
+}
+
+TEST_F(ContentSHA256DedupTest, HashSha256FieldIsRealSHA256) {
+    const std::string blob = "verify that hash_sha256 is a proper SHA-256";
+    auto res = mgr_->ingestRawBlob(blob, "verify.txt", "text/plain");
+    ASSERT_TRUE(res.success);
+
+    auto meta = mgr_->getContentMeta(res.primary_content_id);
+    ASSERT_TRUE(meta.has_value());
+    EXPECT_EQ(meta->hash_sha256, sha256Hex(blob))
+        << "hash_sha256 must be the real SHA-256 hex of the blob";
+}
+
+TEST_F(ContentSHA256DedupTest, DuplicateMetadataContainsDuplicateOfField) {
+    const std::string blob = "duplicate detection metadata test";
+    auto res1 = mgr_->ingestRawBlob(blob, "dup.txt", "text/plain");
+    ASSERT_TRUE(res1.success);
+
+    auto res2 = mgr_->ingestRawBlob(blob, "dup.txt", "text/plain");
+    ASSERT_TRUE(res2.success);
+    ASSERT_TRUE(res2.metadata.contains("duplicate_of"))
+        << "Duplicate ingest result must contain 'duplicate_of' key";
+    EXPECT_EQ(res2.metadata["duplicate_of"].get<std::string>(), res1.primary_content_id);
+}

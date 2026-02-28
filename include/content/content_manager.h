@@ -219,6 +219,16 @@ public:
         std::string primary_content_id;  // Main content ID (archive or single file)
         std::vector<std::string> extracted_content_ids;  // IDs of extracted files (for archives)
         json metadata;  // Additional metadata about the ingestion
+
+        /// Per-stage diagnostic record for observability and debugging.
+        struct StageOutcome {
+            std::string stage_name;    ///< Name of the pipeline stage (e.g. "extraction").
+            bool succeeded = true;     ///< Whether the stage completed without error.
+            bool skipped = false;      ///< True when continue_on_error was used and stage was degraded.
+            int attempts = 1;          ///< Total attempts made (1 = first try, no retries).
+            std::string error_message; ///< Error description (empty when succeeded).
+        };
+        std::vector<StageOutcome> stage_outcomes; ///< Ordered per-stage outcomes for this ingestion.
     };
     
     IngestResult ingestRawBlob(
