@@ -162,6 +162,31 @@ void InferenceEngineEnhanced::swapModel(
     spdlog::info("Hot-swapped plugin for model: {}", model_id);
 }
 
+void InferenceEngineEnhanced::setModelQuota(
+    const std::string& model_id,
+    const ModelResourceQuota& quota
+) {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        throw std::invalid_argument("Model not registered: " + model_id);
+    }
+    it->second.quota = quota;
+    spdlog::info("Set resource quota for model '{}': max_concurrent={}, max_memory_mb={}",
+                 model_id, quota.max_concurrent_requests, quota.max_memory_mb);
+}
+
+InferenceEngineEnhanced::ModelResourceQuota InferenceEngineEnhanced::getModelQuota(
+    const std::string& model_id
+) const {
+    std::lock_guard<std::mutex> lock(models_mutex_);
+    auto it = models_.find(model_id);
+    if (it == models_.end()) {
+        return ModelResourceQuota{};
+    }
+    return it->second.quota;
+}
+
 // ═══════════════════════════════════════════════════════════
 // Inference Submission
 // ═══════════════════════════════════════════════════════════
@@ -708,8 +733,18 @@ void InferenceEngineEnhanced::processBatch(
                 auto it = models_.find(model_id);
                 if (it != models_.end()) {
                     plugin = it->second.plugin;
+                    it->second.active_requests++;
                 }
             }
+            // RAII guard: decrement active_requests when this scope exits,
+            // regardless of normal return, continue, or exception.
+            auto active_guard = std::shared_ptr<void>(nullptr, [this, model_id](void*) {
+                std::lock_guard<std::mutex> lock(models_mutex_);
+                auto it = models_.find(model_id);
+                if (it != models_.end() && it->second.active_requests > 0) {
+                    it->second.active_requests--;
+                }
+            });
             
             if (!plugin) {
                 throw std::runtime_error("No available model for request");
@@ -945,20 +980,27 @@ std::string InferenceEngineEnhanced::generateCacheKey(const InferenceRequest& re
 std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest& request) {
     std::lock_guard<std::mutex> lock(models_mutex_);
     
-    // If specific model requested and available, use it
+    // If specific model requested and available, use it (honour concurrency quota)
     if (!request.preferred_model_id.empty()) {
         auto it = models_.find(request.preferred_model_id);
         if (it != models_.end() && it->second.is_available) {
-            return request.preferred_model_id;
+            const auto& quota = it->second.quota;
+            if (quota.max_concurrent_requests == 0 ||
+                it->second.active_requests < quota.max_concurrent_requests) {
+                return request.preferred_model_id;
+            }
         }
     }
     
-    // Get available models
+    // Get available models (is_available and within concurrency quota)
     std::vector<std::string> available;
     for (const auto& [id, info] : models_) {
-        if (info.is_available) {
-            available.push_back(id);
+        if (!info.is_available) continue;
+        if (info.quota.max_concurrent_requests > 0 &&
+            info.active_requests >= info.quota.max_concurrent_requests) {
+            continue;  // model at concurrency limit
         }
+        available.push_back(id);
     }
     
     if (available.empty()) {

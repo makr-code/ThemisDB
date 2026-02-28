@@ -133,6 +133,23 @@ public:
     };
     
     /**
+     * @brief Per-model resource quota limits.
+     *
+     * Both fields default to 0, which means "unlimited".
+     * Set via setModelQuota() after registering a model.
+     */
+    struct ModelResourceQuota {
+        /// Maximum number of concurrently active requests for this model.
+        /// 0 = unlimited.
+        size_t max_concurrent_requests = 0;
+        /// Maximum memory this model may consume, in megabytes.
+        /// 0 = unlimited.  Informational only — the engine does not enforce
+        /// memory allocation; callers may use this to avoid scheduling new
+        /// requests when the model's reported footprint exceeds the limit.
+        size_t max_memory_mb = 0;
+    };
+
+    /**
      * @brief Model information for load balancing
      */
     struct ModelInfo {
@@ -142,6 +159,7 @@ public:
         double avg_response_time_ms = 0.0;
         size_t total_requests = 0;
         bool is_available = true;
+        ModelResourceQuota quota;  ///< Per-model resource limits (0 = unlimited)
     };
     
     /**
@@ -198,6 +216,25 @@ public:
      *         not registered.
      */
     void swapModel(const std::string& model_id, std::shared_ptr<ILLMPlugin> new_plugin);
+
+    /**
+     * @brief Set (or replace) the resource quota for a registered model.
+     *
+     * Thread-safe: protected by models_mutex_.
+     *
+     * @param model_id Model identifier; must be registered.
+     * @param quota    Quota to apply.  Fields set to 0 are unlimited.
+     * @throws std::invalid_argument if @p model_id is not registered.
+     */
+    void setModelQuota(const std::string& model_id, const ModelResourceQuota& quota);
+
+    /**
+     * @brief Retrieve the current resource quota for a registered model.
+     *
+     * @param model_id Model identifier.
+     * @return Current quota, or a zero-limit quota if @p model_id is unknown.
+     */
+    ModelResourceQuota getModelQuota(const std::string& model_id) const;
     
     // Inference submission
     InferenceHandle submit(const EnhancedInferenceRequest& request);
