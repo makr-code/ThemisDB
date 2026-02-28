@@ -23,7 +23,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Voice biometric authentication (speaker verification) (Issue: #2494)
 
 ## In Progress 🚧
-- [I] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
+- [x] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
 
 ## Planned Features 📋
 
@@ -59,7 +59,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Phase 2: Streaming STT & Wake-Word Detection (Status: Completed ✅)
 - [x] Real-time streaming STT (word-by-word transcription as audio arrives)
 - [x] Wake-word detection for hands-free activation
-- [~] Multi-speaker diarization improvements
+- [x] Multi-speaker diarization improvements
 
 ### Phase 3: Voice Macros & Browser Streaming [~] (Status: In Progress 🚧)
 - [x] Voice command macros (user-defined shortcuts to AQL queries)
@@ -89,7 +89,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
   (density, spectral centroid, crest factor). A neural wake-word model backend
   (e.g. Porcupine, openWakeWord) can be plugged in via `WakeWordDetector::scorePhrase()`
   without API changes.
-- Multi-speaker diarization accuracy degrades with more than 4 simultaneous speakers.
+- Multi-speaker diarization uses k-means++ clustering on sub-band acoustic features (RMS + ZCR). Accuracy degrades with more than 4 simultaneous speakers; a neural embedding backend (e.g., pyannote-style x-vector) can be substituted via `diarizeSegments()` without API changes.
 - TTS voice quality depends on the llama.cpp model in use.
 - Voice biometric authentication uses acoustic sub-band features (no external model required). A neural i-vector/x-vector backend can be plugged in via `VoiceBiometricAuthenticator`'s internal `extractFeatures()` without changing the public API. Liveness detection is heuristic-based (crest factor, spectral flatness, ZCR variability); a neural anti-spoofing model is recommended for production.
 
