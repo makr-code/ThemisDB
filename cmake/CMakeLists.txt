@@ -1955,6 +1955,7 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/metrics_collector.cpp
     ../src/observability/alertmanager.cpp
     ../src/observability/continuous_profiler.cpp
+    ../src/observability/ebpf_tracer.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
