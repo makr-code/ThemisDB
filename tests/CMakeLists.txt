@@ -1350,8 +1350,39 @@ else()
 endif()
 
 # ============================================================================
-# Enhanced Query Cache Tests
+# HNSW Incremental Re-index Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hnsw_incremental_reindex.cpp")
+    message(STATUS "Adding HNSW Incremental Re-index tests")
+
+    add_executable(test_hnsw_incremental_reindex
+        test_hnsw_incremental_reindex.cpp
+    )
+
+    target_link_libraries(test_hnsw_incremental_reindex PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+    )
+
+    target_compile_definitions(test_hnsw_incremental_reindex PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HnswIncrementalReindexTests COMMAND test_hnsw_incremental_reindex)
+
+    set_tests_properties(HnswIncrementalReindexTests PROPERTIES
+        LABELS "index;hnsw;incremental;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  HNSW Incremental Re-index: add/remove/update/unchanged, idempotency, full-rebuild trigger")
+else()
+    message(STATUS "HNSW Incremental Re-index tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
     message(STATUS "Adding Enhanced Query Cache tests")
