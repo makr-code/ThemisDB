@@ -2167,6 +2167,36 @@ else()
     message(STATUS "Vector Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
 endif()
 
+# Lossless Vector Compression Tests (sparse encoding for index compression)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_compression_lossless.cpp")
+    message(STATUS "Adding Lossless Vector Compression tests")
+
+    add_executable(test_vector_compression_lossless
+        test_vector_compression_lossless.cpp
+    )
+
+    target_link_libraries(test_vector_compression_lossless PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vector_compression_lossless PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorCompressionLosslessTests COMMAND test_vector_compression_lossless)
+
+    set_tests_properties(VectorCompressionLosslessTests PROPERTIES
+        LABELS "index;compression;sparse;lossless;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Lossless Vector Compression: sparse CSR, delta+varint, dictionary encoding")
+else()
+    message(STATUS "Lossless vector compression tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_compression_lossless.cpp")
+endif()
+
 # Transaction Savepoint Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_savepoints.cpp")
     message(STATUS "Adding Transaction Savepoint tests")
