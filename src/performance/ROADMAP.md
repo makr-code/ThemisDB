@@ -35,8 +35,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Short-term (Next 3-6 months)
 - [x] AVX-512 SIMD path for vector distance computations (Issue: #1964)
-- [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
-
+- [x] Adaptive batch size tuning for LLM inference (Issue: #1996)
 ### Long-term (6-12 months)
 - [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
 - [I] Cross-module performance regression detection in CI (Issue: #2423)
@@ -68,7 +67,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
 - [x] AVX-512 SIMD path for vector distance computations
-- [ ] Adaptive batch size tuning for LLM inference
+- [x] Adaptive batch size tuning for LLM inference
 - [x] Per-query cost model integration with query optimizer
 - [x] Memory pressure monitoring with automatic cache eviction
 - [x] Jemalloc integration as alternative allocator
