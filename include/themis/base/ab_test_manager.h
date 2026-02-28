@@ -346,7 +346,7 @@ private:
     /// Stable hash for deterministic request routing.
     static size_t hashRequestKey(const std::string& key);
 
-    /// Unload the treatment binary for a test entry (call without holding mutex_).
+    /// Unload the treatment binary for a test entry (caller must hold mutex_).
     void unloadTreatment(TestEntry& entry);
 };
 

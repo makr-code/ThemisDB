@@ -512,3 +512,65 @@ TEST_F(ABTestManagerTest, TreatmentNotLoadedForNonExistentBinary) {
 TEST_F(ABTestManagerTest, TreatmentLoadedQueryUnknownTest) {
     EXPECT_FALSE(mgr.isTreatmentLoaded("unknown"));
 }
+
+// =============================================================================
+// Latency metrics
+// =============================================================================
+
+TEST_F(ABTestManagerTest, EvaluateLatencyMetricsPopulated) {
+    startTest("t1");
+    // Use 40 samples — comfortably above min_samples (30) so the test is
+    // evaluable, and simple enough to reason about the expected latency mean.
+    constexpr int kSamples = 40;
+    for (int i = 0; i < kSamples; ++i)
+        mgr.recordOutcome("t1", false, true, 10.0);  // control: 10 ms
+    for (int i = 0; i < kSamples; ++i)
+        mgr.recordOutcome("t1", true, true, 20.0);   // treatment: 20 ms
+
+    auto r = mgr.evaluateTest("t1");
+    EXPECT_NEAR(r.control_mean_latency_ms,   10.0, 0.01);
+    EXPECT_NEAR(r.treatment_mean_latency_ms, 20.0, 0.01);
+}
+
+TEST_F(ABTestManagerTest, ControlStdDevComputedForVariedLatency) {
+    startTest("t1");
+    mgr.recordOutcome("t1", false, true, 10.0);
+    mgr.recordOutcome("t1", false, true, 20.0);  // mean = 15, std_dev > 0
+
+    auto m = mgr.getControlMetrics("t1");
+    EXPECT_NEAR(m.mean_latency_ms, 15.0, 0.01);
+    EXPECT_GT(m.std_dev_latency, 0.0);
+}
+
+TEST_F(ABTestManagerTest, StdDevZeroForConstantLatency) {
+    startTest("t1");
+    for (int i = 0; i < 5; ++i)
+        mgr.recordOutcome("t1", false, true, 10.0);
+
+    auto m = mgr.getControlMetrics("t1");
+    EXPECT_NEAR(m.std_dev_latency, 0.0, 1e-9);
+}
+
+// =============================================================================
+// promoteTest TOCTOU guard: status not overwritten if already terminal
+// =============================================================================
+
+TEST_F(ABTestManagerTest, PromoteAfterCancelDoesNotOverrideCancelledStatus) {
+    startTest("t1");
+    // Cancel makes the test terminal.
+    mgr.cancelTest("t1");
+    EXPECT_EQ(mgr.getTestStatus("t1"), ABTestStatus::CANCELLED);
+    // Attempt to promote a non-ACTIVE test: must fail AND leave status CANCELLED.
+    bool ok = mgr.promoteTest("t1");
+    EXPECT_FALSE(ok);
+    EXPECT_EQ(mgr.getTestStatus("t1"), ABTestStatus::CANCELLED);
+}
+
+TEST_F(ABTestManagerTest, RollbackAfterCancelDoesNotOverrideCancelledStatus) {
+    startTest("t1");
+    mgr.cancelTest("t1");
+    EXPECT_EQ(mgr.getTestStatus("t1"), ABTestStatus::CANCELLED);
+    bool ok = mgr.rollbackTest("t1");
+    EXPECT_FALSE(ok);
+    EXPECT_EQ(mgr.getTestStatus("t1"), ABTestStatus::CANCELLED);
+}

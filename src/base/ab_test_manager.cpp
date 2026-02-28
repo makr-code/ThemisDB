@@ -46,36 +46,49 @@ ABTestManager::~ABTestManager() = default;
 // =============================================================================
 
 bool ABTestManager::startTest(const ABModuleTestConfig& config, ModuleLoader& loader) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // First check: reject duplicate test IDs.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (tests_.count(config.test_id) > 0) {
+            spdlog::warn("ABTestManager: test '{}' already exists", config.test_id);
+            return false;
+        }
+    }
 
+    // Load the treatment binary OUTSIDE the mutex — loadModule may perform
+    // slow disk or network I/O and must not hold the global lock.
+    const std::string tkey = treatmentKey(config.module_name);
+    auto load_result = loader.loadModule(config.treatment_path, tkey);
+    bool treatment_loaded = load_result.success;
+    if (treatment_loaded) {
+        spdlog::info("ABTestManager: treatment '{}' loaded from '{}'",
+                     config.module_name, config.treatment_path);
+    } else {
+        spdlog::warn("ABTestManager: treatment binary could not be loaded ({}); "
+                     "all traffic will go to control", load_result.errorMessage);
+    }
+
+    // Second check + insert: another thread may have started the same test
+    // while we were loading the binary.
+    std::lock_guard<std::mutex> lock(mutex_);
     if (tests_.count(config.test_id) > 0) {
-        spdlog::warn("ABTestManager: test '{}' already exists", config.test_id);
+        if (treatment_loaded) {
+            loader.unloadModule(tkey); // clean up the binary we just loaded
+        }
+        spdlog::warn("ABTestManager: test '{}' was registered by another thread "
+                     "during module load; this registration attempt is being discarded",
+                     config.test_id);
         return false;
     }
 
     TestEntry entry;
-    entry.config     = config;
-    entry.status     = ABTestStatus::ACTIVE;
-    entry.start_time = std::chrono::system_clock::now();
-    entry.loader_ptr = &loader;
+    entry.config           = config;
+    entry.status           = ABTestStatus::ACTIVE;
+    entry.start_time       = std::chrono::system_clock::now();
+    entry.loader_ptr       = &loader;
+    entry.treatment_loaded = treatment_loaded;
 
-    // Attempt to load the treatment binary under the derived treatment key so
-    // both variants are resident at the same time.  A failure here is non-fatal
-    // — the test is still registered; routing will always use the control until
-    // the treatment becomes available (or the test is re-configured).
-    auto result = loader.loadModule(config.treatment_path,
-                                    treatmentKey(config.module_name));
-    if (result.success) {
-        entry.treatment_loaded = true;
-        spdlog::info("ABTestManager: test '{}' started – treatment '{}' loaded from '{}'",
-                     config.test_id, config.module_name, config.treatment_path);
-    } else {
-        entry.treatment_loaded = false;
-        spdlog::warn("ABTestManager: test '{}' started but treatment binary could not be "
-                     "loaded ({}); all traffic will go to control",
-                     config.test_id, result.errorMessage);
-    }
-
+    spdlog::info("ABTestManager: test '{}' started", config.test_id);
     tests_[config.test_id] = std::move(entry);
     return true;
 }
@@ -128,7 +141,10 @@ bool ABTestManager::promoteTest(const std::string& test_id) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = tests_.find(test_id);
-        if (it != tests_.end()) {
+        // Guard: only promote if the test is still ACTIVE.  A concurrent
+        // cancelTest() could have already set the status to CANCELLED between
+        // the first lock block and here; do not overwrite that terminal state.
+        if (it != tests_.end() && it->second.status == ABTestStatus::ACTIVE) {
             it->second.status = ABTestStatus::PROMOTED;
         }
     }
