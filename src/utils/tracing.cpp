@@ -63,6 +63,21 @@ namespace themis {
 // SamplingStrategy
 // ─────────────────────────────────────────────────────────────────────────────
 
+SamplingStrategy SamplingStrategy::adaptive(const AdaptiveConfig& config) {
+    SamplingStrategy s(Type::ADAPTIVE, config.min_rate);
+    s.adaptive_config_ = config;
+    s.adaptive_state_  = std::make_shared<AdaptiveState>();
+    return s;
+}
+
+double SamplingStrategy::getEffectiveRate() const {
+    if (type_ != Type::ADAPTIVE || !adaptive_state_) {
+        return probability_;
+    }
+    std::lock_guard<std::mutex> lk(adaptive_state_->mu);
+    return adaptive_state_->effective_rate;
+}
+
 bool SamplingStrategy::shouldSample(bool parent_sampled) const {
     switch (type_) {
         case Type::ALWAYS_ON:
@@ -81,6 +96,42 @@ bool SamplingStrategy::shouldSample(bool parent_sampled) const {
                 thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
                 return dist(rng) < probability_;
             }
+        case Type::ADAPTIVE: {
+            if (!adaptive_state_) return true; // safety fallback
+
+            auto now = std::chrono::steady_clock::now();
+            std::lock_guard<std::mutex> lk(adaptive_state_->mu);
+
+            // Advance window when the measurement period has elapsed
+            auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - adaptive_state_->window_start).count();
+
+            if (elapsed_ms >= adaptive_config_.window.count()) {
+                double window_seconds = elapsed_ms / 1000.0;
+                if (window_seconds > 0.0 && adaptive_state_->window_count > 0) {
+                    double observed_rate =
+                        static_cast<double>(adaptive_state_->window_count) / window_seconds;
+                    if (observed_rate > adaptive_config_.max_spans_per_second) {
+                        adaptive_state_->effective_rate = std::max(
+                            adaptive_config_.min_rate,
+                            adaptive_config_.max_spans_per_second / observed_rate);
+                    } else {
+                        adaptive_state_->effective_rate = 1.0;
+                    }
+                }
+                adaptive_state_->window_count = 0;
+                adaptive_state_->window_start = now;
+            }
+
+            adaptive_state_->window_count++;
+
+            double rate = adaptive_state_->effective_rate;
+            if (rate >= 1.0) return true;
+
+            thread_local std::mt19937_64 rng{std::random_device{}()};
+            thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
+            return dist(rng) < rate;
+        }
         default:
             return true;
     }

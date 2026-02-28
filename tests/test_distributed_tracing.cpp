@@ -442,3 +442,169 @@ TEST_F(DistributedTracingTest, W3CShortTraceparentRejected) {
     EXPECT_EQ(Tracer::getTotalSpans(), before + 1);
     span.end();
 }
+
+// ============================================================================
+// Adaptive sampling strategy tests
+// ============================================================================
+
+/**
+ * Test that adaptive strategy starts with full sampling at low rates
+ */
+TEST_F(DistributedTracingTest, AdaptiveSamplingFullRateWhenIdle) {
+    SamplingStrategy::AdaptiveConfig cfg;
+    cfg.max_spans_per_second = 1000.0;
+    cfg.min_rate             = 0.01;
+    cfg.window               = std::chrono::milliseconds{500};
+
+    auto strategy = SamplingStrategy::adaptive(cfg);
+    EXPECT_EQ(strategy.type(), SamplingStrategy::Type::ADAPTIVE);
+
+    // At startup the effective rate should be 1.0 (no spans have been observed yet)
+    EXPECT_DOUBLE_EQ(strategy.getEffectiveRate(), 1.0);
+
+    // A handful of calls must all be sampled (rate << max_spans_per_second)
+    int sampled = 0;
+    for (int i = 0; i < 10; ++i) {
+        if (strategy.shouldSample()) ++sampled;
+    }
+    EXPECT_EQ(sampled, 10);
+}
+
+/**
+ * Test that adaptive strategy lowers the effective rate when the span rate
+ * exceeds max_spans_per_second.
+ */
+TEST_F(DistributedTracingTest, AdaptiveSamplingReducesRateUnderHighLoad) {
+    // Cap: 5 spans/s; 2-second window so we have plenty of time to fill it
+    SamplingStrategy::AdaptiveConfig cfg;
+    cfg.max_spans_per_second = 5.0;
+    cfg.min_rate             = 0.01;
+    cfg.window               = std::chrono::milliseconds{2000};
+
+    auto strategy = SamplingStrategy::adaptive(cfg);
+
+    // Record start so we can verify the window hasn't expired during the loop
+    auto loop_start = std::chrono::steady_clock::now();
+
+    // Pump 50,000 calls – far more than the 5/s cap within a 2-second window
+    for (int i = 0; i < 50000; ++i) {
+        strategy.shouldSample();
+    }
+
+    auto loop_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - loop_start).count();
+
+    // If the loop itself took longer than the window we cannot make the assertion
+    if (loop_elapsed_ms >= 2000) {
+        GTEST_SKIP() << "Loop took too long for timing-sensitive test (" 
+                     << loop_elapsed_ms << " ms)";
+    }
+
+    // Wait for the window to expire so the next call triggers rate adjustment
+    std::this_thread::sleep_for(std::chrono::milliseconds{2100});
+
+    // One more call to trigger the window rollover
+    strategy.shouldSample();
+
+    // Effective rate must have been reduced below 1.0
+    double rate = strategy.getEffectiveRate();
+    EXPECT_LT(rate, 1.0);
+
+    // And it must not drop below min_rate
+    EXPECT_GE(rate, cfg.min_rate);
+}
+
+/**
+ * Test that the min_rate floor is respected even under extreme load.
+ */
+TEST_F(DistributedTracingTest, AdaptiveSamplingRespectsMinRate) {
+    SamplingStrategy::AdaptiveConfig cfg;
+    cfg.max_spans_per_second = 1.0;   // very low cap
+    cfg.min_rate             = 0.05;
+    cfg.window               = std::chrono::milliseconds{2000};
+
+    auto strategy = SamplingStrategy::adaptive(cfg);
+
+    auto loop_start = std::chrono::steady_clock::now();
+    for (int i = 0; i < 100000; ++i) {
+        strategy.shouldSample();
+    }
+
+    auto loop_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - loop_start).count();
+
+    if (loop_elapsed_ms >= 2000) {
+        GTEST_SKIP() << "Loop took too long for timing-sensitive test ("
+                     << loop_elapsed_ms << " ms)";
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds{2100});
+    strategy.shouldSample(); // trigger window rollover
+
+    // Rate must have dropped AND must not go below min_rate
+    double rate = strategy.getEffectiveRate();
+    EXPECT_LT(rate, 1.0);
+    EXPECT_GE(rate, cfg.min_rate);
+}
+
+/**
+ * Test that getEffectiveRate() returns probability() for non-ADAPTIVE strategies.
+ */
+TEST_F(DistributedTracingTest, GetEffectiveRateNonAdaptive) {
+    EXPECT_DOUBLE_EQ(SamplingStrategy::alwaysOn().getEffectiveRate(),  1.0);
+    EXPECT_DOUBLE_EQ(SamplingStrategy::alwaysOff().getEffectiveRate(), 0.0);
+    EXPECT_DOUBLE_EQ(SamplingStrategy::probability(0.3).getEffectiveRate(), 0.3);
+    EXPECT_DOUBLE_EQ(SamplingStrategy::parentBased(0.5).getEffectiveRate(), 0.5);
+}
+
+/**
+ * Test that adaptive strategy can be installed on the global Tracer at runtime.
+ */
+TEST_F(DistributedTracingTest, AdaptiveSamplingSetOnTracer) {
+    SamplingStrategy::AdaptiveConfig cfg;
+    cfg.max_spans_per_second = 500.0;
+    cfg.min_rate             = 0.02;
+
+    Tracer::setSamplingStrategy(SamplingStrategy::adaptive(cfg));
+
+    EXPECT_EQ(Tracer::getSamplingStrategy().type(), SamplingStrategy::Type::ADAPTIVE);
+
+    // Spans can still be created after switching to adaptive mode
+    auto span = Tracer::startSpan("adaptive.test");
+    EXPECT_TRUE(span.isValid());
+    span.end();
+
+    // Restore default strategy
+    Tracer::setSamplingStrategy(SamplingStrategy::alwaysOn());
+}
+
+/**
+ * Test that copies of an adaptive strategy share the same rate-measurement state.
+ */
+TEST_F(DistributedTracingTest, AdaptiveSamplingCopiesShareState) {
+    SamplingStrategy::AdaptiveConfig cfg;
+    cfg.max_spans_per_second = 5.0;
+    cfg.min_rate             = 0.01;
+    cfg.window               = std::chrono::milliseconds{2000};
+
+    auto s1 = SamplingStrategy::adaptive(cfg);
+    auto s2 = s1; // copy – must share state
+
+    // Drive the rate up via s1
+    auto loop_start = std::chrono::steady_clock::now();
+    for (int i = 0; i < 50000; ++i) s1.shouldSample();
+
+    auto loop_elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - loop_start).count();
+
+    if (loop_elapsed_ms >= 2000) {
+        GTEST_SKIP() << "Loop took too long for timing-sensitive test ("
+                     << loop_elapsed_ms << " ms)";
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds{2100});
+    s1.shouldSample(); // rollover
+
+    // s2 should see the same effective rate
+    EXPECT_DOUBLE_EQ(s1.getEffectiveRate(), s2.getEffectiveRate());
+}
