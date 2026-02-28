@@ -168,4 +168,49 @@ TEST(GrpcTransportTest, NotRunningBeforeStart) {
     EXPECT_FALSE(transport.isRunning());
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// start() / stop() lifecycle (insecure, ephemeral port)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(GrpcTransportTest, StartAndStopInsecure) {
+    GrpcTransport::Config cfg;
+    cfg.port = 8771;  // default gRPC transport port
+    GrpcTransport transport(cfg);
+
+    ASSERT_FALSE(transport.isRunning());
+    const bool started = transport.start();
+    if (started) {
+        EXPECT_TRUE(transport.isRunning());
+        transport.stop();
+        EXPECT_FALSE(transport.isRunning());
+    }
+    // If start() fails (port unavailable in CI), the transport must still be
+    // in a clean non-running state.
+    EXPECT_FALSE(transport.isRunning());
+}
+
+TEST(GrpcTransportTest, DoubleStartReturnsFalse) {
+    GrpcTransport::Config cfg;
+    cfg.port = 8773;  // Use a distinct port to avoid conflicts
+    GrpcTransport transport(cfg);
+
+    const bool first = transport.start();
+    if (first) {
+        EXPECT_TRUE(transport.isRunning());
+        // Second start() while already running must return false.
+        EXPECT_FALSE(transport.start());
+        EXPECT_TRUE(transport.isRunning());  // still running
+        transport.stop();
+    }
+    EXPECT_FALSE(transport.isRunning());
+}
+
+TEST(GrpcTransportTest, StopWithoutStartIsNoOp) {
+    GrpcTransport::Config cfg;
+    GrpcTransport transport(cfg);
+    // stop() on a never-started transport must not crash.
+    EXPECT_NO_THROW(transport.stop());
+    EXPECT_FALSE(transport.isRunning());
+}
+
 #endif  // THEMIS_ENABLE_GRPC

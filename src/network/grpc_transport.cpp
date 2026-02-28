@@ -76,7 +76,8 @@ std::string GrpcTransport::loadFile(const std::string& path) {
 std::shared_ptr<grpc::ServerCredentials>
 GrpcTransport::buildCredentials() const {
     if (!config_.tls_enabled) {
-        THEMIS_INFO("[GrpcTransport] using insecure credentials (TLS disabled)");
+        THEMIS_WARN("[GrpcTransport] TLS is disabled – using insecure credentials "
+                    "(not recommended for production)");
         return grpc::InsecureServerCredentials();
     }
 
