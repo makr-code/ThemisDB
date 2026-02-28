@@ -1441,3 +1441,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
 
     message(STATUS "  API benchmarks: GraphQL parse/execute, correlation ID UUID, JSON serialisation, HTTP endpoint roundtrips")
 endif()
+
+# ============================================================================
+# CDC Changefeed Throughput and Latency Benchmarks (Issue #1624)
+# Measures event recording throughput, polling throughput, concurrent
+# subscriber scalability, burst write patterns, replication lag catch-up
+# speed, and per-operation recording/polling latency (p50/p95/p99).
+#
+# Performance targets (src/cdc/FUTURE_ENHANCEMENTS.md):
+#   - Event throughput:       >= 50,000 events/sec
+#   - recordEvent latency p99: < 1 ms
+#   - listEvents latency p99:  < 5 ms (100-event page, 10K preloaded events)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_changefeed_throughput.cpp")
+    message(STATUS "Adding CDC changefeed throughput and latency benchmarks")
+
+    add_executable(bench_changefeed_throughput
+        bench_changefeed_throughput.cpp
+    )
+
+    target_link_libraries(bench_changefeed_throughput PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_changefeed_throughput PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_changefeed_throughput PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_changefeed_throughput
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
+endif()
