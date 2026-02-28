@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     376                                             ║
+    • Total Lines:     482                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -27,6 +27,7 @@
 #include <gtest/gtest.h>
 #include <chrono>
 #include <filesystem>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -165,6 +166,13 @@ TEST(InPlaceSchemaMigratorStaticTest, IsAdditive_EmptyFromSchema) {
     EXPECT_TRUE(InPlaceSchemaMigrator::isAdditiveMigration(from, to));
 }
 
+TEST(InPlaceSchemaMigratorStaticTest, NotAdditive_ColumnRenamed) {
+    // Renaming a column is not additive: the old column is missing from to_schema.
+    auto from = makeSchema("t", {"id", "name"});
+    auto to   = makeSchema("t", {"id", "fullname"});  // "name" replaced by "fullname"
+    EXPECT_FALSE(InPlaceSchemaMigrator::isAdditiveMigration(from, to));
+}
+
 // ============================================================================
 // Phase 2: Successful in-place apply
 // ============================================================================
@@ -249,6 +257,36 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_AddedColumnsListIsCorrect) {
     EXPECT_TRUE(has_ts);
 }
 
+TEST_F(InPlaceSchemaMigratorTest, Apply_ExistingColumnsUnchanged_AfterMigration) {
+    // After migration, existing columns must still be present with the same
+    // type and nullability – no existing data is modified or re-typed.
+    auto from = makeSchema("catalog", {"id", "name"});
+    auto to   = makeSchema("catalog", {"id", "name", "description"});
+
+    seedSchema("catalog", from);
+
+    InPlaceSchemaMigrator migrator;
+    auto result = migrator.apply("catalog", from, to, *schema_, *version_);
+    ASSERT_TRUE(result.success) << result.error_message;
+
+    auto tbl = schema_->getTable("catalog");
+    ASSERT_TRUE(tbl.has_value());
+
+    // Existing columns must be present and unchanged
+    for (const auto& original : from.properties) {
+        bool found = false;
+        for (const auto& p : tbl->properties) {
+            if (p.name == original.name) {
+                EXPECT_EQ(p.type,     original.type)     << "type changed for column: " << p.name;
+                EXPECT_EQ(p.nullable, original.nullable) << "nullability changed for: " << p.name;
+                found = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found) << "Existing column '" << original.name << "' missing after migration";
+    }
+}
+
 // ============================================================================
 // Phase 3: Error paths
 // ============================================================================
@@ -309,6 +347,22 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_IdenticalSchemas_StrictMode_Fails) {
     EXPECT_FALSE(result.success);
 }
 
+TEST_F(InPlaceSchemaMigratorTest, Apply_SchemaManagerRejection_Fails) {
+    // When SchemaManager rejects the new schema (invalid schema type), apply()
+    // must return a failure even though the additive check passed.
+    auto from = makeSchema("queue", {"id"});
+    auto to   = makeSchema("queue", {"id", "priority"});
+    to.type   = "not_a_valid_schema_type";  // triggers SchemaManager validation error
+
+    seedSchema("queue", from);
+
+    InPlaceSchemaMigrator migrator;
+    auto result = migrator.apply("queue", from, to, *schema_, *version_);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
 // ============================================================================
 // Phase 4: Version history correctness after in-place migration
 // ============================================================================
@@ -330,6 +384,58 @@ TEST_F(InPlaceSchemaMigratorTest, VersionHistory_ContainsInPlaceEntry) {
     const auto& last = history.value.back();
     EXPECT_EQ(last.author, "bot");
     EXPECT_NE(last.description.find("in-place"), std::string::npos);
+}
+
+// ============================================================================
+// Phase 4b: Sequential migrations
+// ============================================================================
+
+TEST_F(InPlaceSchemaMigratorTest, Apply_SequentialMigrations_AllColumnsPresent) {
+    // First migration: add "email".  Second migration: add "phone".
+    // After both, the schema must contain all three original + added columns.
+    auto v0 = makeSchema("contacts", {"id", "name"});
+    auto v1 = makeSchema("contacts", {"id", "name", "email"});
+    auto v2 = makeSchema("contacts", {"id", "name", "email", "phone"});
+
+    seedSchema("contacts", v0);
+
+    InPlaceSchemaMigrator migrator;
+    auto r1 = migrator.apply("contacts", v0, v1, *schema_, *version_, "bot");
+    ASSERT_TRUE(r1.success) << r1.error_message;
+
+    auto r2 = migrator.apply("contacts", v1, v2, *schema_, *version_, "bot");
+    ASSERT_TRUE(r2.success) << r2.error_message;
+
+    auto tbl = schema_->getTable("contacts");
+    ASSERT_TRUE(tbl.has_value());
+    ASSERT_EQ(tbl->properties.size(), 4u);
+
+    std::set<std::string> col_names;
+    for (const auto& p : tbl->properties) col_names.insert(p.name);
+    EXPECT_TRUE(col_names.count("id"));
+    EXPECT_TRUE(col_names.count("name"));
+    EXPECT_TRUE(col_names.count("email"));
+    EXPECT_TRUE(col_names.count("phone"));
+}
+
+TEST_F(InPlaceSchemaMigratorTest, Apply_SequentialMigrations_VersionIncrement) {
+    // Each migration must advance the schema version by exactly 1.
+    auto v0 = makeSchema("tags", {"id"});
+    auto v1 = makeSchema("tags", {"id", "label"});
+    auto v2 = makeSchema("tags", {"id", "label", "color"});
+
+    seedSchema("tags", v0);
+    auto ver0 = version_->getCurrentVersion("tags");
+    ASSERT_TRUE(ver0.ok);
+
+    InPlaceSchemaMigrator migrator;
+    auto r1 = migrator.apply("tags", v0, v1, *schema_, *version_, "bot");
+    ASSERT_TRUE(r1.success) << r1.error_message;
+    EXPECT_EQ(r1.schema_version, ver0.value + 1);
+
+    auto r2 = migrator.apply("tags", v1, v2, *schema_, *version_, "bot");
+    ASSERT_TRUE(r2.success) << r2.error_message;
+    EXPECT_EQ(r2.schema_version, ver0.value + 2);
 }
 
 // ============================================================================
