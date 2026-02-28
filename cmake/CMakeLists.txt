@@ -1179,6 +1179,33 @@ else()
     endif()
 endif()
 
+# Snappy compression – required for Prometheus remote-write endpoint compatibility.
+# Snappy is a transitive dependency of RocksDB (vcpkg feature "snappy"), so it is
+# typically available automatically.  We discover it here so we can link it
+# explicitly against themis_core and surface a clear warning when absent.
+find_package(Snappy CONFIG QUIET)
+if(Snappy_FOUND OR TARGET Snappy::snappy)
+    set(THEMIS_SNAPPY_TARGET Snappy::snappy)
+    message(STATUS "Snappy found – Prometheus remote-write snappy decompression enabled")
+else()
+    # Fallback: system library via pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(SNAPPY_PKG QUIET snappy)
+        if(SNAPPY_PKG_FOUND AND NOT TARGET Snappy::snappy)
+            add_library(Snappy::snappy INTERFACE IMPORTED)
+            set_target_properties(Snappy::snappy PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${SNAPPY_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${SNAPPY_PKG_LIBRARIES}")
+            set(THEMIS_SNAPPY_TARGET Snappy::snappy)
+            message(STATUS "Snappy found via pkg-config")
+        endif()
+    endif()
+    if(NOT THEMIS_SNAPPY_TARGET)
+        message(WARNING "Snappy not found – Prometheus remote-write snappy decompression will be unavailable. Install with: vcpkg install snappy")
+    endif()
+endif()
+
 # Optional: HNSW (if not using Faiss)
 find_package(hnswlib CONFIG)
 
@@ -1677,6 +1704,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregate_scheduler.cpp
     ../src/timeseries/aggregate_scheduler_helper.cpp
     ../src/timeseries/query_optimizer.cpp
+    ../src/timeseries/prometheus_remote_write.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
@@ -2831,6 +2859,12 @@ endif()
 if(DEFINED THEMIS_LZ4_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_LZ4_TARGET})
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LZ4)
+endif()
+
+# Link Snappy if available (required for Prometheus remote-write decompression)
+if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+    target_link_libraries(themis_core PUBLIC ${THEMIS_SNAPPY_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_SNAPPY)
 endif()
 
 # Define THEMIS_ENABLE_CURL if CURL is found

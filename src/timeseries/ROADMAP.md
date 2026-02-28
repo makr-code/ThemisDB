@@ -57,7 +57,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [?] Chunk-level encryption at rest with per-series key derivation
 - [?] Parquet export bridge for analytical pipeline integration
 - [ ] Columnar storage layout for analytical scan queries
-- [ ] Prometheus remote-write endpoint compatibility
+- [~] Prometheus remote-write endpoint compatibility (Issue: #2037)
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

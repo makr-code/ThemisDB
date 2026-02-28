@@ -2049,6 +2049,7 @@ namespace {
     TimeSeriesAggregatesGet,
     TimeSeriesRetentionGet,
     TimeSeriesMetricsGet,
+    TimeSeriesPromRemoteWrite,
         // Sprint C
         IndexSuggestionsGet,
         IndexPatternsGet,
@@ -2449,6 +2450,7 @@ namespace {
     if (path_only == "/ts/aggregates" && method == http::verb::get) return Route::TimeSeriesAggregatesGet;
     if (path_only == "/ts/retention" && method == http::verb::get) return Route::TimeSeriesRetentionGet;
     if (path_only == "/ts/metrics" && method == http::verb::get) return Route::TimeSeriesMetricsGet;
+    if (path_only == "/api/v1/prom/write" && method == http::verb::post) return Route::TimeSeriesPromRemoteWrite;
         // Sprint C endpoints
         if (target.find("/index/suggestions") == 0 && method == http::verb::get) return Route::IndexSuggestionsGet;
         if (target.find("/index/patterns") == 0 && method == http::verb::get) return Route::IndexPatternsGet;
@@ -3824,6 +3826,14 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = timeseries_api_->handleMetricsGet(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, 
+                    "Time-series feature not enabled", req);
+            }
+            break;
+        case Route::TimeSeriesPromRemoteWrite:
+            if (timeseries_api_) {
+                response = timeseries_api_->handlePrometheusRemoteWrite(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
                     "Time-series feature not enabled", req);
             }
             break;

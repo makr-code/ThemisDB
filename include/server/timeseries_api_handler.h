@@ -132,6 +132,27 @@ public:
      */
     http::response<http::string_body> handleMetricsGet(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle POST /api/v1/prom/write – Prometheus remote-write endpoint
+     *
+     * Accepts a snappy-compressed Protocol Buffer payload conforming to the
+     * Prometheus remote-write 1.0 specification and stores all received
+     * samples in the TSStore.
+     *
+     * Expected request headers:
+     *   Content-Encoding: snappy
+     *   Content-Type: application/x-protobuf
+     *   X-Prometheus-Remote-Write-Version: 0.1.0
+     *
+     * On success the handler returns HTTP 204 No Content as specified by
+     * the Prometheus remote-write spec.
+     *
+     * @param req HTTP request carrying the snappy-encoded WriteRequest body.
+     * @return HTTP 204 on success, 400 on malformed input, 501 when the
+     *         time-series feature is disabled.
+     */
+    http::response<http::string_body> handlePrometheusRemoteWrite(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<TSStore> ts_store_;
