@@ -35,7 +35,7 @@
 - [x] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
 - [x] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
-- [I] Synthetic data augmentation pipeline (Issue: #1723)
+- [x] Synthetic data augmentation pipeline (Issue: #1723)
 - [I] Export encryption for sensitive training data (Issue: #1724)
 
 ## Implementation Phases
