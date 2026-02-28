@@ -64,12 +64,12 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] Module dependency resolution and load-order management
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
+- [x] Unit tests coverage > 80% (tests/test_themis_wire_protocol_server.cpp; CTest: ThemisWireProtocolV1Tests)
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete (ARCHITECTURE.md, README.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, Known Issues section)
+- [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
 - The `src/themis/` directory contains `wire_protocol_server.cpp` (Phase 3 complete), `module_dependency_resolver.cpp`, and the SHA-256 module hash verifier; the monolithic build distributes other logic (edition manager) elsewhere.
