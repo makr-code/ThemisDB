@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   94.0/100                                       ║
     • Total Lines:     470                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║
@@ -196,6 +196,21 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
         slot.backup_version  = slot.current_version;
     }
 
+    // --- Launch sandbox for the new module (if configured) ---------------
+    // Replacing slot.sandbox drops the old sandbox, calling ~ModuleSandbox()
+    // which invokes shutdown() automatically.
+    if (config_.sandboxConfig) {
+        auto new_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
+        if (!new_sandbox->launch(module_name)) {
+            spdlog::warn("HotReloadManager: sandbox launch warning for '{}': {}",
+                         module_name, new_sandbox->lastError());
+        }
+        for (const auto& w : new_sandbox->launchWarnings()) {
+            spdlog::debug("HotReloadManager: sandbox [{}]: {}", module_name, w);
+        }
+        slot.sandbox = std::move(new_sandbox);
+    }
+
     // Update slot metadata.
     slot.current_path    = new_path;
     slot.current_version = new_version;
@@ -283,6 +298,20 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
         return result;
     }
 
+    // Launch sandbox for the restored module (if configured).
+    // Created outside the lock (same pattern as reloadModule) for consistency.
+    std::unique_ptr<ModuleSandbox> rollback_sandbox;
+    if (config_.sandboxConfig) {
+        rollback_sandbox = std::make_unique<ModuleSandbox>(*config_.sandboxConfig);
+        if (!rollback_sandbox->launch(module_name)) {
+            spdlog::warn("HotReloadManager: sandbox launch warning for rollback '{}': {}",
+                         module_name, rollback_sandbox->lastError());
+        }
+        for (const auto& w : rollback_sandbox->launchWarnings()) {
+            spdlog::debug("HotReloadManager: sandbox rollback [{}]: {}", module_name, w);
+        }
+    }
+
     // Update slot metadata under lock.
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -294,6 +323,8 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
             slot.has_backup     = false;
             slot.backup_path.clear();
             slot.backup_version = {};
+            // Replacing sandbox drops the old one (auto-shutdown via ~ModuleSandbox).
+            slot.sandbox = std::move(rollback_sandbox);
         }
         stats_.rollbacks++;
     }
@@ -352,6 +383,19 @@ std::vector<std::string> HotReloadManager::registeredModules() const {
         names.push_back(name);
     }
     return names;
+}
+
+std::optional<SandboxStats> HotReloadManager::getSandboxStats(
+    const std::string& module_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = slots_.find(module_name);
+    // Short-circuit: null check before isActive() to avoid null dereference.
+    if (it == slots_.end() || !it->second.sandbox ||
+        !it->second.sandbox->isActive()) {
+        return std::nullopt;
+    }
+    return it->second.sandbox->stats();
 }
 
 // =============================================================================
