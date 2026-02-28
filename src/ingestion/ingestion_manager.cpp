@@ -32,6 +32,7 @@
 #include "ingestion/object_storage_connector.h"
 #include "ingestion/database_connector.h"
 #include "ingestion/web_crawler_connector.h"
+#include "ingestion/cdc_connector.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -73,6 +74,7 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::KAFKA:          return "KAFKA";
         case SourceType::OBJECT_STORAGE: return "OBJECT_STORAGE";
         case SourceType::WEB_CRAWLER:    return "WEB_CRAWLER";
+        case SourceType::CDC:            return "CDC";
         default:                         return "UNKNOWN";
     }
 }
@@ -394,6 +396,20 @@ public:
                         return stats;
                     }
                     connector = std::move(crawler);
+                    break;
+                }
+
+                case SourceType::CDC: {
+                    auto cdc_connector = std::make_unique<CdcConnector>();
+                    cdc_connector->setRetryConfig(retry_config_);
+                    if (!cdc_connector->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize CDC connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(cdc_connector);
                     break;
                 }
 
@@ -1282,6 +1298,22 @@ IngestionBuilder& IngestionBuilder::withWebCrawlerSource(
     cfg.source_id = source_id;
     cfg.type      = SourceType::WEB_CRAWLER;
     cfg.location  = seed_url;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withCdcSource(
+        const std::string& source_id,
+        const std::string& connection_url,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::CDC;
+    cfg.location  = connection_url;
     cfg.options   = std::move(options);
     cfg.priority  = priority;
     cfg.enabled   = true;

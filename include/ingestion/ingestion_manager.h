@@ -49,7 +49,8 @@ enum class SourceType {
     DATABASE,        ///< Legacy database exports (future)
     KAFKA,           ///< Apache Kafka consumer (librdkafka)
     OBJECT_STORAGE,  ///< S3 / GCS / Azure Blob object storage
-    WEB_CRAWLER      ///< HTTP web crawler and XML sitemap source
+    WEB_CRAWLER,     ///< HTTP web crawler and XML sitemap source
+    CDC              ///< Change-Data-Capture source for live database streams
 };
 
 /**
@@ -1003,6 +1004,38 @@ public:
     IngestionBuilder& withWebCrawlerSource(
         const std::string& source_id,
         const std::string& seed_url,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register a CDC (Change-Data-Capture) source for live database streams
+     *
+     * Registers a `CdcConnector` source that consumes change events from a live
+     * database replication stream (PostgreSQL logical replication, MySQL binlog,
+     * or compatible CDC source) and ingests each event as a document.
+     *
+     * Supported `options` keys:
+     * | Key               | Description                                              | Default              |
+     * |-------------------|----------------------------------------------------------|----------------------|
+     * | `slot_name`       | Replication slot name (PostgreSQL) or equivalent         | `themis_cdc`         |
+     * | `table_filter`    | Comma-separated table names to capture (empty = all)     | (all tables)         |
+     * | `operations`      | Comma-separated ops to capture: `INSERT,UPDATE,DELETE`   | `INSERT,UPDATE,DELETE` |
+     * | `text_columns`    | Comma-separated columns to use as document text          | (full event JSON)    |
+     * | `batch_size`      | Events per fetch batch                                   | `500`                |
+     * | `max_events`      | Maximum events to consume (0 = unlimited)                | `0`                  |
+     * | `poll_timeout_ms` | Poll timeout waiting for new events (milliseconds)       | `1000`               |
+     * | `from_lsn`        | Start from this LSN / binlog position (empty = start)    | (from beginning)     |
+     *
+     * @param source_id      Unique source identifier
+     * @param connection_url Database connection URL
+     *                       (e.g. `postgresql://host:5432/db`)
+     * @param options        Optional key/value options (see table above)
+     * @param priority       Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withCdcSource(
+        const std::string& source_id,
+        const std::string& connection_url,
         std::unordered_map<std::string, std::string> options = {},
         int priority = 5);
 
