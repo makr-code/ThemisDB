@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-02-28                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     822                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1170                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7bdfe2d  2026-02-28  feat(voice): voice command macros for user-defined AQL queries  ║
     • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -31,6 +32,7 @@
 
 #include "server/voice_api_handler.h"
 #include "voice/voice_assistant.h"
+#include "voice/voice_macro.h"
 #include "utils/http_client_pool.h"
 #include <sstream>
 #include <algorithm>
@@ -129,8 +131,10 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         );
     }
     
-    // Extract path and method
-    std::string path = std::string(req.target());
+    // Extract path (without query string) and method
+    std::string full_target = std::string(req.target());
+    auto q_pos = full_target.find('?');
+    std::string path = (q_pos != std::string::npos) ? full_target.substr(0, q_pos) : full_target;
     auto method = req.method();
     
     // Route to appropriate handler
@@ -166,6 +170,28 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
     }
     else if (path == "/api/v1/voice/health" && method == http::verb::get) {
         return handleHealth(req);
+    }
+    else if (path == "/api/v1/voice/macros" && method == http::verb::post) {
+        return handleCreateMacro(req);
+    }
+    else if (path == "/api/v1/voice/macros" && method == http::verb::get) {
+        return handleListMacros(req);
+    }
+    else if (path.find("/api/v1/voice/macros/") == 0) {
+        std::string macro_id = path.substr(21);  // Length of "/api/v1/voice/macros/"
+        if (macro_id.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Missing macro ID");
+        }
+        if (method == http::verb::get) {
+            return handleGetMacro(req, macro_id);
+        }
+        else if (method == http::verb::put) {
+            return handleUpdateMacro(req, macro_id);
+        }
+        else if (method == http::verb::delete_) {
+            return handleDeleteMacro(req, macro_id);
+        }
     }
     else if (path.find("/api/v1/voice/sessions/") == 0) {
         // Extract session ID
@@ -599,6 +625,277 @@ http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
     return createJsonResponse(result);
 }
 
+// ---------------------------------------------------------------------------
+// Voice macro handlers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/** Convert a MacroStep JSON object from the request body into a MacroStep. */
+voice::MacroStep parseStep(const json& j) {
+    voice::MacroStep step;
+    std::string type_str = j.value("type", "QUERY");
+    if (type_str == "COMMAND")   step.type = voice::StepType::COMMAND;
+    else if (type_str == "CONDITION") step.type = voice::StepType::CONDITION;
+    else if (type_str == "LOOP")  step.type = voice::StepType::LOOP;
+    else if (type_str == "WAIT")  step.type = voice::StepType::WAIT;
+    else if (type_str == "NOTIFY") step.type = voice::StepType::NOTIFY;
+    else                          step.type = voice::StepType::QUERY;
+
+    step.action = j.value("action", "");
+
+    if (j.contains("parameters") && j["parameters"].is_object()) {
+        for (auto it = j["parameters"].begin(); it != j["parameters"].end(); ++it) {
+            step.parameters[it.key()] = it.value().get<std::string>();
+        }
+    }
+    return step;
+}
+
+std::string stepTypeToString(voice::StepType t) {
+    switch (t) {
+    case voice::StepType::COMMAND:   return "COMMAND";
+    case voice::StepType::CONDITION: return "CONDITION";
+    case voice::StepType::LOOP:      return "LOOP";
+    case voice::StepType::WAIT:      return "WAIT";
+    case voice::StepType::NOTIFY:    return "NOTIFY";
+    default:                         return "QUERY";
+    }
+}
+
+json macroInfoToResponseJson(const voice::MacroInfo& m) {
+    json j;
+    j["macro_id"]       = m.macro_id;
+    j["name"]           = m.name;
+    j["trigger_phrase"] = m.trigger_phrase;
+    j["description"]    = m.description;
+    j["tags"]           = m.tags;
+    j["created_at"]     = m.created_at;
+    j["last_used"]      = m.last_used;
+    j["use_count"]      = m.use_count;
+    j["enabled"]        = m.enabled;
+
+    json steps = json::array();
+    for (const auto& s : m.steps) {
+        json sj;
+        sj["type"]       = stepTypeToString(s.type);
+        sj["action"]     = s.action;
+        json params = json::object();
+        for (const auto& kv : s.parameters) {
+            params[kv.first] = kv.second;
+        }
+        sj["parameters"] = params;
+        steps.push_back(sj);
+    }
+    j["steps"] = steps;
+
+    json opts;
+    opts["require_confirmation"]  = m.options.require_confirmation;
+    opts["max_execution_time_ms"] = m.options.max_execution_time_ms;
+    opts["log_execution"]         = m.options.log_execution;
+    j["options"] = opts;
+
+    return j;
+}
+
+} // anonymous namespace
+
+http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
+    const http::request<http::string_body>& req
+) {
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("trigger_phrase") || !body->contains("steps")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Fields 'trigger_phrase' and 'steps' are required");
+    }
+
+    std::string trigger = (*body)["trigger_phrase"].get<std::string>();
+    if (trigger.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "trigger_phrase must not be empty");
+    }
+
+    std::vector<voice::MacroStep> steps;
+    if (!(*body)["steps"].is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "'steps' must be an array");
+    }
+    for (const auto& sj : (*body)["steps"]) {
+        steps.push_back(parseStep(sj));
+    }
+
+    voice::MacroOptions options;
+    if (body->contains("options") && (*body)["options"].is_object()) {
+        const auto& opts = (*body)["options"];
+        options.require_confirmation  = opts.value("require_confirmation", false);
+        options.max_execution_time_ms = opts.value("max_execution_time_ms", 30000);
+        options.log_execution         = opts.value("log_execution", true);
+    }
+
+    voice::MacroID id = voice_assistant_->macroManager().createMacro(
+        trigger, steps, options);
+
+    if (id.empty()) {
+        return createErrorResponse(
+            http::status::internal_server_error, "Internal Error",
+            "Failed to create macro");
+    }
+
+    // Apply optional metadata fields (name, description, tags) if provided.
+    // Defaults: name = trigger_phrase, description = "", tags = [].
+    {
+        std::string name = body->value("name", trigger);
+        std::string description = body->value("description", std::string{});
+        std::vector<std::string> tags;
+        if (body->contains("tags") && (*body)["tags"].is_array()) {
+            tags = (*body)["tags"].get<std::vector<std::string>>();
+        }
+        voice_assistant_->macroManager().setMacroMeta(id, name, description, tags, true);
+    }
+
+    auto info = voice_assistant_->macroManager().getMacro(id);
+    if (!info) {
+        return createErrorResponse(
+            http::status::internal_server_error, "Internal Error",
+            "Macro created but could not be retrieved");
+    }
+
+    json result;
+    result["success"] = true;
+    result["macro"]   = macroInfoToResponseJson(*info);
+    return createJsonResponse(result, http::status::created);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleListMacros(
+    const http::request<http::string_body>& req
+) {
+    // Parse optional ?tags=tag1,tag2 query parameter.
+    // Note: percent-encoded characters are not decoded; use plain ASCII tag identifiers.
+    std::vector<std::string> tag_filter;
+    std::string tags_value = parseQueryParam(std::string(req.target()), "tags");
+    if (!tags_value.empty()) {
+        std::istringstream ss(tags_value);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            if (!token.empty()) tag_filter.push_back(token);
+        }
+    }
+
+    auto macros = voice_assistant_->macroManager().listMacros("", tag_filter);
+
+    json arr = json::array();
+    for (const auto& m : macros) {
+        arr.push_back(macroInfoToResponseJson(m));
+    }
+
+    json result;
+    result["macros"] = arr;
+    result["count"]  = arr.size();
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleGetMacro(
+    const http::request<http::string_body>& req,
+    const std::string& macro_id
+) {
+    auto info = voice_assistant_->macroManager().getMacro(macro_id);
+    if (!info) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Macro not found: " + macro_id);
+    }
+    return createJsonResponse(macroInfoToResponseJson(*info));
+}
+
+http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
+    const http::request<http::string_body>& req,
+    const std::string& macro_id
+) {
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("steps")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Field 'steps' is required");
+    }
+    if (!(*body)["steps"].is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "'steps' must be an array");
+    }
+
+    std::vector<voice::MacroStep> steps;
+    for (const auto& sj : (*body)["steps"]) {
+        steps.push_back(parseStep(sj));
+    }
+
+    voice::MacroOptions options;
+    if (body->contains("options") && (*body)["options"].is_object()) {
+        const auto& opts = (*body)["options"];
+        options.require_confirmation  = opts.value("require_confirmation", false);
+        options.max_execution_time_ms = opts.value("max_execution_time_ms", 30000);
+        options.log_execution         = opts.value("log_execution", true);
+    }
+
+    bool ok = voice_assistant_->macroManager().updateMacro(macro_id, steps, options);
+    if (!ok) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Macro not found: " + macro_id);
+    }
+
+    // Fetch current state once to supply defaults for unspecified meta fields.
+    // Apply optional metadata updates (name, description, tags, enabled).
+    // Partial update semantics: omitted fields retain their previous values.
+    auto info = voice_assistant_->macroManager().getMacro(macro_id);
+    if (info) {
+        std::string name = body->value("name", info->name);
+        std::string description = body->value("description", info->description);
+        std::vector<std::string> tags = info->tags;
+        if (body->contains("tags") && (*body)["tags"].is_array()) {
+            tags = (*body)["tags"].get<std::vector<std::string>>();
+        }
+        bool enabled = body->value("enabled", info->enabled);
+        voice_assistant_->macroManager().setMacroMeta(
+            macro_id, name, description, tags, enabled);
+        // Update our local copy to reflect the meta changes in the response.
+        info->name        = name;
+        info->description = description;
+        info->tags        = tags;
+        info->enabled     = enabled;
+    }
+
+    json result;
+    result["success"] = true;
+    result["macro"]   = info ? macroInfoToResponseJson(*info) : json(nullptr);
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
+    const http::request<http::string_body>& req,
+    const std::string& macro_id
+) {
+    bool ok = voice_assistant_->macroManager().deleteMacro(macro_id);
+    if (!ok) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Macro not found: " + macro_id);
+    }
+    json result;
+    result["success"]  = true;
+    result["macro_id"] = macro_id;
+    return createJsonResponse(result);
+}
+
 http::response<http::string_body> VoiceApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -844,6 +1141,30 @@ std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& ur
     std::vector<uint8_t> audio_data(response.body.begin(), response.body.end());
     
     return audio_data;
+}
+
+std::string VoiceApiHandler::parseQueryParam(
+    const std::string& target, const std::string& key)
+{
+    auto q_pos = target.find('?');
+    if (q_pos == std::string::npos) return {};
+    std::string query = target.substr(q_pos + 1);
+
+    // Search for "key=" token delimited by '&' or start/end of string.
+    // Note: percent-encoded characters are not decoded.
+    std::string search = key + '=';
+    std::size_t pos = 0;
+    while (pos < query.size()) {
+        if (query.compare(pos, search.size(), search) == 0) {
+            std::string value = query.substr(pos + search.size());
+            auto amp = value.find('&');
+            return (amp != std::string::npos) ? value.substr(0, amp) : value;
+        }
+        auto next = query.find('&', pos);
+        if (next == std::string::npos) break;
+        pos = next + 1;
+    }
+    return {};
 }
 
 } // namespace themis::server
