@@ -12,6 +12,7 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 | MySQL / MariaDB | `src/importers/mysql_importer.cpp` | ✅ Production |
 | MongoDB | `src/importers/mongo_importer.cpp` | ✅ Production |
 | SQLite | `src/importers/sqlite_importer.cpp` | ✅ Production |
+| S3-compatible Object Storage | `src/importers/s3_importer.cpp` | ✅ Production |
 
 ---
 
