@@ -25,10 +25,8 @@
  */
 
 #include <gtest/gtest.h>
-
-// Disable archive processor plugin tests
-#if 0
 #include "content/archive_processor.h"
+#include "content/content_validator.h"
 #include <fstream>
 #include <filesystem>
 
@@ -286,8 +284,80 @@ TEST_F(ArchiveProcessorTest, PluginAvailability) {
 } // namespace content
 } // namespace themis
 
-#endif // 0
+// ============================================================================
+// ContentValidator::validateFilename Tests
+// ============================================================================
 
-TEST(ArchiveProcessorDisabled, DISABLED_AllTestsSkipped) {
-    GTEST_SKIP() << "Archive processor tests are currently disabled";
+namespace themis {
+namespace content {
+namespace test {
+
+TEST(FilenameValidationTest, ValidFilenames) {
+    ContentValidator validator;
+
+    EXPECT_TRUE(validator.validateFilename("").isOk());                    // empty OK
+    EXPECT_TRUE(validator.validateFilename("document.pdf").isOk());
+    EXPECT_TRUE(validator.validateFilename("data/file.json").isOk());
+    EXPECT_TRUE(validator.validateFilename("archive/2024/report.txt").isOk());
 }
+
+TEST(FilenameValidationTest, PathTraversalUnix) {
+    ContentValidator validator;
+
+    EXPECT_FALSE(validator.validateFilename("../etc/passwd").isOk());
+    EXPECT_FALSE(validator.validateFilename("foo/../bar").isOk());
+    EXPECT_FALSE(validator.validateFilename("../../secret").isOk());
+}
+
+TEST(FilenameValidationTest, PathTraversalWindows) {
+    ContentValidator validator;
+
+    EXPECT_FALSE(validator.validateFilename("..\\etc\\passwd").isOk());
+    EXPECT_FALSE(validator.validateFilename("foo\\..\\bar").isOk());
+}
+
+TEST(FilenameValidationTest, AbsoluteUnixPath) {
+    ContentValidator validator;
+
+    EXPECT_FALSE(validator.validateFilename("/etc/passwd").isOk());
+    EXPECT_FALSE(validator.validateFilename("/home/user/file.txt").isOk());
+}
+
+TEST(FilenameValidationTest, AbsoluteWindowsPath) {
+    ContentValidator validator;
+
+    EXPECT_FALSE(validator.validateFilename("C:\\Users\\Admin\\file.txt").isOk());
+    EXPECT_FALSE(validator.validateFilename("D:/data/file.csv").isOk());
+    EXPECT_FALSE(validator.validateFilename("\\\\server\\share\\file").isOk());
+}
+
+TEST(FilenameValidationTest, ControlCharacters) {
+    ContentValidator validator;
+
+    // Construct strings with embedded control characters explicitly
+    std::string null_byte = std::string("file") + '\x00' + "name.txt";
+    EXPECT_FALSE(validator.validateFilename(null_byte).isOk());   // null byte
+
+    std::string soh = std::string("file") + '\x01' + "name.txt";
+    EXPECT_FALSE(validator.validateFilename(soh).isOk());          // SOH
+
+    std::string us = std::string("file") + '\x1f' + "name.txt";
+    EXPECT_FALSE(validator.validateFilename(us).isOk());           // US
+
+    std::string del = std::string("file") + '\x7f' + "name.txt";
+    EXPECT_FALSE(validator.validateFilename(del).isOk());          // DEL
+}
+
+TEST(FilenameValidationTest, ExcessiveLength) {
+    ContentValidator validator;
+
+    std::string too_long(4097, 'a');
+    EXPECT_FALSE(validator.validateFilename(too_long).isOk());
+
+    std::string just_right(4096, 'a');
+    EXPECT_TRUE(validator.validateFilename(just_right).isOk());
+}
+
+} // namespace test
+} // namespace content
+} // namespace themis

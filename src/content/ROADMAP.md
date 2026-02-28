@@ -63,7 +63,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1698)
 - [x] Integration tests (ingestion pipeline, content type routing)
 - [I] Performance benchmarks (throughput per content type) (Issue: #1699)
-- [I] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
+- [P] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
 - [x] Documentation complete (content manager, content pipeline)
 - [x] API stability guaranteed for ingestion pipeline
 

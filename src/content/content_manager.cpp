@@ -1699,6 +1699,16 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
 ) {
     IngestResult result;
     result.success = false;
+
+    // Validate filename for path traversal and other security issues
+    if (!filename.empty()) {
+        ContentValidator upload_validator;
+        auto fn_err = upload_validator.validateFilename(filename);
+        if (fn_err.failed()) {
+            result.error_message = fn_err.message;
+            return result;
+        }
+    }
     
     // Detect content type and category
     std::string detected_mime = mime_type;
