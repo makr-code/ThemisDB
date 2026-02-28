@@ -64,7 +64,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [P] Unit tests coverage > 80% (Issue: #1509)
 - [P] Integration tests (Issue: #1510)
 - [P] Performance benchmarks (Issue: #1511)
-- [I] Security audit (Issue: #1512)
+- [x] Security audit (Issue: #1512)
 - [I] Documentation complete (Issue: #1513)
 - [I] API stability guaranteed (Issue: #1514)
 
