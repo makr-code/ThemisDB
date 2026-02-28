@@ -24,6 +24,9 @@ cdc module).
 - `mongo_importer.cpp` — MongoDB mongoexport JSON/NDJSON source connector
 - `sqlite_importer.cpp` — SQLite `.dump` source connector (type-affinity mapping,
   single-quoted + hex literal parsing, BEGIN TRANSACTION / COMMIT / PRAGMA handling)
+- `kafka_importer.cpp` — Apache Kafka consumer for real-time streaming ingestion;
+  supports JSON, Avro (Confluent wire format), and plaintext message formats;
+  requires `THEMIS_ENABLE_KAFKA` at build time for the librdkafka-backed path
 - `conflict_resolver.cpp` — pluggable conflict resolution strategies (skip, overwrite, merge)
 - `import_pipeline.cpp` — import orchestration and batching
 - `schema_mapper.cpp` — source-to-ThemisDB schema translation
@@ -31,7 +34,8 @@ cdc module).
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production — PostgreSQL, MySQL/MariaDB, MongoDB, and SQLite importers
-operational. CSV/TSV/Parquet and cloud-storage importers planned.
+operational. Kafka consumer importer available (requires `THEMIS_ENABLE_KAFKA`).
+CSV/TSV/Parquet and cloud-storage importers planned.
 
 ## Components
 
@@ -39,6 +43,7 @@ operational. CSV/TSV/Parquet and cloud-storage importers planned.
 - MySQL / MariaDB importer
 - MongoDB importer
 - SQLite importer
+- Kafka consumer importer (real-time streaming)
 - Conflict resolver
 - Custom import format handlers
 - Import pipeline
@@ -46,6 +51,7 @@ operational. CSV/TSV/Parquet and cloud-storage importers planned.
 ## Features
 
 - Import data from PostgreSQL, MySQL/MariaDB, MongoDB, and SQLite
+- Real-time streaming ingestion from Apache Kafka topics (JSON, Avro, plaintext)
 - Schema mapping and type-affinity transformation
 - Batch import operations with configurable chunk size
 - Incremental import support (watermark-based change tracking, checkpoint/resume)

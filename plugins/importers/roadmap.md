@@ -31,6 +31,7 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 
 ## Long-term Goals (3–12 months)
 
+- [~] **Kafka consumer importer** – consume and import Kafka topic messages in real time. (`src/importers/kafka_importer.cpp`)
 - [ ] **Elasticsearch importer** – migrate indices to ThemisDB.
 - [ ] **Redis importer** – import Redis keys/values/hashes.
 - [ ] **Change Data Capture (CDC)** – continuous real-time ingestion via Debezium / logical replication.
@@ -43,7 +44,7 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 | MySQL importer MVP | Q2 2026 | ✅ Done |
 | SQLite importer MVP | Q2 2026 | ✅ Done |
 | CSV importer | Q3 2026 | 🔲 Planned |
-| CDC / real-time ingestion | 2026 | 🔲 Planned |
+| CDC / real-time ingestion | 2026 | 🚧 In Progress |
 
 ## Dependencies
 
