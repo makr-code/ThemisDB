@@ -3724,6 +3724,22 @@ if(THEMIS_BUILD_TESTS)
         )
     endif()
 
+    # AVX-512 SIMD path for vector distance computations (Phase 3, Issue #1964)
+    add_executable(test_simd_distance
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_simd_distance.cpp
+    )
+    target_link_libraries(test_simd_distance
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_simd_distance
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_simd_distance>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # Phase 4 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_PMEM)
         add_executable(test_pmem_storage
