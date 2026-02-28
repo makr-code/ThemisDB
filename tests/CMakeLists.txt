@@ -561,6 +561,7 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/weaviate_adapter.cpp
     ../src/chimera/qdrant_adapter.cpp
     ../src/chimera/pinecone_adapter.cpp
+    ../src/chimera/elasticsearch_adapter.cpp
 )
 
 set(_themis_test_core_libs)
