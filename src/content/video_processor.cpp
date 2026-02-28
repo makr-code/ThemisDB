@@ -30,6 +30,8 @@
 
 #include "content/video_processor.h"
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <cstring>
 #include <sstream>
 #include <fstream>
@@ -41,6 +43,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
 #include <libswscale/swscale.h>
+#include <libavutil/avutil.h>
 #include <libavutil/imgutils.h>
 }
 #endif
@@ -100,6 +103,7 @@ bool VideoProcessor::initialize(const PluginConfig& config) {
     max_keyframes_ = config.get<int>("keyframes.max_count", 10);
     extract_subtitles_ = config.get<bool>("subtitles.extract", true);
     enable_scene_detection_ = config.get<bool>("scene_detection.enabled", false);
+    scene_detection_threshold_ = config.get<double>("scene_detection.threshold", 0.4);
     
 #ifdef THEMIS_HAS_FFMPEG
     // Initialize FFmpeg library (only needed for older versions)
@@ -415,21 +419,36 @@ std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& blob) {
 }
 
 std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& blob) {
-    // Real implementation would:
-    // 1. Decode video frames
-    // 2. Calculate frame differences/histograms
-    // 3. Detect scene changes based on threshold
-    
-    return std::vector<int64_t>();
+#ifdef THEMIS_HAS_FFMPEG
+    return detectScenesFFmpeg(blob);
+#else
+    // Without FFmpeg, video frames cannot be decoded for histogram analysis.
+    // Scene detection requires per-frame access, so return empty in simulation mode.
+    (void)blob;
+    return {};
+#endif
 }
 
 std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>& blob) {
-    // Real implementation would:
-    // 1. Iterate through video packets
-    // 2. Collect timestamps of keyframe (I-frame) packets
-    // 3. Limit to max_keyframes_ count
-    
-    return std::vector<int64_t>();
+#ifdef THEMIS_HAS_FFMPEG
+    return extractKeyframesFFmpeg(blob);
+#else
+    // Without FFmpeg, synthesise evenly-distributed keyframe timestamps based
+    // on the simulated video duration (120 s at 30 fps, I-frame every 2 s).
+    (void)blob;
+    const int64_t duration_ms = 120000;
+    std::vector<int64_t> keyframes;
+    if (max_keyframes_ <= 0) return keyframes;
+    // Divide the duration into (max_keyframes_ + 1) equal intervals so that
+    // keyframes are evenly distributed with a margin on both ends.  This mirrors
+    // how a real I-frame sequence typically starts a few frames in and ends
+    // before the very last frame of the stream.
+    const int64_t interval_ms = duration_ms / (max_keyframes_ + 1);
+    for (int i = 1; i <= max_keyframes_; i++) {
+        keyframes.push_back(i * interval_ms);
+    }
+    return keyframes;
+#endif
 }
 
 #ifdef THEMIS_HAS_FFMPEG
@@ -742,6 +761,228 @@ std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<u
     }
     
     return thumbnail;
+}
+
+/**
+ * @brief Extract keyframe timestamps using FFmpeg libraries
+ *
+ * Scans video packets for I-frames (keyframes) and collects their timestamps.
+ * Results are limited to max_keyframes_ entries and returned in ascending
+ * millisecond order.
+ *
+ * @param blob Raw video file data
+ * @return Keyframe timestamps in milliseconds, up to max_keyframes_ entries
+ */
+std::vector<int64_t> VideoProcessor::extractKeyframesFFmpeg(const std::vector<uint8_t>& blob) {
+    std::vector<int64_t> keyframes;
+
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string unique_id = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+                           "_kf_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+    std::string temp_path = (temp_dir / ("themis_kf_" + unique_id)).string();
+
+    try {
+        std::ofstream temp_file(temp_path, std::ios::binary | std::ios::trunc);
+        if (!temp_file) {
+            return keyframes;
+        }
+        temp_file.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+        temp_file.close();
+
+        AVFormatContext* fmt_ctx = nullptr;
+        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+            std::filesystem::remove(temp_path);
+            return keyframes;
+        }
+
+        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return keyframes;
+        }
+
+        // Locate the primary video stream
+        int video_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        if (video_stream_index < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return keyframes;
+        }
+
+        AVRational time_base = fmt_ctx->streams[video_stream_index]->time_base;
+
+        // Iterate packets; collect those flagged as keyframes (I-frames)
+        AVPacket* packet = av_packet_alloc();
+        while (av_read_frame(fmt_ctx, packet) >= 0) {
+            if (packet->stream_index == video_stream_index &&
+                (packet->flags & AV_PKT_FLAG_KEY) &&
+                packet->pts != AV_NOPTS_VALUE) {
+                int64_t pts_ms = av_rescale_q(packet->pts, time_base, {1, 1000});
+                keyframes.push_back(pts_ms);
+                if (max_keyframes_ > 0 && static_cast<int>(keyframes.size()) >= max_keyframes_) {
+                    av_packet_unref(packet);
+                    break;
+                }
+            }
+            av_packet_unref(packet);
+        }
+        av_packet_free(&packet);
+        avformat_close_input(&fmt_ctx);
+        std::filesystem::remove(temp_path);
+    } catch (...) {
+        if (std::filesystem::exists(temp_path)) {
+            std::filesystem::remove(temp_path);
+        }
+    }
+
+    return keyframes;
+}
+
+/**
+ * @brief Detect scene boundaries using FFmpeg frame histogram comparison
+ *
+ * Decodes video frames and computes per-frame luma histogram differences.
+ * When the L1 distance between consecutive normalised histograms exceeds
+ * scene_detection_threshold_, the current frame's timestamp is recorded as
+ * a scene boundary.
+ *
+ * @param blob Raw video file data
+ * @return Scene boundary timestamps in milliseconds
+ */
+std::vector<int64_t> VideoProcessor::detectScenesFFmpeg(const std::vector<uint8_t>& blob) {
+    std::vector<int64_t> scenes;
+
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string unique_id = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
+                           "_sc_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+    std::string temp_path = (temp_dir / ("themis_sc_" + unique_id)).string();
+
+    try {
+        std::ofstream temp_file(temp_path, std::ios::binary | std::ios::trunc);
+        if (!temp_file) {
+            return scenes;
+        }
+        temp_file.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+        temp_file.close();
+
+        AVFormatContext* fmt_ctx = nullptr;
+        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+
+        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+
+        int video_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        if (video_stream_index < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+
+        AVStream* video_stream = fmt_ctx->streams[video_stream_index];
+        AVCodecParameters* codecpar = video_stream->codecpar;
+
+        const AVCodec* codec = avcodec_find_decoder(codecpar->codec_id);
+        if (!codec) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+
+        AVCodecContext* codec_ctx = avcodec_alloc_context3(codec);
+        if (!codec_ctx) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+
+        if (avcodec_parameters_to_context(codec_ctx, codecpar) < 0 ||
+            avcodec_open2(codec_ctx, codec, nullptr) < 0) {
+            avcodec_free_context(&codec_ctx);
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            return scenes;
+        }
+
+        AVPacket* packet = av_packet_alloc();
+        AVFrame* frame = av_frame_alloc();
+        AVFrame* prev_frame = av_frame_alloc();
+        bool has_prev = false;
+
+        // Lambda: compute normalised L1 luma histogram difference in [0, 1]
+        // Outer loop on y (rows) then inner on x (columns) matches the row-major
+        // memory layout of AVFrame (data[0] + y * linesize[0]), ensuring sequential
+        // access and good CPU cache utilisation. linesize[] may include padding bytes
+        // beyond 'width', which we deliberately exclude by iterating only up to w.
+        auto histDiff = [](const AVFrame* a, const AVFrame* b) -> double {
+            constexpr int BINS = 256;
+            std::array<int, BINS> ha{}, hb{};
+            int w = std::min(a->width, b->width);
+            int h = std::min(a->height, b->height);
+            int total = w * h;
+            if (total == 0) return 0.0;
+            for (int y = 0; y < h; ++y) {
+                const uint8_t* ra = a->data[0] + static_cast<ptrdiff_t>(y) * a->linesize[0];
+                const uint8_t* rb = b->data[0] + static_cast<ptrdiff_t>(y) * b->linesize[0];
+                for (int x = 0; x < w; ++x) {
+                    ha[ra[x]]++;
+                    hb[rb[x]]++;
+                }
+            }
+            double diff = 0.0;
+            for (int i = 0; i < BINS; ++i) {
+                diff += std::abs(static_cast<double>(ha[i]) - static_cast<double>(hb[i]));
+            }
+            return diff / (2.0 * total);
+        };
+
+        auto processFrame = [&]() {
+            if (has_prev) {
+                double diff = histDiff(prev_frame, frame);
+                if (diff > scene_detection_threshold_ && frame->pts != AV_NOPTS_VALUE) {
+                    int64_t pts_ms = av_rescale_q(frame->pts, video_stream->time_base, {1, 1000});
+                    scenes.push_back(pts_ms);
+                }
+            }
+            std::swap(frame, prev_frame);
+            has_prev = true;
+        };
+
+        while (av_read_frame(fmt_ctx, packet) >= 0) {
+            if (packet->stream_index == video_stream_index) {
+                if (avcodec_send_packet(codec_ctx, packet) >= 0) {
+                    while (avcodec_receive_frame(codec_ctx, frame) >= 0) {
+                        processFrame();
+                    }
+                }
+            }
+            av_packet_unref(packet);
+        }
+
+        // Flush decoder
+        avcodec_send_packet(codec_ctx, nullptr);
+        while (avcodec_receive_frame(codec_ctx, frame) >= 0) {
+            processFrame();
+        }
+
+        av_frame_free(&frame);
+        av_frame_free(&prev_frame);
+        av_packet_free(&packet);
+        avcodec_free_context(&codec_ctx);
+        avformat_close_input(&fmt_ctx);
+        std::filesystem::remove(temp_path);
+    } catch (...) {
+        if (std::filesystem::exists(temp_path)) {
+            std::filesystem::remove(temp_path);
+        }
+    }
+
+    return scenes;
 }
 #endif
 
