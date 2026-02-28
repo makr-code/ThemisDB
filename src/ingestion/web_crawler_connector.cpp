@@ -57,24 +57,35 @@ static std::string urlOrigin(const std::string& url) {
     return url.substr(0, host_end);
 }
 
+/// Returns true if the URL scheme is http or https (the only schemes this
+/// crawler is permitted to fetch, preventing SSRF via file://, ftp://, etc.).
+static bool isAllowedScheme(const std::string& url) {
+    if (url.find("http://") == 0)  return true;
+    if (url.find("https://") == 0) return true;
+    return false;
+}
+
 /// Resolves a potentially relative href against a base URL.
 /// Returns the absolute URL, or empty string if the href is not usable.
 static std::string resolveUrl(const std::string& base,
                                const std::string& href) {
     if (href.empty()) return {};
-    // Skip anchors, mailto, javascript
+    // Skip anchors, mailto, javascript, and any non-http/https absolute URI
     if (href[0] == '#') return {};
     if (href.find("mailto:") == 0) return {};
     if (href.find("javascript:") == 0) return {};
 
-    // Already absolute
-    if (href.find("://") != std::string::npos) return href;
+    // Already absolute: only allow http/https to prevent SSRF
+    if (href.find("://") != std::string::npos) {
+        return isAllowedScheme(href) ? href : std::string{};
+    }
 
     // Protocol-relative
     if (href.size() >= 2 && href[0] == '/' && href[1] == '/') {
         auto colon = base.find(':');
         if (colon == std::string::npos) return {};
-        return base.substr(0, colon + 1) + href;
+        std::string resolved = base.substr(0, colon + 1) + href;
+        return isAllowedScheme(resolved) ? resolved : std::string{};
     }
 
     std::string origin = urlOrigin(base);
@@ -362,6 +373,8 @@ public:
     bool initialize(const SourceConfig& config) {
         if (config.type != SourceType::WEB_CRAWLER) return false;
         if (config.location.empty()) return false;
+        // Only allow http/https seed URLs to prevent SSRF
+        if (!isAllowedScheme(config.location)) return false;
         config_   = config;
         seed_url_ = config.location;
 

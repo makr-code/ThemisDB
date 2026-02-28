@@ -139,3 +139,20 @@ Enhance `IngestionAdminApi::retryQuarantineItem(doc_id)` to retry a single quara
 - The `S3Connector` must validate that downloaded file paths do not escape the configured bucket prefix (path-traversal guard) before passing bytes to the file parser.
 - Kafka consumer group offsets are committed only after a document is durably written to ThemisDB; at-least-once delivery semantics are preserved; idempotency at the storage layer handles duplicates.
 - Quarantine entries containing raw document payloads may contain PII; the quarantine collection must be governed by the same `PolicyEngine` access controls as production collections.
+- **WebCrawlerConnector**: only `http://` and `https://` seed URLs and link targets are permitted; all other URI schemes (`file://`, `ftp://`, `data:`, `ldap://`, etc.) are rejected at `initialize()` and `resolveUrl()` to prevent SSRF attacks.
+
+---
+
+## Implemented Connectors (as of v1.5.0)
+
+The following connectors from this enhancement document have been implemented and are production-ready:
+
+| Connector | File | Status |
+|-----------|------|--------|
+| Production libcurl HTTP Client | `api_connector.cpp` | ✅ Implemented |
+| Kafka Consumer Source | `kafka_connector.cpp` | ✅ Implemented |
+| S3-Compatible Object Storage | `object_storage_connector.cpp` | ✅ Implemented |
+| JDBC-Compatible Database Source | `database_connector.cpp` | ✅ Implemented |
+| Web Crawler / Sitemap Source | `web_crawler_connector.cpp` | ✅ Implemented |
+| Per-Document Quarantine Retry | `ingestion_manager.cpp` | ✅ Implemented |
+| Distributed Ingestion Coordinator | — | 📋 Planned (v1.8.0) |

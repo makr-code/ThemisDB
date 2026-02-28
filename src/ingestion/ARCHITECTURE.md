@@ -42,6 +42,10 @@ queue for bad records, and Prometheus metrics export.
 | `api_connector.cpp` | Generic REST API connector with pagination, retry, rate limiting |
 | `filesystem_ingester.cpp` | Directory walker with binary MIME detection (PDF, DOCX) |
 | `huggingface_connector.cpp` | HuggingFace Hub dataset connector |
+| `kafka_connector.cpp` | Apache Kafka consumer source connector (librdkafka) |
+| `object_storage_connector.cpp` | S3 / GCS / Azure Blob object-storage connector |
+| `database_connector.cpp` | JDBC-compatible database source connector (ODBC) |
+| `web_crawler_connector.cpp` | HTTP web crawler with BFS, sitemap, and robots.txt support |
 
 ### 3.2 Component Diagram
 
@@ -59,16 +63,18 @@ queue for bad records, and Prometheus metrics export.
 │  Quarantine queue (failed records → quarantine collection)      │
 │  Prometheus metrics (throughput, errors, lag, retry counts)     │
 │  Admin API (list/pause/resume/quarantine per source)            │
-└──────┬──────────────────┬────────────────────────┬──────────────┘
-       │                  │                        │
-┌──────▼──────┐  ┌────────▼──────────┐  ┌─────────▼──────────────┐
-│ API         │  │  FileSystem       │  │  HuggingFace           │
-│ Connector   │  │  Ingester         │  │  Connector             │
-│             │  │  (MIME detect:    │  │  (dataset splits,      │
-│ Token bucket│  │   PDF/DOCX/XML)   │  │   pagination, auth)    │
-│ Retry/exp   │  │                   │  │                        │
-│ backoff     │  └───────────────────┘  └────────────────────────┘
-└─────────────┘
+└──────┬──────────┬──────────┬─────────────┬──────────┬──────────┘
+       │          │          │             │          │
+┌──────▼──────┐  ┌▼──────────▼─┐  ┌───────▼──────┐  ┌▼─────────────────┐
+│ API         │  │  FileSystem  │  │  HuggingFace │  │  WebCrawler      │
+│ Connector   │  │  Ingester    │  │  Connector   │  │  Connector       │
+│             │  │  (MIME:      │  │  (datasets,  │  │  (BFS, sitemap,  │
+│ Token bucket│  │   PDF/DOCX)  │  │   splits)    │  │   robots.txt,    │
+│ Retry/exp   │  │              │  │              │  │   http/https     │
+│ backoff     │  └──────────────┘  └──────────────┘  │   only / SSRF   │
+└─────────────┘                                       │   prevention)   │
+                                                      └─────────────────┘
+  Also: KafkaConnector · ObjectStorageConnector · DatabaseConnector
 ```
 
 ---
@@ -87,7 +93,8 @@ IngestionManager::start()
     ├─ source.fetchBatch(from: cursor, size: page_size)
     │       ├─ API: paginated JSON → extract text_field per record
     │       ├─ Filesystem: walk dir → read file → MIME detect → extract text
-    │       └─ HuggingFace: dataset split → row batch
+    │       ├─ HuggingFace: dataset split → row batch
+    │       └─ WebCrawler: BFS from seed → fetch page → strip HTML → extract text
     │
     ├─ for each document:
     │       ├─ validate (not empty, max size)

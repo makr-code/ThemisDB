@@ -12,11 +12,15 @@ The Ingestion module is ThemisDB's data intake layer. It provides a unified pipe
 | `api_connector.cpp` | Generic REST API connector with retry and rate limiting |
 | `filesystem_ingester.cpp` | Directory walker for local filesystem ingestion |
 | `huggingface_connector.cpp` | HuggingFace dataset connector |
+| `kafka_connector.cpp` | Apache Kafka consumer source connector |
+| `object_storage_connector.cpp` | S3 / GCS / Azure Blob object-storage connector |
+| `database_connector.cpp` | JDBC-compatible database source connector |
+| `web_crawler_connector.cpp` | HTTP web crawler and XML sitemap source connector |
 
 ## Scope
 
 **In Scope:**
-- Multi-source document ingestion (filesystem, HuggingFace, generic HTTP APIs)
+- Multi-source document ingestion (filesystem, HuggingFace, generic HTTP APIs, Kafka, object storage, JDBC databases, web crawling)
 - Paginated API traversal with exponential back-off retry
 - Token-bucket rate limiting per source
 - Incremental (checkpoint-based) ingestion to avoid re-processing
@@ -76,9 +80,38 @@ Downloads and ingests datasets from the HuggingFace Hub API. Handles dataset spl
 - Configurable `text_field` mapping
 - libcurl-based HTTP (stub provided; replace with `curl_easy_perform` in production)
 
+### WebCrawlerConnector
+**Location:** `web_crawler_connector.cpp`
+
+Crawls web pages starting from a seed URL using breadth-first search, extracts their text content, and ingests the pages as documents. Supports XML sitemap discovery (including nested sitemap index files), robots.txt enforcement, same-domain-only filtering, and configurable crawl depth and page limits.
+
+Compile with `THEMIS_ENABLE_CURL` to activate the libcurl HTTP backend; without it the connector compiles and runs with an injected mock (unit tests only).
+
+**Features:**
+- BFS crawl from a seed URL up to configurable `max_depth` levels
+- `max_pages` guard to prevent runaway crawls
+- XML sitemap (`/sitemap.xml`) discovery and sitemap index resolution (depth ≤ 5)
+- Robots.txt parsing with per-User-Agent `Disallow` rule enforcement
+- Same-domain-only mode (configurable)
+- HTML tag stripping, `<script>`/`<style>` block exclusion, HTML entity decoding
+- Relative → absolute URL resolution
+- URL deduplication (fragment-normalised) to avoid revisiting the same page
+- Exponential back-off retry on 5xx / timeout errors
+- **Security**: only `http://` and `https://` seed URLs and link targets are permitted; `file://`, `ftp://`, `data:`, and all other schemes are rejected to prevent SSRF attacks
+
+**Options** (via `SourceConfig::options` or `withWebCrawlerSource()`):
+
+| Key                | Default                   | Description                                    |
+|--------------------|---------------------------|------------------------------------------------|
+| `max_depth`        | `3`                       | Maximum BFS crawl depth (0 = seed URL only)    |
+| `max_pages`        | `0` (unlimited)           | Maximum total pages to crawl                   |
+| `user_agent`       | `ThemisDB-Crawler/1.0`    | HTTP User-Agent header sent with every request |
+| `follow_sitemaps`  | `true`                    | Parse `/sitemap.xml` before BFS traversal      |
+| `respect_robots`   | `true`                    | Honour robots.txt `Disallow` rules             |
+| `same_domain_only` | `true`                    | Restrict crawl to the seed domain              |
+
 ### IngestionManager
 **Location:** `ingestion_manager.cpp`
-
 Orchestrates all registered sources. Runs sources sequentially or in parallel (thread pool). Maintains per-source checkpoints, a quarantine queue, and a global `IngestionReport`.
 
 **Features:**
@@ -114,9 +147,13 @@ IngestionBuilder (fluent config)
         └─► IngestionManager
                 │
                 ├─ Source Registry (SourceConfig[])
-                │       ├─ FILESYSTEM  → FileSystemIngester
-                │       ├─ HUGGINGFACE → HuggingFaceConnector
-                │       └─ API         → GenericApiConnector
+                │       ├─ FILESYSTEM    → FileSystemIngester
+                │       ├─ HUGGINGFACE   → HuggingFaceConnector
+                │       ├─ API           → GenericApiConnector
+                │       ├─ KAFKA         → KafkaConnector
+                │       ├─ OBJECT_STORAGE→ ObjectStorageConnector
+                │       ├─ DATABASE      → DatabaseConnector
+                │       └─ WEB_CRAWLER   → WebCrawlerConnector
                 │
                 ├─ RetryConfig  (exponential back-off)
                 ├─ RateLimitConfig (token bucket per source)
@@ -134,6 +171,10 @@ IngestionBuilder (fluent config)
 - `ingestion/api_connector.h` — generic API connector interface
 - `ingestion/filesystem_ingester.h` — filesystem source interface
 - `ingestion/huggingface_connector.h` — HuggingFace connector interface
+- `ingestion/kafka_connector.h` — Kafka consumer connector interface
+- `ingestion/object_storage_connector.h` — S3/GCS/Azure connector interface
+- `ingestion/database_connector.h` — JDBC-compatible database connector interface
+- `ingestion/web_crawler_connector.h` — web crawler and sitemap connector interface
 
 ### External Dependencies
 - `<filesystem>` (C++17) — directory traversal

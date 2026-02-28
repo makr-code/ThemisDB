@@ -575,3 +575,60 @@ TEST(WebCrawlerConnectorTest, DuplicateLinksAreNotCrawledTwice) {
     conn.ingest("docs", nullptr);
     EXPECT_EQ(page2_fetches, 1);  // fetched exactly once despite two links
 }
+
+// ---------------------------------------------------------------------------
+// Security: URL scheme validation (SSRF prevention)
+// ---------------------------------------------------------------------------
+
+TEST(WebCrawlerConnectorTest, RejectsFileSchemeSeedUrl) {
+    WebCrawlerConnector conn;
+    // file:// scheme must be rejected during initialization to prevent SSRF
+    SourceConfig cfg = makeConfig("file:///etc/passwd");
+    EXPECT_FALSE(conn.initialize(cfg));
+}
+
+TEST(WebCrawlerConnectorTest, RejectsFtpSchemeSeedUrl) {
+    WebCrawlerConnector conn;
+    EXPECT_FALSE(conn.initialize(makeConfig("ftp://internal.host/data")));
+}
+
+TEST(WebCrawlerConnectorTest, RejectsDataSchemeSeedUrl) {
+    WebCrawlerConnector conn;
+    EXPECT_FALSE(conn.initialize(makeConfig("data:text/html,<html>content</html>")));
+}
+
+TEST(WebCrawlerConnectorTest, NonHttpLinksAreNotFollowed) {
+    // A page that contains file:// and ftp:// links must not cause fetches
+    // of those non-http/https URLs.
+    const std::string page_with_bad_links =
+        "<html><body>"
+        "<a href=\"file:///etc/passwd\">secret</a>"
+        "<a href=\"ftp://files.example.com/archive.tar\">ftp link</a>"
+        "<a href=\"/safe\">safe</a>"
+        "content"
+        "</body></html>";
+
+    int bad_fetches = 0;
+    WebCrawlerConnector conn;
+    conn.initialize(makeConfig("http://example.com",
+                               {{"max_depth", "1"}, {"follow_sitemaps", "false"},
+                                {"respect_robots", "false"}}));
+    conn.setHttpFetchForTesting([&](const std::string& url) -> std::pair<int, std::string> {
+        // Any fetch that is not http or https is a security violation
+        if (url.find("http://") != 0 && url.find("https://") != 0) {
+            ++bad_fetches;
+        }
+        if (url == "http://example.com") return {200, page_with_bad_links};
+        return {200, "<html><body>safe page</body></html>"};
+    });
+
+    conn.ingest("docs", nullptr);
+    EXPECT_EQ(bad_fetches, 0);
+}
+
+TEST(WebCrawlerConnectorTest, HttpsSchemeIsAccepted) {
+    WebCrawlerConnector conn;
+    EXPECT_TRUE(conn.initialize(makeConfig("https://secure.example.com",
+                                           {{"follow_sitemaps", "false"},
+                                            {"respect_robots", "false"}})));
+}

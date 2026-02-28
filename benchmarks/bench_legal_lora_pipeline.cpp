@@ -34,6 +34,7 @@
 #include <benchmark/benchmark.h>
 #include "ingestion/ingestion_manager.h"
 #include "ingestion/filesystem_ingester.h"
+#include "ingestion/web_crawler_connector.h"
 #include "training/auto_labeler.h"
 #include "training/knowledge_graph_enricher.h"
 #include "training/incremental_lora_trainer.h"
@@ -83,6 +84,60 @@ BENCHMARK(BM_IngestionParallel)
     ->Arg(2)
     ->Arg(4)
     ->Arg(8)
+    ->Unit(benchmark::kMillisecond);
+
+// =============================================================================
+// Web Crawler Ingestion Benchmark
+// =============================================================================
+
+/**
+ * @brief Benchmark: WebCrawlerConnector HTML extraction throughput.
+ *
+ * Uses a mock HTTP fetch function that returns pre-generated HTML pages so
+ * the benchmark measures the BFS + text-extraction logic without real network
+ * I/O.  Target: ≥ 10 000 pages/sec on a single thread.
+ */
+static void BM_WebCrawlerIngestion(benchmark::State& state) {
+    const int num_pages = state.range(0);
+
+    // Build a simple site: seed links to /p1 .. /pN, each page has text content.
+    std::string seed_html;
+    seed_html.reserve(64 + num_pages * 30);
+    seed_html = "<html><body>";
+    for (int i = 1; i <= num_pages; ++i) {
+        seed_html += "<a href=\"/p" + std::to_string(i) + "\">page</a>";
+    }
+    seed_html += "seed content</body></html>";
+    const std::string leaf_html = "<html><body>leaf page content</body></html>";
+
+    ingestion::SourceConfig cfg;
+    cfg.source_id = "bench_crawl";
+    cfg.type      = ingestion::SourceType::WEB_CRAWLER;
+    cfg.location  = "http://bench.example.com";
+    cfg.options["max_depth"]       = "1";
+    cfg.options["max_pages"]       = std::to_string(num_pages + 1);
+    cfg.options["follow_sitemaps"] = "false";
+    cfg.options["respect_robots"]  = "false";
+
+    for (auto _ : state) {
+        ingestion::WebCrawlerConnector conn;
+        conn.initialize(cfg);
+        conn.setHttpFetchForTesting([&](const std::string& url)
+                -> std::pair<int, std::string> {
+            if (url == "http://bench.example.com") return {200, seed_html};
+            return {200, leaf_html};
+        });
+        auto stats = conn.ingest("bench_collection", nullptr);
+        benchmark::DoNotOptimize(stats);
+    }
+
+    state.SetItemsProcessed(state.iterations() * (num_pages + 1));
+    state.SetLabel("pages/sec");
+}
+BENCHMARK(BM_WebCrawlerIngestion)
+    ->Arg(100)
+    ->Arg(1000)
+    ->Arg(5000)
     ->Unit(benchmark::kMillisecond);
 
 // =============================================================================
