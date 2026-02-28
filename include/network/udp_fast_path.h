@@ -23,6 +23,7 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <atomic>
@@ -30,7 +31,6 @@
 #include <unordered_map>
 #include <vector>
 #include <thread>
-#include <functional>
 
 namespace themis {
 

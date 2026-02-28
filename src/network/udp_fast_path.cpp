@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <cstring>
+#include <limits>
 #ifdef _WIN32
 #  include <winsock2.h>   // ntohl / ntohs / htonl / htons
 #else
@@ -28,7 +29,7 @@ UDPFastPath::UDPFastPath(const Config& config,
     , storage_(std::move(storage))
     , io_ctx_(std::make_unique<net::io_context>())
 {
-    recv_buf_.resize(config_.max_packet_size);
+    recv_buf_.resize(std::min(config_.max_packet_size, kUdpFastPathMaxPacketSize));
 }
 
 UDPFastPath::~UDPFastPath() {
@@ -40,12 +41,15 @@ UDPFastPath::~UDPFastPath() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 void UDPFastPath::start() {
-    if (running_.exchange(true, std::memory_order_acq_rel)) {
+    if (running_.load(std::memory_order_acquire)) {
         return;  // Already running
     }
 
     udp::endpoint endpoint(net::ip::make_address(config_.host), config_.port);
     socket_ = std::make_unique<udp::socket>(*io_ctx_, endpoint);
+    // Mark running only after the socket is successfully bound so that a
+    // bind failure does not leave isRunning() returning true with no socket.
+    running_.store(true, std::memory_order_release);
 
     THEMIS_INFO("[UDPFastPath] listening on {}:{}", config_.host, config_.port);
 
@@ -124,12 +128,16 @@ void UDPFastPath::handleDatagram(const udp::endpoint&        sender,
 
     // ── Rate limiting ──────────────────────────────────────────────────────
     if (!checkRateLimit(ip)) {
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        ++stats_.packets_dropped;
-        ++stats_.rate_limit_drops;
+        {
+            std::lock_guard<std::mutex> lk(stats_mutex_);
+            ++stats_.packets_dropped;
+            ++stats_.rate_limit_drops;
+        }
         THEMIS_WARN("[UDPFastPath] rate-limited {}", ip);
 
-        // Build and send RATE_LIMITED response if we have a request ID
+        // Build and send RATE_LIMITED response if we have a request ID.
+        // The send_to call is intentionally outside the stats lock to avoid
+        // holding a mutex during a blocking I/O operation.
         if (data.size() >= kUdpFastPathHeaderSize) {
             uint32_t req_id_be;
             std::memcpy(&req_id_be, data.data() + 4, 4);
@@ -240,6 +248,11 @@ bool UDPFastPath::checkRateLimit(const std::string& ip) {
     }
 
     ++entry.count;
+    // Saturate at max to prevent uint32_t wrap-around which could re-admit
+    // traffic from a single IP after ~4 billion packets in one window.
+    if (entry.count == 0) {
+        entry.count = std::numeric_limits<uint32_t>::max();
+    }
     return entry.count <= config_.max_packets_per_second_per_ip;
 }
 
@@ -259,9 +272,9 @@ std::vector<uint8_t> UDPFastPath::dispatchGet(uint32_t           request_id,
         auto j = json::parse(payload_json);
         key    = j.at("key").get<std::string>();
     } catch (const std::exception& ex) {
-        return buildResponse(request_id, UdpStatus::ERROR,
-                             std::string(R"({"error":"invalid payload: ")") +
-                                 ex.what() + "\"}");
+        json err;
+        err["error"] = std::string("invalid payload: ") + ex.what();
+        return buildResponse(request_id, UdpStatus::ERROR, err.dump());
     }
 
     if (key.empty()) {
