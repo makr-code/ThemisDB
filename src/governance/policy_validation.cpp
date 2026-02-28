@@ -250,7 +250,7 @@ std::vector<PolicyValidator::ConflictResult> PolicyValidator::detectOverlappingP
     
     // Identify patterns with multiple rules (potential overlaps)
     for (const auto& [pattern, rule_ids] : pattern_rules) {
-        if (rule_ids.size() > 2) {  // More than 2 rules is concerning
+        if (rule_ids.size() > 1) {  // Two or more rules covering the same resource/action
             ConflictResult conflict;
             conflict.conflict_id = "overlap_" + pattern;
             conflict.conflict_type = "overlapping";

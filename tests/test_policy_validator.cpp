@@ -282,6 +282,24 @@ TEST_F(PolicyValidatorTest, DetectOverlapping_DisabledRulesIgnored) {
     EXPECT_TRUE(overlaps.empty()) << "Disabled rules must be skipped in overlap detection";
 }
 
+TEST_F(PolicyValidatorTest, DetectOverlapping_SameResourceDifferentAction_NoConflict) {
+    PolicyValidator validator(policy_mgr_);
+
+    // Same resource but completely different actions – not an overlap conflict
+    auto r1 = makeRule("diff_act1", "Rule Read", {"data/*"}, {"read"});
+    r1.priority = 5;
+    auto r2 = makeRule("diff_act2", "Rule Write", {"data/*"}, {"write"});
+    r2.priority = 5;
+
+    policy_mgr_->addRule(r1);
+    policy_mgr_->addRule(r2);
+
+    auto overlaps = validator.detectOverlappingPermissions();
+
+    EXPECT_TRUE(overlaps.empty())
+        << "Same resource but disjoint actions must not produce an overlap conflict";
+}
+
 // ========== detectCircularDependencies ==========
 
 TEST_F(PolicyValidatorTest, DetectCircular_ThreeWayCycle) {
