@@ -1173,6 +1173,44 @@ else()
 endif()
 
 # ============================================================================
+# Parallel Graph Traversal Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
+    message(STATUS "Adding Parallel Graph Traversal tests")
+
+    add_executable(test_graph_parallel_traversal
+        test_graph_parallel_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_parallel_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_parallel_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME ParallelGraphTraversalTests COMMAND test_graph_parallel_traversal)
+
+    set_tests_properties(ParallelGraphTraversalTests PROPERTIES
+        LABELS "graph;parallel;bfs;dfs;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Parallel Graph Traversal: multi-source BFS/DFS, fan-out threshold, depth/result limits")
+else()
+    message(STATUS "Parallel Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
+endif()
+
+# ============================================================================
 # HTTP Client Pool Tests
 # ============================================================================
 
