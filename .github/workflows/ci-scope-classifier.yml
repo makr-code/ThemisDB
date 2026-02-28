@@ -23,6 +23,7 @@ name: CI Scope Classifier
 #   has_doc_only_changes  – true when ONLY documentation changed (no code)
 #   has_config_changes    – true when CMake / config / workflow files changed
 #   has_grafana_changes   – true when Grafana dashboard JSON files changed
+#   has_chimera_changes   – true when chimera module / benchmark files changed
 #
 # See also:
 #   .github/ci-scope-config.yaml  – path-pattern → scope mappings
@@ -55,6 +56,9 @@ on:
       has_grafana_changes:
         description: "True if Grafana dashboard JSON files changed"
         value: ${{ jobs.classify.outputs.has_grafana_changes }}
+      has_chimera_changes:
+        description: "True if chimera module or benchmark files changed"
+        value: ${{ jobs.classify.outputs.has_chimera_changes }}
   # Allow standalone manual runs for testing / debugging the classifier itself.
   workflow_dispatch:
 
@@ -74,6 +78,7 @@ jobs:
       has_doc_only_changes: ${{ steps.classify.outputs.has_doc_only_changes }}
       has_config_changes:   ${{ steps.classify.outputs.has_config_changes }}
       has_grafana_changes:  ${{ steps.classify.outputs.has_grafana_changes }}
+      has_chimera_changes:  ${{ steps.classify.outputs.has_chimera_changes }}
 
     steps:
       - name: Checkout repository
