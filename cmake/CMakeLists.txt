@@ -128,6 +128,23 @@ if(THEMIS_ENABLE_PDF)
     endif()
 endif()
 
+# OCR support requires libtesseract + leptonica
+if(THEMIS_ENABLE_OCR)
+    find_package(Tesseract CONFIG QUIET)
+    if(NOT Tesseract_FOUND)
+        find_package(Tesseract QUIET)
+    endif()
+
+    if(Tesseract_FOUND)
+        message(STATUS "OCR support enabled - libtesseract found")
+        add_compile_definitions(THEMIS_ENABLE_OCR)
+    else()
+        message(WARNING "libtesseract not found - Install with: vcpkg install tesseract")
+        message(WARNING "Disabling OCR support due to missing dependencies")
+        set(THEMIS_ENABLE_OCR OFF CACHE BOOL "OCR support disabled - missing libtesseract" FORCE)
+    endif()
+endif()
+
 # FFmpeg support for video processing (optional)
 # Priority: 1) Local Submodule, 2) vcpkg, 3) System
 find_package(FFmpeg CONFIG QUIET)
@@ -251,6 +268,10 @@ option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (r
 # Office Document Processing (P2 - v1.4.0+)
 # Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
 option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) with libzip+pugixml" ON)
+
+# OCR Processing (Phase 3 - Advanced Format Support)
+# Enables Tesseract OCR for text extraction from image content (JPEG, PNG, TIFF)
+option(THEMIS_ENABLE_OCR "Enable Tesseract OCR for image text extraction (requires libtesseract+leptonica)" OFF)
 
 # Performance Optimization Options (Research-based, see docs/de/research/)
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
@@ -1585,6 +1606,7 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/geo_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
@@ -2755,6 +2777,18 @@ if(THEMIS_ENABLE_PDF AND Poppler_FOUND)
         message(WARNING "Poppler::cpp target not found - please check poppler installation")
     endif()
     message(STATUS "PDF support linked: poppler-cpp")
+endif()
+
+# Link libtesseract (for OCR text extraction from images) if enabled
+if(THEMIS_ENABLE_OCR AND Tesseract_FOUND)
+    if(TARGET Tesseract::libtesseract)
+        target_link_libraries(themis_core PUBLIC Tesseract::libtesseract)
+    elseif(TARGET tesseract)
+        target_link_libraries(themis_core PUBLIC tesseract)
+    else()
+        message(WARNING "Tesseract target not found - please check libtesseract installation")
+    endif()
+    message(STATUS "OCR support linked: libtesseract")
 endif()
 
 # Link Kerberos/GSSAPI if enabled

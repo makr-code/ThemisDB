@@ -391,6 +391,18 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
     }
     
     zip_int64_t num_entries = zip_get_num_entries(za, 0);
+
+    // Enforce file count limit before extraction starts (fast path)
+    if (static_cast<size_t>(num_entries) > config_.max_file_count) {
+        zip_close(za);
+        fs::remove(temp_zip);
+        result.error_message = "Archive exceeds maximum file count: " +
+                               std::to_string(num_entries) + " > " +
+                               std::to_string(config_.max_file_count);
+        return result;
+    }
+
+    uint64_t total_bytes_written = 0;  // Track decompressed bytes during extraction
     
     for (zip_int64_t i = 0; i < num_entries; ++i) {
         zip_stat_t stat;
@@ -406,6 +418,16 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
         if (safe_path.empty()) continue;
         
         auto extract_path = fs::path(result.temp_directory) / safe_path;
+
+        // Prevent path traversal: ensure the resolved path stays inside temp_directory
+        auto canon_temp = fs::weakly_canonical(result.temp_directory);
+        auto canon_extract = fs::weakly_canonical(extract_path);
+        std::string temp_str = canon_temp.string();
+        std::string extract_str = canon_extract.string();
+        if (extract_str.rfind(temp_str, 0) != 0) {
+            // Resolved path escapes temp directory – skip silently
+            continue;
+        }
         
         // Check if it's a directory
         if (member_path.ends_with("/")) {
@@ -430,15 +452,40 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
             continue;
         }
         
-        // Read and write in chunks
+        // Read and write in chunks; enforce per-file and total size limits in real-time
         char buffer[8192];
         zip_int64_t bytes_read;
+        uint64_t file_bytes_written = 0;
+        std::string size_error_msg;
         while ((bytes_read = zip_fread(zf, buffer, sizeof(buffer))) > 0) {
+            file_bytes_written += static_cast<uint64_t>(bytes_read);
+            total_bytes_written += static_cast<uint64_t>(bytes_read);
+
+            // Per-file size guard
+            if (file_bytes_written > config_.max_file_size) {
+                size_error_msg = "Archive member exceeds maximum file size (possible zip bomb)";
+                break;
+            }
+            // Total size guard (zip-bomb protection)
+            if (total_bytes_written > config_.max_total_size) {
+                size_error_msg = "Archive total decompressed size exceeds limit (possible zip bomb)";
+                break;
+            }
+
             out_file.write(buffer, bytes_read);
         }
         
         zip_fclose(zf);
         out_file.close();
+
+        if (!size_error_msg.empty()) {
+            // Remove the partially-extracted file and abort
+            fs::remove(extract_path);
+            zip_close(za);
+            fs::remove(temp_zip);
+            result.error_message = size_error_msg;
+            return result;
+        }
         
         if (bytes_read == 0) {  // Successfully extracted
             result.extracted_files.push_back(extract_path.string());

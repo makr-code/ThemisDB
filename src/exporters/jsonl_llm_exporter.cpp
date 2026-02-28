@@ -21,10 +21,12 @@
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "exporters/export_encryption.h"
 #include "exporters/format_template.h"
 #include "exporters/pii_detector.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -134,6 +136,7 @@ ExportStats JSONLLLMExporter::exportEntities(
         }
 
         std::set<std::string> seen_hashes;  // For duplicate detection
+        const size_t total_count = entities.size();  // Known in advance for ETA calculation
         
         for (const auto& entity : entities) {
             stats.total_entities++;
@@ -172,20 +175,20 @@ ExportStats JSONLLLMExporter::exportEntities(
                 // Format based on style or named template
                 std::string line;
                 if (format_template_) {
-                    line = formatWithTemplate(entity, weight);
+                    line = formatWithTemplate(entity, weight, options);
                 } else {
                     switch (config_.style) {
                         case JSONLFormat::Style::INSTRUCTION_TUNING:
-                            line = formatInstructionTuning(entity, weight);
+                            line = formatInstructionTuning(entity, weight, options);
                             break;
                         case JSONLFormat::Style::CHAT_COMPLETION:
-                            line = formatChatCompletion(entity, weight);
+                            line = formatChatCompletion(entity, weight, options);
                             break;
                         case JSONLFormat::Style::TEXT_COMPLETION:
-                            line = formatTextCompletion(entity, weight);
+                            line = formatTextCompletion(entity, weight, options);
                             break;
                         default:
-                            line = formatInstructionTuning(entity, weight);
+                            line = formatInstructionTuning(entity, weight, options);
                     }
                 }
                 
@@ -274,9 +277,21 @@ ExportStats JSONLLLMExporter::exportEntities(
                 stats.bytes_written += line.size();
                 stats.exported_entities++;
                 
-                // Progress reporting
-                if (options.progress_callback && 
+                // Progress reporting with duration and ETA
+                if (options.progress_callback &&
                     stats.exported_entities % options.progress_interval == 0) {
+                    auto now = std::chrono::steady_clock::now();
+                    stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        now - start_time);
+                    if (total_count > 0 && stats.exported_entities < total_count) {
+                        double elapsed = std::chrono::duration<double>(
+                            now - start_time).count();
+                        double rate = static_cast<double>(stats.exported_entities) / elapsed;
+                        stats.estimated_eta_seconds =
+                            static_cast<double>(total_count - stats.exported_entities) / rate;
+                    } else {
+                        stats.estimated_eta_seconds = 0.0;
+                    }
                     options.progress_callback(stats);
                 }
                 
@@ -322,12 +337,38 @@ ExportStats JSONLLLMExporter::exportEntities(
             end_time - start_time
         );
         
+        // ETA is zero at completion
+        stats.estimated_eta_seconds = 0.0;
+        
         // P2: Record compression metrics
         if (options.compress) {
             metrics_->recordCompression(writer.getBytesWritten(), 
                                        writer.getCompressedBytesWritten());
         }
-        
+
+        // P3: Encrypt output file if configured
+        if (options.encryption_config && !options.encryption_config->empty()) {
+            const std::string enc_tmp = options.output_path + ".enc_tmp";
+            try {
+                ExportEncryptor encryptor(*options.encryption_config);
+                const size_t enc_bytes =
+                    encryptor.encryptFile(options.output_path, enc_tmp);
+                std::error_code rename_ec;
+                std::filesystem::rename(enc_tmp, options.output_path, rename_ec);
+                if (rename_ec) {
+                    std::filesystem::remove(enc_tmp);
+                    throw ExportIOException(
+                        "Failed to rename encrypted file: " + rename_ec.message(),
+                        enc_tmp);
+                }
+                metrics_->recordEncryption(enc_bytes);
+            } catch (const std::exception& e) {
+                std::error_code ec;
+                std::filesystem::remove(enc_tmp, ec);
+                throw;
+            }
+        }
+
         // Record export metrics
         metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
         
@@ -355,13 +396,19 @@ ExportStats JSONLLLMExporter::exportEntities(
 
 std::string JSONLLLMExporter::formatInstructionTuning(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     json j;
     
     auto& mapping = config_.field_mapping;
     
-    // Required fields
+    // Required fields — skip entity if a core field is explicitly excluded
+    if (!isFieldAllowed(mapping.instruction_field, options.include_fields, options.exclude_fields) ||
+        !isFieldAllowed(mapping.output_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
+
     auto instruction = entity.getFieldAsString(mapping.instruction_field);
     auto output = entity.getFieldAsString(mapping.output_field);
     
@@ -373,9 +420,11 @@ std::string JSONLLLMExporter::formatInstructionTuning(
     j["output"] = *output;
     
     // Optional input field
-    auto input = entity.getFieldAsString(mapping.input_field);
-    if (input && !input->empty()) {
-        j["input"] = *input;
+    if (isFieldAllowed(mapping.input_field, options.include_fields, options.exclude_fields)) {
+        auto input = entity.getFieldAsString(mapping.input_field);
+        if (input && !input->empty()) {
+            j["input"] = *input;
+        }
     }
     
     // Add weight
@@ -385,7 +434,7 @@ std::string JSONLLLMExporter::formatInstructionTuning(
     
     // Add metadata
     if (config_.include_metadata) {
-        auto metadata_str = extractMetadata(entity);
+        auto metadata_str = extractMetadata(entity, options);
         if (!metadata_str.empty()) {
             j["metadata"] = json::parse(metadata_str);
         }
@@ -396,7 +445,8 @@ std::string JSONLLLMExporter::formatInstructionTuning(
 
 std::string JSONLLLMExporter::formatChatCompletion(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     json j;
     auto& mapping = config_.field_mapping;
@@ -404,15 +454,20 @@ std::string JSONLLLMExporter::formatChatCompletion(
     json messages = json::array();
     
     // System message (optional)
-    auto system = entity.getFieldAsString(mapping.system_field);
-    if (system && !system->empty()) {
-        messages.push_back({
-            {"role", "system"},
-            {"content", *system}
-        });
+    if (isFieldAllowed(mapping.system_field, options.include_fields, options.exclude_fields)) {
+        auto system = entity.getFieldAsString(mapping.system_field);
+        if (system && !system->empty()) {
+            messages.push_back({
+                {"role", "system"},
+                {"content", *system}
+            });
+        }
     }
     
-    // User message (required)
+    // User message (required) — skip entity if excluded
+    if (!isFieldAllowed(mapping.user_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
     auto user = entity.getFieldAsString(mapping.user_field);
     if (!user) {
         return "";
@@ -423,7 +478,10 @@ std::string JSONLLLMExporter::formatChatCompletion(
         {"content", *user}
     });
     
-    // Assistant response (required)
+    // Assistant response (required) — skip entity if excluded
+    if (!isFieldAllowed(mapping.assistant_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
     auto assistant = entity.getFieldAsString(mapping.assistant_field);
     if (!assistant) {
         return "";
@@ -443,7 +501,7 @@ std::string JSONLLLMExporter::formatChatCompletion(
     
     // Add metadata
     if (config_.include_metadata) {
-        auto metadata_str = extractMetadata(entity);
+        auto metadata_str = extractMetadata(entity, options);
         if (!metadata_str.empty()) {
             j["metadata"] = json::parse(metadata_str);
         }
@@ -454,11 +512,17 @@ std::string JSONLLLMExporter::formatChatCompletion(
 
 std::string JSONLLLMExporter::formatTextCompletion(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     json j;
     auto& mapping = config_.field_mapping;
     
+    // Skip entity if the text field is excluded
+    if (!isFieldAllowed(mapping.text_field, options.include_fields, options.exclude_fields)) {
+        return "";
+    }
+
     auto text = entity.getFieldAsString(mapping.text_field);
     if (!text) {
         return "";
@@ -473,7 +537,7 @@ std::string JSONLLLMExporter::formatTextCompletion(
     
     // Add metadata
     if (config_.include_metadata) {
-        auto metadata_str = extractMetadata(entity);
+        auto metadata_str = extractMetadata(entity, options);
         if (!metadata_str.empty()) {
             j["metadata"] = json::parse(metadata_str);
         }
@@ -484,7 +548,8 @@ std::string JSONLLLMExporter::formatTextCompletion(
 
 std::string JSONLLLMExporter::formatWithTemplate(
     const BaseEntity& entity,
-    double& weight
+    double& weight,
+    const ExportOptions& options
 ) {
     if (!format_template_) {
         return {};
@@ -505,6 +570,25 @@ std::string JSONLLLMExporter::formatWithTemplate(
             // Weight injection requires a JSON object at the top level.
             // If the rendered output cannot be parsed, log and skip injection.
             THEMIS_WARN("format_template: weight injection skipped ({})", e.what());
+        }
+    }
+
+    // Apply field exclusion to the rendered JSON object
+    if (!options.exclude_fields.empty() || !options.include_fields.empty()) {
+        try {
+            auto j = json::parse(line);
+            if (j.is_object()) {
+                for (auto it = j.begin(); it != j.end(); ) {
+                    if (!isFieldAllowed(it.key(), options.include_fields, options.exclude_fields)) {
+                        it = j.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+                line = j.dump();
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("format_template: field filtering skipped ({})", e.what());
         }
     }
 
@@ -673,10 +757,14 @@ bool JSONLLLMExporter::passesQualityFilter(const BaseEntity& entity) {
     return true;
 }
 
-std::string JSONLLLMExporter::extractMetadata(const BaseEntity& entity) {
+std::string JSONLLLMExporter::extractMetadata(const BaseEntity& entity,
+                                              const ExportOptions& options) {
     json metadata;
     
     for (const auto& field_name : config_.metadata_fields) {
+        if (!isFieldAllowed(field_name, options.include_fields, options.exclude_fields)) {
+            continue;
+        }
         if (entity.hasField(field_name)) {
             auto value = entity.getFieldAsString(field_name);
             if (value) {
@@ -690,6 +778,28 @@ std::string JSONLLLMExporter::extractMetadata(const BaseEntity& entity) {
     }
     
     return metadata.dump();
+}
+
+bool JSONLLLMExporter::isFieldAllowed(const std::string& field_name,
+                                       const std::vector<std::string>& include_fields,
+                                       const std::vector<std::string>& exclude_fields) {
+    // Linear search is acceptable: field lists are typically very short (< 100 entries).
+    // If exclude list is set, reject fields explicitly listed
+    for (const auto& excl : exclude_fields) {
+        if (excl == field_name) {
+            return false;
+        }
+    }
+    // If include list is set, only allow fields explicitly listed
+    if (!include_fields.empty()) {
+        for (const auto& incl : include_fields) {
+            if (incl == field_name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
 }
 
 // ============================================================================

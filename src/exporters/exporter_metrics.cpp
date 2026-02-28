@@ -76,6 +76,7 @@ void ExporterMetrics::reset() {
 
     encryption_plaintext_bytes_ = 0;
     encryption_output_bytes_    = 0;
+    encrypted_bytes_written_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -248,6 +249,12 @@ size_t ExporterMetrics::getEncryptedPlaintextBytes() const {
 
 size_t ExporterMetrics::getEncryptedOutputBytes() const {
     return encryption_output_bytes_.load();
+void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
+    encrypted_bytes_written_ += encrypted_bytes;
+}
+
+size_t ExporterMetrics::getEncryptedBytesWritten() const {
+    return encrypted_bytes_written_.load();
 }
 
 json ExporterMetrics::toJson() const {
@@ -319,6 +326,9 @@ json ExporterMetrics::toJson() const {
         {"plaintext_bytes", encryption_plaintext_bytes_.load()},
         {"output_bytes",    encryption_output_bytes_.load()}
     };
+    // Encryption: bytes written to encrypted export files
+    // (exporter_encrypted_bytes_written_total)
+    j["exporter_encrypted_bytes_written_total"] = encrypted_bytes_written_.load();
     
     return j;
 }

@@ -139,6 +139,12 @@ public:
 
     /// P3/Security: Get total bytes written to encrypted containers
     size_t getEncryptedOutputBytes() const;
+    /// Encryption: Record bytes written to an encrypted export file
+    /// (exporter_encrypted_bytes_written_total)
+    void recordEncryption(size_t encrypted_bytes);
+
+    /// Encryption: Get total bytes written to encrypted export files
+    size_t getEncryptedBytesWritten() const;
 
     /// Export metrics as JSON
     nlohmann::json toJson() const;
@@ -199,6 +205,9 @@ private:
     // P3/Security: encryption metrics (exporter_encrypted_bytes_total)
     std::atomic<size_t> encryption_plaintext_bytes_{0};
     std::atomic<size_t> encryption_output_bytes_{0};
+    // Encryption: bytes written to encrypted export files
+    // (exporter_encrypted_bytes_written_total)
+    std::atomic<size_t> encrypted_bytes_written_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

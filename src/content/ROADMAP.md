@@ -48,7 +48,7 @@
 - [x] Implemented zstd compression for stored content blobs
 
 ### Phase 2: Pipeline Hardening (Status: In Progress)
-- [I] Harden pipeline orchestration with per-stage error recovery and retry logic (Issue: #1701)
+- [P] Harden pipeline orchestration with per-stage error recovery and retry logic (Issue: #1701)
 - [I] Implement content deduplication via SHA-256 hash before storage (Issue: #1702)
 - [I] Add configurable processor chain to enable/disable stages per content type (Issue: #1703)
 
@@ -63,7 +63,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1698)
 - [x] Integration tests (ingestion pipeline, content type routing)
 - [I] Performance benchmarks (throughput per content type) (Issue: #1699)
-- [I] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
+- [P] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
 - [x] Documentation complete (content manager, content pipeline)
 - [x] API stability guaranteed for ingestion pipeline
 

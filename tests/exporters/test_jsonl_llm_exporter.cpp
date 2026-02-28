@@ -458,12 +458,18 @@ TEST_F(JSONLLLMExporterTest, ProgressCallback) {
     options.progress_interval = 3;
     options.progress_callback = [&callback_count](const ExportStats& stats) {
         callback_count++;
+        EXPECT_GT(stats.exported_entities, 0u);
+        EXPECT_GT(stats.bytes_written, 0u);
+        EXPECT_GE(stats.duration.count(), 0);
+        EXPECT_GE(stats.estimated_eta_seconds, 0.0);
     };
     
     auto stats = exporter.exportEntities(test_entities_, options);
     
     // Callback should have been called
     EXPECT_GT(callback_count, 0);
+    // ETA must be zero at completion
+    EXPECT_DOUBLE_EQ(stats.estimated_eta_seconds, 0.0);
 }
 
 // ===== ExportStats JSON Tests =====
@@ -518,6 +524,119 @@ TEST_F(JSONLLLMExporterTest, MetadataInclusion) {
         auto j = json::parse(line);
         EXPECT_TRUE(j.contains("metadata"));
     }
+}
+
+// ===== Sensitive Field Redaction Tests =====
+
+TEST_F(JSONLLLMExporterTest, ExcludeFieldsFromMetadata) {
+    JSONLLLMConfig config;
+    config.include_metadata = true;
+    config.metadata_fields = {"source", "category", "ssn"};
+
+    for (auto& entity : test_entities_) {
+        entity.setField("source", "test_source");
+        entity.setField("category", "test_category");
+        entity.setField("ssn", "000-00-0000");  // Sensitive field (obviously fake format)
+    }
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/exclude_fields_metadata.jsonl";
+    options.exclude_fields = {"ssn"};  // Redact sensitive field
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    EXPECT_GT(stats.exported_entities, 0);
+
+    // Verify excluded field does not appear in output
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        EXPECT_EQ(line.find("000-00-0000"), std::string::npos)
+            << "Sensitive SSN should not appear in export output";
+        EXPECT_EQ(line.find("\"ssn\""), std::string::npos)
+            << "Excluded field key should not appear in export output";
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, IncludeFieldsLimitsMetadata) {
+    JSONLLLMConfig config;
+    config.include_metadata = true;
+    config.metadata_fields = {"source", "category", "internal_id"};
+
+    for (auto& entity : test_entities_) {
+        entity.setField("source", "test_source");
+        entity.setField("category", "test_category");
+        entity.setField("internal_id", "secret-internal-id");  // Should be excluded
+    }
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/include_fields_metadata.jsonl";
+    // Only include "question", "answer", and "source" fields (core + one metadata field)
+    options.include_fields = {"question", "answer", "context", "source"};
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    EXPECT_GT(stats.exported_entities, 0);
+
+    // Verify only the included metadata field appears
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        auto j = json::parse(line);
+        // "source" was in include_fields so it may appear in metadata
+        // "internal_id" was NOT in include_fields so it must not appear
+        EXPECT_EQ(line.find("internal_id"), std::string::npos)
+            << "Field not in include_fields should not appear in export";
+        EXPECT_EQ(line.find("secret-internal-id"), std::string::npos)
+            << "Value of non-included field should not appear in export";
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, ExcludeFieldsDoesNotAffectRequiredFormatFields) {
+    JSONLLLMConfig config;
+    config.style = JSONLFormat::Style::INSTRUCTION_TUNING;
+    config.include_metadata = false;
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/exclude_non_sensitive.jsonl";
+    options.exclude_fields = {"context"};  // Exclude optional input field, keep required ones
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // Entities should still export (required fields are not excluded)
+    EXPECT_GT(stats.exported_entities, 0);
+
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        auto j = json::parse(line);
+        EXPECT_TRUE(j.contains("instruction")) << "Required instruction field must be present";
+        EXPECT_TRUE(j.contains("output")) << "Required output field must be present";
+        // "context" maps to the input field and should be absent
+        EXPECT_FALSE(j.contains("input")) << "Excluded context field should not appear as input";
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, ExcludeRequiredCoreFieldSkipsEntity) {
+    JSONLLLMConfig config;
+    config.style = JSONLFormat::Style::INSTRUCTION_TUNING;
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/exclude_required_field.jsonl";
+    options.exclude_fields = {"question"};  // "question" is the instruction_field
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // All entities should be skipped because the required instruction field is excluded
+    EXPECT_EQ(stats.exported_entities, 0);
 }
 
 // ===== P1 Tests: Tenant Isolation =====

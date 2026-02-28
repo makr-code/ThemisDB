@@ -120,7 +120,7 @@ struct ArchiveProcessorConfig {
     uint64_t max_total_size = 1024ULL * 1024 * 1024 * 10;  // 10 GB max total extracted size
     uint64_t max_file_size = 1024ULL * 1024 * 1024;        // 1 GB max single file size
     uint64_t max_compression_ratio = 100;                  // Max 100:1 compression ratio (zip bomb protection)
-    size_t max_file_count = 10000;                         // Max 10,000 files in archive
+    size_t max_file_count = 1000;                          // Max 1,000 files in archive
     size_t max_path_depth = 20;                            // Max 20 levels of directory nesting
     size_t max_path_length = 4096;                         // Max 4096 characters in path
     
