@@ -188,6 +188,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 // GraphQL types are included via server/graphql_api_handler.h (included in http_server.h)
 #include "server/api_version.h"
 #include "server/api_version_config.h"
+#include "scheduler/task_scheduler.h"
 
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
@@ -1107,6 +1108,21 @@ HttpServer::HttpServer(
     udf_api_handler_ = std::make_unique<server::UdfApiHandler>();
     THEMIS_INFO("UDF API handler initialized (endpoints: /api/v1/query/udfs)");
 
+    // Initialize Task Scheduler and its API / Web UI handler
+    {
+        TaskScheduler::Config sched_cfg;
+        sched_cfg.persist_tasks            = false;
+        sched_cfg.enable_audit_logging     = false;
+        sched_cfg.enable_anomaly_detection = false;
+        // Build a QueryEngine for the scheduler using the server's storage.
+        // task_scheduler_engine_ must outlive task_scheduler_.
+        task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
+        task_scheduler_ = std::make_unique<TaskScheduler>(task_scheduler_engine_.get(), sched_cfg);
+        task_scheduler_->start();
+        task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
+        THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
+    }
+
     // Initialize Async Job API Handler – long-running AQL query submission/polling
     {
         // Executor: builds a synthetic Beast request and delegates to
@@ -1738,6 +1754,17 @@ void HttpServer::stop() {
         // Time-series is in RocksDB, will be flushed with DB
     }
     
+    // Stop Task Scheduler gracefully before closing storage
+    if (task_scheduler_ && task_scheduler_->isRunning()) {
+        THEMIS_INFO("Stopping Task Scheduler...");
+        try {
+            task_scheduler_->stop();
+            THEMIS_INFO("Task Scheduler stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping Task Scheduler: {}", e.what());
+        }
+    }
+
     // Vector index auto-save
     if (vector_index_) {
         THEMIS_INFO("Saving vector index (if auto-save enabled)...");
@@ -2274,6 +2301,18 @@ namespace {
     UdfGet,                  // GET    /api/v1/query/udfs/{name}
     UdfDelete,               // DELETE /api/v1/query/udfs/{name}
 
+    // Task Scheduler API – manage scheduled tasks
+    TasksPost,               // POST   /api/tasks
+    TasksListGet,            // GET    /api/tasks
+    TasksStatsGet,           // GET    /api/tasks/stats
+    TasksGet,                // GET    /api/tasks/{id}
+    TasksPut,                // PUT    /api/tasks/{id}
+    TasksDelete,             // DELETE /api/tasks/{id}
+    TasksEnablePost,         // POST   /api/tasks/{id}/enable
+    TasksDisablePost,        // POST   /api/tasks/{id}/disable
+    TasksExecutePost,        // POST   /api/tasks/{id}/execute
+    TasksUiGet,              // GET    /ui/tasks  – Web UI
+
         NotFound
     };
 
@@ -2763,6 +2802,33 @@ namespace {
             path_only.size() > kUdfPrefix.size()) {
             if (method == http::verb::get)     return Route::UdfGet;
             if (method == http::verb::delete_) return Route::UdfDelete;
+        }
+    }
+
+    // Task Scheduler API: /api/tasks[/{id}[/action]] and /ui/tasks
+    if (path_only == "/ui/tasks" && method == http::verb::get) return Route::TasksUiGet;
+    if (path_only == "/api/tasks") {
+        if (method == http::verb::post) return Route::TasksPost;
+        if (method == http::verb::get)  return Route::TasksListGet;
+    }
+    if (path_only == "/api/tasks/stats" && method == http::verb::get) return Route::TasksStatsGet;
+    {
+        static constexpr std::string_view kTasksPrefix{"/api/tasks/"};
+        if (path_only.rfind(kTasksPrefix.data(), 0) == 0 &&
+            path_only.size() > kTasksPrefix.size()) {
+            std::string rest = path_only.substr(kTasksPrefix.size());
+            auto slash = rest.find('/');
+            if (slash == std::string::npos) {
+                // /api/tasks/{id}
+                if (method == http::verb::get)    return Route::TasksGet;
+                if (method == http::verb::put)    return Route::TasksPut;
+                if (method == http::verb::delete_) return Route::TasksDelete;
+            } else {
+                std::string action = rest.substr(slash + 1);
+                if (method == http::verb::post && action == "enable")  return Route::TasksEnablePost;
+                if (method == http::verb::post && action == "disable") return Route::TasksDisablePost;
+                if (method == http::verb::post && action == "execute") return Route::TasksExecutePost;
+            }
         }
     }
 
@@ -4629,6 +4695,110 @@ http::response<http::string_body> HttpServer::routeRequest(
                 path_only = path_only.substr(0, qp);
             std::string udf_name = path_only.substr(kUdfPfx.size());
             response = udf_api_handler_->handleDelete(req, udf_name);
+            break;
+        }
+
+        // ── Task Scheduler ────────────────────────────────────────────────
+        case Route::TasksUiGet: {
+            auto html = task_scheduler_api_
+                ? task_scheduler_api_->getWebUi()
+                : "<html><body>Task scheduler not initialized.</body></html>";
+            response = http::response<http::string_body>{http::status::ok, req.version()};
+            response.set(http::field::content_type, "text/html; charset=utf-8");
+            response.body() = std::move(html);
+            response.prepare_payload();
+            break;
+        }
+        case Route::TasksPost: {
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            auto result = (!body.is_discarded() && task_scheduler_api_)
+                ? task_scheduler_api_->registerTask(body)
+                : nlohmann::json{{"status","error"},{"error",body.is_discarded() ? "Invalid JSON" : "Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksListGet: {
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->listTasks()
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksStatsGet: {
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->getStats()
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksGet: {
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string task_id = ponly.substr(kTasksPfx.size());
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->getTask(task_id)
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksPut: {
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string task_id = ponly.substr(kTasksPfx.size());
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            auto result = (!body.is_discarded() && task_scheduler_api_)
+                ? task_scheduler_api_->updateTask(task_id, body)
+                : nlohmann::json{{"status","error"},{"error",body.is_discarded() ? "Invalid JSON" : "Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksDelete: {
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string task_id = ponly.substr(kTasksPfx.size());
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->unregisterTask(task_id)
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksEnablePost: {
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->enableTask(task_id)
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksDisablePost: {
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->disableTask(task_id)
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+        case Route::TasksExecutePost: {
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            std::string ponly = std::string(req.target());
+            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
+            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            auto result = task_scheduler_api_
+                ? task_scheduler_api_->executeTask(task_id)
+                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
+            response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
 

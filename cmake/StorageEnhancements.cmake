@@ -11,6 +11,9 @@ list(APPEND THEMIS_CORE_SOURCES
     # Task scheduler with cron and CDC triggers
     ../src/scheduler/task_scheduler.cpp
     ../src/scheduler/event_trigger.cpp
+
+    # Task Scheduler REST API and Web UI handler
+    ../src/server/task_scheduler_api_handler.cpp
     
     # Distributed task coordination (Phase 2)
     ../src/scheduler/distributed_task_coordinator.cpp
