@@ -28,7 +28,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] Kafka consumer source connector (Issue: #1892)
+- [x] Kafka consumer source connector (Issue: #1892) ✅ Completed Q1 2026
 - [x] S3/GCS/Azure Blob object-storage source (Issue: #1893)
 - [P] JDBC-compatible database source (Issue: #1894)
 - [P] Web crawler / sitemap ingestion source (Issue: #1895)
@@ -63,7 +63,7 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
 
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
-- [P] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
+- [x] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
 - [x] S3 / GCS / Azure Blob object-storage source connector (`ingestion/object_storage_connector.cpp`) (Issue: #1905)
   - Providers: AWS S3 (`THEMIS_ENABLE_S3`), GCS (`THEMIS_ENABLE_GCS`), Azure Blob (`THEMIS_ENABLE_AZURE`); graceful `CONNECTOR_NOT_SUPPORTED` when no SDK is compiled
   - Features: prefix filtering, `max_keys` cap, JSON `text_field` extraction, path-traversal rejection, `RetryConfig` passthrough, throughput metrics
