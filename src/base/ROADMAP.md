@@ -37,7 +37,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Remote plugin loading from authenticated registry (Issue: #1562) → implemented `RemoteRegistryClient` (`base/remote_registry_client.cpp`)
 - [I] Plugin dependency graph visualization (Issue: #1563)
 - [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
-- [I] A/B testing framework using module swapping (Issue: #1565)
+- [P] A/B testing framework using module swapping (Issue: #1565) → implemented `ABTestManager` (`base/ab_test_manager.cpp`)
 
 ## Implementation Phases
 
