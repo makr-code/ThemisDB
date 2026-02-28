@@ -20,7 +20,9 @@
 #include "auth/password_policy.h"
 
 #include <algorithm>
+#include <cmath>
 #include <regex>
+#include <unordered_map>
 #include <unordered_set>
 #include <sstream>
 
@@ -126,6 +128,18 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string& pas
         }
     }
 
+    // --- Entropy check ----------------------------------------------------
+    if (config_.min_entropy_bits > 0.0) {
+        double entropy = computeEntropy(password);
+        if (entropy < config_.min_entropy_bits) {
+            std::ostringstream msg;
+            msg << "Password entropy (" << static_cast<int>(entropy)
+                << " bits) is below the required minimum of "
+                << static_cast<int>(config_.min_entropy_bits) << " bits";
+            result.violations.push_back(msg.str());
+        }
+    }
+
     // --- Forbidden pattern checks -----------------------------------------
     for (const auto& pattern : config_.forbidden_patterns) {
         try {
@@ -150,6 +164,25 @@ PasswordPolicy::ValidationResult PasswordPolicy::validate(const std::string& pas
 
 bool PasswordPolicy::isCompliant(const std::string& password) const {
     return validate(password).valid;
+}
+
+// ---------------------------------------------------------------------------
+// computeEntropy
+// ---------------------------------------------------------------------------
+
+double PasswordPolicy::computeEntropy(const std::string& password) {
+    if (password.empty()) return 0.0;
+
+    std::unordered_map<char, int> freq;
+    for (char c : password) ++freq[c];
+
+    const double len = static_cast<double>(password.size());
+    double h = 0.0;
+    for (const auto& kv : freq) {
+        double p = kv.second / len;
+        h -= p * std::log2(p);
+    }
+    return h * len; // total bits
 }
 
 // ---------------------------------------------------------------------------
@@ -179,6 +212,7 @@ PasswordPolicy PasswordPolicy::strict() {
     cfg.require_special = true;
     cfg.min_unique_chars = 8;
     cfg.max_consecutive_identical = 2;
+    cfg.min_entropy_bits = 60.0;
     return PasswordPolicy(cfg);
 }
 

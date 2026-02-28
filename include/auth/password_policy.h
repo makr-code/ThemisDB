@@ -82,6 +82,19 @@ public:
         size_t max_consecutive_identical = 0;
 
         /**
+         * @brief Minimum Shannon entropy of the password in bits (0 = no check).
+         *
+         * Computed as H(password) = -sum(p_i * log2(p_i)) * length, where
+         * p_i is the relative frequency of each distinct character. This
+         * provides an entropy floor independent of character-class rules,
+         * catching repetitive patterns like "aaabbbccc" that pass complexity
+         * checks but have low randomness.
+         *
+         * Typical values: 40 bits (moderate), 60 bits (high assurance).
+         */
+        double min_entropy_bits = 0.0;
+
+        /**
          * @brief Regex patterns that must NOT appear in the password.
          *
          * Each entry is a case-insensitive ECMAScript regex. Useful to
@@ -145,6 +158,18 @@ public:
      * @param config New policy rules
      */
     void setConfig(const Config& config) { config_ = config; }
+
+    /**
+     * @brief Compute the Shannon entropy of a password in bits
+     *
+     * H = -sum(p_i * log2(p_i)) * length, where p_i is the relative
+     * frequency of each distinct character. Returns 0.0 for an empty
+     * password.
+     *
+     * @param password The password candidate
+     * @return Entropy in bits
+     */
+    static double computeEntropy(const std::string& password);
 
     // ---- Preset factories ------------------------------------------------
 
