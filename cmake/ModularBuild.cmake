@@ -219,6 +219,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_audit_log.cpp
     ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/catalog_exporter.cpp
+    ../src/metadata/distributed_catalog.cpp
     
     # Indexes
     ../src/index/secondary_index.cpp
