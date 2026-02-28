@@ -40,7 +40,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ### Short-term (Next 3-6 months)
 - [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
-- [I] Per-tenant transaction isolation namespace (Issue: #2325)
+- [x] Per-tenant transaction isolation namespace (Issue: #2325)
 
 ### Long-term (6-12 months)
 - [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
@@ -75,7 +75,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Transaction timeout with automatic rollback
 - [x] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
-- [ ] Per-tenant transaction isolation namespace
+- [x] Per-tenant transaction isolation namespace
 
 ### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Planned 📋)
 - [ ] Distributed SAGA orchestration across multiple nodes
