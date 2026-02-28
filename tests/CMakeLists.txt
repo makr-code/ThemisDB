@@ -2516,6 +2516,40 @@ else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
 endif()
 
+# Cold/Warm Tier Index Migration Tests (Issue #2407)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
+    message(STATUS "Adding Cold/Warm Tier Index Migration tests (Issue #2407)")
+
+    add_executable(test_tiered_index_migration
+        index/test_tiered_index_migration.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/tiered_index_manager.cpp
+    )
+
+    target_include_directories(test_tiered_index_migration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_tiered_index_migration PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tiered_index_migration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TieredIndexMigrationTests COMMAND test_tiered_index_migration)
+
+    set_tests_properties(TieredIndexMigrationTests PROPERTIES
+        LABELS "index;tiered;cold;warm;migration;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TieredIndexMigration: register, access tracking, demotion, promotion, auto-pass")
+else()
+    message(STATUS "TieredIndexMigration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
+endif()
+
 # Cloud Storage Backup Comprehensive Tests (GAP-008)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.cpp")
     message(STATUS "Adding Cloud Storage Backup comprehensive tests (GAP-008)")
