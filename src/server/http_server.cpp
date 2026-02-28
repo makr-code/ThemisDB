@@ -1300,6 +1300,10 @@ HttpServer::HttpServer(
                     rl_mw_config.endpoint_overrides.size());
     }
 
+    // Initialize request correlation ID middleware
+    tracing_middleware_ = std::make_unique<api::TracingMiddleware>();
+    THEMIS_INFO("TracingMiddleware initialized: X-Correlation-ID propagation enabled");
+
     // ----------------------------------------------------------------------------
     // CORS configuration (from environment)
     // ----------------------------------------------------------------------------
@@ -2798,6 +2802,20 @@ http::response<http::string_body> HttpServer::routeRequest(
         return makePreflightResponse(req);
     }
 
+    // Extract or generate request correlation ID (X-Correlation-ID).
+    // TracingMiddleware sets the logger pattern so every log line on this thread
+    // carries the correlation ID.  The RAII guard resets the context on all exit paths.
+    std::string correlation_id;
+    if (tracing_middleware_) {
+        auto corr_it = req.find("X-Correlation-ID");
+        std::string_view incoming_corr = (corr_it != req.end()) ? std::string_view(corr_it->value()) : "";
+        correlation_id = tracing_middleware_->processRequest(incoming_corr);
+    }
+    struct CorrelationIdGuard {
+        ~CorrelationIdGuard() { api::TracingMiddleware::clearContext(); }
+    } corr_guard;
+    span.setAttribute("correlation.id", correlation_id);
+
     // Extract or generate request ID for tracing
     std::string request_id;
     auto req_id_it = req.find("X-Request-ID");
@@ -2821,6 +2839,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             http::response<http::string_body> res{http::status::request_header_fields_too_large, req.version()};
             res.set(http::field::content_type, "application/json");
             res.set("X-Request-ID", request_id);
+            const auto& corr_id = api::TracingMiddleware::currentCorrelationId();
+            if (!corr_id.empty()) res.set("X-Correlation-ID", corr_id);
             nlohmann::json body = {
                 {"error", "Request Header Fields Too Large"},
                 {"message", "Total header size exceeds maximum allowed"},
@@ -7950,6 +7970,13 @@ void HttpServer::applyGovernanceHeaders(
         if (allowed) {
             set_cors_common(origin);
         }
+    }
+
+    // Echo the request correlation ID on all responses so clients can correlate
+    // log entries with their own request traces.
+    const auto& corr_id = api::TracingMiddleware::currentCorrelationId();
+    if (!corr_id.empty()) {
+        res.set("X-Correlation-ID", corr_id);
     }
 }
 

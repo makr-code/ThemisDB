@@ -243,6 +243,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/spatial_index.cpp
     ../src/geo/geo_rtree.cpp
     ../src/api/geo_index_hooks.cpp
+    ../src/api/tracing_middleware.cpp
     ../src/utils/geo/ewkb.cpp
     
     # Performance enhancements
