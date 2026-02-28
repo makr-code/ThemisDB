@@ -2531,6 +2531,39 @@ else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
 endif()
 
+# Learned Index Structures — ML-based B-tree replacement (Issue #1990)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
+    message(STATUS "Adding Learned Index tests (Issue #1990)")
+
+    add_executable(test_learned_index
+        index/test_learned_index.cpp
+    )
+
+    target_include_directories(test_learned_index PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_learned_index PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_learned_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LearnedIndexTests COMMAND test_learned_index)
+
+    set_tests_properties(LearnedIndexTests PROPERTIES
+        LABELS "index;learned;ml;btree;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LearnedIndex: training, point lookup, range query, serialisation, security, edge cases")
+else()
+    message(STATUS "Learned Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
+endif()
+
 # Cold/Warm Tier Index Migration Tests (Issue #2407)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
     message(STATUS "Adding Cold/Warm Tier Index Migration tests (Issue #2407)")
