@@ -1069,6 +1069,10 @@ HttpServer::HttpServer(
             schema_api_handler_->setIndexRecommender(index_recommender_.get());
             schema_api_handler_->setAuditLog(schema_audit_log_.get());
 
+            // Wire ColumnLineageTracker into SchemaApiHandler
+            column_lineage_tracker_ = std::make_unique<themis::metadata::ColumnLineageTracker>();
+            schema_api_handler_->setColumnLineageTracker(column_lineage_tracker_.get());
+
             // Wire IndexRecommender into query handler for access-pattern recording
             if (query_api_) {
                 query_api_->setIndexRecommender(index_recommender_.get());
@@ -2202,6 +2206,8 @@ namespace {
     MetadataConstraintsGet,   // GET  /api/v1/metadata/constraints/:table
     MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]
     MetadataAuditGet,         // GET  /api/v1/metadata/audit[/:table]
+    MetadataLineageGet,       // GET  /api/v1/metadata/lineage/:table[/:column]
+    MetadataLineagePost,      // POST /api/v1/metadata/lineage
     MetadataSchemaImportPut,  // PUT  /api/v1/metadata/schema_import
     MetadataBatchValidatePost,// POST /api/v1/metadata/constraints/validate/:table
        
@@ -2659,6 +2665,10 @@ namespace {
         return Route::MetadataConstraintsGet;
     if (path_only.rfind("/api/v1/metadata/audit", 0) == 0 && method == http::verb::get)
         return Route::MetadataAuditGet;
+    if (path_only.rfind("/api/v1/metadata/lineage", 0) == 0) {
+        if (method == http::verb::get)  return Route::MetadataLineageGet;
+        if (method == http::verb::post) return Route::MetadataLineagePost;
+    }
     if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
         if (method == http::verb::get)  return Route::MetadataStatsGet;
         if (method == http::verb::post) return Route::MetadataStatsPost;
@@ -4362,6 +4372,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::MetadataAuditGet:
             response = handleMetadataAuditLog(req);
+            break;
+        case Route::MetadataLineageGet:
+            response = handleMetadataGetColumnLineage(req);
+            break;
+        case Route::MetadataLineagePost:
+            response = handleMetadataRecordLineageDerivation(req);
             break;
         case Route::MetadataSchemaImportPut:
             response = handleMetadataSchemaImport(req);
@@ -9454,6 +9470,26 @@ http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
             "Schema API not available", req);
     }
     return schema_api_handler_->handleBatchConstraintValidation(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetColumnLineage(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetColumnLineage(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivation(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleRecordLineageDerivation(req);
 }
 
 } // namespace server

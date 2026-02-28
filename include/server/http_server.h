@@ -104,6 +104,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "metadata/index_recommender.h"
 #include "metadata/schema_audit_log.h"
 #include "metadata/schema_consistency_checker.h"
+#include "metadata/column_lineage.h"
 #include "server/transaction_api_handler.h"
 #include "server/distributed_txn_api_handler.h"
 #include "server/wal_api_handler.h"
@@ -611,6 +612,8 @@ private:
     http::response<http::string_body> handleMetadataAuditLog(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetadataSchemaImport(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetadataBatchValidate(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataGetColumnLineage(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataRecordLineageDerivation(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaVersionHistory(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaCreateVersion(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaDiff(const http::request<http::string_body>& req);
@@ -893,6 +896,7 @@ private:
     std::unique_ptr<IndexRecommender>         index_recommender_;
     std::unique_ptr<SchemaAuditLog>           schema_audit_log_;
     std::unique_ptr<SchemaConsistencyChecker> schema_consistency_checker_;
+    std::unique_ptr<themis::metadata::ColumnLineageTracker> column_lineage_tracker_;
     
     // Adaptive Index Manager (Sprint C)
     std::shared_ptr<AdaptiveIndexManager> adaptive_index_;

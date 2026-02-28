@@ -374,6 +374,53 @@ nlohmann::json all = tracker.exportAllLineage();
 - The tracker is thread-safe: all public methods acquire a `std::mutex`.
 - No persistence is built in; use `exportAllLineage()` and store the JSON in
   RocksDB (under a custom prefix, e.g. `lineage:col:`) for durability across restarts.
+
+### REST API
+
+The HTTP server exposes the following endpoints when `ColumnLineageTracker` is wired in:
+
+```bash
+# Record a derivation (POST /api/v1/metadata/lineage)
+curl -s -X POST http://localhost:8080/api/v1/metadata/lineage \
+  -H "Content-Type: application/json" \
+  -d '{
+    "target": {"table": "users", "column": "full_name"},
+    "source_columns": [
+      {"table": "users", "column": "first_name"},
+      {"table": "users", "column": "last_name"}
+    ],
+    "transformation": "COMPUTED",
+    "transformation_expression": "first_name || '"'"' '"'"' || last_name",
+    "performed_by": "etl-service"
+  }' | jq .
+
+# Export all lineage for a table (GET /api/v1/metadata/lineage/:table)
+curl -s http://localhost:8080/api/v1/metadata/lineage/users | jq .
+
+# Get provenance for a specific column (GET /api/v1/metadata/lineage/:table/:column)
+curl -s http://localhost:8080/api/v1/metadata/lineage/users/full_name | jq .
+```
+
+**POST response** (`201 Created`):
+```json
+{
+  "status": "recorded",
+  "total_entries": 1
+}
+```
+
+**GET /:table response** – JSON array of `ColumnLineageRecord` objects, one per target column in the table.
+
+**GET /:table/:column response** – Provenance object:
+```json
+{
+  "column":             {"table": "users", "column": "full_name"},
+  "entries":            [...],
+  "upstream_columns":   [...],
+  "downstream_columns": [...]
+}
+```
+
 ## External Catalog Integration (Apache Atlas & DataHub)
 
 `CatalogExporter` (`include/metadata/catalog_exporter.h`) publishes ThemisDB schema
