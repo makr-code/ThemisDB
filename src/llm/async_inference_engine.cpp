@@ -615,7 +615,33 @@ InferenceResponse AsyncInferenceEngine::processRequest(
         }
         stats_.total_dedup_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
-    
+
+    // Apply prompt safety policy (prompt injection mitigation).
+    // Take a local snapshot of the policy pointer so that a concurrent
+    // setPromptPolicy(nullptr) call does not race with the apply() invocation.
+    // Redact rules modify the prompt in-place; block rules return an error
+    // response immediately without invoking the plugin.
+    auto policy_snapshot = prompt_policy_;
+    if (policy_snapshot) {
+        auto policy_result = policy_snapshot->apply(effective_request.prompt);
+        if (!policy_result.allowed) {
+            spdlog::warn(
+                "AsyncInferenceEngine: request {} blocked by prompt policy rule '{}'",
+                request.request_id, policy_result.rule_name);
+            InferenceResponse blocked;
+            blocked.request_id = request.request_id;
+            blocked.metadata["async"] = true;
+            blocked.metadata["blocked"] = true;
+            blocked.metadata["blocked_rule"] = policy_result.rule_name;
+            blocked.metadata["blocked_reason"] = policy_result.reason;
+            blocked.metadata["queue_time_ms"] = queue_time;
+            blocked.metadata["request_id"] = request.request_id;
+            return blocked;
+        }
+        // Apply any redactions to the effective prompt
+        effective_request.prompt = policy_result.sanitized_prompt;
+    }
+
     // Grab a snapshot of the active plugin under a shared (read) lock so that a
     // concurrent swapPlugin() call does not race with the generate() invocation.
     std::shared_ptr<ILLMPlugin> plugin_snapshot;
@@ -664,6 +690,10 @@ void AsyncInferenceEngine::swapPlugin(std::shared_ptr<ILLMPlugin> new_plugin) {
     plugin_ = owned_plugin_.get();
     active_plugin_ = owned_plugin_;
     spdlog::info("AsyncInferenceEngine: plugin hot-swapped");
+}
+
+void AsyncInferenceEngine::setPromptPolicy(std::shared_ptr<PromptPolicy> policy) {
+    prompt_policy_ = std::move(policy);
 }
 
 std::string AsyncInferenceEngine::generateRequestId() {
