@@ -1418,6 +1418,7 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/column_lineage.cpp
     ../src/metadata/catalog_exporter.cpp
     ../src/metadata/distributed_catalog.cpp
+    ../src/metadata/er_diagram_exporter.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp

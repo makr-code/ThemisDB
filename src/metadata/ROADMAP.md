@@ -27,7 +27,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 
 ### Short-term (Next 3-6 months)
 - [~] Column-level statistics histograms for improved query planning (Issue: #1949)
-- [I] Cross-collection relationship graph (ER diagram export) (Issue: #1993)
+- [P] Cross-collection relationship graph (ER diagram export) (Issue: #1993)
 - [?] Metadata API endpoint (`GET /api/v1/schema`)
 - [?] Schema validation against user-defined constraints
 - [?] Index usage tracking (which indexes are queried most)
@@ -62,7 +62,7 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [~] Column-level statistics histograms for improved query planning
 - [ ] Distributed metadata catalog across shards
 - [?] Schema registry with forward/backward compatibility enforcement
-- [ ] Cross-collection relationship graph (ER diagram export)
+- [P] Cross-collection relationship graph (ER diagram export)
 - [x] Integration with external data catalogs (Apache Atlas, DataHub)
 
 ## Production Readiness Checklist
