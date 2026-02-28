@@ -440,6 +440,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU query accelerator test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUQueryAccelerator
+# (scan, sort, aggregate, hashJoin, dotProduct FP16/BF16, and annSearch with
+# CPU brute-force exact k-NN fallback).  It uses only CPU-side bookkeeping
+# (force_cpu = true) and requires no GPU or cuVS/RAFT hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_query_accelerator.cpp
+    )
+endif()
+
 # Re-include the GPU unified memory test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates GPUUnifiedMemoryAllocator (allocate, free, prefetch,
 # advise, stats, tenant isolation, and concurrent safety).  It uses only CPU-side
