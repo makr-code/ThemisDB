@@ -137,6 +137,11 @@ Result<ResultBatch<T>> ResultStream<T>::nextBatch(size_t batch_size) {
         fetched++;
     }
     
+    if (fetched == 0) {
+        return Err<ResultBatch<T>>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                   "No more results available");
+    }
+
     batch.cursor = cursor_;
     batch.is_last_batch = !hasNext();
     
