@@ -3660,3 +3660,69 @@ TEST_F(WitnessNodeTest, RemoveWitnessNodeDeregistersIt) {
 
     mgr.shutdown();
 }
+
+// 6. In a 2-node data cluster (leader + failed data follower + witness),
+//    the witness with a fresh heartbeat still counts toward quorum.
+//    This validates the key "2-node cluster" HA scenario: even when the data
+//    follower is down, leader + witness = 2 healthy out of 3 total → quorum.
+TEST_F(WitnessNodeTest, WitnessCountsForQuorumWhenDataFollowerFailed) {
+    TempWALDir wd("/tmp/themis_witness_quorum_failover_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    // Wait for this node to become leader.
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
+    while (mgr.getRole() != ReplicationRole::LEADER &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+    ASSERT_EQ(mgr.getRole(), ReplicationRole::LEADER);
+
+    // Data follower that has failed.
+    ReplicaInfo failed_follower;
+    failed_follower.node_id          = "follower-failed";
+    failed_follower.endpoint         = "127.0.0.1:7050";
+    failed_follower.role             = ReplicationRole::FOLLOWER;
+    failed_follower.is_voting_member = true;
+    failed_follower.health_status    = HealthStatus::FAILED;
+    failed_follower.last_heartbeat   =
+        std::chrono::system_clock::now() - std::chrono::hours(1);
+    mgr.addReplica(failed_follower);
+
+    // Witness with a fresh heartbeat (just added, last_heartbeat = now()).
+    mgr.addWitnessNode("witness-alive", "127.0.0.1:7051");
+
+    // Cluster: self(leader, healthy) + follower(FAILED) + witness(fresh heartbeat)
+    // Total voting = 3, healthy = self + witness = 2 → 2 > 1 → quorum.
+    EXPECT_TRUE(mgr.hasQuorum());
+
+    mgr.shutdown();
+}
+
+// 7. A witness node must not be selected as a leader candidate during failover.
+TEST_F(WitnessNodeTest, WitnessNotSelectedAsLeaderCandidate) {
+    TempWALDir wd("/tmp/themis_witness_no_leader_test");
+    auto cfg = makeWitnessConfig(wd.path);
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    // A witness is the only replica in the list.
+    mgr.addWitnessNode("witness-only-leader", "127.0.0.1:7060");
+
+    // triggerFailover with the witness node ID must not promote the witness.
+    // (It should return false because the witness is not a valid leader target.)
+    bool promoted = mgr.triggerFailover("witness-only-leader");
+    EXPECT_FALSE(promoted);
+
+    // The role should NOT have changed to LEADER via the witness path.
+    // (The node may or may not be leader due to its own election, but it
+    //  must not have entered a leader state via the witness failover path.)
+    auto replicas = mgr.getReplicas();
+    ASSERT_EQ(replicas.size(), 1u);
+    EXPECT_EQ(replicas[0].role, ReplicationRole::WITNESS);
+
+    mgr.shutdown();
+}
