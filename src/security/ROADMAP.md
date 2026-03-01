@@ -30,11 +30,13 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## In Progress 🚧
 - [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
   - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
-- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Target: Q3 2026) (Issue: #2462)
-  - Subsystems: `security/confidential_computing.h`, attestation service integration
-  - Expected behavior: memory-encrypted execution context; attestation failure throws `std::runtime_error`
-  - Tests: CPU/enclave parity tests + attestation mock suite
-  - Performance target: ≤ 20 % overhead vs non-enclave baseline
+- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
+  - Subsystems: `security/confidential_computing.h`, `security/confidential_computing.cpp`
+  - Intel TDX: CPUID leaf 0x21 detection + `/dev/tdx_guest` kernel driver + `TDX_CMD_GET_REPORT0` ioctl
+  - AMD SEV/SEV-SNP: CPUID leaf 0x8000_001F + MSR 0xC001_0131 probe + `/dev/sev-guest` + `SNP_GET_REPORT` ioctl
+  - AES-256-GCM seal/unseal bound to TEE measurement (MRTD for TDX, MEASUREMENT field for SEV-SNP)
+  - Software fallback for non-TEE environments (CI, developer machines)
+  - Tests: `tests/test_confidential_computing.cpp` — detection, attestation, seal/unseal round-trip, tamper detection, independent-instance key isolation
 
 ## Planned Features 📋
 
@@ -86,7 +88,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
 - [x] Zero-trust network policy enforcement (per-request identity verification)
-- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
+- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
 - [x] Secret scanning pre-commit hook for CI pipelines (`scripts/secret_scan.py`, `.pre-commit-config.yaml`, `.github/workflows/secret-scanning-ci.yml`)
 - [ ] SOC 2 Type II compliance evidence collection
