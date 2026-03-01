@@ -606,6 +606,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_batch_processor.cpp
         ../src/voice/voice_authenticator.cpp
         ../src/voice/voice_macro_manager.cpp
+        ../src/voice/emotion_analyzer.cpp
     )
 endif()
 
