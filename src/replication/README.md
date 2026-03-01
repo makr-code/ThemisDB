@@ -484,6 +484,10 @@ auto merged = crdt.resolve(document_id, conflicting_writes);
 // - G_SET: Grow-only Set (union all adds)
 // - OR_SET: Observed-Remove Set (tracks adds/removes with causality)
 // - LWW_MAP: Last-Write-Wins Map (per-field LWW)
+// - TWO_P_SET: Two-Phase Set (add-only then remove; removed elements cannot be re-added)
+// - RGA: Replicated Growable Array (ordered sequence with stable unique element ids)
+// - FLAG_EW: Enable-Wins Flag (concurrent enable+disable → enabled)
+// - FLAG_DW: Disable-Wins Flag (concurrent enable+disable → disabled)
 ```
 
 #### Custom Resolver

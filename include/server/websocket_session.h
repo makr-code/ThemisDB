@@ -184,6 +184,7 @@ private:
     void onRead(beast::error_code ec, std::size_t bytes_transferred);
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
     void processMessage(const std::string& message);
+    void processBinaryMessage(const std::vector<uint8_t>& data);
     void doClose();
     
     // WebSocket stream (plain or TLS)

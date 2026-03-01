@@ -114,6 +114,10 @@ public:
         /// Maximum total active connections (0 = unlimited).
         uint32_t max_connections = 0;
 
+        /// Maximum QUIC datagram frame size advertised to peers (RFC 9221).
+        /// Set to 0 to disable datagram support.
+        uint64_t max_datagram_frame_size = 65535;
+
         Config() = default;
     };
 
@@ -132,6 +136,8 @@ public:
         uint64_t zero_rtt_accepted     = 0;
         uint64_t migrations            = 0;
         uint64_t connection_limit_drops = 0;
+        uint64_t datagrams_received    = 0;  ///< QUIC datagrams received (RFC 9221)
+        uint64_t datagrams_sent        = 0;  ///< QUIC datagrams sent
     };
 
     // ── Lifecycle ────────────────────────────────────────────────────────────

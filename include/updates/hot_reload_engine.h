@@ -24,6 +24,7 @@
 #pragma once
 
 #include "updates/manifest_database.h"
+#include "updates/update_history_logger.h"
 #include "utils/update_checker.h"
 #include <memory>
 #include <string>
@@ -50,7 +51,8 @@ struct ReloadResult {
     bool success = false;
     std::string error_message;
     std::vector<std::string> files_updated;
-    std::string rollback_id;  // For rollback capability
+    std::string rollback_id;       ///< For rollback capability
+    bool health_check_failed = false; ///< true if a post-update health check caused rollback
 };
 
 /**
@@ -83,6 +85,13 @@ public:
         bool verify_signatures = true;
         bool create_backup = true;
         bool dry_run = false;  // Don't actually apply changes
+        /// When true, automatically rollback if the post-update health check fails.
+        bool rollback_on_health_check_failure = true;
+        /// Path for the persistent update history log.
+        /// If empty, history logging is disabled.
+        std::string history_log_path;
+        /// Actor name written into history entries (e.g. current user).
+        std::string history_actor = "system";
     };
     
     /**
@@ -169,12 +178,46 @@ public:
     void setProgressCallback(
         std::function<void(int, const std::string&)> callback
     );
-    
+
+    /**
+     * @brief Callback type for post-update health checks.
+     *
+     * The function should return @c true when the system is healthy after an
+     * update, or @c false to signal that the update should be rolled back.
+     */
+    using PostUpdateHealthCheck = std::function<bool()>;
+
+    /**
+     * @brief Register a post-update health check.
+     *
+     * When set, the callback is invoked after all files have been atomically
+     * replaced.  If it returns @c false and
+     * @c Config::rollback_on_health_check_failure is @c true the engine
+     * automatically rolls back to the previous version.
+     *
+     * @param check Health-check callable (may be @c nullptr to clear)
+     */
+    void setPostUpdateHealthCheck(PostUpdateHealthCheck check);
+
+    /**
+     * @brief Access the update history logger.
+     * @return Pointer to the logger, or nullptr if history logging is disabled.
+     */
+    UpdateHistoryLogger* historyLogger();
+
 private:
     std::shared_ptr<ManifestDatabase> manifest_db_;
     std::shared_ptr<utils::UpdateChecker> update_checker_;
     Config config_;
     std::function<void(int, const std::string&)> progress_callback_;
+
+protected:
+    /// Protected (not private) so that test subclasses can access and invoke
+    /// the registered callback without requiring a separate accessor.
+    PostUpdateHealthCheck post_update_health_check_;
+
+private:
+    std::unique_ptr<UpdateHistoryLogger> history_logger_;
     
     /**
      * @brief Download single file with resume support

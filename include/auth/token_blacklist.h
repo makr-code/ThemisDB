@@ -28,6 +28,7 @@
 #include <mutex>
 #include <chrono>
 #include <cstdint>
+#include <functional>
 
 namespace themis {
 namespace utils { class AuditLogger; }
@@ -78,6 +79,33 @@ public:
      * Pass nullptr to detach.  The blacklist does NOT take ownership.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
+    /**
+     * @brief Callback type invoked immediately after a JTI is added to the
+     *        blacklist.  Enables real-time push-style invalidation: callers
+     *        can react to a revocation event without polling isRevoked().
+     *
+     * The callback is invoked outside the internal mutex so that it is safe to
+     * call any TokenBlacklist method from within the callback body.
+     *
+     * Signature: void(const std::string& jti)
+     */
+    using RevocationCallback = std::function<void(const std::string& jti)>;
+
+    /**
+     * @brief Register a callback to be invoked synchronously when a JTI is
+     *        revoked via revoke().  Only one callback can be registered at a
+     *        time; a subsequent call replaces the previous one.
+     *
+     * @param cb  Callable to invoke on revocation.  Pass an empty function or
+     *            call clearOnRevokeCallback() to detach.
+     */
+    void setOnRevokeCallback(RevocationCallback cb);
+
+    /**
+     * @brief Remove a previously registered revocation callback.
+     */
+    void clearOnRevokeCallback();
 
     /**
      * @brief Revoke a token by its JTI.
@@ -147,6 +175,7 @@ private:
     mutable std::mutex mutex_;
     std::chrono::steady_clock::time_point last_cleanup_;
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
+    RevocationCallback on_revoke_callback_;      ///< Invoked outside mutex on revoke.
 
     bool needsCleanup() const;
 };

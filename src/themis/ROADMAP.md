@@ -18,7 +18,7 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] Module dependency resolution and load-order management (Issue: #2474)
 
 ## In Progress 🚧
-- [~] `build_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
+- [x] `build_info.cpp` – migrated from `src/utils/` to `src/themis/` (v1.7.0, Issue: #2311)
 - [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
 - [~] `module_loader.cpp` – implemented in `src/base/`; pending migration to `src/themis/` (Target: Q3 2026, v1.7.0)
 
@@ -30,8 +30,8 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
-- [!] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
-- [I] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
+- [x] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
+- [x] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
 - [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
 
 ## Implementation Phases
@@ -58,8 +58,8 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 
 ### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
 - [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
-- [ ] Authenticode (Windows) and GPG (Linux) signature verification for modules
-- [ ] Zone.Identifier / quarantine detection (Windows)
+- [x] Authenticode (Windows) and GPG (Linux) signature verification for modules
+- [x] Zone.Identifier / quarantine detection (Windows)
 - [ ] Dynamic feature flag gating per edition at runtime
 - [x] Module dependency resolution and load-order management
 

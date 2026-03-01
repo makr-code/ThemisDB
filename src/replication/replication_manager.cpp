@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.32                                             ║
+  Version:         0.0.33                                             ║
   Last Modified:   2026-03-01                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     5054                                           ║
+    • Total Lines:     5110                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -2082,6 +2082,8 @@ MMWriteEntry CRDTMergeResolver::resolve(
         case CRDTType::LWW_MAP:      merged_data = mergeLWWMap(conflicting_writes);      break;
         case CRDTType::TWO_P_SET:    merged_data = mergeTwoPSet(conflicting_writes);     break;
         case CRDTType::RGA:          merged_data = mergeRGA(conflicting_writes);         break;
+        case CRDTType::FLAG_EW:      merged_data = mergeFlagEW(conflicting_writes);      break;
+        case CRDTType::FLAG_DW:      merged_data = mergeFlagDW(conflicting_writes);      break;
     }
 
     // Base entry is the LWW winner; replace its data with the merged payload
@@ -2102,6 +2104,8 @@ std::string CRDTMergeResolver::strategyName() const {
         case CRDTType::LWW_MAP:      return "LWW_MAP";
         case CRDTType::TWO_P_SET:    return "TWO_P_SET";
         case CRDTType::RGA:          return "RGA";
+        case CRDTType::FLAG_EW:      return "FLAG_EW";
+        case CRDTType::FLAG_DW:      return "FLAG_DW";
     }
     return "UNKNOWN";
 }
@@ -2504,6 +2508,58 @@ std::string CRDTMergeResolver::mergeRGA(const std::vector<MMWriteEntry>& writes)
         first = false;
     }
     oss << "]";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeFlagEW(const std::vector<MMWriteEntry>& writes) {
+    // Enable-Wins Flag: concurrent enable + disable → enabled.
+    //
+    // Data format: {"e":["tag-1","tag-2"],"d":["tag-3"]}
+    //   "e" = set of enable-tags (each add-enable call contributes a unique tag)
+    //   "d" = set of disable-tags (each disable call records the tags it wants to cancel)
+    //
+    // Merge:  union of all "e" arrays; union of all "d" arrays.
+    // Value:  enabled = ∃ tag ∈ union(e)  s.t.  tag ∉ union(d)
+    //         (there is at least one live enable-tag not yet disabled → flag is ON)
+    std::set<std::string> enableTags, disableTags;
+    for (const auto& w : writes) {
+        auto eArr = extractSubArray(w.data, "e");
+        for (const auto& t : extractJsonArrayStrings(eArr))
+            enableTags.insert(t);
+        auto dArr = extractSubArray(w.data, "d");
+        for (const auto& t : extractJsonArrayStrings(dArr))
+            disableTags.insert(t);
+    }
+    bool enabled = false;
+    for (const auto& t : enableTags) {
+        if (disableTags.find(t) == disableTags.end()) { enabled = true; break; }
+    }
+    std::ostringstream oss;
+    oss << "{\"enabled\":" << (enabled ? "true" : "false") << "}";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeFlagDW(const std::vector<MMWriteEntry>& writes) {
+    // Disable-Wins Flag: concurrent enable + disable → disabled.
+    //
+    // Data format: {"e":["tag-1"],"d":["tag-2"]}
+    //   Same structure as FLAG_EW.
+    //
+    // Merge:  union of all "e" arrays; union of all "d" arrays.
+    // Value:  enabled = union(e) ≠ ∅ ∧ union(d) = ∅
+    //         (only enabled when at least one enable-tag exists and no disable-tag exists)
+    std::set<std::string> enableTags, disableTags;
+    for (const auto& w : writes) {
+        auto eArr = extractSubArray(w.data, "e");
+        for (const auto& t : extractJsonArrayStrings(eArr))
+            enableTags.insert(t);
+        auto dArr = extractSubArray(w.data, "d");
+        for (const auto& t : extractJsonArrayStrings(dArr))
+            disableTags.insert(t);
+    }
+    bool enabled = !enableTags.empty() && disableTags.empty();
+    std::ostringstream oss;
+    oss << "{\"enabled\":" << (enabled ? "true" : "false") << "}";
     return oss.str();
 }
 

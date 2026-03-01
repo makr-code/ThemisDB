@@ -265,7 +265,9 @@ public:
         OR_SET,             // Observed-Remove Set
         LWW_MAP,            // Last-Write-Wins Map
         TWO_P_SET,          // Two-Phase Set (supports removal via tombstones)
-        RGA                 // Replicated Growable Array (ordered sequences)
+        RGA,                // Replicated Growable Array (ordered sequences)
+        FLAG_EW,            // Enable-Wins Flag (concurrent enable+disable → enabled)
+        FLAG_DW             // Disable-Wins Flag (concurrent enable+disable → disabled)
     };
     
     explicit CRDTMergeResolver(CRDTType type);
@@ -290,6 +292,8 @@ private:
     std::string mergeLWWMap(const std::vector<MMWriteEntry>& writes);
     std::string mergeTwoPSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeRGA(const std::vector<MMWriteEntry>& writes);
+    std::string mergeFlagEW(const std::vector<MMWriteEntry>& writes);
+    std::string mergeFlagDW(const std::vector<MMWriteEntry>& writes);
 };
 
 /**

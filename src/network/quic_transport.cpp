@@ -359,6 +359,16 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
         return 0;
     };
 
+    // Receive QUIC datagrams (RFC 9221).
+    callbacks.recv_datagram = [](ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
+                                 const uint8_t* /*data*/, size_t /*datalen*/,
+                                 void* user_data) -> int {
+        auto* transport = static_cast<QuicTransport*>(user_data);
+        std::lock_guard<std::mutex> lk(transport->stats_mutex_);
+        ++transport->stats_.datagrams_received;
+        return 0;
+    };
+
     // Create a fresh SSL object for this connection.
     SSL* ssl = SSL_new(ssl_ctx_);
     if (!ssl) {
@@ -370,13 +380,21 @@ void QuicTransport::handlePacket(const udp::endpoint& sender,
         SSL_set_quic_early_data_enabled(ssl, 1);
     }
 
+    // Enable QUIC datagram support (RFC 9221) by advertising
+    // max_datagram_frame_size in the server transport parameters.
+    ngtcp2_transport_params params;
+    ngtcp2_transport_params_default(&params);
+    if (config_.max_datagram_frame_size > 0) {
+        params.max_datagram_frame_size = config_.max_datagram_frame_size;
+    }
+
     ngtcp2_path path;
     std::memset(&path, 0, sizeof(path));
 
     ngtcp2_conn* conn = nullptr;
     int rv = ngtcp2_conn_server_new(&conn, &hd.dcid, &scid, &path,
                                     kQuicVersion1, &callbacks, &settings,
-                                    nullptr, this);
+                                    &params, this);
     if (rv != 0) {
         THEMIS_ERROR("[QuicTransport] ngtcp2_conn_server_new({}): {}",
                      key, ngtcp2_strerror(rv));

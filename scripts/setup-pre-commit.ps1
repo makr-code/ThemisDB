@@ -28,6 +28,33 @@ if (-not (Get-Command pre-commit -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
+# Install gitleaks (required by the secret-scanning pre-commit hook)
+Write-Host ""
+Write-Host "🔍 Checking for gitleaks..." -ForegroundColor Cyan
+if (-not (Get-Command gitleaks -ErrorAction SilentlyContinue)) {
+    Write-Host "⚠️  gitleaks not found." -ForegroundColor Yellow
+
+    # Try winget first (Windows Package Manager)
+    if (Get-Command winget -ErrorAction SilentlyContinue) {
+        Write-Host "📦 Installing gitleaks via winget..." -ForegroundColor Cyan
+        winget install --id Gitleaks.Gitleaks --silent
+    }
+    # Try Chocolatey
+    elseif (Get-Command choco -ErrorAction SilentlyContinue) {
+        Write-Host "📦 Installing gitleaks via Chocolatey..." -ForegroundColor Cyan
+        choco install gitleaks -y
+    }
+    else {
+        Write-Host "Cannot auto-install gitleaks.  Please download from:" -ForegroundColor Yellow
+        Write-Host "  https://github.com/zricethezav/gitleaks/releases" -ForegroundColor Yellow
+        Write-Host "The 'gitleaks' hook will be skipped until gitleaks is in PATH."
+    }
+}
+else {
+    $glVersion = (gitleaks version 2>$null) ?? (gitleaks --version 2>$null) ?? "unknown"
+    Write-Host "✅ gitleaks found: $glVersion" -ForegroundColor Green
+}
+
 # Install git hooks
 Write-Host "🪝 Installing git hooks..." -ForegroundColor Cyan
 pre-commit install
@@ -51,5 +78,11 @@ Write-Host ""
 Write-Host "🎉 Setup complete!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Pre-commit hooks are now active. They will run automatically before each commit."
+Write-Host "Included secret-scanning hooks:"
+Write-Host "  • detect-secrets  – keyword + entropy baseline check"
+Write-Host "  • gitleaks        – git-history secret scan"
+Write-Host "  • secret_scan.py  – Shannon entropy (≥ 4.5 bits/char) + pattern scan"
+Write-Host ""
 Write-Host "To manually run hooks: pre-commit run --all-files"
 Write-Host "To update hooks: pre-commit autoupdate"
+Write-Host "To scan all files directly: python scripts/secret_scan.py --all"
