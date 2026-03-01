@@ -31,7 +31,13 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 
 ### Short-term (Next 3-6 months)
 - [!] Migration dry-run with detailed change preview (Issue: #2481)
-- [!] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
+- [P] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
+  - Affected files: `include/updates/notification_webhook.h`, `src/updates/notification_webhook.cpp`
+  - Runtime: HTTP POST to Slack/PagerDuty within 10 s timeout (5 s connect), non-blocking
+  - Error cases: network failure → log + return false; invalid config (empty URL/key) → channel not activated
+  - Tests: 30+ unit tests via injectable `HttpSendFunc` (no real network)
+  - Performance: <100 ms overhead on notify(); requires `THEMIS_ENABLE_CURL` or custom sender
+  - Compatibility: additive; no existing API changed
 - [I] Automatic rollback on post-update health check failure (Issue: #2335)
 - [I] Update history log (who, when, from/to version) (Issue: #2336)
 
@@ -64,7 +70,13 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ### Phase 3: In-Place Migration & Notification Webhooks (Status: In Progress 🚧)
 - [x] In-place schema migration without data copy for additive changes
 - [ ] Migration dry-run with detailed change preview
-- [ ] Notification webhooks (Slack, PagerDuty) on update success/failure
+- [P] Notification webhooks (Slack, PagerDuty) on update success/failure
+  - API: `UpdateEvent` enum, `UpdateEventPayload`, `SlackConfig`, `PagerDutyConfig`, `NotificationWebhook`
+  - Slack: color-coded attachments (good/warning/danger), structured fields, injectable sender
+  - PagerDuty: Events API v2, trigger/resolve actions, dedup_key per version, severity mapping
+  - Error handling: per-channel failures logged, both channels always attempted, returns false on any failure
+  - Tests: injectable `HttpSendFunc` stub, no network required; 30+ unit tests
+  - Performance: 10 s HTTP timeout, 5 s connect timeout, <100 ms overhead
 - [ ] Automatic rollback on post-update health check failure
 - [ ] Update history log (who, when, from/to version)
 
