@@ -7,15 +7,24 @@ For detailed feature descriptions and API proposals, see:
 
 ## High Priority
 
+### ~~Distributed Cron Leader Election (one runner per cluster)~~ ✅ Implemented (v1.x)
+**Implemented via:** `DistributedTaskCoordinator` + gossip-based `DistributedCoordinator`
+
+Leader election semantics:
+- [x] Leader-based task coordination (only leader schedules tasks)
+- [x] Automatic failover when leader fails
+- [x] Distributed task registry on all nodes
+- [x] One runner per cluster guarantee
+
 ### Distributed Task Coordination with Raft
-**Target:** v1.7.0
+**Target:** v1.7.0 (enhanced Raft-based implementation)
+
+Note: Gossip-based leader election is already implemented (v1.x).
+This entry covers the advanced Raft-based alternative for stronger consistency.
 
 Implementation tasks:
 - [ ] Raft cluster integration for leader election
 - [ ] Task state replication via Raft log
-- [ ] Leader-based task scheduling
-- [ ] Automatic failover on leader failure
-- [ ] Distributed task execution across nodes
 - [ ] Clock synchronization handling
 
 ### Priority-Based Scheduling
