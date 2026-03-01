@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     182                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     276                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <functional>
+#include <mutex>
 #include <optional>
 #include <nlohmann/json.hpp>
 
@@ -177,6 +179,98 @@ private:
     bool containsTrigger(const std::string& text, const std::vector<std::string>& triggers) const;
     std::string generateActionItemId() const;
     std::string toLower(const std::string& s) const;
+
+    friend class RealtimeMeetingSession;
+};
+
+// Callback invoked for each new action item extracted during a real-time session.
+using ActionItemCallback = std::function<void(const ActionItem&)>;
+
+/**
+ * @brief Real-time meeting transcription session with incremental action-item extraction.
+ *
+ * Accepts transcript segments one-by-one as they arrive from a streaming STT
+ * source and extracts action items on-the-fly.  The accumulated MeetingProtocol
+ * is available at any point via getCurrentProtocol(), and finalize() returns the
+ * completed protocol once the meeting has ended.
+ *
+ * Thread-safety: addSegment() and finalize() are protected by an internal mutex
+ * and may be called from separate threads (e.g. an STT callback thread).
+ */
+class RealtimeMeetingSession {
+public:
+    /**
+     * @param meeting_id   Unique identifier for this meeting session.
+     * @param participants Known participant names for assignee extraction.
+     * @param config       Shared MeetingSupportConfig (triggers, limits, etc.).
+     * @param on_action_item  Optional callback invoked for each new ActionItem.
+     */
+    explicit RealtimeMeetingSession(
+        const std::string& meeting_id = "",
+        const std::vector<std::string>& participants = {},
+        const MeetingSupportConfig& config = {},
+        ActionItemCallback on_action_item = nullptr
+    );
+    ~RealtimeMeetingSession() = default;
+
+    // Non-copyable, movable
+    RealtimeMeetingSession(const RealtimeMeetingSession&) = delete;
+    RealtimeMeetingSession& operator=(const RealtimeMeetingSession&) = delete;
+    RealtimeMeetingSession(RealtimeMeetingSession&&) = default;
+    RealtimeMeetingSession& operator=(RealtimeMeetingSession&&) = default;
+
+    /**
+     * @brief Push a new transcript segment into the session.
+     *
+     * The segment text is classified and, if it matches action-item or decision
+     * triggers, the result is immediately extracted and appended to the protocol.
+     * The optional ActionItemCallback is fired for each newly extracted item.
+     *
+     * @param text        Transcript text for this segment.
+     * @param speaker     Speaker label (may be empty if diarization is unavailable).
+     * @param start_ms    Segment start time in milliseconds (0 if unknown).
+     * @param end_ms      Segment end time in milliseconds (0 if unknown).
+     */
+    void addSegment(
+        const std::string& text,
+        const std::string& speaker = "",
+        int64_t start_ms = 0,
+        int64_t end_ms = 0
+    );
+
+    /**
+     * @brief Return the current (in-progress) meeting protocol snapshot.
+     *
+     * Thread-safe: may be called concurrently with addSegment().
+     */
+    MeetingProtocol getCurrentProtocol() const;
+
+    /**
+     * @brief Mark the session as complete and return the final MeetingProtocol.
+     *
+     * Runs extractKeyPoints() on the accumulated full_transcript and freezes
+     * the session.  Subsequent calls to addSegment() after finalize() are
+     * silently ignored.
+     *
+     * @return The completed MeetingProtocol.
+     */
+    MeetingProtocol finalize();
+
+    /// Returns true once finalize() has been called.
+    bool isFinalized() const;
+
+    /// Total number of segments received so far.
+    size_t segmentCount() const;
+
+private:
+    mutable std::mutex mutex_;
+    MeetingSupportConfig config_;
+    MeetingProtocol protocol_;
+    bool finalized_ = false;
+
+    // Reuse VoiceMeetingSupport helpers via composition.
+    VoiceMeetingSupport support_;
+    ActionItemCallback on_action_item_;
 };
 
 }} // namespace themis::voice
