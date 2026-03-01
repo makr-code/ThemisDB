@@ -39,11 +39,8 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
-  - Scope: scan staged files for high-entropy strings and known secret patterns (regex + Shannon entropy ≥ 4.5 bits/char — threshold consistent with truffleHog and detect-secrets defaults)
-  - Errors: false-positive allow-list, scan failure exits non-zero
-  - Tests: unit tests for scanner rules; integration test against CI pipeline
-  - Target: Q2 2026
+- [x] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
+  - Implemented: Shannon entropy ≥ 4.5 bits/char + regex pattern scanner (`scripts/secret_scan.py`), gitleaks pre-commit hook, detect-secrets baseline (`.secrets.baseline`), CI workflow (`.github/workflows/secret-scanning-ci.yml`), allow-list support (`.secret-scan-allowlist.txt`)
 
 ### Long-term (6-12 months)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
@@ -89,7 +86,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Zero-trust network policy enforcement (per-request identity verification)
 - [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
-- [ ] Secret scanning pre-commit hook for CI pipelines
+- [x] Secret scanning pre-commit hook for CI pipelines (`scripts/secret_scan.py`, `.pre-commit-config.yaml`, `.github/workflows/secret-scanning-ci.yml`)
 - [ ] SOC 2 Type II compliance evidence collection
 - [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
