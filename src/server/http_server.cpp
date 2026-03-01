@@ -2321,6 +2321,7 @@ namespace {
     TasksEnablePost,         // POST   /api/tasks/{id}/enable
     TasksDisablePost,        // POST   /api/tasks/{id}/disable
     TasksExecutePost,        // POST   /api/tasks/{id}/execute
+    TasksHistoryGet,         // GET    /api/tasks/{id}/history – searchable audit log
     TasksUiGet,              // GET    /ui/tasks  – Web UI
 
         NotFound
@@ -2843,6 +2844,7 @@ namespace {
                 if (method == http::verb::post && action == "enable")  return Route::TasksEnablePost;
                 if (method == http::verb::post && action == "disable") return Route::TasksDisablePost;
                 if (method == http::verb::post && action == "execute") return Route::TasksExecutePost;
+                if (method == http::verb::get  && action == "history") return Route::TasksHistoryGet;
             }
         }
     }
@@ -4921,6 +4923,25 @@ http::response<http::string_body> HttpServer::routeRequest(
             } else {
                 response = makeResponse(http::status::ok, result.dump(), req);
             }
+            break;
+        }
+        case Route::TasksHistoryGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.history", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            nlohmann::json qparams = parseQueryParams(std::string(req.target()));
+            std::string target_path = std::string(req.target());
+            if (auto qp = target_path.find('?'); qp != std::string::npos) target_path = target_path.substr(0, qp);
+            std::string rest = target_path.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->getExecutionHistory(task_id, qparams);
+            response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
 

@@ -60,6 +60,7 @@
 #include "cdc/changefeed.h"
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_result_store.h"
+#include "observability/alertmanager.h"
 
 namespace themis {
 
@@ -174,6 +175,15 @@ struct ScheduledTask {
     size_t max_retries = 3;                                        // Max retry attempts on failure (legacy; overridden by retry_policy when set)
 
     /**
+     * @brief Optional SLA deadline for task execution.
+     *
+     * When set, an SLA breach alert is fired if the task execution time exceeds
+     * this duration.  The task is not interrupted; the alert is purely a
+     * notification.  Unset (nullopt) means no SLA monitoring for this task.
+     */
+    std::optional<std::chrono::milliseconds> sla_deadline;
+
+    /**
      * @brief Retry strategy for failed task executions
      */
     enum class RetryStrategy {
@@ -181,7 +191,8 @@ struct ScheduledTask {
         FIXED_DELAY,         // Fixed delay between retries
         EXPONENTIAL_BACKOFF, // 1s, 2s, 4s, 8s, ... (capped by max_delay)
         LINEAR_BACKOFF,      // initial_delay, 2*initial_delay, 3*initial_delay, ...
-        JITTER_BACKOFF       // Exponential backoff with ±jitter_factor random jitter
+        JITTER_BACKOFF,      // Exponential backoff with ±jitter_factor random jitter
+        FIBONACCI_BACKOFF    // initial * fib(attempt+1): 1×, 1×, 2×, 3×, 5×, 8×, ... (capped by max_delay)
     };
 
     /**
@@ -535,6 +546,24 @@ public:
     std::optional<scheduler::TaskExecutionResult> getLatestTaskResult(
         const std::string& task_id) const;
 
+    /**
+     * @brief Set the alertmanager for dispatching task failure and SLA breach alerts.
+     *
+     * When set, the scheduler fires an alert via the alertmanager whenever:
+     * - A task fails all execution attempts (TaskFailure alert).
+     * - A task execution exceeds its configured sla_deadline (TaskSlaBreached alert).
+     * A previously-fired failure alert is automatically resolved when the same
+     * task subsequently succeeds.
+     *
+     * Pass nullptr to disable alertmanager integration (default behaviour).
+     */
+    void setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager);
+
+    /**
+     * @brief Get the currently configured alertmanager (may be nullptr).
+     */
+    std::shared_ptr<observability::Alertmanager> getAlertmanager() const;
+
 private:
     // Core components
     QueryEngine* query_engine_;
@@ -544,6 +573,12 @@ private:
     
     // Audit and anomaly detection
     std::shared_ptr<scheduler::TaskAuditManager> audit_manager_;
+
+    // Alertmanager for task failure and SLA breach alerts (optional)
+    std::shared_ptr<observability::Alertmanager> alertmanager_;
+    mutable std::mutex alert_mutex_;
+    // Tracks active failure alert IDs per task: task_id -> alert_id
+    std::map<std::string, std::string> active_failure_alert_ids_;
 
     // Execution result store (optional – only active when enable_result_store == true)
     std::unique_ptr<scheduler::TaskResultStore> result_store_;
@@ -620,6 +655,12 @@ private:
     std::vector<std::string> topologicalSort(
         const std::vector<std::string>& task_ids,
         const std::map<std::string, std::vector<std::string>>& adj) const;
+
+    // Alertmanager helpers
+    void fireTaskFailureAlert(const ScheduledTask& task, const std::string& error);
+    void fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms);
+    void resolveTaskFailureAlert(const std::string& task_id);
+    static std::string makeTaskAlertId(const std::string& task_id, const std::string& alert_type);
 };
 
 } // namespace themis

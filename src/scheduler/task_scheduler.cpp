@@ -137,6 +137,23 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
             if (delay_ms < 0.0) delay_ms = 0.0;
             break;
         }
+
+        case ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF: {
+            // delay = initial * fib(attempt + 1)
+            // fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5, ...
+            // Loop invariant: after k iterations, a = fib(k), b = fib(k+1).
+            // Starting with a=1,b=1 (= fib(1),fib(2)) and running (attempt) iterations
+            // yields a = fib(attempt+1).
+            // Computed iteratively to avoid recursion overhead.
+            size_t a = 1, b = 1;
+            for (size_t i = 1; i <= attempt; ++i) {
+                size_t c = a + b;
+                a = b;
+                b = c;
+            }
+            delay_ms = base_ms * static_cast<double>(a);
+            break;
+        }
     }
 
     // Clamp to max_delay
@@ -265,18 +282,28 @@ TaskScheduler::~TaskScheduler() {
 // ===== Lifecycle =====
 
 void TaskScheduler::start() {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
-    
-    if (running_.load()) {
-        THEMIS_WARN("TaskScheduler already running");
-        return;
+    size_t task_count = 0;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        
+        if (running_.load()) {
+            THEMIS_WARN("TaskScheduler already running");
+            return;
+        }
+        
+        running_.store(true);
+        scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
+        task_count = tasks_.size();
+    }
+
+    // Restart any event triggers that were stopped (e.g. after a previous stop()).
+    // Called outside tasks_mutex_ to avoid lock inversion with the trigger callback.
+    if (event_trigger_manager_) {
+        event_trigger_manager_->startAll();
     }
     
-    running_.store(true);
-    scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
-    
     THEMIS_INFO("TaskScheduler started with {} tasks, check interval: {}s",
-                tasks_.size(), 
+                task_count, 
                 config_.check_interval.count() / 1000);
 }
 
@@ -324,6 +351,11 @@ void TaskScheduler::stop() {
             }
         }
         running_task_threads_.clear();
+    }
+
+    // Stop event triggers to prevent CDC-triggered execution after stop()
+    if (event_trigger_manager_) {
+        event_trigger_manager_->stopAll();
     }
     
     if (config_.persist_tasks) {
@@ -661,6 +693,9 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         if (task->on_success) {
             task->on_success(task_id, result);
         }
+
+        // Resolve any active failure alert for this task
+        resolveTaskFailureAlert(task_id);
     } else {
         result = nlohmann::json{{"error", last_error}};
         task->failed_executions++;
@@ -672,11 +707,20 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
             task->on_failure(task_id, last_error);
         }
 
+        // Fire failure alert
+        fireTaskFailureAlert(*task, last_error);
+
         span.recordError(last_error);
     }
 
     task->total_executions++;
     total_executions_++;
+
+    // Check SLA breach (applies regardless of success/failure)
+    if (task->sla_deadline.has_value() &&
+        elapsed_ms > static_cast<double>(task->sla_deadline->count())) {
+        fireTaskSlaBreachAlert(*task, elapsed_ms);
+    }
 
     // Persist execution result to ThemisDB (if result store is enabled)
     if (result_store_) {
@@ -930,6 +974,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     if (task->on_success) {
                         task->on_success(id, wave_results[i].result);
                     }
+                    // Resolve any active failure alert for this task
+                    resolveTaskFailureAlert(id);
                 } catch (const std::exception& e) {
                     task->total_executions++;
                     task->failed_executions++;
@@ -940,6 +986,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     if (task->on_failure) {
                         task->on_failure(id, e.what());
                     }
+                    fireTaskFailureAlert(*task, e.what());
                 } catch (...) {
                     task->total_executions++;
                     task->failed_executions++;
@@ -950,12 +997,20 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     if (task->on_failure) {
                         task->on_failure(id, wave_results[i].error);
                     }
+                    fireTaskFailureAlert(*task, wave_results[i].error);
                 }
-                // Persist execution result to ThemisDB (if result store is enabled).
-                // Duration is computed once here, after all branches.
+                // Compute duration once here (after all success/failure branches) for use
+                // in both SLA breach detection and result-store persistence.
+                const double dur_ms = std::chrono::duration<double, std::milli>(
+                    std::chrono::steady_clock::now() - exec_start).count();
+
+                // Check SLA breach for this DAG task
+                if (task->sla_deadline.has_value() &&
+                    dur_ms > static_cast<double>(task->sla_deadline->count())) {
+                    fireTaskSlaBreachAlert(*task, dur_ms);
+                }
+
                 if (result_store_) {
-                    const double dur_ms = std::chrono::duration<double, std::milli>(
-                        std::chrono::steady_clock::now() - exec_start).count();
                     scheduler::TaskExecutionResult exec_result;
                     exec_result.task_id      = task->id;
                     exec_result.task_name    = task->name;
@@ -1459,6 +1514,9 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         if (task->on_success) {
             task->on_success(task->id, result);
         }
+
+        // Resolve any active failure alert for this task
+        resolveTaskFailureAlert(task->id);
     } else {
         // All attempts failed
         task->total_executions++;  // Mirror executeTaskNow/executeDAG behaviour
@@ -1521,6 +1579,15 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         if (task->on_failure) {
             task->on_failure(task->id, last_error);
         }
+
+        // Fire failure alert
+        fireTaskFailureAlert(*task, last_error);
+    }
+
+    // Check SLA breach (applies regardless of success/failure)
+    if (task->sla_deadline.has_value() &&
+        elapsed_ms > static_cast<double>(task->sla_deadline->count())) {
+        fireTaskSlaBreachAlert(*task, elapsed_ms);
     }
 
     // Persist execution result to ThemisDB (if result store is enabled)
@@ -2228,6 +2295,12 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
         return;
     }
 
+    // Check if scheduler has been stopped
+    if (!running_.load()) {
+        THEMIS_DEBUG("Task {} CDC event ignored: scheduler is not running", task->id);
+        return;
+    }
+
     // Check-and-set running state (guard against concurrent triggers)
     if (!config_.allow_task_overlap) {
         std::lock_guard<std::mutex> lock(tasks_mutex_);
@@ -2276,6 +2349,150 @@ std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult
         return std::nullopt;
     }
     return result_store_->getLatestResult(task_id);
+}
+
+// ===== Alertmanager Integration =====
+
+void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
+    std::lock_guard<std::mutex> lock(alert_mutex_);
+    alertmanager_ = std::move(alertmanager);
+}
+
+std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() const {
+    std::lock_guard<std::mutex> lock(alert_mutex_);
+    return alertmanager_;
+}
+
+/*static*/ std::string TaskScheduler::makeTaskAlertId(const std::string& task_id,
+                                                       const std::string& alert_type) {
+    return "scheduler_task_" + alert_type + "_" + task_id;
+}
+
+void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::string& error) {
+    // Take a copy of the alertmanager pointer under the lock, then release the lock
+    // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
+    std::shared_ptr<observability::Alertmanager> am;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        am = alertmanager_;
+    }
+    if (!am) {
+        return;
+    }
+
+    const std::string alert_id = makeTaskAlertId(task.id, "failure");
+
+    observability::Alert alert;
+    alert.alert_id   = alert_id;
+    alert.alert_name = "TaskFailure";
+    alert.severity   = observability::AlertSeverity::ERROR;
+    alert.status     = observability::AlertStatus::FIRING;
+    alert.message    = "Task \"" + task.name + "\" (id=" + task.id + ") failed: " + error;
+
+    alert.labels["component"]  = "scheduler";
+    alert.labels["task_id"]    = task.id;
+    alert.labels["task_name"]  = task.name;
+    alert.labels["alertname"]  = "TaskFailure";
+    alert.labels["severity"]   = "error";
+
+    alert.annotations["error"]          = error;
+    alert.annotations["failed_executions"] =
+        std::to_string(task.failed_executions);
+    alert.annotations["total_executions"] =
+        std::to_string(task.total_executions);
+
+    // sendAlert() may involve network I/O; called outside the lock
+    auto result = am->sendAlert(alert);
+    if (result) {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        active_failure_alert_ids_[task.id] = alert_id;
+        THEMIS_WARN("Task failure alert fired for task {} ({}): {}", task.id, task.name, error);
+    } else {
+        THEMIS_ERROR("Failed to send task failure alert for task {}: {}",
+                     task.id, result.error().message());
+    }
+}
+
+void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms) {
+    if (!task.sla_deadline.has_value()) {
+        return;  // Caller should have checked, but guard defensively
+    }
+
+    // Take a copy of the alertmanager pointer under the lock, then release the lock
+    // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
+    std::shared_ptr<observability::Alertmanager> am;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        am = alertmanager_;
+    }
+    if (!am) {
+        return;
+    }
+
+    const std::string alert_id = makeTaskAlertId(task.id, "sla_breach");
+    const double sla_ms = static_cast<double>(task.sla_deadline->count());
+
+    observability::Alert alert;
+    alert.alert_id   = alert_id;
+    alert.alert_name = "TaskSlaBreached";
+    alert.severity   = observability::AlertSeverity::WARNING;
+    alert.status     = observability::AlertStatus::FIRING;
+
+    std::ostringstream msg;
+    msg << "Task \"" << task.name << "\" (id=" << task.id << ") exceeded SLA deadline: "
+        << "elapsed=" << static_cast<int64_t>(elapsed_ms) << "ms, "
+        << "sla_deadline=" << static_cast<int64_t>(sla_ms) << "ms";
+    alert.message = msg.str();
+
+    alert.labels["component"]  = "scheduler";
+    alert.labels["task_id"]    = task.id;
+    alert.labels["task_name"]  = task.name;
+    alert.labels["alertname"]  = "TaskSlaBreached";
+    alert.labels["severity"]   = "warning";
+
+    alert.annotations["elapsed_ms"]      = std::to_string(static_cast<int64_t>(elapsed_ms));
+    alert.annotations["sla_deadline_ms"] = std::to_string(static_cast<int64_t>(sla_ms));
+
+    // sendAlert() may involve network I/O; called outside the lock
+    auto result = am->sendAlert(alert);
+    if (result) {
+        THEMIS_WARN("SLA breach alert fired for task {} ({}): elapsed={:.0f}ms, deadline={}ms",
+                    task.id, task.name, elapsed_ms, static_cast<int64_t>(sla_ms));
+    } else {
+        THEMIS_ERROR("Failed to send SLA breach alert for task {}: {}",
+                     task.id, result.error().message());
+    }
+}
+
+void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
+    // Take a copy of the alertmanager pointer and the alert ID under the lock,
+    // then release the lock before calling resolveAlert() (potential I/O).
+    std::shared_ptr<observability::Alertmanager> am;
+    std::string alert_id;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        if (!alertmanager_) {
+            return;
+        }
+
+        auto it = active_failure_alert_ids_.find(task_id);
+        if (it == active_failure_alert_ids_.end()) {
+            return;  // No active failure alert for this task
+        }
+
+        am       = alertmanager_;
+        alert_id = it->second;
+        active_failure_alert_ids_.erase(it);
+    }
+
+    // resolveAlert() may involve network I/O; called outside the lock
+    auto result = am->resolveAlert(alert_id);
+    if (result) {
+        THEMIS_INFO("Task failure alert resolved for task {} (alert_id={})", task_id, alert_id);
+    } else {
+        THEMIS_WARN("Failed to resolve task failure alert for task {}: {}",
+                    task_id, result.error().message());
+    }
 }
 
 } // namespace themis
