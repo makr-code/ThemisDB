@@ -2105,8 +2105,42 @@ else()
 endif()
 
 # ============================================================================
-# UDF API Handler Tests
+# gRPC-Web Proxy Handler Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_web_proxy_handler.cpp")
+    message(STATUS "Adding gRPC-Web Proxy Handler tests")
+
+    add_executable(test_grpc_web_proxy_handler
+        test_grpc_web_proxy_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
+    )
+
+    target_include_directories(test_grpc_web_proxy_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_grpc_web_proxy_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_grpc_web_proxy_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GrpcWebProxyHandlerTests
+             COMMAND test_grpc_web_proxy_handler)
+
+    set_tests_properties(GrpcWebProxyHandlerTests PROPERTIES
+        LABELS "server;grpc;grpc-web;proxy;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC-Web Proxy Handler: frame decode/encode, CORS, status, request validation")
+else()
+    message(STATUS "gRPC-Web Proxy Handler tests not found")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")

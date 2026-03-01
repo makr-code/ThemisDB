@@ -154,6 +154,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "config/config_path_resolver.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/grpc_web_proxy_handler.h"
 #include "server/serverless_function_api_handler.h"
 #include "metadata/schema_manager.h"
 
@@ -1104,6 +1105,14 @@ HttpServer::HttpServer(
     // Initialize GraphQL API Handler
     graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
+
+    // Initialize gRPC-Web proxy handler
+    {
+        GrpcWebProxyHandler::Config gwcfg;
+        gwcfg.backend_address = "localhost:18765";
+        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>(std::move(gwcfg));
+        THEMIS_INFO("gRPC-Web proxy handler initialized (endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)");
+    }
 
     // Initialize Serverless Function Hosting Handler
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
@@ -2279,6 +2288,11 @@ namespace {
     GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
     GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
 
+    // gRPC-Web proxy (browser clients)
+    GrpcWebPost,             // POST   /grpc-web/<service>/<method>
+    GrpcWebOptions,          // OPTIONS /grpc-web/<service>/<method>  (CORS preflight)
+    GrpcWebStatusGet,        // GET    /api/v1/grpc-web/status
+
     // Serverless function hosting
     ServerlessFnPost,        // POST /api/v1/functions
     ServerlessFnListGet,     // GET  /api/v1/functions
@@ -2739,6 +2753,19 @@ namespace {
         method == http::verb::post) return Route::GraphQLPost;
     if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
         method == http::verb::get) return Route::GraphQLSchemaGet;
+
+    // gRPC-Web proxy (browser clients)
+    // Routes: /grpc-web/<package>.<Service>/<Method>
+    {
+        static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
+        if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
+            path_only.size() > kGrpcWebPrefix.size()) {
+            if (method == http::verb::options) return Route::GrpcWebOptions;
+            if (method == http::verb::post)    return Route::GrpcWebPost;
+        }
+    }
+    if (path_only == "/api/v1/grpc-web/status" && method == http::verb::get)
+        return Route::GrpcWebStatusGet;
 
     // Serverless function hosting
     if (path_only == "/api/v1/functions" && method == http::verb::post)
@@ -4588,6 +4615,28 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         case Route::GraphQLSchemaGet: {
             response = graphql_api_handler_->handleSchemaGet(req);
+            break;
+        }
+
+        // ── gRPC-Web proxy (browser clients) ─────────────────────────────────
+        case Route::GrpcWebOptions: {
+            response = grpc_web_proxy_->handleOptions(req);
+            break;
+        }
+        case Route::GrpcWebStatusGet: {
+            response = grpc_web_proxy_->handleStatus(req);
+            break;
+        }
+        case Route::GrpcWebPost: {
+            // Extract gRPC method path from /grpc-web/<method>
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
+            const std::string path_only = (qpos != std::string::npos)
+                ? target_str.substr(0, qpos) : target_str;
+            // Strip /grpc-web prefix – resulting path is "/<package>.<Service>/<Method>"
+            static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
+            const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
+            response = grpc_web_proxy_->handlePost(req, method_path);
             break;
         }
 

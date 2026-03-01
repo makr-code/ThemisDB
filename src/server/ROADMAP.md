@@ -41,7 +41,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [I] WebSocket binary frame support for wire protocol upgrade (Issue: #2299)
 
 ### Long-term (6-12 months)
-- [I] gRPC-web proxy for browser clients (Issue: #2303)
+- [P] gRPC-web proxy for browser clients (Issue: #2303)
 - [~] Serverless function hosting (run user code in-process) (Issue: #2467)
 - [I] Edge caching integration (CDN cache-control header management) (Issue: #2305)
 - [I] Service mesh sidecar proxy mode (Envoy xDS compatibility) (Issue: #2306)
@@ -80,8 +80,8 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] Per-tenant custom domain routing
 - [ ] WebSocket binary frame support for wire protocol upgrade
 
-### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: Planned 📋)
-- [ ] gRPC-web proxy for browser clients
+### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: In Progress 🚧)
+- [~] gRPC-web proxy for browser clients
 - [ ] Edge caching integration (CDN cache-control header management)
 - [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
 - [ ] HTTP/3 datagram support for real-time low-latency streams

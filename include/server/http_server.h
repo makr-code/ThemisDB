@@ -95,6 +95,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/grpc_web_proxy_handler.h"
 #include "server/serverless_function_api_handler.h"
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
@@ -882,6 +883,9 @@ private:
 
     // GraphQL API Handler
     std::unique_ptr<themis::server::GraphQLApiHandler> graphql_api_handler_;
+
+    // gRPC-Web proxy – translates browser gRPC-Web requests to native gRPC
+    std::unique_ptr<themis::server::GrpcWebProxyHandler> grpc_web_proxy_;
 
     // Serverless function hosting – in-process user function registry + executor
     std::unique_ptr<themis::server::ServerlessFunctionApiHandler> serverless_fn_handler_;
