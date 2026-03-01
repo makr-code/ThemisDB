@@ -120,8 +120,16 @@ public:
     };
     Stats get_stats() const;
     
-    // Flush cache to disk
+    // Flush graph file and save metadata sidecar (call after build/add)
     void flush();
+
+    // Persist metadata (vector_offsets_, edge count) to a sidecar file.
+    // Returns true on success.  The sidecar path is index_path + ".meta".
+    bool save(const std::string& path) const;
+
+    // Reload metadata from a previously saved sidecar file.
+    // Returns true on success.
+    bool load(const std::string& path);
 
 private:
     size_t dimension_;
@@ -140,6 +148,7 @@ private:
     mutable std::atomic<size_t> cache_hits_{0};
     mutable std::atomic<size_t> cache_misses_{0};
     mutable std::atomic<size_t> disk_reads_{0};
+    std::atomic<size_t> total_edges_{0};
     
     // File handle for SSD-resident graph
     std::unique_ptr<std::fstream> graph_file_;
@@ -161,6 +170,10 @@ private:
         int beam_width,
         int k
     );
+
+    // Helper: Persist/reload vector_offsets_ and edge count to a sidecar file
+    bool save_metadata(const std::string& meta_path) const;
+    bool load_metadata(const std::string& meta_path);
 };
 
 /// Vantage Point Tree for entry point selection

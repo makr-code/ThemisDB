@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     322                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8b4fb3109  2026-02-22  Add prompt-content tests for LlmQueryRewriter (vocabulary... ║
@@ -45,6 +45,18 @@ TEST(LlmQueryRewriterConfig, DefaultConfigIsValid) {
 TEST(LlmQueryRewriterConfig, ZeroNumRewritesThrows) {
     LlmQueryRewriter::Config cfg;
     cfg.num_rewrites = 0;
+    EXPECT_THROW(LlmQueryRewriter{cfg}, std::invalid_argument);
+}
+
+TEST(LlmQueryRewriterConfig, NegativeTemperatureThrows) {
+    LlmQueryRewriter::Config cfg;
+    cfg.temperature = -0.1f;
+    EXPECT_THROW(LlmQueryRewriter{cfg}, std::invalid_argument);
+}
+
+TEST(LlmQueryRewriterConfig, TemperatureAboveTwoThrows) {
+    LlmQueryRewriter::Config cfg;
+    cfg.temperature = 2.1f;
     EXPECT_THROW(LlmQueryRewriter{cfg}, std::invalid_argument);
 }
 
@@ -323,4 +335,17 @@ TEST(LlmQueryRewriterPrompt, PromptContainsNumberedLineInstruction) {
     rw.rewrite("test query");
     // Prompt must explicitly show the numbered-line format, e.g. "1. rewrite here"
     EXPECT_NE(captured_prompt.find("1. rewrite here"), std::string::npos);
+}
+
+TEST(LlmQueryRewriterPrompt, PromptContainsTemperatureHint) {
+    std::string captured_prompt;
+    LlmQueryRewriter::Config cfg;
+    cfg.temperature = 0.3f;
+    LlmQueryRewriter rw{cfg, [&](const std::string& prompt) {
+        captured_prompt = prompt;
+        return "1. a rewrite\n";
+    }};
+    rw.rewrite("test query");
+    // Prompt must embed the temperature hint so backends can honour it
+    EXPECT_NE(captured_prompt.find("temperature"), std::string::npos);
 }

@@ -646,8 +646,9 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             }
             else if (current_sql.find("INSERT INTO") != std::string::npos) {
                 stats.total_records++;
-                if (!options.dry_run) {
+                {
                     auto t0 = std::chrono::steady_clock::now();
+                    // In dry-run mode parseInsert skips writes; still validates the row
                     parseInsert(current_sql, options, stats, line_number);
                     double dur = std::chrono::duration<double>(
                         std::chrono::steady_clock::now() - t0).count();
@@ -676,17 +677,8 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                     }
                     size_t before_copy = stats.imported_records;
                     auto t0 = std::chrono::steady_clock::now();
-                    if (!options.dry_run) {
-                        parseCopy(file, table_name, col_list, options, stats, delta_hashes);
-                    } else {
-                        // skip COPY data block in dry-run mode using bounded reader
-                        std::string skip_line;
-                        bool skip_trunc = false;
-                        while (streamReadLine(file, skip_line, line_read_limit, skip_trunc)) {
-                            if (skip_line == "\\." || skip_line.rfind("\\.", 0) == 0) break;
-                            stats.total_records++;
-                        }
-                    }
+                    // In dry-run mode parseCopy skips writes; still parses and validates rows
+                    parseCopy(file, table_name, col_list, options, stats, delta_hashes);
                     size_t rows_in_block = stats.imported_records - before_copy;
                     batch_row_count += rows_in_block;
                     double dur = std::chrono::duration<double>(
@@ -706,8 +698,9 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             
             current_sql.clear();
 
-            // Checkpoint after each batch
-            if (!options.checkpoint_file.empty() &&
+            // Checkpoint after each batch (skipped in dry-run: no persistent state changes)
+            if (!options.dry_run &&
+                !options.checkpoint_file.empty() &&
                 options.batch_size > 0 &&
                 batch_row_count >= options.batch_size) {
                 std::streampos current_pos = file.tellg();
@@ -718,13 +711,13 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         }
     }
 
-    // Final checkpoint on clean completion
-    if (!options.checkpoint_file.empty() && !cancelled_) {
+    // Final checkpoint on clean completion (skipped in dry-run)
+    if (!options.dry_run && !options.checkpoint_file.empty() && !cancelled_) {
         saveCheckpoint(options.checkpoint_file, file.tellg(), stats);
     }
 
-    // Save updated delta hashes
-    if (!options.delta_hash_file.empty() && !delta_hashes.empty()) {
+    // Save updated delta hashes (skipped in dry-run: no persistent state changes)
+    if (!options.dry_run && !options.delta_hash_file.empty() && !delta_hashes.empty()) {
         saveDeltaHashes(options.delta_hash_file, delta_hashes);
     }
     
@@ -888,13 +881,20 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
         }
     }
 
-    if (options.streaming_row_callback) {
-        if (!options.streaming_row_callback(table_name, entity)) {
-            cancelled_ = true;  // abort the import
+    if (options.dry_run) {
+        addError(stats, ImportErrorCode::DRY_RUN_ONLY, ImportErrorSeverity::INFO,
+                 "dry-run: row would be imported",
+                 "table " + table_name + ", line " + std::to_string(line_number));
+        stats.imported_records++;
+    } else {
+        if (options.streaming_row_callback) {
+            if (!options.streaming_row_callback(table_name, entity)) {
+                cancelled_ = true;  // abort the import
+            }
         }
-    }
 
-    stats.imported_records++;
+        stats.imported_records++;
+    }
     return true;
 }
 
@@ -949,8 +949,10 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             stats.structured_errors.push_back(err);
             stats.warnings.push_back("Row truncated in table " + table_name +
                                      " row " + std::to_string(row_num));
-            writeQuarantineRow(options.quarantine_file, table_name,
-                               "<truncated at " + std::to_string(row_read_limit) + " bytes>", err);
+            if (!options.dry_run) {
+                writeQuarantineRow(options.quarantine_file, table_name,
+                                   "<truncated at " + std::to_string(row_read_limit) + " bytes>", err);
+            }
             if (!options.continue_on_error) { stats.failed_records++; return false; }
             stats.failed_records++;
             stats.quarantined_records++;
@@ -993,7 +995,9 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             stats.structured_errors.push_back(err);
             stats.warnings.push_back("Row too large in table " + table_name +
                                      " row " + std::to_string(row_num));
-            writeQuarantineRow(options.quarantine_file, table_name, line, err);
+            if (!options.dry_run) {
+                writeQuarantineRow(options.quarantine_file, table_name, line, err);
+            }
             if (!options.continue_on_error) {
                 stats.failed_records++;
                 return false;
@@ -1013,7 +1017,9 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             stats.structured_errors.push_back(err);
             stats.warnings.push_back("Invalid UTF-8 in table " + table_name +
                                      " row " + std::to_string(row_num));
-            writeQuarantineRow(options.quarantine_file, table_name, line, err);
+            if (!options.dry_run) {
+                writeQuarantineRow(options.quarantine_file, table_name, line, err);
+            }
             if (!options.continue_on_error) {
                 stats.failed_records++;
                 return false;
@@ -1049,7 +1055,9 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             stats.structured_errors.push_back(err);
             stats.warnings.push_back("Column count mismatch in table " + table_name +
                                      " row " + std::to_string(row_num));
-            writeQuarantineRow(options.quarantine_file, table_name, line, err);
+            if (!options.dry_run) {
+                writeQuarantineRow(options.quarantine_file, table_name, line, err);
+            }
             if (!options.continue_on_error) {
                 stats.failed_records++;
                 return false;
@@ -1104,19 +1112,26 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             }
         }
 
-        if (options.streaming_row_callback) {
-            if (!options.streaming_row_callback(table_name, entity)) {
-                cancelled_ = true;  // caller requested abort
-                stats.imported_records++;
-                emitMetric(options, "themisdb_import_rows_total",
-                           {{"table", table_name}, {"status", "imported"}}, 1.0);
-                return false;
+        if (options.dry_run) {
+            addError(stats, ImportErrorCode::DRY_RUN_ONLY, ImportErrorSeverity::INFO,
+                     "dry-run: row would be imported",
+                     "table " + table_name + ", row " + std::to_string(row_num));
+            stats.imported_records++;
+        } else {
+            if (options.streaming_row_callback) {
+                if (!options.streaming_row_callback(table_name, entity)) {
+                    cancelled_ = true;  // caller requested abort
+                    stats.imported_records++;
+                    emitMetric(options, "themisdb_import_rows_total",
+                               {{"table", table_name}, {"status", "imported"}}, 1.0);
+                    return false;
+                }
             }
-        }
 
-        stats.imported_records++;
-        emitMetric(options, "themisdb_import_rows_total",
-                   {{"table", table_name}, {"status", "imported"}}, 1.0);
+            stats.imported_records++;
+            emitMetric(options, "themisdb_import_rows_total",
+                       {{"table", table_name}, {"status", "imported"}}, 1.0);
+        }
     }
     
     return true;

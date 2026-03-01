@@ -38,7 +38,15 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - Compact 10-byte binary header with request-ID echo for correlation
   - `UDPFastPath` class in `include/network/udp_fast_path.h` / `src/network/udp_fast_path.cpp`
   - Unit tests in `tests/test_udp_fast_path.cpp` (config, packet validation, opcode filter, response builder)
-- [I] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
+- [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
+  - `QuicTransport` class in `include/network/quic_transport.h` / `src/network/quic_transport.cpp`
+  - Port 8770 (dedicated, separate from TCP 8766 and UDP 8769)
+  - TLS 1.3 mandatory; ALPN "tmdb" advertises binary wire protocol over QUIC
+  - 0-RTT connection resumption, connection migration supported (ngtcp2)
+  - Configurable idle timeout, max streams, flow-control windows, connection limits
+  - Per-connection rate tracking; `QuicTransport::Stats` for Prometheus integration
+  - Guarded by `THEMIS_ENABLE_HTTP3`; requires ngtcp2 + OpenSSL
+  - `Http3Session::doRead()` and `Http3Session::onRead()` stubs resolved (server module)
 
 ## Planned Features 📋
 
@@ -47,11 +55,24 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
-- [!] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417)
+- [~] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417)
 - [?] RDMA support for ultra-low-latency inter-node communication
 - [?] IPv6 dual-stack support
-- [I] gRPC native transport (separate from server module) (Issue: #2024)
-- [I] Network topology-aware routing for geo-distributed clusters (Issue: #2207)
+- [x] gRPC native transport (separate from server module) (Issue: #2024)
+  - `GrpcTransport` class in `include/network/grpc_transport.h` / `src/network/grpc_transport.cpp`
+  - Port 8771 (dedicated; does not conflict with TCP 8766, UDP 8769, QUIC 8770, or gRPC API 50051)
+  - Carries binary wire protocol frames over gRPC `AsyncGenericService` bidirectional streaming
+  - TLS / mTLS credentials via gRPC server credentials (same cert/key pattern as api/grpc_server.cpp)
+  - Configurable: num_threads, max_connections, max_message_size_bytes, keepalive
+  - Guarded by `THEMIS_ENABLE_GRPC`; unit tests in `tests/test_grpc_transport.cpp` (16 tests)
+- [x] Network topology-aware routing for geo-distributed clusters (Issue: #2207)
+  - `GeoTopologyRouter` class in `include/network/geo_topology_router.h` / `src/network/geo_topology_router.cpp`
+  - Strategies: PREFER_LOCAL (region→zone→datacenter affinity), LOWEST_LATENCY (per-region hints), ROUND_ROBIN
+  - Cross-region fallback when local shards are unavailable (configurable)
+  - `selectEndpoint()`, `selectEndpointInRegion()`, `getRankedShards()` public API
+  - Prometheus-compatible `Stats` struct (requests_routed, local_region_hits, cross_region_fallbacks, routing_failures)
+  - Thread-safe (atomic round-robin counter + mutex-guarded stats)
+  - Unit tests in `tests/test_geo_topology_router.cpp` (26 tests)
 
 ## Implementation Phases
 
@@ -76,14 +97,16 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - JSON text-frame messages: ping, get, put, delete, query
   - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `enable_websocket_upgrade`
 - [~] UDP-based fast-path for read-only queries (Target: Q3 2026)
-- [ ] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
+- [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
 
 ### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
-- [ ] gRPC native transport (separate from server module)
+- [x] gRPC native transport (separate from server module)
+  - Port 8771; `AsyncGenericService` bidirectional streaming; guarded by `THEMIS_ENABLE_GRPC`
 - [x] Connection multiplexing (multiple logical streams per TCP connection)
 - [x] Per-tenant network bandwidth quotas
 - [x] Connection-level compression (LZ4, Zstd)
-- [ ] Network topology-aware routing for geo-distributed clusters
+- [x] Network topology-aware routing for geo-distributed clusters
+  - `GeoTopologyRouter` (include/network/geo_topology_router.h); strategies: PREFER_LOCAL, LOWEST_LATENCY, ROUND_ROBIN
 - [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
 
 ## Production Readiness Checklist
@@ -102,6 +125,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - Buffer lifetime safety: all async writes use `shared_ptr`-owned buffers
   - COMPRESSED DATA frames guarded with RST_STREAM (LZ4 tracked in #2416)
 - [x] Unit tests added for V2 protocol (`test_wire_protocol_v2.cpp`, 29 tests)
+- [x] Unit tests added for QUIC transport (`test_quic_transport.cpp`, 17 tests)
+  - Config defaults, port validation, stats initialisation, protocol constants, isRunning state
+- [x] QUIC/HTTP3 stub resolved (`Http3Session::doRead()`, `Http3Session::onRead()`)
+- [x] Unit tests added for gRPC native transport (`test_grpc_transport.cpp`, 16 tests)
+  - Config defaults, TLS flags, port validation (incl. conflict with 50051), stats, address format, isRunning state
+- [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)
+  - Config defaults, PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity
+  - Cross-region fallback, selectEndpointInRegion, getRankedShards ordering, stats accumulation, edge cases
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
@@ -110,9 +141,12 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
   dispatched (clients receive a structured error and should use text/JSON frames or
   the native TCP binary connection).
-- UDP and QUIC transports are not yet implemented.
-- gRPC server is handled by the server module; this module provides only the binary wire protocol.
-- Service mesh integration is a future enhancement.
+- UDP fast-path is in progress; QUIC transport is implemented (`QuicTransport`, port 8770).
+- gRPC native transport is implemented (`GrpcTransport`, port 8771); this module provides
+  the transport layer only — the gRPC service layer lives in the server/api modules.
+- Service mesh integration is in progress (`ServiceMeshIntegration`, port 8082);
+  see `include/network/service_mesh.h` / `src/network/service_mesh.cpp`.
+  Guarded by `THEMIS_ENABLE_SERVICE_MESH`.
 
 ## Breaking Changes
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.

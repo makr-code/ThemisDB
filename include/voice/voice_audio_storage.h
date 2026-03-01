@@ -138,6 +138,13 @@ public:
         size_t limit = 100
     ) const;
 
+    // Search transcripts by keyword (case-insensitive substring match)
+    // Returns records whose transcript field contains the query string.
+    std::vector<AudioStorageRecord> searchTranscripts(
+        const std::string& query,
+        size_t limit = 100
+    ) const;
+
     // Deduplication: compute hash and check for duplicate
     DeduplicationResult checkDuplicate(const std::vector<uint8_t>& audio_data) const;
     std::string computeHash(const std::vector<uint8_t>& data) const;

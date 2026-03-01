@@ -17,6 +17,7 @@ The JSONL LLM Exporter exports ThemisDB BaseEntity data as **weighted training s
 - Instruction Tuning (`{"instruction": ..., "input": ..., "output": ...}`)
 - Chat Completion (`{"messages": [{"role": ..., "content": ...}]}`)
 - Text Completion (`{"text": ...}`)
+- **Named Format Templates**: Alpaca, ShareGPT, ChatML, OpenAI Fine-Tuning
 
 ✅ **Weighted Training Samples**
 - Explicit weight field (e.g., `importance: 0.8`)
@@ -126,6 +127,131 @@ Best for text generation, next-word prediction:
 JSONLLLMConfig config;
 config.style = JSONLFormat::Style::TEXT_COMPLETION;
 config.field_mapping.text_field = "content";
+```
+
+## Named Instruction-Tuning Format Templates
+
+In addition to the generic `style`-based formats, the exporter supports **named format templates** that emit documents in the exact schema required by popular fine-tuning toolchains. When a `format_template_type` is set it overrides the `style` field.
+
+### Alpaca
+
+Produces `{"instruction":…, "input":…, "output":…}`.  The `input` key is always emitted (empty string when the input field is absent) to match the original Alpaca specification.
+
+```cpp
+#include "exporters/jsonl_llm_exporter.h"
+#include "exporters/format_template.h"
+
+JSONLLLMConfig config;
+config.format_template_type = FormatTemplateType::ALPACA;
+// Override field names if your collection uses different names:
+config.template_field_mapping.instruction_field = "question";  // default
+config.template_field_mapping.input_field       = "context";   // default
+config.template_field_mapping.output_field      = "answer";    // default
+
+JSONLLLMExporter exporter(config);
+```
+
+**BaseEntity Example:**
+```json
+{
+  "pk": "qa_001",
+  "question": "Translate 'Hello' to Spanish.",
+  "context": "",
+  "answer": "Hola"
+}
+```
+
+**JSONL Output:**
+```json
+{"instruction": "Translate 'Hello' to Spanish.", "input": "", "output": "Hola"}
+```
+
+### ShareGPT
+
+Produces `{"conversations":[{"from":"human","value":…},{"from":"gpt","value":…}]}`.  An optional `system` turn is prepended when the `system_field` is present and non-empty.
+
+```cpp
+JSONLLLMConfig config;
+config.format_template_type = FormatTemplateType::SHAREGPT;
+config.template_field_mapping.system_field    = "system_prompt";      // default
+config.template_field_mapping.user_field      = "user_message";       // default
+config.template_field_mapping.assistant_field = "assistant_response"; // default
+
+JSONLLLMExporter exporter(config);
+```
+
+**BaseEntity Example:**
+```json
+{
+  "pk": "conv_001",
+  "system_prompt": "You are a helpful assistant.",
+  "user_message": "What is the capital of France?",
+  "assistant_response": "Paris."
+}
+```
+
+**JSONL Output:**
+```json
+{"conversations": [{"from": "system", "value": "You are a helpful assistant."}, {"from": "human", "value": "What is the capital of France?"}, {"from": "gpt", "value": "Paris."}]}
+```
+
+### ChatML
+
+Produces `{"messages":[{"role":"system","content":…},{"role":"user","content":…},{"role":"assistant","content":…}]}`.  The `system` message is omitted when the `system_field` is absent or empty.
+
+```cpp
+JSONLLLMConfig config;
+config.format_template_type = FormatTemplateType::CHATML;
+config.template_field_mapping.system_field    = "system_prompt";      // default
+config.template_field_mapping.user_field      = "user_message";       // default
+config.template_field_mapping.assistant_field = "assistant_response"; // default
+
+JSONLLLMExporter exporter(config);
+```
+
+**JSONL Output (with system):**
+```json
+{"messages": [{"role": "system", "content": "Always respond in French."}, {"role": "user", "content": "How are you?"}, {"role": "assistant", "content": "Je vais bien, merci."}]}
+```
+
+### OpenAI Fine-Tuning
+
+Structurally identical to ChatML and directly compatible with the OpenAI fine-tuning API.
+
+```cpp
+JSONLLLMConfig config;
+config.format_template_type = FormatTemplateType::OPENAI_FINETUNING;
+
+JSONLLLMExporter exporter(config);
+```
+
+### Validating Template Field Availability
+
+Before running a full export you can perform a dry-run check on a representative entity to verify that all required fields are present:
+
+```cpp
+#include "exporters/format_template.h"
+
+auto tpl = makeFormatTemplate(FormatTemplateType::ALPACA);
+FormatTemplateFieldMapping mapping;  // or fill in your field names
+
+std::vector<std::string> missing;
+if (!tpl->validateFields(entity, mapping, &missing)) {
+    for (const auto& f : missing) {
+        std::cerr << "Missing required field: " << f << "\n";
+    }
+}
+```
+
+### Reconfiguring at Runtime
+
+```cpp
+JSONLLLMExporter exporter(cfg);
+
+// Switch to ChatML without recreating the exporter object:
+JSONLLLMConfig cfg2;
+cfg2.format_template_type = FormatTemplateType::CHATML;
+exporter.setConfig(cfg2);
 ```
 
 ## Weighting Strategies

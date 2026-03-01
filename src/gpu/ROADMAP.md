@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), GPU-accelerated ANN (vector similarity) via cuVS/RAFT, and MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, query acceleration, ROCm/HIP backend parity, memory defragmentation, multi-node GPU cluster coordination with NVLink/InfiniBand topology awareness, GPU profiling integration (NVIDIA Nsight / ROCm Profiler), GPU-accelerated ANN (vector similarity) via cuVS/RAFT, MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series, Vulkan compute backend, and peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) are implemented.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints
@@ -35,7 +35,12 @@
 - [x] Multi-node GPU cluster coordination (`gpu/cluster_coordinator.cpp`)
 - [x] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
 - [x] GPU memory defragmentation for long-running workloads (Issue: #1787)
-- [x] CUDA graph capture for recurring query execution patterns (Issue: #2379)
+- [x] CUDA graph capture for recurring query execution patterns (Issue: #2379 — core implementation; Issue: #1801 — `createCudaStream`, tests, and CMake registration)
+  - Implementation: `include/themis/gpu/graph_cache.h`, `src/gpu/graph_cache.cpp`, `include/themis/gpu/query_accelerator.h`, `src/gpu/query_accelerator.cpp`
+  - `GPUGraphCache` captures recurring `QueryShape` tuples (OpType × row_count × param_hash); LRU eviction at 32 entries
+  - `GPUQueryAccelerator` integrates graph cache in scan, sort, aggregate, hashJoin, annSearch operations
+  - `GPUStreamManager::createCudaStream()` provides first-class CUDA stream creation with CPU fallback
+  - Tests: `tests/test_gpu_graph_cache.cpp`, `tests/test_gpu_query_accelerator.cpp`, `tests/test_gpu_stream_manager.cpp`
 - [x] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
 - [x] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
 - [x] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
@@ -53,12 +58,6 @@
 
 ### Long-term (6-12 months)
 - [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [!] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
-
-  - Implementation: `include/themis/gpu/wasm_kernel_sandbox.h`, `src/gpu/wasm_kernel_sandbox.cpp`
-  - Interfaces: `WASMKernelSandbox::{execute, isWASMSupported, setConfig, getConfig, getStats, resetStats}` + `SandboxConfig`, `ExecutionResult`, `Stats`, `Status` enum
-  - Feature gate: `GPUFeatureFlags::Feature::WASM_SANDBOX` (Enterprise/Hyperscaler editions)
-  - Tests: `tests/test_gpu_wasm_kernel_sandbox.cpp`
 - [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
   - Implementation: `include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`
   - Interfaces: `MIGManager::{createPartition, destroyPartition, assignToTenant, unassignFromTenant, getInstances, getInstancesForDevice, getInstancesForTenant, getInstance, deviceSupportsMIG, isKnownProfile, profileMemoryBytes, getStats, reset}` + `MIGInstance`, `Status` enum, `Stats`
@@ -97,6 +96,13 @@
   - CPU simulation path (in-memory registry) always active; tests pass without Vulkan hardware.
   - Tests: `tests/test_gpu_vulkan_backend.cpp`
 - [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
+  - Implementation: `include/themis/gpu/p2p_transfer.h`, `src/gpu/p2p_transfer.cpp`
+  - Interfaces: `GPUP2PTransferManager::{canAccessPeer, enablePeerAccess, disablePeerAccess, isPeerAccessEnabled, transfer, getStats, reset}` + `TransferRequest`, `TransferResult`, `Status` enum, `Stats`
+  - Feature gate: `GPUFeatureFlags::Feature::PEER_TO_PEER` (Enterprise/Hyperscaler editions)
+  - CUDA path: `cudaDeviceCanAccessPeer`, `cudaDeviceEnablePeerAccess`, `cudaMemcpyPeer`
+  - HIP path: `hipDeviceCanAccessPeer`, `hipDeviceEnablePeerAccess`, `hipMemcpyPeer`
+  - CPU simulation path (memcpy fallback) always active; tests pass without GPU hardware.
+  - Tests: `tests/test_gpu_p2p_transfer.cpp`
 - [x] CUDA Graph capture for recurring query execution patterns
 - [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
 - [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
@@ -111,9 +117,8 @@
 - [x] API stability guaranteed for GPUModule facade and query accelerator
 
 ## Known Issues & Limitations
-- CUDA graph capture is not yet implemented
 - Multi-node GPU cluster coordination requires external orchestration
-- CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware
+- CUDA graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache` / `GPUQueryAccelerator`); production `cudaGraph_t` wiring requires GPU hardware (Issue: #1801)
 - MIG partitioning infrastructure is implemented (`MIGManager`); real `nvmlDeviceCreateGpuInstance` calls require CUDA + NVML hardware
 - Vulkan compute backend infrastructure is implemented (`VulkanComputeBackend`); real `VkQueue` submission and `synchronizeStream` (`vkQueueWaitIdle`) require Vulkan SDK + hardware
 

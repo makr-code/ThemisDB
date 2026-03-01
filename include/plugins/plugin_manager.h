@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     352                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • facf306eb  2026-02-22  feat(plugins): atomic hot-reload with rollback, dependenc... ║
@@ -26,6 +26,7 @@
 #include "plugins/plugin_metrics.h"
 #include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
 #include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
+#include "plugins/oci_registry_client.h"  // OCI registry pull support
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include "utils/expected.h"
 #include <string>
@@ -44,6 +45,7 @@ using json = nlohmann::json;
 // Forward declarations
 class PluginHotPlugMonitor;
 struct HotPlugConfig;
+class PluginHealthMonitor;
 
 /**
  * @brief Plugin Reload Phase
@@ -102,6 +104,7 @@ private:
     PluginMetrics metrics_;  // Plugin metrics tracker
     std::unique_ptr<PluginHotPlugMonitor> hot_plug_monitor_;  // Hot-plug filesystem monitor
     std::vector<PluginReloadListener> reload_listeners_;  // Reload event listeners
+    PluginHealthMonitor* health_monitor_ = nullptr;  // Optional health monitor (non-owning)
     mutable std::mutex mutex_;
     
     // Reuse existing platform-specific loading from acceleration/plugin_loader.cpp
@@ -155,6 +158,28 @@ public:
     Result<IThemisPlugin*> loadPluginFromPath(
         const std::string& path,
         const std::string& config = "{}"
+    );
+
+    /**
+     * @brief Pull a plugin from an OCI registry and load it.
+     *
+     * Parses the OCI reference, downloads the plugin binary layer into
+     * @p cache_dir (reusing a cached copy when the SHA-256 digest matches),
+     * verifies the binary, and delegates to loadPluginFromPath().
+     *
+     * OCI reference format: [registry/]name[:tag][@digest]
+     * Example: "ghcr.io/themisdb/plugins/s3_blob:1.2.0"
+     *
+     * @param oci_ref   OCI image reference string.
+     * @param cache_dir Local directory for cached plugin binaries.
+     *                  Defaults to the system temp directory when empty.
+     * @param auth_token Optional Bearer token for authenticated registries.
+     * @return Result<IThemisPlugin*> with loaded plugin or error.
+     */
+    Result<IThemisPlugin*> loadPluginFromOci(
+        const std::string& oci_ref,
+        const std::string& cache_dir   = "",
+        const std::string& auth_token  = ""
     );
     
     /**
@@ -234,6 +259,22 @@ public:
      * @return Result<PluginManifest> - Manifest or error if not found
      */
     Result<PluginManifest> getManifest(const std::string& name) const;
+
+    /**
+     * @brief Negotiate capabilities between a loaded plugin and a set of requirements.
+     *
+     * Checks that the named plugin is loaded, then delegates to
+     * PluginCapabilityNegotiator::negotiate() to verify each requirement against
+     * the plugin's capability flags and version.
+     *
+     * @param name         Name of the loaded plugin.
+     * @param requirements List of capability requirements (name + optional version range).
+     * @return PluginNegotiationResult with success flag and per-requirement details.
+     *         If the plugin is not found/loaded, success is false and error_message is set.
+     */
+    PluginNegotiationResult negotiateCapabilities(
+        const std::string& name,
+        const std::vector<PluginCapabilityRequirement>& requirements) const;
     
     /**
      * @brief Get plugin metrics
@@ -284,6 +325,18 @@ public:
      * @note Thread-safe: Can be called from any thread
      */
     void clearReloadListeners();
+    
+    /**
+     * @brief Attach a health monitor to observe loaded self-healing plugins.
+     *
+     * When set, every plugin that implements ISelfHealingPlugin is automatically
+     * registered with the monitor on load and unregistered on unload.
+     *
+     * @param monitor Pointer to an existing PluginHealthMonitor (non-owning).
+     *                Pass nullptr to detach the current monitor.
+     * @note Thread-safe: Can be called from any thread
+     */
+    void attachHealthMonitor(PluginHealthMonitor* monitor);
     
     /**
      * @brief Singleton instance

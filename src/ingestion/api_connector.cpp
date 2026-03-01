@@ -429,8 +429,36 @@ public:
 
                 // Accumulate stats; persistence is delegated to the caller
                 // (IngestionManager writes extracted text to the target collection).
-                stats.documents_processed += docs.size();
-                stats.bytes_processed     += response.body.size();
+                // When a document validator is set, validate each document individually.
+                if (document_validator_) {
+                    for (const auto& doc : docs) {
+                        auto vr = document_validator_(doc);
+                        if (vr.is_valid) {
+                            ++stats.documents_processed;
+                            stats.bytes_processed += doc.size();
+                            // reject_invalid=false: log INFO warning when violations present
+                            if (!vr.violations.empty()) {
+                                ++stats.metrics.schema_violations;
+                                stats.addError(
+                                    IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                    IngestionErrorSeverity::INFO,
+                                    "Schema warning – " + vr.summary(),
+                                    config_.source_id);
+                            }
+                        } else {
+                            ++stats.documents_failed;
+                            ++stats.metrics.schema_violations;
+                            stats.addError(
+                                IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                IngestionErrorSeverity::WARNING,
+                                "Schema validation failed – " + vr.summary(),
+                                config_.source_id);
+                        }
+                    }
+                } else {
+                    stats.documents_processed += docs.size();
+                    stats.bytes_processed     += response.body.size();
+                }
                 ++page_num;
 
                 if (progress_callback) {
@@ -478,6 +506,7 @@ public:
     void setHttpGetForTesting(ApiHttpGetFn fn) { http_get_fn_ = std::move(fn); }
     void setOAuthConfig(const OAuthConfig& c) { oauth_config_ = c; }
     void setHttpPostForTesting(ApiHttpPostFn fn) { http_post_fn_ = std::move(fn); }
+    void setDocumentValidator(DocumentValidatorFn v) { document_validator_ = std::move(v); }
 
 private:
     std::string buildAuthHeader() const {
@@ -541,6 +570,7 @@ private:
     ApiHttpGetFn  http_get_fn_;  // testing hook; empty = use real libcurl GET
     ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
     OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
+    DocumentValidatorFn document_validator_; ///< Optional per-document validator
 };
 
 // ---------------------------------------------------------------------------
@@ -599,6 +629,10 @@ void GenericApiConnector::setOAuthConfig(const OAuthConfig& config) {
 
 void GenericApiConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
     impl_->setHttpPostForTesting(std::move(fn));
+}
+
+void GenericApiConnector::setDocumentValidator(DocumentValidatorFn validator) {
+    impl_->setDocumentValidator(std::move(validator));
 }
 
 } // namespace ingestion

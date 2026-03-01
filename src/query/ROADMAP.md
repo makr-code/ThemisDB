@@ -37,10 +37,10 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
   - Enforces max rows, max memory bytes (serialised JSON proxy), and wall-clock timeout per query
   - Tests: `tests/test_query_resource_limits.cpp` (guard unit tests + integration tests)
 - [!] Query cancellation via request ID (Issue: #2431)
-- [I] User-defined functions (UDF) registration API (Issue: #2433)
+- [x] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)
-- [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
+- [P] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
 - [I] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [I] Cross-cluster federated AQL with cost estimation (Issue: #2233)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
@@ -73,11 +73,16 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID
 - [x] Parallel scan for large collection full-table queries
-- [P] User-defined functions (UDF) registration API
+- [x] User-defined functions (UDF) registration API
 
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
-- [ ] Vectorized execution engine (column-store style batch processing)
-- [ ] Adaptive query re-optimization on runtime statistics
+- [P] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
+  - Implemented in `include/query/vectorized_execution.h` (`VectorizedExecutionEngine`, `VectorizedQueryPlan`) and `src/query/vectorized_execution.cpp`
+  - Delegates column-store batch processing to `themisdb::analytics::ColumnarExecutionEngine`
+  - JSON rows are converted to columnar format (ColumnBatch), processed in configurable batches (default: 1 024 rows), and materialized back to JSON
+  - Supported operators: filter (all comparison ops + IsNull/IsNotNull), project, aggregate (COUNT/SUM/AVG/MIN/MAX/COUNT_DISTINCT with GROUP BY), sort
+  - Tests: `tests/test_vectorized_execution.cpp`
+- [P] Adaptive query re-optimization on runtime statistics
 - [ ] Cross-cluster federated AQL with cost estimation
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
 - [ ] SPARQL compatibility for RDF / knowledge-graph queries

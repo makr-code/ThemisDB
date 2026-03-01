@@ -37,11 +37,29 @@
 #include "chimera/qdrant_adapter.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <chrono>
 #include <cmath>
 #include <sstream>
 
 namespace chimera {
+
+// ---------------------------------------------------------------------------
+// Auto-registration
+// ---------------------------------------------------------------------------
+
+namespace {
+// Register QdrantAdapter with the factory when this translation unit is linked.
+// NOLINTNEXTLINE(cert-err58-cpp)
+const bool qdrant_registered = []() noexcept {
+    const bool ok = AdapterFactory::register_adapter(
+        "Qdrant",
+        []() { return std::make_unique<QdrantAdapter>(); }
+    );
+    assert(ok && "QdrantAdapter: 'Qdrant' adapter name already registered");
+    return ok;
+}();
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Construction / Destruction

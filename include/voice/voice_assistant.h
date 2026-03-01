@@ -40,6 +40,8 @@
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
 #include "voice/voice_auth.h"
+#include "voice/voice_audio_storage.h"
+#include "voice/voice_macro.h"
 #include <string>
 #include <memory>
 #include <functional>
@@ -250,6 +252,60 @@ public:
         const std::vector<uint8_t>& audio_sample);
 
     /**
+     * @brief Perform 1:1 speaker verification against a stored profile (no liveness check).
+     *
+     * @param profile_id    Previously enrolled profile identifier.
+     * @param audio_sample  Raw PCM probe audio.
+     * @return VerificationResult with verified==true when match_score ≥ threshold.
+     */
+    VerificationResult verifyVoiceSpeaker(
+        const VoiceProfileID&         profile_id,
+        const std::vector<uint8_t>&   audio_sample);
+
+    /**
+     * @brief 1:N speaker identification: search audio against a set of candidate profiles.
+     *
+     * @param candidate_profiles  Profile IDs to compare against.
+     * @param audio_sample        Raw PCM probe audio.
+     * @return IdentificationResult with all matches above the identification threshold.
+     */
+    IdentificationResult identifyVoiceProfiles(
+        const std::vector<VoiceProfileID>& candidate_profiles,
+        const std::vector<uint8_t>&        audio_sample);
+
+    /**
+     * @brief Delete a stored voice profile.
+     *
+     * @param profile_id  Profile to remove.
+     * @return true if the profile existed and was removed; false otherwise.
+     */
+    bool deleteVoiceProfile(const VoiceProfileID& profile_id);
+
+    /**
+     * @brief List all enrolled voice profile IDs.
+     *
+     * @return Vector of profile IDs currently stored in the authenticator.
+     */
+    std::vector<VoiceProfileID> listVoiceProfiles() const;
+
+    /**
+     * @brief Access the embedded VoiceMacroManager for macro CRUD operations.
+     *
+     * The manager is always available (it is constructed alongside
+     * VoiceAssistant and does not require initialize()).
+     */
+    VoiceMacroManager& macroManager();
+    const VoiceMacroManager& macroManager() const;
+
+    /**
+     * @brief Access the embedded VoiceAudioStorage for recording playback and transcript search.
+     *
+     * The storage is always available (it is constructed alongside VoiceAssistant).
+     */
+    VoiceAudioStorage& audioStorage();
+    const VoiceAudioStorage& audioStorage() const;
+
+    /**
      * @brief Record and transcribe phone call
      * 
      * @param audio_data Phone call recording
@@ -327,6 +383,12 @@ private:
 
     // Voice biometric authenticator
     VoiceBiometricAuthenticator voice_authenticator_;
+
+    // Voice command macro manager
+    VoiceMacroManager macro_manager_;
+
+    // Audio storage for recording playback and transcript search
+    VoiceAudioStorage audio_storage_;
     
     // Session management
     std::map<std::string, VoiceSession> sessions_;

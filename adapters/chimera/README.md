@@ -35,6 +35,7 @@ This directory contains vendor-neutral database adapter implementations for the 
 | **PostgreSQL** | Relational | CRUD, SQL, pgvector, Transactions | ✅ Complete |
 | **Weaviate** | Vector DB | CRUD, Vector Search, REST/GraphQL | ✅ Complete |
 | **Qdrant** | Vector DB | CRUD, Vector Search (HNSW), REST/gRPC | ✅ Complete |
+| **Pinecone** | Managed Vector DB | Vector Search, Batch Upsert, Metadata Filtering | ✅ Complete |
 
 ### Template & Examples
 
@@ -51,7 +52,6 @@ This directory contains vendor-neutral database adapter implementations for the 
 - Redis (Key-value)
 - Elasticsearch (Search engine)
 - Milvus (Vector database)
-- Pinecone (Vector database)
 
 ---
 
@@ -593,6 +593,7 @@ Special thanks to all contributors who have implemented adapters for their datab
 - [x] PostgreSQL adapter
 - [x] Weaviate adapter
 - [x] Qdrant adapter
+- [x] Pinecone adapter
 - [x] Template and documentation
 
 ### Version 2.x (Planned)
@@ -607,7 +608,7 @@ Special thanks to all contributors who have implemented adapters for their datab
 We especially welcome adapters for:
 - Graph databases (Neo4j, Neptune, TigerGraph)
 - Document stores (MongoDB, CouchDB, DynamoDB)
-- Vector databases (Milvus, Pinecone)
+- Vector databases (Milvus)
 - Search engines (Elasticsearch, Solr, MeiliSearch)
 - Time-series databases (InfluxDB, TimescaleDB, Prometheus)
 

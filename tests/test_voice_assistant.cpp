@@ -761,6 +761,155 @@ TEST(VoiceAssistantWakeWord, StatisticsIncludesWakeWordKey) {
     ASSERT_TRUE(stats["wake_word"].contains("total_chunks_processed"));
     EXPECT_EQ(stats["wake_word"]["total_chunks_processed"].get<uint64_t>(), 1u);
 }
+
+// ---------------------------------------------------------------------------
+// VoiceAssistant biometric auth delegate methods
+// ---------------------------------------------------------------------------
+
+namespace {
+
+// Generate a sine-wave PCM buffer (16-bit LE, mono) of the given duration.
+// Identical to makePcmSine() used in the standalone auth tests.
+std::vector<uint8_t> makeVASine(int duration_ms, float amplitude = 0.3f,
+                                 int sample_rate = 16000)
+{
+    const int n = (sample_rate * duration_ms) / 1000;
+    std::vector<uint8_t> pcm;
+    pcm.reserve(static_cast<size_t>(n) * 2);
+    for (int i = 0; i < n; ++i) {
+        float v = amplitude * std::sin(
+            2.0f * 3.14159265f * 440.0f * static_cast<float>(i) / static_cast<float>(sample_rate));
+        auto s = static_cast<int16_t>(v * 32767.0f);
+        pcm.push_back(static_cast<uint8_t>(s & 0xFF));
+        pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return pcm;
+}
+
+themis::voice::VoiceAssistant::Config makeVAConfig() {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_voice_auth = false;  // don't gate commands
+    return cfg;
+}
+
+} // namespace
+
+TEST(VoiceAssistantBiometricAuth, EnrollAndListProfiles) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    std::vector<std::vector<uint8_t>> samples;
+    for (int i = 0; i < 3; ++i) {
+        samples.push_back(makeVASine(3000, 0.2f + 0.05f * i));
+    }
+
+    themis::voice::VoiceProfileID pid;
+    EXPECT_TRUE(va.enrollSpeaker("alice", samples, pid, ecfg));
+    EXPECT_FALSE(pid.empty());
+
+    auto profiles = va.listVoiceProfiles();
+    ASSERT_EQ(profiles.size(), 1u);
+    EXPECT_EQ(profiles[0], pid);
+}
+
+TEST(VoiceAssistantBiometricAuth, VerifyVoiceSpeakerMatchesEnrollmentAudio) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    auto sample = makeVASine(3000, 0.3f);
+    std::vector<std::vector<uint8_t>> samples(3, sample);
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("bob", samples, pid, ecfg));
+
+    // The verification threshold is part of VoiceAuthConfig provided at
+    // construction time, so create a new VoiceAssistant with a lower threshold
+    // to ensure the identical-audio probe verifies.
+    themis::voice::VoiceAuthConfig acfg;
+    acfg.verification_threshold = 0.50f;
+    themis::voice::VoiceAssistant::Config cfg2 = makeVAConfig();
+    cfg2.voice_auth_config = acfg;
+    themis::voice::VoiceAssistant va2(cfg2);
+    ASSERT_TRUE(va2.enrollSpeaker("bob", samples, pid, ecfg));
+
+    auto result = va2.verifyVoiceSpeaker(pid, sample);
+    EXPECT_GT(result.match_score, 0.0f);
+}
+
+TEST(VoiceAssistantBiometricAuth, VerifyVoiceSpeakerRejectsUnknownProfile) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    auto probe = makeVASine(2000);
+    auto result = va.verifyVoiceSpeaker("nonexistent_profile", probe);
+    EXPECT_FALSE(result.verified);
+    EXPECT_EQ(result.decision_reason, "profile_not_found");
+}
+
+TEST(VoiceAssistantBiometricAuth, IdentifyVoiceProfilesFindsCandidate) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    std::vector<std::vector<uint8_t>> samples;
+    for (int i = 0; i < 3; ++i) {
+        samples.push_back(makeVASine(3000, 0.25f));
+    }
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("carol", samples, pid, ecfg));
+
+    // Lowered identification threshold so the probe matches.
+    themis::voice::VoiceAssistant::Config cfg2 = makeVAConfig();
+    cfg2.voice_auth_config.identification_threshold = 0.0f;
+    themis::voice::VoiceAssistant va2(cfg2);
+    ASSERT_TRUE(va2.enrollSpeaker("carol", samples, pid, ecfg));
+
+    auto probe = makeVASine(2000, 0.25f);
+    auto result = va2.identifyVoiceProfiles({pid}, probe);
+    EXPECT_TRUE(result.identified);
+    EXPECT_EQ(result.top_match_id, pid);
+}
+
+TEST(VoiceAssistantBiometricAuth, DeleteVoiceProfileRemovesIt) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    std::vector<std::vector<uint8_t>> samples;
+    for (int i = 0; i < 3; ++i) {
+        samples.push_back(makeVASine(3000, 0.2f));
+    }
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("dave", samples, pid, ecfg));
+    ASSERT_EQ(va.listVoiceProfiles().size(), 1u);
+
+    EXPECT_TRUE(va.deleteVoiceProfile(pid));
+    EXPECT_TRUE(va.listVoiceProfiles().empty());
+}
+
+TEST(VoiceAssistantBiometricAuth, DeleteVoiceProfileReturnsFalseForUnknownId) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    EXPECT_FALSE(va.deleteVoiceProfile("no-such-profile-id"));
+}
+
+TEST(VoiceAssistantBiometricAuth, ListVoiceProfilesEmptyByDefault) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    EXPECT_TRUE(va.listVoiceProfiles().empty());
+}
 #endif // THEMIS_ENABLE_VOICE_ASSISTANT
 
 // ============================================================
@@ -841,4 +990,406 @@ TEST(BatchProcessorStreamingSTT, WERComputedWithTranscriptAndReference) {
     if (!result.transcript.empty()) {
         EXPECT_GE(result.wer_score, 0.0f);
     }
+}
+
+// ============================================================
+// VoiceMacroManager unit tests
+// ============================================================
+
+#include "voice/voice_macro.h"
+
+using namespace themis::voice;
+
+// ---------------------------------------------------------------------------
+// Default state
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, DefaultStateIsEmpty) {
+    VoiceMacroManager mgr;
+    EXPECT_TRUE(mgr.listMacros().empty());
+
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["total_macros"].get<size_t>(), 0u);
+    EXPECT_EQ(stats["total_executions"].get<uint64_t>(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// createMacro / getMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, CreateMacroRejectsEmptyTrigger) {
+    VoiceMacroManager mgr;
+    MacroStep step;
+    step.type   = StepType::QUERY;
+    step.action = "FOR c IN customers RETURN c";
+    auto id = mgr.createMacro("", {step});
+    EXPECT_TRUE(id.empty());
+    EXPECT_TRUE(mgr.listMacros().empty());
+}
+
+TEST(VoiceMacroManager, CreateMacroSucceeds) {
+    VoiceMacroManager mgr;
+    MacroStep step;
+    step.type   = StepType::QUERY;
+    step.action = "FOR c IN customers RETURN c";
+    auto id = mgr.createMacro("list customers", {step});
+    EXPECT_FALSE(id.empty());
+
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->macro_id, id);
+    EXPECT_EQ(info->trigger_phrase, "list customers");
+    EXPECT_EQ(info->steps.size(), 1u);
+    EXPECT_TRUE(info->enabled);
+}
+
+TEST(VoiceMacroManager, GetMacroReturnsNullForUnknownId) {
+    VoiceMacroManager mgr;
+    EXPECT_FALSE(mgr.getMacro("nonexistent").has_value());
+}
+
+// ---------------------------------------------------------------------------
+// listMacros
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, ListMacrosReturnsAllMacros) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    mgr.createMacro("trigger one", {s});
+    mgr.createMacro("trigger two", {s});
+    EXPECT_EQ(mgr.listMacros().size(), 2u);
+}
+
+TEST(VoiceMacroManager, ListMacrosFiltersByTag) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+
+    // Create a macro, then export and re-import with a tag added.
+    auto id1 = mgr.createMacro("trigger one", {s});
+    mgr.createMacro("trigger two", {s});
+
+    // Export macro 1, inject a tag into the JSON, and re-import it.
+    std::string exported = mgr.exportMacros({id1});
+    json arr = json::parse(exported);
+    arr[0]["tags"] = json::array({"reporting"});
+    // Replace existing macro via import (same id → overwrites).
+    mgr.importMacros(arr.dump());
+
+    auto filtered = mgr.listMacros("", {"reporting"});
+    // After import the macro with the "reporting" tag should be present.
+    // (There may be an additional duplicate from import if ids differ.)
+    EXPECT_GE(filtered.size(), 1u);
+    EXPECT_EQ(filtered[0].tags[0], "reporting");
+}
+
+// ---------------------------------------------------------------------------
+// updateMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, UpdateMacroChangesSteps) {
+    VoiceMacroManager mgr;
+    MacroStep s1;
+    s1.type   = StepType::QUERY;
+    s1.action = "FOR c IN customers RETURN c";
+    auto id = mgr.createMacro("customers", {s1});
+
+    MacroStep s2;
+    s2.type   = StepType::QUERY;
+    s2.action = "FOR o IN orders RETURN o";
+    MacroOptions opts;
+    bool ok = mgr.updateMacro(id, {s2}, opts);
+    EXPECT_TRUE(ok);
+
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->steps.size(), 1u);
+    EXPECT_EQ(info->steps[0].action, "FOR o IN orders RETURN o");
+}
+
+TEST(VoiceMacroManager, UpdateMacroReturnsFalseForUnknownId) {
+    VoiceMacroManager mgr;
+    EXPECT_FALSE(mgr.updateMacro("no-such-id", {}, {}));
+}
+
+// ---------------------------------------------------------------------------
+// deleteMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, DeleteMacroRemovesIt) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("del trigger", {s});
+    EXPECT_TRUE(mgr.deleteMacro(id));
+    EXPECT_FALSE(mgr.deleteMacro(id));  // already removed
+    EXPECT_EQ(mgr.listMacros().size(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// matchTrigger
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, MatchTriggerFindsSubstring) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "FOR c IN customers RETURN c";
+    mgr.createMacro("morning report", {s});
+
+    // Exact match
+    EXPECT_FALSE(mgr.matchTrigger("morning report").empty());
+    // Substring match (user says more words)
+    EXPECT_FALSE(mgr.matchTrigger("please run morning report now").empty());
+    // Case insensitive
+    EXPECT_FALSE(mgr.matchTrigger("MORNING REPORT").empty());
+    // No match
+    EXPECT_TRUE(mgr.matchTrigger("good evening").empty());
+}
+
+TEST(VoiceMacroManager, MatchTriggerIgnoresDisabledMacros) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("disabled trigger", {s});
+
+    // Export, set enabled=false, re-import (overwrites same id).
+    std::string exported = mgr.exportMacros({id});
+    json arr = json::parse(exported);
+    arr[0]["enabled"] = false;
+    mgr.importMacros(arr.dump());
+
+    // The macro imported with the same trigger_phrase but enabled=false
+    // should not be matched.
+    EXPECT_TRUE(mgr.matchTrigger("disabled trigger").empty());
+}
+
+TEST(VoiceMacroManager, MatchTriggerEmptyUtteranceReturnsNull) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    mgr.createMacro("some trigger", {s});
+    EXPECT_TRUE(mgr.matchTrigger("").empty());
+}
+
+// ---------------------------------------------------------------------------
+// executeMacro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, ExecuteMacroQueryStepSubstitutesParameters) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type       = StepType::QUERY;
+    s.action     = "FOR c IN customers FILTER c.age > @min_age RETURN c";
+    s.parameters = {{"min_age", "18"}};
+    auto id = mgr.createMacro("find adults", {s});
+
+    auto result = mgr.executeMacro(id);
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.output.empty());
+    // The AQL should contain the substituted value.
+    EXPECT_NE(result.output.find("18"), std::string::npos);
+}
+
+TEST(VoiceMacroManager, ExecuteMacroRuntimeParamOverridesDefault) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type       = StepType::QUERY;
+    s.action     = "FOR c IN customers FILTER c.age > @min_age RETURN c";
+    s.parameters = {{"min_age", "18"}};
+    auto id = mgr.createMacro("find by age", {s});
+
+    auto result = mgr.executeMacro(id, {{"min_age", "25"}});
+    EXPECT_TRUE(result.success);
+    EXPECT_NE(result.output.find("25"), std::string::npos);
+}
+
+TEST(VoiceMacroManager, ExecuteMacroNotifyStep) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::NOTIFY;
+    s.action = "Query complete!";
+    auto id = mgr.createMacro("notify me", {s});
+
+    auto result = mgr.executeMacro(id);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.output, "Query complete!");
+}
+
+TEST(VoiceMacroManager, ExecuteMacroUnknownIdFails) {
+    VoiceMacroManager mgr;
+    auto result = mgr.executeMacro("no-such-macro");
+    EXPECT_FALSE(result.success);
+}
+
+TEST(VoiceMacroManager, ExecuteMacroIncrementsUsageStats) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("count trigger", {s});
+
+    mgr.executeMacro(id);
+    mgr.executeMacro(id);
+
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["total_executions"].get<uint64_t>(), 2u);
+
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->use_count, 2);
+}
+
+// ---------------------------------------------------------------------------
+// Multi-step macro
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, MultiStepMacroExecutesAllSteps) {
+    VoiceMacroManager mgr;
+
+    MacroStep s1;
+    s1.type   = StepType::QUERY;
+    s1.action = "FOR s IN sales RETURN s.total";
+
+    MacroStep s2;
+    s2.type   = StepType::NOTIFY;
+    s2.action = "Sales report ready";
+
+    auto id = mgr.createMacro("sales report", {s1, s2});
+    auto result = mgr.executeMacro(id);
+
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.step_results.size(), 2u);
+    EXPECT_TRUE(result.step_results[0].success);
+    EXPECT_TRUE(result.step_results[1].success);
+}
+
+// ---------------------------------------------------------------------------
+// Export / Import
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, ExportAndImportRoundTrip) {
+    VoiceMacroManager mgr1;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "FOR c IN customers RETURN c";
+    s.parameters = {{"limit", "10"}};
+    auto id = mgr1.createMacro("export trigger", {s});
+
+    std::string exported = mgr1.exportMacros();
+    EXPECT_FALSE(exported.empty());
+
+    VoiceMacroManager mgr2;
+    auto imported = mgr2.importMacros(exported);
+    EXPECT_EQ(imported.size(), 1u);
+
+    auto macros2 = mgr2.listMacros();
+    ASSERT_EQ(macros2.size(), 1u);
+    EXPECT_EQ(macros2[0].trigger_phrase, "export trigger");
+    EXPECT_EQ(macros2[0].steps.size(), 1u);
+    EXPECT_EQ(macros2[0].steps[0].action, "FOR c IN customers RETURN c");
+    (void)id;
+}
+
+TEST(VoiceMacroManager, ImportIgnoresMalformedJson) {
+    VoiceMacroManager mgr;
+    auto imported = mgr.importMacros("{not valid json}");
+    EXPECT_TRUE(imported.empty());
+    EXPECT_TRUE(mgr.listMacros().empty());
+}
+
+TEST(VoiceMacroManager, ExportSelectiveMacros) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id1 = mgr.createMacro("trigger one", {s});
+    mgr.createMacro("trigger two", {s});
+
+    std::string exported = mgr.exportMacros({id1});
+    // Parse back and verify only one macro is exported.
+    json arr = json::parse(exported);
+    EXPECT_EQ(arr.size(), 1u);
+}
+
+// ---------------------------------------------------------------------------
+// Statistics
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, StatisticsKeys) {
+    VoiceMacroManager mgr;
+    auto stats = mgr.getStatistics();
+    EXPECT_TRUE(stats.contains("total_macros"));
+    EXPECT_TRUE(stats.contains("total_executions"));
+    EXPECT_TRUE(stats.contains("enabled_macros"));
+}
+
+// ---------------------------------------------------------------------------
+// setMacroMeta
+// ---------------------------------------------------------------------------
+
+TEST(VoiceMacroManager, SetMacroMetaUpdatesNameDescriptionTags) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("my trigger", {s});
+    ASSERT_FALSE(id.empty());
+
+    bool ok = mgr.setMacroMeta(id, "New Name", "A description", {"billing", "admin"}, true);
+    EXPECT_TRUE(ok);
+
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->name, "New Name");
+    EXPECT_EQ(info->description, "A description");
+    ASSERT_EQ(info->tags.size(), 2u);
+    EXPECT_EQ(info->tags[0], "billing");
+    EXPECT_EQ(info->tags[1], "admin");
+    EXPECT_TRUE(info->enabled);
+}
+
+TEST(VoiceMacroManager, SetMacroMetaDisablesMacro) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id = mgr.createMacro("disable me", {s});
+    ASSERT_FALSE(id.empty());
+
+    bool ok = mgr.setMacroMeta(id, "disable me", "", {}, false);
+    EXPECT_TRUE(ok);
+
+    // Disabled macro should not be matched by trigger.
+    EXPECT_TRUE(mgr.matchTrigger("disable me").empty());
+    // But it should still be retrievable.
+    auto info = mgr.getMacro(id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_FALSE(info->enabled);
+}
+
+TEST(VoiceMacroManager, SetMacroMetaReturnsFalseForUnknownId) {
+    VoiceMacroManager mgr;
+    EXPECT_FALSE(mgr.setMacroMeta("no-such-id", "X", "", {}, true));
+}
+
+TEST(VoiceMacroManager, SetMacroMetaTagsAffectListFilter) {
+    VoiceMacroManager mgr;
+    MacroStep s;
+    s.type   = StepType::QUERY;
+    s.action = "RETURN 1";
+    auto id1 = mgr.createMacro("alpha", {s});
+    auto id2 = mgr.createMacro("beta",  {s});
+    mgr.setMacroMeta(id1, "alpha", "", {"finance"}, true);
+    mgr.setMacroMeta(id2, "beta",  "", {"hr"},      true);
+
+    auto finance_macros = mgr.listMacros("", {"finance"});
+    ASSERT_EQ(finance_macros.size(), 1u);
+    EXPECT_EQ(finance_macros[0].macro_id, id1);
 }

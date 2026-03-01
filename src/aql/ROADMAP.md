@@ -23,9 +23,9 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL (Issue: #1363)
 - [x] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
 - [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
+- [x] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #1950) — `POST /api/v1/llm/aql/explain/stream` SSE endpoint exposing `LLMAQLHandler::streamExplainAQLAsSSE()`
 
 ## In Progress 🚧
-- [I] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #2012)
 - [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
 
 ## Planned Features 📋

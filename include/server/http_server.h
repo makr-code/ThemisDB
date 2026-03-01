@@ -97,6 +97,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/graphql_api_handler.h"
 #include "server/serverless_function_api_handler.h"
 #include "server/udf_api_handler.h"
+#include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
@@ -104,6 +105,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "metadata/index_recommender.h"
 #include "metadata/schema_audit_log.h"
 #include "metadata/schema_consistency_checker.h"
+#include "metadata/column_lineage.h"
 #include "server/transaction_api_handler.h"
 #include "server/distributed_txn_api_handler.h"
 #include "server/wal_api_handler.h"
@@ -112,6 +114,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/rate_limiting_middleware.h"
 #include "server/auth_middleware.h"
 #include "server/request_validation_middleware.h"
+#include "api/tracing_middleware.h"
 #include "server/policy_engine.h"
 #include "server/opa_adapter.h"
 #include "server/ranger_adapter.h"
@@ -137,6 +140,8 @@ class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PITRManager;
+class TaskScheduler;
+class QueryEngine;
 
 namespace prompt_engineering {
 class PromptManager;
@@ -610,6 +615,8 @@ private:
     http::response<http::string_body> handleMetadataAuditLog(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetadataSchemaImport(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetadataBatchValidate(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataGetColumnLineage(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataRecordLineageDerivation(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaVersionHistory(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaCreateVersion(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaDiff(const http::request<http::string_body>& req);
@@ -882,6 +889,11 @@ private:
     // UDF registration API – AQL-callable user-defined functions
     std::unique_ptr<themis::server::UdfApiHandler> udf_api_handler_;
 
+    // Task Scheduler API – manage and monitor scheduled tasks
+    std::unique_ptr<QueryEngine> task_scheduler_engine_;   // QueryEngine owned by the scheduler subsystem
+    std::unique_ptr<themis::TaskScheduler> task_scheduler_;
+    std::unique_ptr<themis::server::TaskSchedulerApiHandler> task_scheduler_api_;
+
     // Async job API – long-running AQL query submission and polling
     std::unique_ptr<themis::server::AsyncJobApiHandler> async_job_api_;
 
@@ -892,6 +904,7 @@ private:
     std::unique_ptr<IndexRecommender>         index_recommender_;
     std::unique_ptr<SchemaAuditLog>           schema_audit_log_;
     std::unique_ptr<SchemaConsistencyChecker> schema_consistency_checker_;
+    std::unique_ptr<themis::metadata::ColumnLineageTracker> column_lineage_tracker_;
     
     // Adaptive Index Manager (Sprint C)
     std::shared_ptr<AdaptiveIndexManager> adaptive_index_;
@@ -918,6 +931,10 @@ private:
 
     // Rate limiting middleware with per-client token bucket (per-endpoint configurable)
     std::unique_ptr<RateLimitingMiddleware> rate_limiting_middleware_;
+
+    // Request correlation ID middleware: extracts/generates X-Correlation-ID and
+    // propagates it through all log lines for the duration of each request.
+    std::unique_ptr<themis::api::TracingMiddleware> tracing_middleware_;
 
     // Request body validation (JSON Schema per endpoint)
     std::unique_ptr<RequestValidationMiddleware> request_validator_;

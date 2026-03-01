@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 #include "themis/gpu/device_discovery.h"
+#include "themis/gpu/cluster_topology.h"
 
 namespace themis {
 namespace gpu {
@@ -52,9 +53,10 @@ namespace gpu {
 class GPULoadBalancer {
 public:
     enum class Strategy {
-        ROUND_ROBIN,    ///< Cycle through healthy devices
-        LEAST_LOADED,   ///< Pick device with most free VRAM
-        FIRST_HEALTHY,  ///< Always pick the first healthy device
+        ROUND_ROBIN,     ///< Cycle through healthy devices
+        LEAST_LOADED,    ///< Pick device with most free VRAM
+        FIRST_HEALTHY,   ///< Always pick the first healthy device
+        TOPOLOGY_AWARE,  ///< Pick device with highest total NVLink bandwidth (NVLink topology-aware scheduling)
     };
 
     // -----------------------------------------------------------------------
@@ -88,6 +90,22 @@ public:
      * @brief Restore a previously failed device to the eligible pool.
      */
     void resetDevice(int device_index);
+
+    /**
+     * @brief Supply a topology snapshot for TOPOLOGY_AWARE scheduling.
+     *
+     * When the TOPOLOGY_AWARE strategy is active the balancer picks the
+     * device with the highest sum of outgoing NVLink bandwidths according
+     * to the provided topology's bandwidth_matrix.  If the topology has no
+     * NVLink links (or no topology has been set) the strategy falls back to
+     * LEAST_LOADED behaviour.
+     *
+     * Thread safety: acquires the internal mutex.
+     *
+     * @param topology  Topology snapshot produced by GPUClusterTopology::detect()
+     *                  or assembled manually for testing.
+     */
+    void setTopology(const GPUClusterTopology& topology);
 
     // -----------------------------------------------------------------------
     // Work placement
@@ -154,7 +172,10 @@ private:
     DeviceEntry* selectRoundRobin(uint64_t required_vram);
     DeviceEntry* selectLeastLoaded(uint64_t required_vram);
     DeviceEntry* selectFirstHealthy(uint64_t required_vram);
+    DeviceEntry* selectTopologyAware(uint64_t required_vram);
     bool isEligible(const DeviceEntry& e, uint64_t required_vram) const;
+
+    GPUClusterTopology topology_;
 };
 
 } // namespace gpu

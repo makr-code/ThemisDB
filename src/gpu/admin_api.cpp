@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
     • Total Lines:     174                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -168,6 +168,37 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
 
 std::string GPUAdminAPI::getGeoBackendStatsJson() const {
     return ::themis::geo::getGpuSpatialBackendStatsJson();
+}
+
+// ============================================================================
+// GET /admin/gpu/mig  — MIG partition list
+// ============================================================================
+
+std::string GPUAdminAPI::getMIGInstancesJson() const {
+    // getInstances() is a read-only query that bypasses the feature flag;
+    // it returns an empty vector when the MIG_MANAGER flag is disabled
+    // (because createPartition() is gated on the flag, so no instances will
+    // have been registered).  No explicit feature-flag check is needed here.
+    const auto instances = MIGManager::GetInstance().getInstances();
+
+    std::ostringstream j;
+    j << "[";
+    bool first = true;
+    for (const auto& inst : instances) {
+        if (!first) j << ",";
+        first = false;
+        j << "{"
+          << "\"instance_id\":\""  << jsonEscape(inst.instance_id)  << "\","
+          << "\"device_index\":"   << inst.device_index              << ","
+          << "\"gi_id\":"          << inst.gi_id                     << ","
+          << "\"profile\":\""      << jsonEscape(inst.profile)       << "\","
+          << "\"memory_bytes\":"   << inst.memory_bytes              << ","
+          << "\"is_active\":"      << (inst.is_active ? "true" : "false") << ","
+          << "\"tenant_id\":\""    << jsonEscape(inst.tenant_id)     << "\""
+          << "}";
+    }
+    j << "]";
+    return j.str();
 }
 
 } // namespace gpu

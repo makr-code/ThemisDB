@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-02-25                                         ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-03-01                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     4922                                           ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     5054                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -1013,7 +1013,22 @@ void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> liste
 bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
     // Manual failover
     stats_.manual_failovers++;
-    
+
+    // Witness nodes are vote-only members and must never become leaders.
+    {
+        std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+        for (const auto& replica : replicas_) {
+            if (replica.node_id == target_node_id) {
+                if (replica.role == ReplicationRole::WITNESS) {
+                    THEMIS_WARN("triggerFailover: target '{}' is a WITNESS node and "
+                                "cannot be promoted to leader", target_node_id);
+                    return false;
+                }
+                break;  // Found the target; not a witness – proceed normally.
+            }
+        }
+    }
+
     // In a real implementation, this would send a message to target node to start election
     // For now, if this node is the target, start election
     if (target_node_id == node_id_ && election_) {
@@ -1309,8 +1324,18 @@ bool ReplicationManager::hasQuorum() const {
     for (const auto& replica : replicas_) {
         if (replica.is_voting_member) {
             total_voting_members++;
-            if (replica.health_status == HealthStatus::HEALTHY || 
-                replica.health_status == HealthStatus::DEGRADED) {
+            bool counts_as_healthy;
+            if (replica.role == ReplicationRole::WITNESS) {
+                // Witnesses receive no WAL data, so their health_status may remain
+                // UNKNOWN until the first health-check cycle.  Use the raw heartbeat
+                // timestamp to determine liveness instead.
+                counts_as_healthy = replica.isHealthyWithTimeout(
+                    config_.failure_detection_timeout_ms);
+            } else {
+                counts_as_healthy = (replica.health_status == HealthStatus::HEALTHY ||
+                                     replica.health_status == HealthStatus::DEGRADED);
+            }
+            if (counts_as_healthy) {
                 healthy_voting_members++;
             }
         }
@@ -1542,6 +1567,7 @@ bool ReplicationManager::electNewLeader() {
     ReplicaInfo* best_candidate = nullptr;
     for (auto& replica : replicas_) {
         if (!replica.is_voting_member || 
+            replica.role == ReplicationRole::WITNESS ||  // Witnesses never become leaders
             replica.health_status == HealthStatus::FAILED) {
             continue;
         }

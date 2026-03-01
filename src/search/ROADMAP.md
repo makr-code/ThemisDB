@@ -40,7 +40,7 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Multi-field boosting (title > body > tags) (Issue: #1971)
+- [x] Multi-field boosting (title > body > tags) (`MultiFieldBoostedSearch`, v1.9.0) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
 
 ### Long-term (6-12 months)
@@ -69,7 +69,7 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [~] Highlight / snippet generation for matched terms
 
 ### Phase 3: Multi-Field Boosting & Search Analytics (Status: Planned 📋)
-- [ ] Multi-field boosting (title > body > tags)
+- [x] Multi-field boosting (title > body > tags) (`MultiFieldBoostedSearch`, v1.9.0)
 - [ ] Negative keyword filtering (`NOT` operator)
 - [x] Configurable re-ranking with LLM feedback loop
 - [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)

@@ -35,13 +35,12 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Short-term (Next 3-6 months)
 - [x] AVX-512 SIMD path for vector distance computations (Issue: #1964)
-- [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
-
+- [x] Adaptive batch size tuning for LLM inference (Issue: #1996)
 ### Long-term (6-12 months)
 - [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
-- [I] Cross-module performance regression detection in CI (Issue: #2423)
+- [P] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
-- [P] Persistent memory (Optane) aware storage layout (Issue: #2424)
+- [x] Persistent memory (Optane) aware storage layout (Issue: #2424)
 
 ## Implementation Phases
 
@@ -68,7 +67,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
 - [x] AVX-512 SIMD path for vector distance computations
-- [ ] Adaptive batch size tuning for LLM inference
+- [x] Adaptive batch size tuning for LLM inference
 - [x] Per-query cost model integration with query optimizer
 - [x] Memory pressure monitoring with automatic cache eviction
 - [x] Jemalloc integration as alternative allocator
@@ -76,8 +75,8 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
 - [x] ML-based workload predictor for proactive resource scaling
 - [ ] Hardware performance counter (PMU) integration for cache miss analysis
-- [ ] Cross-module performance regression detection in CI
-- [ ] DPDK / io_uring zero-copy I/O path for network performance
+- [x] Cross-module performance regression detection in CI
+- [x] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout
 
 ## Production Readiness Checklist

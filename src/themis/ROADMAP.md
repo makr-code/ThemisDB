@@ -3,7 +3,7 @@
 # Themis Core Framework Module Roadmap
 
 ## Current Status
-v1.6.x – Core functionality is implemented in the monolithic build: build info and license validation live in `src/utils/`, module loading in `src/base/`, and wire protocol in `src/server/`. The `src/themis/` directory already contains `module_dependency_resolver.cpp`. Migration to dedicated `src/themis/` files is planned for v1.7.0.
+v1.7.0 (in progress) – Build info and license validation live in `src/utils/`; module loading in `src/base/`. The `src/themis/` directory now contains `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`) and `module_dependency_resolver.cpp`. The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
 
 ## Completed ✅
 - [x] Public header interfaces defined (`include/themis/`)
@@ -25,7 +25,7 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
+- [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 
 ### Long-term (6-12 months)
@@ -50,6 +50,7 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: In Progress 🚧)
+- [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (`src/themis/wire_protocol_server.cpp`, namespace `themis::wire`)
 - [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [x] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [x] `isModuleCompiledIn()` – runtime module availability check
@@ -63,18 +64,15 @@ v1.6.x – Core functionality is implemented in the monolithic build: build info
 - [x] Module dependency resolution and load-order management
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
+- [x] Unit tests coverage > 80% (tests/test_themis_wire_protocol_server.cpp; CTest: ThemisWireProtocolV1Tests)
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete (ARCHITECTURE.md, README.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, Known Issues section)
+- [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory contains the module dependency resolver and the SHA-256 module hash verifier; the monolithic build distributes other logic (wire protocol, edition manager) elsewhere.
-- Full modularization is blocked on the v1.7.0 architectural refactor.
-- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned but not yet implemented here.
-- The `src/themis/` directory contains `module_dependency_resolver.cpp`; additional monolithic build logic is distributed in `src/utils/` (build info, license, etc.).
+- The `src/themis/` directory contains `wire_protocol_server.cpp` (Phase 3 complete), `module_dependency_resolver.cpp`, and the SHA-256 module hash verifier; the monolithic build distributes other logic (edition manager) elsewhere.
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which

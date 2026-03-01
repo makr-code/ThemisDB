@@ -162,5 +162,20 @@ ISpatialComputeBackend* getGpuSpatialBackend();
  */
 std::string getGpuSpatialBackendStatsJson();
 
+/**
+ * @brief Return a JSON string with GPU device capability information for the
+ *        geo module.
+ *
+ * Delegates to GeoDeviceDetector::ReportJson() and reports all enumerated
+ * devices together with geo-specific suitability assessments
+ * (compute capability, VRAM threshold).
+ *
+ * The returned object contains:
+ *   has_suitable_device, devices[]{index, name, backend,
+ *   total_vram_mb, free_vram_mb, compute_capability, is_healthy,
+ *   suitable_for_geo, reason}
+ */
+std::string getGeoDeviceReportJson();
+
 } // namespace geo
 } // namespace themis

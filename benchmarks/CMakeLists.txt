@@ -865,6 +865,96 @@ else()
 endif()
 
 # ============================================================================
+# Graph Traversal Benchmarks (parallel multi-source BFS/DFS, graph analytics)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_traversal.cpp")
+    message(STATUS "Adding Graph Traversal benchmarks")
+
+    add_executable(bench_graph_traversal
+        bench_graph_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(bench_graph_traversal PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_graph_traversal PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_graph_traversal PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_graph_traversal
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Graph Traversal: BFS/DFS, parallel multi-source traversal, fan-out threshold, graph analytics")
+endif()
+
+# Graph Query Optimizer Benchmarks (cost-based algorithm selection, plan caching)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_graph_query_optimizer.cpp")
+    message(STATUS "Adding Graph Query Optimizer benchmarks")
+
+    add_executable(bench_graph_query_optimizer
+        bench_graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(bench_graph_query_optimizer PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_graph_query_optimizer PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_graph_query_optimizer PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_graph_query_optimizer
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*, plan caching, parallel execution, adaptive cost model")
+endif()
+
+# ============================================================================
 # Real Performance Benchmarks (Issue: Implement Real Google Benchmark Tests)
 # ============================================================================
 
@@ -1062,6 +1152,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_cache.cpp")
     )
 
     message(STATUS "  Adaptive Query Cache: L1/L2 put/get, miss, tenant isolation, circuit breaker, concurrent access, invalidation")
+endif()
+
+# LLM Speculative Decoding & Inference Engine Benchmarks
+# Runs automatically on every PR touching async_inference_engine.cpp or
+# inference_engine_enhanced.cpp.  Acceptance criterion: tokens/sec regression < 5 %.
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_bench.cpp")
+    message(STATUS "Adding LLM speculative-decoding benchmarks")
+
+    add_executable(llm_bench
+        llm_bench.cpp
+    )
+
+    target_link_libraries(llm_bench PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(llm_bench PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(llm_bench PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS llm_bench
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LLM: Speculative decoding verify(), InferenceEngineEnhanced throughput")
 endif()
 
 # LLM Inference Performance Benchmarks
@@ -1455,4 +1585,84 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
     )
 
     message(STATUS "  API benchmarks: GraphQL parse/execute, correlation ID UUID, JSON serialisation, HTTP endpoint roundtrips")
+endif()
+
+# ============================================================================
+# Governance Policy Evaluation Latency Benchmarks (Issue #1779)
+# Measures per-operation latency of PolicyEngine::evaluate() and
+# PolicyEngine::checkQueryPermission() at query time.
+# Test matrix: heuristic fallback vs YAML-loaded profiles, all four VS
+# classification levels, CCPA opt-out overhead, field-masking overhead,
+# high-volume throughput (1/10/100/1 000 requests per batch).
+# Targets: evaluate() p99 < 0.5 ms, checkQueryPermission() p99 < 0.5 ms.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
+    message(STATUS "Adding governance policy evaluation latency benchmarks")
+
+    add_executable(bench_governance_policy_latency
+        bench_governance_policy_latency.cpp
+    )
+
+    target_link_libraries(bench_governance_policy_latency PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        yaml-cpp
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_governance_policy_latency PRIVATE
+# ConfigPathResolver Performance Benchmarks (Issue #1675)
+# Measures cache hit rate and resolution latency for config path resolution.
+#
+# Targets (src/config/FUTURE_ENHANCEMENTS.md):
+#   - resolve() cache hit:                 < 1 µs
+#   - resolve() cache miss (mapped path):  < 200 µs
+#   - mapLegacyToNew() lookup:             < 1 µs
+#   - DeprecationAggregator hot path:      < 50 ns
+#   - Prometheus metrics scrape:           < 1 ms
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
+    message(STATUS "Adding ConfigPathResolver cache hit rate and resolution latency benchmarks")
+
+    add_executable(bench_config_path_resolver
+        bench_config_path_resolver.cpp
+    )
+
+    target_link_libraries(bench_config_path_resolver PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_config_path_resolver PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_governance_policy_latency PRIVATE
+        target_compile_options(bench_config_path_resolver PRIVATE
+        target_compile_options(bench_changefeed_throughput PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_governance_policy_latency
+    install(TARGETS bench_config_path_resolver
+    install(TARGETS bench_changefeed_throughput
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Governance benchmarks: evaluate(), checkQueryPermission(), CCPA overhead, masking overhead, throughput")
+    message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
+    message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
 endif()

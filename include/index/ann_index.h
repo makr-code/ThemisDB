@@ -24,6 +24,10 @@
 #include <stdexcept>
 #include <limits>
 
+#ifdef THEMIS_ENABLE_DISKANN
+#include "performance/phase3/diskann.h"
+#endif
+
 namespace themis {
 namespace index {
 
@@ -172,7 +176,6 @@ private:
 // ---------------------------------------------------------------------------
 
 #ifdef THEMIS_ENABLE_DISKANN
-#include "performance/phase3/diskann.h"
 
 /// Adapter that exposes DiskANNIndex (SSD-resident, billion-scale) as IAnnIndex.
 class DiskAnnAdapter final : public IAnnIndex {
@@ -219,6 +222,37 @@ public:
         for (auto& r : raw)
             out.push_back({static_cast<int64_t>(r.id), r.distance});
         return out;
+    }
+
+    /// Flush graph file and persist the offset metadata sidecar (<path>.meta).
+    bool save(const std::string& path) const override {
+        if (!impl_) return false;
+        impl_->flush();
+        return impl_->save(path);
+    }
+
+    /// Reload the offset metadata from a previously saved sidecar file.
+    /// The caller is responsible for ensuring the graph file exists at index_path_.
+    bool load(const std::string& path) override {
+        // Peek the dimension stored in the metadata sidecar so we create the
+        // DiskANNIndex with the correct dimension even when build() was never called.
+        const std::string meta_path = path + ".meta";
+        if (dim_ == 0) {
+            std::ifstream peek(meta_path, std::ios::binary);
+            if (peek) {
+                size_t stored_dim = 0;
+                peek.read(reinterpret_cast<char*>(&stored_dim), sizeof(stored_dim));
+                if (peek && stored_dim > 0)
+                    dim_ = stored_dim;
+            }
+        }
+        if (!impl_) {
+            impl_ = std::make_unique<performance::phase3::DiskANNIndex>(
+                dim_ > 0 ? dim_ : 1, index_path_, cache_mb_);
+        }
+        if (!impl_->load(path)) return false;
+        count_ = impl_->get_stats().num_vectors;
+        return true;
     }
 
     size_t size() const override { return count_; }

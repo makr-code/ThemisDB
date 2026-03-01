@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     684                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
@@ -424,6 +424,104 @@ void Http3Session::doWrite() {
     }
 }
 
+void Http3Session::doRead() {
+    // Read pending HTTP/3 stream data from nghttp3 and write it to QUIC via
+    // ngtcp2_conn_writev_stream.  This is the HTTP/3 → QUIC stream write path,
+    // complementing doWrite() which handles non-stream QUIC control packets.
+    if (!http3_conn_ || !quic_conn_) {
+        return;
+    }
+
+    write_buffer_.resize(65536);
+    ngtcp2_path_storage ps;
+    ngtcp2_path_storage_zero(&ps);
+    ngtcp2_pkt_info pi;
+
+    for (;;) {
+        nghttp3_vec vec[16];
+        int64_t stream_id = -1;
+        int fin = 0;
+
+        nghttp3_ssize sveccnt = nghttp3_conn_writev_stream(
+            http3_conn_, &stream_id, &fin, vec,
+            static_cast<size_t>(sizeof(vec) / sizeof(vec[0]))
+        );
+
+        if (sveccnt < 0) {
+            THEMIS_WARN("HTTP/3: nghttp3_conn_writev_stream: {}",
+                        nghttp3_strerror(static_cast<int>(sveccnt)));
+            break;
+        }
+
+        if (sveccnt == 0 && stream_id == -1) {
+            break;  // No more stream data to send
+        }
+
+        const uint32_t wflags = fin ? NGTCP2_WRITE_STREAM_FLAG_FIN
+                                    : NGTCP2_WRITE_STREAM_FLAG_MORE;
+
+        ngtcp2_ssize datalen = 0;
+        ngtcp2_ssize nwrite = ngtcp2_conn_writev_stream(
+            quic_conn_, &ps.path, &pi,
+            write_buffer_.data(), write_buffer_.size(),
+            &datalen, wflags, stream_id,
+            reinterpret_cast<const ngtcp2_vec*>(vec),
+            static_cast<size_t>(sveccnt),
+            getTimestamp()
+        );
+
+        if (nwrite < 0) {
+            if (nwrite == NGTCP2_ERR_WRITE_MORE) {
+                if (stream_id >= 0 && datalen > 0) {
+                    nghttp3_conn_add_write_offset(http3_conn_, stream_id,
+                        static_cast<size_t>(datalen));
+                }
+                continue;
+            }
+            THEMIS_WARN("HTTP/3: ngtcp2_conn_writev_stream: {}",
+                        ngtcp2_strerror(static_cast<int>(nwrite)));
+            break;
+        }
+
+        if (stream_id >= 0 && datalen > 0) {
+            nghttp3_conn_add_write_offset(http3_conn_, stream_id,
+                static_cast<size_t>(datalen));
+        }
+
+        if (nwrite > 0) {
+            // Use a shared_ptr-owned buffer so the async send stays valid.
+            auto buf = std::make_shared<std::vector<uint8_t>>(
+                write_buffer_.data(), write_buffer_.data() + nwrite
+            );
+            socket_.async_send_to(
+                boost::asio::buffer(*buf),
+                remote_endpoint_,
+                [buf](boost::system::error_code ec, std::size_t) {
+                    if (ec) {
+                        THEMIS_WARN("HTTP/3: stream packet send error: {}",
+                                    ec.message());
+                    }
+                }
+            );
+        }
+
+        if (nwrite == 0) {
+            break;
+        }
+    }
+}
+
+void Http3Session::onRead(boost::system::error_code ec,
+                          std::size_t bytes_transferred) {
+    if (ec) {
+        if (ec != boost::asio::error::operation_aborted) {
+            THEMIS_WARN("HTTP/3: session read error: {}", ec.message());
+        }
+        return;
+    }
+    handlePacket(read_buffer_.data(), bytes_transferred, remote_endpoint_);
+}
+
 void Http3Session::onTimeout() {
     THEMIS_INFO("HTTP/3: Session timeout");
     if (quic_conn_) {
@@ -569,7 +667,9 @@ void Http3Session::sendResponse(int64_t stream_id, int status,
         return;
     }
     
-    // Write data to QUIC streams
+    // Flush HTTP/3 stream data (nghttp3 → ngtcp2 → UDP)
+    doRead();
+    // Flush remaining QUIC control packets (ACKs, etc.)
     doWrite();
 }
 

@@ -19,6 +19,7 @@
 
 #include <gtest/gtest.h>
 #include "config/path_mapping_metadata.h"
+#include "config/config_path_resolver.h"
 #include <thread>
 #include <chrono>
 
@@ -283,6 +284,52 @@ TEST_F(PathMappingMetadataTest, DeprecationMessageRemovalPast) {
     
     std::string msg = meta.getDeprecationMessage();
     EXPECT_NE(msg.find("days ago"), std::string::npos);
+}
+
+// ═══════════════════════════════════════════════════════════
+// METADATA_TABLE Completeness Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(PathMappingMetadataTest, MetadataTableCoversAllMappedPaths) {
+    const auto& mappings = ConfigPathResolver::legacyPathMappings();
+    EXPECT_GE(mappings.size(), 60u)
+        << "PATH_MAPPING must contain at least 60 entries";
+
+    for (const auto& [legacy, new_path] : mappings) {
+        auto meta = ConfigPathResolver::getMetadata(legacy);
+        EXPECT_TRUE(meta.has_value())
+            << "Missing METADATA_TABLE entry for legacy path: " << legacy;
+        if (meta.has_value()) {
+            EXPECT_EQ(meta->legacy_path, legacy);
+            EXPECT_EQ(meta->new_path, new_path);
+            EXPECT_FALSE(meta->category.empty())
+                << "Category must not be empty for: " << legacy;
+            EXPECT_TRUE(meta->migration_guide_url.has_value())
+                << "Migration guide URL must be set for: " << legacy;
+
+            // Verify new_path follows category-based subdirectory conventions
+            const auto& cat = meta->category;
+            if (cat == "ai_ml") {
+                EXPECT_NE(new_path.find("config/ai_ml/"), std::string::npos)
+                    << "ai_ml paths must map to config/ai_ml/: " << new_path;
+            } else if (cat == "security") {
+                EXPECT_NE(new_path.find("config/security/"), std::string::npos)
+                    << "security paths must map to config/security/: " << new_path;
+            } else if (cat == "compliance") {
+                EXPECT_NE(new_path.find("config/compliance/"), std::string::npos)
+                    << "compliance paths must map to config/compliance/: " << new_path;
+            } else if (cat == "performance") {
+                EXPECT_NE(new_path.find("config/performance/"), std::string::npos)
+                    << "performance paths must map to config/performance/: " << new_path;
+            } else if (cat == "distributed") {
+                EXPECT_NE(new_path.find("config/distributed/"), std::string::npos)
+                    << "distributed paths must map to config/distributed/: " << new_path;
+            } else if (cat == "networking") {
+                EXPECT_NE(new_path.find("config/networking/"), std::string::npos)
+                    << "networking paths must map to config/networking/: " << new_path;
+            }
+        }
+    }
 }
 
 } // namespace test

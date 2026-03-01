@@ -26,6 +26,8 @@
 #include "utils/http_client_pool.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <atomic>
+#include <cmath>
 #include <sstream>
 #include <iomanip>
 #include <thread>
@@ -426,6 +428,264 @@ Result<void> DefaultAlertmanager::testConnection() {
             std::string("Alertmanager connection test failed: ") + ex.what()
         });
     }
+}
+
+// ============================================================================
+// AlertRuleManager Implementation – Custom user-defined alert rules via API
+// ============================================================================
+
+namespace {
+
+// Counter for generating unique rule IDs within this process.
+std::atomic<uint64_t> g_rule_id_counter{0};
+
+} // anonymous namespace
+
+std::string AlertRuleManager::generateRuleId() {
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    auto ts  = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
+    uint64_t seq = g_rule_id_counter.fetch_add(1, std::memory_order_relaxed);
+    std::ostringstream oss;
+    oss << "rule_" << std::hex << ts << "_" << seq;
+    return oss.str();
+}
+
+std::string AlertRuleManager::expandMessage(const std::string& tmpl,
+                                            const std::string& metric_name,
+                                            double value) {
+    std::string result = tmpl;
+    // Replace {metric} placeholder
+    std::string metric_token = "{metric}";
+    for (std::string::size_type pos = result.find(metric_token);
+         pos != std::string::npos;
+         pos = result.find(metric_token, pos + metric_name.size())) {
+        result.replace(pos, metric_token.size(), metric_name);
+    }
+    // Replace {value} placeholder
+    std::string value_token = "{value}";
+    std::string value_str   = std::to_string(value);
+    // Trim trailing zeros for readability
+    auto dot_pos = value_str.find('.');
+    if (dot_pos != std::string::npos) {
+        value_str.erase(value_str.find_last_not_of('0') + 1);
+        if (value_str.back() == '.') value_str.pop_back();
+    }
+    for (std::string::size_type pos = result.find(value_token);
+         pos != std::string::npos;
+         pos = result.find(value_token, pos + value_str.size())) {
+        result.replace(pos, value_token.size(), value_str);
+    }
+    return result;
+}
+
+bool AlertRuleManager::evaluateCondition(double value,
+                                         AlertRuleOperator op,
+                                         double threshold) {
+    constexpr double kEpsilon = 1e-9;
+    switch (op) {
+        case AlertRuleOperator::GREATER_THAN:          return value >  threshold;
+        case AlertRuleOperator::GREATER_THAN_OR_EQUAL: return value >= threshold;
+        case AlertRuleOperator::LESS_THAN:             return value <  threshold;
+        case AlertRuleOperator::LESS_THAN_OR_EQUAL:    return value <= threshold;
+        case AlertRuleOperator::EQUAL:                 return std::abs(value - threshold) < kEpsilon;
+        case AlertRuleOperator::NOT_EQUAL:             return std::abs(value - threshold) >= kEpsilon;
+        default:                                       return false;
+    }
+}
+
+Result<std::string> AlertRuleManager::addRule(AlertRule rule) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (rule.rule_id.empty()) {
+        rule.rule_id = generateRuleId();
+    }
+
+    if (rules_.count(rule.rule_id)) {
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            "Alert rule with id '" + rule.rule_id + "' already exists"
+        });
+    }
+    if (rule.metric_name.empty()) {
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            "AlertRule.metric_name must not be empty"
+        });
+    }
+
+    const std::string id = rule.rule_id;
+    rules_.emplace(id, std::move(rule));
+    THEMIS_INFO("AlertRuleManager: added rule '{}' for metric '{}'",
+                id, rules_[id].metric_name);
+    return id;
+}
+
+Result<void> AlertRuleManager::removeRule(const std::string& rule_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rules_.find(rule_id);
+    if (it == rules_.end()) {
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+            "Alert rule '" + rule_id + "' not found"
+        });
+    }
+    rules_.erase(it);
+    active_rule_alerts_.erase(rule_id);
+    THEMIS_INFO("AlertRuleManager: removed rule '{}'", rule_id);
+    return {};
+}
+
+Result<AlertRule> AlertRuleManager::getRule(const std::string& rule_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rules_.find(rule_id);
+    if (it == rules_.end()) {
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+            "Alert rule '" + rule_id + "' not found"
+        });
+    }
+    return it->second;
+}
+
+Result<void> AlertRuleManager::updateRule(const AlertRule& rule) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rules_.find(rule.rule_id);
+    if (it == rules_.end()) {
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_UTIL_POLICY_NOT_FOUND,
+            "Alert rule '" + rule.rule_id + "' not found"
+        });
+    }
+    if (rule.metric_name.empty()) {
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            "AlertRule.metric_name must not be empty"
+        });
+    }
+    it->second = rule;
+    THEMIS_INFO("AlertRuleManager: updated rule '{}' for metric '{}'",
+                rule.rule_id, rule.metric_name);
+    return {};
+}
+
+std::vector<AlertRule> AlertRuleManager::listRules() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<AlertRule> result;
+    result.reserve(rules_.size());
+    for (const auto& [id, rule] : rules_) {
+        result.push_back(rule);
+    }
+    return result;
+}
+
+int AlertRuleManager::evaluateRules(const std::map<std::string, double>& metrics,
+                                    Alertmanager& alertmanager) {
+    // Phase 1: snapshot the required actions while holding the lock.
+    // No external calls (alertmanager) are made here to keep the critical section short.
+    struct FireAction {
+        std::string rule_id;
+        std::string metric_name;  // captured for logging, avoids map look-up after lock release
+        Alert       alert;
+    };
+    struct ResolveAction {
+        std::string rule_id;
+        std::string alert_id;
+    };
+
+    std::vector<FireAction>    to_fire;
+    std::vector<ResolveAction> to_resolve;
+    int already_firing = 0;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        for (const auto& [rule_id, rule] : rules_) {
+            if (!rule.enabled) continue;
+
+            auto metric_it = metrics.find(rule.metric_name);
+            if (metric_it == metrics.end()) {
+                THEMIS_DEBUG("AlertRuleManager: metric '{}' not present in snapshot (rule '{}')",
+                             rule.metric_name, rule_id);
+                continue;
+            }
+
+            const double value     = metric_it->second;
+            const bool   firing    = evaluateCondition(value, rule.op, rule.threshold);
+            const bool   was_active = (active_rule_alerts_.count(rule_id) > 0);
+
+            if (firing && !was_active) {
+                Alert alert;
+                alert.alert_id   = rule_id + "_alert";
+                alert.alert_name = rule.rule_name.empty() ? rule_id : rule.rule_name;
+                alert.severity   = rule.severity;
+                alert.status     = AlertStatus::FIRING;
+                alert.message    = rule.message_template.empty()
+                                       ? (rule.metric_name + " threshold exceeded")
+                                       : expandMessage(rule.message_template, rule.metric_name, value);
+                alert.labels     = rule.labels;
+                alert.labels["rule_id"]     = rule_id;
+                alert.labels["metric_name"] = rule.metric_name;
+                alert.annotations           = rule.annotations;
+                to_fire.push_back({rule_id, rule.metric_name, std::move(alert)});
+            } else if (!firing && was_active) {
+                to_resolve.push_back({rule_id, active_rule_alerts_[rule_id]});
+            } else if (firing) {
+                ++already_firing;
+            }
+        }
+    } // lock released – alertmanager calls happen outside the critical section
+
+    // Phase 2: fire new alerts outside the lock.
+    int newly_fired = 0;
+    for (auto& action : to_fire) {
+        auto res = alertmanager.sendAlert(action.alert);
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (res) {
+                active_rule_alerts_[action.rule_id] = action.alert.alert_id;
+                THEMIS_INFO("AlertRuleManager: rule '{}' fired (metric={}, alert_id={})",
+                            action.rule_id, action.metric_name, action.alert.alert_id);
+            } else {
+                THEMIS_WARN("AlertRuleManager: failed to send alert for rule '{}': {}",
+                            action.rule_id, res.error().message());
+            }
+        }
+        ++newly_fired;
+    }
+
+    // Phase 3: resolve cleared alerts outside the lock.
+    for (auto& action : to_resolve) {
+        auto res = alertmanager.resolveAlert(action.alert_id);
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (res) {
+                active_rule_alerts_.erase(action.rule_id);
+                THEMIS_INFO("AlertRuleManager: rule '{}' resolved (alert_id={})",
+                            action.rule_id, action.alert_id);
+            } else {
+                THEMIS_WARN("AlertRuleManager: failed to resolve alert for rule '{}': {}",
+                            action.rule_id, res.error().message());
+            }
+        }
+    }
+
+    return already_firing + newly_fired;
+}
+
+void AlertRuleManager::clearRules() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    rules_.clear();
+    active_rule_alerts_.clear();
+    THEMIS_INFO("AlertRuleManager: all rules cleared");
+}
+
+size_t AlertRuleManager::ruleCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return rules_.size();
 }
 
 } // namespace observability

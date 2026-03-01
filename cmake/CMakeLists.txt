@@ -128,6 +128,23 @@ if(THEMIS_ENABLE_PDF)
     endif()
 endif()
 
+# OCR support requires libtesseract + leptonica
+if(THEMIS_ENABLE_OCR)
+    find_package(Tesseract CONFIG QUIET)
+    if(NOT Tesseract_FOUND)
+        find_package(Tesseract QUIET)
+    endif()
+
+    if(Tesseract_FOUND)
+        message(STATUS "OCR support enabled - libtesseract found")
+        add_compile_definitions(THEMIS_ENABLE_OCR)
+    else()
+        message(WARNING "libtesseract not found - Install with: vcpkg install tesseract")
+        message(WARNING "Disabling OCR support due to missing dependencies")
+        set(THEMIS_ENABLE_OCR OFF CACHE BOOL "OCR support disabled - missing libtesseract" FORCE)
+    endif()
+endif()
+
 # FFmpeg support for video processing (optional)
 # Priority: 1) Local Submodule, 2) vcpkg, 3) System
 find_package(FFmpeg CONFIG QUIET)
@@ -198,12 +215,25 @@ endif()
 option(THEMIS_ENABLE_VOICE_ASSISTANT "Enable Voice Assistant with STT/TTS/LLM (v1.4.0+)" OFF)
 option(THEMIS_ENABLE_WHISPER "Enable Whisper.cpp for Speech-to-Text" OFF)
 option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
+option(THEMIS_ENABLE_RNNOISE "Enable RNNoise deep-learning noise suppression" OFF)
 
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 option(THEMIS_ENABLE_NCCL "Enable NCCL for NVIDIA multi-GPU (v2.5+)" OFF)
 option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
+
+# cuVS/RAFT GPU-accelerated ANN (Approximate Nearest Neighbor) search.
+# Requires THEMIS_ENABLE_CUDA=ON and the cuVS/RAFT CMake package to be
+# installed (e.g. via conda: `conda install -c rapidsai cuvs`).
+# When OFF the CPU brute-force fallback in GPUQueryAccelerator::annSearch()
+# is used unconditionally.
+if(THEMIS_ENABLE_CUDA)
+    option(THEMIS_ENABLE_CUVS "Enable cuVS/RAFT GPU-accelerated ANN search (requires CUDA)" OFF)
+else()
+    set(THEMIS_ENABLE_CUVS OFF CACHE BOOL
+        "cuVS/RAFT ANN search (requires THEMIS_ENABLE_CUDA=ON)" FORCE)
+endif()
 
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
@@ -239,6 +269,10 @@ option(THEMIS_ENABLE_PDF "Enable PDF text extraction with layout preservation (r
 # Office Document Processing (P2 - v1.4.0+)
 # Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
 option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) with libzip+pugixml" ON)
+
+# OCR Processing (Phase 3 - Advanced Format Support)
+# Enables Tesseract OCR for text extraction from image content (JPEG, PNG, TIFF)
+option(THEMIS_ENABLE_OCR "Enable Tesseract OCR for image text extraction (requires libtesseract+leptonica)" OFF)
 
 # Performance Optimization Options (Research-based, see docs/de/research/)
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
@@ -510,6 +544,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     set(THEMIS_ENABLE_VOICE_ASSISTANT OFF CACHE INTERNAL "Voice assistant disabled in Minimal")
     set(THEMIS_ENABLE_WHISPER OFF CACHE INTERNAL "Whisper disabled in Minimal")
     set(THEMIS_ENABLE_PIPER_TTS OFF CACHE INTERNAL "Piper TTS disabled in Minimal")
+    set(THEMIS_ENABLE_RNNOISE OFF CACHE INTERNAL "RNNoise disabled in Minimal")
     set(THEMIS_ENABLE_GRPC OFF CACHE INTERNAL "gRPC disabled in Minimal")
     set(THEMIS_ENABLE_HTTP2 OFF CACHE INTERNAL "HTTP/2 disabled in Minimal")
     set(THEMIS_ENABLE_HTTP3 OFF CACHE INTERNAL "HTTP/3 disabled in Minimal")
@@ -1146,6 +1181,33 @@ else()
     endif()
 endif()
 
+# Snappy compression – required for Prometheus remote-write endpoint compatibility.
+# Snappy is a transitive dependency of RocksDB (vcpkg feature "snappy"), so it is
+# typically available automatically.  We discover it here so we can link it
+# explicitly against themis_core and surface a clear warning when absent.
+find_package(Snappy CONFIG QUIET)
+if(Snappy_FOUND OR TARGET Snappy::snappy)
+    set(THEMIS_SNAPPY_TARGET Snappy::snappy)
+    message(STATUS "Snappy found – Prometheus remote-write snappy decompression enabled")
+else()
+    # Fallback: system library via pkg-config
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(SNAPPY_PKG QUIET snappy)
+        if(SNAPPY_PKG_FOUND AND NOT TARGET Snappy::snappy)
+            add_library(Snappy::snappy INTERFACE IMPORTED)
+            set_target_properties(Snappy::snappy PROPERTIES
+                INTERFACE_INCLUDE_DIRECTORIES "${SNAPPY_PKG_INCLUDE_DIRS}"
+                INTERFACE_LINK_LIBRARIES "${SNAPPY_PKG_LIBRARIES}")
+            set(THEMIS_SNAPPY_TARGET Snappy::snappy)
+            message(STATUS "Snappy found via pkg-config")
+        endif()
+    endif()
+    if(NOT THEMIS_SNAPPY_TARGET)
+        message(WARNING "Snappy not found – Prometheus remote-write snappy decompression will be unavailable. Install with: vcpkg install snappy")
+    endif()
+endif()
+
 # Optional: HNSW (if not using Faiss)
 find_package(hnswlib CONFIG)
 
@@ -1385,6 +1447,7 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/column_lineage.cpp
     ../src/metadata/catalog_exporter.cpp
     ../src/metadata/distributed_catalog.cpp
+    ../src/metadata/er_diagram_exporter.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
@@ -1412,6 +1475,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
     ../src/index/distributed_vector_index.cpp
+    ../src/index/tiered_index_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -1448,6 +1512,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
@@ -1469,8 +1534,9 @@ set(THEMIS_CORE_SOURCES
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
 
-    
-    
+    # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
+    ../src/query/vectorized_execution.cpp
+
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -1495,6 +1561,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
     ../src/server/cache_admin_api_handler.cpp
@@ -1570,8 +1637,10 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/geo_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
@@ -1641,6 +1710,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/aggregate_scheduler.cpp
     ../src/timeseries/aggregate_scheduler_helper.cpp
     ../src/timeseries/query_optimizer.cpp
+    ../src/timeseries/prometheus_remote_write.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
@@ -1792,7 +1862,9 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/raster.cpp
     ../src/geo/temporal_spatial_query.cpp
     ../src/geo/tile_server.cpp
+    ../src/geo/device_detector.cpp
     ../src/api/geo_index_hooks.cpp
+    ../src/api/tracing_middleware.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp
@@ -1890,8 +1962,10 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
+    ../src/plugins/oci_registry_client.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
@@ -1906,6 +1980,8 @@ set(THEMIS_CORE_SOURCES
     ../src/network/qos_manager.cpp
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
+    ../src/network/geo_topology_router.cpp
 
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
     ../src/themis/wire_protocol_server.cpp
@@ -1915,6 +1991,8 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/metrics_collector.cpp
     ../src/observability/alertmanager.cpp
     ../src/observability/continuous_profiler.cpp
+    ../src/observability/ebpf_tracer.cpp
+    ../src/observability/distributed_flame_graph.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1929,6 +2007,7 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/format_template.cpp
     ../src/exporters/parquet_exporter.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
@@ -1937,6 +2016,7 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/aql_predicate_filter.cpp
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
+    ../src/exporters/export_encryption.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
@@ -1944,6 +2024,8 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/flatfile_importer.cpp
     ../src/importers/schema_validator.cpp
     ../src/importers/conflict_resolver.cpp
+    ../src/importers/kafka_importer.cpp
+    ../src/importers/oracle_importer.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_migration_assistant.cpp
@@ -2205,8 +2287,6 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
-    # Phase 3: Citation Highlighting
-    ../src/rag/citation_highlighter.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
     )
@@ -2218,6 +2298,9 @@ if(NOT THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/prompt_manager.cpp
+    # Citation highlighting has no LLM dependency; always include so non-LLM
+    # builds can use and test the CitationHighlighter class.
+    ../src/rag/citation_highlighter.cpp
     )
 endif()
 
@@ -2321,6 +2404,16 @@ if(THEMIS_BUILD_MODULAR)
     # Call the modular build function to create all module targets
     themis_build_modular()
     
+    # Wire Protocol V1 protobuf compile flag and link for the network module
+    # (mirrors the monolithic build setup below; required by src/themis/wire_protocol_server.cpp)
+    if(THEMIS_WIRE_V1_PROTO_AVAILABLE AND TARGET themis_network)
+        target_sources(themis_network PRIVATE ${WIRE_V1_PROTO_SRC})
+        target_compile_definitions(themis_network PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
+        target_link_libraries(themis_network PRIVATE protobuf::libprotobuf)
+        target_include_directories(themis_network PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+        message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled for themis_network (themis::wire protobuf handlers active)")
+    endif()
+
     # Create themis_core as an interface library that links all modules
     # This maintains compatibility with existing code that links to themis_core
     add_library(themis_core INTERFACE)
@@ -2442,6 +2535,16 @@ if(THEMIS_ENABLE_CUDA)
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
     message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
+
+    # cuVS/RAFT GPU-accelerated ANN (IVF-Flat index build + search).
+    # Activated with -DTHEMIS_ENABLE_CUVS=ON; requires the cuVS CMake package
+    # (install via conda: `conda install -c rapidsai cuvs`).
+    if(THEMIS_ENABLE_CUVS)
+        find_package(cuvs CONFIG REQUIRED)
+        target_link_libraries(themis_core PRIVATE cuvs::cuvs)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUVS)
+        message(STATUS "cuVS/RAFT ANN search enabled (THEMIS_ENABLE_CUVS=ON)")
+    endif()
     
     # Propagate geo-CUDA flag to the build system.
     if(THEMIS_GEO_CUDA)
@@ -2728,6 +2831,18 @@ if(THEMIS_ENABLE_PDF AND Poppler_FOUND)
     message(STATUS "PDF support linked: poppler-cpp")
 endif()
 
+# Link libtesseract (for OCR text extraction from images) if enabled
+if(THEMIS_ENABLE_OCR AND Tesseract_FOUND)
+    if(TARGET Tesseract::libtesseract)
+        target_link_libraries(themis_core PUBLIC Tesseract::libtesseract)
+    elseif(TARGET tesseract)
+        target_link_libraries(themis_core PUBLIC tesseract)
+    else()
+        message(WARNING "Tesseract target not found - please check libtesseract installation")
+    endif()
+    message(STATUS "OCR support linked: libtesseract")
+endif()
+
 # Link Kerberos/GSSAPI if enabled
 if(THEMIS_ENABLE_KERBEROS)
     if(TARGET KRB5::krb5)
@@ -2766,6 +2881,12 @@ endif()
 if(DEFINED THEMIS_LZ4_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_LZ4_TARGET})
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_LZ4)
+endif()
+
+# Link Snappy if available (required for Prometheus remote-write decompression)
+if(DEFINED THEMIS_SNAPPY_TARGET AND NOT "${THEMIS_SNAPPY_TARGET}" STREQUAL "")
+    target_link_libraries(themis_core PUBLIC ${THEMIS_SNAPPY_TARGET})
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_SNAPPY)
 endif()
 
 # Define THEMIS_ENABLE_CURL if CURL is found
@@ -3163,6 +3284,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
         ../src/llm/llm_plugin_manager.cpp
         ../src/llm/model_loader.cpp          # Ollama-style lazy loading
+        ../src/llm/model_quantization_pipeline.cpp  # GGUF/AWQ/GPTQ quantization pipeline (Phase 3)
         ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
         ../src/llm/async_inference_engine.cpp # Async threading (independent from DB)
         ../src/llm/shared_worker_pool.cpp    # Shared work-stealing thread pool (Phase 2)
@@ -3227,6 +3349,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
         ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
+        ../src/llm/speculative_decoder.cpp        # Speculative decoding for latency reduction (Phase 3)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
@@ -3776,6 +3899,58 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
+    # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
+    if(THEMIS_ENABLE_GPU)
+        add_executable(test_gpu_graph_cache
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_graph_cache.cpp
+        )
+        target_link_libraries(test_gpu_graph_cache
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_graph_cache
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_graph_cache>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_gpu_query_accelerator
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_query_accelerator.cpp
+        )
+        target_link_libraries(test_gpu_query_accelerator
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_query_accelerator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_query_accelerator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_gpu_stream_manager
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_stream_manager.cpp
+        )
+        target_link_libraries(test_gpu_stream_manager
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_stream_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_stream_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif() # THEMIS_ENABLE_GPU
 
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)

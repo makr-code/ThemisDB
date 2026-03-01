@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     714                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
@@ -110,7 +110,8 @@ public:
                     GraphIndexManager& graphIdx,
                     VectorIndexManager& vecIdx,
                     IsolationLevel isolation,
-                    LockManager* lock_manager = nullptr);
+                    LockManager* lock_manager = nullptr,
+                    std::string_view tenant_id = {});
         ~Transaction();
 
         // Keine Kopie, aber Move
@@ -125,6 +126,14 @@ public:
         std::chrono::system_clock::time_point getStartTime() const { return start_time_; }
         uint64_t getDurationMs() const;
         bool isFinished() const { return finished_.load(std::memory_order_acquire); }
+
+        /**
+         * @brief Return the tenant ID associated with this transaction.
+         *
+         * Returns an empty string when no tenant namespace was set (i.e. the
+         * transaction operates in the global / default namespace).
+         */
+        const std::string& getTenantId() const { return tenant_id_; }
 
         // ── Transaction timeout ───────────────────────────────────────────────
 
@@ -501,11 +510,60 @@ public:
 
         std::vector<ExplainWriteEntry> write_set_; ///< write-set accumulated for explain()
 
+        /// Tenant namespace for this transaction.  Empty = global / default namespace.
+        std::string tenant_id_;
+
+        /**
+         * @brief Apply the tenant namespace prefix to a table name.
+         *
+         * When this transaction is scoped to a tenant, returns
+         * "tenant:{tenant_id}:{table}".  Otherwise returns @p table unchanged.
+         * Used to route all secondary-index operations into the correct
+         * per-tenant namespace.
+         */
+        std::string makeNamespacedTable(std::string_view table) const {
+            if (tenant_id_.empty()) return std::string(table);
+            return "tenant:" + tenant_id_ + ":" + std::string(table);
+        }
+
+        /**
+         * @brief Apply the tenant namespace prefix to a raw storage key.
+         *
+         * When this transaction is scoped to a tenant, returns
+         * "tenant:{tenant_id}:{key}".  Otherwise returns @p key unchanged.
+         * Used to physically isolate MVCC keys between tenants.
+         */
+        std::string makeNamespacedKey(std::string_view key) const {
+            if (tenant_id_.empty()) return std::string(key);
+            return "tenant:" + tenant_id_ + ":" + std::string(key);
+        }
+
         friend class TransactionManager;  ///< allow TransactionManager to set history_mgr_/conflict_mgr_
     };
 
     // Session-based transaction management
     TransactionId beginTransaction(IsolationLevel isolation = IsolationLevel::ReadCommitted);
+
+    /**
+     * @brief Begin a transaction scoped to a specific tenant namespace.
+     *
+     * All entity, edge, and vector key operations performed inside the
+     * returned transaction are physically isolated under a per-tenant key
+     * prefix ("tenant:{tenant_id}:...").  Secondary-index operations use the
+     * same prefix so that queries against one tenant never see data from
+     * another tenant.
+     *
+     * Per-tenant statistics (begun, committed, aborted) are tracked
+     * independently of the global statistics for the lifetime of the manager.
+     *
+     * @param tenant_id  Non-empty tenant identifier.  Passing an empty string
+     *                   is equivalent to calling beginTransaction(isolation).
+     * @param isolation  Desired isolation level (default: ReadCommitted).
+     * @return           A globally unique transaction ID.
+     */
+    TransactionId beginTransaction(std::string_view tenant_id,
+                                   IsolationLevel isolation = IsolationLevel::ReadCommitted);
+
     std::shared_ptr<Transaction> getTransaction(TransactionId id);
     Status commitTransaction(TransactionId id);
     /**
@@ -527,6 +585,65 @@ public:
      *            @p id is found in the active or completed maps.
      */
     std::optional<Transaction::ExplainResult> explainTransaction(TransactionId id) const;
+
+    // ── Per-tenant transaction namespace ─────────────────────────────────────
+
+    /**
+     * @brief Per-tenant transaction statistics.
+     *
+     * All counters represent the lifetime totals since the TransactionManager
+     * was constructed (i.e. they are never reset).
+     */
+    struct TenantTransactionStats {
+        std::string tenant_id;
+        uint64_t total_begun{0};
+        uint64_t total_committed{0};
+        uint64_t total_aborted{0};
+        uint64_t active_count{0};
+    };
+
+    /**
+     * @brief Return the transaction statistics for a single tenant.
+     *
+     * Returns a zeroed-out TenantTransactionStats (with the given tenant_id)
+     * when no transaction has ever been started for @p tenant_id.
+     *
+     * @param tenant_id  Tenant identifier to query.
+     */
+    TenantTransactionStats getTenantTransactionStats(std::string_view tenant_id) const;
+
+    /**
+     * @brief Return per-tenant statistics for all tenants that have ever
+     *        started at least one transaction.
+     */
+    std::vector<TenantTransactionStats> getAllTenantTransactionStats() const;
+
+    /**
+     * @brief Count the number of currently active transactions for a tenant.
+     *
+     * @param tenant_id  Tenant identifier to query.
+     * @return           Number of active (uncommitted/unrolled-back) transactions.
+     */
+    size_t getActiveTenantTransactionCount(std::string_view tenant_id) const;
+
+    /**
+     * @brief List all active transaction IDs for a given tenant.
+     *
+     * @param tenant_id  Tenant identifier to query.
+     * @return           Vector of active transaction IDs in unspecified order.
+     */
+    std::vector<TransactionId> listTenantTransactionIds(std::string_view tenant_id) const;
+
+    /**
+     * @brief Abort all active transactions belonging to @p tenant_id.
+     *
+     * Useful when a tenant is being suspended or deleted.  Each transaction
+     * is rolled back and moved to the completed map.
+     *
+     * @param tenant_id  Tenant whose transactions should be aborted.
+     * @return           Number of transactions actually aborted.
+     */
+    size_t abortTenantTransactions(std::string_view tenant_id);
     
     // Direct transaction (legacy API)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);
@@ -826,6 +943,18 @@ private:
     
     // Helper to update statistics with sequence lock protocol
     void updateStatsWithSeqLock(std::function<void()> update);
+
+    // Per-tenant statistics: protected by sessions_mutex_
+    struct TenantStatsEntry {
+        uint64_t total_begun{0};
+        uint64_t total_committed{0};
+        uint64_t total_aborted{0};
+    };
+    std::unordered_map<std::string, TenantStatsEntry> tenant_stats_;  ///< keyed by tenant_id
+
+    /// Count active transactions for a tenant without acquiring sessions_mutex_.
+    /// Must be called with sessions_mutex_ already held.
+    size_t countActiveTenantTransactionsLocked(std::string_view tenant_id) const;
 
     // Transaction timeout
     std::atomic<uint64_t> default_transaction_timeout_ms_{0}; ///< 0 = no default timeout

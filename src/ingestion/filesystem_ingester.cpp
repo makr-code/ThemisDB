@@ -92,10 +92,46 @@ bool isConverterSafe(const std::string& converter) {
 }
 
 // ---------------------------------------------------------------------------
+// Path traversal safety validation (free function – implementation)
+// ---------------------------------------------------------------------------
+
+bool isPathTraversalSafe(const std::string& path) {
+    if (path.empty()) return true;
+    // Iterate over each component of the path and reject any ".." segment.
+    for (const auto& component : fs::path(path)) {
+        if (component == "..") return false;
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
 
 namespace {
+
+/// Check that `file_path` resolves (via symlinks) to a location inside
+/// `base_dir`.  Uses `std::filesystem::canonical()` to resolve all symlinks
+/// before comparison, so a symlink inside `base_dir` that points outside it
+/// will be correctly rejected.
+///
+/// @return true  if `canonical(file_path)` starts with `canonical(base_dir)`;
+///         false if the file escapes the base directory, or if either canonical
+///               resolution fails.
+static bool isFileWithinBase(const fs::path& base_dir, const fs::path& file_path) {
+    try {
+        auto canonical_base = fs::canonical(base_dir);
+        auto canonical_file = fs::canonical(file_path);
+        // canonical_file must start with canonical_base (all components match).
+        auto [mb, mf] = std::mismatch(canonical_base.begin(), canonical_base.end(),
+                                      canonical_file.begin(), canonical_file.end());
+        return mb == canonical_base.end();
+    } catch (...) {
+        // canonical() throws if the path doesn't exist or is inaccessible.
+        // Be conservative and reject the file.
+        return false;
+    }
+}
 
 /// Recursively collect all text nodes from a pugixml document tree.
 #ifdef THEMIS_HAS_PUGIXML
@@ -289,7 +325,14 @@ public:
         if (config.type != SourceType::FILESYSTEM) {
             return false;
         }
-        
+
+        // Reject paths that contain ".." traversal sequences before touching the
+        // filesystem.  This prevents a misconfigured or maliciously-crafted
+        // SourceConfig::location from escaping the intended base directory.
+        if (!isPathTraversalSafe(config.location)) {
+            return false;
+        }
+
         config_ = config;
         path_ = config.location;
         
@@ -392,7 +435,22 @@ public:
         
         try {
             std::vector<fs::path> files_to_process;
-            
+
+            // Determine canonical base directory for symlink-escape checks.
+            // When path_ is a file, base_dir is its parent; when it's a directory,
+            // base_dir is path_ itself.
+            fs::path base_dir;
+            try {
+                base_dir = fs::canonical(path_);
+                if (fs::is_regular_file(base_dir)) {
+                    base_dir = base_dir.parent_path();
+                }
+            } catch (...) {
+                // If canonical() fails fall through; isFileWithinBase() will be
+                // conservative and reject files when it cannot resolve paths.
+                base_dir = fs::absolute(path_);
+            }
+
             // 1. Collect files matching filter
             if (fs::is_regular_file(path_)) {
                 if (matchesFilter(path_)) {
@@ -402,14 +460,16 @@ public:
                 if (filter_.recursive) {
                     for (fs::recursive_directory_iterator it(path_), end; it != end; ++it) {
                         const auto& entry = *it;
-                        if (entry.is_regular_file() && matchesFilter(entry.path())) {
+                        if (entry.is_regular_file() && matchesFilter(entry.path()) &&
+                            isFileWithinBase(base_dir, entry.path())) {
                             files_to_process.push_back(entry.path());
                         }
                     }
                 } else {
                     for (fs::directory_iterator it(path_), end; it != end; ++it) {
                         const auto& entry = *it;
-                        if (entry.is_regular_file() && matchesFilter(entry.path())) {
+                        if (entry.is_regular_file() && matchesFilter(entry.path()) &&
+                            isFileWithinBase(base_dir, entry.path())) {
                             files_to_process.push_back(entry.path());
                         }
                     }
@@ -424,6 +484,41 @@ public:
                     std::string content = extractTextFromFile(file_path);
                     
                     if (!content.empty()) {
+                        // Validate against schema if a validator is set
+                        if (document_validator_) {
+                            auto vr = document_validator_(content);
+                            if (!vr.is_valid) {
+                                stats.documents_failed++;
+                                ++stats.metrics.schema_violations;
+                                stats.addError(
+                                    IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                    IngestionErrorSeverity::WARNING,
+                                    "Schema validation failed for: " +
+                                        file_path.filename().string() +
+                                        " – " + vr.summary(),
+                                    config_.source_id,
+                                    file_path.string());
+                                ++processed;
+                                if (progress_callback && processed % 10 == 0) {
+                                    progress_callback(config_.source_id, processed,
+                                                      files_to_process.size(),
+                                                      "Validation failed: " +
+                                                          file_path.filename().string());
+                                }
+                                continue;
+                            } else if (!vr.violations.empty()) {
+                                // reject_invalid=false: violations but document still accepted
+                                ++stats.metrics.schema_violations;
+                                stats.addError(
+                                    IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                                    IngestionErrorSeverity::INFO,
+                                    "Schema warning for: " +
+                                        file_path.filename().string() +
+                                        " – " + vr.summary(),
+                                    config_.source_id,
+                                    file_path.string());
+                            }
+                        }
                         // In production: Insert into target_collection
                         stats.documents_processed++;
                         stats.bytes_processed += content.size();
@@ -558,6 +653,10 @@ public:
         binary_converter_ = config;
     }
 
+    void setDocumentValidator(DocumentValidatorFn validator) {
+        document_validator_ = std::move(validator);
+    }
+
 private:
     bool matchesFilter(const fs::path& file_path) const {
         // Check extension
@@ -606,6 +705,7 @@ private:
     FileFilter filter_;
     BinaryConverter binary_converter_;
     bool metadata_extraction_;
+    DocumentValidatorFn document_validator_; ///< Optional per-document validator
 };
 
 // Public API implementation
@@ -650,6 +750,10 @@ void FileSystemIngester::setMetadataExtraction(bool enabled) {
 
 void FileSystemIngester::setBinaryConverter(const BinaryConverter& config) {
     impl_->setBinaryConverter(config);
+}
+
+void FileSystemIngester::setDocumentValidator(DocumentValidatorFn validator) {
+    impl_->setDocumentValidator(std::move(validator));
 }
 
 } // namespace ingestion

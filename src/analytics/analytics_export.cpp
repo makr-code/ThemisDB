@@ -22,6 +22,7 @@
 #include <sstream>
 #include <chrono>
 #include <cstring>
+#include <string_view>
 #include <spdlog/spdlog.h>
 
 // Apache Arrow integration (optional)
@@ -405,15 +406,27 @@ private:
                     } else if (std::holds_alternative<double>(value)) {
                         oss << std::get<double>(value);
                     } else if (std::holds_alternative<std::string>(value)) {
-                        // CSV string escaping
+                        // CSV string escaping (RFC 4180) with formula-injection protection.
+                        // Quote the value when it contains a comma, double-quote, newline,
+                        // or carriage-return, OR when it starts with a character that
+                        // spreadsheet applications may interpret as a formula prefix
+                        // (=, +, -, @).  Quoting prevents formula evaluation in
+                        // LibreOffice Calc and Google Sheets; Excel additionally requires
+                        // the user to acknowledge formula evaluation for quoted cells.
                         std::string str = std::get<std::string>(value);
-                        bool needs_quotes = str.find(',') != std::string::npos || 
-                                          str.find('"') != std::string::npos;
-                        
+
+                        static constexpr std::string_view kFormulaChars = "=+-@";
+                        bool needs_quotes =
+                            str.find(',')  != std::string::npos ||
+                            str.find('"')  != std::string::npos ||
+                            str.find('\n') != std::string::npos ||
+                            str.find('\r') != std::string::npos ||
+                            (!str.empty() && kFormulaChars.find(str[0]) != std::string::npos);
+
                         if (needs_quotes) {
                             oss << "\"";
                             for (char c : str) {
-                                if (c == '"') oss << "\"\"";  // Escape quotes
+                                if (c == '"') oss << "\"\"";  // Escape double-quotes per RFC 4180
                                 else oss << c;
                             }
                             oss << "\"";

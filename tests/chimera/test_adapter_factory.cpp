@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     440                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -432,6 +432,61 @@ TEST(ThemisDBAdapterTest, SystemInfo) {
     auto info = result.value.value();
     EXPECT_EQ(info.system_name, "ThemisDB");
     EXPECT_FALSE(info.version.empty());
+}
+
+// ---------------------------------------------------------------------------
+// Security audit: credential handling
+// ---------------------------------------------------------------------------
+
+TEST(ThemisDBAdapterSecurityTest, ConnectWithEmptyStringReturnsError) {
+    ThemisDBAdapter adapter;
+    auto result = adapter.connect("");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::INVALID_ARGUMENT);
+    EXPECT_FALSE(adapter.is_connected());
+}
+
+TEST(ThemisDBAdapterSecurityTest, ConnectWithInvalidSchemeReturnsError) {
+    ThemisDBAdapter adapter;
+    auto result = adapter.connect("postgresql://localhost:5432/mydb");
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::INVALID_ARGUMENT);
+    EXPECT_FALSE(adapter.is_connected());
+}
+
+TEST(ThemisDBAdapterSecurityTest, ConnectWithValidSchemeSucceeds) {
+    ThemisDBAdapter adapter;
+    auto result = adapter.connect("themisdb://localhost:7777/testdb");
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_TRUE(adapter.is_connected());
+}
+
+TEST(ThemisDBAdapterSecurityTest, CredentialsNotExposedInSystemInfo) {
+    ThemisDBAdapter adapter;
+    adapter.connect("themisdb://admin:s3cr3t@localhost:7777/mydb");
+
+    auto result = adapter.get_system_info();
+    ASSERT_TRUE(result.is_ok());
+    const auto& info = result.value.value();
+
+    for (const auto& kv : info.build_info) {
+        EXPECT_EQ(kv.second.find("s3cr3t"), std::string::npos)
+            << "Credential leaked in build_info[" << kv.first << "]";
+    }
+    for (const auto& kv : info.configuration) {
+        if (std::holds_alternative<std::string>(kv.second)) {
+            EXPECT_EQ(std::get<std::string>(kv.second).find("s3cr3t"),
+                      std::string::npos)
+                << "Credential leaked in configuration[" << kv.first << "]";
+        }
+    }
+}
+
+TEST(ThemisDBAdapterSecurityTest, CredentialsNotExposedWithoutUserInfo) {
+    ThemisDBAdapter adapter;
+    auto result = adapter.connect("themisdb://localhost:7777/cleandb");
+    EXPECT_TRUE(result.is_ok());
+    EXPECT_TRUE(adapter.is_connected());
 }
 
 /**

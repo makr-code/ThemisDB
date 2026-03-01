@@ -804,6 +804,28 @@ public:
     void clear();
 
     /**
+     * @brief Information about a single registered module.
+     *
+     * Returned by @c getRegisteredModules() for inspection and
+     * visualisation purposes.
+     */
+    struct RegisteredModuleInfo {
+        std::string name;
+        std::string version;
+        std::vector<ModuleDependency> deps;
+    };
+
+    /**
+     * @brief Return all registered modules and their dependency declarations.
+     *
+     * Intended for read-only inspection (e.g., dependency graph
+     * visualisation). The returned snapshot is sorted by module name.
+     *
+     * @return Sorted vector of registered module information.
+     */
+    std::vector<RegisteredModuleInfo> getRegisteredModules() const;
+
+    /**
      * @brief Check if a version string satisfies the given constraints.
      *
      * Supports semantic version strings of the form "major.minor.patch".

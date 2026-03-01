@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     232                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • cad5afa80  2026-02-22  Fix stale Stubs:1 metadata in memory_pool.h and memory_po... ║
@@ -28,6 +28,14 @@
 #include "themis/gpu/memory_pool.h"
 #include <algorithm>
 #include <stdexcept>
+
+#ifdef THEMIS_ENABLE_CUDA
+#  include <cuda_runtime.h>
+#endif
+
+#ifdef THEMIS_ENABLE_HIP
+#  include <hip/hip_runtime.h>
+#endif
 
 namespace themis {
 namespace gpu {
@@ -207,8 +215,39 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
     for (auto& s : slabs_) {
         if (!s.is_free) {
             if (s.offset != new_offset) {
-                // In a real CUDA/ROCm pool: cudaMemcpy(base + new_offset,
-                //   base + s.offset, slab_size_) would move the data here.
+                // Record the old→new mapping so callers can update raw device
+                // pointers they hold (base + old_offset → base + new_offset).
+                result.offset_map[s.offset] = new_offset;
+
+                // Physically move device data when a real VRAM base pointer has
+                // been supplied.  The pool owns no allocation on its own; the
+                // caller must have performed a cudaMalloc / hipMalloc of at
+                // least total_bytes_ bytes starting at device_base_ptr_.
+                //
+                // Non-overlap guarantee: all slab offsets are multiples of
+                // slab_size_, so |s.offset - new_offset| >= slab_size_ whenever
+                // the two differ.  The source region [s.offset, s.offset+slab_size_)
+                // and the destination [new_offset, new_offset+slab_size_) are
+                // therefore always disjoint — no temporary buffer is needed.
+#ifdef THEMIS_ENABLE_CUDA
+                if (device_base_ptr_ != 0) {
+                    auto* src = reinterpret_cast<void*>(device_base_ptr_ + s.offset);
+                    auto* dst = reinterpret_cast<void*>(device_base_ptr_ + new_offset);
+                    if (cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice) != cudaSuccess) {
+                        ++result.data_move_errors;
+                    }
+                }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+                if (device_base_ptr_ != 0) {
+                    auto* src = reinterpret_cast<void*>(device_base_ptr_ + s.offset);
+                    auto* dst = reinterpret_cast<void*>(device_base_ptr_ + new_offset);
+                    if (hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice) != hipSuccess) {
+                        ++result.data_move_errors;
+                    }
+                }
+#endif
+
                 s.offset = new_offset;
                 ++slabs_moved;
                 bytes_compacted += slab_size_;

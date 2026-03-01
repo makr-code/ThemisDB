@@ -458,12 +458,18 @@ TEST_F(JSONLLLMExporterTest, ProgressCallback) {
     options.progress_interval = 3;
     options.progress_callback = [&callback_count](const ExportStats& stats) {
         callback_count++;
+        EXPECT_GT(stats.exported_entities, 0u);
+        EXPECT_GT(stats.bytes_written, 0u);
+        EXPECT_GE(stats.duration.count(), 0);
+        EXPECT_GE(stats.estimated_eta_seconds, 0.0);
     };
     
     auto stats = exporter.exportEntities(test_entities_, options);
     
     // Callback should have been called
     EXPECT_GT(callback_count, 0);
+    // ETA must be zero at completion
+    EXPECT_DOUBLE_EQ(stats.estimated_eta_seconds, 0.0);
 }
 
 // ===== ExportStats JSON Tests =====
@@ -518,6 +524,119 @@ TEST_F(JSONLLLMExporterTest, MetadataInclusion) {
         auto j = json::parse(line);
         EXPECT_TRUE(j.contains("metadata"));
     }
+}
+
+// ===== Sensitive Field Redaction Tests =====
+
+TEST_F(JSONLLLMExporterTest, ExcludeFieldsFromMetadata) {
+    JSONLLLMConfig config;
+    config.include_metadata = true;
+    config.metadata_fields = {"source", "category", "ssn"};
+
+    for (auto& entity : test_entities_) {
+        entity.setField("source", "test_source");
+        entity.setField("category", "test_category");
+        entity.setField("ssn", "000-00-0000");  // Sensitive field (obviously fake format)
+    }
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/exclude_fields_metadata.jsonl";
+    options.exclude_fields = {"ssn"};  // Redact sensitive field
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    EXPECT_GT(stats.exported_entities, 0);
+
+    // Verify excluded field does not appear in output
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        EXPECT_EQ(line.find("000-00-0000"), std::string::npos)
+            << "Sensitive SSN should not appear in export output";
+        EXPECT_EQ(line.find("\"ssn\""), std::string::npos)
+            << "Excluded field key should not appear in export output";
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, IncludeFieldsLimitsMetadata) {
+    JSONLLLMConfig config;
+    config.include_metadata = true;
+    config.metadata_fields = {"source", "category", "internal_id"};
+
+    for (auto& entity : test_entities_) {
+        entity.setField("source", "test_source");
+        entity.setField("category", "test_category");
+        entity.setField("internal_id", "secret-internal-id");  // Should be excluded
+    }
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/include_fields_metadata.jsonl";
+    // Only include "question", "answer", and "source" fields (core + one metadata field)
+    options.include_fields = {"question", "answer", "context", "source"};
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    EXPECT_GT(stats.exported_entities, 0);
+
+    // Verify only the included metadata field appears
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        auto j = json::parse(line);
+        // "source" was in include_fields so it may appear in metadata
+        // "internal_id" was NOT in include_fields so it must not appear
+        EXPECT_EQ(line.find("internal_id"), std::string::npos)
+            << "Field not in include_fields should not appear in export";
+        EXPECT_EQ(line.find("secret-internal-id"), std::string::npos)
+            << "Value of non-included field should not appear in export";
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, ExcludeFieldsDoesNotAffectRequiredFormatFields) {
+    JSONLLLMConfig config;
+    config.style = JSONLFormat::Style::INSTRUCTION_TUNING;
+    config.include_metadata = false;
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/exclude_non_sensitive.jsonl";
+    options.exclude_fields = {"context"};  // Exclude optional input field, keep required ones
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // Entities should still export (required fields are not excluded)
+    EXPECT_GT(stats.exported_entities, 0);
+
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        auto j = json::parse(line);
+        EXPECT_TRUE(j.contains("instruction")) << "Required instruction field must be present";
+        EXPECT_TRUE(j.contains("output")) << "Required output field must be present";
+        // "context" maps to the input field and should be absent
+        EXPECT_FALSE(j.contains("input")) << "Excluded context field should not appear as input";
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, ExcludeRequiredCoreFieldSkipsEntity) {
+    JSONLLLMConfig config;
+    config.style = JSONLFormat::Style::INSTRUCTION_TUNING;
+
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/exclude_required_field.jsonl";
+    options.exclude_fields = {"question"};  // "question" is the instruction_field
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // All entities should be skipped because the required instruction field is excluded
+    EXPECT_EQ(stats.exported_entities, 0);
 }
 
 // ===== P1 Tests: Tenant Isolation =====
@@ -748,7 +867,29 @@ TEST_F(JSONLLLMExporterTest, CompressionGzip) {
     EXPECT_LT(compression_ratio, 1.0);  // Compressed should be smaller
 }
 
-TEST_F(JSONLLLMExporterTest, CompressionDisabled) {
+TEST_F(JSONLLLMExporterTest, CompressionZstd) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ + "/compressed.jsonl.zst";
+    options.compress = true;
+    options.compression_type = "zstd";
+    options.compression_level = 3;
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    EXPECT_GT(stats.exported_entities, 0);
+    EXPECT_TRUE(std::filesystem::exists(options.output_path));
+    
+    // Check compression metrics
+    auto metrics = exporter.getMetrics();
+    double compression_ratio = metrics->getCompressionRatio();
+    EXPECT_GT(compression_ratio, 0.0);
+    EXPECT_LT(compression_ratio, 1.0);  // Compressed should be smaller
+}
+
+TEST_F(JSONLLLMExporterTest, NoCompressionMetrics) {
     JSONLLLMConfig config;
     JSONLLLMExporter exporter(config);
     
@@ -792,5 +933,113 @@ TEST_F(JSONLLLMExporterTest, BufferSizeConfiguration) {
     auto stats = exporter.exportEntities(test_entities_, options);
     
     EXPECT_GT(stats.exported_entities, 0);
+}
+
+// ===== Toxicity Filter Tests =====
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterDisabledByDefault) {
+    JSONLLLMConfig config;
+    // toxicity filter is off by default; all entities should export
+    JSONLLLMExporter exporter(config);
+
+    // Add an entity with clearly toxic content in the answer field
+    BaseEntity toxic_entity;
+    toxic_entity.setPrimaryKey("toxic_entity");
+    toxic_entity.setField("question", "Test?");
+    toxic_entity.setField("answer",
+        "hate hate hate hate hate insult violence discrimination");
+    toxic_entity.setField("context", "ctx");
+
+    std::vector<BaseEntity> entities = {toxic_entity};
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_disabled.jsonl";
+
+    auto stats = exporter.exportEntities(entities, options);
+
+    // Should export the toxic entity because the filter is disabled
+    EXPECT_EQ(stats.exported_entities, 1u);
+}
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterRejectsToxicSamples) {
+    JSONLLLMConfig config;
+    config.quality.enable_toxicity_filter = true;
+    config.quality.max_toxicity_score = 0.5;
+    JSONLLLMExporter exporter(config);
+
+    // Toxic entity: 5+ marker hits saturates score to 1.0 → rejected
+    // Note: repetitive toxic markers are intentional test data for scoring
+    BaseEntity toxic_entity;
+    toxic_entity.setPrimaryKey("toxic_entity");
+    toxic_entity.setField("question", "Test?");
+    toxic_entity.setField("answer",
+        "hate hate hate hate hate insult violence discrimination");
+    toxic_entity.setField("context", "ctx");
+
+    // Clean entity: no toxic markers → score 0.0 → passes
+    BaseEntity clean_entity;
+    clean_entity.setPrimaryKey("clean_entity");
+    clean_entity.setField("question", "What is the capital of France?");
+    clean_entity.setField("answer", "The capital of France is Paris.");
+    clean_entity.setField("context", "geography");
+
+    std::vector<BaseEntity> entities = {toxic_entity, clean_entity};
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_enabled.jsonl";
+
+    auto stats = exporter.exportEntities(entities, options);
+
+    // Only the clean entity should be exported
+    EXPECT_EQ(stats.exported_entities, 1u);
+    EXPECT_EQ(stats.total_entities, 2u);
+}
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterPassesBenignSamples) {
+    JSONLLLMConfig config;
+    config.quality.enable_toxicity_filter = true;
+    config.quality.max_toxicity_score = 0.5;
+    JSONLLLMExporter exporter(config);
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_benign.jsonl";
+
+    auto stats = exporter.exportEntities(test_entities_, options);
+
+    // All standard test entities have benign content and should export
+    EXPECT_GT(stats.exported_entities, 0u);
+}
+
+TEST_F(JSONLLLMExporterTest, ToxicityFilterMetricsRecorded) {
+    JSONLLLMConfig config;
+    config.quality.enable_toxicity_filter = true;
+    config.quality.max_toxicity_score = 0.3;
+    JSONLLLMExporter exporter(config);
+
+    // Toxic entity with moderate toxicity (2 hits → score 0.4, above 0.3)
+    BaseEntity toxic_entity;
+    toxic_entity.setPrimaryKey("mod_toxic");
+    toxic_entity.setField("question", "Test?");
+    toxic_entity.setField("answer", "hate hate something else here");
+    toxic_entity.setField("context", "ctx");
+
+    std::vector<BaseEntity> entities = {toxic_entity};
+
+    ExportOptions options;
+    options.output_path = test_dir_ + "/toxicity_metrics.jsonl";
+
+    auto stats = exporter.exportEntities(entities, options);
+
+    // Entity should be rejected
+    EXPECT_EQ(stats.exported_entities, 0u);
+
+    // Quality filter rejections should be recorded
+    auto metrics = exporter.getMetrics();
+    auto rejections = metrics->getQualityFilterRejections();
+    size_t total_rejections = 0;
+    for (const auto& kv : rejections) {
+        total_rejections += kv.second;
+    }
+    EXPECT_GT(total_rejections, 0u);
 }
 

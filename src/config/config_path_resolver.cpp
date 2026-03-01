@@ -408,6 +408,42 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
     {"config/community_license.example.json", "config/licensing/community/example.json"},
     {"config/enterprise_license.example.json", "config/licensing/enterprise/example.json"},
     {"config/enterprise_license.test.json", "config/licensing/enterprise/test.json"},
+
+    // AI/ML – Additional LLM Configurations
+    {"config/llm_config.example.yaml", "config/ai_ml/llm/config.example.yaml"},
+    {"config/llm_config.production.yaml", "config/ai_ml/llm/config.production.yaml"},
+    {"config/llm_extended_context.yaml", "config/ai_ml/llm/extended_context.yaml"},
+    {"config/llm_remote_models.yaml", "config/ai_ml/llm/remote_models.yaml"},
+    {"config/llm-models.yaml", "config/ai_ml/llm/models.yaml"},
+    {"config/config_with_llm.yaml", "config/ai_ml/llm/config_with_llm.yaml"},
+    {"config/few_shot_examples.yaml", "config/ai_ml/llm/few_shot_examples.yaml"},
+    {"config/prompt_optimizer_config.yaml", "config/ai_ml/llm/prompt_optimizer_config.yaml"},
+
+    // AI/ML – Vision and Model Configurations
+    {"config/vision_licenses.yaml", "config/ai_ml/vision/licenses.yaml"},
+    {"config/image_analysis.yaml", "config/ai_ml/vision/image_analysis.yaml"},
+    {"config/phi3_lora_training.yaml", "config/ai_ml/phi3_lora_training.yaml"},
+    {"config/default_model_config.yaml", "config/ai_ml/default_model_config.yaml"},
+    {"config/flash_attention_config.yaml", "config/ai_ml/flash_attention_config.yaml"},
+    {"config/self_awareness.yaml", "config/ai_ml/self_awareness.yaml"},
+
+    // Distributed – Replication and Sharding
+    {"config/replication.example.yaml", "config/distributed/replication/basic.example.yaml"},
+    {"config/replication-ha.example.yaml", "config/distributed/replication/ha.example.yaml"},
+    {"config/sharding-with-metrics.yaml", "config/distributed/sharding/with-metrics.yaml"},
+
+    // Networking – Additional
+    {"config/adaptive_routing.example.json", "config/networking/adaptive_routing.example.json"},
+
+    // Performance – Additional
+    {"config/ingestion-optimized.yaml", "config/performance/ingestion-optimized.yaml"},
+    {"config/scaling_optimizations_quickstart.yaml", "config/performance/scaling_optimizations_quickstart.yaml"},
+
+    // Compliance – Additional
+    {"config/policies.yaml", "config/compliance/policies.yaml"},
+
+    // Security – Additional
+    {"config/timestamp_authority.yaml", "config/security/timestamp_authority.yaml"},
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -990,6 +1026,255 @@ const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TA
             "docs/config_migration_guide.md"
         }
     },
+    // ── AI/ML – Additional LLM Configurations ────────────────────────────────
+    {
+        "config/llm_config.example.yaml",
+        {
+            "config/llm_config.example.yaml",
+            "config/ai_ml/llm/config.example.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/llm_config.production.yaml",
+        {
+            "config/llm_config.production.yaml",
+            "config/ai_ml/llm/config.production.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/llm_extended_context.yaml",
+        {
+            "config/llm_extended_context.yaml",
+            "config/ai_ml/llm/extended_context.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/llm_remote_models.yaml",
+        {
+            "config/llm_remote_models.yaml",
+            "config/ai_ml/llm/remote_models.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/llm-models.yaml",
+        {
+            "config/llm-models.yaml",
+            "config/ai_ml/llm/models.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/config_with_llm.yaml",
+        {
+            "config/config_with_llm.yaml",
+            "config/ai_ml/llm/config_with_llm.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/few_shot_examples.yaml",
+        {
+            "config/few_shot_examples.yaml",
+            "config/ai_ml/llm/few_shot_examples.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/prompt_optimizer_config.yaml",
+        {
+            "config/prompt_optimizer_config.yaml",
+            "config/ai_ml/llm/prompt_optimizer_config.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── AI/ML – Vision and Model Configurations ───────────────────────────────
+    {
+        "config/vision_licenses.yaml",
+        {
+            "config/vision_licenses.yaml",
+            "config/ai_ml/vision/licenses.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/image_analysis.yaml",
+        {
+            "config/image_analysis.yaml",
+            "config/ai_ml/vision/image_analysis.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/phi3_lora_training.yaml",
+        {
+            "config/phi3_lora_training.yaml",
+            "config/ai_ml/phi3_lora_training.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/default_model_config.yaml",
+        {
+            "config/default_model_config.yaml",
+            "config/ai_ml/default_model_config.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/flash_attention_config.yaml",
+        {
+            "config/flash_attention_config.yaml",
+            "config/ai_ml/flash_attention_config.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/self_awareness.yaml",
+        {
+            "config/self_awareness.yaml",
+            "config/ai_ml/self_awareness.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Distributed – Replication and Sharding ────────────────────────────────
+    {
+        "config/replication.example.yaml",
+        {
+            "config/replication.example.yaml",
+            "config/distributed/replication/basic.example.yaml",
+            "distributed",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/replication-ha.example.yaml",
+        {
+            "config/replication-ha.example.yaml",
+            "config/distributed/replication/ha.example.yaml",
+            "distributed",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/sharding-with-metrics.yaml",
+        {
+            "config/sharding-with-metrics.yaml",
+            "config/distributed/sharding/with-metrics.yaml",
+            "distributed",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Networking – Additional ───────────────────────────────────────────────
+    {
+        "config/adaptive_routing.example.json",
+        {
+            "config/adaptive_routing.example.json",
+            "config/networking/adaptive_routing.example.json",
+            "networking",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Performance – Additional ──────────────────────────────────────────────
+    {
+        "config/ingestion-optimized.yaml",
+        {
+            "config/ingestion-optimized.yaml",
+            "config/performance/ingestion-optimized.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/scaling_optimizations_quickstart.yaml",
+        {
+            "config/scaling_optimizations_quickstart.yaml",
+            "config/performance/scaling_optimizations_quickstart.yaml",
+            "performance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Compliance – Additional ───────────────────────────────────────────────
+    {
+        "config/policies.yaml",
+        {
+            "config/policies.yaml",
+            "config/compliance/policies.yaml",
+            "compliance",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── Security – Additional ─────────────────────────────────────────────────
+    {
+        "config/timestamp_authority.yaml",
+        {
+            "config/timestamp_authority.yaml",
+            "config/security/timestamp_authority.yaml",
+            "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -1258,14 +1543,45 @@ void ConfigPathResolver::validatePath(const std::string& path) {
     if (std::filesystem::is_symlink(fs_path, ec) && !ec) {
         auto canonical = std::filesystem::canonical(fs_path, ec);
         if (!ec) {
-            auto cwd = std::filesystem::current_path(ec);
-            if (!ec) {
-                // The symlink target must reside under cwd (our effective config root)
-                auto cwd_str      = cwd.generic_string();
-                auto canonical_str = canonical.generic_string();
-                if (canonical_str.find(cwd_str) != 0) {
-                    throw InvalidPathException(path, "symlink escapes config root");
+            std::filesystem::path config_root;
+            if (fs_path.is_absolute()) {
+                // For absolute paths, derive the config root by walking path components
+                // up to and including the first "config" directory component.
+                // The absolute-path check above guarantees the path already contains
+                // "/config/" or ends with "/config", so this loop always finds a match.
+                // Path traversal ("..") is already rejected before this point, so no
+                // component can escape the derived config root.
+                std::filesystem::path acc;
+                for (const auto& component : fs_path) {
+                    acc /= component;
+                    if (component.string() == "config") {
+                        config_root = acc;
+                        break;
+                    }
                 }
+                if (config_root.empty()) {
+                    // Dead-code defensive guard: the absolute-path check above should
+                    // have already thrown InvalidPathException for any path that lacks a
+                    // "config" component, so this branch is never reached in practice.
+                    config_root = fs_path.parent_path();
+                }
+            } else {
+                config_root = std::filesystem::current_path(ec);
+                if (ec) {
+                    // Cannot determine config root; skip symlink check.
+                    return;
+                }
+            }
+            auto config_root_str = config_root.generic_string();
+            auto canonical_str   = canonical.generic_string();
+            // The canonical target must reside inside the config root tree.
+            // We accept an exact match (symlink to the config root dir itself)
+            // and any proper subdirectory (canonical starts with root + "/").
+            // Appending "/" prevents false passes from directory-name prefixes
+            // (e.g. "/opt/config_other" must not match root "/opt/config").
+            if (canonical_str != config_root_str &&
+                canonical_str.find(config_root_str + "/") != 0) {
+                throw InvalidPathException(path, "symlink escapes config root");
             }
         }
     }

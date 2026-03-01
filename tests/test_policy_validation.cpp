@@ -172,6 +172,23 @@ TEST_F(PolicyValidationTest, DetectOverlappingPermissions_NoOverlap) {
     EXPECT_TRUE(conflicts.empty());
 }
 
+TEST_F(PolicyValidationTest, DetectOverlappingPermissions_TwoRulesWithSamePattern) {
+    PolicyValidator validator;
+
+    // Exactly two rules covering the same resource and action – must be flagged
+    PolicyRule rule1 = createTestRule("pair1", "Pair Rule 1", {"data/*"}, {"read"});
+    PolicyRule rule2 = createTestRule("pair2", "Pair Rule 2", {"data/*"}, {"read"});
+
+    policy_mgr_->addRule(rule1);
+    policy_mgr_->addRule(rule2);
+
+    auto conflicts = validator.detectOverlappingPermissions(*policy_mgr_);
+
+    ASSERT_FALSE(conflicts.empty()) << "Two rules with identical resource/action must be flagged";
+    EXPECT_EQ(conflicts[0].conflict_type, "overlapping");
+    EXPECT_EQ(conflicts[0].conflicting_rule_ids.size(), 2u);
+}
+
 TEST_F(PolicyValidationTest, DetectCircularDependencies_SimpleCircle) {
     PolicyValidator validator;
     

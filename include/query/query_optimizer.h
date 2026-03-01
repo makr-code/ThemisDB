@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     279                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include <memory>
 
 #include "query/query_engine.h"
+#include "query/adaptive_optimizer.h"
 
 // Forward-declare PerQueryCostModel to avoid a hard dependency;
 // callers that want to use it must include the full header.
@@ -246,26 +247,9 @@ private:
     mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
 
     // Adaptive query optimization components
-    class AdaptiveQueryStats {
-    public:
-        struct QueryExecution {
-            std::string query_hash;
-            size_t estimated_rows = 0;
-            size_t actual_rows = 0;
-            double execution_time_ms = 0.0;
-            double selectivity = 1.0;
-            std::chrono::system_clock::time_point timestamp;
-        };
-        
-        void recordExecution(const QueryExecution& exec) {}
-        bool hasCardinalityMisestimation(const std::string& hash) const { return false; }
-        double getAdaptiveAdjustmentFactor(const std::string& hash) const { return 1.0; }
-    };
-    
-    class AdaptivePlanSelector {
-    public:
-        AdaptivePlanSelector() = default;
-    };
+    // Use the full implementations from adaptive_optimizer.h
+    using AdaptiveQueryStats = ::themis::AdaptiveQueryStats;
+    using AdaptivePlanSelector = ::themis::AdaptivePlanSelector;
     
     class DistributedQueryCostModel {
     public:

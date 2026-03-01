@@ -19,7 +19,9 @@
 
 #include <gtest/gtest.h>
 #include "themis/gpu/admin_api.h"
+#include "themis/gpu/feature_flags.h"
 #include "themis/gpu/memory_manager.h"
+#include "themis/gpu/mig_manager.h"
 
 using namespace themis::gpu;
 
@@ -192,4 +194,57 @@ TEST_F(GPUAdminAPITest, GetStats_JsonDoesNotContainRawNewline) {
     const auto json = api.getStatsJson();
     // Raw newlines in JSON are invalid; they must be escaped.
     EXPECT_EQ(std::string::npos, json.find('\n'));
+}
+
+// ---------------------------------------------------------------------------
+// getMIGInstancesJson()
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUAdminAPITest, GetMIGInstances_EmptyRegistry_ReturnsEmptyArray) {
+    MIGManager::GetInstance().reset();
+    GPUAdminAPI api(defaultConfig());
+    EXPECT_EQ("[]", api.getMIGInstancesJson());
+}
+
+TEST_F(GPUAdminAPITest, GetMIGInstances_IsArray) {
+    MIGManager::GetInstance().reset();
+    GPUAdminAPI api(defaultConfig());
+    const auto json = api.getMIGInstancesJson();
+    EXPECT_EQ('[', json.front());
+    EXPECT_EQ(']', json.back());
+}
+
+TEST_F(GPUAdminAPITest, GetMIGInstances_WithPartition_ContainsExpectedFields) {
+    auto& mig = MIGManager::GetInstance();
+    mig.reset();
+    GPUFeatureFlags::GetInstance().enable(GPUFeatureFlags::Feature::MIG_MANAGER);
+
+    DeviceInfo dev;
+    dev.index         = 0;
+    dev.device_index  = 0;
+    dev.name          = "NVIDIA A100-SXM4-40GB";
+    dev.backend       = "CUDA";
+    dev.compute_major = 8;
+    dev.compute_minor = 0;
+    dev.total_vram_bytes = 40ULL * 1024 * 1024 * 1024;
+    dev.free_vram_bytes  = dev.total_vram_bytes;
+    dev.is_healthy    = true;
+    dev.mig_max_instances = 7;
+
+    std::string id;
+    ASSERT_EQ(mig.createPartition(0, "1g.5gb", id, {dev}), MIGManager::Status::OK);
+    ASSERT_EQ(mig.assignToTenant(id, "tenant_x"), MIGManager::Status::OK);
+
+    GPUAdminAPI api(defaultConfig());
+    const auto json = api.getMIGInstancesJson();
+
+    EXPECT_NE(std::string::npos, json.find("instance_id"));
+    EXPECT_NE(std::string::npos, json.find("device_index"));
+    EXPECT_NE(std::string::npos, json.find("profile"));
+    EXPECT_NE(std::string::npos, json.find("1g.5gb"));
+    EXPECT_NE(std::string::npos, json.find("memory_bytes"));
+    EXPECT_NE(std::string::npos, json.find("tenant_x"));
+
+    mig.reset();
+    GPUFeatureFlags::GetInstance().resetToDefaults();
 }

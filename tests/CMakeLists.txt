@@ -50,6 +50,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
 # Exclude tests requiring unimplemented performance monitoring classes
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_pmu_counters\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_memory_pressure\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_io_uring_zero_copy\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -73,9 +74,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
         ".*test_rag_hallucination_dashboard\\.cpp$"
-        ".*test_rag_citation_highlighter\\.cpp$"
         ".*test_rag_document_summarizer\\.cpp$"
-        ".*test_rag_citation_highlighter\\.cpp$"
         ".*test_rag_knowledge_graph_retriever\\.cpp$"
         ".*test_rag_document_splitter\\.cpp$"
         ".*test_rag_hybrid_retriever\\.cpp$"
@@ -93,6 +92,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_gpu_lora_layers\\.cpp$"
         ".*test_gradient_checkpointing\\.cpp$"
         ".*test_inference_engine_enhanced\\.cpp$"
+        ".*test_speculative_decoder\\.cpp$"
         ".*test_kernel_fusion\\.cpp$"
         ".*test_kernel_fusion_cpu_fallback\\.cpp$"
         ".*test_kernel_fusion_cuda\\.cpp$"
@@ -122,6 +122,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_shared_worker_pool\\.cpp$"
         ".*test_json_schema_binding\\.cpp$"
         ".*test_openai_compat_adapter\\.cpp$"
+        ".*test_model_quantization_pipeline\\.cpp$"
+        ".*test_model_router\\.cpp$"
     )
 endif()
 
@@ -180,6 +182,25 @@ if(NOT THEMIS_ENABLE_WEBSOCKET)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_HTTP3)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_http3_protocol\\.cpp$"
+        ".*test_quic_transport\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_GRPC)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_grpc_transport\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_SERVICE_MESH)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_service_mesh\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"
@@ -189,9 +210,12 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_fs\\.cpp$"
         ".*test_content_policy.*\\.cpp$"
         ".*test_pdf_processor\\.cpp$"
+        ".*test_ocr_processor\\.cpp$"
         ".*test_content_embedding_pipeline\\.cpp$"
         ".*test_content_html_processor\\.cpp$"
         ".*test_content_markdown_processor\\.cpp$"
+        ".*test_content_version_manager\\.cpp$"
+        ".*test_content_streaming_ingestion\\.cpp$"
     )
 endif()
 
@@ -225,6 +249,12 @@ if(NOT THEMIS_ENABLE_WISCKEY)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_PMEM)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_pmem_storage\\.cpp$"
+    )
+endif()
+
 # Missing implementations and unfinished features
 list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
@@ -250,7 +280,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bao\\.cpp$"
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
-    ".*test_pmem_storage\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
     ".*test_continuous_learning_orchestrator\\.cpp$"
     ".*test_gpu_stream_manager\\.cpp$"
@@ -299,6 +328,17 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_serverless_function_api_handler\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
+    # test_importer_plugin_api uses THEMIS_IMPORTER_PLUGIN_IMPL which generates
+    # C-linkage createPlugin/destroyPlugin symbols.  postgres_importer.cpp also
+    # exports these same symbols in its own extern "C" block (see the bottom of
+    # src/importers/postgres_importer.cpp).  Linking both into the same static
+    # binary causes a duplicate-symbol linker error.  Build it as a dedicated
+    # standalone target below instead.
+    ".*test_importer_plugin_api\\.cpp$"
+    # test_plugin_capability_negotiation is built as a dedicated standalone
+    # target below (PluginCapabilityNegotiationTests) to allow running the
+    # capability-negotiation tests in isolation.
+    ".*test_plugin_capability_negotiation\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -440,6 +480,17 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the GPU query accelerator test excluded by the broad
+# ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUQueryAccelerator
+# (scan, sort, aggregate, hashJoin, dotProduct FP16/BF16, and annSearch with
+# CPU brute-force exact k-NN fallback).  It uses only CPU-side bookkeeping
+# (force_cpu = true) and requires no GPU or cuVS/RAFT hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_query_accelerator.cpp
+    )
+endif()
+
 # Re-include the GPU unified memory test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates GPUUnifiedMemoryAllocator (allocate, free, prefetch,
 # advise, stats, tenant isolation, and concurrent safety).  It uses only CPU-side
@@ -483,6 +534,27 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include the P2P transfer test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUP2PTransferManager (feature-gate enforcement,
+# peer access lifecycle, CPU fallback transfer, error handling, statistics, and
+# concurrent safety).  It uses only CPU-side simulation and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_p2p_transfer.cpp
+    )
+endif()
+
+# Re-include the GPU load balancer test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPULoadBalancer (ROUND_ROBIN, LEAST_LOADED,
+# FIRST_HEALTHY, and TOPOLOGY_AWARE strategies), NVLink topology-aware scheduling
+# via setTopology() / selectTopologyAware(), device failure handling, and
+# concurrent safety.  It uses only CPU-side bookkeeping and requires no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_load_balancer.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
@@ -495,6 +567,9 @@ if(NOT THEMIS_ENABLE_LLM)
         # LLMProcessAnalyzer has no actual LLM library dependency (uses a
         # simulated callLLM stub) — include in every build variant.
         ${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp
+        # CitationHighlighter has no LLM dependency (pure Jaccard term-overlap);
+        # re-include so non-LLM builds exercise the citation highlighting feature.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_citation_highlighter.cpp
     )
 endif()
 
@@ -513,6 +588,9 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/kafka_connector.cpp
         ../src/ingestion/object_storage_connector.cpp
         ../src/ingestion/database_connector.cpp
+        ../src/ingestion/web_crawler_connector.cpp
+        ../src/ingestion/ingestion_coordinator.cpp
+        ../src/ingestion/cdc_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -539,6 +617,8 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_model_cache.cpp
         ../src/voice/voice_batch_processor.cpp
         ../src/voice/voice_authenticator.cpp
+        ../src/voice/voice_macro_manager.cpp
+        ../src/voice/emotion_analyzer.cpp
     )
 endif()
 
@@ -550,6 +630,9 @@ target_sources(themis_tests PRIVATE
     ../src/chimera/themisdb_adapter.cpp
     ../src/chimera/weaviate_adapter.cpp
     ../src/chimera/qdrant_adapter.cpp
+    ../src/chimera/pinecone_adapter.cpp
+    ../src/chimera/elasticsearch_adapter.cpp
+    ../src/chimera/neo4j_adapter.cpp
 )
 
 set(_themis_test_core_libs)
@@ -622,6 +705,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/prometheus_remote_write.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
@@ -733,6 +817,9 @@ if(TARGET prometheus-cpp::core)
 endif()
 if(TARGET prometheus-cpp::pull)
     target_link_libraries(themis_tests PRIVATE prometheus-cpp::pull)
+endif()
+if(TARGET Snappy::snappy)
+    target_link_libraries(themis_tests PRIVATE Snappy::snappy)
 endif()
 if(TARGET libzip::zip)
     target_link_libraries(themis_tests PRIVATE libzip::zip)
@@ -852,6 +939,17 @@ add_test(NAME AllTests COMMAND themis_tests)
 set_tests_properties(AllTests PROPERTIES
     LABELS "all;unified"
     TIMEOUT 600
+)
+
+# Themis Wire Protocol V1 unit tests (subset of AllTests)
+# Covers: WireV1Constants, WireFrameHeader, OpCode, MessageFlags,
+#         MessageDispatcher, WireProtocolSession, WireProtocolServer,
+#         WireProtocolConstants (from test_themis_wire_protocol_server.cpp)
+add_test(NAME ThemisWireProtocolV1Tests
+    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*)
+set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
+    LABELS "wire;protocol;themis;unit"
+    TIMEOUT 60
 )
 
 # Session management and revocation endpoint tests (subset of AllTests)
@@ -1150,6 +1248,44 @@ else()
 endif()
 
 # ============================================================================
+# Parallel Graph Traversal Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
+    message(STATUS "Adding Parallel Graph Traversal tests")
+
+    add_executable(test_graph_parallel_traversal
+        test_graph_parallel_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_parallel_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_parallel_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME ParallelGraphTraversalTests COMMAND test_graph_parallel_traversal)
+
+    set_tests_properties(ParallelGraphTraversalTests PROPERTIES
+        LABELS "graph;parallel;bfs;dfs;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Parallel Graph Traversal: multi-source BFS/DFS, fan-out threshold, depth/result limits")
+else()
+    message(STATUS "Parallel Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
+endif()
+
+# ============================================================================
 # HTTP Client Pool Tests
 # ============================================================================
 
@@ -1369,8 +1505,39 @@ else()
 endif()
 
 # ============================================================================
-# Enhanced Query Cache Tests
+# HNSW Incremental Re-index Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hnsw_incremental_reindex.cpp")
+    message(STATUS "Adding HNSW Incremental Re-index tests")
+
+    add_executable(test_hnsw_incremental_reindex
+        test_hnsw_incremental_reindex.cpp
+    )
+
+    target_link_libraries(test_hnsw_incremental_reindex PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+    )
+
+    target_compile_definitions(test_hnsw_incremental_reindex PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HnswIncrementalReindexTests COMMAND test_hnsw_incremental_reindex)
+
+    set_tests_properties(HnswIncrementalReindexTests PROPERTIES
+        LABELS "index;hnsw;incremental;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  HNSW Incremental Re-index: add/remove/update/unchanged, idempotency, full-rebuild trigger")
+else()
+    message(STATUS "HNSW Incremental Re-index tests not found")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_enhanced_query_cache.cpp")
     message(STATUS "Adding Enhanced Query Cache tests")
@@ -2145,6 +2312,36 @@ else()
     message(STATUS "Vector Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
 endif()
 
+# Lossless Vector Compression Tests (sparse encoding for index compression)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_compression_lossless.cpp")
+    message(STATUS "Adding Lossless Vector Compression tests")
+
+    add_executable(test_vector_compression_lossless
+        test_vector_compression_lossless.cpp
+    )
+
+    target_link_libraries(test_vector_compression_lossless PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vector_compression_lossless PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorCompressionLosslessTests COMMAND test_vector_compression_lossless)
+
+    set_tests_properties(VectorCompressionLosslessTests PROPERTIES
+        LABELS "index;compression;sparse;lossless;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Lossless Vector Compression: sparse CSR, delta+varint, dictionary encoding")
+else()
+    message(STATUS "Lossless vector compression tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_compression_lossless.cpp")
+endif()
+
 # Transaction Savepoint Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_savepoints.cpp")
     message(STATUS "Adding Transaction Savepoint tests")
@@ -2239,6 +2436,134 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
     message(STATUS "  Transaction OCC: getEntityVersion, optimisticPut, optimisticErase, retry pattern")
 else()
     message(STATUS "Transaction OCC tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_occ.cpp")
+endif()
+
+# Transaction Bulk API Tests
+# APIs under test : Transaction::bulkPutEntities, Transaction::bulkEraseEntities
+# Test count      : 12 tests (unit + integration)
+# Test types      : unit (empty-vector no-op, single entity, invalid PK rejection,
+#                         finished-transaction guard, large-batch commit)
+#                   integration (multi-entity commit with secondary-index verification,
+#                                rollback atomicity, mixed put+erase in one transaction,
+#                                bulk erase of previously inserted rows)
+# Acceptance      : All bulk operations commit/rollback atomically; secondary indexes
+#                   stay consistent; empty or invalid inputs are rejected with a
+#                   descriptive error message.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Adding Transaction Bulk API tests")
+
+    add_executable(test_transaction_bulk
+        test_transaction_bulk.cpp
+    )
+
+    target_link_libraries(test_transaction_bulk PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_bulk PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+
+    set_tests_properties(TransactionBulkTests PROPERTIES
+        LABELS "transaction;bulk;batch;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete")
+else()
+    message(STATUS "Transaction Bulk API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+endif()
+
+# Transaction Retry Manager Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
+    message(STATUS "Adding Transaction Retry Manager tests")
+
+    add_executable(test_transaction_retry
+        test_transaction_retry.cpp
+    )
+
+    target_link_libraries(test_transaction_retry PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_retry PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionRetryTests COMMAND test_transaction_retry)
+
+    set_tests_properties(TransactionRetryTests PROPERTIES
+        LABELS "transaction;retry;backoff;circuit-breaker;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Transaction Retry: executeWithRetry, backoff, circuit breaker, error classification")
+else()
+    message(STATUS "Transaction Retry tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_retry.cpp")
+endif()
+
+# Per-tenant Transaction Namespace Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+    message(STATUS "Adding Per-tenant Transaction Namespace tests")
+
+    add_executable(test_tenant_transaction_namespace
+        test_tenant_transaction_namespace.cpp
+    )
+
+    target_link_libraries(test_tenant_transaction_namespace PRIVATE
+# Transaction Bulk API Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Adding Transaction Bulk API tests")
+
+    add_executable(test_transaction_bulk
+        test_transaction_bulk.cpp
+    )
+
+    target_link_libraries(test_transaction_bulk PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tenant_transaction_namespace PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TenantTransactionNamespaceTests COMMAND test_tenant_transaction_namespace)
+
+    set_tests_properties(TenantTransactionNamespaceTests PROPERTIES
+        LABELS "transaction;tenant;namespace;isolation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Tenant Transaction Namespace: tenant-scoped keys, per-tenant stats, abortTenantTransactions")
+else()
+    message(STATUS "Per-tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+    target_compile_definitions(test_transaction_bulk PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+
+    set_tests_properties(TransactionBulkTests PROPERTIES
+        LABELS "transaction;bulk;batch;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete without per-row overhead")
+else()
+    message(STATUS "Transaction Bulk tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
 endif()
 
 # Utilities Comprehensive Tests
@@ -2550,6 +2875,74 @@ else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
 endif()
 
+# Learned Index Structures — ML-based B-tree replacement (Issue #1990)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
+    message(STATUS "Adding Learned Index tests (Issue #1990)")
+
+    add_executable(test_learned_index
+        index/test_learned_index.cpp
+    )
+
+    target_include_directories(test_learned_index PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_learned_index PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_learned_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LearnedIndexTests COMMAND test_learned_index)
+
+    set_tests_properties(LearnedIndexTests PROPERTIES
+        LABELS "index;learned;ml;btree;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LearnedIndex: training, point lookup, range query, serialisation, security, edge cases")
+else()
+    message(STATUS "Learned Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
+endif()
+
+# Distributed Vector Index across Shards (Issue #1879)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
+    message(STATUS "Adding Distributed Vector Index tests (Issue #1879)")
+
+    add_executable(test_distributed_vector_index
+        index/test_distributed_vector_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/distributed_vector_index.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/ann_index.cpp
+    )
+
+    target_include_directories(test_distributed_vector_index PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_distributed_vector_index PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_vector_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedVectorIndexTests COMMAND test_distributed_vector_index)
+
+    set_tests_properties(DistributedVectorIndexTests PROPERTIES
+        LABELS "index;distributed;vector;shards;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedVectorIndex: insert/remove, scatter-gather KNN, shard routing, stats")
+else()
+    message(STATUS "Distributed Vector Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
+endif()
+
 # Cold/Warm Tier Index Migration Tests (Issue #2407)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
     message(STATUS "Adding Cold/Warm Tier Index Migration tests (Issue #2407)")
@@ -2582,6 +2975,79 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
     message(STATUS "  TieredIndexMigration: register, access tracking, demotion, promotion, auto-pass")
 else()
     message(STATUS "TieredIndexMigration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
+endif()
+
+# HNSW recall@10 integration tests (Production Readiness Checklist)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_hnsw_recall_integration.cpp")
+    message(STATUS "Adding HNSW recall@10 integration tests")
+
+    add_executable(test_hnsw_recall_integration
+        index/test_hnsw_recall_integration.cpp
+    )
+
+    target_include_directories(test_hnsw_recall_integration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_hnsw_recall_integration PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    if(TARGET hnswlib::hnswlib)
+        target_link_libraries(test_hnsw_recall_integration PRIVATE hnswlib::hnswlib)
+    endif()
+
+    target_compile_definitions(test_hnsw_recall_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HnswRecallIntegrationTests COMMAND test_hnsw_recall_integration)
+
+    set_tests_properties(HnswRecallIntegrationTests PROPERTIES
+        LABELS "index;hnsw;recall;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  HnswRecall: recall@10 >= 0.90 for L2, Cosine, Dot Product; ef sensitivity; brute-force baseline")
+else()
+    message(STATUS "HNSW recall@10 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_hnsw_recall_integration.cpp")
+endif()
+
+# Spatial index correctness integration tests (Production Readiness Checklist)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_spatial_correctness_integration.cpp")
+    message(STATUS "Adding Spatial correctness integration tests")
+
+    add_executable(test_spatial_correctness_integration
+        index/test_spatial_correctness_integration.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/spatial_index.cpp
+    )
+
+    target_include_directories(test_spatial_correctness_integration PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_spatial_correctness_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_spatial_correctness_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SpatialCorrectnessIntegrationTests COMMAND test_spatial_correctness_integration)
+
+    set_tests_properties(SpatialCorrectnessIntegrationTests PROPERTIES
+        LABELS "index;spatial;correctness;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SpatialCorrectness: intersects, within, contains, nearby, KNN, Z-range, precision, recall")
+else()
+    message(STATUS "Spatial correctness integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_spatial_correctness_integration.cpp")
 endif()
 
 # Cloud Storage Backup Comprehensive Tests (GAP-008)
@@ -2675,6 +3141,177 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_window.cpp")
         LABELS "analytics;streaming;window;focused;unit"
         TIMEOUT 120
     )
+endif()
+
+# ============================================================================
+# Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
+# symbol collision with postgres_importer.cpp in themis_core)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
+    message(STATUS "Adding Importer Plugin API tests (Issue #1854, standalone binary)")
+
+    add_executable(test_importer_plugin_api
+        test_importer_plugin_api.cpp
+    )
+
+    target_include_directories(test_importer_plugin_api PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_plugin_api PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_importer_plugin_api PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterPluginApiTests COMMAND test_importer_plugin_api)
+
+    set_tests_properties(ImporterPluginApiTests PROPERTIES
+        LABELS "importers;plugin;plugin-api;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterPluginApi: registry, loader, macro, descriptor, thread safety")
+else()
+    message(STATUS "Importer Plugin API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
+endif()
+
+# ============================================================================
+# Plugin Capability Negotiation Tests (standalone target for Issue #1984)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
+    message(STATUS "Adding Plugin Capability Negotiation tests (Issue #1984, standalone binary)")
+
+    add_executable(test_plugin_capability_negotiation
+        test_plugin_capability_negotiation.cpp
+    )
+
+    target_include_directories(test_plugin_capability_negotiation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_capability_negotiation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_capability_negotiation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginCapabilityNegotiationTests COMMAND test_plugin_capability_negotiation)
+
+    set_tests_properties(PluginCapabilityNegotiationTests PROPERTIES
+        LABELS "plugins;capability;negotiation;version-range;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginCapabilityNegotiation: PluginVersionRange, PluginCapabilityNegotiator, PluginManager::negotiateCapabilities")
+else()
+    message(STATUS "Plugin Capability Negotiation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
+endif()
+
+# ============================================================================
+# LLM Timeout and Cancellation Tests (standalone – requires themis_llm / themis_core)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND THEMIS_ENABLE_LLM)
+    message(STATUS "Adding LLM Timeout and Cancellation tests (Issue #1931, standalone binary)")
+
+    add_executable(test_llm_timeout_cancellation
+        test_llm_timeout_cancellation.cpp
+    )
+
+    target_include_directories(test_llm_timeout_cancellation PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(test_llm_timeout_cancellation PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(test_llm_timeout_cancellation PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(test_llm_timeout_cancellation PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME LLMTimeoutCancellationTests COMMAND test_llm_timeout_cancellation)
+
+    set_tests_properties(LLMTimeoutCancellationTests PROPERTIES
+        LABELS "llm;timeout;cancellation;async;inference;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  LLMTimeoutCancellation: per-request timeout propagation, cancel(), streaming stop, DROP_OLDEST, dedup cache")
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "LLM Timeout Cancellation tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "LLM Timeout Cancellation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp")
+    endif()
+endif()
+
+# ============================================================================
+# Parallel Full-Table Scan Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
+    message(STATUS "Adding Parallel Full-Table Scan tests")
+
+    add_executable(test_parallel_scan
+        test_parallel_scan.cpp
+    )
+
+    target_link_libraries(test_parallel_scan PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_scan PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelScanTests COMMAND test_parallel_scan)
+
+    set_tests_properties(ParallelScanTests PROPERTIES
+        LABELS "query;parallel;scan;fullscan;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness")
+else()
+    message(STATUS "Parallel Full-Table Scan tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
 endif()
 
 # ============================================================================

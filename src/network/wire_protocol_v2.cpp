@@ -376,7 +376,7 @@ private:
             }
 
             if (data_handler_)
-                data_handler_(hdr.stream_id, payload, eos);
+                data_handler_(hdr.stream_id, *effective_payload, eos);
             if (eos) closeStream(hdr.stream_id, true /*remote*/);
 
             // Flow control: send WINDOW_UPDATE to replenish remote window

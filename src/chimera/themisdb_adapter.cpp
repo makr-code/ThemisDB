@@ -53,16 +53,31 @@ const bool themisdb_registered = []() noexcept {
 // Connection Management
 Result<bool> ThemisDBAdapter::connect(
     const std::string& connection_string,
-    const std::map<std::string, std::string>& options
+    const std::map<std::string, std::string>& /*options*/
 ) {
-    // Stub implementation - would connect to actual ThemisDB instance
+    if (connection_string.empty()) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "ThemisDB connection string must not be empty"
+        );
+    }
+
+    if (!is_valid_connection_string(connection_string)) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Invalid ThemisDB connection string: must start with "
+            "themisdb://"
+        );
+    }
+
+    connection_string_ = mask_credentials(connection_string);
     connected_ = true;
-    connection_string_ = connection_string;
     return Result<bool>::ok(true);
 }
 
 Result<bool> ThemisDBAdapter::disconnect() {
     connected_ = false;
+    connection_string_.clear();
     return Result<bool>::ok(true);
 }
 
@@ -414,6 +429,37 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::BATCH_OPERATIONS,
         Capability::SECONDARY_INDEXES
     };
+}
+
+// ---------------------------------------------------------------------------
+// Private helpers
+// ---------------------------------------------------------------------------
+
+bool ThemisDBAdapter::is_valid_connection_string(
+    const std::string& connection_string
+) {
+    return connection_string.rfind("themisdb://", 0) == 0;
+}
+
+std::string ThemisDBAdapter::mask_credentials(
+    const std::string& connection_string
+) {
+    // Replace user:password@ portion with ***:***@ so the stored string
+    // cannot expose credentials through memory inspection or log leakage.
+    const std::string prefix = "themisdb://";
+
+    if (connection_string.rfind(prefix, 0) != 0) {
+        return connection_string;
+    }
+
+    std::string rest = connection_string.substr(prefix.size());
+    auto at_pos = rest.find('@');
+    if (at_pos == std::string::npos) {
+        // No credentials present
+        return connection_string;
+    }
+
+    return prefix + "***:***@" + rest.substr(at_pos + 1);
 }
 
 } // namespace chimera

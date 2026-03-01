@@ -372,6 +372,42 @@ TEST_F(ConfigPathResolverTest, RejectsSymlinkOutsideConfigRoot) {
     std::filesystem::remove(link_target, ec);
 }
 
+TEST_F(ConfigPathResolverTest, RejectsAbsoluteSymlinkOutsideConfigRoot) {
+    // Create an absolute-path symlink inside a config directory that points
+    // to a file outside the config root.
+    auto abs_config_dir = test_dir_ / "config";
+    std::filesystem::create_directories(abs_config_dir);
+
+    // Use test_dir_ filename to avoid collisions with other test instances.
+    auto link_target = test_dir_.parent_path() / (test_dir_.filename().string() + "_abs_link_target.txt");
+    auto link_path   = abs_config_dir / "abs_symlink_escape.yaml";
+
+    // Write a real file outside the config directory
+    {
+        std::ofstream f(link_target);
+        f << "secret: outside_config_root\n";
+    }
+
+    std::error_code ec;
+    std::filesystem::create_symlink(link_target, link_path, ec);
+    if (ec) {
+        std::filesystem::remove(link_target, ec);
+        GTEST_SKIP() << "Platform does not support symlinks; skipping symlink test";
+    }
+
+    // Use the absolute path directly – no CWD change needed.
+    auto abs_link_str = link_path.generic_string();
+    auto result = ConfigPathResolver::tryResolve(abs_link_str);
+
+    // The symlink target lives outside the config root, so it must be rejected.
+    EXPECT_FALSE(result.has_value())
+        << "Absolute symlink escaping config root should be rejected";
+
+    // Cleanup
+    std::filesystem::remove(link_path, ec);
+    std::filesystem::remove(link_target, ec);
+}
+
 // ═══════════════════════════════════════════════════════════
 // METADATA_TABLE Completeness Tests
 // ═══════════════════════════════════════════════════════════

@@ -285,6 +285,150 @@ TEST(AudioPreprocessingPhase1, HighSampleRate) {
 }
 
 // ============================================================
+// Phase 3: Noise Suppressor (RNNoise integration) Tests
+// ============================================================
+
+TEST(NoiseSuppressorPhase3, IsRNNoiseEnabledReturnsBool) {
+    // Should compile and return a valid bool regardless of build configuration.
+    bool enabled = NoiseSuppressor::isRNNoiseEnabled();
+    (void)enabled;  // value depends on build flags; just verify it compiles
+}
+
+TEST(NoiseSuppressorPhase3, DefaultConstructorAndVadProbabilityUnprocessed) {
+    NoiseSuppressor ns;
+    EXPECT_EQ(ns.lastVadProbability(), 0.0f);
+    EXPECT_EQ(ns.framesProcessed(), 0u);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressEmptyFrame) {
+    NoiseSuppressor ns;
+    AudioFrame empty;
+    empty.sample_rate = 16000;
+    AudioFrame result = ns.suppress(empty);
+    EXPECT_TRUE(result.samples.empty());
+    EXPECT_EQ(ns.framesProcessed(), 1u);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressPreservesOutputLength) {
+    NoiseSuppressor ns;
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 3200; ++i) {
+        frame.samples.push_back(0.3f * std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 16000));
+    }
+    AudioFrame result = ns.suppress(frame);
+    // Output sample count may differ slightly due to double resampling;
+    // allow ±5 % tolerance.
+    EXPECT_GT(result.samples.size(), frame.samples.size() * 95 / 100);
+    EXPECT_LT(result.samples.size(), frame.samples.size() * 105 / 100);
+    EXPECT_EQ(result.sample_rate, 16000);
+    EXPECT_EQ(ns.framesProcessed(), 1u);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressReducesNoise) {
+    NoiseSuppressor ns;
+    // Create a frame with very low-level noise only.
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 3200; ++i) {
+        frame.samples.push_back(0.002f * static_cast<float>(i % 7 - 3));
+    }
+    float rms_before = 0.0f;
+    for (float s : frame.samples) rms_before += s * s;
+    rms_before = std::sqrt(rms_before / frame.samples.size());
+
+    AudioFrame result = ns.suppress(frame, 0.5f);
+
+    float rms_after = 0.0f;
+    for (float s : result.samples) rms_after += s * s;
+    rms_after = std::sqrt(rms_after / (result.samples.empty() ? 1u : result.samples.size()));
+
+    EXPECT_LE(rms_after, rms_before + 1e-5f);
+}
+
+TEST(NoiseSuppressorPhase3, VadProbabilityAfterSuppress) {
+    NoiseSuppressor ns;
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 4800; ++i) {
+        frame.samples.push_back(0.5f * std::sin(2.0f * std::numbers::pi_v<float> * 300.0f * i / 16000));
+    }
+    ns.suppress(frame);
+    float vad = ns.lastVadProbability();
+    EXPECT_GE(vad, 0.0f);
+    EXPECT_LE(vad, 1.0f);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressHighSampleRateInput) {
+    NoiseSuppressor ns;
+    AudioFrame frame;
+    frame.sample_rate = 44100;
+    for (int i = 0; i < 4410; ++i) {
+        frame.samples.push_back(std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 44100));
+    }
+    AudioFrame result = ns.suppress(frame);
+    EXPECT_EQ(result.sample_rate, 44100);
+    EXPECT_GT(result.samples.size(), 0u);
+}
+
+TEST(NoiseSuppressorPhase3, MoveConstructor) {
+    NoiseSuppressor ns1;
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    frame.samples.assign(1600, 0.1f);
+    ns1.suppress(frame);
+    EXPECT_EQ(ns1.framesProcessed(), 1u);
+
+    NoiseSuppressor ns2(std::move(ns1));
+    EXPECT_EQ(ns2.framesProcessed(), 1u);
+}
+
+// Pipeline integration: enable_rnnoise_suppression option
+TEST(NoiseSuppressorPhase3, PipelineWithRNNoiseEnabled) {
+    PreprocessingOptions opts;
+    opts.enable_rnnoise_suppression = true;
+    opts.enable_noise_reduction = false;  // test RNNoise path in isolation
+    AudioPreprocessingPipeline pipeline(opts);
+
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 3200; ++i) {
+        frame.samples.push_back(0.3f * std::sin(2.0f * std::numbers::pi_v<float> * 300.0f * i / 16000));
+    }
+    auto result = pipeline.processFrame(frame);
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.processed_audio.samples.empty());
+    EXPECT_GE(result.rnnoise_vad_probability, 0.0f);
+    EXPECT_LE(result.rnnoise_vad_probability, 1.0f);
+    EXPECT_TRUE(result.diagnostics.contains("rnnoise_enabled"));
+    EXPECT_TRUE(result.diagnostics.contains("rnnoise_vad_probability"));
+}
+
+TEST(NoiseSuppressorPhase3, PipelineRNNoiseDisabledByDefault) {
+    AudioPreprocessingPipeline pipeline;  // default opts: enable_rnnoise_suppression=false
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    frame.samples.assign(1600, 0.1f);
+    auto result = pipeline.processFrame(frame);
+    EXPECT_TRUE(result.success);
+    // When RNNoise is disabled, vad_probability stays 0.
+    EXPECT_EQ(result.rnnoise_vad_probability, 0.0f);
+}
+
+TEST(NoiseSuppressorPhase3, PipelineDiagnosticsContainRNNoiseKey) {
+    PreprocessingOptions opts;
+    opts.enable_rnnoise_suppression = true;
+    AudioPreprocessingPipeline pipeline(opts);
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    frame.samples.assign(3200, 0.05f);
+    auto result = pipeline.processFrame(frame);
+    EXPECT_TRUE(result.diagnostics.contains("rnnoise_enabled"));
+    bool expected = NoiseSuppressor::isRNNoiseEnabled();
+    EXPECT_EQ(result.diagnostics["rnnoise_enabled"].get<bool>(), expected);
+}
+
+// ============================================================
 // Phase 3: Intent Detection Tests
 // ============================================================
 
@@ -1150,8 +1294,103 @@ TEST(TTSCustomizerPhase2, GetProfilesForLanguage) {
 }
 
 // ============================================================
-// Phase 4: Meeting Support Tests
+// Phase 4: Multi-Language TTS Tests (German, French, Spanish)
 // ============================================================
+
+TEST(TTSCustomizerMultiLang, SpanishDefaultProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("es-default");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->id, "es-default");
+    EXPECT_EQ(prof->language, "es-ES");
+    EXPECT_EQ(prof->engine, "piper");
+}
+
+TEST(TTSCustomizerMultiLang, SpanishMaleProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("es-male");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->gender, "male");
+    EXPECT_EQ(prof->language, "es-ES");
+}
+
+TEST(TTSCustomizerMultiLang, SpanishFemaleProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("es-female");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->gender, "female");
+    EXPECT_EQ(prof->language, "es-ES");
+}
+
+TEST(TTSCustomizerMultiLang, GetBestVoiceForSpanish) {
+    VoiceTTSCustomizer tts;
+    std::string voice = tts.getBestVoiceForLanguage("es-ES");
+    EXPECT_EQ(voice, "es-default");
+    std::string voice_short = tts.getBestVoiceForLanguage("es");
+    EXPECT_EQ(voice_short, "es-default");
+}
+
+TEST(TTSCustomizerMultiLang, SupportsSpanish) {
+    VoiceTTSCustomizer tts;
+    EXPECT_TRUE(tts.supportsLanguage("es"));
+    EXPECT_TRUE(tts.supportsLanguage("es-ES"));
+}
+
+TEST(TTSCustomizerMultiLang, SpanishProfilesForLanguage) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("es-ES");
+    EXPECT_GE(profiles.size(), 3u); // es-default, es-male, es-female
+}
+
+TEST(TTSCustomizerMultiLang, GermanGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto de_male = tts.getProfile("de-male");
+    ASSERT_TRUE(de_male.has_value());
+    EXPECT_EQ(de_male->gender, "male");
+    EXPECT_EQ(de_male->language, "de-DE");
+    auto de_female = tts.getProfile("de-female");
+    ASSERT_TRUE(de_female.has_value());
+    EXPECT_EQ(de_female->gender, "female");
+}
+
+TEST(TTSCustomizerMultiLang, FrenchGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto fr_male = tts.getProfile("fr-male");
+    ASSERT_TRUE(fr_male.has_value());
+    EXPECT_EQ(fr_male->gender, "male");
+    EXPECT_EQ(fr_male->language, "fr-FR");
+    auto fr_female = tts.getProfile("fr-female");
+    ASSERT_TRUE(fr_female.has_value());
+    EXPECT_EQ(fr_female->gender, "female");
+}
+
+TEST(TTSCustomizerMultiLang, GermanProfilesIncludeGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("de-DE");
+    EXPECT_GE(profiles.size(), 3u); // de-default, de-male, de-female
+}
+
+TEST(TTSCustomizerMultiLang, FrenchProfilesIncludeGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("fr-FR");
+    EXPECT_GE(profiles.size(), 3u); // fr-default, fr-male, fr-female
+}
+
+TEST(TTSCustomizerMultiLang, AllThreeLanguagesSupported) {
+    VoiceTTSCustomizer tts;
+    EXPECT_TRUE(tts.supportsLanguage("de"));
+    EXPECT_TRUE(tts.supportsLanguage("fr"));
+    EXPECT_TRUE(tts.supportsLanguage("es"));
+}
+
+TEST(TTSCustomizerMultiLang, TotalProfileCount) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.listProfiles();
+    // en(3) + de(3) + fr(3) + es(3) = 12 built-in profiles
+    EXPECT_GE(profiles.size(), 12u);
+}
+
+
 
 TEST(MeetingSupportPhase4, DefaultConstructor) {
     VoiceMeetingSupport mgr;
@@ -1439,6 +1678,61 @@ TEST(AudioStoragePhase5, StatisticsTracking) {
     auto stats = storage.getStats();
     EXPECT_EQ(stats.total_records, 2u);
     EXPECT_EQ(stats.hot_records, 2u);
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsMatch) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2, 3}, fmt, "Hello world, this is a test");
+    storage.store({4, 5, 6}, fmt, "Goodbye world");
+    storage.store({7, 8, 9}, fmt, "No match here");
+
+    auto results = storage.searchTranscripts("world");
+    EXPECT_EQ(results.size(), 2u);
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsCaseInsensitive) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({10, 11, 12}, fmt, "Voice ASSISTANT command");
+
+    auto results = storage.searchTranscripts("assistant");
+    EXPECT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].transcript, "Voice ASSISTANT command");
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsNoMatch) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2}, fmt, "Hello world");
+
+    auto results = storage.searchTranscripts("database");
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsEmptyQueryReturnsNothing) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2}, fmt, "Hello world");
+
+    auto results = storage.searchTranscripts("");
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsLimit) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    // Store 5 records all containing "themis"
+    for (int i = 0; i < 5; ++i) {
+        storage.store({static_cast<uint8_t>(i), static_cast<uint8_t>(i + 10)}, fmt, "themis record " + std::to_string(i));
+    }
+    auto results = storage.searchTranscripts("themis", 3);
+    EXPECT_EQ(results.size(), 3u);
 }
 
 // --- Phase 9, 10 additions ---
@@ -2378,4 +2672,266 @@ TEST(VoiceBiometricAuth, EnrollRequireLivenessFalseSucceeds) {
     VoiceProfileID pid;
     EXPECT_TRUE(auth.enroll_voice("oscar", {s1, s2, s3}, pid, cfg));
     EXPECT_FALSE(pid.empty());
+}
+
+// ============================================================
+// Phase 12: Emotion Analyzer Tests
+// ============================================================
+
+#include "voice/emotion_analyzer.h"
+
+namespace {
+
+// Build a minimal 16-bit PCM sine-wave buffer with the given frequency.
+// Reuse the same helper pattern as the VoiceBiometricAuth section.
+std::vector<uint8_t> makeEmotionAudio(float freq_hz, int duration_ms = 500,
+                                       int sample_rate = 16000)
+{
+    const int num_samples = sample_rate * duration_ms / 1000;
+    std::vector<uint8_t> buf(static_cast<size_t>(num_samples) * 2);
+    constexpr float kPi = 3.14159265358979323846f;
+    for (int i = 0; i < num_samples; ++i) {
+        float val  = std::sin(2.0f * kPi * freq_hz * static_cast<float>(i) / static_cast<float>(sample_rate));
+        int16_t s  = static_cast<int16_t>(val * 16000.0f);
+        buf[static_cast<size_t>(2 * i)]     = static_cast<uint8_t>(s & 0xFF);
+        buf[static_cast<size_t>(2 * i + 1)] = static_cast<uint8_t>((s >> 8) & 0xFF);
+    }
+    return buf;
+}
+
+} // anonymous namespace
+
+// -- Construction & configuration --
+
+TEST(EmotionAnalyzer, DefaultConstruction) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto stats = analyzer.get_statistics();
+    EXPECT_EQ(stats["total_analyses"].get<uint64_t>(), 0u);
+}
+
+TEST(EmotionAnalyzer, SetAndGetConfig) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.confidence_threshold = 0.80f;
+    cfg.track_stress = false;
+    analyzer.set_config(cfg);
+    auto got = analyzer.get_config();
+    EXPECT_FLOAT_EQ(got.confidence_threshold, 0.80f);
+    EXPECT_FALSE(got.track_stress);
+}
+
+// -- Edge cases --
+
+TEST(EmotionAnalyzer, AnalyzeEmptyAudio) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto result = analyzer.analyze({});
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(EmotionAnalyzer, TrackEmptySegments) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto timeline = analyzer.track({});
+    EXPECT_TRUE(timeline.timeline.empty());
+    EXPECT_EQ(timeline.total_duration_ms, 0);
+}
+
+// -- Basic analysis --
+
+TEST(EmotionAnalyzer, AnalyzeReturnsProbabilities) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    // All 7 emotions should be present.
+    EXPECT_EQ(result->emotion_probabilities.size(), 7u);
+}
+
+TEST(EmotionAnalyzer, ProbabilitiesSumToOne) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(220.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    float total = 0.0f;
+    for (const auto& kv : result->emotion_probabilities) {
+        EXPECT_GE(kv.second, 0.0f);
+        EXPECT_LE(kv.second, 1.0f);
+        total += kv.second;
+    }
+    EXPECT_NEAR(total, 1.0f, 1e-4f);
+}
+
+TEST(EmotionAnalyzer, EmotionConfidenceRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(300.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->emotion_confidence, 0.0f);
+    EXPECT_LE(result->emotion_confidence, 1.0f);
+}
+
+TEST(EmotionAnalyzer, SentimentScoreRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(500.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->sentiment_score, -1.0f);
+    EXPECT_LE(result->sentiment_score, 1.0f);
+}
+
+TEST(EmotionAnalyzer, StressLevelRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(400.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->stress_level, 0.0f);
+    EXPECT_LE(result->stress_level, 1.0f);
+}
+
+TEST(EmotionAnalyzer, EngagementScoreRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(350.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->engagement_score, 0.0f);
+    EXPECT_LE(result->engagement_score, 1.0f);
+}
+
+TEST(EmotionAnalyzer, VoiceQualityPopulated) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    // Pitch should be in the plausible speech range [80, 400] Hz.
+    EXPECT_GE(result->quality.pitch_hz, 80.0f);
+    EXPECT_LE(result->quality.pitch_hz, 400.0f);
+    // Energy is non-negative.
+    EXPECT_GE(result->quality.energy, 0.0f);
+}
+
+// -- Disabled features --
+
+TEST(EmotionAnalyzer, TrackSentimentFalse) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.track_sentiment = false;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio, cfg);
+    ASSERT_TRUE(result.has_value());
+    // When track_sentiment is false, sentiment_score should remain 0.
+    EXPECT_FLOAT_EQ(result->sentiment_score, 0.0f);
+}
+
+TEST(EmotionAnalyzer, TrackStressFalse) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.track_stress = false;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio, cfg);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_FLOAT_EQ(result->stress_level, 0.0f);
+}
+
+TEST(EmotionAnalyzer, TrackEngagementFalse) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.track_engagement = false;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio, cfg);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_FLOAT_EQ(result->engagement_score, 0.0f);
+}
+
+// -- Statistics counter --
+
+TEST(EmotionAnalyzer, StatisticsCounterIncremented) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(440.0f);
+    analyzer.analyze(audio);
+    analyzer.analyze(audio);
+    auto stats = analyzer.get_statistics();
+    EXPECT_EQ(stats["total_analyses"].get<uint64_t>(), 2u);
+}
+
+// -- Timeline tracking --
+
+TEST(EmotionAnalyzer, TrackMultipleSegments) {
+    themis::voice::EmotionAnalyzer analyzer;
+    std::vector<themis::voice::AudioSegment> segs;
+    for (int i = 0; i < 3; ++i) {
+        themis::voice::AudioSegment seg;
+        seg.audio_data = makeEmotionAudio(200.0f + static_cast<float>(i) * 50.0f);
+        seg.start_ms   = static_cast<int64_t>(i) * 500;
+        seg.end_ms     = static_cast<int64_t>(i + 1) * 500;
+        segs.push_back(seg);
+    }
+    auto timeline = analyzer.track(segs);
+    EXPECT_EQ(timeline.timeline.size(), 3u);
+    EXPECT_EQ(timeline.total_duration_ms, 1500);
+}
+
+TEST(EmotionAnalyzer, TrackStatisticsDominantEmotionValid) {
+    themis::voice::EmotionAnalyzer analyzer;
+    std::vector<themis::voice::AudioSegment> segs;
+    for (int i = 0; i < 4; ++i) {
+        themis::voice::AudioSegment seg;
+        seg.audio_data = makeEmotionAudio(440.0f);
+        seg.start_ms   = static_cast<int64_t>(i) * 1000;
+        seg.end_ms     = static_cast<int64_t>(i + 1) * 1000;
+        segs.push_back(seg);
+    }
+    auto timeline = analyzer.track(segs);
+    ASSERT_EQ(timeline.timeline.size(), 4u);
+    // Dominant emotion must be one of the known values (no UB enum).
+    std::string dom = themis::voice::to_string(timeline.statistics.dominant_emotion);
+    EXPECT_FALSE(dom.empty());
+    EXPECT_GE(timeline.statistics.emotion_stability, 0.0f);
+    EXPECT_LE(timeline.statistics.emotion_stability, 1.0f);
+}
+
+TEST(EmotionAnalyzer, TrackEmptySegmentsInMiddle) {
+    themis::voice::EmotionAnalyzer analyzer;
+    std::vector<themis::voice::AudioSegment> segs;
+
+    // Valid segment
+    themis::voice::AudioSegment s1;
+    s1.audio_data = makeEmotionAudio(300.0f);
+    s1.start_ms = 0; s1.end_ms = 500;
+    segs.push_back(s1);
+
+    // Empty segment (no audio)
+    themis::voice::AudioSegment s2;
+    s2.start_ms = 500; s2.end_ms = 1000;
+    segs.push_back(s2);
+
+    // Valid segment
+    themis::voice::AudioSegment s3;
+    s3.audio_data = makeEmotionAudio(350.0f);
+    s3.start_ms = 1000; s3.end_ms = 1500;
+    segs.push_back(s3);
+
+    auto timeline = analyzer.track(segs);
+    // Only 2 valid segments analysed.
+    EXPECT_EQ(timeline.timeline.size(), 2u);
+}
+
+// -- to_string helpers --
+
+TEST(EmotionAnalyzer, ToStringEmotion) {
+    using themis::voice::Emotion;
+    using themis::voice::to_string;
+    EXPECT_EQ(to_string(Emotion::NEUTRAL),   "neutral");
+    EXPECT_EQ(to_string(Emotion::HAPPY),     "happy");
+    EXPECT_EQ(to_string(Emotion::SAD),       "sad");
+    EXPECT_EQ(to_string(Emotion::ANGRY),     "angry");
+    EXPECT_EQ(to_string(Emotion::SURPRISED), "surprised");
+    EXPECT_EQ(to_string(Emotion::FEARFUL),   "fearful");
+    EXPECT_EQ(to_string(Emotion::DISGUSTED), "disgusted");
+}
+
+TEST(EmotionAnalyzer, ToStringSentiment) {
+    using themis::voice::Sentiment;
+    using themis::voice::to_string;
+    EXPECT_EQ(to_string(Sentiment::POSITIVE), "positive");
+    EXPECT_EQ(to_string(Sentiment::NEUTRAL),  "neutral");
+    EXPECT_EQ(to_string(Sentiment::NEGATIVE), "negative");
 }

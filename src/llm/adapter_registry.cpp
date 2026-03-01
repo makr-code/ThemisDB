@@ -46,6 +46,8 @@ struct AdapterRegistry::Impl {
     std::unordered_map<std::string, AdapterMetadata> adapters;
     // Signature store: adapter_id → AdapterSignature
     std::unordered_map<std::string, AdapterSignature> signatures;
+    // Hot-load observer callbacks (registration order preserved)
+    std::vector<AdapterRegistry::HotLoadCallback> hot_load_callbacks;
 };
 
 // ============================================================================
@@ -417,6 +419,68 @@ std::vector<lora::InferenceAuditEntry> AdapterRegistry::getInferenceAuditLog(
 
 bool AdapterRegistry::verifyAuditChain(const std::string& adapter_id) const {
     return provenance_mgr_.verifyAuditChain(adapter_id);
+}
+
+// ============================================================================
+// Hot-Loading Interface
+// ============================================================================
+
+bool AdapterRegistry::hotLoad(
+    const std::string& adapter_id,
+    const std::string& weights_path,
+    const AdapterMetadata& metadata,
+    float scale
+) {
+    if (adapter_id.empty()) {
+        spdlog::error("AdapterRegistry::hotLoad: adapter_id must not be empty");
+        return false;
+    }
+    if (weights_path.empty()) {
+        spdlog::error("AdapterRegistry::hotLoad: weights_path must not be empty");
+        return false;
+    }
+
+    // Register (or update) adapter metadata under the registry lock.
+    {
+        AdapterMetadata meta = metadata;
+        meta.adapter_id   = adapter_id;
+        meta.storage_path = weights_path;
+
+        std::lock_guard<std::mutex> lock(impl_->mu);
+        bool existed = impl_->adapters.count(adapter_id) > 0;
+        impl_->adapters[adapter_id] = meta;
+        spdlog::debug("AdapterRegistry::hotLoad: {} adapter '{}'",
+                      existed ? "updated" : "registered", adapter_id);
+    }
+
+    // Snapshot callbacks outside the lock to avoid lock inversion if a
+    // callback itself calls back into the registry.
+    std::vector<HotLoadCallback> callbacks;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mu);
+        callbacks = impl_->hot_load_callbacks;
+    }
+
+    for (const auto& cb : callbacks) {
+        if (cb) {
+            cb(adapter_id, weights_path, scale);
+        }
+    }
+
+    spdlog::info("AdapterRegistry: hot-loaded adapter '{}' (path='{}')",
+                 adapter_id, weights_path);
+    return true;
+}
+
+void AdapterRegistry::addHotLoadObserver(HotLoadCallback callback) {
+    if (!callback) {
+        spdlog::warn("AdapterRegistry::addHotLoadObserver: null callback ignored");
+        return;
+    }
+    std::lock_guard<std::mutex> lock(impl_->mu);
+    impl_->hot_load_callbacks.push_back(std::move(callback));
+    spdlog::debug("AdapterRegistry: hot-load observer registered (total: {})",
+                  impl_->hot_load_callbacks.size());
 }
 
 } // namespace llm

@@ -53,6 +53,7 @@ namespace gpu {
  * | WASM_SANDBOX     |    no     |    yes     |    yes      |
  * | MIG_MANAGER      |    no     |    yes     |    yes      |
  * | VULKAN_BACKEND   |    yes    |    yes     |    yes      |
+ * | PEER_TO_PEER     |    no     |    yes     |    yes      |
  *
  * Thread safety: all public methods are protected by an internal mutex.
  */
@@ -75,6 +76,7 @@ public:
         WASM_SANDBOX,      ///< WASM-based kernel sandbox for untrusted third-party kernels
         MIG_MANAGER,       ///< MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series
         VULKAN_BACKEND,    ///< Vulkan compute backend for cross-vendor GPU support
+        PEER_TO_PEER,      ///< Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe)
     };
 
     // -----------------------------------------------------------------------

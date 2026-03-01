@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     1339                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 22507ba4e  2026-02-22  fix(plugins): guard unloadPlugin() against unloading a de... ║
@@ -27,6 +27,9 @@
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_dependency_resolver.h"
 #include "plugins/plugin_hot_plug_monitor.h"
+#include "plugins/plugin_health_monitor.h"
+#include "plugins/self_healing_plugin.h"
+#include "plugins/oci_registry_client.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -643,6 +646,14 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
     
+    // Auto-register self-healing plugins with the health monitor
+    if (health_monitor_) {
+        auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(plugin);
+        if (self_healing) {
+            health_monitor_->registerPlugin(name, self_healing);
+        }
+    }
+
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     metrics_.recordLoad(name, duration);
@@ -724,6 +735,14 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     plugins_[entry.name] = std::move(entry);
     type_index_[plugin->getType()].push_back(plugin_name);
     
+    // Auto-register self-healing plugins with the health monitor
+    if (health_monitor_) {
+        auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(plugin);
+        if (self_healing) {
+            health_monitor_->registerPlugin(plugin_name, self_healing);
+        }
+    }
+
     // Record load metrics
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -733,6 +752,48 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
         plugin_name, plugin->getVersion(), duration.count());
     
     return Ok(plugin);
+}
+
+Result<IThemisPlugin*> PluginManager::loadPluginFromOci(
+    const std::string& oci_ref,
+    const std::string& cache_dir,
+    const std::string& auth_token)
+{
+    TracedSpan span("PluginManager.loadPluginFromOci");
+
+    // 1. Parse OCI reference.
+    auto ref_res = OciReference::parse(oci_ref);
+    if (!ref_res.has_value()) {
+        return Err<IThemisPlugin*>(ref_res.error().code(), ref_res.error().context());
+    }
+    const OciReference& ref = *ref_res;
+
+    // 2. Determine cache directory (default: system temp / themis-plugins).
+    std::string effective_cache = cache_dir;
+    if (effective_cache.empty()) {
+        effective_cache = (fs::temp_directory_path() / "themis-plugins").string();
+    }
+
+    // 3. Build OCI client and inject optional bearer token.
+    OciRegistryClient oci_client;
+    if (!auth_token.empty()) {
+        OciAuthConfig auth;
+        auth.bearer_token = auth_token;
+        oci_client.setAuth(ref.registry, std::move(auth));
+    }
+
+    // 4. Pull plugin binary to cache directory.
+    auto pull_res = oci_client.pullPluginBinary(ref, effective_cache);
+    if (!pull_res.has_value()) {
+        THEMIS_ERROR("OCI pull failed for {}: {}", oci_ref, pull_res.error().context());
+        return Err<IThemisPlugin*>(pull_res.error().code(), pull_res.error().context());
+    }
+    const std::string& binary_path = *pull_res;
+
+    THEMIS_INFO("OCI pull succeeded for {}; binary at {}", oci_ref, binary_path);
+
+    // 5. Load the downloaded binary via the existing path-based loader.
+    return loadPluginFromPath(binary_path);
 }
 
 Result<void> PluginManager::unloadPlugin(const std::string& name) {
@@ -766,6 +827,11 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
 
     auto& entry = it->second;
     
+    // Unregister from health monitor before shutting down the instance
+    if (health_monitor_) {
+        health_monitor_->unregisterPlugin(name);
+    }
+
     // Shutdown plugin
     if (entry.instance) {
         entry.instance->shutdown();
@@ -1106,6 +1172,21 @@ Result<void> PluginManager::reloadPlugin(const std::string& name) {
         unloadLibrary(old_handle);
     }
 
+    // Update health monitor: unregister old instance, register new one
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (health_monitor_) {
+            health_monitor_->unregisterPlugin(name);
+            auto it2 = plugins_.find(name);
+            if (it2 != plugins_.end() && it2->second.instance) {
+                auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(it2->second.instance.get());
+                if (self_healing) {
+                    health_monitor_->registerPlugin(name, self_healing);
+                }
+            }
+        }
+    }
+
     // Notify AFTER_LOAD
     notifyPluginReload(name, PluginReloadPhase::AFTER_LOAD);
 
@@ -1202,6 +1283,30 @@ Result<PluginManifest> PluginManager::getManifest(const std::string& name) const
     
     return Err<PluginManifest>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
                                 fmt::format("Plugin manifest not found: {}", name));
+}
+
+PluginNegotiationResult PluginManager::negotiateCapabilities(
+    const std::string& name,
+    const std::vector<PluginCapabilityRequirement>& requirements) const
+{
+    IThemisPlugin* plugin = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = plugins_.find(name);
+        if (it == plugins_.end() || !it->second.loaded || !it->second.instance) {
+            PluginNegotiationResult result;
+            result.success = false;
+            result.error_message = fmt::format("Plugin '{}' not found or not loaded", name);
+            return result;
+        }
+        plugin = it->second.instance.get();
+    }
+
+    auto result = PluginCapabilityNegotiator::negotiate(*plugin, requirements);
+    if (!result.success) {
+        THEMIS_DEBUG("Capability negotiation failed for plugin '{}': {}", name, result.error_message);
+    }
+    return result;
 }
 
 PluginManager::~PluginManager() {
@@ -1340,6 +1445,27 @@ void PluginManager::notifyPluginReload(const std::string& name, PluginReloadPhas
             THEMIS_WARN("Reload listener threw exception: {}", e.what());
         }
     }
+}
+
+void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    health_monitor_ = monitor;
+
+    if (!health_monitor_) {
+        THEMIS_INFO("PluginManager: health monitor detached");
+        return;
+    }
+
+    // Register all currently loaded self-healing plugins with the new monitor
+    for (const auto& [name, entry] : plugins_) {
+        if (!entry.loaded || !entry.instance) continue;
+        auto* self_healing = dynamic_cast<ISelfHealingPlugin*>(entry.instance.get());
+        if (self_healing) {
+            health_monitor_->registerPlugin(name, self_healing);
+        }
+    }
+
+    THEMIS_INFO("PluginManager: health monitor attached");
 }
 
 } // namespace plugins

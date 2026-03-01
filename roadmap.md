@@ -114,7 +114,7 @@ cross-backend consistency, error handling, and resource management.
 #### 1.4 Chimera — Vendor Adapter Implementations
 - [I] PostgreSQL adapter (Issue: alpha) (Target: Q3 2026)
 - [I] MongoDB adapter (Target: Q3 2026)
-- [I] Weaviate adapter (Target: Q4 2026)
+- [x] Weaviate adapter (Target: Q4 2026)
 
 #### 1.5 Content — Binary Format Support
 - [I] PDF text extraction (Target: Q2 2026)
@@ -131,7 +131,7 @@ cross-backend consistency, error handling, and resource management.
 - [I] Full PostGIS ST_* function parity (Target: Q3 2026)
 
 #### 1.8 Ingestion — Distributed & Cloud Sources
-- [I] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
+- [x] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
 - [I] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
 - [!] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
 

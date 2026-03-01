@@ -249,6 +249,119 @@ TEST_F(ArrowExportTest, ExportToCSVString) {
     EXPECT_NE(result.find("Banana"), std::string::npos);
 }
 
+// ===== CSV Sanitization Tests =====
+
+TEST_F(ArrowExportTest, CSVExport_FormulaInjection_EqualSign) {
+    // Strings starting with '=' must be quoted to prevent formula injection
+    ArrowRecordBatch batch;
+    batch.addColumn({"formula", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("=SUM(A1:A10)")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    // The value must be quoted in the output
+    EXPECT_NE(csv.find("\"=SUM(A1:A10)\""), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CSVExport_FormulaInjection_PlusSign) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"cmd", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("+CMD|' /C calc'!A0")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    // Must be quoted
+    EXPECT_NE(csv.find("\"+CMD"), std::string::npos);
+    // Verify it is indeed enclosed in double-quotes
+    auto pos = csv.find('+');
+    ASSERT_NE(pos, std::string::npos);
+    EXPECT_GT(pos, 0u);
+    EXPECT_EQ(csv[pos - 1], '"');
+}
+
+TEST_F(ArrowExportTest, CSVExport_FormulaInjection_AtSign) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"ref", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("@SUM(1+1)")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    EXPECT_NE(csv.find("\"@SUM"), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CSVExport_FormulaInjection_MinusSign) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"val", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("-1+2")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    EXPECT_NE(csv.find("\"-1+2\""), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CSVExport_NewlineInString_IsQuoted) {
+    // Strings containing newlines must be quoted (RFC 4180)
+    ArrowRecordBatch batch;
+    batch.addColumn({"notes", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("line1\nline2")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    // The embedded newline value must be wrapped in double-quotes
+    EXPECT_NE(csv.find("\"line1\nline2\""), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CSVExport_CarriageReturnInString_IsQuoted) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"data", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("before\rafter")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    EXPECT_NE(csv.find("\"before\rafter\""), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, CSVExport_SafeString_NotQuoted) {
+    // Ordinary strings that don't need quoting should remain unquoted
+    ArrowRecordBatch batch;
+    batch.addColumn({"name", ArrowRecordBatch::DataType::STRING, false});
+    batch.appendRow({std::string("hello world")});
+
+    auto exporter = ExporterFactory::createDefaultExporter();
+    ExportOptions options;
+    options.format = ExportFormat::CSV;
+
+    std::string csv = exporter->exportToString(batch, options);
+
+    EXPECT_NE(csv.find("hello world"), std::string::npos);
+    // Should not be wrapped in extra quotes
+    EXPECT_EQ(csv.find("\"hello world\""), std::string::npos);
+}
+
 TEST_F(ArrowExportTest, ExportToFile) {
     ArrowRecordBatch batch;
     batch.addColumn({"timestamp", ArrowRecordBatch::DataType::TIMESTAMP, false});

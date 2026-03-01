@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     223                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 95a7c1ca5  2026-02-22  Add PromptInjectionDetector to prompt_engineering module ║
@@ -191,10 +191,65 @@ PromptInjectionDetector::detect(const std::string& prompt) const {
 
 PromptInjectionDetector::DetectionResult
 PromptInjectionDetector::detectInResponse(const std::string& response) const {
-    // Responses are subject to the same heuristics – an adversarially crafted
-    // response may attempt to inject instructions that will be forwarded to a
-    // subsequent LLM call (indirect / second-order injection).
-    return detect(response);
+    if (!config_.enabled) {
+        DetectionResult result;
+        result.sanitized_text = response;
+        return result;
+    }
+
+    // Start with the base detection pass shared with user-supplied prompts.
+    // Adversarially crafted responses often embed the same override patterns.
+    DetectionResult result = detect(response);
+
+    // Additional heuristics for indirect / second-order injection: cases where
+    // the model embeds fake system-role tokens or instruction blocks in its own
+    // output, intending them to be parsed as authoritative context when the
+    // response is forwarded to a subsequent LLM call.
+    static const std::vector<std::pair<std::regex, std::string>> kResponsePatterns = {
+        // Fake "SYSTEM:" role prefix at the start of a line
+        {std::regex(R"((?:^|\n)\s*SYSTEM\s*:)", std::regex::icase),
+         "response:fake_system_prefix"},
+        // Embedded "[SYS]" or "[SYSTEM]" bracket tokens
+        {std::regex(R"(\[\s*(?:SYS|SYSTEM)\s*\])", std::regex::icase),
+         "response:embedded_system_token"},
+        // "New context:" / "New instructions:" / "New system prompt:" patterns
+        {std::regex(R"(new\s+(?:context|system\s+prompt|instructions?)\s*:)",
+                    std::regex::icase),
+         "response:embedded_new_instructions"},
+        // "Updated instructions:" / "Updated rules:" in a response
+        {std::regex(R"(updated\s+(?:instructions?|rules?|constraints?)\s*:)",
+                    std::regex::icase),
+         "response:updated_instructions"},
+    };
+
+    std::vector<std::string> extra_matched;
+    int extra_hits = 0;
+    for (const auto& [pat, label] : kResponsePatterns) {
+        if (std::regex_search(response, pat)) {
+            ++extra_hits;
+            extra_matched.push_back(label);
+        }
+    }
+
+    if (extra_hits > 0) {
+        // Each response-specific pattern hit contributes the same weight as a
+        // base injection pattern (0.7) so that a single strong indicator such
+        // as a fake "SYSTEM:" prefix is sufficient to meet the default threshold.
+        result.risk_score = std::min(
+            1.0f, result.risk_score + static_cast<float>(extra_hits) * 0.7f);
+        result.matched_patterns.insert(result.matched_patterns.end(),
+                                       extra_matched.begin(), extra_matched.end());
+        result.is_injection = result.risk_score >= config_.risk_threshold;
+        result.sanitized_text = sanitize(response);
+
+        if (config_.log_detections && result.is_injection) {
+            spdlog::warn(
+                "PromptInjectionDetector: indirect injection detected in response "
+                "(risk_score={:.2f})", result.risk_score);
+        }
+    }
+
+    return result;
 }
 
 std::string PromptInjectionDetector::sanitize(const std::string& text) const {

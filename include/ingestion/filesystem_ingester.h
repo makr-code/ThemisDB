@@ -74,6 +74,21 @@ BinaryMimeType detectBinaryMimeType(const std::string& raw);
 bool isConverterSafe(const std::string& converter);
 
 /**
+ * @brief Check whether a filesystem path is free of directory-traversal sequences
+ *
+ * Iterates the path components and returns `false` if any component equals `..`.
+ * This prevents a malicious or misconfigured `SourceConfig::location` from being
+ * used to escape an intended base directory (e.g. `"../../etc/passwd"`).
+ *
+ * An empty path returns `true` (no traversal sequence present; the caller is
+ * responsible for checking existence / accessibility separately).
+ *
+ * @param path  Filesystem path to validate (absolute or relative)
+ * @return `true` if no `..` component is present; `false` if traversal detected
+ */
+bool isPathTraversalSafe(const std::string& path);
+
+/**
  * @brief Configuration for external binary-format converters
  *
  * When set on `FileSystemIngester`, the ingester calls the specified
@@ -246,6 +261,17 @@ public:
      * @param config Converter paths and detection settings
      */
     void setBinaryConverter(const BinaryConverter& config);
+
+    /**
+     * @brief Inject a per-document validator called before each write.
+     *
+     * When set, the validator is called for every extracted document.
+     * Documents that fail validation are counted as failed (not processed).
+     * Pass an empty `DocumentValidatorFn` to remove a previously set validator.
+     *
+     * @param validator Validator callback; empty = disable
+     */
+    void setDocumentValidator(DocumentValidatorFn validator) override;
 
 private:
     class Impl;

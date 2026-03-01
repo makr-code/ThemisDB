@@ -152,6 +152,50 @@ if(BUILD_QDRANT_ADAPTER)
 endif()
 
 # ==============================================================================
+# Pinecone Adapter (Optional - requires HTTP client for production use)
+# ==============================================================================
+
+option(BUILD_PINECONE_ADAPTER "Build Pinecone adapter" OFF)
+
+if(BUILD_PINECONE_ADAPTER)
+    # Production deployments should link against an HTTP client library
+    # (e.g. cpp-httplib or cpr) for live Pinecone REST API access.
+    # The adapter also works in simulation mode without any external driver.
+    message(STATUS "Pinecone adapter: enabled (simulation mode; production requires HTTP client)")
+    add_library(chimera_pinecone_adapter
+        ${CMAKE_SOURCE_DIR}/src/chimera/pinecone_adapter.cpp
+    )
+    target_include_directories(chimera_pinecone_adapter
+        PUBLIC ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(chimera_pinecone_adapter
+        PUBLIC chimera_interface
+    )
+endif()
+
+# ==============================================================================
+# Elasticsearch Adapter (Optional - requires HTTP client for production use)
+# ==============================================================================
+
+option(BUILD_ELASTICSEARCH_ADAPTER "Build Elasticsearch adapter" OFF)
+
+if(BUILD_ELASTICSEARCH_ADAPTER)
+    # Production deployments should link against an HTTP client library
+    # (e.g. cpp-httplib or cpr) for live Elasticsearch REST API access.
+    # The adapter also works in simulation mode without any external driver.
+    message(STATUS "Elasticsearch adapter: enabled (simulation mode; production requires HTTP client)")
+    add_library(chimera_elasticsearch_adapter
+        ${CMAKE_SOURCE_DIR}/src/chimera/elasticsearch_adapter.cpp
+    )
+    target_include_directories(chimera_elasticsearch_adapter
+        PUBLIC ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(chimera_elasticsearch_adapter
+        PUBLIC chimera_interface
+    )
+endif()
+
+# ==============================================================================
 # Template Adapter (Header-only)
 # ==============================================================================
 
@@ -190,6 +234,8 @@ install(
         ${CMAKE_SOURCE_DIR}/include/chimera/postgresql_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/weaviate_adapter.hpp
         ${CMAKE_SOURCE_DIR}/include/chimera/qdrant_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/pinecone_adapter.hpp
+        ${CMAKE_SOURCE_DIR}/include/chimera/elasticsearch_adapter.hpp
     DESTINATION include/chimera
 )
 
@@ -209,6 +255,8 @@ message(STATUS "  PostgreSQL adapter: ${BUILD_POSTGRESQL_ADAPTER}")
 message(STATUS "  MongoDB adapter: ${BUILD_MONGODB_ADAPTER}")
 message(STATUS "  Weaviate adapter: ${BUILD_WEAVIATE_ADAPTER}")
 message(STATUS "  Qdrant adapter: ${BUILD_QDRANT_ADAPTER}")
+message(STATUS "  Pinecone adapter: ${BUILD_PINECONE_ADAPTER}")
+message(STATUS "  Elasticsearch adapter: ${BUILD_ELASTICSEARCH_ADAPTER}")
 message(STATUS "  Template adapter: provided")
 message(STATUS "  Tests: ${BUILD_CHIMERA_TESTS}")
 message(STATUS "")

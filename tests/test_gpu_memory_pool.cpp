@@ -414,3 +414,91 @@ TEST(GPUMemoryPoolDefragTest, FragmentationDropsToZero_WhenAllExact) {
     pool.defragment(0.0f);
     EXPECT_FLOAT_EQ(pool.fragmentation(), 0.0f);
 }
+
+// ===========================================================================
+// offset_map and device_base_ptr tests
+// ===========================================================================
+
+TEST(GPUMemoryPoolDefragTest, OffsetMap_EmptyWhenDefragNotRun) {
+    const uint64_t slab = 64 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    // Allocate exactly a slab — zero internal fragmentation → threshold not met.
+    uint64_t o = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "full", o));
+
+    auto result = pool.defragment(0.05f);
+    EXPECT_FALSE(result.ran);
+    EXPECT_TRUE(result.offset_map.empty());
+}
+
+TEST(GPUMemoryPoolDefragTest, OffsetMap_PopulatedForMovedSlabs) {
+    const uint64_t slab = 64 * 1024;
+    // Allocate 3 slabs with half-slab requests (creates fragmentation),
+    // free the middle one, then defrag so the third slab moves forward.
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t o0 = 0, o1 = 0, o2 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "a", o0));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "b", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "c", o2));
+    pool.release(o1);   // free the middle slab, creating a gap
+
+    auto result = pool.defragment(0.0f);
+    EXPECT_TRUE(result.ran);
+
+    // The slab that was at o2 (offset 2*slab) must appear in the map with a
+    // smaller new offset.
+    auto it = result.offset_map.find(o2);
+    ASSERT_NE(it, result.offset_map.end());
+    EXPECT_LT(it->second, o2);  // moved forward
+}
+
+TEST(GPUMemoryPoolDefragTest, OffsetMap_SlabsNotMovedAbsent) {
+    const uint64_t slab = 64 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    // Allocate all 4 slabs with half-size requests (fragmented, but no gaps).
+    uint64_t o0 = 0, o1 = 0, o2 = 0, o3 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s0", o0));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s1", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s2", o2));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "s3", o3));
+
+    // All slabs already contiguous from offset 0 — none should be moved.
+    auto result = pool.defragment(0.0f);
+    EXPECT_TRUE(result.ran);
+    EXPECT_EQ(result.slabs_moved, 0u);
+    EXPECT_TRUE(result.offset_map.empty());
+}
+
+TEST(GPUMemoryPoolDeviceBasePtrTest, DefaultIsZero) {
+    GPUMemoryPool pool(4 * 64 * 1024ULL, 64 * 1024ULL, 4);
+    EXPECT_EQ(pool.getDeviceBasePtr(), 0u);
+}
+
+TEST(GPUMemoryPoolDeviceBasePtrTest, SetAndGetRoundTrips) {
+    GPUMemoryPool pool(4 * 64 * 1024ULL, 64 * 1024ULL, 4);
+    const uintptr_t mock_device_ptr = 0xDEADBEEFULL;
+    pool.setDeviceBasePtr(mock_device_ptr);
+    EXPECT_EQ(pool.getDeviceBasePtr(), mock_device_ptr);
+    pool.setDeviceBasePtr(0);
+    EXPECT_EQ(pool.getDeviceBasePtr(), 0u);
+}
+
+TEST(GPUMemoryPoolDefragTest, DataMoveErrors_ZeroWhenNoCpuSimulation) {
+    // Without a real device_base_ptr (== 0), no CUDA/HIP copy is attempted,
+    // so data_move_errors must always be 0 in the CPU simulation path.
+    const uint64_t slab = 64 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+
+    uint64_t o0 = 0, o1 = 0, o2 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "a", o0));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "b", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab / 2, "c", o2));
+    pool.release(o1);  // create a gap to trigger actual moves
+
+    auto result = pool.defragment(0.0f);
+    EXPECT_TRUE(result.ran);
+    EXPECT_EQ(result.data_move_errors, 0u);
+}

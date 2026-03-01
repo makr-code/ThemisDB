@@ -20,24 +20,24 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372)
 - [x] Plugin health monitoring and automatic restart (Issue: #2373)
 - [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
+- [x] Hot-reload support for plugins without database restart (Issue: #1554, PR: #2396)
 
 ## In Progress 🚧
-- [P] Hot-reload support for plugins without database restart (Target: Q2 2026) (Issue: #1554, PR: #2396)
 - [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
-- [P] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
-- [P] Signed plugin repository with key pinning (Issue: #1571)
+- [x] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
+- [x] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
+- [x] Signed plugin repository with key pinning (Issue: #1571)
 
 ### Long-term (6-12 months)
 - [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
 - [x] Remote plugin loading from authenticated registry (Issue: #1562) → implemented `RemoteRegistryClient` (`base/remote_registry_client.cpp`)
-- [I] Plugin dependency graph visualization (Issue: #1563)
+- [P] Plugin dependency graph visualization (Issue: #1563)
 - [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
-- [I] A/B testing framework using module swapping (Issue: #1565)
+- [P] A/B testing framework using module swapping (Issue: #1565) → implemented `ABTestManager` (`base/ab_test_manager.cpp`)
 
 ## Implementation Phases
 
@@ -54,11 +54,11 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Cross-platform export/import macros and version compatibility checking
 
 ### Phase 2: Dynamic Loading & Dependency Management (Status: In Progress 🚧)
-- [P] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1554, PR: #2396)
+- [x] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1554, PR: #2396)
 - [ ] Plugin dependency resolution and ordered loading (Target: Q2 2026)
 
 ### Phase 3: Marketplace & Sandboxing (Status: Planned 📋)
-- [P] Plugin marketplace manifest format (JSON schema)
+- [x] Plugin marketplace manifest format (JSON schema)
 - [x] Runtime plugin capability negotiation (version ranges)
 - [x] Plugin sandboxing with resource limits (memory, CPU)
 - [x] Plugin health monitoring and automatic restart

@@ -25,16 +25,16 @@
 - [I] PDF and Office document text extraction (pdfmium / LibreOffice headless) (Issue: #1681)
 - [P] HTML content extraction with boilerplate removal (Issue: #1682)
 - [P] Markdown processing and frontmatter parsing (Issue: #1683)
-- [I] Streaming ingestion for large files (chunked processing) (Issue: #1684)
+- [x] Streaming ingestion for large files (chunked processing) (Issue: #1684)
 - [x] Content deduplication via perceptual hashing (Issue: #1685)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
 ### Long-term (6-12 months)
-- [I] Audio transcription integration (Whisper / speech-to-text) (Issue: #1687)
+- [P] Audio transcription integration (Whisper / speech-to-text) (Issue: #1687)
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [I] OCR for image-embedded text (Tesseract integration) (Issue: #1689)
-- [I] Multi-language text detection and routing (Issue: #1690)
-- [I] Content versioning and delta storage (Issue: #1692)
+- [~] Multi-language text detection and routing (Issue: #1690)
+- [x] Content versioning and delta storage (Issue: #1692) ✅ Implemented
 
 ## Implementation Phases
 
@@ -48,14 +48,14 @@
 - [x] Implemented zstd compression for stored content blobs
 
 ### Phase 2: Pipeline Hardening (Status: In Progress)
-- [I] Harden pipeline orchestration with per-stage error recovery and retry logic (Issue: #1701)
+- [P] Harden pipeline orchestration with per-stage error recovery and retry logic (Issue: #1701)
 - [I] Implement content deduplication via SHA-256 hash before storage (Issue: #1702)
 - [I] Add configurable processor chain to enable/disable stages per content type (Issue: #1703)
 
 ### Phase 3: Advanced Format Support (Status: In Progress)
 - [x] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
 - [x] Add Office document text extraction via libzip+pugixml for OOXML and ODF formats (`content/office_processor.cpp`) (Issue: #1694)
-- [~] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
+- [x] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [I] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
 
@@ -63,7 +63,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1698)
 - [x] Integration tests (ingestion pipeline, content type routing)
 - [I] Performance benchmarks (throughput per content type) (Issue: #1699)
-- [I] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
+- [P] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
 - [x] Documentation complete (content manager, content pipeline)
 - [x] API stability guaranteed for ingestion pipeline
 

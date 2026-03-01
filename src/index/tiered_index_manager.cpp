@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            tiered_index_manager.cpp                          ║
+  Version:         1.0.0                                             ║
+  Last Modified:   2026-02-28                                        ║
+  Author:          Copilot                                           ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 STABLE                                       ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     317                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Complete                                                 ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Cold/Warm Tier Index Migration — implementation
 //
 // See include/index/tiered_index_manager.h for design notes.

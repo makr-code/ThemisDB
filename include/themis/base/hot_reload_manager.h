@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     336                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║
@@ -30,6 +30,7 @@
 #pragma once
 
 #include "themis/base/module_loader.h"
+#include "themis/base/module_sandbox.h"
 
 #include <chrono>
 #include <functional>
@@ -147,6 +148,12 @@ public:
         bool     verifySignature    = true;  ///< Verify new module before swap
         bool     preserveState      = true;  ///< Invoke state save/restore if set
         bool     enableRollback     = true;  ///< Retain backup for rollback
+
+        /// Optional resource limits applied to every module loaded by this manager.
+        /// When set, each successfully loaded module is wrapped in a ModuleSandbox
+        /// with the given configuration (memory cap, CPU share, etc.).
+        /// When empty (default), no sandboxing is applied.
+        std::optional<ModuleSandbox::Config> sandboxConfig;
     };
 
     // -------------------------------------------------------------------------
@@ -261,6 +268,16 @@ public:
      */
     std::vector<std::string> registeredModules() const;
 
+    /**
+     * @brief Get sandbox resource-usage statistics for a loaded module.
+     *
+     * @return SandboxStats sampled from the active sandbox, or std::nullopt if
+     *         sandboxing is not configured for this manager, or the module is
+     *         not registered / not currently sandboxed.
+     */
+    std::optional<SandboxStats> getSandboxStats(
+        const std::string& module_name) const;
+
     // -------------------------------------------------------------------------
     // Callbacks
     // -------------------------------------------------------------------------
@@ -307,6 +324,9 @@ private:
         bool         has_backup     = false;
         std::string  backup_path;
         ModuleVersion backup_version;
+
+        // Active resource-limit sandbox (null when sandboxing is not configured)
+        std::unique_ptr<ModuleSandbox> sandbox;
     };
 
     Config config_;

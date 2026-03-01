@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. PostgreSQL, MongoDB, and Weaviate adapters are planned.
+**Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. MongoDB, Weaviate, and Qdrant adapters are implemented. PostgreSQL adapter is in progress.
 
 ## Completed ✅
 - [x] Adapter factory with thread-safe singleton registry
@@ -26,18 +26,18 @@
 
 ### Short-term (Next 3-6 months)
 - [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
-- [!] Weaviate adapter (native vector database) (Issue: #2374)
+- [x] Weaviate adapter (native vector database) (Issue: #2374)
 - [x] Qdrant adapter (native vector database) (Issue: #1646)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
 - [x] Adapter capability matrix (which operations each system supports) (Issue: #2376)
 
 ### Long-term (6-12 months)
 - [I] Neo4j adapter (native graph database) (Issue: #1650)
-- [I] Pinecone adapter (managed vector search) (Issue: #1639)
-- [I] Elasticsearch adapter (full-text + vector) (Issue: #1640)
+- [P] Pinecone adapter (managed vector search) (Issue: #1639)
+- [P] Elasticsearch adapter (full-text + vector) (Issue: #1640, Target: Q2 2026)
 - [I] Cassandra adapter (wide-column) (Issue: #1641)
 - [I] Cross-system query federation for hybrid benchmarks (Issue: #1642)
-- [I] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
+- [P] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
 
 ## Implementation Phases
 
@@ -58,7 +58,7 @@
 - [x] Benchmark result normalization and scoring framework (Target: Q3 2026)
 
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
-- [P] Weaviate adapter (native vector database)
+- [x] Weaviate adapter (native vector database)
 - [x] Qdrant adapter (native vector database)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report)
 - [x] Adapter capability matrix (which operations each system supports)
@@ -77,7 +77,6 @@
 - PostgreSQL and MongoDB vendor adapters are implemented in simulation mode (no live server required for tests); production use requires linking libpqxx / mongocxx
 - Weaviate adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
 - Qdrant adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
-- Benchmark harness test suites are in a separate module and not yet integrated
 - Neo4j adapter is not yet implemented
 
 ## Breaking Changes

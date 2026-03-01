@@ -73,6 +73,8 @@ adapters/chimera/
 ├── themisdb_adapter.hpp      # ThemisDB reference implementation
 ├── postgresql_adapter.hpp    # PostgreSQL + pgvector implementation
 ├── weaviate_adapter.hpp      # Weaviate REST API implementation
+├── qdrant_adapter.hpp        # Qdrant HNSW vector search implementation
+├── pinecone_adapter.hpp      # Pinecone managed vector search implementation
 ├── template_adapter.hpp      # Template for new adapters
 └── your_adapter.hpp          # Your custom adapter
 
@@ -654,6 +656,48 @@ cmake --build build
 - Uses GraphQL for complex queries
 - REST API for CRUD operations
 - Automatic vectorization (if configured)
+
+### 6.4 Qdrant Adapter
+
+**File:** `adapters/chimera/qdrant_adapter.hpp`
+
+**Features:**
+- REST/gRPC API client
+- Native HNSW vector similarity search
+- Payload (document) storage alongside vectors
+- Metadata filtering during vector search
+
+**Key Mappings:**
+- Collections → Qdrant collections
+- Documents → Qdrant point payloads
+- Vector search → Native HNSW nearest-neighbor queries
+
+**Special Considerations:**
+- No ACID transaction support
+- Supports both http:// and https:// schemes
+- API key passed via the `api_key` connection option
+
+### 6.5 Pinecone Adapter
+
+**File:** `adapters/chimera/pinecone_adapter.hpp`
+
+**Features:**
+- Managed serverless vector search (Pinecone v3)
+- REST API client
+- Cosine similarity search (default metric)
+- Metadata filtering during vector search
+- Batch upsert operations
+
+**Key Mappings:**
+- Collections → Pinecone namespaces
+- Vector metadata → Pinecone sparse metadata
+- Vector search → Managed ANN queries
+
+**Special Considerations:**
+- Requires **HTTPS** connections only (plain http is rejected)
+- No ACID transaction support
+- No standalone document store (metadata stored alongside vectors)
+- API key passed via the `api_key` connection option; never surfaced in system info
 
 ---
 

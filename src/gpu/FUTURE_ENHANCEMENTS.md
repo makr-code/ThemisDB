@@ -81,12 +81,65 @@ Support for multiple GPUs and distributed computation.
   `ClusterConfig` block (STANDALONE / COORDINATOR / WORKER modes)
 
 **Remaining (hardware required):**
-- `cudaMemcpyPeer` / `hipMemcpyPeer` for GPU-to-GPU transfers
+- ~~`cudaMemcpyPeer` / `hipMemcpyPeer` for GPU-to-GPU transfers~~ (implemented via `GPUP2PTransferManager`)
 - ~~NVLink / XGMI topology detection~~ (implemented via `GPUClusterTopology`)
 
 ---
 
-### GPU Memory Pooling
+### Peer-to-Peer GPU-to-GPU Direct Transfers (NVLink/PCIe)
+**Priority:** High | **Target Version:** v1.9.0 | **Status:** ✅ Infrastructure implemented
+
+Direct GPU-to-GPU memory transfers via NVLink or PCIe peer-to-peer DMA without
+routing through host CPU memory.
+
+**Implemented infrastructure:**
+- ✅ `GPUP2PTransferManager` (`include/themis/gpu/p2p_transfer.h`,
+  `src/gpu/p2p_transfer.cpp`) — thread-safe singleton with:
+  - `canAccessPeer(src, dst, devices)` — query P2P hardware capability without
+    requiring the feature flag; delegates to `cudaDeviceCanAccessPeer` /
+    `hipDeviceCanAccessPeer`; returns `false` on CPU simulation.
+  - `enablePeerAccess(src, dst, devices)` — enables direct peer access via
+    `cudaDeviceEnablePeerAccess` / `hipDeviceEnablePeerAccess`; gated on the
+    `PEER_TO_PEER` feature flag.
+  - `disablePeerAccess(src, dst)` — disables peer access for the pair; gated on
+    the `PEER_TO_PEER` feature flag.
+  - `isPeerAccessEnabled(src, dst)` — predicate; always callable.
+  - `transfer(TransferRequest, devices)` — direct copy via `cudaMemcpyPeer` /
+    `hipMemcpyPeer`; falls back to `memcpy` simulation on CPU-only builds so
+    tests always pass; stats record the transfer route
+    (NVLink / PCIe / CPU fallback).
+  - `getStats()` / `reset()` — observability and test reset.
+- ✅ `TransferRequest` struct: `src_device`, `dst_device`, `src_ptr`, `dst_ptr`,
+  `size_bytes`.
+- ✅ `TransferResult` struct: `ok`, `bytes_transferred`, `error_message`.
+- ✅ `Status` enum (8 values) + `p2pStatusName()` free function.
+- ✅ `Stats` struct: `total_transfers`, `bytes_transferred`, `nvlink_transfers`,
+  `pcie_transfers`, `cpu_fallback_transfers`, `failed_transfers`,
+  `peer_access_enabled_count`, `peer_access_disabled_count`.
+- ✅ `PEER_TO_PEER` feature flag added to `GPUFeatureFlags::Feature` and
+  `GPUFeatureFlags::getAll()`; enabled by default for ENTERPRISE and
+  HYPERSCALER editions only.
+- ✅ Topology-aware routing: `GPUClusterTopology::preferredInterconnect()` used
+  to classify each transfer as NVLink vs PCIe for stats tracking.
+- ✅ CPU simulation path (in-memory `memcpy`) always active; all tests pass
+  without GPU hardware.
+- ✅ Thread-safe: all public methods protected by an internal `std::mutex`.
+- ✅ Full unit-test coverage (`tests/test_gpu_p2p_transfer.cpp`): feature-gate,
+  canAccessPeer, peer-access lifecycle, zero-byte transfers, null-pointer errors,
+  invalid-device errors, CPU-fallback data integrity, stats accumulation,
+  concurrent safety.
+
+**Remaining (hardware required):**
+- Verify `cudaDeviceEnablePeerAccess` succeeds on an NVLink-connected pair
+  (e.g. two A100s in an NVLink fabric) and that `cudaMemcpyPeer` achieves
+  ≥ 250 GB/s throughput for a 1 GB buffer.
+- Benchmark PCIe P2P throughput (target: ≥ 12 GB/s for a 256 MB buffer on
+  Gen 4 PCIe hardware) and compare against host-staging
+  (`cudaMemcpy` D→H + H→D) to validate the P2P advantage.
+- Wire `THEMIS_ENABLE_HIP` path and verify `hipMemcpyPeer` on an AMD XGMI
+  fabric (MI300X or similar).
+
+
 **Priority:** Medium | **Target Version:** v1.2.0 | **Status:** ✅ Infrastructure implemented
 
 Efficient VRAM allocation with pooling.
@@ -186,20 +239,20 @@ the [cuVS/RAFT](https://github.com/rapidsai/cuvs) library on NVIDIA GPUs.
   `QueryShape::OpType::ANN_SEARCH`; hit/miss counters visible in
   `GPUQueryAccelerator::Stats::graph_cache_hits` / `graph_cache_misses`.
 - ✅ `Stats::total_ann_searches` counter for observability.
-- ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`)
+- ✅ Full unit-test coverage (`tests/test_gpu_query_accelerator.cpp`);
+  test binary also included in `themis_tests` bundle via `tests/CMakeLists.txt`.
+- ✅ `THEMIS_ENABLE_CUDA` guard wired around the cuVS/RAFT path in
+  `src/gpu/query_accelerator.cpp`; falls through to CPU brute-force on any
+  failure (cuVS exception, no CUDA hardware, or `cudaMalloc` failure).
+- ✅ `THEMIS_ENABLE_CUVS` cmake option added (`cmake/CMakeLists.txt`); when ON,
+  `find_package(cuvs)` is called and `THEMIS_ENABLE_CUVS` is propagated to the
+  build so the IVF-Flat index build/search calls are compiled in.
 
 **Remaining (hardware required):**
-- Allocate device buffers via `cudaMalloc` and copy database + queries with
-  `cudaMemcpy`.
-- Build an IVF-Flat index using
-  `cuvs::neighbors::ivf_flat::build(handle, idx_params, db_view)`.
-- Execute the search with
-  `cuvs::neighbors::ivf_flat::search(handle, search_params, index, q_view,
-  neighbors_view, distances_view)`.
-- Copy `neighbors` and `distances` device arrays back to host and populate
-  `AnnResult`.
-- Wire `THEMIS_ENABLE_CUDA` guard around the cuVS path; fall back to CPU on
-  `cudaMalloc` failure.
+- Verify IVF-Flat index build and search on an NVIDIA GPU with cuVS installed:
+  - `conda install -c rapidsai cuvs` + `-DTHEMIS_ENABLE_CUVS=ON` + GPU hardware.
+  - Benchmark k-NN throughput (target: ≥ 10× CPU brute-force for 1 M float32
+    vectors of dimension 128, k=10) using CUDA events.
 
 ---
 

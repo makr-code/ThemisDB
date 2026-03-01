@@ -62,6 +62,9 @@ void Phase3FeatureFlags::load_from_config(const std::string& config_path) {
             if (phase3.contains("avx512_distance_enabled")) {
                 set_avx512_distance_enabled(phase3["avx512_distance_enabled"]);
             }
+            if (phase3.contains("adaptive_batch_tuner_enabled")) {
+                set_adaptive_batch_tuner_enabled(phase3["adaptive_batch_tuner_enabled"]);
+            }
         }
     } catch (const std::exception&) {
         // Ignore JSON parsing errors, use defaults

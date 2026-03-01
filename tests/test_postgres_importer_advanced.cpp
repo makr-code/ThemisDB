@@ -238,7 +238,16 @@ static ImportStats importContent(const std::string& content,
                 }
             }
             stats.total_records++;
-            if (options.dry_run) continue;
+            if (options.dry_run) {
+                ImportError e;
+                e.code     = ImportErrorCode::DRY_RUN_ONLY;
+                e.severity = ImportErrorSeverity::INFO;
+                e.message  = "dry-run: row would be imported";
+                e.location = "table " + current_table;
+                stats.structured_errors.push_back(e);
+                stats.imported_records++;
+                continue;
+            }
 
             // Row-size guard
             if (options.max_row_size_bytes > 0 && line.size() > options.max_row_size_bytes) {
@@ -291,7 +300,7 @@ static ImportStats importContent(const std::string& content,
         }
     }
 
-    if (!options.delta_hash_file.empty() && !delta_hashes.empty())
+    if (!options.dry_run && !options.delta_hash_file.empty() && !delta_hashes.empty())
         saveDeltaHashes(options.delta_hash_file, delta_hashes);
 
     return stats;
@@ -879,4 +888,136 @@ TEST(StatsFieldTest, QuarantinedRecordsIncrementedOnFailedRow) {
     EXPECT_EQ(stats.quarantined_records, 1u);
 
     std::remove(qfile.c_str());
+}
+
+// ---------------------------------------------------------------------------
+// 9. Dry-run preview
+// ---------------------------------------------------------------------------
+
+TEST(DryRunPreviewTest, ImportedRecordsCountsPreviewRows) {
+    ImportOptions opts;
+    opts.dry_run = true;
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY users (id) FROM stdin;\n"
+        "1\n"
+        "2\n"
+        "3\n"
+        "\\.\n";
+
+    ImportStats stats = importContent(content, opts);
+    EXPECT_EQ(stats.imported_records, 3u);
+}
+
+TEST(DryRunPreviewTest, TotalRecordsMatchesImportedInDryRun) {
+    ImportOptions opts;
+    opts.dry_run = true;
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY orders (id) FROM stdin;\n"
+        "10\n"
+        "20\n"
+        "\\.\n";
+
+    ImportStats stats = importContent(content, opts);
+    EXPECT_EQ(stats.total_records, stats.imported_records);
+}
+
+TEST(DryRunPreviewTest, DryRunEmitsDryRunOnlyStructuredError) {
+    ImportOptions opts;
+    opts.dry_run = true;
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY items (id) FROM stdin;\n"
+        "42\n"
+        "\\.\n";
+
+    ImportStats stats = importContent(content, opts);
+    bool found = false;
+    for (const auto& e : stats.structured_errors) {
+        if (e.code == ImportErrorCode::DRY_RUN_ONLY) { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "Expected DRY_RUN_ONLY structured error in dry_run mode";
+}
+
+TEST(DryRunPreviewTest, DryRunOnlyErrorIsInfoSeverity) {
+    ImportOptions opts;
+    opts.dry_run = true;
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY t (id) FROM stdin;\n"
+        "1\n"
+        "\\.\n";
+
+    ImportStats stats = importContent(content, opts);
+    for (const auto& e : stats.structured_errors) {
+        if (e.code == ImportErrorCode::DRY_RUN_ONLY) {
+            EXPECT_EQ(e.severity, ImportErrorSeverity::INFO);
+            return;
+        }
+    }
+    FAIL() << "DRY_RUN_ONLY structured error not found";
+}
+
+TEST(DryRunPreviewTest, DryRunDoesNotWriteToQuarantineFile) {
+    std::string qfile = tmpFile(".dryrun_q.jsonl");
+    std::remove(qfile.c_str());
+
+    ImportOptions opts;
+    opts.dry_run = true;
+    opts.quarantine_file = qfile;
+    opts.max_row_size_bytes = 2;  // force row-size failures
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY t (id) FROM stdin;\n"
+        "toolong\n"
+        "\\.\n";
+
+    importContent(content, opts);
+
+    // Quarantine file must not be created in dry_run mode
+    std::ifstream f(qfile);
+    EXPECT_FALSE(f.good()) << "Quarantine file should not be created during dry_run";
+
+    std::remove(qfile.c_str());
+}
+
+TEST(DryRunPreviewTest, DryRunZeroImportedOnEmptyInput) {
+    ImportOptions opts;
+    opts.dry_run = true;
+
+    std::string content = "-- PostgreSQL database dump\n";
+
+    ImportStats stats = importContent(content, opts);
+    EXPECT_EQ(stats.imported_records, 0u);
+    EXPECT_EQ(stats.total_records, 0u);
+}
+
+TEST(DryRunPreviewTest, DryRunDoesNotSaveDeltaHashFile) {
+    std::string hash_file = tmpFile(".dryrun_delta.txt");
+    std::remove(hash_file.c_str());
+
+    ImportOptions opts;
+    opts.dry_run = true;
+    opts.delta_hash_file = hash_file;
+
+    std::string content =
+        "-- PostgreSQL database dump\n"
+        "COPY t (id) FROM stdin;\n"
+        "1\n"
+        "2\n"
+        "\\.\n";
+
+    importContent(content, opts);
+
+    // Delta hash file must not be created in dry_run mode
+    std::ifstream f(hash_file);
+    EXPECT_FALSE(f.good()) << "Delta hash file should not be created during dry_run";
+
+    std::remove(hash_file.c_str());
 }

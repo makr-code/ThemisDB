@@ -43,7 +43,7 @@
 - [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
-- [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
+- [x] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
 
 ## Implementation Phases
@@ -75,7 +75,7 @@
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)
 - [x] Integration tests (query optimizer, constrained path finding, AQL integration)
-- [I] Performance benchmarks (traversal latency vs graph size) (Issue: #1831)
+- [x] Performance benchmarks (traversal latency vs graph size) (Issue: #1831)
 - [I] Security audit (query injection via path constraints) (Issue: #1832)
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder

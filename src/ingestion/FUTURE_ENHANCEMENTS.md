@@ -115,7 +115,31 @@ Enhance `IngestionAdminApi::retryQuarantineItem(doc_id)` to retry a single quara
 
 ---
 
-## Test Strategy
+### Plugin API for Third-Party Source Connectors
+**Priority:** Medium
+**Target Version:** v1.5.0
+**Status:** ✅ Implemented (Issue: #1908)
+
+Enable third-party code to register custom source connectors at runtime without modifying `IngestionManager` or recompiling the core library.  The plugin author implements `ISourceConnector`, registers a zero-argument factory, and the existing ingestion pipeline drives it identically to first-party connectors.
+
+**Implementation Notes:**
+- `ConnectorFactory` (`std::function<std::unique_ptr<ISourceConnector>()>`) is the factory type stored in the registry and forwarded to `IngestionManager`.
+- `ConnectorPluginRegistry` (declared in `ingestion_manager.h`, implemented in `ingestion_manager.cpp`) is a thread-safe `unordered_map` mapping plugin names to `ConnectorFactory` callables.  All operations are protected by an internal `std::mutex`.
+- `IngestionManager` owns one `ConnectorPluginRegistry` instance and exposes three public methods: `registerConnectorPlugin(name, factory)`, `unregisterConnectorPlugin(name) → bool`, and `listConnectorPlugins() → vector<string>` (sorted).
+- `SourceType::PLUGIN` is the new enum value that routes a source to the plugin path in `Impl::ingestSource()`.  The source must carry `options["plugin_name"]` naming the registered factory; missing or unknown names produce `IngestionErrorCode::CONNECTOR_NOT_SUPPORTED` errors without aborting the entire ingestion run.
+- `IngestionBuilder` fluent API additions: `withConnectorPlugin(name, factory)` stores the factory for transfer to the manager on `build()`; `withPluginSource(source_id, plugin_name, location, options, priority)` adds a `SourceType::PLUGIN` source config with `plugin_name` stored in `options`.
+- `IngestionMetricsExporter::exportText(stats, source_id, "PLUGIN")` includes `source_type="PLUGIN"` in all emitted Prometheus labels.
+
+**Security Notes:**
+- Connector factories are caller-supplied code; no sandbox isolation is provided.  Deploy third-party connectors only from trusted sources.
+- `options["plugin_name"]` values are looked up in the in-process registry and never evaluated as file paths or shell commands.
+
+**Test Coverage:**
+- 14 unit tests in `tests/test_ingestion_plugin_api.cpp` covering registry CRUD, concurrent isolation (distinct instances per `create()`), sorted listing, `ingestSource` success and all error paths (`missing plugin_name`, unregistered name, init failure), and the full `IngestionBuilder` fluent API.
+
+---
+
+
 
 | Test Type | Coverage Target | Notes |
 |-----------|----------------|-------|
@@ -139,3 +163,22 @@ Enhance `IngestionAdminApi::retryQuarantineItem(doc_id)` to retry a single quara
 - The `S3Connector` must validate that downloaded file paths do not escape the configured bucket prefix (path-traversal guard) before passing bytes to the file parser.
 - Kafka consumer group offsets are committed only after a document is durably written to ThemisDB; at-least-once delivery semantics are preserved; idempotency at the storage layer handles duplicates.
 - Quarantine entries containing raw document payloads may contain PII; the quarantine collection must be governed by the same `PolicyEngine` access controls as production collections.
+- **WebCrawlerConnector**: only `http://` and `https://` seed URLs and link targets are permitted; all other URI schemes (`file://`, `ftp://`, `data:`, `ldap://`, etc.) are rejected at `initialize()` and `resolveUrl()` to prevent SSRF attacks.
+
+---
+
+## Implemented Connectors (as of v1.5.0)
+
+The following connectors from this enhancement document have been implemented and are production-ready:
+
+| Connector | File | Status |
+|-----------|------|--------|
+| Production libcurl HTTP Client | `api_connector.cpp` | ✅ Implemented |
+| Kafka Consumer Source | `kafka_connector.cpp` | ✅ Implemented |
+| S3-Compatible Object Storage | `object_storage_connector.cpp` | ✅ Implemented |
+| JDBC-Compatible Database Source | `database_connector.cpp` | ✅ Implemented |
+| Web Crawler / Sitemap Source | `web_crawler_connector.cpp` | ✅ Implemented |
+| Per-Document Quarantine Retry | `ingestion_manager.cpp` | ✅ Implemented |
+| Distributed Ingestion Coordinator | `ingestion_coordinator.cpp` | ✅ Implemented |
+| CDC Source (live database streams) | `cdc_connector.cpp`         | ✅ Implemented |
+| Plugin API for third-party connectors | `ingestion_manager.h`, `ingestion_manager.cpp` | ✅ Implemented |

@@ -197,6 +197,45 @@ TEST_F(DiskANNTest, CacheStatistics) {
     EXPECT_GT(stats.cache_hits + stats.cache_misses, 0u);
 }
 
+TEST_F(DiskANNTest, GraphEdgesTracked) {
+    auto index_path = test_dir_ / "edges_index.bin";
+    DiskANNIndex index(2, index_path.string(), 10);
+
+    std::vector<std::pair<VectorID, std::vector<float>>> vectors = {
+        {1, {1.0f, 0.0f}},
+        {2, {0.0f, 1.0f}},
+        {3, {1.0f, 1.0f}},
+        {4, {0.5f, 0.5f}}
+    };
+
+    index.build(vectors);
+
+    auto stats = index.get_stats();
+    EXPECT_GT(stats.graph_edges, 0u);
+}
+
+TEST_F(DiskANNTest, SaveLoadMetadata) {
+    auto index_path = test_dir_ / "meta_index.bin";
+    DiskANNIndex index(2, index_path.string(), 10);
+
+    std::vector<std::pair<VectorID, std::vector<float>>> vectors = {
+        {1, {1.0f, 0.0f}},
+        {2, {0.0f, 1.0f}},
+        {3, {1.0f, 1.0f}}
+    };
+
+    index.build(vectors);
+    ASSERT_TRUE(index.save(index_path.string()));
+
+    // Load into a fresh index instance
+    DiskANNIndex index2(2, index_path.string(), 10);
+    ASSERT_TRUE(index2.load(index_path.string()));
+
+    auto stats = index2.get_stats();
+    EXPECT_EQ(stats.num_vectors, 3u);
+    EXPECT_GT(stats.graph_edges, 0u);
+}
+
 TEST_F(DiskANNTest, LargerDataset) {
     auto index_path = test_dir_ / "large_index.bin";
     DiskANNIndex index(4, index_path.string(), 100);

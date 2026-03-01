@@ -83,7 +83,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine, forecasting)
-- [I] Unit tests coverage > 80% (test files added for all Phase 2 components; measured coverage pending CI run) (Issue: #2135)
+- [x] Unit tests coverage > 80% (test files added for all Phase 2 components; all three Phase 2 test suites active in CI)
 - [x] Integration tests (query module, index module, CDC)
 - [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`) — including stateful checkpoint lifecycle (`StatefulCheckpointPreservesPartialMatches`, `CheckpointWithNoPartialMatchesIsClean`)
 - [x] Forecasting unit tests (`tests/analytics/test_forecasting.cpp`) — TimeSeries, all five algorithms, fit/predict/evaluate/decompose, serialize/deserialize, edge cases

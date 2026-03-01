@@ -78,21 +78,15 @@ Add a delta-export mode that exports only documents created or modified since th
 
 ---
 
-### Instruction-Tuning Format Templates
-**Priority:** Medium
-**Target Version:** v1.7.0
+### ~~Instruction-Tuning Format Templates~~ ✅ Implemented (Issue #1727)
+**Priority:** Medium  
+**Target Version:** v1.7.0 — **Delivered**
 
-Extend `jsonl_llm_exporter.cpp` to emit documents in named instruction-tuning schemas (Alpaca, ShareGPT, ChatML, OpenAI fine-tuning JSONL) via a `FormatTemplate` enum. Templates define how ThemisDB fields map to `instruction`, `input`, `output`, `messages`, etc.
+Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine-tuning JSONL) are implemented in `format_template.cpp` / `format_template.h`.  The `JSONLLLMExporter` activates a template via `JSONLLLMConfig::format_template_type`; field-name overrides go in `template_field_mapping`.  See `tests/exporters/test_format_template.cpp` for 35 test cases.
 
-**Implementation Notes:**
-- Add `format_template.cpp` with one concrete `IFormatTemplate` implementation per schema.
+**Remaining (future issues):**
 - Register templates in `ExportFormatRegistry`; allow user-defined templates via a JSON config file.
-- Include a `validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.
-- Add golden-file tests in `tests/exporters/` asserting exact JSONL output for each template type.
-
-**Performance Targets:**
-- Template rendering overhead ≤ 5 % CPU vs. raw JSONL export at the same throughput.
-- All four built-in templates validated against their published specifications (Alpaca repo, OpenAI fine-tuning docs).
+- `validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.
 
 ---
 

@@ -26,7 +26,7 @@ v1.x – Comprehensive shared utilities library. Logging, audit trail, PII detec
 
 ## In Progress 🚧
 - [?] Structured log query API (search logs like data) (Target: Q2 2026)
-- [I] LEK rotation automation without manual intervention (Target: Q3 2026) (Issue: #2346)
+- [x] LEK rotation automation without manual intervention (Target: Q3 2026) (Issue: #2346)
 
 ## Planned Features 📋
 
@@ -67,7 +67,7 @@ v1.x – Comprehensive shared utilities library. Logging, audit trail, PII detec
 - [?] Streaming PII pipeline for large documents (chunked scan, no full in-memory load) (Target: Q2 2026)
 - [?] Sampled logger for high-throughput paths (probabilistic drop with rate counter) (Target: Q2 2026)
 - [x] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026)
-- [ ] LEK rotation automation without manual intervention (Target: Q3 2026)
+- [x] LEK rotation automation without manual intervention (Target: Q3 2026)
 
 ### Phase 3: Tamper-Evidence & Compaction (Status: Planned 📋)
 - [?] Tamper-evident audit hash chain (SHA-256 Merkle chain linking audit records)

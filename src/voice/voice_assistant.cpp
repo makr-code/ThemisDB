@@ -216,6 +216,16 @@ std::string VoiceAssistant::processTextCommand(
         return "Voice assistant not initialized";
     }
     
+    // Check if the text matches a registered voice macro trigger.
+    const MacroID matched_id = macro_manager_.matchTrigger(text);
+    if (!matched_id.empty()) {
+        MacroResult result = macro_manager_.executeMacro(matched_id);
+        if (result.success) {
+            return result.output;
+        }
+        // Fall through to LLM on macro failure.
+    }
+
     // Get or create session
     auto session = getSession(session_id);
     
@@ -480,19 +490,11 @@ std::string VoiceAssistant::storeRecording(
     const std::string& transcript,
     const json& metadata
 ) {
-    // Real implementation would:
-    // 1. Generate unique entity ID
-    // 2. Create base entity with audio blob
-    // 3. Add transcript as text field
-    // 4. Add metadata
-    // 5. Enable revision control
-    // 6. Store in ThemisDB
-    
-    // Placeholder: generate a UUID-like ID
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::stringstream ss;
-    ss << "recording:" << std::hex << now;
-    return ss.str();
+    // Store in the embedded VoiceAudioStorage so recordings are
+    // accessible for playback and transcript search via audioStorage().
+    AudioFormat fmt = audio_storage_.detectFormat(audio_data);
+    fmt.duration_seconds = metadata.value("duration_seconds", 0.0f);
+    return audio_storage_.store(audio_data, fmt, transcript, metadata);
 }
 
 VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
@@ -555,6 +557,8 @@ json VoiceAssistant::getStatistics() const {
 
     stats["voice_auth"] = voice_authenticator_.get_statistics();
 
+    stats["macros"] = macro_manager_.getStatistics();
+
     {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(sessions_mutex_));
         stats["active_sessions"] = sessions_.size();
@@ -604,6 +608,30 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     return voice_authenticator_.authenticate(user_id, audio_sample);
 }
 
+VerificationResult VoiceAssistant::verifyVoiceSpeaker(
+    const VoiceProfileID&         profile_id,
+    const std::vector<uint8_t>&   audio_sample)
+{
+    return voice_authenticator_.verify_speaker(profile_id, audio_sample);
+}
+
+IdentificationResult VoiceAssistant::identifyVoiceProfiles(
+    const std::vector<VoiceProfileID>& candidate_profiles,
+    const std::vector<uint8_t>&        audio_sample)
+{
+    return voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+}
+
+bool VoiceAssistant::deleteVoiceProfile(const VoiceProfileID& profile_id)
+{
+    return voice_authenticator_.delete_profile(profile_id);
+}
+
+std::vector<VoiceProfileID> VoiceAssistant::listVoiceProfiles() const
+{
+    return voice_authenticator_.list_profiles();
+}
+
 
 WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     const std::vector<uint8_t>& audio_chunk
@@ -613,6 +641,22 @@ WakeWordDetectionResult VoiceAssistant::detectWakeWord(
 
 void VoiceAssistant::setWakeWordCallback(WakeWordDetector::DetectionCallback callback) {
     wake_word_detector_->setDetectionCallback(std::move(callback));
+}
+
+VoiceMacroManager& VoiceAssistant::macroManager() {
+    return macro_manager_;
+}
+
+const VoiceMacroManager& VoiceAssistant::macroManager() const {
+    return macro_manager_;
+}
+
+VoiceAudioStorage& VoiceAssistant::audioStorage() {
+    return audio_storage_;
+}
+
+const VoiceAudioStorage& VoiceAssistant::audioStorage() const {
+    return audio_storage_;
 }
 
 } // namespace voice

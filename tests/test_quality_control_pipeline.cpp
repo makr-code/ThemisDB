@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     400                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     422                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -364,6 +364,51 @@ TEST_F(QualityControlPipelineTest, ConfigurationUpdate) {
     auto retrieved_config = pipeline->getConfig();
     EXPECT_FALSE(retrieved_config.enable_fast_stage);
     EXPECT_TRUE(retrieved_config.enable_balanced_stage);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Citation Coverage Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, ThoroughStageIncludesCitationCoverage) {
+    auto pipeline = QualityPipelineFactory::createThorough();
+
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
+
+    // Citation coverage should be populated by the thorough stage
+    EXPECT_GE(result.citation_coverage, 0.0);
+    EXPECT_LE(result.citation_coverage, 1.0);
+
+    // citation_coverage DimensionScore should be present
+    bool found_citation = false;
+    for (const auto& score : result.dimension_scores) {
+        if (score.dimension == "citation_coverage") {
+            found_citation = true;
+            EXPECT_EQ(score.method, "citation_highlighter");
+            EXPECT_GE(score.score, 0.0);
+            EXPECT_LE(score.score, 1.0);
+        }
+    }
+    EXPECT_TRUE(found_citation);
+}
+
+TEST_F(QualityControlPipelineTest, ThoroughStageCitationCoverageDisableable) {
+    QualityControlPipeline::Config cfg;
+    cfg.enable_fast_stage      = true;
+    cfg.enable_balanced_stage  = true;
+    cfg.enable_thorough_stage  = true;
+    cfg.enable_citation_check  = false;
+
+    QualityControlPipeline pipeline(cfg);
+    auto result = pipeline.runQualityControl(query, good_answer, documents);
+
+    // citation_coverage should remain at default 0.0 when disabled
+    EXPECT_NEAR(result.citation_coverage, 0.0, 1e-9);
+
+    // No citation_coverage DimensionScore should be present
+    for (const auto& score : result.dimension_scores) {
+        EXPECT_NE(score.dimension, "citation_coverage");
+    }
 }
 
 // ═══════════════════════════════════════════════════════════

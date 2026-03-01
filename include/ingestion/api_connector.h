@@ -200,6 +200,17 @@ public:
      */
     void setHttpPostForTesting(ApiHttpPostFn fn);
 
+    /**
+     * @brief Inject a per-document validator called before each write.
+     *
+     * When set, the validator is called for every document fetched from the
+     * API.  Documents that fail validation are counted as failed (not processed).
+     * Pass an empty `DocumentValidatorFn` to remove a previously set validator.
+     *
+     * @param validator Validator callback; empty = disable
+     */
+    void setDocumentValidator(DocumentValidatorFn validator) override;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

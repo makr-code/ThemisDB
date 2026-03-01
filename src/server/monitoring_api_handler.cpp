@@ -1526,6 +1526,239 @@ void MonitoringApiHandler::registerRoutes() {
         {{"204",{{"description","UDF deleted"}}},
          {"404",{{"description","UDF not found"}}}}
     }});
+
+    // --- Changefeed Compact ---
+    reg.registerRoute({"/changefeed/compact", "post", {
+        "Compact changefeed log",
+        "Runs a compaction pass retaining only the latest event per key. "
+        "Requires cdc:admin scope.",
+        "compactChangefeed", {"changefeed"}, {}, {},
+        {{"200",{{"description","Compaction completed"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Feature cdc disabled"}}},
+         {"503",{{"description","Service unavailable"}}},
+         {"500",{{"description","Internal error"}}}}
+    }});
+
+    // --- Incremental Graph Query ---
+    reg.registerRoute({"/graph/query/incremental", "post", {
+        "Register incremental BFS graph query",
+        "Registers a live BFS query that is automatically re-executed on graph changes.",
+        "registerIncrementalGraphQuery", {"graph"},
+        {},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"201",{{"description","Incremental query registered"}}},
+         {"400",{{"description","Bad request"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"503",{{"description","Service unavailable"}}},
+         {"500",{{"description","Internal error"}}}}
+    }});
+    reg.registerRoute({"/graph/query/incremental/{handle}", "delete", {
+        "Unregister incremental BFS graph query",
+        "Stops re-execution of the incremental query identified by handle.",
+        "unregisterIncrementalGraphQuery", {"graph"},
+        {RouteParam{"handle","path",true,"Registration handle",{{"type","integer"},{"format","int64"}}}},
+        {},
+        {{"200",{{"description","Query unregistered"}}},
+         {"400",{{"description","Bad request"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Handle not found"}}},
+         {"503",{{"description","Service unavailable"}}}}
+    }});
+
+    // --- Graph Changes Notification ---
+    reg.registerRoute({"/graph/changes", "post", {
+        "Notify graph of topology changes",
+        "Pushes a batch of vertex/edge mutations; triggers re-execution of affected incremental queries.",
+        "notifyGraphChanges", {"graph"},
+        {},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Changes applied"}}},
+         {"400",{{"description","Bad request"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"503",{{"description","Service unavailable"}}},
+         {"500",{{"description","Internal error"}}}}
+    }});
+
+    // --- SSE Streaming Query ---
+    reg.registerRoute({"/v2/query/stream", "get", {
+        "Stream AQL query results via Server-Sent Events",
+        "Executes an AQL query and streams each result document as an SSE 'data:' event. "
+        "Requires query parameter 'q' (URL-encoded AQL string).",
+        "queryStreamSse", {"query"},
+        {RouteParam{"q","query",true,"URL-encoded AQL query",{{"type","string"}}},
+         RouteParam{"max_seconds","query",false,"Max stream duration (1-60)",{{"type","integer"},{"default",30}}},
+         RouteParam{"heartbeat_ms","query",false,"Heartbeat interval ms",{{"type","integer"},{"default",15000}}},
+         RouteParam{"retry_ms","query",false,"SSE reconnect interval ms",{{"type","integer"},{"default",3000}}}},
+        {},
+        {{"200",{{"description","SSE stream"},
+                 {"content",{{"text/event-stream",{{"schema",{{"type","string"}}}}}}}  }},
+         {"400",{{"description","Missing or invalid query parameter"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"500",{{"description","Internal error"}}}}
+    }});
+
+    // --- Serverless Functions ---
+    reg.registerRoute({"/api/v1/functions", "post", {
+        "Register a serverless function",
+        "Registers a new in-process function defined by a JSON DSL code block.",
+        "registerServerlessFunction", {"serverless"},
+        {},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"201",{{"description","Function registered"}}},
+         {"400",{{"description","Invalid function definition"}}},
+         {"401",{{"description","Unauthorized"}}}}
+    }});
+    reg.registerRoute({"/api/v1/functions", "get", {
+        "List registered serverless functions", "", "listServerlessFunctions", {"serverless"},
+        {RouteParam{"tenant_id","query",false,"Filter by tenant",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","List of functions"}}},
+         {"401",{{"description","Unauthorized"}}}}
+    }});
+    reg.registerRoute({"/api/v1/functions/{id}", "get", {
+        "Get serverless function definition", "", "getServerlessFunction", {"serverless"},
+        {RouteParam{"id","path",true,"Function ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Function definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Function not found"}}}}
+    }});
+    reg.registerRoute({"/api/v1/functions/{id}", "put", {
+        "Update serverless function definition", "", "updateServerlessFunction", {"serverless"},
+        {RouteParam{"id","path",true,"Function ID",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Function updated"}}},
+         {"400",{{"description","Invalid definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Function not found"}}}}
+    }});
+    reg.registerRoute({"/api/v1/functions/{id}", "delete", {
+        "Delete a serverless function", "", "deleteServerlessFunction", {"serverless"},
+        {RouteParam{"id","path",true,"Function ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Function deleted"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Function not found"}}}}
+    }});
+    reg.registerRoute({"/api/v1/functions/{id}/invoke", "post", {
+        "Invoke a serverless function",
+        "Executes the function pipeline with the provided JSON payload.",
+        "invokeServerlessFunction", {"serverless"},
+        {RouteParam{"id","path",true,"Function ID",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Function result"}}},
+         {"400",{{"description","Bad request"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Function not found"}}},
+         {"504",{{"description","Execution timed out"}}}}
+    }});
+    reg.registerRoute({"/api/v1/functions/{id}/versions", "get", {
+        "List version history of a serverless function", "", "listServerlessFunctionVersions", {"serverless"},
+        {RouteParam{"id","path",true,"Function ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Version history"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"404",{{"description","Function not found"}}}}
+    }});
+
+    // --- Task Scheduler ---
+    reg.registerRoute({"/api/tasks", "post", {
+        "Register a new scheduled task",
+        "Creates a new AQL-query or function task with interval, cron, or manual trigger.",
+        "registerTask", {"tasks"},
+        {},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"201",{{"description","Task created"}}},
+         {"400",{{"description","Invalid task definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
+    reg.registerRoute({"/api/tasks", "get", {
+        "List all registered scheduled tasks", "", "listTasks", {"tasks"},
+        {},
+        {},
+        {{"200",{{"description","Task list"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/stats", "get", {
+        "Get task scheduler statistics", "", "getTaskStats", {"tasks"},
+        {},
+        {},
+        {{"200",{{"description","Scheduler statistics"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}", "get", {
+        "Get a scheduled task by ID", "", "getTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}", "put", {
+        "Update an existing scheduled task", "", "updateTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Task updated"}}},
+         {"400",{{"description","Invalid task definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}", "delete", {
+        "Unregister a scheduled task", "", "deleteTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task deleted"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}/enable", "post", {
+        "Enable (resume) a disabled task", "", "enableTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task enabled"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}/disable", "post", {
+        "Disable (pause) a scheduled task", "", "disableTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task disabled"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}/execute", "post", {
+        "Execute a task immediately (out of schedule)",
+        "Triggers immediate execution of a task regardless of its scheduled trigger. "
+        "Requires tasks:admin scope.",
+        "executeTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task executed"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden – requires tasks:admin scope"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/ui/tasks", "get", {
+        "Task Scheduler Web UI",
+        "Self-contained single-page application for managing scheduled tasks.",
+        "tasksWebUi", {"tasks"},
+        {},
+        {},
+        {{"200",{{"description","HTML dashboard"},
+                 {"content",{{"text/html",{{"schema",{{"type","string"}}}}}}}  }},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
 }
 
 } // namespace server

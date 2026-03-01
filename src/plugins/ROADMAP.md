@@ -13,6 +13,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [x] Plugin signing and signature verification
 - [x] Secure plugin execution sandbox
 - [x] Plugin signer tool (`tools/plugin_signer/`)
+- [x] Runtime plugin capability negotiation with version ranges (`PluginCapabilityNegotiator`, Issue: #1984)
 
 ## In Progress 🚧
 - [I] Plugin hot-reload without server restart (Target: Q2 2026) (Issue: #2223)
@@ -41,6 +42,8 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [x] Dynamic plugin loader – shared library (.so/.dll) loading via dlopen/LoadLibrary
 - [x] Plugin lifecycle management (load, initialize, unload) with RAII guards
 - [x] Plugin API versioning and compatibility negotiation
+- [x] Runtime plugin capability negotiation with version ranges (`PluginCapabilityNegotiator`, `PluginVersionRange`, `PluginCapabilityRequirement` in `include/plugins/plugin_interface.h`)
+- [x] `PluginManager::negotiateCapabilities()` entry point in `src/plugins/plugin_manager.cpp`
 - [x] Plugin manifest validation (JSON Schema enforcement)
 - [x] Ed25519 plugin signing and signature verification (`tools/plugin_signer/`)
 - [x] Secure plugin execution sandbox (capability isolation)
@@ -55,7 +58,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 ### Phase 3: WASM Sandbox & Ecosystem (Status: Planned 📋)
 - [?] WebAssembly (WASM) plugin runtime via Wasmtime for sandbox isolation
 - [?] Plugin metrics dashboard (call latency, error rate per plugin)
-- [ ] Remote plugin loading from OCI registries
+- [x] Remote plugin loading from OCI registries
 - [?] Plugin SDK with C++, Python, and Go bindings
 - [?] Community plugin repository with automated security scanning
 

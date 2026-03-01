@@ -31,6 +31,8 @@
 #include "ingestion/kafka_connector.h"
 #include "ingestion/object_storage_connector.h"
 #include "ingestion/database_connector.h"
+#include "ingestion/web_crawler_connector.h"
+#include "ingestion/cdc_connector.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -42,6 +44,8 @@
 #include <random>
 #include <filesystem>
 #include <fstream>
+#include <regex>
+#include <optional>
 
 namespace themis {
 namespace ingestion {
@@ -71,6 +75,9 @@ static std::string sourceTypeLabel(SourceType t) {
         case SourceType::DATABASE:       return "DATABASE";
         case SourceType::KAFKA:          return "KAFKA";
         case SourceType::OBJECT_STORAGE: return "OBJECT_STORAGE";
+        case SourceType::WEB_CRAWLER:    return "WEB_CRAWLER";
+        case SourceType::CDC:            return "CDC";
+        case SourceType::PLUGIN:         return "PLUGIN";
         default:                         return "UNKNOWN";
     }
 }
@@ -79,6 +86,229 @@ static std::string sourceTypeLabel(SourceType t) {
 static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
+
+// ============================================================================
+// Schema validation helpers
+// ============================================================================
+
+/// Escape all regex metacharacters in `s` so it can be used as a literal
+/// substring inside a larger regex pattern.
+static std::string regexEscape(const std::string& s) {
+    static const std::string kMeta = R"(\.^$*+?()[]{}|)";
+    std::string out;
+    out.reserve(s.size() * 2);
+    for (char c : s) {
+        if (kMeta.find(c) != std::string::npos) out += '\\';
+        out += c;
+    }
+    return out;
+}
+
+/// Build a compiled regex that matches `"key"\s*:` at a JSON object key position
+/// (preceded by `{` or `,`).  Field names are literal-escaped before insertion.
+static std::regex buildKeyRegex(const std::string& key) {
+    return std::regex(R"([{,]\s*\")" + regexEscape(key) + R"(\"\s*:)");
+}
+
+/// Extract a minimal JSON string value for a named key using a pre-compiled regex.
+/// Returns true and populates `value` when the key exists at a JSON object key
+/// position and its value is a JSON string.
+static bool findJsonStringValueRe(const std::string& json,
+                                   const std::regex& key_re,
+                                   std::string& value) {
+    std::smatch m;
+    if (!std::regex_search(json, m, key_re)) return false;
+    auto pos = static_cast<std::string::size_type>(m.position() + m.length());
+    // Skip whitespace before the value token
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t' ||
+                                  json[pos] == '\r' || json[pos] == '\n'))
+        ++pos;
+    if (pos >= json.size() || json[pos] != '"') return false;
+    ++pos;
+    value.clear();
+    bool esc = false;
+    while (pos < json.size()) {
+        char c = json[pos++];
+        if (esc) {
+            switch (c) {
+                case 'n':  value += '\n'; break;
+                case 'r':  value += '\r'; break;
+                case 't':  value += '\t'; break;
+                case '"':  value += '"';  break;
+                case '\\': value += '\\'; break;
+                default:   value += c;    break;
+            }
+            esc = false;
+            continue;
+        }
+        if (c == '\\') { esc = true; continue; }
+        if (c == '"') break;
+        value += c;
+    }
+    return true;
+}
+
+/// Returns true when the document looks like a JSON object or array.
+static bool looksLikeJson(const std::string& content) {
+    for (char c : content) {
+        if (c == ' ' || c == '\t' || c == '\r' || c == '\n') continue;
+        return c == '{' || c == '[';
+    }
+    return false;
+}
+
+// ============================================================================
+// Compiled schema for a single field (avoids per-document regex construction)
+// ============================================================================
+struct CompiledFieldRule {
+    std::string            name;
+    SchemaFieldRule        rule;
+    std::regex             key_re;     ///< compiled [{,]\s*"name"\s*: pattern
+    std::optional<std::regex> value_re; ///< compiled field-value pattern (if any)
+    bool                   key_re_ok    = false;
+    bool                   value_re_ok  = false;
+
+    explicit CompiledFieldRule(const std::string& n, const SchemaFieldRule& r)
+        : name(n), rule(r) {
+        try {
+            key_re    = buildKeyRegex(n);
+            key_re_ok = true;
+        } catch (const std::regex_error&) {}
+        if (!r.pattern.empty()) {
+            try {
+                value_re    = std::regex(r.pattern);
+                value_re_ok = true;
+            } catch (const std::regex_error&) {}
+        }
+    }
+};
+
+/**
+ * @brief Build a DocumentValidatorFn from a SchemaConfig.
+ *
+ * All regex patterns (content-level and field-level) are compiled once here
+ * and captured in the returned lambda, avoiding repeated compilation per document.
+ *
+ * Validates:
+ * 1. Content length (min/max)
+ * 2. Required content pattern (regex applied to raw content)
+ * 3. Required JSON fields and their types/lengths/patterns
+ *
+ * When `schema.reject_invalid` is `false`, the returned function always sets
+ * `is_valid = true` (warning-only mode): violations are still populated in the
+ * result so callers can log them, but the document is not counted as failed.
+ */
+static DocumentValidatorFn buildValidatorFromSchema(const SchemaConfig& schema) {
+    // Pre-compile the content-level pattern
+    bool content_re_ok = false;
+    std::regex content_re;
+    if (!schema.required_content_pattern.empty()) {
+        try {
+            content_re    = std::regex(schema.required_content_pattern);
+            content_re_ok = true;
+        } catch (const std::regex_error&) {}
+    }
+
+    // Pre-compile per-field key patterns and value patterns
+    std::vector<CompiledFieldRule> compiled_fields;
+    compiled_fields.reserve(schema.fields.size());
+    for (const auto& kv : schema.fields) {
+        compiled_fields.emplace_back(kv.first, kv.second);
+    }
+
+    const bool reject_invalid = schema.reject_invalid;
+
+    // Capture by value (SchemaConfig copy + compiled regexes)
+    return [schema, content_re, content_re_ok,
+            compiled_fields, reject_invalid](const std::string& content) mutable
+           -> DocumentValidationResult {
+        DocumentValidationResult result;
+
+        // --- content-level checks ---
+        if (schema.min_content_length > 0 &&
+            content.size() < schema.min_content_length) {
+            result.addViolation("",
+                "document too short: " + std::to_string(content.size()) +
+                " bytes (minimum " + std::to_string(schema.min_content_length) + ")");
+        }
+        if (schema.max_content_length > 0 &&
+            content.size() > schema.max_content_length) {
+            result.addViolation("",
+                "document too long: " + std::to_string(content.size()) +
+                " bytes (maximum " + std::to_string(schema.max_content_length) + ")");
+        }
+        if (!schema.required_content_pattern.empty()) {
+            if (!content_re_ok) {
+                result.addViolation("",
+                    "invalid required_content_pattern: " +
+                    schema.required_content_pattern);
+            } else if (!std::regex_search(content, content_re)) {
+                result.addViolation("",
+                    "document does not match required pattern: " +
+                    schema.required_content_pattern);
+            }
+        }
+
+        // --- field-level checks (JSON documents only) ---
+        if (!compiled_fields.empty() && looksLikeJson(content)) {
+            for (const auto& cf : compiled_fields) {
+                if (!cf.key_re_ok) {
+                    result.addViolation(cf.name, "invalid field name (regex error)");
+                    continue;
+                }
+                bool exists = std::regex_search(content, cf.key_re);
+
+                if (!exists) {
+                    if (cf.rule.required) {
+                        result.addViolation(cf.name, "required field is missing");
+                    }
+                    continue;
+                }
+
+                // Type / value checks for string fields
+                if (cf.rule.expected_type == SchemaFieldType::STRING ||
+                    cf.rule.min_length > 0 || cf.rule.max_length > 0 ||
+                    !cf.rule.pattern.empty()) {
+                    std::string str_val;
+                    bool is_string = findJsonStringValueRe(content, cf.key_re, str_val);
+
+                    if (cf.rule.expected_type == SchemaFieldType::STRING && !is_string) {
+                        result.addViolation(cf.name, "expected a string value");
+                    } else if (is_string) {
+                        if (cf.rule.min_length > 0 && str_val.size() < cf.rule.min_length) {
+                            result.addViolation(cf.name,
+                                "string too short: " + std::to_string(str_val.size()) +
+                                " chars (minimum " + std::to_string(cf.rule.min_length) + ")");
+                        }
+                        if (cf.rule.max_length > 0 && str_val.size() > cf.rule.max_length) {
+                            result.addViolation(cf.name,
+                                "string too long: " + std::to_string(str_val.size()) +
+                                " chars (maximum " + std::to_string(cf.rule.max_length) + ")");
+                        }
+                        if (!cf.rule.pattern.empty()) {
+                            if (!cf.value_re_ok) {
+                                result.addViolation(cf.name,
+                                    "invalid pattern: " + cf.rule.pattern);
+                            } else if (!std::regex_search(str_val, *cf.value_re)) {
+                                result.addViolation(cf.name,
+                                    "value does not match pattern: " + cf.rule.pattern);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // When reject_invalid is false, treat the document as valid regardless of
+        // violations – violations are retained for warning-level logging by callers.
+        if (!reject_invalid) {
+            result.is_valid = true;
+        }
+
+        return result;
+    };
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -256,6 +486,18 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         return sources_.erase(source_id) > 0;
     }
+
+    bool reconfigureSource(const std::string& source_id,
+                           const SourceConfig& new_config) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = sources_.find(source_id);
+        if (it == sources_.end()) return false;
+        // Preserve the canonical source_id from the registry key
+        SourceConfig updated = new_config;
+        updated.source_id = source_id;
+        it->second = std::move(updated);
+        return true;
+    }
     
     IngestionStats ingestSource(const std::string& source_id,
                                ProgressCallback progress_callback) {
@@ -381,6 +623,62 @@ public:
                     break;
                 }
 
+                case SourceType::WEB_CRAWLER: {
+                    auto crawler = std::make_unique<WebCrawlerConnector>();
+                    crawler->setRetryConfig(retry_config_);
+                    if (!crawler->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize WebCrawler connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(crawler);
+                    break;
+                }
+
+                case SourceType::CDC: {
+                    auto cdc_connector = std::make_unique<CdcConnector>();
+                    cdc_connector->setRetryConfig(retry_config_);
+                    if (!cdc_connector->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize CDC connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(cdc_connector);
+                    break;
+                }
+
+                case SourceType::PLUGIN: {
+                    auto pit = config.options.find("plugin_name");
+                    if (pit == config.options.end() || pit->second.empty()) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Plugin source requires options[\"plugin_name\"] to be set",
+                                       source_id);
+                        return stats;
+                    }
+                    auto plug = plugin_registry_.create(pit->second);
+                    if (!plug) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "No connector plugin registered for name: " + pit->second,
+                                       source_id);
+                        return stats;
+                    }
+                    if (!plug->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize plugin connector: " + pit->second,
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(plug);
+                    break;
+                }
+
                 default:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
                                    IngestionErrorSeverity::ERROR,
@@ -396,6 +694,23 @@ public:
                                IngestionErrorSeverity::ERROR,
                                "Source not available: " + source_id, source_id);
                 return stats;
+            }
+
+            // Inject per-source schema validator when configured
+            {
+                SchemaConfig schema;
+                bool has_schema = false;
+                {
+                    std::lock_guard<std::mutex> lock(mutex_);
+                    auto it = schema_configs_.find(source_id);
+                    if (it != schema_configs_.end()) {
+                        schema = it->second;
+                        has_schema = true;
+                    }
+                }
+                if (has_schema && schema.isEnabled()) {
+                    connector->setDocumentValidator(buildValidatorFromSchema(schema));
+                }
             }
 
             if (dry_run_) {
@@ -588,6 +903,23 @@ public:
         retry_config_ = config;
     }
 
+    void setSchemaConfig(const std::string& source_id, const SchemaConfig& config) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!config.isEnabled()) {
+            schema_configs_.erase(source_id);
+        } else {
+            schema_configs_[source_id] = config;
+        }
+    }
+
+    bool getSchemaConfig(const std::string& source_id, SchemaConfig& out) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = schema_configs_.find(source_id);
+        if (it == schema_configs_.end()) return false;
+        out = it->second;
+        return true;
+    }
+
     void setDryRun(bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
@@ -763,6 +1095,19 @@ public:
         api_http_get_fn_ = std::move(fn);
     }
 
+    void registerConnectorPlugin(const std::string& plugin_name,
+                                  ConnectorFactory factory) {
+        plugin_registry_.registerFactory(plugin_name, std::move(factory));
+    }
+
+    bool unregisterConnectorPlugin(const std::string& plugin_name) {
+        return plugin_registry_.unregisterFactory(plugin_name);
+    }
+
+    std::vector<std::string> listConnectorPlugins() const {
+        return plugin_registry_.listPlugins();
+    }
+
 private:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
@@ -854,12 +1199,53 @@ private:
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>> per_source_buckets_;
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
+    std::unordered_map<std::string, SchemaConfig> schema_configs_; ///< Per-source schema configs
     std::vector<QuarantineEntry> quarantine_;
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
     ApiHttpGetFn api_http_get_fn_;  ///< testing hook for API connectors; empty = real curl
+    ConnectorPluginRegistry plugin_registry_; ///< Registry for third-party plugin connectors
     mutable std::mutex mutex_;
 };
+
+// ============================================================================
+// ConnectorPluginRegistry implementation
+// ============================================================================
+
+void ConnectorPluginRegistry::registerFactory(const std::string& plugin_name,
+                                               ConnectorFactory factory) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    factories_[plugin_name] = std::move(factory);
+}
+
+bool ConnectorPluginRegistry::unregisterFactory(const std::string& plugin_name) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return factories_.erase(plugin_name) > 0;
+}
+
+bool ConnectorPluginRegistry::isRegistered(const std::string& plugin_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return factories_.count(plugin_name) > 0;
+}
+
+std::unique_ptr<ISourceConnector> ConnectorPluginRegistry::create(
+        const std::string& plugin_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = factories_.find(plugin_name);
+    if (it == factories_.end()) return nullptr;
+    return it->second();
+}
+
+std::vector<std::string> ConnectorPluginRegistry::listPlugins() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<std::string> names;
+    names.reserve(factories_.size());
+    for (const auto& kv : factories_) {
+        names.push_back(kv.first);
+    }
+    std::sort(names.begin(), names.end());
+    return names;
+}
 
 // ============================================================================
 // Public API implementation
@@ -876,6 +1262,11 @@ bool IngestionManager::registerSource(const SourceConfig& config) {
 
 bool IngestionManager::unregisterSource(const std::string& source_id) {
     return impl_->unregisterSource(source_id);
+}
+
+bool IngestionManager::reconfigureSource(const std::string& source_id,
+                                         const SourceConfig& new_config) {
+    return impl_->reconfigureSource(source_id, new_config);
 }
 
 IngestionStats IngestionManager::ingestSource(const std::string& source_id,
@@ -901,6 +1292,16 @@ void IngestionManager::setParallelProcessing(bool enabled, size_t max_threads) {
 
 void IngestionManager::setRetryConfig(const RetryConfig& config) {
     impl_->setRetryConfig(config);
+}
+
+void IngestionManager::setSchemaConfig(const std::string& source_id,
+                                       const SchemaConfig& config) {
+    impl_->setSchemaConfig(source_id, config);
+}
+
+bool IngestionManager::getSchemaConfig(const std::string& source_id,
+                                       SchemaConfig& out) const {
+    return impl_->getSchemaConfig(source_id, out);
 }
 
 void IngestionManager::setDryRun(bool enabled) {
@@ -970,6 +1371,19 @@ bool IngestionManager::clearCheckpoint(const std::string& source_id) {
 
 void IngestionManager::setApiHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setApiHttpGetForTesting(std::move(fn));
+}
+
+void IngestionManager::registerConnectorPlugin(const std::string& plugin_name,
+                                                ConnectorFactory factory) {
+    impl_->registerConnectorPlugin(plugin_name, std::move(factory));
+}
+
+bool IngestionManager::unregisterConnectorPlugin(const std::string& plugin_name) {
+    return impl_->unregisterConnectorPlugin(plugin_name);
+}
+
+std::vector<std::string> IngestionManager::listConnectorPlugins() const {
+    return impl_->listConnectorPlugins();
 }
 
 // ============================================================================
@@ -1122,6 +1536,9 @@ std::string IngestionMetricsExporter::exportText(
     writeStat("_throughput_docs_per_sec",
               "Document throughput (docs/second)", "gauge",
               stats.metrics.throughput_docs_per_sec);
+    writeStat("_schema_violations_total",
+              "Documents rejected or warned by schema validation", "counter",
+              static_cast<double>(stats.metrics.schema_violations));
 
     // Per-error-code breakdown
     if (!stats.errors.empty()) {
@@ -1257,6 +1674,62 @@ IngestionBuilder& IngestionBuilder::withDatabaseSource(
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withWebCrawlerSource(
+        const std::string& source_id,
+        const std::string& seed_url,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::WEB_CRAWLER;
+    cfg.location  = seed_url;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withCdcSource(
+        const std::string& source_id,
+        const std::string& connection_url,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::CDC;
+    cfg.location  = connection_url;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withPluginSource(
+        const std::string& source_id,
+        const std::string& plugin_name,
+        const std::string& location,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id                  = source_id;
+    cfg.type                       = SourceType::PLUGIN;
+    cfg.location                   = location;
+    cfg.options                    = std::move(options);
+    cfg.options["plugin_name"]     = plugin_name;
+    cfg.priority                   = priority;
+    cfg.enabled                    = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withConnectorPlugin(
+        const std::string& plugin_name, ConnectorFactory factory) {
+    opts_->plugin_factories[plugin_name] = std::move(factory);
+    return *this;
+}
+
 IngestionBuilder& IngestionBuilder::withRetryConfig(const RetryConfig& config) {
     opts_->retry_config = config;
     return *this;
@@ -1285,6 +1758,12 @@ IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withSchemaValidation(
+        const std::string& source_id, const SchemaConfig& config) {
+    opts_->schema_configs[source_id] = config;
+    return *this;
+}
+
 std::unique_ptr<IngestionManager> IngestionBuilder::build() {
     auto mgr = std::make_unique<IngestionManager>(opts_->db_connection);
 
@@ -1296,6 +1775,14 @@ std::unique_ptr<IngestionManager> IngestionBuilder::build() {
 
     for (const auto& src : opts_->sources) {
         mgr->registerSource(src);
+    }
+
+    for (const auto& kv : opts_->schema_configs) {
+        mgr->setSchemaConfig(kv.first, kv.second);
+    }
+
+    for (auto& kv : opts_->plugin_factories) {
+        mgr->registerConnectorPlugin(kv.first, std::move(kv.second));
     }
 
     return mgr;
@@ -1357,6 +1844,11 @@ bool IngestionAdminApi::pauseSource(const std::string& source_id) {
 
 bool IngestionAdminApi::resumeSource(const std::string& source_id) {
     return mgr_.resumeSource(source_id);
+}
+
+bool IngestionAdminApi::reconfigureSource(const std::string& source_id,
+                                          const SourceConfig& new_config) {
+    return mgr_.reconfigureSource(source_id, new_config);
 }
 
 std::vector<QuarantineEntry> IngestionAdminApi::listQuarantine() const {

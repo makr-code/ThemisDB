@@ -171,12 +171,15 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
+    ../src/plugins/oci_registry_client.cpp
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
     ../src/base/module_sandbox.cpp
     ../src/base/hot_reload_manager.cpp
+    ../src/base/ab_test_manager.cpp
     ../src/base/wasm_plugin_sandbox.cpp
+    ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
     
     # Stubs for missing symbols
@@ -244,6 +247,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/spatial_index.cpp
     ../src/geo/geo_rtree.cpp
     ../src/api/geo_index_hooks.cpp
+    ../src/api/tracing_middleware.cpp
     ../src/utils/geo/ewkb.cpp
     
     # Performance enhancements
@@ -360,6 +364,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/aql_predicate_filter.cpp
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
+    ../src/exporters/export_encryption.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
 
@@ -415,6 +420,10 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
     ../src/auth/oauth_device_flow.cpp
+    ../src/auth/oauth_pkce_flow.cpp
+    ../src/auth/saml_authenticator.cpp
+    ../src/auth/auth_rate_limiter.cpp
+    ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/webauthn_authenticator.cpp
     ../src/auth/auth_metrics.cpp
     ../src/auth/auth_error.cpp
@@ -595,6 +604,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/llm_plugin_manager.cpp
     ../src/llm/model_loader.cpp
+    ../src/llm/model_quantization_pipeline.cpp
     ../src/llm/model_downloader.cpp
     ../src/llm/aql_train_parser.cpp
     ../src/llm/llama_wrapper.cpp
@@ -603,6 +613,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llamacpp_inference_engine.cpp
     ../src/llm/shared_worker_pool.cpp
     ../src/llm/async_inference_engine.cpp
+    ../src/llm/model_router.cpp
     ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/streaming_handler.cpp
     ../src/llm/openai_compat_adapter.cpp
@@ -732,7 +743,10 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/language_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
@@ -757,6 +771,8 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/session_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/opa_adapter.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
@@ -849,13 +865,18 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/themisdb_grpc_service.cpp>
     
-    # Network protocol server
+    # Network protocol server (themis::network – backward-compatible implementation)
     ../src/network/wire_protocol_server.cpp
+    # Themis core module wire protocol (themis::wire – Phase-3 modular implementation)
+    ../src/themis/wire_protocol_server.cpp
     ../src/network/qos_manager.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
+    ../src/network/geo_topology_router.cpp
 
     # Modular globals shared across handlers
     ../src/server/hsm_provider_global.cpp

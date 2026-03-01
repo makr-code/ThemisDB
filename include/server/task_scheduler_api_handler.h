@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
     • Total Lines:     101                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -84,7 +84,18 @@ public:
     
     // Statistics
     nlohmann::json getStats();
-    
+
+    // Web UI
+    /**
+     * @brief Serve the task management web UI
+     * @return HTML string for the task scheduler web UI
+     *
+     * Serves a self-contained single-page application at GET /ui/tasks that
+     * allows operators to create, monitor, pause and delete scheduled tasks
+     * without using the raw REST API directly.
+     */
+    std::string getWebUi();
+
 private:
     TaskScheduler* scheduler_;
     

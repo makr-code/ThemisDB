@@ -28,15 +28,15 @@
 - [I] Export filtering with AQL predicates (Issue: #1715)
 - [x] Incremental/delta export (only changed documents since last export) (Issue: #1716)
 - [I] Export progress tracking and resumability (Issue: #1717)
-- [I] Configurable output compression (zstd, gzip) (Issue: #1718)
+- [x] Configurable output compression (zstd, gzip) (Issue: #1718)
 
 ### Long-term (6-12 months)
 - [I] Hugging Face Hub direct upload integration (Issue: #1719)
-- [I] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
-- [I] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
+- [x] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
+- [x] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
-- [I] Synthetic data augmentation pipeline (Issue: #1723)
-- [I] Export encryption for sensitive training data (Issue: #1724)
+- [x] Synthetic data augmentation pipeline (Issue: #1723)
+- [x] Export encryption for sensitive training data (Issue: #1724)
 
 ## Implementation Phases
 
@@ -54,19 +54,20 @@
 ### Phase 3: Parquet, Incremental Export, and Security (Status: In Progress)
 - [x] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 - [x] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
-- [I] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
-- [I] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1728)
+- [x] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)
+- [x] Implement export encryption using AES-256-GCM for sensitive training data (Issue: #1728)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1729)
 - [x] Integration tests (JSONL export, LoRA metadata)
 - [I] Performance benchmarks (export throughput) (Issue: #1730)
-- [I] Security audit (sensitive field redaction, export authorization) (Issue: #1731)
+- [x] Security audit (sensitive field redaction, export authorization) (Issue: #1731)
 - [x] Documentation complete (JSONL exporter, LoRA metadata, vLLM integration)
 - [x] API stability guaranteed for JSONL exporter
 
 ## Known Issues & Limitations
 - JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key
+- JSONL exporter toxicity filtering is opt-in (`quality.enable_toxicity_filter`); heuristic word-list approach, not ML-based
 
 ## Breaking Changes
 - Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)

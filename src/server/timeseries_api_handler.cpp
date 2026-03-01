@@ -25,6 +25,7 @@
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
 #include "timeseries/timeseries_metrics.h"
+#include "timeseries/prometheus_remote_write.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -487,6 +488,123 @@ http::response<http::string_body> TimeSeriesApiHandler::handleMetricsGet(
             span.setStatus(true);
             return makeResponse(http::status::ok, json_text, req);
         }
+    } catch (const std::exception& e) {
+        span.setStatus(false, "error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> TimeSeriesApiHandler::handlePrometheusRemoteWrite(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handlePrometheusRemoteWrite");
+
+    if (!ts_store_) {
+        span.setStatus(false, "feature_disabled");
+        return makeErrorResponse(http::status::not_implemented,
+                                 "Time-series feature not enabled", req);
+    }
+
+    try {
+        const std::string& body = req.body();
+        if (body.empty()) {
+            span.setStatus(false, "empty_body");
+            return makeErrorResponse(http::status::bad_request,
+                                     "Request body is empty", req);
+        }
+
+        // Determine encoding from Content-Encoding header (default: snappy)
+        std::string content_encoding = "snappy";
+        if (req.count(http::field::content_encoding)) {
+            content_encoding = std::string(req[http::field::content_encoding]);
+        }
+
+        // Reject unsupported encodings early
+        if (content_encoding != "snappy" && content_encoding != "identity"
+                && !content_encoding.empty()) {
+            span.setStatus(false, "unsupported_encoding");
+            return makeErrorResponse(http::status::bad_request,
+                                     "Unsupported Content-Encoding: " + content_encoding
+                                     + " (expected 'snappy')", req);
+        }
+
+        // Decode the Prometheus WriteRequest
+        themis::Result<themis::timeseries::PromWriteRequest> decode_result =
+            (content_encoding == "identity")
+            ? themis::timeseries::PromWriteRequest::decode(
+                reinterpret_cast<const uint8_t*>(body.data()), body.size())
+            : themis::timeseries::PromWriteRequest::decodeSnappy(
+                reinterpret_cast<const uint8_t*>(body.data()), body.size());
+
+        if (!decode_result) {
+            span.setStatus(false, "decode_failed");
+            return makeErrorResponse(http::status::bad_request,
+                                     "Failed to decode Prometheus WriteRequest: "
+                                     + decode_result.error().message(), req);
+        }
+
+        const auto& write_req = *decode_result;
+        size_t accepted = 0;
+        size_t rejected = 0;
+
+        // Convert each Prometheus TimeSeries + Sample to a TSStore DataPoint
+        std::vector<TSStore::DataPoint> batch;
+        batch.reserve(64);
+
+        for (const auto& ts : write_req.timeseries) {
+            const std::string metric_name = ts.metricName();
+            if (metric_name.empty()) {
+                // Skip time series without a metric name label
+                rejected += ts.samples.size();
+                continue;
+            }
+
+            // Build a tags object from all non-__name__ labels
+            nlohmann::json tags = nlohmann::json::object();
+            std::string entity;
+            for (const auto& label : ts.labels) {
+                if (label.name == "__name__") continue;
+                if (label.name == "instance") {
+                    entity = label.value;
+                }
+                tags[label.name] = label.value;
+            }
+            // Fall back to "default" entity when no 'instance' label present
+            if (entity.empty()) entity = "default";
+
+            for (const auto& sample : ts.samples) {
+                TSStore::DataPoint dp;
+                dp.metric       = metric_name;
+                dp.entity       = entity;
+                dp.timestamp_ms = sample.timestamp_ms;
+                dp.value        = sample.value;
+                dp.tags         = tags;
+                batch.push_back(std::move(dp));
+            }
+        }
+
+        if (!batch.empty()) {
+            auto result = ts_store_->putDataPoints(batch);
+            if (!result) {
+                span.setStatus(false, "put_failed");
+                return makeErrorResponse(http::status::internal_server_error,
+                                         "Failed to store time series data: "
+                                         + result.error().message(), req);
+            }
+            accepted = batch.size();
+        }
+
+        span.setAttribute("accepted_samples", static_cast<int64_t>(accepted));
+        span.setAttribute("rejected_samples", static_cast<int64_t>(rejected));
+        span.setStatus(true);
+
+        // Prometheus remote-write spec: return 204 No Content on success
+        http::response<http::string_body> res{http::status::no_content, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        res.prepare_payload();
+        return res;
+
     } catch (const std::exception& e) {
         span.setStatus(false, "error");
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);

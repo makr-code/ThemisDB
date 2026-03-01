@@ -2864,6 +2864,145 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '404': { $ref: '#/components/responses/NotFound' }
 
+  /graph/query/incremental:
+    post:
+      summary: Register an incremental (live) BFS graph query
+      description: |
+        Registers a BFS query that is re-executed automatically whenever
+        `POST /graph/changes` signals topology mutations.  The response
+        contains a numeric `handle` that must be used to unregister the
+        query later.  The initial BFS result is also returned immediately.
+      operationId: registerIncrementalGraphQuery
+      tags: [graph]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [start_vertex, max_depth]
+              properties:
+                start_vertex:
+                  type: string
+                  description: Entity key from which to start the BFS
+                  example: "user:42"
+                max_depth:
+                  type: integer
+                  minimum: 1
+                  description: Maximum traversal depth
+                  example: 3
+                edge_type:
+                  type: string
+                  description: Optional edge-type filter (matches the entity type of edge entities)
+                max_results:
+                  type: integer
+                  minimum: 1
+                  description: Soft cap on the number of reachable vertices returned
+      responses:
+        '201':
+          description: Incremental query registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  handle:           { type: integer, format: int64, description: Opaque registration handle }
+                  initial_results:  { type: array, items: { type: string }, description: Vertices reachable at registration time }
+                required: [handle, initial_results]
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /graph/query/incremental/{handle}:
+    delete:
+      summary: Unregister an incremental BFS graph query
+      description: |
+        Removes the incremental query registration identified by `handle` and
+        stops future re-executions.  The handle is the integer returned by
+        `POST /graph/query/incremental`.
+      operationId: unregisterIncrementalGraphQuery
+      tags: [graph]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: handle
+          required: true
+          schema: { type: integer, format: int64 }
+          description: Registration handle returned by POST /graph/query/incremental
+      responses:
+        '200':
+          description: Query unregistered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: ok }
+                  handle: { type: integer, format: int64 }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /graph/changes:
+    post:
+      summary: Notify graph of topology changes
+      description: |
+        Pushes a batch of graph topology mutations (vertex/edge add/update/remove)
+        to the graph optimizer.  All registered incremental BFS queries whose
+        result sets are affected by the changes will be re-executed automatically.
+      operationId: notifyGraphChanges
+      tags: [graph]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [changes]
+              properties:
+                changes:
+                  type: array
+                  description: Array of graph change events
+                  items:
+                    type: object
+                    required: [type, key]
+                    properties:
+                      type:
+                        type: string
+                        enum: [add_vertex, remove_vertex, add_edge, remove_edge, update_edge]
+                        description: Kind of topology mutation
+                      key:
+                        type: string
+                        description: Entity key (vertex or edge) affected by this change
+                      from:
+                        type: string
+                        description: Source vertex key (required for edge changes)
+                      to:
+                        type: string
+                        description: Target vertex key (required for edge changes)
+      responses:
+        '200':
+          description: Changes applied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queries_reexecuted: { type: integer, description: Number of incremental queries that were recomputed }
+                  changes_applied:    { type: integer, description: Number of change events processed }
+                required: [queries_reexecuted, changes_applied]
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
   /api/v1/graph/metrics:
     get:
       summary: Graph metrics (JSON)
@@ -3150,6 +3289,36 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '503':
           description: CDC feature not available
+
+  /changefeed/compact:
+    post:
+      summary: Compact changefeed log
+      description: |
+        Runs a compaction pass on the internal changefeed log: retains only the
+        latest entry per key (based on current retention policy) and discards
+        superseded events.  Requires the `cdc:admin` scope.
+      operationId: compactChangefeed
+      tags: [changefeed]
+      security:
+        - bearerAuth: [cdc:admin]
+      responses:
+        '200':
+          description: Compaction completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events_scanned:  { type: integer, format: int64, description: Total events examined }
+                  events_deleted:  { type: integer, format: int64, description: Events removed during compaction }
+                  keys_compacted:  { type: integer, format: int64, description: Distinct keys that had old versions removed }
+                  events_retained: { type: integer, format: int64, description: Events kept after compaction }
+                required: [events_scanned, events_deleted, keys_compacted, events_retained]
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: Feature 'cdc' is disabled
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+        '500': { $ref: '#/components/responses/InternalError' }
 
   /api/v1/restore/pitr:
     post:
@@ -6578,6 +6747,272 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /v2/query/stream:
+    get:
+      summary: Stream AQL query results via Server-Sent Events (SSE)
+      description: |
+        Executes an AQL query and streams the results to the client as a
+        Server-Sent Events (SSE) stream.  Each result document is emitted as
+        a separate `data:` event.  A heartbeat comment (`:heartbeat`) is sent
+        every `heartbeat_ms` milliseconds to keep the connection alive.
+        The stream terminates automatically once all results have been
+        emitted or after `max_seconds` seconds.
+      operationId: queryStreamSse
+      tags: [query]
+      security:
+        - bearerAuth: [data:read]
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema: { type: string }
+          description: URL-encoded AQL query string
+          example: "FOR doc IN users FILTER doc.active == true RETURN doc"
+        - in: query
+          name: max_seconds
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 60, default: 30 }
+          description: Maximum time the SSE stream stays open before the server closes it
+        - in: query
+          name: heartbeat_ms
+          required: false
+          schema: { type: integer, minimum: 100, maximum: 60000, default: 15000 }
+          description: Interval in milliseconds between heartbeat keep-alive comments
+        - in: query
+          name: retry_ms
+          required: false
+          schema: { type: integer, minimum: 100, maximum: 120000, default: 3000 }
+          description: Reconnection interval sent to the client in the SSE `retry:` field
+      responses:
+        '200':
+          description: SSE stream of AQL result documents
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  SSE stream.  Each result document is delivered as:
+                    `data: <JSON document>\n\n`
+                  Heartbeat events are delivered as:
+                    `:heartbeat\n\n`
+                  The stream ends with:
+                    `data: [DONE]\n\n`
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /api/v1/functions:
+    post:
+      summary: Register a serverless function
+      description: |
+        Registers a new in-process serverless function defined by a JSON DSL
+        code block.  The function is stored in memory and can be invoked via
+        `POST /api/v1/functions/{id}/invoke`.
+      operationId: registerServerlessFunction
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerlessFunctionCreate'
+            examples:
+              passthrough:
+                summary: Identity function
+                value:
+                  name: "my-identity"
+                  description: "Returns input unchanged"
+                  code:
+                    operations:
+                      - type: passthrough
+      responses:
+        '201':
+          description: Function registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerlessFunction'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    get:
+      summary: List registered serverless functions
+      description: Returns all registered functions, optionally filtered by tenant.
+      operationId: listServerlessFunctions
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: tenant_id
+          required: false
+          schema: { type: string }
+          description: Filter to functions owned by this tenant
+      responses:
+        '200':
+          description: List of registered functions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  functions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServerlessFunction'
+                required: [functions]
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/v1/functions/{id}:
+    get:
+      summary: Get serverless function definition
+      operationId: getServerlessFunction
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+          description: Function ID returned by POST /api/v1/functions
+      responses:
+        '200':
+          description: Function definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerlessFunction'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    put:
+      summary: Update serverless function definition
+      description: |
+        Replaces the function definition.  The version counter is incremented
+        automatically and the previous version is saved to version history.
+      operationId: updateServerlessFunction
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerlessFunctionCreate'
+      responses:
+        '200':
+          description: Function updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerlessFunction'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Delete a serverless function
+      operationId: deleteServerlessFunction
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Function deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: deleted }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /api/v1/functions/{id}/invoke:
+    post:
+      summary: Invoke a serverless function
+      description: |
+        Executes the function identified by `id` with the supplied JSON payload.
+        The function pipeline is run synchronously; if the function exceeds its
+        `timeout_ms` the request fails with HTTP 504.
+      operationId: invokeServerlessFunction
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+          description: Function ID to invoke
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Arbitrary JSON payload passed to the function pipeline
+      responses:
+        '200':
+          description: Function executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:     { description: Output of the function pipeline }
+                  elapsed_ms: { type: integer, description: Wall-clock execution time }
+                required: [result, elapsed_ms]
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '504':
+          description: Function execution timed out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/functions/{id}/versions:
+    get:
+      summary: List version history of a serverless function
+      description: Returns all saved snapshots of the function, ordered oldest-first.
+      operationId: listServerlessFunctionVersions
+      tags: [serverless]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Version history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  versions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServerlessFunction'
+                required: [versions]
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
   /v1/admin/cache/health:
     get:
       summary: Get cache health status
@@ -6931,6 +7366,165 @@ paths:
         '403': { $ref: '#/components/responses/Forbidden' }
         '404': { $ref: '#/components/responses/NotFound' }
         '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  # ── UDF Registration API ─────────────────────────────────────────────────
+  /api/v1/query/udfs:
+    post:
+      summary: Register a user-defined function (UDF)
+      description: |
+        Registers a new AQL user-defined function (or replaces an existing one
+        with the same name).  Once registered the function is immediately
+        callable from AQL queries via the global FunctionRegistry:
+
+        ```aql
+        RETURN MY_FUNC("hello")
+        ```
+
+        ### Body expression DSL
+
+        The `body` field is a JSON expression tree evaluated at query time.
+        Each node is an object with a `"type"` field:
+
+        | type    | description                               | extra fields                  |
+        |---------|-------------------------------------------|-------------------------------|
+        | `const` | literal value                             | `"value"`: any JSON           |
+        | `arg`   | positional argument (0-based)             | `"index"`: integer            |
+        | `call`  | call a built-in or registered UDF         | `"function"`, `"args"`: array |
+        | `op`    | binary arithmetic / comparison / logical  | `"op"`, `"left"`, `"right"`   |
+        | `if`    | conditional expression                    | `"cond"`, `"then"`, `"else"`  |
+
+        Supported operators for `op`: `+`, `-`, `*`, `/`, `%`, `==`, `!=`,
+        `<`, `<=`, `>`, `>=`, `&&`, `||`
+      operationId: registerUdf
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UdfCreate'
+            examples:
+              upper_wrapper:
+                summary: Wrap the built-in UPPER function
+                value:
+                  name: "MY_UPPER"
+                  description: "Converts a string to upper-case"
+                  arguments:
+                    - name: "s"
+                      type: "STRING"
+                      required: true
+                  return_type: "STRING"
+                  is_deterministic: true
+                  body:
+                    type: "call"
+                    function: "UPPER"
+                    args:
+                      - type: "arg"
+                        index: 0
+              add_numbers:
+                summary: Add two numbers
+                value:
+                  name: "ADD_TWO"
+                  arguments:
+                    - name: "a"
+                      type: "NUMBER"
+                      required: true
+                    - name: "b"
+                      type: "NUMBER"
+                      required: true
+                  return_type: "NUMBER"
+                  body:
+                    type: "op"
+                    op: "+"
+                    left:
+                      type: "arg"
+                      index: 0
+                    right:
+                      type: "arg"
+                      index: 1
+      responses:
+        '201':
+          description: UDF registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdfDefinition'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    get:
+      summary: List all registered UDFs
+      description: Returns definitions for every user-defined function currently registered in the AQL FunctionRegistry.
+      operationId: listUdfs
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of registered UDFs
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [udfs, count]
+                properties:
+                  udfs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UdfDefinition'
+                  count:
+                    type: integer
+                    minimum: 0
+                    description: Total number of registered UDFs
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/v1/query/udfs/{name}:
+    get:
+      summary: Get a single UDF definition
+      description: Returns the full definition of a specific user-defined function by its registered name.
+      operationId: getUdf
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Registered UDF name (case-sensitive, e.g. `MY_UPPER`)
+      responses:
+        '200':
+          description: UDF definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdfDefinition'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Unregister a UDF
+      description: |
+        Removes the named user-defined function from the AQL FunctionRegistry.
+        After deletion the function is no longer callable from AQL queries.
+        Built-in functions cannot be deleted via this endpoint.
+      operationId: deleteUdf
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Registered UDF name to remove
+      responses:
+        '204':
+          description: UDF unregistered successfully (no content)
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
 
 components:
   securitySchemes:
@@ -8784,6 +9378,221 @@ components:
           items:
             $ref: '#/components/schemas/ShardRepairShardEntry'
       required: [status, engine_running, shards]
+
+    # ── Serverless Function schemas ───────────────────────────────────────────
+    ServerlessFunctionCode:
+      type: object
+      description: |
+        JSON DSL code block executed by a serverless function.
+        The `operations` array is processed sequentially on the input payload.
+      required: [operations]
+      properties:
+        operations:
+          type: array
+          description: Ordered list of pipeline operations
+          items:
+            type: object
+            required: [type]
+            properties:
+              type:
+                type: string
+                enum: [passthrough, transform, filter, enrich, validate]
+                description: Operation kind
+              fields:
+                type: object
+                additionalProperties: { type: string }
+                description: "For 'transform': { src_field: dst_field } mapping"
+              keep:
+                type: array
+                items: { type: string }
+                description: "For 'filter': list of top-level fields to retain"
+              add:
+                type: object
+                additionalProperties: {}
+                description: "For 'enrich': literal key/value pairs to add to the output"
+              required:
+                type: array
+                items: { type: string }
+                description: "For 'validate': fields that must be present in the input"
+
+    # ── UDF API schemas ──────────────────────────────────────────────────────
+    UdfArgType:
+      type: string
+      description: Supported argument / return types for AQL user-defined functions.
+      enum:
+        - ANY
+        - STRING
+        - NUMBER
+        - INTEGER
+        - BOOLEAN
+        - ARRAY
+        - OBJECT
+        - GEOMETRY
+        - VECTOR
+        - DOCUMENT
+        - NULLABLE
+
+    UdfArgSpec:
+      type: object
+      description: Specification of a single argument accepted by a UDF.
+      properties:
+        name:
+          type: string
+          description: Parameter name (informational)
+          example: "input"
+        type:
+          $ref: '#/components/schemas/UdfArgType'
+        required:
+          type: boolean
+          default: true
+          description: Whether the argument must be supplied by callers
+        description:
+          type: string
+          description: Human-readable parameter description
+
+    UdfBodyExpr:
+      type: object
+      description: |
+        A single node in the UDF body expression DSL.  The `"type"` field
+        selects the node kind; additional fields depend on the kind:
+
+        | type    | required extra fields            |
+        |---------|----------------------------------|
+        | `const` | `value`                          |
+        | `arg`   | `index`                          |
+        | `call`  | `function`; optional `args`      |
+        | `op`    | `op`, `left`, `right`            |
+        | `if`    | `cond`, `then`, `else`           |
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [const, arg, call, op, if]
+          description: Expression node kind
+        value:
+          description: "(`const` nodes) The literal JSON value to return"
+        index:
+          type: integer
+          minimum: 0
+          description: "(`arg` nodes) Zero-based argument index"
+        function:
+          type: string
+          description: "(`call` nodes) Name of the built-in or UDF to invoke"
+        args:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfBodyExpr'
+          description: "(`call` nodes) Evaluated arguments passed to the function"
+        op:
+          type: string
+          enum: ["+", "-", "*", "/", "%", "==", "!=", "<", "<=", ">", ">=", "&&", "||"]
+          description: "(`op` nodes) Binary operator"
+        left:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        right:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        cond:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        then:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        else:
+          $ref: '#/components/schemas/UdfBodyExpr'
+
+    UdfCreate:
+      type: object
+      description: Request body for registering or replacing an AQL user-defined function.
+      required: [name, body]
+      properties:
+        name:
+          type: string
+          description: |
+            Unique function name (UPPER_CASE recommended).  Must not conflict
+            with any existing built-in AQL function.
+          example: "MY_UPPER"
+        description:
+          type: string
+          description: Human-readable description of what the function does
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfArgSpec'
+          description: Ordered list of argument specifications
+          default: []
+        return_type:
+          $ref: '#/components/schemas/UdfArgType'
+        is_deterministic:
+          type: boolean
+          default: true
+          description: |
+            `true` if the function always returns the same output for the same
+            input (enables query-plan caching optimisations)
+        body:
+          $ref: '#/components/schemas/UdfBodyExpr'
+
+    UdfDefinition:
+      allOf:
+        - $ref: '#/components/schemas/UdfCreate'
+        - type: object
+          required: [created_at, updated_at]
+          properties:
+            created_at:
+              type: string
+              format: date-time
+              description: ISO-8601 UTC timestamp of initial registration
+            updated_at:
+              type: string
+              format: date-time
+              description: ISO-8601 UTC timestamp of last update
+
+    ServerlessFunctionCreate:
+      type: object
+      required: [name, code]
+      properties:
+        name:
+          type: string
+          description: Human-readable function name (must be non-empty)
+          example: "normalize-address"
+        description:
+          type: string
+          description: Optional free-text description
+        tenant_id:
+          type: string
+          description: Owning tenant identifier (empty = global)
+        timeout_ms:
+          type: integer
+          minimum: 1
+          default: 5000
+          description: Maximum execution time in milliseconds
+        memory_limit_kb:
+          type: integer
+          minimum: 1
+          default: 4096
+          description: Soft memory cap for tracked allocations (KB)
+        code:
+          $ref: '#/components/schemas/ServerlessFunctionCode'
+
+    ServerlessFunction:
+      allOf:
+        - $ref: '#/components/schemas/ServerlessFunctionCreate'
+        - type: object
+          required: [id, version, created_at, updated_at]
+          properties:
+            id:
+              type: string
+              description: Unique function identifier assigned by the server
+              example: "fn-3a9c7b12"
+            version:
+              type: integer
+              minimum: 1
+              description: Monotonically increasing version counter
+            created_at:
+              type: string
+              format: date-time
+              description: ISO-8601 creation timestamp (UTC)
+            updated_at:
+              type: string
+              format: date-time
+              description: ISO-8601 last-update timestamp (UTC)
 
   responses:
     BadRequest:

@@ -21,25 +21,25 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Audit logging for vector operations
 - [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
 - [x] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
+- [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## In Progress 🚧
-- [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
+- [x] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
 - [I] Index statistics export to metadata module (Issue: #1866)
-- [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
+- [x] Partial / filtered indexes on secondary index manager (Issue: #1880)
 - [P] Online index rebuild with minimal read impact (Issue: #1868)
 - [P] Configurable GPU memory budget per index (Issue: #1869)
 
 ### Long-term (6-12 months)
-- [~] Distributed vector index across shards (Issue: #1879)
-- [P] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
+- [x] Distributed vector index across shards (Issue: #1879)
+- [x] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
 - [P] Multi-tenancy index isolation (Issue: #1872)
-- [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
-- [I] Index compression using sparse encoding (Issue: #1874)
+- [x] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
+- [x] Index compression using sparse encoding (Issue: #1874)
 
 ## Implementation Phases
 
@@ -63,12 +63,12 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026)
 
 ### Phase 3: Learned Structures & GPU Build (Status: Planned 📋)
-- [P] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
-- [P] Learned index structures (ML-based B-tree replacement)
+- [x] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
+- [x] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
-- [~] Distributed vector index across shards
-- [ ] Partial / filtered indexes on secondary index manager
-- [P] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
+- [x] Distributed vector index across shards
+- [x] Partial / filtered indexes on secondary index manager
+- [x] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
 - [P] Multi-tenancy index isolation via RocksDB key-prefix scoping (Issue: #1872)
 
 ## Production Readiness Checklist
@@ -84,10 +84,11 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - HNSW incremental re-indexing implemented via `VectorIndexManager::incrementalReindex()`.
 - Full-text search is implemented via `InvertedIndex` (standalone) and `SecondaryIndexManager` (integrated).
 - Multi-tenancy index isolation uses RocksDB key-prefix format `tenant:<id>:<index_name>`;
-  index registry isolation is enforced at the `IndexManager` layer.  Adapter classes that
-  bridge `ISecondaryIndex` / `IVectorIndex` interface pointers to the concrete managers are
-  not yet implemented (known stub); tenant-scoped create/get calls that succeed return nullptr
-  for those pointer types until the adapters are added.
+  index registry isolation is enforced at the `IndexManager` layer.  Both `IVectorIndex`
+  (`VectorIndexAdapter`) and `ISecondaryIndex` (`SecondaryIndexAdapter`) adapters are fully
+  implemented and returned by `IndexManager::createVectorIndex()` / `createSecondaryIndex()`.
+  Partial (filtered) indexes are created by passing `config = "partial:<predicate>"` to
+  `createSecondaryIndex()`.
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.

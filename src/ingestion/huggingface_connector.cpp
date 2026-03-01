@@ -433,6 +433,33 @@ private:
 
             // Parse and insert documents
             // In production: parse JSON/Parquet from response.body
+            // When a document validator is set, run it on the chunk body as a content check.
+            if (document_validator_ && !response.body.empty()) {
+                auto vr = document_validator_(response.body);
+                if (!vr.is_valid) {
+                    stats.documents_failed += chunk_size;
+                    // schema_violations counts only the raw violation events (not the same
+                    // as documents_failed which tracks actual document rejections).
+                    ++stats.metrics.schema_violations;
+                    stats.addError(
+                        IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                        IngestionErrorSeverity::WARNING,
+                        "Schema validation failed for chunk at offset " +
+                            std::to_string(processed) + " – " + vr.summary(),
+                        config_.source_id);
+                    processed += chunk_size;
+                    continue;
+                } else if (!vr.violations.empty()) {
+                    // reject_invalid=false: violations present but chunk still accepted
+                    ++stats.metrics.schema_violations;
+                    stats.addError(
+                        IngestionErrorCode::SCHEMA_VALIDATION_FAILED,
+                        IngestionErrorSeverity::INFO,
+                        "Schema warning for chunk at offset " +
+                            std::to_string(processed) + " – " + vr.summary(),
+                        config_.source_id);
+                }
+            }
             stats.documents_processed += chunk_size;
             stats.bytes_processed += response.body.size() > 0
                                      ? response.body.size()
@@ -517,6 +544,10 @@ public:
         http_post_fn_ = std::move(fn);
     }
 
+    void setDocumentValidator(DocumentValidatorFn v) {
+        document_validator_ = std::move(v);
+    }
+
 private:
     SourceConfig config_;
     std::string dataset_name_;
@@ -527,6 +558,7 @@ private:
     RetryConfig retry_config_;
     OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
     ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
+    DocumentValidatorFn document_validator_; ///< Optional per-document validator
 };
 
 // Public API implementation
@@ -575,6 +607,10 @@ void HuggingFaceConnector::setOAuthConfig(const OAuthConfig& config) {
 
 void HuggingFaceConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
     impl_->setHttpPostForTesting(std::move(fn));
+}
+
+void HuggingFaceConnector::setDocumentValidator(DocumentValidatorFn validator) {
+    impl_->setDocumentValidator(std::move(validator));
 }
 
 } // namespace ingestion

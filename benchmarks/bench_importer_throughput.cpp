@@ -24,7 +24,7 @@
 // bench_importer_throughput.cpp
 //
 // Importer throughput benchmark – generates synthetic SQL dump files in a
-// temporary location and measures import throughput in rows/second.
+// temporary location and measures import throughput in rows/second and GB/hr.
 //
 // PostgreSQL scenarios:
 //   BM_ImportCopyRows_10k    – 10 000 COPY rows (warm-up / quick sanity)
@@ -39,6 +39,14 @@
 //   BM_SQLiteInsertRows_100k – 100 000 SQLite INSERT statements
 //   BM_SQLiteMixedLoad       – 10 k INSERTs across 5 tables
 //   BM_SQLiteDryRun_100k     – 100 k rows with dry_run=true (parse-only overhead)
+//
+// MongoDB mongoexport scenarios:
+//   BM_MongoNdjson_10k       – 10 000 NDJSON documents (warm-up / quick sanity)
+//   BM_MongoNdjson_100k      – 100 000 NDJSON documents (~medium workload)
+//   BM_MongoJsonArray_10k    – 10 000 documents in JSON array format
+//   BM_MongoJsonArray_100k   – 100 000 documents in JSON array format
+//   BM_MongoBsonTypes_10k    – 10 000 NDJSON docs with BSON extended JSON v2 wrappers
+//   BM_MongoDryRun_100k      – 100 000 NDJSON docs with dry_run=true (parse-only overhead)
 //
 // Usage (from build directory):
 //   ./benchmarks/bench_importer_throughput [--iterations N] [--csv output.csv]
@@ -177,16 +185,32 @@ static std::string writeTempSqlFile(const std::string& content) {
 // Minimal standalone runner (no Google Benchmark dependency)
 // ---------------------------------------------------------------------------
 
+/// Bytes per gibibyte (2^30).  All throughput figures in this benchmark use
+/// binary units (GiB/hr), which is conventional for I/O benchmarks.
+/// The output label "GB/hr" is kept for brevity; values are GiB/hr.
+static constexpr double kBytesPerGiB = 1024.0 * 1024.0 * 1024.0;
+
+/// Compute GiB/hr from total bytes read and wall-clock elapsed time.
+/// Returns 0 when elapsed_sec <= 0 to avoid division by zero.
+static inline double calcGibPerHour(double bytes, double elapsed_sec) {
+    return (elapsed_sec > 0.0)
+        ? (bytes / elapsed_sec) * 3600.0 / kBytesPerGiB
+        : 0.0;
+}
+
 struct BenchResult {
     std::string label;
     size_t      rows;
     double      elapsed_sec;
     double      rows_per_sec;
+    double      bytes_processed;  ///< Total bytes read from the generated dump file
+    double      gb_per_hour;      ///< Throughput in GiB/hr (bytes / elapsed * 3600 / 2^30)
 };
 
 /// Run the import using only the standard C++ importer headers.
-/// Returns wall-clock elapsed time in seconds.
-static double runBench(const std::string& sql_file, bool dry_run) {
+/// Returns wall-clock elapsed time in seconds; sets *bytes_out to total bytes read.
+static double runBench(const std::string& sql_file, bool dry_run,
+                       double* bytes_out = nullptr) {
     // We replicate the import logic inline so the benchmark file has no
     // build-order dependency on the rest of the ThemisDB CMake targets.
     // A minimal CSV-style parser for the synthetic COPY data is sufficient.
@@ -197,10 +221,12 @@ static double runBench(const std::string& sql_file, bool dry_run) {
     auto t0 = std::chrono::steady_clock::now();
 
     std::string line;
-    size_t records = 0;
-    bool in_copy   = false;
+    size_t records    = 0;
+    size_t byte_count = 0;
+    bool in_copy      = false;
 
     while (std::getline(f, line)) {
+        byte_count += line.size() + 1;  // +1 for the consumed newline
         if (!in_copy) {
             if (line.find("COPY ") != std::string::npos &&
                 line.find("FROM stdin") != std::string::npos) {
@@ -221,6 +247,7 @@ static double runBench(const std::string& sql_file, bool dry_run) {
 
     auto t1 = std::chrono::steady_clock::now();
     (void)records;
+    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
     return std::chrono::duration<double>(t1 - t0).count();
 }
 
@@ -240,21 +267,23 @@ static BenchResult runScenario(const BenchConfig& cfg) {
     std::string content = out.str();
     std::string tmp     = writeTempSqlFile(content);
     if (tmp.empty()) {
-        return {cfg.label, 0, 0.0, 0.0};
+        return {cfg.label, 0, 0.0, 0.0, 0.0, 0.0};
     }
 
-    double elapsed = runBench(tmp, cfg.dry_run);
+    double bytes   = 0.0;
+    double elapsed = runBench(tmp, cfg.dry_run, &bytes);
     ::unlink(tmp.c_str());
 
     size_t total_rows = cfg.copy_rows + cfg.insert_rows;
-    double rps = (elapsed > 0.0) ? static_cast<double>(total_rows) / elapsed : 0.0;
+    double rps  = (elapsed > 0.0) ? static_cast<double>(total_rows) / elapsed : 0.0;
+    double gbhr = calcGibPerHour(bytes, elapsed);
 
-    return {cfg.label, total_rows, elapsed, rps};
+    return {cfg.label, total_rows, elapsed, rps, bytes, gbhr};
 }
 
 static void printResult(const BenchResult& r) {
-    std::printf("  %-40s  %8zu rows  %8.3f s  %10.0f rows/s\n",
-                r.label.c_str(), r.rows, r.elapsed_sec, r.rows_per_sec);
+    std::printf("  %-40s  %8zu rows  %8.3f s  %10.0f rows/s  %8.4f GB/hr\n",
+                r.label.c_str(), r.rows, r.elapsed_sec, r.rows_per_sec, r.gb_per_hour);
 }
 
 // ---------------------------------------------------------------------------
@@ -262,17 +291,20 @@ static void printResult(const BenchResult& r) {
 // ---------------------------------------------------------------------------
 
 /// Run a minimal SQLite INSERT-counting pass over a dump file.
-/// Returns wall-clock elapsed time in seconds.
-static double runSQLiteBench(const std::string& sql_file, bool dry_run) {
+/// Returns wall-clock elapsed time in seconds; sets *bytes_out to total bytes read.
+static double runSQLiteBench(const std::string& sql_file, bool dry_run,
+                              double* bytes_out = nullptr) {
     std::ifstream f(sql_file);
     if (!f) return -1.0;
 
     auto t0 = std::chrono::steady_clock::now();
 
     std::string line;
-    size_t records = 0;
+    size_t records    = 0;
+    size_t byte_count = 0;
 
     while (std::getline(f, line)) {
+        byte_count += line.size() + 1;
         if (line.find("INSERT INTO") != std::string::npos) {
             if (!dry_run) ++records;
         }
@@ -280,6 +312,7 @@ static double runSQLiteBench(const std::string& sql_file, bool dry_run) {
 
     auto t1 = std::chrono::steady_clock::now();
     (void)records;
+    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
     return std::chrono::duration<double>(t1 - t0).count();
 }
 
@@ -298,16 +331,165 @@ static BenchResult runSQLiteScenario(const BenchConfig& cfg) {
     std::string content = out.str();
     std::string tmp     = writeTempSqlFile(content);
     if (tmp.empty()) {
-        return {cfg.label, 0, 0.0, 0.0};
+        return {cfg.label, 0, 0.0, 0.0, 0.0, 0.0};
     }
 
-    double elapsed = runSQLiteBench(tmp, cfg.dry_run);
+    double bytes   = 0.0;
+    double elapsed = runSQLiteBench(tmp, cfg.dry_run, &bytes);
     ::unlink(tmp.c_str());
 
-    double rps = (elapsed > 0.0)
+    double rps  = (elapsed > 0.0)
         ? static_cast<double>(cfg.insert_rows) / elapsed : 0.0;
+    double gbhr = calcGibPerHour(bytes, elapsed);
 
-    return {cfg.label, cfg.insert_rows, elapsed, rps};
+    return {cfg.label, cfg.insert_rows, elapsed, rps, bytes, gbhr};
+}
+
+// ---------------------------------------------------------------------------
+// MongoDB mongoexport synthetic data generator
+// ---------------------------------------------------------------------------
+
+/// MongoDB benchmark configuration (reuses BenchConfig: insert_rows = docs,
+/// copy_rows = 0, num_tables = 1 (unused), dry_run as usual).
+
+/// Generate synthetic NDJSON documents (one JSON object per line).
+/// Each document has a BSON ObjectId-style field, a string, a number,
+/// a boolean, an ISO date string, and a nested sub-document — matching
+/// the typical 2 KB document profile described in FUTURE_ENHANCEMENTS.md.
+static void writeMongoNdjson(std::ostream& out, size_t num_docs,
+                              bool bson_types) {
+    char oid_buf[25];  // 24 hex chars + NUL
+    for (size_t i = 1; i <= num_docs; ++i) {
+        // Zero-pad the counter into a valid 24-character hex ObjectId string.
+        std::snprintf(oid_buf, sizeof(oid_buf), "%024zx", i);
+        if (bson_types) {
+            // BSON extended JSON v2 wrappers: $oid, $date, $numberLong
+            out << "{\"_id\":{\"$oid\":\"" << oid_buf
+                << "\"},\"name\":\"doc_" << i
+                << "\",\"seq\":{\"$numberLong\":\"" << i
+                << "\"},\"active\":true"
+                << ",\"created\":{\"$date\":{\"$numberLong\":\"1735689600000\"}}"
+                << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}\n";
+        } else {
+            out << "{\"_id\":\"id" << i
+                << "\",\"name\":\"doc_" << i
+                << "\",\"seq\":" << i
+                << ",\"active\":" << (i % 2 == 0 ? "true" : "false")
+                << ",\"score\":" << (static_cast<double>(i) * 1.25)
+                << ",\"created\":\"2025-01-01T00:00:00Z\""
+                << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}\n";
+        }
+    }
+}
+
+/// Generate synthetic JSON array of documents.
+static void writeMongoJsonArray(std::ostream& out, size_t num_docs) {
+    out << "[\n";
+    for (size_t i = 1; i <= num_docs; ++i) {
+        out << "{\"_id\":\"id" << i
+            << "\",\"name\":\"doc_" << i
+            << "\",\"seq\":" << i
+            << ",\"active\":" << (i % 2 == 0 ? "true" : "false")
+            << ",\"score\":" << (static_cast<double>(i) * 1.25)
+            << ",\"created\":\"2025-01-01T00:00:00Z\""
+            << ",\"meta\":{\"src\":\"bench\",\"batch\":" << (i / 1000 + 1) << "}}";
+        if (i < num_docs) out << ",\n";
+    }
+    out << "\n]\n";
+}
+
+/// Create a temporary JSON file; returns its path.  Caller must unlink().
+static std::string writeTempJsonFile(const std::string& content) {
+    const char* tmp_env = std::getenv("TMPDIR");
+    std::string tmp_dir = (tmp_env && *tmp_env) ? tmp_env : "/tmp";
+    std::string tmpl    = tmp_dir + "/bench_mongo_XXXXXX.json";
+    std::vector<char> buf(tmpl.begin(), tmpl.end());
+    buf.push_back('\0');
+    int fd = mkstemps(buf.data(), 5);
+    if (fd < 0) {
+        std::perror("mkstemps");
+        return "";
+    }
+    ::write(fd, content.data(), content.size());
+    ::close(fd);
+    return std::string(buf.data());
+}
+
+/// Run a minimal MongoDB NDJSON/JSON-array parsing pass to measure I/O and
+/// line-detection throughput.  This is a simplified line-counting benchmark
+/// (not a full JSON parse or BSON type unwrap) that establishes the upper
+/// bound on import throughput; actual MongoDBImporter overhead adds JSON
+/// parsing, BSON unwrapping, and schema mapping on top of this baseline.
+/// Returns wall-clock elapsed time in seconds; sets *bytes_out to total bytes read.
+static double runMongoBench(const std::string& json_file, bool dry_run,
+                             bool is_json_array, double* bytes_out = nullptr) {
+    std::ifstream f(json_file);
+    if (!f) return -1.0;
+
+    auto t0 = std::chrono::steady_clock::now();
+
+    size_t records    = 0;
+    size_t byte_count = 0;
+
+    if (is_json_array) {
+        // Count lines that start with '{' inside the JSON array.
+        std::string line;
+        while (std::getline(f, line)) {
+            byte_count += line.size() + 1;
+            size_t first = line.find_first_not_of(" \t\r\n");
+            if (first != std::string::npos && line[first] == '{') {
+                if (!dry_run) ++records;
+            }
+        }
+    } else {
+        // NDJSON: count non-empty lines that start with '{'.
+        std::string line;
+        while (std::getline(f, line)) {
+            byte_count += line.size() + 1;
+            size_t first = line.find_first_not_of(" \t\r\n");
+            if (first != std::string::npos && line[first] == '{') {
+                if (!dry_run) ++records;
+            }
+        }
+    }
+
+    auto t1 = std::chrono::steady_clock::now();
+    (void)records;
+    if (bytes_out) *bytes_out = static_cast<double>(byte_count);
+    return std::chrono::duration<double>(t1 - t0).count();
+}
+
+struct MongoBenchConfig {
+    std::string label;
+    size_t      num_docs    = 0;
+    bool        json_array  = false;  ///< true = JSON array, false = NDJSON
+    bool        bson_types  = false;  ///< true = include BSON extended JSON wrappers
+    bool        dry_run     = false;
+};
+
+static BenchResult runMongoScenario(const MongoBenchConfig& cfg) {
+    std::ostringstream out;
+    if (cfg.json_array) {
+        writeMongoJsonArray(out, cfg.num_docs);
+    } else {
+        writeMongoNdjson(out, cfg.num_docs, cfg.bson_types);
+    }
+
+    std::string content = out.str();
+    std::string tmp     = writeTempJsonFile(content);
+    if (tmp.empty()) {
+        return {cfg.label, 0, 0.0, 0.0, 0.0, 0.0};
+    }
+
+    double bytes   = 0.0;
+    double elapsed = runMongoBench(tmp, cfg.dry_run, cfg.json_array, &bytes);
+    ::unlink(tmp.c_str());
+
+    double rps  = (elapsed > 0.0)
+        ? static_cast<double>(cfg.num_docs) / elapsed : 0.0;
+    double gbhr = calcGibPerHour(bytes, elapsed);
+
+    return {cfg.label, cfg.num_docs, elapsed, rps, bytes, gbhr};
 }
 
 // ---------------------------------------------------------------------------
@@ -347,6 +529,16 @@ int main(int argc, char** argv) {
         {"BM_SQLiteDryRun_100k",          0, 100000,  1, true },
     };
 
+    // MongoDB mongoexport scenarios (NDJSON and JSON array formats)
+    const std::vector<MongoBenchConfig> mongo_scenarios = {
+        {"BM_MongoNdjson_10k",      10000,  false, false, false},
+        {"BM_MongoNdjson_100k",    100000,  false, false, false},
+        {"BM_MongoJsonArray_10k",   10000,  true,  false, false},
+        {"BM_MongoJsonArray_100k", 100000,  true,  false, false},
+        {"BM_MongoBsonTypes_10k",   10000,  false, true,  false},
+        {"BM_MongoDryRun_100k",    100000,  false, false, true },
+    };
+
     std::printf("\nThemisDB Importer Throughput Benchmark\n");
     std::printf("======================================\n");
     std::printf("  Iterations per scenario: %zu\n\n", iterations);
@@ -355,7 +547,7 @@ int main(int argc, char** argv) {
 
     std::printf("PostgreSQL pg_dump:\n");
     for (const auto& cfg : pg_scenarios) {
-        BenchResult fastest{cfg.label, 0, 1e30, 0.0};
+        BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runScenario(cfg);
             if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
@@ -366,9 +558,20 @@ int main(int argc, char** argv) {
 
     std::printf("\nSQLite .dump:\n");
     for (const auto& cfg : sqlite_scenarios) {
-        BenchResult fastest{cfg.label, 0, 1e30, 0.0};
+        BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
         for (size_t it = 0; it < iterations; ++it) {
             BenchResult r = runSQLiteScenario(cfg);
+            if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
+        }
+        printResult(fastest);
+        best.push_back(fastest);
+    }
+
+    std::printf("\nMongoDB mongoexport (NDJSON / JSON array):\n");
+    for (const auto& cfg : mongo_scenarios) {
+        BenchResult fastest{cfg.label, 0, 1e30, 0.0, 0.0, 0.0};
+        for (size_t it = 0; it < iterations; ++it) {
+            BenchResult r = runMongoScenario(cfg);
             if (r.elapsed_sec < fastest.elapsed_sec) fastest = r;
         }
         printResult(fastest);
@@ -378,10 +581,11 @@ int main(int argc, char** argv) {
     if (csv_out && !csv_path.empty()) {
         std::ofstream csv(csv_path);
         if (csv) {
-            csv << "scenario,rows,elapsed_sec,rows_per_sec\n";
+            csv << "scenario,rows,elapsed_sec,rows_per_sec,gb_per_hour\n";
             for (const auto& r : best) {
                 csv << r.label << "," << r.rows << ","
-                    << r.elapsed_sec << "," << r.rows_per_sec << "\n";
+                    << r.elapsed_sec << "," << r.rows_per_sec << ","
+                    << r.gb_per_hour << "\n";
             }
             std::printf("\nResults written to: %s\n", csv_path.c_str());
         }

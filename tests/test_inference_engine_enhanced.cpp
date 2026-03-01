@@ -92,6 +92,83 @@ private:
     int latency_ms_;
 };
 
+/**
+ * @brief Plugin that blocks until explicitly unblocked.
+ *
+ * Used in concurrency-quota tests to hold a concurrency slot open
+ * while a second request is submitted, without relying on sleep timing.
+ */
+class BlockingPlugin : public ILLMPlugin {
+public:
+    explicit BlockingPlugin(const std::string& model_id)
+        : model_id_(model_id) {}
+
+    // Signal the plugin to release all blocked generate() calls.
+    void unblock() {
+        std::lock_guard<std::mutex> lk(mu_);
+        blocked_ = false;
+        cv_.notify_all();
+    }
+
+    // Signal the plugin: wait until at least one generate() call is in progress.
+    void waitForInFlight() {
+        std::unique_lock<std::mutex> lk(mu_);
+        cv_.wait(lk, [this] { return in_flight_ > 0; });
+    }
+
+    bool loadModel(const std::string&, const json&) override { return true; }
+    void unloadModel() override {}
+    bool isModelLoaded() const override { return true; }
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id = model_id_;
+        info.name = model_id_;
+        info.is_loaded = true;
+        return info;
+    }
+    InferenceResponse generate(const InferenceRequest& request) override {
+        {
+            std::lock_guard<std::mutex> lk(mu_);
+            in_flight_++;
+            cv_.notify_all();
+        }
+        {
+            std::unique_lock<std::mutex> lk(mu_);
+            cv_.wait(lk, [this] { return !blocked_; });
+        }
+        {
+            std::lock_guard<std::mutex> lk(mu_);
+            in_flight_--;
+        }
+        InferenceResponse resp;
+        resp.request_id = request.request_id;
+        resp.text = "blocking response";
+        resp.model_id = model_id_;
+        return resp;
+    }
+    InferenceResponse generateRAG(const RAGContext&, const InferenceRequest& req) override {
+        return generate(req);
+    }
+    std::vector<float> embed(const std::string& text) override {
+        return std::vector<float>(8, 0.0f);
+    }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    bool loadLoRA(const std::string&, const std::string&, float) override { return true; }
+    bool unloadLoRA(const std::string&) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<uint8_t> exportLoRA(const std::string&) override { return {}; }
+    bool importLoRA(const std::string&, const std::vector<uint8_t>&) override { return true; }
+
+private:
+    std::string model_id_;
+    std::mutex mu_;
+    std::condition_variable cv_;
+    bool blocked_ = true;
+    int in_flight_ = 0;
+};
+
 class InferenceEngineEnhancedTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -813,6 +890,138 @@ TEST_F(InferenceEngineEnhancedTest, AsyncEngineRapidSuccessiveSwaps) {
     EXPECT_EQ(response.model_id, "v4");
 
     spdlog::info("AsyncEngineRapidSuccessiveSwaps: final model_id={}", response.model_id);
+
+    engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 18: Per-Model Quota — Set and Get
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, SetAndGetModelQuota) {
+    InferenceEngineEnhanced engine(config_);
+    engine.registerModel("model1", std::make_shared<MockLLMPlugin>("model1", 5));
+
+    InferenceEngineEnhanced::ModelResourceQuota quota;
+    quota.max_concurrent_requests = 4;
+    quota.max_memory_mb = 8192;
+    engine.setModelQuota("model1", quota);
+
+    auto retrieved = engine.getModelQuota("model1");
+    EXPECT_EQ(retrieved.max_concurrent_requests, 4u);
+    EXPECT_EQ(retrieved.max_memory_mb, 8192u);
+}
+
+TEST_F(InferenceEngineEnhancedTest, GetModelQuota_UnknownModel_ReturnsZeroLimits) {
+    InferenceEngineEnhanced engine(config_);
+
+    auto quota = engine.getModelQuota("nonexistent");
+    EXPECT_EQ(quota.max_concurrent_requests, 0u);
+    EXPECT_EQ(quota.max_memory_mb, 0u);
+}
+
+TEST_F(InferenceEngineEnhancedTest, SetModelQuota_UnregisteredModel_Throws) {
+    InferenceEngineEnhanced engine(config_);
+
+    InferenceEngineEnhanced::ModelResourceQuota quota;
+    quota.max_concurrent_requests = 2;
+    EXPECT_THROW(engine.setModelQuota("not_registered", quota), std::invalid_argument);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 19: Per-Model Quota — Concurrency Limit Enforced
+// Verifies that selectModel() skips models at their limit.
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, ModelConcurrencyQuotaEnforced) {
+    // Use a blocking plugin for model1 so we can hold its concurrency slot open
+    // deterministically while the second request is dispatched.
+    config_.num_worker_threads = 4;
+    config_.max_queue_size = 20;
+    InferenceEngineEnhanced engine(config_);
+
+    auto blocking_plugin = std::make_shared<BlockingPlugin>("model1");
+    auto fast_plugin     = std::make_shared<MockLLMPlugin>("model2", 5);
+    engine.registerModel("model1", blocking_plugin);
+    engine.registerModel("model2", fast_plugin);
+
+    // Limit model1 to a single concurrent request.
+    InferenceEngineEnhanced::ModelResourceQuota quota;
+    quota.max_concurrent_requests = 1;
+    engine.setModelQuota("model1", quota);
+
+    engine.start();
+
+    // Pin the first request to model1; it will block inside generate() until unblocked.
+    InferenceEngineEnhanced::EnhancedInferenceRequest req_pinned;
+    req_pinned.request_id = "pinned_1";
+    req_pinned.base_request.prompt = "Occupying model1";
+    req_pinned.preferred_model_id = "model1";
+    req_pinned.allow_caching = false;
+
+    auto handle_pinned = engine.submit(req_pinned);
+
+    // Wait until model1 is truly in-flight before submitting the second request.
+    blocking_plugin->waitForInFlight();
+
+    // Submit a second request with no preference — model1 is full, so it must
+    // fall back to model2.
+    InferenceEngineEnhanced::EnhancedInferenceRequest req_overflow;
+    req_overflow.request_id = "overflow_1";
+    req_overflow.base_request.prompt = "Should route to model2";
+    req_overflow.allow_caching = false;
+
+    auto handle_overflow = engine.submit(req_overflow);
+
+    // Let the overflow request finish first (model2 is fast), then release model1.
+    auto resp_overflow = handle_overflow.get();
+    blocking_plugin->unblock();
+    auto resp_pinned = handle_pinned.get();
+
+    // The pinned request must have run on model1.
+    EXPECT_EQ(resp_pinned.model_id, "model1");
+    // The overflow request must have been routed to model2 (not model1, which was full).
+    EXPECT_EQ(resp_overflow.model_id, "model2");
+
+    spdlog::info("ModelConcurrencyQuotaEnforced: pinned={}, overflow={}",
+                 resp_pinned.model_id, resp_overflow.model_id);
+
+    engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 20: Per-Model Quota — Zero Limit Means Unlimited
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, ModelQuotaZeroMeansUnlimited) {
+    config_.num_worker_threads = 4;
+    InferenceEngineEnhanced engine(config_);
+
+    auto plugin = std::make_shared<MockLLMPlugin>("model1", 10);
+    engine.registerModel("model1", plugin);
+
+    // Default quota is 0 (unlimited) — setting it explicitly to 0 should also allow all requests
+    InferenceEngineEnhanced::ModelResourceQuota quota;
+    quota.max_concurrent_requests = 0;
+    engine.setModelQuota("model1", quota);
+
+    engine.start();
+
+    const int num_requests = 5;
+    std::vector<InferenceHandle> handles;
+    for (int i = 0; i < num_requests; ++i) {
+        InferenceEngineEnhanced::EnhancedInferenceRequest req;
+        req.request_id = "unlimited_" + std::to_string(i);
+        req.base_request.prompt = "Prompt " + std::to_string(i);
+        req.preferred_model_id = "model1";
+        req.allow_caching = false;
+        handles.push_back(engine.submit(req));
+    }
+
+    for (auto& h : handles) {
+        auto resp = h.get();
+        EXPECT_EQ(resp.model_id, "model1");
+    }
 
     engine.shutdown();
 }

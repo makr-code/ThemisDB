@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     355                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -155,6 +155,19 @@ public:
             if (std::abs(v) < epsilon) ++zero_count;
         }
         return static_cast<float>(zero_count) / vec.size();
+    }
+
+    // Compute dot product between a sparse CSR vector and a dense vector.
+    // Iterates only over non-zero entries for O(nnz) complexity instead of O(d).
+    static float dot_product_sparse_dense(
+        const SparseVectorCSR& sparse,
+        const std::vector<float>& dense
+    ) {
+        float result = 0.0f;
+        for (size_t i = 0; i < sparse.values.size(); ++i) {
+            result += sparse.values[i] * dense[sparse.indices[i]];
+        }
+        return result;
     }
 };
 
