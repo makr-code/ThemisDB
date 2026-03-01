@@ -261,6 +261,8 @@ TEST(TaskSchedulerApiHandlerNullTest, NullScheduler_AllMethodsReturnError) {
     EXPECT_EQ(h.disableTask("x").value("status", ""), "error");
     EXPECT_EQ(h.unregisterTask("x").value("status", ""), "error");
     EXPECT_EQ(h.executeTask("x").value("status", ""), "error");
+    EXPECT_EQ(h.getTaskResults("x", 10).value("status", ""), "error");
+    EXPECT_EQ(h.getLatestTaskResult("x").value("status", ""), "error");
     EXPECT_EQ(h.getExecutionHistory("x").value("status", ""), "error");
     EXPECT_EQ(h.executeDAG(nlohmann::json{{"task_ids", nlohmann::json::array()}}).value("status", ""), "error");
 
@@ -335,6 +337,10 @@ TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
 }
 
 // ============================================================================
+// Task result retrieval API – requires a scheduler with result store enabled
+// ============================================================================
+
+class TaskResultApiTest : public ::testing::Test {
 // getExecutionHistory – searchable audit log
 // ============================================================================
 
@@ -371,6 +377,7 @@ protected:
     static std::string makeDbPath() {
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_result_api_" + std::to_string(now))).string();
                 std::filesystem::path("themis_audit_api_test_" + std::to_string(now))).string();
     }
 
@@ -388,6 +395,27 @@ protected:
         engine_ = std::make_unique<QueryEngine>(*storage_, *idx_);
 
         TaskScheduler::Config sched_cfg;
+        sched_cfg.max_concurrent_tasks    = 2;
+        sched_cfg.check_interval          = 50ms;
+        sched_cfg.persist_tasks           = false;
+        sched_cfg.enable_audit_logging    = false;
+        sched_cfg.enable_anomaly_detection = false;
+        sched_cfg.enable_result_store     = true;
+        sched_cfg.result_store_max_results_per_task = 10;
+
+        scheduler_ = std::make_unique<TaskScheduler>(
+            engine_.get(), sched_cfg,
+            /*changefeed=*/nullptr,
+            /*audit_logger=*/nullptr,
+            storage_.get());
+
+        handler_ = std::make_unique<TaskSchedulerApiHandler>(scheduler_.get());
+
+        // Register a simple function used across tests.
+        scheduler_->registerFunction("api_result_fn",
+            [](const nlohmann::json&) -> nlohmann::json {
+                return {{"status", "ok"}, {"value", 1}};
+            });
         sched_cfg.max_concurrent_tasks     = 2;
         sched_cfg.check_interval           = std::chrono::milliseconds(50);
         sched_cfg.persist_tasks            = false;
@@ -411,6 +439,70 @@ protected:
         std::filesystem::remove_all(db_path_);
     }
 
+    // Register + execute a function task, return its generated task ID.
+    std::string registerAndExecute(const std::string& name) {
+        nlohmann::json req{
+            {"name",         name},
+            {"type",         "function"},
+            {"function_name","api_result_fn"},
+            {"trigger_type", "manual"},
+            {"timeout_ms",   5000},
+            {"max_retries",  0}
+        };
+        auto reg = handler_->registerTask(req);
+        EXPECT_EQ(reg.value("status", ""), "created");
+        std::string id = reg.value("id", "");
+        EXPECT_FALSE(id.empty());
+        handler_->executeTask(id);
+        return id;
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper>        storage_;
+    std::unique_ptr<SecondaryIndexManager> idx_;
+    std::unique_ptr<QueryEngine>           engine_;
+    std::unique_ptr<TaskScheduler>         scheduler_;
+    std::unique_ptr<TaskSchedulerApiHandler> handler_;
+};
+
+TEST_F(TaskResultApiTest, GetLatestTaskResult_AfterExecution) {
+    std::string id = registerAndExecute("latest_result_task");
+
+    auto result = handler_->getLatestTaskResult(id);
+    EXPECT_EQ(result.value("task_id", ""), id);
+    EXPECT_EQ(result.value("success", false), true);
+    EXPECT_TRUE(result.value("error", "").empty());
+    EXPECT_GT(result.value("duration_ms", 0.0), 0.0);
+}
+
+TEST_F(TaskResultApiTest, GetLatestTaskResult_NotFound_ReturnsNotFound) {
+    auto result = handler_->getLatestTaskResult("nonexistent_task_xyz");
+    EXPECT_EQ(result.value("status", ""), "not_found");
+    EXPECT_EQ(result.value("task_id", ""), "nonexistent_task_xyz");
+}
+
+TEST_F(TaskResultApiTest, GetTaskResults_ReturnsItems) {
+    std::string id = registerAndExecute("results_list_task");
+
+    auto result = handler_->getTaskResults(id, 10);
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_TRUE(result["items"].is_array());
+    EXPECT_GE(result["items"].size(), 1u);
+    EXPECT_EQ(result.value("task_id", ""), id);
+    EXPECT_GE(result.value("count", 0u), 1u);
+}
+
+TEST_F(TaskResultApiTest, GetTaskResults_EmptyForUnknownTask) {
+    auto result = handler_->getTaskResults("no_such_task", 10);
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_EQ(result["items"].size(), 0u);
+    EXPECT_EQ(result.value("count", -1), 0);
+}
+
+TEST_F(TaskResultApiTest, NullScheduler_ResultMethodsReturnError) {
+    TaskSchedulerApiHandler h(nullptr);
+    EXPECT_EQ(h.getTaskResults("t", 10).value("status", ""), "error");
+    EXPECT_EQ(h.getLatestTaskResult("t").value("status", ""), "error");
     // Directly inject audit events via the audit manager
     void injectAuditEvent(const std::string& task_id, bool success,
                           scheduler::TaskEventType ev_type = scheduler::TaskEventType::TASK_COMPLETED,
