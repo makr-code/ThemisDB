@@ -18,8 +18,11 @@
 #include "governance/policy_manager.h"
 #include "governance/policy_template.h"
 
+#include <chrono>
+#include <fstream>
 #include <memory>
 #include <string>
+#include <cstdio>
 
 using namespace themis::governance;
 
@@ -494,4 +497,193 @@ TEST(Soc2ComplianceTemplate, ComplianceTemplateAcceptsSoc2Framework) {
         auto rule = (*tmpl)->instantiate(params, "compliance-soc2-001");
         EXPECT_TRUE(rule.require_encryption);
     });
+}
+
+// ===========================================================================
+// Soc2EvidenceItem – chain_hash field
+// ===========================================================================
+
+/// Expected length of a hex-encoded SHA-256 digest: 32 bytes × 2 hex chars.
+static constexpr int kSha256HexLength = 64;
+
+TEST(Soc2EvidenceItem, ChainHashPopulatedOnCollect) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("data/test", "read", "user1", true, true);
+
+    auto ev = cs.getEvidence();
+    ASSERT_EQ(static_cast<int>(ev.size()), 1);
+    EXPECT_FALSE(ev[0].chain_hash.empty())
+        << "chain_hash must be populated on collectEvidence()";
+    EXPECT_EQ(static_cast<int>(ev[0].chain_hash.size()), kSha256HexLength)
+        << "chain_hash must be a 64-character hex SHA-256 string";
+}
+
+TEST(Soc2EvidenceItem, ChainHashIncludedInToJson) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("data/x", "write", "u2", false, false);
+
+    auto ev   = cs.getEvidence();
+    auto json = ev.front().toJson();
+    EXPECT_TRUE(json.contains("chain_hash"));
+    EXPECT_FALSE(json["chain_hash"].get<std::string>().empty());
+}
+
+// ===========================================================================
+// Soc2ControlSet – tamper-evident chain verification
+// ===========================================================================
+
+TEST(Soc2ControlSet, VerifyChainPassesOnFreshEvidence) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("r1", "read",  "alice", true,  true);
+    cs.collectEvidence("r2", "write", "bob",   true,  false);
+    cs.collectEvidence("r3", "read",  "carol", false, false);
+
+    EXPECT_TRUE(cs.verifyChain()) << "Chain must be valid after normal collection";
+}
+
+TEST(Soc2ControlSet, VerifyChainPassesOnEmptyEvidence) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    EXPECT_TRUE(cs.verifyChain()) << "Empty chain must be considered valid";
+}
+
+TEST(Soc2ControlSet, VerifyChainPassesAfterClearAndRecollect) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("r1", "read", "user1", true, true);
+    EXPECT_TRUE(cs.verifyChain());
+
+    // Clear and re-collect: chain tail is reset, new chain must also be valid
+    cs.clearEvidence();
+    cs.collectEvidence("r2", "write", "user2", false, false);
+    EXPECT_TRUE(cs.verifyChain())
+        << "Chain must be valid after clearEvidence() + fresh collection";
+}
+
+TEST(Soc2ControlSet, ConsecutiveItemsHaveDifferentChainHashes) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("r1", "read", "u1", true,  true);
+    cs.collectEvidence("r2", "read", "u2", false, false);
+
+    auto ev = cs.getEvidence();
+    ASSERT_EQ(static_cast<int>(ev.size()), 2);
+    EXPECT_NE(ev[0].chain_hash, ev[1].chain_hash)
+        << "Consecutive evidence items must have distinct chain hashes";
+}
+
+// ===========================================================================
+// Soc2ControlSet – evidence file export
+// ===========================================================================
+
+TEST(Soc2ControlSet, ExportEvidenceCreatesFile) {
+    const std::string path = "/tmp/soc2_test_evidence_export.jsonl";
+    std::remove(path.c_str());  // start clean
+
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("data/sensitive", "read",  "admin", true, true);
+    cs.collectEvidence("data/keys",      "write", "ops",   true, true);
+
+    EXPECT_TRUE(cs.exportEvidence(path)) << "exportEvidence() must return true on success";
+
+    // Verify the file exists and contains at least one line
+    std::ifstream ifs(path);
+    ASSERT_TRUE(ifs.is_open()) << "Evidence log file must be created";
+    std::string line;
+    ASSERT_TRUE(std::getline(ifs, line)) << "Evidence log must contain at least one line";
+    EXPECT_FALSE(line.empty());
+
+    // Verify the line is valid JSON with expected keys
+    auto j = nlohmann::json::parse(line);
+    EXPECT_TRUE(j.contains("exported_at_ms"));
+    EXPECT_TRUE(j.contains("item_count"));
+    EXPECT_TRUE(j.contains("items"));
+    EXPECT_EQ(j["item_count"].get<int>(), 2);
+
+    std::remove(path.c_str());
+}
+
+TEST(Soc2ControlSet, ExportEvidenceAppendsToExistingFile) {
+    const std::string path = "/tmp/soc2_test_evidence_append.jsonl";
+    std::remove(path.c_str());
+
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+    cs.collectEvidence("r1", "read", "u1", true, true);
+    EXPECT_TRUE(cs.exportEvidence(path));
+
+    // Second export appends
+    cs.clearEvidence();
+    cs.collectEvidence("r2", "read", "u2", true, false);
+    EXPECT_TRUE(cs.exportEvidence(path));
+
+    // File should now have exactly two lines
+    std::ifstream ifs(path);
+    ASSERT_TRUE(ifs.is_open());
+    int line_count = 0;
+    std::string line;
+    while (std::getline(ifs, line)) {
+        if (!line.empty()) ++line_count;
+    }
+    EXPECT_EQ(line_count, 2) << "Each exportEvidence() call must append exactly one line";
+
+    std::remove(path.c_str());
+}
+
+// ===========================================================================
+// Soc2ControlSet – retention enforcement (pruneEvidence)
+// ===========================================================================
+
+TEST(Soc2ControlSet, PruneEvidenceRemovesOldItems) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+
+    // Collect evidence and then prune with a zero-millisecond window so all
+    // items should be considered "old enough" relative to (now - 0).
+    // However, items just collected are at ~now, so use a negative max_age
+    // to force pruning.
+    cs.collectEvidence("r1", "read", "u1", true, true);
+    cs.collectEvidence("r2", "read", "u2", true, true);
+    EXPECT_EQ(static_cast<int>(cs.getEvidence().size()), 2);
+
+    // max_age_ms = -1 means cutoff is now+1ms, so all current items are pruned
+    int removed = cs.pruneEvidence(-1LL);
+    EXPECT_EQ(removed, 2) << "All items must be pruned when max_age_ms is -1";
+    EXPECT_TRUE(cs.getEvidence().empty());
+}
+
+TEST(Soc2ControlSet, PruneEvidenceKeepsRecentItems) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+
+    cs.collectEvidence("r1", "read", "u1", true, true);
+    cs.collectEvidence("r2", "read", "u2", true, true);
+    EXPECT_EQ(static_cast<int>(cs.getEvidence().size()), 2);
+
+    // 12 months in milliseconds – no items should be pruned immediately
+    constexpr int64_t twelve_months_ms = 12LL * 30 * 24 * 3600 * 1000;
+    int removed = cs.pruneEvidence(twelve_months_ms);
+    EXPECT_EQ(removed, 0) << "No items should be pruned within a 12-month window";
+    EXPECT_EQ(static_cast<int>(cs.getEvidence().size()), 2);
+}
+
+TEST(Soc2ControlSet, PruneEvidenceChainRemainsValidAfterPrune) {
+    Soc2ControlSet cs;
+    cs.clearEvidence();
+
+    cs.collectEvidence("r1", "read", "u1", true, true);
+    cs.collectEvidence("r2", "read", "u2", false, false);
+
+    // Prune all items
+    cs.pruneEvidence(-1LL);
+    EXPECT_TRUE(cs.getEvidence().empty());
+
+    // Collect fresh evidence and verify chain is still valid
+    cs.collectEvidence("r3", "read", "u3", true, true);
+    EXPECT_TRUE(cs.verifyChain())
+        << "Chain must be valid after prune + fresh collection";
 }

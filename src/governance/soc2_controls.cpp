@@ -17,6 +17,9 @@
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+#include <iomanip>
+#include <fstream>
+#include <openssl/sha.h>
 
 namespace themis {
 namespace governance {
@@ -29,6 +32,22 @@ static int64_t nowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
+}
+
+// ============================================================================
+// Helper – compute SHA-256 hex string for tamper-evident chain
+// ============================================================================
+
+static std::string sha256Hex(const std::string& input) {
+    unsigned char digest[SHA256_DIGEST_LENGTH];
+    ::SHA256(reinterpret_cast<const unsigned char*>(input.data()),
+             input.size(), digest);
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(digest[i]);
+    }
+    return oss.str();
 }
 
 // ============================================================================
@@ -45,7 +64,8 @@ nlohmann::json Soc2EvidenceItem::toJson() const {
         {"principal",    principal},
         {"action",       action},
         {"control_met",  control_met},
-        {"detail",       detail}
+        {"detail",       detail},
+        {"chain_hash",   chain_hash}
     };
     if (!metadata.is_null()) {
         j["metadata"] = metadata;
@@ -593,6 +613,13 @@ void Soc2ControlSet::collectEvidence(
         {"encrypted",      encrypted}
     };
 
+    // Compute tamper-evident chain hash: SHA-256(prev_hash || evidence_id || timestamp_ms || control_met)
+    std::ostringstream chain_input;
+    chain_input << chain_tail_ << ev.evidence_id
+                << ev.timestamp_ms << (ev.control_met ? "1" : "0");
+    ev.chain_hash = sha256Hex(chain_input.str());
+    chain_tail_   = ev.chain_hash;
+
     evidence_items_.push_back(std::move(ev));
 }
 
@@ -604,6 +631,84 @@ std::vector<Soc2EvidenceItem> Soc2ControlSet::getEvidence() const {
 void Soc2ControlSet::clearEvidence() {
     std::lock_guard<std::mutex> lock(evidence_mutex_);
     evidence_items_.clear();
+    chain_tail_.clear();
+}
+
+bool Soc2ControlSet::exportEvidence(const std::string& path) const {
+    std::lock_guard<std::mutex> lock(evidence_mutex_);
+
+    // Build snapshot object
+    nlohmann::json snapshot;
+    snapshot["exported_at_ms"] = nowMs();
+    snapshot["item_count"]     = static_cast<int>(evidence_items_.size());
+    nlohmann::json items_arr   = nlohmann::json::array();
+    for (const auto& ev : evidence_items_) {
+        items_arr.push_back(ev.toJson());
+    }
+    snapshot["items"] = std::move(items_arr);
+
+    // Append to the log file (one JSON object per line for easy streaming)
+    std::ofstream ofs(path, std::ios::app);
+    if (!ofs.is_open()) {
+        THEMIS_ERROR("Soc2ControlSet: failed to open evidence log file '{}'", path);
+        return false;
+    }
+    ofs << snapshot.dump() << "\n";
+    if (!ofs.good()) {
+        THEMIS_ERROR("Soc2ControlSet: write error on evidence log file '{}'", path);
+        return false;
+    }
+    THEMIS_INFO("Soc2ControlSet: exported {} evidence items to '{}'",
+                evidence_items_.size(), path);
+    return true;
+}
+
+int Soc2ControlSet::pruneEvidence(int64_t max_age_ms) {
+    std::lock_guard<std::mutex> lock(evidence_mutex_);
+
+    const int64_t cutoff = nowMs() - max_age_ms;
+    int removed = 0;
+    auto it = evidence_items_.begin();
+    while (it != evidence_items_.end()) {
+        if (it->timestamp_ms < cutoff) {
+            it = evidence_items_.erase(it);
+            ++removed;
+        } else {
+            ++it;
+        }
+    }
+
+    // Rebuild chain tail after pruning
+    if (evidence_items_.empty()) {
+        chain_tail_.clear();
+    } else {
+        chain_tail_ = evidence_items_.back().chain_hash;
+    }
+
+    if (removed > 0) {
+        THEMIS_INFO("Soc2ControlSet: pruned {} evidence items older than {} ms",
+                    removed, max_age_ms);
+    }
+    return removed;
+}
+
+bool Soc2ControlSet::verifyChain() const {
+    std::lock_guard<std::mutex> lock(evidence_mutex_);
+
+    std::string prev_hash;
+    for (const auto& ev : evidence_items_) {
+        std::ostringstream chain_input;
+        chain_input << prev_hash << ev.evidence_id
+                    << ev.timestamp_ms << (ev.control_met ? "1" : "0");
+        const std::string expected = sha256Hex(chain_input.str());
+        if (ev.chain_hash != expected) {
+            THEMIS_ERROR("Soc2ControlSet: chain integrity failure at evidence_id='{}'",
+                         ev.evidence_id);
+            return false;
+        }
+        prev_hash = ev.chain_hash;
+    }
+    return true;
 }
 
 } // namespace governance

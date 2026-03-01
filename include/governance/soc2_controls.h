@@ -30,6 +30,7 @@
 #include <vector>
 #include <memory>
 #include <mutex>
+#include <fstream>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -53,6 +54,7 @@ struct Soc2EvidenceItem {
     bool        control_met = false; ///< Whether the control was satisfied
     std::string detail;          ///< Human-readable evidence description
     nlohmann::json metadata;     ///< Additional structured metadata
+    std::string chain_hash;      ///< Hex-encoded SHA-256 of (prev_hash + evidence_id + timestamp_ms + control_met)
 
     nlohmann::json toJson() const;
 };
@@ -290,6 +292,30 @@ public:
     /// Clear all collected evidence items.
     void clearEvidence();
 
+    /// Export all evidence items to an append-only JSON log file.
+    /// Each call appends a new audit snapshot object to the file so the log
+    /// is never overwritten.  The file is created if it does not exist.
+    /// Thread-safe; may be called from any thread.
+    /// @param path  Absolute or relative path to the JSON log file.
+    /// @return true on success, false if the file could not be written.
+    bool exportEvidence(const std::string& path) const;
+
+    /// Remove evidence items older than @p max_age_ms milliseconds.
+    /// Enforces the 12-month retention window (pass
+    ///   12LL * 30 * 24 * 3600 * 1000  for ~12 months).
+    /// A negative @p max_age_ms forces the cutoff into the future so that all
+    /// current items are pruned; this is primarily useful in tests.
+    /// Thread-safe; may be called from any thread.
+    /// @param max_age_ms  Maximum age of an evidence item in milliseconds.
+    /// @return Number of items removed.
+    int pruneEvidence(int64_t max_age_ms);
+
+    /// Verify the tamper-evident hash chain of the in-memory evidence items.
+    /// Returns true when every item's chain_hash equals the expected value
+    /// computed from the previous hash and the item's own fields.
+    /// An empty evidence list is considered valid.
+    bool verifyChain() const;
+
     /// Expose the list of control evaluators (for external iteration/reporting)
     const std::vector<std::shared_ptr<ISoc2Control>>& controls() const {
         return controls_;
@@ -301,6 +327,7 @@ private:
     mutable std::mutex evidence_mutex_;
     std::vector<Soc2EvidenceItem> evidence_items_;
     int64_t evidence_counter_ = 0; ///< Used to generate unique evidence IDs
+    std::string chain_tail_;       ///< SHA-256 hex of the last evidence item
 };
 
 } // namespace governance

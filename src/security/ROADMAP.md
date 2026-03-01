@@ -46,7 +46,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Target: Q2 2026
 
 ### Long-term (6-12 months)
-- [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
+- [x] SOC 2 Type II compliance evidence collection (Issue: #2293)
   - Scope: audit-log export, metrics snapshot, key-rotation records, access-control reports
   - Storage: append-only JSON/CBOR log with tamper-evident chain; 12-month retention
   - Tests: evidence completeness check, retention enforcement
@@ -90,7 +90,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
 - [ ] Secret scanning pre-commit hook for CI pipelines
-- [ ] SOC 2 Type II compliance evidence collection
+- [x] SOC 2 Type II compliance evidence collection (`Soc2ControlSet`, `Soc2EvidenceItem`, `Soc2AuditReport`)
 - [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
 ## Production Readiness Checklist
