@@ -425,7 +425,7 @@ Result<std::string> OciRegistryClient::obtainBearerToken(
     std::string realm, service;
 
     auto extract = [&](const std::string& key) -> std::string {
-        std::regex re(key + R"(="([^"]*)")");
+        std::regex re(key + "=\"([^\"]*)\"");
         std::smatch m;
         if (std::regex_search(www_auth, m, re)) return m[1].str();
         return {};

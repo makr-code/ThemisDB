@@ -251,6 +251,8 @@ ExportStats StreamingExporter::exportFromCursor(
                 "{} encrypted bytes, job_id={})",
                 stats.bytes_written, encrypted_size,
                 options.encryption.job_id);
+        }
+
         // P3: Encrypt output file if configured
         if (options.encryption_config && !options.encryption_config->empty()) {
             const std::string enc_tmp = options.output_path + ".enc_tmp";

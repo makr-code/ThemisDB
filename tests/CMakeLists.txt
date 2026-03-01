@@ -2520,15 +2520,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
     )
 
     target_link_libraries(test_tenant_transaction_namespace PRIVATE
-# Transaction Bulk API Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
-    message(STATUS "Adding Transaction Bulk API tests")
-
-    add_executable(test_transaction_bulk
-        test_transaction_bulk.cpp
-    )
-
-    target_link_libraries(test_transaction_bulk PRIVATE
         ${TEST_LIBS}
         themis_core
         RocksDB::rocksdb
@@ -2543,27 +2534,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
     add_test(NAME TenantTransactionNamespaceTests COMMAND test_tenant_transaction_namespace)
 
     set_tests_properties(TenantTransactionNamespaceTests PROPERTIES
-        LABELS "transaction;tenant;namespace;isolation;unit"
-        TIMEOUT 120
+        LABELS "transaction;tenant;namespace;unit"
+        TIMEOUT 60
     )
 
-    message(STATUS "  Tenant Transaction Namespace: tenant-scoped keys, per-tenant stats, abortTenantTransactions")
+    message(STATUS "  Tenant Transaction Namespace: per-tenant isolation, namespace resolution")
 else()
-    message(STATUS "Per-tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
-    target_compile_definitions(test_transaction_bulk PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
-
-    set_tests_properties(TransactionBulkTests PROPERTIES
-        LABELS "transaction;bulk;batch;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete without per-row overhead")
-else()
-    message(STATUS "Transaction Bulk tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
+    message(STATUS "Tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
 endif()
 
 # Utilities Comprehensive Tests

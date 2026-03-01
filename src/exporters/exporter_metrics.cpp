@@ -249,6 +249,8 @@ size_t ExporterMetrics::getEncryptedPlaintextBytes() const {
 
 size_t ExporterMetrics::getEncryptedOutputBytes() const {
     return encryption_output_bytes_.load();
+}
+
 void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
     encrypted_bytes_written_ += encrypted_bytes;
 }

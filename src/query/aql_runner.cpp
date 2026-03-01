@@ -225,7 +225,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             );
         }
         auto rows = std::move(*result);
-        size_t row_count = rows.is_array() ? rows.size() : 0;
+        size_t row_count = rows.size();
         reopt_guard.finish(row_count);
         return Ok(nlohmann::json({{"type","join"},{"results", rows}}));
     }

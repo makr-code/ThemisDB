@@ -577,6 +577,8 @@ void ExportEncryption::decryptFile(const std::string& src_path,
 
     // Securely zero the decrypted buffer after the file has been written.
     OPENSSL_cleanse(plaintext.data(), plaintext.size());
+}
+
 // Helper: little-endian binary I/O
 // ─────────────────────────────────────────────────────────────────────────────
 
