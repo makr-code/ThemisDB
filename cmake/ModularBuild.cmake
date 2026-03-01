@@ -223,7 +223,10 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_audit_log.cpp
     ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/catalog_exporter.cpp
-    ../src/metadata/distributed_catalog.cpp
+    # ../src/metadata/distributed_catalog.cpp
+    # Temporarily excluded in modular build: depends on MetadataShardRouter
+    # symbols from sharding module and introduces unresolved externals in
+    # themis_storage when sharding is linked as a separate DLL.
     
     # Indexes
     ../src/index/secondary_index.cpp
@@ -283,6 +286,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
+    ../src/query/sql_parser.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
     ../src/query/result_type_annotation.cpp
@@ -295,6 +299,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
+    ../src/query/cross_cluster_federation.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
@@ -693,6 +698,8 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/document_summarizer.cpp
     ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
+    # Phase 4: Multi-modal RAG (image + text retrieval)
+    ../src/rag/multimodal_rag.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
@@ -727,10 +734,15 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/html_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_validator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/deduplication_checker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_errors.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/embedding_pipeline.cpp>

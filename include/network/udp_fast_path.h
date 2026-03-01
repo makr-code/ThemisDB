@@ -72,6 +72,9 @@ enum class UdpOpCode : uint8_t {
 /// Response status codes.
 enum class UdpStatus : uint8_t {
     OK           = 0x00,
+#ifdef ERROR
+#undef ERROR
+#endif
     ERROR        = 0x01,
     NOT_FOUND    = 0x02,
     RATE_LIMITED = 0x03,

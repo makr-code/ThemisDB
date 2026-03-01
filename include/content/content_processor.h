@@ -175,6 +175,7 @@ private:
  * Handles photos, diagrams, screenshots.
  * Extracts EXIF metadata, generates image embeddings (e.g., CLIP).
  */
+#ifndef THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED
 class ImageProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
@@ -189,6 +190,7 @@ private:
     json extractEXIF(const std::string& blob);
     std::pair<int, int> getImageDimensions(const std::string& blob);
 };
+#endif
 
 /**
  * @brief Geo Content Processor

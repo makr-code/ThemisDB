@@ -79,6 +79,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_document_splitter\\.cpp$"
         ".*test_rag_hybrid_retriever\\.cpp$"
         ".*test_rag_agentic\\.cpp$"
+        ".*test_rag_evaluation_report_exporter\\.cpp$"
+        ".*test_rag_multimodal\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -570,6 +572,9 @@ if(NOT THEMIS_ENABLE_LLM)
         # CitationHighlighter has no LLM dependency (pure Jaccard term-overlap);
         # re-include so non-LLM builds exercise the citation highlighting feature.
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_citation_highlighter.cpp
+        # EvaluationReportExporter has no LLM dependency (pure serialisation);
+        # re-include so non-LLM builds exercise the JSON/HTML export feature.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_report_exporter.cpp
     )
 endif()
 
@@ -850,6 +855,25 @@ endif()
 
 if(TARGET llama)
     target_link_libraries(themis_tests PRIVATE llama)
+endif()
+
+# Arrow / Parquet dependencies for analytics_export.cpp (compiled into themis_tests)
+if(DEFINED THEMIS_ARROW_TARGET AND TARGET ${THEMIS_ARROW_TARGET})
+    target_link_libraries(themis_tests PRIVATE ${THEMIS_ARROW_TARGET})
+elseif(TARGET Arrow::arrow_shared)
+    target_link_libraries(themis_tests PRIVATE Arrow::arrow_shared)
+elseif(TARGET Arrow::arrow_static)
+    target_link_libraries(themis_tests PRIVATE Arrow::arrow_static)
+endif()
+
+if(DEFINED THEMIS_PARQUET_TARGET AND TARGET ${THEMIS_PARQUET_TARGET})
+    target_link_libraries(themis_tests PRIVATE ${THEMIS_PARQUET_TARGET})
+elseif(TARGET Parquet::parquet_shared)
+    target_link_libraries(themis_tests PRIVATE Parquet::parquet_shared)
+elseif(TARGET Parquet::parquet_static)
+    target_link_libraries(themis_tests PRIVATE Parquet::parquet_static)
+elseif(TARGET Parquet::parquet)
+    target_link_libraries(themis_tests PRIVATE Parquet::parquet)
 endif()
 
 target_compile_definitions(themis_tests PRIVATE
@@ -3090,6 +3114,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.c
     message(STATUS "  Cloud Storage Backup: AWS S3, Azure Blob, Google Cloud Storage interfaces")
 else()
     message(STATUS "Cloud Storage Backup comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cloud_storage_backup_comprehensive.cpp")
+endif()
+
+# Focused Streaming Window Tests (fast debug target)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_window.cpp")
+    message(STATUS "Adding focused streaming window tests")
+
+    add_executable(test_streaming_window_focused
+        analytics/test_streaming_window.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/streaming_window.cpp
+    )
+
+    target_include_directories(test_streaming_window_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_streaming_window_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_streaming_window_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME StreamingWindowFocusedTests COMMAND test_streaming_window_focused)
+
+    set_tests_properties(StreamingWindowFocusedTests PROPERTIES
+        LABELS "analytics;streaming;window;focused;unit"
+        TIMEOUT 120
+    )
 endif()
 
 # ============================================================================
