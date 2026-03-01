@@ -37,7 +37,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [~] Per-tenant custom domain routing (Issue: #2301)
+- [x] Per-tenant custom domain routing (Issue: #2301)
 - [I] WebSocket binary frame support for wire protocol upgrade (Issue: #2299)
 
 ### Long-term (6-12 months)

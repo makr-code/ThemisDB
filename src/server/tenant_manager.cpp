@@ -71,15 +71,19 @@ void TenantManager::ensureDefaultTenant() {
 // static
 std::string TenantManager::normaliseDomain(std::string_view host) {
     // Strip optional port suffix (":NNN")
+    // A valid port is at most 5 digits (1-65535), so only strip when the
+    // suffix after the last ':' is 1-5 all-digit characters.
     std::string result(host);
     const auto colon = result.rfind(':');
     if (colon != std::string::npos) {
-        // Only strip the port when everything after ':' is digits
-        const bool is_port = std::all_of(result.begin() + static_cast<std::ptrdiff_t>(colon) + 1,
-                                         result.end(),
-                                         [](unsigned char c){ return std::isdigit(c) != 0; });
-        if (is_port) {
-            result.erase(colon);
+        const std::size_t suffix_len = result.size() - colon - 1;
+        if (suffix_len >= 1 && suffix_len <= 5) {
+            const bool is_port = std::all_of(result.begin() + static_cast<std::ptrdiff_t>(colon) + 1,
+                                             result.end(),
+                                             [](unsigned char c){ return std::isdigit(c) != 0; });
+            if (is_port) {
+                result.erase(colon);
+            }
         }
     }
     // Lower-case for case-insensitive comparison
