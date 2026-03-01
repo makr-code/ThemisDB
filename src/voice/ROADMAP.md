@@ -32,7 +32,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [I] Language detection and automatic locale switching (Issue: #2492)
 - [x] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
 - [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
-- [I] Voice session playback and search in stored transcripts (Issue: #2077)
+- [x] Voice session playback and search in stored transcripts (Issue: #2077)
 
 ### Long-term (6-12 months)
 - [I] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
@@ -66,7 +66,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [ ] Language detection and automatic locale switching
 - [x] Noise suppression preprocessing (RNNoise integration)
 - [ ] WebSocket audio streaming endpoint for browser clients
-- [ ] Voice session playback and search in stored transcripts
+- [x] Voice session playback and search in stored transcripts
 
 ### Phase 4: Multi-Language TTS & Biometric Authentication (Status: Planned 📋)
 - [ ] Multi-language TTS (German, French, Spanish voices)

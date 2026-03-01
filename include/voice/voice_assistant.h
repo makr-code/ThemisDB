@@ -40,6 +40,7 @@
 #include "llm/llama_wrapper.h"
 #include "voice/wake_word_detector.h"
 #include "voice/voice_auth.h"
+#include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
 #include <string>
 #include <memory>
@@ -260,6 +261,14 @@ public:
     const VoiceMacroManager& macroManager() const;
 
     /**
+     * @brief Access the embedded VoiceAudioStorage for recording playback and transcript search.
+     *
+     * The storage is always available (it is constructed alongside VoiceAssistant).
+     */
+    VoiceAudioStorage& audioStorage();
+    const VoiceAudioStorage& audioStorage() const;
+
+    /**
      * @brief Record and transcribe phone call
      * 
      * @param audio_data Phone call recording
@@ -340,6 +349,9 @@ private:
 
     // Voice command macro manager
     VoiceMacroManager macro_manager_;
+
+    // Audio storage for recording playback and transcript search
+    VoiceAudioStorage audio_storage_;
     
     // Session management
     std::map<std::string, VoiceSession> sessions_;

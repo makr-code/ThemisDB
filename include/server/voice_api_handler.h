@@ -84,6 +84,9 @@ using json = nlohmann::json;
  * - GET  /api/v1/voice/macros/{id} - Get a specific macro
  * - PUT  /api/v1/voice/macros/{id} - Update a macro
  * - DELETE /api/v1/voice/macros/{id} - Delete a macro
+ * - GET  /api/v1/voice/recordings - List stored recordings (playback index)
+ * - GET  /api/v1/voice/recordings/search?q=<query> - Full-text search in stored transcripts
+ * - GET  /api/v1/voice/recordings/{id} - Get a specific recording for playback
  * - WS  /ws/voice/stream - WebSocket for real-time voice interaction
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
@@ -173,6 +176,17 @@ private:
     http::response<http::string_body> handleDeleteMacro(
         const http::request<http::string_body>& req,
         const std::string& macro_id);
+
+    // Recording playback and transcript search endpoints
+    http::response<http::string_body> handleListRecordings(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleGetRecording(
+        const http::request<http::string_body>& req,
+        const std::string& record_id);
+
+    http::response<http::string_body> handleSearchTranscripts(
+        const http::request<http::string_body>& req);
 
     // Statistics and health
     http::response<http::string_body> handleStats(

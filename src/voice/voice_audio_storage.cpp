@@ -23,6 +23,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <atomic>
+#include <cctype>
 
 namespace themis { namespace voice {
 
@@ -214,6 +215,29 @@ std::vector<AudioStorageRecord> VoiceAudioStorage::listRecords(
     for (const auto& [id, rec] : records_) {
         if (result.size() >= limit) break;
         if (rec.tier == tier_filter) {
+            result.push_back(rec);
+        }
+    }
+    return result;
+}
+
+std::vector<AudioStorageRecord> VoiceAudioStorage::searchTranscripts(
+    const std::string& query, size_t limit) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<AudioStorageRecord> result;
+    if (query.empty()) return result;
+
+    // Build lowercase version of query for case-insensitive matching
+    std::string lower_query = query;
+    for (auto& c : lower_query) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+
+    for (const auto& [id, rec] : records_) {
+        if (result.size() >= limit) break;
+        if (rec.transcript.empty()) continue;
+        std::string lower_transcript = rec.transcript;
+        for (auto& c : lower_transcript) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        if (lower_transcript.find(lower_query) != std::string::npos) {
             result.push_back(rec);
         }
     }

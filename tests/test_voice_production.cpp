@@ -1585,6 +1585,61 @@ TEST(AudioStoragePhase5, StatisticsTracking) {
     EXPECT_EQ(stats.hot_records, 2u);
 }
 
+TEST(AudioStoragePhase5, SearchTranscriptsMatch) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2, 3}, fmt, "Hello world, this is a test");
+    storage.store({4, 5, 6}, fmt, "Goodbye world");
+    storage.store({7, 8, 9}, fmt, "No match here");
+
+    auto results = storage.searchTranscripts("world");
+    EXPECT_EQ(results.size(), 2u);
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsCaseInsensitive) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({10, 11, 12}, fmt, "Voice ASSISTANT command");
+
+    auto results = storage.searchTranscripts("assistant");
+    EXPECT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].transcript, "Voice ASSISTANT command");
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsNoMatch) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2}, fmt, "Hello world");
+
+    auto results = storage.searchTranscripts("database");
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsEmptyQueryReturnsNothing) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2}, fmt, "Hello world");
+
+    auto results = storage.searchTranscripts("");
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(AudioStoragePhase5, SearchTranscriptsLimit) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    // Store 5 records all containing "themis"
+    for (int i = 0; i < 5; ++i) {
+        storage.store({static_cast<uint8_t>(i), static_cast<uint8_t>(i + 10)}, fmt, "themis record " + std::to_string(i));
+    }
+    auto results = storage.searchTranscripts("themis", 3);
+    EXPECT_EQ(results.size(), 3u);
+}
+
 // --- Phase 9, 10 additions ---
 #include <numbers>
 #include "voice/voice_accessibility.h"
