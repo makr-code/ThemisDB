@@ -308,6 +308,43 @@ TEST_F(JtiRevocationTest, NoBlacklistAttached_TokenWithJtiAlwaysAccepted) {
 }
 
 // ============================================================================
+// Real-time invalidation: revocation callback fires on revoke
+// ============================================================================
+
+TEST_F(JtiRevocationTest, RevocationCallbackFiredOnRevoke) {
+    // Attach a callback to the blacklist that records every notified JTI.
+    std::string notified_jti;
+    blacklist_.setOnRevokeCallback([&notified_jti](const std::string& jti) {
+        notified_jti = jti;
+    });
+
+    val_->setTokenBlacklist(&blacklist_);
+    auto token = makeES256Token(key_, "ec1", {{"jti", "tok-realtime"}});
+
+    // Revoke: the callback must fire synchronously before revoke() returns.
+    blacklist_.revoke("tok-realtime",
+        std::chrono::system_clock::now() + std::chrono::hours(1));
+
+    EXPECT_EQ(notified_jti, "tok-realtime");
+    // Token must also be rejected by the validator.
+    EXPECT_THROW(val_->parseAndValidate(token), std::runtime_error);
+}
+
+TEST_F(JtiRevocationTest, RevocationCallbackCanQueryBlacklistWithoutDeadlock) {
+    // Verify that the callback may call isRevoked() on the same blacklist
+    // without deadlocking (the callback is invoked with the mutex released).
+    bool callback_saw_revoked = false;
+    blacklist_.setOnRevokeCallback([&](const std::string& jti) {
+        callback_saw_revoked = blacklist_.isRevoked(jti);
+    });
+
+    blacklist_.revoke("tok-reentrant",
+        std::chrono::system_clock::now() + std::chrono::hours(1));
+
+    EXPECT_TRUE(callback_saw_revoked);
+}
+
+// ============================================================================
 // EdDSA allowlist regression test
 // ============================================================================
 

@@ -27,6 +27,7 @@
 #include "utils/audit_logger.h"
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -91,6 +92,22 @@ bool AccessControlManager::initialize() {
                     config_.abac_policy_path, err);
             } else {
                 THEMIS_INFO("Loaded ABAC policies from {}", config_.abac_policy_path);
+            }
+        }
+        
+        // Load RLS policies if configured
+        if (config_.enable_rls && !config_.rls_policy_path.empty()) {
+            try {
+                std::ifstream rls_file(config_.rls_policy_path);
+                if (!rls_file.is_open()) {
+                    THEMIS_WARN("Failed to open RLS policy file: {}", config_.rls_policy_path);
+                } else {
+                    nlohmann::json rls_json = nlohmann::json::parse(rls_file);
+                    size_t loaded = rls_manager_.loadFromJson(rls_json);
+                    THEMIS_INFO("Loaded {} RLS policies from {}", loaded, config_.rls_policy_path);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to load RLS policies from {}: {}", config_.rls_policy_path, e.what());
             }
         }
         
@@ -317,6 +334,37 @@ bool AccessControlManager::removeABACPolicy(const std::string& policy_id) {
     return removed;
 }
 
+// ── Row-level security (RLS) ─────────────────────────────────────────────────
+
+void AccessControlManager::addRLSPolicy(const RLSPolicy& policy) {
+    rls_manager_.addPolicy(policy);
+    THEMIS_INFO("Added RLS policy '{}' for collection '{}' to AccessControlManager",
+                policy.id, policy.collection.empty() ? "*" : policy.collection);
+}
+
+bool AccessControlManager::removeRLSPolicy(const std::string& policy_id) {
+    bool removed = rls_manager_.removePolicy(policy_id);
+    if (removed) {
+        THEMIS_INFO("Removed RLS policy '{}' from AccessControlManager", policy_id);
+    }
+    return removed;
+}
+
+nlohmann::json AccessControlManager::filterQueryResults(
+    const std::string& collection,
+    const SecurityContext& ctx,
+    const nlohmann::json& rows
+) const {
+    return rls_manager_.filterRows(collection, ctx, rows);
+}
+
+bool AccessControlManager::isRLSActive(
+    const std::string& collection,
+    const SecurityContext& ctx
+) const {
+    return rls_manager_.isActive(collection, ctx);
+}
+
 bool AccessControlManager::reloadConfiguration() {
     try {
         if (!config_.rbac_config_path.empty()) {
@@ -342,6 +390,24 @@ bool AccessControlManager::reloadConfiguration() {
                 return false;
             }
             THEMIS_INFO("Reloaded ABAC policies from {}", config_.abac_policy_path);
+        }
+        
+        // Reload RLS policies if configured
+        if (config_.enable_rls && !config_.rls_policy_path.empty()) {
+            try {
+                std::ifstream rls_file(config_.rls_policy_path);
+                if (!rls_file.is_open()) {
+                    THEMIS_ERROR("Failed to open RLS policy file for reload: {}", config_.rls_policy_path);
+                    return false;
+                }
+                nlohmann::json rls_json = nlohmann::json::parse(rls_file);
+                rls_manager_.clearAllPolicies();
+                size_t loaded = rls_manager_.loadFromJson(rls_json);
+                THEMIS_INFO("Reloaded {} RLS policies from {}", loaded, config_.rls_policy_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to reload RLS policies from {}: {}", config_.rls_policy_path, e.what());
+                return false;
+            }
         }
         
         THEMIS_INFO("Configuration reloaded successfully");
