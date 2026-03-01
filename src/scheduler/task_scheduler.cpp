@@ -967,8 +967,8 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     }
                     fireTaskFailureAlert(*task, wave_results[i].error);
                 }
-                // Persist execution result to ThemisDB (if result store is enabled).
-                // Duration is computed once here, after all branches.
+                // Compute duration once here (after all success/failure branches) for use
+                // in both SLA breach detection and result-store persistence.
                 const double dur_ms = std::chrono::duration<double, std::milli>(
                     std::chrono::steady_clock::now() - exec_start).count();
 
@@ -2331,8 +2331,14 @@ std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() co
 }
 
 void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::string& error) {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
-    if (!alertmanager_) {
+    // Take a copy of the alertmanager pointer under the lock, then release the lock
+    // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
+    std::shared_ptr<observability::Alertmanager> am;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        am = alertmanager_;
+    }
+    if (!am) {
         return;
     }
 
@@ -2357,8 +2363,10 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     alert.annotations["total_executions"] =
         std::to_string(task.total_executions);
 
-    auto result = alertmanager_->sendAlert(alert);
+    // sendAlert() may involve network I/O; called outside the lock
+    auto result = am->sendAlert(alert);
     if (result) {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
         active_failure_alert_ids_[task.id] = alert_id;
         THEMIS_WARN("Task failure alert fired for task {} ({}): {}", task.id, task.name, error);
     } else {
@@ -2368,8 +2376,18 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
 }
 
 void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms) {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
-    if (!alertmanager_) {
+    if (!task.sla_deadline.has_value()) {
+        return;  // Caller should have checked, but guard defensively
+    }
+
+    // Take a copy of the alertmanager pointer under the lock, then release the lock
+    // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
+    std::shared_ptr<observability::Alertmanager> am;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        am = alertmanager_;
+    }
+    if (!am) {
         return;
     }
 
@@ -2397,7 +2415,8 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
     alert.annotations["elapsed_ms"]      = std::to_string(static_cast<int64_t>(elapsed_ms));
     alert.annotations["sla_deadline_ms"] = std::to_string(static_cast<int64_t>(sla_ms));
 
-    auto result = alertmanager_->sendAlert(alert);
+    // sendAlert() may involve network I/O; called outside the lock
+    auto result = am->sendAlert(alert);
     if (result) {
         THEMIS_WARN("SLA breach alert fired for task {} ({}): elapsed={:.0f}ms, deadline={}ms",
                     task.id, task.name, elapsed_ms, static_cast<int64_t>(sla_ms));
@@ -2408,25 +2427,34 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
 }
 
 void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
-    if (!alertmanager_) {
-        return;
+    // Take a copy of the alertmanager pointer and the alert ID under the lock,
+    // then release the lock before calling resolveAlert() (potential I/O).
+    std::shared_ptr<observability::Alertmanager> am;
+    std::string alert_id;
+    {
+        std::lock_guard<std::mutex> lock(alert_mutex_);
+        if (!alertmanager_) {
+            return;
+        }
+
+        auto it = active_failure_alert_ids_.find(task_id);
+        if (it == active_failure_alert_ids_.end()) {
+            return;  // No active failure alert for this task
+        }
+
+        am       = alertmanager_;
+        alert_id = it->second;
+        active_failure_alert_ids_.erase(it);
     }
 
-    auto it = active_failure_alert_ids_.find(task_id);
-    if (it == active_failure_alert_ids_.end()) {
-        return;  // No active failure alert for this task
-    }
-
-    const std::string alert_id = it->second;
-    auto result = alertmanager_->resolveAlert(alert_id);
+    // resolveAlert() may involve network I/O; called outside the lock
+    auto result = am->resolveAlert(alert_id);
     if (result) {
         THEMIS_INFO("Task failure alert resolved for task {} (alert_id={})", task_id, alert_id);
     } else {
         THEMIS_WARN("Failed to resolve task failure alert for task {}: {}",
                     task_id, result.error().message());
     }
-    active_failure_alert_ids_.erase(it);
 }
 
 } // namespace themis
