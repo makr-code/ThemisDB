@@ -181,6 +181,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_plugin_sandbox.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
