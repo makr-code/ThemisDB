@@ -255,6 +255,38 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         return result;
     }
     
+    // Step 3b: Zone.Identifier quarantine check (Windows only)
+    // Reject modules marked with Zone ID >= 3 (Internet zone or Restricted Sites)
+    // by the Windows Mark of the Web (MoTW) mechanism.  Such modules were
+    // downloaded from an untrusted origin and must be explicitly unblocked
+    // before they can be loaded.
+#ifdef _WIN32
+    {
+        int zoneId = getZoneIdentifier(modulePath);
+        result.zoneId = zoneId;
+        if (zoneId >= 3) {
+            const char* zoneName = (zoneId == 3) ? "Internet" : "Restricted Sites";
+            result.errorCode = ModuleErrorCode::ZONE_ID_BLOCKED;
+            result.errorCategory = categorizeError(result.errorCode);
+            result.errorMessage = getErrorMessage(result.errorCode) +
+                                  ": zone " + std::to_string(zoneId) +
+                                  " (" + zoneName + ") for " + modulePath;
+            spdlog::critical("SECURITY: {}", result.errorMessage);
+            result.success = false;
+            recordFailure(modulePath, result.errorCode, result.errorMessage);
+            updateMetrics(false, 0, result.errorCode);
+            return result;
+        }
+        if (zoneId >= 0) {
+            const char* zoneName = (zoneId == 0) ? "Local Computer"
+                                 : (zoneId == 1) ? "Local Intranet"
+                                 :                 "Trusted Sites";
+            spdlog::info("Zone.Identifier present for '{}': zone {} ({}) - permitted",
+                         modulePath, zoneId, zoneName);
+        }
+    }
+#endif
+
     // Step 4: STAGED LOADING - Use cached metadata if available (optimization)
     // This eliminates the double-loading issue
     result.metadata = getCachedMetadata(modulePath);
@@ -710,6 +742,8 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
             return "Module is blacklisted";
         case ModuleErrorCode::QUARANTINED:
             return "Module is quarantined due to repeated failures";
+        case ModuleErrorCode::ZONE_ID_BLOCKED:
+            return "Module blocked: Windows Zone.Identifier marks it as downloaded from Internet or Restricted Sites";
         case ModuleErrorCode::INTERNAL_ERROR:
             return "Internal module loader error";
         case ModuleErrorCode::UNKNOWN_ERROR:
@@ -742,6 +776,7 @@ ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
         case ModuleErrorCode::UNTRUSTED_SIGNER:
         case ModuleErrorCode::BLACKLISTED:
         case ModuleErrorCode::QUARANTINED:
+        case ModuleErrorCode::ZONE_ID_BLOCKED:
         case ModuleErrorCode::POLICY_VIOLATION:
             return ErrorCategory::FATAL;
             

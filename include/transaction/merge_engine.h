@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     297                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -128,6 +128,7 @@ public:
         bool is_fast_forward = false;
         
         json toJson() const;
+        static MergeStats fromJson(const json& j);
     };
 
     /**
