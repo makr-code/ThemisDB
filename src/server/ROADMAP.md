@@ -77,7 +77,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] OpenAPI 3.1 spec auto-generation from handler annotations
 - [x] Request validation middleware (JSON Schema per endpoint)
 - [x] Response streaming for large result sets (chunked transfer)
-- [ ] Per-tenant custom domain routing
+- [x] Per-tenant custom domain routing
 - [ ] WebSocket binary frame support for wire protocol upgrade
 
 ### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: In Progress 🚧)
