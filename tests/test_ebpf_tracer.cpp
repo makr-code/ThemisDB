@@ -164,9 +164,24 @@ TEST(EbpfTracerTest, Reset_ClearsStats) {
     EXPECT_EQ(0u, stats.collection_cycles);
 }
 
-// ---------------------------------------------------------------------------
-// Event ring buffer
-// ---------------------------------------------------------------------------
+TEST(EbpfTracerTest, Reset_WhileRunning_DoesNotCrash) {
+    // Verifies the pending_reset_ atomic flag path: calling reset() while the
+    // background collection loop is active must not corrupt state or crash.
+    EbpfTracerConfig cfg = makeConfig(true, 10ms);
+    EbpfTracer tracer(cfg);
+
+    for (int _ = 0; _ < 5; ++_) {
+        std::this_thread::sleep_for(15ms);
+        EXPECT_NO_THROW(tracer.reset());
+    }
+
+    tracer.stop();
+    // Reset after stop clears all accumulated state.
+    tracer.reset();
+    auto stats = tracer.getStats();
+    EXPECT_EQ(0u, stats.collection_cycles);
+}
+
 
 TEST(EbpfTracerTest, InitialEvents_Empty) {
     EbpfTracer tracer;
@@ -219,11 +234,19 @@ TEST(EbpfTracerTest, Callback_Invoked_WhenTracerRunning) {
     std::this_thread::sleep_for(100ms);
     tracer.stop();
 
-    // The callback fires every collection cycle; at least one cycle must
-    // have occurred in 100 ms with a 20 ms interval.
-    // On Linux the callback fires only when events are non-empty; on other
-    // platforms it may not fire at all – but it must not crash.
+    // The callback fires only when events are non-empty (non-zero deltas).
+    // On Linux with perf_event_open available, at least one cycle with a
+    // non-zero delta is expected.  In sandboxed / non-Linux environments the
+    // callback may never fire — the test just verifies no crash occurs and
+    // the count is non-negative.
     EXPECT_GE(call_count.load(), 0);
+
+#if defined(__linux__)
+    // On Linux we also verify that collection_cycles incremented, confirming
+    // the background thread ran correctly even when no events were emitted.
+    auto stats = tracer.getStats();
+    EXPECT_GE(stats.collection_cycles, 1u);
+#endif
 }
 
 // ---------------------------------------------------------------------------

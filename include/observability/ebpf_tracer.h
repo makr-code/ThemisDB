@@ -148,13 +148,13 @@ public:
     explicit EbpfTracer(const EbpfTracerConfig& config = EbpfTracerConfig{});
     ~EbpfTracer();
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable
     EbpfTracer(const EbpfTracer&) = delete;
     EbpfTracer& operator=(const EbpfTracer&) = delete;
 
     /**
      * @brief Start the background collection loop.
-     * No-op if already running or if @c enabled is false.
+     * No-op if already running.
      */
     void start();
 
@@ -194,11 +194,13 @@ public:
     std::vector<KernelEvent> getRecentEvents() const;
 
     /**
-     * @brief Register a callback invoked on every collection cycle.
+     * @brief Register a callback invoked when at least one kernel event was
+     *        collected in a cycle.
      *
      * The callback receives the @c KernelEvent objects collected during that
      * cycle.  It is called from the background thread; implementations must
-     * be thread-safe.
+     * be thread-safe.  The callback is NOT invoked on cycles where no new
+     * events were observed (e.g. zero deltas or non-Linux platforms).
      */
     void registerEventCallback(
         std::function<void(const std::vector<KernelEvent>&)> cb);

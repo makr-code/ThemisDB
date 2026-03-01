@@ -212,15 +212,17 @@ public:
     }
 
     void reset() {
-        std::lock_guard<std::mutex> lk(mu_);
-        stats_ = {};
-        events_.clear();
+        {
+            std::lock_guard<std::mutex> lk(mu_);
+            stats_ = {};
+            events_.clear();
+        }
 #if THEMIS_EBPF_LINUX
-        // Re-read baselines so deltas start from zero
-        if (fd_ctx_sw_ >= 0)   prev_ctx_sw_   = readCounter(fd_ctx_sw_);
-        if (fd_pg_fault_ >= 0) prev_pg_fault_ = readCounter(fd_pg_fault_);
-        if (fd_cpu_mig_ >= 0)  prev_cpu_mig_  = readCounter(fd_cpu_mig_);
-        if (fd_task_clk_ >= 0) prev_task_clk_ = readCounter(fd_task_clk_);
+        // Signal the background thread to re-read baselines so that subsequent
+        // deltas start from zero.  Using an atomic flag avoids a data race: the
+        // background thread is the only writer of prev_* outside the lock, so
+        // letting it do the re-read is the only race-free approach.
+        pending_reset_.store(true, std::memory_order_release);
 #endif
     }
 
@@ -296,9 +298,36 @@ private:
 
     /**
      * @brief Read all perf counters and return a batch of delta events.
-     *        Called while NOT holding mu_ (reads happen outside the lock).
+     *        Called from the background thread while NOT holding mu_.
+     *
+     *        If a reset was requested via pending_reset_, the function
+     *        re-reads all baselines and returns an empty batch so that the
+     *        next call produces fresh deltas.
      */
     std::vector<KernelEvent> collectDeltas() {
+        // Handle a pending reset: re-read baselines and return no events.
+        // pending_reset_ is only cleared here (background thread), so there
+        // is no race with reset() which only sets it.
+        if (pending_reset_.exchange(false, std::memory_order_acq_rel)) {
+            if (fd_ctx_sw_ >= 0) {
+                int64_t v = readCounter(fd_ctx_sw_);
+                prev_ctx_sw_ = (v >= 0) ? v : 0;
+            }
+            if (fd_pg_fault_ >= 0) {
+                int64_t v = readCounter(fd_pg_fault_);
+                prev_pg_fault_ = (v >= 0) ? v : 0;
+            }
+            if (fd_cpu_mig_ >= 0) {
+                int64_t v = readCounter(fd_cpu_mig_);
+                prev_cpu_mig_ = (v >= 0) ? v : 0;
+            }
+            if (fd_task_clk_ >= 0) {
+                int64_t v = readCounter(fd_task_clk_);
+                prev_task_clk_ = (v >= 0) ? v : 0;
+            }
+            return {};
+        }
+
         auto now = std::chrono::system_clock::now();
         std::vector<KernelEvent> batch;
 
@@ -319,8 +348,8 @@ private:
             batch.push_back(std::move(ev));
         };
 
-        // These reads are lock-free; prev_* are only modified here (single
-        // background thread) so no synchronisation is needed for the reads.
+        // prev_* are only modified here (background thread) and in the reset
+        // path above, so no additional synchronisation is needed.
         delta(fd_ctx_sw_,   prev_ctx_sw_,   EbpfProbeType::CONTEXT_SWITCH, "context_switches");
         delta(fd_pg_fault_, prev_pg_fault_, EbpfProbeType::PAGE_FAULT,     "page_faults");
         delta(fd_cpu_mig_,  prev_cpu_mig_,  EbpfProbeType::CPU_MIGRATION,  "cpu_migrations");
@@ -344,11 +373,10 @@ private:
     // Background collection loop (all platforms)
     // -----------------------------------------------------------------------
     void collectionLoop() {
-        while (true) {
-            std::unique_lock<std::mutex> lk(mu_);
-            auto interval = config_.collection_interval;
-            lk.unlock();
+        // Cache the interval once — config_ is read-only after construction.
+        const auto interval = config_.collection_interval;
 
+        while (true) {
             // Wait for interval or stop signal
             {
                 std::unique_lock<std::mutex> wlk(mu_);
@@ -361,14 +389,8 @@ private:
             // Collect counter deltas outside the lock
             batch = collectDeltas();
 #endif
-            if (batch.empty()) {
-                std::lock_guard<std::mutex> slk(mu_);
-                ++stats_.collection_cycles;
-                publishMetrics();
-                continue;
-            }
-
-            // Merge batch into state under the lock
+            // Accumulate stats and publish metrics under the lock,
+            // regardless of whether events were collected.
             {
                 std::lock_guard<std::mutex> slk(mu_);
                 for (const auto& ev : batch) {
@@ -379,14 +401,16 @@ private:
                 publishMetrics();
             }
 
-            // Fire callback outside the lock
-            std::function<void(const std::vector<KernelEvent>&)> cb;
-            {
-                std::lock_guard<std::mutex> slk(mu_);
-                cb = callback_;
-            }
-            if (cb) {
-                cb(batch);
+            // Fire callback outside the lock, only when there are events.
+            if (!batch.empty()) {
+                std::function<void(const std::vector<KernelEvent>&)> cb;
+                {
+                    std::lock_guard<std::mutex> slk(mu_);
+                    cb = callback_;
+                }
+                if (cb) {
+                    cb(batch);
+                }
             }
         }
     }
@@ -447,6 +471,12 @@ private:
     std::condition_variable cv_;
     std::thread thread_;
     bool running_{false};
+
+#if THEMIS_EBPF_LINUX
+    /// Set by reset() to signal the background thread to re-baseline prev_*.
+    /// Only cleared by the background thread — no data race with prev_*.
+    std::atomic<bool> pending_reset_{false};
+#endif
 
     EbpfTracerConfig config_;
     EbpfTracerStats stats_;
