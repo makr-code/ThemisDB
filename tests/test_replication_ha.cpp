@@ -1041,9 +1041,115 @@ TEST(MMCRDTResolverTest, StrategyNameLWWMapAndMVRegister) {
               "OR_SET");
 }
 
-// ============================================================================
-// 12. MMWriteEntry serialize / deserialize round-trip
-// ============================================================================
+// FLAG_EW: Enable-Wins Flag tests
+TEST(MMCRDTResolverTest, FlagEWStrategyName) {
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::FLAG_EW).strategyName(),
+              "FLAG_EW");
+}
+
+TEST(MMCRDTResolverTest, FlagEWEnabledWhenLiveTagExists) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::FLAG_EW);
+
+    // nodeA enabled the flag with tag-1; nodeB has no disables
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"e":["tag-1"],"d":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    auto result = resolver.resolve("doc", {e1});
+    EXPECT_NE(result.data.find("\"enabled\":true"), std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, FlagEWDisabledWhenAllTagsTombstoned) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::FLAG_EW);
+
+    // nodeA enabled with tag-1; nodeB disabled tag-1
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"e":["tag-1"],"d":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"e":["tag-1"],"d":["tag-1"]})";
+    e2.hlc  = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    EXPECT_NE(result.data.find("\"enabled\":false"), std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, FlagEWConcurrentEnableDisableEnableWins) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::FLAG_EW);
+
+    // nodeA: enable with tag-1 (concurrent with nodeB's disable of tag-1 via tag-2)
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"e":["tag-1","tag-2"],"d":["tag-1"]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    // nodeB: disable tag-1 only; tag-2 is still live
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"e":["tag-1"],"d":["tag-1"]})";
+    e2.hlc  = makeHLCTimestamp(100, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // tag-2 is in e but not in d → flag is enabled (enable-wins)
+    EXPECT_NE(result.data.find("\"enabled\":true"), std::string::npos) << result.data;
+}
+
+// FLAG_DW: Disable-Wins Flag tests
+TEST(MMCRDTResolverTest, FlagDWStrategyName) {
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::FLAG_DW).strategyName(),
+              "FLAG_DW");
+}
+
+TEST(MMCRDTResolverTest, FlagDWEnabledWhenNoDisableTags) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::FLAG_DW);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"e":["tag-1"],"d":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    auto result = resolver.resolve("doc", {e1});
+    EXPECT_NE(result.data.find("\"enabled\":true"), std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, FlagDWConcurrentEnableDisableDisableWins) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::FLAG_DW);
+
+    // nodeA enabled with tag-1
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"e":["tag-1"],"d":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    // nodeB: concurrent disable (adds a disable-tag)
+    MMWriteEntry e2;
+    e2.write_id = "w2";
+    e2.data = R"({"e":["tag-1"],"d":["tag-2"]})";
+    e2.hlc  = makeHLCTimestamp(100, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // Any disable-tag present → disable wins
+    EXPECT_NE(result.data.find("\"enabled\":false"), std::string::npos) << result.data;
+}
+
+TEST(MMCRDTResolverTest, FlagDWDisabledWhenNoEnableTags) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::FLAG_DW);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1";
+    e1.data = R"({"e":[],"d":[]})";
+    e1.hlc  = makeHLCTimestamp(100, 0, "A");
+
+    auto result = resolver.resolve("doc", {e1});
+    // No enable-tags → flag is off
+    EXPECT_NE(result.data.find("\"enabled\":false"), std::string::npos) << result.data;
+}
+
+
 
 TEST(MMWriteEntryTest, SerializeDeserializeRoundTrip) {
     HybridLogicalClock hlc("test-node");
