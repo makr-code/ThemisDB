@@ -184,3 +184,99 @@ TEST(LEKManagerLifecycle, IsExpiredRespects7DayThreshold) {
     EXPECT_TRUE(LEKManager::isExpired(ten_days_ago, 7));
     EXPECT_FALSE(LEKManager::isExpired(ten_days_ago, 30));
 }
+
+// ============================================================================
+// Auto-rotation policy: expiry detection used by the background worker
+// ============================================================================
+
+// These tests verify the underlying expiry logic relied on by the auto-rotation
+// background worker (startAutoRotation / stopAutoRotation).  Full integration
+// tests for the background thread itself require a live RocksDB instance and
+// are covered in the integration test suite.
+
+TEST(LEKManagerAutoRotation, ExpiryDetectionForDefaultThirtyDayPolicy) {
+    // Keys older than 30 days must be flagged for revocation by the worker
+    auto tp = std::chrono::system_clock::now() - std::chrono::hours(31 * 24);
+    auto tt = std::chrono::system_clock::to_time_t(tp);
+    std::tm tm{};
+#ifdef _WIN32
+    gmtime_s(&tm, &tt);
+#else
+    gmtime_r(&tt, &tm);
+#endif
+    char buf[11];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d", &tm);
+    std::string old_date(buf);
+
+    EXPECT_TRUE(LEKManager::isExpired(old_date, 30))
+        << "Key from 31 days ago should be flagged expired under 30-day policy";
+}
+
+TEST(LEKManagerAutoRotation, TodaysKeyNotExpiredUnderDefaultPolicy) {
+    // The worker must not revoke the current day's key
+    auto today = LEKManager::getCurrentDateString();
+    EXPECT_FALSE(LEKManager::isExpired(today, 30))
+        << "Today's key must not be expired under 30-day policy";
+}
+
+TEST(LEKManagerAutoRotation, KeyExpiryBoundaryAtExactThreshold) {
+    // A key exactly at max_age_days days old is NOT yet expired (age == limit,
+    // not age > limit).
+    auto tp = std::chrono::system_clock::now() - std::chrono::hours(30 * 24);
+    auto tt = std::chrono::system_clock::to_time_t(tp);
+    std::tm tm{};
+#ifdef _WIN32
+    gmtime_s(&tm, &tt);
+#else
+    gmtime_r(&tt, &tm);
+#endif
+    char buf[11];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d", &tm);
+    std::string boundary_date(buf);
+
+    // age_days == max_age_days (== 30): isExpired returns false (strictly >)
+    EXPECT_FALSE(LEKManager::isExpired(boundary_date, 30));
+}
+
+TEST(LEKManagerAutoRotation, ShortMaxAgePolicyEvictsRecentKeys) {
+    // With max_age_days = 1, a key from 2 days ago must be expired
+    auto tp = std::chrono::system_clock::now() - std::chrono::hours(2 * 24);
+    auto tt = std::chrono::system_clock::to_time_t(tp);
+    std::tm tm{};
+#ifdef _WIN32
+    gmtime_s(&tm, &tt);
+#else
+    gmtime_r(&tt, &tm);
+#endif
+    char buf[11];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d", &tm);
+    std::string two_days_ago(buf);
+
+    EXPECT_TRUE(LEKManager::isExpired(two_days_ago, 1))
+        << "Key from 2 days ago must expire under 1-day policy";
+    EXPECT_FALSE(LEKManager::isExpired(two_days_ago, 7))
+        << "Key from 2 days ago must not expire under 7-day policy";
+}
+
+TEST(LEKManagerAutoRotation, DateStringProducedByWorkerIsAlwaysValid) {
+    // The worker calls getCurrentDateString() on every tick; verify it always
+    // produces a parseable "YYYY-MM-DD" string that isExpired() handles safely.
+    std::string d = LEKManager::getCurrentDateString();
+    ASSERT_EQ(d.size(), 10u);
+    EXPECT_EQ(d[4], '-');
+    EXPECT_EQ(d[7], '-');
+    // Today's date is never expired under any reasonable policy
+    EXPECT_FALSE(LEKManager::isExpired(d, 1));
+    EXPECT_FALSE(LEKManager::isExpired(d, 30));
+    EXPECT_FALSE(LEKManager::isExpired(d, 365));
+}
+
+TEST(LEKManagerAutoRotation, IsExpiredIgnoresZeroOrNegativeMaxAgeSafely) {
+    // isExpired() with non-positive max_age_days returns false (no crash)
+    auto today = LEKManager::getCurrentDateString();
+    // max_age_days = 0: age(0) > 0 is false → not expired
+    EXPECT_FALSE(LEKManager::isExpired(today, 0));
+    // A very old date with max_age_days = 0: age(>0) > 0 is true
+    EXPECT_TRUE(LEKManager::isExpired("2000-01-01", 0));
+}
+

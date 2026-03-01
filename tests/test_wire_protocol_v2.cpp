@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     214                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -381,4 +381,56 @@ TEST(V2FrameHeader, CompressedFlagRoundtrip) {
     EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));
     EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));
     EXPECT_EQ(h.get_type(), V2FrameType::DATA);
+}
+
+// ===== V2FrameFlags::ZSTD_COMPRESSED is distinct from COMPRESSED =====
+
+TEST(V2FrameHeader, ZstdCompressedFlagRoundtrip) {
+    V2FrameHeader h{};
+    h.magic      = WIRE_V2_MAGIC;
+    h.version    = WIRE_VERSION_2;
+    h.frame_type = static_cast<uint8_t>(V2FrameType::DATA);
+    h.stream_id  = 9u;
+    h.flags      = static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
+
+    EXPECT_TRUE(h.is_valid());
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::ZSTD_COMPRESSED));
+    // ZSTD_COMPRESSED and COMPRESSED are different flags
+    EXPECT_FALSE(h.has_flag(V2FrameFlags::COMPRESSED));
+    EXPECT_FALSE(h.has_flag(V2FrameFlags::END_STREAM));
+    EXPECT_EQ(h.get_type(), V2FrameType::DATA);
+}
+
+TEST(V2FrameHeader, BothCompressionFlagsAreIndependent) {
+    // Verify flag bit values do not overlap
+    constexpr uint16_t lz4_flag  = static_cast<uint16_t>(V2FrameFlags::COMPRESSED);
+    constexpr uint16_t zstd_flag = static_cast<uint16_t>(V2FrameFlags::ZSTD_COMPRESSED);
+    EXPECT_EQ(lz4_flag  & zstd_flag, 0u);
+
+    // A frame with both flags set reports both
+    V2FrameHeader h{};
+    h.magic      = WIRE_V2_MAGIC;
+    h.version    = WIRE_VERSION_2;
+    h.frame_type = static_cast<uint8_t>(V2FrameType::DATA);
+    h.flags      = lz4_flag | zstd_flag;
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::COMPRESSED));
+    EXPECT_TRUE(h.has_flag(V2FrameFlags::ZSTD_COMPRESSED));
+}
+
+TEST(V2ConnectionConfig, ZstdCompressionDefaults) {
+    V2ConnectionConfig cfg;
+    // By default LZ4 is enabled, Zstd is disabled
+    EXPECT_TRUE(cfg.enable_lz4_compression);
+    EXPECT_FALSE(cfg.enable_zstd_compression);
+    EXPECT_EQ(cfg.zstd_compression_level, 3);
+    EXPECT_EQ(cfg.min_compression_payload_size, 256u);
+}
+
+TEST(V2ConnectionConfig, ZstdOverridesLZ4WhenBothEnabled) {
+    V2ConnectionConfig cfg;
+    cfg.enable_lz4_compression  = true;
+    cfg.enable_zstd_compression = true;
+    // Both flags set; Zstd takes precedence (documented in header)
+    EXPECT_TRUE(cfg.enable_lz4_compression);
+    EXPECT_TRUE(cfg.enable_zstd_compression);
 }

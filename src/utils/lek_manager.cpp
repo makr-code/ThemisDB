@@ -19,10 +19,12 @@
 
 #include "utils/lek_manager.h"
 #include "storage/rocksdb_wrapper.h"
+#include "utils/audit_logger.h"
 #include "utils/hkdf_helper.h"
 
 #include <openssl/rand.h>
 #include <openssl/evp.h>
+#include <spdlog/spdlog.h>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -42,6 +44,10 @@ LEKManager::LEKManager(std::shared_ptr<themis::RocksDBWrapper> db,
         auto kek = deriveKEK();
         key_provider_->createKeyFromBytes(kek_key_id_, kek);
     }
+}
+
+LEKManager::~LEKManager() {
+    stopAutoRotation();
 }
 
 std::string LEKManager::getCurrentDateString() {
@@ -258,6 +264,111 @@ bool LEKManager::migrateKey(const std::string& old_date, const std::string& new_
     } catch (...) {
         return false;
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Automated Key Rotation
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LEKManager::setAuditLogger(std::shared_ptr<AuditLogger> logger) {
+    std::lock_guard<std::mutex> lk(audit_mu_);
+    audit_logger_ = std::move(logger);
+}
+
+void LEKManager::startAutoRotation(std::chrono::seconds check_interval,
+                                   int max_age_days) {
+    if (max_age_days < 1) {
+        throw std::invalid_argument("max_age_days must be >= 1");
+    }
+    if (rotation_running_.exchange(true)) {
+        // Already running – no-op
+        return;
+    }
+
+    {
+        std::lock_guard<std::mutex> lk(rotation_cv_mu_);
+        rotation_stop_ = false;
+    }
+
+    rotation_thread_ = std::thread(
+        &LEKManager::autoRotationLoop, this, check_interval, max_age_days);
+}
+
+void LEKManager::stopAutoRotation() {
+    {
+        std::lock_guard<std::mutex> lk(rotation_cv_mu_);
+        rotation_stop_ = true;
+    }
+    rotation_cv_.notify_all();
+    if (rotation_thread_.joinable()) {
+        rotation_thread_.join();
+    }
+    rotation_running_.store(false);
+}
+
+bool LEKManager::isAutoRotationRunning() const noexcept {
+    return rotation_running_.load();
+}
+
+void LEKManager::autoRotationLoop(std::chrono::seconds check_interval,
+                                  int max_age_days) {
+    while (true) {
+        // Sleep for the configured interval or until stopped
+        {
+            std::unique_lock<std::mutex> lk(rotation_cv_mu_);
+            bool stopped = rotation_cv_.wait_for(
+                lk, check_interval, [this] { return rotation_stop_; });
+            if (stopped) break;
+        }
+
+        try {
+            auto date_str = getCurrentDateString();
+
+            // Ensure today's LEK exists; this handles midnight transitions
+            // automatically – when the calendar date changes a new key is
+            // created without any operator intervention.
+            getCurrentLEK();
+
+            // Collect any cached keys that have exceeded max_age_days
+            std::vector<std::string> to_revoke;
+            {
+                std::scoped_lock lk(mu_);
+                for (const auto& [cached_date, key_id] : lek_cache_) {
+                    if (cached_date != date_str &&
+                        isExpired(cached_date, max_age_days)) {
+                        to_revoke.push_back(cached_date);
+                    }
+                }
+            }
+
+            // Revoke expired keys and emit audit events
+            for (const auto& expired_date : to_revoke) {
+                auto old_key_id = lekKeyId(expired_date);
+                revokeKey(expired_date);
+
+                std::shared_ptr<AuditLogger> logger;
+                {
+                    std::lock_guard<std::mutex> alk(audit_mu_);
+                    logger = audit_logger_;
+                }
+                if (logger) {
+                    logger->logSecurityEvent(
+                        SecurityEventType::KEY_ROTATED,
+                        "lek_manager",
+                        "lek:" + expired_date,
+                        {{"old_key_id", old_key_id},
+                         {"reason", "max_age_exceeded"},
+                         {"max_age_days", max_age_days}});
+                }
+            }
+        } catch (const std::exception& e) {
+            // Errors are non-fatal; the worker continues to the next interval
+            spdlog::error("LEKManager auto-rotation error: {}", e.what());
+        } catch (...) {
+            spdlog::error("LEKManager auto-rotation: unknown error");
+        }
+    }
+    rotation_running_.store(false);
 }
 
 } // namespace utils

@@ -120,6 +120,12 @@ public:
         /// Recommended maximum tokens for the LLM response (hint in prompt).
         int max_tokens = 256;
 
+        /// Recommended sampling temperature for the LLM backend.
+        /// Passed as a hint in the prompt; actual enforcement is backend-specific.
+        /// Set to 0.0 (default) to omit the temperature hint from the prompt entirely.
+        /// Typical values: 0.0 (deterministic/no hint), 0.5 (balanced), 1.0 (creative).
+        float temperature = 0.0f;
+
         /// Documents with final_score below this threshold are omitted from
         /// the output. Set to 0.0 to return all candidates.
         double min_score_threshold = 0.0;

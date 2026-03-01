@@ -285,6 +285,150 @@ TEST(AudioPreprocessingPhase1, HighSampleRate) {
 }
 
 // ============================================================
+// Phase 3: Noise Suppressor (RNNoise integration) Tests
+// ============================================================
+
+TEST(NoiseSuppressorPhase3, IsRNNoiseEnabledReturnsBool) {
+    // Should compile and return a valid bool regardless of build configuration.
+    bool enabled = NoiseSuppressor::isRNNoiseEnabled();
+    (void)enabled;  // value depends on build flags; just verify it compiles
+}
+
+TEST(NoiseSuppressorPhase3, DefaultConstructorAndVadProbabilityUnprocessed) {
+    NoiseSuppressor ns;
+    EXPECT_EQ(ns.lastVadProbability(), 0.0f);
+    EXPECT_EQ(ns.framesProcessed(), 0u);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressEmptyFrame) {
+    NoiseSuppressor ns;
+    AudioFrame empty;
+    empty.sample_rate = 16000;
+    AudioFrame result = ns.suppress(empty);
+    EXPECT_TRUE(result.samples.empty());
+    EXPECT_EQ(ns.framesProcessed(), 1u);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressPreservesOutputLength) {
+    NoiseSuppressor ns;
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 3200; ++i) {
+        frame.samples.push_back(0.3f * std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 16000));
+    }
+    AudioFrame result = ns.suppress(frame);
+    // Output sample count may differ slightly due to double resampling;
+    // allow ±5 % tolerance.
+    EXPECT_GT(result.samples.size(), frame.samples.size() * 95 / 100);
+    EXPECT_LT(result.samples.size(), frame.samples.size() * 105 / 100);
+    EXPECT_EQ(result.sample_rate, 16000);
+    EXPECT_EQ(ns.framesProcessed(), 1u);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressReducesNoise) {
+    NoiseSuppressor ns;
+    // Create a frame with very low-level noise only.
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 3200; ++i) {
+        frame.samples.push_back(0.002f * static_cast<float>(i % 7 - 3));
+    }
+    float rms_before = 0.0f;
+    for (float s : frame.samples) rms_before += s * s;
+    rms_before = std::sqrt(rms_before / frame.samples.size());
+
+    AudioFrame result = ns.suppress(frame, 0.5f);
+
+    float rms_after = 0.0f;
+    for (float s : result.samples) rms_after += s * s;
+    rms_after = std::sqrt(rms_after / (result.samples.empty() ? 1u : result.samples.size()));
+
+    EXPECT_LE(rms_after, rms_before + 1e-5f);
+}
+
+TEST(NoiseSuppressorPhase3, VadProbabilityAfterSuppress) {
+    NoiseSuppressor ns;
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 4800; ++i) {
+        frame.samples.push_back(0.5f * std::sin(2.0f * std::numbers::pi_v<float> * 300.0f * i / 16000));
+    }
+    ns.suppress(frame);
+    float vad = ns.lastVadProbability();
+    EXPECT_GE(vad, 0.0f);
+    EXPECT_LE(vad, 1.0f);
+}
+
+TEST(NoiseSuppressorPhase3, SuppressHighSampleRateInput) {
+    NoiseSuppressor ns;
+    AudioFrame frame;
+    frame.sample_rate = 44100;
+    for (int i = 0; i < 4410; ++i) {
+        frame.samples.push_back(std::sin(2.0f * std::numbers::pi_v<float> * 440.0f * i / 44100));
+    }
+    AudioFrame result = ns.suppress(frame);
+    EXPECT_EQ(result.sample_rate, 44100);
+    EXPECT_GT(result.samples.size(), 0u);
+}
+
+TEST(NoiseSuppressorPhase3, MoveConstructor) {
+    NoiseSuppressor ns1;
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    frame.samples.assign(1600, 0.1f);
+    ns1.suppress(frame);
+    EXPECT_EQ(ns1.framesProcessed(), 1u);
+
+    NoiseSuppressor ns2(std::move(ns1));
+    EXPECT_EQ(ns2.framesProcessed(), 1u);
+}
+
+// Pipeline integration: enable_rnnoise_suppression option
+TEST(NoiseSuppressorPhase3, PipelineWithRNNoiseEnabled) {
+    PreprocessingOptions opts;
+    opts.enable_rnnoise_suppression = true;
+    opts.enable_noise_reduction = false;  // test RNNoise path in isolation
+    AudioPreprocessingPipeline pipeline(opts);
+
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    for (int i = 0; i < 3200; ++i) {
+        frame.samples.push_back(0.3f * std::sin(2.0f * std::numbers::pi_v<float> * 300.0f * i / 16000));
+    }
+    auto result = pipeline.processFrame(frame);
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.processed_audio.samples.empty());
+    EXPECT_GE(result.rnnoise_vad_probability, 0.0f);
+    EXPECT_LE(result.rnnoise_vad_probability, 1.0f);
+    EXPECT_TRUE(result.diagnostics.contains("rnnoise_enabled"));
+    EXPECT_TRUE(result.diagnostics.contains("rnnoise_vad_probability"));
+}
+
+TEST(NoiseSuppressorPhase3, PipelineRNNoiseDisabledByDefault) {
+    AudioPreprocessingPipeline pipeline;  // default opts: enable_rnnoise_suppression=false
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    frame.samples.assign(1600, 0.1f);
+    auto result = pipeline.processFrame(frame);
+    EXPECT_TRUE(result.success);
+    // When RNNoise is disabled, vad_probability stays 0.
+    EXPECT_EQ(result.rnnoise_vad_probability, 0.0f);
+}
+
+TEST(NoiseSuppressorPhase3, PipelineDiagnosticsContainRNNoiseKey) {
+    PreprocessingOptions opts;
+    opts.enable_rnnoise_suppression = true;
+    AudioPreprocessingPipeline pipeline(opts);
+    AudioFrame frame;
+    frame.sample_rate = 16000;
+    frame.samples.assign(3200, 0.05f);
+    auto result = pipeline.processFrame(frame);
+    EXPECT_TRUE(result.diagnostics.contains("rnnoise_enabled"));
+    bool expected = NoiseSuppressor::isRNNoiseEnabled();
+    EXPECT_EQ(result.diagnostics["rnnoise_enabled"].get<bool>(), expected);
+}
+
+// ============================================================
 // Phase 3: Intent Detection Tests
 // ============================================================
 

@@ -46,6 +46,9 @@ LlmReranker::LlmReranker(const Config& config, LlmBackend backend)
     if (config_.min_score_threshold < 0.0 || config_.min_score_threshold > 1.0) {
         throw std::invalid_argument("LlmReranker: min_score_threshold must be in [0, 1]");
     }
+    if (config_.temperature < 0.0f || config_.temperature > 2.0f) {
+        throw std::invalid_argument("LlmReranker: temperature must be in [0, 2]");
+    }
     THEMIS_DEBUG("LlmReranker initialized (batch_size={}, llm_weight={:.2f}, has_backend={})",
                  config_.batch_size, config_.llm_weight, backend_ != nullptr);
 }
@@ -203,7 +206,11 @@ std::string LlmReranker::buildPrompt(
         << "Output exactly one integer score per line, in the same order as the documents.\n"
         << "Use a scale of 0 (not relevant) to 10 (highly relevant).\n"
         << "Do not include any other text. "
-        << "Keep your response under " << config_.max_tokens << " tokens.\n\n"
+        << "Keep your response under " << config_.max_tokens << " tokens";
+    if (config_.temperature > 0.0f) {
+        oss << ", temperature " << config_.temperature;
+    }
+    oss << ".\n\n"
         << "Query: " << query << "\n\n";
 
     for (size_t i = 0; i < batch.size(); ++i) {

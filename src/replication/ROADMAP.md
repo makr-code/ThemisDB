@@ -70,8 +70,8 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Replication topology visualizer (web UI)
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction
 
-### Phase 3: Witness Nodes & Slot Management (Status: Planned 📋)
-- [x] Witness node support (vote-only, no data) for quorum in 2-node clusters
+### Phase 3: Witness Nodes & Slot Management (Status: In Progress 🚧)
+- [x] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154, #2001)
 - [ ] Replication slot management API (pause/resume individual slots)
 - [ ] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
 - [x] Automated lag-based read traffic shifting
@@ -85,7 +85,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Kubernetes operator for automated topology management
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (172 test cases including 31 cross-cluster pub/sub tests)
+- [x] Unit tests coverage > 80% (177 test cases including 31 cross-cluster pub/sub tests and 5 witness-node tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [?] Performance benchmarks (replication lag p99, WAL throughput)
 - [?] Security audit (WAL encryption in transit, CDC stream authentication)

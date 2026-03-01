@@ -22,16 +22,22 @@
 #include "security/encryption.h"
 #include "utils/pki_client.h"
 #include "storage/rocksdb_wrapper.h"
+#include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
 namespace themis {
 namespace utils {
+
+// Forward declaration to avoid heavy header pull-in
+class AuditLogger;
 
 /**
  * @brief Log Encryption Key Manager with daily rotation
@@ -57,7 +63,12 @@ public:
     LEKManager(std::shared_ptr<themis::RocksDBWrapper> db,
                std::shared_ptr<VCCPKIClient> pki,
                std::shared_ptr<KeyProvider> key_provider);
-    
+
+    /**
+     * @brief Destructor – stops the auto-rotation thread if running.
+     */
+    ~LEKManager();
+
     /**
      * @brief Get current LEK (creates if not exists)
      * @return LEK key_id for use with FieldEncryption
@@ -80,6 +91,54 @@ public:
      * @brief Get current date string (YYYY-MM-DD)
      */
     static std::string getCurrentDateString();
+
+    // -----------------------------------------------------------------------
+    // Automated Key Rotation
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Attach an AuditLogger so rotation events are recorded.
+     *
+     * Call before startAutoRotation() if audit-trail integration is required.
+     * Thread-safe; may be called at any time.
+     *
+     * @param logger  AuditLogger instance (may be nullptr to disable auditing).
+     */
+    void setAuditLogger(std::shared_ptr<AuditLogger> logger);
+
+    /**
+     * @brief Start the background auto-rotation worker.
+     *
+     * The worker wakes up every @p check_interval and calls getCurrentLEK()
+     * to ensure today's key exists.  When the calendar date changes past
+     * midnight the new LEK is created automatically without operator
+     * intervention.  Additionally, any cached key whose date exceeds
+     * @p max_age_days is revoked and a KEY_ROTATED audit event is emitted.
+     *
+     * Calling startAutoRotation() while a worker is already running is a
+     * no-op; call stopAutoRotation() first if you need to change parameters.
+     *
+     * @param check_interval  How often the worker polls (default: 1 hour).
+     * @param max_age_days    Maximum key age before forced revocation;
+     *                        must be >= 1 (default: 30 days).
+     * @throws std::invalid_argument if max_age_days < 1.
+     */
+    void startAutoRotation(
+        std::chrono::seconds check_interval = std::chrono::seconds(3600),
+        int max_age_days = 30);
+
+    /**
+     * @brief Stop the background auto-rotation worker and join the thread.
+     *
+     * Blocks until the worker thread has exited.  Safe to call even if no
+     * worker is running.
+     */
+    void stopAutoRotation();
+
+    /**
+     * @brief Returns true when the auto-rotation worker is active.
+     */
+    bool isAutoRotationRunning() const noexcept;
 
     // -----------------------------------------------------------------------
     // Phase 5: Key Lifecycle Management
@@ -139,6 +198,9 @@ private:
     std::vector<uint8_t> deriveKEK();
     std::string lekKeyId(const std::string& date_str) const;
     std::string dbKey(const std::string& date_str) const;
+
+    // Background auto-rotation worker implementation
+    void autoRotationLoop(std::chrono::seconds check_interval, int max_age_days);
     
     std::shared_ptr<themis::RocksDBWrapper> db_;
     std::shared_ptr<VCCPKIClient> pki_;
@@ -151,6 +213,17 @@ private:
     // Phase 5: Revocation list
     mutable std::mutex revocation_mu_;
     std::unordered_set<std::string> revoked_keys_;
+
+    // Auto-rotation background thread state
+    std::atomic<bool>       rotation_running_{false};
+    std::thread             rotation_thread_;
+    std::mutex              rotation_cv_mu_;
+    std::condition_variable rotation_cv_;
+    bool                    rotation_stop_{false};
+
+    // Optional audit logger for rotation events
+    std::mutex                   audit_mu_;
+    std::shared_ptr<AuditLogger> audit_logger_;
 };
 
 } // namespace utils
