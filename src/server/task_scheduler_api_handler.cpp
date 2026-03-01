@@ -17,7 +17,7 @@ namespace server {
 namespace {
 
 /// Convert a system_clock time_point to an ISO-8601 string (UTC).
-static std::string timePointToIso(std::chrono::system_clock::time_point tp) {
+std::string timePointToIso(std::chrono::system_clock::time_point tp) {
     if (tp == std::chrono::system_clock::time_point{}) {
         return "";
     }
@@ -34,12 +34,12 @@ static std::string timePointToIso(std::chrono::system_clock::time_point tp) {
 }
 
 /// Stringify ScheduledTask::TaskType.
-static std::string taskTypeStr(ScheduledTask::TaskType t) {
+std::string taskTypeStr(ScheduledTask::TaskType t) {
     return t == ScheduledTask::TaskType::AQL_QUERY ? "aql_query" : "function";
 }
 
 /// Stringify ScheduledTask::TriggerType.
-static std::string triggerTypeStr(ScheduledTask::TriggerType t) {
+std::string triggerTypeStr(ScheduledTask::TriggerType t) {
     switch (t) {
         case ScheduledTask::TriggerType::CRON:      return "cron";
         case ScheduledTask::TriggerType::INTERVAL:  return "interval";
@@ -51,7 +51,7 @@ static std::string triggerTypeStr(ScheduledTask::TriggerType t) {
 }
 
 /// Stringify ScheduledTask::ErrorCategory.
-static std::string errorCategoryStr(ScheduledTask::ErrorCategory c) {
+std::string errorCategoryStr(ScheduledTask::ErrorCategory c) {
     switch (c) {
         case ScheduledTask::ErrorCategory::NONE:       return "none";
         case ScheduledTask::ErrorCategory::TRANSIENT:  return "transient";
@@ -93,7 +93,7 @@ json TaskSchedulerApiHandler::listTasks() {
     for (const auto& t : tasks) {
         items.push_back(taskToJson(t));
     }
-    return json{{"items", items}, {"total", items.size()}};
+    return json{{"items", items}, {"total", static_cast<int64_t>(items.size())}};
 }
 
 json TaskSchedulerApiHandler::getTask(const std::string& task_id) {
@@ -604,18 +604,32 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
 
     // Interval
     if (j.contains("interval_ms")) {
-        task.interval = std::chrono::milliseconds(j["interval_ms"].get<int64_t>());
+        auto ms = j["interval_ms"].get<int64_t>();
+        if (ms <= 0) {
+            throw std::invalid_argument("interval_ms must be a positive integer");
+        }
+        task.interval = std::chrono::milliseconds(ms);
     } else if (j.contains("interval_seconds")) {
-        task.interval = std::chrono::milliseconds(
-            j["interval_seconds"].get<int64_t>() * 1000);
+        auto secs = j["interval_seconds"].get<int64_t>();
+        if (secs <= 0) {
+            throw std::invalid_argument("interval_seconds must be a positive integer");
+        }
+        task.interval = std::chrono::milliseconds(secs * 1000);
     }
 
     // Timeout
     if (j.contains("timeout_ms")) {
-        task.timeout = std::chrono::milliseconds(j["timeout_ms"].get<int64_t>());
+        auto ms = j["timeout_ms"].get<int64_t>();
+        if (ms <= 0) {
+            throw std::invalid_argument("timeout_ms must be a positive integer");
+        }
+        task.timeout = std::chrono::milliseconds(ms);
     } else if (j.contains("timeout_seconds")) {
-        task.timeout = std::chrono::milliseconds(
-            j["timeout_seconds"].get<int64_t>() * 1000);
+        auto secs = j["timeout_seconds"].get<int64_t>();
+        if (secs <= 0) {
+            throw std::invalid_argument("timeout_seconds must be a positive integer");
+        }
+        task.timeout = std::chrono::milliseconds(secs * 1000);
     }
 
     // ID (optional override)

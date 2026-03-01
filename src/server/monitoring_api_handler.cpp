@@ -1661,6 +1661,104 @@ void MonitoringApiHandler::registerRoutes() {
          {"401",{{"description","Unauthorized"}}},
          {"404",{{"description","Function not found"}}}}
     }});
+
+    // --- Task Scheduler ---
+    reg.registerRoute({"/api/tasks", "post", {
+        "Register a new scheduled task",
+        "Creates a new AQL-query or function task with interval, cron, or manual trigger.",
+        "registerTask", {"tasks"},
+        {},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"201",{{"description","Task created"}}},
+         {"400",{{"description","Invalid task definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
+    reg.registerRoute({"/api/tasks", "get", {
+        "List all registered scheduled tasks", "", "listTasks", {"tasks"},
+        {},
+        {},
+        {{"200",{{"description","Task list"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/stats", "get", {
+        "Get task scheduler statistics", "", "getTaskStats", {"tasks"},
+        {},
+        {},
+        {{"200",{{"description","Scheduler statistics"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}", "get", {
+        "Get a scheduled task by ID", "", "getTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}", "put", {
+        "Update an existing scheduled task", "", "updateTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}},
+        {{"200",{{"description","Task updated"}}},
+         {"400",{{"description","Invalid task definition"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}", "delete", {
+        "Unregister a scheduled task", "", "deleteTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task deleted"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}/enable", "post", {
+        "Enable (resume) a disabled task", "", "enableTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task enabled"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}/disable", "post", {
+        "Disable (pause) a scheduled task", "", "disableTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task disabled"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/api/tasks/{id}/execute", "post", {
+        "Execute a task immediately (out of schedule)",
+        "Triggers immediate execution of a task regardless of its scheduled trigger. "
+        "Requires tasks:admin scope.",
+        "executeTask", {"tasks"},
+        {RouteParam{"id","path",true,"Task ID",{{"type","string"}}}},
+        {},
+        {{"200",{{"description","Task executed"}}},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden – requires tasks:admin scope"}}},
+         {"404",{{"description","Task not found"}}}}
+    }});
+    reg.registerRoute({"/ui/tasks", "get", {
+        "Task Scheduler Web UI",
+        "Self-contained single-page application for managing scheduled tasks.",
+        "tasksWebUi", {"tasks"},
+        {},
+        {},
+        {{"200",{{"description","HTML dashboard"},
+                 {"content",{{"text/html",{{"schema",{{"type","string"}}}}}}}  }},
+         {"401",{{"description","Unauthorized"}}},
+         {"403",{{"description","Forbidden"}}}}
+    }});
 }
 
 } // namespace server

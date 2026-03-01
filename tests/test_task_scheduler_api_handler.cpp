@@ -292,3 +292,39 @@ TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_FunctionType) {
     auto result = handler_->registerTask(req);
     EXPECT_EQ(result.value("status", ""), "created");
 }
+
+// ============================================================================
+// Input validation
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_ZeroIntervalMs_ReturnsError) {
+    auto req = makeTaskJson("bad_interval");
+    req["interval_ms"] = 0;
+    auto result = handler_->registerTask(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("interval_ms"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_NegativeIntervalMs_ReturnsError) {
+    auto req = makeTaskJson("neg_interval");
+    req["interval_ms"] = -100;
+    auto result = handler_->registerTask(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("interval_ms"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_ZeroTimeoutMs_ReturnsError) {
+    auto req = makeTaskJson("bad_timeout");
+    req["timeout_ms"] = 0;
+    auto result = handler_->registerTask(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("timeout_ms"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
+    handler_->registerTask(makeTaskJson("t1"));
+    auto result = handler_->listTasks();
+    ASSERT_TRUE(result.contains("total"));
+    EXPECT_TRUE(result["total"].is_number_integer());
+    EXPECT_EQ(result["total"].get<int64_t>(), 1);
+}

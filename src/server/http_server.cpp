@@ -4703,6 +4703,11 @@ http::response<http::string_body> HttpServer::routeRequest(
 
         // ── Task Scheduler ────────────────────────────────────────────────
         case Route::TasksUiGet: {
+            // Require read access for the UI
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.ui", "/ui/tasks")) {
+                response = *auth_err;
+                break;
+            }
             auto html = task_scheduler_api_
                 ? task_scheduler_api_->getWebUi()
                 : "<html><body>Task scheduler not initialized.</body></html>";
@@ -4713,95 +4718,183 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::TasksPost: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.create", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             auto body = nlohmann::json::parse(req.body(), nullptr, false);
-            auto result = (!body.is_discarded() && task_scheduler_api_)
-                ? task_scheduler_api_->registerTask(body)
-                : nlohmann::json{{"status","error"},{"error",body.is_discarded() ? "Invalid JSON" : "Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->registerTask(body);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::bad_request, result.value("error", "Unknown error"), req);
+            } else {
+                response = makeResponse(http::status::created, result.dump(), req);
+            }
             break;
         }
         case Route::TasksListGet: {
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->listTasks()
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.list", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok, task_scheduler_api_->listTasks().dump(), req);
             break;
         }
         case Route::TasksStatsGet: {
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->getStats()
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.stats", "/api/tasks/stats")) {
+                response = *auth_err;
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok, task_scheduler_api_->getStats().dump(), req);
             break;
         }
         case Route::TasksGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.get", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
             if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
             std::string task_id = ponly.substr(kTasksPfx.size());
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->getTask(task_id)
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->getTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
             break;
         }
         case Route::TasksPut: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.update", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
             if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
             std::string task_id = ponly.substr(kTasksPfx.size());
             auto body = nlohmann::json::parse(req.body(), nullptr, false);
-            auto result = (!body.is_discarded() && task_scheduler_api_)
-                ? task_scheduler_api_->updateTask(task_id, body)
-                : nlohmann::json{{"status","error"},{"error",body.is_discarded() ? "Invalid JSON" : "Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                break;
+            }
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->updateTask(task_id, body);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
             break;
         }
         case Route::TasksDelete: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.delete", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
             if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
             std::string task_id = ponly.substr(kTasksPfx.size());
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->unregisterTask(task_id)
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->unregisterTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
             break;
         }
         case Route::TasksEnablePost: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.enable", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
             if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
             std::string rest = ponly.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->enableTask(task_id)
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->enableTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
             break;
         }
         case Route::TasksDisablePost: {
+            if (auto auth_err = requireAccess(req, "tasks:write", "tasks.disable", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
             if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
             std::string rest = ponly.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->disableTask(task_id)
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->disableTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
             break;
         }
         case Route::TasksExecutePost: {
+            if (auto auth_err = requireAccess(req, "tasks:admin", "tasks.execute", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
             std::string ponly = std::string(req.target());
             if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
             std::string rest = ponly.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
-            auto result = task_scheduler_api_
-                ? task_scheduler_api_->executeTask(task_id)
-                : nlohmann::json{{"status","error"},{"error","Scheduler not initialized"}};
-            response = makeResponse(http::status::ok, result.dump(), req);
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->executeTask(task_id);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
             break;
         }
 
