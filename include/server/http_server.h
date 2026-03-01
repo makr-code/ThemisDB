@@ -97,6 +97,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/graphql_api_handler.h"
 #include "server/serverless_function_api_handler.h"
 #include "server/udf_api_handler.h"
+#include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
@@ -139,6 +140,8 @@ class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PITRManager;
+class TaskScheduler;
+class QueryEngine;
 
 namespace prompt_engineering {
 class PromptManager;
@@ -885,6 +888,11 @@ private:
 
     // UDF registration API – AQL-callable user-defined functions
     std::unique_ptr<themis::server::UdfApiHandler> udf_api_handler_;
+
+    // Task Scheduler API – manage and monitor scheduled tasks
+    std::unique_ptr<QueryEngine> task_scheduler_engine_;   // QueryEngine owned by the scheduler subsystem
+    std::unique_ptr<themis::TaskScheduler> task_scheduler_;
+    std::unique_ptr<themis::server::TaskSchedulerApiHandler> task_scheduler_api_;
 
     // Async job API – long-running AQL query submission and polling
     std::unique_ptr<themis::server::AsyncJobApiHandler> async_job_api_;
