@@ -33,8 +33,10 @@
 #include "../test_data_generator.h"
 #include "server/rpc_service_impl.h"
 #include "storage/rocksdb_wrapper.h"
+#include "plugins/rpc_plugin_interface.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
+#include <chrono>
 #include <thread>
 #include <future>
 
@@ -557,7 +559,7 @@ TEST_F(RPCServiceIntegrationTest, AuthenticationHandling) {
  * - AQL query returns message about module requirement
  * - Vector search returns message about module requirement
  * - Graph traversal returns message about module requirement
- * - Time series query returns message about module requirement
+ * - Time series query executes a real timestamp-range scan
  */
 TEST_F(RPCServiceIntegrationTest, OptionalFeatureMessages) {
     // Step 1: Test AQL query endpoint
@@ -602,17 +604,198 @@ TEST_F(RPCServiceIntegrationTest, OptionalFeatureMessages) {
         EXPECT_TRUE(result.contains("note")) << "Graph traversal should include explanatory note";
     }
     
-    // Step 4: Test time series query endpoint
+    // Step 4: Test time series query endpoint - now database-backed
+    // Insert a document with a known timestamp so the scan can find it
+    uint64_t ts_now = static_cast<uint64_t>(
+        std::chrono::system_clock::now().time_since_epoch().count());
+    json put_ts_entity = {
+        {"model", "metric"},
+        {"collection", "ts_opt_metrics"},
+        {"uuid", "ts_opt_1"},
+        {"entity", {
+            {"value", 42.0},
+            {"_timestamp_ns", ts_now}
+        }}
+    };
+    rpc_service_->handlePut(put_ts_entity);
+
     json ts_params = {
-        {"collection", "metrics"},
-        {"start_time", 1000000},
-        {"end_time", 2000000}
+        {"collection", "ts_opt_metrics"},
+        {"start_time", ts_now - 1000000000ULL},
+        {"end_time",   ts_now + 1000000000ULL}
     };
     json ts_response = rpc_service_->handleTimeSeriesQuery(ts_params);
-    
-    if (ts_response.contains("result")) {
-        json result = ts_response["result"];
-        EXPECT_TRUE(result.contains("note")) << "Time series query should include explanatory note";
+
+    ASSERT_TRUE(ts_response.contains("result"))
+        << "Time series query should return a result";
+
+    json ts_result = ts_response["result"];
+    EXPECT_TRUE(ts_result.contains("data"))   << "Time series result should contain 'data'";
+    EXPECT_TRUE(ts_result.contains("count"))  << "Time series result should contain 'count'";
+    EXPECT_GE(ts_result["count"].get<int>(), 1)
+        << "Time series result should find at least one record in range";
+}
+
+/**
+ * @test Verify index management operations are database-backed
+ *
+ * Acceptance Criteria:
+ * - createIndex stores metadata in DB
+ * - getIndexOperations retrieves stored metadata
+ * - dropIndex removes metadata from DB
+ * - dropping a non-existent index returns ENTITY_NOT_FOUND
+ */
+TEST_F(RPCServiceIntegrationTest, IndexManagementRoundTrip) {
+    // Step 1: Create an index
+    json create_params = {
+        {"collection", "idx_test_collection"},
+        {"field", "email"},
+        {"type", "btree"}
+    };
+    json create_response = rpc_service_->handleCreateIndex(create_params);
+
+    ASSERT_TRUE(create_response.contains("result"))
+        << "createIndex should return result";
+    EXPECT_TRUE(create_response["result"]["success"].get<bool>())
+        << "createIndex should succeed";
+    EXPECT_EQ(create_response["result"]["index_name"].get<std::string>(),
+              "idx_test_collection_email_idx")
+        << "index_name should follow convention";
+    // No 'note' placeholder should be present
+    EXPECT_FALSE(create_response["result"].contains("note"))
+        << "createIndex must not return a placeholder note";
+
+    // Step 2: List indexes - should contain the newly created index
+    json list_params = {
+        {"collection", "idx_test_collection"}
+    };
+    json list_response = rpc_service_->handleGetIndexOperations(list_params);
+
+    ASSERT_TRUE(list_response.contains("result"))
+        << "getIndexOperations should return result";
+    EXPECT_TRUE(list_response["result"].contains("indexes"))
+        << "Result should contain 'indexes' array";
+
+    bool found = false;
+    for (const auto& idx : list_response["result"]["indexes"]) {
+        if (idx.value("name", "") == "idx_test_collection_email_idx") {
+            found = true;
+            EXPECT_EQ(idx["collection"].get<std::string>(), "idx_test_collection");
+            EXPECT_EQ(idx["field"].get<std::string>(), "email");
+            EXPECT_EQ(idx["type"].get<std::string>(), "btree");
+            break;
+        }
+    }
+    EXPECT_TRUE(found) << "Newly created index should appear in getIndexOperations";
+
+    // Step 3: Drop the index
+    json drop_params = {
+        {"collection", "idx_test_collection"},
+        {"index_name", "idx_test_collection_email_idx"}
+    };
+    json drop_response = rpc_service_->handleDropIndex(drop_params);
+
+    ASSERT_TRUE(drop_response.contains("result"))
+        << "dropIndex should return result";
+    EXPECT_TRUE(drop_response["result"]["success"].get<bool>())
+        << "dropIndex should succeed";
+    // No 'note' placeholder should be present
+    EXPECT_FALSE(drop_response["result"].contains("note"))
+        << "dropIndex must not return a placeholder note";
+
+    // Step 4: List indexes again - should no longer contain the dropped index
+    json list_response2 = rpc_service_->handleGetIndexOperations(list_params);
+    ASSERT_TRUE(list_response2.contains("result"));
+
+    bool still_found = false;
+    for (const auto& idx : list_response2["result"]["indexes"]) {
+        if (idx.value("name", "") == "idx_test_collection_email_idx") {
+            still_found = true;
+            break;
+        }
+    }
+    EXPECT_FALSE(still_found) << "Dropped index should not appear in getIndexOperations";
+
+    // Step 5: Dropping the same index again should return ENTITY_NOT_FOUND
+    json drop_again = rpc_service_->handleDropIndex(drop_params);
+    ASSERT_TRUE(drop_again.contains("error"))
+        << "Dropping a non-existent index should return an error";
+    EXPECT_EQ(drop_again["error"]["code"].get<int>(),
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::ENTITY_NOT_FOUND))
+        << "Error code should be ENTITY_NOT_FOUND";
+}
+
+/**
+ * @test Verify time series query performs a real timestamp-range scan
+ *
+ * Acceptance Criteria:
+ * - Documents within the time range are returned
+ * - Documents outside the time range are excluded
+ * - Aggregation (sum, avg, min, max, count) produces correct values
+ *
+ * Note: Entities are written directly to the DB (not via handlePut) so that
+ * _timestamp_ns values are controlled precisely, because handlePut always
+ * overrides _timestamp_ns with the server's current time.
+ */
+TEST_F(RPCServiceIntegrationTest, TimeSeriesQueryRealScan) {
+    // Step 1: Insert time-stamped documents directly into the DB
+    // Key format: collection:model:uuid
+    uint64_t base_ts = 1000000000000ULL; // arbitrary fixed nanosecond base
+
+    for (int i = 0; i < 5; ++i) {
+        json entity = {
+            {"id", "metric_" + std::to_string(i)},
+            {"value", static_cast<double>(i * 10)},
+            {"_timestamp_ns", base_ts + static_cast<uint64_t>(i) * 1000ULL},
+            {"_collection", "ts_metrics"},
+            {"_model", "metric"},
+            {"uuid", "metric_" + std::to_string(i)},
+            {"_version", 1}
+        };
+        std::string key = "ts_metrics:metric:metric_" + std::to_string(i);
+        ASSERT_TRUE(db_->put(key, entity.dump()))
+            << "Direct DB write for metric_" << i << " should succeed";
+    }
+
+    // Step 2: Query within a sub-range that covers only records 1, 2, 3
+    // (timestamps: base+1000, base+2000, base+3000)
+    uint64_t start = base_ts + 1000ULL;
+    uint64_t end   = base_ts + 3000ULL;
+    json ts_params = {
+        {"collection", "ts_metrics"},
+        {"start_time", start},
+        {"end_time",   end}
+    };
+    json ts_response = rpc_service_->handleTimeSeriesQuery(ts_params);
+
+    ASSERT_TRUE(ts_response.contains("result"))
+        << "Time series query should return result";
+
+    json ts_result = ts_response["result"];
+    ASSERT_TRUE(ts_result.contains("data"))  << "Result must contain 'data'";
+    ASSERT_TRUE(ts_result.contains("count")) << "Result must contain 'count'";
+    EXPECT_EQ(ts_result["count"].get<int>(), 3)
+        << "Should return exactly 3 records in the time range [base+1000, base+3000]";
+
+    // Step 3: Query with aggregation (sum of 'value' for records 0-4: 0+10+20+30+40=100)
+    json agg_params = {
+        {"collection", "ts_metrics"},
+        {"start_time", base_ts},
+        {"end_time",   base_ts + 4000ULL},
+        {"aggregation", "sum"},
+        {"field", "value"}
+    };
+    json agg_response = rpc_service_->handleTimeSeriesQuery(agg_params);
+
+    ASSERT_TRUE(agg_response.contains("result"));
+    json agg_result = agg_response["result"];
+    EXPECT_EQ(agg_result["count"].get<int>(), 5)
+        << "All 5 records should be returned for the full range";
+    EXPECT_TRUE(agg_result.contains("aggregation_result"))
+        << "Aggregation result should be present";
+    if (agg_result.contains("aggregation_result")) {
+        EXPECT_DOUBLE_EQ(agg_result["aggregation_result"].get<double>(), 100.0)
+            << "Sum of 0+10+20+30+40 should equal 100";
     }
 }
 
