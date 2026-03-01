@@ -1294,8 +1294,103 @@ TEST(TTSCustomizerPhase2, GetProfilesForLanguage) {
 }
 
 // ============================================================
-// Phase 4: Meeting Support Tests
+// Phase 4: Multi-Language TTS Tests (German, French, Spanish)
 // ============================================================
+
+TEST(TTSCustomizerMultiLang, SpanishDefaultProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("es-default");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->id, "es-default");
+    EXPECT_EQ(prof->language, "es-ES");
+    EXPECT_EQ(prof->engine, "piper");
+}
+
+TEST(TTSCustomizerMultiLang, SpanishMaleProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("es-male");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->gender, "male");
+    EXPECT_EQ(prof->language, "es-ES");
+}
+
+TEST(TTSCustomizerMultiLang, SpanishFemaleProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("es-female");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->gender, "female");
+    EXPECT_EQ(prof->language, "es-ES");
+}
+
+TEST(TTSCustomizerMultiLang, GetBestVoiceForSpanish) {
+    VoiceTTSCustomizer tts;
+    std::string voice = tts.getBestVoiceForLanguage("es-ES");
+    EXPECT_EQ(voice, "es-default");
+    std::string voice_short = tts.getBestVoiceForLanguage("es");
+    EXPECT_EQ(voice_short, "es-default");
+}
+
+TEST(TTSCustomizerMultiLang, SupportsSpanish) {
+    VoiceTTSCustomizer tts;
+    EXPECT_TRUE(tts.supportsLanguage("es"));
+    EXPECT_TRUE(tts.supportsLanguage("es-ES"));
+}
+
+TEST(TTSCustomizerMultiLang, SpanishProfilesForLanguage) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("es-ES");
+    EXPECT_GE(profiles.size(), 3u); // es-default, es-male, es-female
+}
+
+TEST(TTSCustomizerMultiLang, GermanGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto de_male = tts.getProfile("de-male");
+    ASSERT_TRUE(de_male.has_value());
+    EXPECT_EQ(de_male->gender, "male");
+    EXPECT_EQ(de_male->language, "de-DE");
+    auto de_female = tts.getProfile("de-female");
+    ASSERT_TRUE(de_female.has_value());
+    EXPECT_EQ(de_female->gender, "female");
+}
+
+TEST(TTSCustomizerMultiLang, FrenchGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto fr_male = tts.getProfile("fr-male");
+    ASSERT_TRUE(fr_male.has_value());
+    EXPECT_EQ(fr_male->gender, "male");
+    EXPECT_EQ(fr_male->language, "fr-FR");
+    auto fr_female = tts.getProfile("fr-female");
+    ASSERT_TRUE(fr_female.has_value());
+    EXPECT_EQ(fr_female->gender, "female");
+}
+
+TEST(TTSCustomizerMultiLang, GermanProfilesIncludeGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("de-DE");
+    EXPECT_GE(profiles.size(), 3u); // de-default, de-male, de-female
+}
+
+TEST(TTSCustomizerMultiLang, FrenchProfilesIncludeGenderVariants) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("fr-FR");
+    EXPECT_GE(profiles.size(), 3u); // fr-default, fr-male, fr-female
+}
+
+TEST(TTSCustomizerMultiLang, AllThreeLanguagesSupported) {
+    VoiceTTSCustomizer tts;
+    EXPECT_TRUE(tts.supportsLanguage("de"));
+    EXPECT_TRUE(tts.supportsLanguage("fr"));
+    EXPECT_TRUE(tts.supportsLanguage("es"));
+}
+
+TEST(TTSCustomizerMultiLang, TotalProfileCount) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.listProfiles();
+    // en(3) + de(3) + fr(3) + es(3) = 12 built-in profiles
+    EXPECT_GE(profiles.size(), 12u);
+}
+
+
 
 TEST(MeetingSupportPhase4, DefaultConstructor) {
     VoiceMeetingSupport mgr;

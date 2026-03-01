@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     374                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -56,7 +56,14 @@ void VoiceTTSCustomizer::loadDefaultProfiles() {
     addProfile("en-male",    "English Male",      "en-US", "male",    "piper");
     addProfile("en-female",  "English Female",    "en-US", "female",  "piper");
     addProfile("de-default", "German Default",    "de-DE", "neutral", "piper");
+    addProfile("de-male",    "German Male",       "de-DE", "male",    "piper");
+    addProfile("de-female",  "German Female",     "de-DE", "female",  "piper");
     addProfile("fr-default", "French Default",    "fr-FR", "neutral", "piper");
+    addProfile("fr-male",    "French Male",       "fr-FR", "male",    "piper");
+    addProfile("fr-female",  "French Female",     "fr-FR", "female",  "piper");
+    addProfile("es-default", "Spanish Default",   "es-ES", "neutral", "piper");
+    addProfile("es-male",    "Spanish Male",      "es-ES", "male",    "piper");
+    addProfile("es-female",  "Spanish Female",    "es-ES", "female",  "piper");
 }
 
 void VoiceTTSCustomizer::loadDefaultLanguageVoices() {
@@ -72,11 +79,12 @@ void VoiceTTSCustomizer::loadDefaultLanguageVoices() {
     };
     addLang("en", "English",  "en-default", {"en-default", "en-male", "en-female"});
     addLang("en-US", "English (US)", "en-default", {"en-default", "en-male", "en-female"});
-    addLang("de", "German",   "de-default", {"de-default"});
-    addLang("de-DE", "German (Germany)", "de-default", {"de-default"});
-    addLang("fr", "French",   "fr-default", {"fr-default"});
-    addLang("fr-FR", "French (France)", "fr-default", {"fr-default"});
-    addLang("es", "Spanish",  "",           {});
+    addLang("de", "German",   "de-default", {"de-default", "de-male", "de-female"});
+    addLang("de-DE", "German (Germany)", "de-default", {"de-default", "de-male", "de-female"});
+    addLang("fr", "French",   "fr-default", {"fr-default", "fr-male", "fr-female"});
+    addLang("fr-FR", "French (France)", "fr-default", {"fr-default", "fr-male", "fr-female"});
+    addLang("es", "Spanish",  "es-default", {"es-default", "es-male", "es-female"});
+    addLang("es-ES", "Spanish (Spain)", "es-default", {"es-default", "es-male", "es-female"});
     addLang("it", "Italian",  "",           {});
     addLang("zh", "Chinese",  "",           {});
     addLang("ja", "Japanese", "",           {});
