@@ -1766,6 +1766,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/update_history_logger.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
+    ../src/updates/coordinated_update_manager.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
