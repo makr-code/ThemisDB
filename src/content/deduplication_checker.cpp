@@ -22,7 +22,7 @@ namespace content {
 // ---------------------------------------------------------------------------
 
 DeduplicationChecker::DeduplicationChecker(
-    std::shared_ptr<storage::RocksDBWrapper> storage,
+    std::shared_ptr<RocksDBWrapper> storage,
     size_t max_band_entries
 )
     : storage_(std::move(storage))

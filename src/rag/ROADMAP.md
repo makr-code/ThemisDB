@@ -79,10 +79,10 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] Multi-document summarization before context injection
 - [ ] Per-query evaluation report export (JSON / HTML)
 
-### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
+### Phase 4: Agentic & Knowledge-Graph RAG (Status: In Progress 🚧)
 - [P] Agentic RAG with iterative retrieval loops
 - [x] Knowledge graph-augmented retrieval (entity linking)
-- [ ] Multi-modal RAG (image + text retrieval)
+- [P] Multi-modal RAG (image + text retrieval)
 - [ ] Online learning from evaluation feedback (adaptive retrieval)
 - [ ] Distributed RAG evaluation across multiple judge models
 

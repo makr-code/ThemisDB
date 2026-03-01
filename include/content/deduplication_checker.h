@@ -60,7 +60,7 @@ public:
      *                         (e.g. the default 200,000 ≈ 12,500 documents).
      */
     explicit DeduplicationChecker(
-        std::shared_ptr<storage::RocksDBWrapper> storage,
+        std::shared_ptr<RocksDBWrapper> storage,
         size_t max_band_entries = 200'000
     );
 
@@ -106,7 +106,7 @@ public:
     void registerText(const std::string& content_id, const std::vector<uint32_t>& minhash);
 
 private:
-    std::shared_ptr<storage::RocksDBWrapper> storage_;
+    std::shared_ptr<RocksDBWrapper> storage_;
 
     // MinHash band-LSH index backed by BoundedLRUCache:
     //   key  = "b<band>:<hash_hex16>"
