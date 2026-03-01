@@ -33,6 +33,7 @@
 #include <string>
 #include <functional>
 #include <unordered_map>
+#include "server/http3_datagram.h"
 
 namespace themis {
 namespace server {
@@ -83,6 +84,28 @@ public:
      */
     bool isActive() const;
 
+    /**
+     * @brief Send an HTTP/3 datagram on the given context (Quarter Stream ID).
+     *
+     * Encodes the datagram frame (Quarter Stream ID varint + payload) and
+     * writes it via ngtcp2_conn_write_datagram().  Returns true on success.
+     * Requires the QUIC peer to have negotiated datagram support
+     * (max_datagram_frame_size > 0).
+     *
+     * @param context_id  Quarter Stream ID (stream_id / 4).
+     * @param payload     Application payload bytes.
+     * @param paylen      Length of @p payload.
+     */
+    bool sendDatagram(uint64_t context_id,
+                      const uint8_t* payload,
+                      size_t paylen);
+
+    /**
+     * @brief Access the datagram dispatcher for registering/unregistering
+     *        context handlers.
+     */
+    Http3DatagramDispatcher& datagramDispatcher() { return datagram_dispatcher_; }
+
 private:
     // QUIC connection management
     void doRead();
@@ -105,6 +128,9 @@ private:
     static int extendMaxStreamsCallback(ngtcp2_conn* conn,
                                         uint64_t max_streams,
                                         void* user_data);
+    static int recvDatagramCallback(ngtcp2_conn* conn, uint32_t flags,
+                                    const uint8_t* data, size_t datalen,
+                                    void* user_data);
     
     // nghttp3 callbacks
     static int http3RecvDataCallback(nghttp3_conn* conn, int64_t stream_id,
@@ -158,6 +184,8 @@ private:
     net::steady_timer idle_timer_;
     uint32_t max_idle_timeout_ms_;
     bool handshake_complete_;
+
+    Http3DatagramDispatcher datagram_dispatcher_;
 };
 
 /**
