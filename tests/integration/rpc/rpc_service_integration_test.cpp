@@ -845,6 +845,265 @@ TEST_F(RPCServiceIntegrationTest, PutWithInvalidTransactionId) {
     EXPECT_EQ(response["error"]["code"],
               static_cast<int>(themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS))
         << "Should return INVALID_PARAMETERS for unknown transaction ID";
+ * @test Verify DELETE of a non-existent entity is handled gracefully
+ *
+ * Acceptance Criteria:
+ * - Returns success with found=false and deleted_count=0
+ * - Does not crash or error
+ */
+TEST_F(RPCServiceIntegrationTest, DeleteNonExistentEntityIsGraceful) {
+    json delete_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "nonexistent_entity_12345"}
+    };
+
+    json response = rpc_service_->handleDelete(delete_params);
+
+    ASSERT_TRUE(response.contains("result")) << "Response must have a result field";
+    EXPECT_FALSE(response["result"].value("found", true))
+        << "Non-existent entity should report found=false";
+    EXPECT_EQ(response["result"].value("deleted_count", -1), 0)
+        << "deleted_count should be 0 for a non-existent entity";
+}
+
+/**
+ * @test Verify basic DELETE of an existing entity
+ *
+ * Acceptance Criteria:
+ * - Entity is deleted successfully
+ * - deleted_count is 1
+ * - Subsequent GET returns found=false
+ */
+TEST_F(RPCServiceIntegrationTest, DeleteExistingEntity) {
+    // Insert entity
+    json put_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "delete_basic_entity"},
+        {"entity", {{"id", "delete_basic_entity"}, {"data", "to_be_deleted"}}}
+    };
+    json put_response = rpc_service_->handlePut(put_params);
+    ASSERT_TRUE(put_response.contains("result")) << "PUT should succeed";
+
+    // Delete it
+    json delete_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "delete_basic_entity"}
+    };
+    json delete_response = rpc_service_->handleDelete(delete_params);
+
+    ASSERT_TRUE(delete_response.contains("result")) << "DELETE response must have result";
+    EXPECT_TRUE(delete_response["result"].value("success", false))
+        << "DELETE should succeed";
+    EXPECT_EQ(delete_response["result"].value("deleted_count", 0), 1)
+        << "deleted_count should be 1 for a single entity";
+
+    // Verify entity is gone
+    json get_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "delete_basic_entity"}
+    };
+    json get_response = rpc_service_->handleGet(get_params);
+    ASSERT_TRUE(get_response.contains("result")) << "GET should return a result";
+    EXPECT_FALSE(get_response["result"].value("found", true))
+        << "Entity should not be found after deletion";
+}
+
+/**
+ * @test Verify referential integrity: DELETE without cascade is rejected when children exist
+ *
+ * Acceptance Criteria:
+ * - DELETE of parent entity with children and cascade=false returns an error
+ * - Error indicates referential integrity violation
+ * - Neither parent nor children are deleted
+ */
+TEST_F(RPCServiceIntegrationTest, DeleteWithChildrenBlockedWithoutCascade) {
+    // Insert parent entity
+    json put_parent = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "parent_entity"},
+        {"entity", {{"id", "parent_entity"}, {"data", "parent"}}}
+    };
+    rpc_service_->handlePut(put_parent);
+
+    // Insert child entity referencing the parent
+    json put_child = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "child_entity"},
+        {"entity", {
+            {"id", "child_entity"},
+            {"data", "child"},
+            {"_parent_uuid", "parent_entity"},
+            {"_parent_model", "cascade_test"},
+            {"_parent_collection", "cascade_collection"}
+        }}
+    };
+    rpc_service_->handlePut(put_child);
+
+    // Attempt DELETE of parent without cascade — must be rejected
+    json delete_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "parent_entity"},
+        {"cascade", false}
+    };
+    json delete_response = rpc_service_->handleDelete(delete_params);
+
+    ASSERT_TRUE(delete_response.contains("error"))
+        << "DELETE without cascade should return an error when children exist";
+
+    // Verify parent still exists
+    json get_parent = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "parent_entity"}
+    };
+    json parent_response = rpc_service_->handleGet(get_parent);
+    ASSERT_TRUE(parent_response.contains("result"));
+    EXPECT_TRUE(parent_response["result"].value("found", false))
+        << "Parent entity must still exist after blocked delete";
+
+    // Verify child still exists
+    json get_child = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "child_entity"}
+    };
+    json child_response = rpc_service_->handleGet(get_child);
+    ASSERT_TRUE(child_response.contains("result"));
+    EXPECT_TRUE(child_response["result"].value("found", false))
+        << "Child entity must still exist after blocked delete";
+}
+
+/**
+ * @test Verify cascade DELETE removes parent and all direct children
+ *
+ * Acceptance Criteria:
+ * - Parent and all children are deleted
+ * - deleted_count equals total number of entities removed
+ * - GET on any deleted entity returns found=false
+ */
+TEST_F(RPCServiceIntegrationTest, CascadeDeleteRemovesParentAndChildren) {
+    constexpr int kNumChildren = 2;
+
+    // Insert parent
+    json put_parent = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "cascade_parent"},
+        {"entity", {{"id", "cascade_parent"}, {"data", "parent"}}}
+    };
+    rpc_service_->handlePut(put_parent);
+
+    // Insert two children
+    for (int i = 1; i <= kNumChildren; ++i) {
+        json put_child = {
+            {"model", "cascade_test"},
+            {"collection", "cascade_collection"},
+            {"uuid", "cascade_child_" + std::to_string(i)},
+            {"entity", {
+                {"id", "cascade_child_" + std::to_string(i)},
+                {"_parent_uuid", "cascade_parent"},
+                {"_parent_model", "cascade_test"},
+                {"_parent_collection", "cascade_collection"}
+            }}
+        };
+        rpc_service_->handlePut(put_child);
+    }
+
+    // Cascade delete
+    json delete_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "cascade_parent"},
+        {"cascade", true}
+    };
+    json delete_response = rpc_service_->handleDelete(delete_params);
+
+    ASSERT_TRUE(delete_response.contains("result")) << "Cascade DELETE must return a result";
+    EXPECT_TRUE(delete_response["result"].value("success", false))
+        << "Cascade DELETE should succeed";
+    EXPECT_EQ(delete_response["result"].value("deleted_count", 0), kNumChildren + 1)
+        << "deleted_count should be kNumChildren + 1 (parent + children)";
+
+    // Verify all entities are gone
+    for (const auto& uuid : std::vector<std::string>{"cascade_parent", "cascade_child_1", "cascade_child_2"}) {
+        json get_params = {
+            {"model", "cascade_test"},
+            {"collection", "cascade_collection"},
+            {"uuid", uuid}
+        };
+        json get_response = rpc_service_->handleGet(get_params);
+        ASSERT_TRUE(get_response.contains("result"));
+        EXPECT_FALSE(get_response["result"].value("found", true))
+            << uuid << " should not exist after cascade delete";
+    }
+}
+
+/**
+ * @test Verify cascade DELETE handles multi-level hierarchy
+ *
+ * Acceptance Criteria:
+ * - Grandchildren are also deleted in a cascading delete
+ * - deleted_count reflects the full subtree
+ */
+TEST_F(RPCServiceIntegrationTest, CascadeDeleteHandlesNestedHierarchy) {
+    // grandparent -> child -> grandchild
+    rpc_service_->handlePut({
+        {"model", "cascade_test"}, {"collection", "cascade_collection"},
+        {"uuid", "gp_entity"},
+        {"entity", {{"id", "gp_entity"}}}
+    });
+    rpc_service_->handlePut({
+        {"model", "cascade_test"}, {"collection", "cascade_collection"},
+        {"uuid", "child_of_gp"},
+        {"entity", {
+            {"id", "child_of_gp"},
+            {"_parent_uuid", "gp_entity"},
+            {"_parent_model", "cascade_test"},
+            {"_parent_collection", "cascade_collection"}
+        }}
+    });
+    rpc_service_->handlePut({
+        {"model", "cascade_test"}, {"collection", "cascade_collection"},
+        {"uuid", "grandchild_of_gp"},
+        {"entity", {
+            {"id", "grandchild_of_gp"},
+            {"_parent_uuid", "child_of_gp"},
+            {"_parent_model", "cascade_test"},
+            {"_parent_collection", "cascade_collection"}
+        }}
+    });
+
+    json delete_params = {
+        {"model", "cascade_test"},
+        {"collection", "cascade_collection"},
+        {"uuid", "gp_entity"},
+        {"cascade", true}
+    };
+    json delete_response = rpc_service_->handleDelete(delete_params);
+
+    ASSERT_TRUE(delete_response.contains("result")) << "Cascade DELETE must return a result";
+    EXPECT_TRUE(delete_response["result"].value("success", false));
+    EXPECT_EQ(delete_response["result"].value("deleted_count", 0), 3)
+        << "All three levels should be deleted";
+
+    for (const auto& uuid : std::vector<std::string>{"gp_entity", "child_of_gp", "grandchild_of_gp"}) {
+        json get_params = {
+            {"model", "cascade_test"},
+            {"collection", "cascade_collection"},
+            {"uuid", uuid}
+        };
+        json get_response = rpc_service_->handleGet(get_params);
+        ASSERT_TRUE(get_response.contains("result"));
+        EXPECT_FALSE(get_response["result"].value("found", true))
+            << uuid << " should not exist after cascade delete";
+    }
 }
 
 } // namespace test
