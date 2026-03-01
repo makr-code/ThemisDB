@@ -40,7 +40,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
 - [P] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
-- [P] Persistent memory (Optane) aware storage layout (Issue: #2424)
+- [x] Persistent memory (Optane) aware storage layout (Issue: #2424)
 
 ## Implementation Phases
 

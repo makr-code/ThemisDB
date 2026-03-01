@@ -249,6 +249,12 @@ if(NOT THEMIS_ENABLE_WISCKEY)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_PMEM)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_pmem_storage\\.cpp$"
+    )
+endif()
+
 # Missing implementations and unfinished features
 list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
@@ -274,7 +280,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bao\\.cpp$"
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
-    ".*test_pmem_storage\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
     ".*test_continuous_learning_orchestrator\\.cpp$"
     ".*test_gpu_stream_manager\\.cpp$"
