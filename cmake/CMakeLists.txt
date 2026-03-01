@@ -1511,6 +1511,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
@@ -1963,6 +1964,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
+    ../src/plugins/oci_registry_client.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp

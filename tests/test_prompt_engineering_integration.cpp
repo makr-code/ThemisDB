@@ -296,4 +296,92 @@ TEST_F(InjectionDetectionIntegrationTest, AfterExecutionWithMaliciousResponseRec
     );
 }
 
+// ============================================================================
+// Multi-modal prompt integration tests
+// ============================================================================
+
+TEST_F(InjectionDetectionIntegrationTest, MultiModalContextInjectionViaBeforeExecution) {
+    // Build a self-contained integration to control templates.
+    IntegrationConfig cfg;
+    cfg.enable_auto_optimization   = false;
+    cfg.enable_auto_versioning     = false;
+    cfg.enable_injection_detection = false;
+    cfg.background_worker_enabled  = false;
+
+    auto manager         = std::make_shared<PromptManager>();
+    auto optimizer       = std::make_shared<PromptOptimizer>();
+    auto tracker         = std::make_shared<PromptPerformanceTracker>();
+    auto feedback        = std::make_shared<FeedbackCollector>();
+    auto version_control = std::make_shared<PromptVersionControl>();
+
+    PromptEngineeringIntegration local_integration(
+        cfg, manager, optimizer, tracker, nullptr, feedback, version_control, nullptr);
+    local_integration.start();
+
+    // Register a template with an image and a context variable.
+    PromptManager::PromptTemplate t;
+    t.name    = "vision-prompt";
+    t.version = "v1";
+    t.content = "Analyze the {doc_type}:";
+    t.description = "Multi-modal analysis";
+
+    PromptManager::ImageDescription img;
+    img.alt_text    = "exhibit scan";
+    img.url         = "https://example.com/exhibit.jpg";
+    img.description = "Scanned court exhibit";
+    img.mime_type   = "image/jpeg";
+    t.images.push_back(img);
+
+    auto created = manager->createTemplate(t);
+    ASSERT_FALSE(created.id.empty());
+
+    // Execute with context containing the template variable.
+    nlohmann::json context = {{"doc_type", "contract"}};
+    auto ctx = local_integration.beforeExecution(created.id, context);
+
+    // Context variable must be substituted in the enhanced prompt.
+    EXPECT_NE(ctx.enhanced_prompt.find("Analyze the contract:"), std::string::npos);
+    // Image block must be appended.
+    EXPECT_NE(ctx.enhanced_prompt.find("[Images]"), std::string::npos);
+    EXPECT_NE(ctx.enhanced_prompt.find("1. [image/jpeg] exhibit scan"), std::string::npos);
+    EXPECT_NE(ctx.enhanced_prompt.find("URL: https://example.com/exhibit.jpg"), std::string::npos);
+
+    local_integration.stop();
+}
+
+TEST_F(InjectionDetectionIntegrationTest, ContextVariablesInjectedInEnhancedPrompt) {
+    // Verify that non-image templates also get context variables injected.
+    IntegrationConfig cfg;
+    cfg.enable_auto_optimization   = false;
+    cfg.enable_auto_versioning     = false;
+    cfg.enable_injection_detection = false;
+    cfg.background_worker_enabled  = false;
+
+    auto manager         = std::make_shared<PromptManager>();
+    auto optimizer       = std::make_shared<PromptOptimizer>();
+    auto tracker         = std::make_shared<PromptPerformanceTracker>();
+    auto feedback        = std::make_shared<FeedbackCollector>();
+    auto version_control = std::make_shared<PromptVersionControl>();
+
+    PromptEngineeringIntegration local_integration(
+        cfg, manager, optimizer, tracker, nullptr, feedback, version_control, nullptr);
+    local_integration.start();
+
+    PromptManager::PromptTemplate t;
+    t.name    = "greet";
+    t.version = "v1";
+    t.content = "Hello {name}!";
+    t.description = "Greeting prompt";
+
+    auto created = manager->createTemplate(t);
+    ASSERT_FALSE(created.id.empty());
+
+    nlohmann::json context = {{"name", "World"}};
+    auto ctx = local_integration.beforeExecution(created.id, context);
+
+    EXPECT_EQ(ctx.enhanced_prompt, "Hello World!");
+
+    local_integration.stop();
+}
+
 // Main

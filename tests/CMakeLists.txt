@@ -249,6 +249,12 @@ if(NOT THEMIS_ENABLE_WISCKEY)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_PMEM)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_pmem_storage\\.cpp$"
+    )
+endif()
+
 # Missing implementations and unfinished features
 list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
@@ -274,7 +280,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bao\\.cpp$"
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
-    ".*test_pmem_storage\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
     ".*test_continuous_learning_orchestrator\\.cpp$"
     ".*test_gpu_stream_manager\\.cpp$"
@@ -3221,6 +3226,41 @@ else()
     else()
         message(STATUS "LLM Timeout Cancellation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp")
     endif()
+endif()
+
+# ============================================================================
+# Parallel Full-Table Scan Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
+    message(STATUS "Adding Parallel Full-Table Scan tests")
+
+    add_executable(test_parallel_scan
+        test_parallel_scan.cpp
+    )
+
+    target_link_libraries(test_parallel_scan PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        TBB::tbb
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_parallel_scan PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ParallelScanTests COMMAND test_parallel_scan)
+
+    set_tests_properties(ParallelScanTests PROPERTIES
+        LABELS "query;parallel;scan;fullscan;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness")
+else()
+    message(STATUS "Parallel Full-Table Scan tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
 endif()
 
 # ============================================================================

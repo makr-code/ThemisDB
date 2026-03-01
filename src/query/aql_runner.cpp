@@ -24,6 +24,7 @@
 
 #include "query/aql_runner.h"
 #include "query/query_plan_visualizer.h"
+#include "query/runtime_reoptimizer.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
 #include "security/row_level_security.h"
@@ -39,6 +40,12 @@ static themis::analytics::NlpTextAnalyzer& getNlpAnalyzer() {
     return instance;
 }
 
+// Lazy-initialized RuntimeReoptimizer (thread-safe in C++11+)
+static RuntimeReoptimizer& getReoptimizer() {
+    static RuntimeReoptimizer instance;
+    return instance;
+}
+
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
 Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     // NLP Pre-processing (PR #317 Integration Phase 1)
@@ -48,6 +55,11 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     double query_complexity = nlp.estimateQueryComplexity(aql);
     auto query_hints = nlp.extractQueryHints(aql);
     auto suggested_indexes = nlp.suggestIndexes(aql);
+
+    // Adaptive re-optimization: compute query hash and start tracking
+    auto& reoptimizer = getReoptimizer();
+    std::string query_hash = RuntimeReoptimizer::computeQueryHash(normalized_query);
+    auto reopt_guard = reoptimizer.beginExecutionGuard(query_hash, 0);
     
     // Parse AQL query
     query::AQLParser parser;
@@ -87,6 +99,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
                 {"entity", r.entity}
             });
         }
+        reopt_guard.finish(res.size());
         return Ok(nlohmann::json({{"type","vector_geo"},{"results", arr}}));
     }
     // Content+Geo hybrid dispatch (FULLTEXT + PROXIMITY)
@@ -109,6 +122,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             if (r.geo_distance.has_value()) row["geo_distance"] = *r.geo_distance;
             arr.push_back(std::move(row));
         }
+        reopt_guard.finish(res.size());
         return Ok(nlohmann::json::object({{"type","content_geo"},{"results", arr}}));
     }
 
@@ -126,6 +140,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
         for (auto& e : ents) {
             arr.push_back(nlohmann::json::parse(e.toJson()));
         }
+        reopt_guard.finish(ents.size());
         return Ok(nlohmann::json({{"type","or"},{"results", arr}}));
     }
 
@@ -144,6 +159,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             auto paths = std::move(*result);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
+            reopt_guard.finish(paths.size());
             return Ok(nlohmann::json({{"type","shortest_path"},{"paths", arr}}));
         }
         
@@ -194,6 +210,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             arr.push_back(std::move(item));
         }
         
+        reopt_guard.finish(results.size());
         return Ok(nlohmann::json({{"type","traversal"},{"results", arr}}));
     }
 
@@ -208,6 +225,8 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             );
         }
         auto rows = std::move(*result);
+        size_t row_count = rows.is_array() ? rows.size() : 0;
+        reopt_guard.finish(row_count);
         return Ok(nlohmann::json({{"type","join"},{"results", rows}}));
     }
 
@@ -222,6 +241,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     auto entities = std::move(*result);
     nlohmann::json arr = nlohmann::json::array();
     for (auto& e : entities) arr.push_back(nlohmann::json::parse(e.toJson()));
+    reopt_guard.finish(entities.size());
     return Ok(nlohmann::json({{"type","and"},{"results", arr}}));
 }
 
