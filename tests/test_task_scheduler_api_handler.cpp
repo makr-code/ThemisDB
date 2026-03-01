@@ -244,6 +244,86 @@ TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_ReturnsHtml) {
     EXPECT_NE(html.find("/api/tasks"), std::string::npos);
 }
 
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasCreateTaskButton) {
+    auto html = handler_->getWebUi();
+    // The "New Task" button must be present to allow task creation
+    EXPECT_NE(html.find("openCreateDialog"), std::string::npos);
+    EXPECT_NE(html.find("New Task"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasMonitoringStats) {
+    auto html = handler_->getWebUi();
+    // Stats section must show registered, active, running, executions, failures
+    EXPECT_NE(html.find("s-registered"), std::string::npos);
+    EXPECT_NE(html.find("s-active"), std::string::npos);
+    EXPECT_NE(html.find("s-running"), std::string::npos);
+    EXPECT_NE(html.find("s-total"), std::string::npos);
+    EXPECT_NE(html.find("s-failed"), std::string::npos);
+    EXPECT_NE(html.find("loadStats"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasPauseResumeActions) {
+    auto html = handler_->getWebUi();
+    // Pause/resume (disable/enable) actions must be present
+    EXPECT_NE(html.find("disableTask"), std::string::npos);
+    EXPECT_NE(html.find("enableTask"), std::string::npos);
+    EXPECT_NE(html.find("Pause"), std::string::npos);
+    EXPECT_NE(html.find("Resume"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasDeleteAction) {
+    auto html = handler_->getWebUi();
+    // Delete action must be present
+    EXPECT_NE(html.find("deleteTask"), std::string::npos);
+    EXPECT_NE(html.find("DELETE"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasTaskTable) {
+    auto html = handler_->getWebUi();
+    // Task table for monitoring must be present
+    EXPECT_NE(html.find("task-table-body"), std::string::npos);
+    EXPECT_NE(html.find("loadTasks"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasCreateDialog) {
+    auto html = handler_->getWebUi();
+    // Modal dialog with task form fields must be present
+    EXPECT_NE(html.find("task-dialog"), std::string::npos);
+    EXPECT_NE(html.find("f-name"), std::string::npos);
+    EXPECT_NE(html.find("f-aql"), std::string::npos);
+    EXPECT_NE(html.find("f-trigger"), std::string::npos);
+    EXPECT_NE(html.find("saveTask"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasAutoRefresh) {
+    auto html = handler_->getWebUi();
+    // Auto-refresh must be present for continuous monitoring with 30-second interval
+    EXPECT_NE(html.find("setInterval"), std::string::npos);
+    EXPECT_NE(html.find("loadAll"), std::string::npos);
+    EXPECT_NE(html.find("30000"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_HasXssProtection) {
+    auto html = handler_->getWebUi();
+    // escHtml function must be present with correct character escaping logic
+    EXPECT_NE(html.find("escHtml"), std::string::npos);
+    // Verify escHtml escapes the four critical HTML special characters
+    EXPECT_NE(html.find("&amp;"), std::string::npos);
+    EXPECT_NE(html.find("&lt;"), std::string::npos);
+    EXPECT_NE(html.find("&gt;"), std::string::npos);
+    EXPECT_NE(html.find("&quot;"), std::string::npos);
+    // escHtml must be applied to user-supplied data in the task table
+    EXPECT_NE(html.find("escHtml(t.id)"), std::string::npos);
+    EXPECT_NE(html.find("escHtml(t.name)"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetWebUi_IsIdempotent) {
+    // getWebUi() must return identical output on repeated calls
+    auto html1 = handler_->getWebUi();
+    auto html2 = handler_->getWebUi();
+    EXPECT_EQ(html1, html2);
+}
+
 // ============================================================================
 // Null scheduler guard
 // ============================================================================
