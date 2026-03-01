@@ -328,6 +328,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
+    ".*test_cdn_cache_middleware\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
     # test_importer_plugin_api uses THEMIS_IMPORTER_PLUGIN_IMPL which generates
@@ -3398,6 +3399,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
     message(STATUS "  Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness")
 else()
     message(STATUS "Parallel Full-Table Scan tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
+endif()
+
+# ============================================================================
+# CDN Cache Middleware Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_cache_middleware.cpp")
+    message(STATUS "Adding CDN Cache Middleware tests")
+
+    add_executable(test_cdn_cache_middleware
+        test_cdn_cache_middleware.cpp
+        ${THEMIS_ROOT_DIR}/src/server/cdn_cache_middleware.cpp
+    )
+
+    target_include_directories(test_cdn_cache_middleware PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdn_cache_middleware PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdn_cache_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CdnCacheMiddlewareTests
+             COMMAND test_cdn_cache_middleware)
+
+    set_tests_properties(CdnCacheMiddlewareTests PROPERTIES
+        LABELS "server;cdn;cache;edge;http;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CdnCacheMiddleware: cache-control headers, ETag, conditional requests, route policies")
+else()
+    message(STATUS "CDN Cache Middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_cache_middleware.cpp")
 endif()
 
 # ============================================================================
