@@ -957,6 +957,18 @@ set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     TIMEOUT 60
 )
 
+# Build info and module availability tests (subset of AllTests)
+# Covers: getBuildConfiguration(), isModuleCompiledIn(), getCompiledModules(),
+#         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
+#         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
+#         (from test_build_info.cpp, Issue #2470)
+add_test(NAME BuildInfoTests
+    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
+set_tests_properties(BuildInfoTests PROPERTIES
+    LABELS "build;info;module;availability;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
