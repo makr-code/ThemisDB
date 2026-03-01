@@ -690,6 +690,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/prometheus_remote_write.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
@@ -801,6 +802,9 @@ if(TARGET prometheus-cpp::core)
 endif()
 if(TARGET prometheus-cpp::pull)
     target_link_libraries(themis_tests PRIVATE prometheus-cpp::pull)
+endif()
+if(TARGET Snappy::snappy)
+    target_link_libraries(themis_tests PRIVATE Snappy::snappy)
 endif()
 if(TARGET libzip::zip)
     target_link_libraries(themis_tests PRIVATE libzip::zip)
