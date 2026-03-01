@@ -31,6 +31,7 @@
 #include "metadata/schema_version_manager.h"
 #include "metadata/index_recommender.h"
 #include "metadata/schema_audit_log.h"
+#include "metadata/column_lineage.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include <spdlog/spdlog.h>
@@ -54,6 +55,7 @@ SchemaApiHandler::SchemaApiHandler(
     , version_mgr_(nullptr)
     , index_recommender_(nullptr)
     , audit_log_(nullptr)
+    , column_lineage_tracker_(nullptr)
 {
     spdlog::info("SchemaApiHandler initialized");
 }
@@ -559,6 +561,10 @@ void SchemaApiHandler::setIndexRecommender(IndexRecommender* index_recommender) 
 
 void SchemaApiHandler::setAuditLog(SchemaAuditLog* audit_log) {
     audit_log_ = audit_log;
+}
+
+void SchemaApiHandler::setColumnLineageTracker(themis::metadata::ColumnLineageTracker* tracker) {
+    column_lineage_tracker_ = tracker;
 }
 
 // ============================================================================
@@ -1248,6 +1254,133 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
         res.set(http::field::content_type, "application/json");
         res.keep_alive(req.keep_alive());
         res.body() = j.dump(2);
+        res.prepare_payload();
+        return res;
+
+    } catch (const json::parse_error& e) {
+        return makeError(req, http::status::bad_request,
+                         std::string("Invalid JSON: ") + e.what());
+    } catch (const std::exception& e) {
+        return makeError(req, http::status::internal_server_error,
+                         std::string("Internal error: ") + e.what());
+    }
+}
+
+// ============================================================================
+// Column Lineage endpoints
+// ============================================================================
+
+http::response<http::string_body> SchemaApiHandler::handleGetColumnLineage(
+    const http::request<http::string_body>& req)
+{
+    if (!column_lineage_tracker_) {
+        return makeError(req, http::status::service_unavailable,
+            "Column lineage tracker not available");
+    }
+
+    try {
+        const std::string base    = "/api/v1/metadata/lineage/";
+        std::string       target  = std::string(req.target());
+        // Strip query string
+        auto qpos = target.find('?');
+        if (qpos != std::string::npos) target = target.substr(0, qpos);
+
+        if (target.rfind(base, 0) != 0) {
+            return makeError(req, http::status::bad_request, "Invalid lineage path");
+        }
+
+        std::string rest = target.substr(base.size());  // e.g. "users" or "users/full_name"
+        auto sep = rest.find('/');
+
+        json body;
+        if (sep == std::string::npos) {
+            // GET /api/v1/metadata/lineage/:table
+            if (rest.empty()) {
+                return makeError(req, http::status::bad_request,
+                    "Table name required");
+            }
+            body = column_lineage_tracker_->exportTableLineage(rest);
+        } else {
+            // GET /api/v1/metadata/lineage/:table/:column
+            std::string table_name  = rest.substr(0, sep);
+            std::string column_name = rest.substr(sep + 1);
+            if (table_name.empty() || column_name.empty()) {
+                return makeError(req, http::status::bad_request,
+                    "Table and column name required");
+            }
+            themis::metadata::ColumnRef col{table_name, column_name};
+            body = column_lineage_tracker_->getColumnProvenance(col);
+        }
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = body.dump(2);
+        res.prepare_payload();
+        return res;
+
+    } catch (const std::exception& e) {
+        return makeError(req, http::status::internal_server_error,
+                         std::string("Internal error: ") + e.what());
+    }
+}
+
+http::response<http::string_body> SchemaApiHandler::handleRecordLineageDerivation(
+    const http::request<http::string_body>& req)
+{
+    if (!column_lineage_tracker_) {
+        return makeError(req, http::status::service_unavailable,
+            "Column lineage tracker not available");
+    }
+
+    try {
+        json body = json::parse(req.body());
+
+        themis::metadata::ColumnLineageEntry entry;
+        entry.entry_id = body.value("entry_id", std::string{});
+        entry.timestamp_ms = body.value("timestamp_ms", int64_t{0});
+        entry.performed_by = body.value("performed_by", std::string{});
+        entry.transformation_expression =
+            body.value("transformation_expression", std::string{});
+
+        if (body.contains("metadata") && !body["metadata"].is_null()) {
+            entry.metadata = body["metadata"];
+        }
+
+        // target column
+        if (!body.contains("target") || !body["target"].is_object()) {
+            return makeError(req, http::status::bad_request,
+                "'target' field (object with 'table' and 'column') is required");
+        }
+        entry.target_column = themis::metadata::ColumnRef::fromJSON(body["target"]);
+
+        // source columns (optional)
+        if (body.contains("source_columns") && body["source_columns"].is_array()) {
+            for (const auto& src : body["source_columns"]) {
+                entry.source_columns.push_back(
+                    themis::metadata::ColumnRef::fromJSON(src));
+            }
+        }
+
+        // transformation type
+        entry.transformation = themis::metadata::TransformationType::DIRECT_COPY;
+        if (body.contains("transformation") && body["transformation"].is_string()) {
+            entry.transformation = themis::metadata::transformationTypeFromString(
+                body["transformation"].get<std::string>());
+        }
+
+        column_lineage_tracker_->recordDerivation(std::move(entry));
+
+        json resp_body;
+        resp_body["status"]      = "recorded";
+        resp_body["total_entries"] = column_lineage_tracker_->totalEntryCount();
+
+        http::response<http::string_body> res{http::status::created, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = resp_body.dump(2);
         res.prepare_payload();
         return res;
 

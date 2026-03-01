@@ -39,6 +39,10 @@ class SchemaVersionManager;
 class IndexRecommender;
 class SchemaAuditLog;
 
+namespace metadata {
+class ColumnLineageTracker;
+} // namespace metadata
+
 namespace server {
 
 namespace beast = boost::beast;
@@ -77,6 +81,11 @@ namespace http = beast::http;
  * - POST /api/v1/schema/versions/:table      – Snapshot current schema as new version
  * - GET /api/v1/schema/diff/:table?from=V&to=V – Diff between two versions
  *
+ * Column lineage endpoints (require ColumnLineageTracker to be set):
+ * - GET  /api/v1/metadata/lineage/:table             – All lineage entries for a table
+ * - GET  /api/v1/metadata/lineage/:table/:column     – Provenance for one column
+ * - POST /api/v1/metadata/lineage                    – Record a derivation entry
+ *
  * @see SchemaManager for core implementation
  */
 class SchemaApiHandler {
@@ -113,6 +122,9 @@ public:
 
     /// Attach a SchemaAuditLog to enable /api/v1/metadata/audit/* endpoints.
     void setAuditLog(SchemaAuditLog* audit_log);
+
+    /// Attach a ColumnLineageTracker to enable /api/v1/metadata/lineage/* endpoints.
+    void setColumnLineageTracker(themis::metadata::ColumnLineageTracker* tracker);
 
     // ========================================================================
     // Core schema endpoints
@@ -227,6 +239,20 @@ public:
     http::response<http::string_body> handleGetDiff(
         const http::request<http::string_body>& req);
 
+    // ========================================================================
+    // Column lineage endpoints
+    // ========================================================================
+
+    /// GET  /api/v1/metadata/lineage/:table           – export all lineage for a table
+    /// GET  /api/v1/metadata/lineage/:table/:column   – provenance for one column
+    http::response<http::string_body> handleGetColumnLineage(
+        const http::request<http::string_body>& req);
+
+    /// POST /api/v1/metadata/lineage – record a derivation entry
+    /// Body: ColumnLineageEntry JSON object
+    http::response<http::string_body> handleRecordLineageDerivation(
+        const http::request<http::string_body>& req);
+
 private:
     /// Extract and validate table name from schema URL
     std::string extractAndValidateSchemaTableName(
@@ -254,6 +280,7 @@ private:
     SchemaVersionManager*   version_mgr_         = nullptr;  ///< Non-owning
     IndexRecommender*       index_recommender_   = nullptr;  ///< Non-owning
     SchemaAuditLog*         audit_log_           = nullptr;  ///< Non-owning
+    themis::metadata::ColumnLineageTracker* column_lineage_tracker_ = nullptr;  ///< Non-owning
 };
 
 } // namespace server

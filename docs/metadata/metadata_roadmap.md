@@ -94,6 +94,10 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `docs/metadata/operations_guide.md` — usage section with code examples and `TransformationType` reference table
 - [x] `include/metadata/README.md` — `column_lineage.h` API reference section
 - [x] `src/metadata/README.md` — `ColumnLineageTracker` listed in components and architecture diagram
+- [x] REST endpoints wired into `SchemaApiHandler` and `HttpServer`:
+  - `GET  /api/v1/metadata/lineage/:table` — export all lineage for a table
+  - `GET  /api/v1/metadata/lineage/:table/:column` — provenance for one column
+  - `POST /api/v1/metadata/lineage` — record a derivation entry
 - [ ] Persist lineage graph to RocksDB under `lineage:col:` prefix for durability across restarts (follow-up)
 
 ### Auto Index Recommendations (v1.9.0)
