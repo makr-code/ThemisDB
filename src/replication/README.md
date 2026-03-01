@@ -181,7 +181,8 @@ enum class ReplicationRole {
     LEADER,         // Primary node accepting writes
     FOLLOWER,       // Read replica receiving updates
     CANDIDATE,      // Participating in leader election
-    OBSERVER        // Non-voting member (async replica)
+    OBSERVER,       // Non-voting member (async replica)
+    WITNESS         // Vote-only member: participates in quorum but stores no data
 };
 ```
 

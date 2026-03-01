@@ -1013,7 +1013,22 @@ void ReplicationManager::addListener(std::shared_ptr<IReplicationListener> liste
 bool ReplicationManager::triggerFailover(const std::string& target_node_id) {
     // Manual failover
     stats_.manual_failovers++;
-    
+
+    // Witness nodes are vote-only members and must never become leaders.
+    {
+        std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+        for (const auto& replica : replicas_) {
+            if (replica.node_id == target_node_id) {
+                if (replica.role == ReplicationRole::WITNESS) {
+                    THEMIS_WARN("triggerFailover: target '{}' is a WITNESS node and "
+                                "cannot be promoted to leader", target_node_id);
+                    return false;
+                }
+                break;  // Found the target; not a witness – proceed normally.
+            }
+        }
+    }
+
     // In a real implementation, this would send a message to target node to start election
     // For now, if this node is the target, start election
     if (target_node_id == node_id_ && election_) {
