@@ -170,6 +170,8 @@ private:
 // Helper functions for enum conversion
 std::string transactionStateToString(TransactionState state);
 TransactionState transactionStateFromString(const std::string& str);
+std::string transactionProtocolToString(TransactionProtocol protocol);
+TransactionProtocol transactionProtocolFromString(const std::string& str);
 
 // JSON serialization helpers
 void to_json(nlohmann::json& j, const ParticipantStatus& p);

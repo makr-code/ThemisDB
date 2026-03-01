@@ -53,6 +53,7 @@
 #include "updates/update_state_machine.h"
 #include "updates/delta_update_engine.h"
 #include "updates/schema_migration_tester.h"
+#include "updates/update_history_logger.h"
 #include "utils/update_checker.h"
 
 #include <chrono>
@@ -1597,4 +1598,187 @@ TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCanBeCleared) {
 
     EXPECT_TRUE(result.success);
     EXPECT_FALSE(result.health_check_failed);
+// Phase 11: UpdateHistoryLogger – who, when, from/to version
+// ============================================================================
+
+class UpdateHistoryLoggerTest : public ::testing::Test {
+protected:
+    std::string tmp_dir_;
+    std::string log_file_;
+
+    void SetUp() override {
+        auto ts = std::chrono::system_clock::now().time_since_epoch().count();
+        tmp_dir_  = "/tmp/test_history_" + std::to_string(ts);
+        log_file_ = tmp_dir_ + "/update_history.json";
+        fs::create_directories(tmp_dir_);
+    }
+
+    void TearDown() override {
+        try { fs::remove_all(tmp_dir_); } catch (...) {}
+    }
+};
+
+TEST_F(UpdateHistoryLoggerTest, LogFilePath_IsRetained) {
+    UpdateHistoryLogger logger(log_file_);
+    EXPECT_EQ(logger.logFilePath(), log_file_);
+}
+
+TEST_F(UpdateHistoryLoggerTest, InitialHistory_IsEmpty) {
+    UpdateHistoryLogger logger(log_file_);
+    EXPECT_TRUE(logger.getHistory().empty());
+}
+
+TEST_F(UpdateHistoryLoggerTest, RecordEntry_AppearsInHistory) {
+    UpdateHistoryLogger logger(log_file_);
+
+    UpdateHistoryEntry e;
+    e.who           = "admin";
+    e.timestamp_ms  = 1700000000000LL;
+    e.from_version  = "1.0.0";
+    e.to_version    = "1.1.0";
+    e.event_type    = "update";
+    e.success       = true;
+
+    logger.record(e);
+
+    auto history = logger.getHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].who,          "admin");
+    EXPECT_EQ(history[0].timestamp_ms, 1700000000000LL);
+    EXPECT_EQ(history[0].from_version, "1.0.0");
+    EXPECT_EQ(history[0].to_version,   "1.1.0");
+    EXPECT_EQ(history[0].event_type,   "update");
+    EXPECT_TRUE(history[0].success);
+    EXPECT_TRUE(history[0].error_message.empty());
+}
+
+TEST_F(UpdateHistoryLoggerTest, RecordFailure_ErrorMessagePersisted) {
+    UpdateHistoryLogger logger(log_file_);
+
+    UpdateHistoryEntry e;
+    e.who           = "ci-bot";
+    e.timestamp_ms  = 1700000001000LL;
+    e.from_version  = "1.0.0";
+    e.to_version    = "1.1.0";
+    e.event_type    = "update";
+    e.success       = false;
+    e.error_message = "Manifest verification failed";
+
+    logger.record(e);
+
+    auto history = logger.getHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_FALSE(history[0].success);
+    EXPECT_EQ(history[0].error_message, "Manifest verification failed");
+}
+
+TEST_F(UpdateHistoryLoggerTest, MultipleEntries_ReturnedNewestFirst) {
+    UpdateHistoryLogger logger(log_file_);
+
+    for (int i = 1; i <= 3; ++i) {
+        UpdateHistoryEntry e;
+        e.who           = "user";
+        e.timestamp_ms  = static_cast<int64_t>(i) * 1000LL;
+        e.from_version  = "1." + std::to_string(i - 1) + ".0";
+        e.to_version    = "1." + std::to_string(i) + ".0";
+        e.event_type    = "update";
+        e.success       = true;
+        logger.record(e);
+    }
+
+    auto history = logger.getHistory();
+    ASSERT_EQ(history.size(), 3u);
+    // Newest first: timestamps should be decreasing
+    EXPECT_EQ(history[0].timestamp_ms, 3000LL);
+    EXPECT_EQ(history[1].timestamp_ms, 2000LL);
+    EXPECT_EQ(history[2].timestamp_ms, 1000LL);
+}
+
+TEST_F(UpdateHistoryLoggerTest, LimitParameter_CapsResults) {
+    UpdateHistoryLogger logger(log_file_);
+
+    for (int i = 0; i < 5; ++i) {
+        UpdateHistoryEntry e;
+        e.who          = "user";
+        e.timestamp_ms = static_cast<int64_t>(i);
+        e.event_type   = "update";
+        e.success      = true;
+        logger.record(e);
+    }
+
+    auto history = logger.getHistory(2);
+    EXPECT_EQ(history.size(), 2u);
+}
+
+TEST_F(UpdateHistoryLoggerTest, Clear_RemovesAllEntries) {
+    UpdateHistoryLogger logger(log_file_);
+
+    UpdateHistoryEntry e;
+    e.who        = "user";
+    e.event_type = "update";
+    e.success    = true;
+    logger.record(e);
+    ASSERT_EQ(logger.getHistory().size(), 1u);
+
+    logger.clear();
+    EXPECT_TRUE(logger.getHistory().empty());
+}
+
+TEST_F(UpdateHistoryLoggerTest, Persistence_SurvivesReopen) {
+    {
+        UpdateHistoryLogger logger(log_file_);
+        UpdateHistoryEntry e;
+        e.who           = "deploy-svc";
+        e.timestamp_ms  = 999LL;
+        e.from_version  = "2.0.0";
+        e.to_version    = "2.1.0";
+        e.event_type    = "update";
+        e.success       = true;
+        logger.record(e);
+    }
+
+    // Re-open from the same file
+    UpdateHistoryLogger logger2(log_file_);
+    auto history = logger2.getHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].who,          "deploy-svc");
+    EXPECT_EQ(history[0].from_version, "2.0.0");
+    EXPECT_EQ(history[0].to_version,   "2.1.0");
+    EXPECT_EQ(history[0].timestamp_ms, 999LL);
+}
+
+TEST_F(UpdateHistoryLoggerTest, EntryJsonRoundTrip) {
+    UpdateHistoryEntry e;
+    e.who           = "ops-team";
+    e.timestamp_ms  = 1234567890LL;
+    e.from_version  = "3.1.0";
+    e.to_version    = "3.2.0";
+    e.event_type    = "rollback";
+    e.success       = false;
+    e.error_message = "Health check failed";
+
+    auto j  = e.toJson();
+    auto e2 = UpdateHistoryEntry::fromJson(j);
+
+    EXPECT_EQ(e2.who,           e.who);
+    EXPECT_EQ(e2.timestamp_ms,  e.timestamp_ms);
+    EXPECT_EQ(e2.from_version,  e.from_version);
+    EXPECT_EQ(e2.to_version,    e.to_version);
+    EXPECT_EQ(e2.event_type,    e.event_type);
+    EXPECT_EQ(e2.success,       e.success);
+    EXPECT_EQ(e2.error_message, e.error_message);
+}
+
+TEST_F(UpdateHistoryLoggerTest, HotReloadEngineConfig_HistoryFieldDefaults) {
+    HotReloadEngine::Config cfg;
+    EXPECT_TRUE(cfg.history_log_path.empty());
+    EXPECT_EQ(cfg.history_actor, "system");
+}
+
+TEST_F(UpdateHistoryLoggerTest, HotReloadEngineConfig_HistoryFieldsCustomizable) {
+    HotReloadEngine::Config cfg;
+    cfg.history_log_path = log_file_;
+    cfg.history_actor    = "deploy-bot";
+    EXPECT_EQ(cfg.history_log_path, log_file_);
+    EXPECT_EQ(cfg.history_actor,    "deploy-bot");
 }

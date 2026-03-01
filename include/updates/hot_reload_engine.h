@@ -24,6 +24,7 @@
 #pragma once
 
 #include "updates/manifest_database.h"
+#include "updates/update_history_logger.h"
 #include "utils/update_checker.h"
 #include <memory>
 #include <string>
@@ -86,6 +87,11 @@ public:
         bool dry_run = false;  // Don't actually apply changes
         /// When true, automatically rollback if the post-update health check fails.
         bool rollback_on_health_check_failure = true;
+        /// Path for the persistent update history log.
+        /// If empty, history logging is disabled.
+        std::string history_log_path;
+        /// Actor name written into history entries (e.g. current user).
+        std::string history_actor = "system";
     };
     
     /**
@@ -193,6 +199,11 @@ public:
      */
     void setPostUpdateHealthCheck(PostUpdateHealthCheck check);
     
+     * @brief Access the update history logger.
+     * @return Pointer to the logger, or nullptr if history logging is disabled.
+     */
+    UpdateHistoryLogger* historyLogger();
+
 private:
     std::shared_ptr<ManifestDatabase> manifest_db_;
     std::shared_ptr<utils::UpdateChecker> update_checker_;
@@ -205,6 +216,8 @@ protected:
     PostUpdateHealthCheck post_update_health_check_;
 
 private:
+    std::unique_ptr<UpdateHistoryLogger> history_logger_;
+    
     /**
      * @brief Download single file with resume support
      * @param file ReleaseFile to download
