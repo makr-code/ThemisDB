@@ -43,7 +43,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Per-tenant transaction isolation namespace (Issue: #2325)
 
 ### Long-term (6-12 months)
-- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326) — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`, tests in `tests/test_distributed_saga.cpp`
 - [I] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
 - [I] Calvin protocol for deterministic distributed transactions (Issue: #2328)
 - [I] Time-travel queries against snapshot history (Issue: #2329)
@@ -77,8 +77,8 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [x] Per-tenant transaction isolation namespace
 
-### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Planned 📋)
-- [ ] Distributed SAGA orchestration across multiple nodes
+### Phase 4: Distributed SAGA & Global Transaction Manager (Status: In Progress 🚧)
+- [x] Distributed SAGA orchestration across multiple nodes
 - [ ] Global transaction manager for multi-region ACID guarantees
 - [ ] Calvin protocol for deterministic distributed transactions
 - [ ] Time-travel queries against snapshot history
