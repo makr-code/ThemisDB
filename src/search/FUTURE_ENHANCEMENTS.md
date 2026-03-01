@@ -148,6 +148,29 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v2.0.0
+
+### NeuralSparseRetrieval (`include/search/neural_sparse_retrieval.h`)
+- SPLADE / BERT-based neural sparse retrieval engine, closing Phase 4 item of the Search Roadmap
+- `SparseVector` type alias: `unordered_map<string, float>` — non-zero learned term weights
+- `SparseEncoderBackend` callable type — same injected-backend pattern as `LlmReranker::LlmBackend`
+- `addDocument(doc_id, sparse_vec)` — indexes a pre-computed sparse vector; negative weights clamped
+- `addDocumentText(doc_id, text)` — encodes text via attached backend then indexes it
+- `removeDocument(doc_id)` — clean removal from both forward and inverted indexes
+- `search(query_vec, k)` — inverted-index dot-product accumulation; O(|q| × postings)
+- `searchText(query_text, k)` — encodes query then calls `search()`; never throws
+- Scoring: `score(q, d) = Σ_t( q[t] * d[t] )` — standard inner product over shared terms
+- `Config::max_terms_per_doc` — soft cap; top-weighted terms kept, remainder discarded
+- `Config::score_threshold` — pre-normalization minimum score filter
+- `Config::normalize_scores` — optional linear rescaling to [0, 1] (same edge-case handling as
+  `HybridSearch::normalizeScores`)
+- `normalizeScores()` promoted to `public static` for direct unit testing
+- Result struct: `document_id`, `score` (normalized), `raw_score` (inner product before normalization)
+- Graceful fallback: no encoder → no-op for text methods; encoder throws → empty result, no propagation
+- Tests: `tests/test_neural_sparse_retrieval.cpp`
+
+---
+
 ### Query Expansion and Rewriting
 **Priority:** High  
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
