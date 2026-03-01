@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     126                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +24,7 @@
 #include "themis/gpu/memory_manager.h"
 #include "themis/gpu/metrics.h"
 #include "themis/gpu/load_balancer.h"
+#include "themis/gpu/mig_manager.h"
 #include "geo/spatial_backend.h"
 
 namespace themis {
@@ -114,6 +115,21 @@ public:
      * Suitable for the endpoint: GET /admin/gpu/geo
      */
     std::string getGeoBackendStatsJson() const;
+
+    /**
+     * @brief Serialise active MIG partition list to JSON.
+     *
+     * Returns a JSON array where each element has:
+     *   instance_id, device_index, gi_id, profile,
+     *   memory_bytes, is_active, tenant_id
+     *
+     * Returns an empty JSON array when no MIG instances exist.  Because
+     * `MIGManager::createPartition()` is gated on the `MIG_MANAGER` feature
+     * flag, the array will naturally be empty when the flag is disabled.
+     *
+     * Suitable for the endpoint: GET /admin/gpu/mig
+     */
+    std::string getMIGInstancesJson() const;
 
 private:
     GPUConfig        config_;

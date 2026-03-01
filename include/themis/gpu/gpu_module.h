@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     178                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include "themis/gpu/launcher.h"
 #include "themis/gpu/memory_manager.h"
 #include "themis/gpu/metrics.h"
+#include "themis/gpu/mig_manager.h"
 #include "themis/gpu/policy.h"
 #include "themis/gpu/safe_fail.h"
 
@@ -154,6 +155,28 @@ public:
     void grantCaller(const std::string& caller_id,
                      GPUPolicy::Capability cap = GPUPolicy::Capability::GPU_ANY);
     void revokeCaller(const std::string& caller_id);
+
+    // -----------------------------------------------------------------------
+    // MIG (Multi-Instance GPU) management
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Access the process-wide MIG partition manager.
+     *
+     * Returns the `MIGManager` singleton so callers can create/destroy
+     * MIG partitions, assign them to tenants, and query their status without
+     * importing `mig_manager.h` directly.
+     *
+     * The `MIG_MANAGER` feature flag is enforced inside `MIGManager`:
+     * mutating operations (`createPartition`, `destroyPartition`) return
+     * `Status::MIG_FEATURE_DISABLED` when the flag is off; read-only
+     * queries (`getInstances`, `getInstance`, etc.) are always permitted.
+     * Callers can check `GPUFeatureFlags::GetInstance().isEnabled(
+     * GPUFeatureFlags::Feature::MIG_MANAGER)` before calling mutating
+     * operations if they want to short-circuit early.
+     */
+    MIGManager& mig() noexcept { return MIGManager::GetInstance(); }
+    const MIGManager& mig() const noexcept { return MIGManager::GetInstance(); }
 
     // -----------------------------------------------------------------------
     // Diagnostics
