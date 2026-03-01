@@ -55,28 +55,8 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
-- [x] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417) (PR: #3395)
-  - `ServiceMeshIntegration` in `include/network/service_mesh.h` / `src/network/service_mesh.cpp` – Istio/Envoy probe server, TLS offload, graceful drain
-  - `EnvoyXdsClient` in `include/network/envoy_xds.h` / `src/network/envoy_xds.cpp` – xDS v3 REST client for dynamic config (LDS/CDS/EDS/RDS)
-  - JSON-over-HTTP (no SDK dependency); callbacks for listener, cluster, endpoint, route updates
-  - Unit tests in `tests/test_envoy_xds.cpp` (config defaults, request builder, response parsers, lifecycle)
 - [?] RDMA support for ultra-low-latency inter-node communication
 - [?] IPv6 dual-stack support
-- [x] gRPC native transport (separate from server module) (Issue: #2024)
-  - `GrpcTransport` class in `include/network/grpc_transport.h` / `src/network/grpc_transport.cpp`
-  - Port 8771 (dedicated; does not conflict with TCP 8766, UDP 8769, QUIC 8770, or gRPC API 50051)
-  - Carries binary wire protocol frames over gRPC `AsyncGenericService` bidirectional streaming
-  - TLS / mTLS credentials via gRPC server credentials (same cert/key pattern as api/grpc_server.cpp)
-  - Configurable: num_threads, max_connections, max_message_size_bytes, keepalive
-  - Guarded by `THEMIS_ENABLE_GRPC`; unit tests in `tests/test_grpc_transport.cpp` (16 tests)
-- [x] Network topology-aware routing for geo-distributed clusters (Issue: #2207)
-  - `GeoTopologyRouter` class in `include/network/geo_topology_router.h` / `src/network/geo_topology_router.cpp`
-  - Strategies: PREFER_LOCAL (region→zone→datacenter affinity), LOWEST_LATENCY (per-region hints), ROUND_ROBIN
-  - Cross-region fallback when local shards are unavailable (configurable)
-  - `selectEndpoint()`, `selectEndpointInRegion()`, `getRankedShards()` public API
-  - Prometheus-compatible `Stats` struct (requests_routed, local_region_hits, cross_region_fallbacks, routing_failures)
-  - Thread-safe (atomic round-robin counter + mutex-guarded stats)
-  - Unit tests in `tests/test_geo_topology_router.cpp` (26 tests)
 
 ## Implementation Phases
 
@@ -103,7 +83,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [~] UDP-based fast-path for read-only queries (Target: Q3 2026)
 - [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
 
-### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
+### Phase 3: Advanced Networking & Service Mesh (Status: Completed ✅)
 - [x] gRPC native transport (separate from server module)
   - Port 8771; `AsyncGenericService` bidirectional streaming; guarded by `THEMIS_ENABLE_GRPC`
 - [x] Connection multiplexing (multiple logical streams per TCP connection)

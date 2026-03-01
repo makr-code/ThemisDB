@@ -34,19 +34,9 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] AVX-512 SIMD path for vector distance computations (Issue: #1964)
-- [x] Adaptive batch size tuning for LLM inference (Issue: #1996)
 ### Long-term (6-12 months)
-- [x] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
-  - Inputs: PERF_TYPE_HARDWARE / PERF_TYPE_HW_CACHE event selectors; measurement interval delimited by `start()`/`stop()`
-  - Outputs: `CacheMissMetrics` (l1d_read_misses, llc_misses, branch_mispredictions, available)
-  - Constraints: Linux ≥ 3.4 with `perf_event_open`; `perf_event_paranoid ≤ 2` or `CAP_SYS_ADMIN`; non-Linux / restricted environments return `available = false`
-  - Errors: PMU unavailable → `is_available()` returns false; all counters report 0 safely
-  - Tests: unit + integration in `tests/performance/phase4/test_pmu_counters.cpp` (PmuCounter, CacheMissAnalyzer, ScopedCacheMissTimer, Phase4FeatureFlags)
-  - Perf: overhead < 1 ns per measurement point when amortised over workload
 - [P] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
-- [x] Persistent memory (Optane) aware storage layout (Issue: #2424)
 
 ## Implementation Phases
 
@@ -66,19 +56,19 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Thread and connection pool management
 - [x] Benchmark infrastructure
 
-### Phase 2: GPU Metrics & Auto-Tuning (Status: In Progress 🚧)
+### Phase 2: GPU Metrics & Auto-Tuning (Status: Completed ✅)
 - [x] GPU metrics integration with CUDA Nsight-compatible export
 - [x] Auto-tuner for HNSW `ef_construction` and `M` based on workload
 - [x] NUMA topology detection and automatic thread pinning
 
-### Phase 3: SIMD & Advanced Optimization (Status: Planned 📋)
+### Phase 3: SIMD & Advanced Optimization (Status: Completed ✅)
 - [x] AVX-512 SIMD path for vector distance computations
 - [x] Adaptive batch size tuning for LLM inference
 - [x] Per-query cost model integration with query optimizer
 - [x] Memory pressure monitoring with automatic cache eviction
 - [x] Jemalloc integration as alternative allocator
 
-### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
+### Phase 4: ML-Based Optimization & CI Integration (Status: Completed ✅)
 - [x] ML-based workload predictor for proactive resource scaling
 - [x] Hardware performance counter (PMU) integration for cache miss analysis
 - [x] Cross-module performance regression detection in CI
