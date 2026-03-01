@@ -56,6 +56,7 @@ namespace server {
  * - POST /api/tasks/:id/enable - Enable a task [AUTH REQUIRED]
  * - POST /api/tasks/:id/disable - Disable a task [AUTH REQUIRED]
  * - POST /api/tasks/:id/execute - Execute task immediately [AUTH REQUIRED]
+ * - POST /api/tasks/dag/execute - Execute a DAG of tasks [AUTH REQUIRED]
  * - GET /api/tasks/stats - Get scheduler statistics [AUTH REQUIRED]
  * 
  * SECURITY REQUIREMENTS:
@@ -81,6 +82,31 @@ public:
     nlohmann::json enableTask(const std::string& task_id);
     nlohmann::json disableTask(const std::string& task_id);
     nlohmann::json executeTask(const std::string& task_id);
+
+    /**
+     * @brief Execute a set of tasks as a DAG respecting their dependency order.
+     *
+     * Accepts a JSON object with a "task_ids" array and returns the per-task
+     * outcome (succeeded, failed, skipped, condition_skipped).
+     *
+     * Request body:
+     * @code
+     * { "task_ids": ["task_a", "task_b", "task_c"] }
+     * @endcode
+     *
+     * Response:
+     * @code
+     * {
+     *   "succeeded": { "task_a": {…}, "task_b": {…} },
+     *   "failed":    { "task_c": "error message" },
+     *   "skipped":   [],
+     *   "condition_skipped": []
+     * }
+     * @endcode
+     *
+     * ⚠️ SECURITY: This method MUST be protected by authentication and authorization.
+     */
+    nlohmann::json executeDAG(const nlohmann::json& request);
     
     // Statistics
     nlohmann::json getStats();
