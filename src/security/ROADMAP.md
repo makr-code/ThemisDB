@@ -51,10 +51,12 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Storage: append-only JSON/CBOR log with tamper-evident chain; 12-month retention
   - Tests: evidence completeness check, retention enforcement
   - Target: Q4 2026
-- [I] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
+- [P] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
   - Scope: replace RSA-OAEP DEK wrapping (HSM) with Kyber-1024; replace ECDSA with Dilithium-5 for CMS signing
   - Backward compat: hybrid mode (classical + PQ) during migration; PQ-only in final phase
   - Tests: classical/PQ parity tests; Kyber decapsulation round-trip; performance baseline ≥ 2000 ops/s
+  - Implementation: `include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`
+  - Backend: OpenSSL simulation (X25519→Kyber, Ed25519→Dilithium); liboqs swap-in ready
   - Target: Q4 2026
 
 ## Implementation Phases
@@ -91,7 +93,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
 - [ ] Secret scanning pre-commit hook for CI pipelines
 - [ ] SOC 2 Type II compliance evidence collection
-- [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
+- [P] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider)
