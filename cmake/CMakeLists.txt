@@ -2289,6 +2289,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/continuous_learning_orchestrator.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
+    # Phase 4: Multi-modal RAG (image + text retrieval)
+    ../src/rag/multimodal_rag.cpp
     )
 endif()
 

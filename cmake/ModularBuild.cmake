@@ -697,6 +697,8 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/document_summarizer.cpp
     ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
+    # Phase 4: Multi-modal RAG (image + text retrieval)
+    ../src/rag/multimodal_rag.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
