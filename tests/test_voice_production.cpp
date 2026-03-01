@@ -2673,3 +2673,265 @@ TEST(VoiceBiometricAuth, EnrollRequireLivenessFalseSucceeds) {
     EXPECT_TRUE(auth.enroll_voice("oscar", {s1, s2, s3}, pid, cfg));
     EXPECT_FALSE(pid.empty());
 }
+
+// ============================================================
+// Phase 12: Emotion Analyzer Tests
+// ============================================================
+
+#include "voice/emotion_analyzer.h"
+
+namespace {
+
+// Build a minimal 16-bit PCM sine-wave buffer with the given frequency.
+// Reuse the same helper pattern as the VoiceBiometricAuth section.
+std::vector<uint8_t> makeEmotionAudio(float freq_hz, int duration_ms = 500,
+                                       int sample_rate = 16000)
+{
+    const int num_samples = sample_rate * duration_ms / 1000;
+    std::vector<uint8_t> buf(static_cast<size_t>(num_samples) * 2);
+    constexpr float kPi = 3.14159265358979323846f;
+    for (int i = 0; i < num_samples; ++i) {
+        float val  = std::sin(2.0f * kPi * freq_hz * static_cast<float>(i) / static_cast<float>(sample_rate));
+        int16_t s  = static_cast<int16_t>(val * 16000.0f);
+        buf[static_cast<size_t>(2 * i)]     = static_cast<uint8_t>(s & 0xFF);
+        buf[static_cast<size_t>(2 * i + 1)] = static_cast<uint8_t>((s >> 8) & 0xFF);
+    }
+    return buf;
+}
+
+} // anonymous namespace
+
+// -- Construction & configuration --
+
+TEST(EmotionAnalyzer, DefaultConstruction) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto stats = analyzer.get_statistics();
+    EXPECT_EQ(stats["total_analyses"].get<uint64_t>(), 0u);
+}
+
+TEST(EmotionAnalyzer, SetAndGetConfig) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.confidence_threshold = 0.80f;
+    cfg.track_stress = false;
+    analyzer.set_config(cfg);
+    auto got = analyzer.get_config();
+    EXPECT_FLOAT_EQ(got.confidence_threshold, 0.80f);
+    EXPECT_FALSE(got.track_stress);
+}
+
+// -- Edge cases --
+
+TEST(EmotionAnalyzer, AnalyzeEmptyAudio) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto result = analyzer.analyze({});
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(EmotionAnalyzer, TrackEmptySegments) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto timeline = analyzer.track({});
+    EXPECT_TRUE(timeline.timeline.empty());
+    EXPECT_EQ(timeline.total_duration_ms, 0);
+}
+
+// -- Basic analysis --
+
+TEST(EmotionAnalyzer, AnalyzeReturnsProbabilities) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    // All 7 emotions should be present.
+    EXPECT_EQ(result->emotion_probabilities.size(), 7u);
+}
+
+TEST(EmotionAnalyzer, ProbabilitiesSumToOne) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(220.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    float total = 0.0f;
+    for (const auto& kv : result->emotion_probabilities) {
+        EXPECT_GE(kv.second, 0.0f);
+        EXPECT_LE(kv.second, 1.0f);
+        total += kv.second;
+    }
+    EXPECT_NEAR(total, 1.0f, 1e-4f);
+}
+
+TEST(EmotionAnalyzer, EmotionConfidenceRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(300.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->emotion_confidence, 0.0f);
+    EXPECT_LE(result->emotion_confidence, 1.0f);
+}
+
+TEST(EmotionAnalyzer, SentimentScoreRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(500.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->sentiment_score, -1.0f);
+    EXPECT_LE(result->sentiment_score, 1.0f);
+}
+
+TEST(EmotionAnalyzer, StressLevelRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(400.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->stress_level, 0.0f);
+    EXPECT_LE(result->stress_level, 1.0f);
+}
+
+TEST(EmotionAnalyzer, EngagementScoreRange) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(350.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_GE(result->engagement_score, 0.0f);
+    EXPECT_LE(result->engagement_score, 1.0f);
+}
+
+TEST(EmotionAnalyzer, VoiceQualityPopulated) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio);
+    ASSERT_TRUE(result.has_value());
+    // Pitch should be in the plausible speech range [80, 400] Hz.
+    EXPECT_GE(result->quality.pitch_hz, 80.0f);
+    EXPECT_LE(result->quality.pitch_hz, 400.0f);
+    // Energy is non-negative.
+    EXPECT_GE(result->quality.energy, 0.0f);
+}
+
+// -- Disabled features --
+
+TEST(EmotionAnalyzer, TrackSentimentFalse) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.track_sentiment = false;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio, cfg);
+    ASSERT_TRUE(result.has_value());
+    // When track_sentiment is false, sentiment_score should remain 0.
+    EXPECT_FLOAT_EQ(result->sentiment_score, 0.0f);
+}
+
+TEST(EmotionAnalyzer, TrackStressFalse) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.track_stress = false;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio, cfg);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_FLOAT_EQ(result->stress_level, 0.0f);
+}
+
+TEST(EmotionAnalyzer, TrackEngagementFalse) {
+    themis::voice::EmotionAnalyzer analyzer;
+    themis::voice::EmotionConfig cfg;
+    cfg.track_engagement = false;
+    auto audio = makeEmotionAudio(440.0f);
+    auto result = analyzer.analyze(audio, cfg);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_FLOAT_EQ(result->engagement_score, 0.0f);
+}
+
+// -- Statistics counter --
+
+TEST(EmotionAnalyzer, StatisticsCounterIncremented) {
+    themis::voice::EmotionAnalyzer analyzer;
+    auto audio = makeEmotionAudio(440.0f);
+    analyzer.analyze(audio);
+    analyzer.analyze(audio);
+    auto stats = analyzer.get_statistics();
+    EXPECT_EQ(stats["total_analyses"].get<uint64_t>(), 2u);
+}
+
+// -- Timeline tracking --
+
+TEST(EmotionAnalyzer, TrackMultipleSegments) {
+    themis::voice::EmotionAnalyzer analyzer;
+    std::vector<themis::voice::AudioSegment> segs;
+    for (int i = 0; i < 3; ++i) {
+        themis::voice::AudioSegment seg;
+        seg.audio_data = makeEmotionAudio(200.0f + static_cast<float>(i) * 50.0f);
+        seg.start_ms   = static_cast<int64_t>(i) * 500;
+        seg.end_ms     = static_cast<int64_t>(i + 1) * 500;
+        segs.push_back(seg);
+    }
+    auto timeline = analyzer.track(segs);
+    EXPECT_EQ(timeline.timeline.size(), 3u);
+    EXPECT_EQ(timeline.total_duration_ms, 1500);
+}
+
+TEST(EmotionAnalyzer, TrackStatisticsDominantEmotionValid) {
+    themis::voice::EmotionAnalyzer analyzer;
+    std::vector<themis::voice::AudioSegment> segs;
+    for (int i = 0; i < 4; ++i) {
+        themis::voice::AudioSegment seg;
+        seg.audio_data = makeEmotionAudio(440.0f);
+        seg.start_ms   = static_cast<int64_t>(i) * 1000;
+        seg.end_ms     = static_cast<int64_t>(i + 1) * 1000;
+        segs.push_back(seg);
+    }
+    auto timeline = analyzer.track(segs);
+    ASSERT_EQ(timeline.timeline.size(), 4u);
+    // Dominant emotion must be one of the known values (no UB enum).
+    std::string dom = themis::voice::to_string(timeline.statistics.dominant_emotion);
+    EXPECT_FALSE(dom.empty());
+    EXPECT_GE(timeline.statistics.emotion_stability, 0.0f);
+    EXPECT_LE(timeline.statistics.emotion_stability, 1.0f);
+}
+
+TEST(EmotionAnalyzer, TrackEmptySegmentsInMiddle) {
+    themis::voice::EmotionAnalyzer analyzer;
+    std::vector<themis::voice::AudioSegment> segs;
+
+    // Valid segment
+    themis::voice::AudioSegment s1;
+    s1.audio_data = makeEmotionAudio(300.0f);
+    s1.start_ms = 0; s1.end_ms = 500;
+    segs.push_back(s1);
+
+    // Empty segment (no audio)
+    themis::voice::AudioSegment s2;
+    s2.start_ms = 500; s2.end_ms = 1000;
+    segs.push_back(s2);
+
+    // Valid segment
+    themis::voice::AudioSegment s3;
+    s3.audio_data = makeEmotionAudio(350.0f);
+    s3.start_ms = 1000; s3.end_ms = 1500;
+    segs.push_back(s3);
+
+    auto timeline = analyzer.track(segs);
+    // Only 2 valid segments analysed.
+    EXPECT_EQ(timeline.timeline.size(), 2u);
+}
+
+// -- to_string helpers --
+
+TEST(EmotionAnalyzer, ToStringEmotion) {
+    using themis::voice::Emotion;
+    using themis::voice::to_string;
+    EXPECT_EQ(to_string(Emotion::NEUTRAL),   "neutral");
+    EXPECT_EQ(to_string(Emotion::HAPPY),     "happy");
+    EXPECT_EQ(to_string(Emotion::SAD),       "sad");
+    EXPECT_EQ(to_string(Emotion::ANGRY),     "angry");
+    EXPECT_EQ(to_string(Emotion::SURPRISED), "surprised");
+    EXPECT_EQ(to_string(Emotion::FEARFUL),   "fearful");
+    EXPECT_EQ(to_string(Emotion::DISGUSTED), "disgusted");
+}
+
+TEST(EmotionAnalyzer, ToStringSentiment) {
+    using themis::voice::Sentiment;
+    using themis::voice::to_string;
+    EXPECT_EQ(to_string(Sentiment::POSITIVE), "positive");
+    EXPECT_EQ(to_string(Sentiment::NEUTRAL),  "neutral");
+    EXPECT_EQ(to_string(Sentiment::NEGATIVE), "negative");
+}
