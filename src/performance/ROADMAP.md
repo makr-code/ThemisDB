@@ -37,7 +37,13 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] AVX-512 SIMD path for vector distance computations (Issue: #1964)
 - [x] Adaptive batch size tuning for LLM inference (Issue: #1996)
 ### Long-term (6-12 months)
-- [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
+- [x] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
+  - Inputs: PERF_TYPE_HARDWARE / PERF_TYPE_HW_CACHE event selectors; measurement interval delimited by `start()`/`stop()`
+  - Outputs: `CacheMissMetrics` (l1d_read_misses, llc_misses, branch_mispredictions, available)
+  - Constraints: Linux ≥ 3.4 with `perf_event_open`; `perf_event_paranoid ≤ 2` or `CAP_SYS_ADMIN`; non-Linux / restricted environments return `available = false`
+  - Errors: PMU unavailable → `is_available()` returns false; all counters report 0 safely
+  - Tests: unit + integration in `tests/performance/phase4/test_pmu_counters.cpp` (PmuCounter, CacheMissAnalyzer, ScopedCacheMissTimer, Phase4FeatureFlags)
+  - Perf: overhead < 1 ns per measurement point when amortised over workload
 - [P] Cross-module performance regression detection in CI (Issue: #2423)
 - [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
 - [x] Persistent memory (Optane) aware storage layout (Issue: #2424)
@@ -74,7 +80,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 
 ### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
 - [x] ML-based workload predictor for proactive resource scaling
-- [ ] Hardware performance counter (PMU) integration for cache miss analysis
+- [x] Hardware performance counter (PMU) integration for cache miss analysis
 - [x] Cross-module performance regression detection in CI
 - [x] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout

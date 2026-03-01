@@ -3920,6 +3920,24 @@ if(THEMIS_BUILD_TESTS)
         )
     endif()
 
+    # PMU counter tests (Phase 4 – cache miss analysis, Issue #2422)
+    if(THEMIS_ENABLE_PMU_COUNTERS)
+        add_executable(test_pmu_counters
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmu_counters.cpp
+        )
+        target_link_libraries(test_pmu_counters
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_pmu_counters
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmu_counters>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
     # ML-based workload predictor tests (Phase 4)
     add_executable(test_workload_predictor
         ${THEMIS_ROOT_DIR}/tests/performance/test_workload_predictor.cpp

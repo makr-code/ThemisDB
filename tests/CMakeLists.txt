@@ -47,8 +47,6 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
-# Exclude tests requiring unimplemented performance monitoring classes
-list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_pmu_counters\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_io_uring_zero_copy\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
@@ -253,6 +251,12 @@ endif()
 if(NOT THEMIS_ENABLE_PMEM)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_pmem_storage\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_PMU_COUNTERS)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_pmu_counters\\.cpp$"
     )
 endif()
 
