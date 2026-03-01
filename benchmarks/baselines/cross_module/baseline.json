@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "branch": "main",
+  "commit": "initial",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "description": "Seed cross-module baseline. Populated automatically on first successful push to main by the cross-module-performance-regression-ci workflow.",
+  "modules": {}
+}
