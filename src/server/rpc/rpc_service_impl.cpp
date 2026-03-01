@@ -635,6 +635,66 @@ json ThemisRPCService::handleBatchPut(const json& params) {
     }
 }
 
+json ThemisRPCService::handleBatchDelete(const json& params) {
+    try {
+        if (!params.contains("keys") || !params["keys"].is_array()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing or invalid parameter: keys (must be array)"
+            );
+        }
+
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+
+        const auto& keys_array = params["keys"];
+
+        auto batch = storage->createWriteBatch();
+        int count = 0;
+
+        for (const auto& key_obj : keys_array) {
+            if (!key_obj.contains("collection") || !key_obj.contains("model") || !key_obj.contains("uuid")) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Each key must contain collection, model, and uuid"
+                );
+            }
+            std::string key = key_obj["collection"].get<std::string>() + ":" +
+                              key_obj["model"].get<std::string>() + ":" +
+                              key_obj["uuid"].get<std::string>();
+            batch->del(key);
+            count++;
+        }
+
+        bool success = batch->commit();
+
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to commit batch delete"
+            );
+        }
+
+        json result = {
+            {"success", true},
+            {"count", count}
+        };
+
+        return createSuccess(result);
+
+    } catch (const std::exception& e) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+            e.what()
+        );
+    }
+}
+
 json ThemisRPCService::handleQuery(const json& params) {
     try {
         std::string aql(params.value("aql", ""));
@@ -2224,7 +2284,7 @@ json ThemisRPCService::dispatch(
         
         // Write operations (rpc:write)
         static const std::unordered_set<std::string> write_methods = {
-            "put", "insert", "batch_put", "delete", "update_entity", "batch_update"
+            "insert", "put", "batch_put", "batch_delete", "delete", "update_entity", "batch_update"            
         };
         
         // Admin operations (rpc:admin)
@@ -2271,6 +2331,8 @@ json ThemisRPCService::dispatch(
         return handleBatchGet(params);
     } else if (method == "batch_put") {
         return handleBatchPut(params);
+    } else if (method == "batch_delete") {
+        return handleBatchDelete(params);
     } else if (method == "query") {
         return handleQuery(params);
     } else if (method == "vector_search") {

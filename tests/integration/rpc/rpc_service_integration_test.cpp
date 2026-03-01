@@ -422,30 +422,28 @@ TEST_F(RPCServiceIntegrationTest, ConnectionPooling) {
             << "GET operation for " << uuid << " should succeed";
     }
     
-    // Step 3: Verify batch operations (which would use connection pooling)
-    std::vector<json> batch_items;
+    // Step 3: Verify batch operations using the correct keys parameter format
+    std::vector<json> batch_keys;
     for (int i = 0; i < 5; ++i) {
-        batch_items.push_back({
+        batch_keys.push_back({
             {"model", "pool_test"},
             {"collection", "pool_collection"},
             {"uuid", "pool_test_" + std::to_string(i)}
         });
     }
-    
+
     json batch_get_params = {
-        {"items", batch_items}
+        {"keys", batch_keys}
     };
-    
+
     json batch_response = rpc_service_->handleBatchGet(batch_get_params);
-    
-    // Batch operations may not be fully implemented
-    if (batch_response.contains("error")) {
-        // That's OK - we tested the single operation pooling
-        return;
-    }
-    
-    EXPECT_TRUE(batch_response.contains("success") || batch_response.contains("result"))
-        << "Batch GET should work or return appropriate error";
+
+    ASSERT_TRUE(batch_response.contains("result"))
+        << "Batch GET should return a result";
+    EXPECT_TRUE(batch_response["result"].contains("results"))
+        << "Batch GET result should contain results array";
+    EXPECT_EQ(batch_response["result"]["count"].get<int>(), 5)
+        << "Batch GET should return 5 results";
 }
 
 /**

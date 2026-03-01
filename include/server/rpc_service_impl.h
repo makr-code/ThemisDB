@@ -93,7 +93,12 @@ public:
      * @brief Handle batch PUT operation
      */
     json handleBatchPut(const json& params);
-    
+
+    /**
+     * @brief Handle batch DELETE operation
+     */
+    json handleBatchDelete(const json& params);
+
     /**
      * @brief Handle AQL query
      */
