@@ -58,7 +58,8 @@ static bool readLenDelim(const uint8_t* buf, size_t& pos, size_t end,
                          const uint8_t*& span_begin, size_t& span_len) {
     uint64_t len = 0;
     if (!readVarint64(buf, pos, end, len)) return false;
-    if (pos + len > end) return false;
+    // Use subtraction form to avoid integer overflow when len is near UINT64_MAX.
+    if (len > end - pos) return false;
     span_begin = buf + pos;
     span_len   = static_cast<size_t>(len);
     pos += span_len;
@@ -231,6 +232,14 @@ std::string PromTimeSeries::labelValue(const std::string& name) const {
 // ─────────────────────────────────────────────
 
 Result<PromWriteRequest> PromWriteRequest::decode(const uint8_t* data, size_t size) {
+    // Guard against null pointer; an empty buffer decodes to an empty request.
+    if (size == 0) {
+        return PromWriteRequest{};
+    }
+    if (data == nullptr) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                                    "decode: data pointer is null but size > 0");
+    }
     PromWriteRequest req;
     if (!proto::decodeWriteRequest(data, size, req)) {
         return Err<PromWriteRequest>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
@@ -240,6 +249,11 @@ Result<PromWriteRequest> PromWriteRequest::decode(const uint8_t* data, size_t si
 }
 
 Result<PromWriteRequest> PromWriteRequest::decodeSnappy(const uint8_t* data, size_t size) {
+    if (size == 0 || data == nullptr) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+                                    "Snappy decompression: empty or null input");
+    }
+
     // Step 1: determine uncompressed length
     size_t uncompressed_len = 0;
     if (!snappy::GetUncompressedLength(
@@ -248,9 +262,26 @@ Result<PromWriteRequest> PromWriteRequest::decodeSnappy(const uint8_t* data, siz
                                     "Failed to determine snappy uncompressed length");
     }
 
-    // Step 2: decompress
+    // Step 2: guard against decompression-bomb payloads.
+    // Prometheus remote-write batches are typically a few hundred KB to a few
+    // MB at most (default batch size ~500 samples × ~32 bytes each ≈ 16 KB).
+    // 32 MB is chosen as a generous upper bound that accommodates very large
+    // batches while preventing unbounded memory allocation from a hostile
+    // compressed payload.
+    static constexpr size_t MAX_DECOMPRESSED_SIZE = 32ULL * 1024 * 1024; // 32 MB
+    if (uncompressed_len > MAX_DECOMPRESSED_SIZE) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+                                    "Snappy decompression: payload exceeds 32 MB safety limit");
+    }
+
+    // Step 3: decompress
     std::string uncompressed;
-    uncompressed.resize(uncompressed_len);
+    try {
+        uncompressed.resize(uncompressed_len);
+    } catch (const std::bad_alloc&) {
+        return Err<PromWriteRequest>(errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+                                    "Snappy decompression: failed to allocate output buffer");
+    }
     if (!snappy::RawUncompress(
             reinterpret_cast<const char*>(data), size,
             &uncompressed[0])) {
@@ -258,7 +289,7 @@ Result<PromWriteRequest> PromWriteRequest::decodeSnappy(const uint8_t* data, siz
                                     "Snappy decompression failed");
     }
 
-    // Step 3: decode protobuf
+    // Step 4: decode protobuf
     return decode(reinterpret_cast<const uint8_t*>(uncompressed.data()),
                   uncompressed.size());
 }

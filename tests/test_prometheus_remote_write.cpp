@@ -120,9 +120,16 @@ std::string snappyCompress(const std::vector<uint8_t>& data) {
 class PrometheusProtoDecodeTest : public ::testing::Test {};
 
 TEST_F(PrometheusProtoDecodeTest, DecodeEmptyBuffer) {
+    // size==0 returns an empty request regardless of the pointer value.
     auto result = PromWriteRequest::decode(nullptr, 0);
     ASSERT_TRUE(result.has_value());
     EXPECT_TRUE(result->timeseries.empty());
+
+    // Same with a real pointer but zero size.
+    const uint8_t dummy = 0;
+    auto result2 = PromWriteRequest::decode(&dummy, 0);
+    ASSERT_TRUE(result2.has_value());
+    EXPECT_TRUE(result2->timeseries.empty());
 }
 
 TEST_F(PrometheusProtoDecodeTest, DecodeSingleSample) {
@@ -262,6 +269,51 @@ TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyInvalidData) {
 TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyEmptyBuffer) {
     auto result = PromWriteRequest::decodeSnappy(nullptr, 0);
     EXPECT_FALSE(result.has_value()); // empty snappy stream is invalid
+}
+
+TEST_F(PrometheusSnappyDecodeTest, DecodeSnappyDecompressionBombRejected) {
+    // Craft a valid snappy frame whose header claims a very large uncompressed
+    // size (> 32 MB).  We fabricate the snappy preamble manually:
+    // snappy stores the uncompressed length as a varint at the start of the
+    // compressed stream.  We cannot produce a valid compressed payload that
+    // truly decompresses to > 32 MB in this unit test, but we can verify that
+    // the 32 MB guard in decodeSnappy rejects payloads that claim such a size
+    // by injecting a real snappy compressed blob and then manipulating its
+    // length varint.
+
+    // Build a small legitimate compressed buffer.
+    auto raw = buildWriteRequest("bomb_metric", {{1.0, 1700000000000LL}});
+    std::string compressed;
+    snappy::Compress(reinterpret_cast<const char*>(raw.data()), raw.size(),
+                     &compressed);
+
+    // Build a tampered header varint claiming 64 MB (> 32 MB limit).
+    // Re-use the appendVarint helper defined in this file by encoding into
+    // a temporary vector<uint8_t> then converting to string.
+    constexpr uint64_t fake_len = 64ULL * 1024 * 1024;
+    std::vector<uint8_t> varint_buf;
+    appendVarint(varint_buf, fake_len);
+    std::string tampered(reinterpret_cast<const char*>(varint_buf.data()),
+                         varint_buf.size());
+
+    // Skip the original varint in the compressed header to get the raw payload.
+    size_t orig_varint_bytes = 0;
+    {
+        size_t pos = 0;
+        while (pos < compressed.size()) {
+            uint8_t b = static_cast<uint8_t>(compressed[pos++]);
+            orig_varint_bytes++;
+            if ((b & 0x80) == 0) break;
+        }
+    }
+    tampered.append(compressed.substr(orig_varint_bytes));
+
+    auto result = PromWriteRequest::decodeSnappy(
+        reinterpret_cast<const uint8_t*>(tampered.data()), tampered.size());
+    // The tampered payload has an invalid claimed size → snappy itself rejects it
+    // (GetUncompressedLength will return false for an inconsistent stream),
+    // OR our size guard catches it.  Either way, decoding must fail.
+    EXPECT_FALSE(result.has_value());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
