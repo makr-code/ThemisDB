@@ -45,6 +45,7 @@
 #include "chimera/qdrant_adapter.hpp"
 #include "chimera/pinecone_adapter.hpp"
 #include "chimera/elasticsearch_adapter.hpp"
+#include "chimera/neo4j_adapter.hpp"
 
 using namespace chimera;
 
@@ -322,6 +323,23 @@ TEST(CapabilityMatrixAddAdapterTest, ElasticsearchAdapterCapabilities) {
     EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::TRANSACTIONS));
 }
 
+TEST(CapabilityMatrixAddAdapterTest, Neo4jAdapterCapabilities) {
+    Neo4jAdapter adapter;
+    AdapterCapabilityMatrix matrix;
+    matrix.add_adapter("Neo4j", adapter);
+
+    // Neo4j supports native graph traversal with ACID transactions.
+    EXPECT_TRUE(matrix.supports("Neo4j", Capability::GRAPH_TRAVERSAL));
+    EXPECT_TRUE(matrix.supports("Neo4j", Capability::TRANSACTIONS));
+    EXPECT_TRUE(matrix.supports("Neo4j", Capability::BATCH_OPERATIONS));
+    EXPECT_TRUE(matrix.supports("Neo4j", Capability::SECONDARY_INDEXES));
+    // Neo4j does not support relational queries, vector search, or document store.
+    EXPECT_FALSE(matrix.supports("Neo4j", Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(matrix.supports("Neo4j", Capability::VECTOR_SEARCH));
+    EXPECT_FALSE(matrix.supports("Neo4j", Capability::DOCUMENT_STORE));
+    EXPECT_FALSE(matrix.supports("Neo4j", Capability::FULL_TEXT_SEARCH));
+}
+
 // ---------------------------------------------------------------------------
 // build_from_factory()
 // ---------------------------------------------------------------------------
@@ -369,4 +387,13 @@ TEST(CapabilityMatrixFactoryTest, BuildFromFactoryIncludesElasticsearch) {
     EXPECT_TRUE(matrix.supports("Elasticsearch", Capability::VECTOR_SEARCH));
     EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::RELATIONAL_QUERIES));
     EXPECT_FALSE(matrix.supports("Elasticsearch", Capability::TRANSACTIONS));
+}
+
+TEST(CapabilityMatrixFactoryTest, BuildFromFactoryIncludesNeo4j) {
+    auto matrix = AdapterCapabilityMatrix::build_from_factory();
+    EXPECT_TRUE(matrix.data().count("Neo4j") > 0);
+    EXPECT_TRUE(matrix.supports("Neo4j", Capability::GRAPH_TRAVERSAL));
+    EXPECT_TRUE(matrix.supports("Neo4j", Capability::TRANSACTIONS));
+    EXPECT_FALSE(matrix.supports("Neo4j", Capability::RELATIONAL_QUERIES));
+    EXPECT_FALSE(matrix.supports("Neo4j", Capability::VECTOR_SEARCH));
 }
