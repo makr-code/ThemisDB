@@ -76,7 +76,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] ML-based workload predictor for proactive resource scaling
 - [ ] Hardware performance counter (PMU) integration for cache miss analysis
 - [x] Cross-module performance regression detection in CI
-- [ ] DPDK / io_uring zero-copy I/O path for network performance
+- [x] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout
 
 ## Production Readiness Checklist
