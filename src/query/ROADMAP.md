@@ -41,7 +41,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Long-term (6-12 months)
 - [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
-- [I] Adaptive query re-optimization on runtime statistics (Issue: #2232)
+- [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [I] Cross-cluster federated AQL with cost estimation (Issue: #2233)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
 - [I] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
@@ -77,7 +77,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
 - [ ] Vectorized execution engine (column-store style batch processing)
-- [ ] Adaptive query re-optimization on runtime statistics
+- [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [ ] Cross-cluster federated AQL with cost estimation
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
 - [ ] SPARQL compatibility for RDF / knowledge-graph queries

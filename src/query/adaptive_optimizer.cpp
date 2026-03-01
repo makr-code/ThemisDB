@@ -104,6 +104,22 @@ bool AdaptiveQueryStats::hasCardinalityMisestimation(
     return avg_selectivity < (1.0 / threshold) || avg_selectivity > threshold;
 }
 
+size_t AdaptiveQueryStats::getAverageActualRows(const std::string& query_hash) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = executions_.find(query_hash);
+    if (it == executions_.end() || it->second.empty()) {
+        return 0;
+    }
+
+    const auto& history = it->second;
+    size_t sum = 0;
+    for (const auto& exec : history) {
+        sum += exec.actual_rows;
+    }
+    return sum / history.size();
+}
+
 double AdaptiveQueryStats::getAdaptiveAdjustmentFactor(
     const std::string& query_hash) const {
     
