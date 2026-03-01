@@ -62,6 +62,7 @@ struct VoiceSession {
     int64_t last_activity;
     json context;  // Conversation context
     std::vector<std::string> history;  // Conversation history
+    std::string preferred_language = "en";  // Auto-detected or configured locale
 };
 
 /**

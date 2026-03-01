@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -128,6 +128,9 @@ public:
     bool updateSession(const std::string& session_id, const json& context_update);
     bool addConversationTurn(const std::string& session_id, const std::string& user_msg, const std::string& assistant_msg);
     bool touchSession(const std::string& session_id);  // Update last_activity
+
+    // Update the preferred language for a session (used by auto-locale switching)
+    bool updatePreferredLanguage(const std::string& session_id, const std::string& language_code);
 
     // Terminate session
     bool terminateSession(const std::string& session_id);
