@@ -41,6 +41,18 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+- [x] RFC 3161 TSA library & provider evaluation (Issue: #3251 sub-task)
+  - Evaluated libraries: OpenSSL (primary, current), Botan 3.4+ (recommended alternative)
+  - Evaluated providers: DigiCert (recommended, free), FreeTSA (dev/CI), DFN-PKI (eIDAS/academic),
+    Entrust (eIDAS/enterprise), D-TRUST (eIDAS/regulated-EU)
+  - Findings documented in `docs/en/security/RFC3161_LIBRARY_EVALUATION.md`
+  - Follow-up tasks:
+    - [ ] Add Botan TSA backend (`timestamp_authority_botan.cpp`) (Target: Q3 2026)
+    - [ ] Implement multi-provider failover in `TimestampAuthority` (Target: Q2 2026)
+    - [ ] Add DigiCert as default provider in `config/timestamp_authority.yaml` (Target: Q2 2026)
+    - [ ] Evaluate Entrust commercial contract for eIDAS production use (Target: Q3 2026)
+    - [ ] Add `THEMIS_TSA_BACKEND` CMake option for OpenSSL/Botan selection (Target: Q3 2026)
+    - [ ] Update EU Trusted List cache for `isQualifiedTSA()` validation (Target: Q3 2026)
 - [x] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
   - Implemented: Shannon entropy ≥ 4.5 bits/char + regex pattern scanner (`scripts/secret_scan.py`), gitleaks pre-commit hook, detect-secrets baseline (`.secrets.baseline`), CI workflow (`.github/workflows/secret-scanning-ci.yml`), allow-list support (`.secret-scan-allowlist.txt`)
 

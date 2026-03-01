@@ -3,16 +3,112 @@
 Planned security features and improvements for ThemisDB.
 
 ## Table of Contents
-1. [Post-Quantum Cryptography](#post-quantum-cryptography)
-2. [Advanced Key Management](#advanced-key-management)
-3. [Zero-Knowledge Proofs](#zero-knowledge-proofs)
-4. [Homomorphic Encryption](#homomorphic-encryption)
-5. [Hardware Security Enhancements](#hardware-security-enhancements)
-6. [Advanced Threat Detection](#advanced-threat-detection)
-7. [Compliance & Certification](#compliance--certification)
-8. [Performance Optimizations](#performance-optimizations)
-9. [Cloud Security Integration](#cloud-security-integration)
-10. [Blockchain Integration](#blockchain-integration)
+1. [Timestamp Authority (TSA) Enhancements](#timestamp-authority-tsa-enhancements)
+2. [Post-Quantum Cryptography](#post-quantum-cryptography)
+3. [Advanced Key Management](#advanced-key-management)
+4. [Zero-Knowledge Proofs](#zero-knowledge-proofs)
+5. [Homomorphic Encryption](#homomorphic-encryption)
+6. [Hardware Security Enhancements](#hardware-security-enhancements)
+7. [Advanced Threat Detection](#advanced-threat-detection)
+8. [Compliance & Certification](#compliance--certification)
+9. [Performance Optimizations](#performance-optimizations)
+10. [Cloud Security Integration](#cloud-security-integration)
+11. [Blockchain Integration](#blockchain-integration)
+
+## Timestamp Authority (TSA) Enhancements
+
+### Scope
+Extend the existing RFC 3161 TSA client (`src/security/timestamp_authority_openssl.cpp`) with
+multi-provider failover, an alternative Botan cryptographic backend, and tighter eIDAS compliance
+tooling. See `docs/en/security/RFC3161_LIBRARY_EVALUATION.md` for the full library/provider
+evaluation.
+
+### Design Constraints
+- Public API in `include/security/timestamp_authority.h` must remain stable (no breaking changes).
+- New backends selected at compile time via `THEMIS_TSA_BACKEND=openssl|botan`; default stays
+  `openssl` to preserve existing builds.
+- Failover must be transparent to callers — `getTimestamp()` tries providers in priority order
+  and returns the first successful `TimestampToken`.
+- All network I/O remains in the `Impl` class; callers never depend on libcurl or Botan headers
+  directly.
+
+### Required Interfaces
+
+```cpp
+// No public API change; failover configured via extended TSAConfig:
+struct TSAConfig {
+    std::string url;                        // primary TSA URL (existing)
+    std::vector<std::string> fallback_urls; // NEW: ordered failover list
+    // ... existing fields unchanged ...
+};
+```
+
+### Implementation Notes
+
+#### Multi-Provider Failover (`timestamp_authority_openssl.cpp`)
+```cpp
+TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
+    std::vector<std::string> urls = {config_.url};
+    urls.insert(urls.end(), config_.fallback_urls.begin(), config_.fallback_urls.end());
+
+    std::vector<std::string> failures;
+    const size_t total = urls.size();
+    for (size_t i = 0; i < total; ++i) {
+        auto token = tryGetTimestampForHash(hash, urls[i]);  // URL passed directly, config unchanged
+        if (token.success) return token;
+        failures.push_back(urls[i] + ": " + token.error_message);
+        THEMIS_WARN("TSA provider {} ({}/{}) failed: {}; trying next",
+                    urls[i], i + 1, total, token.error_message);
+    }
+    TimestampToken t;
+    t.error_message = "All " + std::to_string(total) +
+                      " TSA provider(s) failed — " + joinStrings(failures, "; ");
+    return t;
+}
+```
+
+Notes:
+- `tryGetTimestampForHash(hash, url)` is an internal helper that accepts the URL explicitly so
+  the shared `config_` object is never mutated; thread-safety is maintained.
+- `joinStrings` is a utility function in `utils/string_utils.h`.
+
+#### Botan Backend (`timestamp_authority_botan.cpp`)
+- Activated by `-DTHEMIS_TSA_BACKEND=botan`; compiled instead of `_openssl.cpp`.
+- Botan ≥ 3.4 required; `find_package(Botan 3.4 REQUIRED)` in `cmake/features/SecurityFeatures.cmake`.
+- `Botan::TSP::Request` / `Botan::TSP::Response` cover the full request/response cycle;
+  `resp.verify(trust_store)` replaces the manual PKCS7 chain validation.
+
+#### EU Trusted List Cache for `isQualifiedTSA()`
+- Download `https://ec.europa.eu/tools/lotl/eu-lotl.xml` at build time or on first use.
+- Parse with `tinyxml2` (already a ThemisDB dependency) into an in-memory set of qualified TSA
+  subject DNs.
+- Cache with a TTL of 24 hours; refresh asynchronously on expiry.
+- `isQualifiedTSA()` checks subject DN against the cached set instead of the caller-supplied
+  `qtsp_list`.
+
+### Test Strategy
+- Unit: extend `tests/test_timestamp_authority.cpp` — failover logic (mock HTTP layer),
+  Botan backend parity tests (same token structure as OpenSSL), EU Trusted List cache
+  expiry/refresh.
+- Integration: use `THEMIS_TEST_SKIP_TSA_NETWORK_TESTS=1` guard; live tests against DigiCert
+  and FreeTSA with both backends.
+- Performance: `benchmarks/bench_tsa.cpp` — latency per provider, failover overhead.
+
+### Performance Targets
+- `getTimestamp()` P99 latency ≤ 2 000 ms for primary provider (DigiCert baseline: 200–800 ms).
+- Failover adds ≤ 50 ms overhead beyond network latency of failed provider.
+- `isQualifiedTSA()` hot-path (cached) ≤ 1 µs.
+
+### Security / Reliability
+- Nonce is always a fresh 8-byte `RAND_bytes()` value; never reuse across requests.
+- TSA certificate pinning configurable via `ca_cert_path`; default uses system trust store.
+- Hash algorithm validated against SHA-256/384/512 allowlist; SHA-1 explicitly rejected.
+- Failover list restricted to qualified providers when `eidas.enabled: true`.
+
+### Target
+- Multi-provider failover: Q2 2026
+- Botan backend: Q3 2026
+- EU Trusted List cache: Q3 2026
 
 ## Post-Quantum Cryptography
 

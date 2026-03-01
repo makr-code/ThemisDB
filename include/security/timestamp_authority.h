@@ -98,6 +98,9 @@ struct TSAConfig {
     
     // Policy OID (optional, TSA-specific)
     std::string policy_oid;
+    
+    // Optional: Ordered list of fallback TSA URLs tried after primary fails
+    std::vector<std::string> fallback_urls;
 };
 
 struct TimestampToken {
