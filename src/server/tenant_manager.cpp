@@ -19,6 +19,8 @@
 
 #include "server/tenant_manager.h"
 #include "utils/logger.h"
+#include <algorithm>
+#include <cctype>
 #include <sstream>
 #include <iomanip>
 
@@ -47,6 +49,7 @@ void TenantManager::configure(const Config& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
     ensureDefaultTenant();
+    rebuildDomainIndex();
     THEMIS_INFO("TenantManager configured: tenant_header='{}', default_tenant='{}'",
                 config_.tenant_header, config_.default_tenant_id);
 }
@@ -62,6 +65,42 @@ void TenantManager::ensureDefaultTenant() {
         tenants_[config_.default_tenant_id] = defaultTenant;
         usage_[config_.default_tenant_id] = std::make_unique<TenantUsage>();
         usage_[config_.default_tenant_id]->tenant_id = config_.default_tenant_id;
+    }
+}
+
+// static
+std::string TenantManager::normaliseDomain(std::string_view host) {
+    // Strip optional port suffix (":NNN")
+    // A valid port is at most 5 digits (1-65535), so only strip when the
+    // suffix after the last ':' is 1-5 all-digit characters.
+    std::string result(host);
+    const auto colon = result.rfind(':');
+    if (colon != std::string::npos) {
+        const std::size_t suffix_len = result.size() - colon - 1;
+        if (suffix_len >= 1 && suffix_len <= 5) {
+            const bool is_port = std::all_of(result.begin() + static_cast<std::ptrdiff_t>(colon) + 1,
+                                             result.end(),
+                                             [](unsigned char c){ return std::isdigit(c) != 0; });
+            if (is_port) {
+                result.erase(colon);
+            }
+        }
+    }
+    // Lower-case for case-insensitive comparison
+    std::transform(result.begin(), result.end(), result.begin(),
+                   [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
+    return result;
+}
+
+void TenantManager::rebuildDomainIndex() {
+    domain_to_tenant_.clear();
+    for (const auto& [tid, cfg] : tenants_) {
+        for (const auto& domain : cfg.custom_domains) {
+            const std::string key = normaliseDomain(domain);
+            if (!key.empty()) {
+                domain_to_tenant_[key] = tid;
+            }
+        }
     }
 }
 
@@ -85,6 +124,15 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
         THEMIS_WARN("TenantManager: Global tenant limit ({}) reached", config_.global_max_tenants);
         return CreateResult::QuotaExceeded;
     }
+
+    // Validate custom domain uniqueness
+    if (!config.custom_domain.empty()) {
+        if (domain_to_tenant_.count(config.custom_domain)) {
+            THEMIS_WARN("TenantManager: Custom domain '{}' is already registered to tenant '{}'",
+                        config.custom_domain, domain_to_tenant_.at(config.custom_domain));
+            return CreateResult::InvalidConfig;
+        }
+    }
     
     // Create tenant
     TenantConfig newConfig = config;
@@ -94,6 +142,19 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
     tenants_[config.tenant_id] = newConfig;
     usage_[config.tenant_id] = std::make_unique<TenantUsage>();
     usage_[config.tenant_id]->tenant_id = config.tenant_id;
+
+    // Index custom domains
+    for (const auto& domain : newConfig.custom_domains) {
+        const std::string key = normaliseDomain(domain);
+        if (!key.empty()) {
+            domain_to_tenant_[key] = config.tenant_id;
+        }
+    // Register custom domain reverse map
+    if (!newConfig.custom_domain.empty()) {
+        domain_to_tenant_[newConfig.custom_domain] = newConfig.tenant_id;
+        THEMIS_INFO("TenantManager: Registered custom domain '{}' for tenant '{}'",
+                    newConfig.custom_domain, newConfig.tenant_id);
+    }
     
     THEMIS_INFO("TenantManager: Created tenant '{}' ({})", config.tenant_id, config.display_name);
     return CreateResult::Success;
@@ -107,6 +168,24 @@ bool TenantManager::updateTenant(const TenantConfig& config) {
         THEMIS_WARN("TenantManager: Cannot update non-existent tenant '{}'", config.tenant_id);
         return false;
     }
+
+    // Validate custom domain uniqueness (allow same tenant to keep its own domain)
+    if (!config.custom_domain.empty()) {
+        auto domainIt = domain_to_tenant_.find(config.custom_domain);
+        if (domainIt != domain_to_tenant_.end() && domainIt->second != config.tenant_id) {
+            THEMIS_WARN("TenantManager: Custom domain '{}' is already registered to tenant '{}'",
+                        config.custom_domain, domainIt->second);
+            return false;
+        }
+    }
+
+    // Remove old domain mapping if the domain changed
+    const std::string& old_domain = it->second.custom_domain;
+    if (!old_domain.empty() && old_domain != config.custom_domain) {
+        domain_to_tenant_.erase(old_domain);
+        THEMIS_INFO("TenantManager: Unregistered custom domain '{}' for tenant '{}'",
+                    old_domain, config.tenant_id);
+    }
     
     // Preserve created_at, update updated_at
     TenantConfig updated = config;
@@ -114,6 +193,16 @@ bool TenantManager::updateTenant(const TenantConfig& config) {
     updated.updated_at = std::chrono::system_clock::now();
     
     it->second = updated;
+    // Rebuild the full domain index to reflect any changes to custom_domains
+    rebuildDomainIndex();
+
+    // Register new domain mapping
+    if (!updated.custom_domain.empty()) {
+        domain_to_tenant_[updated.custom_domain] = updated.tenant_id;
+        THEMIS_INFO("TenantManager: Registered custom domain '{}' for tenant '{}'",
+                    updated.custom_domain, updated.tenant_id);
+    }
+
     THEMIS_INFO("TenantManager: Updated tenant '{}'", config.tenant_id);
     return true;
 }
@@ -132,6 +221,18 @@ bool TenantManager::deleteTenant(std::string_view tenant_id) {
     auto it = tenants_.find(tid);
     if (it == tenants_.end()) {
         return false;
+    }
+
+    // Remove any custom domain mappings that belong to this tenant
+    for (const auto& domain : it->second.custom_domains) {
+        domain_to_tenant_.erase(normaliseDomain(domain));
+    }
+
+    // Unregister custom domain mapping
+    if (!it->second.custom_domain.empty()) {
+        domain_to_tenant_.erase(it->second.custom_domain);
+        THEMIS_INFO("TenantManager: Unregistered custom domain '{}' for tenant '{}'",
+                    it->second.custom_domain, tenant_id);
     }
     
     tenants_.erase(it);
@@ -191,10 +292,41 @@ std::optional<std::string> TenantManager::extractTenantId(
     const std::unordered_map<std::string, std::string>& headers,
     std::string_view path
 ) const {
-    // Try header first
+    // 1. Explicit tenant header takes highest priority
+    // Try explicit tenant header first (highest priority)
     auto it = headers.find(config_.tenant_header);
     if (it != headers.end() && !it->second.empty()) {
         return it->second;
+    }
+
+    // 2. Custom domain routing via Host (or configured host header)
+    auto hostIt = headers.find(config_.custom_domain_host_header);
+    if (hostIt != headers.end() && !hostIt->second.empty()) {
+        const std::string key = normaliseDomain(hostIt->second);
+        auto domIt = domain_to_tenant_.find(key);
+        if (domIt != domain_to_tenant_.end()) {
+            return domIt->second;
+        }
+    }
+
+    // 3. Path-based tenant routing
+    // Try custom domain routing via Host header (second priority)
+    auto hostIt = headers.find("Host");
+    if (hostIt == headers.end()) {
+        // Case-insensitive fallback: check lowercase "host"
+        hostIt = headers.find("host");
+    }
+    if (hostIt != headers.end() && !hostIt->second.empty()) {
+        // Strip port suffix (e.g., "acme.example.com:8443" -> "acme.example.com")
+        std::string host = hostIt->second;
+        const auto colon = host.find(':');
+        if (colon != std::string::npos) {
+            host.resize(colon);
+        }
+        auto domainIt = domain_to_tenant_.find(host);
+        if (domainIt != domain_to_tenant_.end()) {
+            return domainIt->second;
+        }
     }
     
     // Try path prefix
@@ -210,7 +342,7 @@ std::optional<std::string> TenantManager::extractTenantId(
         }
     }
     
-    // Return default tenant if allowed
+    // 4. Return default tenant if allowed
     if (config_.allow_default_tenant) {
         return config_.default_tenant_id;
     }
@@ -249,6 +381,22 @@ TenantManager::PathRewriteResult TenantManager::rewriteTenantPath(
     const std::string effective_path = (slash_pos != std::string::npos)
                                        ? pathStr.substr(slash_pos) : "/";
     return {effective_path, tenant_id, true};
+}
+
+std::optional<std::string> TenantManager::resolveTenantByDomain(std::string_view host) const {
+    // Strip port suffix if present
+    std::string h(host);
+    const auto colon = h.find(':');
+    if (colon != std::string::npos) {
+        h.resize(colon);
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = domain_to_tenant_.find(h);
+    if (it != domain_to_tenant_.end()) {
+        return it->second;
+    }
+    return std::nullopt;
 }
 
 std::optional<TenantContext> TenantManager::resolveContext(
@@ -451,6 +599,80 @@ std::string TenantManager::getTenantKeyId(std::string_view tenant_id) const {
         return config->encryption_key_id;
     }
     return "tenant:" + std::string(tenant_id) + ":master";
+}
+
+bool TenantManager::registerCustomDomain(std::string_view tenant_id, std::string_view domain) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    const std::string tid(tenant_id);
+    if (tenants_.find(tid) == tenants_.end()) {
+        THEMIS_WARN("TenantManager: Cannot register domain '{}' for non-existent tenant '{}'",
+                    domain, tenant_id);
+        return false;
+    }
+
+    const std::string key = normaliseDomain(domain);
+    if (key.empty()) {
+        return false;
+    }
+
+    // Reject if already mapped to a different tenant
+    const auto it = domain_to_tenant_.find(key);
+    if (it != domain_to_tenant_.end() && it->second != tid) {
+        THEMIS_WARN("TenantManager: Domain '{}' is already registered to tenant '{}'",
+                    domain, it->second);
+        return false;
+    }
+
+    domain_to_tenant_[key] = tid;
+
+    // Keep TenantConfig in sync
+    auto& cfg = tenants_[tid];
+    const std::string rawDomain(domain);
+    if (std::find(cfg.custom_domains.begin(), cfg.custom_domains.end(), rawDomain)
+            == cfg.custom_domains.end()) {
+        cfg.custom_domains.push_back(rawDomain);
+        cfg.updated_at = std::chrono::system_clock::now();
+    }
+
+    THEMIS_INFO("TenantManager: Registered custom domain '{}' for tenant '{}'", domain, tenant_id);
+    return true;
+}
+
+bool TenantManager::unregisterCustomDomain(std::string_view domain) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    const std::string key = normaliseDomain(domain);
+    const auto it = domain_to_tenant_.find(key);
+    if (it == domain_to_tenant_.end()) {
+        return false;
+    }
+
+    const std::string tid = it->second;
+    domain_to_tenant_.erase(it);
+
+    // Remove from TenantConfig.custom_domains as well
+    auto tenantIt = tenants_.find(tid);
+    if (tenantIt != tenants_.end()) {
+        const std::string rawDomain(domain);
+        auto& domains = tenantIt->second.custom_domains;
+        domains.erase(std::remove(domains.begin(), domains.end(), rawDomain), domains.end());
+        tenantIt->second.updated_at = std::chrono::system_clock::now();
+    }
+
+    THEMIS_INFO("TenantManager: Unregistered custom domain '{}' (was tenant '{}')", domain, tid);
+    return true;
+}
+
+std::optional<std::string> TenantManager::lookupTenantByDomain(std::string_view host) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    const std::string key = normaliseDomain(host);
+    const auto it = domain_to_tenant_.find(key);
+    if (it != domain_to_tenant_.end()) {
+        return it->second;
+    }
+    return std::nullopt;
 }
 
 std::string TenantManager::getMetrics() const {

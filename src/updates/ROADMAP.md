@@ -43,7 +43,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
-- [I] Blue/green deployment support (run two versions simultaneously) (Issue: #2484)
+- [~] Blue/green deployment support (run two versions simultaneously) (Issue: #2484)
 - [!] Multi-node coordinated update with replication-safe sequencing (Issue: #2485)
 - [I] Update bundle signing with hardware-backed keys (HSM) (Issue: #2486)
 
@@ -82,7 +82,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 
 ### Phase 4: Kubernetes & Blue/Green Deployment (Status: Planned 📋)
 - [ ] Kubernetes operator integration (rolling update coordination)
-- [ ] Blue/green deployment support (run two versions simultaneously)
+- [~] Blue/green deployment support (run two versions simultaneously)
 - [ ] Multi-node coordinated update with replication-safe sequencing
 - [ ] Update bundle signing with hardware-backed keys (HSM)
 - [x] Schema migration testing framework (apply to staging before production)

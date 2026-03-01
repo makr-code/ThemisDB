@@ -957,6 +957,18 @@ set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     TIMEOUT 60
 )
 
+# Build info and module availability tests (subset of AllTests)
+# Covers: getBuildConfiguration(), isModuleCompiledIn(), getCompiledModules(),
+#         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
+#         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
+#         (from test_build_info.cpp, Issue #2470)
+add_test(NAME BuildInfoTests
+    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
+set_tests_properties(BuildInfoTests PROPERTIES
+    LABELS "build;info;module;availability;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
@@ -3282,6 +3294,41 @@ else()
     else()
         message(STATUS "LLM Timeout Cancellation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp")
     endif()
+endif()
+
+# ============================================================================
+# Global Transaction Manager Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+    message(STATUS "Adding Global Transaction Manager tests")
+
+    add_executable(test_global_transaction_manager
+        test_global_transaction_manager.cpp
+    )
+
+    target_link_libraries(test_global_transaction_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_global_transaction_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GlobalTransactionManagerTests COMMAND test_global_transaction_manager)
+
+    set_tests_properties(GlobalTransactionManagerTests PROPERTIES
+        LABELS "transaction;distributed;multi-region;acid;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GlobalTransactionManager: 2PC across regions, TrueTime commit timestamp, recovery, statistics")
+else()
+    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
 endif()
 
 # ============================================================================

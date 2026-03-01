@@ -181,6 +181,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_plugin_sandbox.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -264,6 +265,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
     ../src/updates/notification_webhook.cpp
+    ../src/updates/blue_green_deployment.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
