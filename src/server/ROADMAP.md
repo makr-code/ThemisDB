@@ -29,6 +29,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
 - [x] Request validation middleware (JSON Schema per endpoint)
 - [x] Response streaming for large result sets (chunked transfer) (Issue: #2466, #2005)
+- [x] Serverless function hosting (run user code in-process) (Issue: #2467)
 
 ## In Progress 🚧
 - [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)
@@ -42,7 +43,6 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 
 ### Long-term (6-12 months)
 - [I] gRPC-web proxy for browser clients (Issue: #2303)
-- [~] Serverless function hosting (run user code in-process) (Issue: #2467)
 - [I] Edge caching integration (CDN cache-control header management) (Issue: #2305)
 - [I] Service mesh sidecar proxy mode (Envoy xDS compatibility) (Issue: #2306)
 - [I] HTTP/3 datagram support for real-time low-latency streams (Issue: #2307)
@@ -80,7 +80,8 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] Per-tenant custom domain routing
 - [ ] WebSocket binary frame support for wire protocol upgrade
 
-### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: Planned 📋)
+### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: In Progress 🚧)
+- [x] Serverless function hosting (run user code in-process) (Issue: #2467)
 - [ ] gRPC-web proxy for browser clients
 - [ ] Edge caching integration (CDN cache-control header management)
 - [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
