@@ -964,6 +964,17 @@ set_tests_properties(SessionManagerTests PROPERTIES
     LABELS "auth;session;revocation;unit"
     TIMEOUT 60
 )
+
+# Build info and isModuleCompiledIn() runtime module availability check (subset of AllTests)
+# Covers: BuildConfiguration, BuildInfo, ModuleQuery (isModuleCompiledIn, getCompiledModules,
+#         getDisabledModules), ReproducibilityInfo, BuildManifest
+#         (from tests/test_build_info.cpp)
+add_test(NAME BuildInfoTests
+    COMMAND themis_tests --gtest_filter=BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*)
+set_tests_properties(BuildInfoTests PROPERTIES
+    LABELS "build_info;themis;unit"
+    TIMEOUT 60
+)
 # Disabled: Missing implementation
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
 if(FALSE)
