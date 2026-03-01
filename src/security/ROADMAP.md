@@ -28,7 +28,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
 
 ## In Progress 🚧
-- [I] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
+- [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
   - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
 - [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Target: Q3 2026) (Issue: #2462)
   - Subsystems: `security/confidential_computing.h`, attestation service integration
