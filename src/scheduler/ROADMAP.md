@@ -40,7 +40,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
 - [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
-- [~] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
+- [x] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
 
 ## Implementation Phases
 
@@ -73,7 +73,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Workflow engine (multi-step DAG with conditional branching)
 - [X] Event-triggered tasks (changefeed → task execution)
 - [ ] Dynamic task scaling based on queue depth
-- [~] Integration with external schedulers (Kubernetes CronJob, Airflow)
+- [x] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

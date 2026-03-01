@@ -85,6 +85,74 @@ public:
     // Statistics
     nlohmann::json getStats();
 
+    // External scheduler integration
+    /**
+     * @brief Export a task as a Kubernetes CronJob manifest (JSON).
+     *
+     * Request body fields:
+     *   - themisdb_base_url  (string, required) – ThemisDB HTTP API base URL
+     *   - k8s_namespace      (string, optional) – Kubernetes namespace (default "default")
+     *   - job_image          (string, optional) – Container image (default "curlimages/curl:8.6.0")
+     *   - api_token_secret_name (string, optional) – K8s Secret name holding the bearer token
+     *   - suspend            (bool,   optional) – Suspend the CronJob on creation (default false)
+     *   - extra_labels       (object, optional) – Additional key/value labels for the resource
+     *
+     * @param task_id  ID of the ThemisDB task to export.
+     * @param request  JSON configuration (see above).
+     * @return JSON with { "manifest": <CronJob JSON> } on success,
+     *         or { "status": "error", "error": "..." } on failure.
+     */
+    nlohmann::json exportToKubernetesCronJobJson(const std::string& task_id,
+                                                  const nlohmann::json& request);
+
+    /**
+     * @brief Export a task as a Kubernetes CronJob manifest (YAML).
+     *
+     * Same request fields as exportToKubernetesCronJobJson().
+     *
+     * @param task_id  ID of the ThemisDB task to export.
+     * @param request  JSON configuration.
+     * @return JSON with { "yaml": "<YAML string>" } on success,
+     *         or { "status": "error", "error": "..." } on failure.
+     */
+    nlohmann::json exportToKubernetesCronJobYaml(const std::string& task_id,
+                                                  const nlohmann::json& request);
+
+    /**
+     * @brief Export one or more tasks as an Apache Airflow DAG Python file.
+     *
+     * Request body fields:
+     *   - task_ids           (array<string>, required) – Task IDs to export
+     *   - dag_id             (string, optional) – Airflow DAG id
+     *   - owner              (string, optional) – DAG owner
+     *   - start_date         (string, optional) – ISO-8601 start date (e.g. "2026-01-01")
+     *   - themisdb_base_url  (string, optional) – ThemisDB HTTP API base URL
+     *   - http_conn_id       (string, optional) – Airflow HTTP connection id
+     *   - default_schedule   (string, optional) – Fallback cron/special expression
+     *   - is_paused_upon_creation (bool, optional) – Start the DAG paused
+     *   - description        (string, optional) – DAG description
+     *   - tags               (array<string>, optional) – Airflow tags
+     *
+     * @param request  JSON configuration (see above).
+     * @return JSON with { "dag_python": "<Python source>" } on success,
+     *         or { "status": "error", "error": "..." } on failure.
+     */
+    nlohmann::json exportToAirflowDag(const nlohmann::json& request);
+
+    /**
+     * @brief Import a task from a Kubernetes CronJob manifest (JSON).
+     *
+     * Parses the manifest and registers the resulting ThemisDB ScheduledTask
+     * in the scheduler.  The manifest must contain at least metadata.name and
+     * spec.schedule.  ThemisDB-specific annotations (themisdb/task-name,
+     * themisdb/task-description, themisdb/task-id) are honoured when present.
+     *
+     * @param request  JSON object representing a Kubernetes CronJob resource.
+     * @return JSON with { "status": "created", "id": "<task_id>" } on success,
+     *         or { "status": "error", "error": "..." } on failure.
+     */
+    nlohmann::json importFromKubernetesCronJob(const nlohmann::json& request);
+
     // Web UI
     /**
      * @brief Serve the task management web UI

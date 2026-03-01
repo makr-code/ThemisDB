@@ -328,3 +328,204 @@ TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
     EXPECT_TRUE(result["total"].is_number_integer());
     EXPECT_EQ(result["total"].get<int64_t>(), 1);
 }
+
+// ============================================================================
+// External scheduler – Kubernetes CronJob export (JSON)
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_ReturnsManifest) {
+    auto reg = handler_->registerTask(makeTaskJson("export_k8s_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobJson(task_id, req);
+
+    ASSERT_TRUE(result.contains("manifest")) << result.dump();
+    const auto& manifest = result["manifest"];
+    EXPECT_EQ(manifest.value("kind", ""), "CronJob");
+    EXPECT_EQ(manifest.value("apiVersion", ""), "batch/v1");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_UnknownTaskReturnsError) {
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobJson("no_such_task", req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_MissingBaseUrlReturnsError) {
+    auto reg = handler_->registerTask(makeTaskJson("k8s_nourl_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    auto result = handler_->exportToKubernetesCronJobJson(task_id, nlohmann::json::object());
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_NamespaceAndSuspendPropagated) {
+    auto reg = handler_->registerTask(makeTaskJson("k8s_ns_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{
+        {"themisdb_base_url", "https://themisdb.example.com"},
+        {"k8s_namespace",     "production"},
+        {"suspend",           true}
+    };
+    auto result = handler_->exportToKubernetesCronJobJson(task_id, req);
+    ASSERT_TRUE(result.contains("manifest")) << result.dump();
+    EXPECT_EQ(result["manifest"]["metadata"]["namespace"].get<std::string>(), "production");
+    EXPECT_TRUE(result["manifest"]["spec"]["suspend"].get<bool>());
+}
+
+// ============================================================================
+// External scheduler – Kubernetes CronJob export (YAML)
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sYaml_ReturnsYamlString) {
+    auto reg = handler_->registerTask(makeTaskJson("export_yaml_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobYaml(task_id, req);
+
+    ASSERT_TRUE(result.contains("yaml")) << result.dump();
+    const std::string yaml = result["yaml"].get<std::string>();
+    EXPECT_NE(yaml.find("CronJob"), std::string::npos) << yaml;
+    EXPECT_NE(yaml.find("batch/v1"), std::string::npos) << yaml;
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sYaml_UnknownTaskReturnsError) {
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobYaml("no_such_task", req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+// ============================================================================
+// External scheduler – Airflow DAG export
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_ReturnsDagPython) {
+    auto reg = handler_->registerTask(makeTaskJson("airflow_task1"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{
+        {"task_ids", nlohmann::json::array({task_id})},
+        {"dag_id",   "test_dag"},
+        {"start_date", "2026-01-01"}
+    };
+    auto result = handler_->exportToAirflowDag(req);
+
+    ASSERT_TRUE(result.contains("dag_python")) << result.dump();
+    const std::string py = result["dag_python"].get<std::string>();
+    EXPECT_NE(py.find("from airflow import DAG"), std::string::npos) << py;
+    EXPECT_NE(py.find("SimpleHttpOperator"),       std::string::npos) << py;
+    EXPECT_NE(py.find("test_dag"),                 std::string::npos) << py;
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_MissingTaskIdsReturnsError) {
+    auto result = handler_->exportToAirflowDag(nlohmann::json::object());
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_UnknownTaskIdReturnsError) {
+    nlohmann::json req{{"task_ids", nlohmann::json::array({"no_such_task"})}};
+    auto result = handler_->exportToAirflowDag(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_MultipleTasksWired) {
+    auto r1 = handler_->registerTask(makeTaskJson("extract_task"));
+    auto r2 = handler_->registerTask(makeTaskJson("load_task"));
+    ASSERT_EQ(r1.value("status", ""), "created");
+    ASSERT_EQ(r2.value("status", ""), "created");
+
+    nlohmann::json req{
+        {"task_ids", nlohmann::json::array({
+            r1["id"].get<std::string>(),
+            r2["id"].get<std::string>()
+        })},
+        {"dag_id", "multi_task_dag"},
+        {"start_date", "2026-01-01"}
+    };
+    auto result = handler_->exportToAirflowDag(req);
+    ASSERT_TRUE(result.contains("dag_python")) << result.dump();
+}
+
+// ============================================================================
+// External scheduler – Kubernetes CronJob import
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_CreatesTask) {
+    nlohmann::json manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"metadata", {
+            {"name",       "my-imported-job"},
+            {"namespace",  "default"},
+            {"annotations", {
+                {"themisdb/task-name",        "Imported Task"},
+                {"themisdb/task-description", "Imported from K8s"},
+                {"themisdb/task-id",          "my-imported-job"}
+            }}
+        }},
+        {"spec", {
+            {"schedule", "0 * * * *"}
+        }}
+    };
+
+    auto result = handler_->importFromKubernetesCronJob(manifest);
+    EXPECT_EQ(result.value("status", ""), "created") << result.dump();
+    ASSERT_TRUE(result.contains("id"));
+    EXPECT_FALSE(result["id"].get<std::string>().empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_MissingMetadataReturnsError) {
+    nlohmann::json bad_manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"spec", {{"schedule", "* * * * *"}}}
+    };
+    auto result = handler_->importFromKubernetesCronJob(bad_manifest);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_MissingScheduleReturnsError) {
+    nlohmann::json bad_manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"metadata", {{"name", "no-schedule"}}},
+        {"spec", nlohmann::json::object()}
+    };
+    auto result = handler_->importFromKubernetesCronJob(bad_manifest);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_ImportedTaskAppearsInList) {
+    nlohmann::json manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"metadata", {
+            {"name", "listed-job"},
+            {"annotations", {
+                {"themisdb/task-id", "listed-job"}
+            }}
+        }},
+        {"spec", {{"schedule", "*/5 * * * *"}}}
+    };
+    auto import_result = handler_->importFromKubernetesCronJob(manifest);
+    ASSERT_EQ(import_result.value("status", ""), "created");
+
+    auto list_result = handler_->listTasks();
+    ASSERT_TRUE(list_result.contains("items"));
+    bool found = false;
+    for (const auto& item : list_result["items"]) {
+        if (item.value("id", "") == import_result["id"].get<std::string>()) {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found) << "Imported task not found in task list";
+}
