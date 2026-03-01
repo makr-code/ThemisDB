@@ -44,7 +44,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
 - [x] Blue/green deployment support (run two versions simultaneously) (Issue: #2484)
-- [!] Multi-node coordinated update with replication-safe sequencing (Issue: #2485)
+- [x] Multi-node coordinated update with replication-safe sequencing (Issue: #2485)
 - [I] Update bundle signing with hardware-backed keys (HSM) (Issue: #2486)
 
 ## Implementation Phases
@@ -83,7 +83,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ### Phase 4: Kubernetes & Blue/Green Deployment (Status: Planned 📋)
 - [ ] Kubernetes operator integration (rolling update coordination)
 - [x] Blue/green deployment support (run two versions simultaneously)
-- [ ] Multi-node coordinated update with replication-safe sequencing
+- [x] Multi-node coordinated update with replication-safe sequencing
 - [ ] Update bundle signing with hardware-backed keys (HSM)
 - [x] Schema migration testing framework (apply to staging before production)
 
@@ -98,7 +98,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ## Known Issues & Limitations
 - HotReloadEngine is single-threaded; concurrent updates are not allowed.
 - Download network protocols (HTTP/S) are handled by the utils module.
-- Concurrent update prevention uses filesystem locks; cross-node coordination is not implemented.
+- Concurrent update prevention uses filesystem locks; cross-node coordination is provided by `CoordinatedUpdateManager` (transport-agnostic via injected callbacks).
 
 ## Breaking Changes
 - `HotReloadEngine::Config` is stable from v1.x; new optional fields only.
