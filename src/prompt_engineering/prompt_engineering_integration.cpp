@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     580                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f07f34efb  2026-02-22  Audit fixes: correct Stubs counter and strengthen injecti... ║
@@ -541,22 +541,31 @@ std::string PromptEngineeringIntegration::enhancePrompt(
     const std::string& prompt_id,
     const nlohmann::json& context
 ) {
+    // Convert JSON context to string map for context injection
+    std::unordered_map<std::string, std::string> ctx_map;
+    for (auto it = context.begin(); it != context.end(); ++it) {
+        if (it.value().is_string()) {
+            ctx_map[it.key()] = it.value().get<std::string>();
+        } else if (!it.value().is_null()) {
+            ctx_map[it.key()] = it.value().dump();
+        }
+    }
+
     // Get latest version if available
     if (config_.enable_auto_versioning) {
         auto latest = version_control_->getLatest(prompt_id);
         if (latest.has_value()) {
-            // Use versioned content
             auto tmpl = manager_->getTemplate(prompt_id);
             if (tmpl.has_value()) {
-                return tmpl->content;
+                return PromptManager::buildMultiModalPrompt(*tmpl, ctx_map);
             }
         }
     }
-    
+
     // Fall back to template
     auto tmpl = manager_->getTemplate(prompt_id);
     if (tmpl.has_value()) {
-        return tmpl->content;
+        return PromptManager::buildMultiModalPrompt(*tmpl, ctx_map);
     }
     return "";
 }
