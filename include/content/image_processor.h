@@ -39,6 +39,8 @@
 namespace themis {
 namespace content {
 
+#define THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED 1
+
 /**
  * @brief Image Processor Plugin
  * 

@@ -457,7 +457,6 @@ static void BM_Json_Serialize_PaginatedList(benchmark::State& state) {
 
     for (auto _ : state) {
         json docs = json::array();
-        docs.reserve(N);
         for (int i = 0; i < N; ++i) {
             json doc;
             doc["id"]      = "doc_" + std::to_string(i);

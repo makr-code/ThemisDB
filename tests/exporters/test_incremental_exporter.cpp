@@ -22,12 +22,27 @@
 #include <limits>
 #include <nlohmann/json.hpp>
 #include <string>
-#include <unistd.h>
 #include <vector>
+
+#if defined(_WIN32)
+#include <process.h>
+#else
+#include <unistd.h>
+#endif
 
 using namespace themis::exporters;
 using namespace themis;
 using json = nlohmann::json;
+
+namespace {
+int current_process_id() {
+#if defined(_WIN32)
+    return _getpid();
+#else
+    return getpid();
+#endif
+}
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Test fixture
@@ -39,7 +54,7 @@ protected:
         auto temp_base = std::filesystem::temp_directory_path();
         test_dir_ = (temp_base /
             ("themis_incremental_test_" + std::to_string(std::time(nullptr)) +
-             "_" + std::to_string(static_cast<int>(getpid()))))
+             "_" + std::to_string(current_process_id())))
             .string();
         std::filesystem::create_directories(test_dir_);
         createTestEntities(10);
