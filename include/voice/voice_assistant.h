@@ -252,6 +252,43 @@ public:
         const std::vector<uint8_t>& audio_sample);
 
     /**
+     * @brief Perform 1:1 speaker verification against a stored profile (no liveness check).
+     *
+     * @param profile_id    Previously enrolled profile identifier.
+     * @param audio_sample  Raw PCM probe audio.
+     * @return VerificationResult with verified==true when match_score ≥ threshold.
+     */
+    VerificationResult verifyVoiceSpeaker(
+        const VoiceProfileID&         profile_id,
+        const std::vector<uint8_t>&   audio_sample);
+
+    /**
+     * @brief 1:N speaker identification: search audio against a set of candidate profiles.
+     *
+     * @param candidate_profiles  Profile IDs to compare against.
+     * @param audio_sample        Raw PCM probe audio.
+     * @return IdentificationResult with all matches above the identification threshold.
+     */
+    IdentificationResult identifyVoiceProfiles(
+        const std::vector<VoiceProfileID>& candidate_profiles,
+        const std::vector<uint8_t>&        audio_sample);
+
+    /**
+     * @brief Delete a stored voice profile.
+     *
+     * @param profile_id  Profile to remove.
+     * @return true if the profile existed and was removed; false otherwise.
+     */
+    bool deleteVoiceProfile(const VoiceProfileID& profile_id);
+
+    /**
+     * @brief List all enrolled voice profile IDs.
+     *
+     * @return Vector of profile IDs currently stored in the authenticator.
+     */
+    std::vector<VoiceProfileID> listVoiceProfiles() const;
+
+    /**
      * @brief Access the embedded VoiceMacroManager for macro CRUD operations.
      *
      * The manager is always available (it is constructed alongside

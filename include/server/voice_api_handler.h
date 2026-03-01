@@ -87,6 +87,12 @@ using json = nlohmann::json;
  * - GET  /api/v1/voice/recordings - List stored recordings (playback index)
  * - GET  /api/v1/voice/recordings/search?q=<query> - Full-text search in stored transcripts
  * - GET  /api/v1/voice/recordings/{id} - Get a specific recording for playback
+ * - POST /api/v1/voice/auth/enroll - Enroll a speaker's voice profile
+ * - POST /api/v1/voice/auth/verify - 1:1 speaker verification against a profile
+ * - POST /api/v1/voice/auth/authenticate - Full biometric authentication (liveness + verification)
+ * - POST /api/v1/voice/auth/identify - 1:N speaker identification among candidate profiles
+ * - GET  /api/v1/voice/auth/profiles - List enrolled voice profiles
+ * - DELETE /api/v1/voice/auth/profiles/{id} - Delete a voice profile
  * - WS  /ws/voice/stream - WebSocket for real-time voice interaction
  * 
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
@@ -187,6 +193,26 @@ private:
 
     http::response<http::string_body> handleSearchTranscripts(
         const http::request<http::string_body>& req);
+
+    // Voice biometric authentication endpoints
+    http::response<http::string_body> handleAuthEnroll(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthVerify(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthAuthenticate(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthIdentify(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthListProfiles(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAuthDeleteProfile(
+        const http::request<http::string_body>& req,
+        const std::string& profile_id);
 
     // Statistics and health
     http::response<http::string_body> handleStats(

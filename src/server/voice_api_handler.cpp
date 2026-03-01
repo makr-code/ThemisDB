@@ -231,6 +231,30 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         }
         return handleGetRecording(req, record_id);
     }
+    else if (path == "/api/v1/voice/auth/enroll" && method == http::verb::post) {
+        return handleAuthEnroll(req);
+    }
+    else if (path == "/api/v1/voice/auth/verify" && method == http::verb::post) {
+        return handleAuthVerify(req);
+    }
+    else if (path == "/api/v1/voice/auth/authenticate" && method == http::verb::post) {
+        return handleAuthAuthenticate(req);
+    }
+    else if (path == "/api/v1/voice/auth/identify" && method == http::verb::post) {
+        return handleAuthIdentify(req);
+    }
+    else if (path == "/api/v1/voice/auth/profiles" && method == http::verb::get) {
+        return handleAuthListProfiles(req);
+    }
+    else if (path.find("/api/v1/voice/auth/profiles/") == 0 && method == http::verb::delete_) {
+        static constexpr std::string_view kAuthProfilesPrefix = "/api/v1/voice/auth/profiles/";
+        std::string profile_id = path.substr(kAuthProfilesPrefix.size());
+        if (profile_id.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Missing profile ID");
+        }
+        return handleAuthDeleteProfile(req, profile_id);
+    }
     
     return createErrorResponse(
         http::status::not_found,
@@ -1296,6 +1320,251 @@ std::string VoiceApiHandler::parseQueryParam(
         pos = next + 1;
     }
     return {};
+}
+
+// ---------------------------------------------------------------------------
+// Voice Biometric Authentication endpoints
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
+    const http::request<http::string_body>& req)
+{
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("user_id") || !body->contains("audio_samples")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Required fields: user_id (string), audio_samples (array of base64 strings)");
+    }
+
+    const std::string user_id = (*body)["user_id"].get<std::string>();
+    if (user_id.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "user_id must not be empty");
+    }
+
+    const auto& samples_json = (*body)["audio_samples"];
+    if (!samples_json.is_array() || samples_json.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "audio_samples must be a non-empty array");
+    }
+
+    std::vector<std::vector<uint8_t>> audio_samples;
+    audio_samples.reserve(samples_json.size());
+    for (const auto& s : samples_json) {
+        if (!s.is_string()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "Each element in audio_samples must be a base64-encoded string");
+        }
+        audio_samples.push_back(decodeBase64(s.get<std::string>()));
+    }
+
+    voice::EnrollmentConfig enroll_cfg;
+    if (body->contains("min_samples")) {
+        const int ms = (*body)["min_samples"].get<int>();
+        if (ms < 1 || ms > 100) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "min_samples must be between 1 and 100");
+        }
+        enroll_cfg.min_samples = ms;
+    }
+    if (body->contains("quality_threshold")) {
+        const float qt = (*body)["quality_threshold"].get<float>();
+        if (qt < 0.0f || qt > 1.0f) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "quality_threshold must be between 0.0 and 1.0");
+        }
+        enroll_cfg.quality_threshold = qt;
+    }
+    if (body->contains("require_liveness")) {
+        enroll_cfg.require_liveness = (*body)["require_liveness"].get<bool>();
+    }
+
+    voice::VoiceProfileID profile_id;
+    const bool ok = voice_assistant_->enrollSpeaker(
+        user_id, audio_samples, profile_id, enroll_cfg);
+
+    if (!ok) {
+        return createErrorResponse(
+            http::status::unprocessable_entity, "Enrollment Failed",
+            "Enrollment failed: insufficient quality samples, duplicate user, or not enough samples");
+    }
+
+    json result;
+    result["profile_id"] = profile_id;
+    result["user_id"]    = user_id;
+    result["enrolled"]   = true;
+    return createJsonResponse(result, http::status::created);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
+    const http::request<http::string_body>& req)
+{
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("profile_id") || !body->contains("audio")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Required fields: profile_id (string), audio (base64 string)");
+    }
+
+    const std::string profile_id = (*body)["profile_id"].get<std::string>();
+    if (profile_id.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "profile_id must not be empty");
+    }
+
+    const auto audio = decodeBase64((*body)["audio"].get<std::string>());
+
+    auto result = voice_assistant_->verifyVoiceSpeaker(profile_id, audio);
+
+    json resp;
+    resp["verified"]        = result.verified;
+    resp["match_score"]     = result.match_score;
+    resp["threshold"]       = result.threshold;
+    resp["decision_reason"] = result.decision_reason;
+    return createJsonResponse(resp);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
+    const http::request<http::string_body>& req)
+{
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("user_id") || !body->contains("audio")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Required fields: user_id (string), audio (base64 string)");
+    }
+
+    const std::string user_id = (*body)["user_id"].get<std::string>();
+    if (user_id.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "user_id must not be empty");
+    }
+
+    const auto audio = decodeBase64((*body)["audio"].get<std::string>());
+
+    auto result = voice_assistant_->authenticateSpeaker(user_id, audio);
+
+    json resp;
+    resp["authenticated"]   = result.authenticated;
+    resp["confidence_score"]= result.confidence_score;
+    resp["threshold"]       = result.threshold;
+    resp["user_id"]         = result.user_id;
+    resp["decision_reason"] = result.decision_reason;
+    resp["timestamp_ms"]    = result.timestamp_ms;
+
+    const http::status status = result.authenticated
+        ? http::status::ok
+        : http::status::unauthorized;
+    return createJsonResponse(resp, status);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
+    const http::request<http::string_body>& req)
+{
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Invalid JSON body");
+    }
+
+    if (!body->contains("candidate_profiles") || !body->contains("audio")) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Required fields: candidate_profiles (array of strings), audio (base64 string)");
+    }
+
+    const auto& cands_json = (*body)["candidate_profiles"];
+    if (!cands_json.is_array()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "candidate_profiles must be an array");
+    }
+
+    std::vector<voice::VoiceProfileID> candidates;
+    candidates.reserve(cands_json.size());
+    for (const auto& c : cands_json) {
+        if (!c.is_string()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request",
+                "Each element in candidate_profiles must be a string");
+        }
+        candidates.push_back(c.get<std::string>());
+    }
+
+    const auto audio = decodeBase64((*body)["audio"].get<std::string>());
+
+    auto result = voice_assistant_->identifyVoiceProfiles(candidates, audio);
+
+    json matches_arr = json::array();
+    for (const auto& m : result.matches) {
+        json mj;
+        mj["profile_id"]  = m.profile_id;
+        mj["user_id"]     = m.user_id;
+        mj["match_score"] = m.match_score;
+        mj["rank"]        = m.rank;
+        matches_arr.push_back(mj);
+    }
+
+    json resp;
+    resp["identified"]      = result.identified;
+    resp["top_match_id"]    = result.top_match_id;
+    resp["top_match_score"] = result.top_match_score;
+    resp["matches"]         = matches_arr;
+    return createJsonResponse(resp);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
+    const http::request<http::string_body>& req)
+{
+    (void)req;
+    const auto profiles = voice_assistant_->listVoiceProfiles();
+    json arr = json::array();
+    for (const auto& pid : profiles) {
+        arr.push_back(pid);
+    }
+    json resp;
+    resp["profiles"] = arr;
+    resp["count"]    = profiles.size();
+    return createJsonResponse(resp);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
+    const http::request<http::string_body>& req,
+    const std::string& profile_id)
+{
+    (void)req;
+    if (profile_id.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request", "Missing profile ID");
+    }
+
+    const bool ok = voice_assistant_->deleteVoiceProfile(profile_id);
+    if (!ok) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found", "Voice profile not found");
+    }
+
+    json resp;
+    resp["deleted"]    = true;
+    resp["profile_id"] = profile_id;
+    return createJsonResponse(resp);
 }
 
 } // namespace themis::server
