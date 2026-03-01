@@ -722,6 +722,70 @@ TEST_F(TaskSchedulerTest, RetryPolicyPersistedAndRestoredFromDisk) {
     EXPECT_DOUBLE_EQ(loaded_rp.jitter_factor, 0.05);
 }
 
+TEST_F(TaskSchedulerTest, RetryPolicyFibonacciBackoff) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("fib_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 4) throw std::runtime_error("transient error");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "fib_backoff_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fib_backoff_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF;
+    policy.max_retries   = 5;
+    policy.initial_delay = std::chrono::milliseconds{5};
+    policy.max_delay     = std::chrono::milliseconds{100};
+    task.retry_policy    = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 4);  // Succeeded on 4th attempt
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->successful_executions, 1u);
+    EXPECT_EQ(t->failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyFibonacciBackoffExhausted) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("fib_always_fail", [&](const nlohmann::json&) -> nlohmann::json {
+        ++call_count;
+        throw std::runtime_error("persistent failure");
+    });
+
+    ScheduledTask task;
+    task.name = "fib_exhaust_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fib_always_fail";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF;
+    policy.max_retries   = 2;  // 1 initial + 2 retries = 3 total attempts
+    policy.initial_delay = std::chrono::milliseconds{5};
+    policy.max_delay     = std::chrono::milliseconds{100};
+    task.retry_policy    = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_EQ(call_count.load(), 3);  // All 3 attempts exhausted
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->failed_executions, 1u);
+    EXPECT_EQ(t->successful_executions, 0u);
+}
+
 // ===== exportMetrics() tests =====
 
 TEST_F(TaskSchedulerTest, ExportMetricsReturnsNonEmptyString) {

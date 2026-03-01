@@ -78,7 +78,7 @@ Implementation tasks:
 Implementation tasks:
 - [x] Exponential backoff implementation
 - [x] Jittered backoff for thundering herd
-- [ ] Fibonacci backoff
+- [x] Fibonacci backoff
 - [x] Conditional retry based on error type
 - [x] Per-task retry strategy configuration
 
