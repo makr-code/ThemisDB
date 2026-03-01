@@ -55,7 +55,11 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
-- [~] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417)
+- [x] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417) (PR: #3395)
+  - `ServiceMeshIntegration` in `include/network/service_mesh.h` / `src/network/service_mesh.cpp` – Istio/Envoy probe server, TLS offload, graceful drain
+  - `EnvoyXdsClient` in `include/network/envoy_xds.h` / `src/network/envoy_xds.cpp` – xDS v3 REST client for dynamic config (LDS/CDS/EDS/RDS)
+  - JSON-over-HTTP (no SDK dependency); callbacks for listener, cluster, endpoint, route updates
+  - Unit tests in `tests/test_envoy_xds.cpp` (config defaults, request builder, response parsers, lifecycle)
 - [?] RDMA support for ultra-low-latency inter-node communication
 - [?] IPv6 dual-stack support
 - [x] gRPC native transport (separate from server module) (Issue: #2024)
@@ -107,7 +111,8 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection-level compression (LZ4, Zstd)
 - [x] Network topology-aware routing for geo-distributed clusters
   - `GeoTopologyRouter` (include/network/geo_topology_router.h); strategies: PREFER_LOCAL, LOWEST_LATENCY, ROUND_ROBIN
-- [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
+- [x] Service mesh integration (Istio/Envoy sidecar compatibility)
+  - `ServiceMeshIntegration` probe server + `EnvoyXdsClient` xDS v3 REST polling; guarded by `THEMIS_ENABLE_SERVICE_MESH`
 
 ## Production Readiness Checklist
 - [x] Unit tests added for WebSocket upgrade (`test_wire_protocol_websocket.cpp`)

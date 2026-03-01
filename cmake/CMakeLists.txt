@@ -482,6 +482,7 @@ option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM in
 option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
 option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
+option(THEMIS_ENABLE_SERVICE_MESH "Enable Istio/Envoy service mesh sidecar proxy mode (xDS v3 REST client)" OFF)
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -1994,6 +1995,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     ../src/network/geo_topology_router.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
     ../src/themis/wire_protocol_server.cpp
@@ -3146,6 +3149,12 @@ endif()
 if(THEMIS_ENABLE_POSTGRES_WIRE)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
     message(STATUS "PostgreSQL Wire Protocol support enabled")
+endif()
+
+# Service mesh sidecar proxy mode (Envoy xDS v3 REST client)
+if(THEMIS_ENABLE_SERVICE_MESH)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SERVICE_MESH)
+    message(STATUS "Service mesh sidecar proxy mode enabled (Envoy xDS v3 REST)")
 endif()
 
 # gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
