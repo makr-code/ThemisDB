@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     269                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -257,11 +257,13 @@ public:
      * Replay events starting from a specific sequence
      * @param from_sequence Start from this sequence (inclusive)
      * @param limit Maximum number of events to return (0 = no limit)
+     * @param event_types Optional set of event types to filter (empty = all types)
      * @return Vector of change events
      */
     std::vector<Changefeed::ChangeEvent> replayFromSequence(
-        uint64_t from_sequence, 
-        uint64_t limit = 0);
+        uint64_t from_sequence,
+        uint64_t limit = 0,
+        const std::set<Changefeed::ChangeEventType>& event_types = {});
 
     // Compaction
 
