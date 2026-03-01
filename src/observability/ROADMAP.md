@@ -69,7 +69,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [~] Custom user-defined alert rules via API
 - [~] eBPF-based low-overhead kernel-level tracing
 - [ ] Anomaly detection on metrics time-series (ML-based)
-- [ ] Distributed flame graph generation across nodes
+- [P] Distributed flame graph generation across nodes
 - [ ] SLO/SLA compliance reporting with burn-rate alerts
 
 ## Production Readiness Checklist
