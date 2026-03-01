@@ -22,7 +22,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Attribute-Based Access Control (ABAC) alongside RBAC
 - [x] Zero-trust network policy enforcement (per-request identity verification)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
-- [x] Row-level security policies in AQL execution (`RLSManager`, `RLSPolicy`, `RLSPredicate`)
+- [x] Row-level security policies in AQL execution (`RLSManager`, `RLSPolicy`, `RLSPredicate`, `AccessControlManager` integration)
 - [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
 - [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
@@ -83,7 +83,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
 - [x] Anomaly detection on authentication patterns (brute-force, credential stuffing) (`AuthRateLimiter`)
-- [x] Row-level security policies in AQL execution (`RLSManager`)
+- [x] Row-level security policies in AQL execution (`RLSManager`, `AccessControlManager` integration)
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
 - [x] Zero-trust network policy enforcement (per-request identity verification)
