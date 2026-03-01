@@ -198,7 +198,8 @@ public:
      * @param check Health-check callable (may be @c nullptr to clear)
      */
     void setPostUpdateHealthCheck(PostUpdateHealthCheck check);
-    
+
+    /**
      * @brief Access the update history logger.
      * @return Pointer to the logger, or nullptr if history logging is disabled.
      */
