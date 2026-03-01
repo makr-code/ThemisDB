@@ -481,6 +481,53 @@ where `normalized_bm25_f` is the per-field BM25 score linearly rescaled to [0, 1
 
 ---
 
+### personalized_ranker.h
+**Purpose:** Per-user interaction history tracking with time-decayed personalization scoring for search result re-ranking
+
+**Key Classes:**
+- `PersonalizedRanker`: Records user interactions and computes personalization boosts for ranked candidates
+- `PersonalizedRanker::Config`: `decay_rate`, `max_interactions_per_user`, `boost_weight`
+- `UserInteraction`: `user_id`, `document_id`, `type` (InteractionType), `timestamp`
+- `InteractionType`: `VIEW` (0.2), `CLICK` (0.5), `BOOKMARK` (1.0), `LIKE` (1.0), `DISLIKE` (-0.5)
+
+**Usage:**
+```cpp
+#include "search/personalized_ranker.h"
+
+using namespace themis;
+
+PersonalizedRanker::Config cfg;
+cfg.decay_rate   = 0.05;   // half-weight after ~14 days
+cfg.boost_weight = 0.2;    // how much to shift final_score
+PersonalizedRanker pr(cfg);
+
+// Record interactions as users browse (e.g. from click/session logs)
+pr.recordInteraction({"alice", "doc_42", InteractionType::LIKE,
+                       std::chrono::system_clock::now()});
+pr.recordInteraction({"alice", "doc_7",  InteractionType::DISLIKE,
+                       std::chrono::system_clock::now()});
+
+// After LTR re-ranking, apply user-specific personalization
+auto ranked = ltr.rerank(candidates);
+pr.applyPersonalization("alice", ranked);  // re-sorts by personalized final_score
+
+// Query personalization score for a single document
+double score = pr.computeScore("alice", "doc_42");  // returns value in [-1, 1]
+
+// GDPR: remove all data for a user
+pr.clearUser("alice");
+```
+
+**Config Fields:**
+- `decay_rate`: Exponential decay rate per day (default 0.05; 0 = no decay)
+- `max_interactions_per_user`: Maximum stored interactions per user, oldest evicted (default 500)
+- `boost_weight`: Multiplier applied to the [-1,1] personalization score when adjusting `final_score` (default 0.2)
+
+**Score Model:**
+```
+personalization_score = clamp(Σ type_weight * exp(-decay_rate * age_days), -1, 1)
+final_score += boost_weight * personalization_score
+```
 ### cross_lingual_search.h
 **Purpose:** Cross-lingual semantic search using multilingual embeddings to retrieve documents
 across language boundaries in a shared vector space.
