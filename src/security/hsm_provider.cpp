@@ -30,6 +30,7 @@
 #else
 
 #include "security/hsm_provider.h"
+#include "core/production_mode.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
@@ -140,8 +141,16 @@ bool HSMProvider::initialize() {
     // SECURITY HARDENING: Check for explicit opt-in to use stub provider
     // This prevents accidental production deployment with insecure stub
     const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
-    const char* force_production = std::getenv("THEMIS_PRODUCTION_MODE");
     
+    // Hard fail-fast: reject stub in any Themis production environment.
+    // Covers THEMIS_PRODUCTION_MODE (all truthy values) and THEMIS_ENVIRONMENT=production|prod.
+    // This cannot be overridden by THEMIS_ALLOW_HSM_STUB.
+    if (core::ProductionMode::isEnabled()) {
+        last_error_ = "HSM stub provider cannot be used in production mode. "
+                      "Build with -DTHEMIS_ENABLE_HSM_REAL=ON, or disable production mode "
+                      "(THEMIS_PRODUCTION_MODE / THEMIS_ENVIRONMENT).";
+        THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
+        return false;
     // Fail-fast: If production mode is explicitly enabled, stub is not allowed
     if (force_production) {
         std::string fp(force_production);
@@ -153,7 +162,8 @@ bool HSMProvider::initialize() {
         }
     }
     
-    // Fail-fast: Without explicit opt-in, refuse to initialize if production-like environment detected
+    // Soft fail: Without explicit opt-in, refuse to initialize if other
+    // production-like environment indicators are detected (ENVIRONMENT, NODE_ENV).
     if (!allow_stub || std::string(allow_stub) != "1") {
         // Check for production-like indicators
         const char* env_type = std::getenv("ENVIRONMENT");

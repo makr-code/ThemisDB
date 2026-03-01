@@ -39,11 +39,13 @@ protected:
         #ifdef _WIN32
             _putenv_s("THEMIS_ALLOW_HSM_STUB", "");
             _putenv_s("THEMIS_PRODUCTION_MODE", "");
+            _putenv_s("THEMIS_ENVIRONMENT", "");
             _putenv_s("ENVIRONMENT", "");
             _putenv_s("NODE_ENV", "");
         #else
             unsetenv("THEMIS_ALLOW_HSM_STUB");
             unsetenv("THEMIS_PRODUCTION_MODE");
+            unsetenv("THEMIS_ENVIRONMENT");
             unsetenv("ENVIRONMENT");
             unsetenv("NODE_ENV");
         #endif
@@ -215,4 +217,45 @@ TEST_F(HSMStubGatingTest, ErrorMessageIncludesGuidance) {
     std::string error = hsm.getLastError();
     // Should mention how to build with real HSM
     EXPECT_NE(error.find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
+}
+
+// THEMIS_ENVIRONMENT=production is a hard failure that cannot be overridden
+TEST_F(HSMStubGatingTest, FailsInThemisEnvironmentProduction) {
+    setEnv("THEMIS_ENVIRONMENT", "production");
+    
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    
+    EXPECT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
+    
+    std::string error = hsm.getLastError();
+    EXPECT_NE(error.find("production mode"), std::string::npos);
+}
+
+// THEMIS_ENVIRONMENT=production cannot be bypassed with THEMIS_ALLOW_HSM_STUB
+TEST_F(HSMStubGatingTest, ThemisEnvironmentProductionCannotBeOverridden) {
+    setEnv("THEMIS_ENVIRONMENT", "production");
+    setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+    
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    
+    // Themis production environment takes precedence even with opt-in
+    EXPECT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
+}
+
+// THEMIS_PRODUCTION_MODE accepts truthy string values beyond "1"
+TEST_F(HSMStubGatingTest, FailsWithProductionModeTrueString) {
+    setEnv("THEMIS_PRODUCTION_MODE", "true");
+    
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    
+    EXPECT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
 }
