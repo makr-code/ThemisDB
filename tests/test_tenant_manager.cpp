@@ -601,6 +601,38 @@ TEST_F(TenantManagerTest, RewriteTenantPath_WithQueryString) {
 
 // ===== Custom Domain Routing Tests =====
 
+TEST_F(TenantManagerTest, RegisterCustomDomain_Success) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "acme";
+    config.display_name = "ACME Corp";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    EXPECT_TRUE(tm.registerCustomDomain("acme", "acme.example.com"));
+
+    auto found = tm.lookupTenantByDomain("acme.example.com");
+    ASSERT_TRUE(found.has_value());
+    EXPECT_EQ(*found, "acme");
+}
+
+TEST_F(TenantManagerTest, RegisterCustomDomain_CaseInsensitive) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "beta-corp";
+    config.display_name = "Beta Corp";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    EXPECT_TRUE(tm.registerCustomDomain("beta-corp", "Beta.Example.Com"));
+
+    // Lookup should work regardless of Host header casing
+    EXPECT_TRUE(tm.lookupTenantByDomain("beta.example.com").has_value());
+    EXPECT_TRUE(tm.lookupTenantByDomain("BETA.EXAMPLE.COM").has_value());
+    EXPECT_EQ(*tm.lookupTenantByDomain("Beta.Example.Com"), "beta-corp");
+}
+
+TEST_F(TenantManagerTest, RegisterCustomDomain_PortStripped) {
 TEST_F(TenantManagerTest, CustomDomain_ResolveTenantByDomain_Match) {
     auto& tm = TenantManager::instance();
 
@@ -628,6 +660,112 @@ TEST_F(TenantManagerTest, CustomDomain_ResolveTenantByDomain_StripPort) {
     TenantConfig config;
     config.tenant_id = "port-tenant";
     config.display_name = "Port Tenant";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    EXPECT_TRUE(tm.registerCustomDomain("port-tenant", "api.port-tenant.com"));
+
+    // Host header with port should still match
+    EXPECT_TRUE(tm.lookupTenantByDomain("api.port-tenant.com:8443").has_value());
+    EXPECT_EQ(*tm.lookupTenantByDomain("api.port-tenant.com:443"), "port-tenant");
+}
+
+TEST_F(TenantManagerTest, RegisterCustomDomain_ViaConfig) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "cfg-domain";
+    config.display_name = "Config Domain Tenant";
+    config.custom_domains = {"cfg.domain.com", "www.cfg-domain.com"};
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    EXPECT_TRUE(tm.lookupTenantByDomain("cfg.domain.com").has_value());
+    EXPECT_TRUE(tm.lookupTenantByDomain("www.cfg-domain.com").has_value());
+    EXPECT_EQ(*tm.lookupTenantByDomain("cfg.domain.com"), "cfg-domain");
+}
+
+TEST_F(TenantManagerTest, RegisterCustomDomain_NonExistentTenant) {
+    auto& tm = TenantManager::instance();
+
+    EXPECT_FALSE(tm.registerCustomDomain("ghost-tenant", "ghost.example.com"));
+    EXPECT_FALSE(tm.lookupTenantByDomain("ghost.example.com").has_value());
+}
+
+TEST_F(TenantManagerTest, RegisterCustomDomain_AlreadyOwnedByAnotherTenant) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig t1, t2;
+    t1.tenant_id = "owner-a";
+    t1.display_name = "Owner A";
+    t2.tenant_id = "owner-b";
+    t2.display_name = "Owner B";
+    tm.createTenant(t1);
+    tm.createTenant(t2);
+
+    EXPECT_TRUE(tm.registerCustomDomain("owner-a", "shared.example.com"));
+    // Registering the same domain for a different tenant must fail
+    EXPECT_FALSE(tm.registerCustomDomain("owner-b", "shared.example.com"));
+    // Original mapping is intact
+    EXPECT_EQ(*tm.lookupTenantByDomain("shared.example.com"), "owner-a");
+}
+
+TEST_F(TenantManagerTest, UnregisterCustomDomain) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "unreg-tenant";
+    config.display_name = "Unreg Tenant";
+    config.custom_domains = {"unreg.example.com"};
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    EXPECT_TRUE(tm.lookupTenantByDomain("unreg.example.com").has_value());
+
+    EXPECT_TRUE(tm.unregisterCustomDomain("unreg.example.com"));
+    EXPECT_FALSE(tm.lookupTenantByDomain("unreg.example.com").has_value());
+
+    // Second unregister returns false (already removed)
+    EXPECT_FALSE(tm.unregisterCustomDomain("unreg.example.com"));
+}
+
+TEST_F(TenantManagerTest, ExtractTenantId_ViaCustomDomain) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "domain-tenant";
+    config.display_name = "Domain Tenant";
+    config.custom_domains = {"domain-tenant.acme.com"};
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    std::unordered_map<std::string, std::string> headers;
+    headers["Host"] = "domain-tenant.acme.com";
+
+    auto tid = tm.extractTenantId(headers, "/api/documents");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "domain-tenant");
+}
+
+TEST_F(TenantManagerTest, ExtractTenantId_ExplicitHeaderOverridesCustomDomain) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig t1, t2;
+    t1.tenant_id = "explicit-tenant";
+    t1.display_name = "Explicit Tenant";
+    t2.tenant_id = "domain-matched";
+    t2.display_name = "Domain Matched";
+    t2.custom_domains = {"matched.example.com"};
+    tm.createTenant(t1);
+    tm.createTenant(t2);
+
+    // X-Tenant-ID should win over Host
+    std::unordered_map<std::string, std::string> headers;
+    headers["X-Tenant-ID"] = "explicit-tenant";
+    headers["Host"] = "matched.example.com";
+
+    auto tid = tm.extractTenantId(headers, "/api/documents");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "explicit-tenant");
+}
+
+TEST_F(TenantManagerTest, ResolveContext_ViaCustomDomain) {
     config.custom_domain = "beta.example.com";
     ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
 
@@ -767,6 +905,50 @@ TEST_F(TenantManagerTest, CustomDomain_ResolveContext_HostHeader) {
 
     TenantConfig config;
     config.tenant_id = "ctx-domain-tenant";
+    config.display_name = "Context Domain Tenant";
+    config.custom_domains = {"ctx.domain.com"};
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    std::unordered_map<std::string, std::string> headers;
+    headers["Host"] = "ctx.domain.com";
+
+    auto ctx = tm.resolveContext(headers, "/api/v1/entities", "user42");
+    ASSERT_TRUE(ctx.has_value());
+    EXPECT_EQ(ctx->tenant_id, "ctx-domain-tenant");
+    EXPECT_EQ(ctx->user_id, "user42");
+}
+
+TEST_F(TenantManagerTest, DeleteTenant_ClearsCustomDomains) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "del-domain-tenant";
+    config.display_name = "Delete Domain Tenant";
+    config.custom_domains = {"del.example.com"};
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+    EXPECT_TRUE(tm.lookupTenantByDomain("del.example.com").has_value());
+
+    EXPECT_TRUE(tm.deleteTenant("del-domain-tenant"));
+    EXPECT_FALSE(tm.lookupTenantByDomain("del.example.com").has_value());
+}
+
+TEST_F(TenantManagerTest, UpdateTenant_ReindexesCustomDomains) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "upd-tenant";
+    config.display_name = "Update Tenant";
+    config.custom_domains = {"old.example.com"};
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+    EXPECT_TRUE(tm.lookupTenantByDomain("old.example.com").has_value());
+
+    // Replace domain list
+    config.custom_domains = {"new.example.com"};
+    EXPECT_TRUE(tm.updateTenant(config));
+
+    EXPECT_FALSE(tm.lookupTenantByDomain("old.example.com").has_value());
+    EXPECT_TRUE(tm.lookupTenantByDomain("new.example.com").has_value());
+    EXPECT_EQ(*tm.lookupTenantByDomain("new.example.com"), "upd-tenant");
     config.display_name = "Ctx Domain Tenant";
     config.custom_domain = "ctx.example.com";
     ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
