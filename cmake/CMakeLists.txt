@@ -1813,6 +1813,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
     ../src/security/confidential_computing.cpp
+    ../src/security/fips_crypto_mode.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
