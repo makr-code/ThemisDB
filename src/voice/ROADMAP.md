@@ -37,7 +37,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Long-term (6-12 months)
 - [x] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
 - [x] Emotion / sentiment detection from voice tone (Issue: #2493)
-- [I] Real-time meeting transcription with action-item extraction (Issue: #2353)
+- [x] Real-time meeting transcription with action-item extraction (Issue: #2353) (Target: Q1 2026)
 - [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Implementation Phases
@@ -72,7 +72,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Multi-language TTS (German, French, Spanish voices)
 - [x] Emotion / sentiment detection from voice tone
 - [x] Voice biometric authentication (speaker verification)
-- [ ] Real-time meeting transcription with action-item extraction
+- [x] Real-time meeting transcription with action-item extraction (Target: Q1 2026)
 - [ ] Integration with telephony systems (SIP / WebRTC)
 
 ## Production Readiness Checklist
