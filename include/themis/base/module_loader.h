@@ -137,6 +137,7 @@ enum class ModuleErrorCode {
     POLICY_VIOLATION = 500,
     BLACKLISTED = 501,
     QUARANTINED = 502,
+    ZONE_ID_BLOCKED = 503,  ///< Windows Zone.Identifier marks file as Internet/Restricted zone
     
     // Unknown/Internal errors (9xx)
     INTERNAL_ERROR = 900,
