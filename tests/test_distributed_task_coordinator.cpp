@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     425                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0367b9a10  2026-02-22  Fix test bug and stop-race-condition in DistributedTaskCo... ║
@@ -388,6 +388,105 @@ TEST_F(DistributedTaskCoordinatorTest, OnLeaderElectedIgnoredAfterStop) {
 
     // Must remain inactive – the guard in onLeaderElected checks running_.
     EXPECT_FALSE(dtc_->isSchedulerActive());
+}
+
+// ============================================================================
+// Cron leader election – one runner per cluster
+// ============================================================================
+
+TEST_F(DistributedTaskCoordinatorTest, CronTaskStoredInRegistry) {
+    dtc_->start();
+
+    ScheduledTask t;
+    t.name           = "daily-cleanup";
+    t.type           = ScheduledTask::TaskType::FUNCTION;
+    t.function_name  = "daily_cleanup_fn";
+    t.trigger_type   = ScheduledTask::TriggerType::CRON;
+    t.cron_expression = "0 2 * * *";  // Every day at 02:00
+    t.enabled        = true;
+
+    auto id = dtc_->registerTask(t);
+    EXPECT_FALSE(id.empty());
+
+    auto ptr = dtc_->getTask(id);
+    ASSERT_NE(ptr, nullptr);
+    EXPECT_EQ(ptr->trigger_type, ScheduledTask::TriggerType::CRON);
+    EXPECT_EQ(ptr->cron_expression, "0 2 * * *");
+}
+
+TEST_F(DistributedTaskCoordinatorTest, CronTaskActivatedOnLeaderElection) {
+    dtc_->start();
+
+    // Register the function so activation doesn't throw
+    scheduler_->registerFunction("cron_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    ScheduledTask t;
+    t.name           = "cron-task";
+    t.type           = ScheduledTask::TaskType::FUNCTION;
+    t.function_name  = "cron_fn";
+    t.trigger_type   = ScheduledTask::TriggerType::CRON;
+    t.cron_expression = "*/5 * * * *";  // Every 5 minutes
+    t.enabled        = true;
+
+    auto id = dtc_->registerTask(t);
+
+    // Non-leader: task is only in the local registry, not in the active scheduler
+    EXPECT_FALSE(dtc_->isSchedulerActive());
+    EXPECT_EQ(dtc_->listTasks().size(), 1u);
+
+    // Become leader – coordinator activates the scheduler and registers the task
+    coordinator_->becomeLeader();
+    ASSERT_TRUE(dtc_->isSchedulerActive());
+
+    // Cron task must be visible via the local registry on the leader
+    auto ptr = dtc_->getTask(id);
+    ASSERT_NE(ptr, nullptr);
+    EXPECT_EQ(ptr->trigger_type, ScheduledTask::TriggerType::CRON);
+}
+
+TEST_F(DistributedTaskCoordinatorTest, CronTaskPreservedAfterLeadershipChange) {
+    dtc_->start();
+
+    ScheduledTask t;
+    t.name           = "weekly-report";
+    t.type           = ScheduledTask::TaskType::FUNCTION;
+    t.function_name  = "report_fn";
+    t.trigger_type   = ScheduledTask::TriggerType::CRON;
+    t.cron_expression = "0 0 * * 1";  // Every Monday at midnight
+    t.enabled        = true;
+
+    auto id = dtc_->registerTask(t);
+
+    // Simulate this node winning the election
+    coordinator_->becomeLeader();
+    ASSERT_TRUE(dtc_->isSchedulerActive());
+
+    // Simulate leadership transfer to another node
+    dtc_->onLeaderElected("node-99");
+    ASSERT_FALSE(dtc_->isSchedulerActive());
+
+    // Cron task must still be in the local registry after stepping down,
+    // ready to be re-registered when this node becomes leader again.
+    auto ptr = dtc_->getTask(id);
+    ASSERT_NE(ptr, nullptr);
+    EXPECT_EQ(ptr->cron_expression, "0 0 * * 1");
+    EXPECT_EQ(ptr->trigger_type, ScheduledTask::TriggerType::CRON);
+}
+
+TEST_F(DistributedTaskCoordinatorTest, OnlyOneLeaderRunsCronTasks) {
+    // Verify the "one runner per cluster" guarantee:
+    // When a second node wins leadership, the first stops running tasks.
+    dtc_->start();
+    coordinator_->becomeLeader();
+    ASSERT_TRUE(dtc_->isSchedulerActive());
+
+    // A different node wins the election.
+    dtc_->onLeaderElected("node-2");
+
+    // This node must no longer be running the scheduler.
+    EXPECT_FALSE(dtc_->isSchedulerActive());
+    EXPECT_FALSE(dtc_->isLeader());
 }
 
 // ============================================================================

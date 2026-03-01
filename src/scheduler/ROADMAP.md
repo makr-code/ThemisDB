@@ -37,7 +37,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
-- [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
+- [x] Distributed cron leader election (one runner per cluster) (Issue: #2266)
 - [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
 - [~] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
@@ -69,7 +69,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [ ] Alert on task failure or SLA breach
 
 ### Phase 4: Distributed Cron & Workflow Engine (Status: Planned 📋)
-- [ ] Distributed cron leader election (one runner per cluster)
+- [x] Distributed cron leader election (one runner per cluster)
 - [x] Workflow engine (multi-step DAG with conditional branching)
 - [X] Event-triggered tasks (changefeed → task execution)
 - [ ] Dynamic task scaling based on queue depth

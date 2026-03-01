@@ -15,7 +15,7 @@ list(APPEND THEMIS_CORE_SOURCES
     # Task Scheduler REST API and Web UI handler
     ../src/server/task_scheduler_api_handler.cpp
     
-    # Distributed task coordination (Phase 2)
+    # Distributed task coordination (Phase 2) and cron leader election (Phase 4)
     ../src/scheduler/distributed_task_coordinator.cpp
 
     # External scheduler adapters (Kubernetes CronJob, Airflow) – Phase 4
