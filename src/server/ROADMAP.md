@@ -44,7 +44,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [I] gRPC-web proxy for browser clients (Issue: #2303)
 - [~] Serverless function hosting (run user code in-process) (Issue: #2467)
 - [I] Edge caching integration (CDN cache-control header management) (Issue: #2305)
-- [I] Service mesh sidecar proxy mode (Envoy xDS compatibility) (Issue: #2306)
+- [P] Service mesh sidecar proxy mode (Envoy xDS compatibility) (Issue: #2306) (PR: #3395)
 - [I] HTTP/3 datagram support for real-time low-latency streams (Issue: #2307)
 
 ## Implementation Phases
@@ -83,7 +83,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: Planned 📋)
 - [ ] gRPC-web proxy for browser clients
 - [ ] Edge caching integration (CDN cache-control header management)
-- [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
+- [P] Service mesh sidecar proxy mode (Envoy xDS compatibility)
 - [ ] HTTP/3 datagram support for real-time low-latency streams
 
 ## Production Readiness Checklist

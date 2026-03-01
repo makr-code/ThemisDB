@@ -200,6 +200,7 @@ endif()
 if(NOT THEMIS_ENABLE_SERVICE_MESH)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_service_mesh\\.cpp$"
+        ".*test_envoy_xds\\.cpp$"
     )
 endif()
 
