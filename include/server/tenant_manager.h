@@ -70,6 +70,13 @@ struct TenantConfig {
     std::string encryption_key_id;          // Tenant-specific encryption key
     bool require_encryption = false;        // Force encryption for all data
     
+    // Custom domain routing
+    // When set, requests whose HTTP Host header matches this value are
+    // automatically routed to this tenant without requiring X-Tenant-ID
+    // or a /tenants/{id}/ path prefix.
+    // Example: "acme.example.com"
+    std::string custom_domain;
+
     // Metadata
     std::chrono::system_clock::time_point created_at;
     std::chrono::system_clock::time_point updated_at;
@@ -261,6 +268,13 @@ public:
     //   -> { effective_path="/documents/123", tenant_id="acme-corp", rewritten=true }
     PathRewriteResult rewriteTenantPath(std::string_view path) const;
 
+    // Resolve tenant ID from an HTTP Host header value.
+    // Returns the tenant ID if a tenant with a matching custom_domain is found,
+    // or std::nullopt when no domain mapping exists for the given host.
+    // The host value may include a port suffix (e.g. "acme.example.com:8443");
+    // the port is stripped before lookup.
+    std::optional<std::string> resolveTenantByDomain(std::string_view host) const;
+
     // Resource quota enforcement
     struct QuotaCheckResult {
         bool allowed = true;
@@ -309,6 +323,7 @@ private:
     std::unordered_map<std::string, TenantConfig> tenants_;
     std::unordered_map<std::string, std::unique_ptr<TenantUsage>> usage_;
     // Reverse index: lower-case domain -> tenant_id
+    // Reverse map: custom_domain -> tenant_id for O(1) Host-header lookups
     std::unordered_map<std::string, std::string> domain_to_tenant_;
     
     // Helper to create default tenant

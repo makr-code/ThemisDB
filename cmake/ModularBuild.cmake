@@ -181,6 +181,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_plugin_sandbox.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -457,6 +458,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
     
+    # Post-quantum cryptography (CRYSTALS-Kyber / Dilithium migration path)
+    ../src/security/post_quantum_crypto.cpp
+
     # Security initialization
     ../src/core/security_initialization.cpp
     

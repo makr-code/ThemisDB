@@ -62,7 +62,7 @@ and VRAM secure clear for GPU privacy.
 | `vcc_pki_client.cpp` | VCC PKI client for certificate management |
 | `usb_admin_authenticator.cpp` | USB token-based admin authentication |
 | `zero_trust_policy_enforcer.cpp` | Continuous trust verification |
-| `confidential_computing.cpp` | TEE/enclave support (Intel SGX planned) |
+| `confidential_computing.cpp` | TEE/enclave support (Intel TDX and AMD SEV/SEV-SNP) |
 | `vram_secure_clear.cpp` | VRAM zero-fill after GPU computation |
 | `user_registration_plugin.cpp` | User registration plugin interface |
 | `embedded_user_registration_plugin.cpp` | Built-in user registration |
@@ -222,7 +222,7 @@ Request: GET /collection/users  (principal: alice, roles: [analyst])
 
 ## 11. Known Limitations & Future Work
 
-- Confidential computing (Intel SGX/TDX enclaves) is planned but not yet implemented.
+- Confidential computing (Intel TDX and AMD SEV/SEV-SNP enclaves) is implemented with CPUID detection, kernel driver attestation, and AES-256-GCM sealed memory. Software fallback is active on non-TEE hardware.
 - Automated key rotation (DEK re-encryption) is in progress.
 - PKCS#11 HSM integration supports SoftHSM for testing; production HSM testing needed.
 - eIDAS-compatible timestamping is implemented for EU compliance; other jurisdictions

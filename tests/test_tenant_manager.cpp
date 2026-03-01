@@ -633,6 +633,28 @@ TEST_F(TenantManagerTest, RegisterCustomDomain_CaseInsensitive) {
 }
 
 TEST_F(TenantManagerTest, RegisterCustomDomain_PortStripped) {
+TEST_F(TenantManagerTest, CustomDomain_ResolveTenantByDomain_Match) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "domain-tenant";
+    config.display_name = "Domain Tenant";
+    config.custom_domain = "acme.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    auto tid = tm.resolveTenantByDomain("acme.example.com");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "domain-tenant");
+}
+
+TEST_F(TenantManagerTest, CustomDomain_ResolveTenantByDomain_NoMatch) {
+    auto& tm = TenantManager::instance();
+
+    auto tid = tm.resolveTenantByDomain("unknown.example.com");
+    EXPECT_FALSE(tid.has_value());
+}
+
+TEST_F(TenantManagerTest, CustomDomain_ResolveTenantByDomain_StripPort) {
     auto& tm = TenantManager::instance();
 
     TenantConfig config;
@@ -744,6 +766,141 @@ TEST_F(TenantManagerTest, ExtractTenantId_ExplicitHeaderOverridesCustomDomain) {
 }
 
 TEST_F(TenantManagerTest, ResolveContext_ViaCustomDomain) {
+    config.custom_domain = "beta.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    // Port suffix should be stripped before lookup
+    auto tid = tm.resolveTenantByDomain("beta.example.com:8443");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "port-tenant");
+}
+
+TEST_F(TenantManagerTest, CustomDomain_ExtractTenantId_HostHeader) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "host-tenant";
+    config.display_name = "Host Tenant";
+    config.custom_domain = "host.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    // Request with Host header, no X-Tenant-ID
+    std::unordered_map<std::string, std::string> headers;
+    headers["Host"] = "host.example.com";
+
+    auto tid = tm.extractTenantId(headers, "/api/documents");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "host-tenant");
+}
+
+TEST_F(TenantManagerTest, CustomDomain_ExtractTenantId_XTenantHeaderTakesPriority) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "priority-tenant";
+    config.display_name = "Priority Tenant";
+    config.custom_domain = "priority.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    TenantConfig config2;
+    config2.tenant_id = "explicit-tenant";
+    config2.display_name = "Explicit Tenant";
+    ASSERT_EQ(tm.createTenant(config2), TenantManager::CreateResult::Success);
+
+    // X-Tenant-ID header should take priority over Host-based domain routing
+    std::unordered_map<std::string, std::string> headers;
+    headers["Host"] = "priority.example.com";
+    headers["X-Tenant-ID"] = "explicit-tenant";
+
+    auto tid = tm.extractTenantId(headers, "/api/documents");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "explicit-tenant");
+}
+
+TEST_F(TenantManagerTest, CustomDomain_ExtractTenantId_HostWithPort) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "porthost-tenant";
+    config.display_name = "PortHost Tenant";
+    config.custom_domain = "porthost.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    std::unordered_map<std::string, std::string> headers;
+    headers["Host"] = "porthost.example.com:9000";
+
+    auto tid = tm.extractTenantId(headers, "/api/documents");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "porthost-tenant");
+}
+
+TEST_F(TenantManagerTest, CustomDomain_DuplicateDomainRejected) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config1;
+    config1.tenant_id = "dup-tenant-1";
+    config1.display_name = "Dup Tenant 1";
+    config1.custom_domain = "shared.example.com";
+    ASSERT_EQ(tm.createTenant(config1), TenantManager::CreateResult::Success);
+
+    TenantConfig config2;
+    config2.tenant_id = "dup-tenant-2";
+    config2.display_name = "Dup Tenant 2";
+    config2.custom_domain = "shared.example.com";
+    // Second tenant with same domain should be rejected
+    EXPECT_EQ(tm.createTenant(config2), TenantManager::CreateResult::InvalidConfig);
+}
+
+TEST_F(TenantManagerTest, CustomDomain_UpdateDomain_OldDomainFreed) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "update-domain-tenant";
+    config.display_name = "Update Domain Tenant";
+    config.custom_domain = "old.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    // Verify old domain works
+    EXPECT_TRUE(tm.resolveTenantByDomain("old.example.com").has_value());
+
+    // Update to a new domain
+    config.custom_domain = "new.example.com";
+    EXPECT_TRUE(tm.updateTenant(config));
+
+    // New domain should resolve to the tenant
+    auto tid = tm.resolveTenantByDomain("new.example.com");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "update-domain-tenant");
+
+    // Old domain should no longer resolve
+    EXPECT_FALSE(tm.resolveTenantByDomain("old.example.com").has_value());
+}
+
+TEST_F(TenantManagerTest, CustomDomain_DeleteTenant_DomainFreed) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "delete-domain-tenant";
+    config.display_name = "Delete Domain Tenant";
+    config.custom_domain = "delete.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    EXPECT_TRUE(tm.resolveTenantByDomain("delete.example.com").has_value());
+
+    EXPECT_TRUE(tm.deleteTenant("delete-domain-tenant"));
+
+    // Domain should be freed after deletion
+    EXPECT_FALSE(tm.resolveTenantByDomain("delete.example.com").has_value());
+
+    // Domain should now be registerable by a new tenant
+    TenantConfig config2;
+    config2.tenant_id = "new-domain-tenant";
+    config2.display_name = "New Domain Tenant";
+    config2.custom_domain = "delete.example.com";
+    EXPECT_EQ(tm.createTenant(config2), TenantManager::CreateResult::Success);
+}
+
+TEST_F(TenantManagerTest, CustomDomain_ResolveContext_HostHeader) {
     auto& tm = TenantManager::instance();
 
     TenantConfig config;
@@ -792,5 +949,53 @@ TEST_F(TenantManagerTest, UpdateTenant_ReindexesCustomDomains) {
     EXPECT_FALSE(tm.lookupTenantByDomain("old.example.com").has_value());
     EXPECT_TRUE(tm.lookupTenantByDomain("new.example.com").has_value());
     EXPECT_EQ(*tm.lookupTenantByDomain("new.example.com"), "upd-tenant");
+    config.display_name = "Ctx Domain Tenant";
+    config.custom_domain = "ctx.example.com";
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    std::unordered_map<std::string, std::string> headers;
+    headers["Host"] = "ctx.example.com";
+
+    auto ctx = tm.resolveContext(headers, "/api/documents", "user1");
+    ASSERT_TRUE(ctx.has_value());
+    EXPECT_EQ(ctx->tenant_id, "ctx-domain-tenant");
+    EXPECT_EQ(ctx->user_id, "user1");
+}
+
+TEST_F(TenantManagerTest, CustomDomain_TenantWithNoDomain) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "no-domain-tenant";
+    config.display_name = "No Domain Tenant";
+    // No custom_domain set
+    ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
+
+    // Should not be reachable via domain routing
+    EXPECT_FALSE(tm.resolveTenantByDomain("no-domain-tenant.example.com").has_value());
+}
+
+TEST_F(TenantManagerTest, CustomDomain_UpdateDomainConflict) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config1;
+    config1.tenant_id = "conflict-tenant-1";
+    config1.display_name = "Conflict Tenant 1";
+    config1.custom_domain = "conflict.example.com";
+    ASSERT_EQ(tm.createTenant(config1), TenantManager::CreateResult::Success);
+
+    TenantConfig config2;
+    config2.tenant_id = "conflict-tenant-2";
+    config2.display_name = "Conflict Tenant 2";
+    ASSERT_EQ(tm.createTenant(config2), TenantManager::CreateResult::Success);
+
+    // Try to update tenant 2 to use tenant 1's domain - should fail
+    config2.custom_domain = "conflict.example.com";
+    EXPECT_FALSE(tm.updateTenant(config2));
+
+    // Tenant 1 should still own the domain
+    auto tid = tm.resolveTenantByDomain("conflict.example.com");
+    ASSERT_TRUE(tid.has_value());
+    EXPECT_EQ(*tid, "conflict-tenant-1");
 }
 
