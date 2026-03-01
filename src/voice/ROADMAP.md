@@ -78,7 +78,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #2355)
 - [I] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
-- [I] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
+- [P] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
 - [I] Security audit (audio data storage, transcription PII handling) (Issue: #2358)
 - [I] Documentation complete (Issue: #2359)
 - [I] API stability guaranteed (Issue: #2360)
