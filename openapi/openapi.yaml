@@ -8409,6 +8409,27 @@ components:
           type: string
           nullable: true
           description: Cursor-Token der vorherigen Seite (nur wenn use_cursor=true)
+        max_rows:
+          type: integer
+          format: int64
+          default: 0
+          description: |
+            Maximum number of result rows to return. 0 means unlimited.
+            When exceeded the request fails with HTTP 400 (Bad Request).
+        max_memory_bytes:
+          type: integer
+          format: int64
+          default: 0
+          description: |
+            Maximum serialised JSON size of the result set in bytes. 0 means unlimited.
+            When exceeded the request fails with HTTP 400 (Bad Request).
+        timeout_ms:
+          type: integer
+          format: int64
+          default: 0
+          description: |
+            Maximum wall-clock execution time in milliseconds. 0 means unlimited.
+            When exceeded the request fails with HTTP 408 (Request Timeout).
       required: [query]
     AqlExplainPlan:
       type: object
