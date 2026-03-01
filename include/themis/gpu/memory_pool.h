@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     206                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • cad5afa80  2026-02-22  Fix stale Stubs:1 metadata in memory_pool.h and memory_po... ║
@@ -26,6 +26,7 @@
 #include <cstdint>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -69,11 +70,16 @@ public:
     // Defragmentation result
     // -----------------------------------------------------------------------
     struct DefragResult {
-        size_t   slabs_moved     = 0;    ///< Number of occupied slabs relocated
-        uint64_t bytes_compacted = 0;    ///< Total bytes in relocated slabs
-        float    frag_before     = 0.0f; ///< Fragmentation ratio before defrag
-        float    frag_after      = 0.0f; ///< Fragmentation ratio after defrag
-        bool     ran             = false; ///< true if defrag ran (threshold met)
+        size_t   slabs_moved      = 0;    ///< Number of occupied slabs relocated
+        uint64_t bytes_compacted  = 0;    ///< Total bytes in relocated slabs
+        float    frag_before      = 0.0f; ///< Fragmentation ratio before defrag
+        float    frag_after       = 0.0f; ///< Fragmentation ratio after defrag
+        bool     ran              = false; ///< true if defrag ran (threshold met)
+        size_t   data_move_errors = 0;    ///< CUDA/HIP device-copy failures (0 on success)
+        /// Old-offset → new-offset map for each relocated slab.
+        /// Callers that hold raw device pointers (base + old_offset) must
+        /// remap them to (base + new_offset) after a successful defragment().
+        std::unordered_map<uint64_t, uint64_t> offset_map;
     };
 
     // -----------------------------------------------------------------------
@@ -180,17 +186,33 @@ public:
      * the internal fragmentation counters are recalculated from the stored
      * per-slab request sizes.  Free slabs are assigned the remaining offsets.
      *
-     * In a real CUDA/ROCm implementation this would call cudaMemcpy /
-     * hipMemcpy to copy slab data to the new offsets and return an
-     * offset-remapping table to callers.  In the CPU bookkeeping simulation
-     * it performs the logical compaction only.
+     * When a non-zero device base pointer has been set via setDeviceBasePtr(),
+     * physical VRAM data is moved via cudaMemcpy (THEMIS_ENABLE_CUDA) or
+     * hipMemcpy (THEMIS_ENABLE_HIP) to keep the device memory consistent with
+     * the updated logical offsets.  In the CPU bookkeeping simulation (no
+     * device pointer set) it performs logical compaction only.
      *
      * @param threshold  Only run if the current fragmentation ratio exceeds
      *                   this value (0.0–1.0).  Pass 0.0 to always compact.
-     * @return DefragResult with before/after metrics and a flag indicating
-     *         whether the routine actually executed.
+     * @return DefragResult with before/after metrics, a moved-slab count, and
+     *         an offset_map (old_offset → new_offset) for each relocated slab
+     *         so callers can update any raw device pointers they hold.
      */
     DefragResult defragment(float threshold = 0.05f);
+
+    // -----------------------------------------------------------------------
+    // Device memory binding (optional)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Bind a real device base pointer to the pool.
+     *
+     * When set (non-zero), defragment() will use cudaMemcpy / hipMemcpy to
+     * physically move slab data in device memory.  The pool does not own this
+     * pointer; the caller is responsible for its lifetime.
+     */
+    void     setDeviceBasePtr(uintptr_t ptr) noexcept { device_base_ptr_ = ptr; }
+    uintptr_t getDeviceBasePtr()             const noexcept { return device_base_ptr_; }
 
 private:
     uint64_t            total_bytes_;
@@ -204,6 +226,7 @@ private:
     size_t              alloc_misses_    = 0;
     size_t              zeroed_slabs_    = 0;
     bool                zero_on_free_    = false;
+    uintptr_t           device_base_ptr_ = 0;  ///< Optional: real VRAM base pointer
 };
 
 } // namespace gpu
