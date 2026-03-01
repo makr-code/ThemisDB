@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     620                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     855                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -614,6 +614,237 @@ TEST_F(RPCServiceIntegrationTest, OptionalFeatureMessages) {
         json result = ts_response["result"];
         EXPECT_TRUE(result.contains("note")) << "Time series query should include explanatory note";
     }
+}
+
+/**
+ * @test Verify INSERT operation (strict insert, fails on duplicate)
+ * 
+ * Acceptance Criteria:
+ * - INSERT succeeds when entity does not exist
+ * - INSERT fails with ENTITY_ALREADY_EXISTS when entity already exists
+ * - Inserted entity can be retrieved with GET
+ */
+TEST_F(RPCServiceIntegrationTest, InsertOperation) {
+    // Step 1: Insert a new entity
+    json insert_params = {
+        {"model", "insert_test"},
+        {"collection", "insert_collection"},
+        {"uuid", "insert_uuid_001"},
+        {"entity", {
+            {"id", "insert_uuid_001"},
+            {"name", "Test Insert"}
+        }}
+    };
+
+    json insert_response = rpc_service_->handleInsert(insert_params);
+    ASSERT_TRUE(insert_response.contains("result"))
+        << "INSERT should return result on success";
+    EXPECT_TRUE(insert_response["result"]["success"].get<bool>())
+        << "INSERT should succeed for a new entity";
+    EXPECT_EQ(insert_response["result"]["version"].get<int>(), 1)
+        << "INSERT should set version to 1";
+
+    // Step 2: Verify entity was stored
+    json get_params = {
+        {"model", "insert_test"},
+        {"collection", "insert_collection"},
+        {"uuid", "insert_uuid_001"}
+    };
+    json get_response = rpc_service_->handleGet(get_params);
+    ASSERT_TRUE(get_response.contains("result")) << "GET should return result";
+    EXPECT_TRUE(get_response["result"]["found"].get<bool>()) << "Entity should be found after INSERT";
+
+    // Step 3: Attempt duplicate INSERT - must fail
+    json dup_response = rpc_service_->handleInsert(insert_params);
+    ASSERT_TRUE(dup_response.contains("error"))
+        << "Duplicate INSERT should return an error";
+    EXPECT_EQ(dup_response["error"]["code"],
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::ENTITY_ALREADY_EXISTS))
+        << "Duplicate INSERT should return ENTITY_ALREADY_EXISTS error code";
+}
+
+/**
+ * @test Verify INSERT validates required parameters
+ * 
+ * Acceptance Criteria:
+ * - Missing model/collection/uuid returns INVALID_PARAMETERS
+ * - Missing entity body returns INVALID_PARAMETERS
+ */
+TEST_F(RPCServiceIntegrationTest, InsertParameterValidation) {
+    // Missing uuid
+    json missing_uuid = {
+        {"model", "insert_test"},
+        {"collection", "insert_collection"},
+        {"entity", {{"id", "x"}}}
+    };
+    json resp = rpc_service_->handleInsert(missing_uuid);
+    ASSERT_TRUE(resp.contains("error")) << "Missing uuid should return error";
+    EXPECT_EQ(resp["error"]["code"],
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS));
+
+    // Missing entity body
+    json missing_entity = {
+        {"model", "insert_test"},
+        {"collection", "insert_collection"},
+        {"uuid", "some_uuid"}
+    };
+    resp = rpc_service_->handleInsert(missing_entity);
+    ASSERT_TRUE(resp.contains("error")) << "Missing entity should return error";
+    EXPECT_EQ(resp["error"]["code"],
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS));
+}
+
+/**
+ * @test Verify transactional PUT operation
+ * 
+ * Acceptance Criteria:
+ * - PUT within a transaction is visible only after commit
+ * - PUT within a transaction is discarded on rollback
+ */
+TEST_F(RPCServiceIntegrationTest, TransactionalPut) {
+    // Step 1: Begin a transaction
+    json begin_params = {};
+    json begin_response = rpc_service_->handleTransactionBegin(begin_params);
+    ASSERT_TRUE(begin_response.contains("result")) << "Transaction begin should return result";
+    std::string tx_id = begin_response["result"]["transaction_id"].get<std::string>();
+    ASSERT_FALSE(tx_id.empty()) << "Transaction ID should not be empty";
+
+    // Step 2: PUT within the transaction
+    json put_params = {
+        {"model", "tx_test"},
+        {"collection", "tx_collection"},
+        {"uuid", "tx_put_uuid"},
+        {"transaction_id", tx_id},
+        {"entity", {
+            {"id", "tx_put_uuid"},
+            {"value", 42}
+        }}
+    };
+    json put_response = rpc_service_->handlePut(put_params);
+    ASSERT_TRUE(put_response.contains("result")) << "Transactional PUT should return result";
+    EXPECT_TRUE(put_response["result"]["success"].get<bool>()) << "Transactional PUT should succeed";
+
+    // Step 3: Commit the transaction
+    json commit_params = {{"transaction_id", tx_id}};
+    json commit_response = rpc_service_->handleTransactionCommit(commit_params);
+    ASSERT_TRUE(commit_response.contains("result")) << "Commit should return result";
+    EXPECT_TRUE(commit_response["result"]["success"].get<bool>()) << "Commit should succeed";
+
+    // Step 4: Entity should now be visible
+    json get_params = {
+        {"model", "tx_test"},
+        {"collection", "tx_collection"},
+        {"uuid", "tx_put_uuid"}
+    };
+    json get_response = rpc_service_->handleGet(get_params);
+    ASSERT_TRUE(get_response.contains("result")) << "GET should return result";
+    EXPECT_TRUE(get_response["result"]["found"].get<bool>()) << "Entity should be found after commit";
+}
+
+/**
+ * @test Verify transactional PUT rollback discards writes
+ * 
+ * Acceptance Criteria:
+ * - PUT within a transaction that is aborted is not visible
+ */
+TEST_F(RPCServiceIntegrationTest, TransactionalPutRollback) {
+    // Step 1: Begin a transaction
+    json begin_params = {};
+    json begin_response = rpc_service_->handleTransactionBegin(begin_params);
+    ASSERT_TRUE(begin_response.contains("result"));
+    std::string tx_id = begin_response["result"]["transaction_id"].get<std::string>();
+
+    // Step 2: PUT within the transaction
+    json put_params = {
+        {"model", "tx_rollback_test"},
+        {"collection", "tx_rollback_collection"},
+        {"uuid", "rollback_uuid"},
+        {"transaction_id", tx_id},
+        {"entity", {{"id", "rollback_uuid"}}}
+    };
+    json put_response = rpc_service_->handlePut(put_params);
+    ASSERT_TRUE(put_response.contains("result"));
+
+    // Step 3: Abort the transaction
+    json abort_params = {{"transaction_id", tx_id}};
+    json abort_response = rpc_service_->handleTransactionAbort(abort_params);
+    ASSERT_TRUE(abort_response.contains("result")) << "Abort should return result";
+    EXPECT_TRUE(abort_response["result"]["success"].get<bool>()) << "Abort should succeed";
+
+    // Step 4: Entity should NOT be visible after rollback
+    json get_params = {
+        {"model", "tx_rollback_test"},
+        {"collection", "tx_rollback_collection"},
+        {"uuid", "rollback_uuid"}
+    };
+    json get_response = rpc_service_->handleGet(get_params);
+    ASSERT_TRUE(get_response.contains("result")) << "GET should return result";
+    EXPECT_FALSE(get_response["result"]["found"].get<bool>())
+        << "Entity should NOT be found after rollback";
+}
+
+/**
+ * @test Verify transactional INSERT
+ * 
+ * Acceptance Criteria:
+ * - INSERT within a transaction succeeds for new entity
+ * - Committed transaction makes the INSERT visible
+ */
+TEST_F(RPCServiceIntegrationTest, TransactionalInsert) {
+    // Begin transaction
+    json begin_response = rpc_service_->handleTransactionBegin(json{});
+    ASSERT_TRUE(begin_response.contains("result"));
+    std::string tx_id = begin_response["result"]["transaction_id"].get<std::string>();
+
+    // INSERT within the transaction
+    json insert_params = {
+        {"model", "tx_insert_test"},
+        {"collection", "tx_insert_collection"},
+        {"uuid", "tx_insert_uuid"},
+        {"transaction_id", tx_id},
+        {"entity", {{"id", "tx_insert_uuid"}, {"data", "transactional"}}}
+    };
+    json insert_response = rpc_service_->handleInsert(insert_params);
+    ASSERT_TRUE(insert_response.contains("result"))
+        << "Transactional INSERT should return result";
+    EXPECT_TRUE(insert_response["result"]["success"].get<bool>())
+        << "Transactional INSERT should succeed";
+
+    // Commit
+    json commit_response = rpc_service_->handleTransactionCommit({{"transaction_id", tx_id}});
+    ASSERT_TRUE(commit_response.contains("result"));
+    EXPECT_TRUE(commit_response["result"]["success"].get<bool>());
+
+    // Entity should be visible
+    json get_response = rpc_service_->handleGet({
+        {"model", "tx_insert_test"},
+        {"collection", "tx_insert_collection"},
+        {"uuid", "tx_insert_uuid"}
+    });
+    ASSERT_TRUE(get_response.contains("result"));
+    EXPECT_TRUE(get_response["result"]["found"].get<bool>())
+        << "Entity should be visible after transactional INSERT commit";
+}
+
+/**
+ * @test Verify PUT with invalid transaction_id returns error
+ * 
+ * Acceptance Criteria:
+ * - PUT with non-existent transaction_id returns INVALID_PARAMETERS error
+ */
+TEST_F(RPCServiceIntegrationTest, PutWithInvalidTransactionId) {
+    json put_params = {
+        {"model", "tx_err_test"},
+        {"collection", "tx_err_collection"},
+        {"uuid", "some_uuid"},
+        {"transaction_id", "tx_nonexistent_999"},
+        {"entity", {{"id", "some_uuid"}}}
+    };
+    json response = rpc_service_->handlePut(put_params);
+    ASSERT_TRUE(response.contains("error")) << "PUT with invalid tx_id should return error";
+    EXPECT_EQ(response["error"]["code"],
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS))
+        << "Should return INVALID_PARAMETERS for unknown transaction ID";
 }
 
 } // namespace test
