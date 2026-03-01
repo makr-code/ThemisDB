@@ -178,6 +178,31 @@ themisdb:
       }
     }
 
+# Service mesh integration (Istio/Envoy sidecar compatibility)
+serviceMesh:
+  # Set to true to inject the Istio sidecar into this deployment.
+  # Requires Istio to be installed in the cluster.
+  istioInject: false
+
+  # Comma-separated ports included in Istio inbound traffic interception.
+  # Maps to traffic.sidecar.istio.io/includeInboundPorts pod annotation.
+  # Typically the wire protocol port (8766) and the HTTP API port (8080).
+  includeInboundPorts: "8766,8080"
+
+  # Comma-separated ports excluded from Istio inbound interception.
+  # Maps to traffic.sidecar.istio.io/excludeInboundPorts pod annotation.
+  # The probe port (8082) and UDP fast-path (8769) must be excluded so that
+  # Kubernetes health checks and UDP traffic bypass Envoy interception.
+  excludeInboundPorts: "8082,8769"
+
+  # When true, ThemisDB-level TLS is disabled and mTLS is handled by Envoy.
+  # Set THEMIS_ENABLE_TLS=false via themisdb.env when enabling this option.
+  trustSidecarMTLS: false
+
+  # Graceful shutdown: wait this many milliseconds for the Envoy sidecar to
+  # drain in-flight connections before the process exits.
+  drainTimeoutMs: 5000
+
 # Metrics and monitoring configuration
 metrics:
   # Enable Prometheus metrics endpoint
