@@ -45,7 +45,16 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [~] Serverless function hosting (run user code in-process) (Issue: #2467)
 - [I] Edge caching integration (CDN cache-control header management) (Issue: #2305)
 - [I] Service mesh sidecar proxy mode (Envoy xDS compatibility) (Issue: #2306)
-- [I] HTTP/3 datagram support for real-time low-latency streams (Issue: #2307)
+- [x] HTTP/3 datagram support for real-time low-latency streams (Issue: #2307)
+  - `Http3DatagramDispatcher` in `include/server/http3_datagram.h` / `src/server/http3_datagram.cpp`
+  - QUIC DATAGRAM extension (RFC 9221): `max_datagram_frame_size` advertised in transport params
+  - HTTP Datagrams (RFC 9297): Quarter Stream ID varint prefix + payload framing
+  - `Http3Session::sendDatagram()` and `recv_datagram` ngtcp2 callback wired in
+  - `H3_DATAGRAM = 1` advertised in nghttp3 SETTINGS
+  - Context registration / unregistration via `Http3DatagramDispatcher`
+  - `QuicTransport::Config::max_datagram_frame_size` (default 65535); set to 0 to disable
+  - Datagram stats added to `QuicTransport::Stats` (`datagrams_received`, `datagrams_sent`)
+  - Unit tests in `tests/test_http3_datagram.cpp` (33 tests)
 
 ## Implementation Phases
 
@@ -84,7 +93,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] gRPC-web proxy for browser clients
 - [ ] Edge caching integration (CDN cache-control header management)
 - [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
-- [ ] HTTP/3 datagram support for real-time low-latency streams
+- [x] HTTP/3 datagram support for real-time low-latency streams
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%
