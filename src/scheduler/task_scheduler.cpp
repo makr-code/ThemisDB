@@ -137,6 +137,23 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
             if (delay_ms < 0.0) delay_ms = 0.0;
             break;
         }
+
+        case ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF: {
+            // delay = initial * fib(attempt + 1)
+            // fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5, ...
+            // Loop invariant: after k iterations, a = fib(k), b = fib(k+1).
+            // Starting with a=1,b=1 (= fib(1),fib(2)) and running (attempt) iterations
+            // yields a = fib(attempt+1).
+            // Computed iteratively to avoid recursion overhead.
+            size_t a = 1, b = 1;
+            for (size_t i = 1; i <= attempt; ++i) {
+                size_t c = a + b;
+                a = b;
+                b = c;
+            }
+            delay_ms = base_ms * static_cast<double>(a);
+            break;
+        }
     }
 
     // Clamp to max_delay
