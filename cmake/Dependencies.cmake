@@ -768,6 +768,32 @@ if(THEMIS_ENABLE_LLM)
             endif()
         endif()
     endif()
+
+    # RNNoise: deep-learning noise suppression (optional, standalone – does not
+    # require THEMIS_ENABLE_VOICE_ASSISTANT; usable in any audio pipeline).
+    if(THEMIS_ENABLE_RNNOISE)
+        find_package(rnnoise QUIET CONFIG)
+        if(NOT rnnoise_FOUND)
+            # Try pkg-config fallback (common on Linux distributions)
+            find_package(PkgConfig QUIET)
+            if(PkgConfig_FOUND)
+                pkg_check_modules(RNNOISE QUIET rnnoise)
+            endif()
+        endif()
+        if(rnnoise_FOUND OR RNNOISE_FOUND)
+            message(STATUS "RNNoise found - enabling deep-learning noise suppression")
+            add_compile_definitions(THEMIS_ENABLE_RNNOISE=1)
+            if(rnnoise_FOUND)
+                target_link_libraries(themis_core PUBLIC rnnoise::rnnoise)
+            else()
+                target_include_directories(themis_core PUBLIC ${RNNOISE_INCLUDE_DIRS})
+                target_link_libraries(themis_core PUBLIC ${RNNOISE_LIBRARIES})
+            endif()
+        else()
+            message(FATAL_ERROR "THEMIS_ENABLE_RNNOISE=ON but RNNoise library not found. "
+                "Install via vcpkg (rnnoise) or your system package manager (librnnoise-dev).")
+        endif()
+    endif()
 endif()
 
 # ============================================================================

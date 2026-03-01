@@ -30,7 +30,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Short-term (Next 3-6 months)
 - [x] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
 - [I] Language detection and automatic locale switching (Issue: #2492)
-- [I] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
+- [x] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
 - [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 - [I] Voice session playback and search in stored transcripts (Issue: #2077)
 
@@ -64,7 +64,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Phase 3: Voice Macros & Browser Streaming [~] (Status: In Progress 🚧)
 - [x] Voice command macros (user-defined shortcuts to AQL queries)
 - [ ] Language detection and automatic locale switching
-- [ ] Noise suppression preprocessing (RNNoise integration)
+- [x] Noise suppression preprocessing (RNNoise integration)
 - [ ] WebSocket audio streaming endpoint for browser clients
 - [ ] Voice session playback and search in stored transcripts
 
