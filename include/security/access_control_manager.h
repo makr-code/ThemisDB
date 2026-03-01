@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     197                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 09619660f  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
@@ -30,6 +30,7 @@
 #include <functional>
 #include <unordered_map>
 #include "security/rbac.h"
+#include "security/row_level_security.h"
 #include "server/policy_engine.h"
 
 namespace themis {
@@ -82,6 +83,10 @@ struct AccessControlConfig {
     // ABAC configuration
     std::string abac_policy_path;                 // Path to ABAC policy file (JSON/YAML)
     bool enable_abac = false;                     // Enable ABAC evaluation alongside RBAC
+
+    // RLS configuration
+    std::string rls_policy_path;                  // Path to RLS policy file (JSON)
+    bool enable_rls = false;                      // Enable RLS filtering of query results
 
     /// Custom authorization hook (optional)
     /// Can be used to implement custom authorization logic
@@ -163,6 +168,40 @@ public:
     /// Remove an ABAC policy by id
     bool removeABACPolicy(const std::string& policy_id);
     
+    // ── Row-level security (RLS) ─────────────────────────────────────────────
+
+    /// Register an RLS policy.
+    /// Policies are keyed by policy.id; an existing policy with the same id is replaced.
+    void addRLSPolicy(const RLSPolicy& policy);
+
+    /// Remove an RLS policy by id.
+    /// @return true if the policy existed and was removed.
+    bool removeRLSPolicy(const std::string& policy_id);
+
+    /// Access the underlying RLS manager (for advanced operations).
+    RLSManager& getRLSManager() { return rls_manager_; }
+    const RLSManager& getRLSManager() const { return rls_manager_; }
+
+    /// Filter a JSON array of query-result rows through applicable RLS policies.
+    ///
+    /// When RLS is active for the collection/user combination, rows that do not
+    /// satisfy any matching policy predicate are silently excluded.  If no RLS
+    /// policies apply the array is returned unchanged.
+    ///
+    /// @param collection  Name of the queried collection.
+    /// @param ctx         Security context of the requesting user.
+    /// @param rows        JSON array returned by the query engine.
+    /// @return            Filtered JSON array (subset of @p rows visible to the user).
+    nlohmann::json filterQueryResults(
+        const std::string& collection,
+        const SecurityContext& ctx,
+        const nlohmann::json& rows
+    ) const;
+
+    /// Returns true when at least one enabled RLS policy matches the collection
+    /// and the security context.
+    bool isRLSActive(const std::string& collection, const SecurityContext& ctx) const;
+    
     /// Reload configuration from disk
     bool reloadConfiguration();
     
@@ -187,6 +226,7 @@ private:
     std::shared_ptr<AuthMiddleware> auth_middleware_;
     mutable Metrics metrics_;
     PolicyEngine policy_engine_;    ///< ABAC policy engine (evaluated alongside RBAC)
+    RLSManager rls_manager_;        ///< Row-level security policy registry
     
     /// Helper: log access decision for audit
     void auditAccessDecision(
