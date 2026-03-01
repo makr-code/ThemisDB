@@ -151,6 +151,23 @@ public:
                             const std::string& reason,
                             const std::string& request_id = "");
 
+    // -----------------------------------------------------------------------
+    // Anomaly detection events (brute-force, credential stuffing)
+    // -----------------------------------------------------------------------
+
+    /** Brute-force attack detected: account locked after repeated failures. */
+    void logBruteForceDetected(const std::string& user_id,
+                               const std::string& ip,
+                               size_t failed_attempts);
+
+    /** Credential stuffing suspected: many distinct usernames tried from one IP. */
+    void logCredentialStuffingSuspected(const std::string& ip,
+                                        size_t distinct_users);
+
+    /** Account locked due to repeated authentication failures. */
+    void logAccountLockoutTriggered(const std::string& user_id,
+                                    const std::string& ip);
+
 private:
     utils::AuditLogger* logger_;  ///< Non-owning; may be nullptr.
 

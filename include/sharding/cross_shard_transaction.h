@@ -63,7 +63,8 @@ enum class TransactionProtocol {
     TWO_PHASE_COMMIT,      // 2PC - blocking but strongly consistent
     THREE_PHASE_COMMIT,    // 3PC - non-blocking variant
     SAGA,                  // SAGA - compensating transactions for long-running txns
-    PERCOLATOR             // Percolator - optimistic concurrency for distributed writes
+    PERCOLATOR,            // Percolator - optimistic concurrency for distributed writes
+    CALVIN                 // Calvin - deterministic distributed transactions via pre-ordering
 };
 
 /**
@@ -174,6 +175,10 @@ struct CrossShardTransactionConfig {
     // Percolator settings
     std::chrono::milliseconds percolator_lock_timeout{1000};
     uint32_t percolator_max_retries = 3;
+    
+    // Calvin settings
+    std::chrono::milliseconds calvin_epoch_duration{10};   // Epoch batch window (default 10ms)
+    bool calvin_enable_deterministic_lock_order = true;    // Sort locks by key for deadlock-free acquisition
     
     // Deadlock detection
     bool enable_deadlock_detection = true;
@@ -347,6 +352,19 @@ private:
      * @brief Execute Percolator protocol
      */
     bool executePercolator(CrossShardTransaction& txn);
+    
+    /**
+     * @brief Execute Calvin deterministic protocol
+     * 
+     * Implements the Calvin deterministic database protocol:
+     * - Phase 1 (Sequencing): Assign a deterministic global sequence number
+     * - Phase 2 (Lock Acquisition): Pre-acquire all locks in a canonical order
+     * - Phase 3 (Execution): Execute and commit in the pre-determined order
+     * 
+     * Unlike 2PC, Calvin does not require a voting round; all participants
+     * execute the same pre-ordered transaction log, guaranteeing determinism.
+     */
+    bool executeCalvin(CrossShardTransaction& txn);
     
     /**
      * @brief Send prepare request to shard

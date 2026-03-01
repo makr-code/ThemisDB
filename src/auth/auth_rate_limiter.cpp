@@ -4,20 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_rate_limiter.cpp                              ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:59                                ║
+  Last Modified:   2026-03-01                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     391                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "auth/auth_rate_limiter.h"
+#include "auth/auth_audit_logger.h"
 #include "utils/logger.h"
 #include <algorithm>
 
@@ -412,18 +413,41 @@ void AuthRateLimiter::setAnomalyCallback(AuthAnomalyCallback callback) {
     anomaly_callback_ = std::move(callback);
 }
 
+void AuthRateLimiter::setAuditLogger(utils::AuditLogger* logger) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    audit_logger_ = logger;
+}
+
 void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type,
                                        const std::string& ip,
                                        const std::string& user_id,
                                        const std::string& detail) const {
     AuthAnomalyCallback cb;
+    utils::AuditLogger* al = nullptr;
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
         cb = anomaly_callback_;
+        al = audit_logger_;
     }
     if (cb) {
         AuthAnomalyEvent ev{type, ip, user_id, detail, std::chrono::system_clock::now()};
         cb(ev);
+    }
+    if (al) {
+        AuthAuditLogger audit(al);
+        switch (type) {
+            case AuthAnomalyEvent::Type::BRUTE_FORCE_DETECTED:
+                audit.logBruteForceDetected(user_id, ip,
+                                            config_.lockout_failed_attempts);
+                break;
+            case AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED:
+                audit.logCredentialStuffingSuspected(
+                    ip, config_.credential_stuffing_user_threshold);
+                break;
+            case AuthAnomalyEvent::Type::ACCOUNT_LOCKOUT_TRIGGERED:
+                audit.logAccountLockoutTriggered(user_id, ip);
+                break;
+        }
     }
 }
 

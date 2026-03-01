@@ -22,7 +22,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Attribute-Based Access Control (ABAC) alongside RBAC
 - [x] Zero-trust network policy enforcement (per-request identity verification)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
-- [x] Row-level security policies in AQL execution (`RLSManager`, `RLSPolicy`, `RLSPredicate`)
+- [x] Row-level security policies in AQL execution (`RLSManager`, `RLSPolicy`, `RLSPredicate`, `AccessControlManager` integration)
 - [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
 - [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
@@ -30,20 +30,19 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## In Progress 🚧
 - [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
   - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
-- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Target: Q3 2026) (Issue: #2462)
-  - Subsystems: `security/confidential_computing.h`, attestation service integration
-  - Expected behavior: memory-encrypted execution context; attestation failure throws `std::runtime_error`
-  - Tests: CPU/enclave parity tests + attestation mock suite
-  - Performance target: ≤ 20 % overhead vs non-enclave baseline
+- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
+  - Subsystems: `security/confidential_computing.h`, `security/confidential_computing.cpp`
+  - Intel TDX: CPUID leaf 0x21 detection + `/dev/tdx_guest` kernel driver + `TDX_CMD_GET_REPORT0` ioctl
+  - AMD SEV/SEV-SNP: CPUID leaf 0x8000_001F + MSR 0xC001_0131 probe + `/dev/sev-guest` + `SNP_GET_REPORT` ioctl
+  - AES-256-GCM seal/unseal bound to TEE measurement (MRTD for TDX, MEASUREMENT field for SEV-SNP)
+  - Software fallback for non-TEE environments (CI, developer machines)
+  - Tests: `tests/test_confidential_computing.cpp` — detection, attestation, seal/unseal round-trip, tamper detection, independent-instance key isolation
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
-  - Scope: scan staged files for high-entropy strings and known secret patterns (regex + Shannon entropy ≥ 4.5 bits/char — threshold consistent with truffleHog and detect-secrets defaults)
-  - Errors: false-positive allow-list, scan failure exits non-zero
-  - Tests: unit tests for scanner rules; integration test against CI pipeline
-  - Target: Q2 2026
+- [x] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
+  - Implemented: Shannon entropy ≥ 4.5 bits/char + regex pattern scanner (`scripts/secret_scan.py`), gitleaks pre-commit hook, detect-secrets baseline (`.secrets.baseline`), CI workflow (`.github/workflows/secret-scanning-ci.yml`), allow-list support (`.secret-scan-allowlist.txt`)
 
 ### Long-term (6-12 months)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
@@ -51,10 +50,12 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Storage: append-only JSON/CBOR log with tamper-evident chain; 12-month retention
   - Tests: evidence completeness check, retention enforcement
   - Target: Q4 2026
-- [I] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
+- [P] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
   - Scope: replace RSA-OAEP DEK wrapping (HSM) with Kyber-1024; replace ECDSA with Dilithium-5 for CMS signing
   - Backward compat: hybrid mode (classical + PQ) during migration; PQ-only in final phase
   - Tests: classical/PQ parity tests; Kyber decapsulation round-trip; performance baseline ≥ 2000 ops/s
+  - Implementation: `include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`
+  - Backend: OpenSSL simulation (X25519→Kyber, Ed25519→Dilithium); liboqs swap-in ready
   - Target: Q4 2026
 
 ## Implementation Phases
@@ -83,15 +84,15 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
 - [x] Anomaly detection on authentication patterns (brute-force, credential stuffing) (`AuthRateLimiter`)
-- [x] Row-level security policies in AQL execution (`RLSManager`)
+- [x] Row-level security policies in AQL execution (`RLSManager`, `AccessControlManager` integration)
 
 ### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: In Progress 🚧)
 - [x] Zero-trust network policy enforcement (per-request identity verification)
-- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
+- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
-- [ ] Secret scanning pre-commit hook for CI pipelines
+- [x] Secret scanning pre-commit hook for CI pipelines (`scripts/secret_scan.py`, `.pre-commit-config.yaml`, `.github/workflows/secret-scanning-ci.yml`)
 - [ ] SOC 2 Type II compliance evidence collection
-- [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
+- [P] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider)

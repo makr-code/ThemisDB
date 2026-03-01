@@ -169,13 +169,28 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
         return;
     }
     
-    // Process the received message
-    std::string message = beast::buffers_to_string(buffer_.data());
-    buffer_.consume(buffer_.size());
-    
-    THEMIS_DEBUG("WebSocket message received ({}): {}", session_id_, message);
-    
-    processMessage(message);
+    // Determine whether the incoming frame is binary or text so that each
+    // frame type is routed to the appropriate handler.
+    const bool is_binary = is_tls_ ? ws_tls_->got_binary()
+                                   : ws_plain_->got_binary();
+
+    if (is_binary) {
+        // Binary frame: collect the raw bytes and dispatch to the binary handler.
+        const auto* raw = static_cast<const uint8_t*>(buffer_.data().data());
+        std::vector<uint8_t> frame_data(raw, raw + buffer_.size());
+        buffer_.consume(buffer_.size());
+
+        THEMIS_DEBUG("WebSocket binary frame received ({}): {} bytes",
+                     session_id_, frame_data.size());
+        processBinaryMessage(frame_data);
+    } else {
+        // Text frame: decode as UTF-8 string and dispatch to the JSON handler.
+        std::string message = beast::buffers_to_string(buffer_.data());
+        buffer_.consume(buffer_.size());
+
+        THEMIS_DEBUG("WebSocket message received ({}): {}", session_id_, message);
+        processMessage(message);
+    }
     
     // Continue reading
     doRead();
@@ -362,6 +377,28 @@ void WebSocketSession::processMessage(const std::string& message) {
         };
         send(response.dump());
     }
+}
+
+void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
+    // The HTTP WebSocket endpoint (/v1/ws, /v2/changes, /v2/cdc/stream) uses a
+    // text/JSON protocol.  Binary frames are not part of its contract.
+    //
+    // Clients that require binary wire-protocol frame transport should connect
+    // to the dedicated wire-protocol WebSocket endpoint on port 8766 where
+    // WireProtocolWebSocketSession handles the full binary frame dispatch.
+    THEMIS_WARN("WebSocket session {} received unexpected binary frame ({} bytes); "
+                "binary frames are not supported on this endpoint",
+                session_id_, data.size());
+
+    json response = {
+        {"type",     "error"},
+        {"status",   "unsupported"},
+        {"message",  "Binary WebSocket frames are not supported on the HTTP API endpoint. "
+                     "Connect to the wire-protocol WebSocket endpoint (port 8766) for "
+                     "binary wire-protocol frame support."},
+        {"bytes_received", data.size()}
+    };
+    send(response.dump());
 }
 
 void WebSocketSession::send(const std::string& message) {

@@ -39,7 +39,8 @@ enum class TransactionProtocol {
     TWO_PHASE_COMMIT,
     THREE_PHASE_COMMIT,
     SAGA,
-    PERCOLATOR
+    PERCOLATOR,
+    CALVIN           // Deterministic distributed transactions via pre-ordering
 };
 
 /**

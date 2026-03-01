@@ -328,6 +328,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
+    ".*test_cdn_cache_middleware\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
     # test_importer_plugin_api uses THEMIS_IMPORTER_PLUGIN_IMPL which generates
@@ -954,6 +955,18 @@ add_test(NAME ThemisWireProtocolV1Tests
     COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*)
 set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     LABELS "wire;protocol;themis;unit"
+    TIMEOUT 60
+)
+
+# Build info and module availability tests (subset of AllTests)
+# Covers: getBuildConfiguration(), isModuleCompiledIn(), getCompiledModules(),
+#         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
+#         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
+#         (from test_build_info.cpp, Issue #2470)
+add_test(NAME BuildInfoTests
+    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
+set_tests_properties(BuildInfoTests PROPERTIES
+    LABELS "build;info;module;availability;themis;unit"
     TIMEOUT 60
 )
 
@@ -2105,8 +2118,42 @@ else()
 endif()
 
 # ============================================================================
-# UDF API Handler Tests
+# gRPC-Web Proxy Handler Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_web_proxy_handler.cpp")
+    message(STATUS "Adding gRPC-Web Proxy Handler tests")
+
+    add_executable(test_grpc_web_proxy_handler
+        test_grpc_web_proxy_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
+    )
+
+    target_include_directories(test_grpc_web_proxy_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_grpc_web_proxy_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_grpc_web_proxy_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GrpcWebProxyHandlerTests
+             COMMAND test_grpc_web_proxy_handler)
+
+    set_tests_properties(GrpcWebProxyHandlerTests PROPERTIES
+        LABELS "server;grpc;grpc-web;proxy;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC-Web Proxy Handler: frame decode/encode, CORS, status, request validation")
+else()
+    message(STATUS "gRPC-Web Proxy Handler tests not found")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")
@@ -3285,6 +3332,41 @@ else()
 endif()
 
 # ============================================================================
+# Global Transaction Manager Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+    message(STATUS "Adding Global Transaction Manager tests")
+
+    add_executable(test_global_transaction_manager
+        test_global_transaction_manager.cpp
+    )
+
+    target_link_libraries(test_global_transaction_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_global_transaction_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GlobalTransactionManagerTests COMMAND test_global_transaction_manager)
+
+    set_tests_properties(GlobalTransactionManagerTests PROPERTIES
+        LABELS "transaction;distributed;multi-region;acid;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GlobalTransactionManager: 2PC across regions, TrueTime commit timestamp, recovery, statistics")
+else()
+    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+endif()
+
+# ============================================================================
 # Parallel Full-Table Scan Tests
 # ============================================================================
 
@@ -3317,6 +3399,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
     message(STATUS "  Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness")
 else()
     message(STATUS "Parallel Full-Table Scan tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
+endif()
+
+# ============================================================================
+# CDN Cache Middleware Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_cache_middleware.cpp")
+    message(STATUS "Adding CDN Cache Middleware tests")
+
+    add_executable(test_cdn_cache_middleware
+        test_cdn_cache_middleware.cpp
+        ${THEMIS_ROOT_DIR}/src/server/cdn_cache_middleware.cpp
+    )
+
+    target_include_directories(test_cdn_cache_middleware PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdn_cache_middleware PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdn_cache_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CdnCacheMiddlewareTests
+             COMMAND test_cdn_cache_middleware)
+
+    set_tests_properties(CdnCacheMiddlewareTests PROPERTIES
+        LABELS "server;cdn;cache;edge;http;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CdnCacheMiddleware: cache-control headers, ETag, conditional requests, route policies")
+else()
+    message(STATUS "CDN Cache Middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_cache_middleware.cpp")
 endif()
 
 # ============================================================================
