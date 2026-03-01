@@ -1538,16 +1538,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_api_endpoints.cpp")
         bench_api_endpoints.cpp
     )
 
-    target_link_libraries(bench_api_endpoints PRIVATE
+    set(_bench_api_endpoint_libs
         ${BENCHMARK_LIBS}
         themis_core
-        Boost::asio
-        Boost::beast
         OpenSSL::SSL
         OpenSSL::Crypto
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
+
+    # Boost.Asio/Beast are often header-only; link imported targets only when available.
+    if(TARGET Boost::asio)
+        list(APPEND _bench_api_endpoint_libs Boost::asio)
+    endif()
+    if(TARGET Boost::beast)
+        list(APPEND _bench_api_endpoint_libs Boost::beast)
+    endif()
+    if(TARGET Boost::boost)
+        list(APPEND _bench_api_endpoint_libs Boost::boost)
+    elseif(TARGET Boost::headers)
+        list(APPEND _bench_api_endpoint_libs Boost::headers)
+    elseif(DEFINED Boost_INCLUDE_DIRS)
+        target_include_directories(bench_api_endpoints PRIVATE ${Boost_INCLUDE_DIRS})
+    endif()
+
+    target_link_libraries(bench_api_endpoints PRIVATE ${_bench_api_endpoint_libs})
 
     target_compile_definitions(bench_api_endpoints PRIVATE
         THEMIS_BENCHMARK_BUILD=1

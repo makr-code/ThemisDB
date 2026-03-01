@@ -354,6 +354,7 @@ bool TumblingWindow::ingest(const StreamRecord& record) {
     }
 
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
 
@@ -372,12 +373,13 @@ bool TumblingWindow::ingest(const StreamRecord& record) {
         open_windows_[idx].records.push_back(record);
 
         pending = closeExpiredWindows(wm);
+        cb = callback_;
     } // mutex_ released
 
     // BUG 3 FIX: fire callbacks outside the lock to prevent re-entrant deadlock.
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
     return true;
@@ -385,13 +387,15 @@ bool TumblingWindow::ingest(const StreamRecord& record) {
 
 void TumblingWindow::flush() {
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
+        cb = callback_;
     } // mutex_ released
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
@@ -534,6 +538,7 @@ bool SlidingWindow::ingest(const StreamRecord& record) {
     }
 
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
 
@@ -553,12 +558,13 @@ bool SlidingWindow::ingest(const StreamRecord& record) {
         }
 
         pending = closeExpiredWindows(wm);
+        cb = callback_;
     } // mutex_ released
 
     // BUG 3 FIX: fire callbacks outside the lock.
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
     return true;
@@ -566,13 +572,15 @@ bool SlidingWindow::ingest(const StreamRecord& record) {
 
 void SlidingWindow::flush() {
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
+        cb = callback_;
     }
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
@@ -610,10 +618,10 @@ SessionWindow::SessionWindow(const SessionWindowConfig& config)
 }
 
 SessionWindow::~SessionWindow() {
-    flush();
     running_ = false;
     expiry_cv_.notify_all();
     if (expiry_thread_.joinable()) expiry_thread_.join();
+    flush();
 }
 
 std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& config) {
@@ -666,6 +674,7 @@ bool SessionWindow::ingest(const StreamRecord& record) {
 
     WindowResult pending_result;
     bool         has_pending = false;
+    ResultCallback cb;
 
     {
         std::lock_guard lk(mutex_);
@@ -713,17 +722,19 @@ bool SessionWindow::ingest(const StreamRecord& record) {
                 s.records.push_back(record);
             }
         }
+        cb = callback_;
     } // mutex_ released before callback
 
     // BUG 3 FIX: invoke callback outside the mutex to prevent re-entrant deadlock.
-    if (has_pending && callback_) {
-        try { callback_(pending_result); } catch (...) {}
+    if (has_pending && cb) {
+        try { cb(pending_result); } catch (...) {}
     }
     return true;
 }
 
 void SessionWindow::flush() {
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
         for (auto& [key, s] : sessions_) {
@@ -734,11 +745,12 @@ void SessionWindow::flush() {
             }
         }
         sessions_.clear();
+        cb = callback_;
     }
     // BUG 3 FIX: invoke callbacks outside the mutex.
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
@@ -764,6 +776,7 @@ void SessionWindow::expiryLoop() {
         if (!running_) break;
 
         std::vector<WindowResult> pending;
+        ResultCallback cb;
         {
             auto now = std::chrono::system_clock::now();
             std::lock_guard lk(mutex_);
@@ -784,10 +797,11 @@ void SessionWindow::expiryLoop() {
                 }
                 sessions_.erase(key);
             }
+            cb = callback_;
         } // mutex_ released before callback (BUG 3 FIX)
-        if (callback_) {
+        if (cb) {
             for (auto& r : pending) {
-                try { callback_(r); } catch (...) {}
+                try { cb(r); } catch (...) {}
             }
         }
     }
@@ -911,6 +925,7 @@ bool HoppingWindow::ingest(const StreamRecord& record) {
     }
 
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
         ensureWindowsExist(record.event_time);
@@ -925,12 +940,13 @@ bool HoppingWindow::ingest(const StreamRecord& record) {
 
         if (ev_us < wm && config_.watermark.allow_late_data) ++late_records_;
         pending = closeExpiredWindows(wm);
+        cb = callback_;
     } // mutex_ released
 
     // BUG 3 FIX: fire callbacks outside the lock.
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
     return true;
@@ -938,13 +954,15 @@ bool HoppingWindow::ingest(const StreamRecord& record) {
 
 void HoppingWindow::flush() {
     std::vector<WindowResult> pending;
+    ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
+        cb = callback_;
     }
-    if (callback_) {
+    if (cb) {
         for (auto& r : pending) {
-            try { callback_(r); } catch (...) {}
+            try { cb(r); } catch (...) {}
         }
     }
 }
