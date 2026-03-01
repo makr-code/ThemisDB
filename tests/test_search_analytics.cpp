@@ -223,6 +223,65 @@ TEST(SearchAnalyticsMetrics, PercentilesInNonDecreasingOrder) {
 }
 
 // ============================================================================
+// getTopQueries
+// ============================================================================
+
+TEST(SearchAnalyticsTopQueries, EmptyReturnsEmpty) {
+    SearchAnalytics sa;
+    EXPECT_TRUE(sa.getTopQueries(10).empty());
+}
+
+TEST(SearchAnalyticsTopQueries, LimitZeroReturnsEmpty) {
+    SearchAnalytics sa;
+    sa.record("q", 1, 1.0);
+    EXPECT_TRUE(sa.getTopQueries(0).empty());
+}
+
+TEST(SearchAnalyticsTopQueries, SortedByDescendingFrequency) {
+    SearchAnalytics sa;
+    for (int i = 0; i < 5; ++i) sa.record("popular", 1, 1.0);
+    for (int i = 0; i < 2; ++i) sa.record("medium",  1, 1.0);
+    sa.record("rare", 1, 1.0);
+    auto top = sa.getTopQueries(10);
+    ASSERT_EQ(top.size(), 3u);
+    EXPECT_EQ(top[0].first,  "popular");
+    EXPECT_EQ(top[0].second, 5u);
+    EXPECT_EQ(top[1].first,  "medium");
+    EXPECT_EQ(top[1].second, 2u);
+    EXPECT_EQ(top[2].first,  "rare");
+    EXPECT_EQ(top[2].second, 1u);
+}
+
+TEST(SearchAnalyticsTopQueries, LimitHonored) {
+    SearchAnalytics sa;
+    // Record 10 distinct queries each once; alphabetical tiebreak means q0 < q1 < ... < q9
+    for (int i = 0; i < 10; ++i) sa.record("q" + std::to_string(i), 1, 1.0);
+    auto top = sa.getTopQueries(3);
+    ASSERT_EQ(top.size(), 3u);
+    // All have equal frequency so alphabetical tiebreak applies: q0, q1, q2
+    EXPECT_EQ(top[0].first, "q0");
+    EXPECT_EQ(top[1].first, "q1");
+    EXPECT_EQ(top[2].first, "q2");
+}
+
+TEST(SearchAnalyticsTopQueries, LimitLargerThanDistinctQueries) {
+    SearchAnalytics sa;
+    sa.record("a", 1, 1.0);
+    sa.record("b", 1, 1.0);
+    auto top = sa.getTopQueries(100);
+    EXPECT_EQ(top.size(), 2u);
+}
+
+TEST(SearchAnalyticsTopQueries, CountsAreAccurate) {
+    SearchAnalytics sa;
+    for (int i = 0; i < 7; ++i) sa.record("x", 1, 1.0);
+    auto top = sa.getTopQueries(1);
+    ASSERT_EQ(top.size(), 1u);
+    EXPECT_EQ(top[0].first,  "x");
+    EXPECT_EQ(top[0].second, 7u);
+}
+
+// ============================================================================
 // clear()
 // ============================================================================
 

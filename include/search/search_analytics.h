@@ -133,6 +133,19 @@ public:
     std::vector<SearchEvent> getRecentEvents(size_t limit = 100) const;
 
     /**
+     * @brief Return the top queries ranked by frequency.
+     *
+     * Returns up to @p limit query strings with their occurrence counts,
+     * sorted by descending frequency (most popular first).  This is a
+     * lightweight alternative to @c computeMetrics() when only the top-query
+     * list is needed.
+     *
+     * @param limit  Maximum number of entries to return (default: 20).
+     * @return Vector of (query, count) pairs, most frequent first.
+     */
+    std::vector<std::pair<std::string, size_t>> getTopQueries(size_t limit = 20) const;
+
+    /**
      * @brief Compute aggregated metrics over all retained events.
      *
      * Computing metrics is O(n) in the number of retained events.
