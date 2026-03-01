@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     229                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -69,9 +69,15 @@ public:
     json handleGet(const json& params);
     
     /**
-     * @brief Handle PUT operation
+     * @brief Handle PUT operation (upsert with optional transaction support)
      */
     json handlePut(const json& params);
+    
+    /**
+     * @brief Handle INSERT operation (strict insert - fails if entity already exists)
+     * Supports optional transaction_id for transactional inserts.
+     */
+    json handleInsert(const json& params);
     
     /**
      * @brief Handle DELETE operation
