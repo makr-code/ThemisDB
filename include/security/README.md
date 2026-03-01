@@ -621,6 +621,56 @@ if (caps.hasHSM()) {
 
 ---
 
+#### `pkcs11_wrapper.h`
+**Purpose**: RAII C++ wrapper interface over the raw PKCS#11 C API
+
+**Key classes and helpers** (in namespace `themis::security::pkcs11`):
+- `Pkcs11Library`: RAII loader for a PKCS#11 shared library (dlopen / LoadLibrary).
+  Calls `C_GetFunctionList` and `C_Initialize` on `load()`; calls `C_Finalize` and
+  unloads the library in its destructor.
+- `Pkcs11Session`: RAII guard for a PKCS#11 session.  Opens a session via
+  `C_OpenSession` and closes / logs out in its destructor.
+- `Pkcs11Category` / `makePkcs11Error()`: Maps `CK_RV` codes to `std::error_code`
+  for integration with standard C++ error handling.
+- `ckrvToString()`: Human-readable string for any `CK_RV` return value.
+- `AttributeFilter`: Convenience struct for building `CK_ATTRIBUTE` search templates.
+- Free helper functions: `listSlots`, `findObjects`, `findObjectsByLabel`,
+  `signData`, `verifyData`, `encryptData`, `decryptData`,
+  `generateRsaKeyPair`, `getAttribute`, `getAttributeBytes`.
+
+**Design principles**:
+- Header-only (no additional `.cpp` required).
+- No exceptions thrown internally; all operations return `bool`,
+  `std::optional`, or empty containers.
+- Non-copyable; movable (both `Pkcs11Library` and `Pkcs11Session`).
+- No hidden state: callers interact directly with `CK_FUNCTION_LIST_PTR`
+  and `CK_OBJECT_HANDLE` values.
+
+**Example**:
+```cpp
+#include "security/pkcs11_wrapper.h"
+using namespace themis::security::pkcs11;
+
+Pkcs11Library lib;
+if (!lib.load("/usr/lib/softhsm/libsofthsm2.so")) {
+    throw std::runtime_error(lib.lastError());
+}
+
+auto slots = listSlots(lib.functions());
+
+Pkcs11Session session(lib.functions());
+session.open(slots[0]);
+session.login(CKU_USER, "1234");
+
+auto privKeys = findObjectsByLabel(session, "my-key", CKO_PRIVATE_KEY);
+auto sig = signData(session, privKeys[0], CKM_SHA256_RSA_PKCS, data);
+```
+
+**Thread safety**: `Pkcs11Library` is not thread-safe after construction.
+`Pkcs11Session` objects must not be shared across threads.
+
+---
+
 #### `vcc_pki_client.h`
 **Purpose**: VCC PKI client for certificate operations
 
