@@ -596,14 +596,13 @@ uint32_t PostQuantumKeyProvider::createKeyFromBytes(const std::string& key_id,
 }
 
 /*
- * Kyber-wrapped DEK blob format (all lengths LE uint32):
+ * Kyber-wrapped DEK blob format (all integer fields are LE uint32):
  *   [4] kem_ct_len
  *   [kem_ct_len] Kyber KEM ciphertext (= ephemeral X25519 public key in sim)
- *   [4] iv_offset marker (unused, kept for future alignment)
  *   [12] AES-GCM IV
  *   [4] enc_dek_len
  *   [enc_dek_len] AES-256-GCM ciphertext of DEK
- *   [16] GCM tag
+ *   [16] GCM authentication tag
  */
 
 std::vector<uint8_t>
@@ -612,7 +611,10 @@ PostQuantumKeyProvider::wrapKeyWithKyber(
     const std::vector<uint8_t>& recipient_public_key)
 {
     if (dek.empty() || dek.size() > 256) {
-        throw std::runtime_error("wrapKeyWithKyber: DEK size out of range");
+        // 256-byte upper bound matches common DEK sizes (AES-128: 16 B,
+        // AES-256: 32 B, ChaCha20: 32 B) while preventing accidental
+        // misuse that would embed large payloads in the wire format blob.
+        throw std::runtime_error("wrapKeyWithKyber: DEK size out of range (must be 1–256 bytes)");
     }
 
     // 1. KEM encapsulate
@@ -802,11 +804,14 @@ HybridEncryption::encryptHybrid(const std::string& key_id,
     auto aes_key = getKeyProvider()->getKey(key_id);
     auto metadata = getKeyProvider()->getKeyMetadata(key_id);
 
-    // 2. Generate ephemeral Kyber key pair for sender
+    // Generate ephemeral Kyber key pair for this encryption event.
+    // Self-encapsulation: in single-process field encryption the engine is
+    // both encapsulator and decapsulator.  The ephemeral secret key is stored
+    // in the blob's key_id field so decryptHybrid() can recover it.
+    // For multi-party use, replace this with encapsulation under a long-term
+    // recipient public key provided externally.
     auto kp = kyber_.generateKeyPair();
-    // Encapsulate using the sender's own ephemeral public key as recipient
-    // (For real usage the recipient's long-term public key would be used here;
-    //  this demo self-encapsulates for round-trip correctness in unit tests.)
+    // Encapsulate using the ephemeral public key as the recipient key
     auto enc_result = kyber_.encapsulate(kp.public_key);
 
     // 3. Derive combined key: HKDF(kem_ss || aes_key)

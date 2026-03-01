@@ -238,10 +238,11 @@ enum class PQMigrationMode {
  * classical and PQ ciphertext so decryption can fall back to the classical path
  * when needed during migration.
  *
- * Wire format of a Kyber-wrapped DEK blob (little-endian lengths):
- *   [4 bytes: kem_ct_len][kem_ct_len bytes: Kyber ciphertext]
+ * Wire format of a Kyber-wrapped DEK blob (all integer fields are LE uint32):
+ *   [4 bytes: kem_ct_len][kem_ct_len bytes: Kyber KEM ciphertext]
+ *   [12 bytes: AES-GCM IV]
  *   [4 bytes: enc_dek_len][enc_dek_len bytes: AES-256-GCM encrypted DEK]
- *   [12 bytes: IV][16 bytes: GCM tag]
+ *   [16 bytes: GCM authentication tag]
  *
  * Thread safety: all methods are thread-safe.
  */
@@ -323,12 +324,21 @@ private:
  * broken (classical or quantum attacker).
  *
  * Encryption flow (HYBRID mode):
- *   1. Generate ephemeral Kyber key pair (ek, dk).
- *   2. Encapsulate: (kem_ct, kem_ss) = Kyber.Encap(ek).
+ *   1. Generate an ephemeral Kyber key pair (ek, dk).
+ *   2. Self-encapsulate: (kem_ct, kem_ss) = Kyber.Encap(ek).
+ *      Rationale: in symmetric database field encryption, the encryptor and
+ *      decryptor are the same process (the database engine). The ephemeral
+ *      key pair is therefore "self-owned": the secret key is stored in the
+ *      blob alongside the ciphertext (see key_id encoding below), and the
+ *      shared secret provides forward-secrecy within a single encryption
+ *      event. In a future multi-party deployment (e.g. client-side
+ *      encryption), the caller would supply a long-term recipient public key
+ *      via the PostQuantumKeyProvider and store only the KEM ciphertext.
  *   3. Retrieve classical AES key from provider: aes_key = provider.getKey(key_id).
  *   4. Derive combined key: combined = HKDF(kem_ss ‖ aes_key, 32 bytes).
  *   5. Encrypt plaintext with AES-256-GCM(combined).
- *   6. Store {kem_ct, ek_public, aes_blob} in the EncryptedBlob metadata.
+ *   6. Store {kem_ct, eph_sk (for decapsulation), aes_blob} in the
+ *      EncryptedBlob key_id field using a structured prefix (see impl).
  *
  * The EncryptedBlob produced by encryptHybrid() is forward-compatible with
  * decryptHybrid(). Standard FieldEncryption::decrypt() will fall back to the
