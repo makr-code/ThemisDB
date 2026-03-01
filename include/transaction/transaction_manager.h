@@ -53,6 +53,8 @@ class GraphIndexManager;
 class VectorIndexManager;
 class Saga;
 
+namespace transaction { class SnapshotManager; }
+
 /// TransactionManager: ACID-ähnliche, atomare Multi-Layer-Updates via RocksDB WriteBatch
 ///
 /// Thread-Safety:
@@ -909,6 +911,117 @@ public:
      */
     void setConflictManager(ConflictManager* mgr) { conflict_mgr_ = mgr; }
 
+    // ── Time-travel queries ───────────────────────────────────────────────────
+
+    /**
+     * @brief Result of a time-travel query against the entity history log.
+     *
+     * Wraps a raw HistoryRecord with convenience accessors suited for
+     * higher-level callers who do not want to work with HistoryRecord directly.
+     */
+    struct TimeTravelRecord {
+        std::string base_key;          ///< Live storage key (e.g. "entity:users:u1")
+        HLCTimestamp timestamp;        ///< HLC timestamp of this version
+        std::string op;                ///< "put" (value present) or "del" (tombstone)
+        std::vector<uint8_t> value;    ///< Serialized entity bytes; empty for "del"
+        uint64_t txn_id{0};           ///< Transaction that produced this version
+    };
+
+    /**
+     * @brief Set the SnapshotManager used to resolve named snapshot tags to
+     *        HLC timestamps for time-travel queries.
+     *
+     * Optional: when set, readEntityAtSnapshot() can look up the wall-clock
+     * timestamp stored inside a named tag and use it to perform a time-travel
+     * read.  The pointer must outlive this TransactionManager.  Pass nullptr
+     * to disable snapshot-based time-travel.
+     *
+     * @param mgr Non-owning pointer to a SnapshotManager.  May be nullptr.
+     */
+    void setSnapshotManager(transaction::SnapshotManager* mgr) {
+        snapshot_mgr_ = mgr;
+    }
+
+    /**
+     * @brief Read the state of an entity as it existed at a given HLC timestamp.
+     *
+     * Queries the immutable history log written by putEntity() / eraseEntity()
+     * and returns the most-recent version at or before @p ts.
+     *
+     * Requires that a HistoryManager has been set via setHistoryManager().
+     *
+     * @param table  Table name.
+     * @param pk     Primary key.
+     * @param ts     HLC timestamp upper bound (inclusive).
+     * @return       TimeTravelRecord at or before @p ts, or std::nullopt when:
+     *               - no HistoryManager is configured,
+     *               - the entity has no history at or before @p ts, or
+     *               - the entity has never been written.
+     */
+    std::optional<TimeTravelRecord> readEntityAtTimestamp(
+        std::string_view table,
+        std::string_view pk,
+        HLCTimestamp ts) const;
+
+    /**
+     * @brief Read the state of an entity as it existed at a Unix wall-clock
+     *        timestamp (milliseconds since epoch).
+     *
+     * Converts @p unix_ms to the corresponding HLC timestamp upper bound
+     * (physical component = unix_ms, logical component = MAX_LOGICAL) and
+     * delegates to readEntityAtTimestamp().
+     *
+     * @param table    Table name.
+     * @param pk       Primary key.
+     * @param unix_ms  Unix timestamp in milliseconds.
+     * @return         TimeTravelRecord at or before the given wall-clock time,
+     *                 or std::nullopt when no matching history entry is found.
+     */
+    std::optional<TimeTravelRecord> readEntityAtUnixMs(
+        std::string_view table,
+        std::string_view pk,
+        int64_t unix_ms) const;
+
+    /**
+     * @brief Read the state of an entity as it existed at a named snapshot tag.
+     *
+     * Looks up the wall-clock timestamp stored in the named tag via the
+     * configured SnapshotManager and then delegates to readEntityAtUnixMs().
+     *
+     * Requires both a HistoryManager (setHistoryManager()) and a
+     * SnapshotManager (setSnapshotManager()) to be configured.
+     *
+     * @param table     Table name.
+     * @param pk        Primary key.
+     * @param tag_name  Named snapshot tag created via SnapshotManager::createTag().
+     * @return          TimeTravelRecord as of the snapshot, or std::nullopt when:
+     *                  - no SnapshotManager is configured,
+     *                  - the tag does not exist, or
+     *                  - no history entry exists at or before the tag timestamp.
+     */
+    std::optional<TimeTravelRecord> readEntityAtSnapshot(
+        std::string_view table,
+        std::string_view pk,
+        const std::string& tag_name) const;
+
+    /**
+     * @brief List all historical versions of an entity, oldest first.
+     *
+     * Returns the complete version chain recorded in the immutable history log.
+     * Each entry corresponds to one putEntity() or eraseEntity() call that was
+     * committed.
+     *
+     * Requires that a HistoryManager has been set via setHistoryManager().
+     *
+     * @param table  Table name.
+     * @param pk     Primary key.
+     * @return       All TimeTravelRecords in chronological order (empty when
+     *               no HistoryManager is set or the entity has no history).
+     */
+    std::vector<TimeTravelRecord> listEntityVersions(
+        std::string_view table,
+        std::string_view pk) const;
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -1006,6 +1119,8 @@ private:
     /// Optional non-owning pointers – set to enable history/conflict tracking.
     HistoryManager*  history_mgr_{nullptr};
     ConflictManager* conflict_mgr_{nullptr};
+    /// Optional SnapshotManager for resolving named tags in time-travel queries.
+    transaction::SnapshotManager* snapshot_mgr_{nullptr};
 };
 
 } // namespace themis
