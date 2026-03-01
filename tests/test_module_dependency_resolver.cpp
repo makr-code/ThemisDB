@@ -657,3 +657,96 @@ TEST(ModuleDependencyResolver, DependencyResolutionResult_HasVersionMismatchesFi
     DependencyResolutionResult r;
     EXPECT_TRUE(r.versionMismatches.empty());
 }
+
+// ============================================================================
+// getRegisteredModules()
+// ============================================================================
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_Empty) {
+    ModuleDependencyResolver resolver;
+    auto modules = resolver.getRegisteredModules();
+    EXPECT_TRUE(modules.empty());
+}
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_SingleModule) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base", "1.0.0", {});
+
+    auto modules = resolver.getRegisteredModules();
+
+    ASSERT_EQ(modules.size(), 1u);
+    EXPECT_EQ(modules[0].name, "themis_base");
+    EXPECT_EQ(modules[0].version, "1.0.0");
+    EXPECT_TRUE(modules[0].deps.empty());
+}
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_SortedByName) {
+    // Modules should be returned sorted alphabetically by name.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("module_c", {});
+    resolver.registerModule("module_a", {});
+    resolver.registerModule("module_b", {});
+
+    auto modules = resolver.getRegisteredModules();
+
+    ASSERT_EQ(modules.size(), 3u);
+    EXPECT_EQ(modules[0].name, "module_a");
+    EXPECT_EQ(modules[1].name, "module_b");
+    EXPECT_EQ(modules[2].name, "module_c");
+}
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_PreservesDependencies) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("base", "2.1.0", {});
+    resolver.registerModule("storage", "1.0.0", {dep("base", "2.0.0", "3.0.0")});
+
+    auto modules = resolver.getRegisteredModules();
+
+    ASSERT_EQ(modules.size(), 2u);
+    // Sorted: "base" before "storage"
+    EXPECT_EQ(modules[0].name, "base");
+    EXPECT_EQ(modules[0].version, "2.1.0");
+    EXPECT_TRUE(modules[0].deps.empty());
+
+    EXPECT_EQ(modules[1].name, "storage");
+    EXPECT_EQ(modules[1].version, "1.0.0");
+    ASSERT_EQ(modules[1].deps.size(), 1u);
+    EXPECT_EQ(modules[1].deps[0].name, "base");
+    EXPECT_EQ(modules[1].deps[0].minVersion, "2.0.0");
+    EXPECT_EQ(modules[1].deps[0].maxVersion, "3.0.0");
+    EXPECT_TRUE(modules[1].deps[0].required);
+}
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_NoVersionOverload) {
+    // registerModule(name, deps) stores an empty version string.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("mymod", {});
+
+    auto modules = resolver.getRegisteredModules();
+
+    ASSERT_EQ(modules.size(), 1u);
+    EXPECT_EQ(modules[0].name, "mymod");
+    EXPECT_TRUE(modules[0].version.empty());
+}
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_AfterClear) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("a", {});
+    resolver.registerModule("b", {dep("a")});
+    resolver.clear();
+
+    auto modules = resolver.getRegisteredModules();
+    EXPECT_TRUE(modules.empty());
+}
+
+TEST(ModuleDependencyResolver, GetRegisteredModules_AfterReRegistration) {
+    // Re-registering a module should replace its entry; count stays the same.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("a", "1.0.0", {});
+    resolver.registerModule("a", "2.0.0", {});
+
+    auto modules = resolver.getRegisteredModules();
+
+    ASSERT_EQ(modules.size(), 1u);
+    EXPECT_EQ(modules[0].version, "2.0.0");
+}
