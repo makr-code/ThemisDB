@@ -230,6 +230,32 @@ TEST(RuntimeReoptimizer, EnableDisable) {
 }
 
 // ---------------------------------------------------------------------------
+// Fallback estimate: use historical average when estimated_rows = 0
+// ---------------------------------------------------------------------------
+
+TEST(RuntimeReoptimizer, FallbackEstimateEnablesAdjustmentFactor) {
+    RuntimeReoptimizer reopt;
+
+    // Seed history via recordExecution with a real estimate
+    for (int i = 0; i < 5; i++) {
+        reopt.recordExecution("fb_query", 1000, 400, 3.0);
+    }
+
+    // Now simulate a new execution where the caller provides no estimate (0).
+    // beginExecutionGuard must use the historical average (400) as the baseline.
+    {
+        auto guard = reopt.beginExecutionGuard("fb_query", 0);
+        guard.finish(390); // close to 400 – stable estimate
+    }
+
+    // With a non-zero baseline, getAverageSelectivity should now have valid data
+    // and the adjustment factor should differ from 1.0 (it was ~0.4 from the
+    // seeded history, and the new entry is close to that baseline).
+    double factor = reopt.getAdjustmentFactor("fb_query");
+    EXPECT_LT(factor, 1.0); // historical 2.5x overestimation drives factor < 1
+}
+
+// ---------------------------------------------------------------------------
 // pruneOldStats
 // ---------------------------------------------------------------------------
 

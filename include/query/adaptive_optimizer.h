@@ -77,6 +77,12 @@ public:
     bool hasCardinalityMisestimation(const std::string& query_hash, double threshold = 2.0) const;
     
     /**
+     * @brief Get average actual rows across historical executions
+     * @return Average actual_rows, or 0 if no history exists
+     */
+    size_t getAverageActualRows(const std::string& query_hash) const;
+
+    /**
      * @brief Get adaptive adjustment factor based on history
      * @return Multiplier for cardinality estimates (e.g., 0.5 if historically overestimated)
      */

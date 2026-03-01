@@ -114,6 +114,11 @@ RuntimeReoptimizer::beginExecution(const std::string& query_hash,
 RuntimeReoptimizer::ExecutionGuard
 RuntimeReoptimizer::beginExecutionGuard(const std::string& query_hash,
                                          size_t estimated_rows) {
+    // When no optimizer estimate is provided, fall back to the historical
+    // average of actual rows so that adjustment factors can still be computed.
+    if (estimated_rows == 0) {
+        estimated_rows = stats_->getAverageActualRows(query_hash);
+    }
     return ExecutionGuard(*this, beginExecution(query_hash, estimated_rows));
 }
 
