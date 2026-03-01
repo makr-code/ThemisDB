@@ -88,9 +88,27 @@ Key API surface:
 
 ---
 
+## Delivered in v2.0.0
+
+### PersonalizedRanker API (`include/search/personalized_ranker.h`)
+**Status:** ✅ Delivered in v2.0.0
+
+`PersonalizedRanker` records per-user interaction events and uses them to
+compute time-decayed personalization boosts for search result re-ranking.
+
+Key API surface:
+- `recordInteraction(interaction)` — record a VIEW, CLICK, BOOKMARK, LIKE, or DISLIKE event
+- `computeScore(user_id, doc_id)` — personalization score in [-1, 1] with exponential time decay
+- `applyPersonalization(user_id, candidates)` — boost/suppress `RankedResult::final_score` and re-sort
+- `getUserInteractions(user_id)` — inspect stored per-user history (most-recent first)
+- `clearUser(user_id)` / `clear()` — GDPR-compatible data removal
+- Configurable `decay_rate`, `boost_weight`, and `max_interactions_per_user`
+- Thread-safe via shared `std::mutex`
+
+---
+
 ## Planned for v1.6.0
 
-- **Personalized autocomplete**: per-user click-history weighting in `AutocompleteEngine`
 - **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
 - **Multi-namespace VectorIndexManager**: one instance per modality namespace
 - **Streaming result delivery**: async/generator API for large `k` values

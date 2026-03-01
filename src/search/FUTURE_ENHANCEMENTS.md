@@ -148,6 +148,24 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v2.0.0
+
+### PersonalizedRanker (`include/search/personalized_ranker.h`)
+- Per-user interaction history tracking for personalized search result re-ranking
+- `InteractionType` enum: VIEW (0.2), CLICK (0.5), BOOKMARK (1.0), LIKE (1.0), DISLIKE (-0.5)
+- `UserInteraction` struct: `user_id`, `document_id`, `type`, `timestamp`
+- Time-decayed scoring: `score += type_weight * exp(-decay_rate * age_days)` — more recent interactions contribute more
+- Configurable decay rate (default 0.05 ≈ half-weight after ~14 days), boost weight, and per-user buffer size
+- Per-user history bounded by `Config::max_interactions_per_user` with oldest-first eviction
+- `computeScore(user_id, doc_id)` — returns personalization score in [-1, 1] for any (user, document) pair
+- `applyPersonalization(user_id, candidates)` — adjusts `final_score` of ranked candidates and re-sorts
+- `getUserInteractions(user_id)` — inspect stored interactions (most-recent first)
+- `clearUser(user_id)` / `clear()` — GDPR-compatible user-data removal
+- Thread-safe: all methods protected by a shared `std::mutex`
+- Tests: `tests/test_personalized_ranker.cpp` (28 test cases)
+
+---
+
 ### Query Expansion and Rewriting
 **Priority:** High  
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
