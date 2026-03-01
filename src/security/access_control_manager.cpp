@@ -262,8 +262,29 @@ AccessDecision AccessControlManager::checkAccess(
     if (!context) {
         return AccessDecision::Deny("Authentication failed");
     }
-    
-    // Step 2: Authorize
+
+    // Step 2: Zero-trust per-request identity verification (optional)
+    if (config_.enable_zero_trust && zero_trust_enforcer_) {
+        ZeroTrustContext zt_ctx;
+        zt_ctx.user_id   = context->user_id;
+        zt_ctx.client_ip = source_ip;
+        zt_ctx.token     = token;
+        zt_ctx.resource  = resource;
+        zt_ctx.action    = action;
+        zt_ctx.timestamp = std::chrono::system_clock::now();
+
+        auto zt_result = zero_trust_enforcer_->verify(zt_ctx);
+        if (!zt_result.verified) {
+            metrics_.access_denied++;
+            THEMIS_WARN("Zero-trust denied user='{}' resource='{}' action='{}' reason='{}'",
+                        context->user_id, resource, action, zt_result.reason);
+            return AccessDecision::Deny("Zero-trust verification failed: " + zt_result.reason);
+        }
+        THEMIS_DEBUG("Zero-trust passed for user='{}' trust_score={:.2f}",
+                     context->user_id, zt_result.trust_score);
+    }
+
+    // Step 3: Authorize
     return authorize(*context, resource, action);
 }
 
@@ -289,6 +310,15 @@ std::vector<Permission> AccessControlManager::getUserPermissions(const std::stri
 void AccessControlManager::setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth_middleware) {
     auth_middleware_ = auth_middleware;
     THEMIS_INFO("AuthMiddleware configured for AccessControlManager");
+}
+
+void AccessControlManager::setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforcer) {
+    zero_trust_enforcer_ = enforcer;
+    if (enforcer) {
+        THEMIS_INFO("ZeroTrustPolicyEnforcer configured for AccessControlManager");
+    } else {
+        THEMIS_INFO("ZeroTrustPolicyEnforcer removed from AccessControlManager");
+    }
 }
 
 void AccessControlManager::addABACPolicy(const PolicyEngine::Policy& policy) {
