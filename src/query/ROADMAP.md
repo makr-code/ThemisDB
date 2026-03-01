@@ -44,7 +44,11 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
-- [I] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
+- [x] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
+  - Implemented in `include/query/sparql_parser.h` (`SPARQLParser`, `SPARQLToAQLTranspiler`) and `src/query/sparql_parser.cpp`
+  - Supports SELECT queries with triple patterns (variables, URIs, prefixed names, literals), FILTER expressions, ORDER BY, LIMIT/OFFSET
+  - Translates SPARQL to AQL via variable-unification across triple patterns, mapped to nested FOR loops over a configurable RDF triples collection
+  - Tests: `tests/test_sparql_parser.cpp`
 
 ## Implementation Phases
 
@@ -87,7 +91,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
   - Parallel execution via `std::async`; injectable `HttpPostFn` test double for unit tests
   - Tests: `tests/test_cross_cluster_federation.cpp` (28 unit tests)
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
-- [ ] SPARQL compatibility for RDF / knowledge-graph queries
+- [x] SPARQL compatibility for RDF / knowledge-graph queries
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%
