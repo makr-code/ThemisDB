@@ -29,6 +29,7 @@
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_health_monitor.h"
 #include "plugins/self_healing_plugin.h"
+#include "plugins/oci_registry_client.h"
 #include "acceleration/plugin_security.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -751,6 +752,48 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
         plugin_name, plugin->getVersion(), duration.count());
     
     return Ok(plugin);
+}
+
+Result<IThemisPlugin*> PluginManager::loadPluginFromOci(
+    const std::string& oci_ref,
+    const std::string& cache_dir,
+    const std::string& auth_token)
+{
+    TracedSpan span("PluginManager.loadPluginFromOci");
+
+    // 1. Parse OCI reference.
+    auto ref_res = OciReference::parse(oci_ref);
+    if (!ref_res.has_value()) {
+        return Err<IThemisPlugin*>(ref_res.error().code(), ref_res.error().context());
+    }
+    const OciReference& ref = *ref_res;
+
+    // 2. Determine cache directory (default: system temp / themis-plugins).
+    std::string effective_cache = cache_dir;
+    if (effective_cache.empty()) {
+        effective_cache = (fs::temp_directory_path() / "themis-plugins").string();
+    }
+
+    // 3. Build OCI client and inject optional bearer token.
+    OciRegistryClient oci_client;
+    if (!auth_token.empty()) {
+        OciAuthConfig auth;
+        auth.bearer_token = auth_token;
+        oci_client.setAuth(ref.registry, std::move(auth));
+    }
+
+    // 4. Pull plugin binary to cache directory.
+    auto pull_res = oci_client.pullPluginBinary(ref, effective_cache);
+    if (!pull_res.has_value()) {
+        THEMIS_ERROR("OCI pull failed for {}: {}", oci_ref, pull_res.error().context());
+        return Err<IThemisPlugin*>(pull_res.error().code(), pull_res.error().context());
+    }
+    const std::string& binary_path = *pull_res;
+
+    THEMIS_INFO("OCI pull succeeded for {}; binary at {}", oci_ref, binary_path);
+
+    // 5. Load the downloaded binary via the existing path-based loader.
+    return loadPluginFromPath(binary_path);
 }
 
 Result<void> PluginManager::unloadPlugin(const std::string& name) {
