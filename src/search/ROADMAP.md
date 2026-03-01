@@ -44,8 +44,8 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
 
 ### Long-term (6-12 months)
-- [x] Neural sparse retrieval (SPLADE / BERT-based) (`NeuralSparseRetrieval`, v2.0.0) (Issue: #2277)
-- [I] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
+- [x] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
+- [x] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
 - [I] Personalized ranking based on user interaction history (Issue: #2279)
 - [I] Distributed search across shards with result merging (Issue: #2280)
 
@@ -75,9 +75,9 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)
 - [x] Spelling correction suggestions
 
-### Phase 4: Neural Retrieval & Distributed Search (Status: In Progress 🚧)
-- [x] Neural sparse retrieval (SPLADE / BERT-based) (`NeuralSparseRetrieval`, v2.0.0)
-- [ ] Cross-lingual semantic search (multilingual embeddings)
+### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
+- [x] Neural sparse retrieval (SPLADE / BERT-based)
+- [x] Cross-lingual semantic search (multilingual embeddings)
 - [ ] Personalized ranking based on user interaction history
 - [ ] Distributed search across shards with result merging
 - [x] Autocomplete / type-ahead query suggestions (`AutocompleteEngine`, v1.5.0)

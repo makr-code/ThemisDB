@@ -150,6 +150,24 @@ The following high-priority features were delivered in v1.5.0:
 
 ## Delivered in v2.0.0
 
+### CrossLingualSearch (`include/search/cross_lingual_search.h`)
+- Cross-lingual semantic search via multilingual embeddings (Phase 4 of the Search Roadmap)
+- Model-agnostic design: callers supply pre-computed float vectors (e.g. from
+  `paraphrase-multilingual-mpnet-base-v2` or LaBSE); no hard embedding-library dependency
+- `search(embedding, hints)` — single-embedding kNN query with distance-to-similarity
+  conversion (`1 / (1 + distance)`), optional per-language boost, score threshold filter, k-cap
+- `searchMultiEmbedding(queries, hints)` — issues independent kNN queries for each
+  `EmbeddingQuery` (embedding + weight), fuses ranked lists via weighted Reciprocal Rank Fusion
+  (RRF), then applies language boosts and threshold filtering
+- `setLanguageMap(map)` — supplies a `doc_id → language_code` (ISO 639-1) mapping for result
+  annotation (`Result::language`) and `LanguageHint` boost application
+- `LanguageHint` struct: `{language_code, boost}` — multiplies the final score of results in
+  the specified language; zero or negative boost hints are silently ignored
+- `EmbeddingQuery` struct: `{embedding, weight}` — weight drives the RRF contribution term
+- Resource safety: `k` and `candidates` are clamped to `max_k` / `max_candidates` at
+  construction time; `search()` and `searchMultiEmbedding()` never throw
+- Config validation: throws `std::invalid_argument` on k=0, candidates=0, rrf_k≤0
+- Tests: `tests/test_cross_lingual_search.cpp`
 ### NeuralSparseRetrieval (`include/search/neural_sparse_retrieval.h`)
 - SPLADE / BERT-based neural sparse retrieval engine, closing Phase 4 item of the Search Roadmap
 - `SparseVector` type alias: `unordered_map<string, float>` — non-zero learned term weights
