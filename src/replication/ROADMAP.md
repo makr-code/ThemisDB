@@ -35,9 +35,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154, #2001)
 - [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
-- [x] CDC event filtering by operation type (INSERT/UPDATE/DELETE) (Issue: #2439)
 
 ### Long-term (6-12 months)
 - [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
