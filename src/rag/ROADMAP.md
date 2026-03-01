@@ -39,6 +39,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] FaithfulnessEvaluator::extractClaims() – LLM-first + sentence-boundary fallback (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of Claim structs; Errors: JSON parse failure falls back to regex; LLM confidence: 0.9, heuristic confidence: 0.6
 - [x] LearningMetrics – sliding-window metrics with mean/std-dev/trend export (Issue: #1296, Target: Q1 2026) — Tracks accuracy, faithfulness, relevance, completeness, coherence; CSV export; thread-safe with std::mutex
 - [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436, #2000)
+- [x] Online learning from evaluation feedback – adaptive retrieval via Bayesian optimization over `top_k` and `similarity_threshold`, driven by both user feedback and RAGJudge evaluation confidence scores; `getOptimizedRetrievalParams()` API (Issue: #2244)
 
 ## In Progress 🚧
 *(none currently in progress)*

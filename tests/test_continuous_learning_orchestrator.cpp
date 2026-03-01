@@ -486,3 +486,95 @@ TEST_F(ContinuousLearningOrchestratorTest, RunDataSelectionUpdatesLastSelectionT
     orch->triggerLearningIteration();
     SUCCEED();
 }
+
+// ============================================================================
+// Adaptive retrieval: getOptimizedRetrievalParams
+// ============================================================================
+
+// Test: before any optimization, getOptimizedRetrievalParams returns the default
+// values defined in RetrievalParams.
+TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsDefaultBeforeFirstCycle) {
+    auto params = orchestrator_->getOptimizedRetrievalParams();
+
+    // Defaults from RetrievalParams struct
+    EXPECT_EQ(params.top_k, 10u);
+    EXPECT_DOUBLE_EQ(params.similarity_threshold, 0.75);
+}
+
+// Test: after enough positive feedback, triggerLearningIteration updates the
+// retrieval params to values within the valid parameter bounds.
+TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsUpdatedAfterOptimization) {
+    // Log more than min_feedback_samples interactions
+    logInteractions(*orchestrator_, config_.min_feedback_samples + 5,
+                    FeedbackType::POSITIVE);
+
+    orchestrator_->triggerLearningIteration();
+
+    auto params = orchestrator_->getOptimizedRetrievalParams();
+
+    // top_k must be within [1, 20]
+    EXPECT_GE(params.top_k, 1u);
+    EXPECT_LE(params.top_k, 20u);
+
+    // similarity_threshold must be within [0.5, 0.95]
+    EXPECT_GE(params.similarity_threshold, 0.5);
+    EXPECT_LE(params.similarity_threshold, 0.95);
+}
+
+// Test: optimization triggered by evaluation confidence scores (no user feedback).
+TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsUpdatedFromEvaluationScores) {
+    constexpr double kHighConfidenceScore = 0.9; // high evaluation confidence
+
+    // Log interactions with high evaluation confidence but no user feedback
+    for (size_t i = 0; i < config_.min_feedback_samples + 3; ++i) {
+        Interaction interaction;
+        interaction.interaction_id   = "eval_" + std::to_string(i);
+        interaction.timestamp        = std::chrono::system_clock::now();
+        interaction.query            = "Test query";
+        interaction.generated_answer = "Test answer";
+        interaction.confidence_score = kHighConfidenceScore;
+        // no user_feedback set
+        orchestrator_->logInteraction(interaction);
+    }
+
+    orchestrator_->triggerLearningIteration();
+
+    auto params = orchestrator_->getOptimizedRetrievalParams();
+    EXPECT_GE(params.top_k, 1u);
+    EXPECT_LE(params.top_k, 20u);
+    EXPECT_GE(params.similarity_threshold, 0.5);
+    EXPECT_LE(params.similarity_threshold, 0.95);
+}
+
+// Test: getOptimizedRetrievalParams is thread-safe – concurrent reads must
+// not race with a concurrent triggerLearningIteration write.
+TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsThreadSafe) {
+    logInteractions(*orchestrator_, config_.min_feedback_samples + 5,
+                    FeedbackType::POSITIVE);
+
+    // Writer thread: run optimization in a loop
+    std::atomic<bool> done{false};
+    std::thread writer([this, &done]() {
+        for (int i = 0; i < 5; ++i) {
+            orchestrator_->triggerLearningIteration();
+        }
+        done = true;
+    });
+
+    // Reader threads: read optimized params concurrently
+    std::vector<std::thread> readers;
+    for (int t = 0; t < 3; ++t) {
+        readers.emplace_back([this, &done]() {
+            while (!done) {
+                auto params = orchestrator_->getOptimizedRetrievalParams();
+                EXPECT_GE(params.top_k, 1u);
+                EXPECT_LE(params.top_k, 20u);
+            }
+        });
+    }
+
+    writer.join();
+    for (auto& r : readers) r.join();
+
+    SUCCEED();
+}

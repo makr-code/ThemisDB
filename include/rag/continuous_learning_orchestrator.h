@@ -212,6 +212,24 @@ class ContinuousLearningOrchestrator {
      */
     void setDataSelectionConfig(const themis::training::LoRADataSelectionConfig& cfg);
 
+    // ---- Adaptive retrieval ----
+
+    /**
+     * @brief Get the current optimized retrieval parameters.
+     *
+     * Returns the retrieval parameters most recently updated by the adaptive
+     * optimization loop.  Callers should apply these parameters when issuing
+     * retrieval requests so that the system benefits from online learning.
+     *
+     * The parameters are updated every time `triggerLearningIteration()` runs
+     * and sufficient feedback (both user signals and evaluation confidence
+     * scores) has been collected.  Until the first optimization cycle the
+     * method returns the default values from `RetrievalParams`.
+     *
+     * @return Current optimized retrieval parameters (thread-safe read).
+     */
+    RetrievalParams getOptimizedRetrievalParams() const;
+
   private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
