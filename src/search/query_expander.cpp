@@ -65,6 +65,16 @@ void QueryExpander::addVocabulary(const std::vector<std::string>& words) {
     }
 }
 
+void QueryExpander::addVocabularyWithFrequencies(
+    const std::vector<std::pair<std::string, size_t>>& words_with_frequencies) {
+    for (const auto& [w, freq] : words_with_frequencies) {
+        if (freq == 0) continue;
+        const std::string lower = toLower(w);
+        vocabulary_.insert(lower);
+        word_frequencies_[lower] += freq;
+    }
+}
+
 // ============================================================================
 // Core operations
 // ============================================================================
@@ -145,13 +155,19 @@ std::string QueryExpander::correctSpelling(const std::string& word) const {
     if (vocabulary_.count(lower)) {
         return word;
     }
-    // Find the vocabulary word closest in edit distance
+    // Find the vocabulary word closest in edit distance;
+    // break ties by preferring the higher-frequency word.
     std::string best = word;
     int best_dist = std::numeric_limits<int>::max();
+    size_t best_freq = 0;
     for (const auto& vocab_word : vocabulary_) {
         int d = editDistance(lower, vocab_word);
-        if (d < best_dist && d <= config_.max_edit_distance) {
+        if (d > config_.max_edit_distance) continue;
+        auto it = word_frequencies_.find(vocab_word);
+        size_t freq = (it != word_frequencies_.end()) ? it->second : 0;
+        if (d < best_dist || (d == best_dist && freq > best_freq)) {
             best_dist = d;
+            best_freq = freq;
             best = vocab_word;
         }
     }
@@ -187,20 +203,47 @@ std::vector<SpellingCorrection> QueryExpander::suggestSpellingCorrections(
         return {};
     }
 
-    // Sort by edit distance ascending, then alphabetically for stability
+    // Compute the maximum frequency in the candidates set for normalization.
+    size_t max_freq = 0;
+    for (const auto& sc : candidates) {
+        auto it = word_frequencies_.find(sc.suggestion);
+        if (it != word_frequencies_.end() && it->second > max_freq) {
+            max_freq = it->second;
+        }
+    }
+
+    // Sort: edit distance ascending; within same distance, higher frequency first;
+    // alphabetical as final tiebreaker for deterministic output.
     std::sort(candidates.begin(), candidates.end(),
-              [](const SpellingCorrection& a, const SpellingCorrection& b) {
+              [this](const SpellingCorrection& a, const SpellingCorrection& b) {
                   if (a.edit_distance != b.edit_distance) {
                       return a.edit_distance < b.edit_distance;
+                  }
+                  auto fa = word_frequencies_.find(a.suggestion);
+                  auto fb = word_frequencies_.find(b.suggestion);
+                  size_t freq_a = (fa != word_frequencies_.end()) ? fa->second : 0;
+                  size_t freq_b = (fb != word_frequencies_.end()) ? fb->second : 0;
+                  if (freq_a != freq_b) {
+                      return freq_a > freq_b; // higher frequency first
                   }
                   return a.suggestion < b.suggestion;
               });
 
-    // Assign confidence scores: linearly decaying with edit distance
-    // distance 0 → 1.0, distance max_edit_distance → 1/(max_edit_distance+1)
+    // Assign confidence scores blending edit-distance decay and normalized frequency.
+    // When no frequency data is available the formula reduces to the pure edit-distance score.
     const double max_d = static_cast<double>(config_.max_edit_distance);
+    const double fw = (max_freq > 0) ? config_.frequency_weight : 0.0;
     for (auto& sc : candidates) {
-        sc.confidence = 1.0 - (static_cast<double>(sc.edit_distance) / (max_d + 1.0));
+        double dist_score = 1.0 - (static_cast<double>(sc.edit_distance) / (max_d + 1.0));
+        if (fw > 0.0) {
+            auto it = word_frequencies_.find(sc.suggestion);
+            double freq_score = (it != word_frequencies_.end())
+                ? static_cast<double>(it->second) / static_cast<double>(max_freq)
+                : 0.0;
+            sc.confidence = (1.0 - fw) * dist_score + fw * freq_score;
+        } else {
+            sc.confidence = dist_score;
+        }
     }
 
     if (candidates.size() > max_suggestions) {

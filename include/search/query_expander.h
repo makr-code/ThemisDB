@@ -23,6 +23,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 namespace themis {
 
@@ -83,6 +84,7 @@ public:
         bool correct_spelling = true;    ///< Apply best-effort spelling correction
         bool detect_phrases = true;      ///< Preserve multi-word synonym phrases
         double synonym_weight = 0.8;     ///< Relative importance of synonym terms (informational)
+        double frequency_weight = 0.3;   ///< Weight of word-frequency signal in confidence score [0,1]; 0 disables frequency blending
         size_t max_expansions = 5;       ///< Maximum number of synonym terms to add
         int max_edit_distance = 2;       ///< Maximum edit distance for spelling correction
         static Config defaults() { return {}; }
@@ -118,6 +120,21 @@ public:
      * Words already in the vocabulary are ignored (idempotent).
      */
     void addVocabulary(const std::vector<std::string>& words);
+
+    /**
+     * @brief Add words with associated frequency counts to the vocabulary.
+     *
+     * Registers each word in the spelling-correction vocabulary and records its
+     * corpus frequency.  When multiple candidates share the same edit distance,
+     * higher-frequency words are ranked first and receive a higher confidence
+     * score.  Calling this function multiple times for the same word accumulates
+     * the frequency counts.
+     *
+     * @param words_with_frequencies  Pairs of (word, frequency_count).
+     *        Frequency counts must be > 0; zero values are ignored.
+     */
+    void addVocabularyWithFrequencies(
+        const std::vector<std::pair<std::string, size_t>>& words_with_frequencies);
 
     // -----------------------------------------------------------------------
     // Core operations
@@ -213,6 +230,9 @@ private:
 
     /// vocabulary for spelling correction (lowercase)
     std::unordered_set<std::string> vocabulary_;
+
+    /// optional word frequency counts for frequency-weighted suggestion ranking (lowercase keys)
+    std::unordered_map<std::string, size_t> word_frequencies_;
 
     // Helpers
     static std::vector<std::string> tokenize(const std::string& text);

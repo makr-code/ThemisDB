@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include "scheduler/task_scheduler.h"
+#include "scheduler/task_audit_manager.h"
 #include "utils/cron_parser.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -1399,6 +1400,101 @@ TEST_F(TaskSchedulerTest, DAG_DependenciesPersistedAndRestoredFromDisk) {
     ASSERT_EQ(loaded->dependencies.size(), 2u);
     EXPECT_EQ(loaded->dependencies[0], "dep_a");
     EXPECT_EQ(loaded->dependencies[1], "dep_b");
+}
+
+TEST_F(TaskSchedulerTest, DAG_AuditEventsLoggedPerTask) {
+    // Create a scheduler with audit logging enabled
+    TaskScheduler::Config acfg;
+    acfg.max_concurrent_tasks = 4;
+    acfg.check_interval = 50ms;
+    acfg.persist_tasks = false;
+    acfg.enable_audit_logging = true;
+    acfg.enable_anomaly_detection = false;
+    auto audit_sched = std::make_unique<TaskScheduler>(engine_.get(), acfg);
+
+    audit_sched->registerFunction("dag_audit_ok",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+    audit_sched->registerFunction("dag_audit_fail",
+        [](const nlohmann::json&) -> nlohmann::json {
+            throw std::runtime_error("audit_fail_error");
+        });
+
+    ScheduledTask ta;
+    ta.id = "dag_audit_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "dag_audit_ok";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    ta.max_retries = 0;
+    audit_sched->registerTask(ta);
+
+    ScheduledTask tb;
+    tb.id = "dag_audit_b"; tb.name = tb.id;
+    tb.type = ScheduledTask::TaskType::FUNCTION;
+    tb.function_name = "dag_audit_fail";
+    tb.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    tb.max_retries = 0;
+    audit_sched->registerTask(tb);
+
+    auto res = audit_sched->executeDAG({"dag_audit_a", "dag_audit_b"});
+    EXPECT_TRUE(res.succeeded.count("dag_audit_a"));
+    EXPECT_TRUE(res.failed.count("dag_audit_b"));
+
+    auto audit_mgr = audit_sched->getAuditManager();
+    ASSERT_NE(audit_mgr, nullptr);
+
+    // Query started events for both tasks
+    scheduler::AuditQueryParams started_params;
+    started_params.event_type = scheduler::TaskEventType::TASK_STARTED;
+    started_params.limit = 100;
+    auto started = audit_mgr->queryAuditEvents(started_params);
+    auto started_a = std::count_if(started.begin(), started.end(),
+        [](const auto& e) { return e.task_id == "dag_audit_a"; });
+    auto started_b = std::count_if(started.begin(), started.end(),
+        [](const auto& e) { return e.task_id == "dag_audit_b"; });
+    EXPECT_GE(started_a, 1);
+    EXPECT_GE(started_b, 1);
+
+    // Task A completed successfully
+    scheduler::AuditQueryParams completed_params;
+    completed_params.task_id = "dag_audit_a";
+    completed_params.event_type = scheduler::TaskEventType::TASK_COMPLETED;
+    completed_params.limit = 100;
+    auto completed = audit_mgr->queryAuditEvents(completed_params);
+    EXPECT_GE(completed.size(), 1u);
+    EXPECT_TRUE(completed[0].success);
+
+    // Task B failed
+    scheduler::AuditQueryParams failed_params;
+    failed_params.task_id = "dag_audit_b";
+    failed_params.event_type = scheduler::TaskEventType::TASK_FAILED;
+    failed_params.limit = 100;
+    auto failed = audit_mgr->queryAuditEvents(failed_params);
+    EXPECT_GE(failed.size(), 1u);
+    EXPECT_FALSE(failed[0].success);
+    ASSERT_TRUE(failed[0].error_message.has_value());
+    EXPECT_NE(failed[0].error_message->find("audit_fail_error"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerTest, DAG_AvgExecutionTimeUpdatedAfterSuccess) {
+    // Verify that avg_execution_time_ms is updated by executeDAG for successful tasks.
+    scheduler_->registerFunction("dag_avg_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    ScheduledTask t;
+    t.id = "dag_avg_task"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "dag_avg_fn";
+    t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(t);
+
+    auto res = scheduler_->executeDAG({"dag_avg_task"});
+    ASSERT_TRUE(res.succeeded.count("dag_avg_task"));
+
+    auto loaded = scheduler_->getTask("dag_avg_task");
+    ASSERT_NE(loaded, nullptr);
+    EXPECT_GE(loaded->avg_execution_time_ms, 0.0);
+    EXPECT_EQ(loaded->total_executions, 1u);
+    EXPECT_EQ(loaded->successful_executions, 1u);
 }
 
 // ===== Task Result Store tests =====
