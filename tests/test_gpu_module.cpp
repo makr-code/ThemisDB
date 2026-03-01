@@ -21,6 +21,7 @@
 #include "themis/gpu/gpu_module.h"
 #include "themis/gpu/feature_flags.h"
 #include "themis/gpu/memory_manager.h"
+#include "themis/gpu/mig_manager.h"
 
 using namespace themis::gpu;
 
@@ -270,4 +271,22 @@ TEST_F(GPUModuleTest, MetricsDisabled_StillAllocates) {
     mod.grantCaller("caller_i");
     EXPECT_TRUE(mod.allocate("caller_i", "", 1024));
     mod.deallocate("", 1024);
+}
+
+// ---------------------------------------------------------------------------
+// MIG accessor
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUModuleTest, MIG_Accessor_ReturnsSingletonReference) {
+    GPUModule mod;
+    ASSERT_TRUE(mod.initialize(testConfig()).ok);
+    // mig() must return the same object as MIGManager::GetInstance().
+    EXPECT_EQ(&mod.mig(), &MIGManager::GetInstance());
+}
+
+TEST_F(GPUModuleTest, MIG_Const_Accessor_ReturnsSingletonReference) {
+    GPUModule mod;
+    ASSERT_TRUE(mod.initialize(testConfig()).ok);
+    const GPUModule& cmod = mod;
+    EXPECT_EQ(&cmod.mig(), &MIGManager::GetInstance());
 }

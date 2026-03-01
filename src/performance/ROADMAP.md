@@ -38,8 +38,8 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Adaptive batch size tuning for LLM inference (Issue: #1996)
 ### Long-term (6-12 months)
 - [I] Hardware performance counter (PMU) integration for cache miss analysis (Issue: #2422)
-- [I] Cross-module performance regression detection in CI (Issue: #2423)
-- [x] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
+- [P] Cross-module performance regression detection in CI (Issue: #2423)
+- [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
 - [P] Persistent memory (Optane) aware storage layout (Issue: #2424)
 
 ## Implementation Phases
@@ -75,7 +75,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ### Phase 4: ML-Based Optimization & CI Integration (Status: In Progress 🚧)
 - [x] ML-based workload predictor for proactive resource scaling
 - [ ] Hardware performance counter (PMU) integration for cache miss analysis
-- [ ] Cross-module performance regression detection in CI
+- [x] Cross-module performance regression detection in CI
 - [x] DPDK / io_uring zero-copy I/O path for network performance
 - [x] Persistent memory (Optane) aware storage layout
 

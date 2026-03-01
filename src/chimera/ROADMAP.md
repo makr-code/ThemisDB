@@ -77,7 +77,6 @@
 - PostgreSQL and MongoDB vendor adapters are implemented in simulation mode (no live server required for tests); production use requires linking libpqxx / mongocxx
 - Weaviate adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
 - Qdrant adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
-- Benchmark harness test suites are in a separate module and not yet integrated
 - Neo4j adapter is not yet implemented
 
 ## Breaking Changes
