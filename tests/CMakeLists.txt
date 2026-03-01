@@ -79,6 +79,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_document_splitter\\.cpp$"
         ".*test_rag_hybrid_retriever\\.cpp$"
         ".*test_rag_agentic\\.cpp$"
+        ".*test_rag_evaluation_report_exporter\\.cpp$"
         ".*test_rag_multimodal\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
@@ -571,6 +572,9 @@ if(NOT THEMIS_ENABLE_LLM)
         # CitationHighlighter has no LLM dependency (pure Jaccard term-overlap);
         # re-include so non-LLM builds exercise the citation highlighting feature.
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_citation_highlighter.cpp
+        # EvaluationReportExporter has no LLM dependency (pure serialisation);
+        # re-include so non-LLM builds exercise the JSON/HTML export feature.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_report_exporter.cpp
     )
 endif()
 
