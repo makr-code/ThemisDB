@@ -191,6 +191,139 @@ openssl x509 -req -days 365 \
 
 ---
 
+## Token Initialization & Slot Configuration
+
+### Slot Selection
+
+ThemisDB supports three slot-selection strategies, evaluated in priority order:
+
+| Priority | Mechanism | When to Use |
+|----------|-----------|-------------|
+| **1 (highest)** | Token label (`token_label`) | Multiple HSMs or multiple tokens; most portable |
+| **2** | Slot ID (`slot_id`) | Known, stable slot numbering |
+| **3 (default)** | First available slot | Single-token setups; development |
+
+#### By Token Label (recommended)
+
+Token labels are set when the token is initialized (see **Initialize HSM Token** above).
+Using the label instead of a slot ID avoids hard-coding slot numbers, which can change
+after device reconnects or firmware updates.
+
+```cpp
+HSMConfig config;
+config.library_path = "/usr/lib/softhsm/libsofthsm2.so";
+config.token_label  = "themis-dev";   // must match the label used in softhsm2-util --init-token
+config.pin          = "1234";
+config.key_label    = "themis-signing-key";
+```
+
+#### By Slot ID
+
+Use when you have a fixed hardware slot assignment:
+
+```cpp
+HSMConfig config;
+config.library_path = "/usr/lib/softhsm/libsofthsm2.so";
+config.slot_id      = 2;   // specific slot ID
+config.pin          = "1234";
+```
+
+> **Note:** If the configured `slot_id` is not found in the enumerated slot list,
+> `initialize()` falls back to the first available slot and logs a warning.
+> Call `getLastError()` to retrieve the diagnostic message.
+
+### PIN Handling
+
+The user PIN is supplied via `HSMConfig::pin` or the `THEMIS_HSM_PIN` environment
+variable (environment variable takes effect only when `pin` is empty in config).
+
+```cpp
+// Preferred: pass PIN in config (avoids process environment exposure)
+config.pin = "1234";
+
+// Alternative: set THEMIS_HSM_PIN before starting the process
+// export THEMIS_HSM_PIN=1234
+```
+
+**PIN error behaviour:**
+
+| PKCS#11 Return Code | Meaning | HSMProvider action |
+|---------------------|---------|-------------------|
+| `CKR_OK` | Login successful | Proceed to key discovery |
+| `CKR_USER_ALREADY_LOGGED_IN` | Session already authenticated | Silently continue (normal for shared sessions) |
+| `CKR_PIN_INCORRECT` | Wrong PIN | Skip session; fall back to stub; set `getLastError()` |
+| Any other error | Unexpected login failure | Skip session; fall back to stub; set `getLastError()` |
+
+When no PIN is configured, `C_Login` is skipped. HSMs that require authentication will
+then reject key operations.
+
+### Initializing a New Token with `softhsm2-util`
+
+```bash
+# Initialize a fresh token on a free slot (SoftHSM2 picks the slot number automatically)
+softhsm2-util --init-token \
+  --free \
+  --label  "themis-prod" \
+  --pin    <user-pin> \
+  --so-pin <security-officer-pin>
+
+# List tokens to verify
+softhsm2-util --show-slots
+
+# Generate signing key in the new token
+pkcs11-tool \
+  --module /usr/lib/softhsm/libsofthsm2.so \
+  --login --pin <user-pin> \
+  --token-label "themis-prod" \
+  --keypairgen --key-type RSA:2048 \
+  --label "themis-signing-key" \
+  --id 01
+```
+
+Then configure ThemisDB to find the token by label:
+
+```cpp
+HSMConfig config;
+config.library_path = "/usr/lib/softhsm/libsofthsm2.so";
+config.token_label  = "themis-prod";
+config.pin          = "<user-pin>";
+config.key_label    = "themis-signing-key";
+```
+
+### Diagnosing Initialization Failures
+
+`HSMProvider::initialize()` always succeeds (returns `true`) but falls back to an
+insecure software stub when the real PKCS#11 session could not be established.
+Use `isStubProvider()` and `getLastError()` to detect this:
+
+```cpp
+auto hsm = std::make_unique<HSMProvider>(config);
+hsm->initialize();
+
+if (hsm->isStubProvider()) {
+    std::cerr << "[SECURITY] HSM fallback active: "
+              << hsm->getLastError() << std::endl;
+    // In production: abort – never proceed with stub in production!
+}
+
+std::cout << "Token info: " << hsm->getTokenInfo() << std::endl;
+// Real HSM: "PKCS11 real session active (slot=0, label=themis-prod, pool=1)"
+// Stub:     "PKCS11 fallback stub"
+```
+
+Common failure reasons and fixes:
+
+| Error message | Cause | Fix |
+|---------------|-------|-----|
+| `library_path is not configured` | No PKCS#11 library set | Set `config.library_path` |
+| `Failed to load PKCS#11 library: …` | Library file not found / not executable | Install HSM client library |
+| `No PKCS#11 slots with token present found` | No token inserted / token not initialized | Initialize token with `softhsm2-util --init-token` |
+| `Token with label '…' not found in any slot` | Label mismatch | Check `softhsm2-util --show-slots` output |
+| `C_Login failed: PIN incorrect` | Wrong PIN | Verify PIN; check HSM lock status |
+| `No private key found in any pool session` | Key not generated or wrong `key_label` | Run `pkcs11-tool --keypairgen` with correct label |
+
+---
+
 ## Configuration
 
 ### Environment Variables

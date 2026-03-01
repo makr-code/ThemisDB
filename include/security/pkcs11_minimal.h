@@ -151,19 +151,53 @@ typedef struct CK_RSA_PKCS_OAEP_PARAMS {
 #define CKA_CERTIFICATE_TYPE 0x00000080U
 
 // Return values (subset)
-#define CKR_OK                  0x00000000U
-#define CKR_GENERAL_ERROR       0x00000005U
-#define CKR_DEVICE_ERROR        0x00000030U
-#define CKR_PIN_INCORRECT       0x000000A0U
-#define CKR_USER_NOT_LOGGED_IN  0x00000100U
-#define CKR_ARGUMENTS_BAD       0x00000007U
-#define CKR_SIGNATURE_INVALID   0x000000C0U
+#define CKR_OK                      0x00000000U
+#define CKR_GENERAL_ERROR           0x00000005U
+#define CKR_ARGUMENTS_BAD           0x00000007U
+#define CKR_DEVICE_ERROR            0x00000030U
+#define CKR_PIN_INCORRECT           0x000000A0U
+#define CKR_SIGNATURE_INVALID       0x000000C0U
+#define CKR_USER_ALREADY_LOGGED_IN  0x00000100U
+#define CKR_USER_NOT_LOGGED_IN      0x00000101U
 
 // Session flags (subset)
 #define CKF_SERIAL_SESSION 0x00000004U
 
+// Token/slot flags (subset)
+#define CKF_TOKEN_PRESENT  0x00000001U
+#define CKF_LOGIN_REQUIRED 0x00000004U
+
+// Boolean values
+#define CK_TRUE  ((CK_BBOOL)1)
+#define CK_FALSE ((CK_BBOOL)0)
+
 // User types
 #define CKU_USER 1U
+
+// Token information structure (minimal subset - label-based slot selection)
+// NOTE: Field sizes follow PKCS#11 v2.20 §9.2. Labels are blank-padded UTF-8,
+//       NOT null-terminated. Use the full 32 bytes for comparison.
+typedef struct CK_TOKEN_INFO {
+    uint8_t  label[32];           // Blank-padded token label (UTF-8, no null terminator)
+    uint8_t  manufacturerID[32];  // Blank-padded manufacturer identifier
+    uint8_t  model[16];           // Blank-padded model
+    uint8_t  serialNumber[16];    // Blank-padded serial number
+    uint32_t flags;               // Bit flags (CKF_TOKEN_PRESENT, CKF_LOGIN_REQUIRED, …)
+    CK_ULONG ulMaxSessionCount;
+    CK_ULONG ulSessionCount;
+    CK_ULONG ulMaxRwSessionCount;
+    CK_ULONG ulRwSessionCount;
+    CK_ULONG ulMaxPinLen;
+    CK_ULONG ulMinPinLen;
+    CK_ULONG ulTotalPublicMemory;
+    CK_ULONG ulFreePublicMemory;
+    CK_ULONG ulTotalPrivateMemory;
+    CK_ULONG ulFreePrivateMemory;
+    struct { uint8_t major; uint8_t minor; } hardwareVersion;
+    struct { uint8_t major; uint8_t minor; } firmwareVersion;
+    uint8_t  utcTime[16];         // UTC time as "YYYYMMDDhhmmssxx" (not null-terminated)
+} CK_TOKEN_INFO;
+typedef CK_TOKEN_INFO* CK_TOKEN_INFO_PTR;
 
 // Function list forward declaration
 struct CK_FUNCTION_LIST;
@@ -176,6 +210,7 @@ struct CK_FUNCTION_LIST {
     CK_RV (*C_Initialize)(void*);
     CK_RV (*C_Finalize)(void*);
     CK_RV (*C_GetSlotList)(uint8_t, CK_SLOT_ID*, uint32_t*);
+    CK_RV (*C_GetTokenInfo)(CK_SLOT_ID, CK_TOKEN_INFO*);
     CK_RV (*C_OpenSession)(CK_SLOT_ID, uint32_t, void*, void*, CK_SESSION_HANDLE*);
     CK_RV (*C_CloseSession)(CK_SESSION_HANDLE);
     CK_RV (*C_Login)(CK_SESSION_HANDLE, uint32_t, CK_BYTE_PTR, uint32_t);
