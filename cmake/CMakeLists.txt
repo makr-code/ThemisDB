@@ -1508,6 +1508,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/branch_manager.cpp
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
+    ../src/transaction/global_transaction_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1762,6 +1763,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/delta_update_engine.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/blue_green_deployment.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp

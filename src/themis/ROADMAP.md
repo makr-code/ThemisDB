@@ -30,7 +30,7 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
-- [!] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
+- [x] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
 - [x] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
 - [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
 
@@ -58,7 +58,7 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 
 ### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
 - [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
-- [ ] Authenticode (Windows) and GPG (Linux) signature verification for modules
+- [x] Authenticode (Windows) and GPG (Linux) signature verification for modules
 - [x] Zone.Identifier / quarantine detection (Windows)
 - [ ] Dynamic feature flag gating per edition at runtime
 - [x] Module dependency resolution and load-order management

@@ -14,6 +14,7 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_dependency_resolver.cpp
     ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     ../src/themis/edition_manager.cpp
 )
 
