@@ -196,6 +196,29 @@ json TaskSchedulerApiHandler::getStats() {
     };
 }
 
+json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t limit) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    auto results = scheduler_->getTaskResults(task_id, limit);
+    json items = json::array();
+    for (const auto& r : results) {
+        items.push_back(r.toJson());
+    }
+    return json{{"task_id", task_id}, {"items", items}, {"count", items.size()}};
+}
+
+json TaskSchedulerApiHandler::getLatestTaskResult(const std::string& task_id) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    auto result = scheduler_->getLatestTaskResult(task_id);
+    if (!result.has_value()) {
+        return json{{"status", "not_found"}, {"task_id", task_id}};
+    }
+    return result->toJson();
+}
+
 std::string TaskSchedulerApiHandler::getWebUi() {
     std::string html;
     html.reserve(65536);

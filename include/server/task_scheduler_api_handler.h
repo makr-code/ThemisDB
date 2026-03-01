@@ -85,6 +85,27 @@ public:
     // Statistics
     nlohmann::json getStats();
 
+    /**
+     * @brief Get the N most-recent execution results for a task.
+     *
+     * Returns up to `limit` stored results (newest first) for the given task.
+     * Returns an error object if result storage is disabled or the scheduler
+     * is not initialized.
+     *
+     * @param task_id  Task identifier.
+     * @param limit    Maximum number of results to return (default: 10).
+     */
+    nlohmann::json getTaskResults(const std::string& task_id, size_t limit = 10);
+
+    /**
+     * @brief Get the most-recent execution result for a task.
+     *
+     * Returns the latest stored result or a not-found object if none exists.
+     *
+     * @param task_id  Task identifier.
+     */
+    nlohmann::json getLatestTaskResult(const std::string& task_id);
+
     // Web UI
     /**
      * @brief Serve the task management web UI
