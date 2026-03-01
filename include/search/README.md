@@ -481,6 +481,66 @@ where `normalized_bm25_f` is the per-field BM25 score linearly rescaled to [0, 1
 
 ---
 
+### cross_lingual_search.h
+**Purpose:** Cross-lingual semantic search using multilingual embeddings to retrieve documents
+across language boundaries in a shared vector space.
+
+**Key Classes:**
+- `CrossLingualSearch`: Issues kNN queries on multilingual embeddings; optionally fuses multiple
+  language-variant queries via RRF; applies per-language boost factors; annotates results with
+  language metadata
+- `CrossLingualSearch::Config`: `k`, `candidates`, `score_threshold`, `rrf_k`, `max_k`, `max_candidates`
+- `CrossLingualSearch::LanguageHint`: `language_code`, `boost`
+- `CrossLingualSearch::EmbeddingQuery`: `embedding`, `weight`
+- `CrossLingualSearch::Result`: `document_id`, `score`, `language`
+
+**Usage:**
+```cpp
+#include "search/cross_lingual_search.h"
+
+using namespace themis;
+
+CrossLingualSearch::Config cfg;
+cfg.k = 10;
+cfg.score_threshold = 0.3;  // optional: filter out low-confidence results
+CrossLingualSearch cls(&vec_index_mgr, cfg);
+
+// Optional: annotate results with per-document language information
+cls.setLanguageMap({{"doc1", "en"}, {"doc2", "de"}, {"doc3", "fr"}});
+
+// Single-embedding search (e.g. paraphrase-multilingual-mpnet-base-v2 output)
+std::vector<CrossLingualSearch::LanguageHint> hints = {
+    {"en", 1.2},  // slight preference for English results
+};
+auto results = cls.search(query_embedding, hints);
+
+// Multi-embedding fusion across language variants
+CrossLingualSearch::EmbeddingQuery qEn{en_embedding, 1.0};
+CrossLingualSearch::EmbeddingQuery qDe{de_embedding, 0.8};
+auto results2 = cls.searchMultiEmbedding({qEn, qDe}, hints);
+
+for (const auto& r : results) {
+    std::cout << r.document_id
+              << " score=" << r.score
+              << " lang="  << r.language << "\n";
+}
+```
+
+**Config Fields:**
+- `k`: Maximum results to return (default 10)
+- `candidates`: kNN candidates retrieved per query before filtering (default 100)
+- `score_threshold`: Minimum similarity score in [0, 1] (default 0.0)
+- `rrf_k`: RRF smoothing constant for multi-embedding fusion (default 60.0)
+- `max_k` / `max_candidates`: Hard resource limits; `k` and `candidates` are clamped at construction
+
+**Notes:**
+- Model-agnostic: callers supply pre-computed float vectors from any multilingual embedding model.
+- `search()` and `searchMultiEmbedding()` never throw; index exceptions are caught and logged.
+- `setLanguageMap()` populates `Result::language` and enables `LanguageHint` boost lookup.
+- RRF formula per list i: `score(doc) += weight_i / (rrf_k + rank_i(doc))`
+
+---
+
 ## Integration Points
 
 ### With Index Module

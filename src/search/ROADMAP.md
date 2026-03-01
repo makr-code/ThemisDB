@@ -45,7 +45,7 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 
 ### Long-term (6-12 months)
 - [I] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
-- [I] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
+- [x] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
 - [I] Personalized ranking based on user interaction history (Issue: #2279)
 - [I] Distributed search across shards with result merging (Issue: #2280)
 
@@ -77,7 +77,7 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 
 ### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
 - [ ] Neural sparse retrieval (SPLADE / BERT-based)
-- [ ] Cross-lingual semantic search (multilingual embeddings)
+- [x] Cross-lingual semantic search (multilingual embeddings)
 - [ ] Personalized ranking based on user interaction history
 - [ ] Distributed search across shards with result merging
 - [x] Autocomplete / type-ahead query suggestions (`AutocompleteEngine`, v1.5.0)

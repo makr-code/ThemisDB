@@ -88,6 +88,30 @@ Key API surface:
 
 ---
 
+## Delivered in v2.0.0
+
+### CrossLingualSearch API (`include/search/cross_lingual_search.h`)
+**Status:** ✅ Delivered in v2.0.0
+
+`CrossLingualSearch` provides cross-lingual semantic retrieval by operating on
+multilingual embedding vectors, enabling queries in one language to match
+documents written in any language stored in the same vector space.
+
+Key API surface:
+- `search(embedding, hints)` — kNN query with distance-to-similarity conversion,
+  per-language boost factors, score threshold filter, and k-cap
+- `searchMultiEmbedding(queries, hints)` — fuses multiple query embeddings (e.g.
+  one per language variant) via weighted Reciprocal Rank Fusion (RRF) before
+  applying language boosts and threshold filtering
+- `setLanguageMap(map)` — supplies `doc_id → language_code` mapping for result
+  annotation (`Result::language`) and `LanguageHint` boost lookup
+- `setConfig(config)` — runtime config replacement
+- `LanguageHint` struct: `{language_code, boost}` — ISO 639-1 code + score multiplier
+- `EmbeddingQuery` struct: `{embedding, weight}` — pre-computed vector + RRF weight
+- `Result` struct: `{document_id, score, language}` — enriched with language metadata
+
+---
+
 ## Planned for v1.6.0
 
 - **Personalized autocomplete**: per-user click-history weighting in `AutocompleteEngine`
