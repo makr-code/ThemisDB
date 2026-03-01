@@ -25,6 +25,8 @@
 #include "server/auth_middleware.h"
 #include <sstream>
 #include <chrono>
+#include <algorithm>
+#include <limits>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -759,6 +761,8 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
         uint64_t start_time = params.value("start_time", 0);
         uint64_t end_time = params.value("end_time", 0);
         std::string aggregation(params.value("aggregation", ""));  // sum, avg, min, max, count
+        std::string agg_field(params.value("field", ""));          // field to aggregate
+        int limit = params.value("limit", 1000);
         
         if (start_time == 0 || end_time == 0) {
             return createError(
@@ -766,15 +770,84 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
                 "Missing required parameters: start_time, end_time"
             );
         }
-        
-        // Note: Time series queries require the time series index module.
-        // The time series index is an optional module that must be enabled during build.
-        // When available, it provides optimized time-window queries and aggregations.
+
+        // Scan the collection and filter documents by _timestamp_ns range
+        std::string prefix = collection + ":";
+        auto iter_result = storage->newSafeIterator();
+        if (!iter_result) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to create iterator: " + iter_result.error().message()
+            );
+        }
+
+        auto& iter = iter_result.value();
+        json data_points = json::array();
+        int count = 0;
+
+        // Aggregation accumulators
+        double agg_sum = 0.0;
+        double agg_min = std::numeric_limits<double>::max();
+        double agg_max = std::numeric_limits<double>::lowest();
+        int agg_count = 0;
+
+        iter.Seek(prefix);
+        while (iter.Valid() && count < limit) {
+            std::string key(iter.key());
+            if (key.substr(0, prefix.length()) != prefix) {
+                break;
+            }
+
+            std::string value(iter.value());
+            try {
+                json entity = json::parse(value);
+
+                // Filter by timestamp range
+                uint64_t ts = entity.value("_timestamp_ns", static_cast<uint64_t>(0));
+                if (ts >= start_time && ts <= end_time) {
+                    data_points.push_back(entity);
+                    count++;
+
+                    // Accumulate aggregation values if requested
+                    if (!aggregation.empty() && !agg_field.empty() && entity.contains(agg_field)) {
+                        try {
+                            double val = entity[agg_field].get<double>();
+                            agg_sum += val;
+                            agg_min = std::min(agg_min, val);
+                            agg_max = std::max(agg_max, val);
+                            agg_count++;
+                        } catch (const json::exception&) {
+                            // Field is not numeric; skip aggregation for this record
+                        }
+                    }
+                }
+            } catch (const json::exception&) {
+                // Skip invalid JSON entries
+            }
+
+            iter.Next();
+        }
+
         json result = {
-            {"buckets", json::array()},
-            {"note", "Time series queries require time series index module (enable with -DTHEMIS_ENABLE_TIMESERIES_INDEX=ON)"}
+            {"data", data_points},
+            {"count", count},
+            {"start_time", start_time},
+            {"end_time", end_time}
         };
-        
+
+        // Append aggregation result if requested and data was found
+        if (!aggregation.empty() && agg_count > 0) {
+            double agg_result_val = 0.0;
+            if (aggregation == "sum")        agg_result_val = agg_sum;
+            else if (aggregation == "avg")   agg_result_val = agg_sum / agg_count;
+            else if (aggregation == "min")   agg_result_val = agg_min;
+            else if (aggregation == "max")   agg_result_val = agg_max;
+            else if (aggregation == "count") agg_result_val = static_cast<double>(agg_count);
+
+            result["aggregation"] = aggregation;
+            result["aggregation_result"] = agg_result_val;
+        }
+
         return createSuccess(result);
         
     } catch (const std::exception& e) {
@@ -1443,20 +1516,39 @@ json ThemisRPCService::handleGetIndexOperations(const json& params) {
                 "Database storage not initialized"
             );
         }
-        
-        // Return index operations metadata
-        // Note: This is a placeholder for index management system
+
+        // Optional: filter by collection
+        std::string collection(params.value("collection", ""));
+
+        // Scan DB for index metadata stored under _idx_meta:<collection>:<name>
+        std::string prefix = "_idx_meta:";
+        if (!collection.empty()) {
+            prefix += collection + ":";
+        }
+
+        json indexes = json::array();
+        storage->scanPrefix(prefix, [&indexes](std::string_view /*key*/, std::string_view value) -> bool {
+            try {
+                json idx_meta = json::parse(value);
+                indexes.push_back(idx_meta);
+            } catch (const json::exception&) {
+                // Skip malformed entries
+            }
+            return true; // continue scanning
+        });
+
         json result = {
-            {"indexes", json::array()},
+            {"indexes", indexes},
+            {"count", indexes.size()},
             {"operations_supported", json::array({
                 "create_index",
                 "drop_index",
                 "list_indexes"
             })}
         };
-        
+
         return createSuccess(result);
-        
+
     } catch (const std::exception& e) {
         return createError(
             themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -1641,10 +1733,13 @@ json ThemisRPCService::handleListCollections(const json& params) {
             std::string key(iter.key());
             
             // Parse key format: collection:model:uuid
+            // Skip internal metadata keys (e.g. _idx_meta:<collection>:<name>)
             size_t first_colon = key.find(':');
             if (first_colon != std::string::npos) {
                 std::string collection = key.substr(0, first_colon);
-                collections[collection]++;
+                if (!collection.empty() && collection[0] != '_') {
+                    collections[collection]++;
+                }
             }
             
             iter.Next();
@@ -1695,18 +1790,33 @@ json ThemisRPCService::handleCreateIndex(const json& params) {
             );
         }
         
-        // Note: Index creation would require secondary index infrastructure
-        // For now, return success with metadata
         std::string index_name = collection + "_" + field + "_idx";
         std::string index_type(params.value("type", "btree"));
-        
+
+        // Persist index metadata in database under _idx_meta:<collection>:<index_name>
+        std::string meta_key = "_idx_meta:" + collection + ":" + index_name;
+        json meta = {
+            {"name", index_name},
+            {"collection", collection},
+            {"field", field},
+            {"type", index_type},
+            {"created_ns", getCurrentTimestampNs()}
+        };
+
+        bool success = storage->put(meta_key, meta.dump());
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to store index metadata"
+            );
+        }
+
         json result = {
             {"success", true},
             {"index_name", index_name},
             {"collection", collection},
             {"field", field},
-            {"type", index_type},
-            {"note", "Index metadata stored; full index implementation pending"}
+            {"type", index_type}
         };
         
         return createSuccess(result);
@@ -1739,14 +1849,30 @@ json ThemisRPCService::handleDropIndex(const json& params) {
                 "Database storage not initialized"
             );
         }
-        
-        // Note: Index deletion would require secondary index infrastructure
-        // For now, return success
+
+        // Verify the index exists in the database
+        std::string meta_key = "_idx_meta:" + collection + ":" + index_name;
+        std::string existing;
+        if (!storage->get(meta_key, existing)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::ENTITY_NOT_FOUND,
+                "Index not found: " + index_name
+            );
+        }
+
+        // Delete index metadata from database
+        bool success = storage->del(meta_key);
+        if (!success) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to drop index"
+            );
+        }
+
         json result = {
             {"success", true},
             {"index_name", index_name},
-            {"collection", collection},
-            {"note", "Index metadata removed; full index implementation pending"}
+            {"collection", collection}
         };
         
         return createSuccess(result);
