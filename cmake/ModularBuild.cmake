@@ -473,6 +473,8 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/autocomplete.cpp
     ../src/search/learning_to_rank.cpp
     ../src/search/multi_modal_search.cpp
+    ../src/search/multi_field_search.cpp
+    ../src/search/neural_sparse_retrieval.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
