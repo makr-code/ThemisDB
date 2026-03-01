@@ -16,6 +16,11 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if .Values.serviceMesh.istioInject }}
+        sidecar.istio.io/inject: "true"
+        traffic.sidecar.istio.io/includeInboundPorts: {{ .Values.serviceMesh.includeInboundPorts | quote }}
+        traffic.sidecar.istio.io/excludeInboundPorts: {{ .Values.serviceMesh.excludeInboundPorts | quote }}
+        {{- end }}
       labels:
         {{- include "themisdb.selectorLabels" . | nindent 8 }}
     spec:
