@@ -137,6 +137,23 @@ std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& po
             if (delay_ms < 0.0) delay_ms = 0.0;
             break;
         }
+
+        case ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF: {
+            // delay = initial * fib(attempt + 1)
+            // fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5, ...
+            // Loop invariant: after k iterations, a = fib(k), b = fib(k+1).
+            // Starting with a=1,b=1 (= fib(1),fib(2)) and running (attempt) iterations
+            // yields a = fib(attempt+1).
+            // Computed iteratively to avoid recursion overhead.
+            size_t a = 1, b = 1;
+            for (size_t i = 1; i <= attempt; ++i) {
+                size_t c = a + b;
+                a = b;
+                b = c;
+            }
+            delay_ms = base_ms * static_cast<double>(a);
+            break;
+        }
     }
 
     // Clamp to max_delay
@@ -265,18 +282,28 @@ TaskScheduler::~TaskScheduler() {
 // ===== Lifecycle =====
 
 void TaskScheduler::start() {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
-    
-    if (running_.load()) {
-        THEMIS_WARN("TaskScheduler already running");
-        return;
+    size_t task_count = 0;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        
+        if (running_.load()) {
+            THEMIS_WARN("TaskScheduler already running");
+            return;
+        }
+        
+        running_.store(true);
+        scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
+        task_count = tasks_.size();
+    }
+
+    // Restart any event triggers that were stopped (e.g. after a previous stop()).
+    // Called outside tasks_mutex_ to avoid lock inversion with the trigger callback.
+    if (event_trigger_manager_) {
+        event_trigger_manager_->startAll();
     }
     
-    running_.store(true);
-    scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
-    
     THEMIS_INFO("TaskScheduler started with {} tasks, check interval: {}s",
-                tasks_.size(), 
+                task_count, 
                 config_.check_interval.count() / 1000);
 }
 
@@ -324,6 +351,11 @@ void TaskScheduler::stop() {
             }
         }
         running_task_threads_.clear();
+    }
+
+    // Stop event triggers to prevent CDC-triggered execution after stop()
+    if (event_trigger_manager_) {
+        event_trigger_manager_->stopAll();
     }
     
     if (config_.persist_tasks) {
@@ -2225,6 +2257,12 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
     // Check if task is enabled
     if (!task->enabled) {
         THEMIS_DEBUG("Task {} is disabled, skipping execution", task->id);
+        return;
+    }
+
+    // Check if scheduler has been stopped
+    if (!running_.load()) {
+        THEMIS_DEBUG("Task {} CDC event ignored: scheduler is not running", task->id);
         return;
     }
 

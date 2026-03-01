@@ -1,5 +1,6 @@
 #include "server/task_scheduler_api_handler.h"
 #include "scheduler/task_audit_manager.h"
+#include "scheduler/external_scheduler_adapter.h"
 
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -651,6 +652,7 @@ json TaskSchedulerApiHandler::taskToJson(const ScheduledTask& task) {
         {"last_success_time",     timePointToIso(task.last_success_time)},
         {"last_failure_time",     timePointToIso(task.last_failure_time)},
         {"next_run",              timePointToIso(task.next_run)},
+        {"dependencies",          task.dependencies},
     };
     return j;
 }
@@ -734,7 +736,191 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
         task.id = j["id"].get<std::string>();
     }
 
+    // Dependencies (for DAG execution)
+    if (j.contains("dependencies")) {
+        task.dependencies = j["dependencies"].get<std::vector<std::string>>();
+    }
+
     return task;
+}
+
+json TaskSchedulerApiHandler::executeDAG(const json& request) {
+// ============================================================================
+// External scheduler integration
+// ============================================================================
+
+namespace {
+
+/// Build a KubernetesCronJobConfig from the JSON request object.
+scheduler::KubernetesCronJobConfig k8sConfigFromJson(const json& req) {
+    scheduler::KubernetesCronJobConfig cfg;
+    if (req.contains("themisdb_base_url"))
+        cfg.themisdb_base_url = req["themisdb_base_url"].get<std::string>();
+    if (req.contains("k8s_namespace"))
+        cfg.k8s_namespace = req["k8s_namespace"].get<std::string>();
+    if (req.contains("job_image"))
+        cfg.job_image = req["job_image"].get<std::string>();
+    if (req.contains("api_token_secret_name"))
+        cfg.api_token_secret_name = req["api_token_secret_name"].get<std::string>();
+    if (req.contains("suspend"))
+        cfg.suspend = req["suspend"].get<bool>();
+    if (req.contains("successful_jobs_history_limit"))
+        cfg.successful_jobs_history_limit = req["successful_jobs_history_limit"].get<int32_t>();
+    if (req.contains("failed_jobs_history_limit"))
+        cfg.failed_jobs_history_limit = req["failed_jobs_history_limit"].get<int32_t>();
+    if (req.contains("extra_labels") && req["extra_labels"].is_object()) {
+        for (auto it = req["extra_labels"].begin(); it != req["extra_labels"].end(); ++it) {
+            cfg.extra_labels.emplace_back(it.key(), it.value().get<std::string>());
+        }
+    }
+    return cfg;
+}
+
+/// Build an AirflowDagConfig from the JSON request object.
+scheduler::AirflowDagConfig airflowConfigFromJson(const json& req) {
+    scheduler::AirflowDagConfig cfg;
+    if (req.contains("dag_id"))
+        cfg.dag_id = req["dag_id"].get<std::string>();
+    if (req.contains("owner"))
+        cfg.owner = req["owner"].get<std::string>();
+    if (req.contains("start_date"))
+        cfg.start_date = req["start_date"].get<std::string>();
+    if (req.contains("themisdb_base_url"))
+        cfg.themisdb_base_url = req["themisdb_base_url"].get<std::string>();
+    if (req.contains("http_conn_id"))
+        cfg.http_conn_id = req["http_conn_id"].get<std::string>();
+    if (req.contains("default_schedule"))
+        cfg.default_schedule = req["default_schedule"].get<std::string>();
+    if (req.contains("is_paused_upon_creation"))
+        cfg.is_paused_upon_creation = req["is_paused_upon_creation"].get<bool>();
+    if (req.contains("description"))
+        cfg.description = req["description"].get<std::string>();
+    if (req.contains("tags") && req["tags"].is_array()) {
+        for (const auto& tag : req["tags"]) {
+            cfg.tags.push_back(tag.get<std::string>());
+        }
+    }
+    return cfg;
+}
+
+} // anonymous namespace
+
+// A single stateless adapter instance shared across all methods (thread-safe per its contract).
+static const scheduler::ExternalSchedulerAdapter s_adapter;
+
+json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& task_id,
+                                                              const json& request) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    try {
+        if (!request.contains("task_ids") || !request["task_ids"].is_array()) {
+            return json{{"status", "error"}, {"error", "Missing or invalid 'task_ids' array"}};
+        }
+        auto task_ids = request["task_ids"].get<std::vector<std::string>>();
+        auto dag_result = scheduler_->executeDAG(task_ids);
+
+        json succeeded = json::object();
+        for (const auto& [id, res] : dag_result.succeeded) {
+            succeeded[id] = res;
+        }
+        json failed = json::object();
+        for (const auto& [id, err] : dag_result.failed) {
+            failed[id] = err;
+        }
+
+        spdlog::info("TaskSchedulerApiHandler: executeDAG completed: {} succeeded, {} failed, "
+                     "{} skipped, {} condition_skipped",
+                     dag_result.succeeded.size(), dag_result.failed.size(),
+                     dag_result.skipped.size(), dag_result.condition_skipped.size());
+
+        return json{
+            {"status",            "executed"},
+            {"succeeded",         succeeded},
+            {"failed",            failed},
+            {"skipped",           dag_result.skipped},
+            {"condition_skipped", dag_result.condition_skipped},
+        };
+    } catch (const std::invalid_argument& e) {
+        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (invalid argument): {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    } catch (const std::runtime_error& e) {
+        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (runtime error): {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    } catch (const std::exception& e) {
+        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed: {}", e.what());
+        auto task_ptr = scheduler_->getTask(task_id);
+        if (!task_ptr) {
+            return json{{"status", "error"}, {"error", "Task not found: " + task_id}};
+        }
+        const auto cfg      = k8sConfigFromJson(request);
+        const json manifest = s_adapter.toKubernetesCronJobJson(*task_ptr, cfg);
+        return json{{"manifest", manifest}};
+    } catch (const std::exception& e) {
+        spdlog::warn("exportToKubernetesCronJobJson failed: {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    }
+}
+
+json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& task_id,
+                                                              const json& request) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    try {
+        auto task_ptr = scheduler_->getTask(task_id);
+        if (!task_ptr) {
+            return json{{"status", "error"}, {"error", "Task not found: " + task_id}};
+        }
+        const auto cfg         = k8sConfigFromJson(request);
+        const std::string yaml = s_adapter.toKubernetesCronJobYaml(*task_ptr, cfg);
+        return json{{"yaml", yaml}};
+    } catch (const std::exception& e) {
+        spdlog::warn("exportToKubernetesCronJobYaml failed: {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    }
+}
+
+json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    try {
+        if (!request.contains("task_ids") || !request["task_ids"].is_array()) {
+            return json{{"status", "error"},
+                        {"error", "Request must contain a 'task_ids' array"}};
+        }
+        std::vector<ScheduledTask> tasks;
+        for (const auto& id_json : request["task_ids"]) {
+            const std::string id = id_json.get<std::string>();
+            auto task_ptr = scheduler_->getTask(id);
+            if (!task_ptr) {
+                return json{{"status", "error"}, {"error", "Task not found: " + id}};
+            }
+            tasks.push_back(*task_ptr);
+        }
+        const auto        cfg = airflowConfigFromJson(request);
+        const std::string py  = s_adapter.toAirflowDagPython(tasks, cfg);
+        return json{{"dag_python", py}};
+    } catch (const std::exception& e) {
+        spdlog::warn("exportToAirflowDag failed: {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    }
+}
+
+json TaskSchedulerApiHandler::importFromKubernetesCronJob(const json& request) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    try {
+        ScheduledTask task    = s_adapter.fromKubernetesCronJobJson(request);
+        const std::string id  = scheduler_->registerTask(task);
+        spdlog::info("importFromKubernetesCronJob: registered task '{}'", id);
+        return json{{"status", "created"}, {"id", id}};
+    } catch (const std::exception& e) {
+        spdlog::warn("importFromKubernetesCronJob failed: {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    }
 }
 
 } // namespace server
