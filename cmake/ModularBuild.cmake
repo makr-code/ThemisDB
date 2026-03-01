@@ -457,6 +457,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
     
+    # Post-quantum cryptography (CRYSTALS-Kyber / Dilithium migration path)
+    ../src/security/post_quantum_crypto.cpp
+
     # Security initialization
     ../src/core/security_initialization.cpp
     
