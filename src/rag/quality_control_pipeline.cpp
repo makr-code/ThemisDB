@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     582                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     616                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -23,6 +23,7 @@
  */
 
 #include "rag/quality_control_pipeline.h"
+#include "rag/citation_highlighter.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
@@ -33,6 +34,8 @@
 namespace themis::rag::judge {
 
 using json = nlohmann::json;
+using themis::rag::CitationHighlighter;
+using themis::rag::SourceChunk;
 
 // ═══════════════════════════════════════════════════════════
 // QualityControlPipeline Implementation
@@ -46,6 +49,9 @@ struct QualityControlPipeline::Impl {
     std::shared_ptr<GEvalEvaluator> geval;
     std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     
+    // Citation highlighter (used in thorough stage)
+    CitationHighlighter citation_highlighter;
+
     // Callbacks
     std::function<void(const QualityCheckResult&)> failure_callback;
     std::function<void(const std::string&, const QualityCheckResult&)> learning_callback;
@@ -169,6 +175,7 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
         result.dimension_scores.insert(result.dimension_scores.end(),
                                       stage_result.dimension_scores.begin(),
                                       stage_result.dimension_scores.end());
+        result.citation_coverage = stage_result.citation_coverage;
         impl_->stats.passed_thorough++;
     }
     
@@ -387,6 +394,35 @@ QualityCheckResult QualityControlPipeline::runThoroughStage(
         result.failure_reasons.push_back(std::string("NLI error: ") + e.what());
     }
     
+    // Citation coverage check (map answer sentences to source chunks)
+    if (impl_->config.enable_citation_check && !documents.empty()) {
+        std::vector<SourceChunk> source_chunks;
+        source_chunks.reserve(documents.size());
+        size_t chunk_idx = 0;
+        for (const auto& doc : documents) {
+            SourceChunk sc;
+            sc.doc_id      = doc.id;
+            sc.chunk_index = chunk_idx++;
+            sc.content     = doc.content;
+            source_chunks.push_back(std::move(sc));
+        }
+
+        auto citation_result = impl_->citation_highlighter.highlight(answer, source_chunks);
+
+        DimensionScore cit_score;
+        cit_score.dimension   = "citation_coverage";
+        cit_score.score       = citation_result.citation_coverage;
+        cit_score.confidence  = citation_result.mean_similarity;
+        cit_score.method      = "citation_highlighter";
+        cit_score.explanation = "Fraction of answer sentences mapped to source chunks";
+
+        result.dimension_scores.push_back(cit_score);
+        result.citation_coverage = citation_result.citation_coverage;
+
+        THEMIS_DEBUG("Citation coverage check: coverage={:.2f}, mean_sim={:.3f}",
+                     citation_result.citation_coverage, citation_result.mean_similarity);
+    }
+
     auto end = std::chrono::steady_clock::now();
     result.thorough_stage_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         end - start);
@@ -427,7 +463,8 @@ double QualityControlPipeline::computeOverallScore(
         {"relevance", impl_->config.relevance_weight},
         {"completeness", impl_->config.completeness_weight},
         {"coherence", impl_->config.coherence_weight},
-        {"ethical", impl_->config.ethical_weight}
+        {"ethical", impl_->config.ethical_weight},
+        {"citation_coverage", 0.0}  // informational; does not affect weighted overall score
     };
     
     double weighted_sum = 0.0;

@@ -10,8 +10,8 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     329                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     336                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -101,6 +101,9 @@ struct QualityCheckResult {
     // Learning feedback
     bool sent_to_learning_system;
     std::string learning_feedback_id;
+
+    // Citation coverage (filled by thorough stage when enable_citation_check is true)
+    double citation_coverage = 0.0;  ///< Fraction of answer sentences with at least one source citation [0, 1]
 };
 
 /**
@@ -156,6 +159,9 @@ public:
         int max_retries = 2;
         double retry_threshold = 0.5;           ///< Min score to allow retry
         
+        // Citation checking (Stage 3 thorough verification)
+        bool enable_citation_check = true;  ///< Run citation-coverage check via CitationHighlighter
+
         // Performance targets
         int fast_stage_timeout_ms = 50;
         int balanced_stage_timeout_ms = 500;
