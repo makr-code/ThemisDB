@@ -34,5 +34,20 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [?] Raft snapshot compaction to bound log growth
 - [?] Chaos-engineering test suite (shard partition, node failure injection)
 
+### Phase 5: Hardware Migration Support (Status: Beta 🟡)
+- [x] `HardwareMigrationManager` — safe endpoint replacement without altering hash-ring positions
+- [x] `NodeIdentity` — logical shard identity persisted to disk, independent of physical hardware
+- [x] Ring-stability validation: assert that virtual-node positions are unchanged after endpoint update
+- [ ] Admin API endpoint `/api/v1/shards/{id}/migrate-hardware` (Target: Q3 2026)
+- [ ] Raft peer-address update integration (Target: Q3 2026)
+- [ ] Drain-period enforcement with in-flight request tracking (Target: Q3 2026)
+
 ## Conclusion
 Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.
+
+## Known Issues & Limitations
+
+| # | Description | Status |
+|---|-------------|--------|
+| 1 | `HardwareMigrationManager::captureRingSnapshotLocked()` uses total virtual-node count as a per-shard sentinel; per-shard vnode counts are not individually exposed by `ConsistentHashRing`. | Acceptable for v1 — stability is guaranteed because `replaceEndpoint` never touches the ring. |
+| 2 | Drain period tracking is configuration-only; active connection draining is not yet implemented. | Planned (Phase 5). |
