@@ -6,11 +6,14 @@
 #include <gtest/gtest.h>
 #include "server/task_scheduler_api_handler.h"
 #include "scheduler/task_scheduler.h"
+#include "scheduler/task_audit_event.h"
+#include "scheduler/task_audit_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include <filesystem>
 #include <chrono>
+#include <set>
 
 using namespace themis;
 using namespace themis::server;
@@ -258,6 +261,7 @@ TEST(TaskSchedulerApiHandlerNullTest, NullScheduler_AllMethodsReturnError) {
     EXPECT_EQ(h.disableTask("x").value("status", ""), "error");
     EXPECT_EQ(h.unregisterTask("x").value("status", ""), "error");
     EXPECT_EQ(h.executeTask("x").value("status", ""), "error");
+    EXPECT_EQ(h.getExecutionHistory("x").value("status", ""), "error");
 
     nlohmann::json req{{"name", "t"}, {"type", "aql_query"}, {"aql_query", "RETURN 1"}};
     EXPECT_EQ(h.registerTask(req).value("status", ""), "error");
@@ -327,4 +331,212 @@ TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
     ASSERT_TRUE(result.contains("total"));
     EXPECT_TRUE(result["total"].is_number_integer());
     EXPECT_EQ(result["total"].get<int64_t>(), 1);
+}
+
+// ============================================================================
+// getExecutionHistory – searchable audit log
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, GetExecutionHistory_NoAuditManager_ReturnsEmpty) {
+    // Fixture disables audit logging (enable_audit_logging = false), so
+    // getAuditManager() returns nullptr. Expect empty items array.
+    auto result = handler_->getExecutionHistory("some_task_id");
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_TRUE(result["items"].is_array());
+    ASSERT_TRUE(result.contains("total"));
+    EXPECT_EQ(result["total"].get<int64_t>(), 0);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetExecutionHistory_NullScheduler_ReturnsError) {
+    TaskSchedulerApiHandler h(nullptr);
+    auto result = h.getExecutionHistory("x");
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetExecutionHistory_WithQueryParams_NoAuditManager) {
+    // Pagination and filter params should be gracefully ignored when audit is disabled.
+    nlohmann::json params{{"limit", 10}, {"offset", 0}, {"success", true}};
+    auto result = handler_->getExecutionHistory("task_id", params);
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_EQ(result["items"].size(), 0u);
+}
+
+// ============================================================================
+// getExecutionHistory – with audit manager enabled
+// ============================================================================
+
+class TaskSchedulerApiHandlerAuditTest : public ::testing::Test {
+protected:
+    static std::string makeDbPath() {
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_audit_api_test_" + std::to_string(now))).string();
+    }
+
+    void SetUp() override {
+        db_path_ = makeDbPath();
+        std::filesystem::create_directories(db_path_);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_ + "/db";
+        cfg.enable_blobdb = false;
+        storage_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        idx_    = std::make_unique<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *idx_);
+
+        TaskScheduler::Config sched_cfg;
+        sched_cfg.max_concurrent_tasks     = 2;
+        sched_cfg.check_interval           = std::chrono::milliseconds(50);
+        sched_cfg.persist_tasks            = false;
+        sched_cfg.enable_audit_logging     = true;
+        sched_cfg.enable_anomaly_detection = false;
+
+        scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), sched_cfg);
+        handler_   = std::make_unique<TaskSchedulerApiHandler>(scheduler_.get());
+    }
+
+    void TearDown() override {
+        handler_.reset();
+        if (scheduler_) {
+            scheduler_->stop();
+            scheduler_.reset();
+        }
+        engine_.reset();
+        idx_.reset();
+        storage_->close();
+        storage_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    // Directly inject audit events via the audit manager
+    void injectAuditEvent(const std::string& task_id, bool success,
+                          scheduler::TaskEventType ev_type = scheduler::TaskEventType::TASK_COMPLETED,
+                          const std::string& trigger_type = "CRON",
+                          const std::string& user_id = "test_user") {
+        auto am = scheduler_->getAuditManager();
+        if (!am) return;
+        scheduler::TaskAuditEvent ev;
+        ev.uuid        = scheduler::generateUUID();
+        ev.timestamp   = std::chrono::system_clock::now();
+        ev.task_id     = task_id;
+        ev.task_name   = task_id + "_name";
+        ev.event_type  = ev_type;
+        ev.trigger_type = trigger_type;
+        ev.user_id     = user_id;
+        ev.ip_address  = "127.0.0.1";
+        ev.success     = success;
+        ev.duration_ms = 50.0;
+        am->logAuditEvent(ev);
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper>          storage_;
+    std::unique_ptr<SecondaryIndexManager>   idx_;
+    std::unique_ptr<QueryEngine>             engine_;
+    std::unique_ptr<TaskScheduler>           scheduler_;
+    std::unique_ptr<TaskSchedulerApiHandler> handler_;
+};
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_ReturnsItems) {
+    injectAuditEvent("task-a", true);
+    injectAuditEvent("task-a", false, scheduler::TaskEventType::TASK_FAILED);
+    injectAuditEvent("task-b", true);
+
+    auto result = handler_->getExecutionHistory("task-a");
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_EQ(result["items"].size(), 2u);
+    EXPECT_EQ(result["total"].get<int64_t>(), 2);
+    for (const auto& item : result["items"]) {
+        EXPECT_EQ(item.value("task_id", ""), "task-a");
+    }
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterBySuccess) {
+    injectAuditEvent("task-x", true);
+    injectAuditEvent("task-x", true);
+    injectAuditEvent("task-x", false, scheduler::TaskEventType::TASK_FAILED);
+
+    nlohmann::json params{{"success", true}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("task-x", params);
+    ASSERT_EQ(result["items"].size(), 2u);
+    for (const auto& item : result["items"]) {
+        EXPECT_TRUE(item.value("success", false));
+    }
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByFailure) {
+    injectAuditEvent("task-y", true);
+    injectAuditEvent("task-y", false, scheduler::TaskEventType::TASK_FAILED);
+
+    nlohmann::json params{{"success", false}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("task-y", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_FALSE(result["items"][0].value("success", true));
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_Pagination) {
+    for (int i = 0; i < 5; ++i) {
+        injectAuditEvent("pg-task", true);
+    }
+
+    nlohmann::json p1{{"limit", 2}, {"offset", 0}};
+    auto page1 = handler_->getExecutionHistory("pg-task", p1);
+    EXPECT_EQ(page1["items"].size(), 2u);
+
+    nlohmann::json p2{{"limit", 2}, {"offset", 2}};
+    auto page2 = handler_->getExecutionHistory("pg-task", p2);
+    EXPECT_EQ(page2["items"].size(), 2u);
+
+    // Each page's "total" field reflects items in that page (not the grand total)
+    EXPECT_EQ(page1["total"].get<int64_t>(), 2);
+    EXPECT_EQ(page2["total"].get<int64_t>(), 2);
+
+    // No overlap by UUID
+    std::set<std::string> ids1, ids2;
+    for (const auto& ev : page1["items"]) ids1.insert(ev.value("uuid", ""));
+    for (const auto& ev : page2["items"]) ids2.insert(ev.value("uuid", ""));
+    for (const auto& u : ids2) {
+        EXPECT_EQ(0u, ids1.count(u)) << "Duplicate UUID across pages: " << u;
+    }
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_EmptyTaskId_ReturnsAllTasks) {
+    injectAuditEvent("alpha", true);
+    injectAuditEvent("beta", true);
+    injectAuditEvent("gamma", true);
+
+    auto result = handler_->getExecutionHistory("");
+    EXPECT_GE(result["items"].size(), 3u);
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByEventType) {
+    injectAuditEvent("ev-task", true,  scheduler::TaskEventType::TASK_COMPLETED);
+    injectAuditEvent("ev-task", false, scheduler::TaskEventType::TASK_FAILED);
+
+    nlohmann::json params{{"event_type", "TASK_FAILED"}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("ev-task", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_EQ(result["items"][0].value("event_type", ""), "TASK_FAILED");
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByTriggerType) {
+    injectAuditEvent("trig-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON");
+    injectAuditEvent("trig-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "MANUAL");
+
+    nlohmann::json params{{"trigger_type", "MANUAL"}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("trig-task", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_EQ(result["items"][0].value("trigger_type", ""), "MANUAL");
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByUserId) {
+    injectAuditEvent("user-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON", "alice");
+    injectAuditEvent("user-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON", "bob");
+
+    nlohmann::json params{{"user_id", "alice"}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("user-task", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_EQ(result["items"][0].value("user_id", ""), "alice");
 }

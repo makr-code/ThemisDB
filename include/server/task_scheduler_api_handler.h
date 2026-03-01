@@ -56,6 +56,7 @@ namespace server {
  * - POST /api/tasks/:id/enable - Enable a task [AUTH REQUIRED]
  * - POST /api/tasks/:id/disable - Disable a task [AUTH REQUIRED]
  * - POST /api/tasks/:id/execute - Execute task immediately [AUTH REQUIRED]
+ * - GET /api/tasks/:id/history - Get searchable execution history [AUTH REQUIRED]
  * - GET /api/tasks/stats - Get scheduler statistics [AUTH REQUIRED]
  * 
  * SECURITY REQUIREMENTS:
@@ -84,6 +85,29 @@ public:
     
     // Statistics
     nlohmann::json getStats();
+
+    // Audit history
+    /**
+     * @brief Get searchable execution history for a task (or all tasks)
+     *
+     * Exposes the underlying TaskAuditManager query interface over HTTP.
+     * Supports filtering by success, event_type, trigger_type, user_id and
+     * time range via @p query_params (JSON object whose keys mirror the
+     * AuditQueryParams fields).
+     *
+     * @param task_id      Task ID to filter on (empty string = all tasks)
+     * @param query_params Optional JSON object with filter/pagination keys:
+     *                       limit (int, default 100), offset (int, default 0),
+     *                       success (bool), event_type (string),
+     *                       trigger_type (string), user_id (string),
+     *                       start_time_ms (int64), end_time_ms (int64)
+     * @return JSON object { "items": [...], "total": <int> } where "total" is the
+     *         count of items in this response page (after applying limit/offset).
+     *         Use limit/offset parameters to paginate through results.
+     */
+    nlohmann::json getExecutionHistory(
+        const std::string& task_id,
+        const nlohmann::json& query_params = nlohmann::json::object());
 
     // Web UI
     /**

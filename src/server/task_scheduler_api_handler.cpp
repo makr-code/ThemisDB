@@ -1,4 +1,5 @@
 #include "server/task_scheduler_api_handler.h"
+#include "scheduler/task_audit_manager.h"
 
 #include <spdlog/spdlog.h>
 #include <chrono>
@@ -194,6 +195,94 @@ json TaskSchedulerApiHandler::getStats() {
         {"next_run",          timePointToIso(stats.next_run)},
         {"scheduler_running", scheduler_->isRunning()}
     };
+}
+
+json TaskSchedulerApiHandler::getExecutionHistory(
+    const std::string& task_id,
+    const json& query_params)
+{
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+
+    auto audit_mgr = scheduler_->getAuditManager();
+    if (!audit_mgr) {
+        // Audit logging disabled – return empty history
+        return json{{"items", json::array()}, {"total", 0}};
+    }
+
+    scheduler::AuditQueryParams params;
+
+    // task_id filter
+    if (!task_id.empty()) {
+        params.task_id = task_id;
+    }
+
+    // Pagination - handle both string values (from URL query params) and integer values
+    auto getSize = [&](const char* key, size_t def) -> size_t {
+        if (!query_params.contains(key)) return def;
+        const auto& v = query_params[key];
+        if (v.is_number_unsigned()) return v.get<size_t>();
+        if (v.is_number_integer()) {
+            auto iv = v.get<int64_t>();
+            return iv > 0 ? static_cast<size_t>(iv) : def;
+        }
+        if (v.is_string()) {
+            try { auto iv = std::stoll(v.get<std::string>()); return iv > 0 ? static_cast<size_t>(iv) : def; }
+            catch (...) { return def; }
+        }
+        return def;
+    };
+    params.limit  = getSize("limit",  100);
+    params.offset = getSize("offset", 0);
+
+    // Optional filters
+    if (query_params.contains("success") && !query_params["success"].is_null()) {
+        const auto& sv = query_params["success"];
+        if (sv.is_boolean()) {
+            params.success = sv.get<bool>();
+        } else if (sv.is_string()) {
+            const auto s = sv.get<std::string>();
+            if (s == "true" || s == "1")  params.success = true;
+            else if (s == "false" || s == "0") params.success = false;
+        }
+    }
+    if (query_params.contains("event_type") && query_params["event_type"].is_string()) {
+        params.event_type = scheduler::taskEventTypeFromString(
+            query_params["event_type"].get<std::string>());
+    }
+    if (query_params.contains("trigger_type") && query_params["trigger_type"].is_string()) {
+        params.trigger_type = query_params["trigger_type"].get<std::string>();
+    }
+    if (query_params.contains("user_id") && query_params["user_id"].is_string()) {
+        params.user_id = query_params["user_id"].get<std::string>();
+    }
+    if (query_params.contains("start_time_ms") && !query_params["start_time_ms"].is_null()) {
+        int64_t ms = 0;
+        const auto& v = query_params["start_time_ms"];
+        if (v.is_number_integer()) ms = v.get<int64_t>();
+        else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }
+        if (ms > 0) params.start_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
+    }
+    if (query_params.contains("end_time_ms") && !query_params["end_time_ms"].is_null()) {
+        int64_t ms = 0;
+        const auto& v = query_params["end_time_ms"];
+        if (v.is_number_integer()) ms = v.get<int64_t>();
+        else if (v.is_string()) { try { ms = std::stoll(v.get<std::string>()); } catch (...) {} }
+        if (ms > 0) params.end_time = std::chrono::system_clock::time_point(std::chrono::milliseconds(ms));
+    }
+
+    params.sort_by = scheduler::AuditQueryParams::SortBy::TIMESTAMP_DESC;
+
+    auto events = audit_mgr->queryAuditEvents(params);
+
+    json items = json::array();
+    items.reserve(events.size());
+    for (const auto& ev : events) {
+        items.push_back(ev.toJson(false));
+    }
+
+    return json{{"items", items}, {"total", static_cast<int64_t>(items.size())}};
 }
 
 std::string TaskSchedulerApiHandler::getWebUi() {
