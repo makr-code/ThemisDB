@@ -35,11 +35,15 @@
 #include <sstream>
 #include <thread>
 
-// Default retrieval parameters (must match RetrievalParams defaults in learning_metrics.h)
-static constexpr double kDefaultTopK               = 10.0;
-static constexpr double kDefaultSimilarityThreshold = 0.75;
-
 namespace themis::rag::learning {
+
+// ---- Retrieval optimisation constants ----
+/// Weight given to explicit user feedback (positive/negative) in the combined objective.
+static constexpr double kUserFeedbackWeight  = 0.6;
+/// Weight given to implicit evaluation confidence (RAGJudge score) in the combined objective.
+static constexpr double kEvalConfidenceWeight = 0.4;
+/// Neutral baseline objective used when one signal source has no data.
+static constexpr double kDefaultObjectiveScore = 0.5;
 
 struct ComponentInfo {
     std::string id;
@@ -80,6 +84,10 @@ struct ContinuousLearningOrchestrator::Impl {
     /// Timestamp of the most recent successful data selection run.
     std::chrono::system_clock::time_point last_selection_time =
         std::chrono::system_clock::time_point::min();
+
+    // ---- Adaptive retrieval ----
+    /// Most-recently optimized retrieval parameters, updated by runRetrievalOptimization().
+    RetrievalParams current_retrieval_params;
 };
 
 ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousLearningConfig &config)
@@ -338,9 +346,14 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
         return;
     }
 
-    // Compute success rate across recent interactions
+    // Compute a combined objective from user feedback and evaluation confidence
+    // scores so that the Bayesian optimizer learns from both explicit signals
+    // (thumbs up/down) and implicit evaluation quality (RAGJudge confidence).
     size_t total   = 0;
     size_t success = 0;
+    double total_eval_score  = 0.0;
+    size_t eval_score_count  = 0;
+
     for (const auto& interaction : impl_->interactions) {
         if (interaction.user_feedback.has_value()) {
             total++;
@@ -348,10 +361,24 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
                 success++;
             }
         }
+        if (interaction.confidence_score > 0.0) {
+            total_eval_score += interaction.confidence_score;
+            eval_score_count++;
+        }
     }
 
-    if (total == 0) return;
-    double current_success_rate = static_cast<double>(success) / total;
+    if (total == 0 && eval_score_count == 0) return;
+
+    // Weighted combination: 60 % user feedback, 40 % evaluation confidence.
+    // Fall back to the neutral baseline when one source has no data.
+    double feedback_rate = (total > 0)
+        ? static_cast<double>(success) / static_cast<double>(total)
+        : kDefaultObjectiveScore;
+    double eval_rate = (eval_score_count > 0)
+        ? total_eval_score / static_cast<double>(eval_score_count)
+        : kDefaultObjectiveScore;
+    double combined_objective = kUserFeedbackWeight * feedback_rate
+                              + kEvalConfidenceWeight * eval_rate;
 
     // Use BayesianOptimizer to suggest new retrieval parameters
     std::unordered_map<std::string, ParameterBounds> param_bounds;
@@ -360,26 +387,36 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
 
     BayesianOptimizer optimizer(param_bounds);
 
-    // Seed the optimizer with the current observed performance
+    // Seed with the current observed performance
     std::unordered_map<std::string, double> current_params;
-    current_params["top_k"]               = kDefaultTopK;
-    current_params["similarity_threshold"] = kDefaultSimilarityThreshold;
-    optimizer.observe(current_params, current_success_rate);
+    current_params["top_k"] = static_cast<double>(
+        impl_->current_retrieval_params.top_k);
+    current_params["similarity_threshold"] =
+        impl_->current_retrieval_params.similarity_threshold;
+    optimizer.observe(current_params, combined_objective);
 
-    // Get a candidate improvement suggestion
+    // Get suggested parameters and persist them
     auto suggested = optimizer.suggest();
+
+    impl_->current_retrieval_params.top_k = static_cast<size_t>(
+        std::clamp(std::round(suggested["top_k"]), 1.0, 20.0));
+    impl_->current_retrieval_params.similarity_threshold =
+        std::clamp(suggested["similarity_threshold"], 0.5, 0.95);
 
     // Record retrieval optimization event
     ImprovementEvent event;
     event.timestamp        = std::chrono::system_clock::now();
     event.component        = "retrieval";
     event.improvement_type = "RetrievalOptimization";
-    event.metric_before    = current_success_rate;
-    event.metric_after     = current_success_rate; // will be updated after A/B test
+    event.metric_before    = combined_objective;
+    event.metric_after     = combined_objective; // updated after A/B test
 
     std::ostringstream desc;
-    desc << "Suggested retrieval params: top_k=" << suggested["top_k"]
-         << " similarity_threshold=" << suggested["similarity_threshold"];
+    desc << "Suggested retrieval params: top_k="
+         << impl_->current_retrieval_params.top_k
+         << " similarity_threshold="
+         << impl_->current_retrieval_params.similarity_threshold
+         << " (objective=" << combined_objective << ")";
     event.description = desc.str();
 
     impl_->stats.recent_improvements.push_back(event);
@@ -686,6 +723,15 @@ void ContinuousLearningOrchestrator::setDataSelectionConfig(
     impl_->config.data_selection_config = cfg;
     if (impl_->data_selector)
         impl_->data_selector->setConfig(cfg);
+}
+
+// ============================================================================
+// Adaptive retrieval public API
+// ============================================================================
+
+RetrievalParams ContinuousLearningOrchestrator::getOptimizedRetrievalParams() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->current_retrieval_params;
 }
 
 } // namespace themis::rag::learning
