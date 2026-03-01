@@ -155,6 +155,47 @@ TEST(GeoTopologyRouterTest, PreferLocalFallsBackToRemoteWhenLocalUnavailable) {
     EXPECT_EQ(s.cross_region_fallbacks, 1u);
 }
 
+TEST(GeoTopologyRouterTest, FallbackDisabledBlocksCrossRegionRouting) {
+    // Only remote shards available; fallback_cross_region = false must
+    // cause selectEndpoint() to return empty and count a routing_failure.
+    auto topo = std::make_shared<ShardTopology>();
+    topo->addShard(makeShard("shard-ew1", "eu-west", "eu-west-1a", "dc2", true,
+                             "eu-west-node1:8766"));
+
+    GeoTopologyRouter::Config cfg;
+    cfg.local_region          = "us-east";
+    cfg.fallback_cross_region = false;
+    cfg.strategy              = GeoTopologyRouter::Strategy::PREFER_LOCAL;
+
+    GeoTopologyRouter router(cfg, topo);
+    const std::string ep = router.selectEndpoint();
+    EXPECT_TRUE(ep.empty());
+
+    const auto s = router.getStats();
+    EXPECT_EQ(s.requests_routed,   0u);
+    EXPECT_EQ(s.routing_failures,  1u);
+}
+
+TEST(GeoTopologyRouterTest, FallbackDisabledDoesNotBlockLocalRouting) {
+    // Local shards are available; fallback_cross_region = false must not
+    // interfere with normal local routing.
+    GeoTopologyRouter::Config cfg;
+    cfg.local_region          = "us-east";
+    cfg.fallback_cross_region = false;
+    cfg.strategy              = GeoTopologyRouter::Strategy::PREFER_LOCAL;
+
+    GeoTopologyRouter router(cfg, buildTopology());
+    const std::string ep = router.selectEndpoint();
+
+    EXPECT_TRUE(ep == "us-east-node1:8766" || ep == "us-east-node2:8766")
+        << "Unexpected endpoint: " << ep;
+
+    const auto s = router.getStats();
+    EXPECT_EQ(s.requests_routed,   1u);
+    EXPECT_EQ(s.local_region_hits, 1u);
+    EXPECT_EQ(s.routing_failures,  0u);
+}
+
 TEST(GeoTopologyRouterTest, PreferLocalZoneAffinityChoosesSameZone) {
     auto topo = std::make_shared<ShardTopology>();
     // Two us-east shards in different zones; local node is in zone us-east-1b.

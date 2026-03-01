@@ -154,6 +154,19 @@ std::string GeoTopologyRouter::selectEndpoint() const {
         (!config_.local_region.empty() &&
          selected->region == config_.local_region);
 
+    // Honour the cross-region fallback guard: when the flag is false and the
+    // best available shard is outside the configured local region, treat the
+    // request as unroutable rather than silently forwarding cross-region.
+    if (!is_local && !config_.fallback_cross_region &&
+        !config_.local_region.empty())
+    {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        ++stats_.routing_failures;
+        THEMIS_WARN("[GeoTopologyRouter] rejecting request: no local shards "
+                    "available and cross-region fallback is disabled");
+        return {};
+    }
+
     {
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++stats_.requests_routed;
@@ -191,21 +204,17 @@ std::string GeoTopologyRouter::selectEndpointInRegion(
     }
 
     // Apply sub-region affinity (zone/datacenter) within the target region.
-    const sharding::ShardInfo* best       = nullptr;
-    int                        best_score = -1;
+    // `shards` is non-empty here (guarded above), so `best` will always be set
+    // after the loop – no post-loop null check is required.
+    const sharding::ShardInfo* best       = &shards[0];
+    int                        best_score = localityScore(shards[0]);
 
-    for (const auto& shard : shards) {
-        const int score = localityScore(shard);
+    for (std::size_t i = 1; i < shards.size(); ++i) {
+        const int score = localityScore(shards[i]);
         if (score > best_score) {
             best_score = score;
-            best       = &shard;
+            best       = &shards[i];
         }
-    }
-
-    if (!best) {
-        std::lock_guard<std::mutex> lk(stats_mutex_);
-        ++stats_.routing_failures;
-        return {};
     }
 
     const bool is_local = (region == config_.local_region);
