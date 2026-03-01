@@ -30,7 +30,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [~] Migration dry-run with detailed change preview (Issue: #2481)
+- [~] Migration dry-run with detailed change preview (Target: Q2 2026) (Issue: #2481)
 - [!] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
 - [I] Automatic rollback on post-update health check failure (Issue: #2335)
 - [I] Update history log (who, when, from/to version) (Issue: #2336)
@@ -63,7 +63,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 
 ### Phase 3: In-Place Migration & Notification Webhooks (Status: In Progress 🚧)
 - [x] In-place schema migration without data copy for additive changes
-- [~] Migration dry-run with detailed change preview
+- [~] Migration dry-run with detailed change preview (Target: Q2 2026)
 - [ ] Notification webhooks (Slack, PagerDuty) on update success/failure
 - [ ] Automatic rollback on post-update health check failure
 - [ ] Update history log (who, when, from/to version)
