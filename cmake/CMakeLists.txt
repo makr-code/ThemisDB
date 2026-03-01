@@ -1807,6 +1807,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/tsa_api.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
