@@ -2397,6 +2397,16 @@ if(THEMIS_BUILD_MODULAR)
     # Call the modular build function to create all module targets
     themis_build_modular()
     
+    # Wire Protocol V1 protobuf compile flag and link for the network module
+    # (mirrors the monolithic build setup below; required by src/themis/wire_protocol_server.cpp)
+    if(THEMIS_WIRE_V1_PROTO_AVAILABLE AND TARGET themis_network)
+        target_sources(themis_network PRIVATE ${WIRE_V1_PROTO_SRC})
+        target_compile_definitions(themis_network PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
+        target_link_libraries(themis_network PRIVATE protobuf::libprotobuf)
+        target_include_directories(themis_network PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+        message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled for themis_network (themis::wire protobuf handlers active)")
+    endif()
+
     # Create themis_core as an interface library that links all modules
     # This maintains compatibility with existing code that links to themis_core
     add_library(themis_core INTERFACE)

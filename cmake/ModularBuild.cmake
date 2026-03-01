@@ -855,8 +855,10 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/themisdb_grpc_service.cpp>
     
-    # Network protocol server
+    # Network protocol server (themis::network – backward-compatible implementation)
     ../src/network/wire_protocol_server.cpp
+    # Themis core module wire protocol (themis::wire – Phase-3 modular implementation)
+    ../src/themis/wire_protocol_server.cpp
     ../src/network/qos_manager.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
