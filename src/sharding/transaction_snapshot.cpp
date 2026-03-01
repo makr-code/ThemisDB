@@ -66,6 +66,7 @@ std::string transactionProtocolToString(TransactionProtocol protocol) {
         case TransactionProtocol::THREE_PHASE_COMMIT: return "THREE_PHASE_COMMIT";
         case TransactionProtocol::SAGA: return "SAGA";
         case TransactionProtocol::PERCOLATOR: return "PERCOLATOR";
+        case TransactionProtocol::CALVIN: return "CALVIN";
     }
     return "TWO_PHASE_COMMIT";
 }
@@ -75,6 +76,7 @@ TransactionProtocol transactionProtocolFromString(const std::string& str) {
     if (str == "THREE_PHASE_COMMIT") return TransactionProtocol::THREE_PHASE_COMMIT;
     if (str == "SAGA") return TransactionProtocol::SAGA;
     if (str == "PERCOLATOR") return TransactionProtocol::PERCOLATOR;
+    if (str == "CALVIN") return TransactionProtocol::CALVIN;
     return TransactionProtocol::TWO_PHASE_COMMIT;
 }
 
