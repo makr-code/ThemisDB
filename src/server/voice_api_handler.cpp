@@ -32,6 +32,7 @@
 
 #include "server/voice_api_handler.h"
 #include "voice/voice_assistant.h"
+#include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
 #include "utils/http_client_pool.h"
 #include <sstream>
@@ -214,6 +215,21 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
         else if (method == http::verb::delete_) {
             return handleDeleteSession(req, session_id);
         }
+    }
+    else if (path == "/api/v1/voice/recordings" && method == http::verb::get) {
+        return handleListRecordings(req);
+    }
+    else if (path == "/api/v1/voice/recordings/search" && method == http::verb::get) {
+        return handleSearchTranscripts(req);
+    }
+    else if (path.find("/api/v1/voice/recordings/") == 0 && method == http::verb::get) {
+        static constexpr std::string_view kRecordingsPrefix = "/api/v1/voice/recordings/";
+        std::string record_id = path.substr(kRecordingsPrefix.size());
+        if (record_id.empty()) {
+            return createErrorResponse(
+                http::status::bad_request, "Bad Request", "Missing recording ID");
+        }
+        return handleGetRecording(req, record_id);
     }
     
     return createErrorResponse(
@@ -893,6 +909,121 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
     json result;
     result["success"]  = true;
     result["macro_id"] = macro_id;
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleListRecordings(
+    const http::request<http::string_body>& req
+) {
+    std::string tier_str = parseQueryParam(std::string(req.target()), "tier");
+    voice::StorageTier tier = voice::StorageTier::HOT;
+    if (tier_str == "warm")    tier = voice::StorageTier::WARM;
+    else if (tier_str == "cold") tier = voice::StorageTier::COLD;
+
+    size_t limit = 100;
+    std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
+    if (!limit_str.empty()) {
+        try {
+            int v = std::stoi(limit_str);
+            if (v > 0) limit = static_cast<size_t>(v);
+        } catch (...) {}
+    }
+
+    auto records = voice_assistant_->audioStorage().listRecords(tier, limit);
+    json result = json::array();
+    for (const auto& rec : records) {
+        json r;
+        r["record_id"]        = rec.record_id;
+        r["transcript"]       = rec.transcript;
+        r["codec"]            = rec.format.codec;
+        r["duration_seconds"] = rec.format.duration_seconds;
+        r["size_bytes"]       = rec.format.size_bytes;
+        r["created_at_ms"]    = rec.created_at_ms;
+        r["tier"]             = voice::storageTierToString(rec.tier);
+        r["metadata"]         = rec.metadata;
+        result.push_back(std::move(r));
+    }
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleGetRecording(
+    const http::request<http::string_body>& req,
+    const std::string& record_id
+) {
+    auto rec = voice_assistant_->audioStorage().getRecord(record_id);
+    if (!rec.has_value()) {
+        return createErrorResponse(
+            http::status::not_found, "Not Found",
+            "Recording not found: " + record_id);
+    }
+
+    auto audio = voice_assistant_->audioStorage().retrieve(record_id);
+
+    // Determine requested response format (metadata-only or audio bytes)
+    std::string fmt = parseQueryParam(std::string(req.target()), "format");
+    if (fmt == "audio" && audio.has_value()) {
+        std::string mime = "application/octet-stream";
+        const auto& codec = rec->format.codec;
+        if (codec == "wav")  mime = "audio/wav";
+        else if (codec == "mp3")  mime = "audio/mpeg";
+        else if (codec == "ogg")  mime = "audio/ogg";
+        else if (codec == "opus") mime = "audio/ogg; codecs=opus";
+        else if (codec == "aac")  mime = "audio/aac";
+        return createAudioResponse(*audio, mime);
+    }
+
+    // Default: return metadata + base64-encoded audio
+    json result;
+    result["record_id"]        = rec->record_id;
+    result["transcript"]       = rec->transcript;
+    result["codec"]            = rec->format.codec;
+    result["duration_seconds"] = rec->format.duration_seconds;
+    result["size_bytes"]       = rec->format.size_bytes;
+    result["created_at_ms"]    = rec->created_at_ms;
+    result["tier"]             = voice::storageTierToString(rec->tier);
+    result["metadata"]         = rec->metadata;
+    if (audio.has_value()) {
+        result["audio_base64"] = encodeBase64(*audio);
+    }
+    return createJsonResponse(result);
+}
+
+http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
+    const http::request<http::string_body>& req
+) {
+    std::string query = parseQueryParam(std::string(req.target()), "q");
+    if (query.empty()) {
+        return createErrorResponse(
+            http::status::bad_request, "Bad Request",
+            "Missing query parameter 'q'");
+    }
+
+    size_t limit = 100;
+    std::string limit_str = parseQueryParam(std::string(req.target()), "limit");
+    if (!limit_str.empty()) {
+        try {
+            int v = std::stoi(limit_str);
+            if (v > 0) limit = static_cast<size_t>(v);
+        } catch (...) {}
+    }
+
+    auto records = voice_assistant_->audioStorage().searchTranscripts(query, limit);
+    json result;
+    result["query"]       = query;
+    result["total"]       = records.size();
+    result["recordings"]  = json::array();
+    for (const auto& rec : records) {
+        json r;
+        r["record_id"]        = rec.record_id;
+        r["transcript"]       = rec.transcript;
+        r["codec"]            = rec.format.codec;
+        r["duration_seconds"] = rec.format.duration_seconds;
+        r["size_bytes"]       = rec.format.size_bytes;
+        r["created_at_ms"]    = rec.created_at_ms;
+        r["tier"]             = voice::storageTierToString(rec.tier);
+        r["metadata"]         = rec.metadata;
+        result["recordings"].push_back(std::move(r));
+    }
     return createJsonResponse(result);
 }
 

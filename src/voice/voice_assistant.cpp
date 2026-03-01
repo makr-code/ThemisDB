@@ -490,19 +490,11 @@ std::string VoiceAssistant::storeRecording(
     const std::string& transcript,
     const json& metadata
 ) {
-    // Real implementation would:
-    // 1. Generate unique entity ID
-    // 2. Create base entity with audio blob
-    // 3. Add transcript as text field
-    // 4. Add metadata
-    // 5. Enable revision control
-    // 6. Store in ThemisDB
-    
-    // Placeholder: generate a UUID-like ID
-    auto now = std::chrono::system_clock::now().time_since_epoch().count();
-    std::stringstream ss;
-    ss << "recording:" << std::hex << now;
-    return ss.str();
+    // Store in the embedded VoiceAudioStorage so recordings are
+    // accessible for playback and transcript search via audioStorage().
+    AudioFormat fmt = audio_storage_.detectFormat(audio_data);
+    fmt.duration_seconds = metadata.value("duration_seconds", 0.0f);
+    return audio_storage_.store(audio_data, fmt, transcript, metadata);
 }
 
 VoiceSession VoiceAssistant::getSession(const std::string& session_id) {
@@ -633,6 +625,14 @@ VoiceMacroManager& VoiceAssistant::macroManager() {
 
 const VoiceMacroManager& VoiceAssistant::macroManager() const {
     return macro_manager_;
+}
+
+VoiceAudioStorage& VoiceAssistant::audioStorage() {
+    return audio_storage_;
+}
+
+const VoiceAudioStorage& VoiceAssistant::audioStorage() const {
+    return audio_storage_;
 }
 
 } // namespace voice
