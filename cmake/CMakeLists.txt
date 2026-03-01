@@ -1485,6 +1485,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/vault_key_provider.cpp
     ../src/security/key_cache.cpp
     ../src/security/keyprovider_signing.cpp
+    ../src/security/hsm_signing.cpp
     ../src/security/vault_signing_provider.cpp
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
