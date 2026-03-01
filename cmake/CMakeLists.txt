@@ -1511,6 +1511,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
