@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_voice_assistant.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:05                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-01                                          ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     463                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                       ║
+    • Total Lines:     750                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -25,7 +25,7 @@
  * @brief Performance benchmarks for Voice Assistant module
  * 
  * Benchmarks voice command processing, audio conversion, transcription,
- * and storage operations.
+ * storage operations, STT latency, and TTS generation speed.
  * 
  * @author ThemisDB Team
  * @date January 2025
@@ -34,6 +34,9 @@
 #include <benchmark/benchmark.h>
 #include "voice/voice_assistant.h"
 #include "voice/wake_word_detector.h"
+#include "content/stt_processor.h"
+#include "content/tts_processor.h"
+#include "content/content_plugin_interface.h"
 #include <nlohmann/json.hpp>
 #include <cmath>
 #include <vector>
@@ -572,6 +575,311 @@ static void BM_WakeWordDetector_GetStatistics(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_WakeWordDetector_GetStatistics);
+
+// ============================================================================
+// STT Latency Benchmarks
+// ============================================================================
+
+// Build a minimal valid WAV blob (PCM 16-bit LE, 16 kHz mono) of the given
+// duration. The audio content is random noise – sufficient to exercise the
+// full STTProcessor::transcribe() code path without a real Whisper model.
+static std::vector<uint8_t> buildWavBlob(int duration_ms, int sample_rate = 16000) {
+    const int num_samples = (sample_rate * duration_ms) / 1000;
+    const int data_bytes  = num_samples * 2; // 16-bit samples
+
+    std::vector<uint8_t> wav;
+    wav.reserve(44 + static_cast<size_t>(data_bytes));
+
+    // RIFF header
+    auto write32le = [&](uint32_t v) {
+        wav.push_back(static_cast<uint8_t>(v));
+        wav.push_back(static_cast<uint8_t>(v >> 8));
+        wav.push_back(static_cast<uint8_t>(v >> 16));
+        wav.push_back(static_cast<uint8_t>(v >> 24));
+    };
+    auto write16le = [&](uint16_t v) {
+        wav.push_back(static_cast<uint8_t>(v));
+        wav.push_back(static_cast<uint8_t>(v >> 8));
+    };
+
+    wav.insert(wav.end(), {'R','I','F','F'});
+    write32le(static_cast<uint32_t>(36 + data_bytes)); // ChunkSize
+    wav.insert(wav.end(), {'W','A','V','E'});
+    wav.insert(wav.end(), {'f','m','t',' '});
+    write32le(16);                       // Subchunk1Size (PCM)
+    write16le(1);                        // AudioFormat   (PCM = 1)
+    write16le(1);                        // NumChannels   (mono)
+    write32le(static_cast<uint32_t>(sample_rate));
+    write32le(static_cast<uint32_t>(sample_rate * 2)); // ByteRate
+    write16le(2);                        // BlockAlign
+    write16le(16);                       // BitsPerSample
+    wav.insert(wav.end(), {'d','a','t','a'});
+    write32le(static_cast<uint32_t>(data_bytes));
+
+    // PCM samples (random noise)
+    std::mt19937 gen(42);
+    std::uniform_int_distribution<int16_t> dis(
+        std::numeric_limits<int16_t>::min(),
+        std::numeric_limits<int16_t>::max());
+    for (int i = 0; i < num_samples; ++i) {
+        auto s = dis(gen);
+        wav.push_back(static_cast<uint8_t>(s & 0xFF));
+        wav.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return wav;
+}
+
+static themis::content::STTProcessor& getSTTProcessor() {
+    static themis::content::STTProcessor processor;
+    static bool initialized = false;
+    if (!initialized) {
+        nlohmann::json settings;
+        settings["model_path"]              = "/tmp/bench_stt_model";
+        settings["model_size"]              = "base";
+        settings["language"]                = "en";
+        settings["enable_timestamps"]       = true;
+        settings["enable_speaker_diarization"] = false;
+        themis::content::PluginConfig config(settings);
+        processor.initialize(config);
+        initialized = true;
+    }
+    return processor;
+}
+
+// Benchmark: STT transcribe() latency for short audio (1 s).
+static void BM_STTLatency_Short(benchmark::State& state) {
+    auto& processor = getSTTProcessor();
+    auto audio = buildWavBlob(1000); // 1 s
+
+    for (auto _ : state) {
+        auto result = processor.transcribe(audio);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+    state.counters["audio_duration_ms"] = 1000;
+}
+BENCHMARK(BM_STTLatency_Short);
+
+// Benchmark: STT transcribe() latency across multiple audio durations.
+static void BM_STTLatency_ByDuration(benchmark::State& state) {
+    auto& processor = getSTTProcessor();
+    int duration_ms = state.range(0);
+    auto audio = buildWavBlob(duration_ms);
+
+    for (auto _ : state) {
+        auto result = processor.transcribe(audio);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+    state.counters["audio_duration_ms"] = static_cast<double>(duration_ms);
+}
+BENCHMARK(BM_STTLatency_ByDuration)
+    ->Arg(500)    //  0.5 s (short utterance)
+    ->Arg(1000)   //  1.0 s
+    ->Arg(5000)   //  5.0 s (sentence-length)
+    ->Arg(30000)  // 30.0 s (paragraph)
+    ->Arg(60000); // 60.0 s (one minute of speech)
+
+// Benchmark: STT transcribe() with speaker diarization enabled.
+static void BM_STTLatency_WithDiarization(benchmark::State& state) {
+    themis::content::STTProcessor processor;
+    nlohmann::json settings;
+    settings["model_path"]                 = "/tmp/bench_stt_model";
+    settings["model_size"]                 = "base";
+    settings["language"]                   = "en";
+    settings["enable_speaker_diarization"] = true;
+    settings["max_speakers"]               = 4;
+    themis::content::PluginConfig config(settings);
+    processor.initialize(config);
+
+    int duration_ms = state.range(0);
+    auto audio = buildWavBlob(duration_ms);
+
+    for (auto _ : state) {
+        nlohmann::json opts;
+        opts["speaker_diarization"] = true;
+        auto result = processor.transcribe(audio, opts);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+    state.counters["audio_duration_ms"] = static_cast<double>(duration_ms);
+}
+BENCHMARK(BM_STTLatency_WithDiarization)
+    ->Arg(1000)   // 1 s
+    ->Arg(5000)   // 5 s
+    ->Arg(30000); // 30 s
+
+// Benchmark: STT streamTranscribe() latency (real-time streaming path).
+static void BM_STTLatency_Streaming(benchmark::State& state) {
+    auto& processor = getSTTProcessor();
+    int duration_ms = state.range(0);
+    auto audio = buildWavBlob(duration_ms);
+
+    for (auto _ : state) {
+        int segment_count = 0;
+        bool ok = processor.streamTranscribe(audio,
+            [&segment_count](const themis::content::TranscriptionSegment& /*seg*/) {
+                ++segment_count;
+            });
+        benchmark::DoNotOptimize(ok);
+        benchmark::DoNotOptimize(segment_count);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetBytesProcessed(state.iterations() * static_cast<int64_t>(audio.size()));
+    state.counters["audio_duration_ms"] = static_cast<double>(duration_ms);
+}
+BENCHMARK(BM_STTLatency_Streaming)
+    ->Arg(1000)   // 1 s
+    ->Arg(5000)   // 5 s
+    ->Arg(30000); // 30 s
+
+// Benchmark: STT statistics collection overhead.
+static void BM_STTStatistics(benchmark::State& state) {
+    auto& processor = getSTTProcessor();
+    for (auto _ : state) {
+        auto stats = processor.getStatistics();
+        benchmark::DoNotOptimize(stats);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_STTStatistics);
+
+// ============================================================================
+// TTS Generation Speed Benchmarks
+// ============================================================================
+
+static themis::content::TTSProcessor& getTTSProcessor() {
+    static themis::content::TTSProcessor processor;
+    static bool initialized = false;
+    if (!initialized) {
+        nlohmann::json settings;
+        settings["model_path"]    = "/tmp/bench_tts_model";
+        settings["default_voice"] = "default";
+        settings["language"]      = "en";
+        settings["sample_rate"]   = 22050;
+        themis::content::PluginConfig config(settings);
+        processor.initialize(config);
+        initialized = true;
+    }
+    return processor;
+}
+
+// Benchmark: TTS synthesize() generation speed for a short phrase.
+static void BM_TTSGenSpeed_Short(benchmark::State& state) {
+    auto& processor = getTTSProcessor();
+    const std::string text = "Hello, how can I help you today?";
+
+    for (auto _ : state) {
+        auto result = processor.synthesize(text);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["text_chars"] = static_cast<double>(text.size());
+}
+BENCHMARK(BM_TTSGenSpeed_Short);
+
+// Benchmark: TTS synthesize() generation speed across different text lengths.
+static void BM_TTSGenSpeed_ByLength(benchmark::State& state) {
+    auto& processor = getTTSProcessor();
+
+    // Generate text of approximately the requested character count.
+    const std::string word   = "ThemisDB ";
+    const int target_chars   = state.range(0);
+    std::string text;
+    text.reserve(static_cast<size_t>(target_chars));
+    while (static_cast<int>(text.size()) < target_chars) {
+        text += word;
+    }
+    text.resize(static_cast<size_t>(target_chars));
+
+    for (auto _ : state) {
+        auto result = processor.synthesize(text);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["text_chars"] = static_cast<double>(text.size());
+}
+BENCHMARK(BM_TTSGenSpeed_ByLength)
+    ->Arg(50)    // ~10 words
+    ->Arg(200)   // ~40 words (typical utterance)
+    ->Arg(500)   // ~100 words (paragraph)
+    ->Arg(2000); // ~400 words (long passage)
+
+// Benchmark: TTS synthesize() with non-default speed/pitch options.
+static void BM_TTSGenSpeed_WithOptions(benchmark::State& state) {
+    auto& processor = getTTSProcessor();
+    const std::string text = "This is a benchmark for TTS generation speed with custom options.";
+
+    themis::content::TTSOptions opts;
+    opts.speed  = static_cast<float>(state.range(0)) / 10.0f; // 0.5 – 2.0
+    opts.pitch  = 1.0f;
+    opts.format = "wav";
+
+    for (auto _ : state) {
+        auto result = processor.synthesize(text, opts);
+        benchmark::DoNotOptimize(result);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["speed_x10"] = static_cast<double>(state.range(0));
+}
+BENCHMARK(BM_TTSGenSpeed_WithOptions)
+    ->Arg(5)   // 0.5x (slow)
+    ->Arg(10)  // 1.0x (normal)
+    ->Arg(15)  // 1.5x (fast)
+    ->Arg(20); // 2.0x (very fast)
+
+// Benchmark: TTS streamSynthesize() throughput (streaming audio chunks).
+static void BM_TTSGenSpeed_Streaming(benchmark::State& state) {
+    auto& processor = getTTSProcessor();
+    const std::string text =
+        "Streaming speech synthesis benchmark for ThemisDB voice assistant module.";
+
+    for (auto _ : state) {
+        size_t total_bytes = 0;
+        bool ok = processor.streamSynthesize(text,
+            [&total_bytes](const std::vector<uint8_t>& chunk) {
+                total_bytes += chunk.size();
+            });
+        benchmark::DoNotOptimize(ok);
+        benchmark::DoNotOptimize(total_bytes);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.counters["text_chars"] = static_cast<double>(text.size());
+}
+BENCHMARK(BM_TTSGenSpeed_Streaming);
+
+// Benchmark: TTS getAvailableVoices() overhead.
+static void BM_TTSAvailableVoices(benchmark::State& state) {
+    auto& processor = getTTSProcessor();
+    for (auto _ : state) {
+        auto voices = processor.getAvailableVoices();
+        benchmark::DoNotOptimize(voices);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_TTSAvailableVoices);
+
+// Benchmark: TTS statistics collection overhead.
+static void BM_TTSStatistics(benchmark::State& state) {
+    auto& processor = getTTSProcessor();
+    for (auto _ : state) {
+        auto stats = processor.getStatistics();
+        benchmark::DoNotOptimize(stats);
+    }
+    state.SetItemsProcessed(state.iterations());
+}
+BENCHMARK(BM_TTSStatistics);
 
 // ============================================================================
 // Main
