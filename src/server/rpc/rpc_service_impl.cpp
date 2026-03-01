@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     2030                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include <chrono>
 #include <algorithm>
 #include <limits>
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -164,8 +165,23 @@ json ThemisRPCService::handlePut(const json& params) {
         // Serialize to JSON string
         std::string value = entity.dump();
         
-        // Store in database
-        bool success = storage->put(key, value);
+        // Check for optional transaction_id for transactional write
+        std::string tx_id(params.value("transaction_id", ""));
+        bool success = false;
+        if (!tx_id.empty()) {
+            std::lock_guard<std::mutex> lock(transaction_mutex);
+            auto it = active_transactions.find(tx_id);
+            if (it == active_transactions.end()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Transaction not found: " + tx_id
+                );
+            }
+            std::vector<uint8_t> value_vec(value.begin(), value.end());
+            success = it->second->put(key, value_vec);
+        } else {
+            success = storage->put(key, value);
+        }
         
         if (!success) {
             return createError(
@@ -189,7 +205,7 @@ json ThemisRPCService::handlePut(const json& params) {
     }
 }
 
-json ThemisRPCService::handleDelete(const json& params) {
+json ThemisRPCService::handleInsert(const json& params) {
     try {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
@@ -199,6 +215,13 @@ json ThemisRPCService::handleDelete(const json& params) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Missing required parameters: model, collection, uuid"
+            );
+        }
+        
+        if (!params.contains("entity")) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: entity"
             );
         }
         
@@ -214,22 +237,234 @@ json ThemisRPCService::handleDelete(const json& params) {
         // Construct storage key
         std::string key = collection + ":" + model + ":" + uuid;
         
-        // Delete from database
-        bool success = storage->del(key);
+        // Build entity with metadata (new insert always starts at version 1)
+        json entity = params["entity"];
+        entity["_collection"] = collection;
+        entity["_model"] = model;
+        entity["uuid"] = uuid;
+        entity["_timestamp_ns"] = getCurrentTimestampNs();
+        entity["_version"] = 1;
+        std::string value = entity.dump();
+        std::vector<uint8_t> value_vec(value.begin(), value.end());
         
-        if (!success) {
-            return createError(
-                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to delete from database"
-            );
+        // Check for optional transaction_id
+        std::string tx_id(params.value("transaction_id", ""));
+        
+        if (!tx_id.empty()) {
+            // Transactional path: hold lock for both existence check and write
+            std::lock_guard<std::mutex> lock(transaction_mutex);
+            auto it = active_transactions.find(tx_id);
+            if (it == active_transactions.end()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Transaction not found: " + tx_id
+                );
+            }
+            
+            // Check existence using transaction's isolation-correct read
+            if (it->second->get(key).has_value()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::ENTITY_ALREADY_EXISTS,
+                    "Entity already exists: " + key
+                );
+            }
+            
+            if (!it->second->put(key, value_vec)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to write to database"
+                );
+            }
+        } else {
+            // Non-transactional path: use an internal transaction for atomic check-then-write
+            // to prevent concurrent duplicate inserts.
+            auto tx = storage->beginTransaction();
+            if (!tx) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to begin internal transaction for insert"
+                );
+            }
+            
+            if (tx->get(key).has_value()) {
+                tx->rollback();
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::ENTITY_ALREADY_EXISTS,
+                    "Entity already exists: " + key
+                );
+            }
+            
+            if (!tx->put(key, value_vec) || !tx->commit()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to write to database"
+                );
+            }
         }
         
         json result = {
-            {"success", true}
+            {"success", true},
+            {"version", 1}
         };
         
         return createSuccess(result);
         
+    } catch (const std::exception& e) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+            e.what()
+        );
+    }
+}
+
+json ThemisRPCService::handleDelete(const json& params) {
+    try {
+        std::string model(params.value("model", ""));
+        std::string collection(params.value("collection", ""));
+        std::string uuid(params.value("uuid", ""));
+        bool cascade = params.value("cascade", false);
+
+        if (model.empty() || collection.empty() || uuid.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameters: model, collection, uuid"
+            );
+        }
+
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+
+        // Construct storage key
+        std::string key = collection + ":" + model + ":" + uuid;
+
+        // Check entity existence before attempting deletion
+        std::string existing_value;
+        if (!storage->get(key, existing_value)) {
+            json result = {
+                {"found", false},
+                {"deleted_count", 0}
+            };
+            return createSuccess(result);
+        }
+
+        // Helper lambda: find direct children of an entity within its collection.
+        // Child entities carry _parent_uuid (and optionally _parent_model /
+        // _parent_collection) fields that point to their parent.
+        auto find_children = [&](const std::string& p_collection,
+                                  const std::string& p_model,
+                                  const std::string& p_uuid) -> std::vector<std::string> {
+            std::vector<std::string> children;
+            std::string scan_prefix = p_collection + ":";
+            std::string parent_key  = p_collection + ":" + p_model + ":" + p_uuid;
+
+            auto iter_result = storage->newSafeIterator();
+            if (!iter_result) return children;
+
+            auto& iter = iter_result.value();
+            iter.Seek(scan_prefix);
+            while (iter.Valid()) {
+                std::string iter_key(iter.key());
+                if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) break;
+                if (iter_key != parent_key) {
+                    std::string iter_value(iter.value());
+                    try {
+                        json entity = json::parse(iter_value);
+                        if (entity.value("_parent_uuid", "") == p_uuid &&
+                            entity.value("_parent_model", "") == p_model &&
+                            entity.value("_parent_collection", "") == p_collection) {
+                            children.push_back(iter_key);
+                        }
+                    } catch (const json::exception&) {
+                        // Skip invalid JSON entries
+                    }
+                }
+                iter.Next();
+            }
+            return children;
+        };
+
+        // Discover direct children of the target entity
+        std::vector<std::string> direct_children = find_children(collection, model, uuid);
+
+        // Referential integrity: block deletion when children exist and cascade is off
+        if (!direct_children.empty() && !cascade) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::TRANSACTION_CONFLICT,
+                "Referential integrity violation: " +
+                    std::to_string(direct_children.size()) + " child entit" +
+                    (direct_children.size() == 1 ? "y" : "ies") +
+                    " reference this entity. Use cascade=true to delete them."
+            );
+        }
+
+        // Collect all descendants via BFS for cascade delete
+        std::vector<std::string> keys_to_delete;
+        if (cascade) {
+            std::queue<std::string> bfs_queue;
+            for (const auto& child_key : direct_children) {
+                bfs_queue.push(child_key);
+                keys_to_delete.push_back(child_key);
+            }
+
+            while (!bfs_queue.empty()) {
+                std::string curr_key = bfs_queue.front();
+                bfs_queue.pop();
+
+                // Parse collection, model, uuid from "collection:model:uuid"
+                size_t first_colon  = curr_key.find(':');
+                size_t second_colon = (first_colon  != std::string::npos)
+                                    ? curr_key.find(':', first_colon + 1)
+                                    : std::string::npos;
+                if (first_colon == std::string::npos || second_colon == std::string::npos) {
+                    continue;
+                }
+                std::string curr_collection = curr_key.substr(0, first_colon);
+                std::string curr_model      = curr_key.substr(first_colon + 1,
+                                                               second_colon - first_colon - 1);
+                std::string curr_uuid       = curr_key.substr(second_colon + 1);
+
+                auto grandchildren = find_children(curr_collection, curr_model, curr_uuid);
+                for (const auto& gc_key : grandchildren) {
+                    bfs_queue.push(gc_key);
+                    keys_to_delete.push_back(gc_key);
+                }
+            }
+        }
+
+        // Delete descendants in reverse BFS order (deepest level first)
+        int deleted_count = 0;
+        for (auto it = keys_to_delete.rbegin(); it != keys_to_delete.rend(); ++it) {
+            if (!storage->del(*it)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to delete child entity during cascade: " + *it
+                );
+            }
+            ++deleted_count;
+        }
+
+        // Delete the target entity itself
+        if (!storage->del(key)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to delete entity from database"
+            );
+        }
+        ++deleted_count;
+
+        json result = {
+            {"success", true},
+            {"deleted_count", deleted_count}
+        };
+
+        return createSuccess(result);
+
     } catch (const std::exception& e) {
         return createError(
             themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
@@ -1989,7 +2224,7 @@ json ThemisRPCService::dispatch(
         
         // Write operations (rpc:write)
         static const std::unordered_set<std::string> write_methods = {
-            "put", "batch_put", "delete", "update_entity", "batch_update"
+            "put", "insert", "batch_put", "delete", "update_entity", "batch_update"
         };
         
         // Admin operations (rpc:admin)
@@ -2028,6 +2263,8 @@ json ThemisRPCService::dispatch(
         return handleGet(params);
     } else if (method == "put") {
         return handlePut(params);
+    } else if (method == "insert") {
+        return handleInsert(params);
     } else if (method == "delete") {
         return handleDelete(params);
     } else if (method == "batch_get") {

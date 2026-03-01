@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     53                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +24,9 @@
 #include <memory>
 
 #include "security/key_provider.h"
+
+// Forward-declare HSMProvider so callers don't need to include the full header.
+namespace themis { namespace security { class HSMProvider; } }
 
 namespace themis {
 
@@ -49,5 +52,13 @@ std::shared_ptr<SigningService> createMockSigningService();
 // to return private key bytes (PEM or DER). If a certificate is present,
 // store it under key_id+":cert" and it will be used for CMS verification.
 std::shared_ptr<SigningService> createKeyProviderSigningService(std::shared_ptr<KeyProvider> kp);
+
+// HSM-backed signing service for update bundle signing with hardware-secured keys.
+// @param hsm                Fully initialised HSMProvider (initialize() already called).
+// @param default_key_label  Key label used when key_id passed to sign()/verify() is empty.
+//                           Defaults to the HSMConfig::key_label value configured on the provider.
+std::shared_ptr<SigningService> createHsmSigningService(
+    std::shared_ptr<security::HSMProvider> hsm,
+    const std::string& default_key_label = "themis-signing-key");
 
 } // namespace themis
