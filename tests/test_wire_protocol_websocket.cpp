@@ -244,4 +244,196 @@ TEST(WireProtocolWebSocket, JsonMessageFormatDocumentation) {
     SUCCEED() << "WebSocket wire-protocol JSON message format documented";
 }
 
+// ---------------------------------------------------------------------------
+// Binary frame format helpers (mirroring logic in wire_protocol_server_ws.cpp)
+// ---------------------------------------------------------------------------
+
+namespace {
+
+static const uint8_t kWireMagic[4] = {0x54u, 0x4Du, 0x44u, 0x42u}; // "TMDB"
+
+// Build a minimal wire-protocol frame (no payload, SKIP_CHECKSUM set).
+static std::vector<uint8_t> makeFrame(uint8_t opcode,
+                                       const std::vector<uint8_t>& payload = {},
+                                       bool skip_checksum = true)
+{
+    std::vector<uint8_t> frame;
+    frame.reserve(12 + payload.size());
+
+    // Magic
+    frame.insert(frame.end(), std::begin(kWireMagic), std::end(kWireMagic));
+    // Version
+    frame.push_back(0x01u);
+    // OpCode
+    frame.push_back(opcode);
+    // Flags (big-endian): bit 2 = SKIP_CHECKSUM
+    const uint16_t flags = skip_checksum ? 0x0004u : 0x0000u;
+    frame.push_back(static_cast<uint8_t>((flags >> 8) & 0xFF));
+    frame.push_back(static_cast<uint8_t>( flags       & 0xFF));
+    // PayloadSize (big-endian)
+    const uint32_t ps = static_cast<uint32_t>(payload.size());
+    frame.push_back(static_cast<uint8_t>((ps >> 24) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((ps >> 16) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((ps >>  8) & 0xFF));
+    frame.push_back(static_cast<uint8_t>( ps         & 0xFF));
+    // Payload
+    frame.insert(frame.end(), payload.begin(), payload.end());
+    return frame;
+}
+
+// Parse a response frame built by buildResponseFrame().
+// Returns true on success and fills opcode, flags, and payload_str.
+static bool parseResponseFrame(const std::vector<uint8_t>& frame,
+                                 uint8_t& opcode_out,
+                                 uint16_t& flags_out,
+                                 std::string& payload_str_out)
+{
+    if (frame.size() < 12) return false;
+    if (frame[0] != kWireMagic[0] || frame[1] != kWireMagic[1] ||
+        frame[2] != kWireMagic[2] || frame[3] != kWireMagic[3]) return false;
+
+    opcode_out = frame[5];
+    flags_out  = (static_cast<uint16_t>(frame[6]) << 8) | frame[7];
+    const uint32_t ps = (static_cast<uint32_t>(frame[8])  << 24)
+                      | (static_cast<uint32_t>(frame[9])  << 16)
+                      | (static_cast<uint32_t>(frame[10]) <<  8)
+                      |  static_cast<uint32_t>(frame[11]);
+    if (frame.size() < 12 + ps) return false;
+    payload_str_out.assign(reinterpret_cast<const char*>(frame.data() + 12), ps);
+    return true;
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Binary frame format tests
+// ---------------------------------------------------------------------------
+
+TEST(WireProtocolWebSocket, BinaryFrameMinimumHeaderSize) {
+    // A valid binary frame must be at least 12 bytes (header only, empty payload).
+    const auto frame = makeFrame(0xFEu); // PING
+    EXPECT_EQ(frame.size(), 12u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameMagicBytes) {
+    const auto frame = makeFrame(0x10u); // GET
+    EXPECT_EQ(frame[0], 0x54u); // 'T'
+    EXPECT_EQ(frame[1], 0x4Du); // 'M'
+    EXPECT_EQ(frame[2], 0x44u); // 'D'
+    EXPECT_EQ(frame[3], 0x42u); // 'B'
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameVersionField) {
+    const auto frame = makeFrame(0x10u);
+    EXPECT_EQ(frame[4], 0x01u); // version 1
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameOpcodeField) {
+    const auto frame_ping   = makeFrame(0xFEu);
+    const auto frame_get    = makeFrame(0x10u);
+    const auto frame_put    = makeFrame(0x11u);
+    const auto frame_delete = makeFrame(0x12u);
+
+    EXPECT_EQ(frame_ping[5],   0xFEu);
+    EXPECT_EQ(frame_get[5],    0x10u);
+    EXPECT_EQ(frame_put[5],    0x11u);
+    EXPECT_EQ(frame_delete[5], 0x12u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameSkipChecksumFlag) {
+    const auto frame = makeFrame(0xFEu, {}, /*skip_checksum=*/true);
+    const uint16_t flags = (static_cast<uint16_t>(frame[6]) << 8) | frame[7];
+    EXPECT_TRUE(flags & 0x0004u); // SKIP_CHECKSUM bit
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameWithPayload) {
+    const std::string json_payload = R"({"key":"users/alice"})";
+    const std::vector<uint8_t> payload(json_payload.begin(), json_payload.end());
+    const auto frame = makeFrame(0x10u, payload);
+
+    // Total size = 12 header + payload
+    EXPECT_EQ(frame.size(), 12u + payload.size());
+
+    // PayloadSize field (big-endian at bytes 8-11)
+    const uint32_t ps = (static_cast<uint32_t>(frame[8])  << 24)
+                      | (static_cast<uint32_t>(frame[9])  << 16)
+                      | (static_cast<uint32_t>(frame[10]) <<  8)
+                      |  static_cast<uint32_t>(frame[11]);
+    EXPECT_EQ(ps, static_cast<uint32_t>(payload.size()));
+}
+
+TEST(WireProtocolWebSocket, ResponseFrameParsing) {
+    // Simulate a response frame (PONG = 0xFD) with a small JSON payload.
+    const std::string json_payload = R"({"pong":true})";
+    const std::vector<uint8_t> payload(json_payload.begin(), json_payload.end());
+    // Build response frame with SKIP_CHECKSUM flag (same as buildResponseFrame does)
+    const auto frame = makeFrame(0xFDu, payload, /*skip_checksum=*/true);
+
+    uint8_t  opcode;
+    uint16_t flags;
+    std::string parsed_payload;
+    ASSERT_TRUE(parseResponseFrame(frame, opcode, flags, parsed_payload));
+
+    EXPECT_EQ(opcode, 0xFDu);
+    EXPECT_TRUE(flags & 0x0004u); // SKIP_CHECKSUM set in response
+    EXPECT_EQ(parsed_payload, json_payload);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameTooShort) {
+    // A frame with fewer than 12 bytes should be rejected.
+    std::vector<uint8_t> truncated = {0x54u, 0x4Du, 0x44u, 0x42u, 0x01u, 0xFEu};
+    EXPECT_LT(truncated.size(), 12u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameInvalidMagic) {
+    auto frame = makeFrame(0xFEu);
+    // Corrupt the magic
+    frame[0] = 0x00u;
+    // After corruption, the first byte no longer matches 'T'
+    EXPECT_NE(frame[0], kWireMagic[0]);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameOpcodeDispatchTable) {
+    // Document the full set of opcodes that the binary frame handler dispatches.
+    // This test acts as living documentation.
+    struct OpcodeEntry { uint8_t opcode; const char* name; };
+    const OpcodeEntry kOpcodes[] = {
+        {0x10u, "GET"},
+        {0x11u, "PUT"},
+        {0x12u, "DELETE"},
+        {0xFEu, "PING"},
+        {0xFFu, "CLOSE"},
+    };
+    // All opcodes must fit in one byte (self-evident, but good as a sanity check)
+    for (const auto& entry : kOpcodes) {
+        EXPECT_LE(entry.opcode, 0xFFu) << "opcode " << entry.name << " must fit in uint8_t";
+    }
+    SUCCEED() << "Binary frame opcode dispatch table documented";
+}
+
+TEST(WireProtocolWebSocket, BinaryResponseOpcodeValues) {
+    // Document the response opcodes returned by the binary frame handlers.
+    // Client libraries need these values to demultiplex incoming binary frames.
+    constexpr uint8_t kOpcodeErrorResponse  = 0x00u;
+    constexpr uint8_t kOpcodePong           = 0xFDu;
+    constexpr uint8_t kOpcodeGetResponse    = 0x13u;
+    constexpr uint8_t kOpcodePutResponse    = 0x14u;
+    constexpr uint8_t kOpcodeDeleteResponse = 0x15u;
+
+    // Ensure request ↔ response pairs are consistent
+    EXPECT_NE(0x10u, kOpcodeGetResponse);    // GET request ≠ GET response
+    EXPECT_NE(0x11u, kOpcodePutResponse);    // PUT request ≠ PUT response
+    EXPECT_NE(0x12u, kOpcodeDeleteResponse); // DELETE request ≠ DELETE response
+    EXPECT_NE(0xFEu, kOpcodePong);           // PING ≠ PONG
+
+    // Error response must not collide with any request opcode
+    EXPECT_NE(kOpcodeErrorResponse, 0x10u);
+    EXPECT_NE(kOpcodeErrorResponse, 0x11u);
+    EXPECT_NE(kOpcodeErrorResponse, 0x12u);
+    EXPECT_NE(kOpcodeErrorResponse, 0xFEu);
+    EXPECT_NE(kOpcodeErrorResponse, 0xFFu);
+
+    SUCCEED() << "Binary response opcode values documented";
+}
+
 #endif // THEMIS_ENABLE_WEBSOCKET

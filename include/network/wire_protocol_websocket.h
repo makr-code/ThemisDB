@@ -155,6 +155,16 @@ private:
     void processTextMessage(const std::string& text);
     void processBinaryFrame(const std::vector<uint8_t>& data);
 
+    // Binary frame helpers – build a wire-protocol response frame and dispatch
+    // to the appropriate storage operation, then reply as a binary WebSocket frame.
+    std::vector<uint8_t> buildResponseFrame(uint8_t opcode,
+                                            const std::vector<uint8_t>& payload) const;
+    void sendBinaryError(uint32_t error_code, const std::string& message);
+    void handleBinaryPing();
+    void handleBinaryGet(const uint8_t* payload_data, uint32_t payload_size);
+    void handleBinaryPut(const uint8_t* payload_data, uint32_t payload_size);
+    void handleBinaryDelete(const uint8_t* payload_data, uint32_t payload_size);
+
     // Write helpers
     void doWrite();
     void onWrite(beast::error_code ec, std::size_t bytes_transferred);
