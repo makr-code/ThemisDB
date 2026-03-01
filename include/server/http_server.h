@@ -118,6 +118,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/policy_engine.h"
 #include "server/opa_adapter.h"
 #include "server/ranger_adapter.h"
+#include "server/cdn_cache_middleware.h"
 #include "utils/pii_pseudonymizer.h"
 #include "utils/update_checker.h"
 #include "security/encryption.h"
@@ -938,6 +939,9 @@ private:
 
     // Request body validation (JSON Schema per endpoint)
     std::unique_ptr<RequestValidationMiddleware> request_validator_;
+
+    // CDN / edge-cache cache-control header middleware
+    CdnCacheMiddleware cdn_cache_middleware_;
 
     // Input validation & sanitization
     std::unique_ptr<themis::utils::InputValidator> validator_;

@@ -1475,6 +1475,64 @@ HttpServer::HttpServer(
                 request_validator_->schemaCount());
 
     // ----------------------------------------------------------------------------
+    // CDN / Edge Cache Middleware – Cache-Control header management
+    // ----------------------------------------------------------------------------
+    // Register default per-route policies.  Conservative no-store is the global
+    // fallback for unregistered paths; only well-defined read endpoints receive
+    // cacheable policies here.  Individual handlers may register additional
+    // policies or rely on the defaults.
+    {
+        // Health / liveness probes – very short public cache so CDNs and load
+        // balancers can coalesce repeated probes without hammering the origin.
+        CdnRoutePolicy health_policy;
+        health_policy.directive              = CacheDirective::PUBLIC;
+        health_policy.max_age_seconds        = 5;
+        health_policy.cdn_max_age_seconds    = 10;
+        health_policy.emit_cdn_cache_control = true;
+        health_policy.stale_if_error_seconds = 30;
+        cdn_cache_middleware_.registerPolicy("/health", health_policy);
+        cdn_cache_middleware_.registerPolicy("/status", health_policy);
+
+        // Entity read endpoints – private (user-specific data), enable ETag for
+        // conditional GET support so repeated fetches avoid re-transferring bodies.
+        CdnRoutePolicy entity_policy;
+        entity_policy.directive              = CacheDirective::PRIVATE;
+        entity_policy.max_age_seconds        = 60;
+        entity_policy.enable_etag            = true;
+        entity_policy.emit_cdn_cache_control = true;
+        cdn_cache_middleware_.registerPolicy("/entities/", entity_policy);
+
+        // Query / AQL endpoints – dynamic results, never cache.
+        CdnRoutePolicy query_policy;
+        query_policy.directive = CacheDirective::NO_CACHE;
+        cdn_cache_middleware_.registerPolicy("/query", query_policy);
+        cdn_cache_middleware_.registerPolicy("/api/aql", query_policy);
+        cdn_cache_middleware_.registerPolicy("/v2/jobs", query_policy);
+
+        // Monitoring metrics – short public cache for Prometheus scrapers.
+        CdnRoutePolicy metrics_policy;
+        metrics_policy.directive              = CacheDirective::PUBLIC;
+        metrics_policy.max_age_seconds        = 15;
+        metrics_policy.cdn_max_age_seconds    = 15;
+        metrics_policy.emit_cdn_cache_control = true;
+        cdn_cache_middleware_.registerPolicy("/metrics", metrics_policy);
+
+        // OpenAPI spec – stable across deploys, cache aggressively.
+        CdnRoutePolicy openapi_policy;
+        openapi_policy.directive              = CacheDirective::PUBLIC;
+        openapi_policy.max_age_seconds        = 3600;
+        openapi_policy.cdn_max_age_seconds    = 86400;
+        openapi_policy.stale_while_revalidate_seconds = 3600;
+        openapi_policy.emit_cdn_cache_control = true;
+        openapi_policy.emit_surrogate_control = true;
+        openapi_policy.surrogate_keys         = "openapi spec";
+        cdn_cache_middleware_.registerPolicy("/openapi", openapi_policy);
+        cdn_cache_middleware_.registerPolicy("/api-docs", openapi_policy);
+
+        THEMIS_INFO("CdnCacheMiddleware initialized with default route policies");
+    }
+
+    // ----------------------------------------------------------------------------
     // Input validation limits
     // ----------------------------------------------------------------------------
     if (auto v = themis_get_env("THEMIS_MAX_BODY_BYTES")) {
@@ -8318,6 +8376,13 @@ void HttpServer::applyGovernanceHeaders(
     if (!corr_id.empty()) {
         res.set("X-Correlation-ID", corr_id);
     }
+
+    // ------------------------------------------------------------------------
+    // CDN / Edge Cache headers (Cache-Control, CDN-Cache-Control, ETag, etc.)
+    // Applied after governance so X-Themis-Cache: disabled is already set and
+    // the middleware can honour it.
+    // ------------------------------------------------------------------------
+    cdn_cache_middleware_.apply(req, res);
 }
 
 void HttpServer::recordLatency(std::chrono::microseconds duration) {
