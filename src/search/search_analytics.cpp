@@ -137,6 +137,28 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     return m;
 }
 
+std::vector<std::pair<std::string, size_t>>
+SearchAnalytics::getTopQueries(size_t limit) const {
+    std::lock_guard<std::mutex> lock(mu_);
+    if (events_.empty() || limit == 0) return {};
+
+    std::map<std::string, size_t> freq;
+    for (const auto& ev : events_) {
+        freq[ev.query]++;
+    }
+
+    std::vector<std::pair<std::string, size_t>> result(freq.begin(), freq.end());
+    size_t n = std::min(limit, result.size());
+    std::partial_sort(result.begin(), result.begin() + static_cast<std::ptrdiff_t>(n),
+                      result.end(),
+                      [](const auto& a, const auto& b) {
+                          return a.second != b.second ? a.second > b.second
+                                                      : a.first < b.first;
+                      });
+    result.resize(n);
+    return result;
+}
+
 // ============================================================================
 // Utilities
 // ============================================================================
