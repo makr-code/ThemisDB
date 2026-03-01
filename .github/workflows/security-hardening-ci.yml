@@ -24,6 +24,11 @@ on:
       - 'tests/test_api_security_audit.cpp'
       - 'tests/test_vault_key_provider.cpp'
       - 'tests/test_vault_signing_provider_errors.cpp'
+      - 'tests/test_hsm_stub_gating.cpp'
+      - 'tests/test_hsm_startup_integration.cpp'
+      - 'tests/test_hsm_security_checker.cpp'
+      - 'tests/test_hsm_security_metrics.cpp'
+      - 'tests/test_hsm_provider.cpp'
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
@@ -48,6 +53,11 @@ on:
       - 'tests/test_api_security_audit.cpp'
       - 'tests/test_vault_key_provider.cpp'
       - 'tests/test_vault_signing_provider_errors.cpp'
+      - 'tests/test_hsm_stub_gating.cpp'
+      - 'tests/test_hsm_startup_integration.cpp'
+      - 'tests/test_hsm_security_checker.cpp'
+      - 'tests/test_hsm_security_metrics.cpp'
+      - 'tests/test_hsm_provider.cpp'
       - 'fuzz/harnesses/jwt_rbac_config_harness.cpp'
       - 'fuzz/corpus/jwt/**'
       - 'fuzz/corpus/rbac/**'
@@ -79,6 +89,9 @@ jobs:
 
     permissions:
       contents: read
+
+    env:
+      HSM_TEST_FILTER: "HSMStubGatingTest*:HSMStartupIntegrationTest*:HSMSecurityCheckerTest*:HSMSecurityMetricsTest*:HSMProviderTest*"
 
     strategy:
       fail-fast: false
@@ -148,6 +161,14 @@ jobs:
             --gtest_output="xml:vault_negative_results.xml" \
             2>&1 | tee vault_negative_output.txt
 
+      - name: Run HSM stub gating and security tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="${HSM_TEST_FILTER}" \
+            --gtest_output="xml:hsm_security_results.xml" \
+            2>&1 | tee hsm_security_output.txt
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -156,6 +177,8 @@ jobs:
           path: |
             build/*_negative_results.xml
             build/*_negative_output.txt
+            build/hsm_security_results.xml
+            build/hsm_security_output.txt
           retention-days: 30
 
       - name: Write job summary
@@ -176,6 +199,9 @@ jobs:
           echo "- JWT negative tests (invalid tokens, KID revocation)" >> "$GITHUB_STEP_SUMMARY"
           echo "- RBAC negative tests (permission violations, inheritance, serialization)" >> "$GITHUB_STEP_SUMMARY"
           echo "- Vault signing provider error tests" >> "$GITHUB_STEP_SUMMARY"
+          echo "- HSM stub gating tests (production mode fail-fast, environment detection)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- HSM startup integration tests (production safety validation)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- HSM security checker and metrics tests" >> "$GITHUB_STEP_SUMMARY"
 
   # ───────────────────────────────────────────────────────────────────────────
   # 2. AddressSanitizer + UndefinedBehaviorSanitizer
@@ -192,6 +218,7 @@ jobs:
     env:
       CC:  clang-15
       CXX: clang++-15
+      HSM_TEST_FILTER: "HSMStubGatingTest*:HSMStartupIntegrationTest*:HSMSecurityCheckerTest*:HSMSecurityMetricsTest*"
 
     steps:
       - name: Checkout repository
@@ -228,7 +255,8 @@ jobs:
             PermissionTest*:\
             RBACBuiltinRolesTest*:\
             VaultNegativeTest*:\
-            VaultSigningProviderErrorTest*"
+            VaultSigningProviderErrorTest*:\
+            ${HSM_TEST_FILTER}"
           cd build
           ./tests/themis_tests \
             --gtest_filter="${SECURITY_FILTER}" \

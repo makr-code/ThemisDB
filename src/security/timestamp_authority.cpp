@@ -26,8 +26,56 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <cstdlib>
+#include <string>
 
 namespace themis { namespace security {
+
+// Helper: check production mode (mirrors HSM stub pattern)
+static bool isProductionMode() {
+    const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+    const char* env_type    = std::getenv("ENVIRONMENT");
+    const char* node_env    = std::getenv("NODE_ENV");
+
+    if (prod_mode) {
+        const std::string s(prod_mode);
+        if (s == "1" || s == "true" || s == "True" || s == "TRUE" ||
+            s == "yes"  || s == "Yes"  || s == "on"   || s == "On")
+            return true;
+    }
+    if (environment) {
+        const std::string s(environment);
+        if (s == "production" || s == "prod") return true;
+    }
+    if (env_type) {
+        const std::string s(env_type);
+        if (s == "production" || s == "prod") return true;
+    }
+    if (node_env) {
+        const std::string s(node_env);
+        if (s == "production") return true;
+    }
+    return false;
+}
+
+// Helper: check if TSA stub is explicitly allowed
+static bool isStubAllowed() {
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_TSA_STUB");
+    return allow_stub && std::string(allow_stub) == "1";
+}
+
+// Helper: return a failed token indicating stub is blocked in production
+static TimestampToken makeProductionError() {
+    TimestampToken tok;
+    tok.success = false;
+    tok.error_message =
+        "TimestampAuthority stub is not permitted in production mode. "
+        "Build with -DTHEMIS_USE_OPENSSL_TSA=ON (OpenSSL + libcurl required) "
+        "or set THEMIS_ALLOW_TSA_STUB=1 to explicitly allow the insecure stub.";
+    THEMIS_ERROR("SECURITY ERROR: {}", tok.error_message);
+    return tok;
+}
 
 class TimestampAuthority::Impl { };
 
@@ -54,6 +102,12 @@ TimestampAuthority::TimestampAuthority(TimestampAuthority&&) noexcept = default;
 TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept = default;
 
 TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data) {
+    // SECURITY HARDENING: refuse to issue stub tokens in production environments.
+    // Production deployments must build with -DTHEMIS_USE_OPENSSL_TSA=ON.
+    if (isProductionMode() && !isStubAllowed()) {
+        return makeProductionError();
+    }
+
     // WARNING: This is a STUB implementation for development only
     // For production, build with -DTHEMIS_USE_OPENSSL_TSA=ON
     // This stub does NOT provide cryptographic timestamps!
@@ -87,6 +141,9 @@ TimestampToken TimestampAuthority::getTimestamp(const std::vector<uint8_t>& data
 }
 
 TimestampToken TimestampAuthority::getTimestampForHash(const std::vector<uint8_t>& hash) {
+    if (isProductionMode() && !isStubAllowed()) {
+        return makeProductionError();
+    }
     // Reuse getTimestamp for simplicity (non-cryptographic anyway)
     return getTimestamp(hash);
 }
@@ -129,6 +186,15 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     
     validation_errors_.clear();
     
+    // SECURITY HARDENING: full eIDAS validation requires the OpenSSL implementation.
+    // In production mode, refuse to perform stub-level validation.
+    if (isProductionMode() && !isStubAllowed()) {
+        validation_errors_.push_back(
+            "eIDAS timestamp validation is not available in stub mode during production. "
+            "Build with -DTHEMIS_USE_OPENSSL_TSA=ON or set THEMIS_ALLOW_TSA_STUB=1.");
+        return false;
+    }
+
     // Stub implementation - basic checks only
     if (!token.success) {
         validation_errors_.push_back("Token marked as unsuccessful");

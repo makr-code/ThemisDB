@@ -84,6 +84,10 @@ typedef uint8_t CK_BYTE;
 typedef uint8_t CK_BBOOL;
 typedef CK_BYTE* CK_BYTE_PTR;
 
+// Boolean constants
+#define CK_TRUE  ((CK_BBOOL)1)
+#define CK_FALSE ((CK_BBOOL)0)
+
 typedef uint32_t CK_OBJECT_CLASS;
 typedef uint32_t CK_CERTIFICATE_TYPE;
 
