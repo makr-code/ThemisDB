@@ -34,7 +34,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
 
 ### Long-term (6-12 months)
-- [I] gRPC API surface alongside REST (Issue: #1499)
 - [I] API key management endpoint (Issue: #1502)
 
 ## Implementation Phases
@@ -54,7 +53,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
 
-### Phase 3: gRPC, Versioning, and SDK Generation (Status: Planned)
+### Phase 3: gRPC, Versioning, and SDK Generation (Status: In Progress 🚧)
 - [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
 - [x] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)

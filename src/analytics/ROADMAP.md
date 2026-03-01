@@ -40,7 +40,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Full morphological lemmatization (Issue: #1479)
 
 ## In Progress 🚧
-*(none — all Phase 2 items completed)*
+*(none — all Phase 3 items completed)*
 
 ## Planned Features 📋
 
@@ -73,7 +73,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp`
 - [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
-### Phase 3: Distributed & ML-Augmented Analytics (Status: In Progress 🚧)
+### Phase 3: Distributed & ML-Augmented Analytics (Status: Completed ✅)
 - [x] Columnar execution engine with vectorized operator pipeline (`analytics/columnar_execution.cpp`)
 - [x] LLVM-JIT compilation for hot aggregation paths (`analytics/jit_aggregation.cpp`): hot-path detection and template-specialised aggregation dispatch; LLVM MCJIT backend reserved behind `THEMIS_HAS_LLVM_JIT` compile flag (Issue: #1482)
 - [x] Distributed analytics sharding across cluster nodes (Issue: #1483)
