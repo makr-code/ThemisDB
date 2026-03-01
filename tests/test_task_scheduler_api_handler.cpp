@@ -258,6 +258,7 @@ TEST(TaskSchedulerApiHandlerNullTest, NullScheduler_AllMethodsReturnError) {
     EXPECT_EQ(h.disableTask("x").value("status", ""), "error");
     EXPECT_EQ(h.unregisterTask("x").value("status", ""), "error");
     EXPECT_EQ(h.executeTask("x").value("status", ""), "error");
+    EXPECT_EQ(h.executeDAG(nlohmann::json{{"task_ids", nlohmann::json::array()}}).value("status", ""), "error");
 
     nlohmann::json req{{"name", "t"}, {"type", "aql_query"}, {"aql_query", "RETURN 1"}};
     EXPECT_EQ(h.registerTask(req).value("status", ""), "error");
@@ -327,4 +328,137 @@ TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
     ASSERT_TRUE(result.contains("total"));
     EXPECT_TRUE(result["total"].is_number_integer());
     EXPECT_EQ(result["total"].get<int64_t>(), 1);
+}
+
+// ============================================================================
+// executeDAG
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_MissingTaskIds_ReturnsError) {
+    auto result = handler_->executeDAG(nlohmann::json::object());
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("task_ids"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_InvalidTaskIdsType_ReturnsError) {
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", "not_an_array"}});
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_UnknownTaskId_ReturnsError) {
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", {"does_not_exist"}}});
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_EmptyList_ReturnsExecuted) {
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", nlohmann::json::array()}});
+    EXPECT_EQ(result.value("status", ""), "executed");
+    EXPECT_TRUE(result["succeeded"].empty());
+    EXPECT_TRUE(result["failed"].empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_SingleTask_Succeeds) {
+    // Register a function task
+    scheduler_->registerFunction("dag_api_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    nlohmann::json req = makeTaskJson("dag_api_task");
+    req["type"]          = "function";
+    req["function_name"] = "dag_api_fn";
+    req["trigger_type"]  = "manual";
+    req.erase("aql_query");
+    auto reg = handler_->registerTask(req);
+    ASSERT_EQ(reg.value("status", ""), "created");
+    std::string task_id = reg["id"];
+
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", {task_id}}});
+    EXPECT_EQ(result.value("status", ""), "executed");
+    ASSERT_TRUE(result["succeeded"].contains(task_id));
+    EXPECT_TRUE(result["failed"].empty());
+    EXPECT_TRUE(result["skipped"].empty());
+    EXPECT_TRUE(result["condition_skipped"].empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_LinearChain_RespectsDependencyOrder) {
+    // Register three function tasks: a -> b -> c
+    auto noop_fn = [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; };
+    for (const auto& name : std::vector<std::string>{"dag_a", "dag_b", "dag_c"}) {
+        scheduler_->registerFunction(name + "_fn", noop_fn);
+    }
+
+    auto register_task = [&](const std::string& id,
+                              const std::vector<std::string>& deps) -> std::string {
+        ScheduledTask t;
+        t.id = id; t.name = id;
+        t.type = ScheduledTask::TaskType::FUNCTION;
+        t.function_name = id + "_fn";
+        t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+        t.dependencies = deps;
+        return scheduler_->registerTask(t);
+    };
+
+    register_task("dag_a", {});
+    register_task("dag_b", {"dag_a"});
+    register_task("dag_c", {"dag_b"});
+
+    auto result = handler_->executeDAG(
+        nlohmann::json{{"task_ids", {"dag_a", "dag_b", "dag_c"}}});
+    EXPECT_EQ(result.value("status", ""), "executed");
+    EXPECT_EQ(result["succeeded"].size(), 3u);
+    EXPECT_TRUE(result["failed"].empty());
+    EXPECT_TRUE(result["skipped"].empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_CyclicDependency_ReturnsError) {
+    scheduler_->registerFunction("cyc_api_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    ScheduledTask ta;
+    ta.id = "cyc_api_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "cyc_api_fn";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    ta.dependencies = {"cyc_api_b"};
+    scheduler_->registerTask(ta);
+
+    ScheduledTask tb;
+    tb.id = "cyc_api_b"; tb.name = tb.id;
+    tb.type = ScheduledTask::TaskType::FUNCTION;
+    tb.function_name = "cyc_api_fn";
+    tb.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    tb.dependencies = {"cyc_api_a"};
+    scheduler_->registerTask(tb);
+
+    auto result = handler_->executeDAG(
+        nlohmann::json{{"task_ids", {"cyc_api_a", "cyc_api_b"}}});
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_WithDependencies_RoundTrips) {
+    // Register two tasks and verify dependencies survive registerTask -> getTask
+    scheduler_->registerFunction("dep_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    nlohmann::json req_a = makeTaskJson("dep_task_a");
+    req_a["type"]          = "function";
+    req_a["function_name"] = "dep_fn";
+    req_a["trigger_type"]  = "manual";
+    req_a.erase("aql_query");
+    auto reg_a = handler_->registerTask(req_a);
+    ASSERT_EQ(reg_a.value("status", ""), "created");
+
+    nlohmann::json req_b = makeTaskJson("dep_task_b");
+    req_b["type"]          = "function";
+    req_b["function_name"] = "dep_fn";
+    req_b["trigger_type"]  = "manual";
+    req_b["dependencies"]  = nlohmann::json::array({reg_a["id"].get<std::string>()});
+    req_b.erase("aql_query");
+    auto reg_b = handler_->registerTask(req_b);
+    ASSERT_EQ(reg_b.value("status", ""), "created");
+
+    // getTask should return the dependencies
+    auto detail = handler_->getTask(reg_b["id"].get<std::string>());
+    ASSERT_TRUE(detail.contains("dependencies"));
+    ASSERT_EQ(detail["dependencies"].size(), 1u);
+    EXPECT_EQ(detail["dependencies"][0].get<std::string>(), reg_a["id"].get<std::string>());
 }
