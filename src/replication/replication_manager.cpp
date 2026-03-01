@@ -1309,8 +1309,18 @@ bool ReplicationManager::hasQuorum() const {
     for (const auto& replica : replicas_) {
         if (replica.is_voting_member) {
             total_voting_members++;
-            if (replica.health_status == HealthStatus::HEALTHY || 
-                replica.health_status == HealthStatus::DEGRADED) {
+            bool counts_as_healthy;
+            if (replica.role == ReplicationRole::WITNESS) {
+                // Witnesses receive no WAL data, so their health_status may remain
+                // UNKNOWN until the first health-check cycle.  Use the raw heartbeat
+                // timestamp to determine liveness instead.
+                counts_as_healthy = replica.isHealthyWithTimeout(
+                    config_.failure_detection_timeout_ms);
+            } else {
+                counts_as_healthy = (replica.health_status == HealthStatus::HEALTHY ||
+                                     replica.health_status == HealthStatus::DEGRADED);
+            }
+            if (counts_as_healthy) {
                 healthy_voting_members++;
             }
         }
@@ -1542,6 +1552,7 @@ bool ReplicationManager::electNewLeader() {
     ReplicaInfo* best_candidate = nullptr;
     for (auto& replica : replicas_) {
         if (!replica.is_voting_member || 
+            replica.role == ReplicationRole::WITNESS ||  // Witnesses never become leaders
             replica.health_status == HealthStatus::FAILED) {
             continue;
         }
