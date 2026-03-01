@@ -944,6 +944,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
             bool succeeded = false;
             nlohmann::json result;
             std::string error;
+            std::string error_type;
         };
         std::vector<WaveResult> wave_results(wave.size());
         std::vector<std::thread> threads;
@@ -956,6 +957,21 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                 auto task = task_map[id];
                 const int64_t exec_start_ms = getCurrentTimeMs();
                 const auto exec_start = std::chrono::steady_clock::now();
+
+                // Log TASK_STARTED audit event
+                if (audit_manager_) {
+                    scheduler::TaskAuditEvent start_event;
+                    start_event.uuid = scheduler::generateUUID();
+                    start_event.timestamp = std::chrono::system_clock::now();
+                    start_event.task_id = task->id;
+                    start_event.task_name = task->name;
+                    start_event.task_description = task->description;
+                    start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
+                    start_event.trigger_type = getTriggerTypeString(task->trigger_type);
+                    setDefaultAuditContext(start_event);
+                    audit_manager_->logAuditEvent(start_event);
+                }
+
                 try {
                     nlohmann::json r;
                     if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
@@ -963,48 +979,102 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
                     } else {
                         r = executeFunction(task->function_name, task->parameters);
                     }
+                    wave_results[i].succeeded = true;
+                    wave_results[i].result = std::move(r);
+                } catch (const std::exception& e) {
+                    task->last_error = e.what();
+                    task->last_error_category = categorizeError(e.what());
+                    wave_results[i].error = e.what();
+                    wave_results[i].error_type = "EXECUTION_ERROR";
+                } catch (...) {
+                    task->last_error = "unknown non-exception thrown";
+                    task->last_error_category = ScheduledTask::ErrorCategory::TRANSIENT;
+                    wave_results[i].error = "unknown non-exception thrown";
+                    wave_results[i].error_type = "UNKNOWN_ERROR";
+                }
+
+                // Compute duration once after execution (for stats, audit, SLA, result store).
+                const double dur_ms = std::chrono::duration<double, std::milli>(
+                    std::chrono::steady_clock::now() - exec_start).count();
+
+                if (wave_results[i].succeeded) {
                     // Update task stats
                     task->total_executions++;
                     task->successful_executions++;
                     task->last_run_ms = exec_start_ms;
                     task->last_success_time = std::chrono::system_clock::now();
                     task->last_error_category = ScheduledTask::ErrorCategory::NONE;
-                    wave_results[i].succeeded = true;
-                    wave_results[i].result = std::move(r);
+                    task->avg_execution_time_ms =
+                        (task->avg_execution_time_ms * (task->total_executions - 1) + dur_ms)
+                        / task->total_executions;
+
+                    // Log TASK_COMPLETED audit event
+                    if (audit_manager_) {
+                        scheduler::TaskAuditEvent completion_event;
+                        completion_event.uuid = scheduler::generateUUID();
+                        completion_event.timestamp = std::chrono::system_clock::now();
+                        completion_event.duration_ms = dur_ms;
+                        completion_event.task_id = task->id;
+                        completion_event.task_name = task->name;
+                        completion_event.task_description = task->description;
+                        completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
+                        completion_event.trigger_type = getTriggerTypeString(task->trigger_type);
+                        setDefaultAuditContext(completion_event);
+                        completion_event.success = true;
+                        // cpu_time_ms is approximated by wall-clock time (same as executeTask)
+                        completion_event.resource_usage.execution_time_ms = dur_ms;
+                        completion_event.resource_usage.cpu_time_ms = dur_ms;
+                        if (wave_results[i].result.is_object()) {
+                            if (wave_results[i].result.contains("rows")) {
+                                completion_event.resource_usage.result_rows =
+                                    wave_results[i].result["rows"].get<uint64_t>();
+                            }
+                            if (wave_results[i].result.contains("affected")) {
+                                completion_event.resource_usage.affected_rows =
+                                    wave_results[i].result["affected"].get<uint64_t>();
+                            }
+                        }
+                        audit_manager_->logAuditEvent(completion_event);
+                    }
+
                     if (task->on_success) {
                         task->on_success(id, wave_results[i].result);
                     }
-                    // Resolve any active failure alert for this task
                     resolveTaskFailureAlert(id);
-                } catch (const std::exception& e) {
+                } else {
+                    // Update failure stats
                     task->total_executions++;
                     task->failed_executions++;
-                    task->last_error = e.what();
-                    task->last_error_category = categorizeError(e.what());
                     task->last_failure_time = std::chrono::system_clock::now();
-                    wave_results[i].error = e.what();
-                    if (task->on_failure) {
-                        task->on_failure(id, e.what());
+
+                    // Log TASK_FAILED audit event
+                    if (audit_manager_) {
+                        scheduler::TaskAuditEvent failure_event;
+                        failure_event.uuid = scheduler::generateUUID();
+                        failure_event.timestamp = std::chrono::system_clock::now();
+                        failure_event.duration_ms = dur_ms;
+                        failure_event.task_id = task->id;
+                        failure_event.task_name = task->name;
+                        failure_event.task_description = task->description;
+                        failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
+                        failure_event.trigger_type = getTriggerTypeString(task->trigger_type);
+                        setDefaultAuditContext(failure_event);
+                        failure_event.success = false;
+                        failure_event.error_message = wave_results[i].error;
+                        failure_event.error_type = wave_results[i].error_type;
+                        // cpu_time_ms is approximated by wall-clock time (same as executeTask)
+                        failure_event.resource_usage.execution_time_ms = dur_ms;
+                        failure_event.resource_usage.cpu_time_ms = dur_ms;
+                        audit_manager_->logAuditEvent(failure_event);
                     }
-                    fireTaskFailureAlert(*task, e.what());
-                } catch (...) {
-                    task->total_executions++;
-                    task->failed_executions++;
-                    task->last_error = "unknown non-exception thrown";
-                    task->last_error_category = ScheduledTask::ErrorCategory::TRANSIENT;
-                    task->last_failure_time = std::chrono::system_clock::now();
-                    wave_results[i].error = "unknown non-exception thrown";
+
                     if (task->on_failure) {
                         task->on_failure(id, wave_results[i].error);
                     }
                     fireTaskFailureAlert(*task, wave_results[i].error);
                 }
-                // Compute duration once here (after all success/failure branches) for use
-                // in both SLA breach detection and result-store persistence.
-                const double dur_ms = std::chrono::duration<double, std::milli>(
-                    std::chrono::steady_clock::now() - exec_start).count();
 
-                // Check SLA breach for this DAG task
+                // Check SLA breach (applies regardless of success/failure)
                 if (task->sla_deadline.has_value() &&
                     dur_ms > static_cast<double>(task->sla_deadline->count())) {
                     fireTaskSlaBreachAlert(*task, dur_ms);
