@@ -55,7 +55,12 @@ HotReloadEngine::HotReloadEngine(
     // Create directories
     fs::create_directories(config_.download_directory);
     fs::create_directories(config_.backup_directory);
-    
+
+    // Initialise history logger if a path is configured
+    if (!config_.history_log_path.empty()) {
+        history_logger_ = std::make_unique<UpdateHistoryLogger>(config_.history_log_path);
+    }
+
     LOG_INFO("HotReloadEngine initialized");
 }
 
@@ -143,38 +148,60 @@ ReloadResult HotReloadEngine::applyHotReload(
 ) {
     ReloadResult result;
     result.success = false;
-    
+
     reportProgress(0, "Starting hot-reload for version " + version);
-    
+
+    // Capture current version early for history recording
+    auto current_version = update_checker_->getConfig().current_version;
+
+    // Helper: record a history entry (no-op when logger is not configured)
+    auto recordHistory = [this, &current_version, &version](bool success,
+                              const std::string& error_msg,
+                              const std::string& event_type) {
+        if (!history_logger_) return;
+        UpdateHistoryEntry entry;
+        entry.who           = config_.history_actor;
+        entry.timestamp_ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        entry.from_version  = current_version;
+        entry.to_version    = version;
+        entry.event_type    = event_type;
+        entry.success       = success;
+        entry.error_message = error_msg;
+        history_logger_->record(entry);
+    };
+
     // Get manifest
     auto manifest = manifest_db_->getManifest(version);
     if (!manifest) {
         result.error_message = "Manifest not found";
+        recordHistory(false, result.error_message, "update");
         return result;
     }
-    
+
     // Verify release
     reportProgress(10, "Verifying release");
     auto verify_result = verifyRelease(*manifest);
     if (!verify_result.verified) {
         result.error_message = verify_result.error_message;
+        recordHistory(false, result.error_message, "update");
         return result;
     }
-    
+
     if (verify_only) {
         result.success = true;
         result.error_message = "Verification passed (dry-run mode)";
         return result;
     }
-    
+
     // Check compatibility
-    auto current_version = update_checker_->getConfig().current_version;
     reportProgress(20, "Checking compatibility");
     if (!isCompatibleUpgrade(current_version, version)) {
         result.error_message = "Incompatible upgrade from " + current_version + " to " + version;
+        recordHistory(false, result.error_message, "update");
         return result;
     }
-    
+
     // Create backup
     std::string rollback_id;
     if (config_.create_backup) {
@@ -182,51 +209,54 @@ ReloadResult HotReloadEngine::applyHotReload(
         rollback_id = createBackup(manifest->files);
         result.rollback_id = rollback_id;
     }
-    
+
     // Apply updates
     reportProgress(50, "Applying updates");
     size_t file_count = manifest->files.size();
     size_t current_file = 0;
-    
+
     std::string version_dir = config_.download_directory + "/" + version;
-    
+
     for (const auto& file : manifest->files) {
         current_file++;
         int progress = 50 + (static_cast<int>(current_file) * 40 / static_cast<int>(file_count));
         reportProgress(progress, "Updating " + file.path);
-        
+
         std::string src_path = version_dir + "/" + file.path;
         std::string dst_path = config_.install_directory + "/" + file.path;
-        
+
         if (!fs::exists(src_path)) {
             result.error_message = "Source file not found: " + src_path;
             LOG_ERROR("{}", result.error_message);
-            
+
             // Rollback if backup was created
             if (!rollback_id.empty()) {
                 rollback(rollback_id);
             }
+            recordHistory(false, result.error_message, "update");
             return result;
         }
-        
+
         // Atomic replace
         if (!atomicReplace(src_path, dst_path)) {
             result.error_message = "Failed to replace file: " + file.path;
             LOG_ERROR("{}", result.error_message);
-            
+
             // Rollback
             if (!rollback_id.empty()) {
                 rollback(rollback_id);
             }
+            recordHistory(false, result.error_message, "update");
             return result;
         }
-        
+
         result.files_updated.push_back(file.path);
     }
-    
+
     reportProgress(100, "Hot-reload complete");
     result.success = true;
-    
+
+    recordHistory(true, "", "update");
     LOG_INFO("Hot-reload applied successfully: {} -> {}", current_version, version);
     return result;
 }
@@ -237,6 +267,16 @@ bool HotReloadEngine::rollback(const std::string& rollback_id) {
         
         if (!fs::exists(backup_dir)) {
             LOG_ERROR("Rollback directory not found: {}", backup_dir);
+            if (history_logger_) {
+                UpdateHistoryEntry entry;
+                entry.who          = config_.history_actor;
+                entry.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+                entry.event_type   = "rollback";
+                entry.success      = false;
+                entry.error_message = "Rollback directory not found: " + rollback_id;
+                history_logger_->record(entry);
+            }
             return false;
         }
         
@@ -262,7 +302,18 @@ bool HotReloadEngine::rollback(const std::string& rollback_id) {
                 LOG_DEBUG("Restored: {}", file_path);
             }
         }
-        
+
+        if (history_logger_) {
+            UpdateHistoryEntry entry;
+            entry.who           = config_.history_actor;
+            entry.timestamp_ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            entry.from_version  = update_checker_->getConfig().current_version;
+            entry.event_type    = "rollback";
+            entry.success       = true;
+            history_logger_->record(entry);
+        }
+
         LOG_INFO("Rollback completed: {}", rollback_id);
         return true;
     } catch (const std::exception& e) {
@@ -572,6 +623,10 @@ void HotReloadEngine::reportProgress(int percentage, const std::string& message)
     if (progress_callback_) {
         progress_callback_(percentage, message);
     }
+}
+
+UpdateHistoryLogger* HotReloadEngine::historyLogger() {
+    return history_logger_.get();
 }
 
 } // namespace updates
