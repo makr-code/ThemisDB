@@ -2279,8 +2279,6 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
-    # Phase 3: Citation Highlighting
-    ../src/rag/citation_highlighter.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
     )
@@ -2292,6 +2290,9 @@ if(NOT THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/prompt_manager.cpp
+    # Citation highlighting has no LLM dependency; always include so non-LLM
+    # builds can use and test the CitationHighlighter class.
+    ../src/rag/citation_highlighter.cpp
     )
 endif()
 

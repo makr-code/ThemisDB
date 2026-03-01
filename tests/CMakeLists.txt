@@ -73,7 +73,6 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_streaming_retriever\\.cpp$"
         ".*test_rag_reranker\\.cpp$"
         ".*test_rag_hallucination_dashboard\\.cpp$"
-        ".*test_rag_citation_highlighter\\.cpp$"
         ".*test_rag_document_summarizer\\.cpp$"
         ".*test_rag_knowledge_graph_retriever\\.cpp$"
         ".*test_rag_document_splitter\\.cpp$"
@@ -556,6 +555,9 @@ if(NOT THEMIS_ENABLE_LLM)
         # LLMProcessAnalyzer has no actual LLM library dependency (uses a
         # simulated callLLM stub) — include in every build variant.
         ${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp
+        # CitationHighlighter has no LLM dependency (pure Jaccard term-overlap);
+        # re-include so non-LLM builds exercise the citation highlighting feature.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_citation_highlighter.cpp
     )
 endif()
 
