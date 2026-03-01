@@ -18,7 +18,7 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] Module dependency resolution and load-order management (Issue: #2474)
 
 ## In Progress 🚧
-- [~] `build_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
+- [x] `build_info.cpp` – migrated from `src/utils/` to `src/themis/` (v1.7.0, Issue: #2311)
 - [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
 - [~] `module_loader.cpp` – implemented in `src/base/`; pending migration to `src/themis/` (Target: Q3 2026, v1.7.0)
 
