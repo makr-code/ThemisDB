@@ -65,7 +65,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - TLS / mTLS credentials via gRPC server credentials (same cert/key pattern as api/grpc_server.cpp)
   - Configurable: num_threads, max_connections, max_message_size_bytes, keepalive
   - Guarded by `THEMIS_ENABLE_GRPC`; unit tests in `tests/test_grpc_transport.cpp` (16 tests)
-- [I] Network topology-aware routing for geo-distributed clusters (Issue: #2207)
+- [x] Network topology-aware routing for geo-distributed clusters (Issue: #2207)
+  - `GeoTopologyRouter` class in `include/network/geo_topology_router.h` / `src/network/geo_topology_router.cpp`
+  - Strategies: PREFER_LOCAL (region→zone→datacenter affinity), LOWEST_LATENCY (per-region hints), ROUND_ROBIN
+  - Cross-region fallback when local shards are unavailable (configurable)
+  - `selectEndpoint()`, `selectEndpointInRegion()`, `getRankedShards()` public API
+  - Prometheus-compatible `Stats` struct (requests_routed, local_region_hits, cross_region_fallbacks, routing_failures)
+  - Thread-safe (atomic round-robin counter + mutex-guarded stats)
+  - Unit tests in `tests/test_geo_topology_router.cpp` (26 tests)
 
 ## Implementation Phases
 
@@ -98,7 +105,8 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection multiplexing (multiple logical streams per TCP connection)
 - [x] Per-tenant network bandwidth quotas
 - [x] Connection-level compression (LZ4, Zstd)
-- [ ] Network topology-aware routing for geo-distributed clusters
+- [x] Network topology-aware routing for geo-distributed clusters
+  - `GeoTopologyRouter` (include/network/geo_topology_router.h); strategies: PREFER_LOCAL, LOWEST_LATENCY, ROUND_ROBIN
 - [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
 
 ## Production Readiness Checklist
@@ -122,6 +130,9 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] QUIC/HTTP3 stub resolved (`Http3Session::doRead()`, `Http3Session::onRead()`)
 - [x] Unit tests added for gRPC native transport (`test_grpc_transport.cpp`, 16 tests)
   - Config defaults, TLS flags, port validation (incl. conflict with 50051), stats, address format, isRunning state
+- [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)
+  - Config defaults, PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity
+  - Cross-region fallback, selectEndpointInRegion, getRankedShards ordering, stats accumulation, edge cases
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
