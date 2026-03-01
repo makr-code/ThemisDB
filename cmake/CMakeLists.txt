@@ -1962,6 +1962,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
+    ../src/plugins/oci_registry_client.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp

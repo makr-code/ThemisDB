@@ -26,6 +26,7 @@
 #include "plugins/plugin_metrics.h"
 #include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
 #include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
+#include "plugins/oci_registry_client.h"  // OCI registry pull support
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include "utils/expected.h"
 #include <string>
@@ -157,6 +158,28 @@ public:
     Result<IThemisPlugin*> loadPluginFromPath(
         const std::string& path,
         const std::string& config = "{}"
+    );
+
+    /**
+     * @brief Pull a plugin from an OCI registry and load it.
+     *
+     * Parses the OCI reference, downloads the plugin binary layer into
+     * @p cache_dir (reusing a cached copy when the SHA-256 digest matches),
+     * verifies the binary, and delegates to loadPluginFromPath().
+     *
+     * OCI reference format: [registry/]name[:tag][@digest]
+     * Example: "ghcr.io/themisdb/plugins/s3_blob:1.2.0"
+     *
+     * @param oci_ref   OCI image reference string.
+     * @param cache_dir Local directory for cached plugin binaries.
+     *                  Defaults to the system temp directory when empty.
+     * @param auth_token Optional Bearer token for authenticated registries.
+     * @return Result<IThemisPlugin*> with loaded plugin or error.
+     */
+    Result<IThemisPlugin*> loadPluginFromOci(
+        const std::string& oci_ref,
+        const std::string& cache_dir   = "",
+        const std::string& auth_token  = ""
     );
     
     /**

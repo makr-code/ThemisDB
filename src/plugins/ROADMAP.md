@@ -58,7 +58,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 ### Phase 3: WASM Sandbox & Ecosystem (Status: Planned 📋)
 - [?] WebAssembly (WASM) plugin runtime via Wasmtime for sandbox isolation
 - [?] Plugin metrics dashboard (call latency, error rate per plugin)
-- [ ] Remote plugin loading from OCI registries
+- [x] Remote plugin loading from OCI registries
 - [?] Plugin SDK with C++, Python, and Go bindings
 - [?] Community plugin repository with automated security scanning
 
