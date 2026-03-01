@@ -122,12 +122,11 @@ Implementation tasks:
 - [ ] Rollback mechanism
 - [ ] Version history retention policy
 
-### Event-Driven Task Execution
-**Target:** v1.9.0
+### ~~Event-Driven Task Execution~~ ✅ CDC Integration Implemented (v0.0.32)
 
 Implementation tasks:
 - [ ] Event source abstraction
-- [ ] CDC integration
+- [x] CDC integration (changefeed → task execution via `EventTrigger` / `EventTriggerManager`)
 - [ ] Webhook receiver
 - [ ] Message queue integration
 - [ ] Event filter DSL

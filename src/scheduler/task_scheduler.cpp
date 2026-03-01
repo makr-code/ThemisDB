@@ -265,18 +265,28 @@ TaskScheduler::~TaskScheduler() {
 // ===== Lifecycle =====
 
 void TaskScheduler::start() {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
-    
-    if (running_.load()) {
-        THEMIS_WARN("TaskScheduler already running");
-        return;
+    size_t task_count = 0;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        
+        if (running_.load()) {
+            THEMIS_WARN("TaskScheduler already running");
+            return;
+        }
+        
+        running_.store(true);
+        scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
+        task_count = tasks_.size();
+    }
+
+    // Restart any event triggers that were stopped (e.g. after a previous stop()).
+    // Called outside tasks_mutex_ to avoid lock inversion with the trigger callback.
+    if (event_trigger_manager_) {
+        event_trigger_manager_->startAll();
     }
     
-    running_.store(true);
-    scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
-    
     THEMIS_INFO("TaskScheduler started with {} tasks, check interval: {}s",
-                tasks_.size(), 
+                task_count, 
                 config_.check_interval.count() / 1000);
 }
 
@@ -324,6 +334,11 @@ void TaskScheduler::stop() {
             }
         }
         running_task_threads_.clear();
+    }
+
+    // Stop event triggers to prevent CDC-triggered execution after stop()
+    if (event_trigger_manager_) {
+        event_trigger_manager_->stopAll();
     }
     
     if (config_.persist_tasks) {
@@ -2225,6 +2240,12 @@ void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task,
     // Check if task is enabled
     if (!task->enabled) {
         THEMIS_DEBUG("Task {} is disabled, skipping execution", task->id);
+        return;
+    }
+
+    // Check if scheduler has been stopped
+    if (!running_.load()) {
+        THEMIS_DEBUG("Task {} CDC event ignored: scheduler is not running", task->id);
         return;
     }
 
