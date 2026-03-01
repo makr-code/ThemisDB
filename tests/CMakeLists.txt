@@ -982,16 +982,6 @@ set_tests_properties(SessionManagerTests PROPERTIES
     TIMEOUT 60
 )
 
-# Build info and isModuleCompiledIn() runtime module availability check (subset of AllTests)
-# Covers: BuildConfiguration, BuildInfo, ModuleQuery (isModuleCompiledIn, getCompiledModules,
-#         getDisabledModules), ReproducibilityInfo, BuildManifest
-#         (from tests/test_build_info.cpp)
-add_test(NAME BuildInfoTests
-    COMMAND themis_tests --gtest_filter=BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*)
-set_tests_properties(BuildInfoTests PROPERTIES
-    LABELS "build_info;themis;unit"
-    TIMEOUT 60
-)
 # Disabled: Missing implementation
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
 if(FALSE)
@@ -2587,15 +2577,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
     )
 
     target_link_libraries(test_tenant_transaction_namespace PRIVATE
-# Transaction Bulk API Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
-    message(STATUS "Adding Transaction Bulk API tests")
-
-    add_executable(test_transaction_bulk
-        test_transaction_bulk.cpp
-    )
-
-    target_link_libraries(test_transaction_bulk PRIVATE
         ${TEST_LIBS}
         themis_core
         RocksDB::rocksdb
@@ -2617,20 +2598,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
     message(STATUS "  Tenant Transaction Namespace: tenant-scoped keys, per-tenant stats, abortTenantTransactions")
 else()
     message(STATUS "Per-tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
-    target_compile_definitions(test_transaction_bulk PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
-
-    set_tests_properties(TransactionBulkTests PROPERTIES
-        LABELS "transaction;bulk;batch;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  Transaction Bulk: bulkPutEntities, bulkEraseEntities, batch insert/update/delete without per-row overhead")
-else()
-    message(STATUS "Transaction Bulk tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_bulk.cpp")
 endif()
 
 # Utilities Comprehensive Tests
@@ -2976,38 +2943,10 @@ else()
 endif()
 
 # Distributed Vector Index across Shards (Issue #1879)
+# Note: test_distributed_vector_index is already defined as a standalone target
+# in cmake/CMakeLists.txt; defining it here would create a duplicate-target error.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
-    message(STATUS "Adding Distributed Vector Index tests (Issue #1879)")
-
-    add_executable(test_distributed_vector_index
-        index/test_distributed_vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/distributed_vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/ann_index.cpp
-    )
-
-    target_include_directories(test_distributed_vector_index PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-    )
-
-    target_link_libraries(test_distributed_vector_index PRIVATE
-        ${TEST_LIBS}
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_distributed_vector_index PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME DistributedVectorIndexTests COMMAND test_distributed_vector_index)
-
-    set_tests_properties(DistributedVectorIndexTests PROPERTIES
-        LABELS "index;distributed;vector;shards;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  DistributedVectorIndex: insert/remove, scatter-gather KNN, shard routing, stats")
-else()
-    message(STATUS "Distributed Vector Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
+    message(STATUS "  DistributedVectorIndex tests are built via cmake/CMakeLists.txt")
 endif()
 
 # Cold/Warm Tier Index Migration Tests (Issue #2407)
