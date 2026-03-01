@@ -584,67 +584,96 @@ std::vector<AlertRule> AlertRuleManager::listRules() const {
 
 int AlertRuleManager::evaluateRules(const std::map<std::string, double>& metrics,
                                     Alertmanager& alertmanager) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // Phase 1: snapshot the required actions while holding the lock.
+    // No external calls (alertmanager) are made here to keep the critical section short.
+    struct FireAction {
+        std::string rule_id;
+        std::string metric_name;  // captured for logging, avoids map look-up after lock release
+        Alert       alert;
+    };
+    struct ResolveAction {
+        std::string rule_id;
+        std::string alert_id;
+    };
 
-    int triggered = 0;
+    std::vector<FireAction>    to_fire;
+    std::vector<ResolveAction> to_resolve;
+    int already_firing = 0;
 
-    for (auto& [rule_id, rule] : rules_) {
-        if (!rule.enabled) continue;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
 
-        auto metric_it = metrics.find(rule.metric_name);
-        if (metric_it == metrics.end()) {
-            THEMIS_DEBUG("AlertRuleManager: metric '{}' not present in snapshot (rule '{}')",
-                         rule.metric_name, rule_id);
-            continue;
+        for (const auto& [rule_id, rule] : rules_) {
+            if (!rule.enabled) continue;
+
+            auto metric_it = metrics.find(rule.metric_name);
+            if (metric_it == metrics.end()) {
+                THEMIS_DEBUG("AlertRuleManager: metric '{}' not present in snapshot (rule '{}')",
+                             rule.metric_name, rule_id);
+                continue;
+            }
+
+            const double value     = metric_it->second;
+            const bool   firing    = evaluateCondition(value, rule.op, rule.threshold);
+            const bool   was_active = (active_rule_alerts_.count(rule_id) > 0);
+
+            if (firing && !was_active) {
+                Alert alert;
+                alert.alert_id   = rule_id + "_alert";
+                alert.alert_name = rule.rule_name.empty() ? rule_id : rule.rule_name;
+                alert.severity   = rule.severity;
+                alert.status     = AlertStatus::FIRING;
+                alert.message    = rule.message_template.empty()
+                                       ? (rule.metric_name + " threshold exceeded")
+                                       : expandMessage(rule.message_template, rule.metric_name, value);
+                alert.labels     = rule.labels;
+                alert.labels["rule_id"]     = rule_id;
+                alert.labels["metric_name"] = rule.metric_name;
+                alert.annotations           = rule.annotations;
+                to_fire.push_back({rule_id, rule.metric_name, std::move(alert)});
+            } else if (!firing && was_active) {
+                to_resolve.push_back({rule_id, active_rule_alerts_[rule_id]});
+            } else if (firing) {
+                ++already_firing;
+            }
         }
+    } // lock released – alertmanager calls happen outside the critical section
 
-        const double value    = metric_it->second;
-        const bool   firing   = evaluateCondition(value, rule.op, rule.threshold);
-        const bool   was_active = (active_rule_alerts_.count(rule_id) > 0);
-
-        if (firing && !was_active) {
-            // Condition newly met – fire the alert.
-            Alert alert;
-            alert.alert_id   = rule_id + "_alert";
-            alert.alert_name = rule.rule_name.empty() ? rule_id : rule.rule_name;
-            alert.severity   = rule.severity;
-            alert.status     = AlertStatus::FIRING;
-            alert.message    = rule.message_template.empty()
-                                   ? (rule.metric_name + " threshold exceeded")
-                                   : expandMessage(rule.message_template, rule.metric_name, value);
-            alert.labels     = rule.labels;
-            alert.labels["rule_id"]     = rule_id;
-            alert.labels["metric_name"] = rule.metric_name;
-            alert.annotations           = rule.annotations;
-
-            auto res = alertmanager.sendAlert(alert);
+    // Phase 2: fire new alerts outside the lock.
+    int newly_fired = 0;
+    for (auto& action : to_fire) {
+        auto res = alertmanager.sendAlert(action.alert);
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
             if (res) {
-                active_rule_alerts_[rule_id] = alert.alert_id;
-                THEMIS_INFO("AlertRuleManager: rule '{}' fired (metric={}, value={})",
-                            rule_id, rule.metric_name, value);
+                active_rule_alerts_[action.rule_id] = action.alert.alert_id;
+                THEMIS_INFO("AlertRuleManager: rule '{}' fired (metric={}, alert_id={})",
+                            action.rule_id, action.metric_name, action.alert.alert_id);
             } else {
                 THEMIS_WARN("AlertRuleManager: failed to send alert for rule '{}': {}",
-                            rule_id, res.error().message());
+                            action.rule_id, res.error().message());
             }
-            ++triggered;
-        } else if (!firing && was_active) {
-            // Condition no longer met – resolve the alert.
-            const std::string alert_id = active_rule_alerts_[rule_id];
-            auto res = alertmanager.resolveAlert(alert_id);
+        }
+        ++newly_fired;
+    }
+
+    // Phase 3: resolve cleared alerts outside the lock.
+    for (auto& action : to_resolve) {
+        auto res = alertmanager.resolveAlert(action.alert_id);
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
             if (res) {
-                active_rule_alerts_.erase(rule_id);
-                THEMIS_INFO("AlertRuleManager: rule '{}' resolved (metric={}, value={})",
-                            rule_id, rule.metric_name, value);
+                active_rule_alerts_.erase(action.rule_id);
+                THEMIS_INFO("AlertRuleManager: rule '{}' resolved (alert_id={})",
+                            action.rule_id, action.alert_id);
             } else {
                 THEMIS_WARN("AlertRuleManager: failed to resolve alert for rule '{}': {}",
-                            rule_id, res.error().message());
+                            action.rule_id, res.error().message());
             }
-        } else if (firing) {
-            ++triggered;
         }
     }
 
-    return triggered;
+    return already_firing + newly_fired;
 }
 
 void AlertRuleManager::clearRules() {

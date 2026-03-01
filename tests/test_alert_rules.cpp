@@ -21,6 +21,9 @@
 
 #include <gtest/gtest.h>
 #include "observability/alertmanager.h"
+#include <atomic>
+#include <thread>
+#include <type_traits>
 
 using namespace themis;
 using namespace themis::observability;
@@ -390,4 +393,56 @@ TEST(AlertRuleLabelTest, LabelsAttachedToFiredAlert) {
     EXPECT_EQ(alerts[0].labels.at("env"), "production");
     EXPECT_EQ(alerts[0].labels.at("metric_name"), "themis_cpu");
     EXPECT_EQ(alerts[0].labels.at("rule_id"), "label_rule");
+}
+
+// ============================================================================
+// Compile-time check: AlertRuleManager must not be movable (std::mutex member)
+// ============================================================================
+static_assert(!std::is_move_constructible<AlertRuleManager>::value,
+              "AlertRuleManager must not be move-constructible (contains std::mutex)");
+static_assert(!std::is_move_assignable<AlertRuleManager>::value,
+              "AlertRuleManager must not be move-assignable (contains std::mutex)");
+
+// ============================================================================
+// Concurrency Tests
+// ============================================================================
+
+TEST(AlertRuleConcurrencyTest, CrudDuringEvaluateRules_DoesNotDeadlock) {
+    // Verify that addRule/removeRule can run concurrently with evaluateRules
+    // without deadlock or data corruption.
+    AlertRuleManager mgr;
+    DefaultAlertmanager am(makeDisabledAlertmanager());
+
+    // Seed some initial rules
+    for (int i = 0; i < 5; ++i) {
+        mgr.addRule(makeRule("pre_" + std::to_string(i), "themis_cpu",
+                             AlertRuleOperator::GREATER_THAN, 80.0));
+    }
+
+    std::atomic<bool> done{false};
+    std::map<std::string, double> hot_metrics{{"themis_cpu", 99.0}};
+
+    // Thread A: evaluate rules until CRUD thread signals completion
+    std::thread eval_thread([&] {
+        while (!done.load(std::memory_order_acquire)) {
+            mgr.evaluateRules(hot_metrics, am);
+        }
+    });
+
+    // Thread B: add and remove rules concurrently
+    std::thread crud_thread([&] {
+        for (int i = 0; i < 10; ++i) {
+            std::string id = "concurrent_" + std::to_string(i);
+            mgr.addRule(makeRule(id, "themis_cpu",
+                                 AlertRuleOperator::GREATER_THAN, 50.0));
+            mgr.removeRule(id);
+        }
+        done = true;
+    });
+
+    eval_thread.join();
+    crud_thread.join();
+
+    // No assertion beyond "did not deadlock or crash"
+    SUCCEED();
 }

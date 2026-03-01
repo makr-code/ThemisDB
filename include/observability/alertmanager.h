@@ -269,11 +269,11 @@ public:
     AlertRuleManager() = default;
     ~AlertRuleManager() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable (std::mutex member is not movable)
     AlertRuleManager(const AlertRuleManager&) = delete;
     AlertRuleManager& operator=(const AlertRuleManager&) = delete;
-    AlertRuleManager(AlertRuleManager&&) = default;
-    AlertRuleManager& operator=(AlertRuleManager&&) = default;
+    AlertRuleManager(AlertRuleManager&&) = delete;
+    AlertRuleManager& operator=(AlertRuleManager&&) = delete;
 
     /**
      * Register a new alert rule.
