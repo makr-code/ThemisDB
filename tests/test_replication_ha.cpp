@@ -4,16 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25                                        ║
+  Last Modified:   2026-03-01                                        ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
-    • Total Lines:     3662                                           ║
+    • Total Lines:     3728                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • (current)        2026-03-01  feat(replication): witness node tests (7 cases) ║
     • a44a64287  2026-02-22  Add unit tests for getTopologySnapshot and fix stale meta... ║
     • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
     • 3e791276b  2026-02-22  fix(replication): fix lease read test assertion for empty... ║
@@ -35,6 +36,7 @@
  *   5. LeaderElection quorum-based promotion
  *   6. Thread-safe replica list operations
  *   7. Error handling in replicate()
+ *   8. Witness node support (vote-only, no data) for 2-node cluster quorum
  */
 
 #include <gtest/gtest.h>
