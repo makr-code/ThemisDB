@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_rate_limiter.h                                ║
   Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:15                                ║
+  Last Modified:   2026-03-01                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     302                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
@@ -23,6 +23,7 @@
 #pragma once
 
 #include "server/rate_limiter.h"
+#include "utils/audit_logger.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -298,6 +299,15 @@ public:
      *   - CREDENTIAL_STUFFING_SUSPECTED – one IP tried many distinct usernames
      */
     void setAnomalyCallback(AuthAnomalyCallback callback);
+
+    /**
+     * @brief Attach an audit logger for structured anomaly event logging.
+     *
+     * When set, every anomaly event (brute-force, credential stuffing, account
+     * lockout) is forwarded to the audit logger in addition to the anomaly
+     * callback.  Pass nullptr to detach.  Does not take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger);
     
     /**
      * @brief Update configuration at runtime
@@ -354,6 +364,7 @@ private:
     // called safely while stats_mutex_ is held.
     mutable std::mutex callback_mutex_;
     AuthAnomalyCallback anomaly_callback_;
+    utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning; may be nullptr.
     void fireAuthAnomaly(AuthAnomalyEvent::Type type,
                          const std::string& ip,
                          const std::string& user_id,

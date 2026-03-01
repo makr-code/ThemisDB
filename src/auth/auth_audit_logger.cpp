@@ -206,5 +206,39 @@ void AuthAuditLogger::logZeroTrustDenied(const std::string& user_id,
          "zero_trust/" + resource, d);
 }
 
+// ---------------------------------------------------------------------------
+// Anomaly detection events (brute-force, credential stuffing)
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logBruteForceDetected(const std::string& user_id,
+                                            const std::string& ip,
+                                            size_t failed_attempts)
+{
+    nlohmann::json d;
+    d["ip"]              = ip;
+    d["failed_attempts"] = failed_attempts;
+    emit(utils::SecurityEventType::BRUTE_FORCE_DETECTED, user_id,
+         "auth/brute_force", d);
+}
+
+void AuthAuditLogger::logCredentialStuffingSuspected(const std::string& ip,
+                                                     size_t distinct_users)
+{
+    nlohmann::json d;
+    d["ip"]            = ip;
+    d["distinct_users"] = distinct_users;
+    emit(utils::SecurityEventType::SUSPICIOUS_ACTIVITY, "",
+         "auth/credential_stuffing", d);
+}
+
+void AuthAuditLogger::logAccountLockoutTriggered(const std::string& user_id,
+                                                 const std::string& ip)
+{
+    nlohmann::json d;
+    d["ip"] = ip;
+    emit(utils::SecurityEventType::BRUTE_FORCE_DETECTED, user_id,
+         "auth/account_lockout", d);
+}
+
 } // namespace auth
 } // namespace themis
