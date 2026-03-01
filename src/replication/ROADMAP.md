@@ -82,7 +82,6 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [~] Multi-region active-active with bounded staleness guarantees
 - [P] Schema-aware CDC with Avro/Protobuf schema registry integration
 - [ ] Conflict-free Replicated Data Types (CRDT) library expansion
-- [x] Kubernetes operator for automated topology management
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (177 test cases including 31 cross-cluster pub/sub tests and 7 witness-node tests)
