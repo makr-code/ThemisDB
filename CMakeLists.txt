@@ -180,6 +180,10 @@ option(THEMIS_ENABLE_PMU_COUNTERS
        "Enable hardware performance counters via perf (overhead: ~10-50%)" 
        OFF)
 
+option(THEMIS_ENABLE_IO_URING
+       "Enable io_uring zero-copy I/O path for network performance (Linux ≥ 5.1 only)"
+       OFF)
+
 option(THEMIS_ENABLE_METRICS_EXPORT 
        "Enable Prometheus/CHIMERA export (adds async overhead)" 
        OFF)
@@ -255,6 +259,11 @@ endif()
 if(THEMIS_ENABLE_PMU_COUNTERS)
     add_compile_definitions(THEMIS_ENABLE_PMU_COUNTERS)
     message(STATUS "PMU counters: ENABLED")
+endif()
+
+if(THEMIS_ENABLE_IO_URING)
+    add_compile_definitions(THEMIS_ENABLE_IO_URING)
+    message(STATUS "io_uring zero-copy I/O: ENABLED")
 endif()
 
 if(THEMIS_ENABLE_METRICS_EXPORT)
