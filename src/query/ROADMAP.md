@@ -42,7 +42,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ### Long-term (6-12 months)
 - [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
 - [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
-- [I] Cross-cluster federated AQL with cost estimation (Issue: #2233)
+- [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
 - [I] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
 
@@ -78,7 +78,14 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
 - [ ] Vectorized execution engine (column-store style batch processing)
 - [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
-- [ ] Cross-cluster federated AQL with cost estimation
+- [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
+  - Implemented in `include/query/cross_cluster_federation.h` (`ClusterEndpoint`, `ClusterCostEstimate`, `CrossClusterFederator`)
+    and `src/query/cross_cluster_federation.cpp`
+  - Connects to independent ThemisDB instances via their HTTP `/query/aql` endpoint
+  - Cost model: `total_cost = (estimated_rows × 0.001) + (network_latency_ms × 1.0)`
+  - Optional cost-based pruning: exclude clusters whose cost exceeds a configurable multiple of the cheapest cluster
+  - Parallel execution via `std::async`; injectable `HttpPostFn` test double for unit tests
+  - Tests: `tests/test_cross_cluster_federation.cpp` (28 unit tests)
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
 - [ ] SPARQL compatibility for RDF / knowledge-graph queries
 

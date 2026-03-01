@@ -1537,6 +1537,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
+    ../src/query/cross_cluster_federation.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
