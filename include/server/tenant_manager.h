@@ -42,6 +42,11 @@ struct TenantConfig {
     std::string display_name;               // Human-readable tenant name
     bool enabled = true;                    // Tenant enabled/disabled
     
+    // Custom domain routing: domains whose Host header maps to this tenant.
+    // Examples: {"acme.example.com", "www.acme.com"}
+    // Ports are stripped before matching (e.g., "acme.example.com:8443" -> "acme.example.com").
+    std::vector<std::string> custom_domains;
+    
     // Resource quotas
     uint64_t max_storage_bytes = 0;         // 0 = unlimited
     uint64_t max_documents = 0;             // 0 = unlimited
@@ -163,7 +168,13 @@ public:
         // Tenant identification method
         std::string tenant_header = "X-Tenant-ID";     // Header for tenant ID
         std::string tenant_path_prefix = "/tenants/";  // Path prefix for tenant routing
-        
+
+        // Custom domain routing: header whose value is matched against
+        // per-tenant custom_domains.  Set to "Host" for standard HTTP/1.1
+        // routing; use ":authority" for raw HTTP/2 pseudo-headers if the
+        // session layer normalises them before passing headers here.
+        std::string custom_domain_host_header = "Host";
+
         // Default tenant for single-tenant deployments
         std::string default_tenant_id = "default";
         bool allow_default_tenant = true;              // Allow requests without tenant ID
@@ -209,6 +220,23 @@ public:
         const std::unordered_map<std::string, std::string>& headers,
         std::string_view path
     ) const;
+
+    // Custom domain routing management.
+    // Registers a domain -> tenant mapping so that incoming requests whose
+    // Host (or configured custom_domain_host_header) value matches `domain`
+    // are routed to `tenant_id`.  The domain is stored in lower-case.
+    // Returns false when the domain is already registered to a different tenant
+    // or when the tenant does not exist.
+    bool registerCustomDomain(std::string_view tenant_id, std::string_view domain);
+
+    // Removes a previously registered custom domain mapping.
+    // Returns true when the mapping existed and was removed.
+    bool unregisterCustomDomain(std::string_view domain);
+
+    // Looks up the tenant ID for a custom domain (case-insensitive).
+    // Strips a trailing port (":NNN") from `host` before matching.
+    // Returns an empty optional when no mapping exists.
+    std::optional<std::string> lookupTenantByDomain(std::string_view host) const;
 
     // Strip tenant path prefix from a URL path for namespace routing.
     // For path-based tenant routing, removes the "/tenants/{id}/" prefix so
@@ -280,9 +308,18 @@ private:
     Config config_;
     std::unordered_map<std::string, TenantConfig> tenants_;
     std::unordered_map<std::string, std::unique_ptr<TenantUsage>> usage_;
+    // Reverse index: lower-case domain -> tenant_id
+    std::unordered_map<std::string, std::string> domain_to_tenant_;
     
     // Helper to create default tenant
     void ensureDefaultTenant();
+
+    // Rebuild the domain_to_tenant_ index from current tenants_ map.
+    // Must be called with mutex_ held.
+    void rebuildDomainIndex();
+
+    // Returns lower-case copy of `host` with optional ":port" suffix stripped.
+    static std::string normaliseDomain(std::string_view host);
 };
 
 /**
