@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     500                                             ║
+    • Total Lines:     594                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -97,7 +97,7 @@ static std::shared_ptr<StubEngine> makeEngine(bool apply_ok   = true,
     return std::make_shared<StubEngine>(apply_ok, rollback_ok);
 }
 
-/// Build a 3-node config: node-0 (seq=0), node-1 (seq=1, leader).
+/// Build a 2-node config: node-0 (seq=0), node-1 (seq=1, leader).
 static CoordinatedUpdateConfig make2NodeConfig(
     const std::string& local_id,
     bool leader_last = true)
