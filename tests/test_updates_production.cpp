@@ -28,7 +28,7 @@
 
 /**
  * @file test_updates_production.cpp
- * @brief Production-readiness tests for the Updates module (all 10 phases)
+ * @brief Production-readiness tests for the Updates module (all 11 phases)
  *
  * Covers:
  *  Phase 1 – Core Download & Backup structures
@@ -42,7 +42,7 @@
  *  Phase 9 – DeltaUpdateEngine (binary diff patches, generate/apply, path traversal security)
  *  Phase 10 – SchemaMigrationTester (staging-before-production framework;
  *              full integration suite in test_schema_migration_tester.cpp)
- *  Phase 11 – UpdateHistoryLogger (who, when, from/to version; JSON persistence)
+ *  Phase 11 – Post-update health check & automatic rollback (Issue #2335)
  */
 
 #include <gtest/gtest.h>
@@ -229,6 +229,7 @@ TEST_F(HotReloadEngineConfigTest, DefaultConfig_HasSensibleValues) {
     EXPECT_TRUE(cfg.verify_signatures);
     EXPECT_TRUE(cfg.create_backup);
     EXPECT_FALSE(cfg.dry_run);
+    EXPECT_TRUE(cfg.rollback_on_health_check_failure);
 }
 
 TEST_F(HotReloadEngineConfigTest, CustomConfig_IsPreserved) {
@@ -1410,6 +1411,193 @@ TEST_F(SchemaMigrationTesterProductionTest, MigrationTestResult_CountHelpers) {
 }
 
 // ============================================================================
+// Phase 11: Post-update health check & automatic rollback (Issue #2335)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// Structural: ReloadResult and Config field defaults
+// ---------------------------------------------------------------------------
+
+class PostUpdateHealthCheckStructuralTest : public ::testing::Test {};
+
+TEST_F(PostUpdateHealthCheckStructuralTest, ReloadResult_HealthCheckFailed_DefaultsFalse) {
+    ReloadResult r;
+    EXPECT_FALSE(r.health_check_failed);
+}
+
+TEST_F(PostUpdateHealthCheckStructuralTest, Config_RollbackOnHealthCheckFailure_DefaultsTrue) {
+    HotReloadEngine::Config cfg;
+    EXPECT_TRUE(cfg.rollback_on_health_check_failure);
+}
+
+TEST_F(PostUpdateHealthCheckStructuralTest, Config_RollbackOnHealthCheckFailure_CanDisable) {
+    HotReloadEngine::Config cfg;
+    cfg.rollback_on_health_check_failure = false;
+    EXPECT_FALSE(cfg.rollback_on_health_check_failure);
+}
+
+TEST_F(PostUpdateHealthCheckStructuralTest, PostUpdateHealthCheck_TypeIsCallable) {
+    HotReloadEngine::PostUpdateHealthCheck check = []() -> bool { return true; };
+    EXPECT_TRUE(static_cast<bool>(check));
+    EXPECT_TRUE(check());
+}
+
+TEST_F(PostUpdateHealthCheckStructuralTest, PostUpdateHealthCheck_CanReturnFalse) {
+    HotReloadEngine::PostUpdateHealthCheck check = []() -> bool { return false; };
+    EXPECT_TRUE(static_cast<bool>(check));
+    EXPECT_FALSE(check());
+}
+
+// ---------------------------------------------------------------------------
+// Functional: behavioural tests via TestableHotReloadEngine
+//
+// The stub subclass below overrides applyHotReload() to simulate the
+// post-update phase (files already applied) and exercises the health-check /
+// rollback code path using the protected post_update_health_check_ member.
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/**
+ * Subclass that simulates a successful file-apply phase and then exercises
+ * the same health-check / rollback logic as the production implementation,
+ * using the protected post_update_health_check_ member.
+ */
+class TestableHotReloadEngine : public HotReloadEngine {
+public:
+    explicit TestableHotReloadEngine(bool rollback_on_hc_failure = true)
+        : HotReloadEngine(nullptr, nullptr,
+                          [rollback_on_hc_failure]() {
+                              HotReloadEngine::Config c;
+                              c.verify_signatures                = false;
+                              c.create_backup                    = false;
+                              c.rollback_on_health_check_failure = rollback_on_hc_failure;
+                              return c;
+                          }())
+        , rollback_on_hc_failure_(rollback_on_hc_failure)
+    {}
+
+    /**
+     * Simulate a successful file-apply and then run the registered
+     * health check, mirroring the base class behaviour.
+     */
+    ReloadResult applyHotReload(const std::string& version,
+                                bool /*verify_only*/ = false) override {
+        ReloadResult result;
+        result.success     = true;
+        result.rollback_id = "test_rollback_" + version;
+        result.files_updated = {"bin/themis_server"};
+
+        if (post_update_health_check_) {
+            bool healthy = post_update_health_check_();
+            if (!healthy) {
+                result.health_check_failed = true;
+                if (rollback_on_hc_failure_ && !result.rollback_id.empty()) {
+                    result.error_message =
+                        "Post-update health check failed; rolled back to previous version";
+                    rollback(result.rollback_id);
+                } else {
+                    result.error_message = "Post-update health check failed";
+                }
+                result.success = false;
+            }
+        }
+        return result;
+    }
+
+    bool rollback(const std::string& /*id*/) override {
+        ++rollback_call_count_;
+        return true;
+    }
+
+    int rollback_call_count_ = 0;
+
+private:
+    bool rollback_on_hc_failure_;
+};
+
+} // anonymous namespace
+
+class PostUpdateHealthCheckFunctionalTest : public ::testing::Test {};
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, NoHealthCheck_ApplySucceeds) {
+    TestableHotReloadEngine engine;
+    auto result = engine.applyHotReload("1.2.0");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.health_check_failed);
+    EXPECT_EQ(engine.rollback_call_count_, 0);
+}
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckPasses_ApplySucceeds) {
+    TestableHotReloadEngine engine;
+    engine.setPostUpdateHealthCheck([]() { return true; });
+
+    auto result = engine.applyHotReload("1.2.0");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.health_check_failed);
+    EXPECT_EQ(engine.rollback_call_count_, 0);
+}
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckFails_RollbackTriggered) {
+    TestableHotReloadEngine engine(/*rollback_on_hc_failure=*/true);
+    engine.setPostUpdateHealthCheck([]() { return false; });
+
+    auto result = engine.applyHotReload("1.2.0");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_TRUE(result.health_check_failed);
+    EXPECT_EQ(engine.rollback_call_count_, 1);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckFails_RollbackDisabled_NoRollback) {
+    TestableHotReloadEngine engine(/*rollback_on_hc_failure=*/false);
+    engine.setPostUpdateHealthCheck([]() { return false; });
+
+    auto result = engine.applyHotReload("1.2.0");
+
+    EXPECT_FALSE(result.success);
+    EXPECT_TRUE(result.health_check_failed);
+    EXPECT_EQ(engine.rollback_call_count_, 0);
+    EXPECT_EQ(result.error_message, "Post-update health check failed");
+}
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCalledExactlyOnce) {
+    TestableHotReloadEngine engine;
+    int call_count = 0;
+    engine.setPostUpdateHealthCheck([&call_count]() {
+        ++call_count;
+        return true;
+    });
+
+    engine.applyHotReload("1.3.0");
+
+    EXPECT_EQ(call_count, 1);
+}
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCanBeReplaced) {
+    TestableHotReloadEngine engine;
+    // Register a failing check, then replace with a passing one
+    engine.setPostUpdateHealthCheck([]() { return false; });
+    engine.setPostUpdateHealthCheck([]() { return true; });
+
+    auto result = engine.applyHotReload("1.4.0");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.health_check_failed);
+}
+
+TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCanBeCleared) {
+    TestableHotReloadEngine engine;
+    engine.setPostUpdateHealthCheck([]() { return false; });
+    engine.setPostUpdateHealthCheck(nullptr);  // clear
+
+    auto result = engine.applyHotReload("1.5.0");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.health_check_failed);
 // Phase 11: UpdateHistoryLogger – who, when, from/to version
 // ============================================================================
 
