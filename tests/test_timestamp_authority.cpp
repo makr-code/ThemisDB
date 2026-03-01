@@ -492,6 +492,134 @@ TEST_F(TimestampAuthorityTest, RFC3161_CertificateExtraction) {
 }
 
 // ============================================================================
+// Stub Production-Mode Guard Tests
+// These tests only apply to the stub implementation (no OpenSSL).
+// ============================================================================
+
+#ifndef THEMIS_USE_OPENSSL_TSA
+
+// Helper RAII guard for environment variables (portable across POSIX and Windows)
+struct EnvGuard {
+    const char* name;
+    std::string previous;
+    bool had_previous;
+
+    explicit EnvGuard(const char* var, const char* value) : name(var) {
+        const char* existing = std::getenv(var);
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+#ifdef _WIN32
+        _putenv_s(var, value);
+#else
+        ::setenv(var, value, 1);
+#endif
+    }
+
+    ~EnvGuard() {
+#ifdef _WIN32
+        if (had_previous) _putenv_s(name, previous.c_str());
+        else              _putenv_s(name, "");
+#else
+        if (had_previous) ::setenv(name, previous.c_str(), 1);
+        else              ::unsetenv(name);
+#endif
+    }
+};
+
+// RAII guard that unsets an environment variable for the duration of a scope
+struct EnvUnsetGuard {
+    const char* name;
+    std::string previous;
+    bool had_previous;
+
+    explicit EnvUnsetGuard(const char* var) : name(var) {
+        const char* existing = std::getenv(var);
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+#ifdef _WIN32
+        _putenv_s(var, "");
+#else
+        ::unsetenv(var);
+#endif
+    }
+
+    ~EnvUnsetGuard() {
+#ifdef _WIN32
+        if (had_previous) _putenv_s(name, previous.c_str());
+        else              _putenv_s(name, "");
+#else
+        if (had_previous) ::setenv(name, previous.c_str(), 1);
+        else              ::unsetenv(name);
+#endif
+    }
+};
+
+TEST_F(TimestampAuthorityTest, StubRefusesInProductionMode) {
+    // Activate production mode via environment variable
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    // Ensure the explicit opt-in is NOT set
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    std::vector<uint8_t> data = {'P', 'r', 'o', 'd', 'T', 'e', 's', 't'};
+    auto token = tsa.getTimestamp(data);
+
+    EXPECT_FALSE(token.success) << "Stub must refuse to issue tokens in production mode";
+    EXPECT_FALSE(token.error_message.empty()) << "Error message must explain the rejection";
+}
+
+TEST_F(TimestampAuthorityTest, StubRefusesForHashInProductionMode) {
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    std::vector<uint8_t> hash(32, 0xAB);
+    auto token = tsa.getTimestampForHash(hash);
+
+    EXPECT_FALSE(token.success) << "Stub must refuse getTimestampForHash in production mode";
+    EXPECT_FALSE(token.error_message.empty());
+}
+
+TEST_F(TimestampAuthorityTest, StubAllowedWhenExplicitlyPermitted) {
+    // Production mode ON but explicit override also set
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    EnvGuard stub_guard("THEMIS_ALLOW_TSA_STUB", "1");
+
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    std::vector<uint8_t> data = {'A', 'l', 'l', 'o', 'w', 'e', 'd'};
+    auto token = tsa.getTimestamp(data);
+
+    // With THEMIS_ALLOW_TSA_STUB=1 the stub should succeed even in production mode
+    EXPECT_TRUE(token.success) << "Stub must work when THEMIS_ALLOW_TSA_STUB=1";
+    EXPECT_EQ(token.serial_number, "STUB-SERIAL");
+}
+
+TEST_F(TimestampAuthorityTest, eIDASValidatorRefusesInProductionMode) {
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TimestampToken token;
+    token.success = true;
+    token.timestamp_unix_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    eIDASTimestampValidator validator;
+    std::vector<std::string> trust_anchors = {"ca.pem"};
+
+    bool result = validator.validateeIDASTimestamp(token, trust_anchors);
+    EXPECT_FALSE(result) << "eIDAS validator stub must refuse in production mode";
+
+    auto errors = validator.getValidationErrors();
+    EXPECT_FALSE(errors.empty()) << "Validation errors must explain the rejection";
+}
+
+#endif // !THEMIS_USE_OPENSSL_TSA
 // TSAConfig Auth / TLS Configuration Tests
 // ============================================================================
 
