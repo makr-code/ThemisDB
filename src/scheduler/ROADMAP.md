@@ -25,6 +25,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
 - [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
 - [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
+- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -32,7 +33,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
+- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 - [I] Task execution history with searchable audit log (Issue: #2448)
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
@@ -61,8 +62,8 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Distributed task coordination across nodes
 - [x] Task dependency DAG execution
 
-### Phase 3: Web UI & Retry Policies (Status: Planned 📋)
-- [ ] Web UI for task management (create, monitor, pause, delete)
+### Phase 3: Web UI & Retry Policies (Status: Partially Complete 🚧)
+- [x] Web UI for task management (create, monitor, pause, delete)
 - [x] Task retry policies (max attempts, exponential back-off)
 - [x] Scheduled task output persistence (store results in ThemisDB)
 - [ ] Task execution history with searchable audit log
