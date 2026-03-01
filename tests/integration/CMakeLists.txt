@@ -130,6 +130,19 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/encryption_key_rotation_integrat
     )
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/zero_trust_access_control_integration_test.cpp")
+    add_integration_test(
+        zero_trust_access_control_integration_test
+        security/zero_trust_access_control_integration_test.cpp
+    )
+    target_link_libraries(zero_trust_access_control_integration_test PRIVATE
+        themis_core
+    )
+    set_tests_properties(zero_trust_access_control_integration_test PROPERTIES
+        LABELS "integration;security;zero-trust"
+    )
+endif()
+
 # ============================================================================
 # End-to-End Integration Tests
 # ============================================================================
