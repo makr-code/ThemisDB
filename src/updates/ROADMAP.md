@@ -39,7 +39,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
   - Performance: <100 ms overhead on notify(); requires `THEMIS_ENABLE_CURL` or custom sender
   - Compatibility: additive; no existing API changed
 - [I] Automatic rollback on post-update health check failure (Issue: #2335)
-- [I] Update history log (who, when, from/to version) (Issue: #2336)
+- [x] Update history log (who, when, from/to version) (Issue: #2336)
 
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
@@ -78,7 +78,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
   - Tests: injectable `HttpSendFunc` stub, no network required; 30+ unit tests
   - Performance: 10 s HTTP timeout, 5 s connect timeout, <100 ms overhead
 - [ ] Automatic rollback on post-update health check failure
-- [ ] Update history log (who, when, from/to version)
+- [x] Update history log (who, when, from/to version)
 
 ### Phase 4: Kubernetes & Blue/Green Deployment (Status: Planned 📋)
 - [ ] Kubernetes operator integration (rolling update coordination)
