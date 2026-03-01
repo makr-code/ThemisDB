@@ -223,10 +223,29 @@ ReloadResult HotReloadEngine::applyHotReload(
         
         result.files_updated.push_back(file.path);
     }
-    
-    reportProgress(100, "Hot-reload complete");
+
+    // Run post-update health check if registered
+    if (post_update_health_check_) {
+        reportProgress(95, "Running post-update health check");
+        bool healthy = post_update_health_check_();
+        if (!healthy) {
+            result.health_check_failed = true;
+            if (config_.rollback_on_health_check_failure && !rollback_id.empty()) {
+                LOG_WARN("Post-update health check failed for version {}; rolling back to {}", version, rollback_id);
+                result.error_message = "Post-update health check failed; rolled back to previous version";
+                rollback(rollback_id);
+            } else {
+                LOG_WARN("Post-update health check failed for version {}; rollback skipped", version);
+                result.error_message = "Post-update health check failed";
+            }
+            result.success = false;
+            return result;
+        }
+        LOG_INFO("Post-update health check passed for version {}", version);
+    }
+
     result.success = true;
-    
+    reportProgress(100, "Hot-reload complete");
     LOG_INFO("Hot-reload applied successfully: {} -> {}", current_version, version);
     return result;
 }
@@ -385,6 +404,10 @@ void HotReloadEngine::setProgressCallback(
     std::function<void(int, const std::string&)> callback
 ) {
     progress_callback_ = std::move(callback);
+}
+
+void HotReloadEngine::setPostUpdateHealthCheck(PostUpdateHealthCheck check) {
+    post_update_health_check_ = std::move(check);
 }
 
 #ifdef THEMIS_ENABLE_CURL

@@ -32,7 +32,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ### Short-term (Next 3-6 months)
 - [!] Migration dry-run with detailed change preview (Issue: #2481)
 - [!] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
-- [I] Automatic rollback on post-update health check failure (Issue: #2335)
+- [x] Automatic rollback on post-update health check failure (Issue: #2335)
 - [I] Update history log (who, when, from/to version) (Issue: #2336)
 
 ### Long-term (6-12 months)
@@ -65,7 +65,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] In-place schema migration without data copy for additive changes
 - [ ] Migration dry-run with detailed change preview
 - [ ] Notification webhooks (Slack, PagerDuty) on update success/failure
-- [ ] Automatic rollback on post-update health check failure
+- [x] Automatic rollback on post-update health check failure
 - [ ] Update history log (who, when, from/to version)
 
 ### Phase 4: Kubernetes & Blue/Green Deployment (Status: Planned 📋)
