@@ -189,6 +189,12 @@ if(NOT THEMIS_ENABLE_HTTP3)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_GRPC)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_grpc_transport\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"
