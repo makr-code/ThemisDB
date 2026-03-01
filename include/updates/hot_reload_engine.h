@@ -24,6 +24,7 @@
 #pragma once
 
 #include "updates/manifest_database.h"
+#include "updates/update_history_logger.h"
 #include "utils/update_checker.h"
 #include <memory>
 #include <string>
@@ -83,6 +84,11 @@ public:
         bool verify_signatures = true;
         bool create_backup = true;
         bool dry_run = false;  // Don't actually apply changes
+        /// Path for the persistent update history log.
+        /// If empty, history logging is disabled.
+        std::string history_log_path;
+        /// Actor name written into history entries (e.g. current user).
+        std::string history_actor = "system";
     };
     
     /**
@@ -169,12 +175,19 @@ public:
     void setProgressCallback(
         std::function<void(int, const std::string&)> callback
     );
-    
+
+    /**
+     * @brief Access the update history logger.
+     * @return Pointer to the logger, or nullptr if history logging is disabled.
+     */
+    UpdateHistoryLogger* historyLogger();
+
 private:
     std::shared_ptr<ManifestDatabase> manifest_db_;
     std::shared_ptr<utils::UpdateChecker> update_checker_;
     Config config_;
     std::function<void(int, const std::string&)> progress_callback_;
+    std::unique_ptr<UpdateHistoryLogger> history_logger_;
     
     /**
      * @brief Download single file with resume support
