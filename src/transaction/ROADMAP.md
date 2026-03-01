@@ -43,10 +43,10 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Per-tenant transaction isolation namespace (Issue: #2325)
 
 ### Long-term (6-12 months)
-- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326) — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`, tests in `tests/test_distributed_saga.cpp`
 - [I] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
-- [I] Calvin protocol for deterministic distributed transactions (Issue: #2328)
-- [I] Time-travel queries against snapshot history (Issue: #2329)
+- [x] Calvin protocol for deterministic distributed transactions (Issue: #2328)
+- [x] Time-travel queries against snapshot history (Issue: #2329)
 
 ## Implementation Phases
 
@@ -77,11 +77,11 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [x] Per-tenant transaction isolation namespace
 
-### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Planned 📋)
-- [ ] Distributed SAGA orchestration across multiple nodes
+### Phase 4: Distributed SAGA & Global Transaction Manager (Status: In Progress 🚧)
+- [x] Distributed SAGA orchestration across multiple nodes
 - [ ] Global transaction manager for multi-region ACID guarantees
-- [ ] Calvin protocol for deterministic distributed transactions
-- [ ] Time-travel queries against snapshot history
+- [x] Calvin protocol for deterministic distributed transactions
+- [x] Time-travel queries against snapshot history
 - [x] Branch merge conflict resolution UI
 
 ## Production Readiness Checklist
@@ -89,7 +89,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp` (`RollbackToSavepoint_TrimsSagaSteps`, `ReleaseSavepoint_PreservesSagaSteps`, etc.); bulk API atomicity verified in `test_transaction_bulk.cpp` (`BulkPutRollbackLeavesNoData`, `BulkPutAndEraseInSameTransaction`, `BulkEraseRemovesInsertedEntities`)
 - [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
 - [?] Security audit (transaction isolation boundary, SAGA compensating action safety)
-- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
+- [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
 - [x] API stability guaranteed — `TransactionManager` public API stable from v1.x; savepoint API added as non-breaking extension
 
 ## Known Issues & Limitations

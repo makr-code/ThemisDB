@@ -480,3 +480,132 @@ TEST_F(InPlaceSchemaMigratorTest, Apply_FreshTable_EmptyFromSchema) {
     ASSERT_TRUE(tbl.has_value());
     EXPECT_EQ(tbl->properties.size(), 3u);
 }
+
+// ============================================================================
+// Phase 7: Dry-run preview (MigrationChangePreview / preview())
+// ============================================================================
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_AdditiveChange_IsValidAndAdditive) {
+    auto from = makeSchema("t", {"id", "name"});
+    auto to   = makeSchema("t", {"id", "name", "email"});
+
+    auto preview = InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_TRUE(preview.is_valid);
+    EXPECT_TRUE(preview.is_additive);
+    EXPECT_TRUE(preview.error_message.empty());
+    ASSERT_EQ(preview.added_columns.size(), 1u);
+    EXPECT_EQ(preview.added_columns[0].name, "email");
+    EXPECT_TRUE(preview.removed_columns.empty());
+    EXPECT_TRUE(preview.modified_columns.empty());
+    EXPECT_EQ(preview.changeCount(), 1u);
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_MultipleAddedColumns) {
+    auto from = makeSchema("t", {"id"});
+    auto to   = makeSchema("t", {"id", "a", "b", "c"});
+
+    auto preview = InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_TRUE(preview.is_valid);
+    EXPECT_TRUE(preview.is_additive);
+    ASSERT_EQ(preview.added_columns.size(), 3u);
+    EXPECT_TRUE(preview.removed_columns.empty());
+    EXPECT_TRUE(preview.modified_columns.empty());
+    EXPECT_EQ(preview.changeCount(), 3u);
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_RemovedColumn_NotValid) {
+    auto from = makeSchema("t", {"id", "name", "old_col"});
+    auto to   = makeSchema("t", {"id", "name"});
+
+    auto preview = InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_FALSE(preview.is_valid);
+    EXPECT_FALSE(preview.is_additive);
+    EXPECT_FALSE(preview.error_message.empty());
+    ASSERT_EQ(preview.removed_columns.size(), 1u);
+    EXPECT_EQ(preview.removed_columns[0].name, "old_col");
+    EXPECT_TRUE(preview.added_columns.empty());
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_IdenticalSchemas_NotValid) {
+    auto from = makeSchema("t", {"id", "name"});
+    auto to   = makeSchema("t", {"id", "name"});
+
+    auto preview = InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_FALSE(preview.is_valid);
+    EXPECT_FALSE(preview.is_additive);
+    EXPECT_FALSE(preview.error_message.empty());
+    EXPECT_EQ(preview.changeCount(), 0u);
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_TypeChange_ModifiedAndNotValid) {
+    auto from = makeSchema("t", {"id", "value"});
+    auto to   = makeSchema("t", {"id", "value", "extra"});
+    // Change "value" type to "integer"
+    to.properties[1].type = "integer";
+
+    auto preview = InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_FALSE(preview.is_valid);
+    EXPECT_FALSE(preview.is_additive);
+    ASSERT_EQ(preview.modified_columns.size(), 1u);
+    EXPECT_EQ(preview.modified_columns[0].column_name, "value");
+    EXPECT_EQ(preview.modified_columns[0].old_type, "string");
+    EXPECT_EQ(preview.modified_columns[0].new_type, "integer");
+    // Added "extra" is still captured even though migration is not valid
+    ASSERT_EQ(preview.added_columns.size(), 1u);
+    EXPECT_EQ(preview.added_columns[0].name, "extra");
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_NullabilityChange_ModifiedAndNotValid) {
+    auto from = makeSchema("t", {"id", "required_field"});
+    auto to   = makeSchema("t", {"id", "required_field", "extra"});
+    to.properties[1].nullable = false;  // was true
+
+    auto preview = InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_FALSE(preview.is_valid);
+    EXPECT_FALSE(preview.is_additive);
+    ASSERT_EQ(preview.modified_columns.size(), 1u);
+    EXPECT_EQ(preview.modified_columns[0].column_name, "required_field");
+    EXPECT_TRUE(preview.modified_columns[0].old_nullable);
+    EXPECT_FALSE(preview.modified_columns[0].new_nullable);
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_DoesNotModifyInputSchemas) {
+    // Calling preview() must leave the input schemas unchanged.
+    auto from = makeSchema("t", {"id", "name"});
+    auto to   = makeSchema("t", {"id", "name", "email"});
+
+    const size_t from_cols_before = from.properties.size();
+    const size_t to_cols_before   = to.properties.size();
+
+    InPlaceSchemaMigrator::preview(from, to);
+
+    EXPECT_EQ(from.properties.size(), from_cols_before);
+    EXPECT_EQ(to.properties.size(),   to_cols_before);
+}
+
+TEST(InPlaceSchemaMigratorPreviewTest, Preview_ConsistentWithIsAdditiveMigration) {
+    // preview().is_additive must agree with isAdditiveMigration() for all cases.
+    struct TestCase {
+        std::vector<std::string> from_cols;
+        std::vector<std::string> to_cols;
+    };
+    std::vector<TestCase> cases = {
+        {{"id", "name"},         {"id", "name", "email"}},   // additive
+        {{"id", "name"},         {"id", "name"}},             // no change
+        {{"id", "name", "old"},  {"id", "name"}},             // removed
+        {{"id"},                 {"id", "a", "b"}},           // additive multi
+    };
+    for (const auto& tc : cases) {
+        auto from = makeSchema("t", tc.from_cols);
+        auto to   = makeSchema("t", tc.to_cols);
+        auto p    = InPlaceSchemaMigrator::preview(from, to);
+        EXPECT_EQ(p.is_additive, InPlaceSchemaMigrator::isAdditiveMigration(from, to))
+            << "Mismatch for from=[" << tc.from_cols.size() << "] to=[" << tc.to_cols.size() << "]";
+    }
+}

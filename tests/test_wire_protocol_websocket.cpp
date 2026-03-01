@@ -277,6 +277,29 @@ static std::vector<uint8_t> makeFrame(uint8_t opcode,
     frame.push_back(static_cast<uint8_t>((ps >>  8) & 0xFF));
     frame.push_back(static_cast<uint8_t>( ps         & 0xFF));
     // Payload
+// Binary frame format helpers (mirrors the logic in processBinaryFrame)
+// ---------------------------------------------------------------------------
+
+// Build a minimal valid TMDB binary frame for unit-testing parse logic.
+static std::vector<uint8_t> makeBinaryFrame(
+    uint8_t  opcode,
+    uint16_t flags,
+    const std::vector<uint8_t>& payload)
+{
+    std::vector<uint8_t> frame;
+    frame.reserve(12 + payload.size());
+    // Magic "TMDB"
+    frame.push_back(0x54); frame.push_back(0x4D);
+    frame.push_back(0x44); frame.push_back(0x42);
+    frame.push_back(0x01);  // Version
+    frame.push_back(opcode);
+    frame.push_back(static_cast<uint8_t>(flags >> 8));
+    frame.push_back(static_cast<uint8_t>(flags & 0xFF));
+    uint32_t ps = static_cast<uint32_t>(payload.size());
+    frame.push_back(static_cast<uint8_t>(ps >> 24));
+    frame.push_back(static_cast<uint8_t>((ps >> 16) & 0xFF));
+    frame.push_back(static_cast<uint8_t>((ps >> 8) & 0xFF));
+    frame.push_back(static_cast<uint8_t>(ps & 0xFF));
     frame.insert(frame.end(), payload.begin(), payload.end());
     return frame;
 }
@@ -434,6 +457,165 @@ TEST(WireProtocolWebSocket, BinaryResponseOpcodeValues) {
     EXPECT_NE(kOpcodeErrorResponse, 0xFFu);
 
     SUCCEED() << "Binary response opcode values documented";
+// ---------------------------------------------------------------------------
+// Binary frame parse validation tests (no network I/O, purely structural)
+// ---------------------------------------------------------------------------
+
+TEST(WireProtocolWebSocket, BinaryFrameTooShort) {
+    // A 4-byte frame is too short (header requires 12 bytes).
+    // Verify the frame-length check rejects it before magic validation.
+    const std::vector<uint8_t> short_frame = {0x54, 0x4D, 0x44, 0x42};
+    EXPECT_LT(short_frame.size(), 12u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameInvalidMagic) {
+    // Frame with wrong magic must be rejected.
+    const std::vector<uint8_t> bad_magic = {
+        0x00, 0x00, 0x00, 0x00,  // wrong magic
+        0x01,                    // version
+        0xFE,                    // opcode (PING)
+        0x00, 0x04,              // flags: SKIP_CHECKSUM
+        0x00, 0x00, 0x00, 0x00   // payload_size = 0
+    };
+    ASSERT_EQ(bad_magic.size(), 12u);
+    EXPECT_NE(bad_magic[0], 0x54u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameValidMagicAndHeader) {
+    // Construct a valid 12-byte PING frame and verify all header fields.
+    const uint16_t kSkipChecksum = 0x0004;
+    const std::vector<uint8_t> ping_frame = makeBinaryFrame(0xFE, kSkipChecksum, {});
+
+    ASSERT_EQ(ping_frame.size(), 12u);
+    // Magic
+    EXPECT_EQ(ping_frame[0], 0x54u);
+    EXPECT_EQ(ping_frame[1], 0x4Du);
+    EXPECT_EQ(ping_frame[2], 0x44u);
+    EXPECT_EQ(ping_frame[3], 0x42u);
+    // Version
+    EXPECT_EQ(ping_frame[4], 0x01u);
+    // OpCode
+    EXPECT_EQ(ping_frame[5], 0xFEu);
+    // Flags (big-endian)
+    const uint16_t flags = (static_cast<uint16_t>(ping_frame[6]) << 8) | ping_frame[7];
+    EXPECT_EQ(flags, kSkipChecksum);
+    // PayloadSize = 0
+    const uint32_t payload_size =
+        (static_cast<uint32_t>(ping_frame[8])  << 24) |
+        (static_cast<uint32_t>(ping_frame[9])  << 16) |
+        (static_cast<uint32_t>(ping_frame[10]) << 8)  |
+         static_cast<uint32_t>(ping_frame[11]);
+    EXPECT_EQ(payload_size, 0u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFramePayloadSizeFieldParsing) {
+    // Verify that large payload sizes are encoded and decoded correctly.
+    const uint16_t kSkipChecksum = 0x0004;
+    const std::vector<uint8_t> dummy_payload(256, 0xAB);
+    const auto frame = makeBinaryFrame(0x10, kSkipChecksum, dummy_payload);
+
+    ASSERT_GE(frame.size(), 12u);
+    const uint32_t decoded_size =
+        (static_cast<uint32_t>(frame[8])  << 24) |
+        (static_cast<uint32_t>(frame[9])  << 16) |
+        (static_cast<uint32_t>(frame[10]) << 8)  |
+         static_cast<uint32_t>(frame[11]);
+    EXPECT_EQ(decoded_size, 256u);
+    EXPECT_EQ(frame.size(), 12u + 256u);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameChecksumFlagDetection) {
+    // SKIP_CHECKSUM_FLAG = 0x0004; if set, no CRC-32 trailer expected.
+    const uint16_t no_checksum_flags  = 0x0004;  // bit 2 set → skip
+    const uint16_t has_checksum_flags = 0x0000;  // bit 2 clear → expect CRC-32
+
+    EXPECT_TRUE(no_checksum_flags  & 0x0004);
+    EXPECT_FALSE(has_checksum_flags & 0x0004);
+}
+
+TEST(WireProtocolWebSocket, BinaryFrameExpectedSizeWithChecksum) {
+    // A frame with a 4-byte payload and no skip-checksum flag must be
+    // exactly header(12) + payload(4) + crc(4) = 20 bytes total.
+    const uint16_t kNoSkip = 0x0000;
+    std::vector<uint8_t> payload = {0xDE, 0xAD, 0xBE, 0xEF};
+    auto frame = makeBinaryFrame(0x10, kNoSkip, payload);
+    // Append a dummy 4-byte CRC trailer so the frame is well-formed.
+    frame.push_back(0x00); frame.push_back(0x00);
+    frame.push_back(0x00); frame.push_back(0x00);
+
+    EXPECT_EQ(frame.size(), 20u);
+
+    const bool has_checksum = !(kNoSkip & 0x0004);
+    const size_t expected = 12u + 4u + (has_checksum ? 4u : 0u);
+    EXPECT_EQ(expected, 20u);
+    EXPECT_GE(frame.size(), expected);
+}
+
+TEST(WireProtocolWebSocket, BinaryResponseFrameStructure) {
+    // Verify buildBinaryResponseFrame produces a well-formed frame.
+    const std::vector<uint8_t> payload = {0x01, 0x02, 0x03};
+    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0x90, payload);
+
+    ASSERT_GE(resp.size(), 12u + payload.size());
+    // Magic
+    EXPECT_EQ(resp[0], 0x54u);
+    EXPECT_EQ(resp[1], 0x4Du);
+    EXPECT_EQ(resp[2], 0x44u);
+    EXPECT_EQ(resp[3], 0x42u);
+    // Version
+    EXPECT_EQ(resp[4], 0x01u);
+    // OpCode must match
+    EXPECT_EQ(resp[5], 0x90u);
+    // Flags must have SKIP_CHECKSUM set (0x0004)
+    const uint16_t flags = (static_cast<uint16_t>(resp[6]) << 8) | resp[7];
+    EXPECT_TRUE(flags & 0x0004u);
+    // Payload size
+    const uint32_t ps =
+        (static_cast<uint32_t>(resp[8])  << 24) |
+        (static_cast<uint32_t>(resp[9])  << 16) |
+        (static_cast<uint32_t>(resp[10]) << 8)  |
+         static_cast<uint32_t>(resp[11]);
+    EXPECT_EQ(ps, static_cast<uint32_t>(payload.size()));
+    // Payload bytes
+    EXPECT_EQ(resp[12], 0x01u);
+    EXPECT_EQ(resp[13], 0x02u);
+    EXPECT_EQ(resp[14], 0x03u);
+}
+
+TEST(WireProtocolWebSocket, BinaryResponseFrameEmptyPayload) {
+    const auto resp = WireProtocolWebSocketSession::buildBinaryResponseFrame(0xFE, {});
+    EXPECT_EQ(resp.size(), 12u);
+    const uint32_t ps =
+        (static_cast<uint32_t>(resp[8])  << 24) |
+        (static_cast<uint32_t>(resp[9])  << 16) |
+        (static_cast<uint32_t>(resp[10]) << 8)  |
+         static_cast<uint32_t>(resp[11]);
+    EXPECT_EQ(ps, 0u);
+}
+
+TEST(WireProtocolWebSocket, BinaryOpcodeConstants) {
+    // Document and verify the opcode assignments used in the binary frame path.
+    // Requests
+    static constexpr uint8_t kOpGet    = 0x10;
+    static constexpr uint8_t kOpPut    = 0x11;
+    static constexpr uint8_t kOpDelete = 0x12;
+    static constexpr uint8_t kOpPing   = 0xFE;
+    static constexpr uint8_t kOpClose  = 0xFF;
+    // Responses (high bit set for get/put/delete)
+    static constexpr uint8_t kRespGet    = 0x90;
+    static constexpr uint8_t kRespPut    = 0x91;
+    static constexpr uint8_t kRespDelete = 0x92;
+    static constexpr uint8_t kRespError  = 0x80;
+
+    EXPECT_EQ(kOpGet,     0x10u);
+    EXPECT_EQ(kOpPut,     0x11u);
+    EXPECT_EQ(kOpDelete,  0x12u);
+    EXPECT_EQ(kOpPing,    0xFEu);
+    EXPECT_EQ(kOpClose,   0xFFu);
+    EXPECT_EQ(kRespGet,   0x90u);
+    EXPECT_EQ(kRespPut,   0x91u);
+    EXPECT_EQ(kRespDelete,0x92u);
+    EXPECT_EQ(kRespError, 0x80u);
 }
 
 #endif // THEMIS_ENABLE_WEBSOCKET

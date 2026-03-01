@@ -25,6 +25,7 @@
 
 #include "transaction/transaction_manager.h"
 #include "transaction/crash_recovery_manager.h"
+#include "transaction/snapshot_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/history_manager.h"
 #include "storage/base_entity.h"
@@ -1852,6 +1853,81 @@ TransactionManager::explainTransaction(TransactionId id) const {
         return cit->second->explain();
     }
     return std::nullopt;
+}
+
+// ── Time-travel queries ────────────────────────────────────────────────────────
+
+namespace {
+/// Convert a HistoryRecord into a TransactionManager::TimeTravelRecord.
+TransactionManager::TimeTravelRecord toTimeTravelRecord(const HistoryRecord& rec) {
+    TransactionManager::TimeTravelRecord r;
+    r.base_key  = rec.base_key;
+    r.timestamp = rec.timestamp;
+    r.op        = rec.op;
+    r.value     = rec.value;
+    r.txn_id    = rec.txn_id;
+    return r;
+}
+} // anonymous namespace
+
+std::optional<TransactionManager::TimeTravelRecord>
+TransactionManager::readEntityAtTimestamp(
+    std::string_view table,
+    std::string_view pk,
+    HLCTimestamp ts) const
+{
+    if (!history_mgr_) return std::nullopt;
+    const std::string live_key =
+        std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    auto rec = history_mgr_->getAtTimestamp(live_key, ts);
+    if (!rec) return std::nullopt;
+    return toTimeTravelRecord(*rec);
+}
+
+std::optional<TransactionManager::TimeTravelRecord>
+TransactionManager::readEntityAtUnixMs(
+    std::string_view table,
+    std::string_view pk,
+    int64_t unix_ms) const
+{
+    if (unix_ms < 0) return std::nullopt;
+    // Build an HLC upper-bound: physical = unix_ms, logical = MAX_LOGICAL.
+    // Using MAX_LOGICAL ensures this timestamp is strictly greater than any
+    // real HLC timestamp recorded at the same wall-clock millisecond (real
+    // logical counters are always < MAX_LOGICAL), so getAtTimestamp() will
+    // return the latest entry at or before unix_ms as required.
+    HLCTimestamp ts = HLCTimestamp::from(
+        static_cast<uint64_t>(unix_ms), HLCTimestamp::MAX_LOGICAL);
+    return readEntityAtTimestamp(table, pk, ts);
+}
+
+std::optional<TransactionManager::TimeTravelRecord>
+TransactionManager::readEntityAtSnapshot(
+    std::string_view table,
+    std::string_view pk,
+    const std::string& tag_name) const
+{
+    if (!snapshot_mgr_) return std::nullopt;
+    auto ts_opt = snapshot_mgr_->getTimestampForTag(tag_name);
+    if (!ts_opt) return std::nullopt;
+    return readEntityAtUnixMs(table, pk, *ts_opt);
+}
+
+std::vector<TransactionManager::TimeTravelRecord>
+TransactionManager::listEntityVersions(
+    std::string_view table,
+    std::string_view pk) const
+{
+    if (!history_mgr_) return {};
+    const std::string live_key =
+        std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    auto records = history_mgr_->listVersions(live_key);
+    std::vector<TimeTravelRecord> result;
+    result.reserve(records.size());
+    for (const auto& rec : records) {
+        result.push_back(toTimeTravelRecord(rec));
+    }
+    return result;
 }
 
 } // namespace themis

@@ -143,6 +143,20 @@ public:
      */
     uint64_t getSessionID() const { return session_id_; }
 
+    /**
+     * @brief Build a binary response frame in ThemisDB wire format.
+     *
+     * Frame layout: Magic(4) + Version(1) + OpCode(1) + Flags(2) + PayloadSize(4) + Payload
+     * Responses always carry SKIP_CHECKSUM_FLAG (0x0004) – WebSocket provides its own
+     * frame integrity.
+     *
+     * @param resp_opcode  Response opcode byte (e.g. 0x90 for GET response).
+     * @param payload      Response payload bytes (may be empty).
+     * @return             Complete binary frame ready to send.
+     */
+    static std::vector<uint8_t> buildBinaryResponseFrame(uint8_t resp_opcode,
+                                                          const std::vector<uint8_t>& payload);
+
 private:
     // WebSocket handshake callback
     void onAccept(beast::error_code ec);
@@ -164,6 +178,8 @@ private:
     void handleBinaryGet(const uint8_t* payload_data, uint32_t payload_size);
     void handleBinaryPut(const uint8_t* payload_data, uint32_t payload_size);
     void handleBinaryDelete(const uint8_t* payload_data, uint32_t payload_size);
+    // Binary frame helpers
+    void sendBinaryError(uint32_t error_code, const std::string& message);
 
     // Write helpers
     void doWrite();
