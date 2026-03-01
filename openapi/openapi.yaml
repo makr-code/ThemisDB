@@ -7367,6 +7367,165 @@ paths:
         '404': { $ref: '#/components/responses/NotFound' }
         '503': { $ref: '#/components/responses/ServiceUnavailable' }
 
+  # ── UDF Registration API ─────────────────────────────────────────────────
+  /api/v1/query/udfs:
+    post:
+      summary: Register a user-defined function (UDF)
+      description: |
+        Registers a new AQL user-defined function (or replaces an existing one
+        with the same name).  Once registered the function is immediately
+        callable from AQL queries via the global FunctionRegistry:
+
+        ```aql
+        RETURN MY_FUNC("hello")
+        ```
+
+        ### Body expression DSL
+
+        The `body` field is a JSON expression tree evaluated at query time.
+        Each node is an object with a `"type"` field:
+
+        | type    | description                               | extra fields                  |
+        |---------|-------------------------------------------|-------------------------------|
+        | `const` | literal value                             | `"value"`: any JSON           |
+        | `arg`   | positional argument (0-based)             | `"index"`: integer            |
+        | `call`  | call a built-in or registered UDF         | `"function"`, `"args"`: array |
+        | `op`    | binary arithmetic / comparison / logical  | `"op"`, `"left"`, `"right"`   |
+        | `if`    | conditional expression                    | `"cond"`, `"then"`, `"else"`  |
+
+        Supported operators for `op`: `+`, `-`, `*`, `/`, `%`, `==`, `!=`,
+        `<`, `<=`, `>`, `>=`, `&&`, `||`
+      operationId: registerUdf
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UdfCreate'
+            examples:
+              upper_wrapper:
+                summary: Wrap the built-in UPPER function
+                value:
+                  name: "MY_UPPER"
+                  description: "Converts a string to upper-case"
+                  arguments:
+                    - name: "s"
+                      type: "STRING"
+                      required: true
+                  return_type: "STRING"
+                  is_deterministic: true
+                  body:
+                    type: "call"
+                    function: "UPPER"
+                    args:
+                      - type: "arg"
+                        index: 0
+              add_numbers:
+                summary: Add two numbers
+                value:
+                  name: "ADD_TWO"
+                  arguments:
+                    - name: "a"
+                      type: "NUMBER"
+                      required: true
+                    - name: "b"
+                      type: "NUMBER"
+                      required: true
+                  return_type: "NUMBER"
+                  body:
+                    type: "op"
+                    op: "+"
+                    left:
+                      type: "arg"
+                      index: 0
+                    right:
+                      type: "arg"
+                      index: 1
+      responses:
+        '201':
+          description: UDF registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdfDefinition'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    get:
+      summary: List all registered UDFs
+      description: Returns definitions for every user-defined function currently registered in the AQL FunctionRegistry.
+      operationId: listUdfs
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of registered UDFs
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [udfs, count]
+                properties:
+                  udfs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UdfDefinition'
+                  count:
+                    type: integer
+                    minimum: 0
+                    description: Total number of registered UDFs
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/v1/query/udfs/{name}:
+    get:
+      summary: Get a single UDF definition
+      description: Returns the full definition of a specific user-defined function by its registered name.
+      operationId: getUdf
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Registered UDF name (case-sensitive, e.g. `MY_UPPER`)
+      responses:
+        '200':
+          description: UDF definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdfDefinition'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Unregister a UDF
+      description: |
+        Removes the named user-defined function from the AQL FunctionRegistry.
+        After deletion the function is no longer callable from AQL queries.
+        Built-in functions cannot be deleted via this endpoint.
+      operationId: deleteUdf
+      tags: [query-udf]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Registered UDF name to remove
+      responses:
+        '204':
+          description: UDF unregistered successfully (no content)
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
 components:
   securitySchemes:
     bearerAuth:
@@ -9255,6 +9414,135 @@ components:
                 type: array
                 items: { type: string }
                 description: "For 'validate': fields that must be present in the input"
+
+    # ── UDF API schemas ──────────────────────────────────────────────────────
+    UdfArgType:
+      type: string
+      description: Supported argument / return types for AQL user-defined functions.
+      enum:
+        - ANY
+        - STRING
+        - NUMBER
+        - INTEGER
+        - BOOLEAN
+        - ARRAY
+        - OBJECT
+        - GEOMETRY
+        - VECTOR
+        - DOCUMENT
+        - NULLABLE
+
+    UdfArgSpec:
+      type: object
+      description: Specification of a single argument accepted by a UDF.
+      properties:
+        name:
+          type: string
+          description: Parameter name (informational)
+          example: "input"
+        type:
+          $ref: '#/components/schemas/UdfArgType'
+        required:
+          type: boolean
+          default: true
+          description: Whether the argument must be supplied by callers
+        description:
+          type: string
+          description: Human-readable parameter description
+
+    UdfBodyExpr:
+      type: object
+      description: |
+        A single node in the UDF body expression DSL.  The `"type"` field
+        selects the node kind; additional fields depend on the kind:
+
+        | type    | required extra fields            |
+        |---------|----------------------------------|
+        | `const` | `value`                          |
+        | `arg`   | `index`                          |
+        | `call`  | `function`; optional `args`      |
+        | `op`    | `op`, `left`, `right`            |
+        | `if`    | `cond`, `then`, `else`           |
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [const, arg, call, op, if]
+          description: Expression node kind
+        value:
+          description: "(`const` nodes) The literal JSON value to return"
+        index:
+          type: integer
+          minimum: 0
+          description: "(`arg` nodes) Zero-based argument index"
+        function:
+          type: string
+          description: "(`call` nodes) Name of the built-in or UDF to invoke"
+        args:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfBodyExpr'
+          description: "(`call` nodes) Evaluated arguments passed to the function"
+        op:
+          type: string
+          enum: ["+", "-", "*", "/", "%", "==", "!=", "<", "<=", ">", ">=", "&&", "||"]
+          description: "(`op` nodes) Binary operator"
+        left:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        right:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        cond:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        then:
+          $ref: '#/components/schemas/UdfBodyExpr'
+        else:
+          $ref: '#/components/schemas/UdfBodyExpr'
+
+    UdfCreate:
+      type: object
+      description: Request body for registering or replacing an AQL user-defined function.
+      required: [name, body]
+      properties:
+        name:
+          type: string
+          description: |
+            Unique function name (UPPER_CASE recommended).  Must not conflict
+            with any existing built-in AQL function.
+          example: "MY_UPPER"
+        description:
+          type: string
+          description: Human-readable description of what the function does
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfArgSpec'
+          description: Ordered list of argument specifications
+          default: []
+        return_type:
+          $ref: '#/components/schemas/UdfArgType'
+        is_deterministic:
+          type: boolean
+          default: true
+          description: |
+            `true` if the function always returns the same output for the same
+            input (enables query-plan caching optimisations)
+        body:
+          $ref: '#/components/schemas/UdfBodyExpr'
+
+    UdfDefinition:
+      allOf:
+        - $ref: '#/components/schemas/UdfCreate'
+        - type: object
+          required: [created_at, updated_at]
+          properties:
+            created_at:
+              type: string
+              format: date-time
+              description: ISO-8601 UTC timestamp of initial registration
+            updated_at:
+              type: string
+              format: date-time
+              description: ISO-8601 UTC timestamp of last update
 
     ServerlessFunctionCreate:
       type: object
