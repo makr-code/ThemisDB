@@ -41,13 +41,9 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Multi-field boosting (title > body > tags) (`MultiFieldBoostedSearch`, v1.9.0) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
 
 ### Long-term (6-12 months)
-- [x] Neural sparse retrieval (SPLADE / BERT-based) (Issue: #2277)
-- [x] Cross-lingual semantic search (multilingual embeddings) (Issue: #2278)
-- [x] Personalized ranking based on user interaction history (Issue: #2279)
 - [I] Distributed search across shards with result merging (Issue: #2280)
 
 ## Implementation Phases
@@ -69,14 +65,14 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] Faceted search with dynamic facet counting
 - [~] Highlight / snippet generation for matched terms
 
-### Phase 3: Multi-Field Boosting & Search Analytics (Status: Planned 📋)
+### Phase 3: Multi-Field Boosting & Search Analytics (Status: In Progress 🚧)
 - [x] Multi-field boosting (title > body > tags) (`MultiFieldBoostedSearch`, v1.9.0)
 - [ ] Negative keyword filtering (`NOT` operator)
 - [x] Configurable re-ranking with LLM feedback loop
 - [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)
 - [x] Spelling correction suggestions
 
-### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
+### Phase 4: Neural Retrieval & Distributed Search (Status: In Progress 🚧)
 - [x] Neural sparse retrieval (SPLADE / BERT-based)
 - [x] Cross-lingual semantic search (multilingual embeddings)
 - [x] Personalized ranking based on user interaction history
