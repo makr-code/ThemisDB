@@ -1,0 +1,67 @@
+#include "utils/checksum_utils.h"
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <vector>
+#include <openssl/sha.h>
+#include <openssl/md5.h>
+
+namespace themis {
+namespace utils {
+
+std::string calculateSHA256(const std::string& file_path) {
+    std::ifstream file(file_path, std::ios::binary);
+    if (!file.is_open()) {
+        return "";
+    }
+
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+
+    constexpr size_t buffer_size = 32768;
+    std::vector<char> buffer(buffer_size);
+
+    while (file.read(buffer.data(), buffer_size) || file.gcount() > 0) {
+        SHA256_Update(&sha256, buffer.data(), file.gcount());
+    }
+
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_Final(hash, &sha256);
+
+    std::ostringstream oss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    }
+
+    return oss.str();
+}
+
+std::string calculateMD5(const std::string& file_path) {
+    std::ifstream file(file_path, std::ios::binary);
+    if (!file.is_open()) {
+        return "";
+    }
+
+    MD5_CTX md5;
+    MD5_Init(&md5);
+
+    constexpr size_t buffer_size = 32768;
+    std::vector<char> buffer(buffer_size);
+
+    while (file.read(buffer.data(), buffer_size) || file.gcount() > 0) {
+        MD5_Update(&md5, buffer.data(), file.gcount());
+    }
+
+    unsigned char hash[MD5_DIGEST_LENGTH];
+    MD5_Final(hash, &md5);
+
+    std::ostringstream oss;
+    for (int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+        oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    }
+
+    return oss.str();
+}
+
+} // namespace utils
+} // namespace themis

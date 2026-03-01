@@ -335,7 +335,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     if (!canAllocate(bytes, 0)) {
         size_t bytes_mb = bytes / (1024 * 1024);
         size_t available_mb = (config_.max_vram_bytes - total_vram_used_) / (1024 * 1024);
-        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
+        spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
+                      static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
+                      bytes_mb, available_mb);
         return nullptr;
     }
     

@@ -148,6 +148,9 @@ ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 // Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();
 
+// Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
+ISpatialComputeBackend* getProductionGpuBackend();
+
 /**
  * @brief Return a JSON string with current GPU spatial backend operational stats.
  *

@@ -1754,6 +1754,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
+    ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -3409,6 +3410,10 @@ if(THEMIS_ENABLE_LLM)
 
         # RAG Enhancement: Citation Highlighting (Phase 3)
         ../src/rag/citation_highlighter.cpp
+        
+        # Model Deployment Plugin (Ollama-inspired, production-ready)
+        ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
+        ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
