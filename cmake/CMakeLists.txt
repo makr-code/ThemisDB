@@ -2140,6 +2140,9 @@ list(APPEND THEMIS_CORE_SOURCES
     # per_query_cost_model is always compiled because query_optimizer.cpp
     # unconditionally links against it (attachPerQueryCostModel, executeOptimizedKeysWithCost, etc.)
     ../src/performance/phase3/per_query_cost_model.cpp
+    # memory_pressure is always compiled: uses only platform OS memory APIs
+    # (Linux: /proc/meminfo, macOS: sysctl/host_statistics64, Windows: GlobalMemoryStatusEx).
+    ../src/performance/phase3/memory_pressure.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -3876,6 +3879,25 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_simd_distance
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_simd_distance>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Memory pressure monitoring with automatic cache eviction (Phase 3)
+    # Tests SystemMemoryPressureMonitor: level classification, callback registration/
+    # unregistration, eviction triggering under simulated high-pressure conditions,
+    # thread lifecycle, and cache-size reduction via eviction callbacks.
+    add_executable(test_memory_pressure
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_memory_pressure.cpp
+    )
+    target_link_libraries(test_memory_pressure
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_memory_pressure
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_memory_pressure>
         EXTRA_ARGS --gtest_color=yes
     )
 
