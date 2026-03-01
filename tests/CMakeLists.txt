@@ -1811,6 +1811,40 @@ else()
 endif()
 
 # ============================================================================
+# RPC Batch Operations Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_batch_operations.cpp")
+    message(STATUS "Adding RPC Batch Operations tests")
+
+    add_executable(test_rpc_batch_operations
+        test_rpc_batch_operations.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/rpc/rpc_service_impl.cpp
+    )
+
+    target_link_libraries(test_rpc_batch_operations PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rpc_batch_operations PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RPCBatchOperationsTests COMMAND test_rpc_batch_operations)
+
+    set_tests_properties(RPCBatchOperationsTests PROPERTIES
+        LABELS "rpc;batch;integration;performance;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RPC Batch Operations: batch_get, batch_put, batch_delete, batch_update + perf benchmarks")
+else()
+    message(STATUS "RPC Batch Operations tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_batch_operations.cpp")
+endif()
+
+# ============================================================================
 # Index Maintenance Tests
 # ============================================================================
 
