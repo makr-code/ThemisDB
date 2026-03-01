@@ -1532,8 +1532,9 @@ set(THEMIS_CORE_SOURCES
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
 
-    
-    
+    # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
+    ../src/query/vectorized_execution.cpp
+
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/workload_cache_strategy.cpp
