@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     2030                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -163,8 +163,23 @@ json ThemisRPCService::handlePut(const json& params) {
         // Serialize to JSON string
         std::string value = entity.dump();
         
-        // Store in database
-        bool success = storage->put(key, value);
+        // Check for optional transaction_id for transactional write
+        std::string tx_id(params.value("transaction_id", ""));
+        bool success = false;
+        if (!tx_id.empty()) {
+            std::lock_guard<std::mutex> lock(transaction_mutex);
+            auto it = active_transactions.find(tx_id);
+            if (it == active_transactions.end()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Transaction not found: " + tx_id
+                );
+            }
+            std::vector<uint8_t> value_vec(value.begin(), value.end());
+            success = it->second->put(key, value_vec);
+        } else {
+            success = storage->put(key, value);
+        }
         
         if (!success) {
             return createError(
@@ -176,6 +191,118 @@ json ThemisRPCService::handlePut(const json& params) {
         json result = {
             {"success", true},
             {"version", entity["_version"]}
+        };
+        
+        return createSuccess(result);
+        
+    } catch (const std::exception& e) {
+        return createError(
+            themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+            e.what()
+        );
+    }
+}
+
+json ThemisRPCService::handleInsert(const json& params) {
+    try {
+        std::string model(params.value("model", ""));
+        std::string collection(params.value("collection", ""));
+        std::string uuid(params.value("uuid", ""));
+        
+        if (model.empty() || collection.empty() || uuid.empty()) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameters: model, collection, uuid"
+            );
+        }
+        
+        if (!params.contains("entity")) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                "Missing required parameter: entity"
+            );
+        }
+        
+        // Get storage engine
+        auto storage = storage_;
+        if (!storage) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Database storage not initialized"
+            );
+        }
+        
+        // Construct storage key
+        std::string key = collection + ":" + model + ":" + uuid;
+        
+        // Build entity with metadata (new insert always starts at version 1)
+        json entity = params["entity"];
+        entity["_collection"] = collection;
+        entity["_model"] = model;
+        entity["uuid"] = uuid;
+        entity["_timestamp_ns"] = getCurrentTimestampNs();
+        entity["_version"] = 1;
+        std::string value = entity.dump();
+        std::vector<uint8_t> value_vec(value.begin(), value.end());
+        
+        // Check for optional transaction_id
+        std::string tx_id(params.value("transaction_id", ""));
+        
+        if (!tx_id.empty()) {
+            // Transactional path: hold lock for both existence check and write
+            std::lock_guard<std::mutex> lock(transaction_mutex);
+            auto it = active_transactions.find(tx_id);
+            if (it == active_transactions.end()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
+                    "Transaction not found: " + tx_id
+                );
+            }
+            
+            // Check existence using transaction's isolation-correct read
+            if (it->second->get(key).has_value()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::ENTITY_ALREADY_EXISTS,
+                    "Entity already exists: " + key
+                );
+            }
+            
+            if (!it->second->put(key, value_vec)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to write to database"
+                );
+            }
+        } else {
+            // Non-transactional path: use an internal transaction for atomic check-then-write
+            // to prevent concurrent duplicate inserts.
+            auto tx = storage->beginTransaction();
+            if (!tx) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to begin internal transaction for insert"
+                );
+            }
+            
+            if (tx->get(key).has_value()) {
+                tx->rollback();
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::ENTITY_ALREADY_EXISTS,
+                    "Entity already exists: " + key
+                );
+            }
+            
+            if (!tx->put(key, value_vec) || !tx->commit()) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to write to database"
+                );
+            }
+        }
+        
+        json result = {
+            {"success", true},
+            {"version", 1}
         };
         
         return createSuccess(result);
@@ -1971,7 +2098,7 @@ json ThemisRPCService::dispatch(
         
         // Write operations (rpc:write)
         static const std::unordered_set<std::string> write_methods = {
-            "put", "batch_put", "delete", "update_entity", "batch_update"
+            "put", "insert", "batch_put", "delete", "update_entity", "batch_update"
         };
         
         // Admin operations (rpc:admin)
@@ -2010,6 +2137,8 @@ json ThemisRPCService::dispatch(
         return handleGet(params);
     } else if (method == "put") {
         return handlePut(params);
+    } else if (method == "insert") {
+        return handleInsert(params);
     } else if (method == "delete") {
         return handleDelete(params);
     } else if (method == "batch_get") {
