@@ -1056,6 +1056,36 @@ TEST(MultiLanguagePhase9, LanguageDetectionAlternatives) {
     EXPECT_FALSE(result.alternatives.empty());
 }
 
+TEST(MultiLanguagePhase9, UpdatePreferredLanguage) {
+    VoiceSessionManager mgr;
+    auto session = mgr.createSession("user_locale");
+    EXPECT_EQ(session.preferred_language, "en");
+
+    bool ok = mgr.updatePreferredLanguage(session.session_id, "de");
+    EXPECT_TRUE(ok);
+
+    auto updated = mgr.getSession(session.session_id);
+    ASSERT_TRUE(updated.has_value());
+    EXPECT_EQ(updated->preferred_language, "de");
+}
+
+TEST(MultiLanguagePhase9, UpdatePreferredLanguageUnknownSession) {
+    VoiceSessionManager mgr;
+    EXPECT_FALSE(mgr.updatePreferredLanguage("nonexistent-session", "fr"));
+}
+
+TEST(MultiLanguagePhase9, UpdatePreferredLanguageReflectedInAnalytics) {
+    VoiceSessionManager mgr;
+    auto s1 = mgr.createSession("u1");
+    auto s2 = mgr.createSession("u2");
+    mgr.updatePreferredLanguage(s1.session_id, "fr");
+    mgr.updatePreferredLanguage(s2.session_id, "de");
+
+    auto analytics = mgr.getAnalytics();
+    EXPECT_EQ(analytics.sessions_by_language.count("fr"), 1u);
+    EXPECT_EQ(analytics.sessions_by_language.count("de"), 1u);
+}
+
 // ============================================================
 // Phase 10: Performance / Benchmarks
 // ============================================================

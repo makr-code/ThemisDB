@@ -181,6 +181,12 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         
         return tts_result.audio_data;
     }
+
+    // Auto-locale switching: when language is set to "auto", update the session's
+    // preferred language from the STT-detected language and adapt TTS accordingly.
+    if (config_.stt_language == "auto" && !transcription.detected_language.empty()) {
+        session.preferred_language = transcription.detected_language;
+    }
     
     // Add to conversation history
     session.history.push_back("User: " + transcription.full_text);
@@ -197,11 +203,12 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         sessions_[session_id] = session;
     }
     
-    // Synthesize response
+    // Synthesize response - use the session's (potentially auto-detected) language
     content::TTSOptions tts_options;
     tts_options.voice_id = config_.tts_voice;
     tts_options.speed = config_.tts_speed;
     tts_options.format = "wav";
+    tts_options.language = session.preferred_language;
     
     auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
     
@@ -296,12 +303,30 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
 
     bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
 
+    // For auto-locale switching: also run batch transcription to get detected_language.
+    std::string detected_lang;
     if (!ok || full_transcript.empty()) {
         // Fall back to batch transcription so the pipeline always returns audio.
         auto transcription = stt_processor_->transcribe(audio_data);
         if (transcription.success) {
             full_transcript = transcription.full_text;
+            detected_lang = transcription.detected_language;
         }
+    } else if (config_.stt_language == "auto") {
+        // When language auto-detection is enabled and streaming succeeded, run a
+        // lightweight batch transcription to obtain detected_language.  The full
+        // streaming pipeline does not expose per-call language information, so
+        // this one-shot check is the minimal way to capture the locale.  The
+        // overhead is bounded by the same audio length already processed above.
+        auto transcription = stt_processor_->transcribe(audio_data);
+        if (transcription.success) {
+            detected_lang = transcription.detected_language;
+        }
+    }
+
+    // Auto-locale switching: update session language from STT detection.
+    if (config_.stt_language == "auto" && !detected_lang.empty()) {
+        session.preferred_language = detected_lang;
     }
 
     if (full_transcript.empty()) {
@@ -330,6 +355,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     tts_options.voice_id = config_.tts_voice;
     tts_options.speed    = config_.tts_speed;
     tts_options.format   = "wav";
+    tts_options.language = session.preferred_language;
 
     auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
     return tts_result.audio_data;
