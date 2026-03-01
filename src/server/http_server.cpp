@@ -4931,10 +4931,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             static constexpr std::string_view kTasksPfx{"/api/tasks/"};
-            std::string ponly = std::string(req.target());
             nlohmann::json qparams = parseQueryParams(std::string(req.target()));
-            if (auto qp = ponly.find('?'); qp != std::string::npos) ponly = ponly.substr(0, qp);
-            std::string rest = ponly.substr(kTasksPfx.size());
+            std::string target_path = std::string(req.target());
+            if (auto qp = target_path.find('?'); qp != std::string::npos) target_path = target_path.substr(0, qp);
+            std::string rest = target_path.substr(kTasksPfx.size());
             std::string task_id = rest.substr(0, rest.find('/'));
             if (!task_scheduler_api_) {
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);

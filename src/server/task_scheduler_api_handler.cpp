@@ -276,13 +276,21 @@ json TaskSchedulerApiHandler::getExecutionHistory(
 
     auto events = audit_mgr->queryAuditEvents(params);
 
+    // Compute total matching records (without pagination) for proper pagination support.
+    // Use a count-only query with max_query_results to bound memory usage.
+    scheduler::AuditQueryParams count_params = params;
+    count_params.offset = 0;
+    count_params.limit  = audit_mgr->getConfig().max_query_results;
+    auto all_events = audit_mgr->queryAuditEvents(count_params);
+    const int64_t total_count = static_cast<int64_t>(all_events.size());
+
     json items = json::array();
     items.reserve(events.size());
     for (const auto& ev : events) {
         items.push_back(ev.toJson(false));
     }
 
-    return json{{"items", items}, {"total", static_cast<int64_t>(items.size())}};
+    return json{{"items", items}, {"total", total_count}};
 }
 
 std::string TaskSchedulerApiHandler::getWebUi() {

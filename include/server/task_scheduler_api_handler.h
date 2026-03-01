@@ -102,7 +102,8 @@ public:
      *                       trigger_type (string), user_id (string),
      *                       start_time_ms (int64), end_time_ms (int64)
      * @return JSON object { "items": [...], "total": <int> } where "total" is the
-     *         count of items in this response page (after applying limit/offset).
+     *         total count of all matching records (regardless of limit/offset),
+     *         bounded by the audit manager's max_query_results setting.
      *         Use limit/offset parameters to paginate through results.
      */
     nlohmann::json getExecutionHistory(

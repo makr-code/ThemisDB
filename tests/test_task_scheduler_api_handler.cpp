@@ -489,9 +489,9 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_Pagination) {
     auto page2 = handler_->getExecutionHistory("pg-task", p2);
     EXPECT_EQ(page2["items"].size(), 2u);
 
-    // Each page's "total" field reflects items in that page (not the grand total)
-    EXPECT_EQ(page1["total"].get<int64_t>(), 2);
-    EXPECT_EQ(page2["total"].get<int64_t>(), 2);
+    // Both pages should report the total count of all matching records (5)
+    EXPECT_EQ(page1["total"].get<int64_t>(), 5);
+    EXPECT_EQ(page2["total"].get<int64_t>(), 5);
 
     // No overlap by UUID
     std::set<std::string> ids1, ids2;
