@@ -25,6 +25,7 @@
 #include "server/auth_middleware.h"
 #include <sstream>
 #include <chrono>
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -192,14 +193,15 @@ json ThemisRPCService::handleDelete(const json& params) {
         std::string model(params.value("model", ""));
         std::string collection(params.value("collection", ""));
         std::string uuid(params.value("uuid", ""));
-        
+        bool cascade = params.value("cascade", false);
+
         if (model.empty() || collection.empty() || uuid.empty()) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::INVALID_PARAMETERS,
                 "Missing required parameters: model, collection, uuid"
             );
         }
-        
+
         // Get storage engine
         auto storage = storage_;
         if (!storage) {
@@ -208,26 +210,132 @@ json ThemisRPCService::handleDelete(const json& params) {
                 "Database storage not initialized"
             );
         }
-        
+
         // Construct storage key
         std::string key = collection + ":" + model + ":" + uuid;
-        
-        // Delete from database
-        bool success = storage->del(key);
-        
-        if (!success) {
+
+        // Check entity existence before attempting deletion
+        std::string existing_value;
+        if (!storage->get(key, existing_value)) {
+            json result = {
+                {"found", false},
+                {"deleted_count", 0}
+            };
+            return createSuccess(result);
+        }
+
+        // Helper lambda: find direct children of an entity within its collection.
+        // Child entities carry _parent_uuid (and optionally _parent_model /
+        // _parent_collection) fields that point to their parent.
+        auto find_children = [&](const std::string& p_collection,
+                                  const std::string& p_model,
+                                  const std::string& p_uuid) -> std::vector<std::string> {
+            std::vector<std::string> children;
+            std::string scan_prefix = p_collection + ":";
+            std::string parent_key  = p_collection + ":" + p_model + ":" + p_uuid;
+
+            auto iter_result = storage->newSafeIterator();
+            if (!iter_result) return children;
+
+            auto& iter = iter_result.value();
+            iter.Seek(scan_prefix);
+            while (iter.Valid()) {
+                std::string iter_key(iter.key());
+                if (iter_key.substr(0, scan_prefix.length()) != scan_prefix) break;
+                if (iter_key != parent_key) {
+                    std::string iter_value(iter.value());
+                    try {
+                        json entity = json::parse(iter_value);
+                        if (entity.value("_parent_uuid", "") == p_uuid &&
+                            entity.value("_parent_model", "") == p_model &&
+                            entity.value("_parent_collection", "") == p_collection) {
+                            children.push_back(iter_key);
+                        }
+                    } catch (const json::exception&) {
+                        // Skip invalid JSON entries
+                    }
+                }
+                iter.Next();
+            }
+            return children;
+        };
+
+        // Discover direct children of the target entity
+        std::vector<std::string> direct_children = find_children(collection, model, uuid);
+
+        // Referential integrity: block deletion when children exist and cascade is off
+        if (!direct_children.empty() && !cascade) {
             return createError(
-                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
-                "Failed to delete from database"
+                themis::plugins::rpc::RPCErrorCode::TRANSACTION_CONFLICT,
+                "Referential integrity violation: " +
+                    std::to_string(direct_children.size()) + " child entit" +
+                    (direct_children.size() == 1 ? "y" : "ies") +
+                    " reference this entity. Use cascade=true to delete them."
             );
         }
-        
+
+        // Collect all descendants via BFS for cascade delete
+        std::vector<std::string> keys_to_delete;
+        if (cascade) {
+            std::queue<std::string> bfs_queue;
+            for (const auto& child_key : direct_children) {
+                bfs_queue.push(child_key);
+                keys_to_delete.push_back(child_key);
+            }
+
+            while (!bfs_queue.empty()) {
+                std::string curr_key = bfs_queue.front();
+                bfs_queue.pop();
+
+                // Parse collection, model, uuid from "collection:model:uuid"
+                size_t first_colon  = curr_key.find(':');
+                size_t second_colon = (first_colon  != std::string::npos)
+                                    ? curr_key.find(':', first_colon + 1)
+                                    : std::string::npos;
+                if (first_colon == std::string::npos || second_colon == std::string::npos) {
+                    continue;
+                }
+                std::string curr_collection = curr_key.substr(0, first_colon);
+                std::string curr_model      = curr_key.substr(first_colon + 1,
+                                                               second_colon - first_colon - 1);
+                std::string curr_uuid       = curr_key.substr(second_colon + 1);
+
+                auto grandchildren = find_children(curr_collection, curr_model, curr_uuid);
+                for (const auto& gc_key : grandchildren) {
+                    bfs_queue.push(gc_key);
+                    keys_to_delete.push_back(gc_key);
+                }
+            }
+        }
+
+        // Delete descendants in reverse BFS order (deepest level first)
+        int deleted_count = 0;
+        for (auto it = keys_to_delete.rbegin(); it != keys_to_delete.rend(); ++it) {
+            if (!storage->del(*it)) {
+                return createError(
+                    themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                    "Failed to delete child entity during cascade: " + *it
+                );
+            }
+            ++deleted_count;
+        }
+
+        // Delete the target entity itself
+        if (!storage->del(key)) {
+            return createError(
+                themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
+                "Failed to delete entity from database"
+            );
+        }
+        ++deleted_count;
+
         json result = {
-            {"success", true}
+            {"success", true},
+            {"deleted_count", deleted_count}
         };
-        
+
         return createSuccess(result);
-        
+
     } catch (const std::exception& e) {
         return createError(
             themis::plugins::rpc::RPCErrorCode::INTERNAL_ERROR,
