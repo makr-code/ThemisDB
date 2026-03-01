@@ -1508,6 +1508,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/branch_manager.cpp
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
+    ../src/transaction/global_transaction_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
