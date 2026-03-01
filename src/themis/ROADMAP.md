@@ -18,9 +18,9 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] Module dependency resolution and load-order management (Issue: #2474)
 
 ## In Progress 🚧
-- [~] `build_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
-- [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
-- [~] `module_loader.cpp` – implemented in `src/base/`; pending migration to `src/themis/` (Target: Q3 2026, v1.7.0)
+- [x] `build_info.cpp` – migrated from `src/utils/` to `src/themis/build_info.cpp` (v1.7.0)
+- [x] `license_info.cpp` – migrated from `src/utils/` to `src/themis/license_info.cpp` (v1.7.0)
+- [x] `module_loader.cpp` – implemented in `src/base/`; integrated into `THEMIS_BASE_SOURCES` for modular build (v1.7.0)
 
 ## Planned Features 📋
 
@@ -29,7 +29,7 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 
 ### Long-term (6-12 months)
-- [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
+- [x] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
 - [!] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
 - [I] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
 - [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
@@ -44,10 +44,10 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] Module loader headers
 - [x] Wire protocol server headers
 
-### Phase 2: Core Implementation Files (Status: Implemented in monolithic location ✅)
-- [x] `build_info.cpp` – build metadata collection and formatting (`src/utils/build_info.cpp`)
-- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
-- [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
+### Phase 2: Core Implementation Files (Status: Completed ✅)
+- [x] `build_info.cpp` – build metadata collection and formatting (`src/themis/build_info.cpp`)
+- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/themis/license_info.cpp`)
+- [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`, integrated into modular build)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: In Progress 🚧)
 - [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (`src/themis/wire_protocol_server.cpp`, namespace `themis::wire`)
@@ -56,11 +56,11 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] `isModuleCompiledIn()` – runtime module availability check
 - [x] SHA-256 hash verification for loaded modules
 
-### Phase 4: Full Modularization & Signature Verification (Status: Planned 📋)
-- [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
-- [ ] Authenticode (Windows) and GPG (Linux) signature verification for modules
-- [ ] Zone.Identifier / quarantine detection (Windows)
-- [ ] Dynamic feature flag gating per edition at runtime
+### Phase 4: Full Modularization & Signature Verification (Status: Partially Complete ✅)
+- [x] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) – `THEMIS_BUILD_MODULAR=ON` produces separate shared libraries; all `src/themis/` implementations integrated into `THEMIS_BASE_SOURCES`
+- [ ] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
+- [ ] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
+- [ ] Dynamic feature flag gating per edition at runtime (Issue: #2317)
 - [x] Module dependency resolution and load-order management
 
 ## Production Readiness Checklist

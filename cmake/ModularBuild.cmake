@@ -138,9 +138,9 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_audit_log.cpp
-    ../src/utils/build_info.cpp
-    ../src/utils/license_info.cpp
-    ../src/utils/runtime_license_gate.cpp
+    ../src/themis/build_info.cpp
+    ../src/themis/license_info.cpp
+    ../src/themis/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/boost_throw_exception.cpp
@@ -181,6 +181,8 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_plugin_sandbox.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
+    ../src/themis/edition_manager.cpp
+    ../src/themis/module_dependency_resolver.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp

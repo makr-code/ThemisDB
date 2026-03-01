@@ -1746,9 +1746,9 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
     ../src/utils/thread_pool_manager.cpp
-    ../src/utils/build_info.cpp
-    ../src/utils/license_info.cpp
-    ../src/utils/runtime_license_gate.cpp
+    ../src/themis/build_info.cpp
+    ../src/themis/license_info.cpp
+    ../src/themis/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     
