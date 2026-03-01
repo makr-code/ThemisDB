@@ -22,7 +22,8 @@
 // detection, DPDK/io_uring zero-copy I/O, and persistent memory storage layout.
 //
 // This header follows the same pattern as phase3/feature_flags.h.
-// Expected gains (Phase 4): +50-200% for PMem-heavy workloads.
+// Expected gains (Phase 4): +50-200% for PMem-heavy workloads;
+//                            10-50x latency improvement with io_uring.
 
 #pragma once
 
@@ -53,6 +54,11 @@ public:
     bool pmu_enabled() const { return pmu_enabled_.load(std::memory_order_relaxed); }
     void set_pmu_enabled(bool enabled) { pmu_enabled_.store(enabled, std::memory_order_relaxed); }
 
+    // io_uring zero-copy I/O path for network performance
+    // Expected gain: 10-50x lower latency vs. epoll/read/write on Linux ≥ 5.1
+    bool io_uring_enabled() const { return io_uring_enabled_.load(std::memory_order_relaxed); }
+    void set_io_uring_enabled(bool enabled) { io_uring_enabled_.store(enabled, std::memory_order_relaxed); }
+
     // Load configuration from JSON file
     void load_from_config(const std::string& config_path);
 
@@ -64,6 +70,7 @@ private:
 
     std::atomic<bool> pmem_enabled_{false};
     std::atomic<bool> pmu_enabled_{false};
+    std::atomic<bool> io_uring_enabled_{false};
 };
 
 // Macro helpers for compile-time + runtime checks
@@ -79,6 +86,13 @@ private:
         (::themis::performance::phase4::Phase4FeatureFlags::instance().pmu_enabled())
 #else
     #define THEMIS_PHASE4_PMU_ENABLED() (false)
+#endif
+
+#ifdef THEMIS_ENABLE_IO_URING
+    #define THEMIS_PHASE4_IO_URING_ENABLED() \
+        (::themis::performance::phase4::Phase4FeatureFlags::instance().io_uring_enabled())
+#else
+    #define THEMIS_PHASE4_IO_URING_ENABLED() (false)
 #endif
 
 } // namespace phase4

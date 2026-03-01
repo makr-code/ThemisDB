@@ -55,7 +55,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
-- [!] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417)
+- [~] Service mesh integration (Istio/Envoy sidecar compatibility) (Issue: #2417)
 - [?] RDMA support for ultra-low-latency inter-node communication
 - [?] IPv6 dual-stack support
 - [x] gRPC native transport (separate from server module) (Issue: #2024)
@@ -144,7 +144,9 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - UDP fast-path is in progress; QUIC transport is implemented (`QuicTransport`, port 8770).
 - gRPC native transport is implemented (`GrpcTransport`, port 8771); this module provides
   the transport layer only — the gRPC service layer lives in the server/api modules.
-- Service mesh integration is a future enhancement.
+- Service mesh integration is in progress (`ServiceMeshIntegration`, port 8082);
+  see `include/network/service_mesh.h` / `src/network/service_mesh.cpp`.
+  Guarded by `THEMIS_ENABLE_SERVICE_MESH`.
 
 ## Breaking Changes
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
