@@ -6,11 +6,14 @@
 #include <gtest/gtest.h>
 #include "server/task_scheduler_api_handler.h"
 #include "scheduler/task_scheduler.h"
+#include "scheduler/task_audit_event.h"
+#include "scheduler/task_audit_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include <filesystem>
 #include <chrono>
+#include <set>
 
 using namespace themis;
 using namespace themis::server;
@@ -260,6 +263,8 @@ TEST(TaskSchedulerApiHandlerNullTest, NullScheduler_AllMethodsReturnError) {
     EXPECT_EQ(h.executeTask("x").value("status", ""), "error");
     EXPECT_EQ(h.getTaskResults("x", 10).value("status", ""), "error");
     EXPECT_EQ(h.getLatestTaskResult("x").value("status", ""), "error");
+    EXPECT_EQ(h.getExecutionHistory("x").value("status", ""), "error");
+    EXPECT_EQ(h.executeDAG(nlohmann::json{{"task_ids", nlohmann::json::array()}}).value("status", ""), "error");
 
     nlohmann::json req{{"name", "t"}, {"type", "aql_query"}, {"aql_query", "RETURN 1"}};
     EXPECT_EQ(h.registerTask(req).value("status", ""), "error");
@@ -336,11 +341,44 @@ TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
 // ============================================================================
 
 class TaskResultApiTest : public ::testing::Test {
+// getExecutionHistory – searchable audit log
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, GetExecutionHistory_NoAuditManager_ReturnsEmpty) {
+    // Fixture disables audit logging (enable_audit_logging = false), so
+    // getAuditManager() returns nullptr. Expect empty items array.
+    auto result = handler_->getExecutionHistory("some_task_id");
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_TRUE(result["items"].is_array());
+    ASSERT_TRUE(result.contains("total"));
+    EXPECT_EQ(result["total"].get<int64_t>(), 0);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetExecutionHistory_NullScheduler_ReturnsError) {
+    TaskSchedulerApiHandler h(nullptr);
+    auto result = h.getExecutionHistory("x");
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, GetExecutionHistory_WithQueryParams_NoAuditManager) {
+    // Pagination and filter params should be gracefully ignored when audit is disabled.
+    nlohmann::json params{{"limit", 10}, {"offset", 0}, {"success", true}};
+    auto result = handler_->getExecutionHistory("task_id", params);
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_EQ(result["items"].size(), 0u);
+}
+
+// ============================================================================
+// getExecutionHistory – with audit manager enabled
+// ============================================================================
+
+class TaskSchedulerApiHandlerAuditTest : public ::testing::Test {
 protected:
     static std::string makeDbPath() {
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         return (std::filesystem::temp_directory_path() /
                 std::filesystem::path("themis_result_api_" + std::to_string(now))).string();
+                std::filesystem::path("themis_audit_api_test_" + std::to_string(now))).string();
     }
 
     void SetUp() override {
@@ -378,6 +416,14 @@ protected:
             [](const nlohmann::json&) -> nlohmann::json {
                 return {{"status", "ok"}, {"value", 1}};
             });
+        sched_cfg.max_concurrent_tasks     = 2;
+        sched_cfg.check_interval           = std::chrono::milliseconds(50);
+        sched_cfg.persist_tasks            = false;
+        sched_cfg.enable_audit_logging     = true;
+        sched_cfg.enable_anomaly_detection = false;
+
+        scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), sched_cfg);
+        handler_   = std::make_unique<TaskSchedulerApiHandler>(scheduler_.get());
     }
 
     void TearDown() override {
@@ -457,4 +503,461 @@ TEST_F(TaskResultApiTest, NullScheduler_ResultMethodsReturnError) {
     TaskSchedulerApiHandler h(nullptr);
     EXPECT_EQ(h.getTaskResults("t", 10).value("status", ""), "error");
     EXPECT_EQ(h.getLatestTaskResult("t").value("status", ""), "error");
+    // Directly inject audit events via the audit manager
+    void injectAuditEvent(const std::string& task_id, bool success,
+                          scheduler::TaskEventType ev_type = scheduler::TaskEventType::TASK_COMPLETED,
+                          const std::string& trigger_type = "CRON",
+                          const std::string& user_id = "test_user") {
+        auto am = scheduler_->getAuditManager();
+        if (!am) return;
+        scheduler::TaskAuditEvent ev;
+        ev.uuid        = scheduler::generateUUID();
+        ev.timestamp   = std::chrono::system_clock::now();
+        ev.task_id     = task_id;
+        ev.task_name   = task_id + "_name";
+        ev.event_type  = ev_type;
+        ev.trigger_type = trigger_type;
+        ev.user_id     = user_id;
+        ev.ip_address  = "127.0.0.1";
+        ev.success     = success;
+        ev.duration_ms = 50.0;
+        am->logAuditEvent(ev);
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper>          storage_;
+    std::unique_ptr<SecondaryIndexManager>   idx_;
+    std::unique_ptr<QueryEngine>             engine_;
+    std::unique_ptr<TaskScheduler>           scheduler_;
+    std::unique_ptr<TaskSchedulerApiHandler> handler_;
+};
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_ReturnsItems) {
+    injectAuditEvent("task-a", true);
+    injectAuditEvent("task-a", false, scheduler::TaskEventType::TASK_FAILED);
+    injectAuditEvent("task-b", true);
+
+    auto result = handler_->getExecutionHistory("task-a");
+    ASSERT_TRUE(result.contains("items"));
+    EXPECT_EQ(result["items"].size(), 2u);
+    EXPECT_EQ(result["total"].get<int64_t>(), 2);
+    for (const auto& item : result["items"]) {
+        EXPECT_EQ(item.value("task_id", ""), "task-a");
+    }
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterBySuccess) {
+    injectAuditEvent("task-x", true);
+    injectAuditEvent("task-x", true);
+    injectAuditEvent("task-x", false, scheduler::TaskEventType::TASK_FAILED);
+
+    nlohmann::json params{{"success", true}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("task-x", params);
+    ASSERT_EQ(result["items"].size(), 2u);
+    for (const auto& item : result["items"]) {
+        EXPECT_TRUE(item.value("success", false));
+    }
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByFailure) {
+    injectAuditEvent("task-y", true);
+    injectAuditEvent("task-y", false, scheduler::TaskEventType::TASK_FAILED);
+
+    nlohmann::json params{{"success", false}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("task-y", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_FALSE(result["items"][0].value("success", true));
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_Pagination) {
+    for (int i = 0; i < 5; ++i) {
+        injectAuditEvent("pg-task", true);
+    }
+
+    nlohmann::json p1{{"limit", 2}, {"offset", 0}};
+    auto page1 = handler_->getExecutionHistory("pg-task", p1);
+    EXPECT_EQ(page1["items"].size(), 2u);
+
+    nlohmann::json p2{{"limit", 2}, {"offset", 2}};
+    auto page2 = handler_->getExecutionHistory("pg-task", p2);
+    EXPECT_EQ(page2["items"].size(), 2u);
+
+    // Both pages should report the total count of all matching records (5)
+    EXPECT_EQ(page1["total"].get<int64_t>(), 5);
+    EXPECT_EQ(page2["total"].get<int64_t>(), 5);
+
+    // No overlap by UUID
+    std::set<std::string> ids1, ids2;
+    for (const auto& ev : page1["items"]) ids1.insert(ev.value("uuid", ""));
+    for (const auto& ev : page2["items"]) ids2.insert(ev.value("uuid", ""));
+    for (const auto& u : ids2) {
+        EXPECT_EQ(0u, ids1.count(u)) << "Duplicate UUID across pages: " << u;
+    }
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_EmptyTaskId_ReturnsAllTasks) {
+    injectAuditEvent("alpha", true);
+    injectAuditEvent("beta", true);
+    injectAuditEvent("gamma", true);
+
+    auto result = handler_->getExecutionHistory("");
+    EXPECT_GE(result["items"].size(), 3u);
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByEventType) {
+    injectAuditEvent("ev-task", true,  scheduler::TaskEventType::TASK_COMPLETED);
+    injectAuditEvent("ev-task", false, scheduler::TaskEventType::TASK_FAILED);
+
+    nlohmann::json params{{"event_type", "TASK_FAILED"}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("ev-task", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_EQ(result["items"][0].value("event_type", ""), "TASK_FAILED");
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByTriggerType) {
+    injectAuditEvent("trig-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON");
+    injectAuditEvent("trig-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "MANUAL");
+
+    nlohmann::json params{{"trigger_type", "MANUAL"}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("trig-task", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_EQ(result["items"][0].value("trigger_type", ""), "MANUAL");
+}
+
+TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByUserId) {
+    injectAuditEvent("user-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON", "alice");
+    injectAuditEvent("user-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON", "bob");
+
+    nlohmann::json params{{"user_id", "alice"}, {"limit", 100}};
+    auto result = handler_->getExecutionHistory("user-task", params);
+    ASSERT_EQ(result["items"].size(), 1u);
+    EXPECT_EQ(result["items"][0].value("user_id", ""), "alice");
+// executeDAG
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_MissingTaskIds_ReturnsError) {
+    auto result = handler_->executeDAG(nlohmann::json::object());
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("task_ids"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_InvalidTaskIdsType_ReturnsError) {
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", "not_an_array"}});
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_UnknownTaskId_ReturnsError) {
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", {"does_not_exist"}}});
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_EmptyList_ReturnsExecuted) {
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", nlohmann::json::array()}});
+    EXPECT_EQ(result.value("status", ""), "executed");
+    EXPECT_TRUE(result["succeeded"].empty());
+    EXPECT_TRUE(result["failed"].empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_SingleTask_Succeeds) {
+    // Register a function task
+    scheduler_->registerFunction("dag_api_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    nlohmann::json req = makeTaskJson("dag_api_task");
+    req["type"]          = "function";
+    req["function_name"] = "dag_api_fn";
+    req["trigger_type"]  = "manual";
+    req.erase("aql_query");
+    auto reg = handler_->registerTask(req);
+    ASSERT_EQ(reg.value("status", ""), "created");
+    std::string task_id = reg["id"];
+
+    auto result = handler_->executeDAG(nlohmann::json{{"task_ids", {task_id}}});
+    EXPECT_EQ(result.value("status", ""), "executed");
+    ASSERT_TRUE(result["succeeded"].contains(task_id));
+    EXPECT_TRUE(result["failed"].empty());
+    EXPECT_TRUE(result["skipped"].empty());
+    EXPECT_TRUE(result["condition_skipped"].empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_LinearChain_RespectsDependencyOrder) {
+    // Register three function tasks: a -> b -> c
+    auto noop_fn = [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; };
+    for (const auto& name : std::vector<std::string>{"dag_a", "dag_b", "dag_c"}) {
+        scheduler_->registerFunction(name + "_fn", noop_fn);
+    }
+
+    auto register_task = [&](const std::string& id,
+                              const std::vector<std::string>& deps) -> std::string {
+        ScheduledTask t;
+        t.id = id; t.name = id;
+        t.type = ScheduledTask::TaskType::FUNCTION;
+        t.function_name = id + "_fn";
+        t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+        t.dependencies = deps;
+        return scheduler_->registerTask(t);
+    };
+
+    register_task("dag_a", {});
+    register_task("dag_b", {"dag_a"});
+    register_task("dag_c", {"dag_b"});
+
+    auto result = handler_->executeDAG(
+        nlohmann::json{{"task_ids", {"dag_a", "dag_b", "dag_c"}}});
+    EXPECT_EQ(result.value("status", ""), "executed");
+    EXPECT_EQ(result["succeeded"].size(), 3u);
+    EXPECT_TRUE(result["failed"].empty());
+    EXPECT_TRUE(result["skipped"].empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteDAG_CyclicDependency_ReturnsError) {
+    scheduler_->registerFunction("cyc_api_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    ScheduledTask ta;
+    ta.id = "cyc_api_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "cyc_api_fn";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    ta.dependencies = {"cyc_api_b"};
+    scheduler_->registerTask(ta);
+
+    ScheduledTask tb;
+    tb.id = "cyc_api_b"; tb.name = tb.id;
+    tb.type = ScheduledTask::TaskType::FUNCTION;
+    tb.function_name = "cyc_api_fn";
+    tb.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    tb.dependencies = {"cyc_api_a"};
+    scheduler_->registerTask(tb);
+
+    auto result = handler_->executeDAG(
+        nlohmann::json{{"task_ids", {"cyc_api_a", "cyc_api_b"}}});
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_WithDependencies_RoundTrips) {
+    // Register two tasks and verify dependencies survive registerTask -> getTask
+    scheduler_->registerFunction("dep_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    nlohmann::json req_a = makeTaskJson("dep_task_a");
+    req_a["type"]          = "function";
+    req_a["function_name"] = "dep_fn";
+    req_a["trigger_type"]  = "manual";
+    req_a.erase("aql_query");
+    auto reg_a = handler_->registerTask(req_a);
+    ASSERT_EQ(reg_a.value("status", ""), "created");
+
+    nlohmann::json req_b = makeTaskJson("dep_task_b");
+    req_b["type"]          = "function";
+    req_b["function_name"] = "dep_fn";
+    req_b["trigger_type"]  = "manual";
+    req_b["dependencies"]  = nlohmann::json::array({reg_a["id"].get<std::string>()});
+    req_b.erase("aql_query");
+    auto reg_b = handler_->registerTask(req_b);
+    ASSERT_EQ(reg_b.value("status", ""), "created");
+
+    // getTask should return the dependencies
+    auto detail = handler_->getTask(reg_b["id"].get<std::string>());
+    ASSERT_TRUE(detail.contains("dependencies"));
+    ASSERT_EQ(detail["dependencies"].size(), 1u);
+    EXPECT_EQ(detail["dependencies"][0].get<std::string>(), reg_a["id"].get<std::string>());
+// External scheduler – Kubernetes CronJob export (JSON)
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_ReturnsManifest) {
+    auto reg = handler_->registerTask(makeTaskJson("export_k8s_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobJson(task_id, req);
+
+    ASSERT_TRUE(result.contains("manifest")) << result.dump();
+    const auto& manifest = result["manifest"];
+    EXPECT_EQ(manifest.value("kind", ""), "CronJob");
+    EXPECT_EQ(manifest.value("apiVersion", ""), "batch/v1");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_UnknownTaskReturnsError) {
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobJson("no_such_task", req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_MissingBaseUrlReturnsError) {
+    auto reg = handler_->registerTask(makeTaskJson("k8s_nourl_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    auto result = handler_->exportToKubernetesCronJobJson(task_id, nlohmann::json::object());
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sJson_NamespaceAndSuspendPropagated) {
+    auto reg = handler_->registerTask(makeTaskJson("k8s_ns_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{
+        {"themisdb_base_url", "https://themisdb.example.com"},
+        {"k8s_namespace",     "production"},
+        {"suspend",           true}
+    };
+    auto result = handler_->exportToKubernetesCronJobJson(task_id, req);
+    ASSERT_TRUE(result.contains("manifest")) << result.dump();
+    EXPECT_EQ(result["manifest"]["metadata"]["namespace"].get<std::string>(), "production");
+    EXPECT_TRUE(result["manifest"]["spec"]["suspend"].get<bool>());
+}
+
+// ============================================================================
+// External scheduler – Kubernetes CronJob export (YAML)
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sYaml_ReturnsYamlString) {
+    auto reg = handler_->registerTask(makeTaskJson("export_yaml_task"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobYaml(task_id, req);
+
+    ASSERT_TRUE(result.contains("yaml")) << result.dump();
+    const std::string yaml = result["yaml"].get<std::string>();
+    EXPECT_NE(yaml.find("CronJob"), std::string::npos) << yaml;
+    EXPECT_NE(yaml.find("batch/v1"), std::string::npos) << yaml;
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToK8sYaml_UnknownTaskReturnsError) {
+    nlohmann::json req{{"themisdb_base_url", "https://themisdb.example.com"}};
+    auto result = handler_->exportToKubernetesCronJobYaml("no_such_task", req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+// ============================================================================
+// External scheduler – Airflow DAG export
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_ReturnsDagPython) {
+    auto reg = handler_->registerTask(makeTaskJson("airflow_task1"));
+    ASSERT_EQ(reg.value("status", ""), "created");
+    const std::string task_id = reg["id"].get<std::string>();
+
+    nlohmann::json req{
+        {"task_ids", nlohmann::json::array({task_id})},
+        {"dag_id",   "test_dag"},
+        {"start_date", "2026-01-01"}
+    };
+    auto result = handler_->exportToAirflowDag(req);
+
+    ASSERT_TRUE(result.contains("dag_python")) << result.dump();
+    const std::string py = result["dag_python"].get<std::string>();
+    EXPECT_NE(py.find("from airflow import DAG"), std::string::npos) << py;
+    EXPECT_NE(py.find("SimpleHttpOperator"),       std::string::npos) << py;
+    EXPECT_NE(py.find("test_dag"),                 std::string::npos) << py;
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_MissingTaskIdsReturnsError) {
+    auto result = handler_->exportToAirflowDag(nlohmann::json::object());
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_UnknownTaskIdReturnsError) {
+    nlohmann::json req{{"task_ids", nlohmann::json::array({"no_such_task"})}};
+    auto result = handler_->exportToAirflowDag(req);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExportToAirflowDag_MultipleTasksWired) {
+    auto r1 = handler_->registerTask(makeTaskJson("extract_task"));
+    auto r2 = handler_->registerTask(makeTaskJson("load_task"));
+    ASSERT_EQ(r1.value("status", ""), "created");
+    ASSERT_EQ(r2.value("status", ""), "created");
+
+    nlohmann::json req{
+        {"task_ids", nlohmann::json::array({
+            r1["id"].get<std::string>(),
+            r2["id"].get<std::string>()
+        })},
+        {"dag_id", "multi_task_dag"},
+        {"start_date", "2026-01-01"}
+    };
+    auto result = handler_->exportToAirflowDag(req);
+    ASSERT_TRUE(result.contains("dag_python")) << result.dump();
+}
+
+// ============================================================================
+// External scheduler – Kubernetes CronJob import
+// ============================================================================
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_CreatesTask) {
+    nlohmann::json manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"metadata", {
+            {"name",       "my-imported-job"},
+            {"namespace",  "default"},
+            {"annotations", {
+                {"themisdb/task-name",        "Imported Task"},
+                {"themisdb/task-description", "Imported from K8s"},
+                {"themisdb/task-id",          "my-imported-job"}
+            }}
+        }},
+        {"spec", {
+            {"schedule", "0 * * * *"}
+        }}
+    };
+
+    auto result = handler_->importFromKubernetesCronJob(manifest);
+    EXPECT_EQ(result.value("status", ""), "created") << result.dump();
+    ASSERT_TRUE(result.contains("id"));
+    EXPECT_FALSE(result["id"].get<std::string>().empty());
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_MissingMetadataReturnsError) {
+    nlohmann::json bad_manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"spec", {{"schedule", "* * * * *"}}}
+    };
+    auto result = handler_->importFromKubernetesCronJob(bad_manifest);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_MissingScheduleReturnsError) {
+    nlohmann::json bad_manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"metadata", {{"name", "no-schedule"}}},
+        {"spec", nlohmann::json::object()}
+    };
+    auto result = handler_->importFromKubernetesCronJob(bad_manifest);
+    EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_ImportedTaskAppearsInList) {
+    nlohmann::json manifest{
+        {"apiVersion", "batch/v1"},
+        {"kind",       "CronJob"},
+        {"metadata", {
+            {"name", "listed-job"},
+            {"annotations", {
+                {"themisdb/task-id", "listed-job"}
+            }}
+        }},
+        {"spec", {{"schedule", "*/5 * * * *"}}}
+    };
+    auto import_result = handler_->importFromKubernetesCronJob(manifest);
+    ASSERT_EQ(import_result.value("status", ""), "created");
+
+    auto list_result = handler_->listTasks();
+    ASSERT_TRUE(list_result.contains("items"));
+    bool found = false;
+    for (const auto& item : list_result["items"]) {
+        if (item.value("id", "") == import_result["id"].get<std::string>()) {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found) << "Imported task not found in task list";
 }

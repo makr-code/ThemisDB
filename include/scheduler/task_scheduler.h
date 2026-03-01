@@ -181,7 +181,8 @@ struct ScheduledTask {
         FIXED_DELAY,         // Fixed delay between retries
         EXPONENTIAL_BACKOFF, // 1s, 2s, 4s, 8s, ... (capped by max_delay)
         LINEAR_BACKOFF,      // initial_delay, 2*initial_delay, 3*initial_delay, ...
-        JITTER_BACKOFF       // Exponential backoff with ±jitter_factor random jitter
+        JITTER_BACKOFF,      // Exponential backoff with ±jitter_factor random jitter
+        FIBONACCI_BACKOFF    // initial * fib(attempt+1): 1×, 1×, 2×, 3×, 5×, 8×, ... (capped by max_delay)
     };
 
     /**
