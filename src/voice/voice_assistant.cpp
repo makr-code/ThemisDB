@@ -608,6 +608,30 @@ VoiceAuthResult VoiceAssistant::authenticateSpeaker(
     return voice_authenticator_.authenticate(user_id, audio_sample);
 }
 
+VerificationResult VoiceAssistant::verifyVoiceSpeaker(
+    const VoiceProfileID&         profile_id,
+    const std::vector<uint8_t>&   audio_sample)
+{
+    return voice_authenticator_.verify_speaker(profile_id, audio_sample);
+}
+
+IdentificationResult VoiceAssistant::identifyVoiceProfiles(
+    const std::vector<VoiceProfileID>& candidate_profiles,
+    const std::vector<uint8_t>&        audio_sample)
+{
+    return voice_authenticator_.identify_speaker(candidate_profiles, audio_sample);
+}
+
+bool VoiceAssistant::deleteVoiceProfile(const VoiceProfileID& profile_id)
+{
+    return voice_authenticator_.delete_profile(profile_id);
+}
+
+std::vector<VoiceProfileID> VoiceAssistant::listVoiceProfiles() const
+{
+    return voice_authenticator_.list_profiles();
+}
+
 
 WakeWordDetectionResult VoiceAssistant::detectWakeWord(
     const std::vector<uint8_t>& audio_chunk

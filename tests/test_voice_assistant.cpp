@@ -761,6 +761,155 @@ TEST(VoiceAssistantWakeWord, StatisticsIncludesWakeWordKey) {
     ASSERT_TRUE(stats["wake_word"].contains("total_chunks_processed"));
     EXPECT_EQ(stats["wake_word"]["total_chunks_processed"].get<uint64_t>(), 1u);
 }
+
+// ---------------------------------------------------------------------------
+// VoiceAssistant biometric auth delegate methods
+// ---------------------------------------------------------------------------
+
+namespace {
+
+// Generate a sine-wave PCM buffer (16-bit LE, mono) of the given duration.
+// Identical to makePcmSine() used in the standalone auth tests.
+std::vector<uint8_t> makeVASine(int duration_ms, float amplitude = 0.3f,
+                                 int sample_rate = 16000)
+{
+    const int n = (sample_rate * duration_ms) / 1000;
+    std::vector<uint8_t> pcm;
+    pcm.reserve(static_cast<size_t>(n) * 2);
+    for (int i = 0; i < n; ++i) {
+        float v = amplitude * std::sin(
+            2.0f * 3.14159265f * 440.0f * static_cast<float>(i) / static_cast<float>(sample_rate));
+        auto s = static_cast<int16_t>(v * 32767.0f);
+        pcm.push_back(static_cast<uint8_t>(s & 0xFF));
+        pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return pcm;
+}
+
+themis::voice::VoiceAssistant::Config makeVAConfig() {
+    themis::voice::VoiceAssistant::Config cfg;
+    cfg.enable_voice_auth = false;  // don't gate commands
+    return cfg;
+}
+
+} // namespace
+
+TEST(VoiceAssistantBiometricAuth, EnrollAndListProfiles) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    std::vector<std::vector<uint8_t>> samples;
+    for (int i = 0; i < 3; ++i) {
+        samples.push_back(makeVASine(3000, 0.2f + 0.05f * i));
+    }
+
+    themis::voice::VoiceProfileID pid;
+    EXPECT_TRUE(va.enrollSpeaker("alice", samples, pid, ecfg));
+    EXPECT_FALSE(pid.empty());
+
+    auto profiles = va.listVoiceProfiles();
+    ASSERT_EQ(profiles.size(), 1u);
+    EXPECT_EQ(profiles[0], pid);
+}
+
+TEST(VoiceAssistantBiometricAuth, VerifyVoiceSpeakerMatchesEnrollmentAudio) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    auto sample = makeVASine(3000, 0.3f);
+    std::vector<std::vector<uint8_t>> samples(3, sample);
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("bob", samples, pid, ecfg));
+
+    // The verification threshold is part of VoiceAuthConfig provided at
+    // construction time, so create a new VoiceAssistant with a lower threshold
+    // to ensure the identical-audio probe verifies.
+    themis::voice::VoiceAuthConfig acfg;
+    acfg.verification_threshold = 0.50f;
+    themis::voice::VoiceAssistant::Config cfg2 = makeVAConfig();
+    cfg2.voice_auth_config = acfg;
+    themis::voice::VoiceAssistant va2(cfg2);
+    ASSERT_TRUE(va2.enrollSpeaker("bob", samples, pid, ecfg));
+
+    auto result = va2.verifyVoiceSpeaker(pid, sample);
+    EXPECT_GT(result.match_score, 0.0f);
+}
+
+TEST(VoiceAssistantBiometricAuth, VerifyVoiceSpeakerRejectsUnknownProfile) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    auto probe = makeVASine(2000);
+    auto result = va.verifyVoiceSpeaker("nonexistent_profile", probe);
+    EXPECT_FALSE(result.verified);
+    EXPECT_EQ(result.decision_reason, "profile_not_found");
+}
+
+TEST(VoiceAssistantBiometricAuth, IdentifyVoiceProfilesFindsCandidate) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    std::vector<std::vector<uint8_t>> samples;
+    for (int i = 0; i < 3; ++i) {
+        samples.push_back(makeVASine(3000, 0.25f));
+    }
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("carol", samples, pid, ecfg));
+
+    // Lowered identification threshold so the probe matches.
+    themis::voice::VoiceAssistant::Config cfg2 = makeVAConfig();
+    cfg2.voice_auth_config.identification_threshold = 0.0f;
+    themis::voice::VoiceAssistant va2(cfg2);
+    ASSERT_TRUE(va2.enrollSpeaker("carol", samples, pid, ecfg));
+
+    auto probe = makeVASine(2000, 0.25f);
+    auto result = va2.identifyVoiceProfiles({pid}, probe);
+    EXPECT_TRUE(result.identified);
+    EXPECT_EQ(result.top_match_id, pid);
+}
+
+TEST(VoiceAssistantBiometricAuth, DeleteVoiceProfileRemovesIt) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+
+    themis::voice::EnrollmentConfig ecfg;
+    ecfg.min_samples      = 3;
+    ecfg.quality_threshold = 0.0f;
+    ecfg.require_liveness  = false;
+
+    std::vector<std::vector<uint8_t>> samples;
+    for (int i = 0; i < 3; ++i) {
+        samples.push_back(makeVASine(3000, 0.2f));
+    }
+
+    themis::voice::VoiceProfileID pid;
+    ASSERT_TRUE(va.enrollSpeaker("dave", samples, pid, ecfg));
+    ASSERT_EQ(va.listVoiceProfiles().size(), 1u);
+
+    EXPECT_TRUE(va.deleteVoiceProfile(pid));
+    EXPECT_TRUE(va.listVoiceProfiles().empty());
+}
+
+TEST(VoiceAssistantBiometricAuth, DeleteVoiceProfileReturnsFalseForUnknownId) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    EXPECT_FALSE(va.deleteVoiceProfile("no-such-profile-id"));
+}
+
+TEST(VoiceAssistantBiometricAuth, ListVoiceProfilesEmptyByDefault) {
+    themis::voice::VoiceAssistant va(makeVAConfig());
+    EXPECT_TRUE(va.listVoiceProfiles().empty());
+}
 #endif // THEMIS_ENABLE_VOICE_ASSISTANT
 
 // ============================================================
