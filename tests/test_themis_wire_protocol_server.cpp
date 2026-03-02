@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_themis_wire_protocol_server.cpp               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:07:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     410                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • bcaa2ca2d  2026-02-23  audit(themis): add WireProtocolServer/Session lifecycle t... ║
+    • d96f1be0a  2026-02-23  style(tests): rename makeClientSocket to make_client_sock... ║
+    • c585fc855  2026-02-23  fix(themis): address code review feedback – add parse err... ║
+    • e3cf67fe0  2026-02-23  feat(themis): add wire_protocol_server.cpp to src/themis ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /// @file test_themis_wire_protocol_server.cpp
 /// @brief Unit tests for themis::wire V1 protocol types, constants, and
 ///        compile-time properties defined in

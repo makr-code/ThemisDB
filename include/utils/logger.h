@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logger.h                                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:44                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     146                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     149                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5cc90811f  2026-02-23  fix(core): trace ID injection into JSON structured logs; ... ║
+    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

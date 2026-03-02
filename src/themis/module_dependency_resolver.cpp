@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            module_dependency_resolver.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     327                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 445546674  2026-02-27  Add plugin dependency graph visualization for base module ║
+    • eda60be50  2026-02-23  Fix version-constraint enforcement and update ROADMAP.md ║
+    • 3908bbb54  2026-02-23  Add module dependency resolution and load-order managemen... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Module dependency resolver implementation
 // Provides topological-sort-based load-order management for ThemisDB modules.
 //

@@ -2,18 +2,21 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            er_diagram_exporter.h                             ║
-  Version:         0.0.1                                             ║
-  Last Modified:   2026-02-28                                        ║
-  Author:          copilot-swe-agent[bot]                            ║
+  File:            er_diagram_exporter.h                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:53:48                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                   ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                           ║
-    • Quality Score:   90.0/100                                      ║
-    • Total Lines:     145                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                            ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     158                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                         ║
+  Revision History:                                                   ║
+    • c9e3bb26f  2026-02-28  feat(metadata): add ERDiagramExporter for cross-collectio... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

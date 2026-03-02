@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            task_scheduler_api_handler.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     948                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c34a95e5f  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
+    • cf5596a8c  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
+    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
+    • b36d290e6  2026-03-01  feat(scheduler): add getTaskResults/getLatestTaskResult A... ║
+    • c459420f1  2026-03-01  Add searchable audit log API endpoint GET /api/tasks/{id}... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/task_scheduler_api_handler.h"
 #include "scheduler/task_audit_manager.h"
 #include "scheduler/external_scheduler_adapter.h"

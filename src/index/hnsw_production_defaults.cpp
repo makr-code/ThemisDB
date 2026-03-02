@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hnsw_production_defaults.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:08                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     485                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     488                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 939a30a6f  2026-02-22  feat(index/perf): Add auto-tuner for HNSW ef_construction... ║

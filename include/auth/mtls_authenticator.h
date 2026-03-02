@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mtls_authenticator.h                               ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-02-24                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:52:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     260                                             ║
+    • Total Lines:     243                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 32da2ea9d  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
+    • b12ea8a40  2026-02-24  fix(auth): correct verify_expiry=false and inline PEM bun... ║
+    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

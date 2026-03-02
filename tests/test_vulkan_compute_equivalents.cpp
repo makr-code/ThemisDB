@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_vulkan_compute_equivalents.cpp                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:07:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     431                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c5f10fdcb  2026-02-23  fix(acceleration): add input validation and error handlin... ║
+    • 2b9cce943  2026-02-23  feat(acceleration): implement Vulkan compute equivalents ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Vulkan Compute Equivalents
 //
 // Validates that the Vulkan backend provides compute equivalents matching

@@ -3,14 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scoring.py                                         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-02-28                                         ║
-  Author:          CHIMERA Development Team                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:21                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
+    • Total Lines:     471                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 701b8592a  2026-02-28  Add scoring framework docs and update header quality metrics ║
+    • b081c5508  2026-02-28  feat(chimera): integrate StatisticalAnalyzer with Benchma... ║
+    • fc2f092b6  2026-02-26  audit: remove unused imports, dead code, raise coverage t... ║
+    • f2104380d  2026-02-26  feat(chimera): add benchmark result normalization and sco... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

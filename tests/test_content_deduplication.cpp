@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_content_deduplication.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:56                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     510                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b617bb3a1  2026-02-28  Implement content deduplication via SHA-256 hash before s... ║
+    • 8af0ff1a8  2026-02-27  refactor(content): address code review feedback on dedupl... ║
+    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_content_deduplication.cpp
  * @brief Unit tests for content deduplication via perceptual hashing.

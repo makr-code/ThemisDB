@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_sandbox.cpp                                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:01                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     409                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     435                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5a40139ef  2026-02-26  audit(base): close stub, update headers and ROADMAP for p... ║
+    • 68907b86d  2026-02-26  feat(base): implement CPU-time limit (RLIMIT_CPU) for plu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

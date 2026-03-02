@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_manager_versioned.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:05                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     479                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     486                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 620ed8630  2026-02-28  Fix rollbackToVersion stub: restore rule from version sna... ║
     • a625e405d  2026-02-22  Address code review: replace magic numbers with chrono ca... ║
     • 3030c4e0a  2026-02-22  Implement policy conflict detection and resolution report... ║
 ╠═════════════════════════════════════════════════════════════════════╣

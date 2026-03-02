@@ -1,4 +1,28 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_feature_flags.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     255                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
+    • 6dc891cbd  2026-02-24  feat(core): feature flag interface for runtime enable/dis... ║
+    • 1579feab7  2026-02-23  feat(core): add IFeatureFlags interface as a first-class ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Unit tests for the IFeatureFlags interface and its implementations.
  *
  * Covers:

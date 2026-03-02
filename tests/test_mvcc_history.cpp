@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_mvcc_history.cpp                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     947                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • eb5e037bc  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
+    • da5b0c6f3  2026-02-24  Add TransactionManager integration tests: putEntity/erase... ║
+    • 68f2e8e3f  2026-02-24  Fix conflict_id separator to use underscore instead of dot ║
+    • 886db4610  2026-02-24  Add atomic history/conflict layer to MVCCStore and Transa... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //

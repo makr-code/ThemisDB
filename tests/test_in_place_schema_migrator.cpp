@@ -4,14 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_in_place_schema_migrator.cpp                  ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-23                                         ║
+  Last Modified:   2026-03-02 04:04:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     482                                             ║
+    • Total Lines:     611                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4801e2151  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
+    • 1a81c471d  2026-02-28  feat(updates): add 5 missing InPlaceSchemaMigrator tests ... ║
+    • f7fdc80f2  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
+    • 4ce167b67  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

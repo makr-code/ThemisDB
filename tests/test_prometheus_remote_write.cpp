@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_prometheus_remote_write.cpp                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:06:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     552                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d18db7b9a  2026-03-01  fix(timeseries): code audit – 3 security fixes in prometh... ║
+    • fd0023de9  2026-02-28  feat(timeseries): implement Prometheus remote-write endpo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Tests for Prometheus remote-write endpoint compatibility
 //
 // Phase 1: Unit tests for the protobuf decoder (PromWriteRequest::decode).

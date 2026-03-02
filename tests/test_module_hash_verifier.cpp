@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_module_hash_verifier.cpp                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     298                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84e913c55  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
+    • fbab04c60  2026-02-23  Add SHA-256 module hash verifier (issue #2471) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /// @file test_module_hash_verifier.cpp
 /// @brief Unit tests for ModuleHashVerifier – SHA-256 module integrity checks
 ///

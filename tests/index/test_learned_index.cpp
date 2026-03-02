@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_learned_index.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     406                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5c7c84971  2026-02-27  Security fix: guard against integer-overflow DoS in deser... ║
+    • 1983b8223  2026-02-27  Implement learned index structures (ML-based B-tree repla... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Unit tests for the Learned Index Structures (ML-based B-tree replacement)
 // Index module — Phase 3, Issue #1990
 //

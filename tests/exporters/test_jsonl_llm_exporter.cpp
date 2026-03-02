@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jsonl_llm_exporter.cpp                        ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:37                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:01:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     796                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1045                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d1800e174  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
+    • 9720b39ae  2026-02-28  Fix progress callbacks in jsonl_llm_exporter: populate du... ║
+    • 0da3ceaf6  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
+    • 5b487cd13  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

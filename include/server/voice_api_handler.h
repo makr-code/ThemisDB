@@ -4,18 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.h                                ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-28                                          ║
+  Last Modified:   2026-03-02 03:54:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     228                                            ║
+    • Total Lines:     268                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7bdfe2d  2026-02-28  feat(voice): voice command macros for user-defined AQL queries  ║
-    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
+    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
+    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
+    • e6c4d3fc4  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
+    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
+    • 7bdfe2da2  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

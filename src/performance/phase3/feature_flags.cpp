@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:15                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     68                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     76                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1973a06f2  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
+    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
+    • da9b09bcc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
+    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+    • 218376a77  2026-02-25  feat(performance): implement memory pressure monitoring w... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

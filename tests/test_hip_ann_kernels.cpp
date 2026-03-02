@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_hip_ann_kernels.cpp                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:04:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     314                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fd8ef9b56  2026-02-23  test(acceleration): add HIPVectorBackend capability field... ║
+    • 33de0a38c  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
+    • 32123c014  2026-02-23  feat(acceleration): add ROCm/HIP ANN and geo kernel files... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: HIP-Accelerated ANN Kernel Dispatch
 //
 // Validates the HIP/ROCm ANN (Approximate Nearest Neighbor) kernel dispatch

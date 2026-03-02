@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 07:55:02                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:59:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     33                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     58                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5d8849404  2026-03-01  feat(performance): Implement io_uring zero-copy I/O path ... ║
+    • 3fc507357  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
+    • f93dd332c  2026-02-23  audit(performance): add file banners and register PMem in... ║
+    • 5ee46e597  2026-02-23  feat(performance): Persistent Memory (Optane) aware stora... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

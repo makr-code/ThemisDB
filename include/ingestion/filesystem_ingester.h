@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            filesystem_ingester.h                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:22                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     282                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
+    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
+    • 81a0f7896  2026-02-23  Security fix: add isConverterSafe() to guard popen() agai... ║
     • 08a813e1d  2026-02-22  feat(ingestion): PDF/DOCX binary format ingestion via ext... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣

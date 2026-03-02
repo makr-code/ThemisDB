@@ -4,16 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_voice_assistant.cpp                          ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-03-01                                          ║
+  Last Modified:   2026-03-02 03:51:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Total Lines:     750                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     888                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e0a7ce222  2026-03-01  feat(voice): add STT latency and TTS generation speed ben... ║
+    • 5821357c2  2026-02-22  voice: add wake-word detection REST endpoint, benchmarks,... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

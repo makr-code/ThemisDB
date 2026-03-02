@@ -4,8 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opa_adapter.cpp                               ║
   Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:34                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     282                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 24                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -2,18 +2,21 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            document_splitter.cpp                             ║
-  Version:         0.0.1                                             ║
-  Last Modified:   2026-02-24                                        ║
-  Author:          unknown                                           ║
+  File:            document_splitter.cpp                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:59:22                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                   ║
-    • Maturity Level:  🟢 PRODUCTION-READY                            ║
-    • Quality Score:   100.0/100                                     ║
-    • Total Lines:     310                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                            ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     427                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                         ║
+  Revision History:                                                   ║
+    • 14a59e400  2026-02-24  feat(rag): configurable chunk size and overlap for docume... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            flatfile_importer.h                                ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-27                                         ║
+  Last Modified:   2026-03-02 03:53:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     170                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • de551b3f1  2026-02-28  feat(importers): Add Parquet support to flat-file importe... ║
+    • 001179174  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
+    • bcf86b908  2026-02-27  Add CSV/TSV/JSONL flat-file importer with unit tests and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.cpp                              ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:25                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1376                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     1976                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 139394c19  2026-02-22  Style fix: expand single-line if/else in ingestAll() disa... ║
-    • aac34c402  2026-02-22  Fix pre-existing test failures: include disabled sources ... ║
-    • c8bd4be58  2026-02-22  Add withApiSource() to IngestionBuilder for cursor/offset... ║
-    • 4699a5a4d  2026-02-22  audit(ingestion): add quarantine_retry_success_total Prom... ║
-    • 57ca95f7c  2026-02-22  feat(ingestion): per-document quarantine retry with expon... ║
+    • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
+    • 16cb82276  2026-02-28  feat(ingestion): dynamic source reconfiguration without r... ║
+    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
+    • 51c189e9d  2026-02-28  feat(ingestion): implement CDC source connector for live ... ║
+    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,4 +1,28 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_subscription_auth.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     581                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • 2b222c381  2026-02-24  fix(cdc): correct test names and add feature-disabled aut... ║
+    • 69f0286bd  2026-02-24  feat(cdc): add subscription authorization security audit ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * @file test_cdc_subscription_auth.cpp
  * @brief Security audit: CDC subscription authorization and data leakage tests.
  *

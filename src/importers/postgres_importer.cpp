@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:07                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     1497                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1595                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8f780fcd2  2026-02-28  feat(importers): implement dry-run preview for PostgreSQL... ║
+    • 11c3fb7c3  2026-02-28  feat(importers): implement dry-run import preview for Pos... ║
+    • a3d6da5ac  2026-02-24  feat(importers): implement conflict resolution strategies... ║
+    • 625263378  2026-02-23  Resolve code-audit findings: rename dummy→checkpoint_stat... ║
+    • 220fc09b2  2026-02-22  Add streaming import API for large datasets without full ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

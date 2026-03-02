@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_reranker.cpp                              ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-23                                         ║
+  Last Modified:   2026-03-02 04:04:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Total Lines:     310                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     429                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8b78c9c56  2026-02-28  Fix temperature stub in LlmQueryRewriter and add temperat... ║
+    • 39eff90ac  2026-02-23  fix(search/llm_reranker): sort fallback path, strengthen ... ║
+    • dd484664b  2026-02-23  feat(search): add LlmReranker for configurable re-ranking... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

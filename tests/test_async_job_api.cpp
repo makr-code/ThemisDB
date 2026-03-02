@@ -3,9 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_job_api.cpp                             ║
-  Module:          server / tests                                     ║
-  Description:     Unit tests for AsyncJobApiHandler.                 ║
-                   Self-contained; no HTTP server required.           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     474                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • baa1f73a1  2026-02-24  fix(api): code audit fixes for async job API ║
+    • e182799cd  2026-02-23  feat(api): async job API for long-running AQL queries ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

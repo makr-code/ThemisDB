@@ -3,9 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            debezium_format.h                                  ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-24                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:52:22                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     365                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a3f88599c  2026-02-27  Add Debezium-compatible change event envelope format with... ║
+    • df0b82e9b  2026-02-24  feat(cdc): Debezium-compatible change event envelope form... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -4,6 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opa_adapter.cpp                                    ║
   Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     194                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

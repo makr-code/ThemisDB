@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cloud_backup.cpp                                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   22.0/100                                       ║
+    • Total Lines:     684                                            ║
+    • Open Issues:     TODOs: 5, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 252b3f2e9  2026-02-07  Implement production GPU backend, cloud backup infrastruc... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/cloud_backup.h"
 #include "sharding/cloud_agent.h"
 #include "sharding/shard_topology.h"

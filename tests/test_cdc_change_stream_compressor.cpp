@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_change_stream_compressor.cpp              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     444                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ea6387651  2026-02-26  Code audit fixes: GTEST_SKIP guards, explicit nlohmann in... ║
+    • 1b8c9aea9  2026-02-26  Implement change stream compression for high-volume CDC f... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Tests for CDC change stream compression for high-volume feeds.
  *
  * Validates ChangeStreamCompressor:

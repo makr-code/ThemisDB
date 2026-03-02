@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tsa_api.cpp                                   ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-03-01                                         ║
-  Author:          ThemisDB Security Team                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:07:28                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Total Lines:     ~370                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   2.0/100                                        ║
+    • Total Lines:     463                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 19                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Revision History:                                                   ║
+    • b41bc73a4  2026-03-01  Add RFC 3161 TSA API interface/wrapper: tsa_api.h, tsa_ap... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

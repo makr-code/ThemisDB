@@ -3,19 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25 08:31:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     150                                            ║
+    • Total Lines:     275                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • e58f4c7a6  2026-02-22  feat(governance): add hot-reload for policy YAML with Pol... ║
+    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
+    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
+    • eaca5e19d  2026-02-25  fix(governance): code audit – add PolicyEngine::checkExpo... ║
+    • b287de31a  2026-02-25  audit: update stale Stubs/Quality/LineCount header metada... ║
+    • d52dc523a  2026-02-25  chore(governance): fix stale metadata after simulateDecis... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

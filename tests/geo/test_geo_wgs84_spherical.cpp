@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_geo_wgs84_spherical.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     162                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e8e316290  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
+    • 674e35f16  2026-02-25  feat(geo): implement WGS-84 spherical geometry support vi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Test suite: WGS-84 ellipsoid geodesic distance
  *
  * Validates CpuExactBackend::geodesicDistance() which implements the

@@ -4,8 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sqlite_importer.cpp                                ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-26                                         ║
+  Last Modified:   2026-03-02 03:58:16                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1081                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
+    • aeea5e199  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
+    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

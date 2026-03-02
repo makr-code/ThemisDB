@@ -3,19 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.cpp                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:22                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   94.0/100                                       ║
-    • Total Lines:     829                                            ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     967                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
-    • deb41540b  2026-02-21  Code audit: fix 4 bugs found in review (query-string, mut... ║
+    • 39d0b757f  2026-02-26  audit: fix stub tests RegisterHandler/HealthStatusWithErr... ║
+    • bfbf88c10  2026-02-26  feat(api): integrate Kong and Nginx as API gateways ║
+    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • 9564da32a  2026-02-24  fix: processVersionHeaders query-strip, update docs and R... ║
+    • 669dd3958  2026-02-24  feat: add versioned endpoint routing (/v1/, /v2/) with de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

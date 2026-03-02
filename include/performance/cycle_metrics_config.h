@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cycle_metrics_config.h                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:27                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,10 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     162                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b4f732549  2026-02-25  audit: fix cycle_metrics stubs, update metadata, add PMU ... ║
+    • 3fc507357  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

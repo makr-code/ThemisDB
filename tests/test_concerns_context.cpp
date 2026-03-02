@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_concerns_context.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:49                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:02:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     781                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     1382                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f0410cbb0  2026-02-27  audit(core): wire Jaeger/Zipkin adapters into ConcernsCon... ║
+    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
+    • 31c83c701  2026-02-23  fix(core): repair syntax errors from develop merge; resto... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • 454802e88  2026-02-23  fix(core): fix syntax errors in core headers and improve ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

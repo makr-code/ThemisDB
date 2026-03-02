@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-03-01                                        ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:06:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     3728                                           ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     3836                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • (current)        2026-03-01  feat(replication): witness node tests (7 cases) ║
-    • a44a64287  2026-02-22  Add unit tests for getTopologySnapshot and fix stale meta... ║
-    • f34d9abde  2026-02-22  fix(replication): audit fixes – config validation + Prome... ║
-    • 3e791276b  2026-02-22  fix(replication): fix lease read test assertion for empty... ║
-    • 573513108  2026-02-22  feat(replication): implement Raft leader lease reads for ... ║
+    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
+    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
+    • 42947304a  2026-03-01  Fix witness node quorum counting and leader exclusion in ... ║
+    • 2e7a5d0c7  2026-02-28  feat(replication): witness node support for quorum in 2-n... ║
+    • 537c9e591  2026-02-27  fix(replication): witness node audit – robust test, docum... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

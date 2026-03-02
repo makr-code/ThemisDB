@@ -4,14 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.h                                ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 00:00:00                                ║
+  Last Modified:   2026-03-02 03:55:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     230                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     337                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9cc43d8f2  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 2379d3536  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
+    • 70833d647  2026-02-25  feat(gpu): implement CUDA graph capture for recurring que... ║
+    • 486b0a16f  2026-02-25  feat(gpu): add FP16/BF16 Tensor Core support to query acc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

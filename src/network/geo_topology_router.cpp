@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            geo_topology_router.cpp                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:58:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     281                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0be4d68c3  2026-03-01  fix(network): enforce fallback_cross_region and remove de... ║
+    • 04ccda37b  2026-03-01  feat(network): Add GeoTopologyRouter for topology-aware r... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB – Network topology-aware routing for geo-distributed clusters.
 // See include/network/geo_topology_router.h for design documentation.
 

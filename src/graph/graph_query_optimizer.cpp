@@ -4,21 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:15:00                                ║
+  Last Modified:   2026-03-02 03:58:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1664                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     2781                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
-    • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
-    • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
-    • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
-    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
+    • 0fccc8956  2026-02-26  fix(code-audit): add estimated_cost_ms to executeSubgraph... ║
+    • 469b792c1  2026-02-26  fix: add explanatory comment for cost-to-ms conversion fa... ║
+    • 8b26f1ce4  2026-02-26  feat: add cost estimation accuracy tracking to graph cost... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • d22fa781d  2026-02-26  fix(graph): remove double temporal selectivity in optimiz... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

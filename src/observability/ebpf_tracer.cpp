@@ -4,14 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ebpf_tracer.cpp                                    ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-28                                         ║
+  Last Modified:   2026-03-02 03:58:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     372                                            ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     522                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7da0156c2  2026-03-01  fix(observability/ebpf_tracer): audit fixes — data race, ... ║
+    • 5ffb98107  2026-02-28  feat(observability): implement eBPF-based low-overhead ke... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -4,14 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            weaviate_adapter.hpp                               ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-26                                         ║
+  Last Modified:   2026-03-02 03:52:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     205                                            ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     263                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f16d5f90b  2026-02-27  fix(chimera): audit fixes – security tests, performance b... ║
+    • 3f0220a43  2026-02-26  feat(chimera): implement Weaviate native vector database ... ║
+    • 261a690e7  2026-02-26  feat(chimera): implement PostgreSQL + pgvector adapter fo... ║
+    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 5554ae8cd  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

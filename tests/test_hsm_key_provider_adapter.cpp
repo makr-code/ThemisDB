@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_key_provider_adapter.cpp                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:59                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     484                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 7                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     487                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 6                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║

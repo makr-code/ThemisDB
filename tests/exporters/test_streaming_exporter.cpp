@@ -3,9 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_streaming_exporter.cpp                        ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     440                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5b487cd13  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
+    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
+    • d525f93e5  2026-02-26  Audit: fix stray brace in test, update ROADMAP and IMPLEM... ║
+    • 384a0bfa5  2026-02-26  Implement streaming export for large collections with pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

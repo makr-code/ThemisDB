@@ -4,8 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            s3_importer.cpp                                    ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-27                                         ║
+  Last Modified:   2026-03-02 03:58:14                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     704                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 56f00ce00  2026-02-27  feat: add S3-compatible object storage source connector ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

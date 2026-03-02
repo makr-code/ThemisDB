@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.cpp                                  ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:22                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     464                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     639                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
+    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
+    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
+    • b40bbc161  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • dbe0c23ed  2026-02-23  Audit follow-up: update stale file headers, ROADMAP statu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

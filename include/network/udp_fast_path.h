@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            udp_fast_path.h                                    ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:53:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     236                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
+    • d05b24f28  2026-02-28  fix(network): code audit — 6 correctness/security fixes i... ║
+    • 2f509d25d  2026-02-27  feat(network): implement UDP fast-path for read-only quer... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB UDP Fast-Path for Read-Only Queries
 // Connectionless, low-overhead alternative transport for GET/QUERY/VECTOR_SEARCH.
 //

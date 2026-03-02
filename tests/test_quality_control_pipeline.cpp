@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_quality_control_pipeline.cpp                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:19                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:06:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     422                                            ║
+    • Total Lines:     445                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1fa567a3f  2026-03-01  Wire CitationHighlighter into QualityControlPipeline Stag... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

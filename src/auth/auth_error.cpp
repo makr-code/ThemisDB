@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_error.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:59                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     492                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     562                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e18972c32  2026-02-24  fix(auth): resolve PASSWORD_POLICY_VIOLATION enum collisi... ║
+    • ad8c8cf55  2026-02-23  feat(auth): implement API key authentication (static key ... ║
     • 16d49bcf3  2026-02-22  fix(auth): register SAML 2.0 error codes in ErrorRegistry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

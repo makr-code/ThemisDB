@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_governance_policy_hot_reload.cpp              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:58:54                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 04:03:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     479                                            ║
+    • Total Lines:     493                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
     • 35bbe7c5a  2026-02-22  feat(governance): add Prometheus counter and audit entry ... ║
     • e58f4c7a6  2026-02-22  feat(governance): add hot-reload for policy YAML with Pol... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_expander.cpp                            ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23 03:59:20                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-03-02 04:06:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     212                                            ║
+    • Total Lines:     455                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3a0def802  2026-03-01  feat(search): improve spelling correction with frequency-... ║
+    • ca8c06fdd  2026-02-23  feat(search): add ranked spelling correction suggestions ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

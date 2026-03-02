@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            oidc_provider.cpp                                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     289                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b15aac1a6  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
+    • 97765fc24  2026-02-23  feat(auth): implement OIDCProvider for JWT/OIDC federated... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "auth/oidc_provider.h"
 
 #include <curl/curl.h>

@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25 08:31:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     412                                            ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     636                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • ffb05a96d  2026-02-22  fix: update metrics collector namespace and adjust source... ║
-    • 35bbe7c5a  2026-02-22  feat(governance): add Prometheus counter and audit entry ... ║
-    • e58f4c7a6  2026-02-22  feat(governance): add hot-reload for policy YAML with Pol... ║
+    • d2f3985dc  2026-02-27  fix(governance): simulateDecision routes through OPA; add... ║
+    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
+    • 8d2569bdd  2026-02-26  fix(governance): code audit – data race, maskFieldsArray ... ║
+    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
+    • eaca5e19d  2026-02-25  fix(governance): code audit – add PolicyEngine::checkExpo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,11 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_integration.cpp                           ║
-  Module:          api / tests                                        ║
-  Description:     Integration tests for the REST API module.         ║
-                   Starts an in-process HTTP server and exercises      ║
-                   all /v1/-level routes end-to-end via real TCP       ║
-                   connections.                                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:59                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     592                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ad3addad8  2026-02-27  feat(api): add comprehensive API integration tests (Issue... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

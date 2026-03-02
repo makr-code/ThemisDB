@@ -4,8 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_registry.h                                  ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-25                                         ║
+  Last Modified:   2026-03-02 03:52:25                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     845                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f8098a60c  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
+    • 87c62f731  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

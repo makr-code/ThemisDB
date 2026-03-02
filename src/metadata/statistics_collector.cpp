@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            statistics_collector.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:13                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     559                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     768                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ee4130746  2026-02-26  Implement column-level statistics histograms for query pl... ║
+    • 3b0978c95  2026-02-25  fix(metadata): include index stats in toJSON() output; up... ║
+    • f98ed83c9  2026-02-25  feat(metadata): add index statistics export to Statistics... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_content_audio_processor.cpp                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     626                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fed06bb4b  2026-02-28  fix(content/audio): propagate STT transcription metadata ... ║
+    • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
+    • 24177a8bc  2026-02-22  Implement real audio metadata extraction with format-spec... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright (c) 2024 ThemisDB
 // SPDX-License-Identifier: MIT
 
