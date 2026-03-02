@@ -1,5 +1,40 @@
 # Index Module - Future Enhancements
 
+## Scope
+
+- HNSW vector similarity indexes (L2, Cosine, Dot Product) with GPU acceleration (Vulkan, CUDA, HIP)
+- Product Quantization (PQ), Binary Quantization, and Residual Quantization compression
+- B-tree, range, sparse, composite, and partial (filtered) secondary indexes
+- R-tree spatial index with Z-order curve ordering
+- Graph adjacency index for BFS/DFS traversal
+- Learned index structures (ML-based B-tree replacement) and DiskANN/ScaNN on-disk ANN
+- Multi-tenancy index isolation via RocksDB key-prefix scoping (`tenant:<id>:<index_name>`)
+- Online index rebuild, cold/warm tier migration, and GPU-accelerated index build
+
+## Design Constraints
+
+- [ ] HNSW recall@10 must be ≥ 0.95 for cosine similarity on standard ANN benchmarks (e.g., SIFT-1M)
+- [ ] GPU vector search must fall back to CPU automatically when GPU driver is unavailable
+- [ ] Index writes must use RocksDB `WriteBatch` for atomicity; partial index states are not observable
+- [ ] Online index rebuild must not degrade read QPS by more than 10% during rebuild
+- [ ] Multi-tenancy key-prefix isolation must prevent cross-tenant key access at the `IndexManager` layer
+- [ ] Learned index structures must maintain exact-match correctness (no false negatives)
+- [ ] GPU memory budget per index is configurable; exceeding budget must fall back gracefully
+- [ ] Cold/warm tier migration must be transparent to callers; no API change required
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IVectorIndex::search(query, k)` | Query engine, AQL | Returns top-k neighbors with distances; GPU or CPU backend |
+| `IVectorIndex::add(id, vector)` | Ingestion pipeline | Persisted via RocksDB WriteBatch atomicity |
+| `ISecondaryIndex::lookup(key)` | Query executor | Supports B-tree, range, spatial, and full-text backends |
+| `IndexManager::createVectorIndex(config)` | Database core | Returns `VectorIndexAdapter`; enforces tenant isolation |
+| `IndexManager::createSecondaryIndex(config)` | Database core | `config="partial:<predicate>"` for filtered indexes |
+| `VectorIndexManager::incrementalReindex()` | Background maintenance | HNSW incremental rebuild without full index drop |
+| `GPUVectorIndex::search(query, k)` | `IVectorIndex` impl | Requires Vulkan/CUDA/HIP; auto-fallback to CPU |
+| `IndexAdvisor::recommend(workload)` | Query planner | Returns ranked index recommendations from workload replay |
+
 ## Planned Features
 
 ### Full-Text Search Index
@@ -828,3 +863,32 @@ Allow clients to search encrypted data without server seeing plaintext.
 - Skewed/changing distributions
 - Small datasets (<100K keys)
 - Requires exact results
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% across HNSW, secondary index manager, and spatial index (tracked by Issue #1882)
+- HNSW recall@10 regression test: must be ≥ 0.95 on SIFT-1M cosine benchmark after every build (Issue #1883)
+- Integration tests: vector insert → search round-trip, spatial containment queries, full-text inverted index search, partial index predicate filtering
+- GPU/CPU parity tests: HNSW search results must match within float32 tolerance (≤ 1e-5 L2 distance delta)
+- Multi-tenancy isolation test: cross-tenant key lookup must return empty result, not an error or another tenant's data
+- Online rebuild test: concurrent reads during rebuild must return consistent results with no QPS drop > 10%
+- Property-based tests: learned index must return exact matches for all inserted keys under randomized key distributions
+
+## Performance Targets
+
+- HNSW vector search (1M 128-dim float32 vectors, k=10): ≥ 5,000 QPS on CPU; ≥ 50,000 QPS on GPU (RTX-class)
+- HNSW recall@10 on SIFT-1M (cosine): ≥ 0.95
+- B-tree secondary index point lookup: < 500 µs p99 for 10M-key index
+- R-tree spatial range query (1M points, 1% selectivity): < 10 ms p99
+- GPU index build for 1M 128-dim vectors: < 60 s on RTX-class GPU
+- Online index rebuild read QPS degradation: < 10% during rebuild
+- RocksDB WriteBatch commit latency for vector add: < 2 ms p99
+
+## Security / Reliability
+
+- RocksDB key-prefix tenant isolation must be enforced at every `IndexManager` entry point; direct key access bypassing the manager layer is prohibited
+- GPU memory safety: CUDA/Vulkan buffers must be bounds-checked; out-of-bounds access must raise a recoverable error, not a crash
+- Audit log entries for all vector `add`, `delete`, and `search` operations must include tenant ID, timestamp, and operation type
+- Index corruption detected via RocksDB checksum validation must trigger read-only mode and alert before serving queries
+- Partial (filtered) index predicates must be validated at creation time to prevent injection via predicate strings
+- Online rebuild must maintain a dual-index window (old + new) with atomic cutover; no gap in query coverage

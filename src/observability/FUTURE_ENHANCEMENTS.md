@@ -1,5 +1,40 @@
 # Observability Module - Future Enhancements
 
+## Scope
+
+- Prometheus metrics export (`/metrics`, `themis_*` namespace) via `MetricsCollector` singleton
+- Distributed tracing with span context propagation (OpenTelemetry-compatible; OTLP gRPC/HTTP export planned)
+- Structured logging via Core `ILogger` interface with log-level filtering
+- `QueryProfiler`: per-phase and per-operator timing with index usage tracking
+- `StorageProfiler`: RocksDB stats, write/read amplification, compaction metrics, cache hit rates
+- Continuous profiling (pprof / async-profiler compatible) and adaptive sampling for high-frequency spans
+- eBPF-based kernel-level tracing (perf counters; guarded by `THEMIS_ENABLE_EBPF`)
+- Anomaly detection on metrics time-series (ML-based, planned) and SLO/SLA burn-rate alerting
+
+## Design Constraints
+
+- [ ] Metrics collection overhead must be < 1% CPU at steady-state (1,000 req/s workload)
+- [ ] Span sampling rate must be adaptive: reduce to ≤ 1% at > 10,000 spans/sec to cap trace export overhead
+- [ ] OTLP export failures must not block the request path; use a bounded async queue (default: 10,000 spans)
+- [ ] eBPF probes must be no-ops on non-Linux platforms and fail-open when `perf_event_open` fails
+- [ ] Prometheus histogram bucket boundaries must be stable across releases to preserve Grafana dashboard compatibility
+- [ ] Per-tenant metric namespacing must not leak cross-tenant cardinality via label sets
+- [ ] Structured log entries must not contain PII (user data, query result values); only query IDs, latencies, and operator names
+- [ ] Alertmanager webhook payloads must be retried up to 3 times with exponential backoff before dropping
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `MetricsCollector::increment(name, labels)` | All modules | Thread-safe; label set must be pre-registered to cap cardinality |
+| `MetricsCollector::exportPrometheus()` | HTTP `/metrics` handler | Returns Prometheus text format; called by scrape endpoint |
+| `Tracer::startSpan(name, parent)` | Query executor, storage, network | Returns `Span`; propagates W3C Trace Context headers |
+| `Tracer::exportOTLP(endpoint)` | Background exporter thread | OTLP gRPC/HTTP; async bounded queue; requires `THEMIS_ENABLE_OTLP` |
+| `QueryProfiler::profile(query, plan)` | AQL execution engine | Records per-operator timing; attaches to active trace span |
+| `StorageProfiler::collect()` | Background metrics job | Reads RocksDB statistics; publishes to MetricsCollector |
+| `PerformanceAnalyzer::analyze(snapshot)` | Alertmanager integration | Returns ranked list of detected issues with recommendations |
+| `EbpfTracer::start(config)` | Server bootstrap | Polls `perf_event_open` at 1 s interval; guarded by `THEMIS_ENABLE_EBPF` |
+
 Planned monitoring, tracing, and performance analysis features for ThemisDB.
 
 ## Table of Contents
@@ -1128,6 +1163,33 @@ Export metrics and logs to CloudWatch for AWS deployments.
 **Target Version:** v1.8.0
 
 Integration with Elastic Observability stack.
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% across `metrics_collector.cpp`, `tracer.cpp`, `query_profiler.cpp`, `storage_profiler.cpp`
+- Prometheus scrape test: exported `/metrics` output must parse without error in Prometheus text format; all registered metric families must appear
+- Trace propagation test: W3C `traceparent` header injected by client must be preserved end-to-end through query execution and storage layers
+- Adaptive sampling test: at > 10,000 synthetic spans/sec, effective sample rate must drop to ≤ 1% within 5 s of rate increase
+- eBPF tracer tests: lifecycle (start/stop), config defaults, stats accumulation, ring-buffer callback, and metrics publishing (unit tests in `tests/test_ebpf_tracer.cpp`)
+- Overhead benchmark: metrics collection overhead must be < 1% CPU measured via wall-clock comparison at 1,000 req/s workload
+
+## Performance Targets
+
+- Prometheus `/metrics` scrape response time: < 50 ms p99 with 10,000 active metric series
+- Span creation and in-process propagation overhead: < 5 µs per span
+- OTLP export latency (async queue to exporter flush): < 5 ms p99 at 1,000 spans/sec
+- `QueryProfiler` per-operator timing overhead: < 1 µs per operator boundary
+- eBPF perf counter collection cycle: < 0.1% CPU overhead per probe type at 1-second polling interval
+- Alertmanager webhook delivery latency: < 2 s p99 from alert trigger to first delivery attempt
+
+## Security / Reliability
+
+- `/metrics` endpoint must require authentication (Bearer token or mTLS) in production mode; unauthenticated access returns HTTP 401
+- Trace data must not include query result values or document content; only structural metadata (operator names, durations, record counts) is permitted in span attributes
+- OTLP export endpoint URL and credentials must be read from environment variables or a secrets store; never hardcoded or logged
+- eBPF program attachment requires `CAP_PERFMON` (Linux ≥ 5.8) or `CAP_SYS_ADMIN`; absence of capability must cause graceful degradation, not a startup failure
+- Alertmanager webhook payloads must be retried up to 3 times with exponential backoff; failed deliveries must be counted in `themis_alertmanager_delivery_failures_total`
+- Structured logs must be validated at write-time to strip fields matching a configurable PII pattern list before persisting to log storage
 
 ---
 

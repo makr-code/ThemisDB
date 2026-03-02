@@ -1,5 +1,40 @@
 # Network Module - Future Enhancements
 
+## Scope
+
+- Binary TCP wire protocol server (port 8766) with v1 and v2 frame formats
+- WebSocket upgrade on port 8766 (JSON text-frame messages; guarded by `THEMIS_ENABLE_WEBSOCKET`)
+- QUIC/HTTP3 transport (port 8770, TLS 1.3 mandatory, ngtcp2; guarded by `THEMIS_ENABLE_HTTP3`)
+- gRPC native transport (port 8771, bidirectional streaming; guarded by `THEMIS_ENABLE_GRPC`)
+- UDP fast-path for read-only queries (port 8769; opcodes: GET, QUERY_AQL, VECTOR_SEARCH, PING)
+- TLS 1.3 and mutual TLS (mTLS), per-IP rate limiting, and circuit breaker for socket timeouts
+- Connection multiplexing (v2 protocol, multiple logical streams per TCP connection)
+- Service mesh integration (Istio/Envoy sidecar; `THEMIS_ENABLE_SERVICE_MESH`)
+
+## Design Constraints
+
+- [ ] Wire protocol frame parsing must allocate zero heap objects on the hot path for v1 frames
+- [ ] TLS 1.3 is mandatory for all external connections; TLS 1.2 fallback is not permitted
+- [ ] Per-IP rate limiting must be enforced before authentication to prevent pre-auth DoS
+- [ ] Connection multiplexing (v2) stream state machine must be deterministic; illegal state transitions must close the stream with RST_STREAM
+- [ ] WebSocket binary frame dispatch is not yet supported; clients must use text/JSON frames or native TCP binary
+- [ ] QUIC 0-RTT resumption is permitted for read-only requests only; mutating requests must use 1-RTT
+- [ ] UDP fast-path opcodes are read-only (GET, QUERY_AQL, VECTOR_SEARCH, PING); write opcodes must be rejected
+- [ ] All async write buffers must use `shared_ptr`-owned lifetime to prevent use-after-free
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `WireProtocolServer::start(config)` | Server bootstrap | Binds TCP port 8766; spawns I/O + worker thread pools |
+| `WireProtocolServer::getActiveConnections()` | Prometheus metrics | Counts both binary and WebSocket sessions |
+| `WireProtocolV2Session::sendFrame(type, payload)` | Protocol handler | Validates stream state; uses shared_ptr buffer |
+| `QuicTransport::start(config)` | Server bootstrap | Port 8770; TLS 1.3 + ALPN "tmdb"; requires ngtcp2 |
+| `GrpcTransport::start(config)` | Server bootstrap | Port 8771; `AsyncGenericService` bidirectional streaming |
+| `UDPFastPath::start(config)` | Server bootstrap | Port 8769; read-only opcode filter; per-source-IP rate limit |
+| `ConnectionPool::acquire(endpoint)` | Client-side query router | Returns pooled connection with retry/backoff |
+| `ServiceMeshIntegration::start(config)` | Deployment bootstrap | Probe server + Envoy xDS v3 REST polling; port 8082 |
+
 ## Planned Features
 
 ### WebSocket Protocol Support
@@ -761,3 +796,32 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 - [io_uring Documentation](https://kernel.dk/io_uring.pdf)
 - [OpenTelemetry](https://opentelemetry.io/)
 - [Istio Service Mesh](https://istio.io/)
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% across wire protocol v1/v2, WebSocket upgrade, QUIC, gRPC, and UDP fast-path modules
+- Protocol conformance tests: all 8 frame type transitions in v2 stream state machine verified (IDLE→OPEN→HALF_CLOSED→CLOSED); RST_STREAM on illegal transitions
+- TLS integration tests: TLS 1.3 handshake with mTLS; rejected connection on expired/invalid certificate; TLS 1.2 rejected
+- Rate-limit enforcement tests: per-IP rate limit triggers at configured threshold; WebSocket connections counted against same limit
+- Regression benchmarks: WebSocket vs. native binary throughput (connections/sec); p99 latency must not regress by > 5% between releases
+- UDP fast-path tests: write opcode rejection, per-source-IP rate limiting, compact 10-byte header echo, response builder correctness
+
+## Performance Targets
+
+- TCP wire protocol: ≥ 100,000 requests/sec on a single server core (128-byte payload, no TLS)
+- TLS 1.3 handshake latency: < 5 ms p99 for new connections; < 1 ms p99 for session resumption
+- WebSocket text-frame round-trip latency: < 2 ms p99 on localhost
+- QUIC connection establishment (0-RTT resumption): < 2 ms p99
+- gRPC bidirectional streaming throughput: ≥ 50,000 messages/sec per stream
+- UDP fast-path GET response latency: < 500 µs p99 on localhost
+- Connection multiplexing (v2): ≥ 10 logical streams per physical connection with < 5% overhead vs. single-stream
+
+## Security / Reliability
+
+- All external connections must use TLS 1.3; plaintext TCP connections are rejected unless `allow_plaintext` is explicitly set in config (disabled by default)
+- Per-IP rate limiting is enforced before authentication to prevent pre-auth amplification attacks
+- Circuit breaker trips on ≥ 5 consecutive socket timeouts (configurable); recovery requires explicit reset or backoff expiry
+- QUIC 0-RTT anti-replay protection must be enabled; replayed 0-RTT requests for mutating opcodes must be rejected
+- v2 frame flow control (WINDOW_UPDATE) prevents unbounded memory growth from slow consumers; connection is terminated if receive buffer exceeds `max_frame_buffer_bytes`
+- Service mesh sidecar health probes must not be accessible from external network interfaces (bind to loopback or pod-local address only)
+- Authentication tokens must not appear in structured network audit logs; log only token hash (SHA-256 truncated to 16 hex chars)
