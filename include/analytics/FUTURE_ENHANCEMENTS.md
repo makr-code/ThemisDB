@@ -1,5 +1,34 @@
 # Analytics Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/analytics/` headers — new C++ interfaces for GPU-accelerated analytics pipelines
+- New streaming analytics APIs using `ResultStream<T>` as the base type for all progressive-result interfaces
+- Incremental materialized view refresh notification interfaces (observer/callback-based)
+- Federated analytics query dispatch API with per-tenant data isolation enforced at the interface boundary
+- Time-series forecasting extension APIs: SARIMA, Prophet-style, and LSTM surrogate headers
+- Statistical analysis and AutoML public header interfaces for feature engineering and model export
+
+## Design Constraints
+
+- [ ] GPU analytics API must be compile-time optional via `THEMIS_ENABLE_GPU` preprocessor guard; all GPU types hidden when undefined
+- [ ] Streaming analytics results must use `ResultStream<T>` as the base interface; no ad-hoc callback shapes
+- [ ] No blocking calls in public async analytics APIs; all async methods must return `std::future<T>` or equivalent
+- [ ] Federated analytics API must enforce per-tenant data isolation at the `SourceRegistry` interface boundary
+- [ ] Incremental view refresh notifications must be delivered via an `IncrementalViewObserver` callback interface
+- [ ] All new public headers must compile cleanly without GPU runtime headers when `THEMIS_ENABLE_GPU` is not defined
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `OLAPEngine::GPUConfig` | GPU analytics pipeline | Compile-time guarded by `THEMIS_ENABLE_GPU` |
+| `ResultStream<T>` | Streaming analytics, CEP engine | Base type for all streaming result APIs |
+| `FederatedAnalytics::SourceRegistry` | Federated query engine | Tenant isolation validated at registration |
+| `IncrementalViewObserver` | Materialized view consumers | Callback-based refresh notification |
+| `ForecastModel` (extended) | SARIMA / Prophet extensions | Extends existing `ForecastMethod` enum |
+| `AutoML::ExportInterface` | ONNX export, deployment pipeline | v1.9.0 extension point |
+
 ## Planned Features
 
 ### GPU-Accelerated Analytics
@@ -678,6 +707,32 @@ To contribute to these enhancements:
 3. **Implement** with tests and benchmarks
 4. **Document** API and usage
 5. **Submit PR** with performance results
+
+## Test Strategy
+
+- Unit tests for each new public header interface in `tests/analytics/` — verify API contracts and compile-time GPU guard behaviour
+- GPU API tests gated behind `THEMIS_ENABLE_GPU`; fallback (CPU) path tested without GPU hardware on every CI run
+- Streaming result interface tests: verify cancellation, backpressure, and partial consumption without resource leaks
+- Federated analytics tenant isolation: negative tests confirming cross-tenant data leakage is rejected at the API boundary
+- Mock-based tests for `IncrementalViewObserver` to verify notification timing and single-delivery guarantees
+- Integration tests pairing `ForecastModel` extension methods (SARIMA, Prophet) with the existing `TimeSeries` API
+
+## Performance Targets
+
+- GPU analytics API call overhead (host-to-kernel dispatch): ≤ 50 µs per invocation
+- Incremental view refresh notification delivery latency: ≤ 1 ms from commit to observer callback
+- `ResultStream<T>::next_batch()` overhead (excluding I/O, 1 000-row batch): ≤ 10 µs per call
+- Federated query dispatch overhead (local routing decision, no network): ≤ 500 µs
+- `ForecastModel::predict()` for SARIMA / Prophet extensions: ≤ 10 ms for a 30-step horizon
+- AutoML ONNX export: ≤ 5 s for models trained on datasets up to 100 K rows
+
+## Security / Reliability
+
+- Analytics results must never include raw PII fields; output sanitization enforced at the public API boundary
+- Federated analytics API enforces per-tenant data isolation: tenant context validated before any cross-source join is admitted
+- GPU kernel errors must surface as typed `Result<T>` error returns — no silent data corruption or undefined behaviour
+- `ResultStream<T>` implementations must be safe to cancel from any thread without resource leaks or dangling references
+- Forecast model deserialization must validate all numeric parameters (NaN / Inf guards) before use
 
 ## See Also
 

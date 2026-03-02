@@ -1,5 +1,34 @@
 # Auth Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/auth/` headers — new authenticator interfaces: WebAuthn, device flow, and passkeys
+- Multi-factor authentication engine API (`AdaptiveMFAEngine`) with risk-based challenge selection
+- Advanced session manager API with device/IP pinning, anomaly detection, and concurrent session limits
+- Backward-compatible JWT enhancements: token introspection, refresh token support, and structured `AuthError` codes
+- Magic link passwordless authentication interface (`MagicLinkAuthenticator`)
+- Error handling redesign: structured `Expected<T, AuthError>` return types replacing exception-based API
+
+## Design Constraints
+
+- [ ] All new authenticators must implement the `IAuthenticator` interface; no standalone authentication logic outside the contract
+- [ ] Breaking changes (namespace reorganization, `JWTClaims` expansion) are isolated to major version v2.0.0
+- [ ] All secret and token comparisons must use constant-time comparison to prevent timing-based side-channel attacks
+- [ ] Session tokens must never appear in log output; `SessionInfo` must not expose raw token values
+- [ ] New public headers must remain self-contained — no transitive inclusion of third-party crypto headers in the public API
+- [ ] `AdaptiveMFAEngine` risk weights are runtime-configurable but must not be modifiable via unauthenticated API calls
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IAuthenticator` | All new authenticator implementations | Common `authenticate()` contract |
+| `WebAuthnAuthenticator` | WebAuthn / FIDO2 registration and auth | W3C WebAuthn Level 2 |
+| `PasskeyAuthenticator` | Passwordless login flows | Wraps `WebAuthnAuthenticator` with resident keys |
+| `AdaptiveMFAEngine` | Risk-based MFA middleware | Configurable risk weights; thread-safe |
+| `SessionManager` | Session lifecycle consumers | Device-pinned; anomaly-detecting |
+| `JWTValidator` (enhanced) | Token introspection and refresh consumers | Backward-compatible additions only |
+
 Planned API changes and new header files for ThemisDB authentication.
 
 ## Table of Contents
@@ -1116,6 +1145,33 @@ We welcome feedback on these planned API changes! Please:
 - Participate in design discussions
 - Test alpha/beta releases
 - Report compatibility issues
+
+## Test Strategy
+
+- Unit tests for each new authenticator: verify `IAuthenticator` contract compliance using mock-based assertions
+- WebAuthn tests: verify challenge generation, attestation parsing, and signature verification with known FIDO2 test vectors
+- Constant-time comparison: statistical timing-invariance tests for all secret and token comparison paths
+- Session manager tests: verify device/IP pinning enforcement, concurrent session limit eviction, and anomaly detection triggers
+- Adaptive MFA engine tests: verify risk level transitions and correct `MFARequirement` for each `RiskLevel` value
+- Migration tests: verify v1.x headers compile and link correctly against v2.0 runtime with the provided compatibility shims
+
+## Performance Targets
+
+- JWT token validation (local, cached public key): ≤ 2 ms p99
+- MFA TOTP challenge generation (secret derivation + QR encoding): ≤ 5 ms p99
+- `SessionManager::createSession()`: ≤ 1 ms including device fingerprint storage
+- `AdaptiveMFAEngine::evaluateRisk()`: ≤ 2 ms including cached IP reputation lookup
+- `PasskeyAuthenticator::completeAuthentication()`: ≤ 10 ms including ECDSA signature verification
+- `JWTValidator::introspect()` (remote, first call uncached): ≤ 50 ms p99 (network-dependent)
+
+## Security / Reliability
+
+- All new auth APIs require TLS transport; plaintext connections must be rejected at the interface level
+- Session tokens must never be logged; `SessionInfo` struct must not expose raw token values in any field
+- Constant-time comparison enforced for all secret, token, and HMAC verification operations
+- `MagicLinkAuthenticator` tokens are single-use and HMAC-signed; replay attacks prevented by a token revocation store
+- WebAuthn challenges are cryptographically random (≥ 16 bytes) and single-use per registration / authentication ceremony
+- `AdaptiveMFAEngine` risk weights must not be reconfigurable via unauthenticated API calls
 
 ## Related Documentation
 
