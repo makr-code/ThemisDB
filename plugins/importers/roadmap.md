@@ -16,6 +16,23 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 
 ---
 
+## In Progress
+
+- [~] Integration tests for the PostgreSQL importer using a Docker-based Postgres fixture
+- [~] Verification of MongoDB importer status
+
+## Planned Features
+
+- [ ] **CSV / TSV importer** – bulk-load flat files into ThemisDB collections (Target: Q3 2026)
+- [ ] Incremental import mode: import only rows added/changed since last timestamp (Target: Q3 2026)
+- [ ] Schema auto-detection: infer ThemisDB schema from source table structure (Target: Q3 2026)
+- [ ] **Kafka consumer importer** – real-time Kafka topic ingestion (Target: Q3 2026)
+- [ ] **Elasticsearch importer** – migrate indices to ThemisDB (Target: Q4 2026)
+- [ ] **Redis importer** – import Redis keys/values/hashes (Target: Q4 2026)
+- [ ] **Change Data Capture (CDC)** via Debezium / logical replication (Target: 2027)
+
+---
+
 ## Short-term Goals (next 1–2 sprints)
 
 - [ ] Add integration tests for the PostgreSQL importer using a Docker-based Postgres fixture.
@@ -47,6 +64,30 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 | CSV importer | Q3 2026 | 🔲 Planned |
 | CDC / real-time ingestion | 2026 | 🚧 In Progress |
 
+## Implementation Phases
+
+### Phase 1 – CSV / TSV & Incremental Import
+- [ ] Implement `CSVImporter` with configurable delimiter, quoting, header detection, and NULL mapping
+- [ ] Incremental import: persist last-imported timestamp/offset; re-import only changed rows
+- [ ] Unit tests: type coercion, null values, malformed rows, UTF-8 edge cases
+
+### Phase 2 – Schema Auto-Detection
+- [ ] Introspect source table/file schema and generate ThemisDB collection definition automatically
+- [ ] Conflict resolution: handle schema drift between subsequent imports
+- [ ] Integration test: auto-schema PostgreSQL → ThemisDB round-trip
+
+### Phase 3 – Kafka & CDC
+- [ ] Implement `KafkaConsumerImporter` using librdkafka; configurable consumer group and offset reset
+- [ ] CDC via Debezium: consume PostgreSQL logical replication stream as ThemisDB upserts/deletes
+- [ ] At-least-once delivery guarantee; idempotency via document fingerprint
+
+### Phase 4 – Elasticsearch & Redis Importers
+- [ ] `ElasticsearchImporter`: scroll API-based bulk migration with index mapping → schema conversion
+- [ ] `RedisImporter`: import keys matching a pattern; support String, Hash, List, Set types
+- [ ] Target throughput documented and benchmarked (rows/sec per importer)
+
+---
+
 ## Dependencies
 
 - `libpqxx` / `libmongoc` (already in ThemisDB vcpkg)
@@ -57,6 +98,30 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 
 - [ ] Should importers run as background jobs or synchronous blocking calls?
 - [ ] What is the target throughput for bulk import (rows/sec)?
+
+---
+
+## Production Readiness Checklist
+
+| Item | Status |
+|------|--------|
+| PostgreSQL importer | ✅ Ready |
+| MySQL / MariaDB importer | ✅ Ready |
+| SQLite importer | ✅ Ready |
+| S3-compatible object storage importer | ✅ Ready |
+| MongoDB importer | ✅ Ready (status unconfirmed – verify) |
+| Integration tests running in CI | ❌ Pending |
+| CSV / TSV importer | ❌ Not implemented |
+| Kafka consumer importer | ❌ In progress |
+| CDC / Debezium importer | ❌ Not implemented |
+| Target throughput documented | ❌ Undefined |
+
+## Known Issues & Limitations
+
+- No integration tests are running in CI; all importers are tested manually only
+- MongoDB importer status has not been re-confirmed; roadmap may be out of date
+- Target import throughput (rows/sec) has not been defined or benchmarked
+- Kafka importer exists in `src/importers/kafka_importer.cpp` but is not production-ready
 
 ---
 
