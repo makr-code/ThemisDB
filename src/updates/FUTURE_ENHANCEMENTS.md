@@ -1,5 +1,37 @@
 # Updates Module - Future Enhancements
 
+## Scope
+
+- Zero-downtime hot-reload via atomic file replacement with fsync and all-or-nothing semantics (`HotReloadEngine`)
+- CMS/PKCS#7 signature validation and X.509 certificate chain verification before applying any binary update
+- Binary delta updates to reduce download bandwidth; resume-capable downloads from GitHub releases
+- Canary rollout and blue/green deployment for staged, node-by-node production updates
+- In-place schema migration (additive changes without data copy) with full rollback via versioned restore points
+- Multi-node coordinated updates with replication-safe sequencing (`CoordinatedUpdateManager`)
+- Pre-flight health checks: disk space, memory, and dependency version verification before applying any update
+
+## Design Constraints
+
+- [ ] Every update bundle must carry a valid CMS/PKCS#7 signature; unsigned bundles are rejected before any file is written to disk
+- [ ] Atomic file replacement must use `rename(2)` (POSIX) or `MoveFileExW(MOVEFILE_REPLACE_EXISTING)` (Windows) after `fsync`
+- [ ] Rollback restore points must be created before any file modification; update must abort if backup creation fails
+- [ ] `isSafePath` must be called on every path extracted from an update bundle to prevent path traversal attacks
+- [ ] Canary rollout fraction is configurable; promotion to 100% requires explicit operator approval or automated health gate pass
+- [ ] Schema migrations must be idempotent: re-running the same migration version must produce the same result without error
+- [ ] Concurrent update prevention must use a filesystem lock; cross-node coordination handled by `CoordinatedUpdateManager`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IHotReloadEngine` | Update orchestrator, CLI | apply, rollback, listRollbackPoints, dryRun |
+| `ISignatureValidator` | `HotReloadEngine`, `DeltaUpdateEngine` | CMS/PKCS#7 + X.509 chain verification; fail-closed |
+| `IDeltaUpdateEngine` | Update orchestrator | generate, apply, verify (SHA-256 hash check post-apply) |
+| `ISchemaMigrator` | Schema migration framework | apply, rollback, getVersion, getHistory; idempotent |
+| `ICoordinatedUpdateManager` | Multi-node update sequencing | Transport-agnostic via injected callbacks; replication-safe |
+| `INotificationWebhook` | Update event system | Slack/PagerDuty HTTP POST with injectable `HttpSendFunc` |
+| `IHealthCheck` | Pre-flight check system | Disk space, memory, dependency version; completes in ≤ 2 s |
+
 ## Planned Features
 
 ### Distributed Cluster Updates
@@ -879,3 +911,32 @@ Have ideas for update improvements? We'd love to hear from you:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for `HotReloadEngine`, `DeltaUpdateEngine`, `InPlaceSchemaMigrator`, and `CoordinatedUpdateManager`
+- Integration tests: full update cycle (download → validate CMS signature → apply delta → atomic install → SHA-256 hash verify → health check pass)
+- Rollback integration test: corrupt the installed binary post-update and verify automatic rollback restores the original file with matching SHA-256
+- Security tests: tampered bundle (invalid CMS signature) and path traversal in bundle path must both be rejected before any write to disk
+- Schema migration idempotency test: apply the same migration version twice and verify second run is a no-op with version unchanged
+- Canary rollout test: verify that ≤ configured fraction of nodes are updated; all remaining nodes are unchanged until explicit promotion
+
+## Performance Targets
+
+- Delta update apply time ≤ 10 s for a 100 MB binary delta on NVMe storage (excluding download time)
+- CMS/PKCS#7 signature verification ≤ 50 ms for a 2-certificate chain on commodity hardware without HSM
+- Atomic file replacement (fsync + rename/MoveFileExW) ≤ 500 ms for a 200 MB binary on NVMe
+- Hot-reload engine restart latency (stop → apply → start) ≤ 5 s for a service with ≤ 1,000 open connections
+- In-place schema migration (additive, metadata-only) ≤ 100 ms for tables with ≤ 10 million rows
+- Pre-flight health check completion ≤ 2 s including disk space, memory headroom, and dependency version checks
+
+## Security / Reliability
+
+- All hot-reload paths must validate CMS/PKCS#7 signature against the embedded X.509 trust anchor before writing any file to disk
+- `isSafePath` guard must be applied to every path extracted from an update bundle; path traversal attempts must be logged and the entire bundle rejected
+- Rollback restore points must include a SHA-256 manifest of all replaced files; restore aborts if any file's checksum does not match the manifest
+- Update bundles are signed with hardware-backed HSM keys; the public trust anchor is embedded in the binary and cannot be overridden at runtime
+- Filesystem lock must prevent concurrent `HotReloadEngine` invocations on the same node; failed lock acquisition returns `UpdateError::ALREADY_IN_PROGRESS`
+- Pre-flight disk space check must confirm ≥ 2× the bundle size of free space is available before starting download to prevent mid-install space exhaustion
