@@ -1,5 +1,40 @@
 # Query Module - Future Enhancements
 
+## Scope
+
+- AQL execution engine covering relational, document, graph, vector, spatial, and timeseries models with 100+ built-in functions
+- Cost-based query optimizer with adaptive learning from runtime statistics and per-query cost model feedback
+- Query caching at three levels: exact-match, semantic-similarity (embedding-based), and materialized CTE
+- UDF registration API supporting C++ and (future) WASM/Python runtimes
+- Distributed query federation across heterogeneous ThemisDB cluster nodes with cost-based pruning
+- JIT compilation path for frequently executed AQL sub-expressions (LLVM IR backend)
+- SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) for client migration
+- Per-query resource limits: max rows, max memory bytes, wall-clock timeout
+
+## Design Constraints
+
+- [ ] `AQLParser` instances are NOT thread-safe; each thread must own its own instance or use mutex protection
+- [ ] Optimizer plan generation must complete in < 5 ms for queries touching ≤ 10 collections
+- [ ] Query cache lookups (exact match) must have < 1 ms latency at p99 under 10,000 concurrent clients
+- [ ] UDF registration must not require server restart; hot-load via dynamic linking
+- [ ] Distributed federation must honor per-cluster configurable timeouts; partial results must be surfaced, not silently dropped
+- [ ] JIT-compiled expressions must produce results identical (bit-for-bit) to the interpreter path
+- [ ] Resource limits (max rows, memory, timeout) must be enforced without data corruption on cancellation
+- [ ] SQL compatibility layer must return a structured parse error for unsupported SQL features (no silent wrong results)
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `AQLParser::parse(query)` | HTTP API handler, SDK, test harness | Returns `ASTNode`; throws `AQLParseException` on syntax error |
+| `QueryOptimizer::optimize(ast)` | Execution engine | Returns `QueryPlan` with cost estimate; < 5 ms for ≤ 10 collections |
+| `QueryExecutor::execute(plan, ctx)` | HTTP handler, federation layer | Streams results via `ResultIterator`; honours resource limits in `ctx` |
+| `QueryCache::lookup(key, mode)` | Execution engine pre-check | Modes: EXACT, SEMANTIC, CTE; returns `CacheHit` or `std::nullopt` |
+| `UDFRegistry::register_fn(name, fn)` | Admin API, plugin loader | Thread-safe; hot-reload without restart |
+| `CrossClusterFederator::execute(plan)` | Distributed query coordinator | Parallel `std::async`; injectable `HttpPostFn` for testing |
+| `JITCompiler::compile(expr)` | Optimizer hot-path | LLVM IR backend; falls back to interpreter on compilation failure |
+| `QueryContext::set_limits(rows, mem, timeout)` | Per-request middleware | Enforced via cooperative cancellation checkpoints |
+
 ## Planned Features
 
 ### Query Compilation & JIT
@@ -1299,3 +1334,37 @@ Low-overhead query profiler for production environments.
 - [Distributed Queries](../../../docs/en/distributed-queries.md) - Multi-node execution
 - [Caching Strategies](../../../docs/en/caching.md) - Cache configuration
 - [Performance Benchmarks](../../../BENCHMARK_BEST_PRACTICES.md) - Benchmark results
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for all `AQLParser`, `QueryOptimizer`, `QueryExecutor`, `QueryCache`, and `UDFRegistry` code paths
+- Parser round-trip tests: parse → AST → unparse → re-parse; assert AST equality for all 100+ built-in function signatures
+- Optimizer correctness tests: compare estimated vs. actual row counts on 20 synthetic datasets; assert cost error < 30%
+- Cache hit-rate tests: replay 10,000 query log entries and assert exact-match cache hit rate ≥ 95% for repeated queries
+- UDF hot-reload tests: register, execute, unregister, and re-register a UDF without restarting; assert zero crashes under concurrent load
+- Federation timeout tests: inject a slow cluster (> 2 s response) and assert partial results are returned within the configured timeout
+- Resource limit tests: execute queries that would exceed `max_rows`, `max_memory`, and `timeout`; assert clean cancellation without memory leaks
+- SQL compatibility negative tests: send all unsupported SQL constructs (JOINs, subqueries, DDL) and assert structured `AQLParseException` is returned
+
+## Performance Targets
+
+- Query parse + optimize latency: ≤ 5 ms at p99 for queries referencing ≤ 10 collections on a 16-core host
+- Query execution throughput: ≥ 10,000 simple AQL queries/s at p99 < 20 ms on a 3-node cluster with warm cache
+- Exact-match cache lookup latency: ≤ 1 ms at p99 under 10,000 concurrent clients
+- Semantic cache lookup latency: ≤ 10 ms at p99 (includes embedding similarity comparison)
+- JIT compilation: first-compile latency ≤ 50 ms; subsequent execution ≥ 3× faster than interpreter for arithmetic-heavy expressions
+- Federation plan overhead: cost estimation for a 5-cluster plan in ≤ 20 ms; parallel execution via `std::async`
+- Streaming result first-chunk latency: ≤ 50 ms from query submission to first result page returned
+- Vectorized execution (column batch): ≥ 5× throughput improvement vs. row-at-a-time for aggregation queries on > 1 M rows
+
+## Security / Reliability
+
+- AQL injection prevention: all user-supplied string literals must be parameterized or escaped; `AQLParser` must reject any attempt to embed raw AQL via string interpolation
+- Resource exhaustion: `max_rows`, `max_memory`, and `timeout` limits are enforced before query execution begins and re-checked at every 1,000-row batch boundary
+- UDF sandboxing: user-defined functions must run with restricted system-call access; WASM UDFs are isolated in a separate memory arena
+- Distributed federation: each cluster call is authenticated via mTLS; unauthenticated federation endpoints must return HTTP 403
+- Query cancellation must guarantee that all allocated memory is released and all acquired locks are freed within 100 ms of the cancellation signal
+- SQL dialect transpiler must never silently produce wrong results for unsupported constructs; it must return a structured error with the unsupported feature name
+- AQL parser must enforce a maximum AST depth of 256 to prevent stack-overflow from deeply nested subqueries

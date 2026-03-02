@@ -1,5 +1,40 @@
 # Search Module - Future Enhancements
 
+## Scope
+
+- BM25 hybrid search with Reciprocal Rank Fusion (RRF) blending lexical and semantic results; configurable k1/b/RRF-k constants
+- HNSW vector indexing supporting Cosine, Dot Product, and L2 distance metrics with 85%+ recall@10
+- LLM-based query rewriting to improve recall for underspecified or noisy queries
+- Faceted search with per-field value-count facets and numeric range buckets with drill-down filtering
+- Learning-to-rank (LTR) re-ranker using a 6-dimensional feature vector with online pairwise gradient-descent training
+- Multi-field boosting (title > body > tags) with configurable per-field weight vectors
+- Neural sparse retrieval (SPLADE) for vocabulary expansion and out-of-vocabulary term handling
+- Cross-lingual semantic search via multilingual embedding models with automatic language detection
+
+## Design Constraints
+
+- [ ] Hybrid search (BM25 + HNSW RRF) must return top-10 results in ≤ 20 ms at p99 for indices up to 10 M documents
+- [ ] BM25 default parameters (k1=1.2, b=0.75) must remain unchanged; parameter changes must be explicit
+- [ ] `HybridSearch` API (RRF weights, mode selection) must remain stable from v1.2.0 onwards; no breaking changes
+- [ ] LLM query rewriting must degrade gracefully to the original query when the LLM is unavailable or exceeds 200 ms
+- [ ] LTR model updates must be applied online (no index rebuild) and must not affect in-flight queries
+- [ ] SPLADE sparse vectors must be stored in a compressed sparse row (CSR) format to cap memory at ≤ 4 GB per 10 M docs
+- [ ] Cross-lingual search must support at least 50 languages via a single multilingual model with no per-language index
+- [ ] Facet counting must complete in ≤ 5 ms for up to 1,000 distinct facet values on a result set of 100,000 documents
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `HybridSearch::search(query, top_k, mode)` | HTTP API, SDK | Modes: TEXT / VECTOR / HYBRID; returns `SearchResult` list |
+| `LlmQueryRewriter::rewrite(query)` | HybridSearch pre-processor | Returns rewritten query string; 200 ms timeout with original fallback |
+| `FacetedSearch::facet(results, fields)` | API response builder | Returns `FacetMap`; supports value-count and numeric range buckets |
+| `LearningToRank::rerank(query, results)` | Result post-processor | Online pairwise training; model update via `train(feedback)` |
+| `MultiFieldBoostedSearch::search(query, weights)` | API handler | Per-field boost weights map; falls back to equal weights if empty |
+| `NeuralSparseRetriever::retrieve(query, top_k)` | Hybrid retrieval pipeline | SPLADE sparse vectors; CSR storage format |
+| `CrossLingualSearch::search(query, lang_hint)` | Multilingual API | Auto-detects language; uses multilingual embedding model |
+| `SearchAnalytics::record(query, latency_ms)` | Request middleware | Thread-safe; exports avg/p95/p99 latency and zero-result rate |
+
 ## Delivered in v1.4.0
 
 The following production-readiness improvements were delivered in v1.4.0:
@@ -351,6 +386,40 @@ Real-time query suggestions.
 - Neural LTR (LambdaMART or small MLP) with offline batch training
 - Multi-namespace VectorIndexManager (one instance per modality)
 - Streaming result delivery for large k values
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for `HybridSearch`, `BM25Ranker`, `LlmQueryRewriter`, `FacetedSearch`, `LearningToRank`, `NeuralSparseRetriever`, and `CrossLingualSearch`
+- BM25 correctness tests: compute BM25 scores for 10 hand-crafted query-document pairs and assert results match the reference formula within ± 0.001
+- Hybrid recall@10 integration test: evaluate against a 1 M-document corpus; assert recall@10 ≥ 85% in HYBRID mode
+- LLM query rewriter fallback test: simulate LLM timeout (> 200 ms); assert original query is used and no exception is thrown
+- LTR online training test: feed 1,000 pairwise preference events; assert MRR@10 improves by ≥ 5% relative to the untrained model after 500 updates
+- Faceted search tests: assert value-count facets are correct for 1,000 distinct values and numeric range buckets respect configured boundaries
+- SPLADE neural sparse retrieval test: assert retrieved document IDs overlap ≥ 70% with BM25 top-20 on the BEIR TREC-COVID split
+- Cross-lingual search tests: submit queries in 5 languages (EN, DE, FR, ES, ZH); assert top-1 result is in the correct language-agnostic answer set
+
+## Performance Targets
+
+- Hybrid search (BM25 + HNSW RRF) latency: ≤ 20 ms at p99 for top-10 results on an index of up to 10 M documents
+- HNSW index build throughput: ≥ 10,000 vectors/s for 768-dimensional embeddings on a single CPU node
+- BM25 ranking throughput: ≥ 50,000 queries/s for simple term queries against a 1 M-document index on a 16-core host
+- LLM query rewriter overhead: ≤ 200 ms added latency at p99; 0 ms when LLM is unavailable (passthrough)
+- Facet counting latency: ≤ 5 ms for up to 1,000 distinct facet values on a result set of 100,000 documents
+- LTR re-ranking latency: ≤ 2 ms for re-ranking top-100 candidates with the 6-dimensional linear model
+- SPLADE index memory: ≤ 4 GB for a 10 M-document corpus stored in CSR format
+- Autocomplete suggestion latency: ≤ 5 ms at p99 for prefix queries against a 1 M-term dictionary
+
+## Security / Reliability
+
+- Query injection prevention: all user-supplied query strings must be length-limited (≤ 4,096 bytes) and stripped of control characters before being passed to the BM25 tokenizer or LLM rewriter
+- Resource exhaustion: `max_k` and `max_candidates` hard limits must be enforced before HNSW traversal begins; requests exceeding these limits return HTTP 400, not a partial result
+- LTR model integrity: the learned weight vector must be persisted with a checksum; a corrupted model file must be detected on load and the system must fall back to uniform weights
+- SPLADE vocabulary: the sparse vocabulary index must be loaded from a read-only memory-mapped file; writes to the vocabulary at runtime are rejected
+- Cross-lingual model: the multilingual embedding model binary must be verified against a SHA-256 hash at startup; a hash mismatch aborts loading and falls back to the BM25-only mode
+- `SearchAnalytics` query log must not store raw query strings containing PII; queries are hashed (SHA-256) before storage
+- Distributed shard search must authenticate inter-shard requests with mTLS; unauthenticated shard calls are rejected with a 401 error
 
 ---
 

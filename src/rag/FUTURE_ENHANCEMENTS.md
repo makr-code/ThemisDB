@@ -1,5 +1,40 @@
 # RAG Module Implementation - Future Enhancements
 
+## Scope
+
+- Multi-judge evaluation pipeline (faithfulness, relevance, completeness, coherence, bias) with Fast/Balanced/Thorough modes
+- Streaming retrieval with incremental context-window filling for low first-token latency
+- Cross-encoder re-ranking with ONNX model integration for precision improvement
+- Hybrid BM25 + vector retrieval fused via Reciprocal Rank Fusion (RRF) with configurable weights
+- Citation highlighting mapping each answer sentence to its source document chunk
+- Knowledge-graph augmented retrieval with entity linking and graph traversal
+- Agentic RAG with multi-hop iterative retrieval loops and tool-use orchestration
+- Online Bayesian optimization of `top_k` and `similarity_threshold` from evaluation feedback
+
+## Design Constraints
+
+- [ ] Fast evaluation mode must complete end-to-end in ≤ 100 ms at p99 (single judge, no LLM call)
+- [ ] Balanced mode must complete in ≤ 500 ms at p99; Thorough mode ≤ 2 s at p99
+- [ ] All evaluator scores must be normalised to the [0.0, 1.0] float range; no breaking changes to scoring API
+- [ ] `StreamingRetriever` must fill the context window incrementally without blocking the generator thread
+- [ ] Cross-encoder re-ranker must degrade gracefully to heuristic scoring when the ONNX model is not loaded
+- [ ] `HybridRetriever` RRF weights must be runtime-configurable without index rebuild
+- [ ] `ClaimExtractor` must fall back to sentence-boundary heuristics when the LLM judge is unavailable
+- [ ] Agentic RAG loop must enforce a configurable maximum iteration count (default: 5) to prevent infinite loops
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `RAGJudge::evaluate(query, answer, docs)` | API handler, evaluation CLI | Returns `EvaluationReport`; mode selectable (FAST/BALANCED/THOROUGH) |
+| `HybridRetriever::retrieve(query, top_k)` | Generator pipeline | Returns ranked `RetrievedChunk` list; RRF weights configurable |
+| `CrossEncoderReranker::rerank(query, chunks)` | Retrieval post-processor | ONNX model path configurable; heuristic fallback when model absent |
+| `StreamingRetriever::stream(query, cb)` | LLM streaming handler | Invokes `cb` for each chunk as retrieved; non-blocking |
+| `CitationHighlighter::highlight(answer, chunks)` | Response formatter | Returns `AnnotatedAnswer` with per-sentence source references |
+| `KnowledgeGraphRetriever::retrieve(entities)` | Hybrid retrieval pipeline | Entity linking + graph traversal; falls back to dense retrieval |
+| `OnlineLearner::getOptimizedParams()` | Retrieval config layer | Returns `{top_k, similarity_threshold}` from Bayesian optimizer |
+| `AgenticRAG::run(query, tools)` | Orchestration layer | Max iterations configurable; returns final answer + retrieval trace |
+
 This document outlines planned implementation improvements for the RAG module source files.
 
 ## Performance Optimizations
@@ -687,3 +722,37 @@ public:
 
 *Last Updated: 2024*  
 *Implementation Roadmap for v1.16-v1.18*
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for all evaluator components (`FaithfulnessEvaluator`, `RelevanceEvaluator`, `CoherenceEvaluator`, `CompletenessEvaluator`, `BiasDetector`)
+- `StreamingRetriever`: 28+ test cases covering incremental chunk delivery, context-window overflow, and empty-result streams
+- `CrossEncoderReranker`: 30+ test cases including ONNX model path and heuristic fallback when model is absent
+- `HybridRetriever`: 31+ test cases covering RRF weight extremes (0.0/1.0), BM25-only, vector-only, and tie-breaking
+- End-to-end pipeline integration test: retrieve → generate → evaluate cycle with a 100-document corpus; assert faithfulness ≥ 0.8 and relevance ≥ 0.75
+- Agentic RAG loop test: inject a tool that requires 3 hops; assert correct final answer and that the max-iteration guard fires at the configured limit
+- Hallucination dashboard rolling-window test: inject 1,000 evaluation events and assert rolling rate matches ground-truth within ± 0.5%
+- Citation highlighter tests: assert each answer sentence maps to ≥ 1 source chunk with token-overlap ≥ 0.3
+
+## Performance Targets
+
+- Fast evaluation mode: ≤ 100 ms end-to-end at p99 (single judge, no LLM call, heuristic fallback)
+- Balanced evaluation mode: ≤ 500 ms end-to-end at p99 (multi-judge with one LLM call)
+- Thorough evaluation mode: ≤ 2,000 ms end-to-end at p99 (full multi-judge + CoT + G-Eval)
+- `HybridRetriever` recall@10: ≥ 85% on the BEIR benchmark NQ split
+- `CrossEncoderReranker` MRR@10 improvement: ≥ +10% relative vs. BM25-only baseline
+- `StreamingRetriever` first-chunk latency: ≤ 50 ms from query submission to first retrieved chunk
+- Bayesian optimizer convergence: reach ≥ 90% of optimal retrieval F1 within 200 feedback events
+- `ClaimExtractor` throughput: ≤ 500 ms for a 1,000-character answer with LLM-first path; ≤ 50 ms with heuristic fallback
+
+## Security / Reliability
+
+- Prompt injection in retrieved context: all retrieved text chunks must be sanitized to remove instruction-format delimiters (e.g., `###`, `<|system|>`) before injection into judge prompts
+- LLM judge availability: all evaluators must degrade gracefully to heuristic scoring when the LLM judge endpoint returns an error or exceeds the 2 s timeout; no evaluation call may throw an unhandled exception
+- Citation data must never include raw file-system paths or internal document IDs in API responses; only chunk references are exposed
+- Agentic RAG tool-use must validate all tool inputs against a JSON schema before invocation; malformed inputs are rejected and logged, not silently ignored
+- `HallucinationDashboard` rolling-window data must not be persisted to disk in unencrypted form; in-memory only by default
+- Evaluator score tampering: evaluation reports must include an HMAC over the score payload when transmitted across service boundaries
+- Knowledge-graph entity linking must enforce a maximum graph traversal depth of 5 hops to prevent query amplification attacks

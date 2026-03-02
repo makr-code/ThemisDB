@@ -1,5 +1,40 @@
 # Replication Module - Future Enhancements
 
+## Scope
+
+- Raft-like leader election and follower management with automatic failover and heartbeat-based health monitoring
+- SYNC, SEMI_SYNC, and ASYNC replication modes with configurable `min_sync_replicas` for quorum writes
+- WAL shipping to followers with Zstd compression and point-in-time recovery (PITR) via WAL replay
+- Conflict detection using vector clocks and Hybrid Logical Clocks (HLC) in multi-master topologies
+- CRDT-based conflict resolution (G-Counter, LWW-Register, OR-Set) plus custom resolver hooks
+- Change Data Capture (CDC) with per-operation type filtering (INSERT/UPDATE/DELETE) for ETL pipelines
+- Cross-datacenter and cross-region replication with Raft leader lease reads for linearizable read scale-out
+- Selective replication filtered by collection, tenant pattern, or CDC event type
+
+## Design Constraints
+
+- [ ] Replication lag at p99 must not exceed 50 ms under 10,000 write/s in SEMI_SYNC mode on a 3-node LAN cluster
+- [ ] WAL shipping must sustain ≥ 500 MB/s compressed throughput per follower connection
+- [ ] Leader failover must complete (new leader elected + followers re-pointed) within 10 s under default heartbeat settings
+- [ ] Vector clock comparison and HLC conflict detection must add < 5 µs per write operation
+- [ ] CRDT merge operations must be idempotent and commutative; incorrect usage must produce a compile-time error where possible
+- [ ] CDC event emission must not block the write path; use a dedicated async queue with configurable max depth
+- [ ] Selective replication filters must be evaluated in O(1) per write using a pre-compiled pattern set
+- [ ] Full Raft v2 (joint consensus) must not break existing `ReplicationConfig`; new fields are additive only
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `ReplicationManager::start_election()` | HA watchdog, operator | Initiates Raft-like vote; resolves in < 10 s on healthy cluster |
+| `ReplicationManager::set_mode(mode)` | Admin API, operator CRD | SYNC / SEMI_SYNC / ASYNC; applied without restart |
+| `WALShipper::ship(segment, follower)` | Replication background thread | Zstd-compressed; retries on transient network failure |
+| `ConflictResolver::resolve(local, remote)` | Multi-master write path | Selects LWW / CRDT / custom strategy from `ReplicationConfig` |
+| `CDCStream::subscribe(filter, cb)` | ETL consumers, Kafka bridge | Async queue; filter by op-type and collection pattern |
+| `PITRManager::restore(timestamp)` | Admin API, disaster recovery | Replays WAL segments up to `timestamp`; read-only replay mode |
+| `ReplicationSlot::pause() / resume()` | Admin API | Slot management without data loss; slot state persisted to WAL |
+| `TopologyVisualizer::export_json()` | Web UI, monitoring | Returns cluster graph as JSON; updated on each topology change |
+
 ## Planned Features
 
 ### Logical Replication
@@ -794,3 +829,37 @@ themisdb-repl-doctor validate-wal --segment 12345
 
 *Last Updated: February 2026*  
 *Next Review: v1.6.0 Planning*
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for `ReplicationManager`, `WALShipper`, `ConflictResolver`, `CDCStream`, and `PITRManager`
+- Leader election tests: simulate follower crashes and network partitions; assert new leader is elected in < 10 s and no split-brain occurs
+- WAL shipping correctness: replay 1 M write operations through WAL on a follower; assert bit-for-bit data equality with the primary
+- Conflict resolution tests: generate concurrent writes to the same key on two masters with known HLC timestamps; assert LWW picks the later write and CRDT merge is commutative and idempotent
+- PITR restoration test: corrupt 100 random WAL entries, run `PITRManager::restore(t)`, and assert data matches the known state at time `t`
+- CDC filtering tests: emit 10,000 INSERT/UPDATE/DELETE events; assert filter by collection pattern and op-type delivers exactly the matching subset
+- Replication lag monitoring tests: inject artificial follower delay; assert threshold alert fires within 2 heartbeat intervals
+- Kubernetes operator smoke test: deploy a 3-node cluster via operator CRD, kill the leader pod, and assert failover completes within 30 s
+
+## Performance Targets
+
+- Replication lag at p99: ≤ 50 ms under 10,000 write/s in SEMI_SYNC mode on a 3-node LAN cluster
+- WAL shipping throughput: ≥ 500 MB/s compressed (Zstd level 3) per follower connection on 10 GbE
+- Leader failover time: new leader elected and followers re-pointed in ≤ 10 s under default heartbeat interval (1 s)
+- Vector clock / HLC conflict detection overhead: < 5 µs per write operation on the primary
+- CRDT merge latency: ≤ 1 µs per merge operation for G-Counter and LWW-Register types
+- Point-in-time recovery replay: ≥ 200 MB/s WAL replay throughput; full recovery of a 100 GB dataset in ≤ 10 min
+- CDC event emission latency: ≤ 1 ms from commit to CDC queue enqueue at p99
+- Cross-datacenter replication lag: ≤ 200 ms at p99 for ASYNC mode over a 50 ms RTT WAN link
+
+## Security / Reliability
+
+- WAL encryption in transit: all WAL segments shipped between nodes must be encrypted with TLS 1.3; plaintext WAL shipping must be rejected unless explicitly disabled in development mode
+- CDC stream authentication: CDC consumers must authenticate via mTLS or a signed JWT token; unauthenticated subscriptions must be rejected with HTTP 401
+- Split-brain prevention: `min_sync_replicas` must be enforced so that no write is acknowledged without a quorum; a misconfigured `min_sync_replicas = 0` must emit a startup warning and be blocked in SYNC mode
+- Raft vote integrity: leader election votes must be signed with the node's private key; unsigned or replayed votes are rejected
+- CRDT conflict resolution must never silently discard writes; all conflicts must be logged with their HLC timestamps for audit purposes
+- Selective replication filter patterns must be validated at configuration load time; invalid patterns must reject the configuration with a descriptive error
+- Cascading replication chains must enforce a maximum depth of 5 hops; exceeding this limit triggers an error to prevent unbounded lag accumulation
