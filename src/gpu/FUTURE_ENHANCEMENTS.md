@@ -1,5 +1,41 @@
 # GPU Module - Future Enhancements
 
+## Scope
+
+- GPU resource allocation and memory pool management for CUDA (sm_70+), ROCm (HIP), and Vulkan Compute backends
+- CUDA/ROCm kernel registry: checksum-validated custom kernels for aggregation, sort, hash-join, and geospatial operations
+- GPU-accelerated query execution: offloading of analytic aggregation, vector similarity search, and batch scoring to GPU
+- Multi-GPU cluster coordination: work-stealing scheduler, peer-to-peer NVLink/PCIe data transfer, and result merging
+- Vulkan Compute backend for cross-vendor (AMD RDNA, Intel Arc, Apple M-series via MoltenVK) GPU support
+- Asynchronous kernel launcher with typed work-item queue and per-stream concurrency control
+
+---
+
+## Design Constraints
+
+- `[ ]` GPU memory allocator must enforce a configurable pool cap (default: 80 % of device VRAM); allocations exceeding the cap return `OUT_OF_MEMORY` error, never trigger OOM-killer
+- `[ ]` All kernels must be registered in `GPUKernelValidator` checksum whitelist before launch; unregistered kernel launch returns `KERNEL_NOT_VALIDATED` error
+- `[ ]` Kernel launch overhead (host-side dispatch, excluding device execution): ≤ 2 ms per batch on CUDA sm_70+
+- `[ ]` Multi-GPU work distribution must be re-balanced when a device's utilisation delta exceeds 20 % vs mean utilisation
+- `[ ]` Vulkan dispatch latency must not exceed 1.2× equivalent CUDA dispatch latency on AMD RDNA 3+ hardware
+- `[ ]` GPU module must degrade gracefully to CPU path when no compatible GPU is detected; no hard dependency on CUDA runtime at startup
+- `[ ]` All GPU operations must support cancellation via `CancellationToken`; pending work items drained within 500 ms on cancel
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `GPUAllocator::alloc(size, device_id)` | Kernel launcher, analytics GPU path | Pool-backed; respects VRAM cap |
+| `GPUKernelValidator::validate(kernel_id, checksum)` | `GPULauncher` pre-launch | Whitelist registry; reject unknown |
+| `GPULauncher::submit(WorkItem, stream_id)` | Analytics engine, query executor | Async; returns `Future<DeviceBuffer>` |
+| `MultiGPUScheduler::dispatch(workload)` | Query planner GPU path | Splits batches across available devices |
+| `VulkanBackend::createPipeline(shader_spv)` | GPU module Vulkan path | SPIR-V shader; cross-vendor |
+| `GPUContext::getDeviceInfo(device_id)` | Analytics, core DI context | Returns VRAM, compute capability, backend type |
+
+---
+
 ## Status Key
 
 - ✅ **Infrastructure implemented** — CPU-level bookkeeping and API in place;
@@ -479,6 +515,35 @@ hardware without requiring vendor-specific CUDA or HIP drivers.
 - Wire `synchronizeStream` to call `vkQueueWaitIdle` on the stored `VkQueue`.
 - Benchmark Vulkan vs CUDA/HIP dispatch latency for a representative ThemisDB
   workload (target: ≤ 1.2× CUDA dispatch latency on AMD RDNA 3+ hardware).
+
+---
+
+## Test Strategy
+
+- **Unit tests** (≥ 88 % line coverage): `GPUAllocator` pool boundary conditions (exact cap, cap+1, deallocation, fragmentation); `GPUKernelValidator` accept/reject for known-good and tampered checksums; `GPULauncher` work-item queue under concurrent submission
+- **Integration tests** (conditional on CUDA/ROCm device in CI): launch each whitelisted kernel with a reference dataset; verify output matches CPU baseline within tolerance ≤ 1 × 10⁻⁶ (double) / 1 × 10⁻⁴ (float)
+- **CPU-fallback tests** (always run): when no GPU is present, `GPULauncher::submit()` routes to CPU stub; verify query results are identical and no CUDA symbols are loaded
+- **Multi-GPU tests** (CI with ≥ 2 GPUs): work-stealing scheduler distributes a 100 M-row batch across 2 devices; verify results merged correctly and no data races
+- **Vulkan smoke tests**: pipeline creation, buffer allocation, compute dispatch with a trivial kernel on any Vulkan 1.2-capable device; shader SPIR-V validated by `glslangValidator`
+- **Cancellation tests**: submit 10-second synthetic kernel; issue cancel within 100 ms; verify drain completes within 500 ms
+
+## Performance Targets
+
+- GPU batch aggregation (CUDA sm_80, 10 M rows, SUM/AVG/MIN/MAX): ≥ 8× speedup vs single-threaded CPU baseline
+- GPU vector similarity search (1 M 768-dim vectors, cosine distance, top-100): ≤ 50 ms on RTX 3080 class hardware
+- Kernel launch overhead (host dispatch only): ≤ 2 ms per batch on CUDA sm_70+
+- Multi-GPU linear scale-out: 2-GPU throughput ≥ 1.8× single-GPU throughput for batch sizes ≥ 10 M rows
+- Vulkan vs CUDA dispatch latency on AMD RDNA 3+: ≤ 1.2× CUDA dispatch latency
+- VRAM pool allocation/free for 256 MB block: ≤ 100 µs (no device sync required)
+
+## Security / Reliability
+
+- All kernels validated via `GPUKernelValidator` checksum whitelist before launch; tampered or unregistered kernels are never executed
+- VRAM pool cap enforced at allocation time; out-of-cap allocations return structured error and are logged; OOM-killer never triggered
+- CUDA/ROCm context initialisation errors (driver not present, incompatible version) surface as structured `GPUInitError`; server continues on CPU path
+- Multi-GPU peer transfers use explicit device sync points; no implicit cross-device memory aliasing
+- Vulkan SPIR-V shaders validated by `spirv-val` at pipeline creation time; invalid shaders rejected before GPU submission
+- All GPU resource handles tracked in RAII wrappers; device memory leaks detected via `compute-sanitizer` / `rocm-validate` in CI nightly runs
 
 ---
 

@@ -1,5 +1,41 @@
 # AQL Module - Future Enhancements
 
+## Scope
+
+- Lexer and parser for AQL (ThemisDB's native query language): tokenisation, grammar, error recovery
+- AST construction, semantic validation, and type inference for all query forms
+- Evaluator/interpreter: expression evaluation, sub-query execution, LLM command dispatch
+- Multi-modal LLM command extensions (`LLM INFER`, `LLM RAG`, `LLM EMBED`) for text, image, audio, video
+- Advanced RAG techniques: HyDE, multi-query, re-ranking, parent-document retrieval
+- Query optimisation hints: index selection, join ordering, early-exit predicates
+
+---
+
+## Design Constraints
+
+- `[ ]` Lexer tokenisation rate must be ≥ 50 MB/s for ASCII query text on a single core
+- `[ ]` Parser must produce a complete AST or a structured error within 10 ms for queries ≤ 64 KB
+- `[ ]` AST node count hard cap: 100 000 nodes per query; queries exceeding this are rejected with a clear error
+- `[ ]` Evaluator must support query cancellation via co-operative cancellation token within 200 ms
+- `[ ]` LLM command dispatch must be fully asynchronous; the evaluator must not block on model inference
+- `[ ]` All grammar changes must be backward-compatible or gated behind a feature flag with a migration path
+- `[ ]` No `std::exception` propagation across the module public API; all errors as `Result<T>`
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `AQLLexer::tokenise(query_text)` | `AQLParser` | Returns token stream; invalid UTF-8 rejected |
+| `AQLParser::parse(token_stream)` | `AQLEvaluator`, query planner | Returns `ASTNode` tree or structured `ParseError` |
+| `ASTVisitor::visit(node)` | Semantic analyser, code-gen, optimiser | Visitor pattern; must be re-entrant |
+| `AQLEvaluator::execute(ast, context)` | Core query executor | Accepts `CancellationToken`; streams results |
+| `LLMDispatcher::dispatch(LLMCommand, callback)` | `AQLEvaluator` | Async; result delivered via callback/future |
+| `QueryOptimiser::optimise(ast, stats)` | `AQLEvaluator` pre-execution | Returns rewritten AST with cost annotation |
+
+---
+
 ## Planned Features
 
 ### Multi-Modal LLM Support
@@ -627,3 +663,32 @@ Have ideas for AQL and LLM improvements? We'd love to hear from you:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
+
+---
+
+## Test Strategy
+
+- **Unit tests** (≥ 90 % line coverage): lexer tokenisation for all token types including edge cases (empty input, max-length identifiers, Unicode identifiers); parser round-trip for every grammar production rule
+- **Integration tests**: execute a suite of ≥ 500 canonical AQL queries (SELECT, INSERT, UPDATE, LLM INFER, LLM RAG, sub-queries, CTEs) against an in-memory dataset; verify result correctness and row counts
+- **Property-based tests** (libFuzzer + grammar-aware fuzzer): ≥ 10 M random query strings; parser must never crash or produce undefined behaviour — only structured errors
+- **LLM dispatch tests** (mock LLM backend): verify async callback delivery within 5 s timeout; verify cancellation propagation within 200 ms
+- **Optimiser regression tests**: ensure rewritten AST produces identical results to original AST on the same dataset for ≥ 100 query pairs
+- **Coverage gate**: CI blocks merge if total line coverage drops below 85 %
+
+## Performance Targets
+
+- Lexer tokenisation: ≥ 50 MB/s on a single core for ASCII query text
+- Parser AST construction: ≤ 10 ms for a 64 KB query on a modern 3 GHz CPU
+- Full evaluator round-trip (parse + execute) for a 10-table join over 100 000 rows: ≤ 500 ms
+- LLM command async dispatch overhead (excluding model inference): ≤ 5 ms per command
+- Query optimiser rewrite pass: ≤ 2 ms per 1 000 AST nodes
+- Memory allocation per parsed query: ≤ 10 MB for a 64 KB query text
+
+## Security / Reliability
+
+- Lexer and parser are fuzz-hardened: CI runs libFuzzer for ≥ 1 hour per release; no crashes permitted
+- AST node cap (100 000 nodes) enforced to prevent memory exhaustion via adversarial deeply-nested queries
+- LLM prompt inputs sanitised: injection of AQL meta-characters escaped before forwarding to model
+- Evaluator enforces per-query CPU and memory resource limits configurable at context level
+- All grammar extensions validated in a staging environment before merging to main; breaking grammar changes require a deprecation period of ≥ 1 minor version
+- Query results never include raw error stack traces in the public API response; internal details logged server-side only
