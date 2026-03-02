@@ -1,5 +1,35 @@
 # Transaction Module - Future Enhancements
 
+## Scope
+
+The transaction module provides ACID transaction semantics for all ThemisDB data operations. It covers: multi-version concurrency control (MVCC) via RocksDB transactions, three isolation levels (`ReadCommitted`, `Snapshot`, `SerializableSnapshot`/SSI with predicate locking), optimistic concurrency control (OCC) with per-entity version numbers, two-phase commit (2PC) coordinator for distributed multi-shard transactions, SAGA orchestration (sequential and parallel DAG), distributed SAGA with cross-service compensation, named savepoints with partial rollback, bulk write batching and coalescing, read-only transaction fast path, and a transaction audit trail. Affected source files: `transaction_manager.cpp`, `transaction_manager.h`, `saga_manager.cpp`, and associated headers under `include/transaction/`.
+
+---
+
+## Design Constraints
+
+- [ ] All transaction types (regular, OCC, distributed) must be created through the same `TransactionManager` public API; callers must not need to know the underlying implementation details.
+- [ ] MVCC snapshot isolation must be implemented using RocksDB `OptimisticTransactionDB` or `TransactionDB` APIs; no custom MVCC layer is permitted.
+- [ ] The 2PC coordinator log must be persisted to RocksDB before sending `PREPARE` votes; coordinator crashes must be recoverable without data loss or duplicate commits.
+- [ ] SAGA compensation functions must be idempotent; the orchestrator may invoke them more than once during failure recovery without producing inconsistent state.
+- [ ] OCC version keys (`occ:ver:{table}:{pk}`) must never collide with entity data keys; the `occ:ver:` prefix is reserved and must be rejected in user-facing table and key names.
+- [ ] Transaction timeouts and deadlock detection must not rely on busy-waiting; all timeouts use OS-level condition variables or RocksDB deadline mechanisms.
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `TransactionManager::begin(isolation)` | All data mutation paths (AQL, REST, graph, vector) | Returns a `Transaction` handle; isolation level determines lock and snapshot behavior |
+| `Transaction::optimisticPut(table, entity, expected_version)` | OCC retry loops in query engine | Fails with version-mismatch error when stored version ≠ `expected_version` |
+| `Transaction::createSavepoint(name)` / `rollbackToSavepoint(name)` | Multi-step write operations, SAGA steps | Backed by RocksDB `SetSavePoint` / `RollbackToSavePoint` |
+| `DistributedTransactionManager::beginDistributed(participants)` | Distributed query coordinator, shard manager | Returns a `TransactionId`; drives 2PC prepare/commit/abort lifecycle |
+| `SAGAOrchestrator::execute(saga_definition)` | Business logic layer, REST saga endpoint | Executes steps in dependency order; invokes compensation in reverse order on failure |
+| `TransactionAuditor::queryAuditLog(user_id, start, end, limit)` | Admin API, compliance export | Returns `AuditRecord` list; backed by a dedicated RocksDB column family |
+
+---
+
 ## Planned Features
 
 ### Serializable Snapshot Isolation (SSI)
@@ -847,6 +877,31 @@ Track requests from GitHub issues:
 - **#789**: Transaction replay for debugging
 - **#234**: Prometheus metrics for transaction stats
 - **#567**: Grafana dashboard for deadlock visualization
+
+---
+
+## Test Strategy
+
+| Test Type | Coverage Target | Notes |
+|-----------|----------------|-------|
+| Unit | ≥ 90% line coverage in `transaction_manager.cpp` | Cover all isolation levels, OCC version conflict, savepoint LIFO ordering, and transaction timeout detection |
+| OCC | 11 existing tests in `tests/test_transaction_occ.cpp` must pass; add concurrent-contention tests | Verify ≥ 90% commit success rate at 10% contention ratio using a 10-thread stress driver |
+| 2PC | Simulate coordinator crash after PREPARE; verify recovery commits or aborts correctly without duplicates | Use in-memory RocksDB for coordinator log in unit tests; inject crash via a test-hook API |
+| SAGA | Sequential and parallel SAGA with injected step failures; verify compensation executes in reverse dependency order | At least one parallel SAGA test with 4+ steps and 2 injected failures at non-leaf nodes |
+| SSI | Write-skew anomaly must be prevented under `SerializableSnapshot`; confirm retry loop resolves | Phantom-read test using concurrent range-scan + insert pattern; assert zero anomalies across 1000 iterations |
+| Performance | Commit throughput ≥ 200K simple txns/sec on an 8-core host (from `## Performance Targets (v1.8.0)`) | `benchmarks/bench_transaction_throughput.cpp`; runs in CI as a non-blocking advisory check |
+
+---
+
+## Security / Reliability
+
+- `SerializableSnapshot` isolation is the only mode that prevents write-skew; documentation and default admin configurations must steer security-sensitive workloads toward `IsolationLevel::SerializableSnapshot`.
+- Transaction audit records must be written to a dedicated RocksDB column family with restricted write access; only the internal `TransactionAuditor` code path may insert or delete audit rows.
+- Audit log entries must never contain decrypted field values; column-level encryption is applied before the operation is recorded.
+- The 2PC coordinator log is append-only; replaying the log after a coordinator crash must be idempotent and must not duplicate already-committed writes.
+- SAGA compensation endpoints exposed over HTTP must be protected by the same authentication middleware as the forward operations; unauthenticated compensation calls are rejected with `401 Unauthorized`.
+- `TransactionId` values are generated as random 128-bit UUIDs; sequential or guessable IDs that could enable transaction-injection or replay attacks are prohibited.
+- The deadlock-detection watchdog runs in a dedicated thread; if the watchdog fails to respond within 500 ms, a fallback timer-based abort activates to prevent transactions from holding locks indefinitely.
 
 ---
 
