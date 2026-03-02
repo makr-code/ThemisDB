@@ -1,5 +1,33 @@
 # Query Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/query/` headers — public C++ interfaces for query execution, planning, and optimization
+- JIT compilation hint API: `QueryEngine::Config::enable_jit` and `jit_threshold`; per-query opt-in via `QueryOptions`
+- Adaptive execution hook: `AQEHook` callback invoked on plan re-optimization with actual vs. estimated cardinality
+- Distributed plan interface: `DistributedQueryCoordinator` requiring explicit `Coordinator` reference; no global state
+- UDF registration API: `QueryEngine::registerUDF()` with sandboxed execution policy
+- Plan visualization API: `QueryPlan::toDOT()`, `toJSON()`, `toHTML()` for debugging and tooling integration
+
+## Design Constraints
+
+- [ ] JIT API is opt-in per query via `QueryOptions::enable_jit`; default is interpreted execution
+- [ ] UDF registration is thread-safe; concurrent `registerUDF()` calls are serialized internally
+- [ ] Distributed plan API requires explicit `Coordinator` reference passed to `DistributedQueryCoordinator`; no implicit global state
+- [ ] `AQEHook` callbacks must be non-blocking and complete within 1 ms; long operations are disallowed
+- [ ] Plan visualization APIs are read-only and do not affect query execution state
+- [ ] All `QueryEngine` public methods return `Result<T>`; no exception propagation across the public API
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `QueryOptions` | All query execution callers | Carries per-query JIT, AQE, and resource limit flags |
+| `AQEHook` | `QueryEngine` internals, monitoring | Callback type; invoked on adaptive re-plan |
+| `DistributedQueryCoordinator` | Cluster query path | Requires explicit `RaftCluster&` constructor arg |
+| `QueryEngine::registerUDF` | Application code, plugin system | Thread-safe; sandbox enforced at registration |
+| `QueryPlan` | Debugging tools, explain output | `toDOT()` / `toJSON()` / `toHTML()` read-only methods |
+
 ## Planned Features
 
 ### Query Compilation (JIT)
@@ -1120,6 +1148,34 @@ Explore quantum algorithms for join ordering and plan selection.
 6. **Performance regression**: No performance regressions without justification
 
 For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+---
+
+## Test Strategy
+
+- Unit tests for JIT API: execute query 11 times with `jit_threshold=10`; assert compiled path used on 11th execution
+- Unit tests for `AQEHook`: inject a 10× cardinality mismatch; assert hook is invoked and plan switches join type
+- Unit tests for `DistributedQueryCoordinator`: mock `RaftCluster`; assert no global state mutations occur
+- Unit tests for `registerUDF`: register UDF from 2 concurrent threads; assert no data races under TSan
+- Integration tests: run explain plan for a multi-join query; assert `toDOT()` output is valid Graphviz DOT
+- Regression tests: verify all deprecated APIs still compile with expected `[[deprecated]]` warnings
+
+## Performance Targets
+
+- Query plan compilation (JIT) ≤ 50 ms for typical OLTP queries at `-O2` LLVM optimization level
+- UDF registration ≤ 1 ms per call including sandbox policy application
+- Adaptive plan switch (AQE re-optimization) ≤ 5 ms at runtime without blocking query execution
+- `QueryPlan::toDOT()` serialization ≤ 10 ms for plans with up to 50 operators
+- `DistributedQueryCoordinator` query decomposition overhead ≤ 20 ms per federated query
+- Query explain (without execution) ≤ 5 ms for standard OLTP query shapes
+
+## Security / Reliability
+
+- UDF sandbox prevents file system and network access; violations result in UDF termination and `ERR_UDF_SANDBOX_VIOLATION`
+- Query resource limits (`QueryResourceLimits`) are enforced at the public API level before execution begins
+- Distributed coordinator requires authenticated `RaftCluster` reference; unauthenticated access returns `ERR_UNAUTHORIZED`
+- JIT-compiled code is verified against an IR allowlist before native execution
+- Query plan serialization (`toDOT`, `toHTML`) must not leak internal storage paths or connection credentials
 
 ---
 

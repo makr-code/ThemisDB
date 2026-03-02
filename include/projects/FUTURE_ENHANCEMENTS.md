@@ -1,5 +1,33 @@
 # Projects Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/projects/` headers — public C++ interfaces for project lifecycle management
+- Project versioning interface: `ProjectVersioning` with immutable snapshot creation, retrieval, and comparison
+- Collaboration hook API: `CollaborationHook` callback for real-time change notifications and optimistic locking
+- Diff/merge API: `ProjectDiff` and `ProjectMerge` returning structured `DeltaSet`, not raw text
+- Project lifecycle management: `ProjectLifecycle` transitions (create → active → archived → deleted)
+- Template instantiation interface: `ProjectTemplate` factory with typed enum and `TemplateOptions`
+
+## Design Constraints
+
+- [ ] Project versioning uses immutable snapshots; snapshots are append-only and never mutated after creation
+- [ ] Collaboration API is thread-safe; all shared state is protected by `std::shared_mutex` or equivalent
+- [ ] Diff API returns structured `DeltaSet` (typed field-level changes), never a raw text diff
+- [ ] Project lifecycle transitions are atomic and logged to an append-only audit trail
+- [ ] Cross-project query API requires explicit project references; no implicit ambient project context
+- [ ] Template instantiation must validate schema before returning a `Result<Project>`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `ProjectVersioning` | `include/projects/project_manager.h` | Immutable snapshots; `createSnapshot()` returns `SnapshotId` |
+| `CollaborationHook` | `CollaborationManager` | Thread-safe; invoked on `shareProject()` and change events |
+| `ProjectDiff` | Migration tooling, CI pipelines | Returns `DeltaSet`; field-level granularity |
+| `ProjectMerge` | Git-style integration backend | Requires common ancestor `SnapshotId` |
+| `ProjectLifecycle` | Admin API, archival tooling | Atomic state transitions with audit log entry |
+
 This document outlines planned enhancements, optimizations, and research areas for the ThemisDB Projects module.
 
 ## Planned Features
@@ -634,3 +662,31 @@ Track community feature requests:
 **Last Updated**: 2024-02-10  
 **Contributors**: ThemisDB Team, Community  
 **Status**: Living Document
+
+---
+
+## Test Strategy
+
+- Unit tests for `ProjectVersioning`: create snapshots, verify immutability, compare two snapshots via `ProjectDiff`
+- Unit tests for `CollaborationHook`: register callback, mutate project from 2 threads, assert callback invoked once per change
+- Unit tests for `ProjectDiff`: diff two snapshots with known field changes; assert `DeltaSet` contains exactly expected deltas
+- Integration tests: create project from template, apply migrations, archive; verify lifecycle audit log entries
+- Permission tests: attempt `shareProject()` without user consent; assert `std::errc::permission_denied` is returned
+- Performance tests: snapshot a 10,000-document project and assert completion ≤ 100 ms
+
+## Performance Targets
+
+- Project snapshot creation ≤ 100 ms for projects with up to 10,000 documents
+- Diff computation between two snapshots ≤ 50 ms for projects with up to 1,000 changed fields
+- Collaboration hook invocation latency ≤ 5 ms from write commit to callback delivery
+- Project template instantiation ≤ 200 ms including schema validation
+- Metadata cache L1 hit latency ≤ 1 µs; L2 shared cache ≤ 10 µs
+- Cross-project query planning overhead ≤ 20 ms for up to 5 project references
+
+## Security / Reliability
+
+- Project access is gated by RBAC; all `ProjectManager` methods validate caller role before proceeding
+- Project sharing API requires explicit user consent token; sharing without consent returns an error
+- Snapshot data is checksummed (SHA-256) at creation and verified at read time
+- Audit log entries are append-only and tamper-evident; deletion requires admin privilege
+- Cross-project queries validate read permission on each referenced project independently
