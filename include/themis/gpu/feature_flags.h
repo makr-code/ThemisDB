@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:41                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     155                                            ║
+    • Total Lines:     163                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5b1bf176b  2026-02-28  feat(gpu): implement GPUP2PTransferManager for peer-to-pe... ║
+    • 082828cb4  2026-02-27  feat(gpu): Vulkan compute backend for cross-vendor GPU su... ║
+    • 3d5f51a2f  2026-02-27  feat(gpu): MIG partitioning support for NVIDIA A/H series ║
+    • 5139a04e1  2026-02-26  feat(gpu): WASM-based GPU kernel sandbox for untrusted th... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

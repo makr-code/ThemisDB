@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:29                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     1447                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1934                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
-    • 9de069695  2026-02-22  feat(transaction): Optimistic Concurrency Control (OCC) w... ║
-    • ff35f272c  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
-    • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
+    • 935e2696e  2026-03-01  feat(transaction): implement time-travel queries against ... ║
+    • f770f4a5b  2026-02-28  refactor(transaction): address code review feedback ║
+    • 14942b3a7  2026-02-28  feat(transaction): implement per-tenant transaction isola... ║
+    • e7f8e6a5e  2026-02-28  feat(transaction): add OCC performance benchmarks and fix... ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,6 +26,7 @@
 
 #include "transaction/transaction_manager.h"
 #include "transaction/crash_recovery_manager.h"
+#include "transaction/snapshot_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/history_manager.h"
 #include "storage/base_entity.h"
@@ -1852,6 +1854,81 @@ TransactionManager::explainTransaction(TransactionId id) const {
         return cit->second->explain();
     }
     return std::nullopt;
+}
+
+// ── Time-travel queries ────────────────────────────────────────────────────────
+
+namespace {
+/// Convert a HistoryRecord into a TransactionManager::TimeTravelRecord.
+TransactionManager::TimeTravelRecord toTimeTravelRecord(const HistoryRecord& rec) {
+    TransactionManager::TimeTravelRecord r;
+    r.base_key  = rec.base_key;
+    r.timestamp = rec.timestamp;
+    r.op        = rec.op;
+    r.value     = rec.value;
+    r.txn_id    = rec.txn_id;
+    return r;
+}
+} // anonymous namespace
+
+std::optional<TransactionManager::TimeTravelRecord>
+TransactionManager::readEntityAtTimestamp(
+    std::string_view table,
+    std::string_view pk,
+    HLCTimestamp ts) const
+{
+    if (!history_mgr_) return std::nullopt;
+    const std::string live_key =
+        std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    auto rec = history_mgr_->getAtTimestamp(live_key, ts);
+    if (!rec) return std::nullopt;
+    return toTimeTravelRecord(*rec);
+}
+
+std::optional<TransactionManager::TimeTravelRecord>
+TransactionManager::readEntityAtUnixMs(
+    std::string_view table,
+    std::string_view pk,
+    int64_t unix_ms) const
+{
+    if (unix_ms < 0) return std::nullopt;
+    // Build an HLC upper-bound: physical = unix_ms, logical = MAX_LOGICAL.
+    // Using MAX_LOGICAL ensures this timestamp is strictly greater than any
+    // real HLC timestamp recorded at the same wall-clock millisecond (real
+    // logical counters are always < MAX_LOGICAL), so getAtTimestamp() will
+    // return the latest entry at or before unix_ms as required.
+    HLCTimestamp ts = HLCTimestamp::from(
+        static_cast<uint64_t>(unix_ms), HLCTimestamp::MAX_LOGICAL);
+    return readEntityAtTimestamp(table, pk, ts);
+}
+
+std::optional<TransactionManager::TimeTravelRecord>
+TransactionManager::readEntityAtSnapshot(
+    std::string_view table,
+    std::string_view pk,
+    const std::string& tag_name) const
+{
+    if (!snapshot_mgr_) return std::nullopt;
+    auto ts_opt = snapshot_mgr_->getTimestampForTag(tag_name);
+    if (!ts_opt) return std::nullopt;
+    return readEntityAtUnixMs(table, pk, *ts_opt);
+}
+
+std::vector<TransactionManager::TimeTravelRecord>
+TransactionManager::listEntityVersions(
+    std::string_view table,
+    std::string_view pk) const
+{
+    if (!history_mgr_) return {};
+    const std::string live_key =
+        std::string("entity:") + std::string(table) + ":" + std::string(pk);
+    auto records = history_mgr_->listVersions(live_key);
+    std::vector<TimeTravelRecord> result;
+    result.reserve(records.size());
+    for (const auto& rec : records) {
+        result.push_back(toTimeTravelRecord(rec));
+    }
+    return result;
 }
 
 } // namespace themis

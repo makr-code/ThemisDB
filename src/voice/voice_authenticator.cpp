@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_authenticator.cpp                            ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-02-23                                         ║
-  Author:          ThemisDB Team                                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:36                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     717                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     725                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ee2609e98  2026-02-23  fix(voice): audit gaps — require_liveness enforcement, do... ║
+    • d428e5be3  2026-02-23  feat(voice): implement speaker verification for voice bio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

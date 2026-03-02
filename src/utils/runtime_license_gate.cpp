@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            runtime_license_gate.cpp                           ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-02-23 03:58:32                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-03-02 04:00:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     203                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     204                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 151a5f3fc  2026-03-01  Fix runtime_license_gate unknown-feature allow logic for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -95,9 +98,16 @@ bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name) const {
 
 bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name,
                                            std::string& error_out) const {
-    // Step 1: Compile-time gate.
-    // If the binary was not compiled with this feature, it is never allowed.
-    // Build the denial message inline here — no member state access needed.
+    // Step 1: If the feature is not a known Enterprise/Hyperscaler-gated feature,
+    // allow it unconditionally.  This covers Community-edition features and any
+    // unknown feature name — the gate only restricts the known Enterprise capabilities.
+    if (!isEnterpriseFeature(feature_name)) {
+        return true;
+    }
+
+    // Step 2: Compile-time gate for known Enterprise features.
+    // If the binary was not compiled with this feature (e.g. Community-edition
+    // binary), deny regardless of runtime license state.
     if (!edition::IsFeatureEnabled(feature_name)) {
         std::ostringstream msg;
         msg << "Feature '" << feature_name << "' is not available in the "
@@ -107,12 +117,6 @@ bool RuntimeLicenseGate::isFeatureAllowed(std::string_view feature_name,
         }
         error_out = msg.str();
         return false;
-    }
-
-    // Step 2: If the feature is not an Enterprise-gated one, it's always OK.
-    // (The compile-time gate already handled it for Enterprise features.)
-    if (!isEnterpriseFeature(feature_name)) {
-        return true;
     }
 
     // Step 3: Runtime license check — acquire the lock once for all member access.

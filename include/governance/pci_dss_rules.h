@@ -4,18 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pci_dss_rules.h                                    ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-25                                         ║
-  Author:          ThemisDB Team                                      ║
+  Last Modified:   2026-03-02 03:53:08                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  PCI-DSS Data Isolation Rules Enforcement                            ║
-  Implements:                                                         ║
-    • IComplianceRule - base interface (see ccpa_rules.h)             ║
-    • CardholderDataIsolation  - PCI-DSS Req 1 (network isolation)    ║
-    • CardholderDataEncryption - PCI-DSS Req 3 (encryption at rest)   ║
-    • TransmissionEncryption   - PCI-DSS Req 4 (encryption in transit)║
-    • AccessControlLeastPrivilege - PCI-DSS Req 7 (least privilege)   ║
-    • CardholderDataAuditTrail - PCI-DSS Req 10 (audit logging)       ║
-    • PciDssRuleSet            - aggregated PCI-DSS rule set          ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     187                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f07ba6be3  2026-02-25  feat(governance): implement PCI-DSS data isolation rules ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

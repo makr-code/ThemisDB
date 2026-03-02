@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_session_manager.cpp                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-23 03:58:32                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-03-02 04:00:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     302                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     314                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -206,6 +209,18 @@ bool VoiceSessionManager::touchSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;
+    it->second.last_activity_ms = nowMs();
+    backend_->save(it->second);
+    return true;
+}
+
+bool VoiceSessionManager::updatePreferredLanguage(
+    const std::string& session_id, const std::string& language_code)
+{
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = active_cache_.find(session_id);
+    if (it == active_cache_.end()) return false;
+    it->second.preferred_language = language_code;
     it->second.last_activity_ms = nowMs();
     backend_->save(it->second);
     return true;

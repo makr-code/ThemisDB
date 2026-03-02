@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:40                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     628                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     641                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • eb5e037bc  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_external_scheduler_adapter.cpp                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:33                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     516                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d302c8846  2026-02-23  fix(scheduler): remove dead code and use AirflowDagConfig... ║
+    • 9ed4897df  2026-02-23  feat(scheduler): integrate Kubernetes CronJob and Airflow... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_external_scheduler_adapter.cpp
  * @brief Unit tests for ExternalSchedulerAdapter (Kubernetes CronJob and Airflow integration).

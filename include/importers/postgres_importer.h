@@ -3,17 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:21                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     175                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     182                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 11c3fb7c3  2026-02-28  feat(importers): implement dry-run import preview for Pos... ║
+    • a3d6da5ac  2026-02-24  feat(importers): implement conflict resolution strategies... ║
+    • 625263378  2026-02-23  Resolve code-audit findings: rename dummy→checkpoint_stat... ║
+    • 220fc09b2  2026-02-22  Add streaming import API for large datasets without full ... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

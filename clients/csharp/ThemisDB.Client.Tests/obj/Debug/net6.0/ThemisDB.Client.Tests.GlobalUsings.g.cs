@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ThemisDB.Client.Tests.GlobalUsings.g.cs            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:07                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:51:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
+    • Quality Score:   100.0/100                                      ║
     • Total Lines:     30                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║

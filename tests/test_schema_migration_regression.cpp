@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_migration_regression.cpp               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:27                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:06:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     380                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     491                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 26a104209  2026-03-01  fix(updates): add validateMigration regression tests, fix... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -377,4 +381,115 @@ TEST_F(MigrationRegressionTest, HistoryToJSON) {
     EXPECT_EQ(j[0]["author"].get<std::string>(), "a");
     EXPECT_EQ(j[1]["version"].get<uint64_t>(), 2u);
     EXPECT_EQ(j[1]["author"].get<std::string>(), "b");
+}
+
+// ============================================================================
+// validateMigration – lifecycle regression tests
+// Exercises validateMigration as a gate within a full migration sequence:
+//   validate → apply → create version → validate next change
+// ============================================================================
+
+TEST_F(MigrationRegressionTest, ValidateMigration_PassesOnFirstVersion) {
+    // No prior version exists; any well-formed schema must pass validation.
+    const std::string TABLE = "vm_first";
+
+    SchemaManager::TableSchema ts = buildSchema(TABLE, {"id", "name"});
+    auto result = version_mgr->validateMigration(TABLE, ts);
+
+    ASSERT_TRUE(result.ok) << result.error_message;
+    EXPECT_TRUE(result.value);
+
+    // Confirm that validateMigration did NOT create a version entry.
+    auto cur = version_mgr->getCurrentVersion(TABLE);
+    EXPECT_FALSE(cur.ok);  // no version recorded yet
+}
+
+TEST_F(MigrationRegressionTest, ValidateMigration_PassesAfterRealChange) {
+    // Validate must succeed when the new schema differs from the stored one.
+    const std::string TABLE = "vm_change";
+
+    registerAndVersion(TABLE, {"id"}, "a", "v1");
+
+    SchemaManager::TableSchema ts = buildSchema(TABLE, {"id", "email"});
+    auto result = version_mgr->validateMigration(TABLE, ts);
+
+    ASSERT_TRUE(result.ok) << result.error_message;
+    EXPECT_TRUE(result.value);
+}
+
+TEST_F(MigrationRegressionTest, ValidateMigration_RejectsIdenticalSchema) {
+    // If the proposed schema is identical to the current snapshot, validation
+    // must fail (no-op migrations are not allowed).
+    const std::string TABLE = "vm_identical";
+
+    registerAndVersion(TABLE, {"id", "qty"}, "a", "v1");
+
+    // Re-validate the same column set.
+    SchemaManager::TableSchema same = buildSchema(TABLE, {"id", "qty"});
+    auto result = version_mgr->validateMigration(TABLE, same);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, VersionErrorCode::INVALID_VERSION);
+    EXPECT_NE(result.error_message.find("identical"), std::string::npos);
+}
+
+TEST_F(MigrationRegressionTest, ValidateMigration_GatesFullMigrationLifecycle) {
+    // Full lifecycle: validate → apply → snapshot → validate next change.
+    const std::string TABLE = "vm_lifecycle";
+
+    // Step 1: create initial schema (v1)
+    registerAndVersion(TABLE, {"id"}, "alice", "initial");
+
+    // Step 2: validate a new schema before applying it
+    SchemaManager::TableSchema v2_schema = buildSchema(TABLE, {"id", "name"});
+    {
+        auto val = version_mgr->validateMigration(TABLE, v2_schema);
+        ASSERT_TRUE(val.ok) << val.error_message;
+    }
+
+    // Step 3: apply and version it (v2)
+    ASSERT_TRUE(schema_mgr->setTableSchema(TABLE, v2_schema));
+    auto v2 = version_mgr->createSchemaVersion(TABLE, "bob", "add name");
+    ASSERT_TRUE(v2.ok);
+    EXPECT_EQ(v2.value, 2u);
+
+    // Step 4: validate another new schema (v3 candidate)
+    SchemaManager::TableSchema v3_schema = buildSchema(TABLE, {"id", "name", "email"});
+    {
+        auto val = version_mgr->validateMigration(TABLE, v3_schema);
+        ASSERT_TRUE(val.ok) << val.error_message;
+    }
+
+    // Step 5: applying the identical schema again must be rejected by validation
+    {
+        auto val = version_mgr->validateMigration(TABLE, v2_schema);
+        EXPECT_FALSE(val.ok);
+        EXPECT_EQ(val.error, VersionErrorCode::INVALID_VERSION);
+    }
+}
+
+TEST_F(MigrationRegressionTest, ValidateMigration_RejectsEmptyName) {
+    const std::string TABLE = "vm_emptyname";
+
+    SchemaManager::TableSchema ts;
+    ts.name = "";           // empty – must be rejected
+    ts.type = "relational";
+    SchemaManager::PropertyInfo p;
+    p.name = "id"; p.type = "string";
+    ts.properties.push_back(p);
+
+    auto result = version_mgr->validateMigration(TABLE, ts);
+    EXPECT_FALSE(result.ok);
+}
+
+TEST_F(MigrationRegressionTest, ValidateMigration_RejectsNoColumns) {
+    const std::string TABLE = "vm_nocols";
+
+    SchemaManager::TableSchema ts;
+    ts.name = TABLE;
+    ts.type = "relational";
+    // no properties
+
+    auto result = version_mgr->validateMigration(TABLE, ts);
+    EXPECT_FALSE(result.ok);
 }

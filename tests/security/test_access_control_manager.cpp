@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_access_control_manager.cpp                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:41                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:01:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     589                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     791                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 136ad815d  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
     • 09619660f  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
     • fe5f8a9c8  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -590,4 +591,202 @@ TEST_F(AccessControlManagerTest, ABACReloadConfiguration) {
     EXPECT_TRUE(acm.authorize(ctx, "data", "write").granted);
     ctx.source_ip = "10.0.1.1";
     EXPECT_FALSE(acm.authorize(ctx, "data", "write").granted);
+}
+
+// ============================================================================
+// Row-level security integration
+// ============================================================================
+
+static AccessControlManager makeTestACM(const std::filesystem::path& rbac_path,
+                                        const std::filesystem::path& users_path) {
+    AccessControlConfig cfg;
+    cfg.rbac_config_path = rbac_path.string();
+    cfg.user_role_store_path = users_path.string();
+    AccessControlManager acm(cfg);
+    acm.initialize();
+    return acm;
+}
+
+TEST_F(AccessControlManagerTest, RLSAddAndFilterRows) {
+    auto acm = makeTestACM(rbac_config_path_, user_roles_path_);
+
+    RLSPolicy policy;
+    policy.id         = "owner_isolation";
+    policy.collection = "orders";
+    policy.predicate  = {"owner", "eq", "", "user_id"};
+    policy.type       = RLSPolicyType::PERMISSIVE;
+    acm.addRLSPolicy(policy);
+
+    SecurityContext ctx;
+    ctx.user_id = "alice";
+
+    nlohmann::json rows = nlohmann::json::array({
+        {{"id", 1}, {"owner", "alice"}},
+        {{"id", 2}, {"owner", "bob"}},
+        {{"id", 3}, {"owner", "alice"}},
+    });
+
+    auto result = acm.filterQueryResults("orders", ctx, rows);
+    ASSERT_EQ(result.size(), 2u);
+    for (const auto& row : result) {
+        EXPECT_EQ(row["owner"].get<std::string>(), "alice");
+    }
+}
+
+TEST_F(AccessControlManagerTest, RLSNoPoliciesPassThrough) {
+    auto acm = makeTestACM(rbac_config_path_, user_roles_path_);
+
+    SecurityContext ctx;
+    ctx.user_id = "alice";
+
+    nlohmann::json rows = nlohmann::json::array({
+        {{"id", 1}, {"owner", "alice"}},
+        {{"id", 2}, {"owner", "bob"}},
+    });
+
+    auto result = acm.filterQueryResults("orders", ctx, rows);
+    EXPECT_EQ(result.size(), 2u);  // no policies → all rows pass
+}
+
+TEST_F(AccessControlManagerTest, RLSRemovePolicy) {
+    auto acm = makeTestACM(rbac_config_path_, user_roles_path_);
+
+    RLSPolicy policy;
+    policy.id         = "p1";
+    policy.collection = "orders";
+    policy.predicate  = {"owner", "eq", "", "user_id"};
+    acm.addRLSPolicy(policy);
+
+    SecurityContext ctx;
+    ctx.user_id = "alice";
+
+    nlohmann::json rows = nlohmann::json::array({
+        {{"id", 1}, {"owner", "alice"}},
+        {{"id", 2}, {"owner", "bob"}},
+    });
+
+    // With policy active, only alice's row is visible
+    EXPECT_EQ(acm.filterQueryResults("orders", ctx, rows).size(), 1u);
+
+    // After removing the policy, all rows pass through
+    EXPECT_TRUE(acm.removeRLSPolicy("p1"));
+    EXPECT_EQ(acm.filterQueryResults("orders", ctx, rows).size(), 2u);
+}
+
+TEST_F(AccessControlManagerTest, RLSIsActiveReflectsPolicies) {
+    auto acm = makeTestACM(rbac_config_path_, user_roles_path_);
+
+    SecurityContext ctx;
+    ctx.user_id = "alice";
+
+    EXPECT_FALSE(acm.isRLSActive("orders", ctx));
+
+    RLSPolicy policy;
+    policy.id         = "p1";
+    policy.collection = "orders";
+    policy.predicate  = {"owner", "eq", "", "user_id"};
+    acm.addRLSPolicy(policy);
+
+    EXPECT_TRUE(acm.isRLSActive("orders", ctx));
+}
+
+TEST_F(AccessControlManagerTest, RLSGetManagerAccess) {
+    auto acm = makeTestACM(rbac_config_path_, user_roles_path_);
+
+    RLSPolicy policy;
+    policy.id         = "p1";
+    policy.collection = "items";
+    policy.predicate  = {"tenant_id", "eq", "\"acme\"", ""};
+    acm.addRLSPolicy(policy);
+
+    auto& mgr = acm.getRLSManager();
+    auto ids = mgr.listPolicies();
+    ASSERT_EQ(ids.size(), 1u);
+    EXPECT_EQ(ids[0], "p1");
+}
+
+TEST_F(AccessControlManagerTest, RLSLoadFromFile) {
+    // Write a RLS policy JSON file
+    auto rls_policy_path = temp_dir_ / "rls_policies.json";
+    {
+        std::ofstream f(rls_policy_path);
+        f << R"({
+            "policies": [
+                {
+                    "id": "tenant_iso",
+                    "collection": "orders",
+                    "applicable_roles": [],
+                    "predicate": {"field":"tenant_id","op":"eq","value":"\"acme\"","user_attr":""},
+                    "type": "permissive",
+                    "enabled": true
+                }
+            ]
+        })";
+    }
+
+    AccessControlConfig config;
+    config.rbac_config_path    = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_rls          = true;
+    config.rls_policy_path     = rls_policy_path.string();
+
+    AccessControlManager acm(config);
+    ASSERT_TRUE(acm.initialize());
+
+    auto ids = acm.getRLSManager().listPolicies();
+    ASSERT_EQ(ids.size(), 1u);
+    EXPECT_EQ(ids[0], "tenant_iso");
+
+    // Verify filtering works with the loaded policy
+    SecurityContext ctx;
+    ctx.user_id = "alice";
+
+    nlohmann::json rows = nlohmann::json::array({
+        {{"id", 1}, {"tenant_id", "acme"}},
+        {{"id", 2}, {"tenant_id", "beta"}},
+    });
+
+    auto result = acm.filterQueryResults("orders", ctx, rows);
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0]["tenant_id"].get<std::string>(), "acme");
+}
+
+TEST_F(AccessControlManagerTest, RLSReloadConfiguration) {
+    auto rls_policy_path = temp_dir_ / "rls_reload.json";
+    auto write_rls = [&](const std::string& tenant) {
+        std::ofstream f(rls_policy_path);
+        f << R"({"policies":[{"id":"t","collection":"orders","applicable_roles":[],)"
+          << R"("predicate":{"field":"tenant_id","op":"eq","value":"\")" << tenant << R"(\"","user_attr":""},)"
+          << R"("type":"permissive","enabled":true}]})";
+    };
+    write_rls("acme");
+
+    AccessControlConfig config;
+    config.rbac_config_path    = rbac_config_path_.string();
+    config.user_role_store_path = user_roles_path_.string();
+    config.enable_rls          = true;
+    config.rls_policy_path     = rls_policy_path.string();
+
+    AccessControlManager acm(config);
+    ASSERT_TRUE(acm.initialize());
+
+    SecurityContext ctx;
+    ctx.user_id = "alice";
+
+    nlohmann::json rows = nlohmann::json::array({
+        {{"id", 1}, {"tenant_id", "acme"}},
+        {{"id", 2}, {"tenant_id", "beta"}},
+    });
+
+    // Initially: only "acme" rows pass
+    EXPECT_EQ(acm.filterQueryResults("orders", ctx, rows).size(), 1u);
+
+    // Update file to filter "beta" instead
+    write_rls("beta");
+    ASSERT_TRUE(acm.reloadConfiguration());
+
+    // After reload: only "beta" rows pass
+    auto result = acm.filterQueryResults("orders", ctx, rows);
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0]["tenant_id"].get<std::string>(), "beta");
 }

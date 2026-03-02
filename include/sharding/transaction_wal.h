@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_wal.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:39                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     249                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     250                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -39,7 +42,8 @@ enum class TransactionProtocol {
     TWO_PHASE_COMMIT,
     THREE_PHASE_COMMIT,
     SAGA,
-    PERCOLATOR
+    PERCOLATOR,
+    CALVIN           // Deterministic distributed transactions via pre-ordering
 };
 
 /**

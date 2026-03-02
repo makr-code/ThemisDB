@@ -1,4 +1,28 @@
 """
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            benchmark_harness.py                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:16                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     396                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • edfcc1a70  2026-02-28  feat(chimera): implement BenchmarkDashboard for result ag... ║
+    • 717272ce8  2026-02-27  fix(chimera): remove unused StatisticalAnalyzer import; c... ║
+    • c39051d13  2026-02-27  feat(chimera): implement unified benchmark harness ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
+"""
 CHIMERA Suite: Unified Benchmark Harness
 
 Provides workload definitions, warm-up, measurement, and reporting phases

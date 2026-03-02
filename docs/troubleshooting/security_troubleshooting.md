@@ -11,7 +11,7 @@ The `security` module provides ThemisDB's comprehensive security layer, includin
 | `HsmProvider: slot not found` | Wrong PKCS#11 slot index | Run `pkcs11-tool --list-slots` and update config |
 | `AqlInjectionDetector: query blocked` | Legitimate query matched injection pattern | Add query to allowlist; tune sensitivity |
 | `MalwareScanner: scan timeout` | ClamAV daemon not running or overloaded | Restart `clamd`; check socket path |
-| `ConfidentialComputing: enclave init failed` | SGX not available or driver not loaded | Verify SGX support; load `isgx` kernel module |
+| `ConfidentialComputing: enclave init failed` | TDX/SEV not available or kernel driver absent | Verify TDX/SEV support via CPUID; ensure `/dev/tdx_guest` or `/dev/sev-guest` is accessible |
 | Row-level security blocks admin user | Admin role not in RLS bypass list | Add admin role to `security.rls.bypass_roles` |
 | HSM response latency >500ms | HSM under heavy load or network issue | Enable HSM key cache; check HSM connectivity |
 | `BinaryManifest: signature verification failed` | Plugin binary tampered or wrong key | Re-sign plugin; update trust anchor |
@@ -242,28 +242,30 @@ security:
 
 ### Issue 9: Confidential Computing Enclave Init Fails
 
-**Description:** SGX enclave initialisation fails at startup.
+**Description:** Intel TDX or AMD SEV/SEV-SNP kernel driver is unavailable; ThemisDB falls back to software mode.
 
 **Symptoms:**
-- Log: `ConfidentialComputing: sgx_create_enclave failed: SGX_ERROR_NO_DEVICE_AVAILABLE`
+- Log: `ConfidentialComputing: /dev/tdx_guest unavailable (...); TDX detected via CPUID only`
+- Log: `ConfidentialComputing: /dev/sev-guest not accessible (...); returning software-mode report`
 
-**Cause:** SGX not enabled in BIOS, `isgx` driver not loaded, or running in a VM without SGX passthrough.
+**Cause:** TDX/SEV hardware present (CPUID confirms) but the Linux kernel driver is absent or inaccessible (kernel < 6.2 for TDX, kernel < 5.19 for SEV-SNP, or insufficient permissions).
 
 **Solution:**
 ```bash
-# Check SGX support
-cpuid | grep -i sgx
-ls /dev/sgx* 2>/dev/null || ls /dev/isgx 2>/dev/null
+# Check Intel TDX support (kernel ≥ 6.2)
+cpuid -l 0x21 -s 0          # should show "IntelTDX    " in EBX/EDX/ECX
+ls -la /dev/tdx_guest        # must exist and be accessible
 
-# Load SGX driver (kernel ≥ 5.11 uses in-kernel driver)
-modprobe isgx
+# Check AMD SEV-SNP support (kernel ≥ 5.19)
+cpuid -l 0x8000001f          # EAX bit 4 = SEV-SNP supported
+ls -la /dev/sev-guest        # must exist and be accessible
 
-# Disable SGX if not available
+# Disable if TEE hardware is not available
 ```
 ```yaml
 security:
   confidential_computing:
-    enabled: false      # disable if SGX not available
+    enabled: false      # disable if TDX/SEV not available
     fallback_to_software: true
 ```
 

@@ -4,14 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            citation_highlighter.h                             ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-24                                         ║
+  Last Modified:   2026-03-02 03:54:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     277                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 36f9428a5  2026-02-24  fix(rag): code audit – thread-safety, unused includes, do... ║
+    • 0d07aab99  2026-02-24  fix(rag): fix line count metadata and remove unused inclu... ║
+    • 475d5e8ba  2026-02-24  feat(rag): implement citation highlighting (map answer se... ║
+    • 3bd69376c  2026-02-24  feat(rag): implement citation highlighting (map answer se... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

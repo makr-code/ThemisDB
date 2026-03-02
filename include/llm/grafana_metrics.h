@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grafana_metrics.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:23                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     411                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     462                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6e4b52d94  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
     • b7c3c3b83  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
     • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║

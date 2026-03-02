@@ -3,7 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_masking_policy.cpp                      ║
-  Version:         0.0.32                                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:06:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     354                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 37baf981c  2026-03-01  test(security): add edge-case tests for QueryMaskingPolicy ║
+    • b629d06e4  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
+    • 617224a49  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -298,4 +311,57 @@ TEST_F(QueryMaskingPolicyTest, ConcurrentMaskAndDeclareFieldIsSafe) {
 
     stop.store(true);
     writer.join();
+}
+
+// ---------------------------------------------------------------------------
+// Feature: mixed roles – admin in list with other roles bypasses masking
+// ---------------------------------------------------------------------------
+
+TEST_F(QueryMaskingPolicyTest, MixedRolesWithAdminBypassesMasking) {
+    json entity = {{"email", "mixed@example.com"}, {"status", "active"}};
+    // Admin is listed alongside other non-privileged roles.
+    auto result = policy_->maskResult(entity, {"user", "admin", "readonly"});
+
+    EXPECT_EQ(result["email"].get<std::string>(), "mixed@example.com")
+        << "Admin role among other roles must still bypass masking";
+    EXPECT_EQ(result["status"].get<std::string>(), "active");
+}
+
+// ---------------------------------------------------------------------------
+// Feature: both auto-detect and field-name masking disabled → pass-through
+// ---------------------------------------------------------------------------
+
+TEST_F(QueryMaskingPolicyTest, BothDetectionModesDisabledPassesThrough) {
+    QueryMaskingPolicy::Config cfg;
+    cfg.mask_by_field_name = false;
+    cfg.auto_detect_pii    = false;
+    auto policy = QueryMaskingPolicy::create(cfg);
+
+    // Even a well-known PII field name should pass through when both modes are off.
+    json entity = {{"email", "alice@example.com"}, {"id", "123"}};
+    auto result = policy->maskResult(entity);
+
+    EXPECT_EQ(result["email"].get<std::string>(), "alice@example.com")
+        << "With both detection modes disabled, PII field must not be masked";
+    EXPECT_EQ(result["id"].get<std::string>(), "123");
+}
+
+// ---------------------------------------------------------------------------
+// Feature: declareField with explicit PIIType hint
+// ---------------------------------------------------------------------------
+
+TEST_F(QueryMaskingPolicyTest, DeclaredFieldWithExplicitPIITypeHint) {
+    // Declare a field with an explicit SSN type hint so the masker uses the
+    // SSN masking format rather than falling back to the generic form.
+    policy_->declareField("national_id", "strict", utils::PIIType::SSN);
+
+    json entity = {{"national_id", "123-45-6789"}};
+    auto result = policy_->maskResult(entity);
+
+    EXPECT_EQ(result["national_id"].get<std::string>().find("123-45-6789"),
+              std::string::npos)
+        << "Declared field with explicit PIIType must be masked";
+    // The returned value must not be empty (a masking token or redaction
+    // marker is expected).
+    EXPECT_FALSE(result["national_id"].get<std::string>().empty());
 }

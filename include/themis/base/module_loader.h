@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:41                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     661                                            ║
+    • Total Lines:     858                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 20d74ea0c  2026-03-01  feat(themis): integrate Zone.Identifier quarantine detect... ║
+    • 445546674  2026-02-27  Add plugin dependency graph visualization for base module ║
+    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
+    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
+    • 84e913c55  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -137,6 +144,7 @@ enum class ModuleErrorCode {
     POLICY_VIOLATION = 500,
     BLACKLISTED = 501,
     QUARANTINED = 502,
+    ZONE_ID_BLOCKED = 503,  ///< Windows Zone.Identifier marks file as Internet/Restricted zone
     
     // Unknown/Internal errors (9xx)
     INTERNAL_ERROR = 900,

@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            mode_spec_loader.cpp                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:58:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     396                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 39e499706  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
+    • 847458a5a  2026-02-22  feat: Add YAML-configurable LLM Orchestration Modes (ask,... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file mode_spec_loader.cpp
  * @brief YAML loader and validator for ThemisDB LLM Mode Specifications.

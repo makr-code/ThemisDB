@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporting_api_handler.h                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:35                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     96                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     99                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2d61f04b5  2026-02-28  fix(governance): wire time_window into API handler with i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

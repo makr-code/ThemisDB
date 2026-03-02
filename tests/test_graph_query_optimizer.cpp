@@ -4,21 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_optimizer.cpp                     ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:15:00                                ║
+  Last Modified:   2026-03-02 04:04:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1595                                           ║
+    • Total Lines:     4108                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
-    • bad865bbf  2026-02-22  fix: respect constraints.enable_parallel in optimizeKHopN... ║
-    • c4bbfc9d4  2026-02-22  fix: include enable_parallel in exact plan cache key for ... ║
-    • a8e1c5f60  2026-02-22  audit: fix ROADMAP accuracy and add clearPlanCache struct... ║
-    • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
+    • bc547c433  2026-02-28  feat(graph): expose cost model calibration via HTTP API ║
+    • 23f569828  2026-02-28  fix(graph): fix query injection in path constraints (secu... ║
+    • 5ba43c6a8  2026-02-28  test(graph): add unit tests for uncovered PathConstraints... ║
+    • dcf7b458f  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
+    • 145531d5b  2026-02-26  fix(graph): Fix missing closing brace in SubgraphIsomorph... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

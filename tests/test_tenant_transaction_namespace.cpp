@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_tenant_transaction_namespace.cpp              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:07:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     286                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f770f4a5b  2026-02-28  refactor(transaction): address code review feedback ║
+    • 14942b3a7  2026-02-28  feat(transaction): implement per-tenant transaction isola... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /// @file test_tenant_transaction_namespace.cpp
 /// @brief Unit tests for the per-tenant transaction isolation namespace feature.
 ///

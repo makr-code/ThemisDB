@@ -3,20 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_logger.h                                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:18                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     233                                            ║
+    • Total Lines:     244                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 86c25566c  2026-02-24  fix(core): resolve logStructured() stub — inject trace ID... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
     • 7f17c52b6  2026-02-21  feat(core): structured log correlation — span_id in Trace... ║
-    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

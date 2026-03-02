@@ -3,7 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_audit_logger.cpp                              ║
-  Version:         0.0.32                                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     244                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c65f5b1f7  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
+    • 79129146f  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
+    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
+    • e8e02c9ec  2026-02-24  feat(auth): implement zero-trust continuous verification ... ║
+    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -204,6 +219,40 @@ void AuthAuditLogger::logZeroTrustDenied(const std::string& user_id,
     if (!request_id.empty()) d["request_id"] = request_id;
     emit(utils::SecurityEventType::UNAUTHORIZED_ACCESS, user_id,
          "zero_trust/" + resource, d);
+}
+
+// ---------------------------------------------------------------------------
+// Anomaly detection events (brute-force, credential stuffing)
+// ---------------------------------------------------------------------------
+
+void AuthAuditLogger::logBruteForceDetected(const std::string& user_id,
+                                            const std::string& ip,
+                                            size_t failed_attempts)
+{
+    nlohmann::json d;
+    d["ip"]              = ip;
+    d["failed_attempts"] = failed_attempts;
+    emit(utils::SecurityEventType::BRUTE_FORCE_DETECTED, user_id,
+         "auth/brute_force", d);
+}
+
+void AuthAuditLogger::logCredentialStuffingSuspected(const std::string& ip,
+                                                     size_t distinct_users)
+{
+    nlohmann::json d;
+    d["ip"]            = ip;
+    d["distinct_users"] = distinct_users;
+    emit(utils::SecurityEventType::SUSPICIOUS_ACTIVITY, "",
+         "auth/credential_stuffing", d);
+}
+
+void AuthAuditLogger::logAccountLockoutTriggered(const std::string& user_id,
+                                                 const std::string& ip)
+{
+    nlohmann::json d;
+    d["ip"] = ip;
+    emit(utils::SecurityEventType::BRUTE_FORCE_DETECTED, user_id,
+         "auth/account_lockout", d);
 }
 
 } // namespace auth

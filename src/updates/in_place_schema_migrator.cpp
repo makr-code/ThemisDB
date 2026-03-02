@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            in_place_schema_migrator.cpp                       ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-23                                         ║
+  Last Modified:   2026-03-02 04:00:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     172                                             ║
+    • Total Lines:     246                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4801e2151  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
+    • f7fdc80f2  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
+    • 4ce167b67  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -95,6 +100,80 @@ std::vector<std::string> InPlaceSchemaMigrator::findAddedColumns(
         }
     }
     return added;
+}
+
+// ----------------------------------------------------------------------------
+// preview (static)
+// ----------------------------------------------------------------------------
+
+MigrationChangePreview InPlaceSchemaMigrator::preview(
+    const SchemaManager::TableSchema& from_schema,
+    const SchemaManager::TableSchema& to_schema)
+{
+    MigrationChangePreview result;
+
+    // Build property maps for O(1) lookup
+    std::map<std::string, const SchemaManager::PropertyInfo*> from_map;
+    for (const auto& p : from_schema.properties) {
+        from_map[p.name] = &p;
+    }
+    std::map<std::string, const SchemaManager::PropertyInfo*> to_map;
+    for (const auto& p : to_schema.properties) {
+        to_map[p.name] = &p;
+    }
+
+    // Added columns: present in to_schema but not in from_schema
+    for (const auto& p : to_schema.properties) {
+        if (from_map.find(p.name) == from_map.end()) {
+            result.added_columns.push_back(p);
+        }
+    }
+
+    // Removed columns: present in from_schema but not in to_schema
+    for (const auto& p : from_schema.properties) {
+        if (to_map.find(p.name) == to_map.end()) {
+            result.removed_columns.push_back(p);
+        }
+    }
+
+    // Modified columns: present in both but with changed type or nullability
+    for (const auto& [name, from_p] : from_map) {
+        auto it = to_map.find(name);
+        if (it == to_map.end()) continue;  // already counted as removed
+        const auto* to_p = it->second;
+        if (to_p->type != from_p->type || to_p->nullable != from_p->nullable) {
+            ColumnModification mod;
+            mod.column_name  = name;
+            mod.old_type     = from_p->type;
+            mod.new_type     = to_p->type;
+            mod.old_nullable = from_p->nullable;
+            mod.new_nullable = to_p->nullable;
+            result.modified_columns.push_back(std::move(mod));
+        }
+    }
+
+    // is_additive: only new columns are introduced, nothing removed or modified
+    result.is_additive = result.removed_columns.empty() &&
+                         result.modified_columns.empty() &&
+                         !result.added_columns.empty();
+
+    // is_valid (strict mode): migration must be purely additive
+    if (result.is_additive) {
+        result.is_valid = true;
+    } else if (result.changeCount() == 0) {
+        result.is_valid      = false;
+        result.error_message =
+            "Migration preview: no changes detected between from_schema and to_schema";
+    } else {
+        result.is_valid      = false;
+        result.error_message =
+            "Migration preview: migration is not purely additive "
+            "(" + std::to_string(result.removed_columns.size()) + " removed, "
+            + std::to_string(result.modified_columns.size()) + " modified); "
+            "use SchemaMigrationTester for destructive or type-changing migrations";
+    }
+
+    return result;
 }
 
 // ----------------------------------------------------------------------------

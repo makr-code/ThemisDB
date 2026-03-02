@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_query_rewriter.cpp                        ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:59:07                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 04:04:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
+    • Total Lines:     351                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8b78c9c56  2026-02-28  Fix temperature stub in LlmQueryRewriter and add temperat... ║
     • 8b4fb3109  2026-02-22  Add prompt-content tests for LlmQueryRewriter (vocabulary... ║
     • e6212d67e  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -4,18 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.h                                       ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:28:42                                ║
+  Last Modified:   2026-03-02 03:54:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     138                                            ║
+    • Total Lines:     156                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9a1cb143d  2026-02-26  feat(graph): implement EXPLAIN AQL output for graph query... ║
-    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
+    • 099187166  2026-02-26  feat(query): implement SQL dialect compatibility layer (e... ║
+    • b1216f45a  2026-02-26  audit: fix stale file headers (Stubs: 0) and add ANALYZE-... ║
+    • 1b5d8a188  2026-02-23  feat(query): implement per-query resource limits (max row... ║
+    • 3fd28c2e4  2026-02-23  feat(query): add query result type annotations for client... ║
+    • e68be5721  2026-02-23  feat(security): implement row-level security policies in ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

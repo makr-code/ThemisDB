@@ -3,31 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_cuda_vs_cpu.cpp                              ║
-  Module:          acceleration                                       ║
-  Target:          Q3 2026                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:02                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Summary                                                             ║
-  -------                                                             ║
-  Benchmark harness comparing CPU and CUDA acceleration backends      ║
-  for ANN (Approximate Nearest Neighbour) and geospatial operations.  ║
-                                                                      ║
-  Operations measured                                                 ║
-  -------------------                                                 ║
-  ANN:  L2 distance, Cosine distance, Inner-Product distance, Top-K  ║
-  Geo:  Haversine batch distance, Point-in-polygon containment        ║
-                                                                      ║
-  Parameters swept                                                    ║
-  -----------------                                                   ║
-  {numVectors, dim}: {1000,64} {1000,128} {1000,256} {1000,512}      ║
-  Geo batch size:    1 000, 10 000, 100 000                           ║
-                                                                      ║
-  CUDA availability                                                   ║
-  -----------------                                                   ║
-  CUDA benchmarks are compiled only when THEMIS_ENABLE_CUDA is        ║
-  defined.  At runtime, they call state.SkipWithMessage() when no     ║
-  CUDA device is found, so the suite always runs to completion.       ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     462                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • afd15512d  2026-02-23  test(acceleration): add unit tests for CPU dispatch funct... ║
+    • 83905a972  2026-02-23  feat(acceleration): add CUDA vs CPU benchmark harness (Is... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
-*/
+ */
 
 #include <benchmark/benchmark.h>
 #include <random>

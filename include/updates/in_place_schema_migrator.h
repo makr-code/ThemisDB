@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            in_place_schema_migrator.h                         ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-23                                         ║
+  Last Modified:   2026-03-02 03:55:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     161                                             ║
+    • Total Lines:     218                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4801e2151  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
+    • f7fdc80f2  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
+    • 4ce167b67  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,6 +43,43 @@ struct InPlaceMigrationResult {
     std::string error_message;    ///< Non-empty on failure
     std::vector<std::string> added_columns;  ///< Column names that were added
     uint64_t schema_version = 0;  ///< New schema version recorded in SchemaVersionManager
+};
+
+/**
+ * @brief Describes a single column whose type or nullability would change.
+ */
+struct ColumnModification {
+    std::string column_name;   ///< Name of the column
+    std::string old_type;      ///< Type in the current (from) schema
+    std::string new_type;      ///< Type in the proposed (to) schema
+    bool old_nullable = true;  ///< Nullability in the current schema
+    bool new_nullable = true;  ///< Nullability in the proposed schema
+};
+
+/**
+ * @brief Dry-run result: detailed preview of what a migration would change.
+ *
+ * Returned by InPlaceSchemaMigrator::preview().  No schema or version state
+ * is modified when computing this result.
+ */
+struct MigrationChangePreview {
+    bool is_valid    = false;  ///< true if apply() would succeed in strict mode
+    bool is_additive = false;  ///< true if only new columns are introduced
+    std::string error_message; ///< Non-empty when is_valid == false
+
+    /// Columns present in to_schema but absent from from_schema
+    std::vector<SchemaManager::PropertyInfo> added_columns;
+
+    /// Columns present in from_schema but absent from to_schema
+    std::vector<SchemaManager::PropertyInfo> removed_columns;
+
+    /// Columns present in both schemas whose type or nullability changed
+    std::vector<ColumnModification> modified_columns;
+
+    /// Total number of schema changes (added + removed + modified)
+    std::size_t changeCount() const noexcept {
+        return added_columns.size() + removed_columns.size() + modified_columns.size();
+    }
 };
 
 /**
@@ -120,6 +162,26 @@ public:
      * @return true if the migration is additive and can be applied in-place.
      */
     static bool isAdditiveMigration(
+        const SchemaManager::TableSchema& from_schema,
+        const SchemaManager::TableSchema& to_schema
+    );
+
+    /**
+     * @brief Dry-run: compute a detailed change preview without applying or
+     *        persisting anything.
+     *
+     * Unlike apply(), preview() never modifies a SchemaManager or
+     * SchemaVersionManager.  It may be called safely with any combination of
+     * schemas, including non-additive ones, to understand exactly what changes
+     * would be required before committing to an apply().
+     *
+     * @param from_schema  Current (baseline) schema.
+     * @param to_schema    Proposed new schema.
+     * @return MigrationChangePreview describing every change that would be
+     *         performed, plus validation flags indicating whether apply()
+     *         would succeed in strict mode.
+     */
+    static MigrationChangePreview preview(
         const SchemaManager::TableSchema& from_schema,
         const SchemaManager::TableSchema& to_schema
     );

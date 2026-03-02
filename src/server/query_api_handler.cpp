@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_api_handler.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:24                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     3279                                           ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     3519                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fa06c3b8a  2026-03-01  feat(query): wire per-query resource limits into HTTP API... ║
+    • 64ea7ae22  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
+    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
+    • b629d06e4  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
+    • e744b2ef4  2026-02-23  feat(server): implement HTTP chunked transfer encoding fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -44,6 +51,7 @@
 #include "query/query_optimizer.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
+#include "query/query_resource_limits.h"
 #include "llm/llm_interaction_store.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cache/semantic_cache.h"
@@ -523,6 +531,13 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         // Optional: Frontier-Limits f�r Traversal (Soft-Limit)
         size_t max_frontier_size = body.contains("max_frontier_size") ? body["max_frontier_size"].get<size_t>() : 100000;
         size_t max_results = body.contains("max_results") ? body["max_results"].get<size_t>() : 10000;
+
+        // Per-query resource limits (max rows, max memory, timeout)
+        query::QueryResourceLimits resource_limits;
+        resource_limits.max_rows         = body.contains("max_rows")         ? body["max_rows"].get<size_t>()         : 0;
+        resource_limits.max_memory_bytes = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;
+        resource_limits.timeout_ms       = body.contains("timeout_ms")       ? body["timeout_ms"].get<uint32_t>()     : 0;
+        auto resource_limit_start = std::chrono::steady_clock::now();
         
         // Parse AQL query
         auto parseSpan = Tracer::startSpan("aql.parse");
@@ -3089,7 +3104,32 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
     span.setAttribute("aql.result_count", static_cast<int64_t>(sliced.size()));
     span.setStatus(true);
-    auto final_res = makeResponse(http::status::ok, response_body.dump(), req);
+
+        // Enforce per-query resource limits on the standard result path.
+        if (resource_limits.timeout_ms > 0) {
+            auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - resource_limit_start).count();
+            if (elapsed_ms >= static_cast<long long>(resource_limits.timeout_ms)) {
+                return makeErrorResponse(http::status::request_timeout,
+                    "query exceeded timeout of " + std::to_string(resource_limits.timeout_ms) + " ms", req);
+            }
+        }
+        if (resource_limits.max_rows > 0 && sliced.size() > resource_limits.max_rows) {
+            return makeErrorResponse(http::status::bad_request,
+                "result row count " + std::to_string(sliced.size()) +
+                " exceeds max_rows limit of " + std::to_string(resource_limits.max_rows), req);
+        }
+        // Serialise once; reuse for both memory check and final response.
+        std::string response_body_str = response_body.dump();
+        if (resource_limits.max_memory_bytes > 0 &&
+            response_body_str.size() > resource_limits.max_memory_bytes) {
+            return makeErrorResponse(http::status::bad_request,
+                "result memory estimate " + std::to_string(response_body_str.size()) +
+                " bytes exceeds max_memory_bytes limit of " +
+                std::to_string(resource_limits.max_memory_bytes), req);
+        }
+
+    auto final_res = makeResponse(http::status::ok, response_body_str, req);
         // Record page fetch time histogram for cursor-based pagination
         if (use_cursor) {
             auto end = std::chrono::steady_clock::now();

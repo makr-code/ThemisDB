@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_qos_manager.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:19                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:06:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     336                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     561                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b437bbe00  2026-02-25  fix(network): audit – 3 bugs fixed in per-tenant bandwidt... ║
+    • a57c9c42c  2026-02-25  feat(network): implement per-tenant network bandwidth quotas ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

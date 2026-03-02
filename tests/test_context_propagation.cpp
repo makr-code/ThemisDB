@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_context_propagation.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     239                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 35b773012  2026-02-23  fix(core/tests): address code review comments in context_... ║
+    • 039456a7d  2026-02-23  feat(core): implement context propagation across async bo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Unit tests for ContextPropagation — context propagation across async boundaries.
  *
  * Covers:

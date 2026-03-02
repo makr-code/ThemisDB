@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_timeout_cancellation.cpp                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:59:08                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 04:05:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     506                                            ║
+    • Total Lines:     746                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a9f253abf  2026-02-26  feat(llm): implement deduplication cache for same prompts... ║
     • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
     • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
     • ef06cc84c  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║

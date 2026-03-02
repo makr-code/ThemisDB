@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_expander.cpp                            ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23 03:59:20                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-03-02 04:06:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     212                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     455                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3a0def802  2026-03-01  feat(search): improve spelling correction with frequency-... ║
+    • ca8c06fdd  2026-02-23  feat(search): add ranked spelling correction suggestions ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -351,4 +355,105 @@ TEST(QueryExpanderQueryCorrections, SpellingDisabledReturnsEmpty) {
     qe.addVocabulary({"database"});
     auto suggestions = qe.suggestQueryCorrections("databse");
     EXPECT_TRUE(suggestions.empty());
+}
+
+// ============================================================================
+// addVocabularyWithFrequencies + frequency-weighted suggestions
+// ============================================================================
+
+TEST(QueryExpanderFrequency, FrequentWordRankedFirstOnTie) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    // "machina" and "machine" are both 1 edit from "machne";
+    // give "machine" a much higher frequency so it should rank first.
+    qe.addVocabularyWithFrequencies({{"machine", 1000}, {"machina", 10}});
+    auto suggestions = qe.suggestSpellingCorrections("machne", 5);
+    ASSERT_FALSE(suggestions.empty());
+    EXPECT_EQ(suggestions[0].suggestion, "machine");
+}
+
+TEST(QueryExpanderFrequency, LessFrequentWordRankedSecond) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    qe.addVocabularyWithFrequencies({{"machine", 1000}, {"machina", 10}});
+    auto suggestions = qe.suggestSpellingCorrections("machne", 5);
+    ASSERT_GE(suggestions.size(), 2u);
+    EXPECT_EQ(suggestions[1].suggestion, "machina");
+}
+
+TEST(QueryExpanderFrequency, CorrectSpellingPrefersHigherFrequency) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    // Two equidistant candidates: "cat" (high freq) and "bat" (low freq)
+    qe.addVocabularyWithFrequencies({{"cat", 500}, {"bat", 5}});
+    // "cot" is 1 edit from both "cat" and "bat"
+    std::string corrected = qe.correctSpelling("cot");
+    EXPECT_EQ(corrected, "cat");
+}
+
+TEST(QueryExpanderFrequency, ConfidenceInRangeWithFrequency) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    qe.addVocabularyWithFrequencies({{"database", 100}, {"datacase", 10}});
+    auto suggestions = qe.suggestSpellingCorrections("databse", 5);
+    for (const auto& s : suggestions) {
+        EXPECT_GE(s.confidence, 0.0);
+        EXPECT_LE(s.confidence, 1.0);
+    }
+}
+
+TEST(QueryExpanderFrequency, ZeroFrequencyEntryIgnored) {
+    QueryExpander qe;
+    // Zero-frequency entry should be silently skipped (not added to vocabulary)
+    qe.addVocabularyWithFrequencies({{"database", 0}, {"query", 100}});
+    // "database" was not added (freq=0); no close match exists, so the word is returned unchanged
+    EXPECT_EQ(qe.correctSpelling("database"), "database");
+    // "query" was added (freq=100) and is already correct
+    EXPECT_EQ(qe.correctSpelling("query"), "query");
+}
+
+TEST(QueryExpanderFrequency, FrequenciesAccumulate) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    qe.addVocabularyWithFrequencies({{"machine", 100}});
+    qe.addVocabularyWithFrequencies({{"machine", 200}});
+    // After two calls, "machine" should have freq=300, outranking "machina" with freq=50
+    qe.addVocabularyWithFrequencies({{"machina", 50}});
+    auto suggestions = qe.suggestSpellingCorrections("machne", 5);
+    ASSERT_FALSE(suggestions.empty());
+    EXPECT_EQ(suggestions[0].suggestion, "machine");
+}
+
+TEST(QueryExpanderFrequency, NoFrequencyDataFallsBackToAlphabetical) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    // "bat", "hat", "mat" are all 1 edit from "cat" — without frequency data,
+    // they should be returned in alphabetical order.
+    qe.addVocabulary({"bat", "hat", "mat"});
+    auto suggestions = qe.suggestSpellingCorrections("cat", 5);
+    ASSERT_GE(suggestions.size(), 2u);
+    // All at same edit distance → alphabetical order
+    for (size_t i = 1; i < suggestions.size(); ++i) {
+        EXPECT_LT(suggestions[i-1].suggestion, suggestions[i].suggestion);
+    }
+}
+
+TEST(QueryExpanderFrequency, MixedFreqAndNoFreqVocabulary) {
+    QueryExpander::Config cfg;
+    cfg.max_edit_distance = 2;
+    QueryExpander qe{cfg};
+    // "cat" and "bat" are both 1 edit from "hat"
+    // "cat" has frequency, "bat" does not → "cat" should rank first.
+    qe.addVocabularyWithFrequencies({{"cat", 500}});
+    qe.addVocabulary({"bat"});
+    auto suggestions = qe.suggestSpellingCorrections("hat", 5);
+    ASSERT_GE(suggestions.size(), 2u);
+    // "cat" (has frequency) should rank before "bat" (no frequency)
+    EXPECT_EQ(suggestions[0].suggestion, "cat");
 }

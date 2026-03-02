@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pkcs11_minimal.h                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:34                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     224                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     232                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 22978a7bb  2026-03-01  feat(security): add PKCS#11 C++ wrapper interface (pkcs11... ║
     • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
     • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -83,6 +84,10 @@ typedef uint32_t CK_ULONG;    // unsigned long value
 typedef uint8_t CK_BYTE;
 typedef uint8_t CK_BBOOL;
 typedef CK_BYTE* CK_BYTE_PTR;
+
+// Boolean constants
+#define CK_TRUE  ((CK_BBOOL)1)
+#define CK_FALSE ((CK_BBOOL)0)
 
 typedef uint32_t CK_OBJECT_CLASS;
 typedef uint32_t CK_CERTIFICATE_TYPE;

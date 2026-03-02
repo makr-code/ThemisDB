@@ -4,22 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-27 07:58:54                                ║
+  Last Modified:   2026-03-02 03:59:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   84.0/100                                       ║
-    • Total Lines:     9406                                           ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     9907                                           ║
     • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0ba7cfc  2026-02-27  feat(graph): route incremental graph query and /graph/changes endpoints ║
-    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
-    • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
-    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
-    • 03f3c2a45  2026-02-22  feat(cache): warmup from query log and export snapshot – ... ║
-    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
+    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
+    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
+    • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
+    • c459420f1  2026-03-01  Add searchable audit log API endpoint GET /api/tasks/{id}... ║
+    • 00c0dd69d  2026-03-01  audit: fix HTTP codes, add auth guards, OpenAPI registrat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -154,6 +153,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "config/config_path_resolver.h"
 #include "server/schema_api_handler.h"
 #include "server/graphql_api_handler.h"
+#include "server/grpc_web_proxy_handler.h"
 #include "server/serverless_function_api_handler.h"
 #include "metadata/schema_manager.h"
 
@@ -1105,6 +1105,14 @@ HttpServer::HttpServer(
     graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>();
     THEMIS_INFO("GraphQL API handler initialized (endpoints: POST /graphql, GET /graphql/schema)");
 
+    // Initialize gRPC-Web proxy handler
+    {
+        GrpcWebProxyHandler::Config gwcfg;
+        gwcfg.backend_address = "localhost:18765";
+        grpc_web_proxy_ = std::make_unique<server::GrpcWebProxyHandler>(std::move(gwcfg));
+        THEMIS_INFO("gRPC-Web proxy handler initialized (endpoints: POST /grpc-web/*, GET /api/v1/grpc-web/status)");
+    }
+
     // Initialize Serverless Function Hosting Handler
     serverless_fn_handler_ = std::make_unique<server::ServerlessFunctionApiHandler>();
     THEMIS_INFO("Serverless function handler initialized (endpoints: /api/v1/functions)");
@@ -1473,6 +1481,64 @@ HttpServer::HttpServer(
 
     THEMIS_INFO("RequestValidationMiddleware initialized with {} endpoint schemas",
                 request_validator_->schemaCount());
+
+    // ----------------------------------------------------------------------------
+    // CDN / Edge Cache Middleware – Cache-Control header management
+    // ----------------------------------------------------------------------------
+    // Register default per-route policies.  Conservative no-store is the global
+    // fallback for unregistered paths; only well-defined read endpoints receive
+    // cacheable policies here.  Individual handlers may register additional
+    // policies or rely on the defaults.
+    {
+        // Health / liveness probes – very short public cache so CDNs and load
+        // balancers can coalesce repeated probes without hammering the origin.
+        CdnRoutePolicy health_policy;
+        health_policy.directive              = CacheDirective::PUBLIC;
+        health_policy.max_age_seconds        = 5;
+        health_policy.cdn_max_age_seconds    = 10;
+        health_policy.emit_cdn_cache_control = true;
+        health_policy.stale_if_error_seconds = 30;
+        cdn_cache_middleware_.registerPolicy("/health", health_policy);
+        cdn_cache_middleware_.registerPolicy("/status", health_policy);
+
+        // Entity read endpoints – private (user-specific data), enable ETag for
+        // conditional GET support so repeated fetches avoid re-transferring bodies.
+        CdnRoutePolicy entity_policy;
+        entity_policy.directive              = CacheDirective::PRIVATE;
+        entity_policy.max_age_seconds        = 60;
+        entity_policy.enable_etag            = true;
+        entity_policy.emit_cdn_cache_control = true;
+        cdn_cache_middleware_.registerPolicy("/entities/", entity_policy);
+
+        // Query / AQL endpoints – dynamic results, never cache.
+        CdnRoutePolicy query_policy;
+        query_policy.directive = CacheDirective::NO_CACHE;
+        cdn_cache_middleware_.registerPolicy("/query", query_policy);
+        cdn_cache_middleware_.registerPolicy("/api/aql", query_policy);
+        cdn_cache_middleware_.registerPolicy("/v2/jobs", query_policy);
+
+        // Monitoring metrics – short public cache for Prometheus scrapers.
+        CdnRoutePolicy metrics_policy;
+        metrics_policy.directive              = CacheDirective::PUBLIC;
+        metrics_policy.max_age_seconds        = 15;
+        metrics_policy.cdn_max_age_seconds    = 15;
+        metrics_policy.emit_cdn_cache_control = true;
+        cdn_cache_middleware_.registerPolicy("/metrics", metrics_policy);
+
+        // OpenAPI spec – stable across deploys, cache aggressively.
+        CdnRoutePolicy openapi_policy;
+        openapi_policy.directive              = CacheDirective::PUBLIC;
+        openapi_policy.max_age_seconds        = 3600;
+        openapi_policy.cdn_max_age_seconds    = 86400;
+        openapi_policy.stale_while_revalidate_seconds = 3600;
+        openapi_policy.emit_cdn_cache_control = true;
+        openapi_policy.emit_surrogate_control = true;
+        openapi_policy.surrogate_keys         = "openapi spec";
+        cdn_cache_middleware_.registerPolicy("/openapi", openapi_policy);
+        cdn_cache_middleware_.registerPolicy("/api-docs", openapi_policy);
+
+        THEMIS_INFO("CdnCacheMiddleware initialized with default route policies");
+    }
 
     // ----------------------------------------------------------------------------
     // Input validation limits
@@ -2279,6 +2345,11 @@ namespace {
     GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
     GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
 
+    // gRPC-Web proxy (browser clients)
+    GrpcWebPost,             // POST   /grpc-web/<service>/<method>
+    GrpcWebOptions,          // OPTIONS /grpc-web/<service>/<method>  (CORS preflight)
+    GrpcWebStatusGet,        // GET    /api/v1/grpc-web/status
+
     // Serverless function hosting
     ServerlessFnPost,        // POST /api/v1/functions
     ServerlessFnListGet,     // GET  /api/v1/functions
@@ -2321,6 +2392,7 @@ namespace {
     TasksEnablePost,         // POST   /api/tasks/{id}/enable
     TasksDisablePost,        // POST   /api/tasks/{id}/disable
     TasksExecutePost,        // POST   /api/tasks/{id}/execute
+    TasksHistoryGet,         // GET    /api/tasks/{id}/history – searchable audit log
     TasksUiGet,              // GET    /ui/tasks  – Web UI
 
         NotFound
@@ -2739,6 +2811,19 @@ namespace {
     if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
         method == http::verb::get) return Route::GraphQLSchemaGet;
 
+    // gRPC-Web proxy (browser clients)
+    // Routes: /grpc-web/<package>.<Service>/<Method>
+    {
+        static constexpr std::string_view kGrpcWebPrefix{"/grpc-web/"};
+        if (path_only.rfind(kGrpcWebPrefix.data(), 0) == 0 &&
+            path_only.size() > kGrpcWebPrefix.size()) {
+            if (method == http::verb::options) return Route::GrpcWebOptions;
+            if (method == http::verb::post)    return Route::GrpcWebPost;
+        }
+    }
+    if (path_only == "/api/v1/grpc-web/status" && method == http::verb::get)
+        return Route::GrpcWebStatusGet;
+
     // Serverless function hosting
     if (path_only == "/api/v1/functions" && method == http::verb::post)
         return Route::ServerlessFnPost;
@@ -2843,6 +2928,7 @@ namespace {
                 if (method == http::verb::post && action == "enable")  return Route::TasksEnablePost;
                 if (method == http::verb::post && action == "disable") return Route::TasksDisablePost;
                 if (method == http::verb::post && action == "execute") return Route::TasksExecutePost;
+                if (method == http::verb::get  && action == "history") return Route::TasksHistoryGet;
             }
         }
     }
@@ -4589,6 +4675,28 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
 
+        // ── gRPC-Web proxy (browser clients) ─────────────────────────────────
+        case Route::GrpcWebOptions: {
+            response = grpc_web_proxy_->handleOptions(req);
+            break;
+        }
+        case Route::GrpcWebStatusGet: {
+            response = grpc_web_proxy_->handleStatus(req);
+            break;
+        }
+        case Route::GrpcWebPost: {
+            // Extract gRPC method path from /grpc-web/<method>
+            const std::string target_str{req.target()};
+            const auto qpos = target_str.find('?');
+            const std::string path_only = (qpos != std::string::npos)
+                ? target_str.substr(0, qpos) : target_str;
+            // Strip /grpc-web prefix – resulting path is "/<package>.<Service>/<Method>"
+            static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
+            const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
+            response = grpc_web_proxy_->handlePost(req, method_path);
+            break;
+        }
+
         // ── Serverless function hosting ──────────────────────────────────────
         case Route::ServerlessFnPost: {
             response = serverless_fn_handler_->handleRegister(req);
@@ -4921,6 +5029,25 @@ http::response<http::string_body> HttpServer::routeRequest(
             } else {
                 response = makeResponse(http::status::ok, result.dump(), req);
             }
+            break;
+        }
+        case Route::TasksHistoryGet: {
+            if (auto auth_err = requireAccess(req, "tasks:read", "tasks.history", "/api/tasks")) {
+                response = *auth_err;
+                break;
+            }
+            static constexpr std::string_view kTasksPfx{"/api/tasks/"};
+            nlohmann::json qparams = parseQueryParams(std::string(req.target()));
+            std::string target_path = std::string(req.target());
+            if (auto qp = target_path.find('?'); qp != std::string::npos) target_path = target_path.substr(0, qp);
+            std::string rest = target_path.substr(kTasksPfx.size());
+            std::string task_id = rest.substr(0, rest.find('/'));
+            if (!task_scheduler_api_) {
+                response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
+                break;
+            }
+            auto result = task_scheduler_api_->getExecutionHistory(task_id, qparams);
+            response = makeResponse(http::status::ok, result.dump(), req);
             break;
         }
 
@@ -8297,6 +8424,13 @@ void HttpServer::applyGovernanceHeaders(
     if (!corr_id.empty()) {
         res.set("X-Correlation-ID", corr_id);
     }
+
+    // ------------------------------------------------------------------------
+    // CDN / Edge Cache headers (Cache-Control, CDN-Cache-Control, ETag, etc.)
+    // Applied after governance so X-Themis-Cache: disabled is already set and
+    // the middleware can honour it.
+    // ------------------------------------------------------------------------
+    cdn_cache_middleware_.apply(req, res);
 }
 
 void HttpServer::recordLatency(std::chrono::microseconds duration) {

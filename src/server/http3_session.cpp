@@ -3,18 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http3_session.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:24                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     684                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     888                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
+    • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║
+    • 5375c249a  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
+    • f779a6790  2026-02-23  feat(api): implement multi-tenant namespace routing ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -290,6 +293,13 @@ void Http3Session::start() {
         auto* self = static_cast<Http3Session*>(user_data);
         return self->feedCryptoData(level, data, datalen);
     };
+    callbacks.recv_datagram = recvDatagramCallback;
+    
+    // Enable QUIC datagram support (RFC 9221): advertise max_datagram_frame_size
+    // so the peer knows we accept datagrams on this connection.
+    ngtcp2_transport_params params;
+    ngtcp2_transport_params_default(&params);
+    params.max_datagram_frame_size = datagram_dispatcher_.config().max_datagram_frame_size;
     
     // Create QUIC connection
     ngtcp2_path path;
@@ -297,7 +307,7 @@ void Http3Session::start() {
     
     int rv = ngtcp2_conn_server_new(&quic_conn_, &dcid, &scid, &path,
                                     NGTCP2_PROTO_VER_V1, &callbacks, &settings,
-                                    nullptr, this);
+                                    &params, this);
     if (rv != 0) {
         THEMIS_ERROR("HTTP/3: ngtcp2_conn_server_new failed: {}", ngtcp2_strerror(rv));
         return;
@@ -317,6 +327,7 @@ void Http3Session::start() {
     nghttp3_settings_default(&http3_settings);
     http3_settings.qpack_max_dtable_capacity = 4096;
     http3_settings.qpack_blocked_streams = 100;
+    http3_settings.h3_datagram = 1;  // RFC 9297: advertise H3_DATAGRAM support
     
     rv = nghttp3_conn_server_new(&http3_conn_, &http3_callbacks, &http3_settings,
                                  nullptr, this);
@@ -738,6 +749,86 @@ int Http3Session::extendMaxStreamsCallback(ngtcp2_conn* /*conn*/,
                                            uint64_t /*max_streams*/,
                                            void* /*user_data*/) {
     return 0;
+}
+
+int Http3Session::recvDatagramCallback(ngtcp2_conn* /*conn*/, uint32_t /*flags*/,
+                                       const uint8_t* data, size_t datalen,
+                                       void* user_data) {
+    auto* self = static_cast<Http3Session*>(user_data);
+    self->datagram_dispatcher_.dispatch(data, datalen);
+    return 0;
+}
+
+bool Http3Session::sendDatagram(uint64_t       context_id,
+                                const uint8_t* payload,
+                                size_t         paylen) {
+    if (!quic_conn_) {
+        THEMIS_WARN("[Http3Session] sendDatagram: QUIC connection not available");
+        return false;
+    }
+
+    // Check if the peer supports datagrams (max_datagram_frame_size > 0).
+    size_t max_dgram = ngtcp2_conn_get_max_datagram_size(quic_conn_);
+    if (max_dgram == 0) {
+        THEMIS_WARN("[Http3Session] sendDatagram: peer does not support datagrams");
+        return false;
+    }
+
+    std::vector<uint8_t> frame =
+        Http3DatagramDispatcher::encode(context_id, payload, paylen);
+    if (frame.empty()) {
+        THEMIS_WARN("[Http3Session] sendDatagram: encode failed for context_id={}",
+                    context_id);
+        return false;
+    }
+
+    if (frame.size() > max_dgram) {
+        THEMIS_WARN("[Http3Session] sendDatagram: frame size {} exceeds peer max {}",
+                    frame.size(), max_dgram);
+        return false;
+    }
+
+    // UDP packet buffer – must hold at least the QUIC packet overhead plus the
+    // datagram payload.  65536 bytes covers the maximum UDP payload size.
+    constexpr size_t kMaxDatagramPacketSize = 65536;
+    std::vector<uint8_t> pkt_buf(kMaxDatagramPacketSize);
+    ngtcp2_path_storage ps;
+    ngtcp2_path_storage_zero(&ps);
+    ngtcp2_pkt_info pi;
+
+    int accepted = 0;
+    ngtcp2_ssize nwrite = ngtcp2_conn_write_datagram(
+        quic_conn_, &ps.path, &pi,
+        pkt_buf.data(), pkt_buf.size(),
+        &accepted, 0 /* flags */,
+        0 /* dgram_id: unused; ngtcp2 uses this for ACK tracking, 0 means untracked */,
+        frame.data(), frame.size(),
+        getTimestamp());
+
+    if (nwrite < 0) {
+        THEMIS_WARN("[Http3Session] ngtcp2_conn_write_datagram failed: {}",
+                    ngtcp2_strerror(static_cast<int>(nwrite)));
+        return false;
+    }
+
+    if (nwrite == 0 || !accepted) {
+        THEMIS_WARN("[Http3Session] sendDatagram: datagram not accepted by QUIC layer");
+        return false;
+    }
+
+    auto buf = std::make_shared<std::vector<uint8_t>>(
+        pkt_buf.data(), pkt_buf.data() + nwrite);
+    socket_.async_send_to(
+        boost::asio::buffer(*buf),
+        remote_endpoint_,
+        [buf](boost::system::error_code ec, std::size_t) {
+            if (ec) {
+                THEMIS_WARN("[Http3Session] datagram send error: {}", ec.message());
+            }
+        });
+
+    datagram_dispatcher_.recordSent();
+    return true;
 }
 
 // nghttp3 Callbacks

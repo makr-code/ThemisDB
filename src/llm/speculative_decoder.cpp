@@ -4,14 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            speculative_decoder.cpp                            ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-28                                         ║
+  Last Modified:   2026-03-02 03:58:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     210                                            ║
+    • Total Lines:     294                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 747406559  2026-02-28  fix(llm): code audit — thread safety, seed truncation, re... ║
+    • 3ec167f3d  2026-02-28  feat(llm): implement speculative decoding for latency red... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

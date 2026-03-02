@@ -4,14 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            data_masker.h                                      ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-26                                         ║
-  Author:          ThemisDB Team                                      ║
+  Last Modified:   2026-03-02 03:53:06                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Automated Data Masking for Sensitive Fields in Query Results        ║
-  Implements:                                                         ║
-    • FieldMaskingRule   – per-field masking configuration            ║
-    • FieldMaskingPolicy – collection of rules + enabled flag         ║
-    • DataMasker         – applies masking to JSON query results      ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     172                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

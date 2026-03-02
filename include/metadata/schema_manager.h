@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_manager.h                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     307                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     358                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 86d72db21  2026-02-26  feat(metadata): implement adaptive TTL based on table mut... ║
     • 2f8673a5e  2026-02-22  feat(metadata): real-time schema change notifications via... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

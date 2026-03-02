@@ -148,6 +148,60 @@ The following high-priority features were delivered in v1.5.0:
 
 ---
 
+## Delivered in v2.0.0
+
+### PersonalizedRanker (`include/search/personalized_ranker.h`)
+- Per-user interaction history tracking for personalized search result re-ranking
+- `InteractionType` enum: VIEW (0.2), CLICK (0.5), BOOKMARK (1.0), LIKE (1.0), DISLIKE (-0.5)
+- `UserInteraction` struct: `user_id`, `document_id`, `type`, `timestamp`
+- Time-decayed scoring: `score += type_weight * exp(-decay_rate * age_days)` — more recent interactions contribute more
+- Configurable decay rate (default 0.05 ≈ half-weight after ~14 days), boost weight, and per-user buffer size
+- Per-user history bounded by `Config::max_interactions_per_user` with oldest-first eviction
+- `computeScore(user_id, doc_id)` — returns personalization score in [-1, 1] for any (user, document) pair
+- `applyPersonalization(user_id, candidates)` — adjusts `final_score` of ranked candidates and re-sorts
+- `getUserInteractions(user_id)` — inspect stored interactions (most-recent first)
+- `clearUser(user_id)` / `clear()` — GDPR-compatible user-data removal
+- Thread-safe: all methods protected by a shared `std::mutex`
+- Tests: `tests/test_personalized_ranker.cpp` (28 test cases)
+### CrossLingualSearch (`include/search/cross_lingual_search.h`)
+- Cross-lingual semantic search via multilingual embeddings (Phase 4 of the Search Roadmap)
+- Model-agnostic design: callers supply pre-computed float vectors (e.g. from
+  `paraphrase-multilingual-mpnet-base-v2` or LaBSE); no hard embedding-library dependency
+- `search(embedding, hints)` — single-embedding kNN query with distance-to-similarity
+  conversion (`1 / (1 + distance)`), optional per-language boost, score threshold filter, k-cap
+- `searchMultiEmbedding(queries, hints)` — issues independent kNN queries for each
+  `EmbeddingQuery` (embedding + weight), fuses ranked lists via weighted Reciprocal Rank Fusion
+  (RRF), then applies language boosts and threshold filtering
+- `setLanguageMap(map)` — supplies a `doc_id → language_code` (ISO 639-1) mapping for result
+  annotation (`Result::language`) and `LanguageHint` boost application
+- `LanguageHint` struct: `{language_code, boost}` — multiplies the final score of results in
+  the specified language; zero or negative boost hints are silently ignored
+- `EmbeddingQuery` struct: `{embedding, weight}` — weight drives the RRF contribution term
+- Resource safety: `k` and `candidates` are clamped to `max_k` / `max_candidates` at
+  construction time; `search()` and `searchMultiEmbedding()` never throw
+- Config validation: throws `std::invalid_argument` on k=0, candidates=0, rrf_k≤0
+- Tests: `tests/test_cross_lingual_search.cpp`
+### NeuralSparseRetrieval (`include/search/neural_sparse_retrieval.h`)
+- SPLADE / BERT-based neural sparse retrieval engine, closing Phase 4 item of the Search Roadmap
+- `SparseVector` type alias: `unordered_map<string, float>` — non-zero learned term weights
+- `SparseEncoderBackend` callable type — same injected-backend pattern as `LlmReranker::LlmBackend`
+- `addDocument(doc_id, sparse_vec)` — indexes a pre-computed sparse vector; negative weights clamped
+- `addDocumentText(doc_id, text)` — encodes text via attached backend then indexes it
+- `removeDocument(doc_id)` — clean removal from both forward and inverted indexes
+- `search(query_vec, k)` — inverted-index dot-product accumulation; O(|q| × postings)
+- `searchText(query_text, k)` — encodes query then calls `search()`; never throws
+- Scoring: `score(q, d) = Σ_t( q[t] * d[t] )` — standard inner product over shared terms
+- `Config::max_terms_per_doc` — soft cap; top-weighted terms kept, remainder discarded
+- `Config::score_threshold` — pre-normalization minimum score filter
+- `Config::normalize_scores` — optional linear rescaling to [0, 1] (same edge-case handling as
+  `HybridSearch::normalizeScores`)
+- `normalizeScores()` promoted to `public static` for direct unit testing
+- Result struct: `document_id`, `score` (normalized), `raw_score` (inner product before normalization)
+- Graceful fallback: no encoder → no-op for text methods; encoder throws → empty result, no propagation
+- Tests: `tests/test_neural_sparse_retrieval.cpp`
+
+---
+
 ### Query Expansion and Rewriting
 **Priority:** High  
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`

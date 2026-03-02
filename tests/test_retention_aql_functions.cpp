@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_retention_aql_functions.cpp                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:25                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:06:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     306                                            ║
+    • Total Lines:     317                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
     • 333279f4d  2026-02-22  test: replace retention AQL and HTTP API stubs with real ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

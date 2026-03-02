@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            result_stream.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:30                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,9 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     245                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d8f3c7c0d  2026-02-28  feat(query): implement ResultStream updateCursor for curs... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

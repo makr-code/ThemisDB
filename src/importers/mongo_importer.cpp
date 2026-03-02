@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongo_importer.cpp                                 ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:58:07                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 03:58:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     847                                            ║
+    • Total Lines:     862                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
+    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
     • 477e08400  2026-02-22  fix(importers): audit and fix 3 bugs in MongoDB importer ... ║
     • 0729043db  2026-02-22  feat(importers): implement MongoDB importer for document ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            video_processor.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:18                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   99.0/100                                       ║
-    • Total Lines:     117                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     121                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 374b05b6a  2026-02-28  Implement video frame extraction and scene detection (key... ║
+    • 42d597244  2026-02-26  fix(content): wire up extract_keyframes option and update... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

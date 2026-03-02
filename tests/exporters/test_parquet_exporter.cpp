@@ -3,9 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_parquet_exporter.cpp                          ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-02-22                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     627                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 89cdebdf9  2026-02-23  audit(exporters): fulfill all audit items for Parquet export ║
+    • c7c509d73  2026-02-22  feat(exporters): add Parquet export for training datasets ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

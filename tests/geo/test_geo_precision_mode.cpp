@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_geo_precision_mode.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     240                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 604dfea3d  2026-02-25  audit(geo): add false-positive test, update ARCHITECTURE.... ║
+    • 5f06b5069  2026-02-24  feat(geo): add configurable precision mode (exact vs. app... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"

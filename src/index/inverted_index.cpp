@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inverted_index.cpp                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-23 03:58:08                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-03-02 03:58:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
+    • Quality Score:   100.0/100                                      ║
     • Total Lines:     592                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4fc3321fa  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║

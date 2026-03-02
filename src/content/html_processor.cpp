@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            html_processor.cpp                                 ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     626                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8bd1fe74d  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
+    • 5a022e694  2026-02-26  Implement HTML content extraction with boilerplate removal ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright (c) 2024 ThemisDB
 // SPDX-License-Identifier: MIT
 

@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_websocket_cdc.cpp                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:38                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     216                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     479                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1523b3d03  2026-02-24  fix(cdc): address audit gaps in WebSocket transport imple... ║
+    • 05a569b2c  2026-02-24  feat(cdc): implement WebSocket transport as SSE fallback ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_metrics.h                                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     352                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     368                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f5b8ef62f  2026-02-25  Implement Kafka-compatible CDC producer interface (KafkaC... ║
+    • 1523b3d03  2026-02-24  fix(cdc): address audit gaps in WebSocket transport imple... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

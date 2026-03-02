@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            result_stream.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     292                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     328                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2899b1627  2026-03-01  Fix ResultStream::nextBatch() to return error on exhauste... ║
+    • d8f3c7c0d  2026-02-28  feat(query): implement ResultStream updateCursor for curs... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

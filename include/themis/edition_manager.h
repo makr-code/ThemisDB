@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            edition_manager.h                                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:55:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     242                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a4de3d12c  2026-03-01  feat(themis): implement dynamic feature flag override API... ║
+    • 0cbb725b3  2026-02-23  feat(themis): implement edition_manager.cpp for Community... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB Edition Manager
  * ========================
  * Runtime feature-gating for Community / Enterprise / Hyperscaler editions.
@@ -34,8 +57,10 @@
 #include "themis/edition.h"
 
 #include <mutex>
+#include <optional>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 namespace themis {
@@ -159,9 +184,79 @@ public:
      */
     std::string getUpgradeMessage(std::string_view feature_name) const;
 
+    // -------------------------------------------------------------------------
+    // Dynamic feature-flag overrides
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Set a runtime override for a named feature flag.
+     *
+     * Overrides are layered on top of (and cannot bypass) the compile-time
+     * edition gate.  An override of @c true for a Community-edition feature
+     * that is compile-time disabled is silently stored but will never allow
+     * the feature — the compile-time gate still applies.
+     *
+     * Typical use-cases:
+     *  - Staged rollout: set to @c false while validating, flip to @c true
+     *    when ready to expose the feature to this node.
+     *  - Maintenance mode: set to @c false to block a feature without
+     *    redeployment.
+     *
+     * Thread-safe.
+     *
+     * @param feature_name  Feature to override (see edition::kGatedFeatureNames).
+     * @param enabled       @c true = allow (if edition/license also allow);
+     *                      @c false = always block.
+     */
+    void setFeatureOverride(std::string_view feature_name, bool enabled);
+
+    /**
+     * @brief Remove the runtime override for a named feature flag.
+     *
+     * After calling this, @c isFeatureAvailable(feature_name) reverts to
+     * the standard edition + license decision.  A no-op if no override
+     * exists for @p feature_name.
+     *
+     * Thread-safe.
+     */
+    void clearFeatureOverride(std::string_view feature_name);
+
+    /**
+     * @brief Remove all runtime overrides.
+     *
+     * After this call every feature reverts to the standard edition + license
+     * decision.
+     *
+     * Thread-safe.
+     */
+    void clearAllFeatureOverrides();
+
+    /**
+     * @brief Returns @c true if a runtime override is set for the feature.
+     *
+     * Does not indicate whether the feature is available — use
+     * @c isFeatureAvailable() for that.
+     *
+     * Thread-safe.
+     */
+    bool hasFeatureOverride(std::string_view feature_name) const;
+
+    /**
+     * @brief Returns the current runtime override value, if any.
+     *
+     * @return @c std::nullopt when no override is set; @c true / @c false
+     *         when an override has been set via @c setFeatureOverride().
+     *
+     * Thread-safe.
+     */
+    std::optional<bool> getFeatureOverride(std::string_view feature_name) const;
+
 private:
     EditionManager()  = default;
     ~EditionManager() = default;
+
+    mutable std::mutex                       overrides_mutex_;
+    std::unordered_map<std::string, bool>    overrides_;
 };
 
 } // namespace edition

@@ -1,4 +1,26 @@
 """
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            capability_matrix.py                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     278                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8964bef5b  2026-02-28  feat(chimera): implement CapabilityMatrix for adapter cap... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
+"""
 CHIMERA Suite: Adapter Capability Matrix
 
 Provides a vendor-neutral cross-reference matrix that shows which

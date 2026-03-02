@@ -4,18 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pci_dss_rules.cpp                             ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-25                                         ║
-  Author:          ThemisDB Team                                      ║
+  Last Modified:   2026-03-02 04:05:42                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Unit tests for PCI-DSS data isolation rules enforcement:            ║
-    • CardholderDataIsolation  (PCI-DSS Req 1)                        ║
-    • CardholderDataEncryption (PCI-DSS Req 3)                        ║
-    • TransmissionEncryption   (PCI-DSS Req 4)                        ║
-    • AccessControlLeastPrivilege (PCI-DSS Req 7)                     ║
-    • CardholderDataAuditTrail (PCI-DSS Req 10)                       ║
-    • PciDssRuleSet aggregated evaluation                             ║
-    • PciDssRuleSet GDPR conflict detection                           ║
-    • PciDssRuleEvalResult JSON serialisation                         ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     524                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9f365a654  2026-02-25  feat(governance): integrate PCI-DSS/GDPR conflict detecti... ║
+    • f07ba6be3  2026-02-25  feat(governance): implement PCI-DSS data isolation rules ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

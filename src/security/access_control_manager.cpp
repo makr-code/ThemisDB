@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control_manager.cpp                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:21                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     381                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     481                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 949cf4eb2  2026-03-01  feat(security): integrate ZeroTrustPolicyEnforcer into Ac... ║
+    • 136ad815d  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
     • 09619660f  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
     • fe5f8a9c8  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -27,6 +29,7 @@
 #include "utils/audit_logger.h"
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -91,6 +94,22 @@ bool AccessControlManager::initialize() {
                     config_.abac_policy_path, err);
             } else {
                 THEMIS_INFO("Loaded ABAC policies from {}", config_.abac_policy_path);
+            }
+        }
+        
+        // Load RLS policies if configured
+        if (config_.enable_rls && !config_.rls_policy_path.empty()) {
+            try {
+                std::ifstream rls_file(config_.rls_policy_path);
+                if (!rls_file.is_open()) {
+                    THEMIS_WARN("Failed to open RLS policy file: {}", config_.rls_policy_path);
+                } else {
+                    nlohmann::json rls_json = nlohmann::json::parse(rls_file);
+                    size_t loaded = rls_manager_.loadFromJson(rls_json);
+                    THEMIS_INFO("Loaded {} RLS policies from {}", loaded, config_.rls_policy_path);
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to load RLS policies from {}: {}", config_.rls_policy_path, e.what());
             }
         }
         
@@ -245,8 +264,29 @@ AccessDecision AccessControlManager::checkAccess(
     if (!context) {
         return AccessDecision::Deny("Authentication failed");
     }
-    
-    // Step 2: Authorize
+
+    // Step 2: Zero-trust per-request identity verification (optional)
+    if (config_.enable_zero_trust && zero_trust_enforcer_) {
+        ZeroTrustContext zt_ctx;
+        zt_ctx.user_id   = context->user_id;
+        zt_ctx.client_ip = source_ip;
+        zt_ctx.token     = token;
+        zt_ctx.resource  = resource;
+        zt_ctx.action    = action;
+        zt_ctx.timestamp = std::chrono::system_clock::now();
+
+        auto zt_result = zero_trust_enforcer_->verify(zt_ctx);
+        if (!zt_result.verified) {
+            metrics_.access_denied++;
+            THEMIS_WARN("Zero-trust denied user='{}' resource='{}' action='{}' reason='{}'",
+                        context->user_id, resource, action, zt_result.reason);
+            return AccessDecision::Deny("Zero-trust verification failed: " + zt_result.reason);
+        }
+        THEMIS_DEBUG("Zero-trust passed for user='{}' trust_score={:.2f}",
+                     context->user_id, zt_result.trust_score);
+    }
+
+    // Step 3: Authorize
     return authorize(*context, resource, action);
 }
 
@@ -274,6 +314,15 @@ void AccessControlManager::setAuthMiddleware(std::shared_ptr<AuthMiddleware> aut
     THEMIS_INFO("AuthMiddleware configured for AccessControlManager");
 }
 
+void AccessControlManager::setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforcer) {
+    zero_trust_enforcer_ = enforcer;
+    if (enforcer) {
+        THEMIS_INFO("ZeroTrustPolicyEnforcer configured for AccessControlManager");
+    } else {
+        THEMIS_INFO("ZeroTrustPolicyEnforcer removed from AccessControlManager");
+    }
+}
+
 void AccessControlManager::addABACPolicy(const PolicyEngine::Policy& policy) {
     policy_engine_.addPolicy(policy);
     THEMIS_INFO("Added ABAC policy '{}' to AccessControlManager", policy.id);
@@ -285,6 +334,37 @@ bool AccessControlManager::removeABACPolicy(const std::string& policy_id) {
         THEMIS_INFO("Removed ABAC policy '{}' from AccessControlManager", policy_id);
     }
     return removed;
+}
+
+// ── Row-level security (RLS) ─────────────────────────────────────────────────
+
+void AccessControlManager::addRLSPolicy(const RLSPolicy& policy) {
+    rls_manager_.addPolicy(policy);
+    THEMIS_INFO("Added RLS policy '{}' for collection '{}' to AccessControlManager",
+                policy.id, policy.collection.empty() ? "*" : policy.collection);
+}
+
+bool AccessControlManager::removeRLSPolicy(const std::string& policy_id) {
+    bool removed = rls_manager_.removePolicy(policy_id);
+    if (removed) {
+        THEMIS_INFO("Removed RLS policy '{}' from AccessControlManager", policy_id);
+    }
+    return removed;
+}
+
+nlohmann::json AccessControlManager::filterQueryResults(
+    const std::string& collection,
+    const SecurityContext& ctx,
+    const nlohmann::json& rows
+) const {
+    return rls_manager_.filterRows(collection, ctx, rows);
+}
+
+bool AccessControlManager::isRLSActive(
+    const std::string& collection,
+    const SecurityContext& ctx
+) const {
+    return rls_manager_.isActive(collection, ctx);
 }
 
 bool AccessControlManager::reloadConfiguration() {
@@ -312,6 +392,24 @@ bool AccessControlManager::reloadConfiguration() {
                 return false;
             }
             THEMIS_INFO("Reloaded ABAC policies from {}", config_.abac_policy_path);
+        }
+        
+        // Reload RLS policies if configured
+        if (config_.enable_rls && !config_.rls_policy_path.empty()) {
+            try {
+                std::ifstream rls_file(config_.rls_policy_path);
+                if (!rls_file.is_open()) {
+                    THEMIS_ERROR("Failed to open RLS policy file for reload: {}", config_.rls_policy_path);
+                    return false;
+                }
+                nlohmann::json rls_json = nlohmann::json::parse(rls_file);
+                rls_manager_.clearAllPolicies();
+                size_t loaded = rls_manager_.loadFromJson(rls_json);
+                THEMIS_INFO("Reloaded {} RLS policies from {}", loaded, config_.rls_policy_path);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to reload RLS policies from {}: {}", config_.rls_policy_path, e.what());
+                return false;
+            }
         }
         
         THEMIS_INFO("Configuration reloaded successfully");

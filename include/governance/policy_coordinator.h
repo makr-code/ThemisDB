@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_coordinator.h                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25 08:31:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b287de31a  2026-02-25  audit: update stale Stubs/Quality/LineCount header metada... ║
+    • 1783bf7a6  2026-02-25  feat(governance): add hot-reload integration to PolicyCoo... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

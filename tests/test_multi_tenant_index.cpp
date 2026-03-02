@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_multi_tenant_index.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     214                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • edf27e3ee  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
+    • 341b887e7  2026-02-26  audit: fix ROADMAP gaps and add missing edge-case tests f... ║
+    • 92ff27163  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /// @file test_multi_tenant_index.cpp
 /// @brief Unit tests for multi-tenancy index isolation in IndexManager.
 ///

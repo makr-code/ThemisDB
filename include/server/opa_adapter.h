@@ -4,6 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opa_adapter.h                                      ║
   Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:54:53                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     112                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0766c4a21  2026-02-24  fix(auth/opa): code audit - remove redundant static, thre... ║
+    • 977edef79  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,19 +1,23 @@
 /*
- * ThemisDB - Hybrid Database System
- *
- * File:    result_type_annotation.h
- * Brief:   Query result type annotations for client SDK code generation.
- *
- * Provides type schema inference from AQL query results so that generated
- * client SDKs can emit strongly-typed accessor code without manual schema
- * declarations.
- *
- * Usage:
- *   auto annotated = executeAqlAnnotated(aql, engine);
- *   if (annotated) {
- *       auto schema_json = annotated->schema.toJson();
- *       // emit typed SDK code from schema_json
- *   }
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            result_type_annotation.h                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:54:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     169                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3fd28c2e4  2026-02-23  feat(query): add query result type annotations for client... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #pragma once

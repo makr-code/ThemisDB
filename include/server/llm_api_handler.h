@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_api_handler.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:35                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     224                                            ║
+    • Total Lines:     243                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5d9b398ef  2026-02-28  feat(aql): implement streaming AQL explanation HTTP endpoint ║
+    • 8f8969876  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

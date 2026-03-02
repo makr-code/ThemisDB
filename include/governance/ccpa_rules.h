@@ -4,17 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ccpa_rules.h                                       ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-25                                         ║
-  Author:          ThemisDB Team                                      ║
+  Last Modified:   2026-03-02 03:53:04                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  CCPA/CPRA Data Subject Rights Enforcement                           ║
-  Implements:                                                         ║
-    • IComplianceRule - base interface for compliance rule evaluators ║
-    • RightToKnow     - CCPA right to know what data is collected     ║
-    • RightToDelete   - CCPA right to delete personal information     ║
-    • OptOutOfSale    - CCPA right to opt out of data sale            ║
-    • DataPortability - CCPA right to data portability                ║
-    • CcpaRuleSet     - aggregated CCPA/CPRA rule set                 ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     239                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7844e4d32  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
+    • 8d92986f6  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║
+    • 8b8292ad0  2026-02-25  feat(governance): implement CCPA/CPRA compliance rule set... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

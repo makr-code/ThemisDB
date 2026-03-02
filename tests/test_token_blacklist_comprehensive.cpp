@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_token_blacklist_comprehensive.cpp             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     282                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     378                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4318adfb2  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -250,10 +253,11 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentRevokeAndCheck_ThreadSafe) {
 
     for (auto& t : threads) t.join();
 
-    // No assertion on exact hits – just verify no crash and stats are consistent
+    // Verify stats are internally consistent: revocations + checks should
+    // match what the threads actually performed.
     auto stats = bl.getStatistics();
-    EXPECT_EQ(stats.total_revocations + stats.total_checks,
-              stats.total_revocations + stats.total_checks); // sanity
+    EXPECT_EQ(stats.total_revocations, static_cast<uint64_t>(THREADS / 2 * OPS_PER_THREAD));
+    EXPECT_EQ(stats.total_checks, static_cast<uint64_t>(THREADS / 2 * OPS_PER_THREAD));
     EXPECT_LE(bl.size(), static_cast<size_t>(THREADS / 2 * OPS_PER_THREAD));
 }
 
@@ -279,4 +283,99 @@ TEST(TokenBlacklistConcurrencyTest, ConcurrentUnrevoke_ThreadSafe) {
     for (int i = 0; i < 100; ++i) {
         EXPECT_FALSE(bl.isRevoked("jti-" + std::to_string(i)));
     }
+}
+
+// ============================================================================
+// Real-Time Revocation Callback Tests
+// ============================================================================
+
+TEST(TokenBlacklistCallbackTest, CallbackInvokedOnRevoke) {
+    TokenBlacklist bl;
+    std::string captured_jti;
+
+    bl.setOnRevokeCallback([&captured_jti](const std::string& jti) {
+        captured_jti = jti;
+    });
+
+    bl.revoke("jti-callback-test", inFuture());
+
+    EXPECT_EQ(captured_jti, "jti-callback-test");
+}
+
+TEST(TokenBlacklistCallbackTest, CallbackNotInvokedForEmptyJti) {
+    TokenBlacklist bl;
+    int call_count = 0;
+
+    bl.setOnRevokeCallback([&call_count](const std::string&) {
+        ++call_count;
+    });
+
+    bl.revoke("", inFuture()); // empty JTI – should be ignored
+
+    EXPECT_EQ(call_count, 0);
+}
+
+TEST(TokenBlacklistCallbackTest, CallbackInvokedForEachRevocation) {
+    TokenBlacklist bl;
+    std::vector<std::string> notified;
+
+    bl.setOnRevokeCallback([&notified](const std::string& jti) {
+        notified.push_back(jti);
+    });
+
+    bl.revoke("jti-a", inFuture());
+    bl.revoke("jti-b", inFuture());
+    bl.revoke("jti-c", inFuture());
+
+    ASSERT_EQ(notified.size(), 3u);
+    EXPECT_EQ(notified[0], "jti-a");
+    EXPECT_EQ(notified[1], "jti-b");
+    EXPECT_EQ(notified[2], "jti-c");
+}
+
+TEST(TokenBlacklistCallbackTest, ClearCallbackStopsNotifications) {
+    TokenBlacklist bl;
+    int call_count = 0;
+
+    bl.setOnRevokeCallback([&call_count](const std::string&) {
+        ++call_count;
+    });
+
+    bl.revoke("jti-before-clear", inFuture());
+    EXPECT_EQ(call_count, 1);
+
+    bl.clearOnRevokeCallback();
+    bl.revoke("jti-after-clear", inFuture());
+    EXPECT_EQ(call_count, 1); // No new call after clearing
+}
+
+TEST(TokenBlacklistCallbackTest, ReplaceCallbackUsesNewOne) {
+    TokenBlacklist bl;
+    std::string last_jti;
+
+    bl.setOnRevokeCallback([&last_jti](const std::string& jti) {
+        last_jti = "first:" + jti;
+    });
+    bl.setOnRevokeCallback([&last_jti](const std::string& jti) {
+        last_jti = "second:" + jti;
+    });
+
+    bl.revoke("jti-new", inFuture());
+
+    EXPECT_EQ(last_jti, "second:jti-new");
+}
+
+TEST(TokenBlacklistCallbackTest, CallbackCanCallIsRevokedWithoutDeadlock) {
+    // The callback is invoked with the mutex released; calling back into
+    // the blacklist from within the callback must not deadlock.
+    TokenBlacklist bl;
+    bool was_revoked = false;
+
+    bl.setOnRevokeCallback([&bl, &was_revoked](const std::string& jti) {
+        was_revoked = bl.isRevoked(jti);
+    });
+
+    bl.revoke("jti-reentrant", inFuture());
+
+    EXPECT_TRUE(was_revoked);
 }

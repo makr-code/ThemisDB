@@ -1,8 +1,24 @@
 /*
- * ThemisDB - Hybrid Database System
- * File: test_graphql_multimodel.cpp
- * Tests for GraphQL multi-model query schema: timeseries, geo, and
- * subscription types added to the ThemisDB GraphQL schema.
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_graphql_multimodel.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:04:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     264                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d4f10b4fd  2026-02-24  fix(api/graphql): correct SDL list-type rendering and upd... ║
+    • 89b024d9f  2026-02-23  feat(api/graphql): complete multi-model GraphQL schema wi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include <gtest/gtest.h>

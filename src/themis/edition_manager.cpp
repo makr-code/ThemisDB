@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            edition_manager.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:16                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     214                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a4de3d12c  2026-03-01  feat(themis): implement dynamic feature flag override API... ║
+    • 0cbb725b3  2026-02-23  feat(themis): implement edition_manager.cpp for Community... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB Edition Manager – Implementation
  * ==========================================
  * Community / Enterprise / Hyperscaler edition feature gating.
@@ -9,6 +32,7 @@
 #include "themis/edition_manager.h"
 #include "themis/runtime_license_gate.h"
 
+#include <optional>
 #include <sstream>
 
 namespace themis {
@@ -34,6 +58,21 @@ bool EditionManager::isFeatureAvailable(std::string_view feature_name) const {
 
 bool EditionManager::isFeatureAvailable(std::string_view feature_name,
                                         std::string& error_out) const {
+    // Step 0: Check dynamic override first (if any).
+    {
+        std::lock_guard<std::mutex> lock(overrides_mutex_);
+        auto it = overrides_.find(std::string(feature_name));
+        if (it != overrides_.end() && !it->second) {
+            // Override explicitly set to false → always blocked by admin.
+            std::ostringstream msg;
+            msg << "Feature '" << feature_name
+                << "' has been administratively disabled at runtime.";
+            error_out = msg.str();
+            return false;
+        }
+        // Override=true means "allow if edition+license also allow" — fall through.
+    }
+
     // Delegate to RuntimeLicenseGate which already implements the two-stage
     // (compile-time + runtime-license) check.
     return license::RuntimeLicenseGate::instance()
@@ -158,6 +197,40 @@ std::string EditionManager::getUpgradeMessage(std::string_view feature_name) con
     }
 
     return msg.str();
+}
+
+// ============================================================================
+// Dynamic feature-flag overrides
+// ============================================================================
+
+void EditionManager::setFeatureOverride(std::string_view feature_name, bool enabled) {
+    std::lock_guard<std::mutex> lock(overrides_mutex_);
+    overrides_[std::string(feature_name)] = enabled;
+}
+
+void EditionManager::clearFeatureOverride(std::string_view feature_name) {
+    std::lock_guard<std::mutex> lock(overrides_mutex_);
+    overrides_.erase(std::string(feature_name));
+}
+
+void EditionManager::clearAllFeatureOverrides() {
+    std::lock_guard<std::mutex> lock(overrides_mutex_);
+    overrides_.clear();
+}
+
+bool EditionManager::hasFeatureOverride(std::string_view feature_name) const {
+    std::lock_guard<std::mutex> lock(overrides_mutex_);
+    return overrides_.find(std::string(feature_name)) != overrides_.end();
+}
+
+std::optional<bool> EditionManager::getFeatureOverride(
+        std::string_view feature_name) const {
+    std::lock_guard<std::mutex> lock(overrides_mutex_);
+    auto it = overrides_.find(std::string(feature_name));
+    if (it == overrides_.end()) {
+        return std::nullopt;
+    }
+    return it->second;
 }
 
 } // namespace edition

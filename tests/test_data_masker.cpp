@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_data_masker.cpp                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     355                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8d2569bdd  2026-02-26  fix(governance): code audit – data race, maskFieldsArray ... ║
+    • ffc2b43f8  2026-02-26  feat(governance): automated data masking for sensitive fi... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_data_masker.cpp
  * @brief Unit tests for DataMasker – automated field-level masking in query results.

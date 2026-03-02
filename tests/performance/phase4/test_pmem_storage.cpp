@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pmem_storage.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 07:55:02                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     355                                            ║
+    • Total Lines:     374                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f93dd332c  2026-02-23  audit(performance): add file banners and register PMem in... ║
+    • 5ee46e597  2026-02-23  feat(performance): Persistent Memory (Optane) aware stora... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

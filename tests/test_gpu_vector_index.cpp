@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_vector_index.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:56                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     590                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1047                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bdf8bb008  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
+    • de87a9ce1  2026-02-28  feat(index): implement GPU-accelerated buildIndex, saveIn... ║
+    • b4714f29a  2026-02-26  fix(index): populate vramUsageBytes from per-index budget... ║
+    • 2813641e1  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
+    • 6b96a5615  2026-02-23  test: extend CUDA inner-product kernel tests and fix stal... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -4,12 +4,19 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_migration_assistant.cpp                        ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-23                                         ║
+  Last Modified:   2026-03-02 03:56:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
+    • Total Lines:     776                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d20f14cf3  2026-02-23  fix(aql): remove duplicate comment blocks found by code r... ║
+    • 7e4fb1199  2026-02-23  fix(aql): fix multi-occurrence rewrites, false-early-exit... ║
+    • f0c71dd49  2026-02-23  feat(aql): implement AQL query migration assistant (Arang... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

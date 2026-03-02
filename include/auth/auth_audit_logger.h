@@ -3,7 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_audit_logger.h                                ║
-  Version:         0.0.32                                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:52:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     182                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c65f5b1f7  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
+    • 79129146f  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
+    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
+    • e8e02c9ec  2026-02-24  feat(auth): implement zero-trust continuous verification ... ║
+    • c8f827534  2026-02-23  feat(auth): add audit logging for all authentication even... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -150,6 +165,23 @@ public:
                             const std::string& resource,
                             const std::string& reason,
                             const std::string& request_id = "");
+
+    // -----------------------------------------------------------------------
+    // Anomaly detection events (brute-force, credential stuffing)
+    // -----------------------------------------------------------------------
+
+    /** Brute-force attack detected: account locked after repeated failures. */
+    void logBruteForceDetected(const std::string& user_id,
+                               const std::string& ip,
+                               size_t failed_attempts);
+
+    /** Credential stuffing suspected: many distinct usernames tried from one IP. */
+    void logCredentialStuffingSuspected(const std::string& ip,
+                                        size_t distinct_users);
+
+    /** Account locked due to repeated authentication failures. */
+    void logAccountLockoutTriggered(const std::string& user_id,
+                                    const std::string& ip);
 
 private:
     utils::AuditLogger* logger_;  ///< Non-owning; may be nullptr.

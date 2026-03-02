@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_shard_transaction.cpp                        ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   64.0/100                                       ║
-    • Total Lines:     2423                                           ║
-    • Open Issues:     TODOs: 3, Stubs: 1                             ║
+    • Quality Score:   67.0/100                                       ║
+    • Total Lines:     2620                                           ║
+    • Open Issues:     TODOs: 3, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -384,6 +387,9 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
             break;
         case TransactionProtocol::PERCOLATOR:
             success = executePercolator(txn);
+            break;
+        case TransactionProtocol::CALVIN:
+            success = executeCalvin(txn);
             break;
         case TransactionProtocol::SAGA:
             // SAGA commit handled by executeSaga
@@ -1175,6 +1181,196 @@ bool CrossShardTransactionCoordinator::executePercolator(CrossShardTransaction& 
     // Consider transaction successful if primary committed
     // Secondary commits can be repaired asynchronously
     return true;
+}
+
+bool CrossShardTransactionCoordinator::executeCalvin(CrossShardTransaction& txn) {
+    // Calvin deterministic distributed transaction protocol
+    // Based on Thomson et al., "Calvin: Fast Distributed Transactions for Partitioned
+    // Database Systems" (SIGMOD 2012).
+    //
+    // Key insight: by pre-ordering transactions before execution, all participants
+    // apply the same deterministic sequence – eliminating the prepare/vote round
+    // of 2PC and guaranteeing identical outcomes on every replica.
+    //
+    // Three phases:
+    //   1. Sequencing  – assign a globally unique, monotonically increasing sequence
+    //                    number that establishes the execution order for this epoch.
+    //   2. Lock Acquisition – pre-acquire all read/write set locks in a canonical
+    //                    (sorted) order to prevent deadlocks without a lock manager.
+    //   3. Execution   – each participant executes and commits in sequence order;
+    //                    no voting is required because the order is deterministic.
+
+    spdlog::info("Starting Calvin transaction {}", txn.transaction_id);
+
+    if (txn.participants.empty()) {
+        spdlog::error("No participants in Calvin transaction {}", txn.transaction_id);
+        return false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Phase 1: Sequencing
+    // Assign a monotonically increasing sequence number within the current epoch.
+    // In a full deployment the sequence number would come from a dedicated
+    // replicated sequencer layer (as described in the Calvin paper) to guarantee
+    // strict monotonicity across all coordinators regardless of clock skew.
+    // Here we use the transaction's snapshot timestamp as a practical approximation
+    // that provides relative ordering within a single coordinator instance.
+    // -------------------------------------------------------------------------
+    txn.state = TransactionState::PREPARING;
+
+    int64_t sequence_number = txn.snapshot_timestamp;  // Relative ordering key for this coordinator
+
+    spdlog::info("Calvin transaction {} assigned sequence number {}", 
+                 txn.transaction_id, sequence_number);
+
+    // Log sequencing decision to WAL for crash recovery
+    if (transaction_wal_) {
+        try {
+            nlohmann::json seq_data = {
+                {"protocol", "Calvin"},
+                {"phase", "SEQUENCING"},
+                {"sequence_number", sequence_number}
+            };
+            transaction_wal_->logPrepare(txn.transaction_id, "sequencer", seq_data);
+            operations_since_snapshot_++;
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log Calvin sequencing to WAL: {}", e.what());
+        }
+    }
+
+    // Replicate the sequence decision via consensus so all nodes agree
+    if (consensus_) {
+        consensus_->propose("CALVIN_SEQUENCE", {
+            {"transaction_id", txn.transaction_id},
+            {"sequence_number", sequence_number}
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // Phase 2: Lock Acquisition
+    // Pre-acquire locks on all participants in a deterministic (sorted) order.
+    // Sorting by shard_id removes any possibility of circular wait, making
+    // deadlocks structurally impossible during the Calvin execution phase.
+    // -------------------------------------------------------------------------
+    std::vector<std::string> shard_order;
+    shard_order.reserve(txn.participants.size());
+    for (const auto& [shard_id, _] : txn.participants) {
+        shard_order.push_back(shard_id);
+    }
+    if (config_.calvin_enable_deterministic_lock_order) {
+        std::sort(shard_order.begin(), shard_order.end());
+    }
+
+    spdlog::info("Calvin transaction {}: acquiring locks on {} shards in deterministic order",
+                 txn.transaction_id, shard_order.size());
+
+    std::vector<std::string> locked_shards;
+    bool all_locked = true;
+
+    for (const auto& shard_id : shard_order) {
+        spdlog::debug("Calvin: acquiring lock on shard {} for transaction {}",
+                      shard_id, txn.transaction_id);
+
+        bool locked = sendPrepare(shard_id, txn.transaction_id);
+        if (locked) {
+            txn.participants[shard_id].prepared = true;
+            locked_shards.push_back(shard_id);
+
+            if (transaction_wal_) {
+                try {
+                    transaction_wal_->logPrepared(txn.transaction_id, shard_id, true, "calvin_locked");
+                    operations_since_snapshot_++;
+                } catch (const std::exception& e) {
+                    spdlog::warn("Failed to log Calvin lock to WAL: {}", e.what());
+                }
+            }
+        } else {
+            all_locked = false;
+            spdlog::error("Calvin: failed to acquire lock on shard {} for transaction {}",
+                          shard_id, txn.transaction_id);
+            break;
+        }
+    }
+
+    if (!all_locked) {
+        spdlog::error("Calvin: lock acquisition failed for transaction {}, aborting",
+                      txn.transaction_id);
+        for (const auto& shard_id : locked_shards) {
+            sendAbort(shard_id, txn.transaction_id);
+            txn.participants[shard_id].prepared = false;
+        }
+        return false;
+    }
+
+    txn.state = TransactionState::PREPARED;
+    spdlog::info("Calvin transaction {}: all locks acquired, proceeding to execution phase",
+                 txn.transaction_id);
+
+    // -------------------------------------------------------------------------
+    // Phase 3: Execution
+    // Execute and commit on every participant in the pre-determined sequence
+    // order.  Because the order was agreed upon during sequencing, no voting
+    // round is required – participants simply apply the transaction and report
+    // success.  A commit timestamp derived from TrueTime ensures MVCC
+    // correctness across shards.
+    // -------------------------------------------------------------------------
+    txn.state = TransactionState::COMMITTING;
+
+    int64_t commit_timestamp = generateCommitTimestamp(txn);
+    txn.commit_timestamp = commit_timestamp;
+
+    if (transaction_wal_) {
+        try {
+            nlohmann::json exec_data = {
+                {"protocol", "Calvin"},
+                {"phase", "EXECUTION"},
+                {"sequence_number", sequence_number},
+                {"commit_timestamp", commit_timestamp}
+            };
+            transaction_wal_->logCommit(txn.transaction_id, exec_data);
+            operations_since_snapshot_++;
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log Calvin execution phase to WAL: {}", e.what());
+        }
+    }
+
+    bool all_executed = true;
+    for (const auto& shard_id : shard_order) {
+        spdlog::debug("Calvin: executing on shard {} for transaction {} (seq={})",
+                      shard_id, txn.transaction_id, sequence_number);
+
+        bool committed = sendCommit(shard_id, txn.transaction_id);
+        txn.participants[shard_id].committed = committed;
+
+        if (transaction_wal_ && committed) {
+            try {
+                transaction_wal_->logCommitted(txn.transaction_id, shard_id);
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to log Calvin committed shard to WAL: {}", e.what());
+            }
+        }
+
+        if (!committed) {
+            all_executed = false;
+            spdlog::error("Calvin: execution failed on shard {} for transaction {}",
+                          shard_id, txn.transaction_id);
+        }
+    }
+
+    if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
+        createPeriodicSnapshot();
+    }
+
+    if (all_executed) {
+        spdlog::info("Calvin transaction {} completed successfully (seq={}, commit_ts={})",
+                     txn.transaction_id, sequence_number, commit_timestamp);
+    } else {
+        spdlog::error("Calvin transaction {} execution had failures (seq={})",
+                      txn.transaction_id, sequence_number);
+    }
+
+    return all_executed;
 }
 
 bool CrossShardTransactionCoordinator::sendPrepare(
@@ -2078,6 +2274,8 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
                     return TransactionProtocol::SAGA;
                 case ::sharding::TransactionProtocol::PERCOLATOR:
                     return TransactionProtocol::PERCOLATOR;
+                case ::sharding::TransactionProtocol::CALVIN:
+                    return TransactionProtocol::CALVIN;
             }
             return TransactionProtocol::TWO_PHASE_COMMIT;
         };
@@ -2339,6 +2537,8 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                     return ::sharding::TransactionProtocol::SAGA;
                 case TransactionProtocol::PERCOLATOR:
                     return ::sharding::TransactionProtocol::PERCOLATOR;
+                case TransactionProtocol::CALVIN:
+                    return ::sharding::TransactionProtocol::CALVIN;
             }
             return ::sharding::TransactionProtocol::TWO_PHASE_COMMIT;
         };

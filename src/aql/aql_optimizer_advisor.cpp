@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            aql_optimizer_advisor.cpp                          ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     235                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 859474f12  2026-02-23  fix(aql): correct traversal detection and spatial/vector ... ║
+    • fb7ab4631  2026-02-23  feat(aql): integrate AQL module with query optimizer for ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "aql/aql_optimizer_advisor.h"
 
 #include "analytics/nlp_text_analyzer.h"

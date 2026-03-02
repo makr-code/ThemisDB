@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            merge_engine.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:29                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     668                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     681                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1479e425b  2026-03-01  Implement MergeStats::fromJson to resolve merge_engine.cp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -145,6 +148,17 @@ json MergeEngine::MergeStats::toJson() const {
     return j;
 }
 
+MergeEngine::MergeStats MergeEngine::MergeStats::fromJson(const json& j) {
+    MergeStats stats;
+    stats.changes_applied         = j.value("changes_applied",         (size_t)0);
+    stats.conflicts_detected      = j.value("conflicts_detected",      (size_t)0);
+    stats.conflicts_auto_resolved = j.value("conflicts_auto_resolved", (size_t)0);
+    stats.conflicts_manual        = j.value("conflicts_manual",        (size_t)0);
+    stats.has_conflicts           = j.value("has_conflicts",           false);
+    stats.is_fast_forward         = j.value("is_fast_forward",         false);
+    return stats;
+}
+
 // MergeResult serialization
 json MergeEngine::MergeResult::toJson() const {
     json j;
@@ -176,7 +190,9 @@ MergeEngine::MergeResult MergeEngine::MergeResult::fromJson(const json& j) {
     MergeResult result;
     result.success = j["success"];
     result.message = j["message"];
-    // Note: stats deserialization would go here if needed
+    if (j.contains("stats")) {
+        result.stats = MergeStats::fromJson(j["stats"]);
+    }
     
     if (j.contains("conflicts")) {
         for (const auto& conflict_json : j["conflicts"]) {

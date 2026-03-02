@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_device_manager.cpp                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     285                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 502a332ac  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
+    • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
+    • bcf21826f  2026-02-23  feat(acceleration): implement runtime device capability d... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: DeviceManager — Runtime Device Capability Detection
 //
 // Validates the DeviceManager class introduced in acceleration/device_manager.cpp.

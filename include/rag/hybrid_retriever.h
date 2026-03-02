@@ -4,14 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_retriever.h                                 ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-24                                         ║
+  Last Modified:   2026-03-02 03:54:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     248                                            ║
+    • Total Lines:     256                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 838f20874  2026-02-24  fix(rag): audit corrections - remove unused include, fix ... ║
+    • e340bbb9a  2026-02-24  feat(rag): implement hybrid retrieval (BM25 + vector) wit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

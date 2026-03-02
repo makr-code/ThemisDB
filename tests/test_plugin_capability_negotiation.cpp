@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_plugin_capability_negotiation.cpp             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     347                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
+    • 61acfaabb  2026-02-24  feat(base): implement runtime plugin capability negotiati... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Plugin Capability Negotiation (Version Ranges)
 // Tests for PluginCapabilityNegotiator, PluginVersionRange, and related types.
 // Also tests PluginManager::negotiateCapabilities().

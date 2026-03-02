@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_capability_contract.cpp               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-23 03:58:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-03-02 04:02:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     449                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b1e5bf11d  2026-02-23  fix(acceleration): register VulkanVectorBackend in Backen... ║
     • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
     • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣

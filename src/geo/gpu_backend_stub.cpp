@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_backend_stub.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:04                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     691                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Total Lines:     701                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 25e932e7f  2026-02-22  feat(geo): implement ST_Buffer operation (Point + Polygon... ║
+    • d4d1128ca  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
+    • 0f84568fb  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
+    • 7a427cad5  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
+    • e8e316290  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
+    • 9d19a8878  2026-02-25  feat(geo): implement ROCm/HIP GPU backend for AMD hardwar... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

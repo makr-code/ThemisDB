@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            search_analytics.h                                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23 03:57:34                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-03-02 03:54:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     159                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     173                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 77a1f391b  2026-03-01  feat(search): add getTopQueries() to SearchAnalytics ║
+    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -131,6 +135,19 @@ public:
      * @param limit  Number of events to return (most recent first).
      */
     std::vector<SearchEvent> getRecentEvents(size_t limit = 100) const;
+
+    /**
+     * @brief Return the top queries ranked by frequency.
+     *
+     * Returns up to @p limit query strings with their occurrence counts,
+     * sorted by descending frequency (most popular first).  This is a
+     * lightweight alternative to @c computeMetrics() when only the top-query
+     * list is needed.
+     *
+     * @param limit  Maximum number of entries to return (default: 20).
+     * @return Vector of (query, count) pairs, most frequent first.
+     */
+    std::vector<std::pair<std::string, size_t>> getTopQueries(size_t limit = 20) const;
 
     /**
      * @brief Compute aggregated metrics over all retained events.

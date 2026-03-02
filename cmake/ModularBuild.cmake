@@ -1,4 +1,4 @@
-# Modular Build Configuration for ThemisDB
+ Modular Build Configuration for ThemisDB
 # This feature is planned for post-v1.3.0 release
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 
@@ -183,6 +183,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
         ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/module_signature_verifier.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -266,6 +267,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/notification_webhook.cpp
+    ../src/updates/blue_green_deployment.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
@@ -303,6 +306,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
+    ../src/query/cross_cluster_federation.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
@@ -456,6 +460,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
     
+    # Post-quantum cryptography (CRYSTALS-Kyber / Dilithium migration path)
+    ../src/security/post_quantum_crypto.cpp
+
     # Security initialization
     ../src/core/security_initialization.cpp
     
@@ -472,6 +479,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/autocomplete.cpp
     ../src/search/learning_to_rank.cpp
     ../src/search/multi_modal_search.cpp
+    ../src/search/personalized_ranker.cpp
+    ../src/search/multi_field_search.cpp
+    ../src/search/neural_sparse_retrieval.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -707,6 +717,8 @@ set(THEMIS_LLM_SOURCES
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_confidence_scorer.cpp
     ../src/aql/llm_metrics_collector.cpp
+    # Phase 4: Multi-modal RAG (image + text retrieval)
+    ../src/rag/multimodal_rag.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>

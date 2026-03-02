@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.cpp                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     1941                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     2673                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d96f6838d  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
+    • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
+    • b617bb3a1  2026-02-28  Implement content deduplication via SHA-256 hash before s... ║
+    • e21224bb7  2026-02-28  feat(content): implement file upload security checks ║
+    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -29,7 +29,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 
 ### Short-term (Next 3-6 months)
 - [x] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
-- [I] Language detection and automatic locale switching (Issue: #2492)
+- [x] Language detection and automatic locale switching (Issue: #2492)
 - [x] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
 - [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 - [x] Voice session playback and search in stored transcripts (Issue: #2077)
@@ -37,7 +37,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ### Long-term (6-12 months)
 - [x] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
 - [x] Emotion / sentiment detection from voice tone (Issue: #2493)
-- [I] Real-time meeting transcription with action-item extraction (Issue: #2353)
+- [x] Real-time meeting transcription with action-item extraction (Issue: #2353) (Target: Q1 2026)
 - [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Implementation Phases
@@ -63,7 +63,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 
 ### Phase 3: Voice Macros & Browser Streaming [~] (Status: In Progress 🚧)
 - [x] Voice command macros (user-defined shortcuts to AQL queries)
-- [ ] Language detection and automatic locale switching
+- [x] Language detection and automatic locale switching
 - [x] Noise suppression preprocessing (RNNoise integration)
 - [ ] WebSocket audio streaming endpoint for browser clients
 - [x] Voice session playback and search in stored transcripts
@@ -72,13 +72,13 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Multi-language TTS (German, French, Spanish voices)
 - [x] Emotion / sentiment detection from voice tone
 - [x] Voice biometric authentication (speaker verification)
-- [ ] Real-time meeting transcription with action-item extraction
+- [x] Real-time meeting transcription with action-item extraction (Target: Q1 2026)
 - [ ] Integration with telephony systems (SIP / WebRTC)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #2355)
 - [I] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
-- [I] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
+- [P] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
 - [I] Security audit (audio data storage, transcription PII handling) (Issue: #2358)
 - [I] Documentation complete (Issue: #2359)
 - [I] API stability guaranteed (Issue: #2360)

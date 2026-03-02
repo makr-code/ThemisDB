@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_api_handler.h                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:36                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     194                                            ║
+    • Total Lines:     229                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 64ea7ae22  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
+    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
+    • 617224a49  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

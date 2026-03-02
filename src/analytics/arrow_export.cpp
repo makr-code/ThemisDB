@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_export.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:57                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     164                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     197                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b44a3e988  2026-02-25  audit(analytics): fix stale docs and metadata after zero-... ║
+    • 6fb48cf3e  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

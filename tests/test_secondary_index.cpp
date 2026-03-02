@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_secondary_index.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25 20:40:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:06:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,10 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     407                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2c5066b72  2026-02-25  Code audit: fix header annotations, add PARTIAL to IndexT... ║
+    • 4eeafc8f5  2026-02-25  Implement partial/filtered indexes on secondary index man... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

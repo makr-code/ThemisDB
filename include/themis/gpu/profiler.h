@@ -4,7 +4,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            profiler.h                                         ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-25                                         ║
+  Last Modified:   2026-03-02 03:55:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,10 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4966e1aa6  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
+    • c110763ce  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -2,18 +2,22 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_rag_document_splitter.cpp                    ║
-  Version:         0.0.1                                             ║
-  Last Modified:   2026-02-24                                        ║
-  Author:          unknown                                           ║
+  File:            test_rag_document_splitter.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:06:22                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                   ║
-    • Maturity Level:  🟢 PRODUCTION-READY                            ║
-    • Quality Score:   100.0/100                                     ║
-    • Total Lines:     532                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                            ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     532                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                         ║
+  Revision History:                                                   ║
+    • f5cb079d9  2026-02-24  fix(rag): fix sliding window test assertion, update ROADM... ║
+    • 14a59e400  2026-02-24  feat(rag): configurable chunk size and overlap for docume... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

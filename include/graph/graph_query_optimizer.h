@@ -4,21 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:15:00                                ║
+  Last Modified:   2026-03-02 03:53:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     687                                            ║
+    • Total Lines:     1244                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • dff66953f  2026-02-25  feat(graph): implement property graph schema-aware op... ║
-    • 3b3ae42ad  2026-02-22  fix(graph): update stale file-header metadata after struc... ║
-    • d8c8ba8d2  2026-02-22  feat(graph): implement query plan reuse across structural... ║
-    • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
+    • 8b26f1ce4  2026-02-26  feat: add cost estimation accuracy tracking to graph cost... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • be95daa7f  2026-02-26  fix(graph): code audit - iterator safety, benchmarks, met... ║
+    • 9a172b4d4  2026-02-26  fix(graph): audit fixes - sort schema hints in cache keys... ║
+    • 310962431  2026-02-26  fix(graph): audit — fix pointer-invalidation UB, update R... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1482                                            ║
+    • Total Lines:     2017                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c4e738611  2026-03-01  feat(scheduler): add audit logging and avg_execution_time... ║
+    • 53b4dd4b5  2026-03-01  feat(scheduler): alert on task failure or SLA breach ║
+    • e290e7611  2026-03-01  feat(scheduler): add FIBONACCI_BACKOFF retry strategy ║
+    • 1c3a31e4c  2026-02-23  fix(scheduler): total_executions not incremented on sched... ║
+    • defdacc79  2026-02-23  fix(scheduler): persist results for all execution paths i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +31,7 @@
 
 #include <gtest/gtest.h>
 #include "scheduler/task_scheduler.h"
+#include "scheduler/task_audit_manager.h"
 #include "utils/cron_parser.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -722,6 +730,70 @@ TEST_F(TaskSchedulerTest, RetryPolicyPersistedAndRestoredFromDisk) {
     EXPECT_DOUBLE_EQ(loaded_rp.jitter_factor, 0.05);
 }
 
+TEST_F(TaskSchedulerTest, RetryPolicyFibonacciBackoff) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("fib_backoff_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 4) throw std::runtime_error("transient error");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "fib_backoff_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fib_backoff_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF;
+    policy.max_retries   = 5;
+    policy.initial_delay = std::chrono::milliseconds{5};
+    policy.max_delay     = std::chrono::milliseconds{100};
+    task.retry_policy    = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 4);  // Succeeded on 4th attempt
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->successful_executions, 1u);
+    EXPECT_EQ(t->failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyFibonacciBackoffExhausted) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("fib_always_fail", [&](const nlohmann::json&) -> nlohmann::json {
+        ++call_count;
+        throw std::runtime_error("persistent failure");
+    });
+
+    ScheduledTask task;
+    task.name = "fib_exhaust_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fib_always_fail";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::FIBONACCI_BACKOFF;
+    policy.max_retries   = 2;  // 1 initial + 2 retries = 3 total attempts
+    policy.initial_delay = std::chrono::milliseconds{5};
+    policy.max_delay     = std::chrono::milliseconds{100};
+    task.retry_policy    = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_EQ(call_count.load(), 3);  // All 3 attempts exhausted
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->failed_executions, 1u);
+    EXPECT_EQ(t->successful_executions, 0u);
+}
+
 // ===== exportMetrics() tests =====
 
 TEST_F(TaskSchedulerTest, ExportMetricsReturnsNonEmptyString) {
@@ -1337,6 +1409,101 @@ TEST_F(TaskSchedulerTest, DAG_DependenciesPersistedAndRestoredFromDisk) {
     EXPECT_EQ(loaded->dependencies[1], "dep_b");
 }
 
+TEST_F(TaskSchedulerTest, DAG_AuditEventsLoggedPerTask) {
+    // Create a scheduler with audit logging enabled
+    TaskScheduler::Config acfg;
+    acfg.max_concurrent_tasks = 4;
+    acfg.check_interval = 50ms;
+    acfg.persist_tasks = false;
+    acfg.enable_audit_logging = true;
+    acfg.enable_anomaly_detection = false;
+    auto audit_sched = std::make_unique<TaskScheduler>(engine_.get(), acfg);
+
+    audit_sched->registerFunction("dag_audit_ok",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+    audit_sched->registerFunction("dag_audit_fail",
+        [](const nlohmann::json&) -> nlohmann::json {
+            throw std::runtime_error("audit_fail_error");
+        });
+
+    ScheduledTask ta;
+    ta.id = "dag_audit_a"; ta.name = ta.id;
+    ta.type = ScheduledTask::TaskType::FUNCTION;
+    ta.function_name = "dag_audit_ok";
+    ta.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    ta.max_retries = 0;
+    audit_sched->registerTask(ta);
+
+    ScheduledTask tb;
+    tb.id = "dag_audit_b"; tb.name = tb.id;
+    tb.type = ScheduledTask::TaskType::FUNCTION;
+    tb.function_name = "dag_audit_fail";
+    tb.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    tb.max_retries = 0;
+    audit_sched->registerTask(tb);
+
+    auto res = audit_sched->executeDAG({"dag_audit_a", "dag_audit_b"});
+    EXPECT_TRUE(res.succeeded.count("dag_audit_a"));
+    EXPECT_TRUE(res.failed.count("dag_audit_b"));
+
+    auto audit_mgr = audit_sched->getAuditManager();
+    ASSERT_NE(audit_mgr, nullptr);
+
+    // Query started events for both tasks
+    scheduler::AuditQueryParams started_params;
+    started_params.event_type = scheduler::TaskEventType::TASK_STARTED;
+    started_params.limit = 100;
+    auto started = audit_mgr->queryAuditEvents(started_params);
+    auto started_a = std::count_if(started.begin(), started.end(),
+        [](const auto& e) { return e.task_id == "dag_audit_a"; });
+    auto started_b = std::count_if(started.begin(), started.end(),
+        [](const auto& e) { return e.task_id == "dag_audit_b"; });
+    EXPECT_GE(started_a, 1);
+    EXPECT_GE(started_b, 1);
+
+    // Task A completed successfully
+    scheduler::AuditQueryParams completed_params;
+    completed_params.task_id = "dag_audit_a";
+    completed_params.event_type = scheduler::TaskEventType::TASK_COMPLETED;
+    completed_params.limit = 100;
+    auto completed = audit_mgr->queryAuditEvents(completed_params);
+    EXPECT_GE(completed.size(), 1u);
+    EXPECT_TRUE(completed[0].success);
+
+    // Task B failed
+    scheduler::AuditQueryParams failed_params;
+    failed_params.task_id = "dag_audit_b";
+    failed_params.event_type = scheduler::TaskEventType::TASK_FAILED;
+    failed_params.limit = 100;
+    auto failed = audit_mgr->queryAuditEvents(failed_params);
+    EXPECT_GE(failed.size(), 1u);
+    EXPECT_FALSE(failed[0].success);
+    ASSERT_TRUE(failed[0].error_message.has_value());
+    EXPECT_NE(failed[0].error_message->find("audit_fail_error"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerTest, DAG_AvgExecutionTimeUpdatedAfterSuccess) {
+    // Verify that avg_execution_time_ms is updated by executeDAG for successful tasks.
+    scheduler_->registerFunction("dag_avg_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+
+    ScheduledTask t;
+    t.id = "dag_avg_task"; t.name = t.id;
+    t.type = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "dag_avg_fn";
+    t.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(t);
+
+    auto res = scheduler_->executeDAG({"dag_avg_task"});
+    ASSERT_TRUE(res.succeeded.count("dag_avg_task"));
+
+    auto loaded = scheduler_->getTask("dag_avg_task");
+    ASSERT_NE(loaded, nullptr);
+    EXPECT_GE(loaded->avg_execution_time_ms, 0.0);
+    EXPECT_EQ(loaded->total_executions, 1u);
+    EXPECT_EQ(loaded->successful_executions, 1u);
+}
+
 // ===== Task Result Store tests =====
 
 class TaskResultStoreTest : public ::testing::Test {
@@ -1595,4 +1762,263 @@ TEST_F(TaskResultStoreTest, DAGExecutionPersistsResults) {
     EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_a")->output.value("step", 0), 1);
     EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_b")->output.value("step", 0), 2);
     EXPECT_EQ(scheduler_->getLatestTaskResult("dag_rs_c")->output.value("step", 0), 3);
+}
+
+// ===== Alert on task failure / SLA breach tests =====
+
+/**
+ * @brief Simple mock Alertmanager that records sent/resolved alerts.
+ */
+class MockAlertmanager : public themis::observability::Alertmanager {
+public:
+    std::vector<themis::observability::Alert> sent_alerts;
+    std::vector<std::string> resolved_alert_ids;
+
+    themis::Result<void> sendAlert(const themis::observability::Alert& alert) override {
+        sent_alerts.push_back(alert);
+        return {};
+    }
+
+    themis::Result<void> resolveAlert(const std::string& alert_id) override {
+        resolved_alert_ids.push_back(alert_id);
+        return {};
+    }
+};
+
+class TaskSchedulerAlertTest : public ::testing::Test {
+protected:
+    static std::string makeDbPath() {
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_alert_test_" + std::to_string(now))).string();
+    }
+
+    void SetUp() override {
+        db_path_ = makeDbPath();
+        std::filesystem::create_directories(db_path_);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_ + "/db";
+        cfg.enable_blobdb = false;
+        storage_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        idx_ = std::make_unique<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *idx_);
+
+        TaskScheduler::Config sched_cfg;
+        sched_cfg.max_concurrent_tasks = 4;
+        sched_cfg.check_interval = 50ms;
+        sched_cfg.persist_tasks = false;
+        sched_cfg.enable_audit_logging = false;
+        sched_cfg.enable_anomaly_detection = false;
+
+        scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), sched_cfg);
+
+        mock_alertmanager_ = std::make_shared<MockAlertmanager>();
+        scheduler_->setAlertmanager(mock_alertmanager_);
+    }
+
+    void TearDown() override {
+        if (scheduler_) {
+            scheduler_->stop();
+            scheduler_.reset();
+        }
+        engine_.reset();
+        idx_.reset();
+        storage_->close();
+        storage_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper> storage_;
+    std::unique_ptr<SecondaryIndexManager> idx_;
+    std::unique_ptr<QueryEngine> engine_;
+    std::unique_ptr<TaskScheduler> scheduler_;
+    std::shared_ptr<MockAlertmanager> mock_alertmanager_;
+};
+
+TEST_F(TaskSchedulerAlertTest, FailureAlertFiredOnTaskFailure) {
+    scheduler_->registerFunction("fail_fn", [](const nlohmann::json&) -> nlohmann::json {
+        throw std::runtime_error("intentional failure");
+    });
+
+    ScheduledTask t;
+    t.id             = "alert_fail_task";
+    t.name           = "Alert Fail Task";
+    t.type           = ScheduledTask::TaskType::FUNCTION;
+    t.function_name  = "fail_fn";
+    t.trigger_type   = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries    = 0;
+    scheduler_->registerTask(t);
+
+    scheduler_->executeTaskNow("alert_fail_task");
+
+    ASSERT_EQ(mock_alertmanager_->sent_alerts.size(), 1u);
+    const auto& alert = mock_alertmanager_->sent_alerts[0];
+    EXPECT_EQ(alert.alert_name, "TaskFailure");
+    EXPECT_EQ(alert.status, themis::observability::AlertStatus::FIRING);
+    EXPECT_EQ(alert.severity, themis::observability::AlertSeverity::ERROR);
+    EXPECT_FALSE(alert.message.empty());
+    EXPECT_EQ(alert.labels.at("task_id"), "alert_fail_task");
+    EXPECT_EQ(alert.labels.at("component"), "scheduler");
+}
+
+TEST_F(TaskSchedulerAlertTest, FailureAlertResolvedOnSubsequentSuccess) {
+    std::atomic<bool> should_fail{true};
+    scheduler_->registerFunction("toggle_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (should_fail.load()) {
+            throw std::runtime_error("transient error");
+        }
+        return {{"ok", true}};
+    });
+
+    ScheduledTask t;
+    t.id            = "toggle_task";
+    t.name          = "Toggle Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "toggle_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    scheduler_->registerTask(t);
+
+    // First run: should fail and fire an alert
+    scheduler_->executeTaskNow("toggle_task");
+    ASSERT_EQ(mock_alertmanager_->sent_alerts.size(), 1u);
+    EXPECT_EQ(mock_alertmanager_->sent_alerts[0].alert_name, "TaskFailure");
+
+    // Second run: should succeed and resolve the alert
+    should_fail.store(false);
+    scheduler_->executeTaskNow("toggle_task");
+
+    ASSERT_EQ(mock_alertmanager_->resolved_alert_ids.size(), 1u);
+    EXPECT_FALSE(mock_alertmanager_->resolved_alert_ids[0].empty());
+}
+
+TEST_F(TaskSchedulerAlertTest, NoResolveWhenNoPreviousFailureAlert) {
+    scheduler_->registerFunction("ok_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {{"ok", true}};
+    });
+
+    ScheduledTask t;
+    t.id            = "ok_task";
+    t.name          = "OK Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "ok_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    scheduler_->registerTask(t);
+
+    // Run successfully with no prior failure
+    scheduler_->executeTaskNow("ok_task");
+
+    // No alerts should be sent or resolved
+    EXPECT_TRUE(mock_alertmanager_->sent_alerts.empty());
+    EXPECT_TRUE(mock_alertmanager_->resolved_alert_ids.empty());
+}
+
+TEST_F(TaskSchedulerAlertTest, SlaBreachAlertFiredWhenDeadlineExceeded) {
+    scheduler_->registerFunction("slow_fn", [](const nlohmann::json&) -> nlohmann::json {
+        std::this_thread::sleep_for(std::chrono::milliseconds(60));
+        return {{"ok", true}};
+    });
+
+    ScheduledTask t;
+    t.id            = "sla_task";
+    t.name          = "SLA Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "slow_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    t.sla_deadline  = std::chrono::milliseconds(10);  // 10ms SLA, task takes ~60ms
+    scheduler_->registerTask(t);
+
+    scheduler_->executeTaskNow("sla_task");
+
+    // Should fire exactly one SLA breach alert (task succeeded, so no failure alert)
+    ASSERT_EQ(mock_alertmanager_->sent_alerts.size(), 1u);
+    const auto& alert = mock_alertmanager_->sent_alerts[0];
+    EXPECT_EQ(alert.alert_name, "TaskSlaBreached");
+    EXPECT_EQ(alert.status, themis::observability::AlertStatus::FIRING);
+    EXPECT_EQ(alert.severity, themis::observability::AlertSeverity::WARNING);
+    EXPECT_FALSE(alert.message.empty());
+    EXPECT_EQ(alert.labels.at("task_id"), "sla_task");
+    EXPECT_EQ(alert.labels.at("component"), "scheduler");
+}
+
+TEST_F(TaskSchedulerAlertTest, NoSlaAlertWhenDeadlineNotExceeded) {
+    scheduler_->registerFunction("fast_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return {{"ok", true}};
+    });
+
+    ScheduledTask t;
+    t.id            = "fast_sla_task";
+    t.name          = "Fast SLA Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "fast_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    t.sla_deadline  = std::chrono::seconds(60);  // 60s SLA, task is instant
+    scheduler_->registerTask(t);
+
+    scheduler_->executeTaskNow("fast_sla_task");
+
+    // No alerts should be fired
+    EXPECT_TRUE(mock_alertmanager_->sent_alerts.empty());
+    EXPECT_TRUE(mock_alertmanager_->resolved_alert_ids.empty());
+}
+
+TEST_F(TaskSchedulerAlertTest, NoSlaAlertWhenDeadlineNotSet) {
+    scheduler_->registerFunction("no_sla_fn", [](const nlohmann::json&) -> nlohmann::json {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        return {{"ok", true}};
+    });
+
+    ScheduledTask t;
+    t.id            = "no_sla_task";
+    t.name          = "No SLA Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "no_sla_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    // sla_deadline intentionally not set
+    scheduler_->registerTask(t);
+
+    scheduler_->executeTaskNow("no_sla_task");
+
+    // No SLA alert should fire since no deadline is configured
+    EXPECT_TRUE(mock_alertmanager_->sent_alerts.empty());
+}
+
+TEST_F(TaskSchedulerAlertTest, SetAlertmanagerReturnsCorrectInstance) {
+    auto am = scheduler_->getAlertmanager();
+    EXPECT_EQ(am.get(), mock_alertmanager_.get());
+
+    scheduler_->setAlertmanager(nullptr);
+    EXPECT_EQ(scheduler_->getAlertmanager(), nullptr);
+}
+
+TEST_F(TaskSchedulerAlertTest, NoAlertsWithoutAlertmanager) {
+    // Remove alertmanager
+    scheduler_->setAlertmanager(nullptr);
+
+    scheduler_->registerFunction("fail2_fn", [](const nlohmann::json&) -> nlohmann::json {
+        throw std::runtime_error("error without alertmanager");
+    });
+
+    ScheduledTask t;
+    t.id            = "no_am_task";
+    t.name          = "No Alertmanager Task";
+    t.type          = ScheduledTask::TaskType::FUNCTION;
+    t.function_name = "fail2_fn";
+    t.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    t.max_retries   = 0;
+    scheduler_->registerTask(t);
+
+    // Should not throw even without alertmanager
+    EXPECT_NO_THROW(scheduler_->executeTaskNow("no_am_task"));
+
+    // No alerts were recorded (mock was detached)
+    EXPECT_TRUE(mock_alertmanager_->sent_alerts.empty());
 }

@@ -40,11 +40,15 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)
-- [P] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
-- [I] Adaptive query re-optimization on runtime statistics (Issue: #2232)
-- [I] Cross-cluster federated AQL with cost estimation (Issue: #2233)
+- [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
+- [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
+- [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
-- [I] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
+- [x] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
+  - Implemented in `include/query/sparql_parser.h` (`SPARQLParser`, `SPARQLToAQLTranspiler`) and `src/query/sparql_parser.cpp`
+  - Supports SELECT queries with triple patterns (variables, URIs, prefixed names, literals), FILTER expressions, ORDER BY, LIMIT/OFFSET
+  - Translates SPARQL to AQL via variable-unification across triple patterns, mapped to nested FOR loops over a configurable RDF triples collection
+  - Tests: `tests/test_sparql_parser.cpp`
 
 ## Implementation Phases
 
@@ -76,16 +80,18 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] User-defined functions (UDF) registration API
 
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
-- [P] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
-  - Implemented in `include/query/vectorized_execution.h` (`VectorizedExecutionEngine`, `VectorizedQueryPlan`) and `src/query/vectorized_execution.cpp`
-  - Delegates column-store batch processing to `themisdb::analytics::ColumnarExecutionEngine`
-  - JSON rows are converted to columnar format (ColumnBatch), processed in configurable batches (default: 1 024 rows), and materialized back to JSON
-  - Supported operators: filter (all comparison ops + IsNull/IsNotNull), project, aggregate (COUNT/SUM/AVG/MIN/MAX/COUNT_DISTINCT with GROUP BY), sort
-  - Tests: `tests/test_vectorized_execution.cpp`
-- [P] Adaptive query re-optimization on runtime statistics
-- [ ] Cross-cluster federated AQL with cost estimation
+- [ ] Vectorized execution engine (column-store style batch processing)
+- [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
+- [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
+  - Implemented in `include/query/cross_cluster_federation.h` (`ClusterEndpoint`, `ClusterCostEstimate`, `CrossClusterFederator`)
+    and `src/query/cross_cluster_federation.cpp`
+  - Connects to independent ThemisDB instances via their HTTP `/query/aql` endpoint
+  - Cost model: `total_cost = (estimated_rows × 0.001) + (network_latency_ms × 1.0)`
+  - Optional cost-based pruning: exclude clusters whose cost exceeds a configurable multiple of the cheapest cluster
+  - Parallel execution via `std::async`; injectable `HttpPostFn` test double for unit tests
+  - Tests: `tests/test_cross_cluster_federation.cpp` (28 unit tests)
 - [x] Multi-statement transaction AQL (BEGIN/COMMIT in query)
-- [ ] SPARQL compatibility for RDF / knowledge-graph queries
+- [x] SPARQL compatibility for RDF / knowledge-graph queries
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

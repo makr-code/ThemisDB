@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            search_analytics.cpp                               ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23 03:58:21                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-03-02 03:59:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     154                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     176                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 77a1f391b  2026-03-01  feat(search): add getTopQueries() to SearchAnalytics ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -135,6 +138,28 @@ SearchMetrics SearchAnalytics::computeMetrics() const {
     }
 
     return m;
+}
+
+std::vector<std::pair<std::string, size_t>>
+SearchAnalytics::getTopQueries(size_t limit) const {
+    std::lock_guard<std::mutex> lock(mu_);
+    if (events_.empty() || limit == 0) return {};
+
+    std::map<std::string, size_t> freq;
+    for (const auto& ev : events_) {
+        freq[ev.query]++;
+    }
+
+    std::vector<std::pair<std::string, size_t>> result(freq.begin(), freq.end());
+    size_t n = std::min(limit, result.size());
+    std::partial_sort(result.begin(), result.begin() + static_cast<std::ptrdiff_t>(n),
+                      result.end(),
+                      [](const auto& a, const auto& b) {
+                          return a.second != b.second ? a.second > b.second
+                                                      : a.first < b.first;
+                      });
+    result.resize(n);
+    return result;
 }
 
 // ============================================================================

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_manager.h                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:37                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     335                                            ║
+    • Total Lines:     387                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 20db61010  2026-03-01  feat(server): add per-tenant custom domain routing ║
+    • aa48b6bd3  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
+    • 9b809d400  2026-02-24  audit: fix stale banner metadata and update documentation... ║
+    • 5375c249a  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
+    • f779a6790  2026-02-23  feat(api): implement multi-tenant namespace routing ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,6 +49,11 @@ struct TenantConfig {
     std::string display_name;               // Human-readable tenant name
     bool enabled = true;                    // Tenant enabled/disabled
     
+    // Custom domain routing: domains whose Host header maps to this tenant.
+    // Examples: {"acme.example.com", "www.acme.com"}
+    // Ports are stripped before matching (e.g., "acme.example.com:8443" -> "acme.example.com").
+    std::vector<std::string> custom_domains;
+    
     // Resource quotas
     uint64_t max_storage_bytes = 0;         // 0 = unlimited
     uint64_t max_documents = 0;             // 0 = unlimited
@@ -65,6 +77,13 @@ struct TenantConfig {
     std::string encryption_key_id;          // Tenant-specific encryption key
     bool require_encryption = false;        // Force encryption for all data
     
+    // Custom domain routing
+    // When set, requests whose HTTP Host header matches this value are
+    // automatically routed to this tenant without requiring X-Tenant-ID
+    // or a /tenants/{id}/ path prefix.
+    // Example: "acme.example.com"
+    std::string custom_domain;
+
     // Metadata
     std::chrono::system_clock::time_point created_at;
     std::chrono::system_clock::time_point updated_at;
@@ -163,7 +182,13 @@ public:
         // Tenant identification method
         std::string tenant_header = "X-Tenant-ID";     // Header for tenant ID
         std::string tenant_path_prefix = "/tenants/";  // Path prefix for tenant routing
-        
+
+        // Custom domain routing: header whose value is matched against
+        // per-tenant custom_domains.  Set to "Host" for standard HTTP/1.1
+        // routing; use ":authority" for raw HTTP/2 pseudo-headers if the
+        // session layer normalises them before passing headers here.
+        std::string custom_domain_host_header = "Host";
+
         // Default tenant for single-tenant deployments
         std::string default_tenant_id = "default";
         bool allow_default_tenant = true;              // Allow requests without tenant ID
@@ -210,6 +235,23 @@ public:
         std::string_view path
     ) const;
 
+    // Custom domain routing management.
+    // Registers a domain -> tenant mapping so that incoming requests whose
+    // Host (or configured custom_domain_host_header) value matches `domain`
+    // are routed to `tenant_id`.  The domain is stored in lower-case.
+    // Returns false when the domain is already registered to a different tenant
+    // or when the tenant does not exist.
+    bool registerCustomDomain(std::string_view tenant_id, std::string_view domain);
+
+    // Removes a previously registered custom domain mapping.
+    // Returns true when the mapping existed and was removed.
+    bool unregisterCustomDomain(std::string_view domain);
+
+    // Looks up the tenant ID for a custom domain (case-insensitive).
+    // Strips a trailing port (":NNN") from `host` before matching.
+    // Returns an empty optional when no mapping exists.
+    std::optional<std::string> lookupTenantByDomain(std::string_view host) const;
+
     // Strip tenant path prefix from a URL path for namespace routing.
     // For path-based tenant routing, removes the "/tenants/{id}/" prefix so
     // the remaining path can be matched against normal API routes.
@@ -232,6 +274,13 @@ public:
     // Example: "/tenants/acme-corp/documents/123"
     //   -> { effective_path="/documents/123", tenant_id="acme-corp", rewritten=true }
     PathRewriteResult rewriteTenantPath(std::string_view path) const;
+
+    // Resolve tenant ID from an HTTP Host header value.
+    // Returns the tenant ID if a tenant with a matching custom_domain is found,
+    // or std::nullopt when no domain mapping exists for the given host.
+    // The host value may include a port suffix (e.g. "acme.example.com:8443");
+    // the port is stripped before lookup.
+    std::optional<std::string> resolveTenantByDomain(std::string_view host) const;
 
     // Resource quota enforcement
     struct QuotaCheckResult {
@@ -280,9 +329,19 @@ private:
     Config config_;
     std::unordered_map<std::string, TenantConfig> tenants_;
     std::unordered_map<std::string, std::unique_ptr<TenantUsage>> usage_;
+    // Reverse index: lower-case domain -> tenant_id
+    // Reverse map: custom_domain -> tenant_id for O(1) Host-header lookups
+    std::unordered_map<std::string, std::string> domain_to_tenant_;
     
     // Helper to create default tenant
     void ensureDefaultTenant();
+
+    // Rebuild the domain_to_tenant_ index from current tenants_ map.
+    // Must be called with mutex_ held.
+    void rebuildDomainIndex();
+
+    // Returns lower-case copy of `host` with optional ":port" suffix stripped.
+    static std::string normaliseDomain(std::string_view host);
 };
 
 /**

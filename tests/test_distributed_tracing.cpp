@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_tracing.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:52                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:03:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     444                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     615                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 22017ffdc  2026-03-01  feat(tests): initialize tracer in DistributedTracingTest ... ║
+    • 95fb262d5  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

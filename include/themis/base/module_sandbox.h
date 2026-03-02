@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_sandbox.h                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:41                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     298                                            ║
+    • Total Lines:     300                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
+    • 5a40139ef  2026-02-26  audit(base): close stub, update headers and ROADMAP for p... ║
+    • 68907b86d  2026-02-26  feat(base): implement CPU-time limit (RLIMIT_CPU) for plu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

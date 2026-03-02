@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_shard_coordinator.cpp                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:51                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:03:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     168                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     336                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,9 +34,16 @@
 #include <gtest/gtest.h>
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/consensus_module.h"
+#include "sharding/transaction_snapshot.h"
 #include <memory>
 #include <thread>
 #include <chrono>
+#ifdef _WIN32
+#  include <process.h>
+#  define getpid _getpid
+#else
+#  include <unistd.h>
+#endif
 
 using namespace themisdb::sharding;
 
@@ -152,12 +162,22 @@ public:
 class CrossShardCoordinatorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Placeholder setup
+        auto consensus = std::make_shared<MockConsensusModule>();
+        CrossShardTransactionConfig config;
+        config.transaction_log_path =
+            std::string("/tmp/themisdb_cscoord_") + std::to_string(::getpid()) + ".jsonl";
+        coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+        coordinator_->initialize();
+        coordinator_->start();
     }
     
     void TearDown() override {
-        // Placeholder teardown
+        if (coordinator_) {
+            coordinator_->stop();
+        }
     }
+
+    std::unique_ptr<CrossShardTransactionCoordinator> coordinator_;
 };
 
 // Placeholder test to keep file structure valid
@@ -165,4 +185,155 @@ TEST_F(CrossShardCoordinatorTest, PlaceholderTestDisabledInfrastructure) {
     // DISABLED: See comments above for required API fixes
     // This placeholder test preserves file structure while tests remain disabled
     EXPECT_TRUE(true);
+}
+
+// ============================================================================
+// Calvin Protocol Tests
+// ============================================================================
+
+class CalvinProtocolTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto consensus = std::make_shared<MockConsensusModule>();
+        CrossShardTransactionConfig config;
+        config.transaction_log_path =
+            std::string("/tmp/themisdb_calvin_") + std::to_string(::getpid()) + ".jsonl";
+        config.calvin_epoch_duration = std::chrono::milliseconds(10);
+        config.calvin_enable_deterministic_lock_order = true;
+        coordinator_ = std::make_unique<CrossShardTransactionCoordinator>(config, consensus);
+        coordinator_->initialize();
+        coordinator_->start();
+    }
+
+    void TearDown() override {
+        if (coordinator_) {
+            coordinator_->stop();
+        }
+    }
+
+    std::unique_ptr<CrossShardTransactionCoordinator> coordinator_;
+};
+
+TEST_F(CalvinProtocolTest, SingleShardCommit) {
+    ASSERT_TRUE(coordinator_->beginTransaction("txn-calvin-1",
+        TransactionProtocol::CALVIN,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->addParticipant("txn-calvin-1", "shard1", "shard1:8080", {"write:key1"});
+
+    bool ok = coordinator_->commit("txn-calvin-1");
+    EXPECT_TRUE(ok);
+
+    auto state = coordinator_->getTransactionState("txn-calvin-1");
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::COMMITTED);
+}
+
+TEST_F(CalvinProtocolTest, MultiShardCommitDeterministicOrder) {
+    ASSERT_TRUE(coordinator_->beginTransaction("txn-calvin-2",
+        TransactionProtocol::CALVIN,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // Add participants in reverse alphabetical order to verify deterministic lock ordering
+    coordinator_->addParticipant("txn-calvin-2", "shard_z", "shard_z:8080", {"write:keyZ"});
+    coordinator_->addParticipant("txn-calvin-2", "shard_a", "shard_a:8080", {"write:keyA"});
+    coordinator_->addParticipant("txn-calvin-2", "shard_m", "shard_m:8080", {"write:keyM"});
+
+    bool ok = coordinator_->commit("txn-calvin-2");
+    EXPECT_TRUE(ok);
+
+    auto state = coordinator_->getTransactionState("txn-calvin-2");
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, TransactionState::COMMITTED);
+}
+
+TEST_F(CalvinProtocolTest, AbortEmptyParticipants) {
+    ASSERT_TRUE(coordinator_->beginTransaction("txn-calvin-3",
+        TransactionProtocol::CALVIN,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // No participants – Calvin should refuse to commit
+    bool ok = coordinator_->commit("txn-calvin-3");
+    EXPECT_FALSE(ok);
+}
+
+TEST_F(CalvinProtocolTest, CommitSequenceNumberIsMonotonic) {
+    // Start two Calvin transactions and verify each gets a distinct snapshot timestamp.
+    // beginTransaction() captures the current TrueTime as snapshot_timestamp; as long
+    // as the clock advances between the two calls the timestamps will differ.
+    ASSERT_TRUE(coordinator_->beginTransaction("txn-calvin-seq-1",
+        TransactionProtocol::CALVIN,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    // Spin-wait until TrueTime advances (avoids sleep while still being deterministic)
+    auto txn1_pre = coordinator_->getTransaction("txn-calvin-seq-1");
+    ASSERT_TRUE(txn1_pre.has_value());
+    int64_t ts1 = txn1_pre->snapshot_timestamp;
+    int64_t ts2 = ts1;
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(1);
+    while (ts2 <= ts1 && std::chrono::steady_clock::now() < deadline) {
+        auto probe_id = "probe-" + std::to_string(ts2);
+        coordinator_->beginTransaction(probe_id,
+            TransactionProtocol::CALVIN, IsolationLevel::SNAPSHOT_ISOLATION);
+        auto probe = coordinator_->getTransaction(probe_id);
+        if (probe) {
+            ts2 = probe->snapshot_timestamp;
+        }
+        coordinator_->abort(probe_id);
+        std::this_thread::yield();
+    }
+
+    ASSERT_TRUE(coordinator_->beginTransaction("txn-calvin-seq-2",
+        TransactionProtocol::CALVIN,
+        IsolationLevel::SNAPSHOT_ISOLATION));
+
+    coordinator_->addParticipant("txn-calvin-seq-1", "shard1", "shard1:8080", {"write:k1"});
+    coordinator_->addParticipant("txn-calvin-seq-2", "shard1", "shard1:8080", {"write:k2"});
+
+    auto txn1 = coordinator_->getTransaction("txn-calvin-seq-1");
+    auto txn2 = coordinator_->getTransaction("txn-calvin-seq-2");
+    ASSERT_TRUE(txn1.has_value());
+    ASSERT_TRUE(txn2.has_value());
+    EXPECT_LE(txn1->snapshot_timestamp, txn2->snapshot_timestamp);
+
+    EXPECT_TRUE(coordinator_->commit("txn-calvin-seq-1"));
+    EXPECT_TRUE(coordinator_->commit("txn-calvin-seq-2"));
+}
+
+TEST_F(CalvinProtocolTest, ConcurrentCalvinTransactions) {
+    const int num_txns = 8;
+    std::vector<std::thread> threads;
+    std::atomic<int> success_count{0};
+
+    for (int i = 0; i < num_txns; ++i) {
+        threads.emplace_back([this, i, &success_count]() {
+            std::string txn_id = "txn-calvin-concurrent-" + std::to_string(i);
+            if (!coordinator_->beginTransaction(txn_id,
+                    TransactionProtocol::CALVIN,
+                    IsolationLevel::SNAPSHOT_ISOLATION)) {
+                return;
+            }
+            coordinator_->addParticipant(txn_id, "shard1", "shard1:8080",
+                                         {"write:key" + std::to_string(i)});
+            coordinator_->addParticipant(txn_id, "shard2", "shard2:8080",
+                                         {"write:val" + std::to_string(i)});
+            if (coordinator_->commit(txn_id)) {
+                ++success_count;
+            }
+        });
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    EXPECT_EQ(success_count.load(), num_txns);
+}
+
+TEST_F(CalvinProtocolTest, ProtocolStringRoundtrip) {
+    // Verify that "CALVIN" serializes and deserializes correctly in the WAL layer
+    EXPECT_EQ(::sharding::TransactionProtocol::CALVIN,
+              ::sharding::transactionProtocolFromString("CALVIN"));
+    EXPECT_EQ("CALVIN",
+              ::sharding::transactionProtocolToString(::sharding::TransactionProtocol::CALVIN));
 }

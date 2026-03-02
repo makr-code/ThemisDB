@@ -88,9 +88,46 @@ Key API surface:
 
 ---
 
+## Delivered in v2.0.0
+
+### PersonalizedRanker API (`include/search/personalized_ranker.h`)
+**Status:** ✅ Delivered in v2.0.0
+
+`PersonalizedRanker` records per-user interaction events and uses them to
+compute time-decayed personalization boosts for search result re-ranking.
+
+Key API surface:
+- `recordInteraction(interaction)` — record a VIEW, CLICK, BOOKMARK, LIKE, or DISLIKE event
+- `computeScore(user_id, doc_id)` — personalization score in [-1, 1] with exponential time decay
+- `applyPersonalization(user_id, candidates)` — boost/suppress `RankedResult::final_score` and re-sort
+- `getUserInteractions(user_id)` — inspect stored per-user history (most-recent first)
+- `clearUser(user_id)` / `clear()` — GDPR-compatible data removal
+- Configurable `decay_rate`, `boost_weight`, and `max_interactions_per_user`
+- Thread-safe via shared `std::mutex`
+### CrossLingualSearch API (`include/search/cross_lingual_search.h`)
+**Status:** ✅ Delivered in v2.0.0
+
+`CrossLingualSearch` provides cross-lingual semantic retrieval by operating on
+multilingual embedding vectors, enabling queries in one language to match
+documents written in any language stored in the same vector space.
+
+Key API surface:
+- `search(embedding, hints)` — kNN query with distance-to-similarity conversion,
+  per-language boost factors, score threshold filter, and k-cap
+- `searchMultiEmbedding(queries, hints)` — fuses multiple query embeddings (e.g.
+  one per language variant) via weighted Reciprocal Rank Fusion (RRF) before
+  applying language boosts and threshold filtering
+- `setLanguageMap(map)` — supplies `doc_id → language_code` mapping for result
+  annotation (`Result::language`) and `LanguageHint` boost lookup
+- `setConfig(config)` — runtime config replacement
+- `LanguageHint` struct: `{language_code, boost}` — ISO 639-1 code + score multiplier
+- `EmbeddingQuery` struct: `{embedding, weight}` — pre-computed vector + RRF weight
+- `Result` struct: `{document_id, score, language}` — enriched with language metadata
+
+---
+
 ## Planned for v1.6.0
 
-- **Personalized autocomplete**: per-user click-history weighting in `AutocompleteEngine`
 - **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
 - **Multi-namespace VectorIndexManager**: one instance per modality namespace
 - **Streaming result delivery**: async/generator API for large `k` values

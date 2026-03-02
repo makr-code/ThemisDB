@@ -39,6 +39,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] FaithfulnessEvaluator::extractClaims() – LLM-first + sentence-boundary fallback (Issue: #1296, Target: Q1 2026) — Inputs: answer text; Outputs: vector of Claim structs; Errors: JSON parse failure falls back to regex; LLM confidence: 0.9, heuristic confidence: 0.6
 - [x] LearningMetrics – sliding-window metrics with mean/std-dev/trend export (Issue: #1296, Target: Q1 2026) — Tracks accuracy, faithfulness, relevance, completeness, coherence; CSV export; thread-safe with std::mutex
 - [x] Citation highlighting (map answer sentences to source chunks) (Issue: #2436, #2000)
+- [x] Online learning from evaluation feedback – adaptive retrieval via Bayesian optimization over `top_k` and `similarity_threshold`, driven by both user feedback and RAGJudge evaluation confidence scores; `getOptimizedRetrievalParams()` API (Issue: #2244)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -46,7 +47,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
+- [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
 ### Long-term (6-12 months)
 - [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
@@ -72,17 +73,16 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] Re-ranking layer with cross-encoder model integration
 - [x] Hallucination rate tracking dashboard
 
-### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: In Progress 🚧)
+### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: Completed ✅)
 - [x] Hybrid retrieval (BM25 + vector) with configurable RRF weights
 - [x] Citation highlighting (map answer sentences to source chunks)
 - [x] Configurable chunk size and overlap for document splitting
 - [x] Multi-document summarization before context injection
-- [ ] Per-query evaluation report export (JSON / HTML)
-
+- [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 ### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
 - [P] Agentic RAG with iterative retrieval loops
 - [x] Knowledge graph-augmented retrieval (entity linking)
-- [ ] Multi-modal RAG (image + text retrieval)
+- [P] Multi-modal RAG (image + text retrieval)
 - [ ] Online learning from evaluation feedback (adaptive retrieval)
 - [ ] Distributed RAG evaluation across multiple judge models
 
@@ -92,6 +92,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] Unit tests for LearningMetrics (test_learning_metrics.cpp: recordEvaluation, computeMetrics, exportMetrics, printReport, window enforcement)
 - [x] Unit tests for ClaimExtractor (test_claim_extractor.cpp: extract, verify, calculateFaithfulness, SelfConsistencyEvaluator)
 - [x] Unit tests for CitationHighlighter (test_rag_citation_highlighter.cpp: comprehensive coverage; available in all build variants)
+- [x] Unit tests for EvaluationReportExporter (test_rag_evaluation_report_exporter.cpp: JSON/HTML export; file I/O; edge cases; factory; available in all build variants)
 - [?] Integration tests (full pipeline: retrieve → generate → evaluate)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)

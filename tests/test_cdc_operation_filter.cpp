@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_operation_filter.cpp                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     187                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b006db51f  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: CDC Operation Type Filtering
 // Validates that listEvents() correctly filters by single and multiple ChangeEventType values
 // using the event_types field in ListOptions (INSERT/UPDATE=PUT, DELETE).

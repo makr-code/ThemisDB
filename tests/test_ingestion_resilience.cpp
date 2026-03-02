@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_resilience.cpp                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:02                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     908                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     919                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 93da787cd  2026-02-23  Audit fixes: error_message update on retry failure + Retr... ║
     • 4699a5a4d  2026-02-22  audit(ingestion): add quarantine_retry_success_total Prom... ║
     • 57ca95f7c  2026-02-22  feat(ingestion): per-document quarantine retry with expon... ║
 ╠═════════════════════════════════════════════════════════════════════╣

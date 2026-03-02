@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_api_handler.cpp                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     1264                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     1397                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b501b870f  2026-02-28  feat(metadata): wire ColumnLineageTracker into REST API v... ║
     • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

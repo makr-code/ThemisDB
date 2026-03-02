@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_context.h                                        ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:18                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     303                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Total Lines:     306                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e8e481e71  2026-02-27  feat(core): add W3CTraceContextPropagator for W3C TraceCo... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

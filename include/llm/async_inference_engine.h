@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.h                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:23                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     312                                            ║
+    • Total Lines:     399                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
-    • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
-    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
-    • ef06cc84c  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║
-    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
+    • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
+    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
+    • 4987f75d3  2026-02-26  feat(llm): implement model hot-swap without engine restart ║
+    • c02012c46  2026-02-26  audit: fix stale Stubs count in file headers and add thre... ║
+    • a9f253abf  2026-02-26  feat(llm): implement deduplication cache for same prompts... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.cpp                                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:02                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     352                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     389                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 94f31dca3  2026-02-22  Cleanup: fix uninitialized Watermarks, unused variable, a... ║
-    • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
+    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
+    • 5e637e76d  2026-02-24  AQL: rename distributed training struct  ║
+    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+    • de729d957  2026-02-24  cdc: expose retention policy configuration in getRetentio... ║
+    • 502a332ac  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +29,7 @@
 #include "cdc/tenant_buffer_manager.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <limits>
 
 namespace themis {
 namespace cdc {
@@ -155,51 +157,27 @@ PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
 }
 
 std::vector<Changefeed::ChangeEvent> CDCAdmin::replayFromSequence(
-    uint64_t from_sequence, 
-    uint64_t limit)
+    uint64_t from_sequence,
+    uint64_t limit,
+    const std::set<Changefeed::ChangeEventType>& event_types)
 {
-    THEMIS_INFO("CDC Admin: Replaying from sequence {} (limit: {})", 
+    THEMIS_INFO("CDC Admin: Replaying from sequence {} (limit: {})",
                 from_sequence, limit == 0 ? "unlimited" : std::to_string(limit));
-    
+
     if (!changefeed_) {
         throw error::internalError("No changefeed available for replay");
     }
-    
-    std::vector<Changefeed::ChangeEvent> events;
-    
-    // Get watermarks to know valid range
-    auto watermarks = changefeed_->getWatermarks();
-    
-    if (from_sequence > watermarks.high_watermark) {
-        THEMIS_WARN("Replay start sequence {} is beyond high watermark {}", 
-                    from_sequence, watermarks.high_watermark);
-        return events;
-    }
-    
-    // Read events from RocksDB
-    // This is a simplified implementation - a real one would iterate over keys
-    uint64_t current = from_sequence;
-    uint64_t count = 0;
-    
-    while ((limit == 0 || count < limit) && current <= watermarks.high_watermark) {
-        try {
-            // Try to read event at this sequence
-            auto event = changefeed_->getEvent(current);
-            if (event.sequence != 0) {
-                events.push_back(event);
-                count++;
-            }
-        } catch (const std::exception& e) {
-            THEMIS_DEBUG("No event at sequence {}: {}", current, e.what());
-        }
-        current++;
-        
-        // Safety check to prevent infinite loops
-        if (current > watermarks.high_watermark + 1000) {
-            break;
-        }
-    }
-    
+
+    Changefeed::ListOptions opts;
+    // ListOptions::from_sequence is exclusive ("start AFTER this sequence"),
+    // while replayFromSequence uses inclusive semantics. Subtract 1 so that
+    // listEvents() includes the event at `from_sequence`.
+    opts.from_sequence = (from_sequence > 0) ? from_sequence - 1 : 0;
+    opts.limit = (limit > 0) ? static_cast<size_t>(limit)
+                             : std::numeric_limits<size_t>::max();
+    opts.event_types = event_types;
+
+    auto events = changefeed_->listEvents(opts);
     THEMIS_INFO("Replayed {} events", events.size());
     return events;
 }

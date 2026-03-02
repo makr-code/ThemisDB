@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_grafana_metrics.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:06                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   89.0/100                                       ║
-    • Total Lines:     524                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 4                             ║
+    • Quality Score:   84.0/100                                       ║
+    • Total Lines:     636                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 5                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6e4b52d94  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

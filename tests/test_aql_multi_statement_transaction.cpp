@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_aql_multi_statement_transaction.cpp           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     225                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • b71ca305e  2026-02-23  fix(query): track paren depth in parseTransactionBlock to... ║
+    • 190845ecd  2026-02-23  feat(query): implement multi-statement transaction AQL (B... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Tests for multi-statement transaction AQL (BEGIN/COMMIT/ROLLBACK)
 
 #include <gtest/gtest.h>

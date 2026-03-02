@@ -47,9 +47,6 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
-# Exclude tests requiring unimplemented performance monitoring classes
-list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_pmu_counters\\.cpp$")
-list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_memory_pressure\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_io_uring_zero_copy\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
@@ -79,6 +76,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_document_splitter\\.cpp$"
         ".*test_rag_hybrid_retriever\\.cpp$"
         ".*test_rag_agentic\\.cpp$"
+        ".*test_rag_evaluation_report_exporter\\.cpp$"
+        ".*test_rag_multimodal\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -198,6 +197,7 @@ endif()
 if(NOT THEMIS_ENABLE_SERVICE_MESH)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_service_mesh\\.cpp$"
+        ".*test_envoy_xds\\.cpp$"
     )
 endif()
 
@@ -252,6 +252,12 @@ endif()
 if(NOT THEMIS_ENABLE_PMEM)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_pmem_storage\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_ENABLE_PMU_COUNTERS)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_pmu_counters\\.cpp$"
     )
 endif()
 
@@ -326,6 +332,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
+    ".*test_cdn_cache_middleware\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
     # test_importer_plugin_api uses THEMIS_IMPORTER_PLUGIN_IMPL which generates
@@ -570,6 +577,9 @@ if(NOT THEMIS_ENABLE_LLM)
         # CitationHighlighter has no LLM dependency (pure Jaccard term-overlap);
         # re-include so non-LLM builds exercise the citation highlighting feature.
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_citation_highlighter.cpp
+        # EvaluationReportExporter has no LLM dependency (pure serialisation);
+        # re-include so non-LLM builds exercise the JSON/HTML export feature.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_report_exporter.cpp
     )
 endif()
 
@@ -961,6 +971,18 @@ set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     TIMEOUT 60
 )
 
+# Build info and module availability tests (subset of AllTests)
+# Covers: getBuildConfiguration(), isModuleCompiledIn(), getCompiledModules(),
+#         getDisabledModules(), getVersionSummary(), formatBuildInfo(),
+#         getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
+#         (from test_build_info.cpp, Issue #2470)
+add_test(NAME BuildInfoTests
+    COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
+set_tests_properties(BuildInfoTests PROPERTIES
+    LABELS "build;info;module;availability;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
@@ -968,6 +990,7 @@ set_tests_properties(SessionManagerTests PROPERTIES
     LABELS "auth;session;revocation;unit"
     TIMEOUT 60
 )
+
 # Disabled: Missing implementation
 # if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_lora_advanced.cpp")
 if(FALSE)
@@ -1787,6 +1810,40 @@ else()
 endif()
 
 # ============================================================================
+# RPC Batch Operations Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_batch_operations.cpp")
+    message(STATUS "Adding RPC Batch Operations tests")
+
+    add_executable(test_rpc_batch_operations
+        test_rpc_batch_operations.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/rpc/rpc_service_impl.cpp
+    )
+
+    target_link_libraries(test_rpc_batch_operations PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rpc_batch_operations PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RPCBatchOperationsTests COMMAND test_rpc_batch_operations)
+
+    set_tests_properties(RPCBatchOperationsTests PROPERTIES
+        LABELS "rpc;batch;integration;performance;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RPC Batch Operations: batch_get, batch_put, batch_delete, batch_update + perf benchmarks")
+else()
+    message(STATUS "RPC Batch Operations tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_batch_operations.cpp")
+endif()
+
+# ============================================================================
 # Index Maintenance Tests
 # ============================================================================
 
@@ -2109,8 +2166,42 @@ else()
 endif()
 
 # ============================================================================
-# UDF API Handler Tests
+# gRPC-Web Proxy Handler Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_web_proxy_handler.cpp")
+    message(STATUS "Adding gRPC-Web Proxy Handler tests")
+
+    add_executable(test_grpc_web_proxy_handler
+        test_grpc_web_proxy_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
+    )
+
+    target_include_directories(test_grpc_web_proxy_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_grpc_web_proxy_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_grpc_web_proxy_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GrpcWebProxyHandlerTests
+             COMMAND test_grpc_web_proxy_handler)
+
+    set_tests_properties(GrpcWebProxyHandlerTests PROPERTIES
+        LABELS "server;grpc;grpc-web;proxy;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  gRPC-Web Proxy Handler: frame decode/encode, CORS, status, request validation")
+else()
+    message(STATUS "gRPC-Web Proxy Handler tests not found")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")
@@ -2895,38 +2986,10 @@ else()
 endif()
 
 # Distributed Vector Index across Shards (Issue #1879)
+# Note: test_distributed_vector_index is already defined as a standalone target
+# in cmake/CMakeLists.txt; defining it here would create a duplicate-target error.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
-    message(STATUS "Adding Distributed Vector Index tests (Issue #1879)")
-
-    add_executable(test_distributed_vector_index
-        index/test_distributed_vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/distributed_vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/ann_index.cpp
-    )
-
-    target_include_directories(test_distributed_vector_index PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-    )
-
-    target_link_libraries(test_distributed_vector_index PRIVATE
-        ${TEST_LIBS}
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_distributed_vector_index PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME DistributedVectorIndexTests COMMAND test_distributed_vector_index)
-
-    set_tests_properties(DistributedVectorIndexTests PROPERTIES
-        LABELS "index;distributed;vector;shards;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  DistributedVectorIndex: insert/remove, scatter-gather KNN, shard routing, stats")
-else()
-    message(STATUS "Distributed Vector Index tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/index/test_distributed_vector_index.cpp")
+    message(STATUS "  DistributedVectorIndex tests are built via cmake/CMakeLists.txt")
 endif()
 
 # Cold/Warm Tier Index Migration Tests (Issue #2407)
@@ -3266,6 +3329,41 @@ else()
 endif()
 
 # ============================================================================
+# Global Transaction Manager Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+    message(STATUS "Adding Global Transaction Manager tests")
+
+    add_executable(test_global_transaction_manager
+        test_global_transaction_manager.cpp
+    )
+
+    target_link_libraries(test_global_transaction_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_global_transaction_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GlobalTransactionManagerTests COMMAND test_global_transaction_manager)
+
+    set_tests_properties(GlobalTransactionManagerTests PROPERTIES
+        LABELS "transaction;distributed;multi-region;acid;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GlobalTransactionManager: 2PC across regions, TrueTime commit timestamp, recovery, statistics")
+else()
+    message(STATUS "Global Transaction Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_global_transaction_manager.cpp")
+endif()
+
+# ============================================================================
 # Parallel Full-Table Scan Tests
 # ============================================================================
 
@@ -3298,6 +3396,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
     message(STATUS "  Parallel Scan: sequential path, morsel-driven parallel path, predicate correctness")
 else()
     message(STATUS "Parallel Full-Table Scan tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_scan.cpp")
+endif()
+
+# ============================================================================
+# CDN Cache Middleware Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_cache_middleware.cpp")
+    message(STATUS "Adding CDN Cache Middleware tests")
+
+    add_executable(test_cdn_cache_middleware
+        test_cdn_cache_middleware.cpp
+        ${THEMIS_ROOT_DIR}/src/server/cdn_cache_middleware.cpp
+    )
+
+    target_include_directories(test_cdn_cache_middleware PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdn_cache_middleware PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdn_cache_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CdnCacheMiddlewareTests
+             COMMAND test_cdn_cache_middleware)
+
+    set_tests_properties(CdnCacheMiddlewareTests PROPERTIES
+        LABELS "server;cdn;cache;edge;http;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CdnCacheMiddleware: cache-control headers, ETag, conditional requests, route policies")
+else()
+    message(STATUS "CDN Cache Middleware tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdn_cache_middleware.cpp")
 endif()
 
 # ============================================================================

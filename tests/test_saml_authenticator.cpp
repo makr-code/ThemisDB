@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_saml_authenticator.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-02-23 03:59:26                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-02 04:06:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     664                                            ║
+    • Total Lines:     796                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 63f2b0f83  2026-02-24  feat(auth): implement SAML 2.0 SP-initiated and IdP-initi... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
     • d7c4a035d  2026-02-22  Fix SAML encrypted assertion stub: enforce EncryptedAsser... ║
     • 7f9832271  2026-02-22  feat(auth): implement SAML 2.0 identity provider integration ║
 ╠═════════════════════════════════════════════════════════════════════╣

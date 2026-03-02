@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kernel_invocation_interfaces.cpp              ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-02-23 03:59:04                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-03-02 04:04:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   70.0/100                                       ║
-    • Total Lines:     464                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 10                            ║
+    • Quality Score:   75.0/100                                       ║
+    • Total Lines:     473                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 9                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • bca9fe025  2026-02-23  test(acceleration): fix weak dispatch test + add comprehe... ║
+    • 6b96a5615  2026-02-23  test: extend CUDA inner-product kernel tests and fix stal... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

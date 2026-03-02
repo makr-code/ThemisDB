@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:11                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     390                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     486                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • cb587a07d  2026-02-23  chore(acceleration): update file header to reflect resolv... ║
+    • 0533f75fa  2026-02-23  feat(acceleration): implement Vulkan fallback for non-NVI... ║
+    • d5166d8a2  2026-02-23  feat(acceleration): implement Vulkan and DirectX runtime ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

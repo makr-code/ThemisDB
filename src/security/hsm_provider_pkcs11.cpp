@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:22                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     930                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 24                            ║
+    • Total Lines:     936                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 23                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║

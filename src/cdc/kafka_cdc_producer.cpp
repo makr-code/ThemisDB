@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            kafka_cdc_producer.cpp                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     325                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a3f88599c  2026-02-27  Add Debezium-compatible change event envelope format with... ║
+    • a992f7ece  2026-02-25  Code audit: fix 6 gaps in KafkaCDCProducer implementation ║
+    • f5b8ef62f  2026-02-25  Implement Kafka-compatible CDC producer interface (KafkaC... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB - CDC Kafka Producer (implementation)
  *

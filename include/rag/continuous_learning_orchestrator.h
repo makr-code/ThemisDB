@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_learning_orchestrator.h                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:30                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Total Lines:     255                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8f2d385c0  2026-03-01  feat(rag): implement online learning from evaluation feed... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -211,6 +214,24 @@ class ContinuousLearningOrchestrator {
      * @brief Update the data selection configuration (live reload).
      */
     void setDataSelectionConfig(const themis::training::LoRADataSelectionConfig& cfg);
+
+    // ---- Adaptive retrieval ----
+
+    /**
+     * @brief Get the current optimized retrieval parameters.
+     *
+     * Returns the retrieval parameters most recently updated by the adaptive
+     * optimization loop.  Callers should apply these parameters when issuing
+     * retrieval requests so that the system benefits from online learning.
+     *
+     * The parameters are updated every time `triggerLearningIteration()` runs
+     * and sufficient feedback (both user signals and evaluation confidence
+     * scores) has been collected.  Until the first optimization cycle the
+     * method returns the default values from `RetrievalParams`.
+     *
+     * @return Current optimized retrieval parameters (thread-safe read).
+     */
+    RetrievalParams getOptimizedRetrievalParams() const;
 
   private:
     struct Impl;

@@ -3,7 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_key_mgmt_handler.cpp                           ║
-  Version:         0.0.32                                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:59:47                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     275                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7d5f7450e  2026-02-24  fix(api): restore missing function signature and fix crea... ║
+    • 44a32210e  2026-02-23  feat(api): implement API key management endpoint (POST/GE... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

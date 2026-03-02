@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_graph_traversal.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:51:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     721                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     867                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b602e0c28  2026-02-28  fix(graph): remove duplicate db_->open() in bench_graph_t... ║
+    • 771ab826b  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
     • 59dbbc2b3  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣

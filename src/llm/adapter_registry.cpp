@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_registry.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:09                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     421                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     487                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 011803ade  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

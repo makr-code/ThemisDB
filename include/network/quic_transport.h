@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            quic_transport.h                                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:53:52                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     229                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
+    • 204489383  2026-02-28  fix(network/quic): address code review issues - RAND_byte... ║
+    • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB – QUIC transport for the binary wire protocol
 //
 // Provides a QUIC-based (UDP + TLS 1.3) alternative to the TCP wire protocol
@@ -114,6 +138,10 @@ public:
         /// Maximum total active connections (0 = unlimited).
         uint32_t max_connections = 0;
 
+        /// Maximum QUIC datagram frame size advertised to peers (RFC 9221).
+        /// Set to 0 to disable datagram support.
+        uint64_t max_datagram_frame_size = 65535;
+
         Config() = default;
     };
 
@@ -132,6 +160,8 @@ public:
         uint64_t zero_rtt_accepted     = 0;
         uint64_t migrations            = 0;
         uint64_t connection_limit_drops = 0;
+        uint64_t datagrams_received    = 0;  ///< QUIC datagrams received (RFC 9221)
+        uint64_t datagrams_sent        = 0;  ///< QUIC datagrams sent
     };
 
     // ── Lifecycle ────────────────────────────────────────────────────────────

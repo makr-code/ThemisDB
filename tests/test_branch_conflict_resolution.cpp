@@ -2,9 +2,23 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_branch_conflict_resolution.cpp               ║
-  Version:         0.0.32                                             ║
-  Description:     Unit tests for branch merge conflict resolution UI ║
+  File:            test_branch_conflict_resolution.cpp                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     478                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1479e425b  2026-03-01  Implement MergeStats::fromJson to resolve merge_engine.cp... ║
+    • fd5cbfbc1  2026-02-23  fix(transaction): implement isBranchMerged - resolve Stub... ║
+    • 5067f4acd  2026-02-23  feat(transaction): implement branch merge conflict resolu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -422,4 +436,57 @@ TEST_F(BranchConflictResolutionTest, PruneMergedBranchesOnlyRemovesMerged) {
     EXPECT_FALSE(branch_manager_->branchExists("src-prune-merged"));
     EXPECT_TRUE(branch_manager_->branchExists("src-prune-unmerged"));
     EXPECT_TRUE(branch_manager_->branchExists("main"));
+}
+
+// ── MergeStats JSON round-trip ────────────────────────────────────────────────
+
+TEST_F(BranchConflictResolutionTest, MergeStatsJsonRoundTrip) {
+    MergeEngine::MergeStats stats;
+    stats.changes_applied         = 5;
+    stats.conflicts_detected      = 3;
+    stats.conflicts_auto_resolved = 1;
+    stats.conflicts_manual        = 2;
+    stats.has_conflicts           = true;
+    stats.is_fast_forward         = false;
+
+    auto j = stats.toJson();
+    auto restored = MergeEngine::MergeStats::fromJson(j);
+
+    EXPECT_EQ(restored.changes_applied,         stats.changes_applied);
+    EXPECT_EQ(restored.conflicts_detected,      stats.conflicts_detected);
+    EXPECT_EQ(restored.conflicts_auto_resolved, stats.conflicts_auto_resolved);
+    EXPECT_EQ(restored.conflicts_manual,        stats.conflicts_manual);
+    EXPECT_EQ(restored.has_conflicts,           stats.has_conflicts);
+    EXPECT_EQ(restored.is_fast_forward,         stats.is_fast_forward);
+}
+
+// ── MergeResult JSON round-trip includes stats ────────────────────────────────
+
+TEST_F(BranchConflictResolutionTest, MergeResultJsonRoundTripIncludesStats) {
+    uint64_t seq1 = recordPut("rr:1", "base");
+    createBranchAt("src-rr", seq1);
+
+    uint64_t seq2 = recordPut("rr:2", "other");
+    createBranchAt("tgt-rr", seq2);
+
+    auto result = branch_manager_->previewBranchMerge("src-rr", "tgt-rr");
+
+    // Serialize to JSON and restore
+    auto j = result.toJson();
+    auto restored = MergeEngine::MergeResult::fromJson(j);
+
+    EXPECT_EQ(restored.success,          result.success);
+    EXPECT_EQ(restored.message,          result.message);
+    EXPECT_EQ(restored.base_sequence,    result.base_sequence);
+    EXPECT_EQ(restored.source_sequence,  result.source_sequence);
+    EXPECT_EQ(restored.target_sequence,  result.target_sequence);
+    EXPECT_EQ(restored.result_sequence,  result.result_sequence);
+
+    // Stats must survive the round-trip
+    EXPECT_EQ(restored.stats.changes_applied,         result.stats.changes_applied);
+    EXPECT_EQ(restored.stats.conflicts_detected,      result.stats.conflicts_detected);
+    EXPECT_EQ(restored.stats.conflicts_auto_resolved, result.stats.conflicts_auto_resolved);
+    EXPECT_EQ(restored.stats.conflicts_manual,        result.stats.conflicts_manual);
+    EXPECT_EQ(restored.stats.has_conflicts,           result.stats.has_conflicts);
+    EXPECT_EQ(restored.stats.is_fast_forward,         result.stats.is_fast_forward);
 }

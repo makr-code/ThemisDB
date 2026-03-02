@@ -3,17 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            token_blacklist.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     146                                            ║
+    • Total Lines:     184                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 4318adfb2  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
+    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
+    • 4b86c62ed  2026-02-24  fix: ROADMAP audit logging status and token_blacklist sta... ║
+    • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -28,6 +32,7 @@
 #include <mutex>
 #include <chrono>
 #include <cstdint>
+#include <functional>
 
 namespace themis {
 namespace utils { class AuditLogger; }
@@ -78,6 +83,33 @@ public:
      * Pass nullptr to detach.  The blacklist does NOT take ownership.
      */
     void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
+    /**
+     * @brief Callback type invoked immediately after a JTI is added to the
+     *        blacklist.  Enables real-time push-style invalidation: callers
+     *        can react to a revocation event without polling isRevoked().
+     *
+     * The callback is invoked outside the internal mutex so that it is safe to
+     * call any TokenBlacklist method from within the callback body.
+     *
+     * Signature: void(const std::string& jti)
+     */
+    using RevocationCallback = std::function<void(const std::string& jti)>;
+
+    /**
+     * @brief Register a callback to be invoked synchronously when a JTI is
+     *        revoked via revoke().  Only one callback can be registered at a
+     *        time; a subsequent call replaces the previous one.
+     *
+     * @param cb  Callable to invoke on revocation.  Pass an empty function or
+     *            call clearOnRevokeCallback() to detach.
+     */
+    void setOnRevokeCallback(RevocationCallback cb);
+
+    /**
+     * @brief Remove a previously registered revocation callback.
+     */
+    void clearOnRevokeCallback();
 
     /**
      * @brief Revoke a token by its JTI.
@@ -147,6 +179,7 @@ private:
     mutable std::mutex mutex_;
     std::chrono::steady_clock::time_point last_cleanup_;
     utils::AuditLogger* audit_logger_{nullptr};  ///< Non-owning; may be nullptr.
+    RevocationCallback on_revoke_callback_;      ///< Invoked outside mutex on revoke.
 
     bool needsCleanup() const;
 };

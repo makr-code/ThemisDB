@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            temporal_spatial_query.cpp                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     181                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5d69ed57b  2026-02-25  fix(geo): remove stale ROADMAP Known Issues entries and u... ║
+    • 697b2ec1a  2026-02-25  feat(geo): implement temporal-spatial queries (location a... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "geo/temporal_spatial_query.h"
 #include "geo/spatial_join.h"
 #include "utils/logger.h"

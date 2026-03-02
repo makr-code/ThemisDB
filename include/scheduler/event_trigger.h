@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            event_trigger.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,9 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     249                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 35729aa96  2026-02-23  feat(scheduler): implement onCDCEvent stub for event-trig... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

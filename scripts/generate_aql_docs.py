@@ -1,3 +1,27 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            generate_aql_docs.py                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     687                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8546b7688  2026-02-23  chore(aql): code audit - remove dead code, fix README link ║
+    • 73784c95e  2026-02-23  refactor(aql): address code review - export SKIP_HEADERS ... ║
+    • 0c7487f40  2026-02-23  feat(aql): add doc auto-generation script and reference docs ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """

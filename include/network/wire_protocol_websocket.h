@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_websocket.h                          ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:57:27                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 03:53:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6144e4347  2026-03-01  feat(network): implement WebSocket binary frame support f... ║
+    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
     • 0d6fb9967  2026-02-22  fix(network): audit fixes – connection-count correctness ... ║
     • 6d2d48159  2026-02-22  feat(network): implement WebSocket upgrade support on wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -143,6 +145,20 @@ public:
      */
     uint64_t getSessionID() const { return session_id_; }
 
+    /**
+     * @brief Build a binary response frame in ThemisDB wire format.
+     *
+     * Frame layout: Magic(4) + Version(1) + OpCode(1) + Flags(2) + PayloadSize(4) + Payload
+     * Responses always carry SKIP_CHECKSUM_FLAG (0x0004) – WebSocket provides its own
+     * frame integrity.
+     *
+     * @param resp_opcode  Response opcode byte (e.g. 0x90 for GET response).
+     * @param payload      Response payload bytes (may be empty).
+     * @return             Complete binary frame ready to send.
+     */
+    static std::vector<uint8_t> buildBinaryResponseFrame(uint8_t resp_opcode,
+                                                          const std::vector<uint8_t>& payload);
+
 private:
     // WebSocket handshake callback
     void onAccept(beast::error_code ec);
@@ -154,6 +170,18 @@ private:
     // Message dispatch
     void processTextMessage(const std::string& text);
     void processBinaryFrame(const std::vector<uint8_t>& data);
+
+    // Binary frame helpers – build a wire-protocol response frame and dispatch
+    // to the appropriate storage operation, then reply as a binary WebSocket frame.
+    std::vector<uint8_t> buildResponseFrame(uint8_t opcode,
+                                            const std::vector<uint8_t>& payload) const;
+    void sendBinaryError(uint32_t error_code, const std::string& message);
+    void handleBinaryPing();
+    void handleBinaryGet(const uint8_t* payload_data, uint32_t payload_size);
+    void handleBinaryPut(const uint8_t* payload_data, uint32_t payload_size);
+    void handleBinaryDelete(const uint8_t* payload_data, uint32_t payload_size);
+    // Binary frame helpers
+    void sendBinaryError(uint32_t error_code, const std::string& message);
 
     // Write helpers
     void doWrite();

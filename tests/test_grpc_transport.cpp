@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_grpc_transport.cpp                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:04:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     216                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6a618fcfd  2026-02-28  fix(network): upgrade insecure-TLS log to WARN, add start... ║
+    • c9048c016  2026-02-28  feat(network): add gRPC native transport (separate from s... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Unit tests for GrpcTransport (include/network/grpc_transport.h).
 //
 // These tests validate configuration defaults, port-validation logic,

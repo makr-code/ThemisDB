@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_validator.h                                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:41                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,10 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     188                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 81c477dd5  2026-02-25  chore(gpu): code audit — fix stale metadata and update do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

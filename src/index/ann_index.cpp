@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ann_index.cpp                                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:58:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     408                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ScaNN (Scalable Nearest Neighbors) – self-contained production implementation
 //
 // Based on:

@@ -3,19 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_backend.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:19                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     115                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     184                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • d4d1128ca  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
+    • 674e35f16  2026-02-25  feat(geo): implement WGS-84 spherical geometry support vi... ║
+    • d7367e665  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
+    • 5f06b5069  2026-02-24  feat(geo): add configurable precision mode (exact vs. app... ║
     • 25e932e7f  2026-02-22  feat(geo): implement ST_Buffer operation (Point + Polygon... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -147,6 +150,9 @@ ISpatialComputeBackend* getBackendForPrecision(GeoPrecisionMode mode);
 
 // Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();
+
+// Get the production GPU backend (CUDA/OpenCL/CPU-parallel with automatic fallback)
+ISpatialComputeBackend* getProductionGpuBackend();
 
 /**
  * @brief Return a JSON string with current GPU spatial backend operational stats.

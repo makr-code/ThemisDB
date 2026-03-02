@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_session_manager.h                            ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-23 03:57:45                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-03-02 03:55:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     162                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     165                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -128,6 +131,9 @@ public:
     bool updateSession(const std::string& session_id, const json& context_update);
     bool addConversationTurn(const std::string& session_id, const std::string& user_msg, const std::string& assistant_msg);
     bool touchSession(const std::string& session_id);  // Update last_activity
+
+    // Update the preferred language for a session (used by auto-locale switching)
+    bool updatePreferredLanguage(const std::string& session_id, const std::string& language_code);
 
     // Terminate session
     bool terminateSession(const std::string& session_id);

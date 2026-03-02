@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_gdpr_redaction.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:38                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     243                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: CDC GDPR-Aware Change Log Redaction
 // Validates Changefeed::redactByKeyPrefix() and CDCAdmin::redactByKeyPrefix()
 // per the GDPR "right to erasure" requirement for the CDC change log.

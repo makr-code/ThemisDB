@@ -1,0 +1,191 @@
+# ThemisDB LLM Deployment Plugin Configuration
+# Version: 1.0.0
+#
+# This file configures the LLM deployment plugin for production-ready
+# model management inspired by Ollama.
+
+# ═══════════════════════════════════════════════════════════
+# Deployment Configuration
+# ═══════════════════════════════════════════════════════════
+deployment:
+  # Deployment mode: offline, online, or auto
+  # - offline: Only use locally cached models
+  # - online: Always download from remote sources
+  # - auto: Try local cache first, download if missing (recommended)
+  mode: auto
+  
+  # Cache configuration
+  cache_directory: "./models"
+  enable_cache: true
+  max_cache_size_gb: 100
+  
+  # Ollama integration
+  ollama_url: "http://localhost:11434"
+  ollama_timeout_seconds: 600
+  
+  # Network configuration
+  proxy_url: ""  # e.g., "http://proxy.company.com:8080"
+  proxy_username: ""
+  proxy_password: ""
+  
+  # Authentication
+  auth_token: ""  # Bearer token for authenticated sources
+  
+  # Security
+  verify_checksums: true
+  allow_insecure: false
+  
+  # Audit logging
+  enable_audit_log: true
+  audit_log_path: "./logs/model_deployment.log"
+  
+  # Cleanup policy
+  auto_cleanup: false
+  max_model_age_days: 90
+  keep_versions: 3
+  
+  # Model sources (checked in priority order)
+  sources:
+    # Ollama source (highest priority)
+    - type: ollama
+      location: "http://localhost:11434"
+      priority: 100
+    
+    # Local filesystem source (can be directory or full file path)
+    - type: local
+      location: "/mnt/models"  # Directory - model filename will be appended automatically
+      priority: 90
+    
+    # HTTPS source with checksum verification (must be direct file URL)
+    - type: https
+      location: "https://models.example.com/llama2-7b-q4.gguf"  # Direct file URL required
+      checksum_type: sha256
+      checksum_value: "<your-sha256-checksum-here>"  # Replace with actual SHA256 hash
+      priority: 80
+    
+    # HTTP source (for internal networks)
+    - type: http
+      location: "http://internal-model-server/models/mistral-7b.gguf"
+      priority: 70
+
+# NOTE: The current implementation requires:
+# - For local sources: directories (model filename appended) or full file paths
+# - For HTTP/HTTPS: direct URLs to model files, NOT base URLs like "https://huggingface.co"
+# Base URLs would attempt to download the homepage and fail.
+
+# ═══════════════════════════════════════════════════════════
+# Model Definitions
+# ═══════════════════════════════════════════════════════════
+models:
+  # Example: LLaMA 2 7B
+  llama2:7b:
+    ollama_url: "http://localhost:11434"
+    download_dir: "./models"
+    use_cache: true
+    timeout_seconds: 600
+  
+  # Example: Mistral 7B Instruct
+  mistral:7b-instruct:
+    ollama_url: "http://localhost:11434"
+    download_dir: "./models"
+    use_cache: true
+    timeout_seconds: 600
+  
+  # Example: Phi-2
+  phi:2:
+    ollama_url: "http://localhost:11434"
+    download_dir: "./models"
+    use_cache: true
+    timeout_seconds: 300
+
+# ═══════════════════════════════════════════════════════════
+# Integration with ThemisDB LLM Plugin
+# ═══════════════════════════════════════════════════════════
+llm:
+  enabled: true
+  default_plugin: "llamacpp"
+  
+  # Auto-deploy models at startup
+  auto_deploy:
+    enabled: false
+    models:
+      - "llama2:7b"
+      - "mistral:7b-instruct"
+
+llm_plugins:
+  llamacpp:
+    type: "llama.cpp"
+    enabled: true
+    
+    model:
+      # Path will be set by deployment plugin
+      path: ""
+      auto_load: false
+    
+    gpu:
+      n_layers: 32
+      use_cuda: true
+    
+    context:
+      n_ctx: 4096
+      n_batch: 512
+      n_threads: 8
+
+# ═══════════════════════════════════════════════════════════
+# Examples: Different Deployment Scenarios
+# ═══════════════════════════════════════════════════════════
+
+# Example 1: Air-gapped/Offline Environment
+# deployment:
+#   mode: offline
+#   cache_directory: "/opt/themis/models"
+#   enable_cache: true
+#   verify_checksums: true
+#   sources:
+#     - type: local
+#       location: "/mnt/offline-models"
+#       priority: 100
+
+# Example 2: Cloud Environment with Auto-cleanup
+# deployment:
+#   mode: auto
+#   cache_directory: "/data/models"
+#   max_cache_size_gb: 50
+#   auto_cleanup: true
+#   max_model_age_days: 30
+#   keep_versions: 2
+#   sources:
+#     - type: ollama
+#       location: "http://ollama-service:11434"
+#       priority: 100
+
+# Example 3: Enterprise with Proxy and Auth
+# deployment:
+#   mode: online
+#   cache_directory: "./models"
+#   proxy_url: "http://corporate-proxy:8080"
+#   proxy_username: "service-account"
+#   proxy_password: "${PROXY_PASSWORD}"
+#   auth_token: "${MODEL_API_TOKEN}"
+#   verify_checksums: true
+#   enable_audit_log: true
+#   audit_log_path: "/var/log/themis/model-deployment.log"
+#   sources:
+#     - type: https
+#       location: "https://secure-models.company.com"
+#       priority: 100
+
+# Example 4: Development Environment
+# deployment:
+#   mode: auto
+#   cache_directory: "/tmp/themis-models"
+#   enable_cache: true
+#   verify_checksums: false  # Faster for testing
+#   allow_insecure: true     # Allow HTTP
+#   sources:
+#     - type: ollama
+#       location: "http://localhost:11434"
+#       priority: 100
+#     - type: http
+#       location: "http://dev-models:8080"
+#       priority: 90

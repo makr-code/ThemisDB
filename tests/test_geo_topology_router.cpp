@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_geo_topology_router.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     525                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 0be4d68c3  2026-03-01  fix(network): enforce fallback_cross_region and remove de... ║
+    • 04ccda37b  2026-03-01  feat(network): Add GeoTopologyRouter for topology-aware r... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Unit tests for GeoTopologyRouter (include/network/geo_topology_router.h).
 //
 // Validates configuration defaults, routing strategy selection, locality

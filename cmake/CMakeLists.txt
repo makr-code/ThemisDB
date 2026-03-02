@@ -482,6 +482,7 @@ option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM in
 option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
 option(THEMIS_ENABLE_KAFKA "Enable Kafka-compatible CDC producer (requires librdkafka)" OFF)
+option(THEMIS_ENABLE_SERVICE_MESH "Enable Istio/Envoy service mesh sidecar proxy mode (xDS v3 REST client)" OFF)
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -1485,6 +1486,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/vault_key_provider.cpp
     ../src/security/key_cache.cpp
     ../src/security/keyprovider_signing.cpp
+    ../src/security/hsm_signing.cpp
     ../src/security/vault_signing_provider.cpp
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
@@ -1508,6 +1510,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/branch_manager.cpp
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
+    ../src/transaction/global_transaction_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1526,6 +1529,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
     ../src/query/sql_parser.cpp
+    ../src/query/sparql_parser.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -1539,6 +1543,7 @@ set(THEMIS_CORE_SOURCES
 
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
+    ../src/query/cross_cluster_federation.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
@@ -1744,11 +1749,12 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
     ../src/utils/thread_pool_manager.cpp
-    ../src/utils/build_info.cpp
+    ../src/themis/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
+    ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1760,6 +1766,10 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/delta_update_engine.cpp
     ../src/updates/schema_migration_tester.cpp
     ../src/updates/in_place_schema_migrator.cpp
+    ../src/updates/update_history_logger.cpp
+    ../src/updates/notification_webhook.cpp
+    ../src/updates/blue_green_deployment.cpp
+    ../src/updates/coordinated_update_manager.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1778,6 +1788,10 @@ set(THEMIS_CORE_SOURCES
     ../src/search/multi_modal_search.cpp
     ../src/search/llm_query_rewriter.cpp
     ../src/search/llm_reranker.cpp
+    ../src/search/personalized_ranker.cpp
+    ../src/search/multi_field_search.cpp
+    ../src/search/cross_lingual_search.cpp
+    ../src/search/neural_sparse_retrieval.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -1789,10 +1803,10 @@ set(THEMIS_CORE_SOURCES
     ../src/security/webdav_user_registration_plugin.cpp
     ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
-    ../src/security/hsm_provider_pkcs11.cpp
     ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/tsa_api.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
@@ -1803,6 +1817,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
     ../src/security/confidential_computing.cpp
+    ../src/security/fips_crypto_mode.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
@@ -1982,6 +1997,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     ../src/network/geo_topology_router.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
     ../src/themis/wire_protocol_server.cpp
@@ -2129,6 +2146,9 @@ list(APPEND THEMIS_CORE_SOURCES
     # per_query_cost_model is always compiled because query_optimizer.cpp
     # unconditionally links against it (attachPerQueryCostModel, executeOptimizedKeysWithCost, etc.)
     ../src/performance/phase3/per_query_cost_model.cpp
+    # memory_pressure is always compiled: uses only platform OS memory APIs
+    # (Linux: /proc/meminfo, macOS: sysctl/host_statistics64, Windows: GlobalMemoryStatusEx).
+    ../src/performance/phase3/memory_pressure.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -2289,6 +2309,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/continuous_learning_orchestrator.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
+    # Phase 4: Multi-modal RAG (image + text retrieval)
+    ../src/rag/multimodal_rag.cpp
     )
 endif()
 
@@ -3131,6 +3153,12 @@ if(THEMIS_ENABLE_POSTGRES_WIRE)
     message(STATUS "PostgreSQL Wire Protocol support enabled")
 endif()
 
+# Service mesh sidecar proxy mode (Envoy xDS v3 REST client)
+if(THEMIS_ENABLE_SERVICE_MESH)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SERVICE_MESH)
+    message(STATUS "Service mesh sidecar proxy mode enabled (Envoy xDS v3 REST)")
+endif()
+
 # gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
 if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
@@ -3382,6 +3410,10 @@ if(THEMIS_ENABLE_LLM)
 
         # RAG Enhancement: Citation Highlighting (Phase 3)
         ../src/rag/citation_highlighter.cpp
+        
+        # Model Deployment Plugin (Ollama-inspired, production-ready)
+        ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
+        ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
@@ -3849,6 +3881,25 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # Memory pressure monitoring with automatic cache eviction (Phase 3)
+    # Tests SystemMemoryPressureMonitor: level classification, callback registration/
+    # unregistration, eviction triggering under simulated high-pressure conditions,
+    # thread lifecycle, and cache-size reduction via eviction callbacks.
+    add_executable(test_memory_pressure
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_memory_pressure.cpp
+    )
+    target_link_libraries(test_memory_pressure
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_memory_pressure
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_memory_pressure>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # Phase 4 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_PMEM)
         add_executable(test_pmem_storage
@@ -3863,6 +3914,24 @@ if(THEMIS_BUILD_TESTS)
         gtest_discover_tests(test_pmem_storage
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmem_storage>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+
+    # PMU counter tests (Phase 4 – cache miss analysis, Issue #2422)
+    if(THEMIS_ENABLE_PMU_COUNTERS)
+        add_executable(test_pmu_counters
+            ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_pmu_counters.cpp
+        )
+        target_link_libraries(test_pmu_counters
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_pmu_counters
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_pmu_counters>
             EXTRA_ARGS --gtest_color=yes
         )
     endif()

@@ -54,13 +54,29 @@ repos:
       - id: shellcheck
         args: ['-x']  # Follow sourced files
 
-  # Security: Secret detection
+  # Security: Secret detection (detect-secrets baseline)
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
         exclude: ^(vcpkg/|.*\.lock|.*\.sum)$
+
+  # Security: Gitleaks – git-history and staged-file secret scanning
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.18.2
+    hooks:
+      - id: gitleaks
+
+  # Security: High-entropy string and regex pattern scanner (local)
+  - repo: local
+    hooks:
+      - id: secret-scan-entropy
+        name: Secret scan (entropy + patterns)
+        entry: python3 scripts/secret_scan.py
+        language: python
+        types: [text]
+        exclude: ^(vcpkg/|vcpkg_installed/|build.*/|\.git/|llama\.cpp/|.*\.lock|.*\.sum|.*\.png|.*\.jpg|.*\.pdf)$
 
   # C++ formatting (clang-format)
   - repo: https://github.com/pre-commit/mirrors-clang-format

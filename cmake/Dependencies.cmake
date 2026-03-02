@@ -470,6 +470,7 @@ else()
     endif()
 endif()
 
+
 # HNSW library (vector indexing)
 find_package(hnswlib QUIET CONFIG)
 if(hnswlib_FOUND AND NOT THEMIS_ENABLE_GPU)

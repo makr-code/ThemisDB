@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wire_protocol_server.cpp                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     704                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
+    • c585fc855  2026-02-23  fix(themis): address code review feedback – add parse err... ║
+    • e3cf67fe0  2026-02-23  feat(themis): add wire_protocol_server.cpp to src/themis ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB Wire Protocol Server – themis::wire module implementation
 //
 // Implements WireProtocolSession, WireProtocolServer, and MessageDispatcher

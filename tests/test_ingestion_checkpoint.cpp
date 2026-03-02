@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_checkpoint.cpp                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:02                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     539                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     572                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0c1dd5a9b  2026-02-22  Replace libcurl stub with real curl_easy_perform in api_c... ║
     • 68ffb0a67  2026-02-22  audit: mark cursor pagination done in ROADMAP, add e2e ma... ║
     • 8798208c4  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
 ╠═════════════════════════════════════════════════════════════════════╣

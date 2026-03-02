@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            statistics_collector.h                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     293                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     380                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 063856d3f  2026-02-26  Code audit: inline constexpr, strengthen skewed-histogram... ║
+    • ee4130746  2026-02-26  Implement column-level statistics histograms for query pl... ║
+    • f98ed83c9  2026-02-25  feat(metadata): add index statistics export to Statistics... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

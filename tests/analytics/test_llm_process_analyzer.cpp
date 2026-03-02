@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_llm_process_analyzer.cpp                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:00:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     538                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 80742c94d  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
+    • e42ef7466  2026-02-27  Add LLMProcessAnalyzer unit tests for analytics coverage ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_llm_process_analyzer.cpp
  * @brief Unit tests for LLMProcessAnalyzer

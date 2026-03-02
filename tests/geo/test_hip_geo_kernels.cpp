@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_hip_geo_kernels.cpp                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     181                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9d19a8878  2026-02-25  feat(geo): implement ROCm/HIP GPU backend for AMD hardwar... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // test_hip_geo_kernels.cpp — Tests for ROCm/HIP geo kernel dispatch
 //
 // Validates the HIP/ROCm geospatial kernel dispatch implemented in

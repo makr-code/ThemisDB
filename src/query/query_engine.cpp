@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   68.0/100                                       ║
-    • Total Lines:     4376                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 3                             ║
+    • Quality Score:   73.0/100                                       ║
+    • Total Lines:     4422                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1d23633fa  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
+    • 841df4fce  2026-02-26  feat(query): parallel full-table scan for large collections ║
+    • a4a3e5f6a  2026-02-25  fix(geo): ST_AsGeoJSON now handles MultiPolygon and Geome... ║
     • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
     • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

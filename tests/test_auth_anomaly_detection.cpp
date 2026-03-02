@@ -1,19 +1,47 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_auth_anomaly_detection.cpp                    ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:15                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     498                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • c65f5b1f7  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
+    • 20b101fe5  2026-02-23  Implement auth anomaly detection: brute-force and credent... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_auth_anomaly_detection.cpp
  * @brief Tests for authentication anomaly detection:
- *        brute-force and credential-stuffing pattern detection in AuthRateLimiter.
+ *        brute-force and credential-stuffing pattern detection in AuthRateLimiter,
+ *        and audit logger integration via setAuditLogger().
  */
 
 #include <gtest/gtest.h>
 #include "auth/auth_rate_limiter.h"
+#include "utils/audit_logger.h"
 #include <atomic>
 #include <string>
 #include <vector>
 #include <mutex>
 #include <thread>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 
 using namespace themis::auth;
+using namespace themis::utils;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -359,4 +387,135 @@ TEST(AuthAnomalyThreadSafetyTest, ConcurrentCallbackReplacement) {
     setter.join();
     firer.join();
     SUCCEED();  // no crash is the assertion
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Audit logger integration tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+AuditLoggerConfig makeAnomalyTestConfig(const std::string& log_path) {
+    AuditLoggerConfig cfg;
+    cfg.enabled             = true;
+    cfg.encrypt_then_sign   = false;
+    cfg.log_path            = log_path;
+    cfg.key_id              = "test-key";
+    cfg.enable_hash_chain   = false;
+    cfg.enable_siem         = false;
+    return cfg;
+}
+
+size_t countLogLines(const std::string& path) {
+    std::ifstream f(path);
+    size_t n = 0;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (!line.empty()) ++n;
+    }
+    return n;
+}
+} // namespace
+
+class AuditLoggerIntegrationTest : public ::testing::Test {
+protected:
+    std::filesystem::path tmp_dir_;
+    std::string log_path_;
+
+    void SetUp() override {
+        tmp_dir_  = std::filesystem::temp_directory_path() / "auth_anomaly_test";
+        std::filesystem::create_directories(tmp_dir_);
+        log_path_ = (tmp_dir_ / "anomaly.jsonl").string();
+    }
+
+    void TearDown() override {
+        std::filesystem::remove_all(tmp_dir_);
+    }
+};
+
+TEST_F(AuditLoggerIntegrationTest, SetAuditLoggerDoesNotCrash) {
+    AuditLogger audit_logger(nullptr, nullptr, makeAnomalyTestConfig(log_path_));
+
+    AuthRateLimitConfig cfg;
+    cfg.lockout_failed_attempts              = 3;
+    cfg.enable_ip_rate_limiting              = false;
+    cfg.enable_user_rate_limiting            = false;
+    cfg.enable_credential_stuffing_detection = false;
+
+    AuthRateLimiter rl(cfg);
+    EXPECT_NO_THROW(rl.setAuditLogger(&audit_logger));
+}
+
+TEST_F(AuditLoggerIntegrationTest, BruteForceTriggersAuditLog) {
+    AuditLogger audit_logger(nullptr, nullptr, makeAnomalyTestConfig(log_path_));
+
+    AuthRateLimitConfig cfg;
+    cfg.lockout_failed_attempts              = 3;
+    cfg.enable_ip_rate_limiting              = false;
+    cfg.enable_user_rate_limiting            = false;
+    cfg.enable_credential_stuffing_detection = false;
+
+    AuthRateLimiter rl(cfg);
+    rl.setAuditLogger(&audit_logger);
+
+    rl.recordFailedAuth("audit_user", "10.0.0.1", "bad_pw");
+    rl.recordFailedAuth("audit_user", "10.0.0.1", "bad_pw");
+    rl.recordFailedAuth("audit_user", "10.0.0.1", "bad_pw");  // triggers lockout
+    audit_logger.flush();
+
+    // Both ACCOUNT_LOCKOUT_TRIGGERED and BRUTE_FORCE_DETECTED events are emitted.
+    EXPECT_GE(countLogLines(log_path_), 2u);
+}
+
+TEST_F(AuditLoggerIntegrationTest, CredentialStuffingTriggersAuditLog) {
+    AuditLogger audit_logger(nullptr, nullptr, makeAnomalyTestConfig(log_path_));
+
+    AuthRateLimitConfig cfg;
+    cfg.enable_ip_rate_limiting              = false;
+    cfg.enable_user_rate_limiting            = false;
+    cfg.enable_account_lockout               = false;
+    cfg.enable_credential_stuffing_detection = true;
+    cfg.credential_stuffing_user_threshold   = 5;
+
+    AuthRateLimiter rl(cfg);
+    rl.setAuditLogger(&audit_logger);
+
+    const std::string ip = "192.168.99.1";
+    for (int i = 0; i < 5; ++i) {
+        rl.allowAuthAttempt(ip, "victim" + std::to_string(i));
+    }
+    audit_logger.flush();
+
+    EXPECT_GE(countLogLines(log_path_), 1u);
+}
+
+TEST_F(AuditLoggerIntegrationTest, DetachAuditLoggerStopsLogging) {
+    AuditLogger audit_logger(nullptr, nullptr, makeAnomalyTestConfig(log_path_));
+
+    AuthRateLimitConfig cfg;
+    cfg.lockout_failed_attempts              = 3;
+    cfg.enable_ip_rate_limiting              = false;
+    cfg.enable_user_rate_limiting            = false;
+    cfg.enable_credential_stuffing_detection = false;
+
+    AuthRateLimiter rl(cfg);
+    rl.setAuditLogger(&audit_logger);
+
+    rl.recordFailedAuth("u1", "1.1.1.1", "x");
+    rl.recordFailedAuth("u1", "1.1.1.1", "x");
+    rl.recordFailedAuth("u1", "1.1.1.1", "x");  // triggers lockout + log entry
+    audit_logger.flush();
+
+    size_t lines_after_lockout = countLogLines(log_path_);
+    EXPECT_GE(lines_after_lockout, 1u);
+
+    // Detach the logger
+    rl.setAuditLogger(nullptr);
+
+    // Lock another account – no new log entries expected
+    rl.recordFailedAuth("u2", "2.2.2.2", "x");
+    rl.recordFailedAuth("u2", "2.2.2.2", "x");
+    rl.recordFailedAuth("u2", "2.2.2.2", "x");
+    audit_logger.flush();
+
+    EXPECT_EQ(countLogLines(log_path_), lines_after_lockout);
 }

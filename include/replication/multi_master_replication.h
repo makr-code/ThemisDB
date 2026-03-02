@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_master_replication.h                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25 13:54:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     530                                            ║
+    • Total Lines:     534                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
+    • ec097b836  2026-02-25  fix(crdt): code audit - fix header metadata (Stubs:1→0), ... ║
+    • cbf19161d  2026-02-25  feat(replication): expand CRDT library with TWO_P_SET and... ║
     • 1f19586bc  2026-02-22  Implement getTopologySnapshot for MultiMasterReplicationM... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -265,7 +268,9 @@ public:
         OR_SET,             // Observed-Remove Set
         LWW_MAP,            // Last-Write-Wins Map
         TWO_P_SET,          // Two-Phase Set (supports removal via tombstones)
-        RGA                 // Replicated Growable Array (ordered sequences)
+        RGA,                // Replicated Growable Array (ordered sequences)
+        FLAG_EW,            // Enable-Wins Flag (concurrent enable+disable → enabled)
+        FLAG_DW             // Disable-Wins Flag (concurrent enable+disable → disabled)
     };
     
     explicit CRDTMergeResolver(CRDTType type);
@@ -290,6 +295,8 @@ private:
     std::string mergeLWWMap(const std::vector<MMWriteEntry>& writes);
     std::string mergeTwoPSet(const std::vector<MMWriteEntry>& writes);
     std::string mergeRGA(const std::vector<MMWriteEntry>& writes);
+    std::string mergeFlagEW(const std::vector<MMWriteEntry>& writes);
+    std::string mergeFlagDW(const std::vector<MMWriteEntry>& writes);
 };
 
 /**

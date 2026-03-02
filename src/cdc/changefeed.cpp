@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:02                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     796                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     901                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • e9805c94b  2026-02-22  Address code review: add warning log for unexpected missi... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
+    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
+    • 06f59a69f  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
+    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
+    • b006db51f  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.cpp                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-26                                          ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     619                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     689                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 313664710  2026-02-22  fix(voice): audit gaps – wake-word stats, config, docs, c... ║
-    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
-    • 8ae8a4193  2026-02-22  feat(voice): implement wake-word detection for hands-free... ║
-    • 2b12bc7d3  2026-02-22  impl: real-time streaming STT for audio arrival ║
+    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
+    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
+    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
+    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
+    • 7bdfe2da2  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -181,6 +182,12 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         
         return tts_result.audio_data;
     }
+
+    // Auto-locale switching: when language is set to "auto", update the session's
+    // preferred language from the STT-detected language and adapt TTS accordingly.
+    if (config_.stt_language == "auto" && !transcription.detected_language.empty()) {
+        session.preferred_language = transcription.detected_language;
+    }
     
     // Add to conversation history
     session.history.push_back("User: " + transcription.full_text);
@@ -197,11 +204,12 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
         sessions_[session_id] = session;
     }
     
-    // Synthesize response
+    // Synthesize response - use the session's (potentially auto-detected) language
     content::TTSOptions tts_options;
     tts_options.voice_id = config_.tts_voice;
     tts_options.speed = config_.tts_speed;
     tts_options.format = "wav";
+    tts_options.language = session.preferred_language;
     
     auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
     
@@ -296,12 +304,30 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
 
     bool ok = stt_processor_->streamTranscribe(audio_data, on_segment);
 
+    // For auto-locale switching: also run batch transcription to get detected_language.
+    std::string detected_lang;
     if (!ok || full_transcript.empty()) {
         // Fall back to batch transcription so the pipeline always returns audio.
         auto transcription = stt_processor_->transcribe(audio_data);
         if (transcription.success) {
             full_transcript = transcription.full_text;
+            detected_lang = transcription.detected_language;
         }
+    } else if (config_.stt_language == "auto") {
+        // When language auto-detection is enabled and streaming succeeded, run a
+        // lightweight batch transcription to obtain detected_language.  The full
+        // streaming pipeline does not expose per-call language information, so
+        // this one-shot check is the minimal way to capture the locale.  The
+        // overhead is bounded by the same audio length already processed above.
+        auto transcription = stt_processor_->transcribe(audio_data);
+        if (transcription.success) {
+            detected_lang = transcription.detected_language;
+        }
+    }
+
+    // Auto-locale switching: update session language from STT detection.
+    if (config_.stt_language == "auto" && !detected_lang.empty()) {
+        session.preferred_language = detected_lang;
     }
 
     if (full_transcript.empty()) {
@@ -330,6 +356,7 @@ std::vector<uint8_t> VoiceAssistant::streamProcessVoiceCommand(
     tts_options.voice_id = config_.tts_voice;
     tts_options.speed    = config_.tts_speed;
     tts_options.format   = "wav";
+    tts_options.language = session.preferred_language;
 
     auto tts_result = tts_processor_->synthesize(llm_response, tts_options);
     return tts_result.audio_data;

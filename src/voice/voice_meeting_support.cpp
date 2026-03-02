@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_meeting_support.cpp                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-23 03:58:32                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-03-02 04:00:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     333                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     433                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 80aef9be8  2026-03-01  feat(voice): implement RealtimeMeetingSession for real-ti... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +27,7 @@
 #include <sstream>
 #include <chrono>
 #include <random>
+#include <mutex>
 
 namespace themis { namespace voice {
 
@@ -328,6 +332,105 @@ json VoiceMeetingSupport::getStatistics() const {
         {"action_items_extracted", action_items_extracted_},
         {"decisions_extracted",  decisions_extracted_}
     };
+}
+
+// ============================================================
+// RealtimeMeetingSession implementation
+// ============================================================
+
+RealtimeMeetingSession::RealtimeMeetingSession(
+    const std::string& meeting_id,
+    const std::vector<std::string>& participants,
+    const MeetingSupportConfig& config,
+    ActionItemCallback on_action_item)
+    : config_(config)
+    , support_(config)
+    , on_action_item_(std::move(on_action_item))
+{
+    protocol_.meeting_id   = meeting_id.empty() ? support_.generateActionItemId() : meeting_id;
+    protocol_.participants = participants;
+}
+
+void RealtimeMeetingSession::addSegment(
+    const std::string& text,
+    const std::string& speaker,
+    int64_t start_ms,
+    int64_t end_ms)
+{
+    if (text.empty()) return;
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (finalized_) return;
+
+    // Classify and append segment
+    MeetingSegment seg;
+    seg.text       = text;
+    seg.speaker    = speaker;
+    seg.start_ms   = start_ms;
+    seg.end_ms     = end_ms;
+    seg.type       = support_.classifySegment(text);
+    seg.confidence = 0.7f;
+    protocol_.segments.push_back(seg);
+
+    // Append to full transcript (space-separated)
+    if (!protocol_.full_transcript.empty()) protocol_.full_transcript += ' ';
+    protocol_.full_transcript += text;
+
+    // Extract action items from this segment on-the-fly
+    if (seg.type == MeetingSegmentType::ACTION_ITEM ||
+        support_.containsTrigger(text, config_.action_item_triggers))
+    {
+        if (protocol_.action_items.size() < config_.max_action_items) {
+            ActionItem ai;
+            ai.id               = support_.generateActionItemId();
+            ai.description      = text;
+            ai.confidence       = 0.7f;
+            ai.source_speaker   = speaker;
+            ai.source_timestamp_ms = start_ms;
+            if (config_.auto_assign_action_items) {
+                ai.assignee = support_.extractAssignee(text, protocol_.participants);
+            }
+            protocol_.action_items.push_back(ai);
+            if (on_action_item_) on_action_item_(protocol_.action_items.back());
+        }
+    }
+
+    // Extract decisions from this segment on-the-fly
+    if (support_.containsTrigger(text, config_.decision_triggers)) {
+        protocol_.decisions.push_back(text);
+    }
+
+    // Update speaker word counts
+    if (!speaker.empty()) {
+        std::istringstream iss(text);
+        std::string word;
+        while (iss >> word) ++protocol_.speaker_word_counts[speaker];
+    }
+}
+
+MeetingProtocol RealtimeMeetingSession::getCurrentProtocol() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return protocol_;
+}
+
+MeetingProtocol RealtimeMeetingSession::finalize() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!finalized_) {
+        // Compute key points from the full transcript accumulated so far
+        protocol_.key_points = support_.extractKeyPoints(protocol_.full_transcript);
+        finalized_ = true;
+    }
+    return protocol_;
+}
+
+bool RealtimeMeetingSession::isFinalized() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return finalized_;
+}
+
+size_t RealtimeMeetingSession::segmentCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return protocol_.segments.size();
 }
 
 }} // namespace themis::voice

@@ -25,6 +25,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
 - [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
 - [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
+- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -32,15 +33,15 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
+- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 - [I] Task execution history with searchable audit log (Issue: #2448)
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
-- [I] Distributed cron leader election (one runner per cluster) (Issue: #2266)
-- [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
+- [x] Distributed cron leader election (one runner per cluster) (Issue: #2266)
+- [x] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
-- [~] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
+- [x] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
 
 ## Implementation Phases
 
@@ -61,19 +62,19 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Distributed task coordination across nodes
 - [x] Task dependency DAG execution
 
-### Phase 3: Web UI & Retry Policies (Status: Planned 📋)
-- [ ] Web UI for task management (create, monitor, pause, delete)
+### Phase 3: Web UI & Retry Policies (Status: Partially Complete 🚧)
+- [x] Web UI for task management (create, monitor, pause, delete)
 - [x] Task retry policies (max attempts, exponential back-off)
-- [X] Scheduled task output persistence (store results in ThemisDB)
+- [x] Scheduled task output persistence (store results in ThemisDB)
 - [ ] Task execution history with searchable audit log
 - [ ] Alert on task failure or SLA breach
 
 ### Phase 4: Distributed Cron & Workflow Engine (Status: Planned 📋)
-- [ ] Distributed cron leader election (one runner per cluster)
+- [x] Distributed cron leader election (one runner per cluster)
 - [x] Workflow engine (multi-step DAG with conditional branching)
-- [X] Event-triggered tasks (changefeed → task execution)
+- [x] Event-triggered tasks (changefeed → task execution)
 - [ ] Dynamic task scaling based on queue depth
-- [~] Integration with external schedulers (Kubernetes CronJob, Airflow)
+- [x] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%

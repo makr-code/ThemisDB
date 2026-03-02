@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_streaming_window.cpp                          ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-23 03:58:36                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-03-02 04:00:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     739                                            ║
-    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+    • Total Lines:     740                                            ║
+    • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e2ddc67a4  2026-02-28  feat(analytics): add factory functions for window types a... ║
     • d8694e04a  2026-02-22  Fix 7 bugs in streaming_window + 4 regression tests ║
-    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

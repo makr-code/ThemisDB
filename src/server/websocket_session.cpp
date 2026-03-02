@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            websocket_session.cpp                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:26                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     660                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     823                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 48054ea22  2026-02-22  fix(server/network): finalize WebSocket upgrade – ROADMAP... ║
+    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
+    • 6d03c85c7  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
+    • 22ffc8614  2026-02-23  feat(api): implement WebSocket back-pressure, filter fiel... ║
+    • db120052b  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
+    • 6127ae88a  2026-02-23  feat(api): implement WebSocket change subscription handle... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -169,13 +173,28 @@ void WebSocketSession::onRead(beast::error_code ec, std::size_t bytes_transferre
         return;
     }
     
-    // Process the received message
-    std::string message = beast::buffers_to_string(buffer_.data());
-    buffer_.consume(buffer_.size());
-    
-    THEMIS_DEBUG("WebSocket message received ({}): {}", session_id_, message);
-    
-    processMessage(message);
+    // Determine whether the incoming frame is binary or text so that each
+    // frame type is routed to the appropriate handler.
+    const bool is_binary = is_tls_ ? ws_tls_->got_binary()
+                                   : ws_plain_->got_binary();
+
+    if (is_binary) {
+        // Binary frame: collect the raw bytes and dispatch to the binary handler.
+        const auto* raw = static_cast<const uint8_t*>(buffer_.data().data());
+        std::vector<uint8_t> frame_data(raw, raw + buffer_.size());
+        buffer_.consume(buffer_.size());
+
+        THEMIS_DEBUG("WebSocket binary frame received ({}): {} bytes",
+                     session_id_, frame_data.size());
+        processBinaryMessage(frame_data);
+    } else {
+        // Text frame: decode as UTF-8 string and dispatch to the JSON handler.
+        std::string message = beast::buffers_to_string(buffer_.data());
+        buffer_.consume(buffer_.size());
+
+        THEMIS_DEBUG("WebSocket message received ({}): {}", session_id_, message);
+        processMessage(message);
+    }
     
     // Continue reading
     doRead();
@@ -362,6 +381,28 @@ void WebSocketSession::processMessage(const std::string& message) {
         };
         send(response.dump());
     }
+}
+
+void WebSocketSession::processBinaryMessage(const std::vector<uint8_t>& data) {
+    // The HTTP WebSocket endpoint (/v1/ws, /v2/changes, /v2/cdc/stream) uses a
+    // text/JSON protocol.  Binary frames are not part of its contract.
+    //
+    // Clients that require binary wire-protocol frame transport should connect
+    // to the dedicated wire-protocol WebSocket endpoint on port 8766 where
+    // WireProtocolWebSocketSession handles the full binary frame dispatch.
+    THEMIS_WARN("WebSocket session {} received unexpected binary frame ({} bytes); "
+                "binary frames are not supported on this endpoint",
+                session_id_, data.size());
+
+    json response = {
+        {"type",     "error"},
+        {"status",   "unsupported"},
+        {"message",  "Binary WebSocket frames are not supported on the HTTP API endpoint. "
+                     "Connect to the wire-protocol WebSocket endpoint (port 8766) for "
+                     "binary wire-protocol frame support."},
+        {"bytes_received", data.size()}
+    };
+    send(response.dump());
 }
 
 void WebSocketSession::send(const std::string& message) {

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.h                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:57:21                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 03:53:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     144                                            ║
+    • Total Lines:     169                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
     • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

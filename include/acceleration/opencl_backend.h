@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            opencl_backend.h                                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     121                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 78597cb45  2026-02-23  feat(acceleration): add OpenCL backend header and registr... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "acceleration/compute_backend.h"

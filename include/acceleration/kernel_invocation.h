@@ -3,19 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_invocation.h                                ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-02-23 03:57:11                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-03-02 03:51:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
+    • Total Lines:     281                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • edaecffe6  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
+    • 4507018b1  2026-02-23  docs(acceleration): mark issue #1387 as PR, update kernel... ║
+    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

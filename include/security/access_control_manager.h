@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control_manager.h                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:34                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     197                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     251                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 949cf4eb2  2026-03-01  feat(security): integrate ZeroTrustPolicyEnforcer into Ac... ║
+    • 136ad815d  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
     • 09619660f  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
     • fe5f8a9c8  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -30,6 +32,8 @@
 #include <functional>
 #include <unordered_map>
 #include "security/rbac.h"
+#include "security/zero_trust_policy_enforcer.h"
+#include "security/row_level_security.h"
 #include "server/policy_engine.h"
 
 namespace themis {
@@ -82,6 +86,12 @@ struct AccessControlConfig {
     // ABAC configuration
     std::string abac_policy_path;                 // Path to ABAC policy file (JSON/YAML)
     bool enable_abac = false;                     // Enable ABAC evaluation alongside RBAC
+
+    // Zero-trust configuration
+    bool enable_zero_trust = false;               // Enable per-request zero-trust identity verification
+    // RLS configuration
+    std::string rls_policy_path;                  // Path to RLS policy file (JSON)
+    bool enable_rls = false;                      // Enable RLS filtering of query results
 
     /// Custom authorization hook (optional)
     /// Can be used to implement custom authorization logic
@@ -147,6 +157,12 @@ public:
     /// Set authentication middleware (for token validation)
     void setAuthMiddleware(std::shared_ptr<AuthMiddleware> auth_middleware);
     
+    /// Set zero-trust policy enforcer for per-request identity verification.
+    /// When set (and enable_zero_trust is true in config), checkAccess() runs
+    /// zero-trust verification between authentication and RBAC/ABAC evaluation.
+    /// Pass nullptr to disable. The manager does NOT take ownership.
+    void setZeroTrustEnforcer(ZeroTrustPolicyEnforcer* enforcer);
+    
     /// Get RBAC instance (for advanced operations)
     std::shared_ptr<RBAC> getRBAC() const { return rbac_; }
     
@@ -162,6 +178,40 @@ public:
     
     /// Remove an ABAC policy by id
     bool removeABACPolicy(const std::string& policy_id);
+    
+    // ── Row-level security (RLS) ─────────────────────────────────────────────
+
+    /// Register an RLS policy.
+    /// Policies are keyed by policy.id; an existing policy with the same id is replaced.
+    void addRLSPolicy(const RLSPolicy& policy);
+
+    /// Remove an RLS policy by id.
+    /// @return true if the policy existed and was removed.
+    bool removeRLSPolicy(const std::string& policy_id);
+
+    /// Access the underlying RLS manager (for advanced operations).
+    RLSManager& getRLSManager() { return rls_manager_; }
+    const RLSManager& getRLSManager() const { return rls_manager_; }
+
+    /// Filter a JSON array of query-result rows through applicable RLS policies.
+    ///
+    /// When RLS is active for the collection/user combination, rows that do not
+    /// satisfy any matching policy predicate are silently excluded.  If no RLS
+    /// policies apply the array is returned unchanged.
+    ///
+    /// @param collection  Name of the queried collection.
+    /// @param ctx         Security context of the requesting user.
+    /// @param rows        JSON array returned by the query engine.
+    /// @return            Filtered JSON array (subset of @p rows visible to the user).
+    nlohmann::json filterQueryResults(
+        const std::string& collection,
+        const SecurityContext& ctx,
+        const nlohmann::json& rows
+    ) const;
+
+    /// Returns true when at least one enabled RLS policy matches the collection
+    /// and the security context.
+    bool isRLSActive(const std::string& collection, const SecurityContext& ctx) const;
     
     /// Reload configuration from disk
     bool reloadConfiguration();
@@ -185,8 +235,10 @@ private:
     std::shared_ptr<RBAC> rbac_;
     std::shared_ptr<UserRoleStore> user_store_;
     std::shared_ptr<AuthMiddleware> auth_middleware_;
+    ZeroTrustPolicyEnforcer* zero_trust_enforcer_ = nullptr; ///< Non-owning; may be nullptr.
     mutable Metrics metrics_;
     PolicyEngine policy_engine_;    ///< ABAC policy engine (evaluated alongside RBAC)
+    RLSManager rls_manager_;        ///< Row-level security policy registry
     
     /// Helper: log access decision for audit
     void auditAccessDecision(

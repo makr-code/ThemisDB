@@ -3,9 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ws_handler.h                                       ║
-  Module:          api                                                ║
-  Description:     WebSocket upgrade handler for real-time change     ║
-                   subscriptions (/v2/changes endpoint)               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     117                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 13aae88f8  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
+    • 6127ae88a  2026-02-23  feat(api): implement WebSocket change subscription handle... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

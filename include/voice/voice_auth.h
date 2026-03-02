@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_auth.h                                       ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-02-23                                         ║
-  Author:          ThemisDB Team                                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:55:40                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     335                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     335                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d428e5be3  2026-02-23  feat(voice): implement speaker verification for voice bio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

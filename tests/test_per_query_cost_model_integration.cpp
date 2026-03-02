@@ -3,9 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_per_query_cost_model_integration.cpp          ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-28                                         ║
-  Author:          copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     183                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5af2d754f  2026-02-28  feat: integrate per-query cost model into query optimizer... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

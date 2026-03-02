@@ -4,8 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_importer.h                                   ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-28                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Last Modified:   2026-03-02 03:53:15                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     326                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 59453d3ae  2026-02-28  feat(importers): Add Kafka consumer importer for real-tim... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

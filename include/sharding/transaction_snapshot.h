@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_snapshot.h                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:39                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     187                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     189                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8cf91c826  2026-03-01  feat: implement Calvin protocol for deterministic distrib... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -170,6 +173,8 @@ private:
 // Helper functions for enum conversion
 std::string transactionStateToString(TransactionState state);
 TransactionState transactionStateFromString(const std::string& str);
+std::string transactionProtocolToString(TransactionProtocol protocol);
+TransactionProtocol transactionProtocolFromString(const std::string& str);
 
 // JSON serialization helpers
 void to_json(nlohmann::json& j, const ParticipantStatus& p);

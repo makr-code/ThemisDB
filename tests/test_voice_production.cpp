@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_voice_production.cpp                          ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-23 03:59:37                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-03-02 04:07:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2010                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Total Lines:     3107                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
+    • 80aef9be8  2026-03-01  feat(voice): implement RealtimeMeetingSession for real-ti... ║
+    • 9afb79881  2026-03-01  feat(voice): implement emotion/sentiment analysis from vo... ║
+    • 78975823f  2026-03-01  feat(voice): implement multi-language TTS for German, Fre... ║
+    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1056,6 +1063,36 @@ TEST(MultiLanguagePhase9, LanguageDetectionAlternatives) {
     EXPECT_FALSE(result.alternatives.empty());
 }
 
+TEST(MultiLanguagePhase9, UpdatePreferredLanguage) {
+    VoiceSessionManager mgr;
+    auto session = mgr.createSession("user_locale");
+    EXPECT_EQ(session.preferred_language, "en");
+
+    bool ok = mgr.updatePreferredLanguage(session.session_id, "de");
+    EXPECT_TRUE(ok);
+
+    auto updated = mgr.getSession(session.session_id);
+    ASSERT_TRUE(updated.has_value());
+    EXPECT_EQ(updated->preferred_language, "de");
+}
+
+TEST(MultiLanguagePhase9, UpdatePreferredLanguageUnknownSession) {
+    VoiceSessionManager mgr;
+    EXPECT_FALSE(mgr.updatePreferredLanguage("nonexistent-session", "fr"));
+}
+
+TEST(MultiLanguagePhase9, UpdatePreferredLanguageReflectedInAnalytics) {
+    VoiceSessionManager mgr;
+    auto s1 = mgr.createSession("u1");
+    auto s2 = mgr.createSession("u2");
+    mgr.updatePreferredLanguage(s1.session_id, "fr");
+    mgr.updatePreferredLanguage(s2.session_id, "de");
+
+    auto analytics = mgr.getAnalytics();
+    EXPECT_EQ(analytics.sessions_by_language.count("fr"), 1u);
+    EXPECT_EQ(analytics.sessions_by_language.count("de"), 1u);
+}
+
 // ============================================================
 // Phase 10: Performance / Benchmarks
 // ============================================================
@@ -1527,6 +1564,146 @@ TEST(MeetingSupportPhase4, SpeakerWordCounts) {
     auto counts = mgr.computeSpeakerWordCounts(segments);
     EXPECT_EQ(counts["Alice"], 5u);
     EXPECT_EQ(counts["Bob"],   4u);
+}
+
+// ============================================================
+// RealtimeMeetingSession Tests (real-time transcription + action-item extraction)
+// ============================================================
+
+TEST(RealtimeMeetingSession, DefaultConstructorIsNotFinalized) {
+    RealtimeMeetingSession session;
+    EXPECT_FALSE(session.isFinalized());
+    EXPECT_EQ(session.segmentCount(), 0u);
+}
+
+TEST(RealtimeMeetingSession, CustomMeetingId) {
+    RealtimeMeetingSession session("meeting-42");
+    auto proto = session.getCurrentProtocol();
+    EXPECT_EQ(proto.meeting_id, "meeting-42");
+}
+
+TEST(RealtimeMeetingSession, AddSegmentIncrementsCount) {
+    RealtimeMeetingSession session;
+    session.addSegment("Welcome everyone.");
+    session.addSegment("Let us start the agenda.");
+    EXPECT_EQ(session.segmentCount(), 2u);
+}
+
+TEST(RealtimeMeetingSession, ActionItemExtractedOnTheFly) {
+    RealtimeMeetingSession session;
+    session.addSegment("Alice will prepare the budget report by Friday.");
+    auto proto = session.getCurrentProtocol();
+    ASSERT_FALSE(proto.action_items.empty());
+    EXPECT_FALSE(proto.action_items[0].id.empty());
+    EXPECT_NE(proto.action_items[0].description.find("budget"), std::string::npos);
+}
+
+TEST(RealtimeMeetingSession, CallbackFiredForActionItem) {
+    int callback_count = 0;
+    std::string last_desc;
+    RealtimeMeetingSession session(
+        "cb-test", {}, {},
+        [&](const ActionItem& ai) {
+            ++callback_count;
+            last_desc = ai.description;
+        }
+    );
+    session.addSegment("Bob should review the contract.");
+    EXPECT_EQ(callback_count, 1);
+    EXPECT_FALSE(last_desc.empty());
+}
+
+TEST(RealtimeMeetingSession, DecisionExtractedOnTheFly) {
+    RealtimeMeetingSession session;
+    session.addSegment("We have decided to move the release to next quarter.");
+    auto proto = session.getCurrentProtocol();
+    ASSERT_FALSE(proto.decisions.empty());
+    EXPECT_NE(proto.decisions[0].find("decided"), std::string::npos);
+}
+
+TEST(RealtimeMeetingSession, SpeakerWordCountsUpdated) {
+    RealtimeMeetingSession session;
+    session.addSegment("Hello everyone welcome here.", "Alice");
+    session.addSegment("Thank you Alice good point.", "Bob");
+    auto proto = session.getCurrentProtocol();
+    EXPECT_EQ(proto.speaker_word_counts.count("Alice"), 1u);
+    EXPECT_EQ(proto.speaker_word_counts.count("Bob"),   1u);
+    EXPECT_EQ(proto.speaker_word_counts["Alice"], 4u);
+    EXPECT_EQ(proto.speaker_word_counts["Bob"],   5u);
+}
+
+TEST(RealtimeMeetingSession, FullTranscriptAccumulated) {
+    RealtimeMeetingSession session;
+    session.addSegment("First segment.");
+    session.addSegment("Second segment.");
+    auto proto = session.getCurrentProtocol();
+    EXPECT_NE(proto.full_transcript.find("First"), std::string::npos);
+    EXPECT_NE(proto.full_transcript.find("Second"), std::string::npos);
+}
+
+TEST(RealtimeMeetingSession, FinalizeReturnsProtocolAndFreezesSession) {
+    RealtimeMeetingSession session("fin-test");
+    session.addSegment("Agenda: Q4 planning.");
+    session.addSegment("We decided to launch in January.");
+    session.addSegment("Carol must send the invite by Monday.");
+    auto proto = session.finalize();
+    EXPECT_TRUE(session.isFinalized());
+    EXPECT_EQ(proto.meeting_id, "fin-test");
+    EXPECT_GE(proto.segments.size(), 3u);
+    EXPECT_FALSE(proto.decisions.empty());
+    EXPECT_FALSE(proto.action_items.empty());
+}
+
+TEST(RealtimeMeetingSession, AddSegmentAfterFinalizeIsIgnored) {
+    RealtimeMeetingSession session;
+    session.addSegment("Initial segment.");
+    session.finalize();
+    session.addSegment("This segment should be ignored.");
+    EXPECT_EQ(session.segmentCount(), 1u);
+}
+
+TEST(RealtimeMeetingSession, EmptySegmentIgnored) {
+    RealtimeMeetingSession session;
+    session.addSegment("");
+    EXPECT_EQ(session.segmentCount(), 0u);
+}
+
+TEST(RealtimeMeetingSession, AssigneeExtractedFromSegment) {
+    RealtimeMeetingSession session(
+        "assign-test", {"Alice", "Bob"}, {}
+    );
+    session.addSegment("Alice will take care of the deployment.");
+    auto proto = session.getCurrentProtocol();
+    ASSERT_FALSE(proto.action_items.empty());
+    EXPECT_EQ(proto.action_items[0].assignee, "Alice");
+}
+
+TEST(RealtimeMeetingSession, MaxActionItemsRespected) {
+    MeetingSupportConfig cfg;
+    cfg.max_action_items = 2;
+    RealtimeMeetingSession session("limit-test", {}, cfg);
+    session.addSegment("John will do task one.");
+    session.addSegment("Mary should handle task two.");
+    session.addSegment("Dave must finish task three.");
+    auto proto = session.finalize();
+    EXPECT_LE(proto.action_items.size(), 2u);
+}
+
+TEST(RealtimeMeetingSession, SourceSpeakerStoredInActionItem) {
+    RealtimeMeetingSession session;
+    session.addSegment("We must review the roadmap.", "Charlie", 1000, 3000);
+    auto proto = session.getCurrentProtocol();
+    ASSERT_FALSE(proto.action_items.empty());
+    EXPECT_EQ(proto.action_items[0].source_speaker, "Charlie");
+    EXPECT_EQ(proto.action_items[0].source_timestamp_ms, 1000);
+}
+
+TEST(RealtimeMeetingSession, MultipleFinalizeCalls) {
+    RealtimeMeetingSession session;
+    session.addSegment("We agreed on the timeline.");
+    auto p1 = session.finalize();
+    auto p2 = session.finalize(); // should return same snapshot
+    EXPECT_EQ(p1.decisions.size(), p2.decisions.size());
 }
 
 // ============================================================

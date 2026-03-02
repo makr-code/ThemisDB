@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inverted_index.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-23 03:59:03                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-03-02 04:04:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     607                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 29b72e1f3  2026-02-21  feat(query): add HIGHLIGHT and FULLTEXT_SNIPPET AQL funct... ║

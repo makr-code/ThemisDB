@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            learning_to_rank.h                                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-02-23 03:57:33                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-03-02 03:54:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     209                                            ║
+    • Total Lines:     210                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
+    • 96ef109a0  2026-02-25  feat(search): integrate LlmReranker into HybridSearch pip... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

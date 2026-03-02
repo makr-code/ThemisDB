@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_token_revocation_integration.cpp          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     338                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     375                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 4318adfb2  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -305,6 +308,43 @@ TEST_F(JtiRevocationTest, NoBlacklistAttached_TokenWithJtiAlwaysAccepted) {
     // No setTokenBlacklist() call – revocation is a no-op
     auto token = makeES256Token(key_, "ec1", {{"jti", "tok-any"}});
     EXPECT_NO_THROW(val_->parseAndValidate(token));
+}
+
+// ============================================================================
+// Real-time invalidation: revocation callback fires on revoke
+// ============================================================================
+
+TEST_F(JtiRevocationTest, RevocationCallbackFiredOnRevoke) {
+    // Attach a callback to the blacklist that records every notified JTI.
+    std::string notified_jti;
+    blacklist_.setOnRevokeCallback([&notified_jti](const std::string& jti) {
+        notified_jti = jti;
+    });
+
+    val_->setTokenBlacklist(&blacklist_);
+    auto token = makeES256Token(key_, "ec1", {{"jti", "tok-realtime"}});
+
+    // Revoke: the callback must fire synchronously before revoke() returns.
+    blacklist_.revoke("tok-realtime",
+        std::chrono::system_clock::now() + std::chrono::hours(1));
+
+    EXPECT_EQ(notified_jti, "tok-realtime");
+    // Token must also be rejected by the validator.
+    EXPECT_THROW(val_->parseAndValidate(token), std::runtime_error);
+}
+
+TEST_F(JtiRevocationTest, RevocationCallbackCanQueryBlacklistWithoutDeadlock) {
+    // Verify that the callback may call isRevoked() on the same blacklist
+    // without deadlocking (the callback is invoked with the mutex released).
+    bool callback_saw_revoked = false;
+    blacklist_.setOnRevokeCallback([&](const std::string& jti) {
+        callback_saw_revoked = blacklist_.isRevoked(jti);
+    });
+
+    blacklist_.revoke("tok-reentrant",
+        std::chrono::system_clock::now() + std::chrono::hours(1));
+
+    EXPECT_TRUE(callback_saw_revoked);
 }
 
 // ============================================================================
