@@ -355,3 +355,89 @@ TEST_F(AuditLoggerTest, RetentionWithNoOldEntries) {
     auto entries = logger.enumerateEntries();
     EXPECT_EQ(entries.size(), 3);
 }
+
+// ============================================================================
+// Loss-Protection Tests
+// ============================================================================
+
+TEST_F(AuditLoggerTest, LogRotationOnSizeLimit) {
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;
+    cfg.log_path = log_path_;
+    cfg.enable_hash_chain = false;
+    // Set a size limit small enough that the first written entry (which is a JSON
+    // object with timestamps, category, payload, etc. — well over 50 bytes) will
+    // immediately trigger rotation when the second event is logged.
+    cfg.max_file_size_bytes = 10; // 10 bytes: any JSONL audit entry exceeds this
+    cfg.max_rotated_files = 2;
+
+    AuditLogger logger(enc_, pki_, cfg);
+
+    // First event: written to the primary log
+    logger.logEvent({{"action", "event1"}});
+    ASSERT_TRUE(std::filesystem::exists(log_path_));
+
+    // Second event: primary log already exceeds 10 bytes, so rotation fires first
+    logger.logEvent({{"action", "event2"}});
+
+    // After rotation the old primary should now be log_path_.1
+    std::string rotated = log_path_ + ".1";
+    EXPECT_TRUE(std::filesystem::exists(rotated));
+    // The new primary must exist and contain the second event
+    ASSERT_TRUE(std::filesystem::exists(log_path_));
+
+    // Clean up
+    std::filesystem::remove(rotated);
+}
+
+TEST_F(AuditLoggerTest, SecondaryLogPathMirror) {
+    std::string secondary_path = "data/logs/test_audit_secondary.jsonl";
+    std::filesystem::remove(secondary_path);
+
+    AuditLoggerConfig cfg;
+    cfg.enabled = true;
+    cfg.encrypt_then_sign = false;
+    cfg.log_path = log_path_;
+    cfg.enable_hash_chain = false;
+    cfg.secondary_log_path = secondary_path;
+
+    AuditLogger logger(enc_, pki_, cfg);
+
+    logger.logEvent({{"user", "alice"}, {"action", "login"}});
+    logger.logEvent({{"user", "bob"},   {"action", "read"}});
+
+    // Both primary and secondary must exist
+    ASSERT_TRUE(std::filesystem::exists(log_path_));
+    ASSERT_TRUE(std::filesystem::exists(secondary_path));
+
+    // Count lines in each file — they must match
+    auto countLines = [](const std::string& path) {
+        std::ifstream ifs(path);
+        int n = 0;
+        std::string line;
+        while (std::getline(ifs, line)) if (!line.empty()) ++n;
+        return n;
+    };
+
+    EXPECT_EQ(countLines(log_path_), 2);
+    EXPECT_EQ(countLines(secondary_path), 2);
+
+    // Verify the same content in both
+    auto readLines = [](const std::string& path) {
+        std::vector<std::string> lines;
+        std::ifstream ifs(path);
+        std::string line;
+        while (std::getline(ifs, line)) if (!line.empty()) lines.push_back(line);
+        return lines;
+    };
+
+    auto primary_lines   = readLines(log_path_);
+    auto secondary_lines = readLines(secondary_path);
+    ASSERT_EQ(primary_lines.size(), secondary_lines.size());
+    for (size_t i = 0; i < primary_lines.size(); ++i) {
+        EXPECT_EQ(primary_lines[i], secondary_lines[i]);
+    }
+
+    std::filesystem::remove(secondary_path);
+}
