@@ -1903,6 +1903,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
+    ../src/sharding/hardware_migration_manager.cpp
     ../src/sharding/shard_load_detector.cpp
     ../src/sharding/auto_rebalancer.cpp
     ../src/sharding/prometheus_metrics.cpp
