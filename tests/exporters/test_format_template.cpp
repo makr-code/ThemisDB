@@ -7,7 +7,13 @@
 #include <fstream>
 #include <filesystem>
 #include <ctime>
-#include <unistd.h>
+#ifdef _WIN32
+    #include <io.h>
+    #define access _access
+    #define F_OK 0
+#else
+    #include <unistd.h>
+#endif
 
 using namespace themis::exporters;
 using namespace themis;

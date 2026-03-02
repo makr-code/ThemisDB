@@ -578,6 +578,15 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/llm/vision_config.cpp
 )
 
+# Ensure implementations required by unit tests are always linked.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
+    ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
+    ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
+    ${CMAKE_SOURCE_DIR}/src/search/multi_field_search.cpp
+)
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE

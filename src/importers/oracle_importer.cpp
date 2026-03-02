@@ -491,7 +491,7 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     // or:    CREATE TABLE owner.table (   (plain identifiers)
     // Oracle allows double-quoted or plain identifiers.
     std::regex table_regex(
-        R"(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()",
+        R"REGEX(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()REGEX",
         std::regex_constants::icase);
     std::smatch match;
 
@@ -646,7 +646,7 @@ bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& op
     //   INSERT INTO ["owner".]"table" ("col1","col2",...) VALUES (v1, v2, ...);
     //   INSERT INTO owner.table (col1, col2) VALUES (v1, v2);
     std::regex insert_regex(
-        R"(INSERT\s+INTO\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\(([^)]*)\)\s+VALUES\s*(.+?)\s*;?\s*$)",
+        R"REGEX(INSERT\s+INTO\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\(([^)]*)\)\s+VALUES\s*(.+?)\s*;?\s*$)REGEX",
         std::regex_constants::icase);
     std::smatch match;
 

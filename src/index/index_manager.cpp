@@ -372,7 +372,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
                 is_partial ? fmt::format("partial({})", predicate) : "regular",
                 name_str);
     span.setStatus(true);
-    return Ok<ISecondaryIndex*>(raw_ptr);
+    return Ok<ISecondaryIndex*>(std::move(raw_ptr));
 }
 
 Result<IVectorIndex*> IndexManager::createVectorIndex(
@@ -434,7 +434,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     THEMIS_INFO("IndexManager::createVectorIndex: Created index '{}' with dimension {}", 
                 name_str, dimension);
     span.setStatus(true);
-    return Ok<IVectorIndex*>(raw_ptr);
+    return Ok<IVectorIndex*>(std::move(raw_ptr));
 }
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(

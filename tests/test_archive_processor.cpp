@@ -164,7 +164,9 @@ TEST_F(ArchiveProcessorTest, CannotHandleNonArchiveMimeTypes) {
 TEST_F(ArchiveProcessorTest, CorrectCategory) {
     ArchiveProcessor processor;
     
-    EXPECT_EQ(processor.getCategory(), ContentCategory::ARCHIVE);
+    auto categories = processor.getSupportedCategories();
+    EXPECT_FALSE(categories.empty());
+    EXPECT_EQ(categories[0], ContentCategory::ARCHIVE);
     EXPECT_EQ(processor.getName(), "ArchiveProcessor");
 }
 

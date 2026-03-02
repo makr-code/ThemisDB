@@ -134,6 +134,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
+    ../src/utils/cron_parser.cpp
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -221,6 +222,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_constraints.cpp
     ../src/metadata/schema_version_manager.cpp
     ../src/metadata/index_recommender.cpp
+    ../src/metadata/column_lineage.cpp
     ../src/metadata/schema_audit_log.cpp
     ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/catalog_exporter.cpp
@@ -284,6 +286,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
+    ../src/query/runtime_reoptimizer.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
@@ -334,6 +337,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/distributed_analytics.cpp
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
+    ../src/analytics/arrow_export.cpp
     ../src/analytics/arrow_flight.cpp
     
     # AQL handlers (non-LLM)
@@ -353,6 +357,7 @@ set(THEMIS_QUERY_SOURCES
     
     # Import/Export
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/format_template.cpp
     ../src/exporters/exporter_metrics.cpp
     ../src/exporters/pii_detector.cpp
     ../src/exporters/stream_writer.cpp
@@ -768,6 +773,7 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/aggregate_scheduler_helper.cpp
     ../src/timeseries/query_optimizer.cpp
     ../src/timeseries/timeseries_metrics.cpp
+    ../src/timeseries/prometheus_remote_write.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
@@ -788,6 +794,16 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/serverless_function_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/udf_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/async_job_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/task_scheduler_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/distributed_task_coordinator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/event_trigger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/external_scheduler_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/hybrid_retention_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_anomaly_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_event.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_result_store.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_scheduler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/branch_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/merge_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
@@ -1037,16 +1053,14 @@ function(themis_build_modular)
     if(WIN32)
         list(APPEND _themis_security_deps Secur32 Wldap32)
     endif()
-    if(TARGET pugixml::pugixml)
+    if(TARGET pugixml::shared)
+        list(APPEND _themis_security_deps pugixml::shared)
+    elseif(TARGET pugixml::pugixml)
         list(APPEND _themis_security_deps pugixml::pugixml)
     elseif(TARGET unofficial::pugixml::pugixml)
         list(APPEND _themis_security_deps unofficial::pugixml::pugixml)
     elseif(TARGET pugixml::static)
         list(APPEND _themis_security_deps pugixml::static)
-    elseif(TARGET pugixml)
-        list(APPEND _themis_security_deps pugixml)
-    else()
-        list(APPEND _themis_security_deps pugixml)
     endif()
     
     themis_add_module(security
@@ -1067,9 +1081,42 @@ function(themis_build_modular)
         themis_storage
         themis_transaction
         themis_security
-        ${THEMIS_ARROW_TARGET}
-        ${THEMIS_PARQUET_TARGET}
     )
+
+    # Arrow / Parquet / Arrow Flight targets for modular query build
+    if(TARGET Arrow::arrow_shared)
+        list(APPEND _themis_query_deps Arrow::arrow_shared)
+    elseif(TARGET Arrow::arrow_static)
+        list(APPEND _themis_query_deps Arrow::arrow_static)
+    elseif(TARGET arrow_shared)
+        list(APPEND _themis_query_deps arrow_shared)
+    elseif(TARGET arrow_static)
+        list(APPEND _themis_query_deps arrow_static)
+    endif()
+
+    if(TARGET Parquet::parquet_shared)
+        list(APPEND _themis_query_deps Parquet::parquet_shared)
+    elseif(TARGET Parquet::parquet_static)
+        list(APPEND _themis_query_deps Parquet::parquet_static)
+    elseif(TARGET Parquet::parquet)
+        list(APPEND _themis_query_deps Parquet::parquet)
+    elseif(TARGET parquet_shared)
+        list(APPEND _themis_query_deps parquet_shared)
+    elseif(TARGET parquet_static)
+        list(APPEND _themis_query_deps parquet_static)
+    elseif(TARGET parquet)
+        list(APPEND _themis_query_deps parquet)
+    endif()
+
+    if(TARGET Arrow::arrow_flight_shared)
+        list(APPEND _themis_query_deps Arrow::arrow_flight_shared)
+    elseif(TARGET Arrow::arrow_flight_static)
+        list(APPEND _themis_query_deps Arrow::arrow_flight_static)
+    elseif(TARGET arrow_flight_shared)
+        list(APPEND _themis_query_deps arrow_flight_shared)
+    elseif(TARGET arrow_flight_static)
+        list(APPEND _themis_query_deps arrow_flight_static)
+    endif()
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
     endif()

@@ -293,7 +293,7 @@ struct TableSchema {
 
 static bool parseCreateTable(const std::string& sql, TableSchema& out) {
     std::regex table_regex(
-        R"(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()",
+        R"REGEX(CREATE\s+TABLE\s+(?:(?:"([^"]+)"|(\w+))\.)?(?:"([^"]+)"|(\w+))\s*\()REGEX",
         std::regex_constants::icase);
     std::smatch match;
     if (!std::regex_search(sql, match, table_regex)) return false;
