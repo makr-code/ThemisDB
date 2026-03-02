@@ -1,5 +1,31 @@
 # Temporal Module API - Future Enhancements
 
+## Scope
+
+- Public API enhancements for `include/temporal/` headers
+- Bi-temporal query interface using explicit `SystemTime` + `ValidTime` parameters
+- Time-travel query builder API (`queryAsOf`, `queryFromTo`, builder pattern)
+- Temporal index registration API (`TemporalIndexManager`)
+- Retention policy API (`RetentionManager`, async enforcement)
+
+## Design Constraints
+
+- [ ] Bi-temporal queries MUST accept both `SystemTime` and `ValidTime` — no ambiguous single-time overload
+- [ ] Time-travel API is immutable (read-only, no side effects on historical data)
+- [ ] Retention API is async; synchronous `enforceRetention()` is a manual-trigger only
+- [ ] All temporal timestamps use `Timestamp` (strong type); raw integers not accepted in public API
+- [ ] `ValidTimePeriod` operations (`overlaps`, `contains`, `precedes`) are `const` and `noexcept`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `BiTemporalTable::queryBiTemporal(query, SystemTime, ValidTimePeriod)` | AQL engine, REST API | Both time dimensions required |
+| `TemporalQueryEngine::queryAsOf(table, query, Timestamp)` | Query planner | Read-only, no write side effects |
+| `TemporalIndexManager::createIndex(table, name, TemporalIndexSpec)` | Schema manager | Returns index name |
+| `RetentionManager::setPolicy(table, RetentionPolicy)` | Admin API | Async enforcement by default |
+| `SnapshotManager::createSnapshot(tables)` | Transaction module | RAII handle |
+
 ## Planned API Extensions
 
 ### System-Versioned Table API
@@ -778,6 +804,29 @@ public:
 ```
 
 ---
+
+## Test Strategy
+
+- Unit tests for each public API class (`SystemVersionedTable`, `TemporalQueryEngine`, `BiTemporalTable`, etc.)
+- Integration tests: bi-temporal round-trip (insert → update → `queryBiTemporal` asserts correct version)
+- Boundary tests: `ValidTimePeriod` edge cases (zero-length periods, open-ended periods)
+- Regression tests: time-travel queries return consistent snapshots under concurrent writes
+- Compile-time tests: verify no ambiguous single-time overloads are introduced
+
+## Performance Targets
+
+- Time-travel query setup (`queryAsOf` call overhead before result iteration): ≤ 5 ms
+- Temporal index lookup (`queryIndex` for single key): ≤ 200 µs
+- Retention enforcement trigger (`enforceRetention` call latency before async work begins): ≤ 10 ms per collection
+- `SnapshotManager::createSnapshot` (empty snapshot handle creation): ≤ 1 ms
+
+## Security / Reliability
+
+- Time-travel queries respect row-level security; unauthorized rows MUST NOT appear in historical results
+- Retention deletes are audit-logged with user identity, timestamp, and version count
+- `archiveHistory` validates archive destination path before writing
+- `SnapshotHandle` is non-copyable to prevent accidental resource duplication
+- Bi-temporal inserts validate that `valid_from < valid_to`; malformed periods are rejected with `Result` error
 
 ## See Also
 

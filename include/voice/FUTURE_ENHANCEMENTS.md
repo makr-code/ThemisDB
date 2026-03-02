@@ -1,5 +1,32 @@
 # Voice Module - Header Future Enhancements
 
+## Scope
+
+- Public API enhancements for `include/voice/` headers
+- STT stream interface (`StreamProcessor::start_stream`, `send_audio_chunk`, pull-based audio model)
+- TTS synthesis API (async synthesis, first-token callback)
+- Wake-word detector interface (dedicated thread, configurable sensitivity)
+- Speaker diarization API (speaker-keyed result map, `identify_speaker`)
+- Voice command macro registration (`VoiceMacroManager::create_macro`, `execute_macro`)
+
+## Design Constraints
+
+- [ ] STT API uses pull-based audio stream (`send_audio_chunk` caller controls timing); no mandatory push-only callback
+- [ ] TTS synthesis API is async; synchronous blocking synthesis is not offered in public header
+- [ ] Wake-word detection runs in a dedicated thread; callbacks are invoked on a separate thread (caller must synchronize)
+- [ ] Diarization result is a `std::map<speaker_id, segments>` — not a flat list
+- [ ] `VoiceMacroManager` steps with `require_confirmation = true` must be acknowledged before execution proceeds
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `StreamProcessor::start_stream(session_id, StreamConfig)` | Voice assistant, real-time API | Returns `StreamID` |
+| `StreamProcessor::send_audio_chunk(stream_id, chunk)` | Audio capture layer | Pull model; returns `PartialTranscript` |
+| `VoiceAuthenticator::enroll_voice(user_id, samples, config)` | Auth module | Min 3 samples required |
+| `VoiceMacroManager::create_macro(trigger_phrase, steps, options)` | Automation API | Steps validated at registration |
+| `EmotionDetector::analyze_emotions(audio_data, config)` | Analytics, CX monitoring | Returns `EmotionAnalysis` |
+
 ## Planned Header Interface Changes
 
 ### Streaming Interface
@@ -1073,6 +1100,29 @@ private:
 Documentation will be provided for migrating to v2.0.0 interfaces.
 
 ---
+
+## Test Strategy
+
+- Unit tests: `StreamProcessor` — send 1000 ms of audio in 100 ms chunks, verify `PartialTranscript` sequence is monotonically increasing and final transcript matches expected text
+- Unit tests: `VoiceAuthenticator::enroll_voice` — fewer than `min_samples` returns error
+- Integration tests: wake-word detection fires callback within latency budget on pre-recorded audio
+- Integration tests: diarization result maps to correct speaker IDs for 2-speaker test recording
+- Security tests: audio buffer is zeroed after `StreamProcessor::end_stream`; verify via memory inspection in debug builds
+
+## Performance Targets
+
+- STT first-word latency (time from `send_audio_chunk` to first `is_final = false` partial with ≥ 1 word): ≤ 300 ms
+- TTS first-token generation (time from synthesis request to first audio chunk callback): ≤ 200 ms
+- Wake-word detection latency (keyword boundary to callback invocation): ≤ 20 ms
+- `VoiceMacroManager::execute_macro` dispatch latency (before first step runs): ≤ 5 ms
+
+## Security / Reliability
+
+- Voice biometrics (embeddings) stored as a one-way hash only; raw embeddings are not persisted
+- Audio buffers (`AudioBuffer`) are zeroed via explicit `memset_s` after processing; not relying on destructor optimization
+- PII (names, phone numbers, account numbers) is redacted from `FinalTranscript::text` before persistence
+- `VoiceAuthenticator::detect_liveness` MUST pass before `authenticate` proceeds; liveness bypass is not in public API
+- Macro `export_macros` / `import_macros` validates file path with `isSafePath` before read/write
 
 ## See Also
 

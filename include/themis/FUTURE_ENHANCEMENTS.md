@@ -1,5 +1,31 @@
 # Themis Module - Future Enhancements
 
+## Scope
+
+- Public API enhancements for `include/themis/` headers
+- Module dependency resolver API (`ModuleLoader::loadModuleWithDependencies`, `resolveDependencies`)
+- Edition feature flag interface (`edition::IsFeatureEnabled`, `LicenseActivator`)
+- Wire protocol v2 negotiation API (`WireProtocolServerV2`, stream multiplexing header)
+- Build info query interface (`build_info::getBuildConfiguration`, `verifyReproducibility`)
+
+## Design Constraints
+
+- [ ] Feature flags (`edition::IsFeatureEnabled`) are read-only after initialization; no runtime override outside development builds
+- [ ] Wire protocol version is negotiated at connection time; downgrade mid-connection is not permitted
+- [ ] Edition API values are compile-time constants for non-license-activated builds
+- [ ] Module dependency graph is immutable once all modules are loaded
+- [ ] `LicenseActivator` requires cryptographically signed license; unsigned keys are rejected
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `edition::IsFeatureEnabled(feature_name)` | All modules | Read-only after init; ≤ 100 ns |
+| `ModuleLoader::resolveDependencies(module_name)` | Module bootstrap | Returns ordered load list |
+| `WireProtocolServerV2::setMaxConcurrentStreams(n)` | Network layer | Per-connection stream limit |
+| `build_info::getBuildConfiguration()` | Admin API, diagnostics | Returns `BuildConfig` struct |
+| `LicenseActivator::activate(license)` | Edition upgrade path | Validates signature before activation |
+
 ## Planned Features
 
 ### Dynamic Module Hot-Reload
@@ -765,6 +791,29 @@ Priority areas for contribution:
 For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ---
+
+## Test Strategy
+
+- Unit tests: `edition::IsFeatureEnabled` returns correct value for each edition tier
+- Unit tests: `resolveDependencies` detects circular dependencies and missing dependencies
+- Integration tests: wire protocol v2 negotiation handshake between client and server
+- Regression tests: feature flag state is unchanged after all modules are loaded
+- Negative tests: license with invalid signature is rejected; edition downgrade at runtime is rejected
+
+## Performance Targets
+
+- `edition::IsFeatureEnabled()` call latency: ≤ 100 ns (cache-friendly flag lookup)
+- Wire protocol v2 version negotiation (full handshake): ≤ 1 ms per new connection
+- Module dependency resolution (for ≤ 20 modules): ≤ 10 ms
+- `build_info::getBuildConfiguration()` call: ≤ 1 µs (returns pre-computed struct)
+
+## Security / Reliability
+
+- Edition downgrade not allowed at runtime; `LicenseActivator::activate` rejects lower-tier licenses
+- Feature flag overrides restricted to builds compiled with `THEMIS_DEV_BUILD`; blocked in release
+- Module signing with HSM required for production module loads (verified via `IPlugin` signature)
+- License keys stored in sealed storage; never logged or exposed via telemetry API
+- Wire protocol v2 connections require TLS 1.3 minimum; plaintext negotiation is opt-in for localhost only
 
 ## See Also
 

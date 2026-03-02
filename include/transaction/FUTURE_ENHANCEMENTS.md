@@ -1,5 +1,32 @@
 # Transaction Module Headers - Future Enhancements
 
+## Scope
+
+- Public API enhancements for `include/transaction/` headers
+- SSI transaction interface (`IsolationLevel::SerializableSnapshot`, `SSIConfig`)
+- OCC mode API (`Transaction::optimisticPut`, `getVersion`)
+- Savepoint API (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`) — already implemented
+- SAGA orchestration interface (`SAGAOrchestrator`, `SAGADefinition` with DAG execution)
+- Distributed 2PC coordinator API (`DistributedTransactionManager`)
+
+## Design Constraints
+
+- [ ] SSI and OCC modes are mutually exclusive per session; setting both returns an error
+- [ ] Savepoints are hierarchical; releasing a parent savepoint implicitly releases all children
+- [ ] SAGA steps MUST declare a `compensate` function; steps without compensation are rejected at registration
+- [ ] SAGA step functions are idempotent by contract; the orchestrator MAY retry on transient failure
+- [ ] `DistributedTransactionManager` requires all participants to be reachable before `beginDistributed`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `TransactionManager::setSSIConfig(SSIConfig)` | Query engine | Must be called before `beginTransaction` |
+| `Transaction::optimisticPut(table, entity, expected_version)` | OCC clients | Returns `Status::VERSION_CONFLICT` on mismatch |
+| `SAGAOrchestrator::execute(SAGADefinition)` | Business logic layer | Async-safe; supports parallel steps |
+| `DistributedTransactionManager::beginDistributed(participants)` | Cluster coordinator | Requires mTLS per participant |
+| `TransactionAuditor::queryAuditLog(user, start, end, limit)` | Compliance API | Append-only read interface |
+
 ## Planned API Additions
 
 ### Serializable Snapshot Isolation (SSI)
@@ -590,6 +617,31 @@ All new headers must include:
    - Integration with other components
 
 ---
+
+## Test Strategy
+
+- Unit tests: SSI conflict detection with concurrent read-write overlaps
+- Unit tests: OCC `optimisticPut` returns `VERSION_CONFLICT` when version mismatches
+- Unit tests: savepoint hierarchy — rollback to grandparent releases intermediate savepoints
+- Integration tests: SAGA with compensation — inject failure mid-saga and verify all completed steps are compensated
+- Integration tests: distributed 2PC with one participant voting NO — verify global abort propagates
+- Stress tests: concurrent SSI transactions to detect false-positive serialization failures
+
+## Performance Targets
+
+- `Transaction::createSavepoint` call latency: ≤ 1 ms
+- `SAGAOrchestrator` step registration (`SAGADefinition` construction): ≤ 500 µs per step
+- OCC `Transaction::getVersion` call latency: ≤ 100 µs
+- `TransactionBatcher` flush latency (batch of 100 transactions): ≤ 5 ms
+- `DistributedTransactionManager::prepareDistributed` (LAN, 3 nodes): ≤ 50 ms
+
+## Security / Reliability
+
+- `TransactionAuditor` log is append-only; no delete or update API is exposed
+- `DistributedTransactionManager` requires mTLS for all participant connections; plaintext is rejected
+- No cross-tenant transaction visibility: `beginDistributed` validates all participant `node_id`s are within the same tenant scope
+- `SAGAOrchestrator` compensation is always attempted in reverse order, even if the forward step timed out
+- `Transaction::optimisticPut` does not expose old value on conflict to prevent information leakage
 
 ## See Also
 
