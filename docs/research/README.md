@@ -26,6 +26,37 @@ The `docs/research/` directory is organized into the following subsystems:
 
 Diese Research-Initiative dokumentiert aktuelle Forschungsarbeiten und technische Analysen für ThemisDB.
 
+### 🆕 **Core Scientific Foundations for LLM Integration** (März 2026)
+
+**Dokument:** [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS.md)  
+**Status:** ✅ Research Complete  
+**Priority:** P0 (ongoing)  
+**Language:** English (IEEE citation style)
+
+Comprehensive peer-reviewed scientific foundations for LLM integration in ThemisDB:
+
+**Coverage:**
+- 33 peer-reviewed references in IEEE citation format
+- Transformer architecture & scaling laws (Vaswani 2017, Kaplan 2020, Hoffmann 2022)
+- Embeddings & semantic representations (BERT, Sentence-BERT, Matryoshka)
+- Prompt engineering (few-shot, Chain-of-Thought, prompt pattern catalog)
+- Autonomous prompt optimization (APE, ProTeGi, EvoPrompt, Self-Refine, Reflexion, Promptbreeder)
+- Retrieval-Augmented Generation (RAG, DPR, RAGAS evaluation)
+- LoRA / QLoRA / Prefix Tuning fine-tuning pipelines
+- Edge AI inference via llama.cpp (GGUF quantization, FlashAttention, Speculative Decoding, PagedAttention)
+- OpenAI & HuggingFace ecosystem integration
+- Model evaluation benchmarks (MMLU, MT-Bench, RAGAS)
+- Security (prompt injection, indirect injection, OWASP LLM Top 10)
+- Regulatory compliance (EU AI Act 2024, GDPR, ISO/IEC 42001, NIST AI RMF)
+
+**Key Insights:**
+- **Transformer attention** (Vaswani et al.) is the universal foundation for all ThemisDB LLM backends
+- **LoRA** (Hu et al.) enables domain-specific fine-tuning with <1 GB trainable parameters
+- **EU AI Act** classifies legal document AI as high-risk, requiring conformity assessments
+- **OWASP LLM Top 10** defines the security baseline for the ThemisDB LLM API boundary
+
+---
+
 ### 🆕 **Dynamic Schema Reconfiguration Research** (Februar 2026)
 
 **Dokument:** [DYNAMIC_SCHEMA_RECONFIGURATION_RESEARCH.md](DYNAMIC_SCHEMA_RECONFIGURATION_RESEARCH.md)  
