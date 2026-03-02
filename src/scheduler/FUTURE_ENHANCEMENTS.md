@@ -1,5 +1,37 @@
 # Scheduler Module - Future Enhancements
 
+## Scope
+
+- Periodic and one-shot task execution driven by Cron expressions (6-field format, including year)
+- Distributed leader election (gossip-based, with planned Raft-based upgrade for stronger consistency)
+- Task DAG dependency resolution: topological sort, parallel fan-out, cascading-failure propagation
+- Retention management: data expiry policies and compaction scheduling
+- Priority-based task queuing with starvation prevention via aging
+- Multi-tenancy: per-tenant quota tracking and task namespace isolation
+- Observability hooks: Prometheus metrics, event streaming, and execution timeline
+
+## Design Constraints
+
+- [ ] Cron next-execution calculation must be O(1) per tick; no full-scan of all tasks
+- [ ] Leader election must guarantee exactly-one-runner semantics; duplicate execution is a correctness violation
+- [ ] DAG cycle detection must run at registration time, not at execution time
+- [ ] Scheduler loop must not allocate heap memory on the hot path (task dispatch loop)
+- [ ] Distributed state (task registry, leader lease) must tolerate up to N/2 node failures without data loss
+- [ ] All public scheduler APIs must be thread-safe; concurrent `schedule`/`cancel` must not corrupt state
+- [ ] Resource limits (CPU, memory) enforced via cgroups must not require root privileges
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `ITaskScheduler` | DB retention manager, replication | Core `schedule`, `cancel`, `pause`, `resume` |
+| `ICronExpression` | Schedule builder | Parse + validate 6-field cron; return `next_execution` |
+| `IDistributedCoordinator` | Multi-node cluster | Leader election, task-state replication |
+| `ITaskDAG` | Pipeline executor | Register task graph; compute execution order |
+| `IRetryPolicy` | Task executor | Exponential / Fibonacci backoff with jitter |
+| `IRetentionManager` | Storage engine | Schedule and execute data expiry/compaction |
+| `ITaskObserver` | Metrics / alerting | Receive start/stop/fail events per task |
+
 This file tracks planned enhancements for the Scheduler module implementation.
 
 For detailed feature descriptions and API proposals, see:
@@ -233,6 +265,27 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 - Design discussions: GitHub Discussions
 - Progress tracking: GitHub Projects
 - Release planning: Milestones
+
+## Test Strategy
+
+- Unit tests: ≥ 80% line coverage on `CronExpression`, `TaskDAG`, `RetryPolicy`, and `DistributedCoordinator`
+- Cron parser: exhaustive tests covering all special expressions, edge dates (DST transitions, leap years, year 2199)
+- DAG execution: property-based tests for topological correctness on random acyclic graphs (≥ 10,000 graphs)
+- Leader election: partition-simulation tests; verify exactly-one-leader invariant under network splits
+- Retention manager: inject mock clock to verify expiry fires within ≤ 1 scheduler tick of due time
+- Priority scheduler: starvation tests running ≥ 10,000 ticks; verify low-priority tasks always eventually execute
+- Performance regression gate: CI blocks merge if scheduler-loop overhead exceeds 1% CPU or p99 dispatch latency regresses > 20%
+- Chaos tests: random task-executor crashes; verify correct cascading-failure propagation in DAGs
+
+## Performance Targets
+
+- Scheduler loop tick latency: p99 ≤ 1 ms for up to 10,000 registered tasks
+- Task dispatch (from due-time to first instruction): p99 ≤ 5 ms
+- Cron `next_execution` calculation: ≤ 10 µs per call
+- Leader election convergence after node failure: ≤ 5 s in a 5-node cluster
+- DAG topological sort: ≤ 1 ms for graphs with ≤ 10,000 nodes
+- Throughput: ≥ 5,000 task dispatches/second on a single scheduler node
+- Memory overhead: ≤ 1 KB per registered task (excluding task payload)
 
 ## References
 

@@ -1,5 +1,39 @@
 # Chimera Module - Future Enhancements
 
+## Scope
+
+- Database adapter/driver abstraction layer for multi-database benchmark scenarios
+- Connection pool lifecycle management (acquire, release, health-check, eviction)
+- Synchronous and asynchronous query routing to pluggable backend adapters
+- Adapter registry supporting version-specific and fallback adapter selection
+- Prepared statement caching and batch operation pipelines
+- Schema management (DDL) and data-generation helpers for benchmark setup
+- Metrics export (Prometheus, OpenTelemetry) from adapter-layer instrumentation
+- Distributed query coordination across sharded backends
+
+## Design Constraints
+
+- [ ] All adapter interfaces must be pure-virtual (`IDatabaseAdapter`) — no concrete base classes with side effects
+- [ ] Connection pool must be thread-safe; concurrent `acquire`/`release` calls must not deadlock
+- [ ] Async API must not block the calling thread; futures must resolve on a configurable executor
+- [ ] Adapter registration is global and write-once per process; no runtime unregistration
+- [ ] Retry policies must be stateless and composable; no shared mutable retry counters
+- [ ] Schema operations must be idempotent (create-if-not-exists semantics)
+- [ ] No adapter may store plaintext credentials; connection strings must be treated as secrets
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IDatabaseAdapter` | Benchmark runner, query router | Core CRUD + vector + graph operations |
+| `IAsyncDatabaseAdapter` | High-concurrency benchmark | Returns `std::future<Result<T>>` for all ops |
+| `ConnectionPool` | All adapter consumers | Provides bounded-pool `acquire`/`release` |
+| `IPreparedStatement` | Repeated-query benchmark | Plan-cached parameterized execution |
+| `ISchemaAdapter` | Benchmark setup/teardown | DDL: create/drop collections and indexes |
+| `IDataGenerator` | Data-loading benchmark | Synthetic row, graph, and vector generation |
+| `IMetricsExporter` | Monitoring / CI pipeline | Prometheus + OpenTelemetry metric push |
+| `IDistributedAdapter` | Multi-shard benchmark | Cross-shard query fan-out and aggregation |
+
 ## Planned Features
 
 ### Production ThemisDB Adapter Integration
@@ -936,6 +970,27 @@ No automatic retry on transient failures.
 For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ---
+
+## Test Strategy
+
+- Unit tests: ≥ 80% line coverage on `ConnectionPool`, `RetryPolicy`, and all adapter classes
+- Mock adapter for unit tests: `MockDatabaseAdapter` returning configurable results/errors
+- Integration tests: run against a live ThemisDB testcontainer for each supported version
+- Async API: concurrent stress tests launching ≥ 1,000 parallel `execute_query_async` calls; verify no deadlocks or lost futures
+- Connection pool: chaos tests that randomly kill backend connections; verify pool self-heals within 5 s
+- Retry logic: inject transient `CONNECTION_ERROR` and `TIMEOUT` at configurable rates; verify max-retry limit is respected
+- Schema idempotency: run `create_collection` twice and assert no error on second call
+- Performance regression gate: CI rejects if batch-insert throughput drops > 10% from baseline
+
+## Security / Reliability
+
+- Connection strings must never appear in log output; mask with `***` before any logging call
+- Pool `acquire` must enforce a configurable timeout (default: 30 s) to prevent indefinite thread starvation
+- Circuit breaker trips after ≥ 5 consecutive failures within 10 s; half-open probe every 30 s
+- All error codes must be classified as `transient` or `permanent`; permanent errors must not trigger retries
+- Distributed query coordinator must not accept shard URLs from untrusted user input without allowlist validation
+- Adapter factory must reject unknown adapter names with a hard error, not a null pointer
+- Metric export endpoints must require authenticated access; unauthenticated export is disabled by default
 
 ## See Also
 
