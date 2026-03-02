@@ -1,5 +1,35 @@
 # Graph Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/graph/` public C++ headers
+- Parallel traversal API exposing work-stealing executor interface to callers
+- Adaptive plan cache interface keyed by structural query hash
+- Graph algorithm selection API via `IGraphAlgorithm` plug-in interface
+- Subgraph query interface with depth-bounded extraction
+- GPU-accelerated graph executor API (compile-time optional via `THEMIS_ENABLE_GPU`)
+- Approximate algorithm API with configurable error bounds
+
+## Design Constraints
+
+- [ ] New graph algorithms plugged in exclusively via `IGraphAlgorithm` interface; no direct class coupling
+- [ ] All traversal callbacks declared `noexcept`; exceptions must not escape traversal loops
+- [ ] Plan cache keyed by structural hash of query graph; hash collision handled by equality check
+- [ ] `maxDepth` parameter required on all traversal APIs; unbounded traversal not permitted
+- [ ] GPU executor API guarded by `THEMIS_ENABLE_GPU` compile-time feature flag
+- [ ] All `Result<T>` return paths propagate error codes without exposing internal state
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IGraphAlgorithm` | `ParallelGraphExecutor`, `GPUGraphExecutor` | Plug-in point for new algorithms |
+| `ParallelGraphExecutor` | Query engine, benchmarks | Work-stealing parallel BFS/DFS |
+| `AdaptiveCostModel` | Query planner | Structural-hash-keyed plan cache |
+| `GraphQueryRewriter` | Query optimizer | Rule-based query rewriting |
+| `ApproximateGraphAlgorithms` | Analytics layer | Error-bounded approximate queries |
+| `DistributedGraphManager` | Cluster coordinator | Cross-partition graph queries |
+
 ## Planned Header Additions
 
 ### graph_parallel_executor.h
@@ -615,3 +645,32 @@ public:
 
 *Last Updated: February 2026*  
 *Next Review: Q3 2026*
+
+---
+
+## Test Strategy
+
+- Unit tests for `IGraphAlgorithm` contract: each implementation must pass a compliance suite
+- Property-based tests for `AdaptiveCostModel`: cost estimates monotonically improve with more training samples
+- Integration tests verifying `maxDepth` enforcement stops traversal at the correct depth
+- Header-only compilation tests: every planned header must compile in isolation with no `src/` dependency
+- Regression tests confirming `noexcept` traversal callbacks do not propagate exceptions to callers
+- Benchmark tests measuring plan cache lookup latency against the ≤ 500 ns target
+
+## Performance Targets
+
+- Plan cache lookup: ≤ 500 ns per query (structural hash hit path)
+- Traversal API dispatch overhead: ≤ 1 µs per hop
+- `ParallelGraphExecutor` parallel efficiency: ≥ 70% on 8-core hardware for graphs > 100K nodes
+- `AdaptiveCostModel::estimateCost`: ≤ 2 µs including confidence interval computation
+- GPU BFS kernel launch overhead: ≤ 100 µs amortized over a batch of ≥ 10K nodes
+- Approximate shortest path: ≤ 5% error at `ApproximationMode::FAST` with ≥ 10× latency reduction vs exact
+
+## Security / Reliability
+
+- `maxDepth` parameter validated ≥ 1 and ≤ configurable system limit at API entry; `std::invalid_argument` thrown otherwise
+- No unbounded traversal APIs exposed in public headers; all traversal signatures require an explicit depth bound
+- `IGraphAlgorithm` implementations are sandboxed from internal storage: no direct RocksDB access via this interface
+- `DistributedGraphManager` partition metadata is read-only from the public header API
+- Graph query depth limit defaults to 32; overriding to a higher value requires explicit opt-in via `Config`
+- All `Result<T>` return paths propagate error codes without exposing internal engine state

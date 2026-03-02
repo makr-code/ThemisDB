@@ -1,5 +1,35 @@
 # Network Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/network/` public C++ headers
+- WebSocket transport interface for real-time bidirectional communication
+- QUIC/HTTP3 transport API with 0-RTT connection establishment
+- Connection multiplexing interface for stream-level concurrency
+- Wire protocol v2 frame API with versioned serialization
+- QoS management interface for bandwidth control and traffic prioritization
+- Adaptive circuit breaker and connection pool strategy interfaces
+
+## Design Constraints
+
+- [ ] All new transports implement the `ITransport` interface; no transport-specific coupling in callers
+- [ ] TLS 1.3 is required for all non-localhost transports; plaintext connections rejected at API level
+- [ ] Frame serialization is versioned; older frame versions must be parseable by newer server implementations
+- [ ] `WebSocketServer` and `QUICServer` configs enforce `require_auth = true` by default
+- [ ] `IPoolingStrategy` is a pure virtual interface; concrete strategies are injected, not hardcoded
+- [ ] All public network APIs return `Result<T>` or `void`; raw exceptions must not cross header boundaries
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `ITransport` | Protocol handler, load balancer | Base for WS, QUIC, UDP transports |
+| `WebSocketServer` / `WebSocketClient` | Streaming clients, push notifications | TLS required for non-localhost |
+| `QUICServer` / `QUICClient` | Low-latency clients | 0-RTT, stream multiplexing |
+| `QoSManager` | Connection manager | Bandwidth shaping, priority queues |
+| `AdaptiveCircuitBreaker` | Service mesh layer | Adaptive threshold, half-open state |
+| `IPoolingStrategy` | `WireProtocolConnectionPool` | Pluggable scaling strategy |
+
 ## Planned Interface Extensions
 
 ### WebSocket Server Interface
@@ -738,3 +768,32 @@ These interfaces may change in future versions:
 - [OpenTelemetry Specification](https://opentelemetry.io/docs/specs/)
 - [Circuit Breaker Pattern](https://martinfowler.com/bliki/CircuitBreaker.html)
 - [Zero-Copy Networking](https://www.kernel.org/doc/html/latest/networking/msg_zerocopy.html)
+
+---
+
+## Test Strategy
+
+- Compliance suite for `ITransport`: WebSocket, QUIC, and UDP implementations must pass identical send/receive/close contract tests
+- TLS enforcement tests: connections without TLS to non-localhost addresses must be rejected with `Error::TlsRequired`
+- Frame versioning tests: v1 frames must be parseable by v2 server; version mismatch returns `Error::ProtocolVersionMismatch`
+- Integration tests for `AdaptiveCircuitBreaker`: CLOSED → OPEN → HALF_OPEN → CLOSED transitions verified under simulated failures
+- Load tests for `QoSManager`: bandwidth limits enforced within 5% of configured cap under sustained traffic
+- Header-only compilation tests: each planned header compiles in isolation without `src/` includes
+
+## Performance Targets
+
+- Connection setup (WebSocket + TLS 1.3 handshake): ≤ 50 ms on localhost; ≤ 200 ms on WAN
+- Frame serialization overhead: ≤ 10 µs per message for payloads ≤ 64 KB
+- QUIC 0-RTT connection resumption: ≤ 5 ms round-trip for known peers
+- `QoSManager` token bucket decision: ≤ 500 ns per packet
+- `AdaptiveCircuitBreaker::shouldAllow`: ≤ 100 ns (lock-free read path)
+- `WireProtocolConnectionPool` connection acquire: ≤ 1 µs for an available connection
+
+## Security / Reliability
+
+- All new transport APIs require TLS 1.3; unauthenticated or plaintext connections rejected at `start()` with `Error::TlsRequired`
+- `WebSocketServer` and `QUICServer` default to `require_auth = true`; explicit opt-out required for unauthenticated mode
+- `QUICServer` 0-RTT replay attacks mitigated by server-side anti-replay token validation
+- Frame size limits enforced at deserialization boundary; oversized frames return `Error::FrameTooLarge` without allocation
+- `AdaptiveCircuitBreaker` state visible only through `getStats()`; no direct state mutation from callers
+- Connection migration events logged with source/destination addresses for audit trail
