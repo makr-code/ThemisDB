@@ -28,7 +28,7 @@
 | `GPUVectorIndex` | ANN query engine | `THEMIS_ENABLE_GPU` guarded |
 | `LearnedIndex` | `SecondaryIndexManager` | Requires `train()` before use |
 | `IndexRegistry` | Query optimizer, monitoring | Centralized index metadata |
-| `IPoolingStrategy` | Connection pool | Pluggable scaling strategy |
+| `IShardingStrategy` | `IndexManager` | Pluggable hash/range partitioning |
 
 ## Planned Features
 

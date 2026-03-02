@@ -668,7 +668,7 @@ public:
 
 ## Security / Reliability
 
-- `maxDepth` parameter validated ≥ 1 and ≤ configurable system limit at API entry; `std::invalid_argument` thrown otherwise
+- `maxDepth` parameter validated ≥ 1 and ≤ configurable system limit at API entry; violation returned as `Error::InvalidArgument` via `Result<T>`
 - No unbounded traversal APIs exposed in public headers; all traversal signatures require an explicit depth bound
 - `IGraphAlgorithm` implementations are sandboxed from internal storage: no direct RocksDB access via this interface
 - `DistributedGraphManager` partition metadata is read-only from the public header API
