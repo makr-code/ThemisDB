@@ -4,6 +4,32 @@
 
 ---
 
+## Scope
+
+- New export format plugins: Parquet (via Apache Arrow), Arrow IPC, HuggingFace `datasets`-compatible JSONL with metadata YAML.
+- LLM training data quality scoring: perplexity filter, deduplication, instruction-response length validation.
+- Pipeline integration: streaming export to S3/GCS, delta export (records changed since timestamp), and checksum manifests.
+- Entry-points: `plugins/exporters/`; core implementation in `src/exporters/`.
+
+## Design Constraints
+
+- [ ] Every exporter MUST implement `IExporter` (`open`, `write_record`, `close`, `abort`).
+- [ ] Exporters MUST support streaming mode; no exporter may buffer more than 128 MB in process memory.
+- [ ] Export authorization MUST be verified per-collection before the first record is written.
+- [ ] Sensitive field redaction rules MUST be applied before any record reaches the serialisation layer.
+- [ ] Parquet row-group size MUST be configurable (default: 128 MB) to balance read performance and memory.
+- [ ] Checksum manifest (SHA-256 per output file) MUST be written atomically after `close()`.
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IExporter` | `ExporterPlugin`, pipeline scheduler | `open`, `write_record`, `close`, `abort` |
+| `IExportAuthorizer` | `IExporter` impls | Per-collection access control check before export |
+| `IFieldRedactor` | `IExporter` impls | Strips/masks sensitive fields; configurable per export job |
+| `IChecksumManifestWriter` | `ExporterPlugin` | Writes SHA-256 manifest alongside output files |
+| `IExportQualityFilter` | `ExporterPlugin` | Pluggable quality scoring; returns pass/fail + score per record |
+
 ## Idea Backlog
 
 ### New Export Formats
@@ -33,6 +59,31 @@
 - [ ] **Checksum manifest** – produce a SHA-256 manifest alongside exports.
 
 ---
+
+## Test Strategy
+
+- Unit tests for each exporter with in-memory record streams; verify byte-level output matches reference fixtures for JSONL, Parquet, Arrow IPC.
+- Authorization tests: assert that exporting from an unauthorised collection returns `EXPORT_DENIED` before any records are written.
+- Redaction tests: export a collection containing PII fields; assert no redacted field value appears in output.
+- Quality filter tests: inject 100 records with 20 % below quality threshold; assert exactly 20 records are dropped.
+- Checksum manifest tests: corrupt one output byte post-export; assert manifest verification detects the mismatch.
+- Performance regression tests: JSONL export of 1 M records must complete within 10 s on a single core.
+
+## Performance Targets
+
+- JSONL export throughput ≥ 100,000 records/s (single-threaded, records ≤ 1 KB each).
+- Parquet export throughput ≥ 50 MB/s (uncompressed; ≥ 30 MB/s with zstd level 3).
+- Arrow IPC streaming export ≤ 5 ms first-batch latency for batch size 1,000 records.
+- Peak memory during export ≤ 128 MB regardless of total dataset size (streaming enforced).
+- Checksum manifest generation adds ≤ 1 % overhead to total export wall-clock time.
+
+## Security / Reliability
+
+- Export authorization MUST be checked per-collection at job start; re-checked every 5 minutes for long-running exports.
+- Sensitive field redaction MUST be enforced in `IFieldRedactor` before records reach any serialisation layer; redaction bypass is a hard error.
+- Export jobs MUST be abortable; `abort()` MUST delete all partially written output files atomically.
+- No collection schema, field names, or record counts may appear in log output at INFO level if the collection is marked `sensitive`.
+- Output files MUST be written with mode `0600` (owner read/write only) until `close()` is called; then set to configured ACL.
 
 ## Research / References
 
