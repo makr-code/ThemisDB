@@ -25,6 +25,7 @@
 - [x] GDPR-aware change log redaction (PII field scrubbing) (Issue: #1616)
 - [x] CDC-based materialized view maintenance (Issue: #1617)
 - [x] Change stream compression for high-volume feeds (Issue: #1618)
+- [x] Outbox pattern support for transactional change publishing (`cdc/outbox.cpp`) (Issue: #1612)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -32,8 +33,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] WebSocket transport for bidirectional change feeds (Issue: #1607)
-- [P] Outbox pattern support for transactional change publishing (Issue: #1612)
+*(no open short-term items -- all previously planned features are implemented)*
 
 ### Long-term (6-12 months)
 
