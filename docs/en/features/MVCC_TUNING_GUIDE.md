@@ -4,6 +4,12 @@
 **Last Updated:** 2026-01-18  
 **Target Audience:** Database Administrators, Performance Engineers, Application Developers
 
+> **Scope:** This guide covers the **TransactionManager / RocksDB TransactionDB** layer – the high-level ACID transaction API that handles isolation levels, write-write conflict detection, and cross-index atomic commits.
+>
+> For the **MVCCStore / Hybrid Logical Clock** layer (per-record versioning, snapshot reads via REST API), refer to:
+> - [Compendium Chapter 18 – MVCC and HLC](../../../compendium/docs/chapter_mvcc_hlc.md)
+> - [MVCC Architecture Overview (DE)](../../de/architecture/architecture_mvcc.md)
+
 ---
 
 ## Table of Contents
@@ -1244,6 +1250,8 @@ def batch_update_with_partition(updates: Dict[str, Any]):
 
 ## Related Documentation
 
+- [Compendium Chapter 18 – MVCC and HLC](../../../compendium/docs/chapter_mvcc_hlc.md)
+- [MVCC Architecture Overview (DE)](../../de/architecture/architecture_mvcc.md)
 - [Production Deployment Guide](../deployment/PRODUCTION_DEPLOYMENT_GUIDE.md)
 - [Transaction Best Practices](TRANSACTION_BEST_PRACTICES.md)
 - [RocksDB Optimization Guide](../storage/ROCKSDB_OPTIMIZATION_GUIDE.md)
