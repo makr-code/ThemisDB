@@ -1,0 +1,215 @@
+name: Documentation Validation
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'release/**'
+    paths:
+      - 'docs/**'
+      - 'compendium/**'
+      - 'scripts/docs-lint.py'
+      - 'scripts/link-check.py'
+      - 'scripts/toc-check.py'
+      - 'scripts/validate-docs.sh'
+      - 'mkdocs.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'docs/**'
+      - 'compendium/**'
+      - 'scripts/docs-lint.py'
+      - 'scripts/link-check.py'
+      - 'scripts/toc-check.py'
+      - 'scripts/validate-docs.sh'
+      - 'mkdocs.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  docs-lint:
+    name: Documentation Linting
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run documentation linter
+        run: python3 scripts/docs-lint.py
+
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: lint-report.json
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📝 Documentation Linting" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`scripts/docs-lint.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+  link-check:
+    name: Link Validation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run link checker (internal links)
+        run: python3 scripts/link-check.py --internal-only
+
+      - name: Upload link report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-report
+          path: link-report.json
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔗 Link Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`scripts/link-check.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+  external-link-check:
+    name: External Link Check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+
+      - name: Run external link checker
+        run: |
+          # External link check is non-blocking (|| true) because external URLs
+          # can be temporarily unavailable. Results are visible in the job summary.
+          find docs -name "*.md" \
+            ! -path "*/ARCHIVED/*" \
+            ! -path "*/archive/*" \
+            ! -path "*/compiled/*" \
+            -print0 | \
+          xargs -0 -I{} markdown-link-check {} \
+            --config docs/.markdown-link-check.json \
+            --quiet || true
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🌐 External Link Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "External link checks run on main/develop branches only." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Tool** | \`markdown-link-check\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Config** | \`docs/.markdown-link-check.json\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+  toc-validation:
+    name: TOC Validation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run TOC validator
+        run: python3 scripts/toc-check.py
+
+      - name: Upload TOC report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: toc-report
+          path: toc-report.json
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📑 TOC Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`scripts/toc-check.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+  validation-summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [docs-lint, link-check, toc-validation]
+    if: always()
+    permissions:
+      contents: read
+    steps:
+      - name: Check job results
+        run: |
+          echo "## ✅ Documentation Validation Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Check | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Documentation Linting | ${{ needs.docs-lint.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Link Validation | ${{ needs.link-check.result }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| TOC Validation | ${{ needs.toc-validation.result }} |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if any required check failed
+        if: needs.docs-lint.result == 'failure' || needs.link-check.result == 'failure' || needs.toc-validation.result == 'failure'
+        run: |
+          echo "One or more required documentation validation checks failed."
+          exit 1

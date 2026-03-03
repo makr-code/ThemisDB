@@ -190,9 +190,9 @@ docs/
 - **Issues:** https://github.com/makr-code/ThemisDB/issues
 
 ### Badges
-- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-- [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
-- [![ARM Build](https://github.com/makr-code/ThemisDB/actions/workflows/arm-build.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/arm-build.yml)
+- [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
+- [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml)
+- [![GPU CI](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/gpu-ci.yml)
 
 ## 📋 Navigation nach Thema
 
