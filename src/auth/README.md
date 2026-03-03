@@ -15,17 +15,23 @@ Provides enterprise-grade authentication and authorization for ThemisDB, includi
 ## Relevant Interfaces
 
 - `jwt_validator.cpp` — JWT/OpenID Connect validation
-- `kerberos_auth.cpp` — GSSAPI/Kerberos handler
-- `totp_auth.cpp` — TOTP MFA
-- `rbac_enforcer.cpp` — role-based access control
+- `gssapi_authenticator.cpp` — GSSAPI/Kerberos handler
+- `mfa_authenticator.cpp` — TOTP MFA with recovery codes
 - `oauth_device_flow.cpp` — OAuth 2.0 device authorization flow (RFC 8628)
 - `oauth_pkce_flow.cpp` — OAuth 2.0 Authorization Code Grant with PKCE for public clients (RFC 7636)
 - `oidc_provider.cpp` — OIDC Provider Discovery and federated identity integration
+- `saml_authenticator.cpp` — SAML 2.0 SP-initiated and IdP-initiated SSO
+- `ldap_authenticator.cpp` — LDAP/Active Directory direct bind authentication
+- `api_key_authenticator.cpp` — static API key + secret authentication
+- `mtls_authenticator.cpp` — certificate-based mutual TLS authentication
+- `webauthn_authenticator.cpp` — WebAuthn/FIDO2 hardware token authentication
+- `federated_identity_manager.cpp` — federated identity across multiple realms
 - `session_manager.cpp` — session lifecycle (create / validate / revoke / list) with idle and absolute timeouts
+- `zero_trust_auth_verifier.cpp` — zero-trust continuous verification per request
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — JWT, Kerberos, TOTP, RBAC, OAuth 2.0 PKCE, and session management (including revocation) are all production-ready; OAuth 2.0 device flow and SAML 2.0 in progress.
+**Maturity:** 🟢 Production-Ready — JWT, Kerberos, TOTP, RBAC, OAuth 2.0 PKCE, OAuth 2.0 device flow, SAML 2.0, WebAuthn/FIDO2, mTLS, LDAP, API key authentication, federated identity, zero-trust verification, and session management are all production-ready.
 
 ## Table of Contents
 
@@ -44,17 +50,24 @@ The Authentication Module provides enterprise-grade authentication mechanisms fo
 
 ### Key Features
 
-- **JWT Authentication**: OpenID Connect integration with Keycloak
+- **JWT Authentication**: OpenID Connect integration with Keycloak, Okta, Auth0, and any standards-compliant provider
 - **OIDC Provider Federation**: Auto-configure from any OIDC provider's discovery endpoint
 - **Kerberos/GSSAPI**: Enterprise SSO for Active Directory environments
 - **Multi-Factor Authentication**: TOTP-based MFA with recovery codes
+- **WebAuthn/FIDO2**: Hardware security keys, passkeys, and biometric authenticators
 - **OAuth 2.0 Device Flow**: Headless device / CLI authentication (RFC 8628)
 - **OAuth 2.0 PKCE Flow**: Authorization Code Grant with PKCE for public clients (RFC 7636)
+- **SAML 2.0**: SP-initiated and IdP-initiated SSO with assertion encryption
+- **LDAP/Active Directory**: Direct bind authentication for enterprise directories
+- **API Key Authentication**: Static key + secret for service-to-service access
+- **mTLS**: Certificate-based mutual TLS for service identity
+- **Federated Identity**: Unified principal namespace across multiple identity realms
 - **Signature Verification**: RS256 with JWKS caching
 - **Principal-to-Role Mapping**: Flexible authorization system
 - **Clock Skew Tolerance**: Distributed system friendly
 - **Rate Limiting**: Brute force and replay attack prevention
 - **Session Management**: Cryptographically random session IDs, idle/absolute timeouts, per-user limits, revocation endpoint
+- **Zero-Trust Verification**: Continuous per-request identity and network policy enforcement
 
 ### Architecture
 
@@ -295,6 +308,177 @@ int removed = mgr.terminateAllOtherSessions("alice", sid);
 // List active sessions for user
 auto sessions = mgr.listSessions("alice");
 ```
+
+### LDAP Authenticator (`ldap_authenticator.cpp`)
+
+Direct bind authentication against an LDAP or Active Directory server.
+
+**Features:**
+- LDAP simple bind and SASL GSSAPI bind
+- Active Directory and OpenLDAP support
+- Group membership lookup and role mapping
+- Cross-platform: OpenLDAP (Linux) and WinLDAP (Windows)
+- TLS/LDAPS enforcement
+- Configurable with `-DTHEMIS_ENABLE_LDAP=ON` (default)
+
+**Configuration (`LDAPConfig`):**
+
+| Field | Description |
+|-------|-------------|
+| `host` | LDAP server hostname or URI |
+| `port` | LDAP port (default: 389; LDAPS: 636) |
+| `use_tls` | Enforce TLS (`STARTTLS` or LDAPS) |
+| `bind_dn` | Service account DN for search bind |
+| `bind_password` | Service account password |
+| `search_base` | Base DN for user search |
+| `user_filter` | LDAP filter to locate user entry |
+| `group_attribute` | Attribute containing group memberships |
+
+### API Key Authenticator (`api_key_authenticator.cpp`)
+
+Static API key + secret authentication for service-to-service and programmatic access.
+
+**Features:**
+- Key ID + SHA-256-hashed secret credential pairs
+- Per-key role assignment and optional expiry
+- Constant-time comparison to prevent timing attacks
+- Audit logging of every authentication attempt (PII-redacted)
+
+**Usage:**
+```cpp
+#include "auth/api_key_authenticator.h"
+
+using namespace themis::auth;
+
+ApiKeyAuthenticator auth;
+ApiKeyAuthenticator::ApiKeyCredential cred;
+cred.key_id          = "svc-reports";
+// Hash the secret before storing — never persist the raw secret
+cred.key_secret_hash = sha256hex(raw_secret);
+cred.roles           = {"reports:read"};
+auth.addCredential(cred);
+
+// authenticate() compares the provided secret against the stored hash
+auto result = auth.authenticate(key_id, raw_secret);
+if (result.success) { /* use result.roles */ }
+```
+
+### mTLS Authenticator (`mtls_authenticator.cpp`)
+
+Certificate-based mutual TLS authentication for service-to-service calls.
+
+**Features:**
+- Full X.509 certificate chain validation using OpenSSL
+- Subject CN / SAN extraction as service identity
+- Configurable CA certificate bundle and CRL checking
+- Optional certificate expiry enforcement
+- Maps certificate subject to roles via configurable mappings
+
+**Configuration (`MTLSAuthenticator::Config`):**
+
+| Field | Description |
+|-------|-------------|
+| `ca_cert_pem` | PEM-encoded CA certificate(s) used to verify client certs |
+| `require_client_cert` | Reject connections without a client certificate |
+| `verify_expiry` | Enforce `notAfter` (default: true) |
+| `principal_mappings` | Map CN/SAN patterns to internal role names |
+
+### SAML 2.0 Authenticator (`saml_authenticator.cpp`)
+
+SAML 2.0 Service Provider for SP-initiated and IdP-initiated SSO.
+
+**Features:**
+- SP-initiated AuthnRequest with HTTP-Redirect binding
+- IdP-initiated Response with HTTP-POST binding
+- XML signature verification (RSA-SHA256 / RSA-SHA512) via OpenSSL
+- Encrypted SAML assertions (AES-256-CBC / AES-128-CBC)
+- Attribute extraction and mapping to internal roles
+- Single Logout (SLO) support
+- Configurable AuthnContextClassRef (password, Kerberos, smart card, etc.)
+- Thread-safe after construction
+
+**Configuration (`SAMLConfig`):**
+
+| Field | Description |
+|-------|-------------|
+| `sp_entity_id` | SP entity ID URI |
+| `sp_acs_url` | Assertion Consumer Service URL |
+| `sp_slo_url` | Single Logout URL |
+| `idp_entity_id` | IdP entity ID URI |
+| `idp_sso_url` | IdP SSO endpoint |
+| `idp_cert_pem` | PEM-encoded IdP signing certificate |
+| `sp_private_key_pem` | SP private key for assertion decryption |
+| `attribute_mappings` | Map SAML attributes to role names |
+
+### WebAuthn / FIDO2 Authenticator (`webauthn_authenticator.cpp`)
+
+Hardware security key and platform authenticator (passkey) support via the WebAuthn standard.
+
+**Features:**
+- FIDO2 registration and authentication ceremonies
+- ES256 (P-256) and RS256 public-key credential verification
+- CBOR-encoded authenticatorData parsing
+- Attestation verification (`none`, `packed`, `fido-u2f`)
+- Replay protection via stored challenge nonces
+- Supports YubiKey, Titan Key, TPM, Touch ID, Face ID, Windows Hello
+- Thread-safe credential store
+
+**Registration flow:**
+1. Server calls `startRegistration(user_id)` → returns `CredentialCreationOptions`
+2. Client creates credential (browser / native) and returns `AttestationObject`
+3. Server calls `completeRegistration(user_id, attestation_response)`
+
+**Authentication flow:**
+1. Server calls `startAuthentication(user_id)` → returns `CredentialRequestOptions`
+2. Client signs challenge → returns `AssertionResponse`
+3. Server calls `completeAuthentication(user_id, assertion_response)`
+
+### OIDC Provider (`oidc_provider.cpp`)
+
+Auto-configures JWT validation from any OIDC provider's discovery endpoint (RFC 8414).
+
+**Features:**
+- Fetches and caches `/.well-known/openid-configuration`
+- Builds a `JWTValidator` from the discovered JWKS URI, issuer, and algorithms
+- Factory methods `createDeviceFlow()` and `createPKCEFlow()` for OAuth 2.0 flows
+- Supports Keycloak, Okta, Auth0, Azure AD, and any standards-compliant provider
+
+**Usage:**
+```cpp
+#include "auth/oidc_provider.h"
+
+using namespace themis::auth;
+
+OIDCProviderConfig cfg;
+cfg.discovery_url = "https://accounts.google.com/.well-known/openid-configuration";
+cfg.client_id     = "my-app";
+
+OIDCProvider provider(cfg);
+auto validator = provider.createJWTValidator();
+auto claims    = validator->parseAndValidate(bearer_token);
+```
+
+### Federated Identity Manager (`federated_identity_manager.cpp`)
+
+Bridges multiple identity realms into a unified principal namespace.
+
+**Features:**
+- Register multiple `OIDCProvider` or `SAMLAuthenticator` instances under named realms
+- Unified `authenticate(realm, token)` entry point
+- Cross-realm principal normalization
+- Per-realm role-mapping override
+- Thread-safe realm registry
+
+### Password Policy (`password_policy.cpp`)
+
+Configurable password complexity and history enforcement.
+
+**Features:**
+- Minimum length, uppercase, lowercase, digit, and symbol requirements
+- Password history (prevents reuse of N previous passwords)
+- Bcrypt / Argon2id hashing for stored passwords
+- Configurable maximum age and forced rotation
+- Pluggable into any local-credential authentication flow
 
 ## Authentication Flows
 

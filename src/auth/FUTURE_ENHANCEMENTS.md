@@ -36,6 +36,19 @@
 
 Planned authentication and authorization features for ThemisDB.
 
+## Implemented Features
+
+The following features were originally planned here and have since been fully implemented.
+They are retained below for historical context but are marked **✅ IMPLEMENTED**.
+
+| Feature | Source File | Status |
+|---------|-------------|--------|
+| OAuth 2.0 Device Flow (RFC 8628) | `src/auth/oauth_device_flow.cpp` | ✅ Production-Ready |
+| OAuth 2.0 PKCE Flow (RFC 7636) | `src/auth/oauth_pkce_flow.cpp` | ✅ Production-Ready |
+| WebAuthn/FIDO2 hardware token support | `src/auth/webauthn_authenticator.cpp` | ✅ Production-Ready |
+| SAML 2.0 Service Provider (SP- and IdP-initiated SSO) | `src/auth/saml_authenticator.cpp` | ✅ Production-Ready |
+| Concurrent session management and remote logout (`terminateAllOtherSessions`) | `src/auth/session_manager.cpp` | ✅ Production-Ready |
+
 ## Table of Contents
 
 1. [OAuth 2.0 Extensions](#oauth-20-extensions)
@@ -53,7 +66,8 @@ Planned authentication and authorization features for ThemisDB.
 
 ## OAuth 2.0 Extensions
 
-### Device Flow Support
+### Device Flow Support ✅ IMPLEMENTED
+**Status:** ✅ Implemented — see `src/auth/oauth_device_flow.cpp`  
 **Priority:** High  
 **Target Version:** v1.6.0
 
@@ -99,7 +113,8 @@ public:
 
 ---
 
-### PKCE for Public Clients
+### PKCE for Public Clients ✅ IMPLEMENTED
+**Status:** ✅ Implemented — see `src/auth/oauth_pkce_flow.cpp`  
 **Priority:** High  
 **Target Version:** v1.6.0
 
@@ -172,7 +187,8 @@ public:
 
 ## Advanced MFA
 
-### WebAuthn/FIDO2 Support
+### WebAuthn/FIDO2 Support ✅ IMPLEMENTED
+**Status:** ✅ Implemented — see `src/auth/webauthn_authenticator.cpp`  
 **Priority:** High  
 **Target Version:** v1.6.0
 
@@ -742,7 +758,8 @@ public:
 
 ---
 
-### Concurrent Session Management
+### Concurrent Session Management ✅ IMPLEMENTED
+**Status:** ✅ Implemented — see `src/auth/session_manager.cpp`  
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
@@ -858,7 +875,8 @@ public:
 
 ## Federated Identity
 
-### SAML 2.0 Service Provider
+### SAML 2.0 Service Provider ✅ IMPLEMENTED
+**Status:** ✅ Implemented — see `src/auth/saml_authenticator.cpp`  
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
