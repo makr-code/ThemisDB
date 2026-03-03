@@ -24,14 +24,15 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Integration with query optimizer for cost-aware suggestions (Issue: #1364)
 - [x] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026) (Issue: #1521)
 - [x] Streaming natural language responses for long AQL explanations (Target: Q2 2026) (Issue: #1950) — `POST /api/v1/llm/aql/explain/stream` SSE endpoint exposing `LLMAQLHandler::streamExplainAQLAsSSE()`
+- [x] AQL query validation and linting before LLM submission (`src/aql/aql_query_validator.cpp`) (Issue: #1525)
+- [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
+- [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
+- [x] LLM inference metrics collection (`src/aql/llm_metrics_collector.cpp`)
 
 ## In Progress 🚧
-- [I] AQL query validation and linting before LLM submission (Target: Q2 2026) (Issue: #1525)
+*(no items currently in progress)*
 
 ## Planned Features 📋
-### Short-term (Next 3-6 months)
-- [ ] Query template library for common AQL patterns *(Issue #1354 was closed; if still desired, open a new issue and link it here)*
-- [ ] Interactive AQL query builder with LLM suggestions *(Issue #1355 was closed; if still desired, open a new issue and link it here)*
 
 ### Long-term (6-12 months)
 - [ ] (reserved)
@@ -46,7 +47,12 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Multi-paradigm AQL support: documents, graphs, vectors, geospatial, timeseries
 - [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
 
-### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
+### Phase 2: Validation & Developer Experience (Status: Completed ✅)
+- [x] AQL query validation and linting (`src/aql/aql_query_validator.cpp`)
+- [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
+- [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
+- [x] Token-level autocompletion / LSP-compatible suggestions (`src/aql/aql_autocomplete.cpp`)
+- [x] Multi-turn conversation context (`src/aql/aql_conversation_context.cpp`)
 
 ### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
 - [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
@@ -63,7 +69,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - NL-to-AQL accuracy depends on LLM provider quality and prompt engineering
 - No offline fallback when no LLM provider is configured
 - Prompt injection in `translateNLToAQL()` is mitigated by pattern-based input sanitization; advanced adversarial inputs not covered by the current pattern set may still bypass detection
-- Schema-aware generation is supported: attach a metadata snapshot via `AQLQueryBuilder::setSchema()` (`include/aql/aql_schema_provider.h`); schema context is injected automatically into LLM prompts and unknown collection names are flagged as validation warnings
+- Schema-aware generation is supported: attach a metadata snapshot via `AQLQueryBuilder::setSchema()` (`include/aql/aql_query_builder.h`); schema context is injected automatically into LLM prompts and unknown collection names are flagged as validation warnings
 
 ## Breaking Changes
 - LLM command handler API is stable; new command types will be additive
