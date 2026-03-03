@@ -346,7 +346,7 @@ Six new benchmark suites were added to close these gaps:
 | **replication** | `bench_replication_throughput.cpp` | `WALManager::append`, `readFrom`, `WALEntry::serialize/deserialize`, `ReplicationManager::initialize` |
 | **updates** | `bench_update_pipeline.cpp` | `UpdateStateMachine::transition`, `currentState`, `ReleaseManifest::toJson/fromJson`, `DeltaUpdateEngine::generatePatch/applyPatch` |
 
-### Unit Test Gaps Resolved (2026-03-03)
+### Unit Test Gaps Resolved (2026-03-03) — Wave 1
 
 The following source files had zero direct unit test coverage and have been addressed:
 
@@ -360,6 +360,20 @@ The following source files had zero direct unit test coverage and have been addr
 | `sharding/orphan_detector.cpp` | `test_sharding_uncovered.cpp` | Construction, `Config` defaults, `detectOrphans` (null coordinator), `isOrphaned` (null coordinator) |
 | `sharding/shard_load_detector.cpp` | `test_sharding_uncovered.cpp` | Construction, `updateShardLoad`, `detectImbalance` (balanced/imbalanced/below-min), `recordRebalanceTriggered` |
 
+### Unit Test Gaps Resolved (2026-03-03) — Wave 2
+
+| Module / Source File | New Test File | Process Lines Covered |
+|---------------------|---------------|----------------------|
+| `utils/checksum_utils.cpp` | `test_utils_standalone.cpp` | `calculateSHA256` (known-value, empty file, missing file, two-distinct), `calculateMD5` (known-value, empty file, missing file) |
+| `utils/file_utils.cpp` | `test_utils_standalone.cpp` | `readFileContents` (plain text, binary, empty file, non-existent → throw) |
+| `utils/normalizer.cpp` | `test_utils_standalone.cpp` | `Normalizer::normalizeUmlauts` (all German umlauts, no-umlaut passthrough, empty input) |
+| `performance/phase2_feature_flags.h` | `test_utils_standalone.cpp` | `Phase2FeatureFlags` singleton: all flags get/set, singleton identity |
+| `utils/regex_detection_engine.cpp` | `test_regex_detection_engine.cpp` | `getName`/`getVersion`/`isEnabled`, `detectInText` (email/phone/SSN/IP, no-PII, empty), confidence range, `classifyFieldName`, `getRedactionRecommendation`, `reload` |
+| `sharding/replica_consistency.cpp` | `test_replica_consistency.cpp` | `VectorClock` (increment, update, happensBefore/After/isConcurrent, serialize/deserialize); `ReplicaConsistencyManager` (recordWrite, mergeReplicas, getVectorClock, Config); `VersionedEntry` serde |
+| `sharding/operational_metrics.cpp` | `test_sharding_operational_metrics.cpp` | Construction, `getShardMetrics`, `recordRequest` (read/write/fail/latency), `getShardIds`, `getAggregatedMetrics`, `getClusterHealth`, `updateShardHealth`, `updateResourceUsage`, `recordNetworkTraffic` |
+| `governance/review_scheduler.cpp` | `test_governance_review_scheduler.cpp` | `ReviewRequest`/`ReviewSchedule` JSON round-trips; `ReviewScheduler`: construction, `configureReviewSchedule`, `createReviewRequest`, `approveReview`, `rejectReview`, `getOverdueReviews`, `getReviewHistory`, export/import round-trip, `getExpirationInfo` |
+| `storage/compressed_storage.cpp` | `test_compressed_storage.cpp` | `CompressedStorageWrapper` with in-memory backend: put/get (string/bytes/empty/large), missing-key, `exists`, `del`, `get_compression_stats`, `reset_compression_stats`, `set_compression_config`; `CompressedValue` serde |
+
 ## Conclusion
 
 ThemisDB has **exceptional test coverage** across all layers:
@@ -370,7 +384,7 @@ ThemisDB has **exceptional test coverage** across all layers:
 - ✅ **Comprehensive protocol testing** for all network interfaces
 - ✅ **Good integration testing** with E2E scenarios
 - ✅ **144 benchmark suites** (up from 138) covering all performance-critical modules
-- ✅ **7 additional test files** covering previously untested source files in observability, query, scheduler, and sharding modules
+- ✅ **16 additional test files** (Wave 1 + Wave 2) covering previously untested source files in utils, observability, query, scheduler, sharding, governance, and storage modules
 
 The systematic bottom-up approach (libraries → core → interfaces) requested in the issue is now **complete** with comprehensive library integration tests forming a solid foundation.
 
