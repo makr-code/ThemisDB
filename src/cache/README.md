@@ -8,16 +8,32 @@ Implements multi-level adaptive query result caching for ThemisDB with semantic-
 
 ## Subsystem Scope
 
-**In scope:** L1 in-memory LRU cache, L2 compressed cache, L3 RocksDB-backed persistent cache, semantic fingerprinting, circuit breaker, rate limiting, tenant namespacing.
+**In scope:**
+- L1 in-memory LRU cache, L2 compressed cache, L3 RocksDB-backed persistent cache
+- Semantic fingerprinting and vector similarity matching
+- Circuit breaker for L3 fault isolation
+- Token bucket rate limiting
+- Tenant namespacing and per-tenant quotas
+- Distributed cache coordination (Redis pub/sub via `RedisCacheCoordinator`)
+- Cache replication for high-availability multi-node deployments
+- Cache hit-rate SLO alerting (`CacheHitRateSLOMonitor`)
+- Predictive pre-fetching based on query sequence history
 
-**Out of scope:** Query parsing (handled by query module), storage layer (handled by storage module), distributed cache coordination (planned).
+**Out of scope:** Query parsing (handled by query module), storage layer (handled by storage module).
 
 ## Relevant Interfaces
 
 - `adaptive_query_cache.h/cpp` — main cache facade (L1/L2/L3 pipeline)
 - `semantic_cache.cpp` — vector similarity fingerprinting
 - `embedding_cache.cpp` — embedding result caching
-- `bounded_lru_cache.h` — L1 LRU implementation
+- `bounded_lru_cache.h/cpp` — L1 LRU implementation
+- `warmup.cpp` — bulk cache warmup from query logs or snapshots
+- `predictive_prefetcher.cpp` — predictive pre-fetching based on query sequence history
+- `cache_hit_rate_slo_monitor.cpp` — cache hit-rate SLO alerting and monitoring
+- `cache_replication.cpp` — cache replication event handling for high-availability
+- `cache_replication_coordinator.cpp` — in-process cache replication coordination
+- `distributed_cache_coordinator.cpp` — distributed cache coordination (node-local bus)
+- `redis_cache_coordinator.cpp` — Redis pub/sub backed distributed cache coordinator
 
 ## Current Delivery Status
 
