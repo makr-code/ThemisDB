@@ -12,22 +12,44 @@ In practice, this module is responsible for:
 
 ## Directory Layout (high level)
 
-> Note: filenames below are referenced by `FUTURE_ENHANCEMENTS.md` and may evolve; treat this as a “map” of the intended structure.
+> Note: filenames below are referenced by `FUTURE_ENHANCEMENTS.md` and may evolve; treat this as a “map” of the current structure.
 
 - **Backend selection & registry**  
   - `backend_registry.cpp`: runtime backend registration/selection and CPU fallback.  
-  - `device_capability_probe.*` (planned): probing/ranking devices (VRAM, compute capability, driver version, …).  
+  - `compute_backend.cpp`: abstract `ComputeBackend` base class and shared utilities.  
+  - `device_manager.cpp`: device enumeration, capability probing (VRAM, compute capability, driver version), 60 s TTL cache, and `BackendRegistry::deviceInfo()` observability accessor.  
 
 - **CUDA backend (optional, guarded by `THEMIS_ENABLE_CUDA`)**  
-  - `cuda_backend.cpp` (+ planned `.cu` sources): CUDA kernels and stream/graph management for vector similarity.  
-  - `nccl_vector_backend.cpp`: multi-GPU collectives (planned/partial) for sharding and query scatter/gather.
+  - `cuda_backend.cpp` + `cuda/ann_kernels.cu`, `cuda/geo_kernels.cu`, `cuda/tensor_core_matmul.cu`, `cuda/vector_kernels.cu`: CUDA kernels and stream/graph management for vector similarity and geospatial operations.  
+  - `nccl_vector_backend.cpp`: multi-GPU NCCL collectives for sharding and query scatter/gather.  
+  - `tensor_core_matmul.cpp`: Tensor Core FP16/BF16 matrix multiplication.
+
+- **HIP/ROCm backend (optional, guarded by `THEMIS_ENABLE_HIP`)**  
+  - `hip_backend.cpp` + `hip/ann_kernels.hip`, `hip/geo_kernels.hip`: AMD HIP ANN and geospatial kernels.  
+  - `rccl_vector_backend.cpp`: multi-GPU RCCL collectives (AMD mirror of NCCL backend).
 
 - **Vulkan backend (optional, guarded by `THEMIS_ENABLE_VULKAN`)**  
-  - `vulkan_backend_full.cpp`: Vulkan compute infrastructure; distance shaders are planned.  
-  - `shaders/` (planned): SPIR-V compute shaders for L2/cosine distance.
+  - `vulkan_backend_full.cpp`: Vulkan compute infrastructure.  
+  - `vulkan/shaders/`: SPIR-V compute shaders for L2, cosine, inner-product, top-K, Haversine, and point-in-polygon operations.
+
+- **Other GPU / platform backends**  
+  - `directx_backend_full.cpp` + `directx/shaders/`: DirectX Compute backend (Windows).  
+  - `metal_backend.mm`: Apple Metal backend (macOS/iOS).  
+  - `opencl_backend.cpp`: OpenCL backend for broad hardware compatibility.  
+  - `graphics_backends.cpp`: shared graphics/GPU utility helpers.  
+  - `zluda_backend.cpp`: ZLUDA (AMD on CUDA API) backend.  
+  - `oneapi_backend.cpp`: Intel oneAPI backend.  
+  - `faiss_gpu_backend.cpp`: FAISS GPU wrapper for billion-scale ANN search.
+
+- **Multi-GPU**  
+  - `multi_gpu_backend.cpp`: range-based sharding, fan-out KNN, and host-side top-k merge across N devices.
+
+- **Geospatial bridge**  
+  - `geo_acceleration_bridge.cpp`: bridges geospatial operators (Haversine distance, point-in-polygon) to the acceleration layer via `GeoKernelDispatch`.
 
 - **CPU fallback**  
-  - `cpu_backend.cpp`, `cpu_backend_mt.cpp`: reference implementations used when accelerators are unavailable and as correctness baselines.
+  - `cpu_backend.cpp`, `cpu_backend_mt.cpp`: reference single-thread and pthreads implementations used when accelerators are unavailable and as correctness baselines.  
+  - `cpu_backend_tbb.cpp`: Intel TBB-based parallel CPU backend.
 
 - **Kernel dispatch & fallback/retry** (`include/acceleration/kernel_fallback_dispatcher.h`)  
   - `ANNKernelFallbackDispatcher`: wraps a primary `ANNKernelDispatch` table (GPU) and a fallback table (CPU). Null slots in the primary are routed directly to the fallback (unsupported kernel). Transient device errors (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) are retried with exponential back-off; all other errors and exhausted retries also fall back.  
@@ -35,8 +57,12 @@ In practice, this module is responsible for:
   - `RetryPolicy`: configures `maxAttempts`, initial/max delay (ms), and back-off multiplier.
 
 - **Plugins / security**  
-  - `plugin_loader.cpp`: loads optional backend plugins.  
-  - `plugin_security.cpp`: enforces the sandbox/allow-list for dynamically loaded GPU backends.
+  - `plugin_loader.cpp`: loads optional backend plugins at runtime.  
+  - `plugin_security.cpp`: enforces the sandbox/allow-list for dynamically loaded GPU backends; verifies GPG/code signatures before `dlopen`.  
+  - `shader_integrity.cpp`: verifies SPIR-V shader integrity before pipeline creation.
+
+- **vLLM / LLM resource management**  
+  - `vllm_resource_manager.cpp`: GPU VRAM resource lease management for LLM inference paths.
 
 ## Runtime Behavior
 
