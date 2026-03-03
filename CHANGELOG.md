@@ -533,7 +533,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [1.7.0] - TBD
+
+> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.7.0.md`](docs/de/releases/RELEASE_NOTES_v1.7.0.md)
+> **Aggregation Issue:** [#3486](https://github.com/makr-code/ThemisDB/issues/3486) · **Parent:** [#3073](https://github.com/makr-code/ThemisDB/issues/3073)
+
+### Added
+- **Config Architecture Reorganization** — hierarchical `config/` directory structure with 16 category subdirectories; `ConfigPathResolver` for backward-compatible legacy path resolution; migration guide at `config/MIGRATION_GUIDE.md`
+- **Multi-GPU Vector Indexing API (v2.4 scaffolding)** — `MultiGPUVectorIndex` with round-robin/hash/range/balanced partition strategies; query fan-out and top-k merge (CPU-backed; GPU execution planned v2.5+)
+- **Git-Like Features Integration** — SnapshotManager (named MVCC snapshots), PITR REST API (restore by sequence/tag/timestamp + preview), MergeEngine REST API (3-way merge, fast-forward check), enhanced BranchManager
+- **HybridSearch production hardening** — configurable vector metric (COSINE/DOT/L2), strict config validation, `SearchStats`, exception-safe search, pre-normalization; 88+ tests
+- **Distributed Query Optimizer (v1.5.x)** — dynamic shard row estimates, predicate selectivity, network latency hooks
+- **FAISS ADC distance table acceleration** — ~40% faster `IndexIVFPQ` search via precomputed distance tables; enabled by default
+- **Documentation validation CI** — `.github/workflows/documentation-validation.yml` with 5 jobs (link-check, markdown-lint, spell-check, structure-check, summary)
+- **44-module documentation audit** — all module READMEs, ROADMAPs, and ARCHITECTUREs aligned with actual source implementations
+- **Test + benchmark coverage audit** — 6 new benchmark suites + 21 new unit test files closing coverage gaps across all 44 modules
+- **RAG scientific foundations** — `docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md`: 460-line IEEE reference with 40 peer-reviewed citations
+
+### ⚠️ Breaking Changes
+- **themis module migration** — module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/`; update `#include` paths accordingly
+
+### Fixed
+- 119 broken documentation links corrected in hub/index files
+- `DiffEngine` initialization updated to accept optional `SnapshotManager` reference
+- Re-enabled `SnapshotManager` (was disabled due to incomplete type issues)
+
+---
 
 ### Added
 - **API Versioning and Compatibility Strategy**: Comprehensive API versioning infrastructure
