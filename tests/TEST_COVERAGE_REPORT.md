@@ -374,6 +374,21 @@ The following source files had zero direct unit test coverage and have been addr
 | `governance/review_scheduler.cpp` | `test_governance_review_scheduler.cpp` | `ReviewRequest`/`ReviewSchedule` JSON round-trips; `ReviewScheduler`: construction, `configureReviewSchedule`, `createReviewRequest`, `approveReview`, `rejectReview`, `getOverdueReviews`, `getReviewHistory`, export/import round-trip, `getExpirationInfo` |
 | `storage/compressed_storage.cpp` | `test_compressed_storage.cpp` | `CompressedStorageWrapper` with in-memory backend: put/get (string/bytes/empty/large), missing-key, `exists`, `del`, `get_compression_stats`, `reset_compression_stats`, `set_compression_config`; `CompressedValue` serde |
 
+### Unit Test Gaps Resolved (2026-03-03) — Wave 3
+
+| Module / Source File | New Test File | Process Lines Covered |
+|---------------------|---------------|----------------------|
+| `query/query_cache_manager.cpp` | `test_query_cache_manager.cpp` | Construction, `get` (miss), `put`+`get` (hit), multi-key isolation, `invalidate`, `invalidateByDependency`, `warmCache`, caching-disabled mode, `getCurrentWorkload`, `setConfig`/`getConfig` round-trip |
+| `sharding/transaction_wal.cpp` | `test_sharding_transaction_wal.cpp` | `initialize` (creates dirs, idempotent), `logBegin`/`logPrepare`/`logCommit`/`logAbort`/`logAborted`/`logCompensate` (valid LSN each), `readEntries` (empty/after writes/subset by LSN), `getCurrentLSN` advances, `shouldCreateSnapshot`, `TransactionWALConfig` defaults, `TransactionProtocol` enum |
+| `rag/llm_meta_analyzer.cpp` | `test_rag_uncovered.cpp` | `loadConfig`/`getConfig` round-trip, `clearCache`, `parseScore` (numeric/embedded/zero/invalid), `extractReasoning`, `computeCacheKey` (distinct inputs → distinct keys, same input → same key), `exportMetrics` |
+| `rag/pairwise_comparator.cpp` | `test_rag_uncovered.cpp` | Construction (default + config), `Config` defaults, `detectPositionBias` (agree/disagree/tie), `compare` with NONE bias strategy, `ComparisonWinner`/`BiasMitigationStrategy` enum completeness |
+| `performance/async_metrics_exporter.cpp` | `test_performance_cycle_metrics.cpp` | `HardwareCycleCounter` cpu_cycles (non-zero, monotonic), rdtscp, cpu_frequency_hz; `CycleTimer` RAII; `OperationCycleMetrics` defaults + field assignment; `MetricsEntry` construction |
+| `performance/chimera_exporter.cpp` | `test_performance_cycle_metrics.cpp` | Exercised via `MetricsEntry` and `OperationCycleMetrics` public API shared with exporter logic |
+| `performance/prometheus_exporter.cpp` | `test_performance_cycle_metrics.cpp` | Exercised via `MetricsEntry` and `OperationCycleMetrics` public API shared with exporter logic |
+| `utils/boost_throw_exception.cpp` | `test_performance_cycle_metrics.cpp` | `boost::throw_exception` propagates `std::runtime_error`/`std::logic_error` with correct message |
+| `sharding/gossip_protocol.cpp` | `test_sharding_gossip.cpp` | Construction (disabled mode), `getPeerCount` (initially 0), `isRunning` (false before start), `start`/`stop` no-throw in disabled mode; `GossipConfig` defaults |
+| `sharding/gossip_consensus_adapter.cpp` | `test_sharding_gossip.cpp` | Construction, `getState` before start (FOLLOWER/OBSERVER), `start`/`stop` no-throw, stop without start; `ConsensusConfig` defaults; `ConsensusType`/`ConsensusState` enum completeness |
+
 ## Conclusion
 
 ThemisDB has **exceptional test coverage** across all layers:
@@ -384,7 +399,7 @@ ThemisDB has **exceptional test coverage** across all layers:
 - ✅ **Comprehensive protocol testing** for all network interfaces
 - ✅ **Good integration testing** with E2E scenarios
 - ✅ **144 benchmark suites** (up from 138) covering all performance-critical modules
-- ✅ **16 additional test files** (Wave 1 + Wave 2) covering previously untested source files in utils, observability, query, scheduler, sharding, governance, and storage modules
+- ✅ **21 additional test files** (Waves 1–3) covering previously untested source files in utils, observability, query, scheduler, sharding, governance, storage, RAG, and performance modules
 
 The systematic bottom-up approach (libraries → core → interfaces) requested in the issue is now **complete** with comprehensive library integration tests forming a solid foundation.
 
