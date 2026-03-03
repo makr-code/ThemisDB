@@ -37,22 +37,24 @@ manages.
 | File | Role |
 |---|---|
 | `olap.cpp` | Core OLAP engine: GROUP BY, CUBE, ROLLUP, GROUPING SETS |
-| `window_function.cpp` | Window functions: RANK, DENSE_RANK, LAG, LEAD, NTILE |
+| `streaming_window.cpp` | Streaming windows: tumbling, sliding, session, hopping with watermarks |
 | `columnar_execution.cpp` | Columnar batch processor with AVX2 SIMD |
-| `process_miner.cpp` | Process discovery (Alpha / Heuristic / Inductive algorithms) |
+| `jit_aggregation.cpp` | JIT-compiled hot-path aggregation dispatch (LLVM-ready) |
+| `process_mining.cpp` | Process discovery (Alpha / Heuristic / Inductive algorithms) |
 | `process_pattern_matcher.cpp` | Conformance checking against reference process models |
 | `llm_process_analyzer.cpp` | LLM-powered process analysis and anomaly explanation |
 | `nlp_text_analyzer.cpp` | Sentiment analysis, entity extraction, modality detection |
 | `diff_engine.cpp` | Dataset diffing and change detection |
 | `cep_engine.cpp` | Complex Event Processing (production-ready) |
-| `streaming_window.cpp` | Sliding / tumbling / session windows for CEP |
-| `forecasting.cpp` | Time-series forecasting (ARIMA, Holt-Winters) |
+| `forecasting.cpp` | Time-series forecasting (ARIMA, Holt-Winters, EXP_SMOOTHING, ENSEMBLE) |
 | `anomaly_detection.cpp` | Statistical and ML-based anomaly detection |
 | `arrow_export.cpp` | Apache Arrow IPC / Parquet export |
+| `arrow_flight.cpp` | Arrow Flight RPC server/client for remote analytics (in-process + gRPC) |
 | `analytics_export.cpp` | CSV / JSON export |
-| `distributed_analytics.cpp` | Fan-out queries across shards |
+| `distributed_analytics.cpp` | Fan-out queries across shards (scatter-gather coordinator) |
 | `automl.cpp` | Automated ML model selection |
-| `ml_serving.cpp` / `model_serving.cpp` | In-process ML model serving |
+| `ml_serving.cpp` | External ML inference (ONNX Runtime, TensorFlow Serving) |
+| `model_serving.cpp` | In-process named+versioned model registry and online inference pipeline |
 | `incremental_view.cpp` | Incremental materialized view maintenance |
 
 ### 3.2 Component Diagram
@@ -100,7 +102,7 @@ Analytics Dispatcher
     │    → JSON / Arrow / Parquet
     │
     ├─ Process Mining path:
-    │    process_miner.cpp → Alpha/Heuristic/Inductive algorithms
+    │    process_mining.cpp → Alpha/Heuristic/Inductive algorithms
     │    → conformance checker (process_pattern_matcher.cpp)
     │    → LLM explanation (llm_process_analyzer.cpp)  [optional]
     │

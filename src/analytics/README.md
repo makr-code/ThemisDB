@@ -40,12 +40,17 @@ The Analytics module provides comprehensive data analysis capabilities for Themi
 | Interface / File | Role |
 |-----------------|------|
 | `olap.cpp` | OLAP engine: GROUP BY, CUBE, ROLLUP aggregations |
-| `window_function.cpp` | Window function evaluation (RANK, LAG, LEAD, etc.) |
-| `process_miner.cpp` | Process discovery and conformance checking |
+| `streaming_window.cpp` | Streaming windows: tumbling, sliding, session, hopping with watermarks |
+| `jit_aggregation.cpp` | JIT-compiled hot-path aggregation dispatch (LLVM-ready) |
+| `process_mining.cpp` | Process discovery and conformance checking |
 | `nlp_text_analyzer.cpp` | NLP text analysis, sentiment, entity extraction |
 | `llm_process_analyzer.cpp` | LLM-powered process analysis integration |
 | `diff_engine.cpp` | Dataset diffing and change detection |
 | `cep_engine.cpp` | Complex Event Processing (production-ready) |
+| `forecasting.cpp` | Time-series forecasting (ARIMA, Holt-Winters, EXP_SMOOTHING, ENSEMBLE) |
+| `distributed_analytics.cpp` | Distributed OLAP fan-out across shards |
+| `arrow_flight.cpp` | Arrow Flight RPC server/client for remote analytics |
+| `model_serving.cpp` | Named+versioned model registry and online inference pipeline |
 
 ## Current Delivery Status
 
@@ -552,7 +557,129 @@ cmake -B build -S . -DTHEMIS_ENABLE_TF_SERVING=ON   # enable TF Serving backend
 # ONNX Runtime is enabled automatically when onnxruntime is found via vcpkg
 ```
 
-## See [OLAP Guide](../../docs/de/analytics/olap_guide.md) for detailed documentation.
+### 15. Model Serving and Online Inference Pipeline (`model_serving.cpp`)
+
+**Lines of Code:** ~390 lines
+**Dependencies:** `automl.h`, `<shared_mutex>`
+
+**Status:** ✅ Production-ready
+
+Thread-safe named and versioned model registry with online and batch inference.
+
+**Key Components:**
+- `ModelServingPipeline` — top-level entry point; wraps the model registry
+- Named + versioned model storage keyed by `"name:version"` in an internal hash-map protected by a `std::shared_mutex`
+- `ModelInfo` — name, version, algorithm type, feature count, creation/last-used timestamps
+- `ModelHealthMetrics` — request count, error count, avg/p99 latency (ms), last-inference timestamp
+- Latency tracking via a fixed-size circular deque; p99 recomputed from sorted window (≤ 1000 samples)
+
+**Operations:**
+- `registerModel(name, version, model, info)` — register a new model version
+- `predict(name, version, features)` — single-sample inference; returns class label + probabilities
+- `predictBatch(name, version, batch)` — batch inference with per-sample results
+- `getModelHealth(name, version)` — retrieve live health metrics
+- `listModels()` — enumerate all registered model versions
+- `unregisterModel(name, version)` — remove a model from the registry
+
+**Thread Safety:**
+- Read operations (`predict*`, `list*`, `health*`) use a shared lock
+- Write operations (`register`, `unregister`) use an exclusive lock
+- Per-model health updates use a separate per-entry `std::mutex`
+
+### 16. Predictive Analytics & Time-Series Forecasting (`forecasting.cpp`)
+
+**Lines of Code:** ~1092 lines
+**Dependencies:** Standard C++17 only (no external ML libraries)
+
+**Status:** ✅ Production-ready
+
+Five forecasting algorithms with confidence intervals, model evaluation, and serialization.
+
+**Algorithms:**
+- `LINEAR_REGRESSION` — OLS fit (α + β·t); CI from residual standard error
+- `EXP_SMOOTHING` (SES) — single exponential smoothing; CI from residual MAD
+- `HOLT_WINTERS` — triple exponential smoothing (additive and multiplicative); falls back to Holt's if fewer than 2 full seasons
+- `ARIMA` — AR(p)+I(d)+MA(q) via Yule–Walker equations; supports differencing d = 0 or 1
+- `ENSEMBLE` — weighted average of all four algorithms; CI is weighted average of individual CIs
+
+**Key Types:**
+- `TimeSeries` — sorted vector of `TimeSeriesPoint{timestamp_ms, value}`; supports `push()` and `values()`
+- `ForecastModel` — trained model state; `fit(series)`, `predict(horizon)`, `evaluate(series)`, `decompose(series)`
+- `ForecastResult` — predicted values + lower/upper confidence bounds per step
+- `ForecastAccuracy` — MAE, RMSE, MAPE, sMAPE metrics
+- `SeasonalDecomposition` — trend, seasonal, residual components
+
+**Serialization:**
+- `ForecastModel::serialize()` / `ForecastModel::deserialize()` — round-trip JSON serialization for model persistence
+
+### 17. JIT Aggregation Compiler (`jit_aggregation.cpp`)
+
+**Lines of Code:** ~578 lines
+**Dependencies:** `columnar_execution.h`, spdlog
+
+**Status:** ✅ Production-ready
+
+Hot-path aggregation dispatch with template-specialized compiled functions.
+
+**Architecture:**
+- Cold path (call count < hot threshold): delegates to generic `AggregateOperator`
+- Hot path (call count ≥ hot threshold): invokes a cached `std::function<ColumnBatch(const ColumnBatch&)>` that hard-codes aggregation functions, eliminating per-row enum dispatch overhead and enabling compiler auto-vectorization
+- Each unique `(AggregateSpec::Function, input_column, result_name, group-by columns)` combination is encoded into a compact string key for independent tracking
+- `THEMIS_HAS_LLVM_JIT` compile flag: reserved extension point to emit LLVM IR via the MCJIT backend for native-code generation
+
+**Key Types:**
+- `JITAggregationEngine` — stateful dispatcher; created once per engine instance
+- `JITAggregationEngine::Config` — `hot_threshold` (default: 5 calls)
+- `JITAggregationEngine::execute(specs, batch)` — main dispatch entry point
+
+### 18. Distributed Analytics (`distributed_analytics.cpp`)
+
+**Lines of Code:** ~591 lines
+**Dependencies:** `olap.h`, spdlog, `<future>`
+
+**Status:** ✅ Production-ready
+
+Scatter-gather coordinator for distributed OLAP queries across cluster shards.
+
+**Architecture:**
+- Fan-out: the coordinator sends the same `OLAPQuery` to all registered shard `OLAPEngine` instances in parallel via `std::async`
+- Gather: partial results from each shard are merged using algorithm-correct accumulators
+  - `SUM` / `COUNT` / `MIN` / `MAX`: direct merge
+  - `AVG`: weighted sum + total count (avoids "average of averages" error)
+  - `STDDEV` / `VARIANCE`: Chan's parallel algorithm (running count, mean, M2)
+
+**Key Types:**
+- `DistributedAnalyticsEngine` — coordinator; holds a vector of shard `OLAPEngine` references
+- `DistributedAnalyticsEngine::addShard(engine)` — register a shard
+- `DistributedAnalyticsEngine::execute(query)` — scatter-gather execution; returns merged `OLAPResult`
+
+**Limitations:**
+- CUBE cross-shard result merging is partial (additive measures only; full CUBE merge is planned)
+
+### 19. Arrow Flight RPC (`arrow_flight.cpp`)
+
+**Lines of Code:** ~983 lines
+**Dependencies:** `arrow_export.h`, spdlog; optional `arrow/flight/api.h` (THEMIS_HAS_ARROW_FLIGHT)
+
+**Status:** ✅ Production-ready
+
+In-process and native Arrow Flight server/client for zero-copy remote analytics data transfer.
+
+**Two transports:**
+- **In-process (always available)**: a process-local registry maps path descriptors to dataset producers and put handlers; the client resolves the server directly, enabling zero-overhead data transfer within a single process
+- **Native gRPC (THEMIS_HAS_ARROW_FLIGHT)**: when the Apache Arrow Flight C++ library is detected at build time the server starts a gRPC listener; the client falls back to a real network connection, enabling cross-process / cross-host transfer compatible with Pandas, DuckDB, Spark, and any Flight-capable tool
+
+**Key Types:**
+- `FlightDescriptor` — identifies a dataset by PATH or CMD; `toString()` helper
+- `FlightServer` — registers dataset producers (`putDataset`) and put handlers (`registerPutHandler`); `start(host, port)` / `stop()`
+- `FlightClient` — `listFlights()`, `getSchema(descriptor)`, `doGet(descriptor)` → `ArrowRecordBatch`, `doPut(descriptor, batch)`
+- `FlightInfo` — schema + endpoint metadata for a dataset
+
+**Build flag:**
+```cmake
+# Native Arrow Flight (gRPC) transport — requires Arrow with Flight support
+cmake -B build -S . -DTHEMIS_ENABLE_ARROW_FLIGHT=ON
+```
 
 ## Architecture
 
@@ -1550,14 +1677,16 @@ std::cout << "Rows filtered: " << profile.rows_filtered << "\n";
 - [x] Complex event processing – full NFA engine (`analytics/cep_engine.cpp`)
 - [x] Incremental materialized views (`analytics/incremental_view.cpp`)
 - [x] Streaming aggregations – TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow (`analytics/streaming_window.cpp`)
-- [P] Zero-copy data transfer (optional, with Arrow) (Issue: #1471 – implemented)
+- [x] Arrow Flight RPC support for remote analytics (`analytics/arrow_flight.cpp`) ✅
+- [x] Zero-copy data transfer optimizations (in-process Arrow Flight transport) ✅
+- [x] JIT-compiled hot-path aggregation (`analytics/jit_aggregation.cpp`) ✅
+- [x] Distributed analytics sharding across cluster nodes (`analytics/distributed_analytics.cpp`) ✅
 
 ### Phase 4: ML Integration (✅ Completed)
-- [I] Predictive analytics and forecasting (Issue: #1473 – planned)
+- [x] Predictive analytics and time-series forecasting (`analytics/forecasting.cpp`) ✅
 - [x] AutoML for automated model selection (`analytics/automl.cpp`)
-- [I] Advanced statistical analysis – planned
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (`analytics/ml_serving.cpp`) ✅
-- [I] Model serving and inference (Issue: #1477 – planned)
+- [x] Model serving and online inference pipeline (`analytics/model_serving.cpp`) ✅
 
 ## Contributing
 
