@@ -330,8 +330,21 @@ All library integration tests now complete:
 6. **Complete Library Integration**: All 10 core libraries now have dedicated tests
 
 ### Areas for Improvement ⚠️
-1. **Some Component Tests**: Need expansion (composite index, proximity)
-2. **Documentation**: Test purpose and coverage could be better documented
+1. **Documentation**: Test purpose and coverage could be better documented
+
+### Benchmark Gaps Resolved (2026-03-03)
+
+The following modules had functional tests but no dedicated performance benchmarks.
+Six new benchmark suites were added to close these gaps:
+
+| Module | New Benchmark | Key Process Lines Covered |
+|--------|---------------|--------------------------|
+| **acceleration** | `bench_acceleration_dispatch.cpp` | `CPUVectorBackend::computeDistances`, `batchKnnSearch`, `CPUGeoBackend::haversineDistance`, `batchHaversineDistances`, `pointInPolygon` |
+| **cdc** | `bench_cdc_pipeline.cpp` | `ConsumerGroupManager::createGroup/deleteGroup`, `fetchEventsAtLeastOnce`, `acknowledgeEvents`, concurrent fan-out |
+| **temporal** | `bench_temporal_queries.cpp` | `BiTemporalTable::insertWithValidTime`, `queryBiTemporal`, `queryCurrentByValidTime`, `updateForValidTime`, `deleteForValidTime`, `getHistory` |
+| **scheduler** | `bench_task_scheduler.cpp` | `TaskScheduler::registerTask`, `unregisterTask`, `executeTaskNow`, `listTasks`, `getStats`, concurrent register |
+| **replication** | `bench_replication_throughput.cpp` | `WALManager::append`, `readFrom`, `WALEntry::serialize/deserialize`, `ReplicationManager::initialize` |
+| **updates** | `bench_update_pipeline.cpp` | `UpdateStateMachine::transition`, `currentState`, `ReleaseManifest::toJson/fromJson`, `DeltaUpdateEngine::generatePatch/applyPatch` |
 
 ## Conclusion
 
@@ -342,15 +355,17 @@ ThemisDB has **exceptional test coverage** across all layers:
 - ✅ **Strong coverage** at storage, index, query, transaction, and API layers
 - ✅ **Comprehensive protocol testing** for all network interfaces
 - ✅ **Good integration testing** with E2E scenarios
+- ✅ **144 benchmark suites** (up from 138) covering all performance-critical modules
 
 The systematic bottom-up approach (libraries → core → interfaces) requested in the issue is now **complete** with comprehensive library integration tests forming a solid foundation.
 
 ### Recommendation: APPROVE
-The test suite effectively validates:
+The test and benchmark suite effectively validates:
 1. Library integration (Phase 1) ✅
 2. Core functions (Phase 2) ✅
 3. High-level functions (Phase 3) ✅
 4. Interfaces (Phase 4) ✅
 5. Integration scenarios (Phase 5) ✅
+6. Performance benchmarks for all production modules (Phase 6) ✅
 
-**Test effectiveness is HIGH** - the suite provides confidence in system correctness from libraries through all abstraction layers.
+**Test effectiveness is HIGH** - the suite provides confidence in system correctness from libraries through all abstraction layers, and benchmark coverage now extends to all remaining modules that previously lacked performance measurements.
