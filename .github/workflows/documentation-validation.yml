@@ -44,7 +44,6 @@ jobs:
 
     permissions:
       contents: read
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -72,6 +71,7 @@ jobs:
           name: lint-report
           path: /tmp/lint-report.json
           retention-days: 7
+          if-no-files-found: ignore
 
       - name: Write job summary
         if: always()
