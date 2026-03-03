@@ -43,7 +43,13 @@ and **semantically intelligent** (vector similarity matching for near-duplicate 
 | `bounded_lru_cache.cpp` | L1 in-memory LRU cache with per-entry size limits |
 | `semantic_cache.cpp` | Vector similarity-based cache lookup for near-duplicate queries |
 | `embedding_cache.cpp` | Dedicated cache for embedding vectors |
-| `warmup.cpp` | Bulk cache warmup from pre-computed result sets |
+| `warmup.cpp` | Bulk cache warmup from pre-computed result sets or query log snapshots |
+| `predictive_prefetcher.cpp` | Predictive pre-fetching based on query sequence history |
+| `cache_hit_rate_slo_monitor.cpp` | Cache hit-rate SLO alerting and monitoring |
+| `cache_replication.cpp` | Cache replication event handling for high-availability deployments |
+| `cache_replication_coordinator.cpp` | In-process cache replication coordination |
+| `distributed_cache_coordinator.cpp` | Distributed cache coordination (node-local bus, `InProcessCacheCoordinator`) |
+| `redis_cache_coordinator.cpp` | Redis pub/sub backed distributed cache coordinator (`RedisCacheCoordinator`) |
 
 ### 3.2 Component Diagram
 
@@ -183,10 +189,10 @@ cache.put(tenant_id, query_hash, result)
 
 ## 11. Known Limitations & Future Work
 
-- Distributed cache coordination (Redis/Memcached bridge) is planned for Phase 3.
-- Admin API for manual eviction, warmup, and monitoring is planned.
-- Adaptive TTL tuning based on access patterns is in design.
-- L2 eviction policy (currently LRU) may switch to LIRS for better frequency tracking.
+- Tenant management API (`/v1/admin/cache/tenants` PATCH endpoint) is in progress (Issue: #1579).
+- Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. Degrades gracefully when Redis is unavailable.
+- True cluster bus variant (without Redis dependency) is deferred; `InProcessCacheCoordinator` covers single-binary deployments.
+- Signed invalidation messages for distributed coordinator are planned to prevent unauthenticated cache-flush attacks (see `FUTURE_ENHANCEMENTS.md`).
 
 ---
 

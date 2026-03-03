@@ -82,7 +82,6 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 
 ## Known Issues & Limitations
 - Admin API is implemented (`/v1/admin/cache/` endpoints); tenant management API is still in progress
-- Adaptive TTL tuning is not yet active
 - Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. The coordinator degrades gracefully when Redis is unavailable.
 - Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller
 
