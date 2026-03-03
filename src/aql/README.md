@@ -23,10 +23,21 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 
 | Interface / File | Role |
 |-----------------|------|
-| `llm_aql_handler.cpp` | LLM command handler (INFER/RAG/EMBED/MODEL/LORA) |
-| `nl_to_aql.cpp` | Natural language to AQL translation |
-| `aql_doc_assistant.cpp` | Function lookup and explanation |
-| `query_validator.cpp` | Validation and linting (in progress) |
+| `llm_aql_handler.cpp` | LLM command handler (INFER/RAG/EMBED/MODEL/LORA), NL-to-AQL translation |
+| `docs_assistant_functions.cpp` | Function lookup and explanation |
+| `aql_query_validator.cpp` | Query validation and linting |
+| `aql_query_builder.cpp` | Schema-aware programmatic AQL construction |
+| `aql_schema_provider.cpp` | Live schema context for query generation |
+| `aql_syntax_highlighter.cpp` | ANSI color highlighting and error annotation |
+| `aql_confidence_scorer.cpp` | Confidence scoring for generated queries |
+| `aql_autocomplete.cpp` | Token-level autocompletion (LSP-compatible) |
+| `aql_fewshot_example_library.cpp` | Few-shot NL/AQL example corpus |
+| `aql_optimizer_advisor.cpp` | Query plan explanation and rewrite suggestions |
+| `aql_conversation_context.cpp` | Multi-turn conversation history |
+| `aql_query_template_library.cpp` | Pre-validated query templates for common patterns |
+| `aql_lora_finetuner.cpp` | LoRA adapter fine-tuning on AQL corpora |
+| `aql_migration_assistant.cpp` | Legacy AQL migration (ArangoDB → ThemisDB AQL) |
+| `llm_metrics_collector.cpp` | Latency, token counts, and cache-hit metrics |
 
 ## Scope
 
