@@ -51,8 +51,8 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] JWT validation with OpenID Connect and Keycloak integration (`auth/jwt_validator.cpp`)
 - [x] RS256 signature verification with JWKS caching and configurable TTL
 - [x] Clock skew tolerance for distributed environments
-- [x] Kerberos/GSSAPI authentication for Active Directory SSO (`auth/kerberos_auth.cpp`)
-- [x] TOTP-based Multi-Factor Authentication with recovery codes (`auth/totp_mfa.cpp`)
+- [x] Kerberos/GSSAPI authentication for Active Directory SSO (`auth/gssapi_authenticator.cpp`)
+- [x] TOTP-based Multi-Factor Authentication with recovery codes (`auth/mfa_authenticator.cpp`)
 - [x] Principal-to-role mapping and RBAC enforcement
 - [x] Rate limiting for brute force and replay attack prevention
 - [x] Fallback from Kerberos to basic authentication
