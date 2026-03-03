@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:11                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:51:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     403                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     593                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • b2265b9b9  2026-02-21  feat(acceleration): Phase 3.3 — BackendHealthStatus + Vul... ║
-    • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
-    • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
+    • f2fa0c5eb  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
+    • 55513f505  2026-02-23  feat(acceleration): add CUDAMatrixBackend declaration and... ║
+    • 0d9d8563c  2026-02-23  feat(acceleration): API stability for acceleration backen... ║
+    • 9724334d6  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
+    • 7db1b389d  2026-02-23  feat(acceleration): add initializeRuntime() for capabilit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

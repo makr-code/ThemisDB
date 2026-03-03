@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_middleware.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:45                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:02:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     722                                            ║
+    • Total Lines:     846                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

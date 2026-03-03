@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.h                                        ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     269                                            ║
+    • Total Lines:     337                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
+    • 06f59a69f  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
+    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+    • de729d957  2026-02-24  cdc: expose retention policy configuration in getRetentio... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wal_shipper.h                                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:39                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,9 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     258                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1ee010fe7  2026-02-25  fix(replication/audit): fix div-by-zero in WALShipper sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

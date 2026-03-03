@@ -1754,6 +1754,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
+    ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1802,10 +1803,10 @@ set(THEMIS_CORE_SOURCES
     ../src/security/webdav_user_registration_plugin.cpp
     ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
-    ../src/security/hsm_provider_pkcs11.cpp
     ../src/security/hsm_key_provider_adapter.cpp
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/tsa_api.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
@@ -1902,6 +1903,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
+    ../src/sharding/hardware_migration_manager.cpp
     ../src/sharding/shard_load_detector.cpp
     ../src/sharding/auto_rebalancer.cpp
     ../src/sharding/prometheus_metrics.cpp
@@ -3410,6 +3412,10 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Citation Highlighting (Phase 3)
         ../src/rag/citation_highlighter.cpp
         
+        # Model Deployment Plugin (Ollama-inspired, production-ready)
+        ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
+        ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit
+        
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
@@ -3753,23 +3759,6 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_ann_index
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ann_index>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
-
-    # Distributed vector index across shards (Issue #1879)
-    add_executable(test_distributed_vector_index
-        ${THEMIS_ROOT_DIR}/tests/index/test_distributed_vector_index.cpp
-    )
-    target_link_libraries(test_distributed_vector_index
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_distributed_vector_index
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_vector_index>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:29                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     983                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     987                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fef313e1c  2026-02-22  fix(timeseries): wire up OOO metrics and add missing test... ║

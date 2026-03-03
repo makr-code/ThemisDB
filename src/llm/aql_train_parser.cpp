@@ -3,8 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_train_parser.cpp                               ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-23                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:58:29                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     911                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5e637e76d  2026-02-24  AQL: rename distributed training struct  ║
+    • 9d6907d17  2026-02-23  fix: remove duplicate include and replace magic number in... ║
+    • 43fff097c  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

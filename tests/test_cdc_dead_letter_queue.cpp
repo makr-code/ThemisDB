@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_dead_letter_queue.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     272                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • b7ab19d6f  2026-02-24  feat(cdc): implement dead-letter queue for failed event d... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: CDC Dead-Letter Queue
 // Tests for DeadLetterQueue: enqueue, list, replay, remove, drain
 

@@ -2,18 +2,22 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            tiered_index_manager.cpp                          ║
-  Version:         1.0.0                                             ║
-  Last Modified:   2026-02-28                                        ║
-  Author:          Copilot                                           ║
+  File:            tiered_index_manager.cpp                           ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:58:21                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 STABLE                                       ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     317                                            ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     336                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Complete                                                 ║
+  Revision History:                                                   ║
+    • e102e2b8e  2026-02-28  feat(index): complete cold/warm tier index migration (Iss... ║
+    • 3a3113eda  2026-02-27  feat(index): Cold/warm tier index migration (Issue #2407) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

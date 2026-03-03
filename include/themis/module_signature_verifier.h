@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            module_signature_verifier.h                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:55:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     95                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 99408f61e  2026-03-01  feat: add standalone ModuleSignatureVerifier for Authenti... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Authenticode (Windows) and GPG (Linux) signature verification for ThemisDB modules.
 // Provides a standalone, platform-specific signature checker that complements the
 // hash-based ModuleHashVerifier (Phase 3) with cryptographic signature validation.

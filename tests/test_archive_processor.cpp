@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_archive_processor.cpp                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:45                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:02:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     293                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     363                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e21224bb7  2026-02-28  feat(content): implement file upload security checks ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -164,7 +167,9 @@ TEST_F(ArchiveProcessorTest, CannotHandleNonArchiveMimeTypes) {
 TEST_F(ArchiveProcessorTest, CorrectCategory) {
     ArchiveProcessor processor;
     
-    EXPECT_EQ(processor.getCategory(), ContentCategory::ARCHIVE);
+    auto categories = processor.getSupportedCategories();
+    EXPECT_FALSE(categories.empty());
+    EXPECT_EQ(categories[0], ContentCategory::ARCHIVE);
     EXPECT_EQ(processor.getName(), "ArchiveProcessor");
 }
 

@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:10                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   52.0/100                                       ║
-    • Total Lines:     1663                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   57.0/100                                       ║
+    • Total Lines:     1665                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -335,7 +335,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     if (!canAllocate(bytes, 0)) {
         size_t bytes_mb = bytes / (1024 * 1024);
         size_t available_mb = (config_.max_vram_bytes - total_vram_used_) / (1024 * 1024);
-        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
+        spdlog::error("[{}] GPU OOM: requested {:.1f} MB, available {:.1f} MB", 
+                      static_cast<int>(errors::ErrorCode::ERR_LLM_GPU_OOM), 
+                      bytes_mb, available_mb);
         return nullptr;
     }
     

@@ -3,20 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:56                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 BETA                                         ║
-    • Quality Score:   65.0/100                                       ║
-    • Total Lines:     1433                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   66.0/100                                       ║
+    • Total Lines:     1398                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 6                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
+    • bb7355ba7  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
+    • 1b73a7e71  2026-02-23  Implement CUDA kernels for HNSW ANN search (cuda/ann_kern... ║
+    • 50d44f370  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
+    • fa818fec0  2026-02-23  feat(acceleration): implement CUDAGeoBackend production m... ║
+    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🚧 Early Development                                         ║
+  Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

@@ -3,18 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     282                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     294                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 7f17c52b6  2026-02-21  feat(core): structured log correlation — span_id in Trace... ║
+    • f0410cbb0  2026-02-27  audit(core): wire Jaeger/Zipkin adapters into ConcernsCon... ║
+    • 57bf541b2  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
+    • 6dc891cbd  2026-02-24  feat(core): feature flag interface for runtime enable/dis... ║
+    • ce91302f7  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
+    • 31c83c701  2026-02-23  fix(core): repair syntax errors from develop merge; resto... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

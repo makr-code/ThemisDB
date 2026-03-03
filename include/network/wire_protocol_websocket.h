@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_websocket.h                          ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:57:27                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 03:53:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6144e4347  2026-03-01  feat(network): implement WebSocket binary frame support f... ║
+    • 3e1a33c4c  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
     • 0d6fb9967  2026-02-22  fix(network): audit fixes – connection-count correctness ... ║
     • 6d2d48159  2026-02-22  feat(network): implement WebSocket upgrade support on wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣

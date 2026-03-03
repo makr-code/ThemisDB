@@ -4,14 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audio_preprocessing.h                              ║
   Version:         0.0.28                                             ║
-  Last Modified:   2026-02-28                                         ║
+  Last Modified:   2026-03-02 03:55:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     175                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     190                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • be2946f18  2026-02-28  feat(voice): implement RNNoise deep-learning noise suppre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_stub_gating.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:59                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   46.0/100                                       ║
-    • Total Lines:     218                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 15                            ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   36.0/100                                       ║
+    • Total Lines:     261                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
+  Revision History:                                                   ║
+    • a05c4ac44  2026-03-01  feat(security): enforce hard rejection of stub HSM in pro... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -39,11 +42,13 @@ protected:
         #ifdef _WIN32
             _putenv_s("THEMIS_ALLOW_HSM_STUB", "");
             _putenv_s("THEMIS_PRODUCTION_MODE", "");
+            _putenv_s("THEMIS_ENVIRONMENT", "");
             _putenv_s("ENVIRONMENT", "");
             _putenv_s("NODE_ENV", "");
         #else
             unsetenv("THEMIS_ALLOW_HSM_STUB");
             unsetenv("THEMIS_PRODUCTION_MODE");
+            unsetenv("THEMIS_ENVIRONMENT");
             unsetenv("ENVIRONMENT");
             unsetenv("NODE_ENV");
         #endif
@@ -215,4 +220,45 @@ TEST_F(HSMStubGatingTest, ErrorMessageIncludesGuidance) {
     std::string error = hsm.getLastError();
     // Should mention how to build with real HSM
     EXPECT_NE(error.find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
+}
+
+// THEMIS_ENVIRONMENT=production is a hard failure that cannot be overridden
+TEST_F(HSMStubGatingTest, FailsInThemisEnvironmentProduction) {
+    setEnv("THEMIS_ENVIRONMENT", "production");
+    
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    
+    EXPECT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
+    
+    std::string error = hsm.getLastError();
+    EXPECT_NE(error.find("production mode"), std::string::npos);
+}
+
+// THEMIS_ENVIRONMENT=production cannot be bypassed with THEMIS_ALLOW_HSM_STUB
+TEST_F(HSMStubGatingTest, ThemisEnvironmentProductionCannotBeOverridden) {
+    setEnv("THEMIS_ENVIRONMENT", "production");
+    setEnv("THEMIS_ALLOW_HSM_STUB", "1");
+    
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    
+    // Themis production environment takes precedence even with opt-in
+    EXPECT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
+}
+
+// THEMIS_PRODUCTION_MODE accepts truthy string values beyond "1"
+TEST_F(HSMStubGatingTest, FailsWithProductionModeTrueString) {
+    setEnv("THEMIS_PRODUCTION_MODE", "true");
+    
+    HSMConfig config;
+    config.library_path = "/nonexistent/stub.so";
+    HSMProvider hsm(config);
+    
+    EXPECT_FALSE(hsm.initialize());
+    EXPECT_FALSE(hsm.isReady());
 }

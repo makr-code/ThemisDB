@@ -4,19 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26 05:28:42                                ║
+  Last Modified:   2026-03-02 03:59:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     675                                            ║
+    • Total Lines:     723                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9a1cb143d  2026-02-26  feat(graph): implement EXPLAIN AQL output for graph query... ║
-    • 8ce3b5039  2026-02-21  fix(query): use error().message() consistently in explain... ║
-    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
+    • 4f86bf5cd  2026-03-01  feat(query): implement RuntimeReoptimizer for adaptive qu... ║
+    • 8554702d5  2026-02-28  fix(query): code-audit – remove unused includes, fix narr... ║
+    • 099187166  2026-02-26  feat(query): implement SQL dialect compatibility layer (e... ║
+    • b1216f45a  2026-02-26  audit: fix stale file headers (Stubs: 0) and add ANALYZE-... ║
+    • 9a1cb143d  2026-02-25  feat(graph): implement EXPLAIN AQL output for graph query... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -225,7 +227,7 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
             );
         }
         auto rows = std::move(*result);
-        size_t row_count = rows.is_array() ? rows.size() : 0;
+        size_t row_count = rows.size();
         reopt_guard.finish(row_count);
         return Ok(nlohmann::json({{"type","join"},{"results", rows}}));
     }

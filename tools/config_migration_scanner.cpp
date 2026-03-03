@@ -1,4 +1,28 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            config_migration_scanner.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:08:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     131                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5ced97252  2026-02-26  feat(config): add migration scanner impl header and unit ... ║
+    • 27d94c4d5  2026-02-24  fix(config): address code review - rename tp param, remov... ║
+    • db0c5d24a  2026-02-24  feat(config): complete METADATA_TABLE, harden symlink val... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * config_migration_scanner – CLI tool that scans a deployment directory tree
  * for files referencing legacy config paths and outputs a migration report.
  *

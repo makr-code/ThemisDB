@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_pkce_flow.cpp                                ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-02-23                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     310                                            ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     446                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 82b94dd7c  2026-02-24  fix(auth): code-audit fixes for OAuth PKCE — EVP SHA-256,... ║
+    • 49afad4b8  2026-02-23  feat(auth): implement OAuth 2.0 PKCE flow for public clie... ║
+    • c19ab9056  2026-02-22  Implement OAuth 2.0 device authorization flow (RFC 8628) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

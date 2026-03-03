@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.cpp                                 ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-23 03:58:07                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-03-02 03:58:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1104                                           ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     1282                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 25e8cec73  2026-02-28  Implement JDBC-compatible config for MySQL/MariaDB importer ║
+    • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
+    • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
     • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

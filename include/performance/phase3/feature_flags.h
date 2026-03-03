@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:28                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:53:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     134                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     181                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1973a06f2  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
+    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • da9b09bcc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
+    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_loader.cpp                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:10                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:05:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     832                                            ║
+    • Total Lines:     1329                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 20d74ea0c  2026-03-01  feat(themis): integrate Zone.Identifier quarantine detect... ║
+    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
+    • d28b41973  2026-02-26  feat: implement per-plugin audit trail (load, unload, err... ║
+    • 84e913c55  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
+    • 9ba1b3bd4  2026-02-23  Implement Authenticode and GPG signature verification for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

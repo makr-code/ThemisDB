@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_metrics.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     326                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     404                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
+    • 9d330002b  2026-02-28  Fix stale Stubs annotation in exporter_metrics and docume... ║
+    • 985852ac2  2026-02-27  feat(exporters): implement incremental/delta export with ... ║
+    • 384a0bfa5  2026-02-26  Implement streaming export for large collections with pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -249,6 +256,8 @@ size_t ExporterMetrics::getEncryptedPlaintextBytes() const {
 
 size_t ExporterMetrics::getEncryptedOutputBytes() const {
     return encryption_output_bytes_.load();
+}
+
 void ExporterMetrics::recordEncryption(size_t encrypted_bytes) {
     encrypted_bytes_written_ += encrypted_bytes;
 }

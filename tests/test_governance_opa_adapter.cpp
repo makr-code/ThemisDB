@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_governance_opa_adapter.cpp                    ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     405                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 25                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d2f3985dc  2026-02-27  fix(governance): simulateDecision routes through OPA; add... ║
+    • 99dc8e3f4  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_governance_opa_adapter.cpp
  * @brief Unit tests for governance::OpaAdapter and PolicyEngine OPA-evaluator integration.

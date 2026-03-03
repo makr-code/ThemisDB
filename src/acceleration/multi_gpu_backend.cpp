@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            multi_gpu_backend.cpp                              ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     479                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ea484e8b0  2026-02-23  fix(acceleration): audit fixes — thread-safety, warning, ... ║
+    • 9e7afd57b  2026-02-23  feat(acceleration): implement MultiGPUVectorBackend with ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "acceleration/multi_gpu_backend.h"
 #include "acceleration/cpu_backend.h"
 #include "acceleration/nccl_vector_backend.h"

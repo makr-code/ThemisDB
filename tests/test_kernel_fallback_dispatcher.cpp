@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_kernel_fallback_dispatcher.cpp                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:04:46                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     570                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 48                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ffe740031  2026-02-23  feat(acceleration): implement fallback/retry semantics fo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: Kernel Fallback / Retry Dispatcher
 //
 // Validates the ANNKernelFallbackDispatcher and GeoKernelFallbackDispatcher

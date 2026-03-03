@@ -4,14 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_retriever.cpp                               ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-24                                         ║
+  Last Modified:   2026-03-02 03:59:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     245                                            ║
+    • Total Lines:     315                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e340bbb9a  2026-02-24  feat(rag): implement hybrid retrieval (BM25 + vector) wit... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

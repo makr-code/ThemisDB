@@ -1613,6 +1613,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
     )
 
     target_compile_definitions(bench_governance_policy_latency PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    message(STATUS "  Governance Policy Latency: policy evaluation, hot-swap latency, cache hit rates")
+else()
+    message(STATUS "Governance Policy Latency benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
+endif()
+
 # ConfigPathResolver Performance Benchmarks (Issue #1675)
 # Measures cache hit rate and resolution latency for config path resolution.
 #
@@ -1647,8 +1655,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
         target_compile_options(bench_governance_policy_latency PRIVATE
-        target_compile_options(bench_config_path_resolver PRIVATE
-        target_compile_options(bench_changefeed_throughput PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
@@ -1656,8 +1662,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
     endif()
 
     install(TARGETS bench_governance_policy_latency
-    install(TARGETS bench_config_path_resolver
-    install(TARGETS bench_changefeed_throughput
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )

@@ -4,14 +4,21 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_v2.cpp                               ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-25 17:53:54                                ║
+  Last Modified:   2026-03-02 03:58:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     677                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     728                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • f5aaf5563  2026-02-26  Fix LZ4/Zstd connection-level compression in Wire Protoco... ║
+    • 40be9015b  2026-02-25  fix(network): code audit — fix aggregate stats, add COMPR... ║
+    • 2d9174f92  2026-02-25  fix(network): audit fixes – add lz4 vcpkg dependency and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

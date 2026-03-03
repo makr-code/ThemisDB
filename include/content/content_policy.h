@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_policy.h                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:18                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     90                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     101                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
+    • ee034a657  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

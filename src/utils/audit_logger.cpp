@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_logger.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:31                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
+    • Quality Score:   98.0/100                                       ║
     • Total Lines:     1287                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -36,6 +36,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <unistd.h>
 #endif
 
@@ -105,10 +106,103 @@ std::vector<uint8_t> AuditLogger::sha256(const std::vector<uint8_t>& data) {
 
 void AuditLogger::appendJsonLine(const nlohmann::json& j) {
     std::scoped_lock lk(file_mu_);
-    auto path = std::filesystem::path(cfg_.log_path);
-    std::filesystem::create_directories(path.parent_path());
-    std::ofstream ofs(cfg_.log_path, std::ios::app | std::ios::binary);
-    ofs << j.dump() << "\n";
+    std::filesystem::create_directories(
+        std::filesystem::path(cfg_.log_path).parent_path());
+
+    // Rotate the primary log file if it has grown beyond the configured limit
+    rotateLogIfNeeded();
+
+    const std::string line = j.dump() + "\n";
+
+    // Write primary log file
+    {
+        std::ofstream ofs(cfg_.log_path, std::ios::app | std::ios::binary);
+        ofs << line;
+    }
+
+    // Flush kernel page-cache to stable storage for crash durability
+    if (cfg_.enable_fsync) {
+#ifndef _WIN32
+        int fd = ::open(cfg_.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
+        if (fd >= 0) {
+            ::fdatasync(fd);
+            ::close(fd);
+        }
+#else
+        HANDLE h = CreateFileA(cfg_.log_path.c_str(), GENERIC_WRITE,
+                               FILE_SHARE_READ | FILE_SHARE_WRITE,
+                               nullptr, OPEN_EXISTING, 0, nullptr);
+        if (h != INVALID_HANDLE_VALUE) {
+            FlushFileBuffers(h);
+            CloseHandle(h);
+        }
+#endif
+    }
+
+    // Mirror to secondary path (redundancy against primary storage failure)
+    if (!cfg_.secondary_log_path.empty()) {
+        std::filesystem::create_directories(
+            std::filesystem::path(cfg_.secondary_log_path).parent_path());
+        {
+            std::ofstream sec(cfg_.secondary_log_path, std::ios::app | std::ios::binary);
+            sec << line;
+        }
+        if (cfg_.enable_fsync) {
+#ifndef _WIN32
+            int fd2 = ::open(cfg_.secondary_log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
+            if (fd2 >= 0) {
+                ::fdatasync(fd2);
+                ::close(fd2);
+            }
+#else
+            HANDLE h2 = CreateFileA(cfg_.secondary_log_path.c_str(), GENERIC_WRITE,
+                                    FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                    nullptr, OPEN_EXISTING, 0, nullptr);
+            if (h2 != INVALID_HANDLE_VALUE) {
+                FlushFileBuffers(h2);
+                CloseHandle(h2);
+            }
+#endif
+        }
+    }
+}
+
+void AuditLogger::rotateLogIfNeeded() {
+    // Caller must hold file_mu_.
+    if (cfg_.max_file_size_bytes == 0) return;
+
+    std::error_code ec;
+    if (!std::filesystem::exists(cfg_.log_path, ec)) return;
+
+    const auto file_size = std::filesystem::file_size(cfg_.log_path, ec);
+    if (ec || file_size < cfg_.max_file_size_bytes) return;
+
+    const auto& base = cfg_.log_path;
+
+    if (cfg_.max_rotated_files > 0) {
+        // Remove the oldest rotated file to make room
+        auto oldest = base + "." + std::to_string(cfg_.max_rotated_files);
+        if (std::filesystem::exists(oldest, ec)) {
+            std::filesystem::remove(oldest, ec);
+        }
+        // Shift existing rotated files upward: file.N-1 -> file.N
+        // Loop starts at max_rotated_files (>= 1) and descends to 2; size_t is safe
+        // because we never reach 0 (the condition `i > 1` stops at i==1 before decrement).
+        for (size_t i = cfg_.max_rotated_files; i > 1; --i) {
+            auto from_path = base + "." + std::to_string(i - 1);
+            auto to_path   = base + "." + std::to_string(i);
+            if (std::filesystem::exists(from_path, ec)) {
+                std::filesystem::rename(from_path, to_path, ec);
+            }
+        }
+        // Rotate the current log to .1
+        std::filesystem::rename(base, base + ".1", ec);
+    } else {
+        // No rotated files kept: discard the full log
+        std::filesystem::remove(base, ec);
+    }
+
+    THEMIS_INFO("Audit log rotated: {}", base);
 }
 
 void AuditLogger::logEvent(const nlohmann::json& event) {

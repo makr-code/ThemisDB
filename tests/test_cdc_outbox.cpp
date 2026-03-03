@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cdc_outbox.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:02:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     399                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • 822f29a02  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Tests for CDC Outbox Pattern
 // Covers: OutboxWriter::writeToOutbox, OutboxRelay::relayOnce, state transitions,
 //         listRecords, removeRecord, purgePublished, error paths.

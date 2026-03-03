@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_graph.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,9 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     779                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ed1eb57c4  2026-02-28  feat(graph): add time-range traversal tests for temporal ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

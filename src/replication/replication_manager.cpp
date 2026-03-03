@@ -4,7 +4,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-03-01                                         ║
+  Last Modified:   2026-03-02 03:59:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   90.0/100                                       ║
     • Total Lines:     5110                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a0483324b  2026-03-01  feat(crdt): add FLAG_EW and FLAG_DW CRDT types to replica... ║
+    • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
+    • fdf7da532  2026-03-01  fix(replication): explicit witness-node rejection in trig... ║
+    • 42947304a  2026-03-01  Fix witness node quorum counting and leader exclusion in ... ║
+    • 2e7a5d0c7  2026-02-28  feat(replication): witness node support for quorum in 2-n... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

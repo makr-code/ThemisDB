@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            entity_api_handler.cpp                             ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:23                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1062                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1102                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • df280b5a0  2026-02-24  feat(cdc): add before/after document snapshots to ChangeE... ║
+    • 1c7c2d949  2026-02-23  fix: resolve 4 RULE-CPP-002 audit violations in entity_ap... ║
+    • 8f1e0c598  2026-02-23  Add batch operations unit tests, update ROADMAP and fix S... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

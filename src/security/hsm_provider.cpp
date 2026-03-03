@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:22                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     356                                            ║
+    • Total Lines:     373                                            ║
     • Open Issues:     TODOs: 0, Stubs: 44                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a05c4ac44  2026-03-01  feat(security): enforce hard rejection of stub HSM in pro... ║
+    • ffcf5ac92  2026-03-01  fix: replace HSM stub with PKCS#11 production implementation ║
     • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
     • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -30,6 +32,7 @@
 #else
 
 #include "security/hsm_provider.h"
+#include "core/production_mode.h"
 #include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
@@ -140,17 +143,29 @@ bool HSMProvider::initialize() {
     // SECURITY HARDENING: Check for explicit opt-in to use stub provider
     // This prevents accidental production deployment with insecure stub
     const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
-    const char* force_production = std::getenv("THEMIS_PRODUCTION_MODE");
     
-    // Fail-fast: If production mode is explicitly enabled, stub is not allowed
-    if (force_production && std::string(force_production) == "1") {
+    // Hard fail-fast: reject stub in any Themis production environment.
+    // Covers THEMIS_PRODUCTION_MODE (all truthy values) and THEMIS_ENVIRONMENT=production|prod.
+    // This cannot be overridden by THEMIS_ALLOW_HSM_STUB.
+    if (core::ProductionMode::isEnabled()) {
         last_error_ = "HSM stub provider cannot be used in production mode. "
-                      "Build with -DTHEMIS_ENABLE_HSM_REAL=ON or disable THEMIS_PRODUCTION_MODE.";
+                      "Build with -DTHEMIS_ENABLE_HSM_REAL=ON, or disable production mode "
+                      "(THEMIS_PRODUCTION_MODE / THEMIS_ENVIRONMENT).";
         THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
         return false;
+    // Fail-fast: If production mode is explicitly enabled, stub is not allowed
+    if (force_production) {
+        std::string fp(force_production);
+        if (fp == "1" || fp == "true" || fp == "production") {
+            last_error_ = "HSM stub provider cannot be used in production mode. "
+                          "Build with -DTHEMIS_ENABLE_HSM_REAL=ON or disable THEMIS_PRODUCTION_MODE.";
+            THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
+            return false;
+        }
     }
     
-    // Fail-fast: Without explicit opt-in, refuse to initialize if production-like environment detected
+    // Soft fail: Without explicit opt-in, refuse to initialize if other
+    // production-like environment indicators are detected (ENVIRONMENT, NODE_ENV).
     if (!allow_stub || std::string(allow_stub) != "1") {
         // Check for production-like indicators
         const char* env_type = std::getenv("ENVIRONMENT");

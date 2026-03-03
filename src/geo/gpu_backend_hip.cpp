@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gpu_backend_hip.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     205                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9d19a8878  2026-02-25  feat(geo): implement ROCm/HIP GPU backend for AMD hardwar... ║
+    • 7443ae323  2026-02-25  fix(geo): audit fixes - check device-to-host cudaMemcpy r... ║
+    • fd0e4c21c  2026-02-24  fix(geo): address code review - check cudaMemcpy return v... ║
+    • c1a4fe568  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // gpu_backend_hip.cpp — HIP implementation of GpuKernelDispatcher
 //
 // Compiled only when THEMIS_GEO_HIP=ON (which implies THEMIS_ENABLE_HIP=ON).

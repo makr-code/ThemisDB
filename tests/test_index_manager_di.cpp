@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_index_manager_di.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-28 12:00:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:04:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     160                                            ║
+    • Total Lines:     267                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bb886db93  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +32,7 @@
 #include <vector>
 
 #include "index/index_manager.h"
+#include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "themis/base/interfaces/index_interface.h"
@@ -56,6 +61,18 @@ makeIndexManager(const std::string& db_path) {
     auto mgr = IndexManager::createDefault();
     mgr->setRocksDB(db);
     return {db, mgr};
+}
+
+static Result<ISecondaryIndex*> createSecondaryIndexWithConfig(
+    const std::shared_ptr<IndexManager>& mgr,
+    std::string_view name,
+    std::string_view field_name,
+    const std::string& config) {
+    auto fn = static_cast<Result<ISecondaryIndex*>(IndexManager::*)(
+        std::string_view,
+        std::string_view,
+        const std::string&)>(&IndexManager::createSecondaryIndex);
+    return (mgr.get()->*fn)(name, field_name, config);
 }
 
 // ===========================================================================
@@ -161,8 +178,8 @@ TEST(IndexManagerDI, PartialIndex_AdapterIsNonNull) {
     auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_mgr_partial_nn_"));
     ASSERT_NE(db, nullptr);
 
-    auto result = mgr->createSecondaryIndex("users", "email",
-                                             "partial:status = 'active'");
+    auto result = createSecondaryIndexWithConfig(
+        mgr, "users", "email", "partial:status = 'active'");
     ASSERT_TRUE(result.has_value()) << result.error().message();
     EXPECT_NE(*result, nullptr);
 
@@ -176,8 +193,8 @@ TEST(IndexManagerDI, PartialIndex_LookupOnlyMatchingRows) {
     ASSERT_NE(db, nullptr);
 
     // Create a partial index via the IndexManager facade.
-    auto result = mgr->createSecondaryIndex("users", "email",
-                                             "partial:status = 'active'");
+    auto result = createSecondaryIndexWithConfig(
+        mgr, "users", "email", "partial:status = 'active'");
     ASSERT_TRUE(result.has_value()) << result.error().message();
     auto* idx = *result;
     ASSERT_NE(idx, nullptr);
@@ -216,8 +233,8 @@ TEST(IndexManagerDI, PartialIndex_DropWorks) {
     auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_mgr_partial_drop_"));
     ASSERT_NE(db, nullptr);
 
-    ASSERT_TRUE(mgr->createSecondaryIndex(
-        "events", "category", "partial:published = '1'").has_value());
+    ASSERT_TRUE(createSecondaryIndexWithConfig(
+        mgr, "events", "category", "partial:published = '1'").has_value());
 
     ASSERT_EQ(mgr->listIndexes().size(), 1u);
     ASSERT_TRUE(mgr->dropIndex("events").has_value());
@@ -228,8 +245,8 @@ TEST(IndexManagerDI, PartialIndex_Statistics_ContainsType) {
     auto [db, mgr] = makeIndexManager(makeTempDbPath("idx_mgr_partial_stats_"));
     ASSERT_NE(db, nullptr);
 
-    auto result = mgr->createSecondaryIndex("docs", "title",
-                                             "partial:visible = '1'");
+    auto result = createSecondaryIndexWithConfig(
+        mgr, "docs", "title", "partial:visible = '1'");
     ASSERT_TRUE(result.has_value()) << result.error().message();
     auto* idx = *result;
     ASSERT_NE(idx, nullptr);

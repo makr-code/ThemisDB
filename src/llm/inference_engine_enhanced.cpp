@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.cpp                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:10                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   75.0/100                                       ║
-    • Total Lines:     1089                                           ║
-    • Open Issues:     TODOs: 3, Stubs: 1                             ║
+    • Quality Score:   72.0/100                                       ║
+    • Total Lines:     1573                                           ║
+    • Open Issues:     TODOs: 3, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
-    • a2c5bc969  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
-    • 17bf44106  2026-02-22  feat(llm): propagate timeouts and cancellation across req... ║
-    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
+    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
+    • a3ad5ddca  2026-02-28  feat(llm): implement multi-model routing based on prompt ... ║
+    • b9d87ac07  2026-02-28  feat(llm): LoRA adapter hot-loading at inference time ║
+    • 747406559  2026-02-28  fix(llm): code audit — thread safety, seed truncation, re... ║
+    • 3ec167f3d  2026-02-28  feat(llm): implement speculative decoding for latency red... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

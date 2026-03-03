@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:08                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     377                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     762                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bb886db93  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
+    • 0ed251f65  2026-02-28  feat(index): implement VectorIndexAdapter to resolve IVec... ║
+    • 92ff27163  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -372,7 +377,7 @@ Result<ISecondaryIndex*> IndexManager::createSecondaryIndex(
                 is_partial ? fmt::format("partial({})", predicate) : "regular",
                 name_str);
     span.setStatus(true);
-    return Ok<ISecondaryIndex*>(raw_ptr);
+    return Ok<ISecondaryIndex*>(std::move(raw_ptr));
 }
 
 Result<IVectorIndex*> IndexManager::createVectorIndex(
@@ -434,7 +439,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     THEMIS_INFO("IndexManager::createVectorIndex: Created index '{}' with dimension {}", 
                 name_str, dimension);
     span.setStatus(true);
-    return Ok<IVectorIndex*>(raw_ptr);
+    return Ok<IVectorIndex*>(std::move(raw_ptr));
 }
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(

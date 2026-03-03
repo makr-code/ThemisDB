@@ -4,8 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_kafka.cpp                           ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-26                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Last Modified:   2026-03-02 04:04:34                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     409                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f8dd9e8a0  2026-02-26  fix(ingestion): audit fixes – double error_count, enable.... ║
+    • 213187424  2026-02-26  feat(ingestion): Kafka consumer source connector ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

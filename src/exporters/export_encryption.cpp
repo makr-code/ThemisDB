@@ -3,9 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_encryption.cpp                              ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-02-28                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     1075                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 016473156  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
+    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -577,6 +588,8 @@ void ExportEncryption::decryptFile(const std::string& src_path,
 
     // Securely zero the decrypted buffer after the file has been written.
     OPENSSL_cleanse(plaintext.data(), plaintext.size());
+}
+
 // Helper: little-endian binary I/O
 // ─────────────────────────────────────────────────────────────────────────────
 

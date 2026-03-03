@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.cpp                         ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-02-22 08:56:20                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     451                                            ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     870                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
+    • 2a2c0cc88  2026-02-28  fix(llm): propagate per-request timeouts to caller's futu... ║
+    • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
+    • 4987f75d3  2026-02-26  feat(llm): implement model hot-swap without engine restart ║
+    • c02012c46  2026-02-26  audit: fix stale Stubs count in file headers and add thre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

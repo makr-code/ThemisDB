@@ -4,7 +4,7 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_voice_coverage.cpp                            ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-01                                          ║
+  Last Modified:   2026-03-02 04:07:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,9 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     493                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a1cde02bf  2026-03-01  test(voice): add coverage tests for previously untested v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_admin.cpp                                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:48                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:02:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     237                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     375                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0c0081835  2026-02-24  cdc: fix test_cdc_admin.cpp DB type mismatch (DB -> Trans... ║
+    • 840def5a2  2026-02-24  cdc: add compactLog tests to test_cdc_admin, fix addTestE... ║
     • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

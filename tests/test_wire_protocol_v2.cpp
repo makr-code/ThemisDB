@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_v2.cpp                          ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:38                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     214                                            ║
+    • Total Lines:     436                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33cc1ed9f  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
+    • 40be9015b  2026-02-25  fix(network): code audit — fix aggregate stats, add COMPR... ║
+    • c3655c7e6  2026-02-25  feat(network): implement LZ4 and Zstd connection-level co... ║
+    • ca0d9786d  2026-02-25  fix(network): fix async-write buffer lifetime UB in V2Ses... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

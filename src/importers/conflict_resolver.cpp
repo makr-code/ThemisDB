@@ -4,7 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            conflict_resolver.cpp                              ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-24                                         ║
+  Last Modified:   2026-03-02 03:58:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     139                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a3d6da5ac  2026-02-24  feat(importers): implement conflict resolution strategies... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

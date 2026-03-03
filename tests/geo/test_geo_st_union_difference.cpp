@@ -1,4 +1,26 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_geo_st_union_difference.cpp                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:16                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     307                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d7367e665  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Unit tests for ST_UNION and ST_DIFFERENCE geometry operations.
  * Covers the cpu_exact and gpu_spatial (CPU-fallback) backends.
  * Test structure mirrors tests/geo/test_geo_st_buffer.cpp.

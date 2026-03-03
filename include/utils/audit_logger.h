@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_logger.h                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:44                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     400                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -180,6 +180,12 @@ struct AuditLoggerConfig {
     bool enable_task_scheduler_audit = true;
     bool enable_anomaly_detection = true;
     double anomaly_threshold = 2.0; // Standard deviations from baseline
+
+    // Loss-protection settings
+    bool enable_fsync = false;          ///< fdatasync after each write for crash durability
+    uint64_t max_file_size_bytes = 0;   ///< rotate when file reaches this size (0 = disabled)
+    size_t max_rotated_files = 5;       ///< number of rotated log files to keep
+    std::string secondary_log_path;     ///< mirror path for redundancy (empty = disabled)
 };
 
 // Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now)
@@ -380,6 +386,7 @@ private:
 
     static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
     void appendJsonLine(const nlohmann::json& j);
+    void rotateLogIfNeeded(); ///< rotate primary log when max_file_size_bytes is reached (file_mu_ must be held)
     void forwardToSiem(const nlohmann::json& event);
     void loadChainState();
     void saveChainState();

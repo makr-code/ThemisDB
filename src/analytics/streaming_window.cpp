@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.cpp                               ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-23 03:57:58                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-03-02 03:56:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1105                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     1123                                           ║
+    • Open Issues:     TODOs: 8, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ff4657c37  2026-03-01  fix(analytics): mark unit test coverage >80% as complete;... ║
+    • 9d3ecaa0e  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
+    • e2ddc67a4  2026-02-28  feat(analytics): add factory functions for window types a... ║
     • d8694e04a  2026-02-22  Fix 7 bugs in streaming_window + 4 regression tests ║
     • 0f70eaf43  2026-02-22  fix(analytics): eliminate data race in genId() by replaci... ║
-    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

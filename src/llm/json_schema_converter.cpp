@@ -3,7 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            json_schema_converter.cpp                          ║
-  Module:          llm                                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:58:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     363                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a1458e137  2026-02-26  Add CI workflows for Themis Core, AI Guardrails, config m... ║
+    • 4d754f104  2026-02-26  refactor(llm): address code review feedback on JSON schem... ║
+    • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

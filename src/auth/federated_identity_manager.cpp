@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            federated_identity_manager.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     251                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • eb6b3cc63  2026-02-24  chore(auth): remove unused algorithm include from federat... ║
+    • 497f5c0a7  2026-02-24  fix(auth): audit fixes – ROADMAP status, token size guard... ║
+    • a0247640c  2026-02-24  feat(auth): implement federated identity across multiple ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "auth/federated_identity_manager.h"
 
 #include <nlohmann/json.hpp>

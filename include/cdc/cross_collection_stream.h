@@ -1,13 +1,25 @@
 /*
- * ThemisDB - Hybrid Database System
- * File: cross_collection_stream.h
- * Description: Cross-collection change aggregation stream
- *
- * Allows subscribing to multiple Changefeed instances simultaneously and
- * receiving a single merged, timestamp-ordered stream of ChangeEvents annotated
- * with their source collection name.
- *
- * SPDX-License-Identifier: Apache-2.0
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cross_collection_stream.h                          ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:52:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     205                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 288df1bc2  2026-02-26  fix(cdc): fix GCC compilation error - use RetentionPolicy... ║
+    • f47fb5739  2026-02-25  audit(cdc): fix test fixture DB isolation, delete move ct... ║
+    • 8b27dc1d6  2026-02-24  feat(cdc): implement cross-collection change aggregation ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #pragma once

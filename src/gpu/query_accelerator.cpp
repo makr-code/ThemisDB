@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_accelerator.cpp                              ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   66.0/100                                       ║
+    • Total Lines:     655                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 5                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • eeb29b53c  2026-02-28  feat(gpu): wire THEMIS_ENABLE_CUDA/CUVS guards in annSear... ║
+    • 9cc43d8f2  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 2379d3536  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
+    • 70833d647  2026-02-25  feat(gpu): implement CUDA graph capture for recurring que... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "themis/gpu/query_accelerator.h"
 
 #include <algorithm>

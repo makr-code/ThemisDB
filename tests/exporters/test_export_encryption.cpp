@@ -3,9 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_encryption.cpp                         ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-02-28                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:01:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     917                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 016473156  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
+    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -92,17 +103,54 @@ protected:
         }
     }
 
-    ExportEncryptionConfig makeConfig(const std::string& job_id = "job-001") const {
-        ExportEncryptionConfig cfg;
-        cfg.enabled      = true;
-        cfg.kek_id       = "test_kek";
-        cfg.job_id       = job_id;
-        cfg.key_provider = key_provider_;
-        return cfg;
+    // Write @p content to a file and return the path.
+    std::string writePlainFile(const std::string& filename,
+                                const std::string& content) {
+        const std::string path = test_dir_ + "/" + filename;
+        std::ofstream f(path, std::ios::binary | std::ios::trunc);
+        f.write(content.data(), static_cast<std::streamsize>(content.size()));
+        return path;
+    }
+
+    // Read the full binary content of @p path.
+    std::string readFile(const std::string& path) {
+        std::ifstream f(path, std::ios::binary | std::ios::ate);
+        if (!f.is_open()) return {};
+        const auto sz = static_cast<size_t>(f.tellg());
+        f.seekg(0);
+        std::string buf(sz, '\0');
+        f.read(buf.data(), static_cast<std::streamsize>(sz));
+        return buf;
+    }
+
+    // Build a minimal set of test entities for exporter integration tests.
+    std::vector<BaseEntity> makeEntities(int count = 5) {
+        std::vector<BaseEntity> entities;
+        for (int i = 0; i < count; ++i) {
+            BaseEntity e;
+            e.setPrimaryKey("ent_" + std::to_string(i));
+            e.setField("question", "Question " + std::to_string(i) + "?");
+            e.setField("answer",   "Answer "   + std::to_string(i));
+            e.setField("_seq",     static_cast<int64_t>(i + 1));
+            entities.push_back(e);
+        }
+        return entities;
     }
 
     std::string test_dir_;
     std::shared_ptr<MockKeyProvider> key_provider_;
+
+    // Helper to create ExportEncryptionConfig using the fixture's key_provider
+    ExportEncryptionConfig makeConfig(const std::string& kek_id = "test_kek",
+                                       std::shared_ptr<KeyProvider> kp = nullptr,
+                                       const std::string& job_id = "job-001") const {
+        ExportEncryptionConfig cfg;
+        cfg.enabled      = true;
+        cfg.kek_id       = kek_id;
+        cfg.job_id       = job_id;
+        cfg.key_provider = kp ? kp : key_provider_;
+        return cfg;
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -158,8 +206,8 @@ TEST_F(ExportEncryptionTest, EncryptDecryptLargePayload) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(ExportEncryptionTest, DifferentJobIdProducesDifferentCiphertext) {
-    ExportEncryption enc_a(makeConfig("job-A"));
-    ExportEncryption enc_b(makeConfig("job-B"));
+    ExportEncryption enc_a(makeConfig("test_kek", key_provider_, "job-A"));
+    ExportEncryption enc_b(makeConfig("test_kek", key_provider_, "job-B"));
 
     const std::string plain_str = "same plaintext";
     std::vector<uint8_t> plaintext(plain_str.begin(), plain_str.end());
@@ -172,8 +220,8 @@ TEST_F(ExportEncryptionTest, DifferentJobIdProducesDifferentCiphertext) {
 }
 
 TEST_F(ExportEncryptionTest, JobACannotDecryptJobBOutput) {
-    ExportEncryption enc_a(makeConfig("job-A"));
-    ExportEncryption enc_b(makeConfig("job-B"));
+    ExportEncryption enc_a(makeConfig("test_kek", key_provider_, "job-A"));
+    ExportEncryption enc_b(makeConfig("test_kek", key_provider_, "job-B"));
 
     const std::string plain_str = "sensitive training data";
     std::vector<uint8_t> plaintext(plain_str.begin(), plain_str.end());
@@ -289,7 +337,7 @@ TEST_F(ExportEncryptionTest, EncryptDecryptFile) {
         f << plaintext_str;
     }
 
-    ExportEncryption enc(makeConfig("file-job-001"));
+    ExportEncryption enc(makeConfig("test_kek", key_provider_, "file-job-001"));
     enc.encryptFile(src_path, enc_path);
 
     // Encrypted file must exist and differ from plaintext.
@@ -418,7 +466,7 @@ TEST_F(ExportEncryptionTest, StreamingExporterWithEncryption) {
 
     ExportOptions opts;
     opts.output_path = out_path;
-    opts.encryption  = makeConfig("streaming-job-001");
+    opts.encryption  = makeConfig("test_kek", key_provider_, "streaming-job-001");
 
     StreamingExporter exporter;
     auto stats = exporter.exportEntities(entities, opts);
@@ -437,7 +485,7 @@ TEST_F(ExportEncryptionTest, StreamingExporterWithEncryption) {
 
     // Decrypt and verify JSONL content.
     const std::string dec_path = test_dir_ + "/decrypted_export.jsonl";
-    ExportEncryption enc(makeConfig("streaming-job-001"));
+    ExportEncryption enc(makeConfig("test_kek", key_provider_, "streaming-job-001"));
     enc.decryptFile(out_path, dec_path);
 
     std::ifstream df(dec_path);
@@ -450,42 +498,7 @@ TEST_F(ExportEncryptionTest, StreamingExporterWithEncryption) {
         }
     }
     EXPECT_EQ(line_count, entities.size());
-    // Write @p content to a file and return the path.
-    std::string writePlainFile(const std::string& filename,
-                                const std::string& content) {
-        const std::string path = test_dir_ + "/" + filename;
-        std::ofstream f(path, std::ios::binary | std::ios::trunc);
-        f.write(content.data(), static_cast<std::streamsize>(content.size()));
-        return path;
-    }
-
-    // Read the full binary content of @p path.
-    std::string readFile(const std::string& path) {
-        std::ifstream f(path, std::ios::binary | std::ios::ate);
-        if (!f.is_open()) return {};
-        const auto sz = static_cast<size_t>(f.tellg());
-        f.seekg(0);
-        std::string buf(sz, '\0');
-        f.read(buf.data(), static_cast<std::streamsize>(sz));
-        return buf;
-    }
-
-    // Build a minimal set of test entities for exporter integration tests.
-    std::vector<BaseEntity> makeEntities(int count = 5) {
-        std::vector<BaseEntity> entities;
-        for (int i = 0; i < count; ++i) {
-            BaseEntity e;
-            e.setPrimaryKey("ent_" + std::to_string(i));
-            e.setField("question", "Question " + std::to_string(i) + "?");
-            e.setField("answer",   "Answer "   + std::to_string(i));
-            e.setField("_seq",     static_cast<int64_t>(i + 1));
-            entities.push_back(e);
-        }
-        return entities;
-    }
-
-    std::string test_dir_;
-};
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ExportEncryptionConfig
@@ -500,7 +513,10 @@ TEST_F(ExportEncryptionTest, ConfigEmptyByDefault) {
 
 TEST_F(ExportEncryptionTest, ConfigNotEmptyWhenSet) {
     auto kp = makeProvider("test-kek");
-    auto cfg = makeConfig("test-kek", kp);
+    ExportEncryptionConfig cfg;
+    cfg.kek_id       = "test-kek";
+    cfg.job_id       = "job-001";
+    cfg.key_provider = kp;
     EXPECT_FALSE(cfg.empty());
 }
 
@@ -581,24 +597,6 @@ TEST_F(ExportEncryptionTest, RoundTripLargerThanOneChunk) {
     EXPECT_EQ(readFile(dec_path), big_content);
 }
 
-TEST_F(ExportEncryptionTest, DifferentJobIdProducesDifferentCiphertext) {
-    const std::string plaintext  = "sensitive training data\n";
-    const std::string plain_path = writePlainFile("same_plain.jsonl", plaintext);
-
-    auto kp = makeProvider("shared-kek");
-
-    auto cfg1 = makeConfig("shared-kek", kp, "job-001");
-    auto cfg2 = makeConfig("shared-kek", kp, "job-002");
-    ExportEncryptor enc1(cfg1), enc2(cfg2);
-
-    const std::string enc_path1 = test_dir_ + "/out1.enc";
-    const std::string enc_path2 = test_dir_ + "/out2.enc";
-    enc1.encryptFile(plain_path, enc_path1);
-    enc2.encryptFile(plain_path, enc_path2);
-
-    // Different job IDs → different DEK + different IV → different ciphertext
-    EXPECT_NE(readFile(enc_path1), readFile(enc_path2));
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ExportEncryptor: authentication tag verification
@@ -915,3 +913,6 @@ TEST_F(ExportEncryptionTest, ExportWithNoEncryptionProducesPlaintextJsonl) {
     EXPECT_NE(content.substr(0, 4), "TMEX")
         << "Without encryption_config the output must be plain JSONL";
 }
+
+
+

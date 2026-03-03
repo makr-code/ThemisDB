@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_di_logging.cpp                               ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:51:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     333                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 38adaf10d  2026-02-23  fix(benchmarks): audit fixes — CachePut, InMemoryCacheImp... ║
+    • 86fed1d69  2026-02-23  feat(benchmarks): add DI overhead and logging throughput ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_di_logging.cpp
  * @brief Performance benchmarks for DI overhead and logging throughput (Issue #1420).

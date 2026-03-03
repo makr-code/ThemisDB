@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.cpp                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-26                                          ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:00:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     619                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     689                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 313664710  2026-02-22  fix(voice): audit gaps – wake-word stats, config, docs, c... ║
-    • 91ce0da45  2026-02-22  feat(voice): add POST /api/v1/voice/command/stream endpoi... ║
-    • 8ae8a4193  2026-02-22  feat(voice): implement wake-word detection for hands-free... ║
-    • 2b12bc7d3  2026-02-22  impl: real-time streaming STT for audio arrival ║
+    • fc3311312  2026-03-01  feat(voice): implement language detection and auto-locale... ║
+    • 49fd40219  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
+    • 75c7c24ea  2026-03-01  feat(voice): implement voice session playback and search ... ║
+    • 5b49c56fd  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
+    • 7bdfe2da2  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

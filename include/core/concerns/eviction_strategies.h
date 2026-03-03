@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            eviction_strategies.h                              ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:18                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     318                                            ║
+    • Total Lines:     460                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0587578d8  2026-02-27  feat(graph): plan cache eviction with size and TTL controls ║
+    • 5f3f466a9  2026-02-24  feat(cache): add configurable eviction policies (LFU, ARC... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

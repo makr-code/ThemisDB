@@ -3,22 +3,23 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_compliance_security_governance.cpp           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:51:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   55.0/100                                       ║
-    • Total Lines:     722                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   70.0/100                                       ║
+    • Total Lines:     874                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ade2399cc  2026-02-26  feat(governance): add CCPA/CPRA performance benchmarks to... ║
     • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
     • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
+  Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

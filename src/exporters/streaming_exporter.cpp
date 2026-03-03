@@ -3,9 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_exporter.cpp                             ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     398                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
+    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
+    • 5b487cd13  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
+    • d2bec4ef7  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
+    • 384a0bfa5  2026-02-26  Implement streaming export for large collections with pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -251,6 +264,8 @@ ExportStats StreamingExporter::exportFromCursor(
                 "{} encrypted bytes, job_id={})",
                 stats.bytes_written, encrypted_size,
                 options.encryption.job_id);
+        }
+
         // P3: Encrypt output file if configured
         if (options.encryption_config && !options.encryption_config->empty()) {
             const std::string enc_tmp = options.output_path + ".enc_tmp";

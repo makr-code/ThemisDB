@@ -4,18 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_importer_throughput.cpp                      ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-26                                         ║
+  Last Modified:   2026-03-02 03:51:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     340                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     595                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c379caa7c  2026-02-28  feat(importers): add GB/hr throughput metric to importer ... ║
+    • 784e73625  2026-02-28  feat(importers): implement MongoDB importer benchmarks an... ║
+    • ede9d25a2  2026-02-26  Audit pass: add plugin manifest, SQLite benchmarks, updat... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • (current)  2026-02-26  Add SQLite benchmark scenarios            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

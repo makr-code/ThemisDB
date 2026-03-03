@@ -1,4 +1,29 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_plugin_security_audit.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:05:54                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     433                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f2b4fd08c  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
+    • ade268595  2026-02-23  fix(test): remove unused `before` variable in SecurePermi... ║
+    • 3f47ce19e  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
+    • 40c623acf  2026-02-23  Implement security audit for backend plugin loading and r... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * test_plugin_security_audit.cpp
  *
  * Security audit tests for backend plugin loading and runtime probes.

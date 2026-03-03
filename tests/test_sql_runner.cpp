@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_sql_runner.cpp                                ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:07:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     166                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d64c558f4  2026-02-27  test(query): fix resource cleanup in executeSQL unit tests ║
+    • 099187166  2026-02-26  feat(query): implement SQL dialect compatibility layer (e... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Integration tests for the SQL dialect compatibility layer (executeSQL).
 // Verifies that executeSQL() correctly parses SQL, transpiles it to AQL, and
 // executes it through the QueryEngine.

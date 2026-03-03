@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tenant_manager.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     601                                            ║
+    • Total Lines:     1001                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 20db61010  2026-03-01  feat(server): add per-tenant custom domain routing ║
+    • aa48b6bd3  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
+    • 9b809d400  2026-02-24  audit: fix stale banner metadata and update documentation... ║
+    • 5375c249a  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
+    • f779a6790  2026-02-23  feat(api): implement multi-tenant namespace routing ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

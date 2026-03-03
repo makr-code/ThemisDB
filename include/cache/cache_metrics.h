@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_metrics.h                                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     459                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     516                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
-    • b3ba0e0e3  2026-02-22  feat(cache): implement cache warmup with bulk operations ... ║
+    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
+    • 9a32a18e6  2026-02-24  feat(cache): implement predictive pre-fetching based on q... ║
+    • c0ce790c9  2026-02-24  feat(cache): implement write-through cache mode for read-... ║
+    • 4204548bc  2026-02-24  feat(cache): Add write-through cache mode for read-heavy ... ║
+    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

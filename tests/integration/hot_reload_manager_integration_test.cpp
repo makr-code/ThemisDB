@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_manager_integration_test.cpp            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-02-23 03:58:39                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-02 04:01:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 36e2175e1  2026-02-28  feat: complete hot-reload plugin support delivery ║
     • 91446f10a  2026-02-22  Fill acceptance criteria gaps: roadmap update, integratio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

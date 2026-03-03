@@ -4,14 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            evaluation_report_exporter.h                       ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-01                                         ║
+  Last Modified:   2026-03-02 03:54:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     195                                            ║
+    • Total Lines:     187                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 12eeced48  2026-03-01  feat(rag): per-query evaluation report export (JSON/HTML)... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

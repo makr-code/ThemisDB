@@ -3,17 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            filesystem_ingester.cpp                            ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:09                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     633                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     760                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
+    • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
+    • 53f0cfc43  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
+    • 81a0f7896  2026-02-23  Security fix: add isConverterSafe() to guard popen() agai... ║
     • 08a813e1d  2026-02-22  feat(ingestion): PDF/DOCX binary format ingestion via ext... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

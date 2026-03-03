@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:35                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     978                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1042                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • da1a879d5  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
-    • 15cad19ba  2026-02-22  feat(server): implement dedicated GraphQLApiHandler and e... ║
-    • d8bc55d98  2026-02-22  Add Admin API for cache operations and monitoring ║
+    • de101321a  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║
+    • eca826808  2026-03-01  feat(server): implement edge caching integration with CDN... ║
+    • b8533aab4  2026-02-28  feat(scheduler): implement TaskSchedulerApiHandler and we... ║
+    • b501b870f  2026-02-28  feat(metadata): wire ColumnLineageTracker into REST API v... ║
+    • 2672276c0  2026-02-28  feat(api): add TracingMiddleware for X-Correlation-ID pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

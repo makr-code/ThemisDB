@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logger_impl.h                                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:44                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:55:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
+    • Quality Score:   97.0/100                                       ║
     • Total Lines:     83                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • e683223e3  2026-02-23  feat(core): add Logger::getLevel() and fix level-aware me... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

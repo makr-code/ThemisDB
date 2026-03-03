@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_metrics.h                                     ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:15                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:52:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     351                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Total Lines:     355                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
+    • ad8c8cf55  2026-02-23  feat(auth): implement API key authentication (static key ... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
     • fbc40c29a  2026-02-22  Fill acceptance-criteria gaps: AuthMethod enum + OAuth de... ║
 ╠═════════════════════════════════════════════════════════════════════╣

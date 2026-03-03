@@ -4,14 +4,18 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            simd_distance.h                                    ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-27                                         ║
-  Author:          copilot                                            ║
+  Last Modified:   2026-03-02 03:55:38                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     64                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     63                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9e61c0def  2026-02-27  audit: fix Stubs:1 annotations, update line counts, add m... ║
+    • 54593e02c  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

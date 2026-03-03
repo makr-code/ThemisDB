@@ -4,8 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_connector.cpp                                  ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-28                                         ║
-  Author:          copilot-swe-agent[bot]                             ║
+  Last Modified:   2026-03-02 03:58:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     418                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 51c189e9d  2026-02-28  feat(ingestion): implement CDC source connector for live ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

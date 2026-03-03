@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_explain.cpp                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-02-26 05:28:42                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-03-02 04:02:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 9a1cb143d  2026-02-26  feat(graph): implement EXPLAIN AQL output for graph query... ║
-    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
+    • 984af17f2  2026-02-26  audit: fix misleading GraphTraversal_DeepPath_UsesBidirec... ║
+    • b1216f45a  2026-02-26  audit: fix stale file headers (Stubs: 0) and add ANALYZE-... ║
+    • 9a1cb143d  2026-02-25  feat(graph): implement EXPLAIN AQL output for graph query... ║
+    • 9fbd48006  2026-02-23  Bereinigen von nicht verwendeten Quellcodezeilen und Aktu... ║
+    • 4f1717ebd  2026-02-23  Fix atomics, heap queue, and adjust APIs ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

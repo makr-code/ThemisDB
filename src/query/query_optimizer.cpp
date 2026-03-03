@@ -3,17 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.cpp                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   77.0/100                                       ║
-    • Total Lines:     660                                            ║
-    • Open Issues:     TODOs: 3, Stubs: 1                             ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   82.0/100                                       ║
+    • Total Lines:     716                                            ║
+    • Open Issues:     TODOs: 3, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
+  Revision History:                                                   ║
+    • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

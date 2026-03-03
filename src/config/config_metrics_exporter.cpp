@@ -1,3 +1,27 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            config_metrics_exporter.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     162                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • db0c5d24a  2026-02-24  feat(config): complete METADATA_TABLE, harden symlink val... ║
+    • 77c590e6e  2026-02-24  audit(config): fix all gaps found in Prometheus metrics e... ║
+    • 71e2d24ae  2026-02-24  feat(config): implement Prometheus metrics exporter for c... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "config/config_metrics_exporter.h"
 #include "config/config_path_resolver.h"
 #include "observability/metrics_collector.h"

@@ -4,17 +4,20 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_api_handler.h                                ║
   Version:         0.0.33                                             ║
-  Last Modified:   2026-02-27 07:58:54                                ║
+  Last Modified:   2026-03-02 03:54:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     252                                            ║
+    • Total Lines:     328                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0ba7cfc  2026-02-27  feat(graph): incremental graph query HTTP API (live updates) ║
+    • bc547c433  2026-02-28  feat(graph): expose cost model calibration via HTTP API ║
+    • efa84641f  2026-02-27  fix(graph): update stale file-header metadata after incre... ║
+    • 0ba7cfc69  2026-02-27  feat(graph): implement incremental graph query HTTP API (... ║
+    • 93959e4d5  2026-02-25  feat(graph): implement plan cache eviction with LRU size ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

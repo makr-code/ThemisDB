@@ -3,15 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_interface.h                                 ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-24 13:03:05                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:54:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     420                                            ║
+    • Total Lines:     813                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 1184e5e03  2026-02-26  audit: fix schema/validator inconsistencies and add integ... ║
+    • 2e0314156  2026-02-26  feat(plugins): plugin marketplace manifest format (JSON s... ║
+    • 80fedea39  2026-02-24  audit(base): fix stale quality metrics in plugin_interfac... ║
+    • 61acfaabb  2026-02-24  feat(base): implement runtime plugin capability negotiati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -2,27 +2,23 @@
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  File:            test_cpu_gpu_parity.cpp                           ║
-  Module:          acceleration                                       ║
-  Related:         tests/test_acceleration_dispatch.cpp (CPU kernels) ║
-                   benchmarks/bench_cuda_vs_cpu.cpp (performance)     ║
+  File:            test_cpu_gpu_parity.cpp                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:08                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Verifies that every supported GPU/accelerated backend produces      ║
-  results that match the CPU reference implementation within          ║
-  numerical tolerance.                                                ║
-                                                                      ║
-  Supported backends under test                                       ║
-  --------------------------------                                    ║
-  • CUDA  (THEMIS_ENABLE_CUDA)  — CUDAVectorBackend, CUDAGeoBackend  ║
-  • Vulkan (THEMIS_ENABLE_VULKAN) — VulkanVectorBackend, VulkanGeoBackend ║
-                                                                      ║
-  Behaviour when a backend is absent                                  ║
-  -----------------------------------                                 ║
-  • Not compiled in : GTEST_SKIP() fires; test reports SKIPPED        ║
-  • Compiled but no device : runtime GTEST_SKIP()                     ║
-  • Available        : full parity check runs                         ║
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     552                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 72133dc3b  2026-02-23  feat(acceleration): add CPU/GPU parity tests across suppo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
-*/
+ */
 
 #include <gtest/gtest.h>
 #include <cmath>

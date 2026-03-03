@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.cpp                                ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:22                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   87.0/100                                       ║
-    • Total Lines:     346                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     479                                            ║
     • Open Issues:     TODOs: 2, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
+    • ce63cc36d  2026-02-24  feat(auth): integrate ApiKeyAuthenticator into AuthMiddle... ║
+    • 5cc90b16b  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

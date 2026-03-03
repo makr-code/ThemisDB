@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            webauthn_authenticator.cpp                         ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-02-24                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     600                                            ║
+    • Total Lines:     1087                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3a5eb153f  2026-02-24  feat(auth): implement WebAuthn/FIDO2 hardware token support ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

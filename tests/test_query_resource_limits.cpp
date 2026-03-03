@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_query_resource_limits.cpp                     ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:06:15                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     262                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 8554702d5  2026-02-28  fix(query): code-audit – remove unused includes, fix narr... ║
+    • 1b5d8a188  2026-02-23  feat(query): implement per-query resource limits (max row... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Per-query resource limits unit and integration tests
 // Tests QueryResourceGuard logic and executeAqlWithLimits enforcement.
 

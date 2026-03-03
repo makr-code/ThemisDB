@@ -4,14 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_signing.cpp                                    ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-03-01                                         ║
+  Last Modified:   2026-03-02 03:59:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     90                                             ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     120                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • dc6fef6f3  2026-03-01  feat(security/updates): implement HSM-backed SigningServi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

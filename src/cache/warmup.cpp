@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            warmup.cpp                                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-02-23 03:58:02                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-02 03:56:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     438                                            ║
+    • Total Lines:     440                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c45386355  2026-02-24  fix(cache): fix 3 bugs in warmup.cpp found during code audit ║
     • 1808900b2  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
     • a01131277  2026-02-22  fix(cache): fix 3 bugs in warmup.cpp found during code audit ║
     • b3ba0e0e3  2026-02-22  feat(cache): implement cache warmup with bulk operations ... ║

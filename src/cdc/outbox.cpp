@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            outbox.cpp                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:57:06                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     394                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7d73e2cd2  2026-02-25  audit(cdc): fix stale ROADMAP Known Issues, document outb... ║
+    • 822f29a02  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "cdc/outbox.h"
 #include "utils/logger.h"
 #include <rocksdb/utilities/transaction_db.h>

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_policy_validation.cpp                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:17                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:05:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1103                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Total Lines:     1123                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 641f86b5d  2026-02-28  fix(governance): detect overlapping access control rule c... ║
     • 3030c4e0a  2026-02-22  Implement policy conflict detection and resolution report... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

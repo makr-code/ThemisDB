@@ -237,7 +237,7 @@ Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 #### 5.1 Security
 - [P] `QueryMaskingPolicy` — dynamic PII field masking of query results (PR: #3050) (Target: v1.5.0) ✅
 - [I] Zero-trust continuous verification framework (Issue: #1541) (Target: Q1 2027)
-- [I] HSM integration for production key management (Target: Q1 2027)
+- [x] HSM integration for production key management (PKCS#11 real provider in `src/security/hsm_provider_pkcs11.cpp`, stub fail-fast guards in `src/security/hsm_provider.cpp`, security metrics and checker in `include/security/`, deployment docs in `docs/security/HSM_PRODUCTION_SETUP.md`; build with `-DTHEMIS_ENABLE_HSM_REAL=ON`; Phase 2 complete; acceptance criteria: PKCS#11 signing/key-management tests passing, no stub code path in ENTERPRISE/HYPERSCALER production builds, CI enforced)
 - [I] Automated SOC 2 Type II evidence collection (Target: Q1 2027)
 
 #### 5.2 Auth — Advanced Protocols

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_ingestion_plugin_api.cpp                      ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:04:37                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   12.0/100                                       ║
+    • Total Lines:     313                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 22                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_ingestion_plugin_api.cpp
  * @brief Unit tests for the Plugin API for third-party source connectors.

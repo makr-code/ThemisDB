@@ -76,6 +76,14 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ### Phase 2: ABAC & HSM Direct Integration (Status: Completed ✅)
 - [x] Attribute-Based Access Control (ABAC) alongside RBAC
 - [x] Hardware Security Module (HSM) direct PKCS#11 integration
+- [x] PKCS#11 C++ wrapper interface (`include/security/pkcs11_wrapper.h`, Issue: #3252)
+  - RAII `Pkcs11Library` (load/unload dynamic library)
+  - RAII `Pkcs11Session` (open/close/login/logout)
+  - `Pkcs11Category` + `makePkcs11Error()` for `std::error_code` integration
+  - Free helpers: `listSlots`, `findObjects`, `findObjectsByLabel`, `signData`,
+    `verifyData`, `encryptData`, `decryptData`, `generateRsaKeyPair`,
+    `getAttribute`, `getAttributeBytes`
+  - Tests: `tests/test_pkcs11_wrapper.cpp` (pure-unit + optional SoftHSM2 integration)
 - [~] FIPS 140-2 / 140-3 validated cryptography mode
 
 ### Phase 3: Federated Auth & Anomaly Detection (Status: Completed ✅)

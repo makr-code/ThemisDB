@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.cpp                                      ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:02                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     352                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     389                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 94f31dca3  2026-02-22  Cleanup: fix uninitialized Watermarks, unused variable, a... ║
-    • d9b57fdf7  2026-02-22  Bugfix: fix data race in applyRetentionPolicy, startReten... ║
-    • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
+    • de9fb43e7  2026-03-01  Implement CDC event filtering by operation type ║
+    • 5e637e76d  2026-02-24  AQL: rename distributed training struct  ║
+    • 7a2028071  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
+    • de729d957  2026-02-24  cdc: expose retention policy configuration in getRetentio... ║
+    • 502a332ac  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

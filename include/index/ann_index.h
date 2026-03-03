@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ann_index.h                                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:53:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     270                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
+    • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
+    • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
+    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 // ANN (Approximate Nearest Neighbor) Index Backends for the ThemisDB Index Module

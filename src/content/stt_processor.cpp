@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stt_processor.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:03                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     963                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1185                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 56baadb99  2026-02-28  feat(voice): implement multi-speaker diarization via k-me... ║
+    • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
     • 450c6d7a4  2026-02-22  audit: update ROADMAP, fix stale Stubs metadata after str... ║
     • 2b12bc7d3  2026-02-22  impl: real-time streaming STT for audio arrival ║
 ╠═════════════════════════════════════════════════════════════════════╣

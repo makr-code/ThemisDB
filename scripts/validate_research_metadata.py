@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            validate_research_metadata.py                      ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-02-23 03:57:55                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-03-02 03:56:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     121                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 407096bd9  2026-02-22  fix: add workflow permissions and clarify bilingual field... ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_metrics.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:55                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:03:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,9 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
+    • 67871bb3f  2026-02-25  audit: fix stale headers, blank lines, add FUTURE_ENHANCE... ║
+    • 594a03555  2026-02-25  feat(gpu/metrics): add per-GPU thermal and power telemetry ║
     • 879ec2fe2  2026-02-22  Implement GPU metrics Nsight Compute-compatible export ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

@@ -3,17 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_timestamp_authority.cpp                       ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:59:33                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 04:07:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   98.0/100                                       ║
-    • Total Lines:     492                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   28.0/100                                       ║
+    • Total Lines:     698                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 18                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Revision History:                                                   ║
+    • f3755277d  2026-03-01  feat(tsa): implement RFC 3161 TSAConfig auth/TLS fields a... ║
+    • efbe366d9  2026-03-01  Add production mode guard to TimestampAuthority stub and ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -489,4 +493,210 @@ TEST_F(TimestampAuthorityTest, RFC3161_CertificateExtraction) {
         
         std::cout << "Certificate PEM format verified (length: " << cert_pem->size() << " bytes)\n";
     }
+}
+
+// ============================================================================
+// Stub Production-Mode Guard Tests
+// These tests only apply to the stub implementation (no OpenSSL).
+// ============================================================================
+
+#ifndef THEMIS_USE_OPENSSL_TSA
+
+// Helper RAII guard for environment variables (portable across POSIX and Windows)
+struct EnvGuard {
+    const char* name;
+    std::string previous;
+    bool had_previous;
+
+    explicit EnvGuard(const char* var, const char* value) : name(var) {
+        const char* existing = std::getenv(var);
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+#ifdef _WIN32
+        _putenv_s(var, value);
+#else
+        ::setenv(var, value, 1);
+#endif
+    }
+
+    ~EnvGuard() {
+#ifdef _WIN32
+        if (had_previous) _putenv_s(name, previous.c_str());
+        else              _putenv_s(name, "");
+#else
+        if (had_previous) ::setenv(name, previous.c_str(), 1);
+        else              ::unsetenv(name);
+#endif
+    }
+};
+
+// RAII guard that unsets an environment variable for the duration of a scope
+struct EnvUnsetGuard {
+    const char* name;
+    std::string previous;
+    bool had_previous;
+
+    explicit EnvUnsetGuard(const char* var) : name(var) {
+        const char* existing = std::getenv(var);
+        had_previous = (existing != nullptr);
+        if (had_previous) previous = existing;
+#ifdef _WIN32
+        _putenv_s(var, "");
+#else
+        ::unsetenv(var);
+#endif
+    }
+
+    ~EnvUnsetGuard() {
+#ifdef _WIN32
+        if (had_previous) _putenv_s(name, previous.c_str());
+        else              _putenv_s(name, "");
+#else
+        if (had_previous) ::setenv(name, previous.c_str(), 1);
+        else              ::unsetenv(name);
+#endif
+    }
+};
+
+TEST_F(TimestampAuthorityTest, StubRefusesInProductionMode) {
+    // Activate production mode via environment variable
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    // Ensure the explicit opt-in is NOT set
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    std::vector<uint8_t> data = {'P', 'r', 'o', 'd', 'T', 'e', 's', 't'};
+    auto token = tsa.getTimestamp(data);
+
+    EXPECT_FALSE(token.success) << "Stub must refuse to issue tokens in production mode";
+    EXPECT_FALSE(token.error_message.empty()) << "Error message must explain the rejection";
+}
+
+TEST_F(TimestampAuthorityTest, StubRefusesForHashInProductionMode) {
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    std::vector<uint8_t> hash(32, 0xAB);
+    auto token = tsa.getTimestampForHash(hash);
+
+    EXPECT_FALSE(token.success) << "Stub must refuse getTimestampForHash in production mode";
+    EXPECT_FALSE(token.error_message.empty());
+}
+
+TEST_F(TimestampAuthorityTest, StubAllowedWhenExplicitlyPermitted) {
+    // Production mode ON but explicit override also set
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    EnvGuard stub_guard("THEMIS_ALLOW_TSA_STUB", "1");
+
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    std::vector<uint8_t> data = {'A', 'l', 'l', 'o', 'w', 'e', 'd'};
+    auto token = tsa.getTimestamp(data);
+
+    // With THEMIS_ALLOW_TSA_STUB=1 the stub should succeed even in production mode
+    EXPECT_TRUE(token.success) << "Stub must work when THEMIS_ALLOW_TSA_STUB=1";
+    EXPECT_EQ(token.serial_number, "STUB-SERIAL");
+}
+
+TEST_F(TimestampAuthorityTest, eIDASValidatorRefusesInProductionMode) {
+    EnvGuard prod_guard("THEMIS_PRODUCTION_MODE", "1");
+    EnvUnsetGuard stub_guard("THEMIS_ALLOW_TSA_STUB");
+
+    TimestampToken token;
+    token.success = true;
+    token.timestamp_unix_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    eIDASTimestampValidator validator;
+    std::vector<std::string> trust_anchors = {"ca.pem"};
+
+    bool result = validator.validateeIDASTimestamp(token, trust_anchors);
+    EXPECT_FALSE(result) << "eIDAS validator stub must refuse in production mode";
+
+    auto errors = validator.getValidationErrors();
+    EXPECT_FALSE(errors.empty()) << "Validation errors must explain the rejection";
+}
+
+#endif // !THEMIS_USE_OPENSSL_TSA
+// TSAConfig Auth / TLS Configuration Tests
+// ============================================================================
+
+TEST_F(TimestampAuthorityTest, ConfigWithBasicAuth) {
+    // Verify that a config with HTTP Basic Auth credentials can be created
+    // and that the object is constructed without error.
+    TSAConfig config;
+    config.url = "https://tsa.example.com/tsr";
+    config.username = "tsauser";
+    config.password = "tsapass";
+    config.timeout_seconds = 5;
+
+    EXPECT_NO_THROW({
+        TimestampAuthority tsa(config);
+        (void)tsa.getLastError();  // Ensure object is usable
+    });
+}
+
+TEST_F(TimestampAuthorityTest, ConfigWithMTLS) {
+    // Verify that a config with mTLS client certificates can be created
+    // and that the object is constructed without error.
+    TSAConfig config;
+    config.url = "https://internal-tsa.corp.example.com/tsr";
+    config.client_cert_path = "/path/to/client.crt";
+    config.client_key_path = "/path/to/client.key";
+    config.ca_cert_path = "/path/to/corp-ca.crt";
+    config.verify_tsa_cert = true;
+    config.timeout_seconds = 5;
+
+    EXPECT_NO_THROW({
+        TimestampAuthority tsa(config);
+        (void)tsa.getLastError();  // Ensure object is usable
+    });
+}
+
+TEST_F(TimestampAuthorityTest, ConfigWithTLSVerificationDisabled) {
+    // Verify that TLS verification can be disabled (for development/testing)
+    TSAConfig config;
+    config.url = "https://freetsa.org/tsr";
+    config.verify_tsa_cert = false;
+    config.timeout_seconds = 5;
+
+    EXPECT_NO_THROW({
+        TimestampAuthority tsa(config);
+        (void)tsa.getLastError();
+    });
+}
+
+TEST_F(TimestampAuthorityTest, IsAvailableThenGetTimestamp) {
+    if (skip_network_tests) {
+        GTEST_SKIP() << "Network tests disabled";
+    }
+
+    // Verify that isAvailable() does not corrupt CURL state so that a subsequent
+    // getTimestamp() call still works correctly.
+    TSAConfig config = createFreeTSAConfig();
+    TimestampAuthority tsa(config);
+
+    // Call isAvailable() first - this used to set CURLOPT_NOBODY=1 without reset
+    bool available = tsa.isAvailable();
+    if (!available) {
+        GTEST_SKIP() << "TSA not reachable";
+    }
+
+    // Now getTimestamp() must still return a full response (not an empty HEAD reply)
+    std::vector<uint8_t> data = {'A', 'f', 't', 'e', 'r', 'H', 'e', 'a', 'd'};
+    auto token = tsa.getTimestamp(data);
+
+    if (!token.success) {
+        GTEST_SKIP() << "TSA unavailable: " << token.error_message;
+    }
+
+    EXPECT_TRUE(token.success);
+    EXPECT_FALSE(token.token_der.empty()) << "Token DER must be present after isAvailable() call";
+    EXPECT_FALSE(token.serial_number.empty());
 }

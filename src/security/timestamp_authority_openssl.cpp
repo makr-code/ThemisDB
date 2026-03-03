@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timestamp_authority_openssl.cpp                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:22                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
-    • Total Lines:     586                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     620                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f3755277d  2026-03-01  feat(tsa): implement RFC 3161 TSAConfig auth/TLS fields a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -205,13 +208,39 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
     std::vector<uint8_t> response;
     curl_easy_setopt(impl_->curl, CURLOPT_URL, config_.url.c_str());
     curl_easy_setopt(impl_->curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 0L);
     curl_easy_setopt(impl_->curl, CURLOPT_POSTFIELDS, request.data());
-    curl_easy_setopt(impl_->curl, CURLOPT_POSTFIELDSIZE, request.size());
-    curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, config_.timeout_seconds);
+    curl_easy_setopt(impl_->curl, CURLOPT_POSTFIELDSIZE, (long)request.size());
+    curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, (long)config_.timeout_seconds);
     curl_easy_setopt(impl_->curl, CURLOPT_WRITEFUNCTION, curlWrite);
     curl_easy_setopt(impl_->curl, CURLOPT_WRITEDATA, &response);
+
+    // TLS certificate verification
+    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYPEER, config_.verify_tsa_cert ? 1L : 0L);
+    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYHOST, config_.verify_tsa_cert ? 2L : 0L);
+
+    // Custom CA certificate (for internal TSAs with self-signed/private CA)
+    if(!config_.ca_cert_path.empty()){
+        curl_easy_setopt(impl_->curl, CURLOPT_CAINFO, config_.ca_cert_path.c_str());
+    }
+
+    // mTLS client certificate (for internal TSAs requiring client authentication)
+    if(!config_.client_cert_path.empty()){
+        curl_easy_setopt(impl_->curl, CURLOPT_SSLCERT, config_.client_cert_path.c_str());
+    }
+    if(!config_.client_key_path.empty()){
+        curl_easy_setopt(impl_->curl, CURLOPT_SSLKEY, config_.client_key_path.c_str());
+    }
+
+    // HTTP Basic Auth (for authenticated third-party TSAs)
+    if(!config_.username.empty()){
+        curl_easy_setopt(impl_->curl, CURLOPT_USERNAME, config_.username.c_str());
+        curl_easy_setopt(impl_->curl, CURLOPT_PASSWORD, config_.password.c_str());
+    }
+
     struct curl_slist* headers=nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/timestamp-query");
+    headers = curl_slist_append(headers, "Accept: application/timestamp-reply");
     curl_easy_setopt(impl_->curl, CURLOPT_HTTPHEADER, headers);
     CURLcode res = curl_easy_perform(impl_->curl);
     curl_slist_free_all(headers);
@@ -383,7 +412,15 @@ bool TimestampAuthority::isAvailable(){
     curl_easy_setopt(impl_->curl, CURLOPT_URL, config_.url.c_str());
     curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 1L);
     curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, 5L);
+    if(!config_.ca_cert_path.empty()){
+        curl_easy_setopt(impl_->curl, CURLOPT_CAINFO, config_.ca_cert_path.c_str());
+    }
+    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYPEER, config_.verify_tsa_cert ? 1L : 0L);
+    curl_easy_setopt(impl_->curl, CURLOPT_SSL_VERIFYHOST, config_.verify_tsa_cert ? 2L : 0L);
     CURLcode res = curl_easy_perform(impl_->curl);
+    // Reset NOBODY so subsequent POST requests work correctly
+    curl_easy_setopt(impl_->curl, CURLOPT_NOBODY, 0L);
+    curl_easy_setopt(impl_->curl, CURLOPT_TIMEOUT, (long)config_.timeout_seconds);
     return res == CURLE_OK;
 }
 

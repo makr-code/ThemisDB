@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporting.cpp                           ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-25 08:00:00                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:57:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1180                                           ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     1519                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7844e4d32  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
+    • 1cb3e6183  2026-02-25  feat(governance): implement PDF and HTML compliance repor... ║
+    • 8d92986f6  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

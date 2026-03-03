@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cuda_graph_capture.cpp                        ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:03:15                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     354                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 7c049e51a  2026-02-23  audit: update FUTURE_ENHANCEMENTS.md checkboxes and add m... ║
+    • 50d44f370  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test: CUDA Graph Capture for Recurring Query Workloads
 //
 // Validates the CUDAGraphCache implementation and the CUDA-graph-accelerated

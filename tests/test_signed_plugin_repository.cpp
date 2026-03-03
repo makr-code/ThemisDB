@@ -1,4 +1,27 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_signed_plugin_repository.cpp                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 04:07:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     564                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • a0754de87  2026-02-26  fix(plugins): resolve TOCTOU race in addEntry, fix docstr... ║
+    • c3452af1e  2026-02-26  feat(plugins): implement SignedPluginRepository with Ed25... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * test_signed_plugin_repository.cpp
  *
  * Unit tests for SignedPluginRepository (signed plugin catalog with key pinning).

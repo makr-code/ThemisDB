@@ -286,3 +286,31 @@ operational:
   retry_siem_failures: true
   max_retry_attempts: 3
   retry_delay_seconds: 30
+
+# ============================================================================
+# Loss-Protection Settings
+# ============================================================================
+# These settings protect audit log data against loss from crashes, disk full,
+# or primary storage failures.
+
+loss_protection:
+  # Call fdatasync after every write to flush kernel page-cache to stable storage.
+  # Prevents data loss on OS or process crash at the cost of higher write latency.
+  # Recommended: true for compliance-critical deployments (GDPR, ISO 27001).
+  enable_fsync: false
+
+  # Rotate the primary log file when it reaches this byte size (0 = disabled).
+  # Maps to AuditLoggerConfig::max_file_size_bytes.
+  # Example: 104857600 = 100 MiB (equivalent to max_log_file_size_mb above).
+  max_file_size_bytes: 104857600
+
+  # Number of rotated log files to keep (e.g. audit.jsonl.1 … audit.jsonl.N).
+  # Oldest file is removed when the limit is reached.
+  max_rotated_files: 5
+
+  # Optional secondary (mirror) log path for redundancy.
+  # Every audit entry is written to both the primary path and this path.
+  # Use a path on a separate volume or network mount for resilience against
+  # primary storage failure.  Leave empty to disable mirroring.
+  # Example: "/mnt/audit-mirror/audit.jsonl"
+  secondary_log_path: ""

@@ -3,15 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            analytics_export.cpp                               ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:57:56                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:56:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   65.0/100                                       ║
-    • Total Lines:     679                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 7                             ║
+    • Quality Score:   72.0/100                                       ║
+    • Total Lines:     728                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 6                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 80742c94d  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
+    • 6fb48cf3e  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
+    • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

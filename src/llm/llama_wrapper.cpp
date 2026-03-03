@@ -3,18 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_wrapper.cpp                                  ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:10                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:58:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
-    • Quality Score:   34.0/100                                       ║
-    • Total Lines:     2717                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   38.0/100                                       ║
+    • Total Lines:     2801                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • 4d754f104  2026-02-26  refactor(llm): address code review feedback on JSON schem... ║
+    • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
+    • 53b07730b  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

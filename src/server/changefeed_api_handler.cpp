@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.cpp                         ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-02-23 03:58:23                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-03-02 03:59:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1000                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     1116                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 1c8568075  2026-02-24  Implement GDPR-aware PII field scrubbing HTTP endpoint fo... ║
+    • e812e3a43  2026-02-24  feat(cache): implement adaptive TTL tuning based on slidi... ║
+    • b006db51f  2026-02-23  Implement CDC event filtering by operation type (INSERT/U... ║
     • 94f31dca3  2026-02-22  Cleanup: fix uninitialized Watermarks, unused variable, a... ║
     • d05084392  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
-    • 40dea3aaf  2026-02-22  Implement CDC log compaction, fix cdc_admin method discre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

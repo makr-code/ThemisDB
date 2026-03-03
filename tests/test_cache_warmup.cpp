@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cache_warmup.cpp                              ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-03-02 04:02:27                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     530                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 9fbd48006  2026-02-23  Bereinigen von nicht verwendeten Quellcodezeilen und Aktu... ║
+    • 4f1717ebd  2026-02-23  Fix atomics, heap queue, and adjust APIs ║
+    • a01131277  2026-02-22  fix(cache): fix 3 bugs in warmup.cpp found during code audit ║
+    • b3ba0e0e3  2026-02-22  feat(cache): implement cache warmup with bulk operations ... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "cache/adaptive_query_cache.h"
 #include <nlohmann/json.hpp>

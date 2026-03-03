@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            arrow_flight.cpp                                   ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-03-02 03:56:24                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     983                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ab2ac9533  2026-02-26  fix: resolve deadlock risk, missing thread include, and v... ║
+    • 1c13e549b  2026-02-26  feat: implement Arrow Flight RPC support for remote analy... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Arrow Flight RPC - Implementation
  *
@@ -603,7 +626,8 @@ private:
                         0, endpoint_.find(':')),
                     std::stoi(endpoint_.substr(endpoint_.find(':') + 1))));
 
-            arrow::flight::FlightEndpoint endpoint{ticket, {loc}};
+            arrow::flight::FlightEndpoint endpoint(
+                ticket, {loc}, std::optional<arrow::flight::Timestamp>{}, "");
             ARROW_ASSIGN_OR_RAISE(
                 auto info,
                 arrow::flight::FlightInfo::Make(
@@ -671,8 +695,7 @@ private:
             FlightDescriptor desc =
                 toThemisDescriptor(reader->descriptor());
             RecordBatch tb;
-            arrow::RecordBatchVector batches;
-            ARROW_RETURN_NOT_OK(reader->ReadAll(&batches));
+            ARROW_ASSIGN_OR_RAISE(auto batches, reader->ToRecordBatches());
             for (const auto& ab : batches) {
                 appendFromArrowBatch(*ab, tb);
             }
@@ -890,12 +913,16 @@ private:
             throw std::runtime_error("[ArrowFlight] DoGet failed: " +
                                      stream_result.status().ToString());
         }
-        auto& reader = *stream_result.ValueOrDie();
+        auto stream_reader = std::move(stream_result).ValueOrDie();
         RecordBatch result;
         while (true) {
-            auto batch_result = reader->Next();
-            if (!batch_result.ok()) break;
-            auto& chunk = batch_result.ValueOrDie();
+            auto batch_result = stream_reader->Next();
+            if (!batch_result.ok()) {
+                throw std::runtime_error(
+                    "[ArrowFlight] stream read failed: " +
+                    batch_result.status().ToString());
+            }
+            auto chunk = std::move(batch_result).ValueOrDie();
             if (!chunk.data) break;
             appendFromArrowBatch(*chunk.data, result);
         }
@@ -930,7 +957,8 @@ private:
                         writer_result.status().ToString(),
                     0, 0};
         }
-        auto& writer = *writer_result.ValueOrDie().writer;
+        auto put_result = std::move(writer_result).ValueOrDie();
+        auto& writer = *put_result.writer;
 
         auto ab_result = toArrowBatch(batch);
         if (!ab_result.ok()) {
@@ -939,13 +967,13 @@ private:
                         ab_result.status().ToString(),
                     0, 0};
         }
-        auto status = writer->WriteRecordBatch(*ab_result.ValueOrDie());
+        auto status = writer.WriteRecordBatch(*ab_result.ValueOrDie());
         if (!status.ok()) {
             return {false,
                     "[ArrowFlight] write failed: " + status.ToString(),
                     0, 0};
         }
-        status = writer->Close();
+        status = writer.Close();
         return {status.ok(),
                 status.ok() ? "OK" : status.ToString(),
                 static_cast<int64_t>(batch.rowCount()),
