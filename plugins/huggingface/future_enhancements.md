@@ -4,6 +4,32 @@
 
 ---
 
+## Scope
+
+- HuggingFace Hub integration enhancements: new dataset formats (Parquet, Arrow), transformation pipelines (tokenisation, embedding, language filtering), scheduled sync, and quality filtering.
+- Entry-points: `plugin.json`; implementation in `src/`; REST API + streaming + local disk cache + rate limiting already in place.
+- Out of scope: changes to ThemisDB storage engine; this plugin only handles ingest from HuggingFace to ThemisDB collections.
+- Covers additional dataset sources (Kaggle, OpenML, Zenodo) as secondary priority after HuggingFace parity.
+
+## Design Constraints
+
+- [ ] HuggingFace API tokens MUST be read exclusively from environment variables; never from config files or request parameters.
+- [ ] Streaming ingestion MUST NOT buffer more than 64 MB per dataset shard in process memory.
+- [ ] Rate limiter MUST honour HuggingFace Hub API limits (default 300 req/min); configurable per deployment.
+- [ ] Local disk cache MUST use content-addressable storage (SHA-256 of shard content); cache entries expire after configurable TTL (default 7 days).
+- [ ] Dataset schema changes between sync runs MUST be detected and reported as `SCHEMA_DRIFT` events before continuing ingestion.
+- [ ] All transformation steps (tokenise, embed, filter) MUST be individually toggleable via plugin configuration.
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IDatasetIngestor` | `HuggingFacePlugin`, ThemisDB core | `stream_shard()`, `get_schema()`, `estimate_size()` |
+| `ITransformationPipeline` | `HuggingFacePlugin` | Ordered chain of `ITransformStep`; tokenise, embed, filter |
+| `ILocalShardCache` | `HuggingFacePlugin` | Content-addressed shard cache; `get(sha256)`, `put(sha256, data)` |
+| `ISyncScheduler` | `HuggingFacePlugin` | Cron-style scheduled ingestion; emits `SyncStarted`/`SyncCompleted` events |
+| `IQualityFilter` | `ITransformationPipeline` | Returns pass/fail + quality score per sample |
+
 ## Idea Backlog
 
 ### Dataset Sources
@@ -32,6 +58,31 @@
 - [ ] **Data quality metrics** – null rates, outlier detection, class imbalance checks.
 
 ---
+
+## Test Strategy
+
+- Unit tests for `IDatasetIngestor` using a mock HuggingFace REST server (WireMock or equivalent); assert correct shard parsing for JSONL, Parquet, Arrow formats.
+- Cache hit/miss tests: ingest same shard twice; assert second call completes without network request and within 10 ms.
+- Rate limiter tests: send 350 requests in 60 s; assert no more than 300 are forwarded to the upstream API.
+- Schema drift tests: change a field type between two sync runs; assert `SCHEMA_DRIFT` event is emitted and ingestion pauses.
+- Quality filter tests: inject 1,000 samples with 15 % below threshold; assert exactly 150 samples are excluded from the ThemisDB collection.
+- Token leak tests: trigger an authentication failure; assert the raw API token does not appear in logs or error messages.
+
+## Performance Targets
+
+- Dataset streaming throughput ≥ 10,000 samples/s for text samples ≤ 2 KB each (single worker thread).
+- Local cache hit rate ≥ 90 % for repeated loads of the same dataset within the TTL window.
+- Shard download ≥ 50 MB/s on a 1 Gbit connection with a single worker.
+- Tokenisation transform overhead ≤ 0.5 ms/sample (llama.cpp tokeniser, ≤ 512 tokens).
+- Scheduled sync startup latency (first shard received) ≤ 2 s after trigger.
+
+## Security / Reliability
+
+- HuggingFace API tokens MUST be stored in environment variables only; no tokens in logs, error messages, or HTTP response bodies returned by the plugin.
+- Local cache entries MUST be validated against their stored SHA-256 on read; corrupted entries are deleted and re-fetched.
+- Sync jobs MUST be idempotent: re-running a completed sync must not create duplicate records in the ThemisDB collection.
+- Rate limiter MUST apply exponential back-off on 429 responses; max back-off 60 s.
+- Plugin MUST fail-safe on schema drift: pause ingestion and emit `SCHEMA_DRIFT` alert rather than silently truncating or coercing fields.
 
 ## Research / References
 

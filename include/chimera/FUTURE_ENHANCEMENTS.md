@@ -1,5 +1,34 @@
 # Chimera Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/chimera/` headers — connection pool interface (`IConnectionPoolAdapter`)
+- Async / promise-based query API (`IAsyncDatabaseAdapter`) returning `std::future<Result<T>>`
+- Streaming result cursor interface (`IResultStream`, `IStreamingAdapter`) for large result sets
+- Prepared statement API (`IPreparedStatement`, `IPreparedStatementAdapter`) for repeated query execution
+- Transaction savepoint extensions and distributed query interfaces (`ITransactionAdapter`, `IDistributedAdapter`)
+- Schema management, geospatial, and time-series adapter interfaces for future capability tiers
+
+## Design Constraints
+
+- [ ] Async API uses `std::future<Result<T>>` return type; `progress_callback` is supplementary and must not block
+- [ ] Connection pool must be thread-safe; `initialize_pool()`, `borrow`, and `return` safe to call from any thread
+- [ ] Result streaming uses pull-based cursor pattern (`IResultStream`); implementations must not push without consumer request
+- [ ] New interfaces are capability-gated via `Capability` / `ExtensionCapability` enum; unsupported methods return `NOT_IMPLEMENTED`
+- [ ] Prepared statement API prevents SQL injection by design — parameters bound via typed `Scalar`, never string-concatenated
+- [ ] Connection strings and credentials must not be stored in public header types; callers receive opaque connection handles
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IConnectionPoolAdapter` | Connection pool consumers | Thread-safe; exposes `ConnectionPoolStats` |
+| `IAsyncDatabaseAdapter` | Non-blocking query dispatchers | Returns `std::future<Result<T>>` |
+| `IResultStream` | Large result set consumers | Pull-based cursor: `has_more()` / `next_batch()` |
+| `IPreparedStatement` | Repeated query executors | Typed `bind()` by name or position |
+| `ITransactionAdapter` (savepoints) | Complex transaction consumers | `create_savepoint()` / `rollback_to_savepoint()` |
+| `ISchemaAdapter` | Schema management tooling | DDL: `create_collection()`, `create_index()` |
+
 ## Planned Interface Extensions
 
 ### Async Operation Interfaces
@@ -1045,6 +1074,33 @@ struct Result { ... };
 6. **Testable:** Provide test framework hooks
 
 ---
+
+## Test Strategy
+
+- Unit tests for each new interface in `tests/chimera/`: verify capability detection, method contracts, and error return paths
+- Connection pool tests: verify thread-safety under concurrent borrow/return with TSAN; verify `max_connections` limit enforcement
+- Async query tests: verify `std::future` resolves correctly; verify `cancel_async()` unblocks waiting callers cleanly
+- Prepared statement injection tests: verify that typed `Scalar` binding cannot produce SQL injection regardless of input value
+- `IResultStream` tests: verify `has_more()` / `next_batch()` / `close()` lifecycle including early cancellation
+- Migration tests: v1.0 adapters implementing only `IDatabaseAdapter` compile and run without modification against v1.1+ runtime
+
+## Performance Targets
+
+- `IConnectionPoolAdapter::acquire()` (pool has idle connection): ≤ 100 µs p99
+- `IAsyncDatabaseAdapter::execute_query_async()` dispatch overhead: ≤ 50 µs before thread hand-off
+- `IResultStream::next_batch()` overhead (excluding I/O, 1 000-row batch): ≤ 10 µs per call
+- `IPreparedStatement::execute()` overhead vs unprepared equivalent query: ≥ 20% faster on repeated execution
+- Capability detection via `has_capability()`: ≤ 50 ns (single hash lookup, no locks)
+- `IBatchAdapter` batch insert (1 000 rows, local adapter): throughput ≥ 10 K rows/s
+
+## Security / Reliability
+
+- Prepared statement API prevents SQL injection by design: parameters are always bound as typed `Scalar` values, never concatenated
+- Connection strings and credentials must never be stored in public header types; callers receive opaque connection handles only
+- `IResultStream::close()` must release all server-side resources even when called before the stream is exhausted
+- Async operation cancellation (`cancel_async()`) must not leave server-side state inconsistent
+- `IConnectionPoolAdapter` must not expose individual raw connection objects; connections are automatically returned to pool
+- Distributed query interfaces must validate shard endpoint authenticity before dispatching any queries
 
 ## See Also
 

@@ -2,6 +2,36 @@
 
 Planned extensions to ThemisDB observability API headers.
 
+## Scope
+
+- API-level enhancements to `include/observability/` public C++ headers
+- OpenTelemetry-compatible span API with W3C Trace Context propagation
+- Structured logging interface that avoids heap allocation on the hot path
+- Continuous profiling collector API with pprof-format snapshot support
+- ML-based anomaly detection hook interface for real-time metric monitoring
+- Enhanced histogram and time series APIs for multi-dimensional metrics
+- Dynamic configuration interface with hot-reload support
+
+## Design Constraints
+
+- [ ] Tracing API (`EnhancedSpan`, `TraceContext`) must be `noexcept`; span operations never throw
+- [ ] Metrics registration (`OTelMetricsProvider`, `MetricsCollector`) is thread-safe; concurrent registration is safe
+- [ ] Logging API must not allocate on the hot path; zero-allocation formatting for disabled log levels
+- [ ] `AnomalyDetector` is trained offline; `detectPoint()` is `const` and allocation-free on the detection path
+- [ ] `ContinuousProfiler` overhead ≤ 1% CPU at default `cpu_sample_rate = 0.01`
+- [ ] All observability APIs tolerate being called during shutdown without crashing; no-op fallback after `shutdown()`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `OTelMetricsProvider` | All subsystems | Singleton; thread-safe registration |
+| `TraceContext` / `TraceContextPropagator` | Network layer, query engine | W3C propagation |
+| `EnhancedSpan` | Query engine, storage layer | `noexcept`, events + links |
+| `ContinuousProfiler` | Admin / ops tooling | pprof-format snapshots |
+| `AnomalyDetector` / `AnomalyAlerter` | Alerting pipeline | ML-based, const detect path |
+| `ConfigManager` | All observability components | Hot-reload, change callbacks |
+
 ## Table of Contents
 
 1. [Enhanced Metrics API](#enhanced-metrics-api)
@@ -1057,6 +1087,33 @@ private:
 ```
 
 ---
+
+## Test Strategy
+
+- `noexcept` compliance tests: all span and trace operations called under exception-prone conditions must not propagate exceptions
+- Thread-safety tests: concurrent `OTelMetricsProvider` registration from 16 threads must not race or deadlock
+- Zero-allocation tests using instrumented allocators: disabled log-level paths must record zero heap allocations
+- `AnomalyDetector` accuracy tests: detection rate ≥ 95% on synthetic anomaly datasets with known ground truth
+- Hot-reload tests for `ConfigManager`: config changes applied within one `check_interval` without service restart
+- Header-only compilation tests: each planned header compiles in isolation without `src/` includes
+
+## Performance Targets
+
+- `EnhancedSpan` creation overhead: ≤ 5 µs including attribute storage
+- `MetricsCollector` / `OTelMetricsProvider` data point recording: ≤ 500 ns per observation
+- `TraceContextPropagator::extract` from HTTP headers: ≤ 1 µs
+- `AnomalyDetector::detectPoint` (inference path): ≤ 10 µs per data point
+- `ContinuousProfiler` CPU overhead at default sample rate: ≤ 1% of total process CPU
+- `ConfigManager::getConfig` read path: ≤ 100 ns (lock-free atomic snapshot)
+
+## Security / Reliability
+
+- Trace data never includes PII fields (user IDs, passwords, tokens) without explicit sanitization via a registered `SanitizationFilter`
+- Log levels are configurable at runtime via `ConfigManager`; sensitive fields automatically redacted at `INFO` and below
+- `MemoryLeakDetector` output is written only to `output_dir`; no network exfiltration of heap data
+- `AnomalyDetector` model files are validated for integrity before `loadModel()` proceeds
+- `ContinuousProfiler` snapshot files are written with permissions `0600`; readable only by the ThemisDB process owner
+- All observability APIs tolerate `nullptr` callback arguments gracefully; a no-op is registered in place of null callbacks
 
 ## See Also
 

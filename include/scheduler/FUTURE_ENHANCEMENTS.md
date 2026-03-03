@@ -1,5 +1,34 @@
 # Scheduler Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/scheduler/` headers
+- Task DAG interface (`TaskGraph`, `graph.addTask`, `scheduler.registerTaskGraph`)
+- Priority queue API (`TaskPriority` enum, priority-slot configuration)
+- Distributed task coordination interface (`DistributedTaskScheduler`, `RaftCluster`)
+- Resource quota API (`TenantQuota`, `TaskResourceLimits`)
+- Cron expression parser API (`CronParser`, `CronSchedule`)
+
+## Design Constraints
+
+- [ ] Task DAG is immutable after submission to the scheduler
+- [ ] Priority API is lock-free; no mutexes on the hot enqueue path
+- [ ] Resource quota enforced before task start (pre-admission check)
+- [ ] No cross-tenant task visibility — tasks namespaced by `tenant_id`
+- [ ] All public header types are copy-constructible and move-constructible
+- [ ] Distributed coordination headers require `THEMIS_DISTRIBUTED` compile flag
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `TaskGraph` | Workflow orchestration, ETL pipelines | Immutable after `registerTaskGraph()` |
+| `TaskPriority` / priority-slot config | Query engine, maintenance tasks | Lock-free priority queue |
+| `DistributedTaskScheduler` | Cluster deployments | Requires `RaftCluster` dependency |
+| `TenantQuota` | Multi-tenant SaaS deployments | Pre-admission quota enforcement |
+| `TaskResourceLimits` | Resource-aware schedulers | Applied via cgroups on Linux |
+| `CronParser` | User-defined scheduled tasks | Standard 6-field cron syntax |
+
 ## Planned Features
 
 ### Distributed Task Coordination with Raft
@@ -616,3 +645,28 @@ Track highly requested features from users:
 Interested in implementing these features? See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 Feature requests and design discussions: https://github.com/ThemisDB/ThemisDB/discussions
+
+## Test Strategy
+
+- Unit tests for `CronParser::nextRun()` covering edge cases (DST, leap years, month boundaries)
+- Property-based tests for DAG topological sort correctness with randomly generated graphs
+- Concurrency tests for lock-free priority enqueue under high parallelism (≥ 10 threads)
+- Integration tests for `DistributedTaskScheduler` failover with simulated leader crash
+- Quota enforcement tests verifying pre-admission rejection when `TenantQuota` limits are exceeded
+- Regression tests for starvation prevention (priority aging mechanism)
+
+## Performance Targets
+
+- Task enqueue ≤ 100 µs (p99) under 10,000 concurrent enqueue ops/s
+- DAG dependency resolution ≤ 1 ms for a 100-node DAG
+- Cron `nextRun()` computation ≤ 10 µs per call
+- Priority queue insert/pop O(log N) with N ≤ 100,000 tasks
+- Resource quota admission check ≤ 50 µs per task
+
+## Security / Reliability
+
+- Task isolation via per-tenant `TenantQuota` — no cross-tenant task visibility
+- Resource limits enforced before task start to prevent runaway resource consumption
+- DAG immutability after submission prevents race-condition task graph mutations
+- Distributed coordinator uses Raft-based consensus; no split-brain task duplication
+- Retry policies with jitter prevent thundering-herd effects on transient failures

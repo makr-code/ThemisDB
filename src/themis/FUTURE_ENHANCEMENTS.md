@@ -1,5 +1,37 @@
 # Themis Module Implementation - Future Enhancements
 
+## Scope
+
+- Build metadata API: `getBuildConfiguration()`, `build_info.cpp` (version, compiler, flags, git SHA)
+- License validation: `license_info.cpp` with Ed25519 signature verification and expiry checking
+- Module loading: `module_loader.cpp` — secure `dlopen`/`LoadLibrary` with SHA-256 hash verification
+- Wire protocol server: `wire_protocol_server.cpp` (namespace `themis::wire`), binary client session management
+- Module dependency resolution and topological load-order management (`module_dependency_resolver.cpp`)
+- Edition feature gating (Community / Enterprise / Cloud) via `edition_manager.cpp`
+- Runtime checks: `isModuleCompiledIn()`, Authenticode/GPG signature validation, Zone.Identifier quarantine detection
+
+## Design Constraints
+
+- [ ] Public headers in `include/themis/` are frozen for v1.x; no breaking changes to existing APIs or ABI
+- [ ] Module loads must verify SHA-256 hash against a signed manifest before `dlopen`/`LoadLibrary`; mismatch aborts load
+- [ ] License comparison must use `CRYPTO_memcmp` or equivalent constant-time function; `memcmp`/`strcmp` are forbidden
+- [ ] Edition feature gates must be enforced exclusively at the `edition_manager` layer; modules must not hard-code edition checks
+- [ ] `WireProtocolServer` must operate correctly in a single-threaded `io_context`; shared state accessed only from event-loop thread
+- [ ] `getBuildConfiguration()` must return deterministic output for the same binary; runtime environment variables must not affect the result
+- [ ] LZ4 compress/decompress stubs must be replaced before v2.0.0; a compile-time test must fail if stubs remain in a release build
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IBuildInfo` | `getBuildConfiguration()` | Version string, compiler, flags, git SHA; read-only after init |
+| `ILicenseValidator` | `edition_manager`, startup check | Ed25519 signature verify, expiry check, constant-time compare |
+| `IModuleLoader` | `module_dependency_resolver` | `dlopen`/`LoadLibrary` + SHA-256 + Authenticode/GPG verification |
+| `IEditionManager` | All feature-gated subsystems | `isFeatureEnabled(FeatureFlag)`, `getEdition()` |
+| `IWireProtocolHandler` | `WireProtocolServer` | Per-opcode request dispatch; register/unregister handlers |
+| `IModuleDependencyResolver` | Module boot sequence | Topological sort of module load order; cycle detection |
+| `IFeatureFlag` | Enterprise/Cloud subsystems | Runtime bool gate keyed by `EditionFeature` enum; ≤ 100 ns per call |
+
 ## Implementation Roadmap
 
 This document outlines planned implementation enhancements for the Themis core framework module.
@@ -599,6 +631,33 @@ Priority areas for implementation contributions:
 2. Module loader implementation
 3. Wire protocol optimizations
 4. Test suite development
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for `wire_protocol_server`, `module_dependency_resolver`, `edition_manager`, and `build_info`
+- Integration tests: module load sequence with SHA-256 hash verification, license expiry edge cases (expired, clock-skew ±5 min), edition gate enforcement
+- Wire protocol conformance tests: all defined `OpCode` values including PING/PONG, AUTH, QUERY, and ERROR; malformed-packet fuzzing via libFuzzer
+- Regression test: verify `WireProtocolServer::sessions_` count is bounded (does not grow) after session disconnect fix is applied
+- Constant-time license comparison timing test: 10,000 iterations, measured variance must be ≤ 2× mean to confirm no data-dependent branching
+
+## Performance Targets
+
+- Module load time (SHA-256 verification + `dlopen`/`LoadLibrary`) ≤ 50 ms per module on NVMe storage
+- `getBuildConfiguration()` first-call latency ≤ 1 ms; subsequent calls served from in-process cache in ≤ 10 µs
+- License validation (Ed25519 signature verification) ≤ 5 ms on hardware without HSM acceleration
+- Wire protocol server: handle ≥ 10,000 concurrent sessions at p99 opcode dispatch latency ≤ 1 ms per session
+- `edition_manager.isFeatureEnabled()` ≤ 100 ns per call in hot-path (no locking required after initialization)
+
+## Security / Reliability
+
+- All module loads must verify SHA-256 hash against a signed manifest before `dlopen`/`LoadLibrary`; a mismatch must abort the load and write a security audit event
+- License string comparison must use `CRYPTO_memcmp` or equivalent constant-time function; `memcmp` and `strcmp` are forbidden in all license validation code paths
+- `edition_manager` must fail-closed: if edition cannot be determined (missing or corrupt license), the system defaults to Community edition and logs an audit event
+- `WireProtocolServer` session map (`sessions_`) must be protected by a mutex before any multi-threaded `io_context` support is added
+- Zone.Identifier / quarantine attribute check must be performed on Windows before loading any module from a path outside the installation directory
+- Module hash manifests must be signed with the same Ed25519 key used for license validation; unsigned or separately signed manifests are rejected
 
 ---
 

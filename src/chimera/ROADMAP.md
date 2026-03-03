@@ -26,10 +26,6 @@
 
 ### Short-term (Next 3-6 months)
 - [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
-- [x] Weaviate adapter (native vector database) (Issue: #2374)
-- [x] Qdrant adapter (native vector database) (Issue: #1646)
-- [x] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #2375)
-- [x] Adapter capability matrix (which operations each system supports) (Issue: #2376)
 
 ### Long-term (6-12 months)
 - [I] Neo4j adapter (native graph database) (Issue: #1650)
@@ -57,7 +53,7 @@
 - [x] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026) (Issue: #1657)
 - [x] Benchmark result normalization and scoring framework (Target: Q3 2026)
 
-### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
+### Phase 3: Ecosystem Expansion & Reporting (Status: In Progress 🚧)
 - [x] Weaviate adapter (native vector database)
 - [x] Qdrant adapter (native vector database)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report)

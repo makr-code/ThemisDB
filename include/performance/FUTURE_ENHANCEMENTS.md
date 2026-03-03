@@ -1,5 +1,33 @@
 # Performance Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/performance/` headers — public C++ interfaces for performance instrumentation
+- PMU counter interface: `PerfCounters` with typed `PerfCounterType` enum and `get_all()` summary
+- RDTSC timing API: header-only `CycleTimer` with `noexcept` start/stop/elapsed methods
+- Lock-free histogram API: `LockFreeHistogram<T>` with `record()`, `percentile()`, and `reset()` methods
+- Auto-tuning hook interface: `AutoTuneHook` callback type for adaptive cache and queue policy selection
+- GPU metrics API: `GPUMetrics` struct with device utilization, memory bandwidth, and kernel timing
+
+## Design Constraints
+
+- [ ] Timing API is `noexcept` and header-only for zero-overhead inclusion
+- [ ] PMU interface is compile-time optional via `THEMIS_ENABLE_PMU` preprocessor guard
+- [ ] Histogram API is lock-free and thread-safe using `std::atomic` operations only
+- [ ] Auto-tuning hook must not allocate heap memory in the hot path
+- [ ] GPU metrics API is conditionally compiled under `THEMIS_ENABLE_GPU`
+- [ ] All public types must be trivially copyable or explicitly documented otherwise
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `CycleTimer` | `include/performance/cycle_metrics.h` | RDTSC-based, `noexcept`, header-only |
+| `PerfCounters` | `include/performance/perf_counters.h` | Requires `THEMIS_ENABLE_PMU`; wraps `perf_event_open` |
+| `LockFreeHistogram<T>` | Query profiling, cache stats | `record()` ≤ 20 ns; lock-free via atomics |
+| `AutoTuneHook` | `AdaptiveCache`, `LockFreeQueue` | Callback invoked on policy evaluation |
+| `GPUMetrics` | `gpu_allocator.h`, query GPU path | Conditionally compiled; wraps CUDA or HIP counters |
+
 ## Planned Header Additions
 
 ### Advanced Profiling Headers
@@ -784,3 +812,31 @@ Maintain experimental branch for cutting-edge research implementations before pr
 **Last Updated**: 2025-02-10  
 **Status**: Living document - updated quarterly  
 **Maintainers**: ThemisDB Performance Team
+
+---
+
+## Test Strategy
+
+- Unit tests for `CycleTimer`: verify elapsed time within 5% of `std::chrono` on same-CPU measurements
+- Unit tests for `LockFreeHistogram`: concurrent `record()` from 8 threads; verify no data races under TSan
+- Unit tests for `PerfCounters`: mock `perf_event_open`; verify counter enable/disable and reset semantics
+- Integration tests: run `THEMIS_PROFILE_SCOPE` macro under GTest; assert flamegraph output is non-empty
+- Compile-time tests: verify `THEMIS_ENABLE_PMU=0` excludes PMU symbols from translation unit
+- Benchmark tests: assert `CycleTimer` overhead ≤ 10 ns and `LockFreeHistogram::record()` ≤ 20 ns on CI hardware
+
+## Performance Targets
+
+- RDTSC wrapper overhead ≤ 10 ns per measurement (2× RDTSC serialized reads)
+- `LockFreeHistogram::record()` ≤ 20 ns per call under no contention
+- `AutoTuneHook` invocation ≤ 100 µs end-to-end including policy switch
+- `PerfCounters::get_all()` ≤ 500 ns (single `ioctl` call amortized across batch)
+- `GPUMetrics` snapshot ≤ 1 ms (async query; result cached for 10 ms)
+- Header inclusion compile overhead ≤ 50 ms incremental build impact per translation unit
+
+## Security / Reliability
+
+- PMU counters are not accessible without `CAP_PERFMON` or admin privilege; API returns `std::errc::permission_denied` gracefully
+- Performance data (histograms, traces) must never include query text or user data
+- `CycleTimer` must not be used as a security-sensitive RNG source; document this constraint explicitly in the header
+- GPU metrics API must not expose raw kernel source addresses to unprivileged callers
+- All header-only code must be free of UB under `-fsanitize=undefined`; CI enforces this

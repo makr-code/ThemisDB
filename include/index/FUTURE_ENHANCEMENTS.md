@@ -1,5 +1,35 @@
 # Index Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/index/` public C++ headers
+- HNSW builder API with async construction and progress callbacks
+- Product quantization (PQ) compression interface for fp32 vector storage reduction
+- GPU-accelerated ANN query API (compile-time optional via `THEMIS_ENABLE_GPU`)
+- Composite index interface for multi-column query patterns
+- Learned index API replacing B-tree with ML-predicted positions
+- Unified `IIndex` polymorphic interface for all index types
+
+## Design Constraints
+
+- [ ] HNSW build API is asynchronous; callers receive a `std::future<Result<void>>` or progress callback
+- [ ] GPU ANN query API is compile-time optional; guarded by `#ifdef THEMIS_ENABLE_GPU`
+- [ ] Existing `IIndex` interface must not be modified in a breaking way; only additive changes permitted
+- [ ] PQ compression interface operates only on fp32 vectors; other types require explicit cast
+- [ ] Learned index API requires explicit `train()` call before `lookup()`; state machine enforced
+- [ ] All new index APIs return `Result<T>`; no raw exceptions cross public header boundaries
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IIndex` | Query planner, benchmarks | Unified polymorphic index base |
+| `HNSWIndex` | `VectorIndexManager` | Async build, async search |
+| `GPUVectorIndex` | ANN query engine | `THEMIS_ENABLE_GPU` guarded |
+| `LearnedIndex` | `SecondaryIndexManager` | Requires `train()` before use |
+| `IndexRegistry` | Query optimizer, monitoring | Centralized index metadata |
+| `IShardingStrategy` | `IndexManager` | Pluggable hash/range partitioning |
+
 ## Planned Features
 
 ### Full-Text Search Index
@@ -828,3 +858,32 @@ Allow clients to search encrypted data without server seeing plaintext.
 - Skewed/changing distributions
 - Small datasets (<100K keys)
 - Requires exact results
+
+---
+
+## Test Strategy
+
+- Compliance suite for `IIndex`: every concrete implementation must pass insert/lookup/range/rebuild contract tests
+- Unit tests for PQ compression: round-trip encode/decode error ≤ configured tolerance; ≥ 10× size reduction verified
+- GPU index tests run conditionally when `THEMIS_ENABLE_GPU` is set; CPU fallback path always tested
+- Regression tests confirming `IIndex` additions are backward-compatible with v1.4.x client code
+- Property-based tests for `LearnedIndex`: lookup always returns a result within `error_bound` positions
+- Header-only compilation tests: each planned header compiles in isolation without `src/` includes
+
+## Performance Targets
+
+- HNSW query API dispatch overhead: ≤ 500 ns (excluding actual ANN search time)
+- PQ compression: ≥ 10× storage reduction for fp32 vectors at default quality settings
+- `IIndex::lookup` virtual dispatch overhead: ≤ 100 ns above direct concrete-type call
+- GPU ANN query throughput: ≥ 200K queries/sec on 8 GB VRAM with 768-dim vectors
+- `IndexRegistry::getMetadata` lookup: ≤ 1 µs (hash-map backed)
+- Learned index lookup: ≤ 50% of equivalent B-tree lookup latency for stable key distributions
+
+## Security / Reliability
+
+- Input dimension validated against registered schema on every `insert()` call; mismatches return `Error::DimensionMismatch`
+- GPU memory bounds enforced via `memory_limit_mb` in `GPUVectorIndex::Config`; exceeding limit returns `Error::OutOfMemory`
+- Index build from untrusted data validates all vector dimensions before any GPU/CPU memory allocation
+- `LearnedIndex` model files validated for integrity (checksum) before `loadModel()` proceeds
+- `IIndex::rebuild()` is idempotent and safe to call concurrently with read queries
+- No raw pointers exposed in public index headers; all ownership expressed via `std::unique_ptr` or `std::shared_ptr`

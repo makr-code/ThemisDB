@@ -1,5 +1,39 @@
 # Performance Module - Future Enhancements
 
+## Scope
+
+- Cycle-accurate hardware timing via RDTSC/RDTSCP (x86-64) and CNTVCT_EL0 (ARM64) with < 1 ns overhead per measurement point
+- Lock-free SPSC ring buffer for metrics collection usable from hot paths without blocking
+- Statistical aggregation (P50/P90/P95/P99/mean/stddev) over rolling time windows
+- Auto-tuning of HNSW `ef_construction` and `M` parameters based on observed query workload
+- GPU performance counters via CUDA events and Nsight-compatible export
+- SIMD-accelerated (AVX-512) distance computation and batch processing helpers
+- PMU hardware counter integration for cache-miss, branch-misprediction, and IPC analysis
+- Persistent memory (Optane/PMEM) layout awareness for sub-microsecond NUMA-local access
+
+## Design Constraints
+
+- [ ] Measurement overhead must not exceed 1 ns per instrumented call site on x86-64 hardware
+- [ ] Ring buffer implementation must be lock-free (no `std::mutex`) and safe for a single producer + single consumer
+- [ ] All public APIs must be zero-overhead when disabled via compile-time feature flags
+- [ ] NUMA-aware allocation must not introduce cross-socket traffic for hot-path structures
+- [ ] Auto-tuner changes to HNSW parameters must be non-disruptive (applied without index rebuild)
+- [ ] GPU metrics integration must not block the CPU thread while awaiting CUDA event completion
+- [ ] PMU counter access must degrade gracefully when `perf_event_open` is unavailable (e.g., containers)
+- [ ] Persistent memory paths must fall back to DRAM transparently when no PMEM device is present
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `CycleMetrics::start() / stop()` | Query engine, HNSW, LLM inference | RAII scoped timers preferred; raw macros for extreme-hot paths |
+| `PerformanceStats::percentile(p)` | Monitoring exporters, auto-tuner | Must return P50/P90/P95/P99 in O(1) from pre-sorted ring data |
+| `AutoTuner::suggest(workload)` | HNSW index manager | Returns `{ef_construction, M}` struct; applied asynchronously |
+| `GPUMetrics::record_event(stream)` | GPU inference pipeline | Wraps `cudaEventRecord`; exports to Prometheus gauge |
+| `NUMAAllocator::alloc(size, node)` | Storage, index, cache modules | Falls back to `mimalloc` when NUMA unavailable |
+| `PMUCounters::read(event_mask)` | Benchmark infrastructure, CI regression | Returns `{cache_misses, branch_misses, instructions}` struct |
+| `PerfExporter::emit(format)` | Prometheus scrape endpoint, CI | Supports JSON, Prometheus text, and Chimera binary formats |
+
 ## Planned Features
 
 ### Hardware-Accelerated Query Execution
@@ -743,3 +777,37 @@ See `CONTRIBUTING.md` for guidelines.
 **Version**: 1.0.0  
 **Last Updated**: 2025-02-10  
 **Status**: Living document - updated quarterly
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for all public `CycleMetrics`, `PerformanceStats`, and `AutoTuner` APIs
+- Deterministic timing tests: assert that RAII scoped timer overhead measured over 1 M iterations is < 2 ns/call average
+- Ring buffer correctness tests: SPSC producer/consumer with 10 M elements; verify zero lost messages and no data races under TSan
+- Auto-tuner regression tests: feed synthetic workload traces and assert recommended `{ef_construction, M}` converges within 100 iterations
+- PMU counter integration tests: verify `cache_misses` counter increases proportionally with a deliberately cache-unfriendly access pattern
+- GPU metrics tests: mock CUDA event API; assert recorded durations match injected values within 1 µs tolerance
+- CI performance regression gate: flag any benchmark that regresses by > 5% relative to the baseline on the same hardware class
+- Persistent memory fallback test: assert `NUMAAllocator` silently falls back to DRAM when no PMEM device is present
+
+## Performance Targets
+
+- Measurement overhead: ≤ 1 ns per instrumented call site on x86-64 at 3 GHz (< 3 CPU cycles)
+- Ring buffer throughput: ≥ 100 M events/s single-producer/single-consumer on a modern server CPU
+- Statistics query latency: P99 percentile lookup in < 500 ns for a ring of up to 1 M samples
+- Auto-tuner convergence: recommend optimal HNSW parameters within 100 workload samples with < 2% QPS error vs. exhaustive search
+- GPU metric export: < 100 µs overhead per CUDA stream per inference call
+- NUMA allocation penalty: cross-socket access rate < 1% for hot-path structures on 2-socket systems
+- PMU counter read latency: < 1 µs per `perf_event_open` read call
+- CI regression detection: cross-module benchmark suite completes in < 10 min on a 32-core reference host
+
+## Security / Reliability
+
+- Timing side-channel disclosure: RDTSC-based metrics must not be exposed via any unauthenticated public API endpoint; metrics are accessible only to authenticated admin roles
+- SPSC ring buffer misuse (multiple producers or consumers) must be detected at runtime via an atomic owner-thread assertion in debug builds; release builds fail silently rather than corrupt data
+- PMU counter access requires `CAP_PERFMON` or equivalent; the module must log a warning and disable PMU collection rather than crash when the capability is absent
+- Auto-tuner must validate all suggested parameter values against safe bounds (`ef_construction` ∈ [16, 2048], `M` ∈ [4, 64]) before applying; out-of-range suggestions are rejected and logged
+- GPU metric paths must handle CUDA context loss (device reset) without crashing the host process; affected metrics are marked as stale and cleared
+- Persistent memory layout must use checksums per 4 KB page; silent data corruption is detected on next read and triggers a fallback to the WAL for recovery
+- Feature flag changes at runtime must be atomic (std::atomic) to prevent torn reads on multi-core systems

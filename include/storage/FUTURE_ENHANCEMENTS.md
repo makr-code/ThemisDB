@@ -1,5 +1,33 @@
 # Storage Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/storage/` headers
+- Tiered storage API (`TieredStorageManager`, transparent hot/warm/cold migration)
+- WAL compaction interface (`WALCompactor`, log truncation and archival API)
+- Encryption-at-rest API (`StorageEncryptionConfig`, configured at storage initialization)
+- Column family management interface (`ColumnFamilyManager`, thread-safe operations)
+- Backup/restore API (`BackupManager`, async initiation with HMAC-verified restore)
+
+## Design Constraints
+
+- [ ] Tiered storage API is transparent to callers — reads/writes use the same interface regardless of tier
+- [ ] Encryption-at-rest is configured at storage initialization; cannot be toggled at runtime
+- [ ] Column family API is fully thread-safe — no external locking required by callers
+- [ ] Backup API is async — `initiateBackup()` returns immediately; progress via callback/future
+- [ ] Storage API header types never embed raw encryption keys — only opaque key identifiers allowed
+- [ ] All public API operations return `Result<T>` for error propagation (no exceptions)
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `TieredStorageManager` | Database engine, archival pipelines | Transparent to callers; policy-driven migration |
+| `StorageEncryptionConfig` | Storage initialization, admin tooling | Mandatory in `THEMIS_PRODUCTION_MODE` |
+| `ColumnFamilyManager` | Schema evolution, multi-tenant storage | Thread-safe; supports online add/drop |
+| `BackupManager` | Ops tooling, disaster recovery | Async; restore verified via HMAC before apply |
+| `WALCompactor` | Compaction subsystem, log archival | Non-blocking log truncation |
+
 ## Planned Features
 
 ### Distributed Transactions with Raft
@@ -720,3 +748,28 @@ Have ideas for storage module improvements? Open an issue or discussion:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.7.0 Release*
+
+## Test Strategy
+
+- Unit tests for `TieredStorageManager` policy engine with synthetic access-pattern timestamps
+- Thread-safety tests for `ColumnFamilyManager` under concurrent add/drop operations (≥ 20 threads)
+- Encryption-at-rest tests verifying ciphertext on disk and successful plaintext roundtrip
+- Backup/restore integration tests with injected HMAC corruption (verify backup is rejected)
+- WAL compaction tests confirming no data loss across truncation boundary
+- Tiered migration performance tests measuring migration throughput against the 5 s/GB target
+
+## Performance Targets
+
+- Write batch throughput ≥ 100,000 ops/s on NVMe with encryption-at-rest enabled
+- Tiered data migration ≤ 5 s/GB (hot → warm tier)
+- Backup initiation ≤ 100 ms (async; must not block concurrent writes)
+- Column family creation ≤ 50 ms online with no write stall
+- WAL compaction cycle ≤ 200 ms for logs up to 1 GB
+
+## Security / Reliability
+
+- Encryption-at-rest is mandatory when `THEMIS_PRODUCTION_MODE` is set; startup fails otherwise
+- Backup files verified via HMAC before restore is applied — corrupted backups are rejected
+- Storage API header types never contain raw encryption keys; only opaque key identifiers
+- Column family operations are idempotent — duplicate add/drop calls are safe
+- Tiered storage migration is atomic at the SSTable level; partial migrations roll back on failure

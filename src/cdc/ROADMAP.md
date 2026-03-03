@@ -47,12 +47,12 @@
 - [x] Implemented historical change replay from stored change log offset
 - [x] Integrated with analytics diff engine for before/after document snapshots
 
-### Phase 2: WebSocket Transport and Delivery Guarantees (Status: In Progress)
+### Phase 2: WebSocket Transport and Delivery Guarantees (Status: Completed ✅)
 - [x] Implement WebSocket transport as alternative to SSE (`cdc/cdc_ws_handler.cpp`, `/v2/cdc/stream`) (Issue: #1626)
 - [x] Implement change log compaction to merge superseded entries by key (Issue: #1627)
 - [x] Implement at-least-once delivery with consumer acknowledgement and redelivery (Issue: #1628)
 
-### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
+### Phase 3: Consumer Groups and Enterprise Integration (Status: Completed ✅)
 - [x] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`) (Issue: #1619)
 - [x] Implement Kafka-compatible producer interface for enterprise CDC pipelines (Issue: #1620)
 - [x] Add Debezium-compatible change event envelope format (Issue: #1621)

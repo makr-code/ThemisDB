@@ -1,5 +1,39 @@
 # Authentication Module - Future Enhancements
 
+## Scope
+
+- JWT/OIDC token validation and issuance for all ThemisDB API consumers
+- Kerberos/GSSAPI authentication for enterprise Active Directory environments
+- TOTP MFA and WebAuthn/FIDO2 hardware-key second factors
+- OAuth 2.0 authorization code, device flow, and client-credentials flows
+- SAML 2.0 SP-initiated and IdP-initiated SSO
+- RBAC and ABAC policy evaluation at query-execution time
+- mTLS mutual certificate authentication for service-to-service calls
+- Federated identity bridging (LDAP, social IdPs, enterprise SSO)
+
+## Design Constraints
+
+- [ ] JWT validation must be stateless; no database call on the hot path
+- [ ] Kerberos ticket validation must not block the event loop — use async syscalls
+- [ ] Token cache must be bounded to ≤ 256 MB RAM under maximum load
+- [ ] All cryptographic primitives must use OpenSSL 3.x or libsodium; no custom crypto
+- [ ] RBAC/ABAC policy engine must be reentrant and thread-safe (shared-nothing state)
+- [ ] mTLS certificate rotation must complete with zero dropped connections
+- [ ] No secret material (keys, tokens) persisted to disk outside of HSM/key-store
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `ITokenValidator` | Query engine, HTTP gateway | Validates JWT/OIDC bearer tokens; returns `Claims` or error |
+| `IKerberosAuthenticator` | Enterprise connector | Accepts GSSAPI token, returns authenticated principal |
+| `IMFAProvider` | Login service | TOTP / WebAuthn challenge-response; returns success/failure |
+| `IOAuthFlowHandler` | REST API, CLI | Implements authorization-code, device, and client-credentials flows |
+| `ISAMLHandler` | SSO bridge | Parses/validates SAML assertions, maps attributes to internal roles |
+| `IRBACEvaluator` | Query engine | Evaluates role-permission matrix for a given principal + resource |
+| `IABACEvaluator` | Query engine | Evaluates attribute-based policies (XACML-style) |
+| `ImTLSVerifier` | gRPC/HTTP server | Validates client certificate chain and maps to service identity |
+
 Planned authentication and authorization features for ThemisDB.
 
 ## Table of Contents
@@ -1463,6 +1497,28 @@ We welcome feedback on these planned features! Please open an issue or discussio
 - Request prioritization changes
 - Share use cases
 - Report security considerations
+
+## Test Strategy
+
+- Unit tests: ≥ 80% line coverage on all validator, evaluator, and flow handler classes
+- JWT validation: property-based tests covering expired, malformed, wrong-issuer, and RS256/ES256/HS256 variants
+- Kerberos: mock KDC integration tests running in Docker; cover ticket-expiry and replay-attack scenarios
+- MFA: fuzz token inputs to `ITokenValidator`; verify rejection of all malformed inputs
+- OAuth flows: end-to-end tests using an embedded OAuth2 server (e.g., Keycloak in testcontainer)
+- RBAC/ABAC: matrix tests covering deny-by-default, privilege escalation, and wildcard rules (≥ 500 test cases)
+- Performance regression gate: CI blocks merge if p99 JWT validation regresses > 10% from baseline
+- Security tests: static analysis with CodeQL + dynamic fuzzing of all public auth endpoints
+
+## Performance Targets
+
+- JWT validation (RS256, cached public key): p99 ≤ 2 ms at 10,000 req/s
+- Kerberos ticket validation: p99 ≤ 10 ms under normal KDC load
+- Token cache hit rate: ≥ 95% for typical workloads (5-minute sliding window)
+- TOTP verification: p99 ≤ 1 ms (HMAC-SHA1 only, no network I/O)
+- WebAuthn assertion verification: p99 ≤ 5 ms
+- OAuth 2.0 token introspection (cached): p99 ≤ 3 ms
+- RBAC policy evaluation (up to 50 roles): p99 ≤ 0.5 ms
+- mTLS handshake (RSA-2048): p99 ≤ 15 ms for new connections
 
 ## Related Documentation
 

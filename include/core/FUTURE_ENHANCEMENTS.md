@@ -1,5 +1,34 @@
 # Core Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/core/` headers — adapter lifecycle hooks for `IAdapter<T>` implementations
+- Circuit breaker interface (`ICircuitBreaker`) for dependency fault isolation with thread-safe state transitions
+- Configuration hot-reload API with async change-notification callbacks (`IConfigReloadListener`)
+- Service health check interface extensions: liveness, readiness, and per-dependency health probes
+- `resolve<T>()` performance improvements: non-blocking contract enforcement and optional CRTP devirtualization path
+- Namespace standardization (`themis::core::`) and `std::expected`-based error handling adoption
+
+## Design Constraints
+
+- [ ] All new interfaces follow the existing `IAdapter<T>` contract; adapter lifecycle must not be bypassed
+- [ ] `resolve<T>()` must remain non-blocking on the hot path; no I/O or mutex acquisition permitted inside `resolve<T>()`
+- [ ] Circuit breaker state transitions (`CLOSED`→`OPEN`→`HALF_OPEN`) must use atomic operations; no locks on the fast path
+- [ ] Adapter registration is restricted to the `ThemisContext::initialize()` phase; post-init registration returns a typed error
+- [ ] New virtual methods added only at end of vtable to preserve ABI within a major version
+- [ ] Configuration hot-reload callbacks delivered asynchronously; must not block the thread calling `resolve<T>()`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IAdapter<T>` (lifecycle hooks) | All adapter implementations | `onStart()`, `onStop()`, `onHealthCheck()` |
+| `ICircuitBreaker` | Dependency fault isolation wrappers | Atomic state machine; ≤ 100 ns state check |
+| `IConfigReloadListener` | Hot-reload consumers | Async callback; non-blocking delivery |
+| `IHealthCheckProvider` | Liveness / readiness probe handlers | Extends existing `ProbeResult` / `HealthStatus` |
+| `ContextScope` / `ContextPropagation` | Async boundary consumers | Implemented in v1.7.0; interface stable |
+| `MetricLabels` (fluent builder) | Metrics instrumentation | Implemented in v1.6.0; interface stable |
+
 ## Planned Features
 
 ### IContext Interface for Contextual Logging
@@ -640,6 +669,33 @@ Have ideas for interface improvements? We'd love to hear from you:
 - 📚 Documentation feedback: [Docs Issues](https://github.com/makr-code/ThemisDB/issues?label=documentation)
 
 ---
+
+## Test Strategy
+
+- Unit tests for each new interface: verify lifecycle hook invocation order and thread-safety guarantees
+- Circuit breaker tests: verify `CLOSED`→`OPEN`→`HALF_OPEN`→`CLOSED` transitions under simulated failure injection
+- Configuration hot-reload tests: verify callbacks are delivered asynchronously without blocking `resolve<T>()`
+- `resolve<T>()` performance regression tests: assert median latency ≤ 1 µs with no lock contention under load
+- Circuit breaker state check regression tests: assert ≤ 100 ns via atomic read (verified under concurrent load)
+- Adapter registration security tests: verify that registration attempted after `ThemisContext::initialize()` returns a typed error
+
+## Performance Targets
+
+- `resolve<T>()` median latency (warm cache, no contention): ≤ 1 µs
+- Circuit breaker state check (`isOpen()` / `isClosed()`): ≤ 100 ns via single atomic load
+- Adapter lifecycle hook (`onStart()` / `onStop()`) invocation overhead (framework side): ≤ 5 µs excluding user code
+- Configuration hot-reload notification delivery (change detected → callback invoked): ≤ 10 ms
+- `ContextScope` RAII install / restore overhead: ≤ 50 ns (thread-local pointer swap)
+- `MetricLabels::add()` per-label overhead: ≤ 100 ns (map insert, small label count ≤ 8)
+
+## Security / Reliability
+
+- Adapter registration restricted to `ThemisContext::initialize()` phase; post-init attempts return a typed error, never silently succeed
+- No runtime injection from untrusted sources: adapter factories validate type tokens before any registration is accepted
+- Circuit breaker state protected by atomic operations; no data races under concurrent access (verified by TSAN)
+- Configuration hot-reload callbacks must not expose raw configuration values to callers without proper authorization checks
+- `ContextPropagation::propagate()` creates child contexts; writes inside async tasks cannot corrupt the parent context
+- Health check interface must not expose internal error details to unauthenticated liveness / readiness probe consumers
 
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  

@@ -1,5 +1,41 @@
 # Analytics Module Implementation - Future Enhancements
 
+## Scope
+
+- OLAP-style aggregations (SUM, AVG, MIN, MAX, COUNT, STDDEV, PERCENTILE) over columnar data
+- SIMD-accelerated operations: AVX2, AVX-512, ARM NEON vectorization for aggregation and filter kernels
+- Streaming aggregation with bounded memory (configurable sliding/tumbling windows)
+- Incremental view maintenance (IVM): delta-based re-computation on insert/update/delete
+- GPU acceleration kernels (CUDA/ROCm) for batch aggregation and group-by operations
+- Time-series analytics: forecasting (ARIMA/Yule–Walker), anomaly detection, trend analysis
+
+---
+
+## Design Constraints
+
+- `[ ]` AVX-512 kernel must maintain FP determinism (tolerance ≤ 1 ULP vs scalar baseline)
+- `[ ]` ARM NEON paths must produce bit-identical results to AVX2 paths on the same dataset
+- `[ ]` Streaming aggregation peak memory usage must not exceed 512 MB per active window
+- `[ ]` IVM re-computation latency must be ≤ 50 ms for delta batches ≤ 10 000 rows
+- `[ ]` GPU kernel launch overhead must not exceed 2 ms per batch on CUDA sm_70+ hardware
+- `[ ]` All analytics operations must be cancellable within 100 ms via query-cancellation signal
+- `[ ]` No dynamic memory allocation inside hot SIMD loops; use pre-allocated scratch buffers
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `AnalyticsEngine::aggregate(query, schema, data)` | Query planner / AQL evaluator | Returns typed `AggregateResult` |
+| `SIMDBackend::vectorizedSum/Avg/Min/Max(data, count)` | `AnalyticsEngine` | Platform-selected at compile time |
+| `StreamingAggregator::push(row) / flush()` | Streaming query executor | Thread-safe ring-buffer backed |
+| `IVMEngine::applyDelta(view_id, delta)` | Storage layer change-data-capture | Delta must be serialisable |
+| `GPUAggregator::launchKernel(DeviceBuffer, KernelDesc)` | `AnalyticsEngine` GPU path | Requires `GPUContext` from gpu module |
+| `ForecastEngine::fit(series) / predict(horizon)` | Analytics API / AQL `FORECAST` command | Returns confidence intervals |
+
+---
+
 This document outlines implementation-specific future enhancements for the Analytics module. For API-level enhancements, see [`../../include/analytics/FUTURE_ENHANCEMENTS.md`](../../include/analytics/FUTURE_ENHANCEMENTS.md).
 
 ## Implementation Optimizations
@@ -830,6 +866,35 @@ private:
 5. Forecasting SIMD acceleration (AVX2 Yule–Walker inner loops)
 6. Forecasting batch prediction API
 7. Forecasting streaming one-step update API
+
+## Test Strategy
+
+- **Unit tests** (≥ 90 % line coverage): each aggregation function (SUM, AVG, MIN, MAX, STDDEV, PERCENTILE) verified with scalar, AVX2, AVX-512, and NEON backends; bit-parity assertions between paths
+- **Integration tests**: end-to-end AQL `AGGREGATE` queries over ≥ 1 M rows; IVM correctness verified by comparing full-recompute result vs delta result for 10 000 random mutations
+- **Property-based tests**: randomised input arrays (NaN, ±Inf, overflow, empty) to verify that all backends produce identical finite results or the same defined error
+- **Streaming tests**: sliding/tumbling window correctness under concurrent producer threads; memory ceiling enforced via ASAN/LSAN in CI
+- **GPU parity tests** (conditional on CUDA hardware in CI): GPU aggregate result must match CPU baseline within tolerance ≤ 1 × 10⁻⁶ for double-precision inputs
+- **Regression benchmarks**: tracked via Google Benchmark; any PR that regresses a tracked benchmark by > 5 % is blocked
+
+## Performance Targets
+
+- AVX-512 SUM/AVG over 10 M doubles: ≥ 2× throughput vs AVX2 baseline on the same CPU
+- ARM NEON aggregation throughput: ≥ 4 GB/s on Cortex-A78 or equivalent
+- IVM delta application (10 000 rows, single-column group-by): ≤ 50 ms wall time
+- Streaming aggregation throughput: ≥ 500 000 rows/s per window on a single core at 512 MB memory cap
+- GPU batch aggregation (CUDA sm_80, batch = 10 M rows): ≥ 8× speedup vs single-threaded CPU baseline
+- ARIMA forecast fit over 100 000-point series: ≤ 200 ms on 4-core CPU
+
+## Security / Reliability
+
+- All SIMD code paths compiled with `-fstack-protector-strong`; no pointer arithmetic on user-controlled offsets
+- GPU kernel whitelisted via `GPUKernelValidator` checksum registry; reject unregistered kernels before launch
+- IVM delta messages validated for schema conformance before application; invalid deltas rejected with `EINVAL`, never silently ignored
+- Streaming aggregation enforces a configurable row-count hard cap (default 10 M rows/window) to prevent OOM via adversarial input
+- Forecasting inputs sanitised: NaN/Inf in time-series data returns structured error, not undefined behaviour
+- All public API functions return `Result<T>`/error codes; no exception propagation across module boundary
+
+---
 
 ## See Also
 

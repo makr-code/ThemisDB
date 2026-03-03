@@ -57,13 +57,7 @@
 ### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
-- [x] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
-- [x] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #2380)
-  - Implementation: `include/themis/gpu/mig_manager.h`, `src/gpu/mig_manager.cpp`
-  - Interfaces: `MIGManager::{createPartition, destroyPartition, assignToTenant, unassignFromTenant, getInstances, getInstancesForDevice, getInstancesForTenant, getInstance, deviceSupportsMIG, isKnownProfile, profileMemoryBytes, getStats, reset}` + `MIGInstance`, `Status` enum, `Stats`
-  - Feature gate: `GPUFeatureFlags::Feature::MIG_MANAGER` (Enterprise/Hyperscaler editions)
-  - MIG fields added to `DeviceInfo`: `mig_enabled`, `mig_max_instances`
-  - Tests: `tests/test_gpu_mig_manager.cpp`
+
 ## Implementation Phases
 
 ### Phase 1: GPU Resource Management & Acceleration (Status: Completed ✅)

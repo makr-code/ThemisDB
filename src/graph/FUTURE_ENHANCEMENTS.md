@@ -1,5 +1,40 @@
 # Graph Module - Future Enhancements
 
+## Scope
+
+- Graph query optimization: cost-based algorithm selection (BFS, DFS, Dijkstra, A*, Bidirectional)
+- Adaptive plan caching with EMA-based cost model learning and TTL/size-based eviction
+- Parallel multi-source traversal for large fan-out queries (`fan_out_threshold`)
+- Subgraph isomorphism via VF2-style backtracking pattern matching
+- Distributed graph query execution across shards with intra-shard parallelism
+- Incremental graph query execution on live edge/node mutations (BFS-only)
+- GPU-accelerated BFS/DFS for massive graphs (≥1M nodes, CUDA/HIP backends)
+- EXPLAIN output integration with AQL for graph query plan inspection
+
+## Design Constraints
+
+- [ ] Algorithm selection must complete in < 1 ms for graphs with up to 10M nodes
+- [ ] Plan cache must enforce configurable max size (default 1,000 plans) and TTL (default 300 s)
+- [ ] Adaptive cost model must converge to < 10% mean absolute error after 100 executions per algorithm
+- [ ] Parallel traversal must not exceed configured `fan_out_threshold` per frontier expansion
+- [ ] Incremental query handles must be explicitly released; no implicit memory growth
+- [ ] GPU traversal kernel must produce bit-identical results to CPU baseline (deterministic)
+- [ ] Distributed query execution is intra-shard parallel; cross-shard edge following is caller-coordinated
+- [ ] All public APIs are thread-safe via read-write locking; incremental execution is explicitly single-threaded
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `GraphQueryOptimizer::optimize(query)` | AQL execution engine | Returns a `QueryPlan` with cost estimate and selected algorithm |
+| `PlanCache::get/put/evict` | Query optimizer | Keyed by structural query fingerprint; bounded by `max_plans` and TTL |
+| `ParallelTraversal::execute(sources, query)` | Query optimizer | Spawns intra-frontier worker threads up to `max_parallel_workers` |
+| `SubgraphIsomorphism::executeVF2(pattern, target)` | AQL graph pattern match | Returns all matching subgraph mappings |
+| `DistributedGraphQuery::executeAcrossShards(plan)` | Distributed query coordinator | Returns globally cheapest path; shard results merged by caller |
+| `IncrementalQueryHandle::applyMutation(edge)` | Graph API handler (`POST /graph/edge`) | BFS-only; notifies registered listeners |
+| `GPUTraversal::executeBFS(graph, source)` | Query optimizer (CUDA path) | Requires `THEMIS_ENABLE_CUDA`; CPU fallback active otherwise |
+| `GraphQueryOptimizer::explain(plan)` | AQL EXPLAIN | Returns human-readable plan tree with cost breakdown |
+
 ## Planned Features
 
 ### Structural Plan Reuse (Query Plan Reuse Across Structurally Similar Queries) ✅ DONE
@@ -914,3 +949,32 @@ Track user-requested features:
 
 *Last Updated: February 2026*  
 *Next Review: Q3 2026*
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% across `graph/query_optimizer.cpp`, `graph/plan_cache.cpp`, `graph/parallel_traversal.cpp` (tracked by Issue #1830)
+- Integration tests: AQL graph query round-trip, constrained path finding with required/forbidden nodes, plan cache hit/miss under concurrent load
+- Property-based tests: VF2 subgraph isomorphism correctness verified against brute-force matcher for graphs up to 50 nodes
+- GPU/CPU parity tests: BFS/DFS results must be bit-identical across CUDA and CPU backends for all test graphs
+- Adaptive cost model convergence test: after 100 synthetic executions per algorithm, `mean_absolute_error_ms` must be < 10% of mean measured latency
+- Benchmark suite: traversal latency vs. graph size (1K, 100K, 1M, 10M nodes) with pass/fail regression gate (< 5% throughput degradation)
+
+## Performance Targets
+
+- Algorithm selection (`selectAlgorithm`) latency: < 1 ms p99 for graphs up to 10M nodes
+- Plan cache lookup: < 100 µs p99 including structural fingerprint comparison
+- Parallel BFS on 1M-node graph: ≥ 4× speedup over single-threaded BFS on an 8-core machine
+- GPU BFS on RTX-class GPU (≥1M nodes): ≥ 8× speedup over CPU baseline
+- Subgraph isomorphism on 100-node pattern against 1M-node graph: < 500 ms p95
+- Distributed query (4 shards): < 20% latency overhead vs. equivalent single-shard query
+- Plan cache eviction: O(1) amortized using LRU + TTL heap; no stop-the-world pauses
+
+## Security / Reliability
+
+- Path constraint inputs (required/forbidden node/edge IDs) must be validated against the graph schema before execution; invalid IDs return a structured error, not a crash (Issue #1832)
+- AQL graph traversal depth must be bounded by a configurable `max_depth` limit (default 100) to prevent unbounded traversal DoS
+- Plan cache keys must not embed raw user-supplied strings; use structural fingerprints to prevent cache poisoning
+- Incremental query handles expire after a configurable TTL (default 60 s) to prevent resource exhaustion from abandoned handles
+- GPU memory allocation failures must fall back to CPU execution without data loss
+- Distributed shard queries must be protected by per-request timeouts (default 5 s) with automatic cancellation
+- All traversal results must be deterministic for a given graph snapshot (no non-deterministic ordering unless explicitly randomized)

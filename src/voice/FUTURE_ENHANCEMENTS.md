@@ -1,5 +1,35 @@
 # Voice Module - Future Enhancements
 
+## Scope
+
+The voice module implements an end-to-end voice interface for ThemisDB. It covers: speech-to-text (STT) via Whisper-based models, text-to-speech (TTS) synthesis, LLM-based intent recognition and natural-language-to-AQL translation, user-defined voice command macros, wake-word detection (custom and built-in), real-time noise suppression (RNNoise), automatic language detection across 50+ languages, multi-speaker diarization, biometric voice authentication with liveness detection, browser WebSocket audio streaming, and a voice analytics dashboard. Affected source files: `voice_processor.cpp`, `stt_engine.cpp`, `tts_engine.cpp`, `wake_word_detector.cpp`, `voice_authenticator.cpp`, and headers under `include/voice/`.
+
+---
+
+## Design Constraints
+
+- [ ] The STT and TTS engines are loaded as dynamically selected model backends; the core pipeline must not hardcode a specific Whisper model variant — model paths and sizes are runtime configuration values.
+- [ ] Audio data in transit and at rest must be encrypted; the pipeline must not write raw PCM to disk at any intermediate processing stage.
+- [ ] Voice biometric templates (speaker embeddings) must be stored only as HMAC-keyed hashes; raw audio samples used for enrollment must be discarded immediately after template extraction.
+- [ ] WebSocket audio streams must enforce a maximum frame size of 64 KB and a session duration limit of 10 minutes to prevent resource exhaustion.
+- [ ] All transcript text must pass through a configurable PII redaction filter before being stored or logged; phone numbers, email addresses, and payment card numbers must never appear in stored transcripts.
+- [ ] Wake-word detection runs in a low-power always-listening mode; CPU usage must not exceed 2% on a modern x86_64 core during idle listening periods.
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `STTEngine::transcribe(audio_data, config)` | `VoiceProcessor`, streaming WebSocket endpoint | Returns transcript with word-level timestamps; supports selectable Whisper model variants |
+| `TTSEngine::synthesize(text, voice_config)` | `VoiceProcessor`, response generator | Returns PCM audio bytes; first-chunk latency budget ≤ 200 ms |
+| `VoiceAuthenticator::verify_speaker(profile_id, audio_sample)` | Auth middleware, REST `/voice/authenticate` | Returns `VerificationResult` with confidence score; must also run liveness check |
+| `WakeWordDetector::process_audio(session, chunk)` | WebSocket audio pipeline | Called per 20 ms audio chunk; detection latency ≤ 20 ms per chunk |
+| `VoiceMacroManager::execute_macro(macro_id, parameters)` | Intent dispatcher | Macro steps execute sequentially; each step result is available to the next step |
+| `AudioEnhancer::cancel_noise(audio_data, profile)` | Pre-processing stage before STT | Uses RNNoise model; must process at ≥ 1× real-time on CPU |
+
+---
+
 ## Planned Features
 
 ### Real-Time Voice Streaming
@@ -1236,6 +1266,44 @@ Cannot handle code-switching within a conversation.
 6. **Accessibility**: Ensure features work for all users
 
 For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+---
+
+## Performance Targets
+
+| Metric | Target | Measurement Method |
+|--------|--------|--------------------|
+| STT latency for 5-second audio (p95) | ≤ 300 ms | `benchmarks/bench_voice_stt.cpp` using pre-recorded 5-second 16 kHz WAV samples |
+| TTS first-token generation latency | ≤ 200 ms | Time from `synthesize()` call to first PCM chunk returned |
+| Wake-word detection latency | ≤ 20 ms | Per-chunk detection time measured in `tests/voice/test_wake_word.cpp` |
+| STT batch throughput | ≥ 10× real-time | Audio minutes processed per wall-clock second in batch mode |
+| WebSocket end-to-end latency | ≤ 500 ms | Time from audio chunk sent to transcript received in integration tests |
+| Concurrent streaming sessions | ≥ 100 | Load test using 100 simultaneous WebSocket clients each sending 5-second streams |
+| Noise suppression real-time factor | ≥ 1.0× | CPU-only RNNoise processing speed vs. audio duration on a single core |
+
+---
+
+## Test Strategy
+
+| Test Type | Coverage Target | Notes |
+|-----------|----------------|-------|
+| Unit | ≥ 80% line coverage in `stt_engine.cpp`, `tts_engine.cpp`, `voice_authenticator.cpp` | Use pre-recorded WAV fixtures; mock model inference with deterministic outputs to eliminate GPU dependency in CI |
+| Wake-word | False-positive rate ≤ 1 per hour in continuous background noise; false-negative rate ≤ 5% | Tested with `tests/voice/test_wake_word.cpp` using standardized NOIZEUS noise samples |
+| Authentication | Genuine speaker acceptance rate ≥ 95%; impostor rejection rate ≥ 99% | 10-speaker test corpus; liveness detection must reject all synthetic/replayed audio samples |
+| Streaming | WebSocket session handles 10-second audio without dropped frames at 50 Mbps network constraint | Integration test using a local WebSocket echo server |
+| Noise suppression | SNR improvement ≥ 10 dB measured on NOIZEUS test corpus | Automated WER comparison before and after enhancement using `tests/voice/test_noise_suppression.cpp` |
+| PII redaction | 100% of phone numbers, email addresses, and payment card numbers stripped from stored transcripts | Property-based test with synthetically generated PII patterns in `tests/voice/test_pii_redaction.cpp` |
+
+---
+
+## Security / Reliability
+
+- Voice biometric templates are stored exclusively as HMAC-keyed embeddings; raw enrollment audio is zeroed from memory immediately after template extraction and is never written to disk.
+- Audio data transmitted over WebSocket must use TLS 1.2+; plaintext `ws://` connections are rejected in production mode with a clear error message.
+- Transcripts are passed through the PII redaction pipeline before being written to any storage layer; the redaction step cannot be bypassed via API parameters or configuration flags.
+- Liveness detection (`detect_liveness()`) must be called and must return `score ≥ 0.7` before a `verify_speaker()` result is accepted for authentication decisions; replayed recordings are rejected.
+- Voice commands that trigger destructive database operations (schema changes, data deletion, backup) require a secondary confirmation phrase within 10 seconds; single-utterance destructive commands are rejected without the confirmation.
+- Session audio buffers are held in memory only for the duration of the active WebSocket session; on session close or timeout they are securely zeroed before deallocation.
 
 ---
 

@@ -1,5 +1,34 @@
 # AQL Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/aql/` headers — new AQL command interfaces extending `AQLCommand` base
+- Multi-modal input types (`MultiModalInferRequest`, `ModalityType`) with MIME-validated byte ranges
+- New built-in function registrations via `FunctionRegistry::registerBuiltin()`
+- Parser extension hooks for custom AQL grammar additions (opt-in, backward-compatible)
+- Streaming inference interface (`TokenStream`, coroutine-based `Generator<std::string>`)
+- Agent framework interface (`IAgent`, `Tool`, `AgentResult`) for multi-step reasoning and tool calling
+
+## Design Constraints
+
+- [ ] All new AQL commands must extend the `AQLCommand` base class; execution bypass is not permitted
+- [ ] New built-in functions must be registered via `FunctionRegistry::registerBuiltin()` — no ad-hoc dispatch
+- [ ] Parse tree must remain backward-compatible; new grammar extensions use opt-in extension hooks only
+- [ ] Async methods must return `std::future<Result<T>>`; per-token callbacks are supplementary only
+- [ ] Multi-modal inputs must carry a validated MIME type and byte range to prevent injection attacks
+- [ ] ABI stability: new virtual methods added only at end of vtable; breaking changes versioned as `ILLMBackendV2`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `AQLCommand` (base) | All new AQL command types | Must validate input types before `execute()` |
+| `FunctionRegistry::registerBuiltin()` | Built-in function extensions | Single registration point; rejects duplicates |
+| `TokenStream` | Streaming inference consumers | Iterator-based; exposes `cancel()` |
+| `IAgent` | Agent framework consumers | `execute()` + `registerTool()` contract |
+| `IAsyncLLMBackend` | Async AQL handler | Returns `std::future<Result<T>>` |
+| `MultiModalInferRequest` | Vision / audio AQL commands | Extends `InferRequest`; MIME-validated |
+
 ## Planned Features
 
 ### Streaming Interface
@@ -586,6 +615,33 @@ Have ideas for AQL interface improvements?
 - 📚 Documentation feedback: Label as "documentation"
 
 ---
+
+## Test Strategy
+
+- Unit tests for each new `AQLCommand` subclass: verify input type validation fires before `execute()` is reached
+- `FunctionRegistry` tests: verify `registerBuiltin()` rejects duplicates and enforces valid function signatures
+- `TokenStream` tests: verify iteration, `cancel()` from a separate thread, and partial consumption without resource leaks
+- Async interface tests: verify `std::future` resolves correctly under cancellation and deadline timeout scenarios
+- Multi-modal input tests: validate MIME type enforcement and rejection of unsupported or malformed payloads
+- ABI compatibility tests: compile against v1.5 headers with v1.6+ runtime and assert no linker errors
+
+## Performance Targets
+
+- `FunctionRegistry` function lookup by name: ≤ 100 ns (hash map, no lock contention on hot read path)
+- AQL AST node construction: ≤ 1 µs per node for all new command types
+- `TokenStream::operator++()` overhead (single token advance): ≤ 500 ns excluding model generation time
+- `IAsyncLLMBackend::inferAsync()` dispatch overhead: ≤ 50 µs from call to thread hand-off
+- `IAgent::execute()` tool dispatch overhead per step: ≤ 1 ms excluding actual tool execution time
+- Batch inference (`BatchInferRequest` of 16 requests): aggregate throughput ≥ 2× single-request rate
+
+## Security / Reliability
+
+- All new AQL commands must validate input types and reject malformed inputs before any execution begins
+- No raw SQL pass-through: AQL commands must not allow unescaped string injection into backend queries
+- Multi-modal inputs: MIME type and byte range validated before deserialization to prevent buffer over-reads
+- Agent tool executors must run in a restricted context; filesystem and network access prohibited by default
+- `TokenStream` cancellation must be safe to invoke concurrently from any thread
+- Fine-tuning interface must not allow training data to overwrite system prompt or safety guardrails
 
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  

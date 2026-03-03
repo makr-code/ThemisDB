@@ -1,5 +1,41 @@
 # Base Module - Future Enhancements
 
+## Scope
+
+- Plugin lifecycle management: discovery, loading, versioning, hot-reload, and unloading of shared-library plugins
+- Secure module loading: path canonicalisation, allowlist enforcement, and OS-level permission checks before dlopen
+- Digital signature verification: Ed25519 signatures on plugin binaries; reject unsigned or tampered plugins
+- Plugin sandboxing: per-plugin resource limits (CPU, memory, file-system access) via OS namespaces/seccomp
+- Plugin marketplace integration: discovery, dependency resolution, and automated update of community plugins
+- Version migration support: state serialisation/deserialisation across plugin version upgrades
+
+---
+
+## Design Constraints
+
+- `[ ]` Plugin load time (signature verify + dlopen + init hook) must be ≤ 200 ms per plugin on a warm filesystem
+- `[ ]` Hot-reload must achieve zero-downtime: existing in-flight queries using the old plugin version complete before teardown
+- `[ ]` Sandbox memory hard cap per plugin: 256 MB by default; configurable up to 2 GB
+- `[ ]` Signature verification must use Ed25519 (RFC 8032); RSA-2048 not accepted for new plugins
+- `[ ]` Plugin allowlist path checked on every load; symlink traversal outside the designated plugin directory is rejected
+- `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically
+- `[ ]` All lifecycle hooks (init, reload, shutdown) must complete within 5 s or are terminated and logged as failures
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `PluginLoader::load(path, manifest)` | Core module / plugin registry | Returns `PluginHandle` or structured error |
+| `SignatureVerifier::verify(binary_path, sig_path, pubkey)` | `PluginLoader` | Ed25519; rejects on any mismatch |
+| `HotReloadManager::reloadModule(name, new_path)` | Admin API / config watcher | Atomic swap; old handle kept until in-flight ops drain |
+| `HotReloadManager::rollback(name)` | `HotReloadManager` error path | Must complete ≤ 500 ms |
+| `PluginSandbox::createSandbox(plugin_id, limits)` | `PluginLoader` | OS namespace/seccomp; per-plugin resource policy |
+| `MarketplaceClient::resolve(plugin_id, version)` | Plugin installer CLI / admin API | Returns download URL + signature; TLS required |
+
+---
+
 ## Planned Features
 
 ### Hot Module Reload
@@ -92,6 +128,35 @@ Universal module format across platforms.
 - Automatic platform detection
 - Native library bundling
 - Resource embedding
+
+---
+
+## Test Strategy
+
+- **Unit tests** (≥ 90 % line coverage): `PluginLoader` path-validation logic; `SignatureVerifier` with valid, tampered, and missing signatures; `HotReloadManager` state machine transitions
+- **Integration tests**: load 10 real plugin binaries (including one with an invalid signature); verify hot-reload cycles complete without dropping in-flight queries; verify rollback restores functionality after a broken plugin
+- **Sandbox tests**: attempt to exceed memory cap (256 MB) from within sandboxed plugin code; verify SIGKILL + structured error returned to caller within 500 ms
+- **Fuzz tests** (libFuzzer): fuzz `PluginLoader` with malformed manifest JSON and adversarial binary paths (symlinks, null bytes, path traversal)
+- **Marketplace mock tests**: dependency resolution with circular dependencies must return a clear error, never infinite loop
+- **CI coverage gate**: line coverage ≥ 85 % enforced; sandbox tests run in an isolated container with seccomp enabled
+
+## Performance Targets
+
+- Plugin load (signature verify + dlopen + init): ≤ 200 ms per plugin on warm filesystem
+- Hot-reload swap (old → new, no in-flight queries): ≤ 150 ms end-to-end
+- Hot-reload rollback on failure: ≤ 500 ms to restore previous functional state
+- Signature verification (Ed25519, 1 MB binary): ≤ 5 ms
+- Sandbox creation (OS namespace setup): ≤ 50 ms per plugin
+- Plugin discovery scan of a 500-plugin directory: ≤ 1 s
+
+## Security / Reliability
+
+- Ed25519 signature mandatory for all plugins; unsigned binaries are rejected before dlopen; public key pinned in server config
+- Plugin paths canonicalised and restricted to the configured plugin root; symlink traversal outside root returns `EPERM`
+- Sandboxed plugins run under seccomp-bpf allowlist: only `read`, `write`, `mmap`, and a declared set of syscalls permitted
+- Plugin init/shutdown hooks killed via `SIGKILL` if they exceed 5 s timeout; crash reported as structured error, never propagated as C++ exception
+- Marketplace downloads verified by TLS + Ed25519 signature before installation; SHA-256 checksum logged for audit trail
+- All plugin load/unload/reload events written to immutable audit log with timestamp, plugin name, version, and outcome
 
 ---
 

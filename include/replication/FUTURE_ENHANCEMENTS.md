@@ -1,5 +1,33 @@
 # Replication Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/replication/` headers — public C++ interfaces for replication management
+- Replication mode configuration interface: `ReplicationPolicy` with atomic mode change and audit logging
+- Conflict resolution hook API: `ConflictResolver` / `AdvancedConflictResolver` stateless hook called per conflict
+- Vector clock interface: `VectorClock` with thread-safe `increment()`, `merge()`, and `compare()` methods
+- Replication topology API: `ReplicationObserver::getTopology()` returning structured `TopologyNode` graph
+- Replication admin API: `ReplicationManager` admin methods gated by role check at the API boundary
+
+## Design Constraints
+
+- [ ] Replication mode changes are atomic and appended to the audit log before taking effect
+- [ ] Conflict resolver is stateless; `resolve()` receives all context by value and returns a single winner
+- [ ] Vector clock API is thread-safe; `increment()` and `merge()` use `std::atomic` or `std::mutex` internally
+- [ ] Replication policy assignment is validated against current topology before acceptance
+- [ ] All replication admin API methods require an explicit `AdminCredential` parameter; no ambient authority
+- [ ] Event stream subscriptions must be unregisterable; RAII subscription handle auto-unsubscribes on destruction
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `ReplicationPolicy` | Admin tooling, cluster manager | Atomic mode changes; `validatePolicy()` pre-checks feasibility |
+| `ConflictResolver` / `AdvancedConflictResolver` | Multi-master write path | Stateless; receives `ResolutionContext` by value |
+| `VectorClock` | WAL entries, replication events | Thread-safe; `compare()` returns `PartialOrder` enum |
+| `ReplicationObserver` | Monitoring, topology visualization | `getTopology()` returns `vector<TopologyNode>` |
+| `ReplicationEventStream` | CDC, auditing, analytics export | RAII subscription handle; auto-unsubscribes on destruction |
+
 ## Planned API Extensions
 
 ### Replication Observability API
@@ -707,6 +735,34 @@ auto config = ReplicationConfig::builder()
 - Complete rewrite with async/await API
 - Remove all exception-based error handling
 - Migrate to strong types (NodeId, Endpoint, etc.)
+
+---
+
+## Test Strategy
+
+- Unit tests for `VectorClock`: concurrent `increment()` from 4 threads; assert no data races under TSan
+- Unit tests for `ConflictResolver`: provide 3 conflicting writes with `ResolutionContext`; assert deterministic winner selection
+- Unit tests for `ReplicationPolicy`: attempt invalid mode change (SYNC on single-node); assert `ValidationResult::is_valid == false`
+- Unit tests for `ReplicationObserver::getTopology()`: mock 5-node cluster; assert all nodes present with correct roles
+- Integration tests: inject node failure via `ReplicationTestHarness`; assert `validateConsistency()` passes after recovery
+- Security tests: call admin API without `AdminCredential`; assert `ERR_UNAUTHORIZED` is returned
+
+## Performance Targets
+
+- Replication lag query (`getLagSnapshots()`) ≤ 1 ms per call for up to 10 replicas
+- Conflict resolution hook ≤ 10 ms per conflict including `ResolutionContext` construction
+- `VectorClock::merge()` ≤ 500 ns for clocks with up to 64 node entries
+- `ReplicationPolicy::validatePolicy()` ≤ 5 ms for topologies with up to 20 nodes
+- `ReplicationEventStream` callback delivery latency ≤ 2 ms from event commit to callback invocation
+- Topology snapshot (`getTopology()`) ≤ 10 ms for clusters with up to 50 nodes
+
+## Security / Reliability
+
+- Replication channel requires mTLS; connections without a valid client certificate are rejected at the transport layer
+- Replication admin API (`definePolicy`, `assignPolicy`, `addReplica`) requires `AdminCredential`; privilege checked at API entry
+- WAL entries are checksummed (CRC-32C); corrupt entries are rejected and trigger a replication pause with alert
+- `ReplicationEventStream` webhook export validates target URL against an allowlist to prevent SSRF
+- Vector clock overflow (counter wrap-around at `uint64_t` max) is detected and raises `ERR_CLOCK_OVERFLOW`
 
 ---
 

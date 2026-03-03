@@ -1,5 +1,33 @@
 # Server Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/server/` headers
+- GraphQL schema interface (`GraphQLSchemaBuilder`, generated from data model headers)
+- SSE endpoint API (`ISSEHandler`, non-blocking server-sent event push)
+- Rate limiter interface (`IRateLimiter`, per-connection and per-tenant enforcement)
+- Middleware chain API (`IMiddleware`, `MiddlewareChain`, ordered composition)
+- gRPC bridge interface (`IRPCHandler<Req,Res>`, `RPCContext` abstraction)
+
+## Design Constraints
+
+- [ ] Middleware chain is strictly ordered — insertion order determines execution sequence
+- [ ] GraphQL schema is generated from data model headers at startup (≤ 100 ms)
+- [ ] SSE API is non-blocking — push operations must not stall the I/O thread
+- [ ] Rate limiter is per-connection and per-tenant — both scopes enforced simultaneously
+- [ ] No Boost.Beast types exposed in new public interfaces
+- [ ] All async APIs use `Future<T>` / C++20 coroutine-compatible return types
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IMiddleware` / `MiddlewareChain` | Auth, rate-limiting, CORS, logging | Ordered; each step may short-circuit |
+| `IRateLimiter` | API gateway, per-tenant quota enforcement | Algorithm-agnostic; pluggable backend |
+| `ISSEHandler` | Event streaming, live query updates | Non-blocking; backpressure via `cancel()` |
+| `IRPCHandler<Req,Res>` | gRPC service bridge | Template-based; `RPCContext` carries metadata |
+| `GraphQLSchemaBuilder` | Admin/developer API surface | Generated from data model headers at startup |
+
 ## Planned Features
 
 ### Unified API Handler Interface
@@ -859,3 +887,28 @@ Have ideas for server header improvements? Open an issue or discussion:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.7.0 Release*
+
+## Test Strategy
+
+- Unit tests for `MiddlewareChain` ordering and short-circuit behaviour under mocked middleware
+- Integration tests for `IRateLimiter` with in-memory backend verifying per-tenant quota isolation
+- SSE push tests confirming non-blocking delivery and correct `Content-Type: text/event-stream` headers
+- GraphQL schema generation tests validating output against known data model headers
+- gRPC bridge smoke tests using a loopback channel with `RPCContext` metadata round-trip assertions
+- Load tests verifying rate limiter rejects excess requests at ≥ 10,000 req/s saturation
+
+## Performance Targets
+
+- Middleware dispatch overhead ≤ 5 µs per hop (p99)
+- SSE push latency ≤ 1 ms from event emit to wire delivery
+- GraphQL schema generation ≤ 100 ms at server startup
+- Rate limiter admission check ≤ 10 µs per request (in-memory backend)
+- gRPC bridge handler dispatch ≤ 20 µs overhead vs direct handler call
+
+## Security / Reliability
+
+- All server API endpoints require authentication by default — opt-out requires explicit annotation
+- Rate limiter prevents DoS by enforcing per-connection and per-tenant request budgets
+- CORS policy enforced at the API gateway level before handler dispatch
+- SSE connections authenticated at upgrade time; token re-validated on reconnect
+- Middleware chain failures result in 500 responses with no partial or unauthenticated output

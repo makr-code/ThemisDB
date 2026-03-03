@@ -31,14 +31,12 @@ Per-request timeout and cancellation propagation is fully implemented across bot
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921, PR: #3068)
 - [P] Function / tool calling support (JSON schema binding) (Issue: #1922)
 - [P] Model hot-swap without engine restart (Issue: #1923)
 - [P] Request deduplication cache (same prompt → cached response) (Issue: #1924)
 - [P] Per-model resource quotas (memory, concurrency) (Issue: #1925)
 
 ### Long-term (6-12 months)
-- [x] Speculative decoding for latency reduction (Issue: #1934)
 - [P] Multi-modal input support (image + text) (Issue: #1927)
 - [I] Federated inference across distributed nodes (Issue: #1928)
 - [I] LoRA adapter hot-loading at inference time (Issue: #1929)

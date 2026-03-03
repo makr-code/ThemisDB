@@ -1,0 +1,94 @@
+# Training Module - Future Header Enhancements
+
+## Scope
+
+- `ITrainingPipeline` interface extensions for orchestration, async execution, and multi-modality input
+- LoRA checkpoint manager API (`ILoRACheckpointManager`) with content-addressed SHA-256 integrity
+- Sample provenance tracking interface (`ISampleProvenanceTracker`) with append-only lineage records
+- Knowledge graph enrichment interface (`IKGEnrichmentInterface`) with query cache integration
+- Confidence calibration hook (`IConfidenceCalibrator`) for threshold auto-calibration without weight mutation
+- Lineage query API for read-only traversal of sample-to-model provenance chains
+
+## Design Constraints
+
+- `[ ]` `ITrainingPipeline` is **async throughout**; no blocking calls on the public interface; all long-running operations return `std::future` or accept completion callbacks
+- `[ ]` LoRA checkpoints are content-addressed (SHA-256); checkpoint identifiers are derived from content and cannot be forged
+- `[ ]` `ISampleProvenanceTracker` is **append-only**; provenance records cannot be deleted or modified after write
+- `[ ]` `IConfidenceCalibrator` adjusts calibration thresholds only; it must never modify model weights or gradient state
+- `[ ]` Lineage query API is **read-only**; all mutation paths are absent from the public lineage interface
+- `[ ]` Knowledge graph enrichment queries are cached; the cache key is a deterministic hash of the query parameters
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `ITrainingPipeline` | Orchestrator, trainer service | Async; exposes `submit(TrainingJob) -> std::future<TrainingResult>`, `cancel(JobId)`, `status(JobId) -> JobStatus` |
+| `ILoRACheckpointManager` | Checkpoint store, model loader | Content-addressed; exposes `save(LoRAWeights) -> CheckpointId`, `load(CheckpointId) -> LoRAWeights`, `verify(CheckpointId) -> bool` |
+| `ISampleProvenanceTracker` | Data pipeline, audit system | Append-only; exposes `record(SampleProvenance)`, `queryLineage(SampleId) -> LineageGraph` |
+| `IKGEnrichmentInterface` | Feature extractor, training data enricher | Cached; exposes `enrich(EntityRef) -> EnrichmentResult`, `invalidateCache(EntityRef)` |
+| `IConfidenceCalibrator` | Inference pipeline, evaluation harness | Read/write on thresholds only; exposes `calibrate(CalibrationDataset) -> CalibrationResult`, `currentThresholds() -> ThresholdMap` |
+| `ILineageQueryAPI` | Audit tooling, compliance reporting | Read-only; exposes `getProvenance(ModelId) -> std::vector<SampleRef>`, `getSampleOrigin(SampleId) -> OriginRecord` |
+
+## Planned Features
+
+### LoRA Checkpoint Manager Interface
+
+- `[ ]` Define `ILoRACheckpointManager` with `save(const LoRAWeights&) -> CheckpointId` returning a SHA-256-derived content address
+- `[ ]` Add `load(CheckpointId) -> std::future<LoRAWeights>` — async to support large checkpoint retrieval from remote stores
+- `[ ]` Add `verify(CheckpointId) -> bool` to re-derive the content hash and confirm integrity; returns `false` for tampered checkpoints
+- `[ ]` Expose `listCheckpoints(ModelId) -> std::vector<CheckpointDescriptor>` with `id`, `createdAt`, `sizeBytes`, `signatureValid`
+
+### Sample Provenance and Lineage Tracking API
+
+- `[ ]` Define `ISampleProvenanceTracker` with `record(const SampleProvenance&)` — append-only, no update or delete
+- `[ ]` `SampleProvenance` carries `sampleId`, `sourceUri` (opaque, not raw content), `collectedAt`, `preprocessingSteps`, `datasetVersion`
+- `[ ]` Add `queryLineage(SampleId) -> LineageGraph` returning a DAG of transformations from raw source to training-ready sample
+- `[ ]` Tracker exposes `totalRecords() -> size_t` and `storageEstimateBytes() -> size_t` for capacity planning; no raw content accessors
+
+### Knowledge Graph Enrichment Query Cache
+
+- `[ ]` Define `IKGEnrichmentInterface` with `enrich(const EntityRef&) -> EnrichmentResult` — results served from cache when available
+- `[ ]` `EnrichmentResult` carries `entityId`, `relations` (`std::vector<KGRelation>`), `confidence`, `cacheHit`
+- `[ ]` Add `invalidateCache(const EntityRef&)` for targeted cache invalidation and `clearCache()` for full eviction
+- `[ ]` Cache key is derived deterministically from `EntityRef` fields; the interface exposes `cacheStats() -> CacheStats` with hit/miss/eviction counts
+
+### Confidence-Threshold Auto-Calibration Interface
+
+- `[ ]` Define `IConfidenceCalibrator` with `calibrate(const CalibrationDataset&) -> std::future<CalibrationResult>`
+- `[ ]` `CalibrationResult` carries `updatedThresholds` (`ThresholdMap`), `calibrationError`, `samplesUsed`
+- `[ ]` Add `currentThresholds() -> const ThresholdMap&` and `applyThresholds(const ThresholdMap&)` — both operate on threshold state only, never on model weights
+- `[ ]` Calibrator exposes `resetToDefaults()` to restore factory thresholds without affecting any persisted model artefact
+
+### Training Pipeline Orchestration API
+
+- `[ ]` Define `ITrainingPipeline` with `submit(TrainingJob) -> std::future<TrainingResult>` — fully async, non-blocking
+- `[ ]` `TrainingJob` carries `datasetRef`, `modelConfig`, `loraConfig` (optional), `provenanceTracker` (optional injection point)
+- `[ ]` Add `cancel(JobId) -> CancelResult` (best-effort, returns `Cancelled` or `AlreadyCompleted`)
+- `[ ]` Expose `status(JobId) -> JobStatus` with states: `Queued`, `Running`, `Completed`, `Failed`, `Cancelled`
+
+## Test Strategy
+
+- LoRA checkpoint round-trip tests: save weights, reload, compare byte-for-byte; also corrupt one byte and assert `verify()` returns `false`
+- Provenance tracker append-only tests: attempt to overwrite a record and assert it is rejected; verify `queryLineage()` returns the correct DAG
+- KG enrichment cache tests: same `EntityRef` queried twice — second call must return `cacheHit = true`; after `invalidateCache()`, next call must miss
+- Confidence calibrator tests verify that `calibrate()` never alters any field of `LoRAWeights` passed in via the same pipeline context
+- Lineage query API tests assert all exposed methods are read-only and that no mutation path compiles through the interface
+- Training pipeline async tests: submit 10 concurrent `TrainingJob` instances, verify futures resolve independently and `cancel()` during execution returns `Cancelled`
+
+## Performance Targets
+
+- `ILoRACheckpointManager::save()` for a 1 GB checkpoint: **≤ 5 s**
+- `ISampleProvenanceTracker::record()` per sample: **≤ 1 ms**
+- `IKGEnrichmentInterface::enrich()` cache hit: **≤ 10 ms**; cache miss: **≤ 50 ms**
+- `IConfidenceCalibrator::calibrate()` on a 10,000-sample dataset: **≤ 500 ms**
+- `ITrainingPipeline::submit()` queuing overhead (not including training): **≤ 5 ms**
+- `ILineageQueryAPI::getProvenance()` for a model with 100,000 sample refs: **≤ 200 ms**
+
+## Security / Reliability
+
+- Training samples are validated against PII detection before any `ISampleProvenanceTracker::record()` call; samples failing PII validation are rejected, not stored
+- Model checkpoints are signed via Ed25519 at save time; `ILoRACheckpointManager::verify()` validates both content hash and Ed25519 signature
+- `ILineageQueryAPI` enforces read-only access at the interface level; no write methods exist; unauthorized access throws `PermissionDeniedError`
+- `ISampleProvenanceTracker` stores only opaque source URIs and metadata; raw training content is never retained in provenance records
+- `IConfidenceCalibrator` is prohibited from accessing gradient state or weight tensors; calibration operates exclusively on threshold scalars
+- `IKGEnrichmentInterface` cache entries have TTL enforcement; stale enrichment data is evicted before use to prevent poisoning of training features

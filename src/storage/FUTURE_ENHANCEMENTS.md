@@ -1,5 +1,37 @@
 # Storage Module - Future Enhancements
 
+## Scope
+
+- RocksDB-based persistent storage with MVCC, WAL, BlobDB, multi-path SSTables, and async I/O
+- Multi-model key encoding (relational, document, graph, vector, time-series) via `KeySchema`
+- Backup/PITR, blob backends (Filesystem, S3, Azure Blob, WebDAV; GCS planned), and RAID-1 redundancy
+- Field-level AES-256-GCM encryption, HMAC-SHA256 tamper detection, and structured audit logging
+- Columnar format for analytics, adaptive write batching, and pluggable per-table compression
+- Raft-MVCC integration (`RaftMVCCBridge`), hybrid logical clocks (`HLC`), and transaction retry management
+- Tiered storage (hot NVMe → warm SATA → cold object storage) planned for v1.6.0
+
+## Design Constraints
+
+- [ ] All blob backends must implement `IBlobBackend`; no direct SDK calls outside backend implementation files
+- [ ] `THEMIS_PRODUCTION_MODE` must reject no-op (plaintext) encryption at startup — fail-closed is mandatory
+- [ ] Data migration (tier moves, schema changes) must use copy-then-delete; partial migration must never leave data inconsistent
+- [ ] All new RocksDB column families must be registered in `KeySchema` before use; ad-hoc CF creation is forbidden
+- [ ] `StorageAuditLogger` must record every write, delete, and compaction with caller identity and HLC timestamp
+- [ ] Public `StorageEngine` API is frozen for v1.x; all new capabilities must be additive (no removed or renamed methods)
+- [ ] Transaction retries must use exponential backoff with jitter; max retry count must be configurable via `TransactionRetryConfig`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IBlobBackend` | `BlobStorageManager`, `BlobRedundancyManager` | put/get/delete/exists; implemented by Filesystem, S3, Azure, GCS |
+| `IEncryptionProvider` | `StorageEngine`, `SecuritySignatureManager` | AES-256-GCM key provision and rotation |
+| `IKeyProvider` | `StorageEngine` | Key derivation per tenant and column family |
+| `IIndexManager` | `StorageEngine`, `IndexMaintenance` | Rebuild, optimize, consistency check |
+| `ICompressionStrategy` | `CompressedStorage`, `ColumnarFormat` | Snappy, Zstd, LZ4, Brotli, None; selected per column family |
+| `IRaftMVCCBridge` | `MVCCStore`, Raft consensus layer | Append Raft log entry → apply to MVCC snapshot atomically |
+| `IAuditLogger` | All storage write/delete paths | Structured JSON audit trail with HLC timestamps and caller ID |
+
 ## Planned Features
 
 ### Distributed Transactions
@@ -628,3 +660,32 @@ Have ideas for storage improvements? We'd love to hear from you:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for all storage classes: `MVCCStore`, `WALStorage`, `BackupManager`, `PITRManager`, and `BatchWriteOptimizer`
+- Integration tests for read-after-write, PITR restore to a specific HLC timestamp, and cross-backend blob round-trips (Filesystem, S3-emulator, Azure-emulator)
+- Fault-injection tests: kill process during WAL replay, corrupt SSTable block checksums, verify self-healing recovery without data loss
+- Tiered storage integration test: write a key on hot tier, trigger migration to warm, verify read returns original value within 1 s
+- Erasure coding round-trip test: encode with RS(4, 2), drop any 2 shards, verify full decode correctness
+- Encryption regression test: confirm process fails at startup with `THEMIS_PRODUCTION_MODE` when no AES-256-GCM key is configured
+
+## Performance Targets
+
+- Sustained write throughput ≥ 100,000 ops/s on NVMe with batch size of 256 writes at 4 KB average value size
+- p99 point-read latency ≤ 1 ms for hot-tier key lookups with bloom filter enabled
+- Incremental backup throughput ≥ 500 MB/s on NVMe using parallel SSTable file copy
+- Tiered-storage migration background I/O overhead ≤ 5% of sustained foreground write throughput
+- Columnar scan throughput ≥ 4× scalar baseline on integer equality predicates with AVX2 SIMD (v2.0.0 target)
+- Write amplification factor ≤ 10× under sustained uniform-random-write workload with level-based compaction
+
+## Security / Reliability
+
+- `THEMIS_PRODUCTION_MODE` startup check must reject any configuration without AES-256-GCM encryption; no silent degradation to plaintext storage
+- All blob backend credentials (S3 access keys, Azure SAS, GCS ADC) must be loaded from environment variables or a secret store; plaintext credentials in config files are rejected
+- HMAC-SHA256 tamper detection is verified on every read via `SecuritySignatureManager`; a mismatch returns `StorageError::TAMPERED` and raises an audit log event
+- WAL replay must be idempotent: re-applying the same WAL sequence number must produce the same storage state without duplicate side effects
+- `DiskSpaceMonitor` triggers write rejection at 95% disk capacity to prevent WAL and SSTable corruption from space exhaustion
+- All backup bundles include a SHA-256 checksum manifest; restore operation aborts if any file checksum does not match the manifest

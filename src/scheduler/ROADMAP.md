@@ -33,15 +33,11 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 - [I] Task execution history with searchable audit log (Issue: #2448)
 - [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
-- [x] Distributed cron leader election (one runner per cluster) (Issue: #2266)
-- [x] Event-triggered tasks (changefeed → task execution) (Issue: #2450)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
-- [x] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue: #2451)
 
 ## Implementation Phases
 
@@ -57,7 +53,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] `HybridRetentionManager` – 3-stage time-series lifecycle (Gorilla compression, variance-based downsampling, daily aggregates)
 - [x] < 1% CPU overhead; 50–200 ms task startup latency
 
-### Phase 2: Full Cron & Distributed Coordination (Status: In Progress 🚧)
+### Phase 2: Full Cron & Distributed Coordination (Status: Completed ✅)
 - [x] Full cron expression parsing (v1.5.0)
 - [x] Distributed task coordination across nodes
 - [x] Task dependency DAG execution
@@ -69,7 +65,7 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [ ] Task execution history with searchable audit log
 - [ ] Alert on task failure or SLA breach
 
-### Phase 4: Distributed Cron & Workflow Engine (Status: Planned 📋)
+### Phase 4: Distributed Cron & Workflow Engine (Status: In Progress 🚧)
 - [x] Distributed cron leader election (one runner per cluster)
 - [x] Workflow engine (multi-step DAG with conditional branching)
 - [x] Event-triggered tasks (changefeed → task execution)
