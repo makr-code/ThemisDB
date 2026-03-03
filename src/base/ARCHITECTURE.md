@@ -35,10 +35,13 @@ full plugin lifecycle (init → execute → shutdown). All other plugin-capable 
 
 | File | Role |
 |---|---|
-| `module_loader.cpp` | Cross-platform shared library load/unload, capability query |
-| `hot_reload_manager.cpp` | Hot-reload of modules without server restart (in progress) |
-| `module_sandbox.cpp` | OS-level resource-limit sandbox for loaded modules |
+| `module_loader.cpp` | Cross-platform shared library load/unload, capability query, per-plugin audit trail |
+| `hot_reload_manager.cpp` | Zero-downtime hot-reload and rollback |
+| `module_sandbox.cpp` | OS-level resource-limit sandbox and ABI compatibility checking |
 | `wasm_plugin_sandbox.cpp` | WASM-based memory-safe isolation for untrusted plugin code |
+| `remote_registry_client.cpp` | Authenticated download and installation of marketplace plugins |
+| `plugin_dependency_graph.cpp` | Dependency declaration, visualization, and topological ordering |
+| `ab_test_manager.cpp` | Traffic-split A/B testing via module swapping |
 
 ### 3.2 Component Diagram
 
@@ -171,9 +174,9 @@ Performance targets:
 
 ## 11. Known Limitations & Future Work
 
-- Hot-reload (`hot_reload_manager.cpp`) is in progress; currently unsafe for in-flight requests.
+- Hot-reload (`hot_reload_manager.cpp`) is production-ready; the `HotReloadManager` provides atomic module swapping with rollback on failure.
 - WASM-based plugin isolation is implemented in `wasm_plugin_sandbox.cpp`; a concrete WasmRuntime (Wasmtime, WasmEdge, etc.) must be injected for full execution support.
-- Plugin dependency management and version conflict resolution are planned.
+- Plugin dependency management and version conflict resolution are planned (Issue: #1566).
 
 ---
 

@@ -38,9 +38,10 @@
 
 ## Planned Features
 
-### Hot Module Reload
+### Hot Module Reload ✅ Implemented
 **Priority:** Medium  
-**Target Version:** v1.2.0
+**Target Version:** v1.1.0  
+**Status:** Implemented in `src/base/hot_reload_manager.cpp` (`include/themis/base/hot_reload_manager.h`)
 
 Reload modules without restarting the database.
 
@@ -72,11 +73,10 @@ public:
 
 ---
 
-### Plugin Marketplace Integration
+### Plugin Marketplace Integration ✅ Partially Implemented
 **Priority:** Low  
-**Target Version:** v1.1.0
-
-Discover and install plugins from marketplace.
+**Target Version:** v1.1.0  
+**Status:** Partially implemented in `src/base/remote_registry_client.cpp` (`include/themis/base/remote_registry_client.h`); plugin discovery UI and automatic updates are still planned.
 
 **Features:**
 - Plugin discovery
@@ -87,11 +87,10 @@ Discover and install plugins from marketplace.
 
 ---
 
-### Module Sandboxing
+### Module Sandboxing ✅ Implemented
 **Priority:** High  
-**Target Version:** v1.3.0
-
-Isolate plugins for security.
+**Target Version:** v1.1.0  
+**Status:** Implemented in `src/base/module_sandbox.cpp` (`include/themis/base/module_sandbox.h`) and `src/base/wasm_plugin_sandbox.cpp` (`include/themis/base/wasm_plugin_sandbox.h`)
 
 **Features:**
 - Process isolation
@@ -102,11 +101,10 @@ Isolate plugins for security.
 
 ---
 
-### Module Dependency Management
+### Module Dependency Management ✅ Partially Implemented
 **Priority:** Medium  
-**Target Version:** v1.2.0
-
-Manage dependencies between modules.
+**Target Version:** v1.2.0  
+**Status:** Partially implemented in `src/base/plugin_dependency_graph.cpp` (`include/themis/base/plugin_dependency_graph.h`); enforced ordered loading with version conflict resolution is in progress (Issue: #1566).
 
 **Features:**
 - Dependency declaration
@@ -166,5 +164,5 @@ Universal module format across platforms.
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: March 2026*  
 *Module Version: v1.0.0*
