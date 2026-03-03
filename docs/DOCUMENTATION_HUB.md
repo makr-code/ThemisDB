@@ -8,7 +8,7 @@
 
 | Category | Description | Start Here |
 |----------|-------------|------------|
-| 🎯 **Beginners** | New to ThemisDB? Start here! | [Quick Start →](../QUICKSTART.md) |
+| 🎯 **Beginners** | New to ThemisDB? Start here! | [Quick Start →](de/guides/QUICKSTART.md) |
 | 💡 **Use Cases** | Real-world application guides | [Browse Use Cases →](use-cases/README.md) |
 | 🎓 **Tutorials** | Hands-on learning paths | [View Tutorials →](tutorials/README.md) |
 | 🏆 **Certification** | Professional certifications | [Get Certified →](certification/README.md) |
@@ -20,13 +20,13 @@
 ## 🎯 Quick Navigation
 
 ### 🚀 Getting Started
-- **[Quick Start Guide](../QUICKSTART.md)** - Get ThemisDB running in 5 minutes
+- **[Quick Start Guide](de/guides/QUICKSTART.md)** - Get ThemisDB running in 5 minutes
 - **[Installation Guide](de/guides/guides_deployment.md)** - Detailed installation instructions
 - **[First Steps Tutorial](tutorials/GETTING_STARTED_TUTORIAL.md)** - Your first database operations
-- **[Configuration Guide](de/deployment/CONFIGURATION_GUIDE.md)** - Configure ThemisDB for your needs
+- **[Configuration Guide](de/guides/CONFIGURATION_TUNING_GUIDE.md)** - Configure ThemisDB for your needs
 
 ### 📖 Core Documentation
-- **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - System design and components
+- **[Architecture Overview](de/architecture/ARCHITECTURE_OVERVIEW.md)** - System design and components
 - **[AQL Query Language](de/aql/aql_syntax.md)** - Complete query language reference
 - **[API Reference](api/API_REFERENCE.md)** - REST, GraphQL, gRPC, and SDK documentation
 - **[Security Guide](de/security/security_implementation.md)** - Authentication, encryption, and access control
@@ -61,89 +61,89 @@ Become a certified ThemisDB expert:
 
 ### Development
 - [Client SDKs](../clients/README.md) - Language-specific SDKs
-- [REST API](api/REST_API.md) - HTTP/REST interface
-- [GraphQL](api/GRAPHQL_API.md) - GraphQL queries and mutations
-- [gRPC](api/GRPC_API.md) - High-performance RPC
-- [WebSocket](api/WEBSOCKET_API.md) - Real-time updates
+- [REST API](api/REST_API_REFERENCE.md) - HTTP/REST interface
+- [GraphQL](de/apis/GRAPHQL_API_SPECIFICATION.md) - GraphQL queries and mutations
+- [gRPC](de/apis/GRPC_API_SPECIFICATION.md) - High-performance RPC
+- [WebSocket](de/apis/README.md) - Real-time updates
 
 ### Operations
 - [Deployment Guide](de/guides/guides_deployment.md) - Production deployment
-- [Monitoring & Metrics](de/deployment/MONITORING_GUIDE.md) - Prometheus, Grafana
+- [Monitoring & Metrics](en/operations/MONITORING_SETUP_GUIDE.md) - Prometheus, Grafana
 - [Backup & Recovery](knowledge-base/BACKUP_RECOVERY.md) - Data protection
-- [High Availability](de/deployment/HA_GUIDE.md) - Clustering and replication
-- [Docker Guide](DOCKER_BUILD_GUIDE.md) - Containerized deployment
+- [High Availability](replication-ha-guide.md) - Clustering and replication
+- [Docker Guide](en/deployment/DOCKER_BUILD_GUIDE.md) - Containerized deployment
 
 ### Data Modeling
-- [Multi-Model Guide](de/guides/guides_multimodel.md) - Using multiple data models
+- [Multi-Model Guide](de/architecture/architecture_multi_model.md) - Using multiple data models
 - [Schema Design](tutorials/SCHEMA_DESIGN.md) - Best practices
-- [Indexing Strategy](de/guides/guides_index.md) - Index types and usage
-- [Graph Modeling](de/aql/graph_guide.md) - Graph data structures
+- [Indexing Strategy](de/aql/aql_explain_profile.md) - Index types and usage
+- [Graph Modeling](de/features/features_property_graph.md) - Graph data structures
 
 ### Advanced Features
-- [LLM Integration](llm/LLM_INTEGRATION_GUIDE.md) - Native AI capabilities
-- [Vector Search](de/guides/guides_vector.md) - Similarity search
-- [Full-Text Search](de/features/full_text_search.md) - Text indexing
+- [LLM Integration](de/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md) - Native AI capabilities
+- [Vector Search](de/features/features_vector_ops.md) - Similarity search
+- [Full-Text Search](de/search/fulltext_phrase_fuzzy.md) - Text indexing
 - [Distributed Transactions](DISTRIBUTED_TRANSACTIONS.md) - ACID across shards
-- [Geospatial Queries](de/features/geospatial_queries.md) - Location-based data
+- [Geospatial Queries](de/features/geospatial_3d_implementation.md) - Location-based data
 
 ### Performance
-- [Performance Guide](de/performance/performance_memory.md) - Tuning and optimization
+- [Performance Guide](de/performance/LIBRARY_OPTIMIZATION_QUICKREF.md) - Tuning and optimization
 - [Benchmarks](../benchmarks/README.md) - Performance data
-- [Scaling Guide](SCALING_ANALYSIS_v1.3.4.md) - Horizontal and vertical scaling
+- [Scaling Guide](archive/SCALING_ANALYSIS_v1.3.4.md) - Horizontal and vertical scaling
 
 ### Security
 - [Security Implementation](de/security/security_implementation.md) - Complete security guide
-- [Authentication](de/security/authentication.md) - User authentication
-- [Authorization](de/security/authorization.md) - Access control
-- [Encryption](de/security/encryption.md) - Data encryption
-- [Audit Logging](de/security/audit_logging.md) - Security auditing
+- [Authentication](de/security/security_implementation.md) - User authentication
+- [Authorization](de/security/security_policy.md) - Access control
+- [Encryption](de/security/security_encryption_strategy.md) - Data encryption
+- [Audit Logging](de/security/security_audit_checklist.md) - Security auditing
 
 ## 🔍 Find What You Need
 
 ### By Role
 
 #### **Developers**
-1. Start with [Quick Start](../QUICKSTART.md)
+1. Start with [Quick Start](de/guides/QUICKSTART.md)
 2. Review [API Reference](api/API_REFERENCE.md)
 3. Explore [Example Projects](../examples/README.md)
 4. Check [Best Practices](tutorials/BEST_PRACTICES.md)
 
 #### **Database Administrators**
 1. Read [Deployment Guide](de/guides/guides_deployment.md)
-2. Configure [Monitoring](de/deployment/MONITORING_GUIDE.md)
+2. Configure [Monitoring](en/operations/MONITORING_SETUP_GUIDE.md)
 3. Set up [Backup & Recovery](knowledge-base/BACKUP_RECOVERY.md)
 4. Review [Troubleshooting](knowledge-base/TROUBLESHOOTING.md)
 
 #### **Architects**
-1. Understand [Architecture](architecture/ARCHITECTURE_OVERVIEW.md)
-2. Review [Multi-Model Guide](de/guides/guides_multimodel.md)
-3. Plan [Scaling Strategy](SCALING_ANALYSIS_v1.3.4.md)
+1. Understand [Architecture](de/architecture/ARCHITECTURE_OVERVIEW.md)
+2. Review [Multi-Model Guide](de/architecture/architecture_multi_model.md)
+3. Plan [Scaling Strategy](archive/SCALING_ANALYSIS_v1.3.4.md)
 4. Design [Security Architecture](de/security/security_implementation.md)
 
 #### **DevOps Engineers**
-1. Set up [CI/CD](CI_CD_BENCHMARK_AUTOMATION.md)
-2. Configure [Docker](DOCKER_BUILD_GUIDE.md)
+1. Set up [CI/CD](de/deployment/CI_CD_BENCHMARK_AUTOMATION.md)
+2. Configure [Docker](en/deployment/DOCKER_BUILD_GUIDE.md)
 3. Enable [Monitoring](PROMETHEUS_INTEGRATION_COMPLETE.md)
-4. Plan [High Availability](de/deployment/HA_GUIDE.md)
+4. Plan [High Availability](replication-ha-guide.md)
 
 ### By Task
 
 #### **Installation & Setup**
-- [Quick Start](../QUICKSTART.md) - Fastest way to get started
-- [Docker Installation](DOCKER_BUILD_GUIDE.md) - Container deployment
-- [Building from Source](../CONTRIBUTING.md#building) - Compile ThemisDB
-- [Configuration](de/deployment/CONFIGURATION_GUIDE.md) - System configuration
+- [Quick Start](de/guides/QUICKSTART.md) - Fastest way to get started
+- [Docker Installation](en/deployment/DOCKER_BUILD_GUIDE.md) - Container deployment
+- [Building from Source](../CONTRIBUTING.md) - Compile ThemisDB
+- [Configuration](de/guides/CONFIGURATION_TUNING_GUIDE.md) - System configuration
 
 #### **Data Operations**
 - [CRUD Operations](tutorials/CRUD_TUTORIAL.md) - Create, Read, Update, Delete
 - [Querying Data](de/aql/aql_syntax.md) - AQL queries
-- [Transactions](de/guides/guides_transactions.md) - ACID transactions
+- [Transactions](de/features/features_transactions.md) - ACID transactions
 - [Batch Operations](tutorials/BATCH_OPERATIONS.md) - Bulk data loading
 
 #### **Monitoring & Troubleshooting**
-- [Monitoring Setup](de/deployment/MONITORING_GUIDE.md) - Metrics and dashboards
+- [Monitoring Setup](en/operations/MONITORING_SETUP_GUIDE.md) - Metrics and dashboards
 - [Troubleshooting](knowledge-base/TROUBLESHOOTING.md) - Common issues
-- [Performance Profiling](de/performance/performance_memory.md) - Identify bottlenecks
+- [Performance Profiling](de/performance/LIBRARY_OPTIMIZATION_QUICKREF.md) - Identify bottlenecks
 - [Log Analysis](knowledge-base/LOG_ANALYSIS.md) - Understanding logs
 
 ## 🗺️ Documentation Navigation Map
@@ -251,12 +251,12 @@ graph TB
 
 | Topic | Beginner | Intermediate | Advanced |
 |-------|----------|--------------|----------|
-| **Installation** | [Quick Start](../QUICKSTART.md) | [Docker Guide](DOCKER_BUILD_GUIDE.md) | [Build from Source](../CONTRIBUTING.md) |
+| **Installation** | [Quick Start](de/guides/QUICKSTART.md) | [Docker Guide](en/deployment/DOCKER_BUILD_GUIDE.md) | [Build from Source](../CONTRIBUTING.md) |
 | **Queries** | [Getting Started](tutorials/GETTING_STARTED_TUTORIAL.md) | [AQL Syntax](de/aql/aql_syntax.md) | [Query Optimization](knowledge-base/PERFORMANCE_TIPS.md) |
-| **Data Modeling** | [CRUD Tutorial](tutorials/CRUD_TUTORIAL.md) | [Schema Design](tutorials/SCHEMA_DESIGN.md) | [Multi-Model Guide](de/guides/guides_multimodel.md) |
+| **Data Modeling** | [CRUD Tutorial](tutorials/CRUD_TUTORIAL.md) | [Schema Design](tutorials/SCHEMA_DESIGN.md) | [Multi-Model Guide](de/architecture/architecture_multi_model.md) |
 | **Performance** | [Best Practices](tutorials/BEST_PRACTICES.md) | [Performance Tips](knowledge-base/PERFORMANCE_TIPS.md) | [Benchmarking](../benchmarks/README.md) |
-| **Operations** | [Configuration](de/deployment/CONFIGURATION_GUIDE.md) | [Monitoring](de/deployment/MONITORING_GUIDE.md) | [HA Setup](de/deployment/HA_GUIDE.md) |
-| **Security** | [Security Basics](de/security/security_implementation.md) | [RBAC Setup](de/security/authorization.md) | [Security Certification](certification/SECURITY_CERTIFICATION.md) |
+| **Operations** | [Configuration](de/guides/CONFIGURATION_TUNING_GUIDE.md) | [Monitoring](en/operations/MONITORING_SETUP_GUIDE.md) | [HA Setup](replication-ha-guide.md) |
+| **Security** | [Security Basics](de/security/security_implementation.md) | [RBAC Setup](de/security/security_policy.md) | [Security Certification](certification/SECURITY_CERTIFICATION.md) |
 
 ## 🌟 Featured Content
 
@@ -267,31 +267,31 @@ graph TB
 - **New:** [Video Tutorials](tutorials/VIDEO_TUTORIALS.md) - Visual learning resources
 
 ### Most Popular
-1. [Quick Start Guide](../QUICKSTART.md)
+1. [Quick Start Guide](de/guides/QUICKSTART.md)
 2. [AQL Query Language](de/aql/aql_syntax.md)
 3. [REST API Reference](api/API_REFERENCE.md)
-4. [Docker Guide](DOCKER_BUILD_GUIDE.md)
+4. [Docker Guide](en/deployment/DOCKER_BUILD_GUIDE.md)
 5. [FAQ](FAQ.md)
 
 ### Community Favorites
 - [24 Example Projects](../examples/README.md) - Complete working applications
 - [Performance Benchmarks](../benchmarks/README.md) - Real-world performance data
-- [Architecture Deep-Dive](architecture/ARCHITECTURE_OVERVIEW.md) - Internal design
+- [Architecture Deep-Dive](de/architecture/ARCHITECTURE_OVERVIEW.md) - Internal design
 - [Security Best Practices](de/security/security_implementation.md) - Production security
 
 ## 🛠 Tools & Resources
 
 ### Development Tools
-- [ThemisDB CLI](tools/CLI_GUIDE.md) - Command-line interface
+- [ThemisDB CLI](tools/admin/ADMIN_TOOLS_OVERVIEW.md) - Command-line interface
 - [Admin UI](de/admin_tools/admin_guide.md) - Web-based administration
-- [Schema Validation](tools/SCHEMA_VALIDATOR.md) - Schema checking
-- [Query Profiler](tools/QUERY_PROFILER.md) - Query optimization
+- [Schema Validation](de/guides/guides_qa.md) - Schema checking
+- [Query Profiler](de/aql/aql_explain_profile.md) - Query optimization
 
 ### Utilities
-- [Data Import/Export](tools/DATA_MIGRATION.md) - Data transfer tools
+- [Data Import/Export](knowledge-base/MIGRATION_GUIDES.md) - Data transfer tools
 - [Backup Tools](knowledge-base/BACKUP_RECOVERY.md) - Backup utilities
 - [Performance Testing](../benchmarks/README.md) - Benchmark suite
-- [Schema Designer](tools/SCHEMA_DESIGNER.md) - Visual schema design
+- [Schema Designer](tutorials/SCHEMA_DESIGN.md) - Visual schema design
 
 ## 🌍 Language Support
 
@@ -308,7 +308,7 @@ graph TB
 - **Latest Stable:** 1.4.0
 - **Documentation Version:** 1.4.x
 - **[Release Notes](../CHANGELOG.md)** - Version history
-- **[Roadmap](v1.4_DEVELOPMENT_ROADMAP.md)** - Future plans
+- **[Roadmap](ARCHIVED/roadmaps/v1.4_DEVELOPMENT_ROADMAP.md)** - Future plans
 
 ## 🤝 Community & Support
 
@@ -327,7 +327,7 @@ graph TB
 
 For a complete list of all documentation files, see:
 - [Documentation Index](00_DOCUMENTATION_INDEX.md) - Complete file listing
-- [Documentation Structure](STRUCTURE.md) - Organization overview
+- [Documentation Structure](de/STRUCTURE.md) - Organization overview
 - [Examples Index](EXAMPLES_INDEX.md) - All example projects
 
 ## 🔗 External Resources

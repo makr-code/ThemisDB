@@ -24,7 +24,7 @@
 **For new users** - Get ThemisDB up and running quickly.
 
 ### Installation & Setup
-- **[Quick Start Guide](../QUICKSTART.md)** ⭐ START HERE - 5-minute setup
+- **[Quick Start Guide](de/guides/QUICKSTART.md)** ⭐ START HERE - 5-minute setup
   - Docker installation
   - First database operations
   - Basic queries
@@ -32,11 +32,11 @@
   - System requirements
   - Platform-specific instructions
   - Configuration options
-- **[Docker Deployment Guide](DOCKER_BUILD_GUIDE.md)** - Containerized setup
+- **[Docker Deployment Guide](en/deployment/DOCKER_BUILD_GUIDE.md)** - Containerized setup
   - Docker compose examples
   - Volume management
   - Multi-container setups
-- **[Building from Source](../CONTRIBUTING.md#building)** - Compile ThemisDB
+- **[Building from Source](../CONTRIBUTING.md)** - Compile ThemisDB
   - Dependencies
   - Build instructions
   - Platform-specific notes
@@ -47,7 +47,7 @@
   - Basic CRUD operations
   - Simple queries
   - Index creation
-- **[Configuration Guide](de/deployment/CONFIGURATION_GUIDE.md)** - Initial configuration
+- **[Configuration Guide](de/guides/CONFIGURATION_TUNING_GUIDE.md)** - Initial configuration
   - Server settings
   - Security basics
   - Performance tuning
@@ -271,7 +271,7 @@
 **In-depth technical documentation** for all features.
 
 ### Architecture
-- **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - System design
+- **[Architecture Overview](de/architecture/ARCHITECTURE_OVERVIEW.md)** - System design
 - **[Multi-Model Architecture](de/architecture/architecture_multi_model.md)** - Model integration
 - **[MVCC Implementation](de/architecture/architecture_mvcc.md)** - Transaction handling
 - **[Storage Layer](de/architecture/architecture_base_entity.md)** - Data storage
@@ -280,7 +280,7 @@
 ### Query Language
 - **[AQL Syntax Guide](de/aql/aql_syntax.md)** - Complete language reference
 - **[AQL Functions Reference](de/aql/aql_functions_reference.md)** - Built-in functions
-- **[Graph Queries](de/aql/graph_guide.md)** - Graph traversals
+- **[Graph Queries](de/features/features_property_graph.md)** - Graph traversals
 - **[Pattern Matching](de/aql/aql_pattern_matching.md)** - Advanced patterns
 - **[Query Optimization](de/aql/aql_explain_profile.md)** - EXPLAIN and profiling
 
@@ -288,16 +288,16 @@
 - **[API Reference Overview](api/API_REFERENCE.md)** - All APIs
 - **[REST API](de/apis/HTTP_API_REFERENCE.md)** - HTTP/REST interface
 - **[GraphQL API](de/apis/apis_graphql.md)** - GraphQL queries
-- **[gRPC API](de/apis/apis_grpc.md)** - High-performance RPC
-- **[WebSocket API](de/apis/apis_websocket.md)** - Real-time updates
+- **[gRPC API](de/apis/GRPC_API_SPECIFICATION.md)** - High-performance RPC
+- **[WebSocket API](de/apis/README.md)** - Real-time updates
 
 ### Features
 - **[Vector Search](de/features/features_vector_ops.md)** - Similarity search
-- **[Full-Text Search](de/features/full_text_search.md)** - Text indexing
-- **[Graph Operations](de/features/features_graph.md)** - Graph algorithms
+- **[Full-Text Search](de/search/fulltext_phrase_fuzzy.md)** - Text indexing
+- **[Graph Operations](de/features/features_property_graph.md)** - Graph algorithms
 - **[Time-Series](de/features/features_time_series.md)** - Time-series data
 - **[Transactions](de/features/features_transactions.md)** - ACID guarantees
-- **[Geospatial Queries](de/features/geospatial_queries.md)** - Location data
+- **[Geospatial Queries](de/features/geospatial_3d_implementation.md)** - Location data
 
 ---
 
@@ -307,26 +307,26 @@
 
 ### Deployment
 - **[Deployment Guide](de/guides/guides_deployment.md)** - Production deployment
-- **[Docker Deployment](DOCKER_BUILD_GUIDE.md)** - Container setup
-- **[Kubernetes Deployment](helm/README.md)** - K8s orchestration
-- **[Configuration Reference](de/deployment/CONFIGURATION_GUIDE.md)** - All settings
+- **[Docker Deployment](en/deployment/DOCKER_BUILD_GUIDE.md)** - Container setup
+- **[Kubernetes Deployment](replication-ha-guide.md)** - K8s orchestration
+- **[Configuration Reference](de/guides/CONFIGURATION_TUNING_GUIDE.md)** - All settings
 
 ### Monitoring
-- **[Monitoring Guide](de/deployment/MONITORING_GUIDE.md)** - Metrics & dashboards
+- **[Monitoring Guide](en/operations/MONITORING_SETUP_GUIDE.md)** - Metrics & dashboards
 - **[Prometheus Integration](PROMETHEUS_INTEGRATION_COMPLETE.md)** - Metrics collection
-- **[Grafana Dashboards](grafana/README.md)** - Visualization
-- **[Alerting Setup](de/deployment/ALERTING_GUIDE.md)** - Alert configuration
+- **[Grafana Dashboards](../grafana/README.md)** - Visualization
+- **[Alerting Setup](PERFORMANCE_ALERTING_CONFIG.md)** - Alert configuration
 
 ### High Availability
-- **[HA Guide](de/deployment/HA_GUIDE.md)** - Clustering & replication
-- **[Sharding Guide](de/deployment/SHARDING_GUIDE.md)** - Data distribution
-- **[Replication Setup](de/deployment/REPLICATION_GUIDE.md)** - Data replication
+- **[HA Guide](replication-ha-guide.md)** - Clustering & replication
+- **[Sharding Guide](de/SHARDING_DOCUMENTATION_INDEX.md)** - Data distribution
+- **[Replication Setup](replication/README.md)** - Data replication
 - **[Disaster Recovery](knowledge-base/BACKUP_RECOVERY.md#disaster-recovery-planning)** - DR planning
 
 ### Performance
 - **[Performance Guide](de/performance/performance_memory.md)** - Tuning guide
 - **[Benchmarking](../benchmarks/README.md)** - Performance testing
-- **[Scaling Strategies](SCALING_ANALYSIS_v1.3.4.md)** - Horizontal/vertical scaling
+- **[Scaling Strategies](archive/SCALING_ANALYSIS_v1.3.4.md)** - Horizontal/vertical scaling
 - **[Caching Strategies](de/architecture/architecture_caching_patterns.md)** - Cache optimization
 
 ---
@@ -338,20 +338,20 @@
 ### Security Implementation
 - **[Security Guide](de/security/security_implementation.md)** - Complete security guide
 - **[Security Architecture](de/architecture/SECURITY_ARCHITECTURE.md)** - Security design
-- **[Authentication](de/security/authentication.md)** - User authentication
-- **[Authorization](de/security/authorization.md)** - Access control
-- **[RBAC Setup](de/security/rbac_guide.md)** - Role-based access
+- **[Authentication](de/security/security_implementation.md)** - User authentication
+- **[Authorization](de/security/security_policy.md)** - Access control
+- **[RBAC Setup](de/guides/guides_rbac.md)** - Role-based access
 
 ### Encryption
-- **[Encryption Guide](de/security/encryption.md)** - Data encryption
-- **[TLS Configuration](de/security/tls_configuration.md)** - Transport security
-- **[Field-Level Encryption](de/security/field_encryption.md)** - Column encryption
+- **[Encryption Guide](de/security/security_encryption_strategy.md)** - Data encryption
+- **[TLS Configuration](de/guides/guides_tls_setup.md)** - Transport security
+- **[Field-Level Encryption](de/security/security_column_encryption.md)** - Column encryption
 
 ### Compliance
-- **[Audit Logging](de/security/audit_logging.md)** - Security auditing
-- **[GDPR Compliance](de/compliance/gdpr_guide.md)** - GDPR requirements
-- **[HIPAA Compliance](de/compliance/hipaa_guide.md)** - Healthcare compliance
-- **[SOC 2 Compliance](de/compliance/soc2_guide.md)** - SOC 2 requirements
+- **[Audit Logging](de/security/security_audit_checklist.md)** - Security auditing
+- **[GDPR Compliance](de/compliance/compliance_dpia.md)** - GDPR requirements
+- **[HIPAA Compliance](de/compliance/compliance_full_checklist.md)** - Healthcare compliance
+- **[SOC 2 Compliance](de/compliance/compliance_full_checklist.md)** - SOC 2 requirements
 
 ---
 
@@ -396,7 +396,7 @@ Documentation is available in multiple languages:
 4. **Browse by role** in the [Documentation Hub](DOCUMENTATION_HUB.md#-find-what-you-need)
 
 ### Common Searches
-- "How do I install ThemisDB?" → [Quick Start](../QUICKSTART.md)
+- "How do I install ThemisDB?" → [Quick Start](de/guides/QUICKSTART.md)
 - "AQL query syntax" → [AQL Syntax Guide](de/aql/aql_syntax.md)
 - "Performance tuning" → [Performance Tips](knowledge-base/PERFORMANCE_TIPS.md)
 - "Security setup" → [Security Guide](de/security/security_implementation.md)
