@@ -864,7 +864,26 @@ private:
                           endpoint_, client_result.status().ToString());
             return;
         }
-        native_client_ = std::move(client_result.ValueOrDie());
+
+        auto candidate = std::move(client_result.ValueOrDie());
+
+        // Probe connectivity immediately. Arrow Flight client creation can
+        // succeed even when the endpoint is not actually serving requests.
+        auto listing_result = candidate->ListFlights();
+        if (!listing_result.ok()) {
+            spdlog::debug("[ArrowFlight] native probe to '{}' failed: {}",
+                          endpoint_, listing_result.status().ToString());
+            return;
+        }
+        auto& listing = *listing_result.ValueOrDie();
+        auto first_result = listing.Next();
+        if (!first_result.ok()) {
+            spdlog::debug("[ArrowFlight] native probe stream to '{}' failed: {}",
+                          endpoint_, first_result.status().ToString());
+            return;
+        }
+
+        native_client_ = std::move(candidate);
         connected_     = true;
         spdlog::info("[ArrowFlight] native client connected to '{}'", endpoint_);
     }

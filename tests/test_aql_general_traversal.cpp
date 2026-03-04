@@ -79,6 +79,7 @@ protected:
         edge1.setField("id", "e1");
         edge1.setField("_from", "users/alice");
         edge1.setField("_to", "users/bob");
+        edge1.setField("_graph", "social");
         edge1.setField("_type", "follows");
         graphIdx->addEdge(edge1);
 
@@ -86,6 +87,7 @@ protected:
         edge2.setField("id", "e2");
         edge2.setField("_from", "users/bob");
         edge2.setField("_to", "users/charlie");
+        edge2.setField("_graph", "social");
         edge2.setField("_type", "follows");
         graphIdx->addEdge(edge2);
 
@@ -93,6 +95,7 @@ protected:
         edge3.setField("id", "e3");
         edge3.setField("_from", "users/charlie");
         edge3.setField("_to", "users/dave");
+        edge3.setField("_graph", "social");
         edge3.setField("_type", "follows");
         graphIdx->addEdge(edge3);
 
@@ -100,6 +103,7 @@ protected:
         edge4.setField("id", "e4");
         edge4.setField("_from", "users/alice");
         edge4.setField("_to", "users/eve");
+        edge4.setField("_graph", "social");
         edge4.setField("_type", "follows");
         graphIdx->addEdge(edge4);
 
@@ -107,6 +111,7 @@ protected:
         edge5.setField("id", "e5");
         edge5.setField("_from", "users/eve");
         edge5.setField("_to", "users/dave");
+        edge5.setField("_graph", "social");
         edge5.setField("_type", "follows");
         graphIdx->addEdge(edge5);
     }

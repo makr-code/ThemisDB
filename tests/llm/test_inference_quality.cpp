@@ -211,22 +211,6 @@ TEST_F(InferenceQualityTest, Deterministic_BitIdentical) {
  */
 TEST_F(InferenceQualityTest, Stochastic_VariedOutput) {
 #ifdef THEMIS_ENABLE_LLM
-    std::string prompt = "Write a creative opening sentence for a story:";
-    double temperature = 1.0; // Stochastic
-    
-    std::vector<std::string> outputs;
-    for (int i = 0; i < 10; ++i) {
-        // Would generate with temp=1.0
-        // outputs.push_back(generated_text);
-    }
-    
-    // Count unique outputs
-    std::set<std::string> unique_outputs(outputs.begin(), outputs.end());
-    
-    // Should have variety (at least 50% unique)
-    EXPECT_GT(unique_outputs.size(), outputs.size() / 2)
-        << "Stochastic generation should produce varied outputs";
-    
     GTEST_SKIP() << "Requires actual model inference";
 #else
     GTEST_SKIP() << "LLM support not enabled";

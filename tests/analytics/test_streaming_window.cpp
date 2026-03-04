@@ -8,7 +8,7 @@
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Maturity Level:  🟢 PRODUCTION-READY                            ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     740                                            ║
     • Open Issues:     TODOs: 4, Stubs: 0                             ║
@@ -17,7 +17,7 @@
     • e2ddc67a4  2026-02-28  feat(analytics): add factory functions for window types a... ║
     • d8694e04a  2026-02-22  Fix 7 bugs in streaming_window + 4 regression tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Status: ✅ Production Ready                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -199,9 +199,18 @@ TEST_F(TumblingWindowTest, AvgMinMaxAggregations) {
     win->flush();
 
     ASSERT_FALSE(results.empty());
-    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("avg")), 3.0);
-    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("mn")),  1.0);
-    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("mx")),  5.0);
+    auto avg = results[0].get("avg");
+    auto mn  = results[0].get("mn");
+    auto mx  = results[0].get("mx");
+    ASSERT_TRUE(avg.has_value());
+    ASSERT_TRUE(mn.has_value());
+    ASSERT_TRUE(mx.has_value());
+    ASSERT_TRUE(std::holds_alternative<double>(*avg));
+    ASSERT_TRUE(std::holds_alternative<double>(*mn));
+    ASSERT_TRUE(std::holds_alternative<double>(*mx));
+    EXPECT_DOUBLE_EQ(std::get<double>(*avg), 3.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*mn),  1.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*mx),  5.0);
 }
 
 TEST_F(TumblingWindowTest, StddevVarianceAggregations) {
@@ -216,8 +225,14 @@ TEST_F(TumblingWindowTest, StddevVarianceAggregations) {
     }
     win->flush();
     ASSERT_FALSE(results.empty());
-    double std_val = std::get<double>(*results[0].get("std"));
-    double var_val = std::get<double>(*results[0].get("var"));
+    auto std_opt = results[0].get("std");
+    auto var_opt = results[0].get("var");
+    ASSERT_TRUE(std_opt.has_value());
+    ASSERT_TRUE(var_opt.has_value());
+    ASSERT_TRUE(std::holds_alternative<double>(*std_opt));
+    ASSERT_TRUE(std::holds_alternative<double>(*var_opt));
+    double std_val = std::get<double>(*std_opt);
+    double var_val = std::get<double>(*var_opt);
     EXPECT_GT(std_val, 0.0);
     EXPECT_NEAR(var_val, std_val * std_val, 0.001);
 }

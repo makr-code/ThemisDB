@@ -442,27 +442,31 @@ private:
         if (match(TokenType::COLLECT)) {
             query->collect = parseCollectClause();
         }
+
+        auto parseShortestPathClause = [&]() {
+            if (query->traversal && match(TokenType::SHORTEST_PATH)) {
+                advance();
+                expect(TokenType::TO, "Expected TO after SHORTEST_PATH");
+                if (!match(TokenType::STRING) && !match(TokenType::IDENTIFIER)) {
+                    throw std::runtime_error("Expected target vertex after SHORTEST_PATH TO");
+                }
+                std::string target = current().value;
+                advance();
+                query->traversal->shortestPath = true;
+                query->traversal->shortestPathTarget = target;
+            }
+        };
+
+        // Optional shortest path clause before RETURN (canonical position)
+        parseShortestPathClause();
         
         // RETURN clause (optional)
         if (match(TokenType::RETURN)) {
             query->return_node = parseReturnClause();
         }
 
-        // Optional shortest path clause BEFORE RETURN (flex: allow position after filters and before/after SORT)
-        // Pattern: SHORTEST_PATH TO <string|identifier>
-        // We allow it if traversal node exists.
-        if (query->traversal && match(TokenType::SHORTEST_PATH)) {
-            advance();
-            expect(TokenType::TO, "Expected TO after SHORTEST_PATH");
-            // Accept STRING literal or IDENTIFIER
-            if (!match(TokenType::STRING) && !match(TokenType::IDENTIFIER)) {
-                throw std::runtime_error("Expected target vertex after SHORTEST_PATH TO");
-            }
-            std::string target = current().value;
-            advance();
-            query->traversal->shortestPath = true;
-            query->traversal->shortestPathTarget = target;
-        }
+        // Backward compatibility: also accept SHORTEST_PATH after RETURN
+        parseShortestPathClause();
         
         // End of query - only check for EOF if not in subquery context
         if (!isSubquery) {

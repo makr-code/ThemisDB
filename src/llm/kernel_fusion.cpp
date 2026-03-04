@@ -429,7 +429,7 @@ KernelFusionManager::KernelFusionManager(const Config& config)
 bool KernelFusionManager::shouldFuseLayerNormLinear(
     int batch, int seq_len, int hidden_dim
 ) const {
-    if (!config_.enable_ln_linear_fusion) {
+    if (!config_.enable_fusion || !config_.enable_ln_linear_fusion) {
         return false;
     }
     
@@ -441,7 +441,7 @@ bool KernelFusionManager::shouldFuseLayerNormLinear(
 bool KernelFusionManager::shouldFuseQKV(
     int batch, int seq_len, int hidden_dim
 ) const {
-    if (!config_.enable_qkv_fusion) {
+    if (!config_.enable_fusion || !config_.enable_qkv_fusion) {
         return false;
     }
     
@@ -452,7 +452,7 @@ bool KernelFusionManager::shouldFuseQKV(
 bool KernelFusionManager::shouldFuseFFN(
     int batch, int seq_len, int hidden_dim
 ) const {
-    if (!config_.enable_ffn_fusion) {
+    if (!config_.enable_fusion || !config_.enable_ffn_fusion) {
         return false;
     }
     

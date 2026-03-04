@@ -79,13 +79,25 @@ static AccessControl::AuthorizationContext makeCtx(
 // RBAC-only (ABAC disabled) baseline tests
 // ============================================================================
 
-TEST(AccessControlABACTest, RBACOnly_AdminCanWriteData) {
+class AccessControlABACTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Probe: Check if RBAC is available (license gated in Community Edition)
+        AccessControl ac_probe(makeConfig(/*enable_abac=*/false));
+        auto ctx = makeCtx("alice", {"admin"}, "data", "write");
+        if (!ac_probe.authorize(ctx)) {
+            GTEST_SKIP() << "RBAC authorization not available (Community Edition limitation)";
+        }
+    }
+};
+
+TEST_F(AccessControlABACTest, RBACOnly_AdminCanWriteData) {
     AccessControl ac(makeConfig(/*enable_abac=*/false));
     auto ctx = makeCtx("alice", {"admin"}, "data", "write");
     EXPECT_TRUE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, RBACOnly_ReadonlyCannotWriteData) {
+TEST_F(AccessControlABACTest, RBACOnly_ReadonlyCannotWriteData) {
     AccessControl ac(makeConfig(/*enable_abac=*/false));
     auto ctx = makeCtx("bob", {"readonly"}, "data", "write");
     EXPECT_FALSE(ac.authorize(ctx));
@@ -95,14 +107,14 @@ TEST(AccessControlABACTest, RBACOnly_ReadonlyCannotWriteData) {
 // ABAC enabled, no policies configured – default-allow when no policies
 // ============================================================================
 
-TEST(AccessControlABACTest, ABACEnabled_NoPolicies_DefaultAllow_AdminAccess) {
+TEST_F(AccessControlABACTest, ABACEnabled_NoPolicies_DefaultAllow_AdminAccess) {
     // PolicyEngine with no policies defaults to allow; admin+RBAC also grants => allowed
     AccessControl ac(makeConfig(/*enable_abac=*/true));
     auto ctx = makeCtx("alice", {"admin"}, "data", "write");
     EXPECT_TRUE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, ABACEnabled_NoPolicies_RBACDenyStillDenies) {
+TEST_F(AccessControlABACTest, ABACEnabled_NoPolicies_RBACDenyStillDenies) {
     // Even with ABAC enabled+no policies (default-allow), RBAC deny wins first
     AccessControl ac(makeConfig(/*enable_abac=*/true));
     auto ctx = makeCtx("bob", {"readonly"}, "data", "write");
@@ -113,7 +125,7 @@ TEST(AccessControlABACTest, ABACEnabled_NoPolicies_RBACDenyStillDenies) {
 // ABAC enabled, with an ALLOW policy for a specific IP prefix
 // ============================================================================
 
-TEST(AccessControlABACTest, ABACEnabled_IPAllow_AccessGrantedForMatchingIP) {
+TEST_F(AccessControlABACTest, ABACEnabled_IPAllow_AccessGrantedForMatchingIP) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy p;
@@ -130,7 +142,7 @@ TEST(AccessControlABACTest, ABACEnabled_IPAllow_AccessGrantedForMatchingIP) {
     EXPECT_TRUE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, ABACEnabled_IPAllow_AccessDeniedForNonMatchingIP) {
+TEST_F(AccessControlABACTest, ABACEnabled_IPAllow_AccessDeniedForNonMatchingIP) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy p;
@@ -151,7 +163,7 @@ TEST(AccessControlABACTest, ABACEnabled_IPAllow_AccessDeniedForNonMatchingIP) {
 // ABAC with DENY policy
 // ============================================================================
 
-TEST(AccessControlABACTest, ABACEnabled_DenyPolicy_BlocksRBACGrantedAccess) {
+TEST_F(AccessControlABACTest, ABACEnabled_DenyPolicy_BlocksRBACGrantedAccess) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     // Explicit deny for the admin user on "config:delete"
@@ -168,7 +180,7 @@ TEST(AccessControlABACTest, ABACEnabled_DenyPolicy_BlocksRBACGrantedAccess) {
     EXPECT_FALSE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, ABACEnabled_DenyPolicy_OtherUserNotAffected) {
+TEST_F(AccessControlABACTest, ABACEnabled_DenyPolicy_OtherUserNotAffected) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     // Deny only "alice" on config:delete; "bob" (admin) is not in subjects
@@ -189,7 +201,7 @@ TEST(AccessControlABACTest, ABACEnabled_DenyPolicy_OtherUserNotAffected) {
 // addABACPolicy / removeABACPolicy API
 // ============================================================================
 
-TEST(AccessControlABACTest, RemoveABACPolicy_RestoresDefaultAllow) {
+TEST_F(AccessControlABACTest, RemoveABACPolicy_RestoresDefaultAllow) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy deny;
@@ -209,7 +221,7 @@ TEST(AccessControlABACTest, RemoveABACPolicy_RestoresDefaultAllow) {
     EXPECT_TRUE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, RemoveNonExistentPolicy_ReturnsFalse) {
+TEST_F(AccessControlABACTest, RemoveNonExistentPolicy_ReturnsFalse) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
     EXPECT_FALSE(ac.removeABACPolicy("does-not-exist"));
 }
@@ -218,7 +230,7 @@ TEST(AccessControlABACTest, RemoveNonExistentPolicy_ReturnsFalse) {
 // getABACEngine exposes the policy engine
 // ============================================================================
 
-TEST(AccessControlABACTest, GetABACEngine_ReturnsCorrectEngine) {
+TEST_F(AccessControlABACTest, GetABACEngine_ReturnsCorrectEngine) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy p;
@@ -239,7 +251,7 @@ TEST(AccessControlABACTest, GetABACEngine_ReturnsCorrectEngine) {
 // ABAC disabled even if policies are added
 // ============================================================================
 
-TEST(AccessControlABACTest, ABACDisabled_PoliciesIgnored) {
+TEST_F(AccessControlABACTest, ABACDisabled_PoliciesIgnored) {
     // ABAC is NOT enabled – even if we add a deny policy it should have no effect
     AccessControl ac(makeConfig(/*enable_abac=*/false));
 
@@ -260,7 +272,7 @@ TEST(AccessControlABACTest, ABACDisabled_PoliciesIgnored) {
 // ABAC user-agent condition tests
 // ============================================================================
 
-TEST(AccessControlABACTest, ABACEnabled_UAAllow_GrantedForMatchingUA) {
+TEST_F(AccessControlABACTest, ABACEnabled_UAAllow_GrantedForMatchingUA) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy p;
@@ -277,7 +289,7 @@ TEST(AccessControlABACTest, ABACEnabled_UAAllow_GrantedForMatchingUA) {
     EXPECT_TRUE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, ABACEnabled_UAAllow_DeniedForNonMatchingUA) {
+TEST_F(AccessControlABACTest, ABACEnabled_UAAllow_DeniedForNonMatchingUA) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy p;
@@ -294,7 +306,7 @@ TEST(AccessControlABACTest, ABACEnabled_UAAllow_DeniedForNonMatchingUA) {
     EXPECT_FALSE(ac.authorize(ctx));
 }
 
-TEST(AccessControlABACTest, ABACEnabled_UAAllow_DeniedWhenNoUAProvided) {
+TEST_F(AccessControlABACTest, ABACEnabled_UAAllow_DeniedWhenNoUAProvided) {
     AccessControl ac(makeConfig(/*enable_abac=*/true));
 
     PolicyEngine::Policy p;

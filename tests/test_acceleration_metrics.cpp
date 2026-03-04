@@ -240,10 +240,12 @@ TEST_F(MetricsCollectorTest, Timer_NullHistogram_DoesNotCrash) {
 
 TEST_F(MetricsCollectorTest, Timer_MoveConstructor_OriginalBecomesNoop) {
     auto* h = MetricsCollector::instance().registerHistogram("timer_move", "desc");
-    Timer t1(h);
-    Timer t2(std::move(t1));  // t1 is now a no-op
-    // Both destructors run here; histogram should be updated exactly once
-    // (from t2, which owns the histogram pointer after the move)
+    {
+        Timer t1(h);
+        Timer t2(std::move(t1));  // t1 is now a no-op
+        // Both destructors run here at end of scope
+        // (from t2, which owns the histogram pointer after the move)
+    }  // <-- t1 and t2 are destroyed here
     EXPECT_EQ(h->count(), 1u);
 }
 

@@ -390,16 +390,44 @@ std::vector<Permission> RBAC::expandRolePermissions(
 
 bool RBAC::validateRoleHierarchy() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Check each role for cycles
-    for (const auto& [role_name, _] : roles_) {
-        std::unordered_set<std::string> visited;
-        expandRolePermissions(role_name, visited);
-        
-        // If we revisited the same role, there's a cycle
-        if (visited.count(role_name) > 1) {
+
+    std::unordered_set<std::string> visiting;
+    std::unordered_set<std::string> visited;
+
+    auto has_no_cycle = [&](const auto& self, const std::string& role_name) -> bool {
+        if (visiting.count(role_name)) {
             THEMIS_ERROR("Cyclic dependency in role hierarchy: {}", role_name);
             return false;
+        }
+
+        if (visited.count(role_name)) {
+            return true;
+        }
+
+        visiting.insert(role_name);
+
+        auto role_it = roles_.find(role_name);
+        if (role_it != roles_.end()) {
+            const Role& role = role_it->second;
+            for (const auto& inherited_role : role.inherits) {
+                if (roles_.count(inherited_role)) {
+                    if (!self(self, inherited_role)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        visiting.erase(role_name);
+        visited.insert(role_name);
+        return true;
+    };
+
+    for (const auto& [role_name, _] : roles_) {
+        if (!visited.count(role_name)) {
+            if (!has_no_cycle(has_no_cycle, role_name)) {
+                return false;
+            }
         }
     }
     

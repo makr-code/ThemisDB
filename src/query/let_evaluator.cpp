@@ -99,6 +99,24 @@ nlohmann::json LetEvaluator::evaluateExpression(
 
     // Backward-compat: path-based field access (supports array indices)
     if (auto pathFA = dynamic_cast<query::PathFieldAccessExpr*>(expr.get())) {
+        if (pathFA->path.empty()) {
+            return nlohmann::json(nullptr);
+        }
+
+        const std::string& root = pathFA->path.front();
+        if (root == "doc") {
+            std::vector<std::string> trimmed(pathFA->path.begin() + 1, pathFA->path.end());
+            return getNestedValue(currentDoc, trimmed);
+        }
+
+        if (auto bound = resolveVariable(root); bound.has_value()) {
+            if (pathFA->path.size() == 1) {
+                return *bound;
+            }
+            std::vector<std::string> tail(pathFA->path.begin() + 1, pathFA->path.end());
+            return getNestedValue(*bound, tail);
+        }
+
         return getNestedValue(currentDoc, pathFA->path);
     }
 

@@ -409,14 +409,66 @@ std::map<std::string, std::string> AQLTrainParser::parseKeyValuePairs(
     const std::string& input
 ) {
     std::map<std::string, std::string> result;
-    // Match key = 'value' or key = value (no quotes)
-    static const std::regex kv_re(R"((\w+)\s*=\s*(?:'([^']*)'|(\S+)))");
-    auto begin = std::sregex_iterator(input.begin(), input.end(), kv_re);
-    auto end   = std::sregex_iterator{};
-    for (auto it = begin; it != end; ++it) {
-        const std::smatch& m = *it;
-        std::string key   = toLower(m[1].str());
-        std::string value = m[2].matched ? m[2].str() : m[3].str();
+    size_t pos = 0;
+    const size_t n = input.size();
+
+    auto skipWhitespace = [&](size_t& i) {
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) {
+            ++i;
+        }
+    };
+
+    while (pos < n) {
+        skipWhitespace(pos);
+        if (pos < n && (input[pos] == ',' || input[pos] == '{' || input[pos] == '}')) {
+            ++pos;
+            continue;
+        }
+        if (pos >= n) {
+            break;
+        }
+
+        const size_t keyStart = pos;
+        while (pos < n) {
+            const unsigned char ch = static_cast<unsigned char>(input[pos]);
+            if (std::isalnum(ch) || input[pos] == '_') {
+                ++pos;
+            } else {
+                break;
+            }
+        }
+        if (pos == keyStart) {
+            ++pos;
+            continue;
+        }
+
+        std::string key = toLower(input.substr(keyStart, pos - keyStart));
+        skipWhitespace(pos);
+        if (pos >= n || (input[pos] != '=' && input[pos] != ':')) {
+            continue;
+        }
+        ++pos;
+        skipWhitespace(pos);
+
+        std::string value;
+        if (pos < n && (input[pos] == '\'' || input[pos] == '"')) {
+            const char quote = input[pos++];
+            const size_t valueStart = pos;
+            while (pos < n && input[pos] != quote) {
+                ++pos;
+            }
+            value = input.substr(valueStart, pos - valueStart);
+            if (pos < n && input[pos] == quote) {
+                ++pos;
+            }
+        } else {
+            const size_t valueStart = pos;
+            while (pos < n && input[pos] != ',' && input[pos] != '}') {
+                ++pos;
+            }
+            value = trim(input.substr(valueStart, pos - valueStart));
+        }
+
         result[key] = value;
     }
     return result;

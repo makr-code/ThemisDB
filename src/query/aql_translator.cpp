@@ -86,6 +86,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         }
         tq.startVertex = ast->traversal->startVertex;
         tq.graphName = ast->traversal->graphName;
+        tq.shortestPath = ast->traversal->shortestPath;
+        tq.endVertex = ast->traversal->shortestPathTarget;
         return finalizeResult(TranslationResult::SuccessTraversal(std::move(tq)));
     }
     

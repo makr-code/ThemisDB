@@ -382,8 +382,8 @@ TEST_F(ProcessMiningE2ETest, LLMCaching) {
     auto [success2, response2] = llm_analyzer->analyze(request);
     ASSERT_TRUE(success2);
     EXPECT_TRUE(response2.from_cache) << "Should be cached";
-    EXPECT_LT(response2.response_time_ms, response1.response_time_ms) 
-        << "Cached response should be faster";
+    EXPECT_LE(response2.response_time_ms, response1.response_time_ms)
+        << "Cached response should be at least as fast (timer resolution may be 1ms)";
     
     // Verify cache stats
     auto stats = llm_analyzer->getCacheStats();

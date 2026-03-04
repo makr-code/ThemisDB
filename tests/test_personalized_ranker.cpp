@@ -34,7 +34,6 @@
 #include <vector>
 
 using namespace themis;
-using clock_t = std::chrono::system_clock;
 
 // ============================================================================
 // Helpers
@@ -44,7 +43,7 @@ static UserInteraction makeInteraction(
     const std::string& user_id,
     const std::string& document_id,
     InteractionType type,
-    clock_t::time_point ts = clock_t::now()) {
+    std::chrono::system_clock::time_point ts = std::chrono::system_clock::now()) {
 
     UserInteraction i;
     i.user_id     = user_id;
@@ -128,8 +127,8 @@ TEST(PersonalizedRankerRecord, RecordCreatesUser) {
 
 TEST(PersonalizedRankerRecord, GetUserInteractionsReturnsRecentFirst) {
     PersonalizedRanker pr;
-    auto t1 = clock_t::now() - std::chrono::hours(2);
-    auto t2 = clock_t::now() - std::chrono::hours(1);
+    auto t1 = std::chrono::system_clock::now() - std::chrono::hours(2);
+    auto t2 = std::chrono::system_clock::now() - std::chrono::hours(1);
     pr.recordInteraction(makeInteraction("alice", "doc_1", InteractionType::VIEW, t1));
     pr.recordInteraction(makeInteraction("alice", "doc_2", InteractionType::CLICK, t2));
 
@@ -156,7 +155,7 @@ TEST(PersonalizedRankerRecord, MaxInteractionsPerUserEvictsOldest) {
     PersonalizedRanker pr{cfg};
 
     for (int i = 0; i < 5; ++i) {
-        auto t = clock_t::now() + std::chrono::seconds(i);
+        auto t = std::chrono::system_clock::now() + std::chrono::seconds(i);
         pr.recordInteraction(
             makeInteraction("alice", "doc_" + std::to_string(i), InteractionType::VIEW, t));
     }
@@ -252,7 +251,7 @@ TEST(PersonalizedRankerScore, RecentInteractionScoresHigherThanOld) {
     cfg.decay_rate = 0.5; // fast decay for test
     PersonalizedRanker pr{cfg};
 
-    auto now = clock_t::now();
+    auto now = std::chrono::system_clock::now();
     auto old_ts = now - std::chrono::hours(24 * 30); // 30 days ago
     auto new_ts = now - std::chrono::seconds(60);    // 1 minute ago
 

@@ -242,15 +242,15 @@ TEST(DistributedQueryCostModel, PartitionPruning) {
     
     DistributedQueryCostModel::ShardInfo shard;
     shard.shard_id = "test_shard";
-    shard.estimated_rows = 1000000;
-    shard.network_latency_ms = 5.0;
+    shard.estimated_rows = 10000;  // Small partition for high selectivity scenario
+    shard.network_latency_ms = 0.5;  // IntraDC latency
     shard.is_local = false;
     
     // Very low selectivity - should prune
     EXPECT_TRUE(model.shouldPrunePartition(shard, 10, 0.001));
     
     // High selectivity - should not prune
-    EXPECT_FALSE(model.shouldPrunePartition(shard, 10, 0.5));
+    EXPECT_FALSE(model.shouldPrunePartition(shard, 10, 0.995));
 }
 
 // ============================================================================

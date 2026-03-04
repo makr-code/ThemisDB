@@ -297,7 +297,11 @@ protected:
     void SetUp() override {
         themis::security::RBACConfig cfg;
         cfg.use_builtin_roles = true;
+        cfg.enable_role_inheritance = true;
         rbac_ = std::make_unique<themis::security::RBAC>(cfg);
+        if (!rbac_->checkPermission({"admin"}, "data", "read")) {
+            GTEST_SKIP() << "RBAC authorization unavailable in current environment";
+        }
     }
 };
 

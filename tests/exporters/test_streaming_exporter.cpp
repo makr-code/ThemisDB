@@ -401,6 +401,10 @@ TEST_F(StreamingExporterTest, GzipCompression) {
 }
 
 TEST_F(StreamingExporterTest, ZstdCompression) {
+#ifndef THEMIS_HAS_ZSTD
+    GTEST_SKIP() << "ZSTD compression not available in this build";
+#endif
+
     StreamingExporter exporter;
     ExportOptions options;
     options.output_path = test_dir_ + "/compressed.jsonl.zst";

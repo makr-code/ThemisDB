@@ -60,11 +60,15 @@ namespace analytics {
 namespace {
 
 std::string genId() {
-    // thread_local avoids data races when multiple window instances call genId()
-    // concurrently (static mutable rng would be a data race).
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    thread_local std::uniform_int_distribution<uint64_t> dist;
-    uint64_t a = dist(rng), b = dist(rng);
+    static std::atomic<uint64_t> counter{1};
+    uint64_t c = counter.fetch_add(1, std::memory_order_relaxed);
+    uint64_t t = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count());
+
+    // Stable pseudo-UUID layout based on monotonic time + process-local counter.
+    uint64_t a = t;
+    uint64_t b = (c << 32) ^ (t >> 7);
     char buf[37];
     std::snprintf(buf, sizeof(buf),
         "%08x-%04x-%04x-%04x-%012llx",
@@ -72,7 +76,7 @@ std::string genId() {
         static_cast<unsigned>((a >> 16) & 0xFFFF),
         static_cast<unsigned>(a & 0xFFFF),
         static_cast<unsigned>((b >> 48) & 0xFFFF),
-        static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFUL));
+        static_cast<unsigned long long>(b & 0x0000'FFFF'FFFF'FFFFULL));
     return std::string(buf);
 }
 
@@ -266,10 +270,17 @@ TumblingWindow::TumblingWindow(const TumblingWindowConfig& config)
             records_ingested_(0),
             records_dropped_(0),
             late_records_(0),
-            results_emitted_(0) {}
+            results_emitted_(0) {
+    agg_specs_.reserve(16);
+}
 
 TumblingWindow::~TumblingWindow() {
-    flush();
+    // Destruction happens after external synchronization/lifetime handoff.
+    // Proactively clear containers/callback to avoid teardown-time instability
+    // on some platforms.
+    open_windows_.clear();
+    agg_specs_.clear();
+    callback_ = {};
 }
 
 std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig& config) {
@@ -311,21 +322,20 @@ void TumblingWindow::updateWatermark(const std::chrono::system_clock::time_point
 std::vector<WindowResult> TumblingWindow::closeExpiredWindows(int64_t watermark_us) {
     // Called with mutex_ held. Returns results to emit; callers fire callbacks
     // outside the lock to prevent re-entrant deadlock.
-    std::vector<int64_t> to_close;
-    for (const auto& [idx, win] : open_windows_) {
-        if (toMicros(win.end) <= watermark_us) {
-            to_close.push_back(idx);
-        }
-    }
     std::vector<WindowResult> pending;
-    for (int64_t idx : to_close) {
-        auto& win = open_windows_[idx];
-        if (config_.emit_empty_windows || !win.records.empty()) {
-            pending.push_back(computeResult(win, false));
-            ++results_emitted_;
+    for (auto it = open_windows_.begin(); it != open_windows_.end();) {
+        if (toMicros(it->second.end) <= watermark_us) {
+            InternalWindow closed = std::move(it->second);
+            it = open_windows_.erase(it);
+
+            if (config_.emit_empty_windows || !closed.records.empty()) {
+                pending.push_back(computeResult(closed, false));
+                ++results_emitted_;
+            }
+            ++windows_closed_;
+        } else {
+            ++it;
         }
-        ++windows_closed_;
-        open_windows_.erase(idx);
     }
     return pending;
 }
@@ -428,10 +438,14 @@ SlidingWindow::SlidingWindow(const SlidingWindowConfig& config)
             records_ingested_(0),
             records_dropped_(0),
             late_records_(0),
-            results_emitted_(0) {}
+            results_emitted_(0) {
+    agg_specs_.reserve(16);
+}
 
 SlidingWindow::~SlidingWindow() {
     flush();
+    agg_specs_.clear();
+    callback_ = {};
 }
 
 std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig& config) {
@@ -615,6 +629,7 @@ SessionWindow::SessionWindow(const SessionWindowConfig& config)
             records_dropped_(0),
             late_records_(0),
             results_emitted_(0) {
+    agg_specs_.reserve(16);
     running_ = true;
     expiry_thread_ = std::thread([this] { expiryLoop(); });
 }
@@ -624,6 +639,8 @@ SessionWindow::~SessionWindow() {
     expiry_cv_.notify_all();
     if (expiry_thread_.joinable()) expiry_thread_.join();
     flush();
+    agg_specs_.clear();
+    callback_ = {};
 }
 
 std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& config) {
@@ -824,10 +841,14 @@ HoppingWindow::HoppingWindow(const HoppingWindowConfig& config)
             records_ingested_(0),
             records_dropped_(0),
             late_records_(0),
-            results_emitted_(0) {}
+            results_emitted_(0) {
+    agg_specs_.reserve(16);
+}
 
 HoppingWindow::~HoppingWindow() {
     flush();
+    agg_specs_.clear();
+    callback_ = {};
 }
 
 std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config) {
@@ -988,6 +1009,7 @@ StreamingWindowPipeline StreamingWindowPipeline::tumbling(
     std::chrono::milliseconds size, WatermarkConfig wm)
 {
     StreamingWindowPipeline p;
+    p.agg_specs_.reserve(16);
     p.config_.type = Type::TUMBLING;
     p.config_.size = size;
     p.config_.watermark = wm;
@@ -1000,6 +1022,7 @@ StreamingWindowPipeline StreamingWindowPipeline::sliding(
     WatermarkConfig wm)
 {
     StreamingWindowPipeline p;
+    p.agg_specs_.reserve(16);
     p.config_.type  = Type::SLIDING;
     p.config_.size  = size;
     p.config_.slide = slide;
@@ -1011,6 +1034,7 @@ StreamingWindowPipeline StreamingWindowPipeline::session(
     std::chrono::milliseconds gap, WatermarkConfig wm)
 {
     StreamingWindowPipeline p;
+    p.agg_specs_.reserve(16);
     p.config_.type = Type::SESSION;
     p.config_.gap  = gap;
     p.config_.watermark = wm;
@@ -1023,6 +1047,7 @@ StreamingWindowPipeline StreamingWindowPipeline::hopping(
     WatermarkConfig wm)
 {
     StreamingWindowPipeline p;
+    p.agg_specs_.reserve(16);
     p.config_.type = Type::HOPPING;
     p.config_.size = size;
     p.config_.hop  = hop;
@@ -1031,7 +1056,7 @@ StreamingWindowPipeline StreamingWindowPipeline::hopping(
 }
 
 StreamingWindowPipeline& StreamingWindowPipeline::aggregate(const AggregateSpec& spec) {
-    agg_specs_.push_back(spec);
+    agg_specs_.emplace_back(spec.name, spec.func, spec.field, spec.percentile_p);
     return *this;
 }
 
@@ -1043,7 +1068,10 @@ StreamingWindowPipeline& StreamingWindowPipeline::onResult(
 }
 
 std::shared_ptr<StreamingWindowPipeline> StreamingWindowPipeline::build() {
-    auto pipeline = std::make_shared<StreamingWindowPipeline>(*this);
+    auto pipeline = std::make_shared<StreamingWindowPipeline>();
+    pipeline->config_ = config_;
+    pipeline->agg_specs_ = agg_specs_;
+    pipeline->callback_ = callback_;
 
     switch (config_.type) {
         case Type::TUMBLING: {

@@ -250,13 +250,14 @@ TEST_F(ExtendedContextTest, MemoryEstimation7B_4K) {
         (model_size_mb + kv_cache_mb) * safety_margin
     );
     
-    // Expected: ~3.5GB model + ~1GB cache = ~5.4GB total
+    // Expected with explicit K+V cache (2x):
+    // ~3.5GB model + ~2GB cache = ~6.4GB total (with safety margin)
     EXPECT_GT(model_size_mb, 3000);  // > 3GB
     EXPECT_LT(model_size_mb, 4000);  // < 4GB
-    EXPECT_GT(kv_cache_mb, 900);     // > 900MB
-    EXPECT_LT(kv_cache_mb, 1100);    // < 1.1GB
-    EXPECT_GT(total_mb, 5000);       // > 5GB
-    EXPECT_LT(total_mb, 6000);       // < 6GB
+    EXPECT_GT(kv_cache_mb, 1900);    // > 1.9GB
+    EXPECT_LT(kv_cache_mb, 2100);    // < 2.1GB
+    EXPECT_GT(total_mb, 6200);       // > 6.2GB
+    EXPECT_LT(total_mb, 6800);       // < 6.8GB
 }
 
 TEST_F(ExtendedContextTest, MemoryEstimation7B_32K) {
@@ -281,11 +282,12 @@ TEST_F(ExtendedContextTest, MemoryEstimation7B_32K) {
         (model_size_mb + kv_cache_mb) * safety_margin
     );
     
-    // Expected: ~3.5GB model + ~8GB cache = ~13.8GB total
-    EXPECT_GT(kv_cache_mb, 7500);    // > 7.5GB
-    EXPECT_LT(kv_cache_mb, 8500);    // < 8.5GB
-    EXPECT_GT(total_mb, 13000);      // > 13GB
-    EXPECT_LT(total_mb, 15000);      // < 15GB
+    // Expected with explicit K+V cache (2x):
+    // ~3.5GB model + ~16GB cache = ~23.6GB total (with safety margin)
+    EXPECT_GT(kv_cache_mb, 15500);   // > 15.5GB
+    EXPECT_LT(kv_cache_mb, 17000);   // < 17.0GB
+    EXPECT_GT(total_mb, 22500);      // > 22.5GB
+    EXPECT_LT(total_mb, 24500);      // < 24.5GB
 }
 
 TEST_F(ExtendedContextTest, MemoryEstimationAccuracy) {

@@ -545,12 +545,15 @@ private:
                             props_builder.compression(parquet::Compression::SNAPPY);
                         } else if (options.compression_codec == "gzip") {
                             props_builder.compression(parquet::Compression::GZIP);
+                            props_builder.compression_level(options.compression_level);
                         } else if (options.compression_codec == "zstd") {
                             props_builder.compression(parquet::Compression::ZSTD);
+                            props_builder.compression_level(options.compression_level);
                         } else if (options.compression_codec == "lz4") {
                             props_builder.compression(parquet::Compression::LZ4);
+                        } else {
+                            props_builder.compression(parquet::Compression::SNAPPY);
                         }
-                        props_builder.compression_level(options.compression_level);
                     }
                     auto props = props_builder.build();
                     

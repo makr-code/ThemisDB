@@ -50,6 +50,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <optional>
 
 namespace themis {
 namespace index {
@@ -183,9 +184,14 @@ private:
     // Maps primary_key → (shard_index, internal_id) for routing
     mutable std::mutex mutex_;
     std::unordered_map<std::string, std::pair<size_t, int64_t>> pk_to_shard_;
+    std::unordered_map<std::string, int64_t> pk_to_global_id_;
+
+    // Per-shard mapping: local ANN ID -> stable global ID returned by search().
+    std::vector<std::unordered_map<int64_t, int64_t>> local_to_global_id_;
 
     // Per-shard next-ID counters (monotonically increasing; IDs are never reused)
     std::vector<int64_t> next_id_;
+    int64_t next_global_id_ = 0;
 
     // Per-shard sets of currently-alive vector IDs.
     // Maintained in sync with pk_to_shard_: an ID is alive iff it maps to a
@@ -199,6 +205,7 @@ private:
     void buildRing_();
     uint64_t hashKey_(const std::string& key) const noexcept;
     size_t shardFor_(const std::string& key) const noexcept;
+    static std::optional<int64_t> parseGlobalIdFromKey_(const std::string& key);
 };
 
 } // namespace index

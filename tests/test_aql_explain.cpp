@@ -315,8 +315,8 @@ TEST_F(ExplainAqlTest, GraphTraversal_AttributesIncludeStartDepthDirectionAlgori
 TEST_F(ExplainAqlTest, GraphTraversal_ShortestPath_UsesBFS) {
     // SHORTEST_PATH with depth ≤ 5 → BFS
     const char* aql =
-        "FOR v IN OUTBOUND SHORTEST_PATH 'persons/alice' TO 'persons/bob' "
-        "GRAPH 'social' RETURN v";
+        "FOR v IN 1..3 OUTBOUND 'persons/alice' GRAPH 'social' "
+        "SHORTEST_PATH TO 'persons/bob' RETURN v";
     auto result = explainAql(aql, *engine_);
     ASSERT_TRUE(result.has_value()) << result.error().message();
     const auto& plan = (*result)["plan"];
@@ -361,8 +361,8 @@ TEST_F(ExplainAqlTest, GraphTraversal_AnalyzeMode_IncludesActualTimeSentinel) {
 TEST_F(ExplainAqlTest, GraphTraversal_ShortestPath_AlgorithmIsBFS) {
     // SHORTEST_PATH without explicit depth uses BFS (maxDepth defaults to 1, ≤ 5)
     const char* aql =
-        "FOR v IN OUTBOUND SHORTEST_PATH 'persons/alice' TO 'persons/bob' "
-        "GRAPH 'social' RETURN v";
+        "FOR v IN 1..3 OUTBOUND 'persons/alice' GRAPH 'social' "
+        "SHORTEST_PATH TO 'persons/bob' RETURN v";
     auto result = explainAql(aql, *engine_);
     ASSERT_TRUE(result.has_value()) << result.error().message();
     ASSERT_EQ((*result)["plan"]["type"].get<std::string>(), "GraphTraversal");

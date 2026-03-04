@@ -1599,6 +1599,9 @@ TEST_F(PostUpdateHealthCheckFunctionalTest, HealthCheckCanBeCleared) {
 
     EXPECT_TRUE(result.success);
     EXPECT_FALSE(result.health_check_failed);
+}
+
+// ============================================================================
 // Phase 11: UpdateHistoryLogger – who, when, from/to version
 // ============================================================================
 

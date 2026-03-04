@@ -1,0 +1,283 @@
+Registered backend: CPU (Type: 0)
+Registered backend: CPU (Type: 0)
+Registered backend: CPU (Type: 0)
+Registered backend: CPU (Type: 0)
+Registered backend: GeoAccelerationBridge (Type: 0)
+[2026-03-03 12:50:00.955] [info] Export successful: 3 rows, 440 bytes
+[2026-03-03 12:50:00.961] [info] Export successful: 1000 rows, 9158 bytes
+[2026-03-03 12:50:00.964] [info] Export successful: 4 rows, 747 bytes
+[2026-03-03 12:50:00.966] [info] Export successful: 4 rows, 124 bytes
+[2026-03-03 12:50:00.969] [info] Arrow export successful: 3 rows, 592 bytes
+[2026-03-03 12:50:00.973] [info] Arrow export successful: 100 rows, 1878 bytes
+[2026-03-03 12:50:00.976] [info] Arrow export successful: 3 rows, 1050 bytes
+[2026-03-03 12:50:00.977] [error] Failed to open output file: /nonexistent_directory_12345/subdir/file.json
+[2026-03-03 12:50:00.980] [info] Arrow export successful: 4 rows, 648 bytes
+[2026-03-03 12:50:01.015] [info] Export successful: 10000 rows, 221500 bytes
+[2026-03-03 12:50:01.023] [info] Arrow export successful: 10000 rows, 69097 bytes
+[2026-03-03 12:50:01.030] [info] [ArrowFlight] server started at '127.0.0.1:18816'
+[2026-03-03 12:50:01.039] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18816'
+[2026-03-03 12:50:01.040] [info] [ArrowFlight] server stopped at '127.0.0.1:18816'
+[2026-03-03 12:50:01.040] [info] [ArrowFlight] server started at '127.0.0.1:18817'
+[2026-03-03 12:50:01.043] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18817'
+[2026-03-03 12:50:01.043] [info] [ArrowFlight] server stopped at '127.0.0.1:18817'
+[2026-03-03 12:50:01.043] [info] [ArrowFlight] server started at '127.0.0.1:18818'
+[2026-03-03 12:50:01.046] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18818'
+[2026-03-03 12:50:01.047] [info] [ArrowFlight] server stopped at '127.0.0.1:18818'
+[2026-03-03 12:50:01.047] [info] [ArrowFlight] server started at '127.0.0.1:18820'
+[2026-03-03 12:50:01.050] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18820'
+[2026-03-03 12:50:01.050] [info] [ArrowFlight] server stopped at '127.0.0.1:18820'
+[2026-03-03 12:50:01.051] [info] [ArrowFlight] server started at '127.0.0.1:18820'
+[2026-03-03 12:50:01.053] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18820'
+[2026-03-03 12:50:01.054] [info] [ArrowFlight] server stopped at '127.0.0.1:18820'
+[2026-03-03 12:50:01.054] [info] [ArrowFlight] server started at '127.0.0.1:18821'
+[2026-03-03 12:50:01.057] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18821'
+[2026-03-03 12:50:01.057] [info] [ArrowFlight] server stopped at '127.0.0.1:18821'
+[2026-03-03 12:50:01.057] [info] [ArrowFlight] server started at '127.0.0.1:18821'
+[2026-03-03 12:50:01.061] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18821'
+[2026-03-03 12:50:01.062] [info] [ArrowFlight] server stopped at '127.0.0.1:18821'
+[2026-03-03 12:50:01.062] [info] [ArrowFlight] server started at '127.0.0.1:18830'
+[2026-03-03 12:50:01.066] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18830'
+[2026-03-03 12:50:01.066] [info] [ArrowFlight] server stopped at '127.0.0.1:18830'
+[2026-03-03 12:50:01.066] [info] [ArrowFlight] server started at '127.0.0.1:18831'
+[2026-03-03 12:50:01.069] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18831'
+[2026-03-03 12:50:01.070] [info] [ArrowFlight] server stopped at '127.0.0.1:18831'
+[2026-03-03 12:50:01.070] [info] [ArrowFlight] server started at '127.0.0.1:18832'
+[2026-03-03 12:50:01.073] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18832'
+[2026-03-03 12:50:01.073] [info] [ArrowFlight] server stopped at '127.0.0.1:18832'
+[2026-03-03 12:50:01.073] [info] [ArrowFlight] server started at '127.0.0.1:18833'
+[2026-03-03 12:50:01.077] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18833'
+[2026-03-03 12:50:01.077] [info] [ArrowFlight] server stopped at '127.0.0.1:18833'
+[2026-03-03 12:50:01.078] [info] [ArrowFlight] server started at '127.0.0.1:18834'
+[2026-03-03 12:50:01.080] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18834'
+[2026-03-03 12:50:01.081] [info] [ArrowFlight] server stopped at '127.0.0.1:18834'
+[2026-03-03 12:50:01.081] [info] [ArrowFlight] server started at '127.0.0.1:18835'
+[2026-03-03 12:50:01.084] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18835'
+[2026-03-03 12:50:01.084] [info] [ArrowFlight] server stopped at '127.0.0.1:18835'
+[2026-03-03 12:50:03.125] [info] [ArrowFlight] server started at '127.0.0.1:18890'
+[2026-03-03 12:50:03.136] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18890'
+[2026-03-03 12:50:03.136] [info] [ArrowFlight] server started at '127.0.0.1:18891'
+[2026-03-03 12:50:03.147] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18891'
+[2026-03-03 12:50:03.149] [info] [ArrowFlight] server stopped at '127.0.0.1:18890'
+[2026-03-03 12:50:03.152] [info] [ArrowFlight] server stopped at '127.0.0.1:18891'
+[2026-03-03 12:50:03.152] [info] [ArrowFlight] server started at '127.0.0.1:18892'
+[2026-03-03 12:50:03.156] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18892'
+[2026-03-03 12:50:03.156] [info] [ArrowFlight] server started at '127.0.0.1:18893'
+[2026-03-03 12:50:03.158] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18893'
+[2026-03-03 12:50:03.159] [info] [ArrowFlight] server stopped at '127.0.0.1:18892'
+[2026-03-03 12:50:03.185] [info] [ArrowFlight] server stopped at '127.0.0.1:18893'
+[2026-03-03 12:50:03.185] [info] [ArrowFlight] server started at '127.0.0.1:18840'
+[2026-03-03 12:50:03.198] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18840'
+[2026-03-03 12:50:03.202] [info] [ArrowFlight] server stopped at '127.0.0.1:18840'
+[2026-03-03 12:50:05.238] [info] [ArrowFlight] server started at '127.0.0.1:18842'
+[2026-03-03 12:50:05.240] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18842'
+[2026-03-03 12:50:05.241] [info] [ArrowFlight] server stopped at '127.0.0.1:18842'
+[2026-03-03 12:50:05.241] [info] [ArrowFlight] server started at '127.0.0.1:18843'
+[2026-03-03 12:50:05.243] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18843'
+[2026-03-03 12:50:05.244] [info] [ArrowFlight] server stopped at '127.0.0.1:18843'
+[2026-03-03 12:50:05.244] [info] [ArrowFlight] server started at '127.0.0.1:18850'
+[2026-03-03 12:50:05.246] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18850'
+[2026-03-03 12:50:05.246] [info] [ArrowFlight] server stopped at '127.0.0.1:18850'
+[2026-03-03 12:50:05.246] [info] [ArrowFlight] server started at '127.0.0.1:18851'
+[2026-03-03 12:50:05.248] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18851'
+[2026-03-03 12:50:05.249] [info] [ArrowFlight] server stopped at '127.0.0.1:18851'
+[2026-03-03 12:50:05.249] [info] [ArrowFlight] server started at '127.0.0.1:18860'
+[2026-03-03 12:50:05.250] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18860'
+[2026-03-03 12:50:05.251] [info] [ArrowFlight] server stopped at '127.0.0.1:18860'
+[2026-03-03 12:50:05.251] [info] [ArrowFlight] server started at '127.0.0.1:18861'
+[2026-03-03 12:50:05.253] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18861'
+[2026-03-03 12:50:05.254] [info] [ArrowFlight] server stopped at '127.0.0.1:18861'
+[2026-03-03 12:50:05.254] [info] [ArrowFlight] server started at '127.0.0.1:18862'
+[2026-03-03 12:50:05.258] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18862'
+[2026-03-03 12:50:05.259] [info] [ArrowFlight] server stopped at '127.0.0.1:18862'
+[2026-03-03 12:50:05.259] [info] [ArrowFlight] server started at '127.0.0.1:18863'
+[2026-03-03 12:50:05.261] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18863'
+[2026-03-03 12:50:05.262] [info] [ArrowFlight] server stopped at '127.0.0.1:18863'
+[2026-03-03 12:50:05.262] [info] [ArrowFlight] server started at '127.0.0.1:18864'
+[2026-03-03 12:50:05.265] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18864'
+[2026-03-03 12:50:05.265] [info] [ArrowFlight] server stopped at '127.0.0.1:18864'
+[2026-03-03 12:50:05.265] [info] [ArrowFlight] server started at '127.0.0.1:18870'
+[2026-03-03 12:50:05.268] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18870'
+[2026-03-03 12:50:05.268] [info] [ArrowFlight] server stopped at '127.0.0.1:18870'
+[2026-03-03 12:50:05.268] [info] [ArrowFlight] server started at '127.0.0.1:18871'
+[2026-03-03 12:50:05.271] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18871'
+[2026-03-03 12:50:05.271] [info] [ArrowFlight] server stopped at '127.0.0.1:18871'
+[2026-03-03 12:50:05.271] [info] [ArrowFlight] server started at '127.0.0.1:18872'
+[2026-03-03 12:50:05.274] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18872'
+[2026-03-03 12:50:05.274] [info] [ArrowFlight] server stopped at '127.0.0.1:18872'
+[2026-03-03 12:50:05.274] [info] [ArrowFlight] server started at '127.0.0.1:18880'
+[2026-03-03 12:50:05.277] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18880'
+[2026-03-03 12:50:05.278] [info] [ArrowFlight] server stopped at '127.0.0.1:18880'
+[2026-03-03 12:50:05.278] [info] [ArrowFlight] server started at '127.0.0.1:18881'
+[2026-03-03 12:50:05.280] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18881'
+[2026-03-03 12:50:05.281] [info] [ArrowFlight] server stopped at '127.0.0.1:18881'
+[2026-03-03 12:50:05.281] [info] [ArrowFlight] server started at '127.0.0.1:18900'
+[2026-03-03 12:50:05.283] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18900'
+[2026-03-03 12:50:05.284] [info] [ArrowFlight] server stopped at '127.0.0.1:18900'
+[2026-03-03 12:50:05.284] [info] [ArrowFlight] server started at '127.0.0.1:18901'
+[2026-03-03 12:50:05.286] [info] [ArrowFlight] native gRPC transport started at '127.0.0.1:18901'
+[2026-03-03 12:50:05.287] [info] [ArrowFlight] server stopped at '127.0.0.1:18901'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'r1'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'rm1'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'a'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'b'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'c'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'enabled-rule'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'disabled-rule'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'toggle-rule'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'filtered-rule'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'seq-rule'
+[2026-03-03 12:50:05.745] [info] CEP RuleEngine: added rule 'win-rule'
+[2026-03-03 12:50:05.749] [info] CEP RuleEngine: added rule 'stats-rule'
+[2026-03-03 12:50:05.749] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.749] [info] CEPEngine shut down
+[2026-03-03 12:50:05.749] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.750] [info] CEPEngine shut down
+[2026-03-03 12:50:05.750] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.751] [info] CEPEngine shut down
+[2026-03-03 12:50:05.751] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.751] [info] CEPEngine shut down
+[2026-03-03 12:50:05.751] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.751] [info] CEPEngine shut down
+[2026-03-03 12:50:05.752] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.752] [info] CEP RuleEngine: added rule 'engine-rule-1'
+[2026-03-03 12:50:05.752] [info] CEPEngine shut down
+[2026-03-03 12:50:05.752] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.752] [info] CEP RuleEngine: added rule 'to-remove'
+[2026-03-03 12:50:05.752] [info] CEPEngine shut down
+[2026-03-03 12:50:05.753] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.753] [info] CEP RuleEngine: added rule 'e69afd1b-9ec4-10ad-6fd2-25a58869cf50'
+[2026-03-03 12:50:05.753] [info] CEPEngine shut down
+[2026-03-03 12:50:05.753] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.753] [info] CEP RuleEngine: added rule 'alert-gen'
+[2026-03-03 12:50:05.857] [info] CEPEngine shut down
+[2026-03-03 12:50:05.857] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.857] [info] CEP RuleEngine: added rule 'ack-rule'
+[2026-03-03 12:50:05.965] [info] CEPEngine shut down
+[2026-03-03 12:50:05.965] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:05.965] [info] CEP RuleEngine: added rule 'cb-rule'
+[2026-03-03 12:50:06.072] [info] CEPEngine shut down
+[2026-03-03 12:50:06.072] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:06.072] [info] CEPEngine shut down
+[2026-03-03 12:50:06.072] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:06.073] [info] CEPEngine shut down
+[2026-03-03 12:50:06.073] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:06.074] [info] CEPEngine shut down
+[2026-03-03 12:50:06.074] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:06.074] [info] CEPEngine shut down
+[2026-03-03 12:50:06.074] [info] CEPEngine initialized: workers=1 checkpointing=true
+[2026-03-03 12:50:06.075] [info] CEPEngine: checkpoint 'cp_1772538606075' created
+[2026-03-03 12:50:06.077] [info] CEPEngine: restoring from checkpoint 'cp_1772538606075'
+[2026-03-03 12:50:06.077] [info] CEPEngine: checkpoint 'cp_1772538606075' restored
+[2026-03-03 12:50:06.077] [info] CEPEngine shut down
+[2026-03-03 12:50:06.078] [info] CEPEngine initialized: workers=2 checkpointing=false
+[2026-03-03 12:50:06.078] [info] CEP RuleEngine: added rule 'seq-engine-rule'
+[2026-03-03 12:50:06.240] [info] CEPEngine shut down
+[2026-03-03 12:50:06.240] [info] CEPEngine initialized: workers=0 checkpointing=false
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 4/4)
+[2026-03-03 12:50:06.240] [info] CEPEngine shut down
+[2026-03-03 12:50:06.240] [info] CEPEngine initialized: workers=0 checkpointing=false
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 2/2)
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 2/2)
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 2/2)
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 2/2)
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 2/2)
+[2026-03-03 12:50:06.240] [warning] CEPEngine: event dropped (queue full 2/2)
+[2026-03-03 12:50:06.240] [info] CEPEngine shut down
+[2026-03-03 12:50:06.240] [info] CEPEngine initialized: workers=0 checkpointing=false
+[2026-03-03 12:50:06.240] [info] CEPEngine shut down
+[2026-03-03 12:50:06.240] [info] CEPEngine initialized: workers=0 checkpointing=false
+[2026-03-03 12:50:06.240] [info] CEPEngine shut down
+[2026-03-03 12:50:06.240] [info] CEPEngine initialized: workers=1 checkpointing=true
+[2026-03-03 12:50:06.240] [info] CEP RuleEngine: added rule 'stateful-seq'
+[2026-03-03 12:50:06.348] [info] CEPEngine: checkpoint 'cp_1772538606348' created
+[2026-03-03 12:50:06.350] [info] CEPEngine shut down
+[2026-03-03 12:50:06.350] [info] CEPEngine initialized: workers=1 checkpointing=true
+[2026-03-03 12:50:06.350] [info] CEP RuleEngine: added rule 'stateful-seq'
+[2026-03-03 12:50:06.350] [info] CEPEngine: restoring from checkpoint 'cp_1772538606348'
+[2026-03-03 12:50:06.350] [info] CEPEngine: checkpoint 'cp_1772538606348' restored
+[2026-03-03 12:50:06.502] [info] CEPEngine shut down
+[2026-03-03 12:50:06.503] [info] CEPEngine initialized: workers=1 checkpointing=true
+[2026-03-03 12:50:06.503] [info] CEPEngine: checkpoint 'cp_1772538606503' created
+[2026-03-03 12:50:06.505] [info] CEPEngine: restoring from checkpoint 'cp_1772538606503'
+[2026-03-03 12:50:06.505] [info] CEPEngine: checkpoint 'cp_1772538606503' restored
+[2026-03-03 12:50:06.506] [info] CEPEngine shut down
+[2026-03-03 12:50:06.508] [warning] DistributedAnalyticsSharding: no healthy shards registered
+[2026-03-03 12:50:06.508] [error] DistributedAnalyticsSharding: shard broken failed: shard unavailable
+[2026-03-03 12:50:06.509] [error] DistributedAnalyticsSharding: shard broken failed: shard unavailable
+[2026-03-03 12:50:06.509] [error] DistributedAnalyticsSharding: shard broken failed and allow_partial_results=false; aborting merge
+[2026-03-03 12:50:06.509] [warning] OLAPEngine: Using Windows stub implementation - full OLAP functionality not available
+[2026-03-03 12:50:06.509] [error] OLAPEngine::execute() not supported on Windows platform
+[2026-03-03 12:50:08.517] [info] IncrementalViewManager: created view 'v1'
+[2026-03-03 12:50:08.517] [info] IncrementalViewManager: created view 'v2'
+[2026-03-03 12:50:08.518] [warning] IncrementalViewManager: view 'v1' already exists
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'sv'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'drop_me'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: dropped view 'drop_me'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'eu_view'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'us_view'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'v1'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'v2'
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'tc_view'
+[2026-03-03 12:50:08.518] [warning] IncrementalViewManager: view 'nonexistent' not found
+[2026-03-03 12:50:08.518] [info] IncrementalViewManager: created view 'batch_view'
+Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+C:\VCC\themis\tests\analytics\test_ml_serving.cpp(189): Skipped
+ONNX Runtime is available; skipping unavailable path test
+
+[2026-03-03 12:50:08.583] [warning] MLServing[TF]: backend disabled ÔÇô rebuild with THEMIS_HAS_TF_SERVING=1
+[2026-03-03 12:50:08.583] [warning] MLServing[TF]: backend disabled ÔÇô rebuild with THEMIS_HAS_TF_SERVING=1
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'TF Serving (unavailable ÔÇô rebuild with THEMIS_HAS_TF_SERVING=1)'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'TF Serving (unavailable ÔÇô rebuild with THEMIS_HAS_TF_SERVING=1)'
+[2026-03-03 12:50:08.583] [warning] MLServing[TF]: backend disabled ÔÇô rebuild with THEMIS_HAS_TF_SERVING=1
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.583] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.587] [error] MLServing[ONNX]: failed to load 'nonexistent_model': Load model from ./models/nonexistent_model.onnx failed:Load model ./models/nonexistent_model.onnx failed. File doesn't exist
+[2026-03-03 12:50:08.587] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.587] [info] MLServingClient: active backend = 'ONNX Runtime 1.23.2'
+[2026-03-03 12:50:08.590] [error] MLServing[ONNX]: failed to load 'm': Load model from ./models/m.onnx failed:Load model ./models/m.onnx failed. File doesn't exist
+[2026-03-03 12:50:08.593] [error] MLServing[ONNX]: failed to load 'test': Load model from ./models/test.onnx failed:Load model ./models/test.onnx failed. File doesn't exist
+[2026-03-03 12:50:08.593] [warning] MLServing[TF]: backend disabled ÔÇô rebuild with THEMIS_HAS_TF_SERVING=1
+[2026-03-03 12:50:09.534] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:09.587] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:09.641] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:09.696] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:09.751] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:09.806] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:09.860] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:11.474] [info] ProcessPatternMatcher: loaded 4 administrative models
+[2026-03-03 12:50:11.952] [warning] StreamingWindowPipeline::ingest() called before build()
+[2026-03-03 12:50:11.952] [warning] StreamingWindowPipeline::flush() called before build()
+C:\VCC\themis\tests\db\test_concurrent_operations.cpp(61): Skipped
+Concurrent operation tests are temporarily disabled on MSVC while porting.
+
+C:\VCC\themis\tests\db\test_data_consistency.cpp(60): Skipped
+Data consistency tests are temporarily disabled on MSVC while porting.
+
+Inserted 1500 items in 1244.95ms
+Index creation throughput: 1325.94 items/sec
+Range query returned 1000 results in 0.1813ms
+Range [0, 10]: 11 results in 0.0231ms
+Range [0, 100]: 101 results in 0.0352ms
+Range [0, 1000]: 1000 results in 0.141ms
+Range [0, 5000]: 1000 results in 0.1356ms
+Index lookup throughput: 213732 ops/sec
+Inserted 5000 items...
+Inserted 10000 items...
+Inserted 15000 items...
+Inserted 20000 items in 14827.6ms
+Query on dataset: 1000 results in 0.167ms
+Memory usage: 4.92969MB
+Concurrent test: 240 inserts, 120 queries
+Indexed query: 600 results in 0.1372ms
+C:\VCC\themis\tests\db\test_transaction_isolation.cpp(57): Skipped
+Transaction isolation tests are temporarily disabled on MSVC while porting.
+
+C:\VCC\themis\tests\exporters\test_data_augmentation.cpp(381): error: Expected: (questions.size()) > (1u), actual: 1 vs 1
+All question reformulations are identical
+

@@ -1341,6 +1341,7 @@ TEST(CEPStatefulCheckpointTest, CheckpointWithNoPartialMatchesIsClean) {
     std::ifstream f(cp_path + "/" + cps[0] + ".txt");
     std::string content((std::istreambuf_iterator<char>(f)),
                          std::istreambuf_iterator<char>());
+    f.close();
     EXPECT_EQ(content.find("pm_rule="), std::string::npos);
 
     EXPECT_TRUE(engine.restoreFromCheckpoint(cps[0]));

@@ -55,6 +55,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 #include <vector>
 
@@ -141,9 +142,23 @@ struct StreamRecord {
  */
 struct AggregateSpec {
     std::string name;           ///< output name in WindowResult
-    AggFunc     func;
+    AggFunc     func = AggFunc::COUNT;
     std::string field;          ///< input field name (empty → operate on presence)
     double      percentile_p = 50.0; ///< only used for PERCENTILE
+
+    AggregateSpec() = default;
+    AggregateSpec(std::string name_, AggFunc func_, std::string field_,
+                  double percentile_p_ = 50.0)
+        : name(std::move(name_)),
+          func(func_),
+          field(std::move(field_)),
+          percentile_p(percentile_p_) {}
+
+        AggregateSpec(const AggregateSpec&) = default;
+        AggregateSpec& operator=(const AggregateSpec&) = default;
+        AggregateSpec(AggregateSpec&&) noexcept = default;
+        AggregateSpec& operator=(AggregateSpec&&) noexcept = default;
+        ~AggregateSpec() = default;
 };
 
 /**

@@ -297,7 +297,8 @@ TEST_F(AIDecisionAuditorTest, ExportForCompliance) {
     auditor_->logDecision(audit);
     
     std::string export_path = "data/test_compliance_export.json";
-    std::filesystem::remove(export_path);
+    std::error_code cleanup_ec;
+    std::filesystem::remove(export_path, cleanup_ec);
     
     // Export
     AIDecisionAuditor::QueryFilter filter;
@@ -309,12 +310,13 @@ TEST_F(AIDecisionAuditorTest, ExportForCompliance) {
     // Verify export contains valid JSON
     std::ifstream ifs(export_path);
     json export_data = json::parse(ifs);
+    ifs.close();
     
     EXPECT_TRUE(export_data.contains("total_decisions"));
     EXPECT_TRUE(export_data.contains("decisions"));
     EXPECT_GT(export_data["total_decisions"].get<int>(), 0);
     
-    std::filesystem::remove(export_path);
+    std::filesystem::remove(export_path, cleanup_ec);
 }
 
 TEST_F(AIDecisionAuditorTest, VerifyIntegrity) {

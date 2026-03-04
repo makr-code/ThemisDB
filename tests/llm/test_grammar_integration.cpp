@@ -78,7 +78,9 @@ TEST(GrammarIntegrationTest, NullModel_ErrorMentionsNull) {
     Grammar g("root ::= \"hello\"", "root", nullptr);
     const std::string& err = g.getError();
     EXPECT_FALSE(err.empty());
-    EXPECT_NE(err.find("null"), std::string::npos);
+    EXPECT_TRUE(err.find("null") != std::string::npos ||
+                err.find("unavailable") != std::string::npos)
+        << "Expected null-model or unavailable-API error, got: " << err;
 }
 
 TEST(GrammarIntegrationTest, NullModel_HandleIsNull) {

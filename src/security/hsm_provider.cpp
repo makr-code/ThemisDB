@@ -153,15 +153,6 @@ bool HSMProvider::initialize() {
                       "(THEMIS_PRODUCTION_MODE / THEMIS_ENVIRONMENT).";
         THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
         return false;
-    // Fail-fast: If production mode is explicitly enabled, stub is not allowed
-    if (force_production) {
-        std::string fp(force_production);
-        if (fp == "1" || fp == "true" || fp == "production") {
-            last_error_ = "HSM stub provider cannot be used in production mode. "
-                          "Build with -DTHEMIS_ENABLE_HSM_REAL=ON or disable THEMIS_PRODUCTION_MODE.";
-            THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
-            return false;
-        }
     }
     
     // Soft fail: Without explicit opt-in, refuse to initialize if other

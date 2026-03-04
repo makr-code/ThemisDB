@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <limits>
 #include <stdexcept>
+#include <cctype>
 
 namespace themis {
 namespace index {
@@ -70,6 +71,7 @@ uint64_t hashString(const std::string& s) noexcept {
 DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfig& cfg)
     : config_(cfg)
     , next_id_(cfg.num_shards, 0)
+    , local_to_global_id_(cfg.num_shards)
     , alive_ids_(cfg.num_shards)
 {
     if (cfg.num_shards == 0) {
@@ -87,6 +89,7 @@ DistributedVectorIndex::DistributedVectorIndex(const DistributedVectorIndexConfi
     : config_(cfg)
     , shards_(std::move(shards))
     , next_id_(cfg.num_shards, 0)
+    , local_to_global_id_(cfg.num_shards)
     , alive_ids_(cfg.num_shards)
 {
     if (config_.num_shards == 0) {
@@ -172,6 +175,23 @@ size_t DistributedVectorIndex::shardFor(const std::string& key) const {
     return shardFor_(key);
 }
 
+std::optional<int64_t> DistributedVectorIndex::parseGlobalIdFromKey_(const std::string& key) {
+    const auto pos = key.find_last_of('_');
+    if (pos == std::string::npos || pos + 1 >= key.size()) {
+        return std::nullopt;
+    }
+    for (size_t i = pos + 1; i < key.size(); ++i) {
+        if (!std::isdigit(static_cast<unsigned char>(key[i]))) {
+            return std::nullopt;
+        }
+    }
+    try {
+        return std::stoll(key.substr(pos + 1));
+    } catch (...) {
+        return std::nullopt;
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Mutation
 // ---------------------------------------------------------------------------
@@ -186,12 +206,26 @@ bool DistributedVectorIndex::insert(const std::string& pk,
 
     // Retire the old entry (if any) from its alive set.
     auto existing = pk_to_shard_.find(pk);
+    auto global_existing = pk_to_global_id_.find(pk);
     if (existing != pk_to_shard_.end()) {
         const size_t old_shard = existing->second.first;
         const int64_t old_id   = existing->second.second;
         alive_ids_[old_shard].erase(old_id);
+        local_to_global_id_[old_shard].erase(old_id);
         // The old vector data remains in ScaNN but will be filtered out in
         // search() because old_id is no longer in alive_ids_[old_shard].
+    }
+
+    int64_t global_id = 0;
+    if (global_existing != pk_to_global_id_.end()) {
+        global_id = global_existing->second;
+    } else if (auto parsed = parseGlobalIdFromKey_(pk)) {
+        global_id = *parsed;
+        if (global_id >= next_global_id_) {
+            next_global_id_ = global_id + 1;
+        }
+    } else {
+        global_id = next_global_id_++;
     }
 
     // Always allocate a new ID so ScaNN never gets two live entries for
@@ -201,7 +235,9 @@ bool DistributedVectorIndex::insert(const std::string& pk,
     bool ok = shards_[target_shard]->add(new_id, vec, dim);
     if (ok) {
         pk_to_shard_[pk] = {target_shard, new_id};
+        pk_to_global_id_[pk] = global_id;
         alive_ids_[target_shard].insert(new_id);
+        local_to_global_id_[target_shard][new_id] = global_id;
     } else if (existing != pk_to_shard_.end()) {
         // Rollback: remove the stale routing entry so the key is not
         // half-visible after a failed add.
@@ -226,6 +262,8 @@ bool DistributedVectorIndex::remove(const std::string& pk) {
 
     // Remove from alive set so search() filters it out.
     alive_ids_[shard_idx].erase(id);
+    local_to_global_id_[shard_idx].erase(id);
+    pk_to_global_id_.erase(pk);
     // Erase from routing table.
     pk_to_shard_.erase(it);
     return true;
@@ -248,6 +286,10 @@ std::vector<AnnSearchResult> DistributedVectorIndex::search(const float* query,
             for (auto& r : partial) {
                 // Only include results whose ID is still alive in this shard.
                 if (alive_ids_[s].count(r.id)) {
+                    auto it = local_to_global_id_[s].find(r.id);
+                    if (it != local_to_global_id_[s].end()) {
+                        r.id = it->second;
+                    }
                     merged.push_back(r);
                 }
             }

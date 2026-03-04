@@ -243,7 +243,12 @@ http::response<http::string_body> APIGateway::handleRequest(
             end_time - start_time).count();
         recordMetrics(req, response, duration_ms, target);
         
-        successful_requests_++;
+        const auto status_code = static_cast<unsigned>(response.result_int());
+        if (status_code >= 500) {
+            failed_requests_++;
+        } else {
+            successful_requests_++;
+        }
         return response;
         
     } catch (const std::exception& e) {

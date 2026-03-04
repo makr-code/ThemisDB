@@ -24,11 +24,13 @@
 
 #include <gtest/gtest.h>
 #include "security/query_masking_policy.h"
+#include "utils/pii_detection_engine.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 
 using namespace themis::security;
+using namespace themis::utils;
 using json = nlohmann::json;
 
 // ---------------------------------------------------------------------------
@@ -353,7 +355,7 @@ TEST_F(QueryMaskingPolicyTest, BothDetectionModesDisabledPassesThrough) {
 TEST_F(QueryMaskingPolicyTest, DeclaredFieldWithExplicitPIITypeHint) {
     // Declare a field with an explicit SSN type hint so the masker uses the
     // SSN masking format rather than falling back to the generic form.
-    policy_->declareField("national_id", "strict", utils::PIIType::SSN);
+    policy_->declareField("national_id", "strict", PIIType::SSN);
 
     json entity = {{"national_id", "123-45-6789"}};
     auto result = policy_->maskResult(entity);

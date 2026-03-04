@@ -394,6 +394,7 @@ TEST_F(FormatTemplateExporterTest, AlpacaViaExporter) {
     cfg.template_field_mapping.instruction_field = "question";
     cfg.template_field_mapping.input_field       = "context";
     cfg.template_field_mapping.output_field      = "answer";
+    cfg.quality.min_text_length = 0;  // Allow short test answers
 
     std::vector<BaseEntity> entities;
     for (int i = 0; i < 3; ++i) {
@@ -500,6 +501,7 @@ TEST_F(FormatTemplateExporterTest, SetConfigRecreatesTemplate) {
     // Reconfigure to Alpaca
     JSONLLLMConfig cfg2;
     cfg2.format_template_type = FormatTemplateType::ALPACA;
+    cfg2.quality.min_text_length = 0;  // Allow short test answers
     exporter.setConfig(cfg2);
 
     std::vector<BaseEntity> entities;

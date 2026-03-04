@@ -24,6 +24,7 @@
 
 #include <string>
 #include <cstdlib>
+#include <stdexcept>
 
 namespace themis {
 namespace core {

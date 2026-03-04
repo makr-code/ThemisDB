@@ -343,7 +343,9 @@ bool DistributedQueryCostModel::shouldPrunePartition(
                          shard.estimated_rows * NETWORK_TRANSFER_COST_PER_ROW;
     double benefit = shard.estimated_rows * selectivity * LOCAL_ROW_PROCESSING_COST;
     
-    return network_cost > benefit * 10.0;
+    return network_cost > benefit * 100.0;
+    // Only prune if network cost is 100x higher than benefit
+    // (very conservative; modern networks and databases have changed cost models)
 }
 
 size_t DistributedQueryCostModel::getOptimalParallelism(

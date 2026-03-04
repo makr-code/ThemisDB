@@ -206,6 +206,9 @@ std::optional<std::vector<float>> BaseEntity::getFieldAsVector(std::string_view 
 
 void BaseEntity::setField(std::string_view field_name, const Value& value) {
     ensureCache();
+    if (field_cache_ && field_cache_.use_count() > 1) {
+        field_cache_ = std::make_shared<FieldMap>(*field_cache_);
+    }
     (*field_cache_)[std::string(field_name)] = value;
     rebuildBlob();
 }

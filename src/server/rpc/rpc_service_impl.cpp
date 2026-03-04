@@ -60,6 +60,10 @@ static uint64_t getCurrentTimestampNs() {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
 }
 
+// Global transaction state
+static std::mutex transaction_mutex;
+static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
+
 json ThemisRPCService::handleGet(const json& params) {
     try {
         std::string model(params.value("model", ""));
@@ -1165,8 +1169,6 @@ json ThemisRPCService::handleTimeSeriesQuery(const json& params) {
 // 1. Instance variables of ThemisRPCService, or
 // 2. Managed by a dedicated TransactionManager class
 // This allows proper cleanup, testing, and multi-instance support.
-static std::unordered_map<std::string, std::unique_ptr<RocksDBWrapper::TransactionWrapper>> active_transactions;
-static std::mutex transaction_mutex;
 static uint64_t transaction_counter = 0;
 
 json ThemisRPCService::handleTransactionBegin(const json& params) {

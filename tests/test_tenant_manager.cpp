@@ -639,7 +639,6 @@ TEST_F(TenantManagerTest, RegisterCustomDomain_CaseInsensitive) {
     EXPECT_EQ(*tm.lookupTenantByDomain("Beta.Example.Com"), "beta-corp");
 }
 
-TEST_F(TenantManagerTest, RegisterCustomDomain_PortStripped) {
 TEST_F(TenantManagerTest, CustomDomain_ResolveTenantByDomain_Match) {
     auto& tm = TenantManager::instance();
 
@@ -773,6 +772,11 @@ TEST_F(TenantManagerTest, ExtractTenantId_ExplicitHeaderOverridesCustomDomain) {
 }
 
 TEST_F(TenantManagerTest, ResolveContext_ViaCustomDomain) {
+    auto& tm = TenantManager::instance();
+
+    TenantConfig config;
+    config.tenant_id = "port-tenant";
+    config.display_name = "Port Tenant";
     config.custom_domain = "beta.example.com";
     ASSERT_EQ(tm.createTenant(config), TenantManager::CreateResult::Success);
 

@@ -42,6 +42,10 @@
 #include <fstream>
 #include <filesystem>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 using namespace themis::modules;
 
 // ===== Error Code Tests =====

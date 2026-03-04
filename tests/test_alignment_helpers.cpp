@@ -259,15 +259,15 @@ TEST(UnalignedAccessTest, ReadWriteUnalignedUint64) {
     
     uint64_t test_value = 0x123456789ABCDEF0ULL;
     
-    // Write to unaligned addresses
+    // Write to unaligned, non-overlapping addresses
     write_unaligned<uint64_t>(buffer + 1, test_value);
-    write_unaligned<uint64_t>(buffer + 3, test_value + 1);
-    write_unaligned<uint64_t>(buffer + 7, test_value + 2);
+    write_unaligned<uint64_t>(buffer + 10, test_value + 1);
+    write_unaligned<uint64_t>(buffer + 18, test_value + 2);
     
     // Read back
     EXPECT_EQ(read_unaligned<uint64_t>(buffer + 1), test_value);
-    EXPECT_EQ(read_unaligned<uint64_t>(buffer + 3), test_value + 1);
-    EXPECT_EQ(read_unaligned<uint64_t>(buffer + 7), test_value + 2);
+    EXPECT_EQ(read_unaligned<uint64_t>(buffer + 10), test_value + 1);
+    EXPECT_EQ(read_unaligned<uint64_t>(buffer + 18), test_value + 2);
 }
 
 TEST(UnalignedAccessTest, ReadWriteUnalignedStruct) {

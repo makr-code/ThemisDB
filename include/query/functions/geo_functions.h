@@ -1194,7 +1194,7 @@ public:
                                : 36;
         const GeometryInfo result = getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
         const std::string json_str = EWKBParser::toGeoJSON(result);
-        if (json_str == "{}" || json_str.empty()) {
+        if (json_str == "{}" || json_str.empty() || json_str == "null") {
             nlohmann::json empty;
             empty["type"] = "GeometryCollection";
             empty["geometries"] = nlohmann::json::array();
@@ -1240,7 +1240,7 @@ public:
         const GeometryInfo g2 = EWKBParser::parseGeoJSON(args[1].dump());
         const GeometryInfo result = getCpuExactBackend()->stUnion(g1, g2);
         const std::string json_str = EWKBParser::toGeoJSON(result);
-        if (json_str == "{}" || json_str.empty()) {
+        if (json_str == "{}" || json_str.empty() || json_str == "null") {
             nlohmann::json empty;
             empty["type"] = "GeometryCollection";
             empty["geometries"] = nlohmann::json::array();
@@ -1282,7 +1282,7 @@ public:
         const GeometryInfo g2 = EWKBParser::parseGeoJSON(args[1].dump());
         const GeometryInfo result = getCpuExactBackend()->stDifference(g1, g2);
         const std::string json_str = EWKBParser::toGeoJSON(result);
-        if (json_str == "{}" || json_str.empty()) {
+        if (json_str == "{}" || json_str.empty() || json_str == "null") {
             // Empty difference — geom1 is fully contained in geom2.
             nlohmann::json empty;
             empty["type"] = "GeometryCollection";

@@ -443,10 +443,6 @@ TEST_F(TaskSchedulerApiHandlerTest, ListTasks_TotalIsInt) {
 }
 
 // ============================================================================
-// Task result retrieval API – requires a scheduler with result store enabled
-// ============================================================================
-
-class TaskResultApiTest : public ::testing::Test {
 // getExecutionHistory – searchable audit log
 // ============================================================================
 
@@ -483,7 +479,6 @@ protected:
     static std::string makeDbPath() {
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         return (std::filesystem::temp_directory_path() /
-                std::filesystem::path("themis_result_api_" + std::to_string(now))).string();
                 std::filesystem::path("themis_audit_api_test_" + std::to_string(now))).string();
     }
 
@@ -522,14 +517,6 @@ protected:
             [](const nlohmann::json&) -> nlohmann::json {
                 return {{"status", "ok"}, {"value", 1}};
             });
-        sched_cfg.max_concurrent_tasks     = 2;
-        sched_cfg.check_interval           = std::chrono::milliseconds(50);
-        sched_cfg.persist_tasks            = false;
-        sched_cfg.enable_audit_logging     = true;
-        sched_cfg.enable_anomaly_detection = false;
-
-        scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), sched_cfg);
-        handler_   = std::make_unique<TaskSchedulerApiHandler>(scheduler_.get());
     }
 
     void TearDown() override {
@@ -571,6 +558,9 @@ protected:
     std::unique_ptr<TaskSchedulerApiHandler> handler_;
 };
 
+// Alias for backward compatibility with existing tests
+using TaskResultApiTest = TaskSchedulerApiHandlerAuditTest;
+
 TEST_F(TaskResultApiTest, GetLatestTaskResult_AfterExecution) {
     std::string id = registerAndExecute("latest_result_task");
 
@@ -609,6 +599,57 @@ TEST_F(TaskResultApiTest, NullScheduler_ResultMethodsReturnError) {
     TaskSchedulerApiHandler h(nullptr);
     EXPECT_EQ(h.getTaskResults("t", 10).value("status", ""), "error");
     EXPECT_EQ(h.getLatestTaskResult("t").value("status", ""), "error");
+}
+
+// ============================================================================
+// getExecutionHistory – with audit manager enabled (second fixture)
+// ============================================================================
+
+class TaskSchedulerApiHandlerAuditWithLoggingTest : public ::testing::Test {
+protected:
+    static std::string makeDbPath() {
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_audit_logging_test_" + std::to_string(now))).string();
+    }
+
+    void SetUp() override {
+        db_path_ = makeDbPath();
+        std::filesystem::create_directories(db_path_);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_ + "/db";
+        cfg.enable_blobdb = false;
+        storage_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(storage_->open());
+
+        idx_    = std::make_unique<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *idx_);
+
+        TaskScheduler::Config sched_cfg;
+        sched_cfg.max_concurrent_tasks    = 2;
+        sched_cfg.check_interval          = 50ms;
+        sched_cfg.persist_tasks           = false;
+        sched_cfg.enable_audit_logging    = true;  // ENABLED for this fixture
+        sched_cfg.enable_anomaly_detection = false;
+
+        scheduler_ = std::make_unique<TaskScheduler>(engine_.get(), sched_cfg);
+        handler_   = std::make_unique<TaskSchedulerApiHandler>(scheduler_.get());
+    }
+
+    void TearDown() override {
+        handler_.reset();
+        if (scheduler_) {
+            scheduler_->stop();
+            scheduler_.reset();
+        }
+        engine_.reset();
+        idx_.reset();
+        storage_->close();
+        storage_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
     // Directly inject audit events via the audit manager
     void injectAuditEvent(const std::string& task_id, bool success,
                           scheduler::TaskEventType ev_type = scheduler::TaskEventType::TASK_COMPLETED,
@@ -638,7 +679,7 @@ TEST_F(TaskResultApiTest, NullScheduler_ResultMethodsReturnError) {
     std::unique_ptr<TaskSchedulerApiHandler> handler_;
 };
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_ReturnsItems) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_ReturnsItems) {
     injectAuditEvent("task-a", true);
     injectAuditEvent("task-a", false, scheduler::TaskEventType::TASK_FAILED);
     injectAuditEvent("task-b", true);
@@ -652,7 +693,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_ReturnsItems) {
     }
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterBySuccess) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_FilterBySuccess) {
     injectAuditEvent("task-x", true);
     injectAuditEvent("task-x", true);
     injectAuditEvent("task-x", false, scheduler::TaskEventType::TASK_FAILED);
@@ -665,7 +706,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterBySuccess) {
     }
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByFailure) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_FilterByFailure) {
     injectAuditEvent("task-y", true);
     injectAuditEvent("task-y", false, scheduler::TaskEventType::TASK_FAILED);
 
@@ -675,7 +716,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByFailure) {
     EXPECT_FALSE(result["items"][0].value("success", true));
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_Pagination) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_Pagination) {
     for (int i = 0; i < 5; ++i) {
         injectAuditEvent("pg-task", true);
     }
@@ -701,7 +742,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_Pagination) {
     }
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_EmptyTaskId_ReturnsAllTasks) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_EmptyTaskId_ReturnsAllTasks) {
     injectAuditEvent("alpha", true);
     injectAuditEvent("beta", true);
     injectAuditEvent("gamma", true);
@@ -710,7 +751,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_EmptyTaskId_Returns
     EXPECT_GE(result["items"].size(), 3u);
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByEventType) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_FilterByEventType) {
     injectAuditEvent("ev-task", true,  scheduler::TaskEventType::TASK_COMPLETED);
     injectAuditEvent("ev-task", false, scheduler::TaskEventType::TASK_FAILED);
 
@@ -720,7 +761,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByEventType) 
     EXPECT_EQ(result["items"][0].value("event_type", ""), "TASK_FAILED");
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByTriggerType) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_FilterByTriggerType) {
     injectAuditEvent("trig-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON");
     injectAuditEvent("trig-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "MANUAL");
 
@@ -730,7 +771,7 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByTriggerType
     EXPECT_EQ(result["items"][0].value("trigger_type", ""), "MANUAL");
 }
 
-TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByUserId) {
+TEST_F(TaskSchedulerApiHandlerAuditWithLoggingTest, GetExecutionHistory_FilterByUserId) {
     injectAuditEvent("user-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON", "alice");
     injectAuditEvent("user-task", true,  scheduler::TaskEventType::TASK_COMPLETED, "CRON", "bob");
 
@@ -738,6 +779,9 @@ TEST_F(TaskSchedulerApiHandlerAuditTest, GetExecutionHistory_FilterByUserId) {
     auto result = handler_->getExecutionHistory("user-task", params);
     ASSERT_EQ(result["items"].size(), 1u);
     EXPECT_EQ(result["items"][0].value("user_id", ""), "alice");
+}
+
+// ============================================================================
 // executeDAG
 // ============================================================================
 
@@ -868,6 +912,9 @@ TEST_F(TaskSchedulerApiHandlerTest, RegisterTask_WithDependencies_RoundTrips) {
     ASSERT_TRUE(detail.contains("dependencies"));
     ASSERT_EQ(detail["dependencies"].size(), 1u);
     EXPECT_EQ(detail["dependencies"][0].get<std::string>(), reg_a["id"].get<std::string>());
+}
+
+// ============================================================================
 // External scheduler – Kubernetes CronJob export (JSON)
 // ============================================================================
 

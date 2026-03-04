@@ -26,6 +26,7 @@
 #include "geo/spatial_backend.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <chrono>
 #include <memory>
 #include <string>
 #include <vector>
@@ -43,11 +44,15 @@ using namespace themis::geo;
 class RTreeCpuIntegrationTest : public ::testing::Test {
 protected:
     static constexpr const char* kTable = "test_rtree_table";
-    static constexpr const char* kDbPath = "test_rtree_cpu_integration_db";
 
     void SetUp() override {
+        const auto unique_id = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        db_path_ = (std::filesystem::temp_directory_path() /
+                    ("test_rtree_cpu_integration_db_" + unique_id)).string();
+
         RocksDBWrapper::Config cfg;
-        cfg.db_path  = kDbPath;
+        cfg.db_path  = db_path_;
         cfg.memtable_size_mb   = 16;
         cfg.block_cache_size_mb = 16;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
@@ -69,7 +74,7 @@ protected:
     void TearDown() override {
         mgr_.reset();
         db_.reset();
-        std::filesystem::remove_all(kDbPath);
+        std::filesystem::remove_all(db_path_);
     }
 
     // Helper: build a point-sidecar.
@@ -95,6 +100,7 @@ protected:
 
     std::unique_ptr<RocksDBWrapper>       db_;
     std::unique_ptr<SpatialIndexManager>  mgr_;
+    std::string                           db_path_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

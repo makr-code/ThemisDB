@@ -23,11 +23,17 @@
 #include <gtest/gtest.h>
 #include "sharding/cloud_backup.h"
 #include "sharding/cloud_agent.h"
+#include "sharding/shard_topology.h"
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <memory>
 #include <filesystem>
 #include <cstdlib>
+
+#ifdef _WIN32
+#define setenv(name, value, overwrite) _putenv_s(name, value)
+#define unsetenv(name) _putenv_s(name, "")
+#endif
 
 using namespace themis;
 using namespace themis::sharding;
@@ -52,7 +58,7 @@ protected:
         db_config.memtable_size_mb = 16;
         db_config.block_cache_size_mb = 16;
         
-        db_ = std::make_unique<RocksDBWrapper>(db_config);
+        db_ = std::make_shared<RocksDBWrapper>(db_config);
         ASSERT_TRUE(db_->open());
         
         // Create backup manager
@@ -87,7 +93,7 @@ protected:
     std::filesystem::path db_path_;
     std::filesystem::path local_backup_dir_;
     
-    std::unique_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<RocksDBWrapper> db_;
     std::shared_ptr<BackupManager> backup_manager_;
     std::shared_ptr<ShardTopology> topology_;
     std::shared_ptr<CloudAgent> cloud_agent_;

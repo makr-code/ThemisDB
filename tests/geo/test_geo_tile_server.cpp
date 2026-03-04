@@ -68,10 +68,10 @@ TEST(LatLonToTile, Zoom1_SouthEastQuadrant) {
 
 TEST(LatLonToTile, Berlin_Zoom10) {
     // Berlin: lon=13.4050, lat=52.5200
-    // Expected tile at zoom 10: x=549, y=335  (standard Web Mercator)
+    // Expected tile at zoom 10: x=550, y=335  (standard Web Mercator)
     const TileCoord t = latLonToTile(13.4050, 52.5200, 10);
     EXPECT_EQ(t.zoom, 10u);
-    EXPECT_EQ(t.x,    549u);
+    EXPECT_EQ(t.x,    550u);
     EXPECT_EQ(t.y,    335u);
 }
 

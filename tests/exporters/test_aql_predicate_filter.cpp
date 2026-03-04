@@ -215,6 +215,7 @@ TEST_F(AqlPredicateFilterIntegrationTest, JSONLExporterFiltersEntities) {
     JSONLLLMConfig config;
     config.style = JSONLFormat::Style::INSTRUCTION_TUNING;
     config.quality.skip_duplicates = false;
+    config.quality.min_text_length = 0;
 
     JSONLLLMExporter exporter(config);
 
@@ -235,6 +236,7 @@ TEST_F(AqlPredicateFilterIntegrationTest, JSONLExporterFiltersEntities) {
 TEST_F(AqlPredicateFilterIntegrationTest, JSONLExporterNoFilterExportsAll) {
     JSONLLLMConfig config;
     config.quality.skip_duplicates = false;
+    config.quality.min_text_length = 0;
     JSONLLLMExporter exporter(config);
 
     ExportOptions options;

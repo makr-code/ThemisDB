@@ -245,6 +245,8 @@ json TaskSchedulerApiHandler::getLatestTaskResult(const std::string& task_id) {
         return json{{"status", "not_found"}, {"task_id", task_id}};
     }
     return result->toJson();
+}
+
 json TaskSchedulerApiHandler::getExecutionHistory(
     const std::string& task_id,
     const json& query_params)
@@ -333,7 +335,6 @@ json TaskSchedulerApiHandler::getExecutionHistory(
     const int64_t total_count = static_cast<int64_t>(all_events.size());
 
     json items = json::array();
-    items.reserve(events.size());
     for (const auto& ev : events) {
         items.push_back(ev.toJson(false));
     }
@@ -792,6 +793,50 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
 }
 
 json TaskSchedulerApiHandler::executeDAG(const json& request) {
+    if (!scheduler_) {
+        return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
+    }
+    try {
+        if (!request.contains("task_ids") || !request["task_ids"].is_array()) {
+            return json{{"status", "error"}, {"error", "Missing or invalid 'task_ids' array"}};
+        }
+
+        auto task_ids = request["task_ids"].get<std::vector<std::string>>();
+        auto dag_result = scheduler_->executeDAG(task_ids);
+
+        json succeeded = json::object();
+        for (const auto& [id, res] : dag_result.succeeded) {
+            succeeded[id] = res;
+        }
+
+        json failed = json::object();
+        for (const auto& [id, err] : dag_result.failed) {
+            failed[id] = err;
+        }
+
+        spdlog::info("TaskSchedulerApiHandler: executeDAG completed: {} succeeded, {} failed, {} skipped, {} condition_skipped",
+                     dag_result.succeeded.size(), dag_result.failed.size(),
+                     dag_result.skipped.size(), dag_result.condition_skipped.size());
+
+        return json{
+            {"status",            "executed"},
+            {"succeeded",         succeeded},
+            {"failed",            failed},
+            {"skipped",           dag_result.skipped},
+            {"condition_skipped", dag_result.condition_skipped},
+        };
+    } catch (const std::invalid_argument& e) {
+        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (invalid argument): {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    } catch (const std::runtime_error& e) {
+        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (runtime error): {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    } catch (const std::exception& e) {
+        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed: {}", e.what());
+        return json{{"status", "error"}, {"error", e.what()}};
+    }
+}
+
 // ============================================================================
 // External scheduler integration
 // ============================================================================
@@ -861,41 +906,6 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& t
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
-        if (!request.contains("task_ids") || !request["task_ids"].is_array()) {
-            return json{{"status", "error"}, {"error", "Missing or invalid 'task_ids' array"}};
-        }
-        auto task_ids = request["task_ids"].get<std::vector<std::string>>();
-        auto dag_result = scheduler_->executeDAG(task_ids);
-
-        json succeeded = json::object();
-        for (const auto& [id, res] : dag_result.succeeded) {
-            succeeded[id] = res;
-        }
-        json failed = json::object();
-        for (const auto& [id, err] : dag_result.failed) {
-            failed[id] = err;
-        }
-
-        spdlog::info("TaskSchedulerApiHandler: executeDAG completed: {} succeeded, {} failed, "
-                     "{} skipped, {} condition_skipped",
-                     dag_result.succeeded.size(), dag_result.failed.size(),
-                     dag_result.skipped.size(), dag_result.condition_skipped.size());
-
-        return json{
-            {"status",            "executed"},
-            {"succeeded",         succeeded},
-            {"failed",            failed},
-            {"skipped",           dag_result.skipped},
-            {"condition_skipped", dag_result.condition_skipped},
-        };
-    } catch (const std::invalid_argument& e) {
-        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (invalid argument): {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
-    } catch (const std::runtime_error& e) {
-        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (runtime error): {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
-    } catch (const std::exception& e) {
-        spdlog::warn("TaskSchedulerApiHandler: executeDAG failed: {}", e.what());
         auto task_ptr = scheduler_->getTask(task_id);
         if (!task_ptr) {
             return json{{"status", "error"}, {"error", "Task not found: " + task_id}};

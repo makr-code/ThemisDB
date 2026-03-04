@@ -561,19 +561,52 @@ SpatialIndexManager::Status SpatialIndexManager::removeBatch(
     std::string pk_key = makeSpatialPerPKKey(table, morton, primary_key);
     batch.del(pk_key);
 
+    // Backward compatibility: update legacy Morton bucket key as well.
+    // This prevents stale candidates when search falls back to bucket scans.
+    std::string bucket_key = makeSpatialKey(table, morton);
+    if (auto bucket_value = db_.get(bucket_key)) {
+        std::string s(reinterpret_cast<const char*>(bucket_value->data()), bucket_value->size());
+        auto entries = parseSidecarList(s);
+        entries.erase(
+            std::remove_if(entries.begin(), entries.end(),
+                [&](const SidecarEntry& e) { return e.primary_key == primary_key; }),
+            entries.end());
+
+        if (entries.empty()) {
+            batch.del(bucket_key);
+        } else {
+            const auto dump = serializeSidecarList(entries);
+            std::vector<uint8_t> bytes(dump.begin(), dump.end());
+            batch.put(bucket_key, bytes);
+        }
+    }
+
     // Update in-memory R-tree and MBR cache.
     std::string table_str(table);
     std::string pk_str(primary_key);
     auto& cache = mbr_cache_[table_str];
     auto it = cache.find(pk_str);
+    const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
+    const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
     if (it != cache.end()) {
-        rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(it->second));
         cache.erase(it);
     }
+    if (!removed) {
+        // Keep in-memory R-tree consistent even when direct remove misses
+        // (e.g. geometry representation mismatch). Rebuild from cache.
+        std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+        bulk_entries.reserve(cache.size());
+        for (const auto& [cached_pk, cached_mbr] : cache) {
+            bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+        }
+        rtrees_[table_str].clear();
+        if (!bulk_entries.empty()) {
+            rtrees_[table_str].bulkLoad(bulk_entries);
+        }
+    }
 
-    // Note: We rely on per-PK keys for spatial queries to avoid bucket-level
-    // read-modify-write conflicts. The bucket key is kept for backward compatibility
-    // but is not updated here to prevent concurrent write conflicts.
+    // Note: per-PK keys are the primary index storage. We still update the
+    // legacy bucket key for backward compatibility and fallback query paths.
 
     return Status::OK();
 }
@@ -620,9 +653,23 @@ SpatialIndexManager::Status SpatialIndexManager::remove(
     std::string pk_str(primary_key);
     auto& cache = mbr_cache_[table_str];
     auto it = cache.find(pk_str);
+    const geo::MBR mbr_to_remove = (it != cache.end()) ? it->second : sidecar.mbr;
+    const bool removed = rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(mbr_to_remove));
     if (it != cache.end()) {
-        rtrees_[table_str].remove(pk_str, mbrToGeometryInfo(it->second));
         cache.erase(it);
+    }
+    if (!removed) {
+        // Keep in-memory R-tree consistent even when direct remove misses
+        // (e.g. geometry representation mismatch). Rebuild from cache.
+        std::vector<std::pair<std::string, geo::GeometryInfo>> bulk_entries;
+        bulk_entries.reserve(cache.size());
+        for (const auto& [cached_pk, cached_mbr] : cache) {
+            bulk_entries.emplace_back(cached_pk, mbrToGeometryInfo(cached_mbr));
+        }
+        rtrees_[table_str].clear();
+        if (!bulk_entries.empty()) {
+            rtrees_[table_str].bulkLoad(bulk_entries);
+        }
     }
 
     if (entries.empty()) {

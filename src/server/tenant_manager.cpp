@@ -155,12 +155,9 @@ TenantManager::CreateResult TenantManager::createTenant(const TenantConfig& conf
         const std::string key = normaliseDomain(domain);
         if (!key.empty()) {
             domain_to_tenant_[key] = config.tenant_id;
+            THEMIS_INFO("TenantManager: Registered custom domain '{}' for tenant '{}'",
+                        key, config.tenant_id);
         }
-    // Register custom domain reverse map
-    if (!newConfig.custom_domain.empty()) {
-        domain_to_tenant_[newConfig.custom_domain] = newConfig.tenant_id;
-        THEMIS_INFO("TenantManager: Registered custom domain '{}' for tenant '{}'",
-                    newConfig.custom_domain, newConfig.tenant_id);
     }
     
     THEMIS_INFO("TenantManager: Created tenant '{}' ({})", config.tenant_id, config.display_name);
@@ -307,7 +304,15 @@ std::optional<std::string> TenantManager::extractTenantId(
     }
 
     // 2. Custom domain routing via Host (or configured host header)
-    auto hostIt = headers.find(config_.custom_domain_host_header);
+    // Try configured custom domain host header first, fallback to standard Host
+    std::string hostHeaderName = !config_.custom_domain_host_header.empty() 
+        ? config_.custom_domain_host_header 
+        : "Host";
+    auto hostIt = headers.find("Host");
+    if (hostIt == headers.end()) {
+        // Case-insensitive fallback: check lowercase "host"
+        hostIt = headers.find("host");
+    }
     if (hostIt != headers.end() && !hostIt->second.empty()) {
         const std::string key = normaliseDomain(hostIt->second);
         auto domIt = domain_to_tenant_.find(key);
@@ -315,28 +320,8 @@ std::optional<std::string> TenantManager::extractTenantId(
             return domIt->second;
         }
     }
-
-    // 3. Path-based tenant routing
-    // Try custom domain routing via Host header (second priority)
-    auto hostIt = headers.find("Host");
-    if (hostIt == headers.end()) {
-        // Case-insensitive fallback: check lowercase "host"
-        hostIt = headers.find("host");
-    }
-    if (hostIt != headers.end() && !hostIt->second.empty()) {
-        // Strip port suffix (e.g., "acme.example.com:8443" -> "acme.example.com")
-        std::string host = hostIt->second;
-        const auto colon = host.find(':');
-        if (colon != std::string::npos) {
-            host.resize(colon);
-        }
-        auto domainIt = domain_to_tenant_.find(host);
-        if (domainIt != domain_to_tenant_.end()) {
-            return domainIt->second;
-        }
-    }
     
-    // Try path prefix
+    // 3. Path-based tenant routing
     std::string pathStr(path);
     if (pathStr.find(config_.tenant_path_prefix) == 0) {
         size_t start = config_.tenant_path_prefix.length();

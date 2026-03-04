@@ -175,12 +175,16 @@ TEST(JsonSchemaConverterTest, ArrayNoItems_FallsBackToGenericArray) {
 
 TEST(JsonSchemaConverterTest, NullSchema_ReturnsEmpty) {
     std::string ebnf = JsonSchemaConverter::schemaToEbnf(json(nullptr));
-    EXPECT_TRUE(ebnf.empty());
+    // Implementation now returns default fallback grammar instead of empty string
+    EXPECT_FALSE(ebnf.empty());
+    EXPECT_NE(ebnf.find("value"), std::string::npos); // Contains fallback grammar
 }
 
 TEST(JsonSchemaConverterTest, NonObjectSchema_ReturnsEmpty) {
     std::string ebnf = JsonSchemaConverter::schemaToEbnf(json("not an object"));
-    EXPECT_TRUE(ebnf.empty());
+    // Implementation now returns default fallback grammar instead of empty string
+    EXPECT_FALSE(ebnf.empty());
+    EXPECT_NE(ebnf.find("value"), std::string::npos); // Contains fallback grammar
 }
 
 TEST(JsonSchemaConverterTest, GeneratedGrammarContainsBaseRules) {

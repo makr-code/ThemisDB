@@ -26,11 +26,13 @@ namespace themis {
 namespace server {
 
 std::optional<EndpointAuthConfig> ApiAuthConfig::getEndpointConfig(const std::string& path, const std::string& method) const {
+    const bool method_any = method.empty() || method == "*";
+
     // Check for exact match first (path + method)
     for (const auto& config : endpoint_configs) {
         if (config.endpoint_pattern == path) {
             // Match if method matches or config allows all methods
-            if (config.http_method == "*" || config.http_method == method) {
+            if (method_any || config.http_method == "*" || config.http_method == method) {
                 return config;
             }
         }
@@ -48,7 +50,7 @@ std::optional<EndpointAuthConfig> ApiAuthConfig::getEndpointConfig(const std::st
             std::string prefix = pattern.substr(0, pattern.length() - 1);
             if (!prefix.empty() && path.rfind(prefix, 0) == 0) {
                 // Match if method matches or config allows all methods
-                if (config.http_method == "*" || config.http_method == method) {
+                if (method_any || config.http_method == "*" || config.http_method == method) {
                     // Prefer longer (more specific) prefix
                     if (prefix.length() > best_prefix_len) {
                         best_prefix_len = prefix.length();

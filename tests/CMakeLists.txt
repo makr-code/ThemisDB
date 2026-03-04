@@ -222,6 +222,8 @@ endif()
 # Tests with own main() - these have custom logic or missing dependencies
 list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_argument_store\\.cpp$"
+    ".*test_schema_validator\\.cpp$"
+    ".*test_flatfile_importer\\.cpp$"
     ".*test_adaptive_cache_fuzz\\.cpp$"
     ".*test_adaptive_cache_integration\\.cpp$"
     ".*test_adaptive_cache_phase1\\.cpp$"
@@ -230,6 +232,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_metrics\\.cpp$"
     ".*test_onnx_model_loader\\.cpp$"
     ".*test_content_policy_manual\\.cpp$"
+    ".*test_llm_deployment_plugin\\.cpp$"
     ".*test_ethics_ai_types\\.cpp$"
     ".*test_ethics_evaluator\\.cpp$"
     ".*test_graph_advanced_features\\.cpp$"
@@ -595,6 +598,11 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
     ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
     ${CMAKE_SOURCE_DIR}/src/search/multi_field_search.cpp
+    ${CMAKE_SOURCE_DIR}/src/sharding/cloud_backup.cpp
+    ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
+    ${CMAKE_SOURCE_DIR}/src/server/grpc_web_proxy_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/evaluation_report_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
 )
 
 # Ensure legal training tests link even when the feature is disabled in themis_core

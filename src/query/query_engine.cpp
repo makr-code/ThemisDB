@@ -3489,7 +3489,7 @@ QueryEngine::executeGeneralTraversal(
 			// Note: Edge type filtering requires access to GraphIndexManager::getEdgeType_()
 			// which is private. For now, we rely on graphId filtering only.
 			// TODO: Add edge type filtering once exposed in TraversalQuery struct
-			if (!graphId.empty() && graphId != "default" && adj.graphId != graphId) {
+			if (!graphId.empty() && graphId != "default" && !adj.graphId.empty() && adj.graphId != graphId) {
 				continue;
 			}
 			

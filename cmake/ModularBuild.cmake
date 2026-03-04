@@ -1,4 +1,4 @@
- Modular Build Configuration for ThemisDB
+# Modular Build Configuration for ThemisDB
 # This feature is planned for post-v1.3.0 release
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 
@@ -265,6 +265,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/release_manifest.cpp
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
+    ../src/updates/update_history_logger.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
     ../src/updates/notification_webhook.cpp

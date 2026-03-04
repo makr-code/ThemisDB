@@ -182,7 +182,16 @@ http::response<http::string_body> EntityApiHandler::handleGet(
         span.setAttribute("entity.key", key);
 
         // Retrieve entity blob (persisted JSON string)
-        auto blob_opt = storage_->get(key);
+        // Keys are stored as relational keys (entity:table:pk), not raw table:pk.
+        auto pos = key.find(':');
+        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
+            span.setStatus(false, "Invalid key format");
+            return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
+        }
+        std::string table = key.substr(0, pos);
+        std::string pk = key.substr(pos + 1);
+
+        auto blob_opt = storage_->get(KeySchema::makeRelationalKey(table, pk));
         if (!blob_opt.has_value()) {
             span.setStatus(false, "Entity not found");
             return makeErrorResponse(http::status::not_found, "Entity not found", req);
@@ -226,13 +235,7 @@ http::response<http::string_body> EntityApiHandler::handleGet(
             return makeErrorResponse(http::status::internal_server_error, "Stored entity JSON parse failed", req);
         }
 
-        // Extract table from key (table:pk format)
-        auto pos = key.find(':');
-        if (pos == std::string::npos || pos == 0 || pos == key.size()-1) {
-            span.setStatus(false, "Invalid key format");
-            return makeErrorResponse(http::status::bad_request, "Key must be in format 'table:pk'", req);
-        }
-        std::string table = key.substr(0, pos);
+        // Table already parsed above from table:pk key format
 
         try {
             auto schema_bytes = storage_->get("config:encryption_schema");

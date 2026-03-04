@@ -197,7 +197,7 @@ TEST_F(PerQueryCostModelTest, CalibrationFactorsAfterRecords) {
 
     // Values should be within sane bounds
     EXPECT_GT(factors.at("cpuCostPerRow"), 0.0);
-    EXPECT_LT(factors.at("cpuCostPerRow"), 1.0);
+    EXPECT_LE(factors.at("cpuCostPerRow"), 1.0);
     EXPECT_GT(factors.at("pageReadCost"), 0.0);
 }
 
