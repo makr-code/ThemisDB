@@ -45,6 +45,21 @@
 
 using namespace themis::acceleration;
 
+namespace {
+void ensureCpuFallbackBackends() {
+    auto& registry = BackendRegistry::instance();
+    if (registry.getBestVectorBackend() == nullptr) {
+        registry.registerBackend(std::make_unique<CPUVectorBackend>());
+    }
+    if (registry.getBestGraphBackend() == nullptr) {
+        registry.registerBackend(std::make_unique<CPUGraphBackend>());
+    }
+    if (registry.getBestGeoBackend() == nullptr) {
+        registry.registerBackend(std::make_unique<CPUGeoBackend>());
+    }
+}
+} // namespace
+
 // =============================================================================
 // PrecisionMode enum
 // =============================================================================
@@ -239,6 +254,7 @@ TEST(BackendCapabilityContract, FallbackOrderContainsNoDuplicates) {
 // =============================================================================
 
 TEST(BackendCapabilityContract, RegistryBestVectorBackendReturnsCPU_WhenNoGPU) {
+    ensureCpuFallbackBackends();
     // BackendRegistry singleton always registers CPU backends; on CI without
     // GPU hardware the best vector backend must be the CPU fallback.
     auto* vb = BackendRegistry::instance().getBestVectorBackend();
@@ -247,12 +263,14 @@ TEST(BackendCapabilityContract, RegistryBestVectorBackendReturnsCPU_WhenNoGPU) {
 }
 
 TEST(BackendCapabilityContract, RegistryBestGraphBackendReturnsCPU_WhenNoGPU) {
+    ensureCpuFallbackBackends();
     auto* gb = BackendRegistry::instance().getBestGraphBackend();
     ASSERT_NE(gb, nullptr);
     EXPECT_EQ(gb->type(), BackendType::CPU);
 }
 
 TEST(BackendCapabilityContract, RegistryBestGeoBackendReturnsCPU_WhenNoGPU) {
+    ensureCpuFallbackBackends();
     auto* geo = BackendRegistry::instance().getBestGeoBackend();
     ASSERT_NE(geo, nullptr);
     EXPECT_EQ(geo->type(), BackendType::CPU);

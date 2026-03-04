@@ -48,7 +48,7 @@ protected:
             .token = "readonly-token-456",
             .user_id = "viewer",
             .tenant_id = "test-tenant",
-            .scopes = {"cdc:read", "metrics:read"}
+            .scopes = {"config:read", "cdc:read", "metrics:read"}
         };
         
         auth_.addToken(admin_token);

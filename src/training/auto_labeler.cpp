@@ -24,10 +24,9 @@
 #include <algorithm>
 #include <sstream>
 #include <numeric>
-
+#include <cctype>
 namespace themis {
 namespace training {
-
 // ============================================================================
 // AQL query templates for database integration (Phase 1)
 // ============================================================================
@@ -178,8 +177,11 @@ public:
                 config_.modal_verbs_config
             );
         } catch (const std::exception&) {
-            // Phase 2: Fallback – return empty samples on NLP failure
-            return samples;
+            modalities = extractFallbackModalities(document_text);
+        }
+
+        if (modalities.empty()) {
+            modalities = extractFallbackModalities(document_text);
         }
 
         // Phase 2: Confidence scoring and filtering
@@ -312,6 +314,40 @@ private:
                    "verlängern, wenn besondere Umstände vorliegen.";
         }
         return "";
+    }
+
+    std::vector<analytics::LegalModality> extractFallbackModalities(const std::string& text) const {
+        std::vector<analytics::LegalModality> modalities;
+        if (text.empty()) {
+            return modalities;
+        }
+
+        std::string lower = text;
+        std::transform(lower.begin(), lower.end(), lower.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+
+        auto add_matches = [&](const std::string& token,
+                               const std::string& category,
+                               float strength,
+                               const std::string& deontic,
+                               const std::string& interpretation) {
+            size_t pos = 0;
+            while ((pos = lower.find(token, pos)) != std::string::npos) {
+                modalities.emplace_back(token, category, strength, deontic, interpretation, pos);
+                pos += token.size();
+            }
+        };
+
+        add_matches("muss", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht");
+        add_matches("soll", "default_obligation", 0.8f, "O_default(φ)",
+                    "Regelfall, Abweichung rechtfertigungsbedürftig");
+        add_matches("kann", "permission", 0.3f, "P(φ)", "Ermessensentscheidung");
+
+        std::sort(modalities.begin(), modalities.end(),
+                  [](const analytics::LegalModality& a, const analytics::LegalModality& b) {
+                      return a.position < b.position;
+                  });
+        return modalities;
     }
 
     // Phase 1: Persist a batch of samples to the target collection

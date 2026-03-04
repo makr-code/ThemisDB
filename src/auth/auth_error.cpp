@@ -108,26 +108,49 @@ AuthError AuthError::fromException(
 
 std::string AuthError::maskSensitiveData(const std::string& input) {
     std::string result = input;
+
+    auto applyMask = [](const std::string& source,
+                        const std::regex& pattern,
+                        const auto& masker) {
+        std::string output;
+        output.reserve(source.size());
+
+        std::sregex_iterator it(source.begin(), source.end(), pattern);
+        std::sregex_iterator end;
+        std::size_t last = 0;
+        for (; it != end; ++it) {
+            const auto& match = *it;
+            output.append(source, last, static_cast<std::size_t>(match.position()) - last);
+            output.append(masker(match));
+            last = static_cast<std::size_t>(match.position() + match.length());
+        }
+        output.append(source, last, std::string::npos);
+        return output;
+    };
     
     // Mask email addresses (preserve domain)
-    result = std::regex_replace(result, 
+    result = applyMask(
+        result,
         std::regex(R"(([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))"),
-        maskEmail("$1@$2"));
+        [](const std::smatch& m) { return maskEmail(m.str(0)); });
     
     // Mask Kerberos principals (principal@REALM)
-    result = std::regex_replace(result,
+    result = applyMask(
+        result,
         std::regex(R"(([a-zA-Z0-9._-]+)@([A-Z0-9.-]+))"),
-        "***@$2");
+        [](const std::smatch& m) { return std::string("***@") + m.str(2); });
     
     // Mask file paths
-    result = std::regex_replace(result,
+    result = applyMask(
+        result,
         std::regex(R"((/[a-zA-Z0-9._/-]+))"),
-        maskFilePath("$1"));
+        [](const std::smatch& m) { return maskFilePath(m.str(0)); });
     
     // Mask IP addresses
-    result = std::regex_replace(result,
+    result = applyMask(
+        result,
         std::regex(R"(\b(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\b)"),
-        "$1.*.*.*");
+        [](const std::smatch& m) { return m.str(1) + ".*.*.*"; });
     
     return result;
 }

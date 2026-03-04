@@ -70,17 +70,22 @@ size_t countLines(const std::string& path) {
 
 } // anonymous namespace
 
-class AuditLoggerTest : public ::testing::Test {
+class AuditLoggerComprehensiveTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        tmp_dir_ = std::filesystem::temp_directory_path() / "audit_test";
+        const auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
+        const auto nonce = static_cast<long long>(
+            std::chrono::high_resolution_clock::now().time_since_epoch().count());
+        tmp_dir_ = std::filesystem::temp_directory_path() /
+                   (std::string("audit_test_") + info->test_suite_name() + "_" + info->name() + "_" + std::to_string(nonce));
         std::filesystem::create_directories(tmp_dir_);
         log_path_ = (tmp_dir_ / "audit.jsonl").string();
         chain_path_ = log_path_ + ".chain";
     }
 
     void TearDown() override {
-        std::filesystem::remove_all(tmp_dir_);
+        std::error_code ec;
+        std::filesystem::remove_all(tmp_dir_, ec);
     }
 
     std::filesystem::path tmp_dir_;
@@ -92,16 +97,16 @@ protected:
 // Basic Logging Tests
 // ============================================================================
 
-TEST_F(AuditLoggerTest, LogEvent_CreatesFile) {
-    AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_));
+TEST_F(AuditLoggerComprehensiveTest, LogEvent_CreatesFile) {
+    AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logEvent({{"action", "test"}, {"user", "alice"}});
     logger.flush();
 
     EXPECT_TRUE(std::filesystem::exists(log_path_));
 }
 
-TEST_F(AuditLoggerTest, LogEvent_AppendMultipleEntries) {
-    AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_));
+TEST_F(AuditLoggerComprehensiveTest, LogEvent_AppendMultipleEntries) {
+    AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
 
     for (int i = 0; i < 5; ++i) {
         logger.logEvent({{"seq", i}, {"action", "test"}});
@@ -111,7 +116,7 @@ TEST_F(AuditLoggerTest, LogEvent_AppendMultipleEntries) {
     EXPECT_GE(countLines(log_path_), 5u);
 }
 
-TEST_F(AuditLoggerTest, LogEvent_DisabledLogger_NoFileCreated) {
+TEST_F(AuditLoggerComprehensiveTest, LogEvent_DisabledLogger_NoFileCreated) {
     auto cfg = makeTestConfig(log_path_);
     cfg.enabled = false;
     AuditLogger logger(nullptr, nullptr, cfg);
@@ -122,7 +127,7 @@ TEST_F(AuditLoggerTest, LogEvent_DisabledLogger_NoFileCreated) {
     EXPECT_FALSE(std::filesystem::exists(log_path_));
 }
 
-TEST_F(AuditLoggerTest, LogEvent_RecordContainsTimestamp) {
+TEST_F(AuditLoggerComprehensiveTest, LogEvent_RecordContainsTimestamp) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logEvent({{"action", "test"}});
     logger.flush();
@@ -141,7 +146,7 @@ TEST_F(AuditLoggerTest, LogEvent_RecordContainsTimestamp) {
 // Security Event Logging Tests
 // ============================================================================
 
-TEST_F(AuditLoggerTest, LogSecurityEvent_LoginSuccess) {
+TEST_F(AuditLoggerComprehensiveTest, LogSecurityEvent_LoginSuccess) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logSecurityEvent(
         SecurityEventType::LOGIN_SUCCESS,
@@ -154,7 +159,7 @@ TEST_F(AuditLoggerTest, LogSecurityEvent_LoginSuccess) {
     EXPECT_GE(countLines(log_path_), 1u);
 }
 
-TEST_F(AuditLoggerTest, LogSecurityEvent_LoginFailed) {
+TEST_F(AuditLoggerComprehensiveTest, LogSecurityEvent_LoginFailed) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logSecurityEvent(
         SecurityEventType::LOGIN_FAILED,
@@ -167,7 +172,7 @@ TEST_F(AuditLoggerTest, LogSecurityEvent_LoginFailed) {
     EXPECT_GE(countLines(log_path_), 1u);
 }
 
-TEST_F(AuditLoggerTest, LogSecurityEvent_PermissionDenied) {
+TEST_F(AuditLoggerComprehensiveTest, LogSecurityEvent_PermissionDenied) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logSecurityEvent(
         SecurityEventType::PERMISSION_DENIED,
@@ -180,7 +185,7 @@ TEST_F(AuditLoggerTest, LogSecurityEvent_PermissionDenied) {
     EXPECT_GE(countLines(log_path_), 1u);
 }
 
-TEST_F(AuditLoggerTest, LogSecurityEvent_MultipleTypes) {
+TEST_F(AuditLoggerComprehensiveTest, LogSecurityEvent_MultipleTypes) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
 
     std::vector<SecurityEventType> events = {
@@ -204,7 +209,7 @@ TEST_F(AuditLoggerTest, LogSecurityEvent_MultipleTypes) {
     EXPECT_GE(countLines(log_path_), events.size());
 }
 
-TEST_F(AuditLoggerTest, LogSecurityEvent_WithDetails) {
+TEST_F(AuditLoggerComprehensiveTest, LogSecurityEvent_WithDetails) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     nlohmann::json details = {
         {"ip", "192.168.1.1"},
@@ -226,14 +231,14 @@ TEST_F(AuditLoggerTest, LogSecurityEvent_WithDetails) {
 // Hash Chain Tests
 // ============================================================================
 
-TEST_F(AuditLoggerTest, HashChain_InitialChainStateEmpty) {
+TEST_F(AuditLoggerComprehensiveTest, HashChain_InitialChainStateEmpty) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_));
     auto state = logger.getChainState();
     EXPECT_TRUE(state.contains("entry_count"));
     EXPECT_EQ(state["entry_count"].get<uint64_t>(), 0u);
 }
 
-TEST_F(AuditLoggerTest, HashChain_EntryCountIncrements) {
+TEST_F(AuditLoggerComprehensiveTest, HashChain_EntryCountIncrements) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_));
 
     for (int i = 0; i < 3; ++i) {
@@ -245,7 +250,7 @@ TEST_F(AuditLoggerTest, HashChain_EntryCountIncrements) {
     EXPECT_GE(state["entry_count"].get<uint64_t>(), 3u);
 }
 
-TEST_F(AuditLoggerTest, HashChain_VerifyIntegrity_ValidChain) {
+TEST_F(AuditLoggerComprehensiveTest, HashChain_VerifyIntegrity_ValidChain) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_));
 
     logger.logEvent({{"action", "init"}});
@@ -256,7 +261,7 @@ TEST_F(AuditLoggerTest, HashChain_VerifyIntegrity_ValidChain) {
     EXPECT_TRUE(logger.verifyChainIntegrity());
 }
 
-TEST_F(AuditLoggerTest, HashChain_LogEntriesContainPrevHash) {
+TEST_F(AuditLoggerComprehensiveTest, HashChain_LogEntriesContainPrevHash) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_));
 
     logger.logEvent({{"action", "first"}});
@@ -280,7 +285,7 @@ TEST_F(AuditLoggerTest, HashChain_LogEntriesContainPrevHash) {
     EXPECT_TRUE(has_chain_entry);
 }
 
-TEST_F(AuditLoggerTest, HashChain_WithoutChain_NoChainEntry) {
+TEST_F(AuditLoggerComprehensiveTest, HashChain_WithoutChain_NoChainEntry) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logEvent({{"action", "test"}});
     logger.flush();
@@ -299,7 +304,7 @@ TEST_F(AuditLoggerTest, HashChain_WithoutChain_NoChainEntry) {
 // Concurrent Logging Tests
 // ============================================================================
 
-TEST_F(AuditLoggerTest, ConcurrentLogging_ThreadSafe) {
+TEST_F(AuditLoggerComprehensiveTest, ConcurrentLogging_ThreadSafe) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
 
     constexpr int THREADS = 4;
@@ -332,7 +337,7 @@ TEST_F(AuditLoggerTest, ConcurrentLogging_ThreadSafe) {
 // Compliance / Structured Log Tests
 // ============================================================================
 
-TEST_F(AuditLoggerTest, LogEntries_ContainCategoryField) {
+TEST_F(AuditLoggerComprehensiveTest, LogEntries_ContainCategoryField) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
     logger.logEvent({{"user", "alice"}, {"action", "login"}});
     logger.flush();
@@ -346,7 +351,7 @@ TEST_F(AuditLoggerTest, LogEntries_ContainCategoryField) {
     EXPECT_EQ(j["category"].get<std::string>(), "AUDIT");
 }
 
-TEST_F(AuditLoggerTest, SecurityEvents_SystemAccountAudit) {
+TEST_F(AuditLoggerComprehensiveTest, SecurityEvents_SystemAccountAudit) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
 
     // Server lifecycle events
@@ -357,7 +362,7 @@ TEST_F(AuditLoggerTest, SecurityEvents_SystemAccountAudit) {
     EXPECT_GE(countLines(log_path_), 2u);
 }
 
-TEST_F(AuditLoggerTest, SecurityEvents_KeyManagement) {
+TEST_F(AuditLoggerComprehensiveTest, SecurityEvents_KeyManagement) {
     AuditLogger logger(nullptr, nullptr, makeTestConfig(log_path_, false));
 
     logger.logSecurityEvent(SecurityEventType::KEY_CREATED, "admin", "key-001");

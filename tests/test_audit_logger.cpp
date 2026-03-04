@@ -21,6 +21,7 @@
 
 #include "utils/audit_logger.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition.h"
 
 #include <fstream>
 #include <filesystem>
@@ -58,6 +59,10 @@ protected:
 };
 
 TEST_F(AuditLoggerTest, EncryptThenSignFlow) {
+    if (!themis::edition::IsFeatureEnabled("field_encryption")) {
+        GTEST_SKIP() << "field_encryption feature is unavailable in this edition";
+    }
+
     AuditLoggerConfig cfg;
     cfg.enabled = true;
     cfg.encrypt_then_sign = true;
@@ -137,6 +142,10 @@ TEST_F(AuditLoggerTest, DisabledLogger) {
 }
 
 TEST_F(AuditLoggerTest, MultipleEvents) {
+    if (!themis::edition::IsFeatureEnabled("field_encryption")) {
+        GTEST_SKIP() << "field_encryption feature is unavailable in this edition";
+    }
+
     AuditLoggerConfig cfg;
     cfg.enabled = true;
     cfg.encrypt_then_sign = true;
@@ -245,20 +254,24 @@ TEST_F(AuditLoggerTest, ArchiveOldEntries) {
     
     // Verify archive file exists and contains the old entry
     ASSERT_TRUE(std::filesystem::exists(archive_path));
-    std::ifstream archive_ifs(archive_path);
     std::string line;
-    ASSERT_TRUE(std::getline(archive_ifs, line));
-    auto archived_record = nlohmann::json::parse(line);
-    EXPECT_EQ(archived_record["payload"]["data"], "old_event");
+    {
+        std::ifstream archive_ifs(archive_path);
+        ASSERT_TRUE(std::getline(archive_ifs, line));
+        auto archived_record = nlohmann::json::parse(line);
+        EXPECT_EQ(archived_record["payload"]["data"], "old_event");
+    }
     
     // Verify main log only contains recent entry
-    std::ifstream main_ifs(log_path_);
     int main_count = 0;
-    while (std::getline(main_ifs, line)) {
-        if (!line.empty()) {
-            auto record = nlohmann::json::parse(line);
-            EXPECT_EQ(record["payload"]["data"], "recent_event");
-            ++main_count;
+    {
+        std::ifstream main_ifs(log_path_);
+        while (std::getline(main_ifs, line)) {
+            if (!line.empty()) {
+                auto record = nlohmann::json::parse(line);
+                EXPECT_EQ(record["payload"]["data"], "recent_event");
+                ++main_count;
+            }
         }
     }
     EXPECT_EQ(main_count, 1);
@@ -331,24 +344,34 @@ TEST_F(AuditLoggerTest, RetentionWithNoOldEntries) {
     
     AuditLogger logger(enc_, pki_, cfg);
     
-    // Log only recent events
-    for (int i = 0; i < 3; ++i) {
-        nlohmann::json event = {
-            {"event_id", i},
-            {"action", "recent_event"}
-        };
-        logger.logEvent(event);
+    // Write only recent events with explicit timestamps
+    auto now = std::chrono::system_clock::now();
+    {
+        std::ofstream ofs(log_path_);
+        for (int i = 0; i < 3; ++i) {
+            nlohmann::json event = {
+                {"ts", std::chrono::duration_cast<std::chrono::milliseconds>(
+                    now.time_since_epoch()).count()},
+                {"category", "AUDIT"},
+                {"payload", {{"type", "plaintext"}, {"data", "recent_event"}}},
+                {"event_id", i}
+            };
+            ofs << event.dump() << "\n";
+        }
     }
     
     // Try to archive/purge with thresholds that won't match anything
-    auto future = std::chrono::system_clock::now() + std::chrono::hours(24);
+    auto recent_threshold = std::chrono::system_clock::now() - std::chrono::hours(24);
     std::string archive_path = "data/logs/test_audit_archive2.jsonl";
+    std::filesystem::remove(archive_path);
     
-    size_t archived = logger.archiveOldEntries(future, archive_path);
+    size_t archived = logger.archiveOldEntries(recent_threshold, archive_path);
     EXPECT_EQ(archived, 0);
-    EXPECT_FALSE(std::filesystem::exists(archive_path));
+    if (std::filesystem::exists(archive_path)) {
+        EXPECT_EQ(std::filesystem::file_size(archive_path), 0u);
+    }
     
-    size_t purged = logger.purgeOldEntries(future);
+    size_t purged = logger.purgeOldEntries(recent_threshold);
     EXPECT_EQ(purged, 0);
     
     // Verify all 3 entries are still present

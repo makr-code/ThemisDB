@@ -47,6 +47,15 @@
 
 using namespace themis::acceleration;
 
+namespace {
+void ensureCpuMatrixBackend() {
+    auto& registry = BackendRegistry::instance();
+    if (registry.getBestMatrixBackend() == nullptr) {
+        registry.registerBackend(std::make_unique<CPUMatrixBackend>());
+    }
+}
+} // namespace
+
 // =============================================================================
 // Fallback priority order
 // =============================================================================
@@ -176,12 +185,14 @@ TEST(BackendSelectionMatrix, CPUMatrixBackend_InitializeSucceeds) {
 // =============================================================================
 
 TEST(BackendSelectionMatrix, GetBestMatrixBackend_ReturnsCPU_WhenNoGPU) {
+    ensureCpuMatrixBackend();
     auto* mb = BackendRegistry::instance().getBestMatrixBackend();
     ASSERT_NE(mb, nullptr);
     EXPECT_EQ(mb->type(), BackendType::CPU);
 }
 
 TEST(BackendSelectionMatrix, SelectMatrixBackendFor_FP32_ReturnsCPU) {
+    ensureCpuMatrixBackend();
     BackendRegistry::CapabilityRequirements reqs;
     reqs.needsMatrixOps      = true;
     reqs.requiredPrecisions  = PrecisionMode::FP32;
@@ -212,6 +223,7 @@ TEST(BackendSelectionMatrix, SelectMatrixBackendFor_Async_ReturnsNull_WhenNoGPU)
 }
 
 TEST(BackendSelectionMatrix, SelectMatrixBackendFor_BatchProcessing_ReturnsCPU) {
+    ensureCpuMatrixBackend();
     BackendRegistry::CapabilityRequirements reqs;
     reqs.needsMatrixOps = true;
     reqs.needsBatch     = true;

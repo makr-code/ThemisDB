@@ -1165,6 +1165,9 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 );
             }
 
+            const bool startsWithClause = (tokens[start].type == TokenType::WITH);
+            bool consumedTopLevelForAfterWith = false;
+
             // Find the end of this statement, tracking nesting depth so that
             // FOR/WITH tokens inside parentheses (e.g. CTE subqueries in WITH
             // clauses) are not mistakenly treated as new statement boundaries.
@@ -1180,6 +1183,13 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                     // report when we hand it the slice below.
                     if (depth > 0) --depth;
                 }
+                // WITH-statements must include their first top-level FOR
+                if (depth == 0 && startsWithClause && tok.type == TokenType::FOR && !consumedTopLevelForAfterWith) {
+                    consumedTopLevelForAfterWith = true;
+                    ++end;
+                    continue;
+                }
+
                 // Only recognise statement/block boundaries at the top level
                 if (depth == 0 && (isStatementStart(tok.type) || isTerminator(tok.type))) {
                     break;

@@ -553,6 +553,12 @@ ArchiveProcessorResult ArchiveProcessor::process(
         result.error_message = "Unknown archive format";
         return result;
     }
+
+    // For strict reject policy, fail fast without parsing archive internals.
+    if (config_.strategy == ArchiveStrategy::REJECT) {
+        result.error_message = "Archive uploads are not accepted";
+        return result;
+    }
     
     // Extract metadata
     auto metadata_opt = extractMetadata(blob, format);
@@ -595,10 +601,7 @@ ArchiveProcessorResult ArchiveProcessor::process(
     }
     
     // Handle based on strategy
-    if (config_.strategy == ArchiveStrategy::REJECT) {
-        result.error_message = "Archive uploads are not accepted";
-        return result;
-    } else if (config_.strategy == ArchiveStrategy::METADATA_ONLY) {
+    if (config_.strategy == ArchiveStrategy::METADATA_ONLY) {
         result.success = true;
         result.metadata = json{
             {"format", static_cast<int>(format)},
