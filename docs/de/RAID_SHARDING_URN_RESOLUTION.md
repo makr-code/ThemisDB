@@ -14,11 +14,12 @@
 3. [VCC-URN Format & Parsing](#3-vcc-urn-format--parsing)
 4. [URN-Auflösung (Resolution)](#4-urn-auflösung-resolution)
 5. [RAID-Redundanzmodi](#5-raid-redundanzmodi)
-6. [Shard-Topologie & Adressierung](#6-shard-topologie--adressierung)
-7. [Praktische Code-Beispiele](#7-praktische-code-beispiele)
-8. [End-to-End Flow-Diagramme](#8-end-to-end-flow-diagramme)
-9. [Konfigurationsbeispiele (YAML)](#9-konfigurationsbeispiele-yaml)
-10. [Performance-Charakteristiken](#10-performance-charakteristiken)
+6. [RAID 0 / 1 / 5 / 10 – Mechanik & Parity-Bits](#6-raid-0--1--5--10--mechanik--parity-bits)
+7. [Shard-Topologie & Adressierung](#7-shard-topologie--adressierung)
+8. [Praktische Code-Beispiele](#8-praktische-code-beispiele)
+9. [End-to-End Flow-Diagramme](#9-end-to-end-flow-diagramme)
+10. [Konfigurationsbeispiele (YAML)](#10-konfigurationsbeispiele-yaml)
+11. [Performance-Charakteristiken](#11-performance-charakteristiken)
 
 ---
 
@@ -636,9 +637,433 @@ enum class ReadPreference {
 
 ---
 
-## 6. Shard-Topologie & Adressierung
+## 6. RAID 0 / 1 / 5 / 10 – Mechanik & Parity-Bits
 
-### 6.1 ShardInfo – Vollständige Metadaten
+Dieser Abschnitt erklärt, **wie** die vier klassischen RAID-Level in ThemisDB konkret eingesetzt werden und **wie die Parity-Berechnung** auf Byte-Ebene funktioniert.
+
+### 6.1 Zuordnung RAID-Level → ThemisDB-Modus
+
+| RAID-Level | ThemisDB `RedundancyMode` | Datei / Enum-Wert |
+|---|---|---|
+| RAID 0 | `STRIPE` | `redundancy_strategy.h` → `RedundancyMode::STRIPE` |
+| RAID 1 | `MIRROR` | `redundancy_strategy.h` → `RedundancyMode::MIRROR` |
+| RAID 5 | `PARITY` (1 Parity-Shard) | `redundancy_strategy.h` → `RedundancyMode::PARITY` |
+| RAID 6 | `RAID6` (≥2 Parity-Shards) | `redundancy_strategy.h` → `RedundancyMode::RAID6` |
+| RAID 10 | `STRIPE_MIRROR` | `redundancy_strategy.h` → `RedundancyMode::STRIPE_MIRROR` |
+
+---
+
+### 6.2 RAID 0 – Striping (keine Redundanz)
+
+**Konzept:** Daten werden in gleich große Chunks zerlegt und auf N Shards verteilt. Kein Datenverlust-Schutz, dafür maximaler Durchsatz.
+
+```
+Dokument (4 MB), 4 Shards:
+
+Chunk-Größe = 4 MB / 4 = 1 MB
+
+[Shard A] ← Chunk 0 (Byte    0 –  1.048.576)
+[Shard B] ← Chunk 1 (Byte 1M –  2.097.152)
+[Shard C] ← Chunk 2 (Byte 2M –  3.145.728)
+[Shard D] ← Chunk 3 (Byte 3M –  4.194.304)
+
+Lesen: alle 4 Chunks parallel → 4× schneller als ein Shard
+Schreiben: alle 4 parallel → 4× Schreibdurchsatz
+Ausfall eines Shards → Dokument nicht mehr vollständig rekonstruierbar
+```
+
+**Einsatz in ThemisDB:**
+
+```cpp
+// include/sharding/redundancy_strategy.h
+struct StripeConfig {
+    uint32_t stripe_size_kb = 64;           // Chunk-Größe
+    uint32_t min_stripe_shards = 4;         // Mindestanzahl Shards
+    bool stripe_large_documents_only = true;
+    uint32_t large_document_threshold_kb = 1024;  // Nur Dokumente ≥ 1 MB stripen
+    bool parallel_stripe_io = true;
+    uint32_t max_parallel_io = 8;
+};
+```
+
+**Anwendungsfall:** Analytics-Caches, kurzlebige Session-Daten, temporäre Berechnungsergebnisse.
+
+---
+
+### 6.3 RAID 1 – Mirroring (vollständige Spiegelung)
+
+**Konzept:** Jedes Datenelement wird identisch auf N Shards geschrieben. Lesen kann von jedem Replikat kommen.
+
+```
+Schreiben von "users:uuid-123" = {name: "Max"}:
+
+[Shard A] ← identische Kopie
+[Shard B] ← identische Kopie
+[Shard C] ← identische Kopie
+
+Alle 3 müssen ACK senden (WriteConcern = MAJORITY oder ALL)
+
+Lesen: Round-Robin oder NEAREST → bis zu 3× Lesedurchsatz
+Ausfall von A und B → Shard C enthält alle Daten vollständig
+```
+
+**Implementierung (Pseudo-Code aus `compendium/docs/chapter_17_scaling.md`):**
+
+```cpp
+void writeRAID1(const std::string& key, const std::string& value) {
+    std::vector<std::future<bool>> results;
+
+    // Synchroner Write an alle Replikas
+    for (auto& replica : replicas) {
+        results.push_back(std::async(std::launch::async,
+            [&replica, &key, &value]() {
+                return replica.put(key, value);
+            }));
+    }
+
+    // Warten, bis alle (oder Mehrheit) ACK senden
+    for (auto& fut : results) {
+        if (!fut.get()) {
+            throw WriteException("Replica write failed");
+        }
+    }
+}
+```
+
+**Failover:** Fällt der Primary aus, wird ein Replikat automatisch zum neuen Primary befördert (gesundheitsprüfungsbasiert via etcd/Raft).
+
+**Anwendungsfall:** Produktionsdaten mit High-Availability-Anforderung (Benutzerdaten, Transaktionen).
+
+---
+
+### 6.4 RAID 5 – Parity-basiertes Erasure Coding
+
+**Konzept:** Daten werden in K Chunks aufgeteilt. Ein zusätzlicher **Parity-Chunk** ermöglicht die Rekonstruktion eines beliebigen ausgefallenen Chunks.
+
+#### 6.4.1 Wie Parity-Bits funktionieren (XOR)
+
+Der einfachste Parity-Mechanismus ist **bitweises XOR**. Für drei Datenchunks D0, D1, D2:
+
+```
+Parity P = D0 ⊕ D1 ⊕ D2
+
+Fällt D1 aus:
+D1 = P ⊕ D0 ⊕ D2  (XOR ist selbstinvers: a ⊕ a = 0)
+```
+
+**Konkretes Byte-Beispiel:**
+
+```
+D0 = 0b10110110  (182)
+D1 = 0b01001010  ( 74)
+D2 = 0b11100001  (225)
+
+P  = D0 ⊕ D1 ⊕ D2
+   = 10110110
+   ⊕ 01001010
+   ──────────
+     11111100
+   ⊕ 11100001
+   ──────────
+P  = 00011101  ( 29)
+
+Fällt D1 aus:
+D1_rek = P ⊕ D0 ⊕ D2
+       = 00011101
+       ⊕ 10110110
+       ──────────
+         10101011
+       ⊕ 11100001
+       ──────────
+D1_rek = 01001010  (74) ✅ korrekt rekonstruiert
+```
+
+**Einfache XOR-Parity aus dem Compendium (`compendium/docs/chapter_17_scaling.md`):**
+
+```cpp
+// XOR über alle Datenchunks → Parity-Chunk
+std::vector<uint8_t> calculateParity(
+    const std::vector<std::vector<uint8_t>>& data_blocks)
+{
+    size_t block_size = data_blocks[0].size();
+    std::vector<uint8_t> parity(block_size, 0);
+
+    for (const auto& block : data_blocks) {
+        for (size_t i = 0; i < block_size; ++i) {
+            parity[i] ^= block[i];  // XOR-Akkumulation
+        }
+    }
+    return parity;
+}
+
+// Rekonstruktion eines fehlenden Chunks
+std::vector<uint8_t> reconstructBlock(
+    int missing_idx,
+    std::vector<std::optional<std::vector<uint8_t>>>& blocks)
+{
+    std::vector<uint8_t> reconstructed(chunk_size, 0);
+
+    // XOR aller vorhandenen Chunks (inkl. Parity) → liefert den fehlenden Chunk
+    for (size_t i = 0; i < blocks.size(); ++i) {
+        if (i != missing_idx && blocks[i].has_value()) {
+            for (size_t j = 0; j < chunk_size; ++j) {
+                reconstructed[j] ^= (*blocks[i])[j];
+            }
+        }
+    }
+    return reconstructed;
+}
+```
+
+#### 6.4.2 Reed-Solomon – Mehrfach-Parity (ThemisDB Standard)
+
+Für mehr als einen Parity-Shard (PARITY mit m≥2, RAID6) reicht einfaches XOR nicht mehr aus. ThemisDB verwendet **Reed-Solomon-Codes über GF(2⁸)** (Galois Field mit 256 Elementen).
+
+**Warum GF(2⁸)?**
+- Alle Operationen (Addition, Multiplikation, Inversion) sind in 8-Bit-Arithmetik lösbar.
+- XOR entspricht der Addition in GF(2⁸): `a + b = a ⊕ b`.
+- Multiplikation verwendet den Russian-Peasant-Algorithmus mit dem irreduziblen Polynom x⁸+x⁴+x³+x²+1 (0x1d).
+
+**GF(2⁸)-Multiplikation aus `src/sharding/redundancy_strategy.cpp`:**
+
+```cpp
+// src/sharding/redundancy_strategy.cpp – Zeile 431 ff.
+uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
+    // Russian Peasant Multiplication in GF(2^8)
+    // Irreduzibles Polynom: x^8 + x^4 + x^3 + x^2 + 1  (0x1d)
+    uint8_t p = 0;
+    for (int i = 0; i < 8; i++) {
+        if (b & 1) p ^= a;         // Addition in GF(2^8) = XOR
+        const uint8_t hi = a & 0x80;
+        a <<= 1;
+        if (hi) a ^= 0x1d;         // Modulo irreduzibles Polynom
+        b >>= 1;
+    }
+    return p;
+}
+```
+
+#### 6.4.3 Vandermonde-Matrix (Encode)
+
+Die Parity-Chunks werden mit einer **Vandermonde-Matrix** berechnet. Jede Zeile der Matrix repräsentiert eine Linearkombination der Datenchunks:
+
+```
+Für k=3 Datenchunks und m=2 Parity-Chunks:
+
+Encoding-Matrix (5×3):
+┌───────────────────┐
+│ 1  0  0  │ ← D0 (Identity: D0 bleibt D0)
+│ 0  1  0  │ ← D1
+│ 0  0  1  │ ← D2
+│──────────│
+│ 1  α  α² │ ← P0 = D0 ⊕ α·D1 ⊕ α²·D2  (Vandermonde Zeile 1)
+│ 1  α² α⁴ │ ← P1 = D0 ⊕ α²·D1 ⊕ α⁴·D2 (Vandermonde Zeile 2)
+└───────────────────┘
+
+α = 2 (Primitivwurzel in GF(2^8))
+· = GF-Multiplikation (gf_mul)
+⊕ = XOR (GF-Addition)
+```
+
+**Encoding-Implementierung aus `src/sharding/redundancy_strategy.cpp`:**
+
+```cpp
+// src/sharding/redundancy_strategy.cpp – Zeile 300 ff.
+std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,    // k
+    uint32_t parity_shards   // m
+) {
+    // Schritt 1: Daten in k gleich große Chunks aufteilen (ggf. mit 0 auffüllen)
+    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    std::vector<std::vector<uint8_t>> chunks;
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        size_t offset = i * chunk_size;
+        std::vector<uint8_t> chunk(chunk_size, 0);
+        if (offset < data.size()) {
+            size_t sz = std::min(chunk_size, data.size() - offset);
+            std::memcpy(chunk.data(), data.data() + offset, sz);
+        }
+        chunks.push_back(std::move(chunk));
+    }
+
+    // Schritt 2: Vandermonde-Matrix aufbauen (m × k)
+    auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+
+    // Schritt 3: Für jeden Parity-Shard p:
+    //   P[p][x] = XOR_j( vandermonde[p][j] * D[j][x] )  für jede Byte-Position x
+    for (uint32_t p = 0; p < parity_shards; ++p) {
+        std::vector<uint8_t> parity(chunk_size, 0);
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            uint8_t coeff = vandermonde[p][j];
+            if (coeff == 0) continue;
+            for (size_t x = 0; x < chunk_size; ++x) {
+                parity[x] ^= gf_mul(coeff, chunks[j][x]);  // GF-Multiplikation + XOR
+            }
+        }
+        chunks.push_back(std::move(parity));  // Parity-Chunk anhängen
+    }
+
+    return chunks;  // [D0, D1, ..., Dk-1, P0, P1, ..., Pm-1]
+}
+```
+
+#### 6.4.4 Rekonstruktion bei Shard-Ausfall
+
+Fällt ein Shard aus, wählt der Decoder K verfügbare Chunks (egal ob Daten oder Parity) und invertiert die zugehörigen K Zeilen der Encoding-Matrix:
+
+```
+Beispiel: k=3, m=1, Shard D1 fällt aus
+
+Verfügbare Chunks: D0, D2, P0
+→ Wähle die 3 Zeilen der Encoding-Matrix, die D0, D2, P0 beschreiben:
+  Zeile 0: [1  0  0]  (D0)
+  Zeile 2: [0  0  1]  (D2)
+  Zeile 3: [1  α  α²] (P0)
+
+→ Invertiere diese 3×3 GF(2^8)-Matrix
+→ Multipliziere Inverse mit [D0, D2, P0] → liefert [D0, D1, D2]
+```
+
+**Decode-Implementierung (vereinfacht, `src/sharding/redundancy_strategy.cpp`):**
+
+```cpp
+std::vector<uint8_t> ReedSolomonCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    // Validierung: Anzahl fehlender Chunks <= Anzahl Parity-Shards
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error("Too many missing chunks");
+    }
+
+    // Fast-Path: alle Datenchunks vorhanden → einfach konkatenieren
+    if (all_data_available) {
+        // ... (kein Matrix-Inversion nötig)
+    }
+
+    // Volle Rekonstruktion: Vandermonde-Matrix aufbauen + invertieren
+    auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+    // ... Zeilen der verfügbaren Chunks auswählen ...
+    invertMatrix(decode_matrix);  // GF(2^8)-Gauß-Jordan-Inversion
+    // ... Inverse Matrix × verfügbare Bytes → originale Datenbytes ...
+}
+```
+
+---
+
+### 6.5 RAID 10 – Striping + Mirroring kombiniert
+
+**Konzept:** Daten werden in Stripe-Gruppen aufgeteilt (RAID 0). Jede Stripe-Gruppe wird vollständig gespiegelt (RAID 1).
+
+```
+RAID 10 – 4 Shards (2 Stripe-Gruppen × 2 Replikas):
+
+Gruppe 1: [Shard A (Primary)] ←Mirror→ [Shard B (Replica)]
+Gruppe 2: [Shard C (Primary)] ←Mirror→ [Shard D (Replica)]
+
+Write("doc:uuid-123"):
+  hash(uuid-123) % 2 → Gruppe 1
+  → Shard A ← Chunk   (Primary)
+  → Shard B ← Chunk   (Mirror)
+
+Write("doc:uuid-456"):
+  hash(uuid-456) % 2 → Gruppe 2
+  → Shard C ← Chunk   (Primary)
+  → Shard D ← Chunk   (Mirror)
+
+Ausfall von Shard A → Shard B übernimmt (kein Datenverlust)
+Ausfall von Shard A + B → Gruppe 1 verloren (worst case)
+Ausfall von Shard A + C → kein Datenverlust (verschiedene Gruppen)
+```
+
+**ThemisDB-Konfiguration:**
+
+```yaml
+collections:
+  orders:
+    redundancy_mode: STRIPE_MIRROR
+    replication_factor: 2          # Je Stripe-Gruppe 2 Kopien
+    stripe:
+      min_stripe_shards: 4         # 4 Shards = 2 Gruppen × 2 Replikas
+      parallel_stripe_io: true
+    read_preference: NEAREST
+    write_concern: MAJORITY
+```
+
+---
+
+### 6.6 RAID 6 – Duale Parität
+
+RAID 6 entspricht PARITY mit **mindestens 2 Parity-Shards**. Kann den gleichzeitigen Ausfall von 2 beliebigen Shards tolerieren.
+
+```
+RAID 6 (k=4, m=2):
+Encoding-Matrix (6×4):
+┌─────────────────────┐
+│ I₄                  │  ← 4 Datenchunks (Identity)
+│─────────────────────│
+│ Vandermonde (2×4)   │  ← 2 Parity-Chunks
+└─────────────────────┘
+
+P0 = D0 ⊕ α¹·D1 ⊕ α²·D2 ⊕ α³·D3   (erste Vandermonde-Zeile)
+P1 = D0 ⊕ α²·D1 ⊕ α⁴·D2 ⊕ α⁶·D3   (zweite Vandermonde-Zeile)
+
+Fällt D1 + D3 aus:
+→ Wähle 4 der verbleibenden 6 Chunks (z. B. D0, D2, P0, P1)
+→ Invertiere die 4 zugehörigen Matrix-Zeilen
+→ Multipliziere → liefert [D0, D1, D2, D3]
+```
+
+**Konfiguration in ThemisDB:**
+
+```cpp
+// include/sharding/redundancy_strategy.h
+struct ErasureCodingConfig {
+    uint32_t data_shards   = 8;   // k
+    uint32_t parity_shards = 2;   // m ≥ 2 für RAID6
+    ErasureCodingAlgorithm algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
+};
+
+// RAID6-Validierung in src/sharding/redundancy_strategy.cpp
+if (mode == RedundancyMode::RAID6 && erasure_coding.parity_shards < 2) {
+    spdlog::error("RAID6 requires at least 2 parity shards");
+    return false;
+}
+```
+
+---
+
+### 6.7 Zusammenfassung: Wann welchen RAID-Level verwenden?
+
+```
+┌──────────────┬────────────────────────────────────────────────────────┐
+│ RAID-Level   │ ThemisDB-Empfehlung                                    │
+├──────────────┼────────────────────────────────────────────────────────┤
+│ RAID 0       │ Analytics-Caches, Ingest-Pipelines, temporäre Daten    │
+│ (STRIPE)     │ Kein Datenverlust-Schutz → nur mit Backup!             │
+├──────────────┼────────────────────────────────────────────────────────┤
+│ RAID 1       │ Transaktionsdaten, Benutzerdaten, Konfigurationen      │
+│ (MIRROR)     │ RF=2 für Standard-HA, RF=3 für kritische Systeme       │
+├──────────────┼────────────────────────────────────────────────────────┤
+│ RAID 5       │ Große Binärdaten, Dokumente, Embeddings (≥1 MB)        │
+│ (PARITY m=1) │ Spart 25–50 % Speicher vs. MIRROR bei 1 Ausfall-Tol. │
+├──────────────┼────────────────────────────────────────────────────────┤
+│ RAID 6       │ Archiv-Daten, Compliance-Speicher, Multi-AZ-Setups    │
+│ (PARITY m≥2) │ 2 simultane Ausfälle toleriert                        │
+├──────────────┼────────────────────────────────────────────────────────┤
+│ RAID 10      │ OLTP mit Durchsatz-Anforderung + HA                    │
+│ (STRIPE_MIR.)│ Beste Schreib-Performance + 1 Ausfall pro Gruppe       │
+└──────────────┴────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 7. Shard-Topologie & Adressierung
+
+### 7.1 ShardInfo – Vollständige Metadaten
 
 ```cpp
 // include/sharding/shard_topology.h
@@ -670,7 +1095,7 @@ struct ShardInfo {
 };
 ```
 
-### 6.2 ShardTopology – Topologieverwaltung
+### 7.2 ShardTopology – Topologieverwaltung
 
 ```cpp
 // include/sharding/shard_topology.h
@@ -700,7 +1125,7 @@ public:
 };
 ```
 
-### 6.3 Shard-ID-Namenskonvention
+### 7.3 Shard-ID-Namenskonvention
 
 ```
 Format:  shard_{standort}_{domäne}_{nummer}
@@ -718,7 +1143,7 @@ Endpunktformat:
   Beispiel: themis-shard001.dc1.example.com:8080
 ```
 
-### 6.4 Topologie-Initialisierung (Server-Start)
+### 7.4 Topologie-Initialisierung (Server-Start)
 
 ```cpp
 // src/main_server.cpp (vereinfacht)
@@ -742,9 +1167,9 @@ for (const auto& shard : config["sharding"]["shards"]) {
 
 ---
 
-## 7. Praktische Code-Beispiele
+## 8. Praktische Code-Beispiele
 
-### 7.1 Vollständiges Auflösungsbeispiel
+### 8.1 Vollständiges Auflösungsbeispiel
 
 ```cpp
 #include "sharding/urn.h"
@@ -809,7 +1234,7 @@ if (resolver.isLocal(*urn)) {
 }
 ```
 
-### 7.2 Hash-Ring direkt nutzen
+### 8.2 Hash-Ring direkt nutzen
 
 ```cpp
 #include "sharding/consistent_hash.h"
@@ -837,7 +1262,7 @@ auto successors = ring.getSuccessors(my_hash, 3);
 // successors = ["shard_002", "shard_001", "shard_003"]
 ```
 
-### 7.3 URN erstellen und serialisieren
+### 8.3 URN erstellen und serialisieren
 
 ```cpp
 #include "sharding/urn.h"
@@ -873,9 +1298,9 @@ uint64_t hash = my_urn.hash();
 
 ---
 
-## 8. End-to-End Flow-Diagramme
+## 9. End-to-End Flow-Diagramme
 
-### 8.1 Leseanfrage (Read Path)
+### 9.1 Leseanfrage (Read Path)
 
 ```
 Client                  URNResolver           ConsistentHashRing    ShardTopology    Shard
@@ -895,7 +1320,7 @@ Client                  URNResolver           ConsistentHashRing    ShardTopolog
   │◄── Datensatz ───────────│                        │                   │              │
 ```
 
-### 8.2 Schreibanfrage mit MIRROR-Replikation (Write Path)
+### 9.2 Schreibanfrage mit MIRROR-Replikation (Write Path)
 
 ```
 Client              URNResolver      HashRing     Shard A (Primary)   Shard B (R1)   Shard C (R2)
@@ -917,7 +1342,7 @@ Client              URNResolver      HashRing     Shard A (Primary)   Shard B (R
   │◄─ SUCCESS ──────────│                                │                  │               │
 ```
 
-### 8.3 URN-Auflösung – interner Ablauf
+### 9.3 URN-Auflösung – interner Ablauf
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
@@ -942,7 +1367,7 @@ Client              URNResolver      HashRing     Shard A (Primary)   Shard B (R
 └────────────────────────────────────────────────────────────────┘
 ```
 
-### 8.4 Shard hinzufügen (Rebalancing)
+### 9.4 Shard hinzufügen (Rebalancing)
 
 ```
 Vor Hinzufügen von Shard D:
@@ -966,9 +1391,9 @@ Jeder der 4 Shards verantwortet ≈ 25 % der Daten
 
 ---
 
-## 9. Konfigurationsbeispiele (YAML)
+## 10. Konfigurationsbeispiele (YAML)
 
-### 9.1 Basis-Sharding-Konfiguration
+### 10.1 Basis-Sharding-Konfiguration
 
 ```yaml
 # config/themisdb.yaml
@@ -1020,7 +1445,7 @@ metadata:
   enable_health_checks: true
 ```
 
-### 9.2 MIRROR-Modus (RAID-1)
+### 10.2 MIRROR-Modus (RAID-1)
 
 ```yaml
 collections:
@@ -1038,7 +1463,7 @@ collections:
     write_concern: ALL                # Alle Shards müssen ACK senden
 ```
 
-### 9.3 PARITY-Modus (Erasure Coding, RAID-5/6)
+### 10.3 PARITY-Modus (Erasure Coding, RAID-5/6)
 
 ```yaml
 collections:
@@ -1061,7 +1486,7 @@ collections:
       min_document_size_kb: 512
 ```
 
-### 9.4 GEO_MIRROR-Modus (Multi-Region)
+### 10.4 GEO_MIRROR-Modus (Multi-Region)
 
 ```yaml
 collections:
@@ -1087,7 +1512,7 @@ collections:
       region_failure_threshold: 0.5  # Region gilt als ausgefallen bei <50 % Shards
 ```
 
-### 9.5 Vollständige Produktionskonfiguration
+### 10.5 Vollständige Produktionskonfiguration
 
 ```yaml
 # Produktionskonfiguration: 8 Shards, MIRROR RF=3, Multi-Region
@@ -1159,9 +1584,9 @@ observability:
 
 ---
 
-## 10. Performance-Charakteristiken
+## 11. Performance-Charakteristiken
 
-### 10.1 Hash-Ring-Komplexität
+### 11.1 Hash-Ring-Komplexität
 
 | Operation | Komplexität | Anmerkung |
 |---|---|---|
@@ -1175,7 +1600,7 @@ observability:
 - 8 Shards × 150 VNodes = 1.200 Einträge im Ring
 - `lower_bound` auf 1.200 Einträgen ≈ 10 Vergleiche (log₂ 1200 ≈ 10)
 
-### 10.2 URN-Auflösung – Latenz
+### 11.2 URN-Auflösung – Latenz
 
 ```
 URN::parse()           →  ~100 ns   (String-Operationen)
@@ -1189,7 +1614,7 @@ Gesamt (lokal)         →  ~450 ns   (sub-microsecond)
 Netzwerk (intern)      →  +1–3 ms   (TCP/TLS, Rechenzentrum)
 ```
 
-### 10.3 Verteilungsqualität
+### 11.3 Verteilungsqualität
 
 ```
 Szenarien getestet mit 8 Shards × 150 VNodes = 1.200 Ring-Einträge:
@@ -1207,7 +1632,7 @@ Gleichgewichtstest (1M URNs):
 Balance-Faktor: ~1,2 % (Ziel: <5 %) ✅
 ```
 
-### 10.4 Skalierungsverhalten
+### 11.4 Skalierungsverhalten
 
 ```
 Shards  VNodes  Ring-Größe  Lookup-Zeit  Balance-Faktor
@@ -1220,7 +1645,7 @@ Shards  VNodes  Ring-Größe  Lookup-Zeit  Balance-Faktor
   128     150      19200      ~270 ns         0,4 %
 ```
 
-### 10.5 Datenverschiebung bei Shard-Änderungen
+### 11.5 Datenverschiebung bei Shard-Änderungen
 
 ```
 Beim Hinzufügen von 1 Shard zu N vorhandenen Shards:
@@ -1235,7 +1660,7 @@ Gegenüber statischem Hashing (Modulo N):
   100 % müssten neu verteilt werden!
 ```
 
-### 10.6 RAID-Modus-Vergleich
+### 11.6 RAID-Modus-Vergleich
 
 ```
 Modus         | Write-Overhead  | Read-Skalierung | Speichereff.
@@ -1271,7 +1696,8 @@ Empfehlung nach Anwendungsfall:
 | `src/sharding/consistent_hash.cpp` | Hash-Ring-Implementierung |
 | `include/sharding/shard_topology.h` | ShardInfo, ShardTopology |
 | `src/sharding/shard_topology.cpp` | Topologieverwaltung |
-| `include/sharding/redundancy_strategy.h` | RAID-Modi, RedundancyMode |
+| `include/sharding/redundancy_strategy.h` | RAID-Modi, RedundancyMode, ErasureCodingConfig |
+| `src/sharding/redundancy_strategy.cpp` | Reed-Solomon encode/decode, GF(2⁸)-Arithmetik |
 | `src/main_server.cpp` | Server-Initialisierung mit RAID/Sharding |
 | `tests/test_sharding_core.cpp` | Sharding-Unit-Tests |
 | `tests/test_raid_integration.cpp` | RAID-Integrationstests |
