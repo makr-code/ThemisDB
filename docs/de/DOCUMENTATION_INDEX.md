@@ -196,7 +196,7 @@ docs/
 
 ## 📋 Navigation nach Thema
 
-### Source-Module (16 Komponenten)
+### Source-Module (44 Module — vollständige Liste in [src/README.md](../../src/README.md))
 
 | Modul | README | Source | Headers | LOC |
 |-------|--------|--------|---------|-----|
