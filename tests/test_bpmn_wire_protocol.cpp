@@ -174,14 +174,25 @@ TEST_F(BpmnIntegrationTest, CompleteTask) {
     auto [status, instance_id] = process_graph_->startProcess("testProcess", start_vars);
     ASSERT_TRUE(status.ok);
     
-    // The token should be at userTask1 after start
+    // startProcess initializes token at the start event; advance once to reach userTask1.
     auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
     ASSERT_TRUE(get_status.ok);
     ASSERT_FALSE(instance.tokens.empty());
+
+    const std::string token_id = instance.tokens.front().token_id;
+    ASSERT_FALSE(token_id.empty());
+
+    auto advance_status = process_graph_->advanceToken(instance_id, token_id);
+    ASSERT_TRUE(advance_status.ok) << "Failed to advance token to user task: "
+                                   << advance_status.message;
+
+    auto [get_status2, instance2] = process_graph_->getProcessInstance(instance_id);
+    ASSERT_TRUE(get_status2.ok);
+    ASSERT_FALSE(instance2.tokens.empty());
     
     // Find the task node - assert it exists
     std::string task_node;
-    for (const auto& token : instance.tokens) {
+    for (const auto& token : instance2.tokens) {
         if (token.current_node == "userTask1") {
             task_node = token.current_node;
             break;

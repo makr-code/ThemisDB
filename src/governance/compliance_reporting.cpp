@@ -39,6 +39,48 @@
 namespace themis {
 namespace governance {
 
+namespace {
+
+std::unordered_set<std::string> collect_action_candidates(const PolicyManager& policy_mgr) {
+    std::unordered_set<std::string> action_candidates = {"*"};
+    for (const auto& rule : policy_mgr.listRules()) {
+        if (!rule.enabled) {
+            continue;
+        }
+        if (rule.actions.empty()) {
+            action_candidates.insert("*");
+            continue;
+        }
+        for (const auto& action : rule.actions) {
+            action_candidates.insert(action);
+        }
+    }
+    return action_candidates;
+}
+
+std::vector<PolicyRule> find_applicable_rules_for_any_action(
+    const PolicyManager& policy_mgr,
+    const std::string& resource,
+    const std::unordered_set<std::string>& action_candidates
+) {
+    std::vector<PolicyRule> applicable_rules;
+    std::unordered_set<std::string> seen_rule_ids;
+
+    for (const auto& action : action_candidates) {
+        auto rules_for_action = policy_mgr.findApplicableRules(resource, action, {});
+        for (const auto& rule : rules_for_action) {
+            if (!seen_rule_ids.insert(rule.id).second) {
+                continue;
+            }
+            applicable_rules.push_back(rule);
+        }
+    }
+
+    return applicable_rules;
+}
+
+} // namespace
+
 // ========== PolicyCoverageAnalyzer::CoverageResult Implementation ==========
 
 nlohmann::json PolicyCoverageAnalyzer::CoverageResult::toJson() const {
@@ -155,20 +197,24 @@ std::vector<std::string> PolicyCoverageAnalyzer::findGaps(
     const std::vector<std::string>& expected_resources
 ) const {
     std::vector<std::string> gaps;
-    
+
     THEMIS_DEBUG("Finding gaps for {} expected resources", expected_resources.size());
-    
+
+    // Consider explicit-action rules when evaluating resource-level coverage.
+    const auto action_candidates = collect_action_candidates(policy_mgr);
+
     for (const auto& resource : expected_resources) {
-        // Check if any enabled rule covers this resource
-        auto applicable_rules = policy_mgr.findApplicableRules(resource, "*", {});
-        
-        if (applicable_rules.empty()) {
+        const auto applicable_rules =
+            find_applicable_rules_for_any_action(policy_mgr, resource, action_candidates);
+        const bool covered = !applicable_rules.empty();
+
+        if (!covered) {
             gaps.push_back(resource);
         }
     }
-    
+
     THEMIS_INFO("Found {} resource gaps", gaps.size());
-    
+
     return gaps;
 }
 
@@ -245,16 +291,23 @@ void ComplianceGapDetector::addRequirement(const ComplianceRequirement& req) {
 
 std::vector<ComplianceGapDetector::ComplianceGap> 
 ComplianceGapDetector::detectGaps(const PolicyManager& policy_mgr) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ComplianceRequirement> requirements_snapshot;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        requirements_snapshot = requirements_;
+    }
+
     std::vector<ComplianceGap> gaps;
+    const auto action_candidates = collect_action_candidates(policy_mgr);
     
-    THEMIS_DEBUG("Detecting compliance gaps for {} requirements", requirements_.size());
+    THEMIS_DEBUG("Detecting compliance gaps for {} requirements", requirements_snapshot.size());
     
-    for (const auto& req : requirements_) {
+    for (const auto& req : requirements_snapshot) {
         if (!checkRequirement(req, policy_mgr)) {
             // Analyze specific gaps
             for (const auto& resource : req.required_resources) {
-                auto applicable_rules = policy_mgr.findApplicableRules(resource, "*", {});
+                auto applicable_rules =
+                    find_applicable_rules_for_any_action(policy_mgr, resource, action_candidates);
                 
                 if (applicable_rules.empty()) {
                     ComplianceGap gap;
@@ -321,15 +374,17 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
     const PolicyManager& policy_mgr,
     const std::string& framework
 ) const {
-    std::lock_guard<std::mutex> lock(mutex_);
     ComplianceStatus status;
     status.framework = framework.empty() ? "all" : framework;
     
     // Filter requirements by framework
     std::vector<ComplianceRequirement> filtered_reqs;
-    for (const auto& req : requirements_) {
-        if (framework.empty() || req.framework == framework) {
-            filtered_reqs.push_back(req);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& req : requirements_) {
+            if (framework.empty() || req.framework == framework) {
+                filtered_reqs.push_back(req);
+            }
         }
     }
     
@@ -404,9 +459,12 @@ bool ComplianceGapDetector::checkRequirement(
     const ComplianceRequirement& req,
     const PolicyManager& policy_mgr
 ) const {
+    const auto action_candidates = collect_action_candidates(policy_mgr);
+
     // Check if all required resources have appropriate policies
     for (const auto& resource : req.required_resources) {
-        auto applicable_rules = policy_mgr.findApplicableRules(resource, "*", {});
+        auto applicable_rules =
+            find_applicable_rules_for_any_action(policy_mgr, resource, action_candidates);
         
         if (applicable_rules.empty()) {
             return false; // No policy for this resource

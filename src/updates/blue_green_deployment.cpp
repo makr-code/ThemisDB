@@ -274,6 +274,9 @@ double BlueGreenDeployment::errorRate() const {
 
 bool BlueGreenDeployment::shouldRollback() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (is_rolled_back_ || !is_promoted_) {
+        return false;
+    }
     const size_t total = success_count_ + error_count_;
     if (total < config_.min_sample_count) {
         return false;

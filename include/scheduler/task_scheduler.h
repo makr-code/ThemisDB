@@ -608,6 +608,7 @@ private:
     // Running tasks tracking
     std::map<std::string, std::thread> running_task_threads_;
     mutable std::mutex running_mutex_;
+    std::atomic<size_t> active_task_threads_{0};
     
     // Statistics
     std::atomic<size_t> total_executions_{0};

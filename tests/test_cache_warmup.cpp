@@ -293,17 +293,17 @@ TEST_F(CacheWarmupTest, WarmupFromLog_MalformedJSON) {
 }
 
 // ---------------------------------------------------------------------------
-// warmupFromLog – L1 cap: excess entries go to L2
+// warmupFromLog – hard headroom cap limits number of loaded entries
 // ---------------------------------------------------------------------------
 
-TEST_F(CacheWarmupTest, WarmupFromLog_L1CapExcessGoesToL2) {
+TEST_F(CacheWarmupTest, WarmupFromLog_HeadroomCapLimitsLoadedEntries) {
     auto config = cfg();
     config.l1_max_entries = 4;   // cap = 2 for warmup
     AdaptiveQueryCache cache(config);
 
     {
         std::ofstream f(log_path_);
-        // Write 4 entries; first 2 should land in L1, rest in L2.
+        // Write 4 entries; warmup should only load up to the headroom cap.
         for (int i = 0; i < 4; ++i) {
             json value = {{"n", i}};
             writeLogLine(f, makeKey(i), b64Encode(value.dump()), 300);
@@ -311,12 +311,17 @@ TEST_F(CacheWarmupTest, WarmupFromLog_L1CapExcessGoesToL2) {
     }
 
     auto loaded = cache.warmupFromLog(log_path_);
-    EXPECT_EQ(loaded.entries_loaded, 4u);
+    EXPECT_EQ(loaded.entries_loaded, 2u);
 
-    // All 4 entries should be retrievable (regardless of tier).
-    for (int i = 0; i < 4; ++i) {
+    // Only loaded entries are expected to be present.
+    for (int i = 0; i < 2; ++i) {
         auto result = cache.get(makeKey(i));
         EXPECT_TRUE(result.has_value()) << "Entry " << i << " not found";
+    }
+
+    for (int i = 2; i < 4; ++i) {
+        auto result = cache.get(makeKey(i));
+        EXPECT_FALSE(result.has_value()) << "Entry " << i << " unexpectedly loaded";
     }
 }
 

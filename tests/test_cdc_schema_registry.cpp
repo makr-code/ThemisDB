@@ -268,7 +268,7 @@ TEST(WireFormatTest, HeaderSizeIsFive) {
 
 // ── 6. CdcSchemaEncoder – default schema templates ───────────────────────────
 
-TEST(CdcSchemaEncoderTest, DefaultAvroSchemaIsValidJson) {
+TEST(CdcSchemaEncoderDefaultsTest, DefaultAvroSchemaIsValidJson) {
     const auto schema = CdcSchemaEncoder::defaultAvroSchema("orders");
     auto j = nlohmann::json::parse(schema); // must not throw
     EXPECT_EQ(j["type"].get<std::string>(), "record");
@@ -278,7 +278,7 @@ TEST(CdcSchemaEncoderTest, DefaultAvroSchemaIsValidJson) {
     EXPECT_NE(ns.find("orders"), std::string::npos);
 }
 
-TEST(CdcSchemaEncoderTest, DefaultJsonSchemaIsValidJson) {
+TEST(CdcSchemaEncoderDefaultsTest, DefaultJsonSchemaIsValidJson) {
     const auto schema = CdcSchemaEncoder::defaultJsonSchema("customers");
     auto j = nlohmann::json::parse(schema);
     EXPECT_EQ(j["title"].get<std::string>(), "CdcEvent");
@@ -288,7 +288,7 @@ TEST(CdcSchemaEncoderTest, DefaultJsonSchemaIsValidJson) {
     EXPECT_TRUE(j["properties"].contains("key"));
 }
 
-TEST(CdcSchemaEncoderTest, DefaultProtobufSchemaContainsSyntax) {
+TEST(CdcSchemaEncoderDefaultsTest, DefaultProtobufSchemaContainsSyntax) {
     const auto schema = CdcSchemaEncoder::defaultProtobufSchema("inventory");
     EXPECT_NE(schema.find("syntax = \"proto3\""), std::string::npos);
     EXPECT_NE(schema.find("inventory"),            std::string::npos);

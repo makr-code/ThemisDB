@@ -42,6 +42,7 @@ protected:
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         db_ = std::make_unique<RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
         changefeed_ = std::make_unique<Changefeed>(db_->getRawDB());
         snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
         branch_manager_ = std::make_unique<BranchManager>(*db_, *changefeed_, *snapshot_manager_);
@@ -142,6 +143,7 @@ TEST_F(BranchManagerIntegrationTest, DatabaseRestartWithBranches) {
     RocksDBWrapper::Config config;
     config.db_path = test_db_path_;
     db_ = std::make_unique<RocksDBWrapper>(config);
+    ASSERT_TRUE(db_->open());
     changefeed_ = std::make_unique<Changefeed>(db_->getRawDB());
     snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
     branch_manager_ = std::make_unique<BranchManager>(*db_, *changefeed_, *snapshot_manager_);
@@ -158,7 +160,7 @@ TEST_F(BranchManagerIntegrationTest, BranchHierarchy) {
     
     // Create release branch from main
     auto release_branch = branch_manager_->createBranch(
-        "release/v2.0",
+        "release/v2_0",
         "main",
         "Release branch for version 2.0"
     );
@@ -172,7 +174,7 @@ TEST_F(BranchManagerIntegrationTest, BranchHierarchy) {
     
     auto hotfix_branch = branch_manager_->createBranch(
         "hotfix/security-patch",
-        "release/v2.0",
+        "release/v2_0",
         "Security patch for v2.0",
         "security-team",
         options
@@ -180,7 +182,7 @@ TEST_F(BranchManagerIntegrationTest, BranchHierarchy) {
     ASSERT_TRUE(hotfix_branch.has_value());
     
     // Verify hierarchy
-    EXPECT_EQ(hotfix_branch->parent_branch, "release/v2.0");
+    EXPECT_EQ(hotfix_branch->parent_branch, "release/v2_0");
     EXPECT_EQ(release_branch->parent_branch, "main");
 }
 
@@ -198,22 +200,22 @@ TEST_F(BranchManagerIntegrationTest, MultipleTagsAndBranches) {
     // Create branches from different tags
     BranchManager::CreateBranchOptions options1;
     options1.from_tag = "v1.0";
-    branch_manager_->createBranch("release/v1.0", "main", "Release 1.0", "system", options1);
+    branch_manager_->createBranch("release/v1_0", "main", "Release 1.0", "system", options1);
     
     BranchManager::CreateBranchOptions options2;
     options2.from_tag = "v1.1";
-    branch_manager_->createBranch("release/v1.1", "main", "Release 1.1", "system", options2);
+    branch_manager_->createBranch("release/v1_1", "main", "Release 1.1", "system", options2);
     
     BranchManager::CreateBranchOptions options3;
     options3.from_tag = "v1.2";
-    branch_manager_->createBranch("release/v1.2", "main", "Release 1.2", "system", options3);
+    branch_manager_->createBranch("release/v1_2", "main", "Release 1.2", "system", options3);
     
     // Verify all branches exist
     auto branches = branch_manager_->listBranches();
     EXPECT_GE(branches.size(), 4); // main + 3 releases
     
     // Verify branch sequences match tag sequences
-    auto v10_branch_seq = branch_manager_->getSequenceForBranch("release/v1.0");
+    auto v10_branch_seq = branch_manager_->getSequenceForBranch("release/v1_0");
     auto v10_tag_seq = snapshot_manager_->getSequenceForTag("v1.0");
     EXPECT_EQ(v10_branch_seq, v10_tag_seq);
 }

@@ -253,8 +253,19 @@ MergeEngine::MergeResult MergeEngine::merge(
     analytics::DiffEngine::DiffOptions diff_opts;
     diff_opts.include_values = true;
     
-    auto source_diff = diff_engine_.computeDiff(base_sequence, source_sequence, diff_opts);
-    auto target_diff = diff_engine_.computeDiff(base_sequence, target_sequence, diff_opts);
+    analytics::DiffEngine::DiffResult source_diff;
+    source_diff.from_sequence = base_sequence;
+    source_diff.to_sequence = source_sequence;
+    if (source_sequence > base_sequence) {
+        source_diff = diff_engine_.computeDiff(base_sequence, source_sequence, diff_opts);
+    }
+
+    analytics::DiffEngine::DiffResult target_diff;
+    target_diff.from_sequence = base_sequence;
+    target_diff.to_sequence = target_sequence;
+    if (target_sequence > base_sequence) {
+        target_diff = diff_engine_.computeDiff(base_sequence, target_sequence, diff_opts);
+    }
     
     spdlog::debug("Source diff: {} changes, Target diff: {} changes",
                   source_diff.stats.total_changes, target_diff.stats.total_changes);

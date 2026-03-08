@@ -242,15 +242,17 @@ TEST(ChangeStreamCompressorTest, DeserializeTruncatedReturnsNullopt) {
     EXPECT_FALSE(CompressedBatch::deserialize(too_short).has_value());
 }
 
-TEST(ChangeStreamCompressorTest, DeserializeExactHeaderSizeSucceeds) {
+TEST(ChangeStreamCompressorTest, DeserializeSerializedEmptyBatchSucceeds) {
     ChangeStreamCompressor c;
     auto batch = c.compress({});
     auto wire  = batch.serialize();
-    // 14-byte header with empty payload
-    EXPECT_EQ(wire.size(), 14u);
+    // Header is 14 bytes; empty event sets may still carry an empty JSON array payload ("[]").
+    EXPECT_GE(wire.size(), 14u);
     auto maybe = CompressedBatch::deserialize(wire);
     ASSERT_TRUE(maybe.has_value());
     EXPECT_EQ(maybe->event_count, 0u);
+    EXPECT_EQ(maybe->original_size, batch.original_size);
+    EXPECT_EQ(maybe->payload, batch.payload);
 }
 
 // ── 9. Wrong magic → nullopt ─────────────────────────────────────────────────

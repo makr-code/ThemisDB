@@ -46,6 +46,7 @@ protected:
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         db_ = std::make_unique<RocksDBWrapper>(config);
+        ASSERT_TRUE(db_->open());
         
         // Initialize changefeed
         changefeed_ = std::make_unique<Changefeed>(db_->getRawDB());
@@ -322,7 +323,7 @@ TEST_F(BranchManagerTest, CreateBranchFromTag) {
     options.from_tag = "v1.0";
     
     auto branch = branch_manager_->createBranch(
-        "release/v1.0",
+        "release/v1_0",
         "main",
         "Release branch for v1.0",
         "system",
@@ -376,7 +377,7 @@ TEST_F(BranchManagerTest, BranchNameValidation) {
     EXPECT_TRUE(BranchManager::isValidBranchName("main"));
     EXPECT_TRUE(BranchManager::isValidBranchName("feature/test"));
     EXPECT_TRUE(BranchManager::isValidBranchName("bugfix/issue-123"));
-    EXPECT_TRUE(BranchManager::isValidBranchName("release_v1.0"));
+    EXPECT_TRUE(BranchManager::isValidBranchName("release_v1_0"));
     
     // Invalid names
     EXPECT_FALSE(BranchManager::isValidBranchName(""));
@@ -385,6 +386,7 @@ TEST_F(BranchManagerTest, BranchNameValidation) {
     EXPECT_FALSE(BranchManager::isValidBranchName("feature@test"));
     EXPECT_FALSE(BranchManager::isValidBranchName("feature test"));
     EXPECT_FALSE(BranchManager::isValidBranchName("feature#test"));
+    EXPECT_FALSE(BranchManager::isValidBranchName("release_v1.0"));
 }
 
 // Test: Merge branches (fast-forward)

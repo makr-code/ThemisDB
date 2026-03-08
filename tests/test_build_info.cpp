@@ -157,7 +157,8 @@ TEST(ReproducibilityInfo, BuildHostFieldPresent) {
 TEST(BuildManifest, ExportCreatesFile) {
     const std::string path = tmpPath("test_build_manifest.json");
     // Remove any leftover from a previous run
-    std::filesystem::remove(path);
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
 
     ASSERT_TRUE(exportBuildManifest(path));
     EXPECT_TRUE(std::filesystem::exists(path));
@@ -166,39 +167,45 @@ TEST(BuildManifest, ExportCreatesFile) {
     auto size = std::filesystem::file_size(path);
     EXPECT_GT(size, 0u);
 
-    std::filesystem::remove(path);
+    std::filesystem::remove(path, ec);
 }
 
 TEST(BuildManifest, ExportedManifestContainsGitCommit) {
     const std::string path = tmpPath("test_build_manifest_git.json");
-    std::filesystem::remove(path);
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
     ASSERT_TRUE(exportBuildManifest(path));
 
-    std::ifstream f(path);
-    ASSERT_TRUE(f.is_open());
-    std::string content((std::istreambuf_iterator<char>(f)),
-                         std::istreambuf_iterator<char>());
+    std::string content;
+    {
+        std::ifstream f(path);
+        ASSERT_TRUE(f.is_open());
+        content.assign(std::istreambuf_iterator<char>(f),
+                       std::istreambuf_iterator<char>());
+    }
 
     EXPECT_NE(content.find("git_commit"), std::string::npos);
     EXPECT_NE(content.find("toolchain"),  std::string::npos);
 
-    std::filesystem::remove(path);
+    std::filesystem::remove(path, ec);
 }
 
 TEST(BuildManifest, ExportedManifestVerifies) {
     const std::string path = tmpPath("test_build_manifest_verify.json");
-    std::filesystem::remove(path);
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
     ASSERT_TRUE(exportBuildManifest(path));
 
     // A freshly exported manifest must verify against the current binary
     EXPECT_TRUE(verifyBuildManifest(path));
 
-    std::filesystem::remove(path);
+    std::filesystem::remove(path, ec);
 }
 
 TEST(BuildManifest, TamperedManifestFailsVerification) {
     const std::string path = tmpPath("test_build_manifest_tamper.json");
-    std::filesystem::remove(path);
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
     ASSERT_TRUE(exportBuildManifest(path));
 
     // Overwrite git_commit with a different value
@@ -220,7 +227,7 @@ TEST(BuildManifest, TamperedManifestFailsVerification) {
 
     EXPECT_FALSE(verifyBuildManifest(path));
 
-    std::filesystem::remove(path);
+    std::filesystem::remove(path, ec);
 }
 
 TEST(BuildManifest, NonExistentManifestReturnsFalse) {

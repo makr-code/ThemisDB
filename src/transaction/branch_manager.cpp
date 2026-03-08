@@ -357,8 +357,6 @@ BranchManager::MergeResult BranchManager::mergeBranches(
     const std::string& target_branch,
     const MergeOptions& options
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
     MergeResult result;
     
     // Check both branches exist

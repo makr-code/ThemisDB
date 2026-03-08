@@ -174,7 +174,7 @@ TEST_F(CDCRetentionTest, RetentionByEventCount) {
 TEST_F(CDCRetentionTest, RetentionByTimestamp) {
     Changefeed::RetentionPolicy policy;
     policy.enabled = true;
-    policy.max_age_hours = std::chrono::hours(0);  // Immediate expiry (for testing)
+    policy.max_age_hours = std::chrono::hours(1);  // Enable age-based retention with a deterministic cutoff
     policy.max_event_count = 1000000;  // Very high, won't trigger
     
     auto* raw_db = db_->getDB();
@@ -186,9 +186,9 @@ TEST_F(CDCRetentionTest, RetentionByTimestamp) {
         event.type = Changefeed::ChangeEventType::EVENT_PUT;
         event.key = "old_key_" + std::to_string(i);
         event.value = "value";
-        // Set timestamp to 1 hour ago
+        // Set timestamp to 2 hours ago so it is strictly older than the 1h cutoff.
         auto now = std::chrono::system_clock::now().time_since_epoch();
-        event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count() - 3600000;
+        event.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count() - 2 * 3600000;
         changefeed_->recordEvent(event);
     }
     

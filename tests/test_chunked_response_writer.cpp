@@ -177,7 +177,7 @@ TEST(ChunkedResponseWriterTest, FromJsonVectorEmpty) {
 
 TEST(ChunkedResponseWriterTest, FromJsonVectorSingleItem) {
     auto req = makeRequest();
-    std::vector<json> items = {{"key", "value"}};
+    std::vector<json> items = {json{{"key", "value"}}};
     auto res = ChunkedResponseWriter::fromJsonVector(req, http::status::ok, items);
 
     std::string decoded = decodeChunked(res.body());

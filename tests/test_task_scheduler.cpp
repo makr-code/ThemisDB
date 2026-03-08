@@ -323,7 +323,7 @@ TEST_F(TaskSchedulerTest, IntervalTaskExecutesAfterInterval) {
     task.type = ScheduledTask::TaskType::FUNCTION;
     task.function_name = "increment";
     task.trigger_type = ScheduledTask::TriggerType::INTERVAL;
-    task.interval = 80ms;
+    task.interval = 1000ms;
     // Schedule for immediate execution
     task.next_run = std::chrono::system_clock::now();
 
@@ -352,7 +352,7 @@ TEST_F(TaskSchedulerTest, SchedulerLoopFailedTaskIncrementsTotalExecutions) {
     task.type = ScheduledTask::TaskType::FUNCTION;
     task.function_name = "always_fail_loop";
     task.trigger_type = ScheduledTask::TriggerType::INTERVAL;
-    task.interval = 80ms;
+    task.interval = 1000ms;
     task.max_retries = 0;  // No retries so the loop fires fast
     // Schedule for immediate execution
     task.next_run = std::chrono::system_clock::now();

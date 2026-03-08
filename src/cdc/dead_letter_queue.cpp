@@ -184,6 +184,25 @@ Changefeed::ChangeEvent DeadLetterQueue::replay(uint64_t dlq_sequence,
 
 bool DeadLetterQueue::remove(uint64_t dlq_sequence) {
     const std::string key = makeKey(dlq_sequence);
+    rocksdb::ReadOptions read_opts;
+    std::string existing;
+    rocksdb::Status read_status;
+
+    if (cf_) {
+        read_status = db_->Get(read_opts, cf_, key, &existing);
+    } else {
+        read_status = db_->Get(read_opts, key, &existing);
+    }
+
+    if (read_status.IsNotFound()) {
+        return false;
+    }
+    if (!read_status.ok()) {
+        THEMIS_ERROR("DeadLetterQueue: failed to read dlq_seq={} before remove: {}",
+                     dlq_sequence, read_status.ToString());
+        return false;
+    }
+
     rocksdb::WriteOptions write_opts;
     rocksdb::Status s;
 
@@ -196,9 +215,6 @@ bool DeadLetterQueue::remove(uint64_t dlq_sequence) {
     if (s.ok()) {
         THEMIS_DEBUG("DeadLetterQueue: removed dlq_seq={}", dlq_sequence);
         return true;
-    }
-    if (s.IsNotFound()) {
-        return false;
     }
 
     THEMIS_ERROR("DeadLetterQueue: failed to remove dlq_seq={}: {}",

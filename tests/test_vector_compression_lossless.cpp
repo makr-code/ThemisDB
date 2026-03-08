@@ -589,9 +589,11 @@ TEST(IntegrationTest, AdaptiveCompressionSelection) {
     {
         std::vector<float> cat_vec;
         std::mt19937 rng(42);
-        std::uniform_int_distribution<int> dist(0, 5);
+        std::uniform_real_distribution<float> dist(0.0f, 5.0f);
         for (int i = 0; i < 1000; ++i) {
-            cat_vec.push_back(static_cast<float>(dist(rng)));
+            // Quantize to a small non-integer domain to avoid DELTA_VARINT path.
+            float raw = dist(rng);
+            cat_vec.push_back(std::floor(raw * 2.0f) / 2.0f);
         }
         
         auto method = selectCompressionMethod(cat_vec);

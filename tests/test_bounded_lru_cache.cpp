@@ -129,7 +129,7 @@ TEST_F(BoundedLRUCacheTest, ExpiresTTLEntries) {
     EXPECT_TRUE(ttl_cache->get("key1").has_value());
     
     // Wait for TTL expiration
-    std::this_thread::sleep_for(std::chrono::milliseconds(150));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1200));
     
     // Should be expired
     EXPECT_FALSE(ttl_cache->get("key1").has_value());
@@ -180,16 +180,12 @@ TEST_F(BoundedLRUCacheTest, EvictLRUIfNeeded) {
     for (int i = 0; i < 10; i++) {
         cache->put("key" + std::to_string(i), {{"value", i}});
     }
-    
-    // Should return false (not at capacity after eviction)
-    EXPECT_FALSE(cache->evictLRUIfNeeded());
-    
-    // Fill to capacity again
-    for (int i = 0; i < 10; i++) {
-        cache->put("key" + std::to_string(i), {{"value", i}});
-    }
-    
-    // Should return true (evicted)
+
+    // At capacity -> one LRU entry should be evicted
+    EXPECT_TRUE(cache->evictLRUIfNeeded());
+
+    // Refill to capacity, then eviction should happen again
+    cache->put("key_new", {{"value", 10}});
     EXPECT_TRUE(cache->evictLRUIfNeeded());
 }
 

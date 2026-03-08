@@ -292,7 +292,7 @@ TEST_F(CacheAdminApiHandlerTest, WarmupLoadsValidEntries) {
     const std::string log_path = db_path_ + "_warmup.ndjson";
 
     // Use a valid fingerprint (64 hex chars) and a base64-encoded JSON value
-    const std::string fp = "a1b2c3d4e5f60718293a4b5c6d7e8f9001234567890abcdef1234567890abcd";
+    const std::string fp = "a1b2c3d4e5f60718293a4b5c6d7e8f9001234567890abcdef1234567890abcde";
     const std::string value = R"({"rows":[]})";
     const std::string value_b64 = base64Encode(value);
 

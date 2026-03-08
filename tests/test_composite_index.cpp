@@ -322,7 +322,8 @@ TEST_F(CompositeIndexTest, InsertWithMultipleCompositeKeys) {
     std::vector<std::string> values = {"electronics", "premium"};
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("products", cols, values);
     ASSERT_TRUE(status.ok);
-    EXPECT_EQ(keys.size(), 2u); // prod0 and prod4
+    EXPECT_EQ(keys.size(), 1u); // only prod0 matches electronics+premium
+    EXPECT_NE(std::find(keys.begin(), keys.end(), "prod0"), keys.end());
 }
 
 TEST_F(CompositeIndexTest, GetWithCompositeKey) {
@@ -826,9 +827,8 @@ TEST_F(CompositeIndexTest, BulkInsertWithCompositeIndexes) {
     auto [status, keys] = idx_mgr_->scanKeysEqualComposite("bulk_test", cols, values);
     ASSERT_TRUE(status.ok);
     // cat0 occurs at: 0,10,20,30,40,50,60,70,80,90 (10 items)
-    // active (even) at: 0,2,4,6,... (50 items)
-    // Intersection: 0,20,40,60,80 (5 items - every other cat0 is active)
-    EXPECT_EQ(keys.size(), 5u);
+    // Every cat0 row is also even, so all 10 are active.
+    EXPECT_EQ(keys.size(), 10u);
 }
 
 TEST_F(CompositeIndexTest, ConcurrentUpdatesOnCompositeIndex) {

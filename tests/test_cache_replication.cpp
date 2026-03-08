@@ -75,6 +75,7 @@ static AdaptiveQueryCache::Config makeTestConfig(const std::string& db_suffix = 
     cfg.l3_ttl_seconds          = 3600;
     cfg.enable_rate_limiting    = false;
     cfg.enable_tenant_isolation = false;
+    cfg.enable_replication      = true;
     return cfg;
 }
 
@@ -214,8 +215,17 @@ TEST_F(CacheReplicationCoordIntegrationTest, PutOnAReplicatesToB) {
     bool stored = cache_a->put(fp, {}, result);
     ASSERT_TRUE(stored);
 
+    // Replication is asynchronous; allow a short propagation window.
+    std::optional<AdaptiveQueryCache::CacheEntry> entry;
+    for (int i = 0; i < 20; ++i) {
+        entry = cache_b->get(fp);
+        if (entry.has_value()) {
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
     // cache_b should have received the replicated entry
-    auto entry = cache_b->get(fp);
     ASSERT_TRUE(entry.has_value());
     EXPECT_EQ(entry->result["data"][0].get<int>(), 1);
 }
@@ -231,8 +241,18 @@ TEST_F(CacheReplicationCoordIntegrationTest, InvalidateOnAPropagatestoB) {
     // Invalidate from A – should propagate to B
     cache_a->invalidate(".*");  // matches everything
 
+    // Replication is asynchronous; allow a short propagation window.
+    bool removed = false;
+    for (int i = 0; i < 20; ++i) {
+        if (!cache_b->get(fp).has_value()) {
+            removed = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
     // B should have evicted the entry from L1/L2
-    EXPECT_FALSE(cache_b->get(fp).has_value());
+    EXPECT_TRUE(removed);
 }
 
 TEST_F(CacheReplicationCoordIntegrationTest, GracefulDegradationWhenCoordinatorRemoved) {

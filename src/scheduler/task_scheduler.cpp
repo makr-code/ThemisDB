@@ -331,11 +331,8 @@ void TaskScheduler::stop() {
     auto start = std::chrono::steady_clock::now();
     
     while (true) {
-        {
-            std::lock_guard<std::mutex> lock(running_mutex_);
-            if (running_task_threads_.empty()) {
-                break;
-            }
+        if (active_task_threads_.load() == 0) {
+            break;
         }
         
         if (std::chrono::steady_clock::now() - start > timeout) {
@@ -343,7 +340,7 @@ void TaskScheduler::stop() {
             break;
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(25));
     }
     
     // Join remaining threads
@@ -1384,11 +1381,7 @@ void TaskScheduler::schedulerLoop() {
                 
                 if (shouldExecute(*task, now)) {
                     // Check concurrent task limit
-                    size_t running_count = 0;
-                    {
-                        std::lock_guard<std::mutex> running_lock(running_mutex_);
-                        running_count = running_task_threads_.size();
-                    }
+                    size_t running_count = active_task_threads_.load();
                     
                     if (running_count >= config_.max_concurrent_tasks) {
                         THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
@@ -1421,21 +1414,24 @@ void TaskScheduler::schedulerLoop() {
         // Execute tasks outside the lock
         for (auto& task : tasks_to_execute) {
             task->running = true;
+            active_task_threads_.fetch_add(1);
             
             // Launch task in separate thread
             std::thread task_thread([this, task]() {
                 executeTask(task);
-                
-                // Remove from running threads
-                {
-                    std::lock_guard<std::mutex> lock(running_mutex_);
-                    running_task_threads_.erase(task->id);
-                }
+                active_task_threads_.fetch_sub(1);
             });
             
             // Store thread for cleanup
             {
                 std::lock_guard<std::mutex> lock(running_mutex_);
+                auto existing = running_task_threads_.find(task->id);
+                if (existing != running_task_threads_.end()) {
+                    if (existing->second.joinable()) {
+                        existing->second.join();
+                    }
+                    running_task_threads_.erase(existing);
+                }
                 running_task_threads_[task->id] = std::move(task_thread);
             }
         }
