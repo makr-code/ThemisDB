@@ -28,16 +28,9 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
-- [x] Language detection and automatic locale switching (Issue: #2492)
-- [x] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
 - [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
-- [x] Voice session playback and search in stored transcripts (Issue: #2077)
 
 ### Long-term (6-12 months)
-- [x] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
-- [x] Emotion / sentiment detection from voice tone (Issue: #2493)
-- [x] Real-time meeting transcription with action-item extraction (Issue: #2353) (Target: Q1 2026)
 - [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Implementation Phases
@@ -68,7 +61,7 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [ ] WebSocket audio streaming endpoint for browser clients
 - [x] Voice session playback and search in stored transcripts
 
-### Phase 4: Multi-Language TTS & Biometric Authentication (Status: Planned 📋)
+### Phase 4: Multi-Language TTS & Biometric Authentication (Status: In Progress 🚧)
 - [x] Multi-language TTS (German, French, Spanish voices)
 - [x] Emotion / sentiment detection from voice tone
 - [x] Voice biometric authentication (speaker verification)

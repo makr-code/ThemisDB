@@ -21,6 +21,10 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin health monitoring and automatic restart (Issue: #2373)
 - [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
 - [x] Hot-reload support for plugins without database restart (Issue: #1554, PR: #2396)
+- [x] Plugin dependency graph visualization (Issue: #1563)
+- [x] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
+- [x] A/B testing framework using module swapping (Issue: #1565)
+- [x] Remote plugin loading from authenticated registry (`base/remote_registry_client.cpp`)
 
 ## In Progress 🚧
 - [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
@@ -28,16 +32,11 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Plugin marketplace manifest format (JSON schema) (Issue: #1556)
-- [x] Runtime plugin capability negotiation (version ranges) (Issue: #1984)
-- [x] Signed plugin repository with key pinning (Issue: #1571)
+- [ ] Unit test coverage > 80% (Target: Q2 2026) (Issue: #1573)
+- [ ] Integration tests for hot-reload and sandbox scenarios (Target: Q2 2026) (Issue: #1574)
+- [ ] Performance benchmarks for module load and hot-reload cycles (Target: Q2 2026) (Issue: #1575)
 
 ### Long-term (6-12 months)
-- [x] WASM-based plugin isolation for untrusted code (Issue: #1572)
-- [x] Remote plugin loading from authenticated registry (Issue: #1562) → implemented `RemoteRegistryClient` (`base/remote_registry_client.cpp`)
-- [P] Plugin dependency graph visualization (Issue: #1563)
-- [P] Per-plugin audit trail (load, unload, errors) (Issue: #1564)
-- [P] A/B testing framework using module swapping (Issue: #1565) → implemented `ABTestManager` (`base/ab_test_manager.cpp`)
 
 ## Implementation Phases
 
@@ -54,10 +53,14 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Cross-platform export/import macros and version compatibility checking
 
 ### Phase 2: Dynamic Loading & Dependency Management (Status: In Progress 🚧)
-- [x] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`, Target: Q2 2026) (Issue: #1554, PR: #2396)
-- [ ] Plugin dependency resolution and ordered loading (Target: Q2 2026)
+- [x] Hot-reload support for plugins without database restart (`base/hot_reload_manager.cpp`) (Issue: #1554, PR: #2396)
+- [x] Per-plugin audit trail: load, unload, errors (`base/module_loader.cpp`) (Issue: #1564)
+- [x] Plugin dependency graph visualization (`base/plugin_dependency_graph.cpp`) (Issue: #1563)
+- [x] Remote plugin loading from authenticated registry (`base/remote_registry_client.cpp`)
+- [x] A/B testing framework via module swapping (`base/ab_test_manager.cpp`) (Issue: #1565)
+- [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
 
-### Phase 3: Marketplace & Sandboxing (Status: Planned 📋)
+### Phase 3: Marketplace & Sandboxing (Status: Completed ✅)
 - [x] Plugin marketplace manifest format (JSON schema)
 - [x] Runtime plugin capability negotiation (version ranges)
 - [x] Plugin sandboxing with resource limits (memory, CPU)
@@ -74,10 +77,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] API stability guaranteed for module loading interface
 
 ## Known Issues & Limitations
-- Hot-reload is supported via `HotReloadManager` (`include/themis/base/hot_reload_manager.h`); see Phase 2 above
-- WASM plugin isolation is implemented via `WasmPluginSandbox` (`wasm_plugin_sandbox.cpp`); see `include/themis/base/wasm_plugin_sandbox.h`
-- Remote plugin loading from a registry is available via `RemoteRegistryClient` (`include/themis/base/remote_registry_client.h`)
-- Plugin dependency resolution is manual (loading order not enforced)
+- Plugin dependency resolution is not yet enforced: loading order for plugins with declared dependencies must currently be managed manually (Issue: #1566)
+- WASM plugin isolation (`WasmPluginSandbox`) requires injection of a concrete WASM runtime (Wasmtime, WasmEdge, etc.) for full execution support
+- Unit test coverage, integration tests, and performance benchmarks are still open (Issues: #1573, #1574, #1575)
 
 ## Breaking Changes
 - WASM plugin interface will be a new API surface (additive, non-breaking to existing plugin interface)

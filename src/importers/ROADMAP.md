@@ -23,17 +23,13 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 ### Short-term (Next 3-6 months)
 - [P] SQLite importer (Issue: #1838)
 - [P] CSV / TSV / Parquet flat-file importer (Issue: #1839)
-- [x] S3-compatible object-storage source (Issue: #1840)
 - [P] Schema auto-detection and validation on import (Issue: #1856)
-- [x] Dry-run mode to preview import without writing data (Issue: #2406)
 
 ### Long-term (6-12 months)
 - [~] Kafka consumer importer for real-time streaming ingestion (Issue: #1843)
 - [~] Oracle Database importer (Issue: #1844)
 - [I] Microsoft SQL Server importer (Issue: #1845)
-- [x] Plugin API for third-party importer extensions (Issue: #1846)
 - [~] GUI-based import wizard (web UI) (Issue: #1847)
-- [x] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #1848)
 
 ## Implementation Phases
 
@@ -51,7 +47,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [x] Conflict resolution strategies: skip, overwrite, merge (Target: Q3 2026) (Issue: #1849)
 - [x] Dry-run mode to preview import without writing data (Target: Q3 2026)
 
-### Phase 3: Multi-Source & Plugin API (Status: Planned 📋)
+### Phase 3: Multi-Source & Plugin API (Status: In Progress 🚧)
 - [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1851)
 - [x] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
 - [P] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: #1853)

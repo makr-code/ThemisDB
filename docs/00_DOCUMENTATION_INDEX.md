@@ -109,8 +109,8 @@ ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
 - [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - GitHub Configuration Guide
 
 **Integration:**
-- [.github/COPILOT_INSTRUCTIONS.md](.github/COPILOT_INSTRUCTIONS.md) - Git Flow Regeln für Copilot
-- [.github/BUILD_STRATEGIES.md](.github/BUILD_STRATEGIES.md) - Branch-basierte Build & Deployment Strategie
+- [.github/COPILOT_INSTRUCTIONS.md](../.github/COPILOT_INSTRUCTIONS.md) - Git Flow Regeln für Copilot
+- [.github/COPILOT_INSTRUCTIONS.md](../.github/COPILOT_INSTRUCTIONS.md) - Branch-basierte Build & Deployment Strategie (Git Flow Regeln)
 
 **Key Features:**
 - ✅ Klare Trennung: Development (`develop`) vs. Production (`main`)
@@ -127,12 +127,12 @@ ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
 ThemisDB is implementing GPU-accelerated vector indexing across multiple backends for significant performance improvements. GPU stubs were removed in v1.5.0 as incomplete; v2.x will deliver production-ready GPU support.
 
 **Master Tracking:**
-- [GPU_MASTER_TRACKING.md](GPU_MASTER_TRACKING.md) - **Master tracking document** (comprehensive roadmap, timelines, metrics)
+- [GPU_MASTER_TRACKING.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - **Master tracking document** (comprehensive roadmap, timelines, metrics)
 
 **Core Documentation:**
-- [FUTURE_GPU_SUPPORT.md](FUTURE_GPU_SUPPORT.md) - Detailed GPU roadmap and technical rationale
-- [GPU_SUPPORT_ROADMAP.md](GPU_SUPPORT_ROADMAP.md) - User migration guide and API examples
-- [GPU_VECTOR_INDEXING_ARCHITECTURE.md](GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Technical architecture and design
+- [FUTURE_GPU_SUPPORT.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Detailed GPU roadmap and technical rationale
+- [GPU_SUPPORT_ROADMAP.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - User migration guide and API examples
+- [GPU_VECTOR_INDEXING_ARCHITECTURE.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Technical architecture and design
 
 **Runtime Behavior & Configuration:**
 - [acceleration/capability_negotiation.md](acceleration/capability_negotiation.md) - **Capability negotiation, fallback chain, and troubleshooting** (backend capability matrix, `initializeRuntime()`, kernel-level fallback/retry, health monitoring)
@@ -140,15 +140,15 @@ ThemisDB is implementing GPU-accelerated vector indexing across multiple backend
 - [acceleration/production_readiness.md](acceleration/production_readiness.md) - Production readiness assessment
 
 **Backend-Specific Docs:**
-- [GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md](GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md) - CUDA backend (v2.1, Q3 2026)
-- [VULKAN_BACKEND_GUIDE.md](VULKAN_BACKEND_GUIDE.md) - Vulkan backend (v2.2, Q4 2026)
-- [MULTI_GPU_VECTOR_INDEXING.md](MULTI_GPU_VECTOR_INDEXING.md) - Multi-GPU support (v2.4, Q2 2027)
+- [GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md](research/GPU_VECTOR_INDEXING_RESEARCH.md) - CUDA backend (v2.1, Q3 2026)
+- [VULKAN_BACKEND_GUIDE.md](research/GPU_VECTOR_INDEXING_RESEARCH.md) - Vulkan backend (v2.2, Q4 2026)
+- [MULTI_GPU_VECTOR_INDEXING.md](research/GPU_VECTOR_INDEXING_RESEARCH.md) - Multi-GPU support (v2.4, Q2 2027)
 
 **Implementation Status:**
-- [GPU_VECTOR_INDEXING_IMPLEMENTATION.md](GPU_VECTOR_INDEXING_IMPLEMENTATION.md) - Implementation progress
-- [GPU_VECTOR_INDEXING_PR_SUMMARY.md](GPU_VECTOR_INDEXING_PR_SUMMARY.md) - PR summaries and changelogs
-- [VULKAN_IMPLEMENTATION_SUMMARY.md](VULKAN_IMPLEMENTATION_SUMMARY.md) - Vulkan implementation details
-- [MULTI_GPU_IMPLEMENTATION_SUMMARY.md](../MULTI_GPU_IMPLEMENTATION_SUMMARY.md) - Multi-GPU scaffolding status
+- [GPU_VECTOR_INDEXING_IMPLEMENTATION.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Implementation progress
+- [GPU_VECTOR_INDEXING_PR_SUMMARY.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - PR summaries and changelogs
+- [VULKAN_IMPLEMENTATION_SUMMARY.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Vulkan implementation details
+- [MULTI_GPU_IMPLEMENTATION_SUMMARY.md](en/gpu/GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Multi-GPU scaffolding status
 
 **Issue Templates:**
 - `.github/ISSUE_TEMPLATE/gpu-master-tracking.md` - Master epic tracking issue
@@ -194,7 +194,7 @@ ThemisDB implements enterprise-grade replication with automatic failover, write 
   - Component breakdown and file locations
   - Integration test results (8/8 passing)
   - Prometheus metrics reference
-- **[replication_raid_plan.md](replication_raid_plan.md)** - RAID 1/10 readiness plan
+- **[replication_raid_plan.md](replication/README.md)** - RAID 1/10 readiness plan
   - Current implementation status
   - Integration roadmap
   - Acceptance criteria
@@ -237,9 +237,9 @@ ThemisDB implements RAID clustering for distributed database operations:
 - **RAID 5 (Parity)** - Balanced performance and fault tolerance
 
 **Core Documentation:**
-- [GITHUB_ISSUE_RAID_SETUP.md](GITHUB_ISSUE_RAID_SETUP.md) - Complete issue documentation for RAID setup problems
-- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](RAID_SHARD_REFERENCING_ARCHITECTURE.md) - Technical deep-dive into shard architecture
-- [RAID_TROUBLESHOOTING_QUICK_GUIDE.md](RAID_TROUBLESHOOTING_QUICK_GUIDE.md) - Fast reference for common issues
+- [GITHUB_ISSUE_RAID_SETUP.md](replication-ha-guide.md) - Complete issue documentation for RAID setup problems
+- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](replication/README.md) - Technical deep-dive into shard architecture
+- [RAID_TROUBLESHOOTING_QUICK_GUIDE.md](troubleshooting/replication_troubleshooting.md) - Fast reference for common issues
 
 **Related Files:**
 - `benchmarks/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md` - Implementation details
@@ -343,7 +343,7 @@ ThemisDB now has a comprehensive observability documentation hub that consolidat
 
 **Related Files:**
 - [Tracing Configuration Guide](tracing-configuration.md) - Detailed tracing setup
-- [LLM Response Cache Metrics](LLM_RESPONSE_CACHE_METRICS.md) - Cache metrics integration
+- [LLM Response Cache Metrics](de/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md) - Cache metrics integration
 - [Utils Module README](../src/utils/README.md) - Updated with observability link
 - [German Observability Docs](de/observability/) - Comprehensive German documentation
 
@@ -370,7 +370,7 @@ ThemisDB now has a comprehensive observability documentation hub that consolidat
 ### PHASE 1: ANALYSE & RESEARCH (Steps 1-3)
 
 #### Schritt 1: Bottleneck Analysis ✅
-[PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md)
+[PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](de/PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md)
 - 1500+ Zeilen
 - 3 Optimierungsphasen (Q1-Q3 2026)
 - Code-Beispiele für alle Optimierungen
@@ -436,7 +436,7 @@ L3 Cache Hit Rates:
 ### PHASE 2: STRATEGISCHE PLANUNG (Steps 4-5)
 
 #### Schritt 4: Performance Optimization Plan ✅
-[PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md) (siehe oben)
+[PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](de/PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md) (siehe oben)
 - Detaillierte Implementierungsanleitung
 - 3 Optimierungsphasen
 - Code-Beispiele (Before/After)
@@ -466,7 +466,7 @@ PRIORITY 4 (Backlog):
 ---
 
 #### Schritt 5: v1.4 Development Roadmap ✅
-[v1.4_DEVELOPMENT_ROADMAP.md](v1.4_DEVELOPMENT_ROADMAP.md)
+[v1.4_DEVELOPMENT_ROADMAP.md](ARCHIVED/roadmaps/v1.4_DEVELOPMENT_ROADMAP.md)
 - 1200+ Zeilen
 - Wochenweiser Zeitplan (12 Wochen)
 - Team-Allocation (5 Engineers)
@@ -493,7 +493,7 @@ RELEASE: March 31, 2026
 ### PHASE 3: EXECUTION & LAUNCH (Steps 6-8)
 
 #### Schritt 6: Release Notes v1.4 ✅
-[RELEASE_NOTES_v1.4.md](RELEASE_NOTES_v1.4.md)
+[RELEASE_NOTES_v1.4.md](de/RELEASE_NOTES_v1.4.md)
 - 1800+ Zeilen
 - Benutzerfreundliche Feature-Beschreibungen
 - Schritt-für-Schritt Upgrade Guide
@@ -543,7 +543,7 @@ RELEASE: March 31, 2026
 ---
 
 #### Schritt 8: Marketing Materials v1.4 ✅
-[MARKETING_MATERIALS_v1.4.md](MARKETING_MATERIALS_v1.4.md)
+[MARKETING_MATERIALS_v1.4.md](de/MARKETING_MATERIALS_v1.4.md)
 - 1400+ Zeilen
 - Campaign Headlines (3 Varianten)
 - Visual Assets (4 Designs)
@@ -603,10 +603,10 @@ RELEASE: March 31, 2026
 
 ---
 
-## 📊 GENERIERTE CSV-DATEIEN
+## 📊 PERFORMANCE DATEN
 
 ### Version History
-[VERSION_HISTORY.csv](VERSION_HISTORY.csv)
+[CHANGELOG](../CHANGELOG.md)
 ```
 Version  Query      Vector     Index      Total Benchmarks
 ─────────────────────────────────────────────────────────
@@ -618,7 +618,7 @@ v1.3.4   814M/sec   351k/sec   217k/sec   1078 ✓
 ```
 
 ### Competitor Comparison
-[COMPETITOR_COMPARISON.csv](COMPETITOR_COMPARISON.csv)
+[Performance Dashboard](de/PERFORMANCE_DASHBOARD.md)
 ```
 Kategorie           Themis    ClickHouse  DuckDB   FAISS   Weaviate
 ────────────────────────────────────────────────────────────────
@@ -629,7 +629,7 @@ Memory @ 1M items   8.5GB     12GB        8GB      N/A     15GB
 ```
 
 ### Benchmark Summary
-[benchmark_summary.csv](benchmark_summary.csv)
+[Benchmarks Overview](../benchmarks/README.md)
 - 6 Core Performance Metrics
 - Detaillierte Statistiken
 
@@ -839,21 +839,21 @@ SUPPORT:
 ## 🔗 QUICK LINKS
 
 ### Documentation
-- **Performance Optimization:** [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md)
-- **Development Roadmap:** [v1.4_DEVELOPMENT_ROADMAP.md](v1.4_DEVELOPMENT_ROADMAP.md)
-- **Release Notes:** [RELEASE_NOTES_v1.4.md](RELEASE_NOTES_v1.4.md)
+- **Performance Optimization:** [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](de/PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md)
+- **Development Roadmap:** [v1.4_DEVELOPMENT_ROADMAP.md](ARCHIVED/roadmaps/v1.4_DEVELOPMENT_ROADMAP.md)
+- **Release Notes:** [RELEASE_NOTES_v1.4.md](de/RELEASE_NOTES_v1.4.md)
 - **CI/CD Automation:** [CI_CD_BENCHMARK_AUTOMATION.md](de/deployment/CI_CD_BENCHMARK_AUTOMATION.md)
-- **Marketing Materials:** [MARKETING_MATERIALS_v1.4.md](MARKETING_MATERIALS_v1.4.md)
+- **Marketing Materials:** [MARKETING_MATERIALS_v1.4.md](de/MARKETING_MATERIALS_v1.4.md)
 
 ### Analysis
-- **Bottleneck Analysis:** [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md) (Part 1)
+- **Bottleneck Analysis:** [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](de/PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md) (Part 1)
 - **Scaling Analysis:** [SCALING_ANALYSIS_v1.3.4.md](archive/SCALING_ANALYSIS_v1.3.4.md)
 - **Memory/Latency:** [MEMORY_LATENCY_PROFILING_v1.3.4.md](archive/MEMORY_LATENCY_PROFILING_v1.3.4.md)
 
 ### Data
-- **Version History:** [VERSION_HISTORY.csv](VERSION_HISTORY.csv)
-- **Competitor Comparison:** [COMPETITOR_COMPARISON.csv](COMPETITOR_COMPARISON.csv)
-- **Benchmark Summary:** [benchmark_summary.csv](benchmark_summary.csv)
+- **Version History:** [CHANGELOG](../CHANGELOG.md)
+- **Competitor Comparison:** [Performance Dashboard](de/PERFORMANCE_DASHBOARD.md)
+- **Benchmark Summary:** [Benchmarks Overview](../benchmarks/README.md)
 
 ---
 
@@ -871,9 +871,9 @@ SUPPORT:
 - ✅ SCALING_ANALYSIS_v1.3.4.md - archived
 - ✅ MEMORY_LATENCY_PROFILING_v1.3.4.md - archived
 - ✅ BENCHMARK_AUSWERTUNG_FINAL.md - archived
-- ✅ VERSION_HISTORY.csv
-- ✅ COMPETITOR_COMPARISON.csv
-- ✅ benchmark_summary.csv
+- ✅ VERSION_HISTORY (see CHANGELOG.md)
+- ✅ COMPETITOR_COMPARISON (see de/PERFORMANCE_DASHBOARD.md)
+- ✅ benchmark_summary (see benchmarks/README.md)
 
 ### Python Scripts (5 Scripts)
 - ✅ bottleneck_analysis.py (executed)

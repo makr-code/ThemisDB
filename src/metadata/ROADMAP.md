@@ -37,7 +37,6 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [?] Schema registry with compatibility enforcement (forward/backward)
 - [?] Auto-generated OpenAPI schema from stored documents
 - [!] Integration with external data catalogs (Apache Atlas, DataHub) (Issue: #2414)
-- [x] Column lineage and data provenance tracking (Issue: #2413)
 
 ## Implementation Phases
 

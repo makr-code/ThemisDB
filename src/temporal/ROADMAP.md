@@ -1,47 +1,96 @@
-# Temporal Module Production Readiness Roadmap
+# Temporal Module Roadmap
 
-## Overview
-The Temporal Module is designed to enhance the capabilities of ThemisDB by providing advanced time-based functionality. This document outlines the roadmap for the module's production readiness, outlining eight implementation phases, success criteria, and a comprehensive testing strategy.
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
+## Current Status
+**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), and HLC-based conflict resolution are operational. Bitemporal joins and SEQUENCED/NON-SEQUENCED query semantics are partially implemented; SQL `PERIOD FOR` DDL syntax is not yet supported.
+
+## Completed ✅
+- [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
+- [x] System-versioned table: automatic transaction-time versioning, non-destructive updates (`system_versioned_table.cpp`)
+- [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection (`bi_temporal.cpp`)
+- [x] Time-travel query engine: `AS OF`, `FROM...TO`, `BETWEEN...AND` queries with row filters (`temporal_query_engine.cpp`)
+- [x] Period-based temporal index: B-tree on `(sys_start, sys_end)` for efficient range lookups (`temporal_index.cpp`)
+- [x] Temporal aggregations: tumbling and sliding window aggregation over version history (`temporal_aggregator.cpp`)
+- [x] Point-in-time snapshot creation, querying, and release (`snapshot_manager.cpp`)
+- [x] Retention manager: time-based and count-based policy enforcement with background cleanup (`retention_manager.cpp`)
+- [x] Conflict resolution audit trail: all resolutions logged for auditability
+- [x] Thread-safe version writes (per-record lock) with lock-free reads via MVCC
+- [x] Unit tests for conflict resolver, query engine, temporal index, aggregator, and bi-temporal table (`tests/temporal/`)
+
+## In Progress 🚧
+- [~] Bitemporal joins (system time + valid time combined predicates) (Target: Q3 2026)
+- [~] SEQUENCED vs. NON-SEQUENCED temporal query semantics (Target: Q3 2026)
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+- [I] SQL `PERIOD FOR` DDL syntax for system-time and application-time declarations (Target: Q3 2026)
+- [I] `FOR SYSTEM_TIME` / `FOR APPLICATION_TIME` clause in AQL query parser (Target: Q3 2026)
+- [I] Temporal uniqueness constraints and gap/overlap detection for valid-time periods (Target: Q3 2026)
+- [I] Storage-based and archive-to-cold-storage retention policy variants (Target: Q3 2026)
+- [I] Delta compression for historical versions (ZSTD / Gorilla for numeric time-series data) (Target: Q4 2026)
+
+### Long-term (6-12 months)
+- [I] Temporal foreign keys with period-aware referential integrity (`CASCADE`, `RESTRICT`) (Target: Q4 2026)
+- [I] Temporal CDC: version-aware change event streaming with before/after diff (Target: Q1 2027)
+- [I] Temporal migration tooling: convert existing tables to system-versioned with history backfill (Target: Q1 2027)
+- [I] Interval-tree index for efficient overlapping-period detection (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Requirement Analysis
-- **Description:** Gather and analyze the requirements for the temporal module.
-- **Success Criteria:** Complete documentation of requirements and stakeholder approval.
+### Phase 1: Core Temporal Infrastructure (Status: Completed ✅)
+- [x] HLC timestamp generation and distributed causal ordering (`storage/hlc.cpp` dependency)
+- [x] `TemporalConflictResolver` with five resolution policies and conflict audit log
+- [x] `TemporalSnapshot` serialization/deserialization (JSON round-trip)
+- [x] Unit tests for all conflict resolution policies (`tests/temporal/test_temporal_conflict_resolver.cpp`)
 
-### Phase 2: Design
-- **Description:** Develop a detailed design for the temporal module architecture and components.
-- **Success Criteria:** Design document is created and reviewed, meeting all outlined requirements.
+### Phase 2: Full Temporal Data Model (Status: Completed ✅)
+- [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()` (`system_versioned_table.cpp`)
+- [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`)
+- [x] `TemporalIndex`: period B-tree index with `insert`, `queryAsOf`, `queryRange`, `stats` (`temporal_index.cpp`)
+- [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)
+- [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`)
+- [x] `RetentionManager`: per-table policies, `enforceRetention()`, `RetentionStats` reporting (`retention_manager.cpp`)
+- [x] `TemporalAggregator`: tumbling/sliding window aggregation over version history, `AggregateResult` output (`temporal_aggregator.cpp`)
+- [x] Unit tests: aggregator, index, query engine, bi-temporal (`tests/temporal/`)
 
-### Phase 3: Development
-- **Description:** Implement the core features of the temporal module based on the design specification.
-- **Success Criteria:** All core features are developed according to the design specification, passing initial unit tests.
+### Phase 3: SQL Syntax & Temporal Constraints (Status: In Progress 🚧)
+- [~] Bitemporal join operator (combined transaction-time + valid-time predicates)
+- [~] SEQUENCED / NON-SEQUENCED query semantics
+- [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser
+- [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing
+- [I] Temporal uniqueness constraints (no valid-time overlaps per key)
 
-### Phase 4: Integration
-- **Description:** Integrate the temporal module with existing components of ThemisDB.
-- **Success Criteria:** Successful integration with no major conflicts and positive results from integration tests.
+### Phase 4: Advanced Retention, Compression & CDC (Status: Planned 📋)
+- [I] Archive-to-cold-storage retention variant (`s3://` or filesystem archive before purge)
+- [I] Storage-based retention (cap history to N GB per table)
+- [I] Delta and Gorilla compression for historical versions
+- [I] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with Kafka integration
+- [I] Temporal foreign keys with period-aware cascade/restrict actions
+- [I] Interval-tree index for `O(log n + k)` overlap detection
 
-### Phase 5: User Acceptance Testing (UAT)
-- **Description:** Conduct UAT with stakeholders to validate the functionality and performance of the temporal module.
-- **Success Criteria:** All critical feedback is addressed, and acceptance criteria are met as per stakeholder requirements.
+### Phase 5: Tooling & Migration (Status: Planned 📋)
+- [I] `TemporalMigrator`: analyze, migrate, and verify existing tables to system-versioned
+- [I] History backfill from audit log during migration
+- [I] Integration with `src/scheduler/` for fully automated retention enforcement cycles
+- [I] Temporal query metrics exposed via `src/observability/`
 
-### Phase 6: Performance Testing
-- **Description:** Perform load and stress testing to ensure the module can handle expected usage scenarios.
-- **Success Criteria:** The module meets predefined performance benchmarks under expected load conditions.
+## Production Readiness Checklist
+- [x] Unit tests for core components (conflict resolver, query engine, index, aggregator, bi-temporal)
+- [~] Integration tests (temporal queries via AQL layer end-to-end)
+- [~] Performance benchmarks (time-travel query latency, retention throughput, index speedup)
+- [I] Security audit (temporal history immutability, RBAC/RLS on time-travel queries)
+- [~] Documentation complete (ARCHITECTURE.md and README.md present; API docs pending)
+- [I] API stability guaranteed (C++ API is functional; SQL syntax layer not yet stable)
 
-### Phase 7: Documentation
-- **Description:** Create comprehensive user and technical documentation for the temporal module.
-- **Success Criteria:** Documentation is completed and approved by the technical writing team, ensuring it meets user needs.
+## Known Issues & Limitations
+- SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API.
+- Bitemporal joins and SEQUENCED/NON-SEQUENCED query semantics are partially implemented.
+- No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
+- History table compression is not yet implemented; historical data storage overhead is proportional to version count.
+- Temporal CDC (streaming change events) is not yet available.
 
-### Phase 8: Release & Monitoring
-- **Description:** Launch the temporal module in the production environment and monitor for issues.
-- **Success Criteria:** Successful production release with ongoing monitoring showing stable performance and no critical issues.
-
-## Testing Strategy
-- **Automated Testing:** Implement unit tests for all components of the temporal module to ensure functionality.
-- **Integration Testing:** Conduct integration tests whenever the module interfaces with other parts of ThemisDB.
-- **Manual Testing:** Engage QA team for manual testing during UAT and performance testing phases.
-- **Continuous Monitoring:** Post-release, implement monitoring tools to detect issues in real-time and respond accordingly.
-
-## Conclusion
-This roadmap provides a structured approach to achieving production readiness for the Temporal Module, ensuring quality, performance, and user satisfaction.
+## Breaking Changes
+- The `TemporalConflictResolver` and `SystemVersionedTable` C++ APIs are stable at v1.0 and will not change without a major version bump.
+- Future SQL-layer additions (`PERIOD FOR`, `FOR SYSTEM_TIME`) will be additive and backward-compatible with existing API-level usage.

@@ -1,5 +1,41 @@
 # Core Module - Future Enhancements
 
+## Scope
+
+- Central dependency injection (DI) context (`ConcernsContext`): owns and dispenses all adapter instances (storage, index, query, auth, logger, tracer, metrics, cache)
+- Adapter lifecycle management: registration, validation, hot-swap, and graceful shutdown of adapters
+- Circuit-breaker pattern for adapter dependencies: automatic fail-open/fail-close with configurable thresholds
+- Dynamic adapter reconfiguration: runtime replacement of adapters without restarting the database process
+- Distributed cache adapter integration: Redis/Memcached-backed cache with cluster-wide invalidation
+- Observability wiring: structured logging, OpenTelemetry tracing, and Prometheus metrics unified through the DI context
+
+---
+
+## Design Constraints
+
+- `[ ]` Adapter hot-swap must complete in ≤ 100 ms and must not drop in-flight requests; callers hold a ref-counted handle
+- `[ ]` `ConcernsContext` must be fully thread-safe; concurrent adapter resolution must not require a global lock
+- `[ ]` Circuit breaker state transitions (closed → open → half-open) must be observable via metrics and loggable at DEBUG level
+- `[ ]` No adapter may be registered without passing a synchronous `AdapterValidator::validate()` check; invalid adapters are rejected at registration time
+- `[ ]` DI context construction must complete in ≤ 50 ms at server startup with up to 32 registered adapters
+- `[ ]` All adapter interfaces versioned with a `uint32_t` API version; version mismatch at registration returns a structured error
+- `[ ]` Distributed cache adapter must not be a hard dependency; core must function correctly when no cache adapter is registered
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `ConcernsContext::resolve<T>()` | All modules | Returns shared adapter handle; thread-safe; ref-counted |
+| `AdapterRegistry::registerAdapter(id, adapter, validator)` | Server startup / admin API | Validates before insertion |
+| `AdapterRegistry::hotSwap(id, new_adapter)` | Admin API / config watcher | Drains in-flight refs before replacing |
+| `CircuitBreaker::call(fn, fallback)` | Adapter call sites | Configurable failure threshold and reset timeout |
+| `DistributedCache::get/set/invalidate(key)` | Query executor, analytics | Optional adapter; no-op stub when absent |
+| `ObservabilityBus::emit(event)` | All adapters | Routes to logger/tracer/metrics based on event type |
+
+---
+
 ## Planned Features
 
 ### Dynamic Adapter Reconfiguration
@@ -493,3 +529,32 @@ Have ideas for core module improvements? Open an issue or discussion:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
+
+---
+
+## Test Strategy
+
+- **Unit tests** (≥ 90 % line coverage): `ConcernsContext::resolve<T>()` under concurrent access (≥ 16 threads); `AdapterRegistry` validation rejection paths; `CircuitBreaker` state machine (closed → open → half-open → closed)
+- **Integration tests**: full server startup with all production adapters registered; hot-swap of logger and metrics adapters under load (1 000 req/s synthetic traffic); verify zero dropped requests during swap
+- **Fault injection tests**: simulate adapter failures at rates 10 %, 50 %, 100 %; verify circuit breaker opens within the configured threshold (default: 5 consecutive failures) and closes after the reset timeout
+- **Distributed cache tests** (Docker Compose Redis): cluster-wide cache invalidation propagates to all nodes within 500 ms; Redis failover handled gracefully with fallback to no-cache path
+- **Property-based tests**: randomised adapter registration/deregistration sequences; `ConcernsContext` must never deadlock or return a dangling handle
+- **CI coverage gate**: ≥ 88 % line coverage enforced; race detector (`-fsanitize=thread`) enabled in CI
+
+## Performance Targets
+
+- `ConcernsContext::resolve<T>()` under 32-thread contention: ≤ 1 µs median, ≤ 10 µs p99
+- Adapter hot-swap end-to-end (register new + drain + replace): ≤ 100 ms
+- Server startup with 32 adapters registered: DI context construction ≤ 50 ms
+- Circuit breaker `call()` overhead (closed state, no failure): ≤ 200 ns per invocation
+- Distributed cache `get` round-trip latency (Redis localhost): ≤ 1 ms p99
+- ObservabilityBus `emit()` overhead (fire-and-forget async path): ≤ 500 ns per event
+
+## Security / Reliability
+
+- `AdapterRegistry` rejects adapters failing `AdapterValidator::validate()`; malformed or ABI-incompatible adapters never enter the live context
+- Adapter API version checked at registration; version mismatch produces a structured error and is written to audit log
+- `ConcernsContext` uses RAII ref-counted handles; no raw pointer sharing across module boundaries; dangling adapter access impossible by design
+- Circuit breaker prevents cascading failures: when an adapter is open, requests use the configured fallback (error/stub) immediately without incurring full timeout latency
+- Distributed cache keys namespaced per tenant to prevent cross-tenant cache poisoning
+- All adapter lifecycle events (register, hot-swap, deregister, circuit-open, circuit-close) written to immutable audit log with timestamp and actor identity

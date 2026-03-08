@@ -146,3 +146,71 @@ Implement automated Raft log snapshot compaction in `raft_log.cpp` and `raft_wal
 - [ ] Shard topology changes must be signed by the admin key (managed via `utils/lek_manager.cpp`) before acceptance by `shard_topology.cpp` to prevent unauthorized repartitioning.
 - [?] Clarify whether cross-shard transaction logs containing legal case document keys require field-level encryption before WAL persistence.
 - [ ] `ShardRepairEngine` must validate Reed-Solomon parity checksums before writing repaired data to prevent silent data corruption from propagating.
+
+---
+
+### [x] Hardware Node Migration Support
+**Priority:** High
+**Target Version:** v1.5.0 (Beta complete — Phase 5 hardening planned Q3 2026)
+
+#### Scope
+
+Handle the full lifecycle of migrating a ThemisDB shard node to replacement hardware without disrupting the consistent hash ring, consensus quorum, or client request routing.
+
+#### Design Constraints
+
+- The consistent hash ring is built from logical **shard IDs**, not from hostnames or IP addresses. Consequently, moving a node to new hardware (new endpoint) does **not** affect ring positions as long as the shard ID is preserved.
+- A `NodeIdentity` file (`node_identity.json`) on the node's persistent storage stores the stable logical shard identity (shard\_id, cluster\_name, token\_start, token\_end). This file **must be copied** to the new hardware before initiating migration.
+- Endpoint replacement must be **atomic at the topology level**: a single `ShardTopology::addShard()` upsert switches the primary endpoint; no intermediate state exists where the shard is reachable at neither old nor new endpoint.
+- During the drain period (configurable, default 60 s) the old hardware should continue serving read-only traffic until all in-flight operations complete. Active drain is planned for Phase 5.
+
+#### Required Interfaces
+
+| Interface | File | Notes |
+|-----------|------|-------|
+| `HardwareMigrationManager::replaceEndpoint()` | `src/sharding/hardware_migration_manager.cpp` | Atomic endpoint update; ring positions unchanged |
+| `HardwareMigrationManager::createAndSaveIdentity()` | same | Provisions a fresh NodeIdentity file on first boot |
+| `HardwareMigrationManager::loadIdentity()` | same | Loads identity for new hardware to confirm correct shard_id |
+| `HardwareMigrationManager::validateRingStability()` | same | Post-migration assertion |
+| `NodeIdentity::saveTo() / loadFrom()` | same | JSON persistence |
+
+#### Implementation Notes
+
+- `HardwareMigrationManager::replaceEndpoint()` holds `mutex_` during the entire update to prevent concurrent topology changes.
+- If `verify_ring_stability` is enabled, a snapshot is captured before and after the update; any detected ring change rolls back the topology update and returns an error.
+- The `ConsistentHashRing` is **read-only** during `replaceEndpoint()`; the method never calls `addShard()` or `removeShard()` on the ring.
+- Raft peer-address update (so the consensus layer knows the new endpoint) is not yet automated; operators must currently update the Raft configuration manually via `RaftConfiguration::addNode()` / `removeNode()` followed by `commitConfiguration()`. Automation is planned in Phase 5.
+
+#### Migration Runbook
+
+1. **Provision new hardware** and install ThemisDB.
+2. **Copy** the `node_identity.json` file from the old node to the same path on the new node.
+3. **Start ThemisDB** on the new hardware. It reads the identity file and registers itself with the cluster under the same shard\_id.
+4. **Invoke** `replaceEndpoint(shard_id, new_endpoint)` on any cluster node (or via the future admin API).
+5. **Verify** the topology update with `GET /api/v1/shards/{shard_id}` and confirm the ring is stable.
+6. **Decommission** the old hardware after the drain period.
+
+#### Test Strategy
+
+| Test | Coverage |
+|------|----------|
+| `NodeIdentityJsonRoundTrip` | JSON serialise/deserialise |
+| `NodeIdentityDiskRoundTrip` | File write then read |
+| `ReplaceEndpointSucceeds` | Happy path: endpoint updated, ring unchanged |
+| `ReplaceEndpointPreservesOtherFields` | Datacenter, rack, token range unchanged |
+| `ReplaceEndpointFailsForUnknownShard` | Error path |
+| `ReplaceEndpointFailsForEmptyNewEndpoint` | Validation |
+| `RingPositionsUnchangedAfterEndpointReplacement` | Core guarantee |
+| `MultipleEndpointReplacementsKeepRingStable` | Repeated migrations |
+
+#### Performance Targets
+
+- `replaceEndpoint()` latency: <1 ms for in-memory topology (no etcd write); <10 ms with etcd write.
+- `NodeIdentity::loadFrom()` latency: <5 ms on local NVMe (file size ~200 bytes).
+- Topology propagation to all cluster nodes: ≤500 ms (existing gossip SLO).
+
+#### Security / Reliability
+
+- The `node_identity.json` file must be protected with filesystem permissions `0600` to prevent unauthorised reading of the shard assignment.
+- Hardware migration requests from the admin API must require a signed operator certificate validated by the cluster CA.
+- The `createAndSaveIdentity()` method refuses to overwrite an existing identity file to prevent accidental re-assignment of a shard.

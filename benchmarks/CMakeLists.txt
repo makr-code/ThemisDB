@@ -1670,3 +1670,256 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
     message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
     message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
 endif()
+
+# ============================================================================
+# Acceleration Dispatch Benchmarks
+# CPUVectorBackend::computeDistances, batchKnnSearch;
+# CPUGeoBackend::haversineDistance, batchHaversineDistances, pointInPolygon
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_acceleration_dispatch.cpp")
+    message(STATUS "Adding Acceleration Dispatch benchmarks")
+
+    add_executable(bench_acceleration_dispatch
+        bench_acceleration_dispatch.cpp
+    )
+
+    target_link_libraries(bench_acceleration_dispatch PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_acceleration_dispatch PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_acceleration_dispatch PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_acceleration_dispatch
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Acceleration: computeDistances (L2/cosine), batchKnnSearch, haversineDistance, batchHaversineDistances, pointInPolygon")
+endif()
+
+# ============================================================================
+# CDC Pipeline Benchmarks
+# ConsumerGroupManager: createGroup/deleteGroup, fetchEventsAtLeastOnce,
+# acknowledgeEvents, concurrent fan-out
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_pipeline.cpp")
+    message(STATUS "Adding CDC Pipeline benchmarks")
+
+    add_executable(bench_cdc_pipeline
+        bench_cdc_pipeline.cpp
+    )
+
+    target_link_libraries(bench_cdc_pipeline PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_cdc_pipeline PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_cdc_pipeline PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_cdc_pipeline
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  CDC Pipeline: createGroup, deleteGroup, fetchEventsAtLeastOnce, acknowledgeEvents, concurrent fetch")
+endif()
+
+# ============================================================================
+# Temporal Queries Benchmarks
+# BiTemporalTable: insertWithValidTime, queryBiTemporal,
+# queryCurrentByValidTime, updateForValidTime, deleteForValidTime, getHistory
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_temporal_queries.cpp")
+    message(STATUS "Adding Temporal Queries benchmarks")
+
+    add_executable(bench_temporal_queries
+        bench_temporal_queries.cpp
+    )
+
+    target_link_libraries(bench_temporal_queries PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_temporal_queries PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_temporal_queries PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_temporal_queries
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Temporal: insertWithValidTime, queryBiTemporal, queryCurrentByValidTime, updateForValidTime, deleteForValidTime, getHistory")
+endif()
+
+# ============================================================================
+# Task Scheduler Benchmarks
+# TaskScheduler: registerTask, unregisterTask, executeTaskNow, listTasks,
+# getStats, concurrent registerTask
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_task_scheduler.cpp")
+    message(STATUS "Adding Task Scheduler benchmarks")
+
+    add_executable(bench_task_scheduler
+        bench_task_scheduler.cpp
+    )
+
+    target_link_libraries(bench_task_scheduler PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_task_scheduler PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_task_scheduler PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_task_scheduler
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Scheduler: registerTask, unregisterTask, executeTaskNow, listTasks, getStats, concurrent register")
+endif()
+
+# ============================================================================
+# Replication Throughput Benchmarks
+# WALManager: append, readFrom; WALEntry: serialize/deserialize;
+# ReplicationManager: initialize
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_replication_throughput.cpp")
+    message(STATUS "Adding Replication Throughput benchmarks")
+
+    add_executable(bench_replication_throughput
+        bench_replication_throughput.cpp
+    )
+
+    target_link_libraries(bench_replication_throughput PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_replication_throughput PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_replication_throughput PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_replication_throughput
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Replication: WAL append, WAL readFrom, WALEntry serialize/deserialize, ReplicationManager initialize")
+endif()
+
+# ============================================================================
+# Update Pipeline Benchmarks
+# UpdateStateMachine: transition, currentState;
+# ReleaseManifest: toJson/fromJson;
+# DeltaUpdateEngine: generatePatch, applyPatch
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
+    message(STATUS "Adding Update Pipeline benchmarks")
+
+    add_executable(bench_update_pipeline
+        bench_update_pipeline.cpp
+    )
+
+    target_link_libraries(bench_update_pipeline PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_update_pipeline PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_update_pipeline PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_update_pipeline
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Updates: state machine transitions, rollback path, manifest JSON round-trip, generatePatch, applyPatch")
+endif()

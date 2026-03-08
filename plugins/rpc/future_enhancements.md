@@ -4,6 +4,32 @@
 
 ---
 
+## Scope
+
+- Enhancements to RPC transport plugins: new protocols (Cap'n Proto, NATS, Arrow Flight), security hardening (mTLS, JWT/OAuth2), and observability (OpenTelemetry traces, per-RPC metrics).
+- Entry-point: `plugins/rpc/grpc/grpc_plugin.cpp`; new protocol backends follow the same `IRPCBackend` interface.
+- Out of scope: changes to ThemisDB query engine internals; this plugin only handles transport serialisation and connection lifecycle.
+- Covers adaptive flow control, compression negotiation, and multiplexed streaming for high-throughput clients.
+
+## Design Constraints
+
+- [ ] Every RPC backend MUST implement `IRPCBackend` (`listen`, `send`, `receive`, `shutdown`).
+- [ ] gRPC streaming MUST support at least 50,000 events/s before back-pressure triggers.
+- [ ] TLS MUST be enabled by default; plaintext connections MUST require explicit `allow_insecure=true` configuration.
+- [ ] JWT validation MUST use asymmetric keys (RS256 or ES256); symmetric HS256 is prohibited.
+- [ ] Compression algorithm MUST be negotiated per-call; default zstd level 3; fallback gzip.
+- [ ] All RPC backends MUST emit OpenTelemetry spans with `rpc.method`, `rpc.status_code`, and `rpc.response_size` attributes.
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IRPCBackend` | `RPCPlugin`, ThemisDB server | `listen`, `send`, `receive`, `shutdown` |
+| `ITLSConfigProvider` | `IRPCBackend` impls | Loads cert/key/CA; validates cert chain at startup |
+| `IJWTValidator` | `IRPCBackend` impls | Validates RS256/ES256 tokens; returns principal + claims |
+| `ICompressionNegotiator` | `IRPCBackend` impls | Selects zstd/gzip per call based on `Accept-Encoding` |
+| OpenTelemetry `Tracer` | All backends | Span per RPC call with method, status, response-size attributes |
+
 ## Idea Backlog
 
 ### Additional RPC Protocols
@@ -33,6 +59,23 @@
 - [ ] **Adaptive flow control** – back-pressure handling for high-throughput clients.
 
 ---
+
+## Test Strategy
+
+- Unit tests for `IRPCBackend` with a loopback server; assert round-trip latency ≤ 1 ms for 1 KB payload.
+- TLS enforcement tests: assert that a plaintext connection is rejected when `allow_insecure=false` (default).
+- JWT validation tests: expired token, wrong algorithm (HS256), and invalid signature must all return `UNAUTHENTICATED`.
+- Throughput benchmark: gRPC unary 10,000 req/s with 100-byte payload sustained for 30 s; assert zero errors.
+- Streaming throughput benchmark: 50,000 events/s over a single gRPC server-stream for 10 s; assert zero dropped events.
+- Compression tests: assert zstd-compressed payload is smaller than uncompressed for text payloads ≥ 256 bytes.
+
+## Performance Targets
+
+- gRPC unary throughput ≥ 10,000 req/s (100-byte payload, TLS enabled, single connection).
+- gRPC p99 latency ≤ 5 ms for payloads ≤ 4 KB on loopback.
+- gRPC server-streaming throughput ≥ 50,000 events/s (single stream, 64-byte events).
+- TLS handshake overhead ≤ 2 ms per new connection (session resumption ≤ 0.5 ms).
+- JWT validation overhead ≤ 0.2 ms per call (ES256, cached public key).
 
 ## Research / References
 

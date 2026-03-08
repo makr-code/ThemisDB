@@ -1,5 +1,32 @@
 # Security Module Headers - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/security/` headers
+- Post-quantum crypto interface (`KyberKEM`, `DilithiumSigner`, `HybridEncryption`)
+- HSM/PKCS#11 API (`HSMKeyProvider`, async key operations)
+- Zero-knowledge proof interface (`ZKProofSystem`, `RangeProof`, `ZKAuthentication`)
+- Threshold signature API (`ThresholdSignature`, `DistributedKeyGenerator`)
+- AES-256-GCM stream API (hardware-accelerated, AES-NI backed)
+
+## Design Constraints
+
+- [ ] All crypto APIs use `Result<T>` for error handling — no exceptions thrown
+- [ ] PQC algorithms are compile-time selectable via feature flags (e.g., `THEMIS_HAS_POST_QUANTUM`)
+- [ ] HSM operations are async — blocking HSM calls must not stall the I/O thread
+- [ ] New headers are strictly additive — no modifications to existing stable API surfaces
+- [ ] All key material is represented as opaque byte vectors; no raw key types in header signatures
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `KyberKEM` / `DilithiumSigner` | Key exchange, digital signatures | NIST PQC standard; compile-time selectable level |
+| `HybridEncryption` | Field-level encryption, data at rest | AES-256-GCM + Kyber-1024 defense-in-depth |
+| `ZKProofSystem` / `RangeProof` | Privacy-preserving queries, age/range attestation | zkSNARK-based; proving key pre-computed |
+| `ThresholdSignature` | Multi-party approval workflows | K-of-N combining; `DistributedKeyGenerator` dependency |
+| `HSMKeyProvider` | Production key management | Async; PKCS#11 compatible |
+
 Planned enhancements to the security module public API.
 
 ## Overview
@@ -941,3 +968,20 @@ Interested in implementing these features? See:
 - "Practical Homomorphic Encryption" - Gentry et al.
 - "Zerocash: Decentralized Anonymous Payments" - Sasson et al.
 - "The Algorithmic Foundations of Differential Privacy" - Dwork, Roth
+
+## Test Strategy
+
+- Unit tests for `KyberKEM` encapsulate/decapsulate roundtrip at all three security levels
+- Property-based tests for `DilithiumSigner` sign/verify with random messages and key pairs
+- Mock HSM tests for `HSMKeyProvider` async key operations under simulated latency
+- ZK proof roundtrip tests for `RangeProof` with boundary values (min, max, out-of-range)
+- Threshold signature recombination tests with K-1 (insufficient) and K (sufficient) partial signatures
+- Compile-time flag tests confirming PQC headers absent without `THEMIS_HAS_POST_QUANTUM`
+
+## Performance Targets
+
+- AES-256-GCM stream throughput ≥ 1 GB/s with AES-NI hardware acceleration
+- `KyberKEM::encapsulate()` ≥ 2,000 ops/s (Kyber-1024 security level)
+- RSA-4096 signature verify ≤ 5 ms
+- `DilithiumSigner::sign()` ≤ 2 ms per operation (Dilithium-5)
+- ZK range proof generation ≤ 10 ms; verification ≤ 2 ms

@@ -151,7 +151,7 @@ The README includes badges for test status and coverage:
 - **Coverage Badge**: Links to coverage report (when available)
 
 ```markdown
-[![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+[![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
 ```
 

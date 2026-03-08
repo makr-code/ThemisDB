@@ -4,6 +4,32 @@
 
 ---
 
+## Scope
+
+- Enhancements to the encrypted user storage plugin: new encryption algorithms (ChaCha20-Poly1305, post-quantum KEM), expanded HSM/PKCS#11 support, ABAC policy engine, and compliance tooling (audit log export, GDPR erasure).
+- 4-tier security model: gocryptfs AES-256-GCM, HashiCorp Vault, HSM/PKCS#11, and streng-geheim (M-of-N threshold).
+- Out of scope: changes to ThemisDB query engine or vector storage; this plugin only manages encryption lifecycle and key management.
+- Covers Cloud KMS integration (AWS KMS, Azure Key Vault) as alternatives to Vault.
+
+## Design Constraints
+
+- [ ] HSM PKCS#11 operations MUST never expose raw key material in process memory; all cryptographic operations happen inside the HSM.
+- [ ] Vault tokens MUST have a short TTL (≤ 1 hour); automatic renewal MUST occur at 75 % of TTL elapsed.
+- [ ] All tier transitions (e.g., confidential → streng-geheim) MUST produce an audit log entry with timestamp, user, and reason.
+- [ ] AES-256-GCM encryption MUST use AES-NI hardware acceleration when available; software fallback MUST be explicitly configured.
+- [ ] Key rotation MUST be online (no downtime); old key remains active for reads during rotation window (≤ 10 s per tenant).
+- [ ] GDPR erasure requests MUST be fulfilled by deleting the tenant's data-encryption key; ciphertext becomes irrecoverable within ≤ 30 s.
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `IEncryptedStorageBackend` | `UserStorageEncryptedPlugin` | `encrypt`, `decrypt`, `rotate_key`, `erase_tenant` |
+| `IKeyProvider` | `IEncryptedStorageBackend` impls | Vault, HSM/PKCS#11, AWS KMS, Azure Key Vault |
+| `IAuditLogger` | `UserStorageEncryptedPlugin` | Logs tier transitions, key rotations, access events; tamper-evident |
+| `IAccessPolicyEngine` | `UserStorageEncryptedPlugin` | OPA-based ABAC; evaluates `allow/deny` per (principal, tier, operation) |
+| `IThresholdKeyReconstructor` | `streng-geheim` tier | M-of-N Shamir secret sharing; requires M key-holder confirmations |
+
 ## Idea Backlog
 
 ### Cryptographic Enhancements
@@ -34,6 +60,31 @@
 - [ ] **Cloud KMS** – AWS KMS / Azure Key Vault as key provider alternatives to HashiCorp Vault.
 
 ---
+
+## Test Strategy
+
+- AES-NI throughput tests: encrypt 1 GB with AES-256-GCM; assert ≥ 1 GB/s on hardware with AES-NI; assert software fallback also completes correctly.
+- Key rotation tests: rotate a tenant key while 100 concurrent reads are in flight; assert zero read failures and rotation completes within 10 s.
+- PKCS#11 tests (using SoftHSM2 in CI): assert that raw key material is never accessible via process memory dumps after HSM operations.
+- GDPR erasure tests: delete tenant key; assert all ciphertext in that tenant's collection becomes unreadable within 30 s.
+- Vault token renewal tests: expire token at 75 % TTL; assert automatic renewal succeeds and no operation returns `VAULT_TOKEN_EXPIRED`.
+- Audit log tamper tests: modify an audit log entry; assert integrity check detects the modification.
+
+## Performance Targets
+
+- AES-256-GCM encrypt/decrypt throughput ≥ 1 GB/s with AES-NI hardware acceleration (single core).
+- Key rotation completion ≤ 10 s per tenant (online rotation, no downtime).
+- HSM PKCS#11 sign/verify operation ≤ 5 ms per call (SoftHSM2 baseline; hardware HSM ≤ 1 ms).
+- Vault secret fetch latency ≤ 10 ms p99 (local Vault agent cache; ≤ 50 ms without cache).
+- ABAC policy evaluation ≤ 1 ms per access decision (OPA in-process evaluation).
+
+## Security / Reliability
+
+- HSM PKCS#11 operations MUST never expose raw key material in process memory; use `CKA_SENSITIVE` + `CKA_EXTRACTABLE=FALSE` attributes.
+- Vault tokens MUST have TTL ≤ 1 hour; renewal at 75 % TTL; failure to renew MUST halt new encrypt/decrypt operations and alert.
+- All tier transitions, key rotations, and GDPR erasure events MUST be written to the tamper-evident audit log before the operation is considered complete.
+- GDPR erasure MUST be fulfilled by deleting the tenant's DEK in the key provider; no plaintext data destruction is required (ciphertext is irrecoverable).
+- Break-glass access MUST send an immediate alert to all configured security contacts and require post-access justification within 24 hours.
 
 ## Research / References
 

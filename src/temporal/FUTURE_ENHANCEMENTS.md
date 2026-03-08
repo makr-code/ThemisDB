@@ -1,5 +1,34 @@
 # Temporal Module - Future Enhancements
 
+## Scope
+
+The temporal module adds SQL:2011 bi-temporal table support to ThemisDB. It covers: system-versioned tables (transaction time), application-versioned tables (valid time), time-travel queries (`AS OF`, `FROM…TO`, `BETWEEN…AND`), temporal indexes (B-tree and interval-tree), automated retention and archival policies, temporal aggregations (tumbling, sliding, session windows), temporal foreign keys with period-aware referential integrity, and CDC streaming of version change events. Affected source files: `temporal_manager.cpp`, `temporal_query_engine.cpp`, `temporal_index_manager.cpp`, `retention_policy_manager.cpp`, and associated headers under `include/temporal/`.
+
+---
+
+## Design Constraints
+
+- [ ] All temporal operations must preserve transaction atomicity; history table writes and current-table writes occur in the same RocksDB `WriteBatch`.
+- [ ] System time columns (`sys_start`, `sys_end`) are database-generated and must never be writable by application code; DML attempts to set them directly return `PermissionDenied`.
+- [ ] Time-travel queries must be read-only and must not acquire write locks; they operate on immutable history table snapshots.
+- [ ] Retention enforcement runs as a background task and must not block foreground read/write operations; incremental deletion caps per-run latency at ≤ 100 ms per batch.
+- [ ] The bi-temporal model uses UTC timestamps with nanosecond precision throughout; no timezone conversion is applied at storage time.
+- [ ] New SQL syntax extensions (`FOR SYSTEM_TIME`, `FOR APPLICATION_TIME`) are additive and must not break or alter the behavior of existing non-temporal queries.
+
+---
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `SystemVersionedTable::insert(table, doc)` | `TemporalManager`, SQL DML layer | Writes current row + history row atomically in one `WriteBatch` |
+| `TemporalQueryEngine::executeTemporalQuery(table, query, spec)` | AQL engine, REST query endpoint | `spec` encodes clause type (`AS_OF`, `FROM_TO`, `BETWEEN_AND`) and timestamps |
+| `TemporalIndexManager::createTemporalIndex(table, name, spec)` | DDL handler | Creates B-tree or interval-tree index depending on `spec.type` |
+| `RetentionPolicyManager::setRetentionPolicy(table, policy)` | Admin API, `ALTER TABLE … SET RETENTION` DDL | Policy enforced by scheduled background job |
+| `TemporalCDC::subscribeToChanges(table, callback)` | Replication module, Kafka connector | Delivers typed `ChangeEvent` per committed version write |
+
+---
+
 ## Planned Features
 
 ### Full System-Versioned Table Support
@@ -839,6 +868,30 @@ Manual cleanup of old historical data required.
 5. **Backward Compatibility**: Maintain existing temporal APIs
 
 For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+---
+
+## Test Strategy
+
+| Test Type | Coverage Target | Notes |
+|-----------|----------------|-------|
+| Unit | ≥ 85% line coverage in `temporal_manager.cpp` and `temporal_query_engine.cpp` | Cover `AS OF`, `FROM…TO`, `BETWEEN…AND`, gap/overlap detection, all four conflict types |
+| Integration | All SQL:2011 temporal query clauses produce correct result sets | Run against an in-process RocksDB instance; result sets compared with hand-verified expected outputs |
+| Performance | `AS OF` query with snapshot index ≤ 2× baseline non-temporal query latency at 1M rows | Benchmark in `benchmarks/bench_temporal.cpp`; runs in CI for all temporal module PRs |
+| Retention | Retention job processes ≥ 1M versions/minute without blocking concurrent foreground writes | Measured under a parallel read/write load during retention enforcement run |
+| Bi-temporal | Bi-temporal join returns correct rows for all four period overlap predicates (`OVERLAPS`, `CONTAINS`, `EQUALS`, `PRECEDES`) | Dedicated test fixture with 100 hand-crafted period combinations |
+| Regression | Zero existing non-temporal AQL query failures after merging temporal changes | Full AQL test suite runs as a mandatory gate for all temporal PRs |
+
+---
+
+## Security / Reliability
+
+- System time columns (`sys_start`, `sys_end`) are set exclusively by the database engine; any DML attempt to write these columns returns a `PermissionDenied` error and is logged to the audit trail.
+- History table rows are append-only; `UPDATE` and `DELETE` on the history table are rejected at the API layer with a descriptive error.
+- Retention deletion is irreversible: enforcement jobs require an explicit `RETENTION_POLICY` DDL statement and log every batch deletion (table name, row count, time range) to the audit trail before executing.
+- Time-travel queries against sensitive tables are subject to the same `PolicyEngine` RBAC controls as current-data queries; historical access does not bypass column-level redaction rules.
+- User-specified archive locations for retention policies are validated against the configured `data_dir` allow-list to prevent directory traversal attacks.
+- Snapshot handles are released on transaction commit or abort; a snapshot GC watchdog forcibly releases leaked snapshots older than the configured `snapshot_timeout` to prevent unbounded memory growth.
 
 ---
 

@@ -21,6 +21,16 @@ This document covers planned enhancements to the Ingestion module beyond what is
 | `IngestionMetricsExporter::exportText(report)` | Prometheus scrape endpoint, admin API | Already defined in `ingestion_manager.cpp`; extend with per-error-code breakdown labels |
 | `IngestionAdminApi::retryQuarantineItem(doc_id)` | Admin REST API | Must support per-document retry (not full source restart) |
 
+## Test Strategy
+
+| Test Type | Coverage Target | Notes |
+|-----------|----------------|-------|
+| Unit | ≥ 80% line coverage on new connector code | `HttpClient` tested with a mock `libcurl` handle returning controlled responses; `KafkaConnector` tested with `librdkafka` mock consumer; per-document retry tested with injected write failures |
+| Integration | All connector types exercise a real backend end-to-end | `GenericApiConnector` against a local `httpbin` container; `KafkaConnector` against a `confluentinc/cp-kafka` Docker instance; `S3Connector` against a local MinIO instance |
+| Throughput | Aggregate ingestion throughput ≥ 50 000 docs/sec on a single node | `benchmarks/ingestion_bench.cpp`; throughput regression gate of < 5% vs. previous baseline runs in CI on every PR touching `ingestion_manager.cpp` |
+| Property-based | Quarantine retry logic handles all error code permutations without silent data loss | Property-based test generates random `IngestionErrorCode` sequences and asserts that every document either reaches the database or the quarantine queue |
+| Checkpoint | Connector restarts resume from the last committed checkpoint without re-ingesting already-processed documents | Simulated crash-and-restart test for HTTP, Kafka, and S3 connector types |
+
 ## Planned Features
 
 ### Production libcurl HTTP Client

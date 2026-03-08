@@ -1,5 +1,38 @@
 # Server Module - Future Enhancements
 
+## Scope
+
+- HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, gRPC, and PostgreSQL wire protocol API server built on Boost.Beast/Asio
+- Request routing, JSON Schema validation, response serialization, and chunked-transfer streaming
+- Connection lifecycle management, rate limiting (token bucket / sliding window), load shedding, and circuit breaking
+- JWT, Kerberos, API token, and USB admin authentication middleware; Apache Ranger policy enforcement
+- Multi-tenancy with tenant isolation; OpenAPI 3.1 spec auto-generation from handler annotations
+- Async job API (`/v2/jobs`), SSE changefeeds, response compression (Gzip, Brotli, Zstd)
+- MCP server for AI integrations; serverless function hosting; TLS 1.3 termination
+
+## Design Constraints
+
+- [ ] All new protocol handlers must conform to the existing `IRequestHandler` interface; no ad-hoc dispatch
+- [ ] TLS 1.3 is mandatory; TLS 1.2 may only be enabled via explicit `--allow-tls12` flag for legacy clients
+- [ ] Rate limiting state must be consistent across nodes via distributed token bucket (≤ 10 ms propagation delay)
+- [ ] OpenAPI 3.1 spec must be auto-generated from handler annotations; no hand-written spec files for REST endpoints
+- [ ] All REST endpoints must include JSON Schema request validation middleware before handler invocation
+- [ ] gRPC `.proto` field removals are forbidden in v1.x; only additive changes (new optional fields) are allowed
+- [ ] Graceful shutdown must drain all in-flight requests within 30 s before process termination
+- [ ] Admin endpoints (`/admin/**`) require USB admin token or Kerberos ticket; JWT alone is insufficient
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `IRequestHandler` | All REST/gRPC/WS handlers | Route registration, request context, response writer |
+| `IRateLimiter` | `HTTPServer`, `APIGateway` | Token bucket and sliding-window strategies; distributed state |
+| `IAuthProvider` | All endpoints | JWT, Kerberos, API token, USB admin; pluggable per-route |
+| `IJobQueue` | Async job API (`/v2/jobs`) | Submit, poll, cancel long-running AQL queries |
+| `ICompressionCodec` | Response serialization layer | Gzip, Brotli, Zstd; negotiated via `Accept-Encoding` |
+| `IMCPServer` | AI integration consumers | MCP protocol handler for tool calls and context injection |
+| `IMetricsExporter` | Prometheus scrape endpoint (`/metrics`) | Exposes req/s, p99, error rates, active connection counts |
+
 ## Planned Features
 
 ### GraphQL API Support
@@ -910,3 +943,33 @@ Have ideas for server module improvements? Open an issue or discussion:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
+
+---
+
+## Test Strategy
+
+- Unit test coverage ≥ 80% for all handler, routing, rate-limiter, and auth middleware classes
+- Integration tests covering all 40+ REST endpoints with TLS 1.3, JWT auth, rate limiting, and structured error responses
+- Protocol conformance tests for HTTP/1.1, HTTP/2 (h2), HTTP/3 (h3), WebSocket, gRPC, and PostgreSQL wire protocol
+- Load tests validating ≥ 50,000 req/s sustained throughput at p99 latency ≤ 50 ms with 1,000 concurrent connections
+- Security regression tests: header injection, CORS misconfiguration, request smuggling, and rate-limit bypass attempts
+- Chaos tests: kill backend mid-request and verify graceful 502/503 with correct `Retry-After` header returned to the client
+
+## Performance Targets
+
+- Sustained request throughput ≥ 50,000 req/s on a 4-core reference node (HTTP/1.1 keep-alive, 1 KB payload)
+- p50 latency ≤ 5 ms, p99 latency ≤ 50 ms at 80% CPU utilization under sustained load
+- HTTP/3 QUIC 0-RTT reconnect handshake overhead ≤ 1 RTT after initial session establishment
+- TLS 1.3 handshake latency ≤ 2 ms on ECDSA P-256 certificates on commodity hardware
+- Distributed rate-limiter state synchronization across nodes ≤ 10 ms propagation delay
+- Graceful shutdown: all in-flight requests drained within 30 s; no accepted request dropped after SIGTERM
+
+## Security / Reliability
+
+- All endpoints enforce TLS 1.3; plaintext HTTP is rejected unless `--allow-plaintext` is set explicitly in non-production mode
+- JWT signature validation uses constant-time byte comparison to prevent timing-based signature oracle attacks
+- Rate limiting is enforced at ingress before authentication to prevent credential-stuffing amplification
+- CORS origin validation rejects wildcard `*` in credentialed-request (`withCredentials`) contexts
+- All admin endpoints (`/admin/**`) require USB admin token or Kerberos service ticket; JWT alone is insufficient
+- Request body size hard-limit of 64 MiB enforced at the parser layer; excess causes immediate 413 with connection close
+- Apache Ranger policy denials are logged to the audit trail with caller identity, timestamp, and denied resource path

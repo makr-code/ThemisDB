@@ -86,6 +86,48 @@ Key PRs included in v1.5.0:
 | [#1383](https://github.com/makr-code/ThemisDB/issues/1383) | acceleration | CUDA ANN + geospatial kernels |
 | [#1384](https://github.com/makr-code/ThemisDB/issues/1384) | acceleration | Vulkan compute shader pipeline |
 | [#1390](https://github.com/makr-code/ThemisDB/issues/1390) | acceleration | Cross-backend L2 distance validation |
+| [#3420](https://github.com/makr-code/ThemisDB/pull/3420) | updates | Update history log |
+| [#3421](https://github.com/makr-code/ThemisDB/pull/3421) | updates | Blue/green deployment support |
+| [#3422](https://github.com/makr-code/ThemisDB/pull/3422) | replication/updates | CoordinatedUpdateManager |
+| [#3424](https://github.com/makr-code/ThemisDB/pull/3424) | chimera | CI benchmark baseline |
+| [#3425](https://github.com/makr-code/ThemisDB/pull/3425) | gpu | Multi-node GPU coordination production-ready |
+| [#3426](https://github.com/makr-code/ThemisDB/pull/3426) | performance | Memory pressure monitor (Phase 3) |
+| [#3427](https://github.com/makr-code/ThemisDB/pull/3427) | query | Per-query resource limits |
+| [#3428](https://github.com/makr-code/ThemisDB/pull/3428) | replication | CRDT FLAG_EW + FLAG_DW types |
+| [#3434](https://github.com/makr-code/ThemisDB/pull/3434) | voice | Real-time meeting transcription |
+| [#3435](https://github.com/makr-code/ThemisDB/pull/3435) | performance | PMU cache-miss analysis |
+| [#3437](https://github.com/makr-code/ThemisDB/pull/3437) | performance/ci | Cross-module performance regression CI |
+| [#3438](https://github.com/makr-code/ThemisDB/pull/3438) | security/updates | HSM-backed SigningService |
+| [#3442](https://github.com/makr-code/ThemisDB/pull/3442) | voice | STT/TTS benchmarks |
+| [#3444](https://github.com/makr-code/ThemisDB/pull/3444) | voice | Language detection + auto-locale |
+| [#3445–#3450](https://github.com/makr-code/ThemisDB/pull/3450) | rpc | Full RPC production implementation |
+| [#3453–#3462](https://github.com/makr-code/ThemisDB/pull/3462) | security | PKCS#11 HSM + RFC 3161 TSA full stack |
+| [#3463](https://github.com/makr-code/ThemisDB/pull/3463) | security/observability | Audit log fsync + rotation + mirror |
+| [#3464](https://github.com/makr-code/ThemisDB/pull/3464) | sharding | Hardware migration / NodeIdentity persistence |
+
+---
+
+## Milestone: v1.7.0
+
+> **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.7.0.md`](docs/de/releases/RELEASE_NOTES_v1.7.0.md)
+> **Issues:** [#3486](https://github.com/makr-code/ThemisDB/issues/3486) · [#3073](https://github.com/makr-code/ThemisDB/issues/3073)
+
+Key PRs and features included in v1.7.0:
+
+| PR / Feature | Module | Purpose |
+|---|--------|---------|
+| Config Architecture Reorganization | config | Hierarchical `config/` directories + `ConfigPathResolver` backward-compat layer |
+| Multi-GPU Vector Indexing API (v2.4) | gpu / index | `MultiGPUVectorIndex` scaffolding: partition strategies, fan-out/merge, CPU-backed |
+| Git-Like Features Integration | storage / server | SnapshotManager, PITR REST API, MergeEngine 3-way merge |
+| HybridSearch production hardening | search | Configurable metric, strict validation, `SearchStats`, exception safety |
+| Distributed Query Optimizer | query | Dynamic shard row estimates, predicate selectivity, latency hooks |
+| FAISS ADC distance tables | index | ~40% faster `IndexIVFPQ` search |
+| [#3471](https://github.com/makr-code/ThemisDB/pull/3471) | tests / benchmarks | Coverage audit: 6 benchmarks + 21 unit test files |
+| [#3472–#3484](https://github.com/makr-code/ThemisDB/pull/3484) | docs (all modules) | Full 44-module documentation audit and sync |
+| [#3480](https://github.com/makr-code/ThemisDB/pull/3480) | ci | Documentation validation CI workflow |
+| [#3485](https://github.com/makr-code/ThemisDB/pull/3485) | rag / research | RAG scientific foundations (40 IEEE citations) |
+
+**Breaking change:** `themis` module initialisation code migrated from `src/utils/` / `src/base/` to `src/themis/`.
 
 ---
 
@@ -221,8 +263,8 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [I] Cost-aware task prioritisation (Target: Q4 2026)
 
 #### 4.3 Updates — Advanced Migration
-- [I] Schema migration dry-run with impact analysis report (Target: Q4 2026)
-- [I] Blue-green deployment support for zero-downtime major upgrades (Target: Q4 2026)
+- [x] Schema migration dry-run with impact analysis report (Target: Q4 2026) — `validateMigration` regression tests added (PR: #3433)
+- [x] Blue-green deployment support for zero-downtime major upgrades (PR: #3421) ✅
 
 #### 4.4 Config — Full Migration Tooling
 - [I] Automated legacy config migration script with dry-run mode (Issue: #1661) (Target: Q4 2026)

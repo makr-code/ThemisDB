@@ -113,19 +113,19 @@ python3 scripts/toc-check.py --format json --output toc-report.json
 
 ### Workflow: `documentation-validation.yml`
 
-The validation workflow runs automatically on:
+The validation workflow (`.github/workflows/documentation-validation.yml`) runs automatically on:
 
-- **Pull requests** affecting documentation
-- **Pushes** to main, develop, or release branches
-- **Manual trigger** via workflow_dispatch
+- **Pull requests** affecting documentation (`docs/**`, `compendium/**`, `scripts/docs-lint.py`, etc.)
+- **Pushes** to `main`, `develop`, or `release/**` branches
+- **Manual trigger** via `workflow_dispatch`
 
 ### Validation Jobs
 
-1. **docs-lint**: Runs documentation linting
-2. **link-check**: Validates internal links
-3. **external-link-check**: Checks external links (main/develop only)
-4. **toc-validation**: Validates TOC structure
-5. **validation-summary**: Aggregates results
+1. **docs-lint** (`Documentation Linting`): Runs `scripts/docs-lint.py`
+2. **link-check** (`Link Validation`): Validates internal links via `scripts/link-check.py --internal-only`
+3. **external-link-check** (`External Link Check`): Checks external links using `markdown-link-check` (runs on `main`/`develop` branches only)
+4. **toc-validation** (`TOC Validation`): Validates TOC structure via `scripts/toc-check.py`
+5. **validation-summary** (`Validation Summary`): Aggregates results from all required jobs
 
 ### Required Status Checks
 
@@ -139,9 +139,9 @@ The following checks must pass before merging:
 
 Results are available in multiple places:
 
-1. **Job Summary**: View in GitHub Actions job summary
-2. **Artifacts**: Download JSON reports for detailed analysis
-3. **PR Comments**: Automated comments on pull requests (if enabled)
+1. **Job Summary**: View in GitHub Actions job summary for each job
+2. **Artifacts**: Download JSON reports (`lint-report`, `link-report`, `toc-report`) for detailed analysis
+3. **PR Comments**: Automated comments on pull requests (if enabled via branch protection)
 
 ## Local Development
 

@@ -25,13 +25,10 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2468)
 - [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
-- [x] Authenticode (Windows) and GPG (Linux) signature verification for modules (Issue: #2473)
-- [x] Zone.Identifier / quarantine detection (Windows) (Issue: #2316)
 - [I] Dynamic feature flag gating per edition at runtime (Issue: #2317)
 
 ## Implementation Phases

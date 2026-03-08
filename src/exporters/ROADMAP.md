@@ -26,17 +26,11 @@
 
 ### Short-term (Next 3-6 months)
 - [I] Export filtering with AQL predicates (Issue: #1715)
-- [x] Incremental/delta export (only changed documents since last export) (Issue: #1716)
 - [I] Export progress tracking and resumability (Issue: #1717)
-- [x] Configurable output compression (zstd, gzip) (Issue: #1718)
 
 ### Long-term (6-12 months)
 - [I] Hugging Face Hub direct upload integration (Issue: #1719)
-- [x] Training data quality scoring (deduplication, toxicity filtering) (Issue: #1720)
-- [x] Instruction-tuning format templates (Alpaca, ShareGPT, ChatML) (Issue: #1721)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
-- [x] Synthetic data augmentation pipeline (Issue: #1723)
-- [x] Export encryption for sensitive training data (Issue: #1724)
 
 ## Implementation Phases
 
@@ -51,7 +45,7 @@
 - [x] Implement streaming export for collections exceeding available memory (`exporters/streaming_exporter.cpp`)
 - [x] Add progress callbacks reporting records exported, bytes written, and estimated ETA
 
-### Phase 3: Parquet, Incremental Export, and Security (Status: In Progress)
+### Phase 3: Parquet, Incremental Export, and Security (Status: Completed ✅)
 - [x] Implement Parquet export with configurable Arrow schema (`exporters/parquet_exporter.cpp`)
 - [x] Implement incremental/delta export tracking last-exported sequence number per collection (Issue: #1726)
 - [x] Add instruction-tuning format templates (Alpaca, ShareGPT, ChatML) as export transforms (Issue: #1727)

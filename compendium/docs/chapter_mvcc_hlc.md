@@ -4,6 +4,8 @@
 >
 > **Voraussetzungen:** [Kapitel 8: Storage Layer](chapter_08_storage_layer.md), [Kapitel 17: Horizontale Skalierung](chapter_17_scaling.md)
 >
+> **Verwandte Dokumente:** [MVCC Architektur-Übersicht (DE)](../../docs/de/architecture/architecture_mvcc.md) · [MVCC Tuning Guide (EN)](../../docs/en/features/MVCC_TUNING_GUIDE.md)
+>
 > **Lernziele:**
 > - MVCC-Grundprinzipien und ihre Anwendung in ThemisDB verstehen
 > - Hybrid Logical Clocks für kausale Zeitstempel einsetzen
@@ -448,3 +450,11 @@ Shard A                              Shard B
 - [CockroachDB MVCC](https://www.cockroachlabs.com/docs/stable/architecture/storage-layer.html#mvcc)
 - [FoundationDB Record Layer](https://foundationdb.github.io/fdb-record-layer/)
 - ThemisDB: `include/storage/hlc.h`, `include/storage/mvcc_store.h`, `include/storage/raft_mvcc_bridge.h`, `include/server/mvcc_api_handler.h`
+
+### Verwandte ThemisDB-Dokumentation
+
+| Dokument | Inhalt |
+|----------|--------|
+| [MVCC Architektur-Übersicht (DE)](../../docs/de/architecture/architecture_mvcc.md) | Architektonische Einordnung beider MVCC-Schichten (MVCCStore/HLC + TransactionManager/RocksDB) |
+| [MVCC Tuning Guide (EN)](../../docs/en/features/MVCC_TUNING_GUIDE.md) | Konfiguration, Tuning und Benchmarks der TransactionManager-Schicht |
+| [Transaction Best Practices (EN)](../../docs/en/features/TRANSACTION_BEST_PRACTICES.md) | Anwendungsempfehlungen für Transaktionen |

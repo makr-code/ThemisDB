@@ -206,9 +206,9 @@ Performance targets:
 
 ## 11. Known Limitations & Future Work
 
-- Vulkan distance shaders (SPIR-V) are planned but not yet implemented.
-- `device_capability_probe` (probing/ranking) is partially implemented; planned for v1.5.
-- NCCL/RCCL multi-GPU collective support is partial.
+- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW integration.
+- Tensor Core matrix ops (`CUDAMatrixBackend`) require a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16).
+- Multi-GPU sharding backend (`MultiGPUVectorBackend`) is implemented; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring is deferred to v2.5+.
 - DirectX and Metal backends are experimental.
 - Plugin ABI stability guarantee starts at v2.0; breaking changes possible before then.
 

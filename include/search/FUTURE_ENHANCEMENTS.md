@@ -1,5 +1,33 @@
 # Search Module API - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/search/` headers
+- LTR (learning-to-rank) interface (`LearningToRank`, model hot-swap API)
+- Neural sparse retrieval API (compile-time optional, `NeuralSparseRetriever`)
+- Faceted search interface (`FacetedSearch`, composable drill-down API)
+- Cross-lingual search API (`CrossLingualSearch`, multi-embedding fusion)
+- Query rewriting hook (`QueryRewriter`, pluggable ordered rewrite chain)
+
+## Design Constraints
+
+- [ ] LTR model is hot-swappable without server restart
+- [ ] Faceted search API is composable — facets can be combined via intersection
+- [ ] Neural sparse API is compile-time optional (`THEMIS_NEURAL_SPARSE` flag)
+- [ ] No breaking changes to existing `HybridSearch` API
+- [ ] All new interfaces use `Result<T>` for error propagation (no exceptions)
+- [ ] Query rewriting hooks are ordered and individually enable/disable-able
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `LearningToRank` | Search result re-ranking pipelines | Hot-swappable model; online click-through training |
+| `NeuralSparseRetriever` | Neural IR search backends | Compile-time optional via `THEMIS_NEURAL_SPARSE` |
+| `FacetedSearch` | Browse/filter UIs | Composable facet intersection; ≤ 5 ms aggregation |
+| `CrossLingualSearch` | Multilingual applications | RRF fusion over multilingual embeddings |
+| `QueryRewriter` | Query preprocessing pipeline | Ordered hook chain; ≤ 20 ms total rewrite budget |
+
 ## Delivered in v1.5.0
 
 All features listed below were delivered in v1.5.0.  The actual public API is
@@ -133,6 +161,31 @@ Key API surface:
 - **Streaming result delivery**: async/generator API for large `k` values
 
 ---
+
+## Test Strategy
+
+- Unit tests for `LearningToRank` re-ranking with synthetic feature vectors and known score ordering
+- Model hot-swap tests verifying zero-downtime swap under concurrent search load
+- Faceted search composability tests with nested filter combinations across multiple facet types
+- Cross-lingual search tests using parallel corpora (query in language A, results in language B)
+- Query rewriter hook ordering tests ensuring deterministic rewrite output
+- Compile-time exclusion tests confirming `NeuralSparseRetriever` is absent without `THEMIS_NEURAL_SPARSE`
+
+## Performance Targets
+
+- LTR re-ranking ≤ 10 ms for top-100 candidates (p99)
+- Faceted aggregation ≤ 5 ms for up to 10 facets over 1 M documents
+- Query rewriting pipeline ≤ 20 ms end-to-end
+- Neural sparse retrieval ≤ 50 ms for vocabulary size ≤ 30,000 terms
+- `CrossLingualSearch::searchMultiEmbedding()` RRF fusion ≤ 15 ms for 5 query embeddings
+
+## Security / Reliability
+
+- Search query strings hashed (SHA-256) before storage in analytics log — raw query never persisted
+- No query content included in error messages or stack traces
+- LTR model updates validated against a held-out test set before hot-swap activation
+- Faceted filter inputs sanitized to prevent injection into underlying index scans
+- Rate limiting applied at the search API boundary to prevent denial-of-service via expensive queries
 
 ## See Also
 

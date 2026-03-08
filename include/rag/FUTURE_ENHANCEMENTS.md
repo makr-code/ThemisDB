@@ -1,5 +1,33 @@
 # RAG Module - Future Enhancements
 
+## Scope
+
+- API-level enhancements to `include/rag/` headers — public C++ interfaces for retrieval-augmented generation
+- Streaming retrieval interface: `ResultStream<Document>` base class with `next()`, `hasMore()`, and `cancel()` methods
+- Multi-judge evaluation API: `JudgeEnsemble` with async `evaluate()` returning `EvaluationFuture`
+- Re-ranking hook: `RerankerHook` — optional, stateless callback registered on `RAGPipeline`
+- Citation tracking API: `CitationTracker` returning structured `CitationRef` with doc ID, span, and confidence
+- Agentic RAG interface: `AgentRAGPolicy` for multi-hop decomposition and tool invocation hooks
+
+## Design Constraints
+
+- [ ] Streaming retrieval uses `ResultStream<Document>` as the base interface; polling and callback variants are both derived from it
+- [ ] Evaluation API is async; `JudgeEnsemble::evaluate()` returns `EvaluationFuture` and must not block the caller
+- [ ] Re-ranking hook is optional and stateless; it receives a `const` candidate list and returns a re-ordered copy
+- [ ] Citation API returns structured `CitationRef` objects; raw document content is never included in citation data
+- [ ] Agentic RAG interface must not hold mutable shared state between hops; each hop receives explicit context by value
+- [ ] All public RAG interfaces are `noexcept`-safe at the boundary; exceptions are caught and converted to `Result<T>`
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `ResultStream<Document>` | Streaming query path, UI layer | Base class; `next()` is blocking with timeout |
+| `JudgeEnsemble` | Evaluation pipeline, CI quality gates | Async `evaluate()`; returns `EvaluationFuture` |
+| `RerankerHook` | `RAGPipeline` post-retrieval stage | Stateless; registered via `pipeline.setReranker()` |
+| `CitationTracker` | Answer generation, explainability layer | Returns `vector<CitationRef>`; structured, no raw text |
+| `AgentRAGPolicy` | Multi-hop reasoner, agentic pipelines | Stateless per-hop; receives `HopContext` by value |
+
 ## Planned Features
 
 ### 1. Multi-Hop Reasoning with Query Decomposition
@@ -831,3 +859,31 @@ See `../../CONTRIBUTING.md` for details.
 
 *Last Updated: 2024*  
 *RAG Module Roadmap v1.0*
+
+---
+
+## Test Strategy
+
+- Unit tests for `ResultStream<Document>`: assert `next()` returns documents in score order; `cancel()` stops emission
+- Unit tests for `JudgeEnsemble`: mock LLM judge; assert `EvaluationFuture` resolves within timeout; verify async non-blocking
+- Unit tests for `RerankerHook`: provide known candidate list; assert output order matches cross-encoder scores
+- Unit tests for `CitationTracker`: generate answer from 3 source docs; assert each `CitationRef` links to a valid doc ID and span
+- Integration tests: run full `RAGPipeline` with streaming retrieval + re-ranking + citation; assert first-result latency ≤ 50 ms
+- PII tests: assert `CitationRef` output contains no raw source document content beyond the attributed span text
+
+## Performance Targets
+
+- Streaming retrieval first-result latency ≤ 50 ms from query submission to first `ResultStream::next()` return
+- `JudgeEnsemble` batch evaluation throughput ≥ 100 evaluations/s with a single LLM judge
+- Re-ranking hook overhead ≤ 100 ms for top-100 candidate re-rank with `ms-marco-MiniLM-L6`
+- `CitationTracker::track()` ≤ 10 ms per answer including span extraction
+- Agentic RAG hop overhead (decomposition + tool invocation) ≤ 500 ms per hop excluding LLM latency
+- End-to-end RAG pipeline latency ≤ 800 ms at p95 for single-hop queries on cached embeddings
+
+## Security / Reliability
+
+- RAG prompts are sanitized before LLM submission; prompt injection patterns are detected and blocked at the API boundary
+- Evaluation results and `CitationRef` data must never include source document PII; enforced by a data sanitization layer
+- `AgentRAGPolicy` tool invocations are sandboxed; file system and outbound network access require explicit capability grant
+- `ResultStream` implementations must handle upstream database failures gracefully and emit `StreamError` rather than throwing
+- Re-ranking models are loaded from a verified model registry path; arbitrary model paths are rejected at API entry

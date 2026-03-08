@@ -32,23 +32,12 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Short-term (Next 3-6 months)
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
-- [x] Per-query resource limits (max rows, max memory, timeout) (Issue: #1967)
-  - Implemented in `include/query/query_resource_limits.h` (`QueryResourceLimits`, `QueryResourceGuard`) and `src/query/aql_runner.cpp` (`executeAqlWithLimits`)
-  - Enforces max rows, max memory bytes (serialised JSON proxy), and wall-clock timeout per query
-  - Tests: `tests/test_query_resource_limits.cpp` (guard unit tests + integration tests)
 - [!] Query cancellation via request ID (Issue: #2431)
-- [x] User-defined functions (UDF) registration API (Issue: #2433)
 
 ### Long-term (6-12 months)
 - [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
 - [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
-- [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
-- [x] SPARQL compatibility for RDF / knowledge-graph queries (Issue: #2235)
-  - Implemented in `include/query/sparql_parser.h` (`SPARQLParser`, `SPARQLToAQLTranspiler`) and `src/query/sparql_parser.cpp`
-  - Supports SELECT queries with triple patterns (variables, URIs, prefixed names, literals), FILTER expressions, ORDER BY, LIMIT/OFFSET
-  - Translates SPARQL to AQL via variable-unification across triple patterns, mapped to nested FOR loops over a configurable RDF triples collection
-  - Tests: `tests/test_sparql_parser.cpp`
 
 ## Implementation Phases
 
@@ -72,7 +61,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
 - [x] Incremental view maintenance for materialized CTEs
 
-### Phase 3: Resource Management & UDF (Status: Planned 📋)
+### Phase 3: Resource Management & UDF (Status: In Progress 🚧)
 - [x] Query result type annotations for client SDK code generation
 - [x] Per-query resource limits (max rows, max memory, timeout)
 - [ ] Query cancellation via request ID

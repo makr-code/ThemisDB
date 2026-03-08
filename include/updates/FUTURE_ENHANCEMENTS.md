@@ -1,5 +1,32 @@
 # Updates Module Headers - Future Enhancements
 
+## Scope
+
+- Public API enhancements for `include/updates/` headers
+- Delta update interface (`DeltaUpdateEngine`, `DeltaManifest`, apply/generate operations)
+- Canary rollout API (`CanaryDeployment`, percentage-based stage progression)
+- Signature verification interface (CMS/PKCS#7 bundle verification before install)
+- Rollback API (`HotReloadEngine::rollback`, pre-update state preservation)
+- Multi-node coordination interface (`DistributedUpdateCoordinator`)
+
+## Design Constraints
+
+- [ ] Delta apply is atomic (all-or-nothing); partial application leaves filesystem unchanged
+- [ ] Canary rollout is percentage-based (1 → 5 → 25 → 100); no arbitrary node targeting in public API
+- [ ] Signature verification MUST block install if the CMS/PKCS#7 check fails; no `force` bypass in public API
+- [ ] Rollback API preserves the exact pre-update filesystem state via backup snapshot
+- [ ] `isSafePath` is checked on all bundle-supplied paths before any filesystem write
+
+## Required Interfaces
+
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `DeltaUpdateEngine::applyDelta(DeltaManifest)` | Update pipeline | Atomic; returns list of updated files |
+| `CanaryDeployment::deploy()` | Ops tooling | Returns `std::future`; progress via callback |
+| `HotReloadEngine::rollback(rollback_id)` | Admin API | Restores pre-update state |
+| `DistributedUpdateCoordinator::updateCluster(version)` | Cluster manager | Rolling update with health checks |
+| `UpdateVerifier::verify()` | Post-update gate | Runs smoke + integration + perf tests |
+
 ## Planned Header Additions
 
 ### distributed_update_coordinator.h
@@ -914,3 +941,28 @@ public:
 *Last Updated: February 2026*  
 *Module Version: v1.5.x*  
 *Next Review: v1.6.0 Release*
+
+## Test Strategy
+
+- Unit tests: `DeltaUpdateEngine::applyDelta` — inject mid-apply failure and verify no partial writes persist
+- Unit tests: `CanaryDeployment` stage progression — mock metrics exceeding thresholds trigger automatic rollback
+- Integration tests: full download → verify signature → apply delta → post-update smoke tests pass
+- Negative tests: bundle with invalid CMS signature is rejected before any file is written
+- Negative tests: `isSafePath` blocks path traversal (`../`) in bundle-supplied file entries
+- Regression tests: rollback restores all files to byte-identical pre-update state
+
+## Performance Targets
+
+- `DeltaUpdateEngine::applyDelta` throughput: ≤ 10 s per 100 MB of target files
+- Signature verification (CMS/PKCS#7 verify call): ≤ 50 ms for a standard bundle
+- `HotReloadEngine::rollback` initiation (trigger to first file restore): ≤ 1 s
+- `CanaryDeployment` stage transition (metrics evaluation + traffic shift): ≤ 5 s per stage
+- `DistributedUpdateCoordinator::updateCluster` per-node health check: ≤ 30 s timeout
+
+## Security / Reliability
+
+- All update bundles MUST be verified via CMS/PKCS#7 signature before any file is installed; failure is non-bypassable in public API
+- `isSafePath` is called on every bundle-supplied file path to block directory traversal attacks
+- Rollback operations are audit-logged with operator identity, timestamp, from-version, and to-version
+- Delta patches are validated (hash check) after application before old files are removed from backup
+- `DistributedUpdateCoordinator` uses rolling updates to maintain quorum availability; at most `max_parallel_updates` nodes updated simultaneously

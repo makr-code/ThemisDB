@@ -25,8 +25,6 @@
 - [I] PDF and Office document text extraction (pdfmium / LibreOffice headless) (Issue: #1681)
 - [P] HTML content extraction with boilerplate removal (Issue: #1682)
 - [P] Markdown processing and frontmatter parsing (Issue: #1683)
-- [x] Streaming ingestion for large files (chunked processing) (Issue: #1684)
-- [x] Content deduplication via perceptual hashing (Issue: #1685)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
 ### Long-term (6-12 months)
@@ -34,7 +32,6 @@
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [I] OCR for image-embedded text (Tesseract integration) (Issue: #1689)
 - [~] Multi-language text detection and routing (Issue: #1690)
-- [x] Content versioning and delta storage (Issue: #1692) ✅ Implemented
 
 ## Implementation Phases
 

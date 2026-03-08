@@ -41,8 +41,6 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)
-  - Implemented: Shannon entropy ≥ 4.5 bits/char + regex pattern scanner (`scripts/secret_scan.py`), gitleaks pre-commit hook, detect-secrets baseline (`.secrets.baseline`), CI workflow (`.github/workflows/secret-scanning-ci.yml`), allow-list support (`.secret-scan-allowlist.txt`)
 
 ### Long-term (6-12 months)
 - [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
