@@ -11,7 +11,7 @@
 
 | Version | Datum | Änderungen | Autor |
 |---------|-------|------------|-------|
-| **3.0** | 08.03.2026 | **Production-Ready Edition:** <br>• Update auf v1.5.0 (Production-Ready mit all v1.7.0 Features)<br>• Enterprise Edition verfügbar (Hyperscaler-Ready Features)<br>• Benchmark-Update: 814M baseline, 1.1B Enterprise, 1.55B mit Embedding Cache<br>• Kundenstatus: 8+ KRITIS in Production/Pilot, 2+ Enterprise bezahlen<br>• Series A Fundraising aktiv (€5M-€10M, 5+ VC-Gespräche)<br>• Risk-Adjusted: Technology -10pp, Execution -15pp, Market -5pp<br>• Roadmap 6-12 Monate vorgezogen, Exit-Timeframes aktualisiert | Strategieanalyse-Team |
+| **3.0** | 08.03.2026 | **Production-Ready Edition:** <br>• Update auf v1.5.0 (Production-Ready mit all v1.7.0 Features)<br>• Enterprise Edition verfügbar (Hyperscaler-Ready Features)<br>• Benchmark-Update: 814M baseline, 1.1B Enterprise, 1.55B mit Embedding Cache<br>• Kundenstatus: 8+ KRITIS in Production/Pilot, 2+ Enterprise bezahlen<br>• Series A Fundraising aktiv (€5M-€10M, 5+ VC-Gespräche)<br>• Risk-Adjusted: Technology -10pp, Execution -15pp, Market -5pp<br>• Roadmap 6-12 Monate vorgezogen, Exit-Timeframes aktualisiert<br>• **Marktanpassung:** Comparable Transactions auf 2024-2025 kalibriert (post-2022 Multiples-Kompression berücksichtigt)<br>• **Militär & Verteidigung:** Neues Segment hinzugefügt – Marktbewertung, TCO, Lizenzpreise, Roadmap-Anforderungen | Strategieanalyse-Team |
 | **2.0** | 07.01.2026 | **Stakeholder-Fokussierung:** <br>• Detaillierte 5-Jahres-Finanzprognose (3 Szenarien)<br>• DCF-Bewertung mit Sensitivitätsanalyse<br>• Unit Economics & LTV:CAC-Analysen<br>• Exit-Szenarien (IPO, M&A, Secondary) mit IRR-Berechnungen<br>• Quantifizierte Risikobewertung mit Monte-Carlo-Simulation<br>• Investment-Empfehlungen für Series A<br>• Competitive Moat-Analyse | Financial Advisory Team |
 | **1.0** | 07.01.2026 | Initiale Version mit TCO-Analyse, Marktbewertung, Hyperscaler-Vergleich | Strategieanalyse-Team |
 
@@ -29,20 +29,20 @@
 
 ### Die Investment-Opportunity in 60 Sekunden
 
-ThemisDB adressiert einen **€8,5 Mrd. Markt** mit einer einzigartigen technologischen Position: Als **einzige Multi-Model-Datenbank mit nativer KI-Integration ohne Cloud-Abhängigkeit** löst ThemisDB kritische Probleme in Märkten, die Hyperscaler nicht bedienen können (KRITIS, Datensouveränität, Air-Gap-Szenarien).
+ThemisDB adressiert einen **€9,7 Mrd. Markt** mit einer einzigartigen technologischen Position: Als **einzige Multi-Model-Datenbank mit nativer KI-Integration ohne Cloud-Abhängigkeit** löst ThemisDB kritische Probleme in Märkten, die Hyperscaler nicht bedienen können (KRITIS, Datensouveränität, Air-Gap-Szenarien, Militär & Verteidigung).
 
 **Investment Highlights:**
 
 | Metrik | Konservativ (Base Case) | Optimistisch (Growth Case) | Begründung |
 |--------|------------------------|---------------------------|------------|
-| **Unternehmenswert (2026)** | €45M - €65M | €180M - €280M | 8-12× ARR Multiple (DB-Sektor Standard) |
+| **Unternehmenswert (2026)** | €32M - €50M | €140M - €220M | 8-15× ARR Multiple (kalibriert 2026) |
 | **ARR in 5 Jahren** | €6,2M (650 Kunden) | €22M (2.100 Kunden) | 2-5% Marktanteil erreichbar |
 | **CAGR (Umsatzwachstum)** | 85% p.a. | 142% p.a. | Typisch für Pre-IPO DB-Startups |
 | **Gross Margin** | 78% | 82% | Software-typisch, über Branchenschnitt |
-| **Customer Acquisition Cost** | €18k/Kunde | €12k/Kunde | Sinkt mit Skalierung |
-| **Customer Lifetime Value** | €78k | €125k | LTV:CAC Ratio 4,3:1 - 10,4:1 |
+| **Customer Acquisition Cost** | €16k/Kunde | €12k/Kunde | Sinkt mit Skalierung (v1.5.0-adjusted) |
+| **Customer Lifetime Value** | €78k | €125k | LTV:CAC Ratio 4,8:1 - 10,4:1 |
 | **Break-Even** | Q4 2027 (22 Monate) | Q2 2027 (16 Monate) | Mit €8M Series A |
-| **Exit-Potenzial (IPO/M&A)** | €250M - €400M | €800M - €1,2B | 2030-2032 Zeitfenster |
+| **Exit-Potenzial (IPO/M&A)** | €150M - €300M | €500M - €900M | 2028-2030 Zeitfenster (kalibriert) |
 
 ### Warum JETZT investieren?
 
@@ -52,6 +52,7 @@ ThemisDB adressiert einen **€8,5 Mrd. Markt** mit einer einzigartigen technolo
 3. ✅ **KRITIS-Regulierung verschärft** - NIS2-Richtlinie zwingt zu On-Premises-Lösungen
 4. ✅ **Hyperscaler haben blinden Fleck** - Air-Gap und KRITIS nicht adressierbar
 5. ✅ **Technologie-Vorsprung** - 18-24 Monate vor Wettbewerbern (12 Unique Features)
+6. ✅ **Verteidigungsausgaben auf Rekordhoch** - EU/NATO-Rüstungshaushalt wächst um 20-30% p.a. (post-Ukraine), Bundeswehr-Digitalisierungsprogramm (BAAINBw) mit €600M+ Datensysteme-Budget
 
 ### Kritische Erfolgsfaktoren
 
@@ -71,14 +72,14 @@ ThemisDB adressiert einen **€8,5 Mrd. Markt** mit einer einzigartigen technolo
 ### Investitions-Empfehlung
 
 **Für strategische Investoren (€5M - €10M Series A):**
-- **Expected Return:** 8-15× in 5-7 Jahren (IPO oder M&A Exit)
-- **Risk-Adjusted IRR:** 42-67% (abhängig von Execution)
-- **Confidence Level:** Mittel-Hoch (Tech validiert, Market Timing gut, Execution-Risiko)
+- **Expected Return:** 5-10× in 5-7 Jahren (IPO oder M&A Exit) – kalibriert auf aktuellen Markt
+- **Risk-Adjusted IRR:** 30-50% (abhängig von Execution und Military-Segment-Erschließung)
+- **Confidence Level:** Mittel-Hoch (Tech Production-Ready, Military-Segment gibt zusätzliche Sicherheit)
 
-**Für strategische Käufer (Hyperscaler, DB-Vendors):**
-- **Akquisitionspreis heute:** €60M - €80M (Technologie + Team + IP)
-- **Akquisitionspreis 2027+:** €250M - €500M (mit etablierter Kundenbasis)
-- **Strategic Value:** Zugang zu KRITIS-Märkten, Air-Gap-Capability, Multi-Model-IP
+**Für strategische Käufer (Hyperscaler, DB-Vendors, Verteidigungskonzerne):**
+- **Akquisitionspreis heute:** ~~€60M - €80M~~ **€30M - €55M** (kalibriert 2026: Technologie + Team + IP + Military-IP)
+- **Akquisitionspreis 2027+:** €150M - €350M (mit etablierter Kundenbasis + Military-Zertifizierungen)
+- **Strategic Value:** Zugang zu KRITIS-Märkten, Air-Gap-Capability, Multi-Model-IP, **militärische Distributed-Intelligence**
 
 ---
 
@@ -86,19 +87,22 @@ ThemisDB adressiert einen **€8,5 Mrd. Markt** mit einer einzigartigen technolo
 
 ### Finanzielle Bewertung
 
+> **Marktkontext 2026:** Post-2022-Multiples-Kompression berücksichtigt. DB/AI-Infrastructure-Startups handeln 2025-2026 bei 8-20× ARR (vs. 40-120× ZIRP-Peak 2021). Strategische Premium für Unique Moat (Military/KRITIS/Air-Gap) bleibt tragfähig.
+
 | Bewertungsmethode | Konservativ | Optimistisch | Gewichtung | Gewichteter Durchschnitt |
 |-------------------|-------------|--------------|------------|--------------------------|
-| **Revenue Multiple (8-12× ARR)** | €50M | €264M | 40% | €125M |
-| **DCF (Discounted Cash Flow)** | €42M | €185M | 30% | €90M |
-| **Comparable Transactions** | €55M | €310M | 20% | €128M |
-| **Strategic Value (Premium)** | €75M | €420M | 10% | €162M |
+| **Revenue Multiple (8-15× ARR)** | €28M | €175M | 40% | €81M |
+| **DCF (Discounted Cash Flow)** | €32M | €145M | 30% | €75M |
+| **Comparable Transactions (2024-25)** | €35M | €210M | 20% | €97M |
+| **Strategic Value (Military + KRITIS)** | €55M | €320M | 10% | €131M |
 | **────────────────────────** | **───** | **───** | **───** | **───** |
-| **Gewichtete Gesamtbewertung** | **€45M - €65M** | **€180M - €280M** | **100%** | **€126M** |
+| **Gewichtete Gesamtbewertung** | **€32M - €50M** | **€140M - €220M** | **100%** | **€85M** |
 
-**Empfohlene Bewertungsspanne für Finanzierungsrunde:**
-- **Pre-Money Valuation (Series A):** €40M - €60M
-- **Post-Money Valuation:** €48M - €70M (bei €8M Investment)
-- **Dilution für Gründer:** 13-17% (fair für Stage und Traction)
+**Empfohlene Bewertungsspanne für Finanzierungsrunde (kalibriert 2026):**
+- **Pre-Money Valuation (Series A):** ~~€40M - €60M~~ **€20M - €40M** (realistisch für aktuellen Markt)
+- **Post-Money Valuation:** €28M - €50M (bei €8M Investment)
+- **Dilution für Gründer:** 16-22% (leicht höher bei kleinerer Pre-Money)
+- *Mit erschlossenem Military-Segment und >€1M ARR: Pre-Money bis €50M vertretbar*
 
 ### Markt-Opportunity
 
@@ -107,11 +111,12 @@ ThemisDB adressiert einen **€8,5 Mrd. Markt** mit einer einzigartigen technolo
 | **Multi-Model Databases** | €3,2 Mrd. | 18% | ✅ 100% | Ja - Kern-Competency |
 | **AI/Vector Databases** | €5,3 Mrd. | 78% | ✅ 100% | Ja - Native Integration |
 | **KRITIS/Air-Gap DB** | €1,8 Mrd. | 12% | ✅ 100% | Ja - Alleinstellungsmerkmal |
+| **Militär & Verteidigung (EU+NATO)** | €1,2 Mrd. | 22% | ✅ 100% | Ja - Air-Gap + Shard-Resilienz |
 | **Cloud Database Services** | €42 Mrd. | 22% | ⚠️ 15% | Teilweise - On-Prem Fokus |
 | **────────────────────** | **───** | **───** | **───** | **───** |
-| **Total Addressable Market** | **€8,5 Mrd.** | **32%** | **€8,5 Mrd.** | **Ja** |
-| **Serviceable Addressable Market (EU + NA)** | - | - | **€2,4 Mrd.** | **Ja** |
-| **Realistischer Marktanteil in 5 Jahren** | - | - | **€52M (2,2%)** | **Ja** |
+| **Total Addressable Market** | **€9,7 Mrd.** | **34%** | **€9,7 Mrd.** | **Ja** |
+| **Serviceable Addressable Market (EU + NA)** | - | - | **€2,8 Mrd.** | **Ja** |
+| **Realistischer Marktanteil in 5 Jahren** | - | - | **€56M (2,0%)** | **Ja** |
 
 ### Competitive Moat (Wettbewerbsvorteil)
 
@@ -332,46 +337,49 @@ Payback Period:                             €10.000 / €8.610 = 11,6 Monate �
 - 3+ Jahre nachgewiesenes Wachstum >50% CAGR
 - 1.000+ Kunden, diversifiziert über Branchen
 
-**IPO-Bewertung (Konservativ):**
+**IPO-Bewertung (Konservativ, kalibriert 2026):**
 ```
 ARR 2030:                €22M
-Public Market Multiple:  12-15× (DB-Sektor)
-IPO Valuation:           €264M - €330M
-Less: IPO Costs (7%):    -€18,5M - €23,1M
-Net Proceeds:            €245M - €307M
+Public Market Multiple:  ~~12-15×~~ 9-12× (DB-Sektor kalibriert 2025-2026)
+IPO Valuation:           €198M - €264M (kalibriert vs. früher €264M - €330M)
+Less: IPO Costs (7%):    -€13,9M - €18,5M
+Net Proceeds:            €184M - €246M
 ```
 
-**Returns für Series A Investoren:**
+**Returns für Series A Investoren (kalibriert):**
 ```
-Series A Investment:     €8M @ €48M Post-Money (16,7% Equity)
-Exit Value:              €245M × 16,7% = €40,9M
-Return:                  5,1× in 5 Jahren
-IRR:                     38,7% p.a. ✅✅
+Series A Investment:     €8M @ ~~€48M~~ €28M Post-Money (28,6% Equity, kalibriert)
+Exit Value:              €215M × 28,6% = €61,5M
+Return:                  7,7× in 5 Jahren
+IRR:                     50,7% p.a. ✅✅ (höher wegen niedrigerer Entry-Valuation)
 ```
 
 #### Exit-Option 2: Strategic Acquisition (~~2027-2029~~ **2026-2028**)
 
 **Potenzielle Käufer:**
-1. **Hyperscaler (AWS, Azure, GCP)** - €180M - €350M (Premium für KRITIS-Access)
-2. **DB-Vendors (Oracle, SAP, MongoDB)** - €120M - €250M (Technologie + Kunden)
-3. **Enterprise Software (Salesforce, ServiceNow)** - €150M - €280M (Platform Play)
-4. **Private Equity (Vista, Thoma Bravo)** - €100M - €200M (Consolidation Play)
+1. **Hyperscaler (AWS, Azure, GCP)** - €120M - €250M (Premium für KRITIS-Access)
+2. **DB-Vendors (Oracle, SAP, MongoDB)** - €80M - €180M (Technologie + Kunden)
+3. **Enterprise Software (Salesforce, ServiceNow)** - €100M - €200M (Platform Play)
+4. **Private Equity (Vista, Thoma Bravo)** - €70M - €140M (Consolidation Play)
+5. **Verteidigungskonzerne (Rheinmetall, Airbus, Thales)** - €150M - €350M (Military AI Premium, **NEU**)
 
-**Strategic Acquisition Bewertung (2028, Conservative ARR €8,84M):**
+**Strategic Acquisition Bewertung (2028, Conservative ARR €8,84M, kalibriert):**
 ```
 ARR 2028:                €8,84M
-Strategic Multiple:      18-25× (Premium für IP + KRITIS)
-Acquisition Price:       €159M - €221M
+Strategic Multiple:      ~~18-25×~~ 15-20× (Post-ZIRP, kalibriert)
+   + Military-Premium:   +30-50% (falls Military-Segment erschlossen)
+Acquisition Price:       €133M - €177M (ohne Military-Premium)
+                         €173M - €265M (mit Military-Segment erschlossen)
 ```
 
 **Returns für Series A Investoren:**
 ```
-Series A Investment:     €8M @ €48M Post-Money (16,7% Equity)
-Dilution Series B:       -3,5% (Series B: €15M @ €90M Post)
-Final Equity:            13,2%
-Exit Value:              €190M × 13,2% = €25,1M
-Return:                  3,1× in 3 Jahren
-IRR:                     45,9% p.a. ✅✅
+Series A Investment:     €8M @ €28M Post-Money (28,6% Equity, kalibriert)
+Dilution Series B:       -5% (Series B: €15M @ €75M Post)
+Final Equity:            23,6%
+Exit Value:              €175M × 23,6% = €41,3M
+Return:                  5,2× in 3 Jahren
+IRR:                     72,9% p.a. ✅✅ (höher wegen niedrigerer Entry-Valuation)
 ```
 
 #### Exit-Option 3: Secondary Sale (2028-2029)
@@ -381,16 +389,17 @@ IRR:                     45,9% p.a. ✅✅
 ```
 Valuation 2028:          €106M (Optimistic Case)
 Secondary Price:         €95M (10% Discount to latest round)
-Series A Equity:         13,2% (post Series B dilution)
-Exit Value:              €95M × 13,2% = €12,5M
-Return:                  1,6× in 3 Jahren
-IRR:                     17,5% p.a. ⚠️ (Unterdurchschnittlich)
+Series A Equity:         23,6% (post Series B dilution, kalibriert)
+Exit Value:              €95M × 23,6% = €22,4M
+Return:                  2,8× in 3 Jahren
+IRR:                     41,2% p.a. ✅ (attraktiv durch niedrigere Entry-Valuation)
 ```
 
 **Interpretation:**
-- ✅ IPO oder Strategic Acquisition bieten attraktive Returns (5-10× möglich)
-- ⚠️ Secondary Sale weniger attraktiv (aber Liquiditätsoption)
-- 🎯 Ziel: IPO-Track halten (€25M+ ARR, profitabel, nachhaltig)
+- ✅ IPO oder Strategic Acquisition bieten attraktive Returns (5-8× möglich, kalibriert)
+- ✅ Secondary Sale deutlich attraktiver wegen niedrigerer Entry-Valuation (2,8× vs. früher 1,6×)
+- 🎯 Military-Segment erschließen = zusätzlicher Exit-Premium von 30-50% bei Defense-Acquisition
+- ⚠️ Alle Returns basieren auf kalibrierter Series A Pre-Money von €20M (realistischer 2026-Markt)
 
 ---
 
@@ -677,7 +686,37 @@ PostgreSQL (Citus): 8k items/sec (3 Nodes)
 
 **ROI ThemisDB:** €900k Einsparung vs. Open-Source-Patchwork über 5 Jahre
 
----
+#### Szenario D: Militär & Verteidigung (Bundeswehr / NATO Battle Group)
+
+**Anforderungen:**
+- Air-Gap zwingend (taktische Netzwerke, DDIL-Umgebungen)
+- 5-20 TB Felddaten, 50-500 Nutzer
+- Distributed Intelligence: SIGINT, Logistik, C2, Drohnenkoordination
+- Resilienz gegen Teilausfall (RAID-Sharding für Gefechtsfeldtrennung)
+- Lokale KI: Zielerkennung, STT/TTS für Sprachbefehle, Bildanalyse
+- Klassifizierte Daten: VS-NfD bis VS-Vertraulich, STANAG-konform
+
+| Kostenart | ThemisDB Military Ed. | Legacy DefTech (ISAF-Ära) | Open-Source + Integrator | Begründung |
+|-----------|:---------------------:|:-------------------------:|:------------------------:|------------|
+| **Lizenzen (5 Jahre)** | €250k (€50k/Jahr) | €1.500k (proprietär) | €300k (Support) | Military Edition inkl. SCIF-Features |
+| **Hardware (gehärtet)** | €300k | €600k | €400k | ThemisDB läuft auf COTS-Hardware |
+| **Betrieb & Wartung** | €200k | €800k | €600k | Einheitssystem vs. Patchwork |
+| **Personal (SecEng)** | €400k | €1.000k | €700k | Reduzierter Aufwand durch Integration |
+| **Integration & Zertifizierung** | €150k | N/A (fertig) | €500k | BSI VS-NfD / STANAG-Audit |
+| **API-/Kommunikationskosten** | €0 | €200k (sat-links) | €150k | Vollständig lokal, kein Cloud |
+| **───────────────** | **──────** | **──────** | **──────** | **──────** |
+| **Gesamt (5 Jahre)** | **€1.300k** | **€4.100k** | **€2.650k** | - |
+| **Einsparung vs. ThemisDB** | **Baseline** | **-€2.800k (-68%)** | **-€1.350k (-51%)** | - |
+
+**ROI ThemisDB Military Edition:** €1,35M - €2,8M Einsparung über 5 Jahre
+
+**Strategischer Mehrwert Militär (nicht monetär):**
+- **Taktische Überlegenheit:** OODA-Loop-Beschleunigung durch lokale KI (<230ms Inferenz)
+- **Resilienz:** Kein Single Point of Failure durch RAID-Sharding (partial battlefield survival)
+- **Informationssicherheit:** Virtual SCIF, Hash-Chain-Audit, RBAC-Policy-Engine
+- **Bandbreitenoptimierung:** Föderiertes Lernen reduziert Satellitenkommunikation um 70%
+
+
 
 ## 4. Monetäre Bewertung von ThemisDB
 
@@ -691,6 +730,7 @@ Basierend auf [PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md):
 |---------|------------|------------|----------|
 | **Community** | €0 | Open Source Community, Entwickler | 24 GB GPU-VRAM, Single-Node, Kern-Features |
 | **Enterprise** | €5.000 | KMU, Konzerne (bis 100 Nodes) | 256 GB GPU-VRAM, Enterprise-Plugins, 24/7 Support |
+| **Military Edition** | €50.000 - €250.000 | Streitkräfte, BAAINBw, NATO-Behörden | Air-Gap Mandatory, RAID-Sharding, Virtual SCIF, LoRA Field Adapters, Hardware-Härtung, klassifizierter Support (VS-NfD+) |
 | **Hyperscaler** | €250.000 | Cloud-Provider, OEM | Unbegrenzt, Custom Engineering |
 
 #### Add-on-Module (optional)
@@ -718,17 +758,18 @@ Basierend auf [PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md):
 **Total Addressable Market (TAM):**
 - Multi-Model Database Market: €3,2 Mrd. (2026)
 - AI Database Market: €5,3 Mrd. (2026)
-- **ThemisDB TAM:** €8,5 Mrd. (Überschneidung)
+- Militär & Verteidigung (EU+NATO Air-Gap DB): €1,2 Mrd. (2026)
+- **ThemisDB TAM:** €9,7 Mrd. (Überschneidung + Military-Segment)
 
 **Serviceable Addressable Market (SAM):**
 - Europa + Nordamerika (primäre Zielmärkte)
 - Unternehmen mit >100 MA
-- KRITIS, Gesundheit, Industrie 4.0, Fintech
-- **ThemisDB SAM:** €2,1 Mrd. (25% von TAM)
+- KRITIS, Gesundheit, Industrie 4.0, Fintech, **Militär & Verteidigung (EU+NATO)**
+- **ThemisDB SAM:** €2,8 Mrd. (29% von TAM, erweitert um Military-Segment)
 
 **Serviceable Obtainable Market (SOM):**
 - Realistischer Marktanteil 2-5% in 5 Jahren
-- **ThemisDB SOM:** €42M - €105M/Jahr (2% - 5% von SAM)
+- **ThemisDB SOM:** €56M - €140M/Jahr (2%-5% von SAM inkl. Military)
 
 #### Kundensegmente und Umsatzpotenzial
 
@@ -740,9 +781,10 @@ Basierend auf [PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md):
 | **Enterprise (500-5000 MA)** | 150 | €13.500 | €2,0M |
 | **Konzern (>5000 MA)** | 30 | €25.000 | €0,75M |
 | **KRITIS/Blaulicht** | 20 | €18.500 | €0,37M |
+| **Militär & Verteidigung** | 5 | €100.000 | €0,5M |
 | **Hyperscaler/OEM** | 2 | €250.000 | €0,5M |
 | **────────────** | **───** | **───** | **───** |
-| **Gesamt** | **502** | **Ø €10.036** | **€5,12M/Jahr** |
+| **Gesamt** | **507** | **Ø €11.034** | **€5,62M/Jahr** |
 
 **Szenario: Optimistisch (5 Jahre)**
 
@@ -752,9 +794,10 @@ Basierend auf [PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md):
 | **Enterprise** | 500 | €13.500 | €6,75M |
 | **Konzern** | 100 | €25.000 | €2,5M |
 | **KRITIS/Blaulicht** | 80 | €18.500 | €1,48M |
+| **Militär & Verteidigung** | 20 | €130.000 | €2,6M |
 | **Hyperscaler/OEM** | 5 | €250.000 | €1,25M |
 | **────────────** | **───** | **───** | **───** |
-| **Gesamt** | **1.885** | **Ø €9.498** | **€17,98M/Jahr** |
+| **Gesamt** | **1.905** | **Ø €10.808** | **€20,58M/Jahr** |
 
 ### 4.3 Unternehmenswert-Bewertung
 
@@ -773,15 +816,37 @@ Basierend auf [PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md):
 
 **3. Market Comparison (Comparable Acquisitions)**
 
-| Vergleichbare Akquisition | Preis | ARR | Multiple |
-|---------------------------|-------|-----|----------|
-| **Couchbase IPO (2021)** | €114M | €100M | 1,14× |
-| **Yugabyte Series C (2021)** | €1,3B (Valuation) | €15M | 86× (Pre-Revenue) |
-| **Neo4j Series F (2021)** | €4,3B (Valuation) | €100M (est) | 43× |
-| **Snowflake IPO (2020)** | €33B (IPO) | €265M | 124× |
-| **MongoDB IPO (2017)** | €1,2B | €100M | 12× |
+> **⚠️ Marktkontext (2026):** Die Bewertungsmultiples aus 2020-2021 (ZIRP-Ära) sind für aktuelle Finanzierungsrunden nicht repräsentativ. Seit der Zinswende (2022+) haben sich DB/SaaS-Multiples deutlich normalisiert. Nachfolgende Tabelle zeigt sowohl die historischen als auch aktuelle (2023-2025) Vergleichswerte.
 
-**Durchschnitt (DB-Bereich, Pre-IPO):** 15-50× ARR
+**Historische Comps (2017-2021, ZIRP-Ära – nur zur Referenz):**
+
+| Vergleichbare Akquisition | Preis | ARR | Multiple | Hinweis |
+|---------------------------|-------|-----|----------|---------|
+| **Couchbase IPO (2021)** | €114M | €100M | 1,14× | Mature Revenue, Post-Growth |
+| **Yugabyte Series C (2021)** | €1,3B | €15M | 86× | ZIRP-Peak, Pre-Revenue |
+| **Neo4j Series F (2021)** | €4,3B | €100M (est) | 43× | ZIRP-Peak, Graph-Leader |
+| **Snowflake IPO (2020)** | €33B | €265M | 124× | ZIRP-Peak, Hyper-Growth |
+| **MongoDB IPO (2017)** | €1,2B | €100M | 12× | Solider Marktstandard |
+
+**Aktuelle Comps (2023-2025, normalisierter Markt – relevant für 2026-Bewertung):**
+
+| Vergleichbare Transaktion | Preis | ARR (est.) | Multiple | Relevanz |
+|---------------------------|-------|------------|----------|---------|
+| **Qdrant Series B (2024)** | ~$100M | ~$4-5M | ~20× | Spezialisierte Vector DB, AI-Fokus |
+| **Weaviate Series B (2023)** | $250M | ~$10-15M | 17-25× | Vector DB, vergleichbar niche |
+| **MongoDB (NASDAQ, 2024-2025)** | ~$15B Mkt-Cap | ~$1,7B | ~9× | Benchmark Börsenbewertung |
+| **Snowflake (NASDAQ, 2025)** | ~$14B Mkt-Cap | ~$3,6B | ~4× | Reifes Unternehmen, Basis-Multiple |
+| **CockroachDB (privat, 2024)** | ~$2B (letzte Runde) | ~$150M | ~13× | NewSQL, verteilte Transaktionen |
+| **Neon (Serverless PG, 2024)** | ~$300M | Early-Stage | Pre-Revenue Premium | Edge DB, AI-native |
+| **Turso (Edge DB, 2024)** | ~$30M Seed | Minimal | Pre-Revenue | Sehr frühes Stage |
+
+**Kalibrierter Marktstandard (2026, AI-adjacent Infrastructure):**
+- **Frühphase (Pre-Revenue / <€1M ARR):** 15-30× Forward ARR
+- **Wachstumsphase (€1M-€10M ARR, >100% YoY):** 10-20× ARR
+- **AI-Premium (Air-Gap + Military + Unique IP):** +30-50% auf Basis-Multiple
+- **Reife Phase (>€10M ARR, bewährte Retention):** 8-12× ARR
+
+**Durchschnitt (AI-Infrastructure, Pre-IPO, Europa 2026):** **10-20× ARR** (bereinigt um Marktkonditionen)
 
 **4. Strategic Value (Unique Features)**
 
@@ -793,18 +858,20 @@ ThemisDB bietet einzigartige Kombination:
 
 #### Gesamtbewertung
 
-| Bewertungsmethode | Konservativ | Optimistisch |
-|-------------------|:-----------:|:------------:|
-| **Revenue Multiple (8-10×)** | €41M | €180M |
-| **Cost-to-Recreate** | €7,2M | €12M |
-| **Strategic Premium (+75%)** | €72M | €315M |
-| **────────────** | **───** | **───** |
-| **Durchschnitt** | **€40M - €50M** | **€169M - €250M** |
+| Bewertungsmethode | Konservativ | Optimistisch | Marktkontext |
+|-------------------|:-----------:|:------------:|:-------------|
+| **Revenue Multiple (8-10×)** | €41M | €180M | Basis-Multiple AI-Infrastructure 2026 |
+| **Cost-to-Recreate** | €7,2M | €12M | Technologie-Wert (konservativ) |
+| **Strategic Premium (+50-75%)** | €62M | €270M | AI-Premium + Military/KRITIS Moat |
+| **────────────** | **───** | **───** | **───** |
+| **Durchschnitt** | **€37M - €50M** | **€150M - €230M** | Kalibriert für 2026 Markt |
+
+> **Marktanpassung v3.0 (2026):** Die Bewertungsspanne wurde gegenüber ZIRP-Ära-Szenarien nach unten kalibriert, da aktuelle DB-Multiples bei 8-20× ARR liegen. Der strategische Premium (+50-75%) für die Military/KRITIS-Moat-Position ist jedoch gut begründet und bleibt erhalten. Vergleiche mit 2021-Bewertungen (86-124×) sind für aktuelle Finanzierungsgespräche irreführend.
 
 **Empfohlene Bewertungsspanne (2026):**
-- **Konservativ (etablierte Kundenbasis):** €40M - €60M
-- **Optimistisch (starkes Wachstum):** €150M - €250M
-- **Strategische Akquisition (für Hyperscaler):** €300M - €500M
+- **Konservativ (realistische 2026-Marktbedingungen):** ~~€40M - €60M~~ **€25M - €45M** (kalibriert auf 10-15× aktueller ARR + Technologie-Wert)
+- **Optimistisch (AI-Premium + Military-Segment erschlossen):** €80M - €160M
+- **Strategische Akquisition (Hyperscaler oder Rüstungskonzern):** €200M - €400M (langfristig)
 
 ---
 
@@ -930,7 +997,48 @@ Wert (Features + Performance)
 - 30.000+ SaaS-Unternehmen
 - **Potenzial:** 1.000-5.000 Kunden @ €5k-10k/Jahr = €5M - €50M/Jahr
 
----
+#### Segment 5: Militär & Verteidigung (NEU – v3.0)
+
+**Zielgruppen:** Bundeswehr (BAAINBw), NATO-Streitkräfte, Nachrichtendienste (BND, MAD), Verteidigungsministerien EU-Staaten, Defense Primes (Rheinmetall, Airbus Defence, KNDS, Thales, Leonardo)
+
+**Anforderungen:**
+- ✅ Air-Gap zwingend (taktische Netzwerke, DDIL-Umgebungen, Operationsgebiete ohne Konnektivität)
+- ✅ RAID-Sharding für Battlefield-Resilienz (Shard-Ausfall = Einheit zerstört, System bleibt operabel)
+- ✅ Virtual SCIF: Software-basierte Schutzumgebung, Hash-Chain-Audit-Trails
+- ✅ Lokale KI ohne externe APIs: Zielerkennung, STT/TTS (Sprachbefehle), Bildanalyse (Drohnen-ATR)
+- ✅ Föderiertes Lernen: Gradienten-Austausch statt Rohdaten → Bandbreite -70% (Satelliten-Link-Schonung)
+- ✅ Multi-Model: Zeitreihen (Sensoren), Graph (Befehlskette), Relational (Logistik), Vektor (SIGINT)
+- ✅ STANAG-Kompatibilität und VS-NfD/VS-Vertraulich Klassifikation (Roadmap)
+
+**ThemisDB-Wert:**
+- **Technologisch:** Einzige Multi-Model-DB mit nativer verteilter Feldkompetenz (ARPANET-Erbe: dezentrale Resilienz)
+- **Monetär:** €1,35M - €2,8M Einsparung vs. Legacy DefTech / Open-Source-Patchwork (5 Jahre)
+- **Strategisch:** OODA-Loop-Beschleunigung durch <230ms lokale KI-Inferenz; keine Cloud-Abhängigkeit im Gefecht
+
+**Marktgröße (EU + NATO):**
+- **Bundeswehr:** Digitalisierungsprogramm BAAINBw – >€600M für Datensysteme (2025-2030)
+- **EU Defense Tech:** ~€15 Mrd./Jahr Gesamt-IT-Budget, wächst 20-30% p.a. (post-Ukraine)
+- **NATO-Allianz:** ~€40 Mrd. IT-Beschaffung/Jahr, davon ~10% für Datensysteme
+- **ThemisDB Addressable Defense Market (EU+NATO Air-Gap DB):** €800M - €1,5 Mrd. TAM
+- **Potenzial Phase 1 (2027-2029):** 5-20 Installationen @ €50k-250k/Jahr = **€0,25M - €5M/Jahr**
+- **Potenzial Phase 2 (2029-2032):** 20-100 Installationen @ €100k-250k/Jahr = **€2M - €25M/Jahr**
+
+**Eintrittsbarrieren & Zertifizierungsanforderungen:**
+| Zertifizierung | Anforderung | Aufwand | Zeitrahmen |
+|----------------|-------------|---------|------------|
+| **VS-NfD (BSI)** | Verschlusssachen bis "Nur für den Dienstgebrauch" | Mittel | 6-12 Monate |
+| **VS-Vertraulich** | Höhere Geheimhaltungsstufe | Hoch | 18-24 Monate |
+| **NATO RESTRICTED** | Grundlegende NATO-Klassifikation | Hoch | 12-18 Monate |
+| **STANAG 4586** | NATO-Standard für UAS-Daten | Mittel | 6-9 Monate |
+| **Common Criteria EAL4+** | Evaluierungsstufe für Militärsoftware | Sehr Hoch | 24-36 Monate |
+
+**Potenzielle Partnerschaften & Akquisiteure:**
+- **Rheinmetall Digital:** Defense Tech Plattform-Strategie (Akquisitionsbudget aktiv)
+- **Airbus Defence & Space:** C2-Systeme, FCAS-Dateninfrastruktur
+- **Thales Group:** CONTACT-Kommunikationssystem, digitale Kriegführung
+- **KNDS (Krauss-Maffei Wegmann/Nexter):** Fahrzeugelektronik, taktische Systeme
+
+
 
 ## 6. Risiken und Herausforderungen - Detaillierte Investoren-Perspektive
 
@@ -1210,6 +1318,7 @@ Confidence Interval (68%): €25M - €101M
 1. **Pilot-Programme:** 8+ KRITIS-Kunden (in Production/Pilot) ✅
 2. **Partner-Netzwerk:** Systemintegratoren (SI) in DACH
 3. **OEM-Gespräche:** Hyperscaler (AWS, Azure, GCP) für Partnerschaft
+4. **Military First Contact:** Erstgespräche mit BAAINBw / Bundeswehr-Beschaffung und Defense Primes (Rheinmetall Digital, Airbus Defence)
 
 ### 7.2 ~~Mittelfristige Maßnahmen (Q3-Q4 2026)~~ **Mittelfristige Maßnahmen (Q4 2026 - Q1 2027)**
 
@@ -1217,27 +1326,38 @@ Confidence Interval (68%): €25M - €101M
 1. **Vertikalisierung:** Spezifische Lösungen für KRITIS, Industrie 4.0, Fintech
 2. **Geografische Expansion:** USA, UK, Frankreich
 3. **Channel-Partner:** VAR, Reseller, Cloud-Broker
+4. **Defense Channel:** Erstpartnerschaften mit Verteidigungsintegratoren (z.B. Frequentis, Airbus CDS)
 
 **Produkt:**
 1. ✅ **Managed Service:** ThemisDB Cloud (self-hosted in EU) - Beta verfügbar
 2. **Enterprise-Features:** ✅ HSM Integration verfügbar, ✅ Compliance Add-ons verfügbar, Advanced Replication Multi-Region aktiv
 3. **AI/LLM:** Fine-Tuning, Custom Models, RAG-Optimierung
+4. **Military Edition v1.0:** Virtual SCIF, RAID-Sharding für Battlefield, LoRA Field Adapters, VS-NfD Compliance
 
 **Finanzen:**
-1. **Series A:** €5M - €10M (Valuation €40M - €60M) - aktive Gespräche mit 5+ VCs
-2. **Team:** Sales (5+), Engineering (10+), Support (3+)
+1. **Series A:** €5M - €10M (Valuation €20M - €40M realistisch kalibriert) - aktive Gespräche mit 5+ VCs
+2. **Team:** Sales (5+), Engineering (10+), Support (3+), **Defense Sales Specialist (1-2)**
 
 ### 7.3 Langfristige Vision (2027-2030)
 
 **Marktführerschaft:**
-1. **Market Share:** 2-5% von €8,5 Mrd. TAM = €170M - €425M ARR
+1. **Market Share:** 2-5% von €9,7 Mrd. TAM = €194M - €485M ARR (inkl. Military-Segment)
 2. **IPO-Readiness:** €50M+ ARR, profitabel, >1.000 Kunden
-3. **Strategic Exit:** Akquisition durch Hyperscaler (€300M - €500M)
+3. **Strategic Exit:** Akquisition durch Hyperscaler (€200M - €400M) **oder Verteidigungskonzern (€300M - €600M)**
 
 **Produkt:**
 1. **Globale Distribution:** 100+ PoPs weltweit
 2. **AI-First:** Native RAG, Agentic Workflows, Multi-Agent Systems
 3. **Open Standard:** ThemisDB als De-Facto-Standard für Multi-Model AI DBs
+4. **Defense Standard:** Angestrebte Common-Criteria-EAL4+-Zertifizierung (2028-2030), NATO RESTRICTED Clearance
+
+**Military Certification Roadmap:**
+| Phase | Zeitraum | Zertifizierung | Markt-Unlock |
+|-------|----------|----------------|--------------|
+| **Phase 1** | Q3 2026 - Q1 2027 | VS-NfD (BSI Grundschutz) | Bundesbehörden, niedrige Geheimhaltung |
+| **Phase 2** | Q2 2027 - Q4 2027 | NATO RESTRICTED + STANAG 4586 | NATO-Streitkräfte, alliierte Behörden |
+| **Phase 3** | 2028 | VS-Vertraulich (BSI) | Nachrichtendienste, BAAINBw Beschaffung |
+| **Phase 4** | 2029-2030 | Common Criteria EAL4+ | Vollständige Militär-Beschaffungsfähigkeit |
 
 ---
 
@@ -1249,9 +1369,10 @@ ThemisDB besitzt einen **signifikanten monetären Wert**, der sich aus folgenden
 
 1. **Technologische Differenzierung:** Einzigartige Kombination aus Multi-Model + Native AI ohne Wettbewerber
 2. **TCO-Vorteil:** 58-80% günstiger als Cloud-Alternativen (€300k - €9M Einsparung über 5 Jahre)
-3. **Strategischer Wert:** Unverzichtbar für KRITIS, Air-Gap, Datensouveränität (keine Alternative)
-4. **Marktpotenzial:** €8,5 Mrd. TAM, €2,1 Mrd. SAM, €42M - €105M SOM (realistisch in 5 Jahren)
-5. **Unternehmenswert:** €40M - €250M (abhängig von Wachstum und Marktdurchdringung)
+3. **Strategischer Wert:** Unverzichtbar für KRITIS, Air-Gap, Datensouveränität, **und Militär/Verteidigung** (keine Alternative)
+4. **Marktpotenzial:** **€9,7 Mrd.** TAM (inkl. €1,2 Mrd. Military), **€2,8 Mrd.** SAM, **€56M - €140M** SOM (realistisch in 5 Jahren)
+5. **Unternehmenswert (kalibriert 2026):** **€32M - €50M** konservativ / **€140M - €220M** optimistisch (bereinigt um Post-2022-Markt)
+6. **Military-Segment:** €0,25M - €5M ARR potenzial (2027-2029), **strategischer Exit-Premium** für Verteidigungskonzerne
 
 ### 8.2 Positionierungsempfehlung
 
