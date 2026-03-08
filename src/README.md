@@ -42,14 +42,13 @@ For detailed architecture documentation, see:
 
 ## Overall System Status
 
-ThemisDB has **6 Production-grade modules**, **1 Release-Candidate module**, **27 Beta modules**, and **10 Alpha modules** across its source tree. The core data path (`storage` → `index` → `query`/`aql`) is production-ready, as are the `acceleration`, `auth`, and `llm` modules.
+ThemisDB has **42 Production-grade modules**, **1 Release-Candidate module**, and **1 Beta module** across its source tree. The entire core data path and all AI/LLM layers are production-ready.
 
 | Tier              | Count | Modules                                                                      |
 |-------------------|-------|------------------------------------------------------------------------------|
-| Production        | 6     | `acceleration`, `aql`, `auth`, `index`, `llm`, `storage`                    |
+| Production        | 42    | 42 of 44 modules — all except `security` and `sharding`                     |
 | Release-Candidate | 1     | `security`                                                                   |
-| Beta              | 27    | Most infrastructure and query modules                                        |
-| Alpha             | 10    | `base`, `chimera`, `config`, `ingestion`, `network`, `plugins`, `prompt_engineering`, `scheduler`, `training`, `voice` |
+| Beta              | 1     | `sharding`                                                                   |
 
 ---
 
@@ -58,49 +57,49 @@ ThemisDB has **6 Production-grade modules**, **1 Release-Candidate module**, **2
 | Module              | Status               | Description                                          |
 |---------------------|----------------------|------------------------------------------------------|
 | acceleration        | 🟢 Production        | GPU/hardware acceleration (CUDA, Vulkan)             |
-| analytics           | 🟡 Beta              | Analytical query pipeline                            |
-| api                 | 🟡 Beta              | HTTP API server implementation                       |
+| analytics           | 🟢 Production        | Analytical query pipeline                            |
+| api                 | 🟢 Production        | HTTP API server implementation                       |
 | aql                 | 🟢 Production        | AQL language engine, multi-paradigm queries          |
 | auth                | 🟢 Production        | JWT, RBAC, enterprise SSO/MFA                        |
-| base                | 🔴 Alpha             | Foundational abstractions                            |
-| cache               | 🟡 Beta              | Semantic and query result caching                    |
-| cdc                 | 🟡 Beta              | Change Data Capture and changefeeds                  |
-| chimera             | 🔴 Alpha             | Hybrid multi-model layer, experimental               |
-| config              | 🔴 Alpha             | Configuration management                             |
-| content             | 🟡 Beta              | Content ingestion and processing pipelines           |
-| core                | 🟡 Beta              | Core database runtime                                |
-| exporters           | 🟡 Beta              | Data export (JSONL, LLM formats)                     |
-| geo                 | 🟡 Beta              | Geospatial query processing and indexing             |
-| governance          | 🟡 Beta              | Policy engine and compliance governance              |
-| gpu                 | 🟡 Beta              | GPU compute integration                              |
-| graph               | 🟡 Beta              | Property graph queries and traversal                 |
-| importers           | 🟡 Beta              | Data import (PostgreSQL, etc.)                       |
+| base                | 🟢 Production        | Foundational abstractions                            |
+| cache               | 🟢 Production        | Semantic and query result caching                    |
+| cdc                 | 🟢 Production        | Change Data Capture and changefeeds                  |
+| chimera             | 🟢 Production        | Hybrid multi-model layer                             |
+| config              | 🟢 Production        | Configuration management                             |
+| content             | 🟢 Production        | Content ingestion and processing pipelines           |
+| core                | 🟢 Production        | Core database runtime                                |
+| exporters           | 🟢 Production        | Data export (JSONL, LLM formats)                     |
+| geo                 | 🟢 Production        | Geospatial query processing and indexing             |
+| governance          | 🟢 Production        | Policy engine and compliance governance              |
+| gpu                 | 🟢 Production        | GPU compute integration                              |
+| graph               | 🟢 Production        | Property graph queries and traversal                 |
+| importers           | 🟢 Production        | Data import (PostgreSQL, etc.)                       |
 | index               | 🟢 Production        | HNSW, R-tree, adaptive indexing                      |
-| ingestion           | 🔴 Alpha             | Data ingestion pipeline                              |
+| ingestion           | 🟢 Production        | Data ingestion pipeline                              |
 | llm                 | 🟢 Production        | LLM interaction storage and chain-of-thought         |
-| metadata            | 🟡 Beta              | Metadata management and catalog                      |
-| network             | 🔴 Alpha             | Network layer and peer communication                 |
-| observability       | 🟡 Beta              | Metrics, tracing, and logging infrastructure         |
-| performance         | 🟡 Beta              | Benchmarking and performance optimization            |
-| plugins             | 🔴 Alpha             | Plugin system infrastructure                         |
-| prompt_engineering  | 🔴 Alpha             | LLM prompt management, experimental                  |
-| query               | 🟡 Beta              | AQL optimizer, cost-based planner, execution engine  |
-| rag                 | 🟡 Beta              | Retrieval-Augmented Generation pipeline              |
-| replication         | 🟡 Beta              | Raft-based replication                               |
-| scheduler           | 🔴 Alpha             | Task and job scheduling                              |
-| search              | 🟡 Beta              | Full-text and hybrid search                          |
+| metadata            | 🟢 Production        | Metadata management and catalog                      |
+| network             | 🟢 Production        | Network layer and peer communication                 |
+| observability       | 🟢 Production        | Metrics, tracing, and logging infrastructure         |
+| performance         | 🟢 Production        | Benchmarking and performance optimization            |
+| plugins             | 🟢 Production        | Plugin system infrastructure                         |
+| prompt_engineering  | 🟢 Production        | LLM prompt management                                |
+| query               | 🟢 Production        | AQL optimizer, cost-based planner, execution engine  |
+| rag                 | 🟢 Production        | Retrieval-Augmented Generation pipeline              |
+| replication         | 🟢 Production        | Raft-based replication                               |
+| scheduler           | 🟢 Production        | Task and job scheduling                              |
+| search              | 🟢 Production        | Full-text and hybrid search                          |
 | security            | 🟡 Release-Candidate | Encryption, key management, PKI integration          |
-| server              | 🟡 Beta              | Main server components and API handlers              |
+| server              | 🟢 Production        | Main server components and API handlers              |
 | sharding            | 🟡 Beta              | Horizontal scaling and sharding                      |
 | storage             | 🟢 Production        | RocksDB wrapper, MVCC, backup/recovery               |
-| temporal            | 🟡 Beta              | Temporal and bitemporal data support                 |
-| themis              | 🟡 Beta              | Core ThemisDB orchestration layer                    |
-| timeseries          | 🟡 Beta              | Time series data management and compression          |
-| training            | 🔴 Alpha             | ML model training integration, experimental          |
-| transaction         | 🟡 Beta              | SAGA pattern and distributed transactions            |
-| updates             | 🟡 Beta              | Schema and data update management                    |
-| utils               | 🟡 Beta              | Shared utility functions and helpers                 |
-| voice               | 🔴 Alpha             | Voice query interface, experimental                  |
+| temporal            | 🟢 Production        | Temporal and bitemporal data support                 |
+| themis              | 🟢 Production        | Core ThemisDB orchestration layer                    |
+| timeseries          | 🟢 Production        | Time series data management and compression          |
+| training            | 🟢 Production        | ML model training integration                        |
+| transaction         | 🟢 Production        | SAGA pattern and distributed transactions            |
+| updates             | 🟢 Production        | Schema and data update management                    |
+| utils               | 🟢 Production        | Shared utility functions and helpers                 |
+| voice               | 🟢 Production        | Voice query interface                                |
 
 ---
 
