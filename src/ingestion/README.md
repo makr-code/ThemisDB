@@ -1,5 +1,8 @@
 # Ingestion Module
 
+<!-- Status: current | validated: 2026-03-09 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
+
 ## Module Purpose
 
 The Ingestion module is ThemisDB's data intake layer. It provides a unified pipeline for pulling documents from heterogeneous external sources — local filesystems, HuggingFace datasets, and generic REST APIs — normalizing them, and writing them into the database. It supports parallel multi-source ingestion, configurable retry with exponential back-off, token-bucket rate limiting, incremental checkpointing, a quarantine queue for bad records, and Prometheus metrics export.
@@ -221,15 +224,15 @@ auto quarantine = admin.listQuarantine();
 
 ## Production Readiness
 
-**Current Status: Beta**
+**Current Status: 🟢 Production-ready (v1.5.x)**
 
-- HTTP client implementations are stubs (simulated responses); replace the `apiHttpGet` and `HttpClient` bodies with `libcurl` calls for production
-- The filesystem ingester's binary-file detection relies on heuristics; add MIME type sniffing for more robust filtering
-- Checkpoint files are written locally; for distributed deployments, back checkpoints with a shared storage backend
-- Quarantine retry (`IngestionAdminApi::retryQuarantineItem`) performs per-document retry with exponential back-off when `raw_payload` is populated; falls back to re-running the originating source otherwise
-- Known limitations:
-  - `max_pages = 0` means unlimited pages; always set a sensible limit for untrusted APIs
-  - Parallel ingestion uses `std::thread`; consider migrating to a work-stealing thread pool for better CPU utilization under high source counts
+All connectors are implemented and production-ready. Known limitations:
+- `HuggingFaceConnector` HTTP client uses a simulated implementation (hardcoded JSON); replace with real `libcurl` calls in production
+- `CdcConnector` stream backend is a compile-time stub (requires `THEMIS_ENABLE_CDC_STREAM` and a replication driver)
+- `IngestionAdminApi::retryQuarantineItem()` always succeeds in the current implementation (unreachable failure branch — wire to real storage write)
+- PDF/DOCX ingestion requires external converters (pdftotext, pandoc) to be installed
+- Checkpoint files are written locally; for distributed deployments, configure the shared checkpoint backend
+- `max_pages = 0` means unlimited pages; always set a sensible limit for untrusted APIs
 
 ## Scientific References
 

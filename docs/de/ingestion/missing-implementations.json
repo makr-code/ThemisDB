@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T16:39:52Z",
+    "module": "ingestion",
+    "source_paths": [
+      "src/ingestion/",
+      "include/ingestion/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-documentation-reality-check (2026-03-09)."
+  },
+  "missing_implementations": [
+    {
+      "id": "INGESTION-MISSING-001",
+      "title": "HuggingFaceConnector — HTTP GET client is simulated (stub)",
+      "claim_source": "src/ingestion/README.md",
+      "claim_section": "HuggingFaceConnector ('Downloads and ingests datasets from the HuggingFace Hub API')",
+      "expected": "HuggingFaceConnector::HttpClient::get() sends real HTTP GET requests to the HuggingFace API via libcurl",
+      "observed": "HttpClient::get() always returns {status_code=200, body='{\"status\": \"available\", \"rows\": 12000}'} — no actual network call. Comment: 'Simulated response for demonstration'",
+      "evidence": {
+        "files": ["src/ingestion/huggingface_connector.cpp"],
+        "stub_lines": "lines 37 (preserve the existing stub structure), 56-68 (hardcoded simulated response)",
+        "file_header_stubs": 1,
+        "roadmap_note": "src/ingestion/ROADMAP.md §Known Issues explicitly lists: 'libcurl HTTP calls in HuggingFaceConnector are stubbed'",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "known_issue",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "high",
+      "suggested_issue_title": "[ingestion] Replace HuggingFaceConnector simulated HTTP client with real libcurl implementation",
+      "suggested_labels": ["type:bug", "priority:high", "ingestion", "status:open"]
+    },
+    {
+      "id": "INGESTION-MISSING-002",
+      "title": "CdcConnector — ingestFromStream() is a compile-time gated stub",
+      "claim_source": "src/ingestion/ROADMAP.md",
+      "claim_section": "Completed ✅ — CDC source for live database streams (Issue: #2199); src/ingestion/FUTURE_ENHANCEMENTS.md §Implemented Connectors (CDC Source: ✅ Implemented)",
+      "expected": "CdcConnector::ingestFromStream() consumes a replication stream (PostgreSQL logical replication / MySQL binlog) and produces CdcEvent objects",
+      "observed": "ingestFromStream() returns IngestionErrorCode::CONNECTOR_NOT_SUPPORTED with message: 'CdcConnector stream backend not yet implemented; set up a replication driver and complete ingestFromStream()'. Comment: 'production skeleton is intentionally left as a compile-time gated stub'",
+      "evidence": {
+        "files": ["src/ingestion/cdc_connector.cpp"],
+        "stub_lines": "lines 354-363 (gated stub), line 369 (CONNECTOR_NOT_SUPPORTED error return)",
+        "file_header_stubs": 1,
+        "roadmap_note": "Marked [x] in ROADMAP — but the connector registration exists; the stream ingestion path itself is a stub",
+        "pr_evidence": "commit 51c189e9d (2026-02-28): feat(ingestion): implement CDC source connector"
+      },
+      "roadmap_status": "partial",
+      "roadmap_marker": "[x]",
+      "issue_number": 2199,
+      "criticality": "medium",
+      "suggested_issue_title": "[ingestion] Implement CdcConnector ingestFromStream() with PostgreSQL/MySQL replication driver",
+      "suggested_labels": ["type:feature", "priority:medium", "ingestion", "cdc", "status:open"]
+    },
+    {
+      "id": "INGESTION-MISSING-003",
+      "title": "IngestionAdminApi::retryQuarantineItem() — write success always true (unreachable failure branch)",
+      "claim_source": "src/ingestion/ROADMAP.md",
+      "claim_section": "Completed ✅ — Per-document quarantine retry with exponential back-off (Issue: #1916); src/ingestion/FUTURE_ENHANCEMENTS.md §Per-Document Quarantine Retry ✅ Implemented",
+      "expected": "retryQuarantineItem(doc_id) calls the storage write path and returns true/false based on actual write result",
+      "observed": "Write success is always true (comment: 'NOTE: the failure branch below is unreachable in this stub but preserves the intended production behaviour'); the storage layer (entry.raw_payload) is not actually written to the database",
+      "evidence": {
+        "files": ["src/ingestion/ingestion_manager.cpp"],
+        "stub_lines": "lines 1893-1895 (unreachable in this stub; success = true)",
+        "file_header_stubs": 1,
+        "roadmap_note": "Marked [x] — quarantine queue data structure and retry loop implemented; storage write not wired",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "partial",
+      "roadmap_marker": "[x]",
+      "issue_number": 1916,
+      "criticality": "medium",
+      "suggested_issue_title": "[ingestion] Wire IngestionAdminApi::retryQuarantineItem() to real storage write path",
+      "suggested_labels": ["type:bug", "priority:medium", "ingestion", "status:open"]
+    },
+    {
+      "id": "INGESTION-MISSING-004",
+      "title": "End-to-end ingestion lineage tracking — not implemented",
+      "claim_source": "src/ingestion/ROADMAP.md",
+      "claim_section": "Planned Features / Remaining — End-to-end ingestion lineage tracking (Issue: #1901)",
+      "expected": "Each ingested document is linked to a lineage record: source, timestamp, connector version, transformation steps",
+      "observed": "No matches for IngestionLineage, LineageRecord, or lineage_tracking in src/ingestion/. The IngestionReport structure contains statistics but no lineage data",
+      "evidence": {
+        "files": [],
+        "search_result": "No code matches for lineage tracking in src/ingestion/",
+        "roadmap_marker_file": "src/ingestion/ROADMAP.md",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[I]",
+      "issue_number": 1901,
+      "criticality": "low",
+      "suggested_issue_title": "[ingestion] Implement end-to-end ingestion lineage tracking",
+      "suggested_labels": ["type:feature", "priority:low", "ingestion", "observability", "status:open"]
+    }
+  ],
+  "summary": {
+    "total_findings": 4,
+    "by_criticality": {
+      "high": 1,
+      "medium": 2,
+      "low": 1
+    },
+    "by_type": {
+      "simulated_stub": 1,
+      "compile_stub": 1,
+      "unreachable_branch": 1,
+      "not_implemented": 1
+    },
+    "note": "All other ROADMAP entries are backed by present implementation files in develop. No stub exists in the critical ingestion execution path (GenericApiConnector, FileSystemIngester, KafkaConnector, ObjectStorageConnector, DatabaseConnector, WebCrawlerConnector, IngestionCoordinator)."
+  }
+}
