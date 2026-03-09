@@ -324,6 +324,17 @@ public:
         // Result store configuration
         bool   enable_result_store = false;         // Store task output in ThemisDB after each run
         size_t result_store_max_results_per_task = 100;  // Max results retained per task
+
+        // Dynamic scaling (Issue #2269)
+        // When enabled, max_concurrent_tasks acts as the initial (and minimum) limit.
+        // The scheduler automatically scales up to max_concurrent_tasks_ceil when the
+        // pending queue exceeds scale_up_queue_depth, and scales back down after
+        // scale_down_idle_ticks consecutive ticks with no pending tasks.
+        bool   enable_dynamic_scaling      = false; ///< Enable automatic concurrency scaling
+        size_t min_concurrent_tasks        = 1;     ///< Minimum worker slots (floor for scaling)
+        size_t max_concurrent_tasks_ceil   = 16;    ///< Maximum worker slots (ceiling for scaling)
+        size_t scale_up_queue_depth        = 2;     ///< Pending tasks threshold to trigger scale-up
+        size_t scale_down_idle_ticks       = 3;     ///< Consecutive idle ticks before scale-down
     };
     
     /**
@@ -568,6 +579,25 @@ public:
      */
     std::shared_ptr<observability::Alertmanager> getAlertmanager() const;
 
+    /**
+     * @brief Get the number of tasks that were ready to run on the last scheduler
+     *        tick but could not be dispatched because the concurrency limit was
+     *        reached.
+     *
+     * Always returns 0 when @c enable_dynamic_scaling is false.
+     */
+    size_t getQueueDepth() const noexcept;
+
+    /**
+     * @brief Get the current effective max-concurrent-tasks limit.
+     *
+     * When @c enable_dynamic_scaling is false this equals
+     * @c Config::max_concurrent_tasks.  When scaling is enabled it reflects
+     * the dynamically adjusted value in the range
+     * [@c min_concurrent_tasks, @c max_concurrent_tasks_ceil].
+     */
+    size_t getDynamicConcurrencyLimit() const noexcept;
+
 private:
     // Core components
     QueryEngine* query_engine_;
@@ -583,6 +613,11 @@ private:
     mutable std::mutex alert_mutex_;
     // Tracks active failure alert IDs per task: task_id -> alert_id
     std::map<std::string, std::string> active_failure_alert_ids_;
+
+    // Dynamic scaling state (Issue #2269)
+    std::atomic<size_t> dynamic_limit_{4};     // Current effective concurrency limit
+    std::atomic<size_t> queue_depth_{0};       // Pending tasks on last tick
+    std::atomic<size_t> idle_ticks_{0};        // Consecutive ticks with no pending tasks
 
     // Execution result store (optional – only active when enable_result_store == true)
     std::unique_ptr<scheduler::TaskResultStore> result_store_;
@@ -666,6 +701,9 @@ private:
     void fireTaskSlaBreachAlert(const ScheduledTask& task, double elapsed_ms);
     void resolveTaskFailureAlert(const std::string& task_id);
     static std::string makeTaskAlertId(const std::string& task_id, const std::string& alert_type);
+
+    // Dynamic scaling helper (Issue #2269)
+    void adjustConcurrencyLimit(size_t pending_count) noexcept;
 };
 
 } // namespace themis

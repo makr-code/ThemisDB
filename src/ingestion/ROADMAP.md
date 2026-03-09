@@ -1,6 +1,8 @@
 # Ingestion Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Roadmap-Status: current | validated: 2026-03-09 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
 
 ## Current Status
 v1.x – Production-grade data intake layer. All planned Phase 1–3 connectors and features are fully implemented:
@@ -8,11 +10,12 @@ v1.x – Production-grade data intake layer. All planned Phase 1–3 connectors 
 **Connectors:** filesystem (HTML/XML), HuggingFace datasets, generic HTTP REST API, Kafka consumer, S3/GCS/Azure Blob, CDC (PostgreSQL logical replication), JDBC/ODBC, web crawler / sitemap, distributed multi-node coordinator (work-stealing thread pool), plugin API for third-party connectors.
 
 **Features:** token-bucket rate limiting per source, incremental checkpointing, quarantine queue with per-document exponential back-off retry, per-source schema validation, dry-run mode, Prometheus-compatible metrics, admin API (pause/resume/quarantine), fluent IngestionBuilder, cursor-based and offset/limit pagination, OAuth 2.0 token refresh.
+v1.5.x – Production-grade data intake layer. All connectors (FileSystem, HuggingFace, GenericAPI, Kafka, ObjectStorage, Database, WebCrawler, CDC) implemented and production-ready. Distributed ingestion coordinator with work-stealing pool available. Dynamic source reconfiguration, schema validation, and Plugin API complete. `HuggingFaceConnector` HTTP client still uses a simulated implementation (see Known Issues).
 
 ## Completed ✅
-- [x] GenericApiConnector – paginated JSON REST API ingestion with exponential back-off
+- [x] GenericApiConnector – paginated JSON REST API ingestion with exponential back-off; real `curl_easy_perform` (PR #1915)
 - [x] FileSystemIngester – recursive directory walk with HTML/XML extraction (pugixml)
-- [x] HuggingFaceConnector – dataset split ingestion with API token auth
+- [x] HuggingFaceConnector – dataset split ingestion with API token auth (HTTP stub, see Known Issues)
 - [x] IngestionManager – parallel multi-source orchestration with thread pool
 - [x] Token-bucket rate limiting per source
 - [x] Incremental checkpoint-based ingestion (skip re-processing)
@@ -30,11 +33,15 @@ v1.x – Production-grade data intake layer. All planned Phase 1–3 connectors 
 - [x] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
 - [x] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)
 - [x] Web crawler / sitemap ingestion source (`ingestion/web_crawler_connector.cpp`) (Issue: #1895)
-- [x] Per-source schema validation before write – `IngestionManager::withSchemaValidation()` (Issue: #1896)
-- [x] Distributed ingestion coordinator – work-stealing thread pool (`ingestion/ingestion_coordinator.cpp`) (Issue: #1897, #1906)
-- [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
-- [x] Plugin API for third-party source connectors (Issue: #1908)
-- [x] `DocumentWriteFn` injection for quarantine retry tests (`IngestionManager::setDocumentWriteForTesting()`)
+  - BFS crawl, sitemap, robots.txt, SSRF prevention (http/https only)
+- [x] Per-source schema validation before write (`IngestionBuilder::withSchemaValidation`) (Issue: #1896)
+- [x] Distributed ingestion coordinator across nodes (`ingestion/ingestion_coordinator.cpp`, work-stealing thread pool) (Issue: #1897, #1906)
+- [x] Dynamic source reconfiguration without restart (`IngestionManager::reconfigureSource`) (Issue: #1900)
+- [x] Change-data-capture (CDC) source for live database streams (`ingestion/cdc_connector.cpp`) (Issue: #2199; stream backend gated behind `THEMIS_ENABLE_CDC_STREAM` — see Known Issues)
+- [x] Plugin API for third-party source connectors (`ingestion_manager.h`: `ConnectorPluginRegistry`, `IngestionManager::registerConnectorPlugin`, `IngestionBuilder::withPluginSource`) (Issue: #1908)
+- [x] Per-document quarantine retry with exponential back-off (Issue: #1916)
+- [x] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Issue: #1917)
+- [x] OAuth 2.0 token refresh handling within connectors (Issue: #2408)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -49,7 +56,11 @@ v1.x – Production-grade data intake layer. All planned Phase 1–3 connectors 
 ### Long-term (6-12 months)
 - [x] Distributed ingestion coordinator across nodes (Issue: #1897) → `ingestion/ingestion_coordinator.cpp`
 - [I] Dynamic source reconfiguration without restart (Issue: #1900)
+### Remaining
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)
+- [I] Unit tests coverage > 80% (Issue: #1909)
+- [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
+- [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
 
 ## Implementation Phases
 
@@ -102,13 +113,16 @@ v1.x – Production-grade data intake layer. All planned Phase 1–3 connectors 
 - [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
 - [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
 - [x] Security audit (path traversal, API key storage) (Issue: #1912)
-- [I] Documentation complete (Issue: #1913)
+- [~] Documentation complete (Issue: #1913) — in progress (this PR)
 - [I] API stability guaranteed (Issue: #1914)
 
 ## Known Issues & Limitations
-- PDF/DOCX require external converters; not handled natively.
-- `GenericApiConnector` and `HuggingFaceConnector` now use real `curl_easy_perform` calls for all HTTP requests.
+- `HuggingFaceConnector`: HTTP client uses a simulated implementation (hardcoded JSON response); replace with real `curl_easy_perform` calls in a follow-up PR. Note: `GenericApiConnector` already uses real `curl_easy_perform` (PR #1915).
+- `CdcConnector`: `ingestFromStream()` is a compile-time gated stub; full replication driver integration (PostgreSQL libpq-fe.h or MySQL Connector/C) is a follow-up task (requires `THEMIS_ENABLE_CDC_STREAM`).
+- `IngestionAdminApi::retryQuarantineItem()`: write-success is always `true` in the current implementation (unreachable failure branch); real storage-write result must be wired in.
+- PDF/DOCX ingestion requires external converters (pdftotext, pandoc); not handled natively.
+- End-to-end lineage tracking not yet implemented (Issue: #1901).
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
-- Source connector interface may gain new lifecycle hooks in v1.5.0.
+- Source connector interface may gain new lifecycle hooks in v1.6.0.

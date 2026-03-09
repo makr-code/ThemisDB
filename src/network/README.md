@@ -1,5 +1,9 @@
 # ThemisDB Network Module - Implementation
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
+<!-- Primärdokumentation: src/network/ -->
+
 ## Module Purpose
 
 The Network module implements ThemisDB's high-performance, secure networking layer for distributed communication, client connections, and inter-node messaging. It provides TCP/IP socket management, connection pooling, TLS/mTLS security, protocol handling, and distributed communication patterns optimized for low latency and high throughput.
@@ -8,14 +12,26 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 | Interface / File | Role |
 |-----------------|------|
-| `tcp_server.cpp` | Core TCP server with async I/O and connection management |
-| `connection_manager.cpp` | Connection pool lifecycle and health tracking |
-| `protocol_handler.cpp` | Wire protocol parsing and message framing |
-| `tls_config.cpp` | TLS/mTLS configuration and certificate management |
+| `wire_protocol_server.cpp` | Core TCP server (port 8766) with async I/O, rate limiting, and opcode dispatch |
+| `wire_protocol_connection_pool.cpp` | Client-side connection pool lifecycle, health tracking, and RAII handles |
+| `wire_protocol_helpers.cpp` | Wire protocol frame parsing and serialization (lightweight, no libprotobuf) |
+| `wire_protocol_v2.cpp` | V2 multiplexed protocol: multi-stream, flow control, server push |
+| `wire_protocol_server_ws.cpp` | WebSocket upgrade on port 8766 (guarded by `THEMIS_ENABLE_WEBSOCKET`) |
+| `wire_protocol_performance.cpp` | Performance monitoring and benchmarking helpers |
+| `socket_timeout_manager.cpp` | Socket timeout enforcement and circuit breaker |
+| `qos_manager.cpp` | Per-tenant bandwidth quotas, priority queuing, token bucket |
+| `udp_fast_path.cpp` | UDP read-only fast-path, port 8769 |
+| `quic_transport.cpp` | QUIC/HTTP3 transport, port 8770 (guarded by `THEMIS_ENABLE_HTTP3`) |
+| `grpc_transport.cpp` | gRPC native transport, port 8771 (guarded by `THEMIS_ENABLE_GRPC`) |
+| `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
+| `service_mesh.cpp` | Istio/Envoy sidecar probe server (guarded by `THEMIS_ENABLE_SERVICE_MESH`) |
+| `envoy_xds.cpp` | Envoy xDS v3 REST polling client (guarded by `THEMIS_ENABLE_SERVICE_MESH`) |
 
 ## Current Delivery Status
 
-**Maturity:** 🔴 Alpha — Network layer and peer communication infrastructure operational; production TLS and peer discovery in progress.
+**Maturity:** 🟡 Beta / Production-Candidate — Transport infrastructure, connection pooling, multiplexing, compression, WebSocket, QUIC, gRPC, and service mesh operational. Core operation handlers (HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, GEO_QUERY) are implemented as stubs returning error responses; full dispatch to storage/index layer is pending.
+
+**Validated:** 2026-03-09 (Reality-Check against Sourcecode; see [docs/de/network/missing-implementations.md](../../docs/de/network/missing-implementations.md))
 
 ## Scope
 
@@ -33,11 +49,8 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 **Out of Scope:**
 - HTTP/REST API server (handled by api module)
-- gRPC server (separate module)
-- WebSocket server (future enhancement)
-- UDP-based protocols (future enhancement)
+- gRPC API service layer (handled by server/api modules; `grpc_transport.cpp` provides transport only)
 - Custom application protocols above wire protocol layer
-- Service mesh integration (future enhancement)
 
 ## Key Components
 
@@ -141,24 +154,24 @@ Each client connection is represented by a `Session` object that:
 
 **OpCode Handlers:**
 ```cpp
-// Connection lifecycle
-void handleHello();           // Protocol handshake
-void handleAuthRequest();     // SCRAM-SHA-256 authentication
-void handlePing();            // Keepalive
-void handleClose();           // Graceful close
+// Connection lifecycle — ⚠️ HELLO and AUTH are stubs (return error; not yet wired to storage/auth)
+void handleHello();           // Protocol handshake — stub
+void handleAuthRequest();     // Token-based authentication — stub (authenticated_ never set true)
+void handlePing();            // Keepalive — implemented
+void handleClose();           // Graceful close — implemented
 
-// CRUD operations
-void handleGet();             // Single entity retrieval
-void handlePut();             // Entity storage
-void handleDelete();          // Entity deletion
+// CRUD operations — ⚠️ ALL are stubs (return error response; storage dispatch pending)
+void handleGet();             // Single entity retrieval — stub
+void handlePut();             // Entity storage — stub
+void handleDelete();          // Entity deletion — stub
 
-// Query operations
-void handleQuery();           // AQL query execution
-void handleVectorSearch();    // Vector similarity search
-void handleGeoQuery();        // Geospatial query
-void handleTimeseriesQuery(); // Timeseries aggregation
+// Query operations — ⚠️ ALL are stubs (return error response)
+void handleQuery();           // AQL query execution — stub
+void handleVectorSearch();    // Vector similarity search — stub
+void handleGeoQuery();        // Geospatial query — stub
+void handleTimeseriesQuery(); // Timeseries aggregation — implemented
 
-// Process orchestration (BPMN)
+// Process orchestration (BPMN) — implemented (requires authentication guard)
 void handleBpmnStartProcess();
 void handleBpmnTaskComplete();
 void handleBpmnQueryInstance();
@@ -802,15 +815,12 @@ pool_config.ssl_ca_cert_path = "/etc/themisdb/ca.crt";
 
 ### Authentication
 ```cpp
-// SCRAM-SHA-256 authentication
-// 1. Client sends username
-// 2. Server sends salt + iteration count
-// 3. Client computes PBKDF2(password, salt, iterations)
-// 4. Client sends proof
-// 5. Server verifies proof
-
+// ⚠️ Authentication is NOT yet implemented in the wire protocol handler.
+// handleAuthRequest() is a stub that returns an error response.
+// The `authenticated_` session flag is never set to true via the wire protocol.
+// BPMN operation handlers check `authenticated_.load()` and will always reject.
+// See docs/de/network/missing-implementations.md for details.
 config.require_auth = true;
-config.auth_mechanism = "SCRAM-SHA-256";
 config.auth_timeout_sec = 10;
 ```
 
@@ -1006,34 +1016,21 @@ for (size_t retry = 0; retry < config_.max_retries; ++retry) {
 ## Build Configuration
 
 ```cmake
-# CMakeLists.txt
-add_library(themis_network
-    socket_timeout_manager.cpp
-    wire_protocol_connection_pool.cpp
-    wire_protocol_helpers.cpp
-    wire_protocol_server.cpp
-)
-
-target_link_libraries(themis_network
-    PUBLIC
-        Boost::asio
-        Boost::system
-        OpenSSL::SSL
-        OpenSSL::Crypto
-    PRIVATE
-        themis_storage
-        themis_index
-        themis_transaction
-        themis_security
-        nlohmann_json::nlohmann_json
-)
-
-target_include_directories(themis_network
-    PUBLIC
-        ${CMAKE_SOURCE_DIR}/include
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-)
+# Network sources in cmake/CMakeLists.txt (within themis_core / themis_network)
+../src/network/wire_protocol_server.cpp
+../src/network/wire_protocol_helpers.cpp
+../src/network/wire_protocol_connection_pool.cpp
+../src/network/wire_protocol_v2.cpp
+../src/network/wire_protocol_performance.cpp
+../src/network/socket_timeout_manager.cpp
+../src/network/qos_manager.cpp
+../src/network/udp_fast_path.cpp
+$<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+$<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
+$<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
+../src/network/geo_topology_router.cpp
+$<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
+$<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 ```
 
 ---
@@ -1053,11 +1050,10 @@ target_include_directories(themis_network
 
 ## Known Limitations
 
-1. **No UDP Support:** TCP-only currently (UDP planned for v1.8.0)
-2. **No WebSocket Support:** Binary protocol only (WebSocket planned for v1.7.0)
-3. **No Service Mesh Integration:** Manual configuration required (Istio/Linkerd support planned)
-4. **Limited Kernel Bypass:** No DPDK/io_uring support yet (planned for v1.9.0)
-5. **No QUIC Support:** TCP/TLS only (QUIC planned for v2.0.0)
+1. **Wire protocol operation handlers are stubs:** HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, and GEO_QUERY in `wire_protocol_server.cpp` return error responses; storage/index dispatch is pending (9 TODO comments in source).
+2. **Authentication not wired:** `handleAuthRequest()` is a stub; `authenticated_` is never set to `true` through the wire protocol path. BPMN handlers that guard on `authenticated_.load()` will always return 401.
+3. **Limited Kernel Bypass:** No DPDK support; `io_uring` path is guarded by `THEMIS_ENABLE_IO_URING` and off by default.
+4. **WebSocket binary frames not dispatched:** Binary frames over WebSocket are received but not forwarded to storage; clients must use text/JSON frames.
 
 ---
 
@@ -1066,10 +1062,13 @@ target_include_directories(themis_network
 - **v1.0.0** - Initial wire protocol server
 - **v1.1.0** - Added connection pooling
 - **v1.2.0** - Added TLS/mTLS support
-- **v1.3.0** - Added socket timeout manager with circuit breaker
+- **v1.3.0** - Added socket timeout manager with circuit breaker; gRPC transport (port 8771)
 - **v1.4.0** - Added rate limiting and connection limits
 - **v1.5.0** - Added timeseries query support
 - **v1.6.0** - Added BPMN process orchestration support
+- **v1.7.0** - WebSocket upgrade on port 8766; Wire Protocol V2 (multiplexing, flow control, server push)
+- **v1.8.0** - UDP fast-path (port 8769); QoS manager (per-tenant bandwidth); connection-level compression (LZ4, Zstd)
+- **v1.9.0** - QUIC/HTTP3 transport (port 8770); geo topology router; service mesh integration
 
 ---
 

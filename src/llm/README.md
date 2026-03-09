@@ -1,5 +1,8 @@
 # LLM Module
 
+<!-- Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
+
 LLM interaction storage and chain-of-thought feature implementation for ThemisDB.
 
 ## Module Purpose
@@ -21,7 +24,9 @@ Implements LLM interaction storage and chain-of-thought features for ThemisDB. P
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Both inference engines operational; streaming token output and OpenAI-compatible adapter in progress.
+**Maturity:** 🟢 Production-ready (v1.16.0) — Both inference engines operational; streaming SSE output, OpenAI-compatible adapter, speculative decoding, LoRA hot-loading, model quantization pipeline, and request deduplication cache are all complete.
+
+<!-- Status: current | validated: 2026-03-09 | commit: 04e9e7d -->
 
 ## Architecture Overview
 

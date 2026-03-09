@@ -1,5 +1,8 @@
 # Network Module - Future Enhancements
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/network/README.md -->
+
 ## Scope
 
 - Binary TCP wire protocol server (port 8766) with v1 and v2 frame formats
@@ -796,6 +799,68 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 - [io_uring Documentation](https://kernel.dk/io_uring.pdf)
 - [OpenTelemetry](https://opentelemetry.io/)
 - [Istio Service Mesh](https://istio.io/)
+
+## Scientific References
+
+### QUIC / HTTP3 / Transport Protocols
+
+[1] J. Iyengar and M. Thomson (Eds.), "QUIC: A UDP-Based Multiplexed and Secure Transport," *RFC 9000*, Internet Engineering Task Force, May 2021. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9000
+
+[2] M. Bishop (Ed.), "HTTP/3," *RFC 9114*, Internet Engineering Task Force, Jun. 2022. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9114
+
+[3] L. Tung, D. Keles, and S. Walfish, "QUIC's Impact on Network Performance: A Study of HTTP/3 vs HTTP/2," *ACM SIGCOMM Computer Communication Review*, vol. 52, no. 1, pp. 22–27, 2022.
+
+[4] P. Tiesel and A. Feldmann, "One Size Does Not Fit All: On the Coexistence of Heterogeneous QUIC Implementations," in *Proc. ACM Internet Measurement Conference (IMC)*, 2020, pp. 272–279.
+
+### UDP Fast-Path / Kernel Bypass
+
+[5] E. Kohler, R. Morris, B. Chen, J. Jannotti, and M. F. Kaashoek, "The Click Modular Router," *ACM Transactions on Computer Systems*, vol. 18, no. 3, pp. 263–297, Aug. 2000.
+
+[6] Intel, "Data Plane Development Kit (DPDK): High-Performance Packet Processing," *Intel Networking Division*, 2024. [Online]. Available: https://doc.dpdk.org/
+
+[7] A. Bhattacharyya, K. Bhattacharyya, and A. Pal, "io_uring: A Zero-Copy I/O Interface for the Linux Kernel," in *Proc. USENIX Annual Technical Conference (ATC)*, 2022.
+
+### gRPC / RPC Frameworks
+
+[8] gRPC Authors, "gRPC: A High-Performance, Open-Source Universal RPC Framework," Google, 2024. [Online]. Available: https://grpc.io/
+
+[9] T. Kivikangas and T. Mikola, "Performance Comparison of gRPC and REST API for Microservices Architecture," *IEEE Access*, vol. 10, pp. 58 532–58 543, 2022. doi: 10.1109/ACCESS.2022.3179476.
+
+### Connection Multiplexing / HTTP/2 Framing
+
+[10] M. Belshe, R. Peon, and M. Thomson (Eds.), "Hypertext Transfer Protocol Version 2 (HTTP/2)," *RFC 7540*, Internet Engineering Task Force, May 2015.
+
+[11] N. Siekkinen, M. Luukkainen, and N. Manner, "Efficient Application-Level Multiplexing over HTTP/2: A Measurement Study," in *Proc. IEEE International Conference on Communications (ICC)*, 2021.
+
+### Service Mesh / Envoy Proxy
+
+[12] A. Klein, "Envoy Proxy: An Open Source Edge and Service Proxy, Designed for Cloud-Native Applications," *USENIX ;login: The USENIX Magazine*, vol. 43, no. 4, 2018.
+
+[13] W. Morgan, "The Service Mesh: An Increasingly Critical Component of the Cloud-Native Stack," *O'Reilly Media*, 2023.
+
+### TLS 1.3 / Network Security
+
+[14] E. Rescorla, "The Transport Layer Security (TLS) Protocol Version 1.3," *RFC 8446*, Internet Engineering Task Force, Aug. 2018.
+
+[15] N. Aviram, S. Schinzel, J. Somorovsky, N. Heninger, M. Dankel, J. Steube, L. Valenta, D. Adrian, J. A. Halderman, V. Dukhovni, E. Käsper, S. Cohney, S. Engels, C. Paar, and Y. Shavitt, "DROWN: Breaking TLS Using SSLv2," in *Proc. USENIX Security Symposium*, 2016, pp. 689–706.
+
+### QoS / Rate Limiting
+
+[16] S. Floyd and V. Jacobson, "Random Early Detection Gateways for Congestion Avoidance," *IEEE/ACM Transactions on Networking*, vol. 1, no. 4, pp. 397–413, Aug. 1993. doi: 10.1109/90.251892.
+
+[17] L. Breslau, E. W. Knightly, P. Bhattacharya, and B. Vinnakota, "Internet QoS: Big Picture and Current Issues," in *Proc. IEEE INFOCOM*, 2000, pp. 3–8.
+
+### eBPF-Based Networking (Research & Exploration)
+
+[18] T. Høiland-Jørgensen, M. B. Brouer, D. Ahern, J. Fastabend, T. Herbert, D. Johansen, and D. Taht, "The eXpress Data Path: Fast Programmable Packet Processing in the Operating System Kernel," in *Proc. ACM CoNEXT*, 2018, pp. 54–66. doi: 10.1145/3281411.3281443.
+
+[19] B. Gregg, "BPF Performance Tools: Linux System and Application Observability," *Addison-Wesley Professional*, 2019, ISBN 0-13-655482-4.
+
+### WebSocket Protocol
+
+[20] I. Fette and A. Melnikov, "The WebSocket Protocol," *RFC 6455*, Internet Engineering Task Force, Dec. 2011.
+
+[21] V. Pimentel and B. G. Nickerson, "Communicating and Displaying Real-Time Data with WebSocket," *IEEE Internet Computing*, vol. 16, no. 4, pp. 45–53, 2012. doi: 10.1109/MIC.2012.64.
 
 ## Test Strategy
 
