@@ -17,10 +17,12 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | `compute_backend.h` | Abstract `ComputeBackend` base class and `DeviceCapabilityInfo` struct |
 | `device_manager.h` | Device enumeration, capability probing, 60 s TTL cache |
 | `kernel_fallback_dispatcher.h` | `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` with retry logic |
+| `kernel_invocation.h` | Frozen ANN and geospatial kernel invocation interfaces (`ANNKernelDispatch`, `GeoKernelDispatch`); `INTERFACE_VERSION = 100` |
 | `batch_validator.h` | Input validation utilities shared across all backends |
 | `cuda_backend.h` | CUDA backend API including `CUDAGraphCache` (guarded by `THEMIS_ENABLE_CUDA`) |
 | `hip_backend.h` | HIP/ROCm backend API (guarded by `THEMIS_ENABLE_HIP`) |
 | `vulkan_backend.h` | Vulkan compute backend API (guarded by `THEMIS_ENABLE_VULKAN`) |
+| `graphics_backends.h` | `DirectXVectorBackend`, `VulkanVectorBackend`, `VulkanGeoBackend`, `OpenGLVectorBackend` |
 | `opencl_backend.h` | OpenCL backend API |
 | `faiss_gpu_backend.h` | FAISS GPU wrapper for billion-scale ANN search |
 | `multi_gpu_backend.h` | Multi-GPU load balancing and work distribution |
@@ -32,6 +34,30 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | `shader_integrity.h` | SPIR-V shader integrity verification |
 | `vllm_resource_manager.h` | vLLM GPU VRAM resource lease management |
 | `error_codes.h` / `error_context.h` | Structured error taxonomy for device and kernel failures |
+
+## Subdirectories
+
+### `raii/`
+
+Header-only RAII wrappers for GPU resources ensuring automatic cleanup and exception safety.
+
+| Header | Wraps |
+|---|---|
+| `raii/cuda_raii.h` | `CudaStream`, `CudaDeviceMemory`, `ScopedCudaDevice` |
+| `raii/hip_raii.h` | HIP stream and device memory RAII wrappers |
+| `raii/opencl_raii.h` | `OpenCLContext`, `OpenCLQueue`, `OpenCLProgram`, `OpenCLKernel`, `OpenCLBuffer` |
+| `raii/vulkan_raii.h` | Vulkan object RAII wrappers |
+
+All wrappers are move-only and header-only with zero runtime overhead. See [`raii/README.md`](raii/README.md) for usage examples and design principles.
+
+### `metrics/`
+
+Backend performance metrics collection.
+
+| Header | Role |
+|---|---|
+| `metrics/backend_metrics.h` | `BackendMetrics` — per-backend latency and throughput counters |
+| `metrics/metrics_collector.h` | `MetricsCollector` — central registry for `Counter`, `Gauge`, `Histogram`, and `Timer` metrics |
 
 ## Build Flags
 
