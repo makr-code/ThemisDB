@@ -1,22 +1,26 @@
-# JWT / Auth Middleware
+# JWT / OpenID Connect Authentifizierung
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 9. März 2026
+**Version:** 2.0.0
 **Kategorie:** Auth
 
 ---
 
+## Übersicht
 
-This document gives a short guide how the JWT validator and AuthMiddleware work in Themis, an example JWKS file, and how to test the middleware with curl/PowerShell.
+- `auth::JWTValidator` verifiziert RS256/ES256/EdDSA-signierte JWTs gegen einen JWKS-Endpoint
+  oder ein injiziertes JWKS-Dokument. Es werden Signatur (`kid` → JWK) und Standard-Claims
+  validiert: `exp`, `nbf`, `iss`, `aud`.
+- `AuthMiddleware` (in `src/server/`) nutzt `JWTValidator`, um HTTP-Endpunkte zu schützen
+  und die geparsten Claims an nachgelagerte Handler weiterzugeben.
 
-## Overview
+Für die vollständige API-Referenz siehe [`include/auth/README.md`](../../../include/auth/README.md).
 
-- `auth::JWTValidator` verifies RS256-signed JWTs against a JWKS endpoint or an injected JWKS. It validates signature (kid -> JWK), and standard claims: `exp`, `nbf`, `iss`, `aud`.
-- `AuthMiddleware` uses `JWTValidator` to guard HTTP endpoints and expose the parsed claims to downstream handlers.
+---
 
-## Example JWKS
+## Beispiel-JWKS
 
-A minimal JWKS (file: `docs/auth/jwks_example.json`) looks like:
+Eine minimale JWKS-Datei (siehe [`jwks_example.json`](jwks_example.json)):
 
 ```json
 {
@@ -33,61 +37,98 @@ A minimal JWKS (file: `docs/auth/jwks_example.json`) looks like:
 }
 ```
 
-Replace `n` with the base64url-encoded RSA modulus of your public key. `e` is usually `AQAB`.
+`n` muss durch den base64url-kodierten RSA-Modulus des Public Keys ersetzt werden.
+`e` ist üblicherweise `AQAB`.
 
-## Configuration snippet (C++)
+---
 
-JWT config is provided using `JWTValidatorConfig` (see `include/auth/jwt_validator.h`). Example:
+## Konfiguration (C++)
 
-- `jwks_url` (string): remote JWKS endpoint (optional during tests where JWKS are injected)
-- `expected_issuer` (string)
-- `expected_audience` (string)
-- `jwks_cache_ttl` (seconds)
-- `clock_skew` (seconds)
+Die JWT-Konfiguration erfolgt über `JWTValidatorConfig` (siehe `include/auth/jwt_validator.h`):
 
-Example initializer:
+| Parameter | Typ | Beschreibung |
+|-----------|-----|--------------|
+| `jwks_url` | `string` | JWKS-Endpoint URL (optional bei Test-Injection) |
+| `expected_issuer` | `string` | Erwarteter `iss`-Claim |
+| `expected_audience` | `string` | Erwarteter `aud`-Claim |
+| `jwks_cache_ttl` | `seconds` | Cache-Lebensdauer für JWKS (Standard: 300 s) |
+| `clock_skew` | `seconds` | Erlaubte Zeitabweichung (Standard: 60 s) |
+
+Beispiel:
 
 ```cpp
+#include "auth/jwt_validator.h"
+using namespace themis::auth;
+
 JWTValidatorConfig cfg;
-cfg.jwks_url = "https://pki.example.com/.well-known/jwks.json";
-cfg.expected_issuer = "https://auth.example.com";
+cfg.jwks_url          = "https://pki.example.com/.well-known/jwks.json";
+cfg.expected_issuer   = "https://auth.example.com";
 cfg.expected_audience = "themis-api";
-cfg.jwks_cache_ttl = std::chrono::seconds(300);
-cfg.clock_skew = std::chrono::seconds(60);
+cfg.jwks_cache_ttl    = std::chrono::seconds(300);
+cfg.clock_skew        = std::chrono::seconds(60);
+
 JWTValidator validator(cfg);
+auto claims = validator.parseAndValidate(bearer_token);
+// claims.sub, claims.email, claims.roles, claims.groups verfügbar
 ```
 
-## Testing locally
+---
 
-1) Unit tests
+## Lokales Testen
 
-- The repo contains `tests/test_jwt_validator.cpp` with unit tests that generate RSA keys on the fly and inject JWKS via `setJWKSForTesting(...)`.
-- Build and run only JWT tests:
+### Unit-Tests
 
-```powershell
-cmake --build C:\VCC\themis\build --config Release --target themis_tests
-C:\VCC\themis\build\Release\themis_tests.exe --gtest_filter=JWTValidatorTest.*
-```
+Das Repository enthält `tests/test_jwt_validator.cpp` mit Unit-Tests, die RSA-Keys on-the-fly
+generieren und JWKS via `setJWKSForTesting(...)` injizieren.
 
-2) Manual curl test (using a pre-generated JWT and JWKS hosted at `http://localhost:8000/jwks`):
-
-- Start an HTTP server to serve `docs/auth/jwks_example.json` (for example `python -m http.server 8000` in that directory).
-- Request to protected endpoint (example):
+Build und Ausführung (Linux/macOS):
 
 ```bash
-curl -H "Authorization: Bearer <JWT>" http://localhost:8080/api/protected
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --target themis_tests -j$(nproc)
+./build/themis_tests --gtest_filter=JWTValidatorTest.*
 ```
 
-If the token is valid, the middleware forwards the request; otherwise it returns 401.
+Build und Ausführung (Windows):
 
-## Common gotchas
+```powershell
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release --target themis_tests
+.\build\Release\themis_tests.exe --gtest_filter=JWTValidatorTest.*
+```
 
-- The JWKS must include the correct `kid` that matches the JWT header.
-- Use base64url (no padding) for `n` and `e` fields.
-- `exp`/`nbf` are validated with a configurable clock skew (default 60s in tests).
+### Manueller curl-Test
 
-## Next steps / TODO
+1. HTTP-Server starten, der `docs/de/auth/jwks_example.json` ausliefert:
 
-- Add examples for JWKS rotation and multiple `kid` entries.
-- Add an integration test that runs a small local server and verifies middleware with a real HTTP request.
+   ```bash
+   python3 -m http.server 8000 --directory docs/de/auth/
+   ```
 
+2. Request an geschützten Endpunkt:
+
+   ```bash
+   curl -H "Authorization: Bearer <JWT>" http://localhost:8080/api/protected
+   ```
+
+   Bei gültigem Token wird der Request weitergeleitet; sonst wird 401 zurückgegeben.
+
+---
+
+## Häufige Fehler
+
+| Problem | Ursache | Lösung |
+|---------|---------|--------|
+| `kid not found in JWKS` | JWKS enthält nicht den `kid` aus dem JWT-Header | JWKS aktualisieren oder `kid` im JWT korrigieren |
+| `Token expired` | `exp`-Claim überschritten | Neues Token anfordern; `clock_skew` prüfen |
+| `Invalid signature` | Falscher Signing-Key oder `n`/`e` falsch base64url-kodiert | Key-Material prüfen; kein Padding in base64url |
+| `Issuer mismatch` | `iss`-Claim stimmt nicht mit `expected_issuer` überein | Konfiguration anpassen |
+| `JWKS HTTP error` | JWKS-Endpoint nicht erreichbar | Netzwerk/URL prüfen; Retry-Logik nutzen |
+
+---
+
+## Weiterführende Dokumentation
+
+- [Auth-Modul Übersicht](README.md) — Alle Authentifizierungsverfahren im Überblick
+- [src/auth/README.md](../../../src/auth/README.md) — Vollständige Implementierungsdokumentation
+- [include/auth/README.md](../../../include/auth/README.md) — Vollständige API-Referenz
