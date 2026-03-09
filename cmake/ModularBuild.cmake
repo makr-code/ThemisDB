@@ -486,6 +486,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/neural_sparse_retrieval.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/search_highlighter.cpp
+    ../src/search/negative_keyword_filter.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES

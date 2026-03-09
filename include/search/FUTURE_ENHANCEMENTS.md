@@ -181,6 +181,37 @@ Key API surface:
 
 ---
 
+## Delivered in v2.2.0
+
+### NegativeKeywordFilter API (`include/search/negative_keyword_filter.h`)
+**Status:** ✅ Delivered in v2.2.0 (Issue #2003)
+
+`NegativeKeywordFilter` implements the `NOT` / minus-prefix operator for full-text search
+queries, enabling callers to exclude documents that contain specific terms.
+
+Supported query syntax:
+- Minus prefix: `"machine learning -neural"` → excludes docs containing "neural"
+- `NOT` keyword: `"machine learning NOT neural"` → equivalent
+- Mixed: `"database -slow NOT crash"` → excludes both "slow" and "crash"
+
+Key API surface:
+- `ParsedQuery` struct: `positive_query` (terms to search for) + `negative_terms` (terms to exclude)
+- `parseQuery(raw_query)` — static; parses `-term` and `NOT term` syntax, lowercases negatives,
+  handles dangling `NOT`, lone `-` as positive token, case-insensitive `NOT` keyword
+- `filter(table, column, candidate_pks, negative_terms)` — uses secondary index
+  `scanFulltext()` to collect documents containing excluded terms, then removes them
+  from `candidate_pks` while preserving order
+- Null-index safety: returns error Status but preserves `candidate_pks` unchanged
+- Empty `negative_terms`: passes through all PKs with OK Status
+- Exception safety: `filter()` never throws; all index exceptions are caught and logged
+
+Typical pipeline usage:
+1. `parseQuery()` to split raw user query into positive + negative parts
+2. Run BM25 / hybrid search on `positive_query`
+3. `filter()` on the result PKs with `negative_terms`
+4. Retain only results in the filtered PK set
+
+---
 
 - **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
 - **Multi-namespace VectorIndexManager**: one instance per modality namespace
@@ -221,5 +252,5 @@ Key API surface:
 ---
 
 *Last Updated: March 2026*  
-*Current API Version: v2.1.0*  
-*Next Target: v2.2.0*
+*Current API Version: v2.2.0*  
+*Next Target: v2.3.0*

@@ -625,6 +625,7 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
     ${CMAKE_SOURCE_DIR}/src/search/multi_field_search.cpp
     ${CMAKE_SOURCE_DIR}/src/search/search_highlighter.cpp
+    ${CMAKE_SOURCE_DIR}/src/search/negative_keyword_filter.cpp
     ${CMAKE_SOURCE_DIR}/src/sharding/cloud_backup.cpp
     ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
     ${CMAKE_SOURCE_DIR}/src/server/grpc_web_proxy_handler.cpp
