@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support.
+Core multi-protocol API layer implemented: GraphQL parser/executor (`graphql.cpp`), gRPC server (`grpc_server.cpp`, `themisdb_grpc_service.cpp`), WebSocket change streaming (`ws_handler.cpp`), request tracing middleware (`tracing_middleware.cpp`), and geospatial index hooks (`geo_index_hooks.cpp`). HTTP/REST server, AQL execution, and authentication are handled by `src/server/`, `src/query/`, and `src/auth/` respectively.
 
 ## Completed ✅
 - [x] HTTP server integration (Crow/Beast)
@@ -18,6 +18,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] GraphQL schema for multi-model queries (Issue: #1493)
 - [x] WebSocket support for real-time change subscriptions (Issue: #1494)
 - [x] Rate limiting middleware (Issue: #1495)
+- [x] Request tracing and correlation IDs — `TracingMiddleware` with `X-Correlation-ID` propagation (Issue: #1496)
 - [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
 - [x] API gateway integration (Kong, Nginx) (Issue: #1500)
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
@@ -30,7 +31,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
 
 ### Long-term (6-12 months)
@@ -41,20 +41,20 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ### Phase 1: Core HTTP API (Status: Completed)
 - [x] Integrated Crow/Beast HTTP server with request routing
 - [x] Implemented RESTful CRUD endpoints for documents, graphs, and collections
-- [x] Implemented AQL query execution endpoint (`api/aql_handler.cpp`)
-- [x] Implemented authentication and authorization middleware (`api/auth_middleware.cpp`)
+- [x] Implemented AQL query execution endpoint (`src/server/query_api_handler.cpp`)
+- [x] Implemented authentication and authorization middleware (`src/server/auth_middleware.cpp`)
 - [x] Added TLS/SSL support with certificate configuration
 - [x] Built request/response handling pipeline with error serialization
 
-### Phase 2: GraphQL, WebSocket, and API Hardening (Status: In Progress)
-- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
-- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
+### Phase 2: GraphQL, WebSocket, and API Hardening (Status: Completed)
+- [x] Implement GraphQL schema and resolver for multi-model queries (`graphql.cpp`) (Issue: #1515)
+- [x] Implement WebSocket upgrade handler for real-time change subscriptions (`ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
-- [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
+- [x] Add request correlation IDs propagated through all log lines — `TracingMiddleware` in `tracing_middleware.cpp` (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: In Progress 🚧)
-- [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
+- [x] Implement gRPC surface with proto definitions mirroring REST API (`grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
 - [I] Add versioned endpoint routing (`/v1/`, `/v2/` prefixes) with deprecation headers (Issue: #1506)
 - [x] Generate client SDKs from OpenAPI spec for Python, JavaScript, and Go (Issue: #1507)
 - [x] Implement async job API for long-running AQL queries with polling endpoint (Issue: #1508)

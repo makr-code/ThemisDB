@@ -23,6 +23,18 @@
 
 Data ingestion, queries, and API documentation for ThemisDB. This documentation covers all HTTP APIs, GraphQL, OpenAPI, and additional protocols.
 
+## Source Code Module
+
+The authoritative developer documentation for the `api` module lives in the source tree:
+
+| Document | Description |
+|----------|-------------|
+| [`src/api/README.md`](../../../src/api/README.md) | Module overview: components, architecture, integration points |
+| [`src/api/ARCHITECTURE.md`](../../../src/api/ARCHITECTURE.md) | Architecture guide: data flow, threading, error handling, configuration |
+| [`src/api/ROADMAP.md`](../../../src/api/ROADMAP.md) | Roadmap: completed and planned features, implementation phases |
+| [`src/api/FUTURE_ENHANCEMENTS.md`](../../../src/api/FUTURE_ENHANCEMENTS.md) | Planned enhancements with design constraints and API sketches |
+| [`include/api/README.md`](../../../include/api/README.md) | Overview of all public header files |
+
 ## Source Code Reference
 
 | Component | Header | Source |

@@ -122,8 +122,8 @@ Add a gRPC service alongside REST, sharing the same business logic. Define a `Th
 All inbound requests must carry or receive a `X-Correlation-ID` header that propagates through the entire call stack (API → AQL → storage → cache) and appears in all log lines and error responses.
 
 **Implementation Notes:**
-- `[ ]` Add `TracingMiddleware` in `src/api/tracing_middleware.cpp`; generate UUID v4 if `X-Correlation-ID` absent; inject into thread-local `RequestContext`.
-- `[ ]` Forward `RequestContext::correlationId` to `utils/logger.h` log macros via a structured field (`correlation_id`).
+- `[x]` Add `TracingMiddleware` in `src/api/tracing_middleware.cpp`; generate UUID v4 if `X-Correlation-ID` absent; inject into thread-local `RequestContext`. (**Implemented** — `TracingMiddleware::processRequest()` uses `boost::uuids::random_generator` per thread.)
+- `[x]` Forward `RequestContext::correlationId` to `utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
 - `[ ]` Echo back `X-Correlation-ID` in all responses including errors and SSE streams.
 - `[ ]` Export span data to OpenTelemetry collector via OTLP HTTP exporter (configurable endpoint in `config/networking/`).
 - `[?]` Decision needed: use W3C `traceparent` header format vs proprietary `X-Correlation-ID` — affects SDK compatibility.
