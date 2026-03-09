@@ -14,14 +14,28 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 
 ## Relevant Interfaces
 
-- `metadata_manager.cpp` — central metadata catalog
-- `schema_registry.cpp` — schema version management
-- `type_system.cpp` — field type definitions
-- `index_metadata.cpp` — index registry
+| File | Description |
+|------|-------------|
+| `schema_manager.cpp` | Central schema discovery, table/property/index/relationship metadata |
+| `statistics_collector.cpp` | Cardinality, selectivity, equi-height histograms |
+| `information_schema.cpp` | SQL:2003-standard INFORMATION_SCHEMA views |
+| `schema_version_manager.cpp` | Schema version tracking, diff, migration scripts |
+| `schema_audit_log.cpp` | Durable per-table audit trail (RocksDB-persisted) |
+| `schema_consistency_checker.cpp` | Background health scan for metadata consistency |
+| `schema_constraints.cpp` | User-defined schema constraint validation |
+| `column_lineage.cpp` | Column-level derivation DAG and provenance tracking |
+| `er_diagram_exporter.cpp` | Cross-collection ER diagram export (Mermaid, DOT, JSON) |
+| `catalog_exporter.cpp` | Apache Atlas and DataHub integration |
+| `distributed_catalog.cpp` | Distributed metadata catalog across shards |
+| `index_recommender.cpp` | Query-pattern-driven index usage and recommendation engine |
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Metadata catalog and schema management operational; metadata versioning in progress.
+**Maturity:** 🟢 Production-Ready — All Phase 1–3 features shipped; schema introspection, statistics,
+changefeeds, adaptive TTL, audit log, consistency checker, ER diagram export, external catalog
+integration (Apache Atlas, DataHub), column lineage, distributed catalog, and the Schema API REST
+endpoint are production-ready as of v1.5.x.
+<!-- status: current | validated: 2026-03-09 | commit: ab36d18bd -->
 
 ## Components
 
@@ -233,17 +247,20 @@ if (table_schema.has_value()) {
 ## Documentation
 
 For detailed implementation documentation, see:
-- [Schema Manager](../../docs/metadata/schema_manager.md)
-- [Statistics Collection](../../docs/metadata/statistics.md)
-- [Information Schema](../../docs/metadata/information_schema.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [Public API Headers](../../include/metadata/README.md)
+- [Architecture](ARCHITECTURE.md)
+- [Roadmap](ROADMAP.md)
+- [Future Enhancements](FUTURE_ENHANCEMENTS.md)
+- [Secondary Docs (German)](../../docs/de/metadata/README.md)
 
 ## Version History
 
-- **v1.5.0**: Initial schema manager with automatic discovery
-- **v1.6.0**: Planned - Statistics collector
-- **v1.7.0**: Planned - Information schema views
-- **v1.8.0**: Planned - Schema versioning and migration
+- **v1.0.x**: Initial schema manager with automatic discovery
+- **v1.1.x**: Statistics collector and INFORMATION_SCHEMA views
+- **v1.2.x**: Schema versioning, diff, and migration script generation
+- **v1.3.x**: Real-time schema change notifications via changefeeds; adaptive TTL
+- **v1.4.x**: Column lineage, Apache Atlas/DataHub integration, ER diagram export
+- **v1.5.x**: Schema audit log, consistency checker, distributed catalog, full production readiness
 
 ## Examples
 
