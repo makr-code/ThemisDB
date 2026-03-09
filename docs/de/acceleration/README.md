@@ -1,4 +1,6 @@
 # Acceleration Module
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
 **Stand:** 9. März 2026  
 **Version:** 1.1  
