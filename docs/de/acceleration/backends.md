@@ -1,5 +1,8 @@
 # Acceleration Backends
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Primärdokumentation: ../../../src/acceleration/ | Überblick: README.md -->
+
 **Stand:** 9. März 2026  
 **Version:** 1.0  
 **Kategorie:** GPU / Hardware-Beschleunigung
