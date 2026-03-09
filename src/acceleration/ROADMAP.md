@@ -20,16 +20,16 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 
 ## In Progress 🚧
-- [P] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)
-- [P] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)
-- [P] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)
+- [~] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — ANN kernels (L2, cosine, inner-product, top-K) implemented in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; HNSW graph traversal wiring into `CUDAVectorBackend` still pending (queries fall through to CPU)
+- [x] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367) — `vulkan_backend_full.cpp` PRODUCTION-READY (0 stubs); all SPIR-V compute shaders present in `vulkan/shaders/`: `l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp` + LoRA shaders
+- [x] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368) — `geo_acceleration_bridge.cpp` PRODUCTION-READY (0 stubs); `GeoAccelerationBridge::populateGeoDispatch()` implemented (commit e38662530); wires Haversine + point-in-polygon CUDA kernels
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
+- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — CUDA ANN kernels implemented in `cuda/ann_kernels.cu` (397 lines, 0 stubs); HNSW index integration pending (ANN queries still routed to CPU via fallback dispatcher)
 - [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` in `device_manager.h`/`device_manager.cpp`; 60 s TTL probe cache, `BackendRegistry::refresh()` force re-probe; `BackendRegistry::deviceInfo()` observability accessor
-- [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
+- [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` PRODUCTION-READY (0 stubs, 454 lines); commit 83905a972
 ### Long-term (6-12 months)
 - [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `tensor_core_matmul.cpp` + `include/acceleration/tensor_core_matmul.h`; PRODUCTION-READY (0 stubs); requires CUDA device sm_70+ (FP16) or sm_80+ (BF16)
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
@@ -37,8 +37,8 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ## Implementation Phases
 
 ### Phase 1: Design / API-Vertrag
-- [P] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)
-- [P] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
+- [x] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380) — `BACKEND_CONTRACT_VERSION = 100` in `include/acceleration/compute_backend.h`; full backend capability matrix (all GPU backends) documented in `docs/acceleration/capability_negotiation.md`; tests in `tests/test_backend_api_stability.cpp`
+- [x] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381) — `include/acceleration/kernel_invocation.h` status FROZEN, `KERNEL_INVOCATION_INTERFACE_VERSION = 100`; ANN and geospatial dispatch tables frozen for v1.x
 - [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `include/acceleration/error_codes.h` (`AccelerationErrorCode` enum, PRODUCTION-READY); `include/acceleration/error_context.h` for structured context
 
 ### Phase 2: Core-Implementierung
@@ -75,10 +75,12 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW integration
+- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
+- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
+- DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
-- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
-- Some backend source files are staged but not feature-complete for production traffic
+- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
+- HIP top-K selection for k > 1024: heap-based/radix path not yet implemented (TODO in `hip_backend.cpp` line 204)
 
 ## Breaking Changes
 - GPU kernel APIs are not yet stable; function signatures may change before v1.0

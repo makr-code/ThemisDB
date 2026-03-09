@@ -191,3 +191,4 @@ cmake -DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_VULKAN=OFF ..
 ## Weitere Themen
 
 - [Backend-Typen und Konfiguration](backends.md) — Detaillierte Beschreibung der unterstützten Backends
+- [Fehlende Implementierungen](missing-implementations.md) — Reality-Check-Report: offene Implementierungslücken mit Code-Evidence und Issue-Vorschlägen

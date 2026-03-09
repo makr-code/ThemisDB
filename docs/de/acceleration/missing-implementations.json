@@ -1,0 +1,210 @@
+{
+  "module": "acceleration",
+  "domain": "acceleration",
+  "validated": "2026-03-09",
+  "source": "Reality-Check gegen Sourcecode (src/acceleration/, include/acceleration/)",
+  "findings": [
+    {
+      "id": "ACC-MISS-001",
+      "title": "CUDA ANN / HNSW-Integration nicht verdrahtet",
+      "severity": "high",
+      "status": "partial",
+      "claim_source": {
+        "file": "src/acceleration/ROADMAP.md",
+        "section": "In Progress / Phase 2 Core-Implementierung"
+      },
+      "expected": "CUDAVectorBackend::batchSimilaritySearch() routet Anfragen an CUDA-Kernels in cuda/ann_kernels.cu + cuda/vector_kernels.cu",
+      "observed": "ANN-Abfragen fallen durch zum CPU-Fallback; HNSW-Graph-Traversal nicht in CUDAVectorBackend verdrahtet",
+      "evidence": [
+        "src/acceleration/cuda_backend.cpp Header: Stubs: 6",
+        "src/acceleration/cuda_backend.cpp Zeilen 875-932: CUDAGraphBackend Stub Implementation",
+        "ROADMAP Known Issues: 'ANN vector operations fall through to CPU pending full HNSW index integration'"
+      ],
+      "affected_files": [
+        "src/acceleration/cuda_backend.cpp",
+        "src/acceleration/cuda/ann_kernels.cu",
+        "src/acceleration/cuda/vector_kernels.cu",
+        "include/acceleration/kernel_invocation.h"
+      ],
+      "issue_title_suggestion": "feat(acceleration): wire HNSW graph traversal to CUDAVectorBackend ANN kernels",
+      "label_suggestions": ["acceleration", "cuda", "ann", "enhancement"]
+    },
+    {
+      "id": "ACC-MISS-002",
+      "title": "CUDAGraphBackend — Graph-Analytics-Backend ist ein Stub",
+      "severity": "high",
+      "status": "stub",
+      "claim_source": {
+        "file": "include/acceleration/cuda_backend.h",
+        "section": "CUDAGraphBackend class declaration"
+      },
+      "expected": "GPU-beschleunigtes Graph-Analytics (BFS, Shortest Path) via CUDA",
+      "observed": "CUDAGraphBackend::isAvailable() gibt immer false zurück; initialize() setzt initialized_=false; batchBFS() und batchShortestPath() geben {} zurück",
+      "evidence": [
+        "src/acceleration/cuda_backend.cpp Zeilen 875-932: 'CUDAGraphBackend Stub Implementation'",
+        "src/acceleration/cuda_backend.cpp Header: TODOs: 0, Stubs: 6"
+      ],
+      "affected_files": [
+        "src/acceleration/cuda_backend.cpp"
+      ],
+      "issue_title_suggestion": "feat(acceleration): implement CUDAGraphBackend BFS and ShortestPath GPU kernels",
+      "label_suggestions": ["acceleration", "cuda", "graph", "enhancement"]
+    },
+    {
+      "id": "ACC-MISS-003",
+      "title": "DirectXVectorBackend — Stub (nicht implementiert)",
+      "severity": "medium",
+      "status": "stub",
+      "claim_source": {
+        "file": "include/acceleration/graphics_backends.h",
+        "section": "DirectXVectorBackend class declaration"
+      },
+      "expected": "DirectX 12 Compute Backend für Vektorsuche auf Windows",
+      "observed": "initialize() gibt false zurück (Stub); batchSimilaritySearch() gibt {} zurück; deviceName = 'DirectX 12 (Stub)'",
+      "evidence": [
+        "src/acceleration/graphics_backends.cpp Zeilen 571-638: 'DirectX Vector Backend Stub'",
+        "src/acceleration/graphics_backends.cpp Header: Stubs: 12"
+      ],
+      "affected_files": [
+        "src/acceleration/graphics_backends.cpp",
+        "src/acceleration/directx/"
+      ],
+      "issue_title_suggestion": "feat(acceleration): implement DirectXVectorBackend (DirectX Compute)",
+      "label_suggestions": ["acceleration", "directx", "windows", "enhancement"]
+    },
+    {
+      "id": "ACC-MISS-004",
+      "title": "OpenGLVectorBackend — Stub (nicht implementiert)",
+      "severity": "medium",
+      "status": "stub",
+      "claim_source": {
+        "file": "include/acceleration/graphics_backends.h",
+        "section": "OpenGLVectorBackend class declaration"
+      },
+      "expected": "OpenGL 4.3+ Compute Shader Backend für Systeme ohne CUDA/Vulkan",
+      "observed": "initialize() gibt false zurück ('Stub: not implemented yet'); batchSimilaritySearch() gibt {} zurück; deviceName = 'OpenGL Compute (Stub)'",
+      "evidence": [
+        "src/acceleration/graphics_backends.cpp Zeilen 1013-1067: 'OpenGL Vector Backend Stub'",
+        "src/acceleration/graphics_backends.cpp Header: Stubs: 12"
+      ],
+      "affected_files": [
+        "src/acceleration/graphics_backends.cpp"
+      ],
+      "issue_title_suggestion": "feat(acceleration): implement OpenGLVectorBackend (OpenGL 4.3+ Compute)",
+      "label_suggestions": ["acceleration", "opengl", "enhancement"]
+    },
+    {
+      "id": "ACC-MISS-005",
+      "title": "NCCL/RCCL ncclGroupStart/ncclGroupEnd — Wiring ausstehend",
+      "severity": "medium",
+      "status": "deferred",
+      "claim_source": {
+        "file": "src/acceleration/FUTURE_ENHANCEMENTS.md",
+        "section": "Multi-GPU Sharding for Large Embedding Datasets"
+      },
+      "expected": "Cross-GPU-Transfers via ncclGroupStart / ncclGroupEnd für Multi-GPU-Vektor-Search-Fan-out",
+      "observed": "NCCL/RCCL-Backends sind initialisiert; Group-Call-Wiring fehlt; keine echten NCCL-Collectives für Multi-GPU-Vektor-Search",
+      "evidence": [
+        "src/acceleration/nccl_vector_backend.cpp Header: Stubs: 1",
+        "ROADMAP Known Issues: 'ncclGroupStart/ncclGroupEnd wiring deferred to v2.5+'",
+        "FUTURE_ENHANCEMENTS: '[~] ncclGroupStart/ncclGroupEnd' — in Bearbeitung/deferred"
+      ],
+      "affected_files": [
+        "src/acceleration/nccl_vector_backend.cpp",
+        "src/acceleration/rccl_vector_backend.cpp",
+        "src/acceleration/multi_gpu_backend.cpp"
+      ],
+      "issue_title_suggestion": "feat(acceleration): wire ncclGroupStart/ncclGroupEnd for multi-GPU fan-out KNN (v2.5+)",
+      "label_suggestions": ["acceleration", "multi-gpu", "nccl", "enhancement", "deferred"]
+    },
+    {
+      "id": "ACC-MISS-006",
+      "title": "HIP Top-K für k > 1024 — Heap-Selektion nicht implementiert",
+      "severity": "low",
+      "status": "todo",
+      "claim_source": {
+        "file": "src/acceleration/hip_backend.cpp",
+        "section": "Top-K selection implementation",
+        "line": 204
+      },
+      "expected": "Heap-basierte oder Radix-Select-Top-K-Selektion für k > 1024 im HIP-Backend (Parität zu CUDA-Backend mit thrust::partial_sort)",
+      "observed": "TODO-Kommentar: 'For larger k, consider heap-based selection or radix select'; kein Fallback implementiert",
+      "evidence": [
+        "src/acceleration/hip_backend.cpp Zeile 204: TODO-Kommentar",
+        "src/acceleration/hip_backend.cpp Header: TODOs: 1, Stubs: 1"
+      ],
+      "affected_files": [
+        "src/acceleration/hip_backend.cpp"
+      ],
+      "issue_title_suggestion": "fix(acceleration): add HIP heap-based top-K selection for k > 1024",
+      "label_suggestions": ["acceleration", "hip", "amd", "enhancement"]
+    },
+    {
+      "id": "ACC-MISS-007",
+      "title": "Unit-Test-Abdeckung > 80 % — Noch nicht erreicht",
+      "severity": "medium",
+      "status": "open_issue",
+      "claim_source": {
+        "file": "src/acceleration/ROADMAP.md",
+        "section": "Production Readiness Checklist",
+        "issue": "#1398"
+      },
+      "expected": "Testabdeckung > 80 % für neuen Code im Acceleration-Modul",
+      "observed": "Kein Coverage-Report vorhanden; Checklist-Eintrag bleibt [I] (offenes Issue #1398)",
+      "evidence": [
+        "ROADMAP Production Readiness: '- [I] Unit tests coverage > 80% (Issue: #1398)'"
+      ],
+      "affected_files": [
+        "tests/"
+      ],
+      "issue_title_suggestion": "chore(acceleration): measure and achieve >80% unit test coverage",
+      "label_suggestions": ["acceleration", "testing", "coverage"]
+    },
+    {
+      "id": "ACC-MISS-008",
+      "title": "Deterministische Tie-Breaking- und Partial-Failure-Behandlung",
+      "severity": "medium",
+      "status": "open_issue",
+      "claim_source": {
+        "file": "src/acceleration/ROADMAP.md",
+        "section": "Phase 3: Fehlerbehandlung & Edge Cases",
+        "issue": "#1388"
+      },
+      "expected": "Konsistentes deterministisches Verhalten bei identischen Distanzwerten und bei teilweisem Backend-Ausfall",
+      "observed": "Kein deterministischer Tie-Breaking-Mechanismus implementiert; offenes Issue #1388",
+      "evidence": [
+        "ROADMAP Phase 3: '- [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Issue: #1388)'"
+      ],
+      "affected_files": [
+        "include/acceleration/kernel_invocation.h",
+        "src/acceleration/cuda_backend.cpp",
+        "src/acceleration/cpu_backend.cpp"
+      ],
+      "issue_title_suggestion": "feat(acceleration): add deterministic tie-breaking for top-K results",
+      "label_suggestions": ["acceleration", "determinism", "enhancement"]
+    },
+    {
+      "id": "ACC-MISS-009",
+      "title": "Abschluss-Review und API-Stabilitäts-Signoff",
+      "severity": "low",
+      "status": "open_issue",
+      "claim_source": {
+        "file": "src/acceleration/ROADMAP.md",
+        "section": "Phase 6: Dokumentation & Abnahme",
+        "issue": "#1397"
+      },
+      "expected": "Formeller Production-Readiness-Review und API-Stabilitäts-Bestätigung für v1.0",
+      "observed": "Review steht noch aus; offenes Issue #1397; Breaking Changes: 'GPU kernel APIs are not yet stable before v1.0'",
+      "evidence": [
+        "ROADMAP Phase 6: '- [I] Final production-readiness review and API stability sign-off (Issue: #1397)'",
+        "ROADMAP Breaking Changes: 'GPU kernel APIs are not yet stable; function signatures may change before v1.0'"
+      ],
+      "affected_files": [
+        "src/acceleration/ROADMAP.md",
+        "include/acceleration/compute_backend.h"
+      ],
+      "issue_title_suggestion": "chore(acceleration): final production-readiness review and v1.0 API stability sign-off",
+      "label_suggestions": ["acceleration", "api-stability", "production-readiness"]
+    }
+  ]
+}
