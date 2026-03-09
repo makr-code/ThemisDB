@@ -231,7 +231,7 @@ TEST(EvaluationCacheTest, InvalidateModelUpdatePurgesAll) {
     EXPECT_EQ(cache.get("q2", "a"), nullptr);
 }
 
-TEST(EvaluationCacheTest, InvalidateTTLSwepsOnlyExpired) {
+TEST(EvaluationCacheTest, InvalidateTTLSweepsOnlyExpired) {
     CacheConfig cfg;
     cfg.max_entries = 100;
     cfg.ttl         = std::chrono::seconds(3600);  // long TTL

@@ -3,7 +3,7 @@
 # RAG Module Roadmap
 
 ## Current Status
-v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementation files (~9,600 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, hybrid BM25+vector retrieval, batch evaluation, calibration, and LRU evaluation caching.
+v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementation files (~9,900 LOC) covering evaluation, knowledge gap detection, ethical compliance, multi-judge orchestration, streaming retrieval, cross-encoder re-ranking, hybrid BM25+vector retrieval, batch evaluation, calibration, and LRU evaluation caching.
 
 ## Completed ✅
 - [x] RAGJudge – main orchestrator for multi-dimensional evaluation
