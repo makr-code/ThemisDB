@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_manager.cpp                             ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-03-02 03:56:51                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-03-09 03:57:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     514                                            ║
+    • Total Lines:     515                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 11a2aa184  2026-02-28  feat(base): integrate ModuleSandbox into HotReloadManager... ║
     • 4fb12f70c  2026-02-22  Add hot-reload manager for plugins (base module Phase 2) ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http3_session.h                                    ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:54:52                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:55:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     246                                            ║
+    • Total Lines:     247                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
     • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║
 ╠═════════════════════════════════════════════════════════════════════╣

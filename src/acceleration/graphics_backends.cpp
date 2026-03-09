@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphics_backends.cpp                              ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:56:21                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:56:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   40.0/100                                       ║
-    • Total Lines:     1421                                           ║
+    • Total Lines:     1422                                           ║
     • Open Issues:     TODOs: 0, Stubs: 12                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a325cf2a1  2026-02-24  feat(acceleration): implement Vulkan compute shaders for ... ║
     • 04867b2d4  2026-02-23  fix(acceleration): address code review feedback - move ef... ║
     • c5f10fdcb  2026-02-23  fix(acceleration): add input validation and error handlin... ║
     • 2b9cce943  2026-02-23  feat(acceleration): implement Vulkan compute equivalents ... ║
-    • 0533f75fa  2026-02-23  feat(acceleration): implement Vulkan fallback for non-NVI... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝

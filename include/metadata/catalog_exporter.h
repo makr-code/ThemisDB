@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            catalog_exporter.h                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:53:46                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:54:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     199                                            ║
+    • Total Lines:     203                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8d1133cd7  2026-02-25  audit(metadata): fix includes and add CatalogExporter doc... ║
     • 439c671dc  2026-02-25  feat(metadata): integrate Apache Atlas and DataHub data c... ║
 ╠═════════════════════════════════════════════════════════════════════╣

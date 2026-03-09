@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgresql_adapter.cpp                        ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:00:55                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:01:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     933                                            ║
+    • Total Lines:     939                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • cab29d448  2026-02-26  audit(chimera): fix all gaps found in PostgreSQL adapter ... ║
     • 261a690e7  2026-02-26  feat(chimera): implement PostgreSQL + pgvector adapter fo... ║
     • 5554ae8cd  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║

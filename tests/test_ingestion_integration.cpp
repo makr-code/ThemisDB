@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_integration.cpp                     ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:04:33                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:04:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     751                                            ║
+    • Total Lines:     774                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ab1851da9  2026-02-28  Fix doxygen comment block opener in integration test file ║
     • 613a5b5eb  2026-02-28  Add integration tests for filesystem, HuggingFace, and ge... ║
 ╠═════════════════════════════════════════════════════════════════════╣

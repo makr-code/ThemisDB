@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udf_registry.cpp                                   ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:59:12                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:59:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     410                                            ║
+    • Total Lines:     434                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 2500bf5da  2026-02-26  audit(query): fix gaps in UDF registration API – security... ║
     • ef76d2232  2026-02-26  fix: use std::fmod for modulo, update ROADMAP status to [P] ║
     • 1200426fc  2026-02-26  feat(query): implement UDF registration API (Issue #2433) ║

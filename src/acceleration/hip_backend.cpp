@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_backend.cpp                                    ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:56:21                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:56:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1023                                           ║
+    • Total Lines:     1030                                           ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • edaecffe6  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
     • fedef6263  2026-02-23  feat(acceleration): publish backend capability matrix and... ║
     • 33de0a38c  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
     • 32123c014  2026-02-23  feat(acceleration): add ROCm/HIP ANN and geo kernel files... ║
-    • 14566f756  2026-02-23  fix(acceleration): extend BatchValidator to MT/TBB/HIP ba... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

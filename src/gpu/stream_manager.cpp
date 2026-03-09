@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stream_manager.cpp                                 ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:58:03                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:58:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     333                                            ║
+    • Total Lines:     337                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6206d7fc1  2026-02-27  fix(gpu): remove duplicate cuda_runtime.h include and cle... ║
     • 739078d2b  2026-02-27  fix(gpu): fix compilation errors in GPUStreamManager and ... ║
     • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • d09f11d78  2026-02-25  fix(gpu): code-audit fixes for cluster topology and strea... ║
-    • 7b7408fe7  2026-02-25  fix(gpu): code audit - complete GPUStreamManager CUDA+ROC... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

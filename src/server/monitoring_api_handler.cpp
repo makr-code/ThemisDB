@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:59:57                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:00:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1765                                           ║
+    • Total Lines:     1767                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 00c0dd69d  2026-03-01  audit: fix HTTP codes, add auth guards, OpenAPI registrat... ║
     • 390a4ccf1  2026-02-28  feat(api): add missing endpoints to OpenAPI 3.x spec and ... ║
     • 2500bf5da  2026-02-26  audit(query): fix gaps in UDF registration API – security... ║
     • ba8cbc86e  2026-02-24  audit(config): complete Prometheus metrics export — docs,... ║
-    • 6fbae4b15  2026-02-24  feat(config): integrate ConfigMetricsExporter into /metri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

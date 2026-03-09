@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_registry.h                                  ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:52:25                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:53:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     845                                            ║
+    • Total Lines:     855                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f8098a60c  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
     • 87c62f731  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
 ╠═════════════════════════════════════════════════════════════════════╣

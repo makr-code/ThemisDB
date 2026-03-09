@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ws_handler.cpp                                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:07:48                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:07:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     187                                            ║
+    • Total Lines:     200                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b543ca34a  2026-02-24  fix(api/ws): audit – scope doc consistency, /v2/cdc/strea... ║
     • 6127ae88a  2026-02-23  feat(api): implement WebSocket change subscription handle... ║
 ╠═════════════════════════════════════════════════════════════════════╣

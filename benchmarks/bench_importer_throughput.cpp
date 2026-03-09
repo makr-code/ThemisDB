@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_importer_throughput.cpp                      ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:51:08                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:51:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     595                                            ║
+    • Total Lines:     597                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c379caa7c  2026-02-28  feat(importers): add GB/hr throughput metric to importer ... ║
     • 784e73625  2026-02-28  feat(importers): implement MongoDB importer benchmarks an... ║
     • ede9d25a2  2026-02-26  Audit pass: add plugin manifest, SQLite benchmarks, updat... ║

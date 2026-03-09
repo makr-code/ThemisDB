@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_exporter.cpp                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:57:39                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:58:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     398                                            ║
+    • Total Lines:     413                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
     • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
     • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
     • 5b487cd13  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
-    • d2bec4ef7  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
-    • 384a0bfa5  2026-02-26  Implement streaming export for large collections with pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

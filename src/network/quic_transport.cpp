@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            quic_transport.cpp                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:58:52                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:59:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     456                                            ║
+    • Total Lines:     480                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 394fe997b  2026-03-01  Add HTTP/3 datagram support (RFC 9221 + RFC 9297, Issue #... ║
     • 204489383  2026-02-28  fix(network/quic): address code review issues - RAND_byte... ║
     • c90319060  2026-02-28  feat(network): QUIC/HTTP3 transport layer integration ║

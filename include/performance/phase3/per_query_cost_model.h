@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            per_query_cost_model.h                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:54:01                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:54:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     221                                            ║
+    • Total Lines:     228                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
     • 0a4c84047  2026-02-25  fix(performance): code audit fixes for per-query cost model ║
     • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:52:50                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:53:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     225                                            ║
+    • Total Lines:     227                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
     • d78d1008b  2026-02-23  feat(core): OpenTelemetry trace and span propagation ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
     • 897f27e99  2026-02-21  feat(core): add OTel tracer adapter tests, fix constructo... ║
-    • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

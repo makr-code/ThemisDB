@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporting.cpp                           ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:57:48                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:58:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1519                                           ║
+    • Total Lines:     1582                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7844e4d32  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
     • 1cb3e6183  2026-02-25  feat(governance): implement PDF and HTML compliance repor... ║
     • 8d92986f6  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_lora_finetuner.h                               ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:51:59                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:52:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     310                                            ║
+    • Total Lines:     321                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9d6907d17  2026-02-23  fix: remove duplicate include and replace magic number in... ║
     • 43fff097c  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
 ╠═════════════════════════════════════════════════════════════════════╣

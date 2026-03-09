@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_timeout.cpp                       ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-03-02 04:07:26                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-03-09 04:07:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,8 +14,8 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
-    • 6c2da643a  2026-02-21  fix(transaction): clamp negative timeout to 0 in setTimeo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

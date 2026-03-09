@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_compliance_security_governance.cpp           ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:51:00                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:51:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   70.0/100                                       ║
-    • Total Lines:     874                                            ║
+    • Total Lines:     875                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ade2399cc  2026-02-26  feat(governance): add CCPA/CPRA performance benchmarks to... ║
     • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
     • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║

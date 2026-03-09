@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            fulltext_functions.h                               ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:54:10                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:54:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 29b72e1f3  2026-02-21  feat(query): add HIGHLIGHT and FULLTEXT_SNIPPET AQL funct... ║
     • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

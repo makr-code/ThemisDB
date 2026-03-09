@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:53:29                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:54:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 478adf5f9  2026-02-28  security(ingestion): path traversal and API key storage a... ║
     • 90813ef53  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
     • 16cb82276  2026-02-28  feat(ingestion): dynamic source reconfiguration without r... ║
     • eda6e27de  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • 51c189e9d  2026-02-28  feat(ingestion): implement CDC source connector for live ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

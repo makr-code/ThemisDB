@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:56:19                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:56:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   66.0/100                                       ║
-    • Total Lines:     1398                                           ║
+    • Total Lines:     1402                                           ║
     • Open Issues:     TODOs: 0, Stubs: 6                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • bb7355ba7  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
     • 1b73a7e71  2026-02-23  Implement CUDA kernels for HNSW ANN search (cuda/ann_kern... ║
     • 50d44f370  2026-02-23  feat(acceleration): implement CUDA graph capture for recu... ║
     • fa818fec0  2026-02-23  feat(acceleration): implement CUDAGeoBackend production m... ║
-    • 57747c2d6  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

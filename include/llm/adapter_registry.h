@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_registry.h                                 ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:53:31                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:54:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     362                                            ║
+    • Total Lines:     364                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 011803ade  2026-02-28  feat(llm): add hotLoad() and addHotLoadObserver() to Adap... ║
     • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║

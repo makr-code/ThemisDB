@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:58:08                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:58:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0fccc8956  2026-02-26  fix(code-audit): add estimated_cost_ms to executeSubgraph... ║
     • 469b792c1  2026-02-26  fix: add explanatory comment for cost-to-ms conversion fa... ║
     • 8b26f1ce4  2026-02-26  feat: add cost estimation accuracy tracking to graph cost... ║
     • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
-    • d22fa781d  2026-02-26  fix(graph): remove double temporal selectivity in optimiz... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:53:11                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:53:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8b26f1ce4  2026-02-26  feat: add cost estimation accuracy tracking to graph cost... ║
     • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
     • be95daa7f  2026-02-26  fix(graph): code audit - iterator safety, benchmarks, met... ║
     • 9a172b4d4  2026-02-26  fix(graph): audit fixes - sort schema hints in cache keys... ║
-    • 310962431  2026-02-26  fix(graph): audit — fix pointer-invalidation UB, update R... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

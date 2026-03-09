@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.h                               ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:52:57                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:53:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
+    • Total Lines:     298                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d1800e174  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
     • 47062c4ec  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
     • 0da3ceaf6  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
     • fb579790b  2026-02-28  Audit: fix stale Stubs annotations, ROADMAP, and P2 place... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

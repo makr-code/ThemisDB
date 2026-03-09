@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_plan_visualizer.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-03-02 04:06:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-03-09 04:06:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fd89293cc  2026-02-21  fix(query): address code-review feedback – rename helper,... ║
     • 96eb8b81b  2026-02-21  fix(query): code audit – 5 issues fixed in query_plan_vis... ║
     • 55c3d58bd  2026-02-21  fix(query): escape DOT label special characters in toDOT ... ║

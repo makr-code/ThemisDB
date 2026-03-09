@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_encryption.cpp                              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:57:35                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1075                                           ║
+    • Total Lines:     1088                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 7d170c769  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
     • 016473156  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
     • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
     • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║

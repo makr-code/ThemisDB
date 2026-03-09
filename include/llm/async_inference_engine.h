@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_inference_engine.h                           ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:53:32                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:54:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d0fa9e609  2026-02-28  feat(llm): implement prompt injection mitigation and secu... ║
     • 5626526f4  2026-02-28  feat(llm): add tokens/sec and latency p99 performance ben... ║
     • 4987f75d3  2026-02-26  feat(llm): implement model hot-swap without engine restart ║
     • c02012c46  2026-02-26  audit: fix stale Stubs count in file headers and add thre... ║
-    • a9f253abf  2026-02-26  feat(llm): implement deduplication cache for same prompts... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

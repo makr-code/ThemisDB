@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_importer_plugin_api.cpp                       ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:04:26                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:04:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     508                                            ║
+    • Total Lines:     512                                            ║
     • Open Issues:     TODOs: 0, Stubs: 61                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c9a74cf8c  2026-02-28  fix(importers): code audit — cleanup includes, fix docstr... ║
     • c6a24a668  2026-02-28  feat(importers): add Plugin API for third-party importer ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

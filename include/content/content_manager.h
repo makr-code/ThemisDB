@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.h                                  ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:52:42                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:53:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     610                                            ║
+    • Total Lines:     614                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
     • 43013e4ee  2026-02-27  Add configurable processing pipeline (processor chain) fo... ║
     • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
     • b01dffc8f  2026-02-26  feat(content): Implement chunked streaming ingestion for ... ║
-    • efa41f432  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

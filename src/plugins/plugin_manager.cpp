@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_manager.cpp                                 ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:59:07                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:59:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 18598257e  2026-03-01  feat(plugins): add OciRegistryClient and loadPluginFromOc... ║
     • 3d4510f1a  2026-02-28  fix(plugins): mark runtime plugin capability negotiation ... ║
     • 88c2ff1ef  2026-02-28  feat(plugins): integrate PluginHealthMonitor into PluginM... ║
     • d7e3e58b0  2026-02-28  feat(plugins): implement PluginManager::negotiateCapabili... ║
-    • 22507ba4e  2026-02-22  fix(plugins): guard unloadPlugin() against unloading a de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

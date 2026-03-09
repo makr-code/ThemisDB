@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stt_processor.cpp                                  ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:57:31                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:57:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1185                                           ║
+    • Total Lines:     1187                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 56baadb99  2026-02-28  feat(voice): implement multi-speaker diarization via k-me... ║
     • d947853fb  2026-02-28  feat(content): Wire STTProcessor into AudioProcessor for ... ║
     • 450c6d7a4  2026-02-22  audit: update ROADMAP, fix stale Stubs metadata after str... ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_masking_policy.cpp                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:59:43                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:00:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     253                                            ║
+    • Total Lines:     266                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 28a4b23b9  2026-02-23  Refactor tests and update error handling ║
     • b629d06e4  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
     • 617224a49  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler_api_handler.cpp                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:07:15                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:07:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1043                                           ║
+    • Total Lines:     1116                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c34a95e5f  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
     • cf5596a8c  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
     • 46cbedd51  2026-03-01  Fix total count to return all matching records for proper... ║
-    • b36d290e6  2026-03-01  feat(scheduler): add getTaskResults/getLatestTaskResult A... ║
-    • c459420f1  2026-03-01  Add searchable audit log API endpoint GET /api/tasks/{id}... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

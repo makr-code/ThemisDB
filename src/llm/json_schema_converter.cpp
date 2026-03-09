@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            json_schema_converter.cpp                          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:58:32                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:58:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     363                                            ║
+    • Total Lines:     376                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a1458e137  2026-02-26  Add CI workflows for Themis Core, AI Guardrails, config m... ║
     • 4d754f104  2026-02-26  refactor(llm): address code review feedback on JSON schem... ║
     • 0f9839ae4  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║

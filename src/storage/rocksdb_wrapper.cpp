@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 04:00:14                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:00:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     2134                                           ║
+    • Total Lines:     2138                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • dfa2c6253  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • eb5e037bc  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

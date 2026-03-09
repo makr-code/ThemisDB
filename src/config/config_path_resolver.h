@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:57:23                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:57:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     408                                            ║
+    • Total Lines:     411                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
     • ff8381053  2026-02-25  audit: add range validation, currentCacheConfig(), README... ║
     • 672b2e814  2026-02-25  audit(config): fix all code-audit gaps for issue #1668 - ... ║
     • f5ecdcef5  2026-02-24  feat(config): add multi-environment config overlay for de... ║
-    • 152c3f8d8  2026-02-24  feat(config): make LRU cache size and TTL configurable vi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

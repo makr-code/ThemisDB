@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            signed_plugin_repository.h                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:54:08                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:54:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
+    • Total Lines:     275                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a0754de87  2026-02-26  fix(plugins): resolve TOCTOU race in addEntry, fix docstr... ║
     • c3452af1e  2026-02-26  feat(plugins): implement SignedPluginRepository with Ed25... ║
 ╠═════════════════════════════════════════════════════════════════════╣

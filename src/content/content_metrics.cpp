@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_metrics.cpp                                ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:57:25                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:57:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     537                                            ║
+    • Total Lines:     544                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 718c75097  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
     • 95da435db  2026-02-27  feat(content): add content deduplication via perceptual h... ║
     • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
     • efa41f432  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
-    • 33a86557e  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

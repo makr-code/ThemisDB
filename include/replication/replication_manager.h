@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:54:29                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:54:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1717                                           ║
+    • Total Lines:     1724                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • abe3d4c8a  2026-03-01  feat(replication): update file metadata headers for witne... ║
     • 072dbcc55  2026-02-27  feat(replication): add witness node support for quorum in... ║
     • 4fc982b0d  2026-02-25  feat(replication): implement compressed WAL shipping (Zst... ║
     • 76c3f5b7b  2026-02-25  fix(replication): audit fixes – remove dead session code,... ║
-    • a972d4be0  2026-02-25  audit: fix stale metadata and update status docs after cr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_device_flow.h                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-03-02 03:52:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-03-09 03:52:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     199                                            ║
+    • Total Lines:     201                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d0b6d3475  2026-02-24  Enable OAuth 2.0 device flow tests and update ROADMAP status ║
     • 8bd556e18  2026-02-24  feat(auth): complete audit logging coverage for SAML, OAu... ║
     • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║

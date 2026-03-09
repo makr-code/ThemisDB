@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_plan_visualizer.h                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-03-02 03:54:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-03-09 03:54:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 96eb8b81b  2026-02-21  fix(query): code audit – 5 issues fixed in query_plan_vis... ║
     • 1b8d26881  2026-02-21  feat(query): implement query plan visualization API (EXPL... ║
 ╠═════════════════════════════════════════════════════════════════════╣

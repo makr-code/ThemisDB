@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:59:41                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     373                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 44                            ║
+    • Total Lines:     366                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 42                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a05c4ac44  2026-03-01  feat(security): enforce hard rejection of stub HSM in pro... ║
     • ffcf5ac92  2026-03-01  fix: replace HSM stub with PKCS#11 production implementation ║
     • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
-    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

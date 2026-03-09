@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mongodb_adapter.cpp                                ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-03-02 03:57:10                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-03-09 03:57:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     760                                            ║
+    • Total Lines:     762                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 74d8f7c17  2026-02-28  fix(chimera): resolve MongoDB adapter quality metrics - r... ║
     • e3c17b310  2026-02-26  Implement MongoDB Atlas Vector Search integration: add se... ║
     • 5554ae8cd  2026-02-22  Code audit and bugfix: fix document_matches id field, mas... ║

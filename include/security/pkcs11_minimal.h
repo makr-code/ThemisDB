@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pkcs11_minimal.h                                   ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:54:39                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:55:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     232                                            ║
+    • Total Lines:     268                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e45182eb8  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
     • 22978a7bb  2026-03-01  feat(security): add PKCS#11 C++ wrapper interface (pkcs11... ║
     • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
     • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║

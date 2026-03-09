@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:59:41                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:00:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     936                                            ║
+    • Total Lines:     1055                                           ║
     • Open Issues:     TODOs: 0, Stubs: 23                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • e45182eb8  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
     • 14140888f  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
     • 309347f92  2026-02-22  audit(security): fix null-pointer guards and remaining si... ║
     • 69ccec431  2026-02-22  fix(security): address code review - fail on RAND_bytes e... ║
-    • e52586aae  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

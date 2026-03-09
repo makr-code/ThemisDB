@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_change_stream_compressor.cpp              ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:02:32                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:02:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     444                                            ║
+    • Total Lines:     469                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a64247126  2026-03-08  Refactor code structure for improved readability and main... ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ea6387651  2026-02-26  Code audit fixes: GTEST_SKIP guards, explicit nlohmann in... ║
     • 1b8c9aea9  2026-02-26  Implement change stream compression for high-volume CDC f... ║
 ╠═════════════════════════════════════════════════════════════════════╣

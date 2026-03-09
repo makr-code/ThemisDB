@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_timeout_cancellation.cpp                  ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-03-02 04:05:01                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-03-09 04:05:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     746                                            ║
+    • Total Lines:     747                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a9f253abf  2026-02-26  feat(llm): implement deduplication cache for same prompts... ║
     • 66c3fcb40  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
     • 20872af3f  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
     • ef06cc84c  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║
-    • 99d0e82ce  2026-02-22  Implement per-request timeout and cancellation propagatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

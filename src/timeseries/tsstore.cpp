@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 04:00:21                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:00:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fef313e1c  2026-02-22  fix(timeseries): wire up OOO metrics and add missing test... ║
     • e558cffaa  2026-02-22  feat(timeseries): out-of-order write support with configu... ║
 ╠═════════════════════════════════════════════════════════════════════╣

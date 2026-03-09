@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            token_blacklist.h                                  ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:52:10                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:52:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     184                                            ║
+    • Total Lines:     188                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4318adfb2  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
     • 92608937d  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
     • 4b86c62ed  2026-02-24  fix: ROADMAP audit logging status and token_blacklist sta... ║
     • 5e72bf49f  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
-    • a629043ab  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oracle_importer.cpp                                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:58:13                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:58:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1071                                           ║
+    • Total Lines:     1077                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
     • 9870104df  2026-02-28  feat(importers): Add Oracle Database importer (header, im... ║
     • 0315f4af6  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
     • 7ad9a8ead  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
-    • ac1dacf6a  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

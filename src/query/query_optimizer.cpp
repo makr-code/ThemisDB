@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.cpp                                ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:59:14                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:59:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   82.0/100                                       ║
-    • Total Lines:     716                                            ║
+    • Total Lines:     719                                            ║
     • Open Issues:     TODOs: 3, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 78e4e67bb  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

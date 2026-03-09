@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_interface.h                               ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:52:56                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:53:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     141                                            ║
+    • Total Lines:     145                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
     • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
     • fb579790b  2026-02-28  Audit: fix stale Stubs annotations, ROADMAP, and P2 place... ║
     • 985852ac2  2026-02-27  feat(exporters): implement incremental/delta export with ... ║
-    • dcf2eb787  2026-02-27  feat(exporters): audit fixes - AQL filter validation in A... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

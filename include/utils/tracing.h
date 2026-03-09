@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tracing.h                                          ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:55:38                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:56:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     441                                            ║
+    • Total Lines:     445                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 95fb262d5  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
     • 522e9ae57  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
 ╠═════════════════════════════════════════════════════════════════════╣

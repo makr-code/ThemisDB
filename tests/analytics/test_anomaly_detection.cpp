@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_anomaly_detection.cpp                         ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-03-02 04:00:38                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-03-09 04:00:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     813                                            ║
+    • Total Lines:     814                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3a4cd6d2d  2026-02-25  fix(analytics): fix buildITree child-index bug and thresh... ║
     • eec0dd3fa  2026-02-25  feat(analytics): implement explain() for ISOLATION_FOREST... ║
 ╠═════════════════════════════════════════════════════════════════════╣

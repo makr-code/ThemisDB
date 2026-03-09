@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_geo_kernels.cpp                          ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:01:09                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:01:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     181                                            ║
+    • Total Lines:     204                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 05db8ea3b  2026-02-27  feat(geo): add populateCudaGeoDispatch() to CUDA geo kern... ║
     • 9d19a8878  2026-02-25  feat(geo): implement ROCm/HIP GPU backend for AMD hardwar... ║
 ╠═════════════════════════════════════════════════════════════════════╣

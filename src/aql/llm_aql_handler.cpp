@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:56:37                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 03:57:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a0dce8967  2026-02-26  feat(aql): API stability guaranteed - version constant, t... ║
     • 5fcab4ddf  2026-02-26  feat(aql): implement few-shot example library for improve... ║
     • 7a0f10c19  2026-02-22  feat(llm/aql): cooperative cancellation in LLMTimeoutManager ║
     • 20b191f78  2026-02-22  Code audit and bugfix: fix LLMException propagation, miss... ║
-    • a8e12692a  2026-02-22  Code audit and bugfix: LLMException propagation, metrics,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

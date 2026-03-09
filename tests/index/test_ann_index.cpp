@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ann_index.cpp                                 ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:01:22                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:01:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     373                                            ║
+    • Total Lines:     399                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5432ec11f  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
     • cebce18b1  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
     • 0c973a286  2026-02-26  Refactor and enhance ThemisDB components ║
     • ade1fdc2e  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
-    • e6e7fc6bb  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_dependency_resolver.cpp                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:05:12                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:05:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     752                                            ║
+    • Total Lines:     776                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e5c61ce85  2026-03-01  test(themis): add getRegisteredModules() coverage for Mod... ║
     • eda60be50  2026-02-23  Fix version-constraint enforcement and update ROADMAP.md ║
     • 3908bbb54  2026-02-23  Add module dependency resolution and load-order managemen... ║

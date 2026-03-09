@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            p2p_transfer.h                                     ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:55:19                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:55:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
+    • Total Lines:     264                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • bafc919a5  2026-02-28  fix(gpu): correct disablePeerAccess device ordinals; fix ... ║
     • 5b1bf176b  2026-02-28  feat(gpu): implement GPUP2PTransferManager for peer-to-pe... ║
 ╠═════════════════════════════════════════════════════════════════════╣

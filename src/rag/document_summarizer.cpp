@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            document_summarizer.cpp                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:59:23                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:59:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     484                                            ║
+    • Total Lines:     488                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7b7b5e67d  2026-02-24  fix(rag): audit fixes – remove dead code, finalize ROADMA... ║
     • 03b20d394  2026-02-24  feat(rag): implement multi-document summarization before ... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,20 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_encryption.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 04:01:03                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 04:01:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     917                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     925                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • 49aa9b058  2026-03-02  Add modules, extraction retries, and test fixes ║
     • 016473156  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
     • 6cbe0e954  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
-    • 5515f88c1  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

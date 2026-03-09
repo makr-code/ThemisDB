@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            processor_chain_config.h                           ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:52:47                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:53:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     296                                            ║
+    • Total Lines:     320                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d96f6838d  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
     • 6508e0611  2026-02-28  feat(content): Harden pipeline orchestration with per-sta... ║
     • 43013e4ee  2026-02-27  Add configurable processing pipeline (processor chain) fo... ║

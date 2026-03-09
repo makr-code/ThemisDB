@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_handler.cpp                           ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 04:04:53                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:04:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     973                                            ║
+    • Total Lines:     975                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c9bc220bd  2026-02-26  test(aql): add performance benchmarks and highlighter pat... ║
     • b7a6c0b5b  2026-02-26  test(aql): add integration and injection tests for transl... ║
     • 20b191f78  2026-02-22  Code audit and bugfix: fix LLMException propagation, miss... ║

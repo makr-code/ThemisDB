@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.cpp                                    ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-03-02 03:59:46                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-03-09 04:00:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     967                                            ║
+    • Total Lines:     975                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 39d0b757f  2026-02-26  audit: fix stub tests RegisterHandler/HealthStatusWithErr... ║
     • bfbf88c10  2026-02-26  feat(api): integrate Kong and Nginx as API gateways ║
     • 33a346e4e  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • 9564da32a  2026-02-24  fix: processVersionHeaders query-strip, update docs and R... ║
-    • 669dd3958  2026-02-24  feat: add versioned endpoint routing (/v1/, /v2/) with de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

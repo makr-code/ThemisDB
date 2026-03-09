@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_ipc_exporter.cpp                             ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-03-02 03:57:33                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-03-09 03:57:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1136                                           ║
+    • Total Lines:     1146                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 51582c4f6  2026-02-26  Code audit: fix LE encoding, [[maybe_unused]], int32 over... ║
     • f7a4d85f3  2026-02-26  Changes before error encountered         ║
 ╠═════════════════════════════════════════════════════════════════════╣
