@@ -10,7 +10,7 @@
 
 Das Analytics-Modul verwandelt ThemisDB von einer transaktionalen Datenbank in eine vollständige
 Analyseplattform. Es bietet OLAP-Abfrageverarbeitung, Process Mining, NLP-Textanalyse,
-Zeitreihenprognosenose, ML-Integration, Anomalieerkennung und Complex Event Processing.
+Zeitreihenprognose, ML-Integration, Anomalieerkennung und Complex Event Processing.
 
 **Primäre Quellen:** [`src/analytics/`](../../../src/analytics/) · [`include/analytics/`](../../../include/analytics/)
 

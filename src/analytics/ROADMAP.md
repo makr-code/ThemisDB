@@ -60,17 +60,29 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Inputs: WGS84 points/polygons, batch-size up to 1e6
   - Outputs: distance matrix + containment bitset
   - Constraints: deterministic FP tolerance ≤ 1e-6
+  - Errors: invalid geometry (NaN/Inf coordinates), polygon self-intersection, overflow during Haversine distance
   - Tests: unit + property-based + GPU/CPU parity
   - Perf: ≥ 8x speedup vs CPU baseline on RTX-class GPU
 - [ ] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
+  - Affected: `src/analytics/distributed_analytics.cpp`, `include/analytics/distributed_analytics.h`
+  - Expected behavior: scatter-gather with partial failure tolerance; partial results returned if <20% shards fail
+  - Errors: shard unreachable → skip with warning; tenant isolation violation → reject with PERMISSION_DENIED
+  - Tests: unit tests for scatter/gather logic + integration tests with mock shards
+  - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
   - Per-tenant data isolation at the `SourceRegistry` boundary
-  - Scatter-gather coordinator with partial failure handling
 - [ ] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
-  - Extends existing `ForecastMethod` enum
+  - Affected: `src/analytics/forecasting.cpp`, `include/analytics/forecasting.h`
+  - Expected behavior: extends `ForecastMethod` enum; `fit()`/`predict()` API unchanged
+  - Errors: insufficient data for seasonal period (< 2 × seasonality), NaN in input series → structured error
+  - Tests: unit tests for fit/predict/evaluate/serialize round-trip; parity vs Python statsmodels reference
+  - Perf: SARIMA fit ≤ 5 s for series of length 10 000
   - Confidence intervals and decomposition retained
 - [ ] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
-  - Export trained models to ONNX format for external serving
-  - Integration with `include/analytics/automl.h`
+  - Affected: `src/analytics/automl.cpp`, `include/analytics/automl.h`
+  - Expected behavior: `AutoMLEngine::exportONNX(path)` serializes trained model; loadable by `MLServingClient`
+  - Errors: unsupported model type → `UNSUPPORTED_OPERATION`; serialization failure → structured error with cause
+  - Tests: unit test export → load → infer round-trip; ONNX opset compatibility for all supported algorithms
+  - Perf: export time ≤ 500 ms for any model trained on ≤ 1M samples
 
 ### Phase 1: Core Analytics Engine (Status: Completed ✅)
 - [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS (`analytics/olap_engine.cpp`)
