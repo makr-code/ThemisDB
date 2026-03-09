@@ -1,7 +1,7 @@
 # Acceleration Module — Missing Implementations Report
 
 **Validiert:** 2026-03-09  
-**Geprüfte Revision:** `HEAD` (`copilot/check-gpu-documentation-status`)  
+**Geprüfte Revision:** `HEAD` (`copilot/update-module-chimera-docs`)  
 **Geprüfte Pfade:** `src/acceleration/`, `include/acceleration/`  
 **Methode:** Reality-Check (Doku ↔ Sourcecode); Suche nach `STUB`, `TODO`, `NOT_IMPLEMENTED`; Zeilenzählung via `wc -l`; Kernel-Count via `__global__`-Suche
 
@@ -13,7 +13,7 @@
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 1 |
 | 🟡 Mittel (Funktional eingeschränkt) | 2 |
-| 🟢 Gering (Hardening / Optimierung) | 2 |
+| 🟢 Gering (Hardening / Optimierung) | 3 |
 
 ---
 
@@ -99,24 +99,40 @@
 
 ---
 
-### 5. Deterministische Tie-Breaking-Semantik bei Partial-Failure (🟢 Gering)
+### 5. Vulkan Double-Buffering Staging (🟢 Gering)
 
-**Claim-Quelle:** `src/acceleration/ROADMAP.md` → Phase 3, Issue: #1388  
-**Datei:** `include/acceleration/kernel_fallback_dispatcher.h`, `src/acceleration/cuda_backend.cpp`  
+**Claim-Quelle:** `src/acceleration/FUTURE_ENHANCEMENTS.md` → Vulkan Abschnitt  
+**Datei:** `src/acceleration/vulkan_backend_full.cpp`  
 
-**Erwartet:** Deterministische Tie-Breaking-Semantik bei Partial-Failure (mehrere Backends liefern unterschiedliche Top-K Ergebnisse mit gleichem Score).
+**Erwartet:** Double-Buffering von Staging-Buffern zur Überlappung von Host→Device DMA mit Shader-Dispatch.
 
-**Beobachtet:** Fallback/Retry-Semantik (`ANNKernelFallbackDispatcher`, `GeoKernelFallbackDispatcher`) ist vollständig implementiert. Nur die deterministische Tie-Breaking-Behandlung bei Partial-Failure fehlt noch (Issue: #1388, Phase 3 `[I]`).
+**Beobachtet:** Nicht implementiert.
+
+**Evidence:**
+- `src/acceleration/FUTURE_ENHANCEMENTS.md`: `[ ] Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch`
+
+**Impact:** Suboptimale Durchsatz-Performance für grosse Batch-Größen (keine DMA-Shader-Überlappung).
+
+**Issue-Titelvorschlag:** `perf(acceleration): implement double-buffered staging in vulkan_backend_full.cpp`  
+**Label-Vorschläge:** `module:acceleration`, `kind:performance`, `priority:low`
+
+---
+
+### 6. Fallback/Retry Semantics for Transient Device Errors (🟢 Gering)
+
+**Claim-Quelle:** `src/acceleration/ROADMAP.md` → Phase 3, Issue: #1387  
+**Datei:** `include/acceleration/kernel_fallback_dispatcher.h`  
+
+**Erwartet:** Vollständige Fallback/Retry-Semantik für nicht unterstützte Kernel und transiente Gerätezustände (Phase 3 `[I]`).
+
+**Beobachtet:** `ANNKernelFallbackDispatcher` und `GeoKernelFallbackDispatcher` implementieren Retry mit Exponential-Backoff für bekannte transiente Fehler (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) — **diese sind implementiert**. Offen bleibt: deterministische Tie-Breaking-Semantik bei Partial-Failure (Phase 3, Issue: #1388).
 
 **Evidence:**
 - `include/acceleration/kernel_fallback_dispatcher.h`: Retry + CPU Fallback implementiert ✅
-- `src/acceleration/ROADMAP.md` Phase 3: `[I]` für Issue #1388 — offen
-- Duplicate-Entry `[ ] Fallback/retry semantics... (Issue: #1387)` in Long-term Planned Features wurde behoben (Issue #1387 ist `[x]`, Eintrag entfernt)
+- `src/acceleration/ROADMAP.md` Phase 3: `[I]` für #1387 (Fallback/Retry) und #1388 (Determinismus) — **Status-Fehler**: Fallback/Retry ist implementiert, nur Determinismus-Constraints (#1388) fehlen noch
 
-**Impact:** Bei gleichem Score und unterschiedlichen Backends kann die Ergebnis-Reihenfolge nicht-deterministisch sein; relevant für Reproduzierbarkeit von Testergebnissen.
-
-**Issue-Titelvorschlag:** `feat(acceleration): implement deterministic tie-breaking for partial-failure across backends (Issue #1388)`  
-**Label-Vorschläge:** `module:acceleration`, `kind:implementation`, `priority:low`
+**Issue-Titelvorschlag:** `fix(acceleration/docs): correct ROADMAP Phase 3 status for #1387 (fallback/retry implemented)`  
+**Label-Vorschläge:** `module:acceleration`, `kind:documentation`
 
 ---
 
