@@ -25,8 +25,8 @@ Parquet and HuggingFace dataset formats are also supported.
   result sets into memory.
 - **Training-Format Optimized** – JSONL output uses instruction/input/output fields
   matching standard fine-tuning dataset conventions (Alpaca, ShareGPT, ChatML).
-- **LoRA-Ready** – `lora_metadata_writer.cpp` generates the adapter card, training
-  metadata, and vLLM multi-LoRA manifest alongside the training data.
+- **LoRA-Ready** – `jsonl_llm_exporter.cpp` generates LoRA adapter metadata alongside the
+  training data.
 
 ---
 
@@ -36,12 +36,17 @@ Parquet and HuggingFace dataset formats are also supported.
 
 | File | Role |
 |---|---|
-| `jsonl_llm_exporter.cpp` | JSONL export: instruction/input/output format, batching |
-| `huggingface_exporter.cpp` | HuggingFace dataset format export (Dataset card + Parquet shards) |
+| `jsonl_llm_exporter.cpp` | JSONL export: instruction/input/output format, batching, LoRA metadata |
+| `huggingface_exporter.cpp` | HuggingFace dataset format export (Dataset card + JSONL shards) |
 | `parquet_exporter.cpp` | Apache Parquet columnar export |
 | `arrow_ipc_exporter.cpp` | Apache Arrow IPC file (`.arrow`) and stream (`.arrows`) export for zero-copy pipelines |
 | `streaming_exporter.cpp` | Streaming export for large collections (avoids full in-memory load) |
 | `stream_writer.cpp` | Low-level streaming output writer (avoids full in-memory buffering) |
+| `incremental_exporter.cpp` | Delta/incremental export: exports only records modified since last watermark |
+| `aql_predicate_filter.cpp` | AQL predicate filtering to restrict exported records at query time |
+| `format_template.cpp` | Instruction-tuning format templates: Alpaca, ShareGPT, ChatML, OpenAI |
+| `export_encryption.cpp` | AES-256-GCM encryption for exported data; key material referenced by ID |
+| `data_augmentation.cpp` | Synthetic data augmentation pipeline (synonym replacement, paraphrase) |
 | `pii_detector.cpp` | PII detection and masking before export |
 | `exporter_metrics.cpp` | Export throughput, record count, PII hit rate metrics |
 
@@ -179,16 +184,16 @@ HuggingFaceExporter: generate dataset_card.md + dataset_info.json
 ## 11. Known Limitations & Future Work
 
 - Streaming export to S3 and GCS is planned (currently filesystem only).
-- Delta export (changed records since last export) is planned.
+- Hugging Face Hub direct upload integration is planned (currently filesystem export only).
 - Export scheduling (cron-based exports) is handled by the scheduler module.
-- Parquet and HuggingFace exporters are in beta; edge cases in nested JSON types exist.
+- Parquet and HuggingFace exporters have known edge cases in nested JSON types.
 
 ---
 
 ## 12. References
 
 - `src/exporters/README.md` — module overview
-- `docs/exporters/JSONL_LLM_EXPORTER.md` — JSONL format documentation
-- `docs/exporters/LORA_ADAPTER_METADATA.md` — LoRA metadata specification
-- `docs/exporters/VLLM_MULTI_LORA_INTEGRATION.md` — vLLM integration guide
+- `docs/exporters/IMPLEMENTATION_SUMMARY.md` — complete implementation summary
+- `docs/exporters/P0_IMPLEMENTATION.md` — foundation layer documentation
+- `docs/exporters/P1_P2_IMPLEMENTATION.md` — security and performance documentation
 - `ARCHITECTURE.md` (root) — full system architecture
