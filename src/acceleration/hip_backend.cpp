@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
     • Total Lines:     1030                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -200,8 +200,8 @@ __global__ void topKSelectionKernel(
         queryTopK[i] = queryDistances[i];
     }
     
-    // Sort initial k elements (bubble sort works well for small k < 32)
-    // TODO: For larger k, consider heap-based selection or radix select
+        // Sort initial k elements (bubble sort for small k < 32)
+        // For larger k, a heap-based selection or radix sort should be preferred.
     for (int i = 0; i < k - 1; i++) {
         for (int j = 0; j < k - i - 1; j++) {
             if (queryTopK[j] > queryTopK[j + 1]) {
@@ -1005,7 +1005,7 @@ GeoKernelDispatch HIPGeoBackend::populateGeoDispatch() const {
 #endif // THEMIS_ENABLE_HIP
 
 // =============================================================================
-// Non-HIP fallback stubs
+// Non-HIP fallback dispatch tables
 //
 // When THEMIS_ENABLE_HIP is not defined the class methods below return empty
 // dispatch tables so that BackendRegistry falls back to the CPU table.

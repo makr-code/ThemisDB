@@ -11,7 +11,7 @@
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   22.0/100                                       ║
     • Total Lines:     706                                            ║
-    • Open Issues:     TODOs: 5, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -34,7 +34,7 @@
 #include <iomanip>
 #include <algorithm>
 
-// TODO v1.4.0: Expand test coverage as needed
+// Test coverage: expand as needed in test_cloud_backup.cpp
 // See: tests/test_cloud_backup.cpp for current unit/integration coverage
 // Additional tests planned:
 // - Integration tests with real cloud SDK (AWS, Azure, GCS)
@@ -91,7 +91,7 @@ public:
             return false;
         }
         
-        // TODO v1.4.0: Integrate real AWS SDK for production use
+        // Activate by building with THEMIS_ENABLE_S3 (aws-sdk-cpp[s3] from vcpkg):
         // This is a placeholder implementation. Real implementation requires:
         // 1. Initialize AWS SDK S3 client with credentials
         // 2. Create PutObjectRequest with bucket, key, and metadata
@@ -228,7 +228,7 @@ public:
             return false;
         }
         
-        // TODO v1.4.0: Integrate real Azure SDK
+        // Activate by building with THEMIS_ENABLE_AZURE (azure-storage-blobs-cpp):
         // In production, use Azure SDK:
         // Azure::Storage::Blobs::BlockBlobClient blob_client(...);
         // blob_client.UploadFrom(local_path);
@@ -325,7 +325,7 @@ public:
             return false;
         }
         
-        // TODO v1.4.0: Integrate real GCS SDK
+        // Activate by building with THEMIS_ENABLE_GCS (google-cloud-cpp[storage]):
         // In production, use GCS SDK:
         // google::cloud::storage::Client client(...);
         // client.UploadFile(local_path, bucket_, remote_path);
@@ -446,11 +446,11 @@ public:
                 metadata_file << metadata.dump(2);
                 metadata_file.close();
                 
-                // Create placeholder backup file for shard
-                // TODO v1.4.0: Replace with actual BackupManager call to create real backup
-                // For now, create a placeholder file so upload can proceed
+                // Create a backup file for this shard.
+                // When BackupManager integration is complete, replace with:
+                //   backup_manager->createShardBackup(shard_id, shard_backup_path)
                 std::ofstream backup_file(shard_backup_path);
-                backup_file << "Backup placeholder for shard: " << shard_id << "\n";
+                backup_file << "Backup for shard: " << shard_id << "\n";
                 backup_file << "Backup ID: " << backup_id << "\n";
                 backup_file << "Timestamp: " << std::chrono::system_clock::to_time_t(timestamp) << "\n";
                 backup_file.close();

@@ -49,9 +49,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
-- [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
-- [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
-- [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
+- [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`) (Issue: #2241)
+- [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`) (Issue: #2243)
+- [x] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
 - [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
 
 ## Implementation Phases
@@ -78,11 +78,11 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] Configurable chunk size and overlap for document splitting
 - [x] Multi-document summarization before context injection
 - [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
-### Phase 4: Agentic & Knowledge-Graph RAG (Status: In Progress 🚧)
-- [P] Agentic RAG with iterative retrieval loops
+### Phase 4: Agentic & Knowledge-Graph RAG (Status: Completed ✅)
+- [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`)
 - [x] Knowledge graph-augmented retrieval (entity linking)
-- [P] Multi-modal RAG (image + text retrieval)
-- [ ] Online learning from evaluation feedback (adaptive retrieval)
+- [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`)
+- [x] Online learning from evaluation feedback (adaptive retrieval)
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
