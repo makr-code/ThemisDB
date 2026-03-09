@@ -324,13 +324,6 @@ std::string FieldLevelMergeResolver::mergeFields(
             case MergeStrategy::INTERSECT:
             default: {
                 // Latest HLC wins for conflicting fields
-                size_t winner_idx = present_indices[0];
-                for (size_t idx : present_indices) {
-                    if (writes[idx].hlc < writes[winner_idx].hlc)
-                        winner_idx = idx; // keep highest HLC
-                    // Note: operator< defined in multi_master_replication.h
-                }
-                // Re-pick the one with highest HLC
                 size_t best = present_indices[0];
                 for (size_t idx : present_indices) {
                     if (writes[best].hlc < writes[idx].hlc) best = idx;
