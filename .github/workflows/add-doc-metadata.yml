@@ -75,6 +75,7 @@ jobs:
           - Added structured YAML metadata to markdown files
           - Includes author, document number, dates, and file path
           - Generated automatically by add_doc_metadata.py script"
+          git pull --rebase origin develop
           git push
       
       - name: Summary
