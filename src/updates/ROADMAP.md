@@ -3,7 +3,7 @@
 # Updates Module Roadmap
 
 ## Current Status
-v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, and binary delta updates are all implemented.
+v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented.
 
 ## Completed ✅
 - [x] HotReloadEngine – atomic file replacement with fsync and all-or-nothing semantics
@@ -23,25 +23,26 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Canary rollout mode (update a fraction of nodes first) (PR: #2587)
 - [x] In-place schema migration without data copy for additive changes (Issue: #2480)
 - [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
-
-## In Progress 🚧
+- [x] Migration dry-run with detailed change preview (Issue: #2481)
+  - Implemented: `InPlaceSchemaMigrator::preview()` → `MigrationChangePreview` (added/removed/modified columns, is_additive flag)
+  - Tests: 10+ unit tests in `tests/test_in_place_schema_migrator.cpp` (Phase 7 suite)
+- [x] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
+  - Implemented: `include/updates/notification_webhook.h`, `src/updates/notification_webhook.cpp`
+  - Tests: 40 unit tests in `tests/test_notification_webhook.cpp` via injectable `HttpSendFunc`
 - [x] Update pre-flight health checks (disk space, memory, dependency versions) (Issue: #2490)
   - Implemented: `include/updates/preflight_health_check.h`, `src/updates/preflight_health_check.cpp`
   - `IHealthCheck` abstract interface + `DiskSpaceChecker`, `MemoryHeadroomChecker`, `DependencyVersionChecker`, `PreflightHealthChecker`
   - Injectable providers for full testability (no real filesystem/sysinfo required)
   - Completes in ≤ 2 s; disk check enforces ≥ 2× bundle size of free space
+  - Tests: 35+ unit tests in `tests/test_preflight_health_check.cpp`
+
+## In Progress 🚧
+<!-- No items currently in progress -->
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [!] Migration dry-run with detailed change preview (Issue: #2481)
-- [P] Notification webhooks (Slack, PagerDuty) on update success/failure (Issue: #2482)
-  - Affected files: `include/updates/notification_webhook.h`, `src/updates/notification_webhook.cpp`
-  - Runtime: HTTP POST to Slack/PagerDuty within 10 s timeout (5 s connect), non-blocking
-  - Error cases: network failure → log + return false; invalid config (empty URL/key) → channel not activated
-  - Tests: 30+ unit tests via injectable `HttpSendFunc` (no real network)
-  - Performance: <100 ms overhead on notify(); requires `THEMIS_ENABLE_CURL` or custom sender
-  - Compatibility: additive; no existing API changed
+<!-- All short-term items are complete — see Completed ✅ section above -->
 
 ### Long-term (6-12 months)
 - [!] Kubernetes operator integration (rolling update coordination) (Issue: #2483)
@@ -61,20 +62,20 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Incremental and full migration strategies with dependency tracking
 - [x] Update scheduling and notification system
 
-### Phase 2: Delta Updates & Canary Rollout (Status: In Progress 🚧)
+### Phase 2: Delta Updates & Canary Rollout (Status: Completed ✅)
 - [x] Delta (binary diff) updates to reduce download size
 - [x] Canary rollout mode (update a fraction of nodes first)
 - [x] Update pre-flight health checks (disk space, memory, dependency versions)
 
-### Phase 3: In-Place Migration & Notification Webhooks (Status: In Progress 🚧)
+### Phase 3: In-Place Migration & Notification Webhooks (Status: Completed ✅)
 - [x] In-place schema migration without data copy for additive changes
-- [ ] Migration dry-run with detailed change preview
-- [P] Notification webhooks (Slack, PagerDuty) on update success/failure
+- [x] Migration dry-run with detailed change preview (`InPlaceSchemaMigrator::preview()`)
+- [x] Notification webhooks (Slack, PagerDuty) on update success/failure
   - API: `UpdateEvent` enum, `UpdateEventPayload`, `SlackConfig`, `PagerDutyConfig`, `NotificationWebhook`
   - Slack: color-coded attachments (good/warning/danger), structured fields, injectable sender
   - PagerDuty: Events API v2, trigger/resolve actions, dedup_key per version, severity mapping
   - Error handling: per-channel failures logged, both channels always attempted, returns false on any failure
-  - Tests: injectable `HttpSendFunc` stub, no network required; 30+ unit tests
+  - Tests: injectable `HttpSendFunc` stub, no network required; 40 unit tests
   - Performance: 10 s HTTP timeout, 5 s connect timeout, <100 ms overhead
 - [x] Automatic rollback on post-update health check failure
 - [x] Update history log (who, when, from/to version)
@@ -87,12 +88,12 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator: 23 tests; PreflightHealthChecker: 35 tests; module total: 132 tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator+preview: 31 tests; NotificationWebhook: 40 tests; PreflightHealthChecker: 35 tests; CoordinatedUpdateManager: 25 tests; module total: 160+ tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
-- [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations)
-- [x] Documentation complete (full API documentation in `delta_update_engine.h` and `in_place_schema_migrator.h`)
-- [x] API stability guaranteed (`DeltaUpdateEngine` and `InPlaceSchemaMigrator` are additive; no existing API changed)
+- [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations; PreflightHealthChecker: injectable providers, no privilege escalation)
+- [x] Documentation complete (full API documentation in `delta_update_engine.h`, `in_place_schema_migrator.h`, `notification_webhook.h`, `preflight_health_check.h`)
+- [x] API stability guaranteed (all new APIs are additive; no existing API changed)
 
 ## Known Issues & Limitations
 - HotReloadEngine is single-threaded; concurrent updates are not allowed.
