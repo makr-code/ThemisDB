@@ -1,0 +1,139 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            wasm_runtime_injector.cpp                          ║
+  Version:         1.0.0                                              ║
+  Last Modified:   2026-03-09                                         ║
+  Author:          ThemisDB Team                                      ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                       ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • v1.0.0  2026-03-09  feat(base): WASM runtime injection API      ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "themis/base/wasm_runtime_injector.h"
+#include "utils/logger.h"
+
+#include <algorithm>
+#include <mutex>
+#include <vector>
+
+namespace themis {
+namespace modules {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Registry (process-global, protected by a mutex for reads after init)
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+
+struct Registry {
+    std::mutex                          mu;
+    std::vector<WasmRuntimeDescriptor>  entries;
+};
+
+Registry& globalRegistry() {
+    static Registry r;
+    return r;
+}
+
+} // anonymous namespace
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WasmRuntimeInjector implementation
+// ─────────────────────────────────────────────────────────────────────────────
+
+void WasmRuntimeInjector::registerRuntime(WasmRuntimeDescriptor desc) {
+    auto& reg = globalRegistry();
+    std::lock_guard<std::mutex> lock(reg.mu);
+
+    // Replace existing entry with the same name
+    for (auto& e : reg.entries) {
+        if (e.name == desc.name) {
+            THEMIS_INFO("WasmRuntimeInjector: replacing runtime '{}'", desc.name);
+            e = std::move(desc);
+            return;
+        }
+    }
+    THEMIS_INFO("WasmRuntimeInjector: registered runtime '{}' (priority={})",
+                desc.name, desc.priority);
+    reg.entries.push_back(std::move(desc));
+}
+
+std::unique_ptr<IWasmRuntime>
+WasmRuntimeInjector::create(const std::string& runtime_name) {
+    auto& reg = globalRegistry();
+    std::lock_guard<std::mutex> lock(reg.mu);
+
+    if (reg.entries.empty()) {
+        THEMIS_WARN("WasmRuntimeInjector::create: no WASM runtime backends registered");
+        return nullptr;
+    }
+
+    if (runtime_name.empty()) {
+        // Auto-select: highest priority
+        const WasmRuntimeDescriptor* best = nullptr;
+        for (const auto& e : reg.entries) {
+            if (best == nullptr || e.priority > best->priority) {
+                best = &e;
+            }
+        }
+        if (best && best->factory) {
+            THEMIS_INFO("WasmRuntimeInjector: auto-selected runtime '{}'", best->name);
+            return best->factory();
+        }
+        return nullptr;
+    }
+
+    // Named lookup
+    for (const auto& e : reg.entries) {
+        if (e.name == runtime_name && e.factory) {
+            return e.factory();
+        }
+    }
+
+    THEMIS_WARN("WasmRuntimeInjector::create: runtime '{}' not found", runtime_name);
+    return nullptr;
+}
+
+bool WasmRuntimeInjector::available() noexcept {
+    auto& reg = globalRegistry();
+    std::lock_guard<std::mutex> lock(reg.mu);
+    return !reg.entries.empty();
+}
+
+std::vector<std::string> WasmRuntimeInjector::registeredNames() {
+    auto& reg = globalRegistry();
+    std::lock_guard<std::mutex> lock(reg.mu);
+
+    // Copy and sort by descending priority
+    std::vector<const WasmRuntimeDescriptor*> ptrs;
+    ptrs.reserve(reg.entries.size());
+    for (const auto& e : reg.entries) ptrs.push_back(&e);
+    std::sort(ptrs.begin(), ptrs.end(),
+              [](const WasmRuntimeDescriptor* a, const WasmRuntimeDescriptor* b){
+                  return a->priority > b->priority;
+              });
+
+    std::vector<std::string> names;
+    names.reserve(ptrs.size());
+    for (const auto* p : ptrs) names.push_back(p->name);
+    return names;
+}
+
+void WasmRuntimeInjector::clearAll() {
+    auto& reg = globalRegistry();
+    std::lock_guard<std::mutex> lock(reg.mu);
+    reg.entries.clear();
+}
+
+} // namespace modules
+} // namespace themis

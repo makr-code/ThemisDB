@@ -180,6 +180,7 @@ set(THEMIS_BASE_SOURCES
     ../src/base/hot_reload_manager.cpp
     ../src/base/ab_test_manager.cpp
     ../src/base/wasm_plugin_sandbox.cpp
+    ../src/base/wasm_runtime_injector.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
         ../src/themis/module_dependency_resolver.cpp
@@ -242,6 +243,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
+    ../src/index/cuda_hnsw_graph_traversal.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
@@ -376,6 +378,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/export_encryption.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/importers/gui_import_wizard.cpp
 
 )
 
@@ -486,6 +489,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/personalized_ranker.cpp
     ../src/search/multi_field_search.cpp
     ../src/search/neural_sparse_retrieval.cpp
+    ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
@@ -511,6 +515,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/temporal/bi_temporal.cpp
     ../src/temporal/snapshot_manager.cpp
     ../src/temporal/temporal_aggregator.cpp
+    ../src/temporal/bitemporal_join.cpp
     
     # Replication
     ../src/replication/replication_manager.cpp
@@ -588,6 +593,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/paxos_consensus.cpp
     ../src/sharding/paxos_wal.cpp
     ../src/sharding/paxos_snapshot.cpp
+    ../src/sharding/paxos_state_persistence.cpp
     ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
@@ -667,6 +673,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/feedback_plugin.cpp
     ../src/llm/lora_framework/lora_provenance.cpp
     ../src/llm/lora_framework/lora_storage_service.cpp
+    ../src/llm/lora_framework/lora_checkpoint_manager.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp
     ../src/llm/lora_framework/gradient_utils.cpp
@@ -796,6 +803,8 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/query_optimizer.cpp
     ../src/timeseries/timeseries_metrics.cpp
     ../src/timeseries/prometheus_remote_write.cpp
+    ../src/timeseries/ts_auto_buffer.cpp
+    ../src/timeseries/ts_auto_buffer_adaptive.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
