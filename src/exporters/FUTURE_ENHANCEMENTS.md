@@ -63,6 +63,8 @@ Atomic watermark update uses `.tmp` + `rename()`. The
 - `--incremental` flag on the CLI export command in `tools/`.
 
 ---
+
+### ~~Instruction-Tuning Format Templates~~ ✅ Implemented (Issue #1727)
 **Priority:** Medium  
 **Target Version:** v1.7.0 — **Delivered**
 
@@ -122,11 +124,11 @@ KEK reference in `ExportConfig::encryption_kek_id`. Raw keys are never logged.
 **Priority:** Medium
 **Target Version:** v1.9.0 (Issue: #1719)
 
-Upload exported datasets directly to the Hugging Face Hub via the Hub HTTP API without requiring an intermediate filesystem step. Reuses the Parquet shards and `dataset_card.md` already produced by `huggingface_exporter.cpp`.
+Upload exported datasets directly to the Hugging Face Hub via the Hub HTTP API without requiring an intermediate filesystem step. Reuses the JSONL shards and `dataset_card.md` already produced by `huggingface_exporter.cpp`.
 
 **Implementation Notes:**
 - Add `HuggingFaceHubClient` using libcurl; authenticate via `HF_TOKEN` env variable or `ExportConfig::hf_token_kek_id`.
-- Stream Parquet shards directly from memory via chunked HTTP upload; do not write shards to disk if the Hub is the sole destination.
+- Stream JSONL shards directly from memory via chunked HTTP upload; do not write shards to disk if the Hub is the sole destination.
 - Report upload progress via the existing `ExportStats` progress callback.
 - Inputs: exported dataset directory (output of `HuggingFaceExporter`), Hub repo ID, commit message.
 - Outputs: Hub dataset URL; structured error on upload failure.
