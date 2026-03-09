@@ -1,5 +1,8 @@
 # Performance Optimization Headers
 
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Primary → src/performance/README.md | Secondary → docs/de/performance/README.md -->
+
 ## Overview
 
 This directory contains public headers for ThemisDB's performance optimization infrastructure. These headers provide interfaces for research-based performance enhancements, hardware-level optimizations, profiling tools, and feature flags for runtime optimization control.
@@ -139,5 +142,5 @@ cmake -DTHEMIS_ENABLE_CYCLE_METRICS=ON \
 
 ---
 
-**Last Updated**: 2025-02-10  
-**Version**: 1.0
+**Last Updated**: 2026-03-09  
+**Version**: 1.1

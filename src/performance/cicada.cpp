@@ -30,8 +30,8 @@ void CicadaTransaction::record_read(CicadaRecord* record, uint64_t version_read)
     read_set_.push_back({record, version_read});
 }
 
-void CicadaTransaction::record_write(CicadaRecord* record) {
-    write_set_.push_back({record, ""});
+void CicadaTransaction::record_write(CicadaRecord* record, std::string data) {
+    write_set_.push_back({record, std::move(data)});
 }
 
 bool CicadaTransaction::execute(const TransactionFunc& func) {
@@ -62,9 +62,10 @@ bool CicadaTransaction::acquire_write_locks() {
 }
 
 void CicadaTransaction::install_writes() {
-    // Phase 3: Install new versions
+    // Phase 3: Install new versions — write pending data then release the lock
     for (const auto& entry : write_set_) {
-        // Would write actual data here
+        // Write the new data value into the record while the write lock is held
+        entry.record->set_data(entry.data);
         entry.record->unlock_and_increment_version();
     }
 }
