@@ -1,7 +1,7 @@
 # Acceleration Module — Missing Implementations Report
 
-**Validiert:** 2026-03-09  
-**Geprüfte Revision:** `HEAD` (`copilot/update-module-chimera-docs`)  
+**Validiert:** 2026-03-09 (Erstprüfung); **Aktualisiert:** 2026-03-09 (Reality-Check-Pass 2 — Vulkan-Status, ROADMAP-Duplikat #1387, IEEE-Referenzen)  
+**Geprüfte Revision:** `HEAD` (`copilot/check-documentation-against-sourcecode`)  
 **Geprüfte Pfade:** `src/acceleration/`, `include/acceleration/`  
 **Methode:** Reality-Check (Doku ↔ Sourcecode); Suche nach `STUB`, `TODO`, `NOT_IMPLEMENTED`; Zeilenzählung via `wc -l`; Kernel-Count via `__global__`-Suche
 
@@ -13,7 +13,8 @@
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 1 |
 | 🟡 Mittel (Funktional eingeschränkt) | 2 |
-| 🟢 Gering (Hardening / Optimierung) | 3 |
+| 🟢 Gering (Hardening / Optimierung) | 2 |
+| ✅ Behoben in diesem Pass | 1 |
 
 ---
 
@@ -118,21 +119,20 @@
 
 ---
 
-### 6. Fallback/Retry Semantics for Transient Device Errors (🟢 Gering)
+### 6. ROADMAP Planned Features Stale Entry for #1387 (🟢 Gering)
 
-**Claim-Quelle:** `src/acceleration/ROADMAP.md` → Phase 3, Issue: #1387  
-**Datei:** `include/acceleration/kernel_fallback_dispatcher.h`  
+**Claim-Quelle:** `src/acceleration/ROADMAP.md` → Planned Features → Long-term  
+**Datei:** `src/acceleration/ROADMAP.md`  
 
-**Erwartet:** Vollständige Fallback/Retry-Semantik für nicht unterstützte Kernel und transiente Gerätezustände (Phase 3 `[I]`).
+**Erwartet:** `- [ ] Fallback/retry semantics...` (#1387) nicht mehr in Planned Features (bereits als `[x]` in Phase 3 markiert).
 
-**Beobachtet:** `ANNKernelFallbackDispatcher` und `GeoKernelFallbackDispatcher` implementieren Retry mit Exponential-Backoff für bekannte transiente Fehler (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) — **diese sind implementiert**. Offen bleibt: deterministische Tie-Breaking-Semantik bei Partial-Failure (Phase 3, Issue: #1388).
+**Beobachtet (behoben):** ROADMAP.md enthielt `- [ ] Fallback/retry semantics for unsupported kernels and transient device states (Issue: #1387)` in der Planned Features Long-term Sektion, obwohl derselbe Issue in Phase 3 als `[x]` erledigt dokumentiert war. Dieser inkonsistente Eintrag wurde entfernt.
 
 **Evidence:**
-- `include/acceleration/kernel_fallback_dispatcher.h`: Retry + CPU Fallback implementiert ✅
-- `src/acceleration/ROADMAP.md` Phase 3: `[I]` für #1387 (Fallback/Retry) und #1388 (Determinismus) — **Status-Fehler**: Fallback/Retry ist implementiert, nur Determinismus-Constraints (#1388) fehlen noch
+- `src/acceleration/ROADMAP.md`, Phase 3, Zeile 52: `[x]` — `ANNKernelFallbackDispatcher` und `GeoKernelFallbackDispatcher` implementiert ✅
+- Planned Features Long-term: veralteter `[ ]`-Eintrag → **entfernt** ✅
 
-**Issue-Titelvorschlag:** `fix(acceleration/docs): correct ROADMAP Phase 3 status for #1387 (fallback/retry implemented)`  
-**Label-Vorschläge:** `module:acceleration`, `kind:documentation`
+**Status:** ✅ Behoben — doppelter Eintrag aus Planned Features entfernt.
 
 ---
 

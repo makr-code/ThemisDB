@@ -63,9 +63,9 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 **Status:**
 - `[x]` `shaders/l2_distance.comp`, `shaders/cosine_distance.comp`, `shaders/inner_product_distance.comp`, `shaders/batch_search.comp`, `shaders/topk_selection.comp`, `shaders/haversine_distance.comp`, `shaders/point_in_polygon.comp` — all implemented
 - `[x]` Push constants used for `numVectors`, `dim`, `topK` (no per-query UBO re-allocation)
-- `[ ]` MoltenVK path: disable `VK_KHR_buffer_device_address` if not available; add capability probe in `VulkanBackend::initialize()`
-- `[ ]` Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch
-- `[ ]` Benchmark workgroup size tuning on Mali-G710 and RDNA2
+- `[ ]` MoltenVK path: disable `VK_KHR_buffer_device_address` if not available; add capability probe in `VulkanBackend::initialize()` — see [8]
+- `[ ]` Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch — see [9]
+- `[ ]` Benchmark workgroup size tuning on Mali-G710 and RDNA2 — see [10]
 
 **Performance Targets:**
 - 500K × 128-dim cosine search in < 20 ms on Apple M2 Pro via MoltenVK.
@@ -148,11 +148,11 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 
 ## Security / Reliability
 
-- `[ ]` `plugin_security.cpp` sandbox must be applied to all dynamically loaded GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`); verify symbol allow-list before `dlopen`.
-- `[ ]` GPU memory allocated via `cudaMalloc` / `vkAllocateMemory` must be zeroed before exposing to query results to prevent information leakage between tenants.
-- `[ ]` `vllm_resource_manager.cpp` lease acquisition must be wrapped in a timeout (default 500 ms) to prevent deadlock when a GPU backend hangs during kernel execution.
+- `[ ]` `plugin_security.cpp` sandbox must be applied to all dynamically loaded GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`); verify symbol allow-list before `dlopen` — see [11].
+- `[ ]` GPU memory allocated via `cudaMalloc` / `vkAllocateMemory` must be zeroed before exposing to query results to prevent information leakage between tenants — see [12].
+- `[ ]` `vllm_resource_manager.cpp` lease acquisition must be wrapped in a timeout (default 500 ms) to prevent deadlock when a GPU backend hangs during kernel execution — see [13].
 
-## 📚 Scientific Foundations
+## 📚 References
 
 All planned features in this document are grounded in the following peer-reviewed research and industry specifications (IEEE format):
 
@@ -177,17 +177,38 @@ All planned features in this document are grounded in the following peer-reviewe
 7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]  
    — Informs HIP API usage, rocBLAS, and RCCL multi-GPU collectives (`hip_backend.cpp`, `rccl_vector_backend.cpp`).
 
-## 📚 Future enhancements
+8. Khronos Group, "Vulkan Portability Initiative — VK_KHR_portability_subset Extension Specification," Khronos Registries, 2021. [Online]. Available: https://www.khronos.org/vulkan/portability-initiative [Accessed: 2026-03-09]  
+   — Informs the MoltenVK `VK_KHR_buffer_device_address` capability probe in `VulkanBackend::initialize()` for Apple Silicon compatibility (see `[ ]` item in Vulkan section).
 
-**[1]** Y. Chen, T. Li, Y. Zhou, and Z. Wang, "Accelerating Database Operations on GPUs: A Survey," *IEEE Trans. Knowl. Data Eng.*, vol. 29, no. 1, pp. 147–165, Jan. 2017, doi: 10.1109/TKDE.2016.2603064. [Online]. Available: https://ieeexplore.ieee.org/document/7586066. Accessed: Mar. 2, 2026.
+9. V. Volkov, "Better performance at lower occupancy," in *Proc. GPU Technology Conference (GTC)*, NVIDIA, Sep. 2010. [Online]. Available: https://www.nvidia.com/content/GTC-2010/pdfs/2238_GTC2010.pdf [Accessed: 2026-03-09]  
+   — Informs double-buffering of staging buffers in `vulkan_backend_full.cpp` to overlap host→device DMA with shader dispatch; latency-hiding via asynchronous memory transfers.
 
-**[2]** A. He, S. Pandey, and A. Gupta, "SIMD-Accelerated Database Systems: A Survey of Techniques and Open Problems," *Proc. VLDB Endow.*, vol. 12, no. 3, pp. 309–322, Nov. 2018, doi: 10.14778/3352063.3352067. [Online]. Available: https://www.vldb.org/pvldb/vol12/p309-he.pdf. Accessed: Mar. 2, 2026.
+10. K. Ryoo, C. I. Rodrigues, S. S. Baghsorkhi, S. S. Stone, D. B. Kirk, and W. W. Hwu, "Optimization principles and application performance evaluation of a multithreaded GPU using CUDA," in *Proc. ACM SIGPLAN Symp. Principles and Practice of Parallel Programming (PPoPP)*, Salt Lake City, UT, Feb. 2008, pp. 73–82, doi: 10.1145/1345206.1345220. [Online]. Available: https://doi.org/10.1145/1345206.1345220 [Accessed: 2026-03-09]  
+    — Informs systematic workgroup size tuning methodology for Mali-G710 and RDNA2 in `vulkan_backend_full.cpp`; demonstrates that occupancy-based selection must be validated empirically per micro-architecture.
 
-**[3]** J. Zhou and K. A. Ross, "Implementing database operations using SIMD instructions," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Madison, WI, USA, Jun. 2002, pp. 145–156, doi: 10.1145/564691.564710. [Online]. Available: https://doi.org/10.1145/564691.564710. Accessed: Mar. 2, 2026.
+11. R. N. M. Watson, J. Anderson, B. Laurie, and K. Kennaway, "Capsicum: Practical capabilities for UNIX," in *Proc. 19th USENIX Security Symp. (USENIX Security)*, Washington, DC, USA, Aug. 2010, pp. 29–46. [Online]. Available: https://www.usenix.org/legacy/event/sec10/tech/full_papers/Watson.pdf [Accessed: 2026-03-09]  
+    — Informs least-privilege sandboxing and symbol allow-list enforcement in `plugin_security.cpp` for dynamically loaded GPU backend plugins (`dlopen` with `RTLD_NOW`).
 
-**[4]** D. Sidler, Z. István, M. Owaida, and G. Alonso, "Accelerating Pattern Matching Queries in Hybrid CPU-FPGA Architectures," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Chicago, IL, USA, May 2017, pp. 403–415, doi: 10.1145/3035918.3035941. [Online]. Available: https://doi.org/10.1145/3035918.3035941. Accessed: Mar. 2, 2026.
+12. Y. Naghibijouybari, A. Neupane, Z. Qian, and N. Abu-Ghazaleh, "Rendered insecure: GPU side channel attacks are practical," in *Proc. ACM SIGSAC Conf. Computer and Communications Security (CCS)*, Toronto, ON, Canada, Oct. 2018, pp. 2139–2153, doi: 10.1145/3243734.3243831. [Online]. Available: https://doi.org/10.1145/3243734.3243831 [Accessed: 2026-03-09]  
+    — Motivates zeroing of `cudaMalloc` / `vkAllocateMemory` allocations before exposing them to query results; demonstrates practical cross-tenant GPU memory information leakage attacks.
 
-**[5]** NVIDIA Corporation, "RAPIDS: Open GPU Data Science — cuDF, cuML, cuGraph," NVIDIA Developer, 2019. [Online]. Available: https://rapids.ai. Accessed: Mar. 2, 2026.
+13. W. Kwon, Z. Li, S. Zhuang, Y. Sheng, L. Zheng, C. H. Yu, J. E. Gonzalez, H. Zhang, and I. Stoica, "Efficient memory management for large language model serving with PagedAttention," in *Proc. ACM Symp. Operating Systems Principles (SOSP)*, Koblenz, Germany, Oct. 2023, pp. 611–626, doi: 10.1145/3600006.3613165. [Online]. Available: https://doi.org/10.1145/3600006.3613165 [Accessed: 2026-03-09]  
+    — Informs resource-lease timeout semantics (default 500 ms) in `vllm_resource_manager.cpp` to prevent deadlock when a GPU backend hangs during LLM kernel execution.
+
+14. Y. Chen, T. Li, Y. Zhou, and Z. Wang, "Accelerating Database Operations on GPUs: A Survey," *IEEE Trans. Knowl. Data Eng.*, vol. 29, no. 1, pp. 147–165, Jan. 2017, doi: 10.1109/TKDE.2016.2603064. [Online]. Available: https://ieeexplore.ieee.org/document/7586066 [Accessed: 2026-03-09]  
+    — Provides a systematic taxonomy of GPU-accelerated relational and vector database operators; motivates cuBLAS GEMM selection for L2/cosine distance in `cuda_backend.cpp`.
+
+15. A. He, S. Pandey, and A. Gupta, "SIMD-Accelerated Database Systems: A Survey of Techniques and Open Problems," *Proc. VLDB Endow.*, vol. 12, no. 3, pp. 309–322, Nov. 2018, doi: 10.14778/3352063.3352067. [Online]. Available: https://www.vldb.org/pvldb/vol12/p309-he.pdf [Accessed: 2026-03-09]  
+    — Motivates AVX-512 loop unrolling in the CPU reference path (`cpu_backend.cpp`) that serves as the ≥ 10× GPU speedup baseline.
+
+16. J. Zhou and K. A. Ross, "Implementing database operations using SIMD instructions," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Madison, WI, USA, Jun. 2002, pp. 145–156, doi: 10.1145/564691.564710. [Online]. Available: https://doi.org/10.1145/564691.564710 [Accessed: 2026-03-09]  
+    — Foundational SIMD scan/selection/sort primitives implemented in `cpu_backend.cpp` as the correctness baseline for GPU backends.
+
+17. D. Sidler, Z. István, M. Owaida, and G. Alonso, "Accelerating Pattern Matching Queries in Hybrid CPU-FPGA Architectures," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Chicago, IL, USA, May 2017, pp. 403–415, doi: 10.1145/3035918.3035941. [Online]. Available: https://doi.org/10.1145/3035918.3035941 [Accessed: 2026-03-09]  
+    — Demonstrates CPU-FPGA co-execution model informing the hardware-abstract `ComputeBackend` interface; the FPGA plugin slot in `plugin_loader.cpp` follows this separation-of-concerns pattern.
+
+18. NVIDIA Corporation, "RAPIDS: Open GPU Data Science — cuDF, cuML, cuGraph," NVIDIA Developer, 2019. [Online]. Available: https://rapids.ai [Accessed: 2026-03-09]  
+    — RAPIDS/cuDF provides the GPU DataFrame and array reference model used by `faiss_gpu_backend.cpp`; RMM (RAPIDS Memory Manager) is the basis for the per-operation `memoryBudgetBytes()` constraint.
 
 ## See Also
 

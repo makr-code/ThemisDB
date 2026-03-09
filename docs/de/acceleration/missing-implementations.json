@@ -1,7 +1,8 @@
 {
   "module": "acceleration",
   "validated": "2026-03-09",
-  "revision": "HEAD (copilot/update-module-chimera-docs)",
+  "updated": "2026-03-09 (Reality-Check-Pass 2)",
+  "revision": "HEAD (copilot/check-documentation-against-sourcecode)",
   "checked_paths": [
     "src/acceleration/",
     "include/acceleration/"
@@ -10,7 +11,8 @@
     "total": 6,
     "critical": 1,
     "medium": 2,
-    "low": 3
+    "low": 2,
+    "fixed_in_this_pass": 1
   },
   "entries": [
     {
@@ -70,7 +72,7 @@
       "expected": "Capability probe for VK_KHR_buffer_device_address when running under MoltenVK (Apple Silicon)",
       "observed": "Not implemented; no MoltenVK-specific guard present",
       "evidence": [
-        "src/acceleration/FUTURE_ENHANCEMENTS.md: '[ ] MoltenVK path: disable VK_KHR_buffer_device_address if not available'"
+        "src/acceleration/FUTURE_ENHANCEMENTS.md: '[ ] MoltenVK path: disable VK_KHR_buffer_device_address if not available — see [8]'"
       ],
       "impact": "Possible crashes on Apple Silicon (M1/M2/M3) if MoltenVK does not support VK_KHR_buffer_device_address",
       "issue_title_suggestion": "fix(acceleration): add MoltenVK VK_KHR_buffer_device_address capability probe in vulkan_backend_full.cpp",
@@ -85,7 +87,7 @@
       "expected": "Double-buffering of staging buffers to overlap host→device DMA with shader dispatch",
       "observed": "Not implemented",
       "evidence": [
-        "src/acceleration/FUTURE_ENHANCEMENTS.md: '[ ] Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch'"
+        "src/acceleration/FUTURE_ENHANCEMENTS.md: '[ ] Implement double-buffering of staging buffers ... — see [9]'"
       ],
       "impact": "Sub-optimal throughput for large batch sizes (no DMA-shader overlap)",
       "issue_title_suggestion": "perf(acceleration): implement double-buffered staging in vulkan_backend_full.cpp",
@@ -94,18 +96,18 @@
     {
       "id": "ACC-006",
       "severity": "low",
-      "title": "ROADMAP Phase 3 Status Error: Fallback/Retry (#1387) is Implemented",
-      "claim_source": "src/acceleration/ROADMAP.md — Phase 3, Issue: #1387",
-      "file": "include/acceleration/kernel_fallback_dispatcher.h",
-      "expected": "ROADMAP Phase 3 #1387 marked [x] — ANNKernelFallbackDispatcher and GeoKernelFallbackDispatcher implement retry with exponential back-off",
-      "observed": "ROADMAP marks #1387 as [I] (issue open); but kernel_fallback_dispatcher.h implements retry + CPU fallback for DeviceLost/OperationTimeout/SynchronizationFailed. Only deterministic tie-breaking (#1388) remains open.",
+      "status": "fixed",
+      "title": "ROADMAP Planned Features Stale Entry for #1387",
+      "claim_source": "src/acceleration/ROADMAP.md — Planned Features → Long-term",
+      "file": "src/acceleration/ROADMAP.md",
+      "expected": "Issue #1387 (fallback/retry) not listed as open [ ] in Planned Features since it is already done [x] in Phase 3",
+      "observed": "Stale '[ ] Fallback/retry semantics...' entry removed from Planned Features Long-term section",
       "evidence": [
-        "include/acceleration/kernel_fallback_dispatcher.h: RetryPolicy + exponential back-off implemented",
-        "src/acceleration/ROADMAP.md Phase 3: [I] for #1387"
+        "src/acceleration/ROADMAP.md Phase 3: [x] confirmed for #1387",
+        "Duplicate [ ] entry removed from Planned Features Long-term"
       ],
-      "impact": "Documentation drift only; no functional impact. Should be corrected to [x] for #1387.",
-      "issue_title_suggestion": "fix(acceleration/docs): correct ROADMAP Phase 3 status for #1387 (fallback/retry implemented)",
-      "label_suggestions": ["module:acceleration", "kind:documentation"]
+      "impact": "Documentation drift only; fixed in this pass",
+      "resolution": "Removed duplicate [ ] entry from Planned Features Long-term in ROADMAP.md"
     }
   ]
 }

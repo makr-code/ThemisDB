@@ -33,7 +33,6 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [ ] Complete OpenCL backend (1 remaining stub in `opencl_backend.cpp`) (Issue: #1379)
 ### Long-term (6-12 months)
 - [ ] Cross-backend deterministic tie-breaking and partial-failure handling (Issue: #1388)
-- [ ] Fallback/retry semantics for unsupported kernels and transient device states (Issue: #1387)
 - [I] Final production-readiness review and API stability sign-off (Issue: #1397)
 ## Implementation Phases
 
