@@ -1,13 +1,13 @@
 ---
 category: "🔄 Data Operations"
-version: "v1.3.0"
+version: "v1.5.0"
 status: "✅"
-date: "22.12.2025"
+date: "2026-03-09"
 ---
 
 # 📄 Change Data Capture (CDC)
 
-Event-Stream für Datenänderungen mit Sequence-tracking und Long-Polling.
+Event-Stream für Datenänderungen mit SSE/WebSocket-Streaming, Consumer Groups und Enterprise-Integration.
 
 ## 📋 Inhaltsverzeichnis
 
@@ -27,15 +27,31 @@ Event-Stream für Datenänderungen mit Sequence-tracking und Long-Polling.
 
 ## Overview
 
-Themis' Change Data Capture (CDC) implementation provides a minimal, append-only event log that tracks all data mutations (PUT/DELETE) in the database. This enables real-time data synchronization, audit trails, and stream processing use cases.
+ThemisDB's Change Data Capture (CDC) implementation provides a production-ready, append-only
+event log that tracks all data mutations (INSERT/UPDATE/DELETE) in the database. This enables
+real-time data synchronisation, audit trails, stream processing, and enterprise integration
+use cases.
 
-**Key Features (MVP, Stand jetzt):**
+**Implemented Features:**
 - Sequence-basiertes Ordering (monoton steigende `sequence`)
-- Automatische Erfassung für Entity-Operationen PUT/DELETE
+- Automatische Erfassung für alle Schreiboperationen (INSERT/UPDATE/DELETE)
 - Inkrementeller Abruf mit Checkpointing (`from_seq`)
-- Filterung per `key_prefix`; optionaler Event-Typ-Filter auf API-Ebene
-- Ereignisse mit Timestamp und frei erweiterbarem `metadata`
-- Long-Polling zur Latenzreduktion; experimentelles SSE-Streaming
+- Filterung per `key_prefix`, Collection und Operation-Typ
+- Ereignisse mit Timestamp, `before_snapshot`/`after_snapshot` und freiem `metadata`
+- SSE-Streaming (`GET /changefeed/stream`) und WebSocket-Streaming (`/v2/cdc/stream`)
+- Consumer Groups mit dauerhaftem Offset-Tracking (`ConsumerGroupManager`)
+- At-least-once Delivery mit Acknowledgement und Redelivery (`DeliveryTracker`)
+- Dead-Letter Queue für Events, die alle Retry-Versuche erschöpft haben (`DeadLetterQueue`)
+- Kafka-Produzent (Debezium-Envelope-Format, opt-in via `THEMIS_ENABLE_KAFKA`)
+- Transactional Outbox Pattern für atomares CDC + Application-Publishing (`OutboxWriter`, `OutboxRelay`)
+- Cross-Collection aggregierte Streams mit per-Collection Resume-Cursor
+- CDC-gesteuerte inkrementelle Materialized Views (O(1) pro Änderung)
+- GDPR-konforme PII-Redaktion; Change Stream Kompression
+- Schema Registry Integration (Confluent Wire Format)
+
+> **Primäre Quellen:** [`src/cdc/README.md`](../../../src/cdc/README.md) ·
+> [`src/cdc/ARCHITECTURE.md`](../../../src/cdc/ARCHITECTURE.md) ·
+> [`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md)
 
 ---
 
@@ -239,18 +255,17 @@ for (const event of events.events) {
 
 ## Performance & Skalierung
 
-Aktueller Stand (MVP):
-- Einfache, direkte Speicherung in RocksDB (append-only)
-- Sequenzvergabe zentral; ausreichend für moderate Schreibraten
-- Long-Poll als einfaches Warten mit kurzer Sleep-Periode (~50ms)
+Aktueller Stand (Production):
+- Lock-freier Ring-Buffer pro Tenant (MPSC Queue) mit konfigurierbarem High-Water-Mark
+- Backpressure: bei Erreichen des High-Water-Mark werden älteste Events verdrängt + Gap-Marker eingefügt
+- Batch-SSE-Frames: mehrere Events werden unter Last in einem Frame gebündelt
+- Change Log Compaction: veraltete Log-Segmente werden kompaktiert und archiviert
+- Konfiguration: `cdc.buffer.max_events_per_tenant` (default 100 000), `cdc.buffer.high_watermark_pct` (default 80 %)
 
-Mögliche Erweiterungen (zukünftig):
-1. RocksDB WAL Tailing für geringere Latenz
-2. Batch-Sequenzvergabe (z. B. Blöcke reservieren)
-3. Dedizierte Column Family für CDC
-4. Automatische Retention/TTL
-5. Push-basierte Benachrichtigungen (WebSocket)
-6. Integration in Kafka
+Für sehr hohe Last (> 100 000 Events/s) empfehlen sich:
+1. Kafka-Backend (`KafkaCDCProducer`) für entkoppeltes Buffering
+2. Dedizierte Column Family für das Change Log (konfigurierbar)
+3. Mehrere Consumer Groups zur Parallelisierung der Verarbeitung
 
 ---
 
@@ -318,10 +333,11 @@ dlq.drain();
 
 ### Current Limitations
 
-1. **No Transaction Isolation:** Events are recorded per-mutation, not per-transaction
-2. **No Backpressure:** Unlimited event accumulation (manual cleanup required)
-3. **Sequential Sequence Generation:** Single point of contention at high write rates
-4. **Polling-based Long-poll:** 50ms granularity, not instant
+1. **At-least-once (nicht SSE):** At-least-once Delivery ist via `ConsumerGroupManager` implementiert; für reine SSE-Verbindungen (ohne Consumer Group) gilt kein At-least-once-Guarantee.
+2. **Outbox Relay:** In-Flight-State des Outbox-Relay liegt im Memory; FAILED-Records überleben Restarts, PENDING-Records werden nach Restart erneut zugestellt (at-least-once Semantik).
+3. **DLQ:** Events, die wegen Payload-Dekompressionsfehlern verworfen werden, landen **nicht** in der DLQ (Daten sind nicht wiederherstellbar).
+4. **Kafka:** `KafkaCDCProducer` erfordert das Build-Flag `THEMIS_ENABLE_KAFKA` und eine librdkafka-Installation.
+5. **Change log Retention:** Retention-Policies sind zur Laufzeit nicht konfigurierbar (Admin-Endpoint `POST /changefeed/retention` erlaubt manuelles Trimming).
 
 ### Trade-offs
 
@@ -451,12 +467,11 @@ curl http://localhost:8765/changefeed?from_seq=0&limit=1
 
 ## Next Steps
 
-### Geplante Erweiterungen
-1. **RocksDB WAL Tailing:** Real-time event streaming
-2. **Transaction-level Events:** Group mutations by transaction
-3. **Event Notifications:** WebSocket/SSE for push-based updates
-4. **Kafka Integration:** Stream to Kafka topics
-5. **Schema Evolution:** Track schema changes in metadata
+### Offene Punkte
+
+Alle zuvor geplanten CDC-Features sind implementiert. Verbleibende Einschränkungen sind im
+Abschnitt *Limitations & Trade-offs* beschrieben. Für den aktuellen Entwicklungsstand siehe
+[`src/cdc/ROADMAP.md`](../../../src/cdc/ROADMAP.md).
 
 ---
 

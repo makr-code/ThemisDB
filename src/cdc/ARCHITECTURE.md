@@ -43,6 +43,13 @@ the `ICDCTransport` abstract interface (`include/cdc/icdc_transport.h`).
 | `changefeed_buffer.cpp` | Per-tenant in-memory ring buffer for pending events |
 | `tenant_buffer_manager.cpp` | Manages per-tenant buffer lifecycle and quota enforcement |
 | `cdc_admin.cpp` | Admin API: list/create/delete subscriptions, flush buffers |
+| `ws_transport.cpp` | WebSocket transport backend (`WsTransport`, implements `ICDCTransport`) |
+| `cdc_ws_handler.cpp` | WebSocket HTTP handler: wires CDC streams into the HTTP server |
+| `consumer_group.cpp` | Consumer group semantics with durable offset tracking (`ConsumerGroupManager`) |
+| `delivery_tracker.cpp` | At-least-once delivery with redelivery and acknowledgement (`DeliveryTracker`) |
+| `dead_letter_queue.cpp` | Persistence for events that exhaust delivery retries (`DeadLetterQueue`) |
+| `outbox.cpp` | Transactional outbox pattern for atomic CDC + application data publishing (`OutboxWriter`, `OutboxRelay`) |
+| `cross_collection_stream.cpp` | Cross-collection change aggregation (`CrossCollectionStream`) |
 | `cdc_materialized_view.cpp` | CDC-driven incremental materialized view maintenance: bridges `Changefeed::ChangeEvent` to `analytics::IncrementalViewManager` |
 | `kafka_cdc_producer.cpp` | Kafka transport backend: polls changefeed and publishes events to Apache Kafka topics via librdkafka (opt-in, `THEMIS_ENABLE_KAFKA`) |
 | `icdc_transport.h` | Abstract transport interface (`ICDCTransport`) implemented by all CDC delivery backends |

@@ -30,7 +30,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **auth** | ✅ Production-ready | [src/auth/ROADMAP.md](src/auth/ROADMAP.md) |
 | **base** | ✅ Production-ready | [src/base/ROADMAP.md](src/base/ROADMAP.md) |
 | **cache** | ✅ Production-ready | [src/cache/ROADMAP.md](src/cache/ROADMAP.md) |
-| **cdc** | 🟡 Beta — SSE streaming complete, WebSocket/Kafka planned | [src/cdc/ROADMAP.md](src/cdc/ROADMAP.md) |
+| **cdc** | ✅ Production-ready | [src/cdc/ROADMAP.md](src/cdc/ROADMAP.md) |
 | **chimera** | 🔴 Alpha — ThemisDB adapter functional; vendor adapters planned | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
 | **config** | ✅ Production-ready | [src/config/ROADMAP.md](src/config/ROADMAP.md) |
 | **content** | 🟡 Beta — MIME/text extraction complete, OCR/audio planned | [src/content/ROADMAP.md](src/content/ROADMAP.md) |

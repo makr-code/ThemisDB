@@ -36,12 +36,13 @@
 *(no open short-term items -- all previously planned features are implemented)*
 
 ### Long-term (6-12 months)
+*(no open items — all previously planned features are implemented)*
 
 ## Implementation Phases
 
 ### Phase 1: Changefeed and SSE Streaming (Status: Completed)
 - [x] Implemented changefeed engine tracking insert/update/delete events per collection
-- [x] Implemented Server-Sent Events (SSE) streaming transport (`cdc/sse_transport.cpp`)
+- [x] Implemented Server-Sent Events (SSE) streaming transport (embedded in `cdc/changefeed.cpp`)
 - [x] Implemented persistent change log with append-only storage
 - [x] Implemented subscription management with per-collection and per-key filters
 - [x] Implemented historical change replay from stored change log offset
