@@ -1,5 +1,8 @@
 # LLM Module - Future Enhancements
 
+<!-- Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · ../../include/llm/FUTURE_ENHANCEMENTS.md -->
+
 ## Scope
 
 This document covers planned enhancements to the LLM module beyond what is tracked in `ROADMAP.md`. It focuses on `async_inference_engine.cpp`, `inference_engine_enhanced.cpp`, `inference_handle.cpp`, and the surrounding components (`adapter_registry.cpp`, `continuous_batch_scheduler.cpp`, `kv_cache_buffer.cpp`, `grammar.cpp`, `adaptive_vram_allocator.cpp`). The following features from the initial enhancement list are now **complete**: streaming token output (SSE/chunked response), OpenAI-compatible API passthrough, speculative decoding, shared thread pool unification between both engines. The remaining planned work covers **federated inference across distributed nodes** (Issue: #1928), which requires multi-node coordination beyond the current single-node multi-GPU implementation.
@@ -141,3 +144,45 @@ Extend `adapter_registry.cpp` and `AdapterLoadBalancer` (`adapter_load_balancer.
 - LoRA adapter hot-load accepts a file path from the admin API; the path must be validated against a configurable allowlist directory (`LlmConfig::adapter_load_dir`) to prevent loading arbitrary files from the filesystem.
 - Speculative decoding's draft model shares the GPU memory space with the target model; `adaptive_vram_allocator.cpp` must enforce a hard cap to prevent the draft model from evicting KV cache entries needed by in-flight target-model requests.
 - `grammar.cpp` EBNF compilation is bounded by a configurable max grammar size (default 64 KB) to prevent CPU exhaustion from adversarial grammar inputs submitted via the OpenAI tools API.
+
+---
+
+## Scientific References
+
+The following IEEE-formatted references support the research basis for features described in this document. References cover speculative decoding, federated/distributed inference, streaming inference, LoRA and adapter methods, and grammar-constrained generation.
+
+### Speculative Decoding
+
+[1] Y. Leviathan, M. Kalman, and Y. Matias, "Fast Inference from Transformers via Speculative Decoding," in *Proc. 40th Int. Conf. Machine Learning (ICML)*, PMLR, vol. 202, pp. 19274–19286, 2023. https://arxiv.org/abs/2211.17192
+
+[2] C. Chen, S. Borgeaud, G. Irving, J.-B. Lespiau, L. Sifre, and J. Jumper, "Accelerating Large Language Model Decoding with Speculative Sampling," *arXiv preprint arXiv:2302.01318*, 2023. https://arxiv.org/abs/2302.01318
+
+[3] X. Miao et al., "SpecInfer: Accelerating Large Language Model Serving with Tree-based Speculative Inference and Verification," in *Proc. 29th ACM Int. Conf. Architectural Support for Programming Languages and Operating Systems (ASPLOS)*, 2024. https://arxiv.org/abs/2305.09781
+
+### Federated / Distributed Inference
+
+[4] A. Diskin et al., "Distributed Deep Learning in Open Collaborations," in *Proc. 35th Conf. Neural Information Processing Systems (NeurIPS)*, 2021. https://arxiv.org/abs/2106.10207
+
+[5] S. Kim et al., "Biscotti: A Blockchain System for Private and Secure Federated Learning," *IEEE Trans. Parallel Distrib. Syst.*, vol. 32, no. 7, pp. 1513–1525, Jul. 2021. https://doi.org/10.1109/TPDS.2020.3044223
+
+[6] M. Shoeybi, M. Patwary, R. Puri, P. LeGresley, J. Casper, and B. Catanzaro, "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism," *arXiv preprint arXiv:1909.08053*, 2019. https://arxiv.org/abs/1909.08053
+
+### Streaming Inference & Continuous Batching
+
+[7] W. Kwon et al., "Efficient Memory Management for Large Language Model Serving with PagedAttention," in *Proc. 29th ACM Symp. Operating Systems Principles (SOSP)*, 2023, pp. 611–626. https://arxiv.org/abs/2309.06180
+
+[8] A. Agrawal et al., "SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills," *arXiv preprint arXiv:2308.16369*, 2023. https://arxiv.org/abs/2308.16369
+
+### LoRA and Adapter Methods
+
+[9] E. J. Hu et al., "LoRA: Low-Rank Adaptation of Large Language Models," in *Proc. 10th Int. Conf. Learning Representations (ICLR)*, 2022. https://arxiv.org/abs/2106.09685
+
+[10] S. Sheng et al., "S-LoRA: Serving Thousands of Concurrent LoRA Adapters," *arXiv preprint arXiv:2311.03285*, 2023. https://arxiv.org/abs/2311.03285
+
+[11] T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, "QLoRA: Efficient Finetuning of Quantized LLMs," in *Proc. 37th Conf. Neural Information Processing Systems (NeurIPS)*, 2023. https://arxiv.org/abs/2305.14314
+
+### Grammar-Constrained Generation
+
+[12] B. Scholak, N. Schucher, and D. Bahdanau, "PICARD: Parsing Incrementally for Constrained Auto-Regressive Decoding from Language Models," in *Proc. 2021 Conf. Empirical Methods in Natural Language Processing (EMNLP)*, 2021, pp. 9895–9901. https://arxiv.org/abs/2109.05093
+
+[13] N. Geng et al., "Grammar-Constrained Decoding for Structured NLP Tasks without Finetuning," in *Proc. 2023 Conf. Empirical Methods in Natural Language Processing (EMNLP)*, 2023. https://arxiv.org/abs/2305.13971

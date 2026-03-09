@@ -1,6 +1,8 @@
 # LLM Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Roadmap-Status: current | validated: 2026-03-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 ## Current Status
 v1.16.0 – Full-featured production LLM module. All short-term and long-term planned features have been implemented. Key additions since v1.15.0:
