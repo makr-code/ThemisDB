@@ -65,7 +65,10 @@ jobs:
             echo "changes=true" >> $GITHUB_OUTPUT
             echo "Changes detected"
           fi
-      
+          
+      - name: Pull latest changes for develop
+        run: git pull origin develop
+  
       - name: Commit and push changes
         if: github.event.inputs.dry_run != 'true' && steps.check_changes.outputs.changes == 'true'
         run: |
