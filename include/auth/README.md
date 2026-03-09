@@ -13,13 +13,41 @@ Public interfaces and declarations for the ThemisDB authentication module.
 
 ## Overview
 
-This directory contains the public API headers for ThemisDB's authentication system. These headers define the interfaces for JWT validation, Kerberos/GSSAPI authentication, and multi-factor authentication (MFA).
+This directory contains the public API headers for ThemisDB's authentication system.
+These headers define the interfaces for all authentication methods, security utilities,
+session management, audit logging, and metrics.
 
 ### Key Components
 
-- **JWT Validator**: OpenID Connect token validation with RS256 signature verification
-- **GSSAPI Authenticator**: Kerberos/GSSAPI enterprise SSO integration
-- **MFA Authenticator**: TOTP-based multi-factor authentication with recovery codes
+| Header | Key Classes | Purpose |
+|--------|---------------|---------|
+| `jwt_validator.h` | `JWTValidator`, `JWTClaims`, `JWTValidatorConfig` | JWT/OpenID Connect token validation with RS256/ES256/EdDSA |
+| `gssapi_authenticator.h` | `GSSAPIAuthenticator`, `KerberosConfig` | Kerberos/GSSAPI enterprise SSO |
+| `mfa_authenticator.h` | `MFAAuthenticator` | TOTP-based MFA with recovery codes (RFC 6238) |
+| `kerberos_security.h` | `KerberosSecurityValidator`, `ChannelBindingGenerator` | Kerberos-specific security validations |
+| `oauth_device_flow.h` | `OAuthDeviceFlow` | OAuth 2.0 Device Authorization Grant (RFC 8628) |
+| `oauth_pkce_flow.h` | `OAuthPKCEFlow` | OAuth 2.0 Authorization Code + PKCE (RFC 7636) |
+| `oidc_provider.h` | `OIDCProvider`, `OIDCProviderConfig` | OIDC provider discovery and federation |
+| `saml_authenticator.h` | `SAMLAuthenticator`, `SAMLConfig`, `SAMLClaims` | SAML 2.0 SP/IdP-initiated SSO |
+| `ldap_authenticator.h` | `LDAPAuthenticator`, `LDAPConfig` | LDAP/Active Directory direct bind |
+| `mtls_authenticator.h` | `MTLSAuthenticator`, `MTLSClaims` | Mutual TLS client certificate authentication |
+| `webauthn_authenticator.h` | `WebAuthnAuthenticator` | WebAuthn/FIDO2 hardware token support |
+| `api_key_authenticator.h` | `ApiKeyAuthenticator`, `ApiKeyCredential` | Static API key + secret authentication |
+| `federated_identity_manager.h` | `FederatedIdentityManager` | Multi-realm federated identity |
+| `session_manager.h` | `SessionManager` | Session lifecycle management with revocation |
+| `token_blacklist.h` | `TokenBlacklist` | Revoked token tracking (JTI-based) |
+| `password_policy.h` | `PasswordPolicy` | Configurable password complexity enforcement |
+| `principal_validator.h` | `PrincipalValidator`, `PrincipalValidatorPresets` | Principal format validation and role mapping |
+| `auth_rate_limiter.h` | `AuthRateLimiter`, `AccountLockoutManager` | Brute-force and replay attack rate limiting |
+| `auth_metrics.h` | `AuthMetrics`, `AuthDurationTimer` | Authentication latency and success/failure metrics |
+| `auth_audit_logger.h` | `AuthAuditLogger` | Audit logging for all authentication events |
+| `auth_error.h` | `AuthError`, `AuthException`, `AuthErrorCode` | Structured authentication error types |
+| `jwks_validator.h` | `JWKSValidator` | JWKS endpoint validation and key fetching |
+| `jwks_security.h` | `JWKSSecureFetcher`, `JWKSSecurityConfig` | JWKS security validation and key verification |
+| `jwt_key_rotation_manager.h` | `JWTKeyRotationManager` | Automated JWT signing key rotation |
+| `totp_replay_cache.h` | `TOTPReplayCache`, `SecureMFAValidator` | One-time code replay prevention |
+| `totp_secret_encryption.h` | `TOTPSecretEncryption`, `TOTPSecretRotationManager` | Encrypted TOTP secret storage |
+| `zero_trust_auth_verifier.h` | `ZeroTrustAuthVerifier` | Continuous per-request identity verification |
 
 ## Header Files
 
@@ -149,6 +177,364 @@ if (mfa.validateTOTP(enrollment.secret_base32, user_entered_code)) {
 - Recovery codes are single-use only
 - Rate limiting should be applied externally
 - Time window prevents replay attacks
+
+---
+
+### kerberos_security.h
+
+**Purpose:** Kerberos-specific security validations and channel binding utilities
+
+**Key Classes:**
+
+- `KerberosSecurityValidator`: Ticket and token security validation
+- `ChannelBindingGenerator`: Channel binding token generation for CBT
+
+**Thread Safety:** Yes
+
+---
+
+### oauth_device_flow.h
+
+**Purpose:** OAuth 2.0 Device Authorization Grant for headless/CLI authentication (RFC 8628)
+
+**Key Classes:**
+
+- `OAuthDeviceFlow`: Device flow orchestrator
+
+**Example:**
+
+```cpp
+#include "auth/oauth_device_flow.h"
+
+using namespace themis::auth;
+
+OAuthDeviceFlow flow(authorization_endpoint, token_endpoint, client_id);
+auto response = flow.startDeviceAuthorization({"openid", "profile"});
+// Display response.verification_uri and response.user_code to user
+auto token = flow.pollForToken(response.device_code, response.interval);
+```
+
+**Thread Safety:** Yes
+
+---
+
+### oauth_pkce_flow.h
+
+**Purpose:** OAuth 2.0 Authorization Code Grant with PKCE for public clients (RFC 7636)
+
+**Key Classes:**
+
+- `OAuthPKCEFlow`: PKCE flow orchestrator
+
+**Example:**
+
+```cpp
+#include "auth/oauth_pkce_flow.h"
+
+using namespace themis::auth;
+
+OAuthPKCEFlow flow(authorization_endpoint, token_endpoint, client_id, redirect_uri);
+auto [auth_url, code_verifier] = flow.generateAuthorizationURL({"openid", "profile"});
+// Redirect user to auth_url
+auto token = flow.exchangeCodeForToken(authorization_code, code_verifier);
+```
+
+**Thread Safety:** Yes
+
+---
+
+### oidc_provider.h
+
+**Purpose:** OIDC provider discovery, configuration, and federation
+
+**Key Classes:**
+
+- `OIDCProvider`: Provider discovery and token handling
+- `OIDCProviderConfig`: Provider configuration
+- `OIDCDiscoveryDocument`: Well-known OIDC discovery document
+
+**Thread Safety:** Yes (discovery document cached with mutex)
+
+---
+
+### saml_authenticator.h
+
+**Purpose:** SAML 2.0 SP-initiated and IdP-initiated Single Sign-On
+
+**Key Classes:**
+
+- `SAMLAuthenticator`: SAML 2.0 authenticator
+- `SAMLConfig`: SAML configuration (IdP metadata, SP entity ID, certificates)
+- `SAMLClaims`: Extracted SAML assertion attributes
+- `AuthnRequestParams`: Parameters for authentication request generation
+
+**Thread Safety:** Yes
+
+---
+
+### ldap_authenticator.h
+
+**Purpose:** LDAP/Active Directory direct bind authentication
+
+**Key Classes:**
+
+- `LDAPAuthenticator`: LDAP bind authenticator
+- `LDAPConfig`: LDAP connection and search configuration
+- `LDAPAuthResult`: Authentication result with user attributes
+
+**Example:**
+
+```cpp
+#include "auth/ldap_authenticator.h"
+
+using namespace themis::auth;
+
+LDAPConfig cfg;
+cfg.server_uri = "ldaps://dc.example.com:636";
+cfg.bind_dn_template = "uid={user},ou=people,dc=example,dc=com";
+LDAPAuthenticator ldap(cfg);
+
+auto result = ldap.authenticate("alice", "secret");
+if (result.success) {
+    // result.dn, result.attributes, result.roles available
+}
+```
+
+**Thread Safety:** Yes (one connection per call)
+
+---
+
+### mtls_authenticator.h
+
+**Purpose:** Mutual TLS client certificate authentication for service-to-service access
+
+**Key Classes:**
+
+- `MTLSAuthenticator`: Certificate validation and principal extraction
+- `MTLSClaims`: Certificate subject, SAN, and organizational attributes
+
+**Thread Safety:** Yes
+
+---
+
+### webauthn_authenticator.h
+
+**Purpose:** WebAuthn/FIDO2 hardware token, passkey, and biometric authentication
+
+**Key Classes:**
+
+- `WebAuthnAuthenticator`: WebAuthn credential registration and assertion verification
+
+**Thread Safety:** Yes
+
+---
+
+### api_key_authenticator.h
+
+**Purpose:** Static API key + secret authentication for service accounts and integrations
+
+**Key Classes:**
+
+- `ApiKeyAuthenticator`: Key validation and metadata lookup
+- `ApiKeyCredential`: Key credential including permissions and expiry
+- `ApiKeyClaims`: Extracted API key claims
+
+**Thread Safety:** Yes
+
+---
+
+### federated_identity_manager.h
+
+**Purpose:** Unified identity namespace across multiple identity realms and providers
+
+**Key Classes:**
+
+- `FederatedIdentityManager`: Multi-provider identity federation and principal bridging
+- `FederatedValidationResult`: Federated authentication result
+
+**Thread Safety:** Yes
+
+---
+
+### session_manager.h
+
+**Purpose:** Session lifecycle management with idle/absolute timeouts and revocation
+
+**Key Classes:**
+
+- `SessionManager`: Session creation, validation, refresh, and revocation
+
+**Thread Safety:** Yes (internal mutex on session map)
+
+---
+
+### token_blacklist.h
+
+**Purpose:** Revoked token tracking by JTI (JWT ID) for logout and forced revocation
+
+**Key Classes:**
+
+- `TokenBlacklist`: JTI-based revocation store (in-memory with optional RocksDB persistence)
+
+**Thread Safety:** Yes
+
+---
+
+### password_policy.h
+
+**Purpose:** Configurable password complexity, history, and expiry enforcement
+
+**Key Classes:**
+
+- `PasswordPolicy`: Policy evaluation and enforcement
+- `PolicyEngine` (forward-declared): Structured JSON policy engine
+
+**Thread Safety:** Yes (stateless evaluation)
+
+---
+
+### principal_validator.h
+
+**Purpose:** Principal format validation, normalization, and role mapping
+
+**Key Classes:**
+
+- `PrincipalValidator`: Validates and maps principals to roles
+- `PrincipalValidatorPresets`: Factory for common preset configurations
+
+**Thread Safety:** Yes
+
+---
+
+### auth_rate_limiter.h
+
+**Purpose:** Brute-force and replay attack rate limiting with exponential backoff
+
+**Key Classes:**
+
+- `AuthRateLimiter`: Per-identity token bucket rate limiter
+- `AccountLockoutManager`: Temporary lockout after repeated failures
+- `AuthRateLimitConfig`: Configuration (max attempts, window, lockout duration)
+- `AuthAnomalyEvent`: Anomaly detection event
+
+**Thread Safety:** Yes (lock-free per-identity buckets)
+
+---
+
+### auth_metrics.h
+
+**Purpose:** Prometheus-compatible authentication latency, success, and failure metrics
+
+**Key Classes:**
+
+- `AuthMetrics`: Counters and histograms for auth operations
+- `AuthDurationTimer`: RAII timer for measuring authentication duration
+- `AuthMethod`: Enum of supported authentication methods
+
+**Thread Safety:** Yes (atomic counters)
+
+---
+
+### auth_audit_logger.h
+
+**Purpose:** Structured audit logging for all authentication events
+
+**Key Classes:**
+
+- `AuthAuditLogger`: Event logger delegating to the utils audit subsystem
+
+**Thread Safety:** Yes
+
+---
+
+### auth_error.h
+
+**Purpose:** Structured authentication error types for consistent error handling
+
+**Key Classes:**
+
+- `AuthError`: Structured error with code, message, and context
+- `AuthException`: Throwable wrapper around `AuthError`
+- `AuthErrorCode`: Enum of all authentication error codes
+
+**Thread Safety:** N/A (value types)
+
+---
+
+### jwks_validator.h
+
+**Purpose:** JWKS endpoint fetching, caching, and key-by-`kid` lookup
+
+**Key Classes:**
+
+- `JWKSValidator`: JWKS document fetcher with retry and in-memory cache
+
+**Thread Safety:** Yes (mutex-protected cache)
+
+---
+
+### jwks_security.h
+
+**Purpose:** Security validation of JWKS keys (algorithm allow-list, expiry, key strength)
+
+**Key Classes:**
+
+- `JWKSSecureFetcher`: Security-hardened JWKS fetcher
+- `JWKSSecurityConfig`: Algorithm allow-list and validation options
+- `CertificateUtils`: X.509 certificate parsing utilities
+- `JWKKeyInfo`: Key metadata extracted from a JWK entry
+
+**Thread Safety:** Yes
+
+---
+
+### jwt_key_rotation_manager.h
+
+**Purpose:** Automated JWT signing key rotation with zero-downtime overlap period
+
+**Key Classes:**
+
+- `JWTKeyRotationManager`: Rotation scheduler and key lifecycle manager
+
+**Thread Safety:** Yes
+
+---
+
+### totp_replay_cache.h
+
+**Purpose:** One-time code replay prevention via a lock-free ring buffer
+
+**Key Classes:**
+
+- `TOTPReplayCache`: O(1) lock-free cache for used TOTP codes
+- `SecureMFAValidator`: Combines replay-prevention with TOTP validation
+
+**Thread Safety:** Yes (lock-free)
+
+---
+
+### totp_secret_encryption.h
+
+**Purpose:** Encrypted TOTP secret storage using AES-256-GCM or libsodium secretbox
+
+**Key Classes:**
+
+- `TOTPSecretEncryption`: Encrypt/decrypt TOTP secrets
+- `TOTPSecretRotationManager`: Key rotation for stored TOTP secrets
+
+**Thread Safety:** Yes
+
+---
+
+### zero_trust_auth_verifier.h
+
+**Purpose:** Continuous per-request identity and network policy verification (zero-trust model)
+
+**Key Classes:**
+
+- `ZeroTrustAuthVerifier`: Per-request trust score evaluation and policy enforcement
+
+**Thread Safety:** Yes
 
 ---
 
@@ -622,15 +1008,35 @@ response.sendError(401, "Invalid MFA code");
 
 ### Thread-Safe Components
 
-**JWTValidator:**
-- ✅ Thread-safe (JWKS cache internally synchronized)
-- Can be shared across threads
-- JWKS cache uses mutex for concurrent access
+All components except `GSSAPIAuthenticator` are thread-safe and can be shared across threads:
 
-**MFAAuthenticator:**
-- ✅ Thread-safe (stateless validation)
-- Can be shared across threads
-- No mutable state during validation
+| Component | Thread-Safe | Notes |
+|-----------|-------------|-------|
+| `JWTValidator` | ✅ Yes | JWKS cache uses internal mutex |
+| `MFAAuthenticator` | ✅ Yes | Stateless validation |
+| `OAuthDeviceFlow` | ✅ Yes | Immutable after construction |
+| `OAuthPKCEFlow` | ✅ Yes | Immutable after construction |
+| `OIDCProvider` | ✅ Yes | Discovery doc cached with mutex |
+| `SAMLAuthenticator` | ✅ Yes | Stateless per-request validation |
+| `LDAPAuthenticator` | ✅ Yes | New connection per call |
+| `MTLSAuthenticator` | ✅ Yes | Stateless certificate validation |
+| `WebAuthnAuthenticator` | ✅ Yes | |
+| `ApiKeyAuthenticator` | ✅ Yes | Immutable key store |
+| `FederatedIdentityManager` | ✅ Yes | |
+| `SessionManager` | ✅ Yes | Internal mutex on session map |
+| `TokenBlacklist` | ✅ Yes | |
+| `PasswordPolicy` | ✅ Yes | Stateless evaluation |
+| `PrincipalValidator` | ✅ Yes | |
+| `AuthRateLimiter` | ✅ Yes | Lock-free per-identity buckets |
+| `AuthMetrics` | ✅ Yes | Atomic counters |
+| `AuthAuditLogger` | ✅ Yes | |
+| `JWKSValidator` | ✅ Yes | Mutex-protected cache |
+| `JWKSSecureFetcher` | ✅ Yes | |
+| `JWTKeyRotationManager` | ✅ Yes | |
+| `TOTPReplayCache` | ✅ Yes | Lock-free ring buffer |
+| `TOTPSecretEncryption` | ✅ Yes | |
+| `ZeroTrustAuthVerifier` | ✅ Yes | |
+| `KerberosSecurityValidator` | ✅ Yes | |
 
 ### Non-Thread-Safe Components
 
@@ -713,10 +1119,15 @@ if (!result.success) {
 ## Compliance
 
 ### Standards Implemented
+
 - ✅ RFC 6238 (TOTP)
 - ✅ RFC 7519 (JWT)
+- ✅ RFC 7636 (OAuth 2.0 PKCE)
+- ✅ RFC 8628 (OAuth 2.0 Device Authorization Grant)
 - ✅ RFC 4120 (Kerberos v5)
 - ✅ OpenID Connect Core 1.0
+- ✅ SAML 2.0 (Web Browser SSO Profile)
+- ✅ WebAuthn Level 2 / FIDO2
 - ✅ NIST SP 800-63B Level 2
 - ✅ SOC 2 CC6.1
 
@@ -728,10 +1139,11 @@ See `../../src/auth/` for the implementation code.
 
 ## Full Documentation
 
-- [Authentication Module README](../../src/auth/README.md) - Comprehensive guide
-- [Future Enhancements](../../src/auth/FUTURE_ENHANCEMENTS.md) - Planned features
-- [Kerberos Setup Guide](../../docs/en/security/KERBEROS_AUTHENTICATION.md)
-- [RBAC Authorization](../../docs/rbac_authorization.md)
+- [Authentication Module README](../../src/auth/README.md) — Comprehensive guide
+- [Architecture Guide](../../src/auth/ARCHITECTURE.md) — Component design and data flows
+- [Roadmap](../../src/auth/ROADMAP.md) — Implementation status and planned features
+- [Future Enhancements](../../src/auth/FUTURE_ENHANCEMENTS.md) — Planned features
+- [Secondary Docs (DE)](../../docs/de/auth/README.md) — German-language overview
 
 ## Related Headers
 
