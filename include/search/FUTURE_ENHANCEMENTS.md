@@ -154,7 +154,33 @@ Key API surface:
 
 ---
 
-## Planned for v1.6.0
+## Delivered in v2.1.0
+
+### SearchHighlighter API (`include/search/search_highlighter.h`)
+**Status:** ✅ Delivered in v2.1.0 (Issue #2457)
+
+`SearchHighlighter` provides highlight and snippet generation for matched search
+terms in document text, enabling rich result presentation.
+
+Key API surface:
+- `highlight(text, terms)` — wraps every occurrence of a query term in `text` with
+  configurable open/close markup tags (default `<em>` / `</em>`); case-insensitive,
+  word-boundary matching, original capitalisation preserved
+- `highlight(text, query)` — convenience overload: tokenises the raw query string first
+- `highlight(text, terms_vector)` — overload accepting a pre-split term list
+- `snippet(text, terms)` — extracts a short excerpt (≤ `Config::window_size` chars)
+  centred on the densest cluster of query-term matches, with terms highlighted and
+  `Config::separator` prepended/appended where the text is truncated
+- `snippet(text, query)` / `snippet(text, terms_vector)` — convenience overloads
+- `snippet(..., window_size)` — per-call window size override
+- `setConfig(config)` — runtime config replacement
+- `tokenize(query)` — public static helper: splits and lower-cases a raw query string
+- `applyHighlight(text, terms, open_tag, close_tag)` — public static helper, directly testable
+- `bestWindowOffset(lower_text, terms, window_size)` — public static helper for snippet offset
+- `Config` fields: `open_tag`, `close_tag`, `separator`, `window_size`, `max_window_size`
+
+---
+
 
 - **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
 - **Multi-namespace VectorIndexManager**: one instance per modality namespace
@@ -194,6 +220,6 @@ Key API surface:
 
 ---
 
-*Last Updated: February 2026*  
-*Current API Version: v1.9.0*  
-*Next Target: v2.0.0*
+*Last Updated: March 2026*  
+*Current API Version: v2.1.0*  
+*Next Target: v2.2.0*

@@ -1797,6 +1797,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/multi_field_search.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/neural_sparse_retrieval.cpp
+    ../src/search/search_highlighter.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
