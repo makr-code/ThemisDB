@@ -1,18 +1,30 @@
 # ThemisDB Server Module
 
+**Last Updated:** March 2026  
+**Version:** 1.x  
+**Validated:** 2026-03-09
+
 ## Module Purpose
 
-The Server module provides ThemisDB's complete API surface, network protocol implementations, and client-facing services. Built on Boost.Beast and Boost.Asio, it handles HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, and gRPC, exposing a comprehensive REST API with 40+ specialized endpoints for multi-model data operations, governance, and observability.
+The Server module provides ThemisDB's complete API surface, network protocol implementations, and client-facing services. Built on Boost.Beast and Boost.Asio, it handles HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, and gRPC, exposing a comprehensive REST API with 100+ specialized endpoints for multi-model data operations, governance, and observability.
 
 ## Relevant Interfaces
 
+> **Note:** `server.cpp`, `api_handler.cpp`, and a `middleware/` sub-directory do **not** exist.
+> The actual entry points are `http_server.cpp` (HTTP listener) and `api_gateway.cpp` (routing).
+> Middleware components live as top-level files: `auth_middleware.cpp`, `rate_limiting_middleware.cpp`, `request_validation_middleware.cpp`, `cdn_cache_middleware.cpp`.
+> The `rpc/` sub-directory contains `rpc_service_impl.cpp` plus three transfer handlers.
+
 | Interface / File | Role |
 |-----------------|------|
-| `server.cpp` | Main server entry point and lifecycle management |
-| `api_handler.cpp` | HTTP request routing and handler dispatch |
+| `http_server.cpp` | Main HTTP/HTTPS server lifecycle and multi-protocol accept loop |
+| `api_gateway.cpp` | Request routing, load balancing, versioning, and federation |
 | `llm_api_handler.cpp` | LLM inference API handler (INFER, RAG, EMBED) |
-| `rpc/` | RPC handler infrastructure for gRPC services |
-| `middleware/` | Auth, logging, and rate limiting middleware |
+| `auth_middleware.cpp` | JWT, Kerberos, API-token, and USB-admin authentication |
+| `rate_limiting_middleware.cpp` | Token-bucket / sliding-window / distributed rate limiting |
+| `request_validation_middleware.cpp` | JSON-Schema per-endpoint request validation |
+| `cdn_cache_middleware.cpp` | Edge/CDN cache-control header management |
+| `rpc/rpc_service_impl.cpp` | gRPC service implementation base |
 
 ## Scope
 
