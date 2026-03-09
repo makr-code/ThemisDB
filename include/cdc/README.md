@@ -1,4 +1,6 @@
 # Cdc Module Headers
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: ../../src/cdc/README.md · ../../src/cdc/ARCHITECTURE.md · ../../src/cdc/ROADMAP.md -->
 
 This directory contains header files (.h, .hpp) for the cdc module.
 

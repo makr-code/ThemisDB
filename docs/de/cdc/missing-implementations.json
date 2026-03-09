@@ -1,0 +1,70 @@
+{
+  "module": "cdc",
+  "validated": "2026-03-09",
+  "source_commit": "bdd737e6713b382f667d9c1a3843aa97c900e160",
+  "primary_doc": "src/cdc/README.md",
+  "findings": [
+    {
+      "id": "CDC-MISSING-001",
+      "title": "Unit-Test-Coverage < 80 %",
+      "claim_source": "src/cdc/ROADMAP.md",
+      "claim_section": "Production Readiness Checklist",
+      "claim_text": "[I] Unit tests coverage > 80% (Issue: #1623)",
+      "expected": "Unit test coverage > 80% for all cdc source files",
+      "observed": "Issue #1623 is open; no coverage report in repository; partial coverage exists via test_cdc_delivery_tracker.cpp, test_cdc_debezium_format.cpp, test_cdc_outbox.cpp, test_cdc_cross_collection_stream.cpp, test_cdc_materialized_view.cpp, test_cdc_change_stream_compressor.cpp, test_cdc_schema_registry.cpp; no dedicated unit tests found for changefeed.cpp, tenant_buffer_manager.cpp, cdc_admin.cpp",
+      "checked_paths": [
+        "tests/test_cdc_delivery_tracker.cpp",
+        "tests/test_cdc_debezium_format.cpp",
+        "tests/test_cdc_outbox.cpp",
+        "tests/test_cdc_cross_collection_stream.cpp",
+        "tests/test_cdc_materialized_view.cpp",
+        "tests/test_cdc_change_stream_compressor.cpp",
+        "tests/test_cdc_schema_registry.cpp",
+        "src/cdc/changefeed.cpp",
+        "src/cdc/tenant_buffer_manager.cpp",
+        "src/cdc/cdc_admin.cpp"
+      ],
+      "evidence": "GitHub Issue #1623 open, no linked PR",
+      "severity": "medium",
+      "issue_title_suggestion": "test(cdc): increase unit test coverage to >80% (closes #1623)",
+      "label_suggestions": ["testing", "cdc", "quality"]
+    },
+    {
+      "id": "CDC-MISSING-002",
+      "title": "At-least-once delivery not guaranteed for SSE connections",
+      "claim_source": "src/cdc/ROADMAP.md",
+      "claim_section": "Completed",
+      "claim_text": "[x] At-least-once delivery guarantees with consumer acknowledgement (Issue: #1606)",
+      "expected": "At-least-once guarantee for all CDC delivery mechanisms including plain SSE",
+      "observed": "At-least-once implemented only for Consumer Groups (ConsumerGroupManager::fetchEventsAtLeastOnce() in consumer_group.cpp); SSE connections (GET /changefeed/stream) have no acknowledgement loop; connection drop causes event loss",
+      "checked_paths": [
+        "src/cdc/consumer_group.cpp",
+        "include/cdc/consumer_group.h",
+        "src/cdc/delivery_tracker.cpp",
+        "include/cdc/delivery_tracker.h",
+        "src/cdc/changefeed.cpp"
+      ],
+      "evidence": "ROADMAP Known Issues: 'At-least-once delivery is not yet guaranteed for SSE connections'; no SSE-ACK logic found in changefeed.cpp",
+      "severity": "medium",
+      "issue_title_suggestion": "feat(cdc): extend at-least-once delivery guarantee to SSE connections",
+      "label_suggestions": ["enhancement", "cdc", "reliability"]
+    },
+    {
+      "id": "CDC-MISSING-003",
+      "title": "Change log retention not runtime-configurable",
+      "claim_source": "src/cdc/ROADMAP.md",
+      "claim_section": "Completed",
+      "claim_text": "[x] Change log TTL and size-based retention policies (Issue: #1608)",
+      "expected": "Automatic time-based and size-based retention configurable at runtime without server restart",
+      "observed": "Manual admin trim via CDCAdmin::purgeOlderThan() (REST: POST /changefeed/retention) is implemented; no automatic background retention thread or runtime config hook found",
+      "checked_paths": [
+        "src/cdc/cdc_admin.cpp",
+        "include/cdc/cdc_admin.h"
+      ],
+      "evidence": "ROADMAP Known Issues: 'Change log retention policies are not configurable at runtime'; cdc_admin.cpp provides purgeOlderThan() only as manual trigger",
+      "severity": "low",
+      "issue_title_suggestion": "feat(cdc): runtime-configurable change log retention policies (TTL + size-based)",
+      "label_suggestions": ["enhancement", "cdc", "operations"]
+    }
+  ]
+}

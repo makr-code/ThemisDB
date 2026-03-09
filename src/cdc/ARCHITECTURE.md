@@ -1,7 +1,10 @@
 # CDC Module — Architecture Guide
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
+**Status:** current  
 **Module Path:** `src/cdc/`
 
 ---
