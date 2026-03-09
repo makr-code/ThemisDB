@@ -372,8 +372,6 @@ export THEMIS_ENVIRONMENT=production
 
 - [Cache Strategies Guide](../../include/core/concerns/CACHE_STRATEGIES_README.md)
 - [Architecture Overview](../../ARCHITECTURE.md)
-- [Dependency Injection Patterns](../../docs/patterns/dependency-injection.md)
-- [Observability Configuration](../../docs/configuration/observability.md)
 
 ## Contributing
 

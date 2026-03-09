@@ -1,5 +1,8 @@
 # Acceleration Backends
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Primärdokumentation: ../../../src/acceleration/ | Überblick: README.md -->
+
 **Stand:** 9. März 2026  
 **Version:** 1.0  
 **Kategorie:** GPU / Hardware-Beschleunigung
@@ -86,8 +89,9 @@ Plattformübergreifendes GPU-Backend für Geräte ohne CUDA/HIP-Unterstützung.
 **Shader-Infrastruktur:**
 - GLSL/HLSL-Shader werden zur Build-Zeit in SPIR-V kompiliert (`glslangValidator`)
 - Push Constants für `numVectors`, `dim`, `topK` (vermeidet UBO-Neuallokation pro Abfrage)
+- Doppelte Staging-Puffer für DMA-Überlappung (Host→Device und Shader-Dispatch)
 
-**Status:** ✅ Produktionsreif; alle 7 SPIR-V-Compute-Shader vollständig implementiert (`l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp`). MoltenVK-Kompatibilitätsprüfung (`VK_KHR_buffer_device_address`) und Staging-Double-Buffering sind als Optimierungen noch ausstehend (siehe `src/acceleration/FUTURE_ENHANCEMENTS.md`).
+**Status:** 🚧 Infrastruktur produktionsreif; SPIR-V-Compute-Shader in Entwicklung
 
 ---
 

@@ -1,0 +1,67 @@
+{
+  "module": "core",
+  "validated": "2026-03-09",
+  "revision": "HEAD (copilot/inventory-check-acceleration-module)",
+  "checked_paths": [
+    "src/core/",
+    "include/core/"
+  ],
+  "summary": {
+    "total": 3,
+    "critical": 0,
+    "medium": 1,
+    "low": 2
+  },
+  "entries": [
+    {
+      "id": "CORE-001",
+      "severity": "medium",
+      "title": "Plugin-based adapter loading at runtime not implemented",
+      "claim_source": "src/core/ROADMAP.md — Phase 3, Issue: #1706",
+      "file": "include/core/concerns/",
+      "expected": "Runtime loading of adapters from shared libraries without recompilation",
+      "observed": "No plugin loader or dlopen-based dynamic loading exists in include/core/concerns/ or src/core/. Adapter selection is config-string-driven but requires compile-time linking. ROADMAP correctly marks as [I] (Issue: #1706).",
+      "evidence": [
+        "include/core/concerns/: no plugin_loader.h or dlopen wrapper",
+        "src/core/: no dynamic loading implementation",
+        "src/core/ROADMAP.md Phase 3: [I] for #1706 (correctly marked)"
+      ],
+      "impact": "All adapter implementations must be compiled in; runtime adapter replacement requires restart",
+      "issue_title_suggestion": "feat(core): plugin-based adapter loading at runtime (Issue: #1706)",
+      "label_suggestions": ["module:core", "kind:feature", "priority:medium"]
+    },
+    {
+      "id": "CORE-002",
+      "severity": "low",
+      "title": "Dynamic log level adjustment at runtime not implemented",
+      "claim_source": "src/core/ROADMAP.md — Planned Features Short-term, Issue: #1412",
+      "file": "include/core/concerns/i_logger.h",
+      "expected": "ILogger::setLevel() or equivalent for runtime log level changes",
+      "observed": "ILogger has no setLevel() method. SpdlogLoggerAdapter does not expose dynamic level setting. ROADMAP correctly marks as [I] (Issue: #1412).",
+      "evidence": [
+        "include/core/concerns/i_logger.h: no setLevel() in ILogger",
+        "include/core/concerns/spdlog_logger_adapter.h: no dynamic level setter",
+        "src/core/ROADMAP.md Short-term: [I] for #1412 (correctly marked)"
+      ],
+      "impact": "Log level changes require process restart",
+      "issue_title_suggestion": "feat(core): dynamic log level adjustment at runtime (Issue: #1412)",
+      "label_suggestions": ["module:core", "kind:feature", "priority:low"]
+    },
+    {
+      "id": "CORE-003",
+      "severity": "low",
+      "title": "Audit event interface for compliance logging not implemented",
+      "claim_source": "src/core/ROADMAP.md — Planned Features Long-term, Issue: #1418",
+      "file": "include/core/concerns/",
+      "expected": "IAuditEvent interface for compliance-relevant event logging",
+      "observed": "No i_audit.h or IAuditEvent interface found in include/core/concerns/. ROADMAP correctly marks as [I] (Issue: #1418).",
+      "evidence": [
+        "include/core/concerns/: no i_audit.h",
+        "src/core/ROADMAP.md Long-term: [I] for #1418 (correctly marked)"
+      ],
+      "impact": "Compliance audit trail must be implemented at application layer",
+      "issue_title_suggestion": "feat(core): audit event interface for compliance logging (Issue: #1418)",
+      "label_suggestions": ["module:core", "kind:feature", "priority:low"]
+    }
+  ]
+}
