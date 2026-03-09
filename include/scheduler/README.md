@@ -18,7 +18,7 @@ The Scheduler headers define the public interfaces for ThemisDB's task schedulin
 - Task dependency and DAG execution definitions
 
 **Out of Scope:**
-- Distributed coordination implementation (future enhancement)
+- Distributed coordination implementation details (use `DistributedTaskCoordinator` from this module's `distributed_task_coordinator.h`)
 - Query execution logic (handled by query module)
 - Storage operations (handled by storage module)
 - Authentication and authorization (handled by auth module)
@@ -48,33 +48,77 @@ public:
         bool persist_tasks = false;
         std::string persistence_path = "data/tasks";
         bool allow_task_overlap = false;
+
+        // Audit and anomaly detection
+        bool enable_audit_logging = true;
+        bool enable_anomaly_detection = true;
+        bool enable_gdpr_mode = false;
+
+        // Result store
+        bool   enable_result_store = false;
+        size_t result_store_max_results_per_task = 100;
+
+        // Dynamic concurrency scaling (Issue #2269)
+        bool   enable_dynamic_scaling    = false;
+        size_t min_concurrent_tasks      = 1;
+        size_t max_concurrent_tasks_ceil = 16;
+        size_t scale_up_queue_depth      = 2;
+        size_t scale_down_idle_ticks     = 3;
     };
-    
-    TaskScheduler(QueryEngine* query_engine, const Config& config);
-    
+
+    // Full constructor with optional CDC, audit-logger, and result-storage support
+    explicit TaskScheduler(
+        QueryEngine* query_engine,
+        const Config& config,
+        Changefeed* changefeed       = nullptr,
+        std::shared_ptr<utils::AuditLogger> audit_logger = nullptr,
+        RocksDBWrapper* result_storage = nullptr
+    );
+
     // Lifecycle
     void start();
     void stop();
     bool isRunning() const;
-    
+
     // Task management
     std::string registerTask(const ScheduledTask& task);
     void unregisterTask(const std::string& task_id);
     void enableTask(const std::string& task_id);
     void disableTask(const std::string& task_id);
     void updateTask(const ScheduledTask& task);
-    
-    // Manual execution
+
+    // Manual and DAG execution
     nlohmann::json executeTaskNow(const std::string& task_id);
-    
+    DagExecutionResult executeDAG(const std::vector<std::string>& task_ids);
+
     // Function registration
     void registerFunction(const std::string& name, TaskFunction func);
     void unregisterFunction(const std::string& name);
-    
+
     // Monitoring
     Stats getStats() const;
+    std::string exportMetrics() const;  // Prometheus text format
     std::vector<ScheduledTask> listTasks() const;
     std::shared_ptr<ScheduledTask> getTask(const std::string& task_id) const;
+
+    // Audit history
+    std::shared_ptr<scheduler::TaskAuditManager> getAuditManager() const;
+    std::vector<scheduler::TaskAuditEvent> getExecutionHistory(
+        const std::string& task_id = "", size_t limit = 100, size_t offset = 0) const;
+
+    // Result store
+    std::vector<scheduler::TaskExecutionResult> getTaskResults(
+        const std::string& task_id, size_t limit = 10) const;
+    std::optional<scheduler::TaskExecutionResult> getLatestTaskResult(
+        const std::string& task_id) const;
+
+    // Alertmanager integration
+    void setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager);
+    std::shared_ptr<observability::Alertmanager> getAlertmanager() const;
+
+    // Dynamic scaling accessors
+    size_t getQueueDepth() const noexcept;
+    size_t getDynamicConcurrencyLimit() const noexcept;
 };
 ```
 
@@ -84,33 +128,50 @@ struct ScheduledTask {
     std::string id;
     std::string name;
     std::string description;
-    
+
     enum class TaskType {
         AQL_QUERY,      // Execute an AQL query
         FUNCTION        // Execute a registered function
-    } type;
-    
+    } type = TaskType::AQL_QUERY;
+
     std::string aql_query;              // AQL query (if type == AQL_QUERY)
     std::string function_name;           // Function name (if type == FUNCTION)
     nlohmann::json parameters;           // Task parameters
-    
+
     // Scheduling
-    std::chrono::milliseconds interval;  // Fixed interval
+    enum class TriggerType {
+        CRON,      // Cron-based scheduling
+        INTERVAL,  // Fixed interval
+        CDC_EVENT, // CDC event-based trigger
+        WEBHOOK,   // External HTTP events
+        MANUAL     // Only manual execution
+    } trigger_type = TriggerType::INTERVAL;
+
+    std::string cron_expression;         // e.g. "0 2 * * *" (if CRON)
+    std::chrono::milliseconds interval;  // Fixed interval (if INTERVAL)
     std::chrono::system_clock::time_point next_run;
     bool enabled = true;
     bool running = false;
-    
+
     // Statistics
     size_t total_executions = 0;
     size_t successful_executions = 0;
     size_t failed_executions = 0;
     double avg_execution_time_ms = 0.0;
     std::string last_error;
-    
-    // Resource limits
-    std::chrono::milliseconds timeout;
-    size_t max_retries = 3;
-    
+
+    // Resource and SLA limits
+    std::chrono::milliseconds timeout{std::chrono::minutes(10)};
+    size_t max_retries = 3;                                // legacy; overridden by retry_policy
+    std::optional<std::chrono::milliseconds> sla_deadline; // alert when exceeded
+
+    // Advanced retry configuration
+    std::optional<RetryPolicy> retry_policy;
+
+    // DAG dependencies
+    std::vector<std::string> dependencies;         // IDs of prerequisite tasks
+    std::function<bool(const std::map<std::string, nlohmann::json>&)> branch_condition;
+
     // Callbacks
     std::function<void(const std::string&, const nlohmann::json&)> on_success;
     std::function<void(const std::string&, const std::string&)> on_failure;
@@ -317,10 +378,67 @@ struct HybridRetentionStats {
 
 ## Usage Examples
 
-### Basic Task Registration
+### Cron-Based Scheduling
 ```cpp
-TaskScheduler scheduler(query_engine, config);
-scheduler.start();
+ScheduledTask nightly_task;
+nightly_task.name = "Nightly Cleanup";
+nightly_task.type = ScheduledTask::TaskType::AQL_QUERY;
+nightly_task.aql_query = "FOR d IN logs FILTER d.timestamp < DATE_SUB(NOW(), 30, 'day') REMOVE d IN logs";
+nightly_task.trigger_type = ScheduledTask::TriggerType::CRON;
+nightly_task.cron_expression = "0 2 * * *";  // 02:00 every day
+
+scheduler.registerTask(nightly_task);
+```
+
+### DAG Execution
+```cpp
+ScheduledTask extract, transform, load;
+extract.id   = "etl_extract";
+transform.id = "etl_transform";
+load.id      = "etl_load";
+
+transform.dependencies = {"etl_extract"};
+load.dependencies      = {"etl_transform"};
+
+scheduler.registerTask(extract);
+scheduler.registerTask(transform);
+scheduler.registerTask(load);
+
+auto result = scheduler.executeDAG({"etl_extract", "etl_transform", "etl_load"});
+// result.succeeded, result.failed, result.skipped, result.condition_skipped
+```
+
+### SLA Monitoring
+```cpp
+// Fire a TaskSlaBreached alert if the task takes longer than 60 s
+task.sla_deadline = std::chrono::seconds(60);
+scheduler.setAlertmanager(alertmanager);
+```
+
+### Dynamic Concurrency Scaling
+```cpp
+TaskScheduler::Config cfg;
+cfg.enable_dynamic_scaling    = true;
+cfg.max_concurrent_tasks      = 4;   // initial limit
+cfg.min_concurrent_tasks      = 2;   // floor
+cfg.max_concurrent_tasks_ceil = 16;  // ceiling
+cfg.scale_up_queue_depth      = 3;   // grow when ≥3 tasks pending
+cfg.scale_down_idle_ticks     = 5;   // shrink after 5 idle ticks
+
+TaskScheduler scheduler(query_engine, cfg);
+// Query current state
+size_t depth = scheduler.getQueueDepth();
+size_t limit = scheduler.getDynamicConcurrencyLimit();
+```
+
+### Execution History
+```cpp
+// Retrieve last 50 audit events for a specific task
+auto history = scheduler.getExecutionHistory("my_task_id", 50);
+for (const auto& evt : history) {
+    std::cout << evt.task_id << " " << evt.success << "\n";
+}
+```
 
 // Schedule data compression
 ScheduledTask compression_task;
@@ -485,18 +603,26 @@ if (task) {
   - Rate limiting for manual execution
   - Enhanced audit logging
 
-- **v1.5.0**: Performance improvements
-  - Optimized scheduler loop
-  - Reduced lock contention
-  - Better task priority handling
+- **v1.5.0**: Full cron support, distributed coordination, and DAG execution
+  - Complete cron expression parsing (wildcards, ranges, lists, steps, name aliases, @-specials, 6-field year)
+  - Distributed task coordination across nodes with leader election
+  - Task dependency DAG execution with conditional branching (`branch_condition`)
+  - Workflow engine (multi-step DAG)
+  - CDC event-driven task triggers
+  - Task retry policies (FIXED_DELAY, EXPONENTIAL_BACKOFF, LINEAR_BACKOFF, JITTER_BACKOFF, FIBONACCI_BACKOFF)
+  - Scheduled task output persistence (`TaskResultStore`)
+  - Task execution history with searchable audit log (`TaskAuditManager`)
+  - SLA monitoring — alert on task failure or SLA breach (`setAlertmanager`, `sla_deadline`)
+  - Dynamic concurrency scaling based on queue depth (`enable_dynamic_scaling`, `getQueueDepth`, `getDynamicConcurrencyLimit`)
+  - Integration with external schedulers (Kubernetes CronJob, Apache Airflow)
+  - Prometheus metrics export (`exportMetrics()`)
 
 ## Future Enhancements
 
 See [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) for planned features including:
-- Distributed task coordination with Raft
-- Cron expression parser (vs simple intervals)
-- Task dependencies and DAG execution
-- Priority-based scheduling
-- Dynamic resource allocation
-- Advanced retry policies
 - Task versioning and rollback
+- Dynamic resource allocation (cgroups / per-task CPU + memory limits)
+- Task checkpointing and resume for long-running tasks
+- Multi-tenancy support with per-tenant resource quotas
+- Task templates and parameterization
+- Task result streaming for long-running AQL tasks

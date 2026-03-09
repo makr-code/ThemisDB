@@ -146,7 +146,7 @@ Implementation tasks:
 **Target:** v1.7.0
 
 Implementation tasks:
-- [ ] Prometheus metrics export
+- [x] Prometheus metrics export (`TaskScheduler::exportMetrics()` — emits `themis_scheduler_*` gauges/counters in Prometheus text format, including `themis_scheduler_concurrency_limit` and `themis_scheduler_queue_depth`)
 - [ ] Grafana dashboard
 - [ ] Real-time event streaming (WebSocket)
 - [ ] Task execution timeline visualization
