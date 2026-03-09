@@ -256,10 +256,11 @@ New request with prompt "System: You are a helpful assistant. User: ..."
 
 ## 11. Known Limitations & Future Work
 
-- Streaming token output (SSE) is in progress; full OpenAI-compatible API is planned.
-- Vision support is experimental; only select model architectures supported.
-- Multi-node distributed inference is partial; single-node multi-GPU is operational.
-- OpenAI-compatible adapter API is planned for drop-in replacement.
+- Cancellation is best-effort only; in-flight inference cannot be interrupted at the llama.cpp level once a token generation step has started.
+- Grammar-constrained generation requires runtime availability of the llama.cpp grammar API; it degrades gracefully when the API is absent.
+- Vision/multi-modal support is experimental; only select model architectures are supported (`vision_encoder.cpp`).
+- Multi-node distributed (federated) inference is not yet implemented; single-node multi-GPU is operational. (Issue: #1928)
+- Speculative decoding uses synthetic logit arrays until per-token logits are exposed through the plugin interface.
 
 ---
 

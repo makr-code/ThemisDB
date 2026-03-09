@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document covers planned enhancements to the LLM module beyond what is tracked in `ROADMAP.md`. It focuses on `async_inference_engine.cpp`, `inference_engine_enhanced.cpp`, `inference_handle.cpp`, and the surrounding components (`adapter_registry.cpp`, `continuous_batch_scheduler.cpp`, `kv_cache_buffer.cpp`, `grammar.cpp`, `adaptive_vram_allocator.cpp`). Features here describe the concrete engineering work required to add streaming token output, OpenAI-compatible API passthrough, speculative decoding, shared thread pool unification between both engines, and federated inference across nodes.
+This document covers planned enhancements to the LLM module beyond what is tracked in `ROADMAP.md`. It focuses on `async_inference_engine.cpp`, `inference_engine_enhanced.cpp`, `inference_handle.cpp`, and the surrounding components (`adapter_registry.cpp`, `continuous_batch_scheduler.cpp`, `kv_cache_buffer.cpp`, `grammar.cpp`, `adaptive_vram_allocator.cpp`). The following features from the initial enhancement list are now **complete**: streaming token output (SSE/chunked response), OpenAI-compatible API passthrough, speculative decoding, shared thread pool unification between both engines. The remaining planned work covers **federated inference across distributed nodes** (Issue: #1928), which requires multi-node coordination beyond the current single-node multi-GPU implementation.
 
 ## Design Constraints
 
