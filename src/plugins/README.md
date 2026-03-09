@@ -8,34 +8,47 @@ Implements the plugin system infrastructure for ThemisDB, providing dynamic plug
 
 ## Subsystem Scope
 
-**In scope:** Dynamic shared library loading, plugin manifest validation, Ed25519 signing/verification, plugin lifecycle (register/initialize/execute/shutdown), capability-based permissions.
+**In scope:** Dynamic shared library loading, plugin manifest validation (JSON Schema v2), Ed25519 signing/verification, plugin lifecycle (register/initialize/execute/shutdown), capability-based permissions, dependency resolution, hot-reload, health monitoring, Prometheus metrics, OCI registry client.
 
-**Out of scope:** Plugin business logic (in individual plugin packages), WASM sandboxing (planned), plugin dependency registry (planned).
+**Out of scope:** Plugin business logic (in individual plugin packages), WASM sandboxing (planned for v0.9.0), plugin SDK bindings for Python/Go (planned).
 
 ## Relevant Interfaces
 
-- `plugin_loader.cpp` — dynamic library loading and registration
-- `plugin_api.cpp` — plugin API implementation
-- `manifest_validator.cpp` — manifest schema validation
-- `plugin_signer.cpp` — signing/verification
+- `plugin_manager.cpp` — lifecycle orchestrator: load, initialize, hot-reload, shutdown
+- `plugin_registry.cpp` — central registry of loaded plugins and their metadata
+- `plugin_hot_plug_monitor.cpp` — directory watcher for hot-plug install/update
+- `plugin_health_monitor.cpp` — periodic health checks and auto-unload of failing plugins
+- `plugin_metrics.cpp` — per-plugin call counts, latency, error rates (Prometheus)
+- `signed_plugin_repository.cpp` — Ed25519 signing and signature verification
+- `plugin_system_edition.cpp` — edition-aware plugin limits and capability gates
 
 ## Current Delivery Status
 
-**Maturity:** 🔴 Alpha — Core plugin loading and manifest validation operational; WASM sandbox and Ed25519 signing in progress.
+**Maturity:** 🟢 Production Ready — Dynamic loading, manifest validation, Ed25519 signing, dependency resolution, hot-reload, health monitoring, and capability negotiation are all implemented and tested.
 
 ## Components
 
-- Plugin loader
-- Plugin API implementation
-- Plugin lifecycle management
-- Plugin security and signing
+- Plugin manager (lifecycle: load, initialize, hot-reload, shutdown)
+- Plugin registry (central catalog with type-indexed lookup)
+- Plugin health monitor (liveness probes, auto-restart on failure)
+- Plugin hot-plug monitor (filesystem watcher for zero-downtime updates)
+- Plugin metrics (Prometheus-compatible per-plugin telemetry)
+- Plugin security (Ed25519 signing/verification, manifest schema v2)
+- Plugin dependency resolver (topological sort, cycle detection)
+- OCI registry client (pull plugins from OCI/Docker registries)
 
 ## Features
 
-- Dynamic plugin loading
-- Secure plugin execution
-- Plugin manifest validation
-- Plugin signing and verification
+- Dynamic plugin loading (dlopen/LoadLibrary, platform-native)
+- Secure plugin execution (Ed25519 signature verification, capability-based permissions)
+- Plugin manifest validation (JSON Schema v2)
+- Plugin signing and verification (Ed25519, key rotation support)
+- Dependency resolution (Kahn's algorithm, circular dependency detection)
+- Hot-reload without server restart (atomic swap with rollback on failure)
+- Plugin health monitoring and automatic restart on repeated failure
+- Prometheus metrics per plugin (call count, P50/P95/P99 latency, error rate)
+- Runtime capability negotiation with version-range constraints
+- OCI registry integration for remote plugin distribution
 
 ## Documentation
 
