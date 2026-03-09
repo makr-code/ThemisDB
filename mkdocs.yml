@@ -133,20 +133,12 @@ nav:
   - search sort filter: de/admin_tools/search_sort_filter.md
   - user guide: de/admin_tools/user_guide.md
 - Analytics:
-  - Übersicht: de/analytics/README.md
-  - OLAP Guide: de/analytics/olap_guide.md
-  - Process Mining Guide: de/analytics/process_mining_guide.md
-  - Forecasting Guide: de/analytics/forecasting_guide.md
-  - CEP Guide: de/analytics/cep_guide.md
-  - Anomaly Detection Guide: de/analytics/anomaly_detection_guide.md
-  - Streaming Windows Guide: de/analytics/streaming_window_guide.md
-  - ML & AutoML Guide: de/analytics/ml_guide.md
-  - NLP Text Analyzer: de/analytics/NLP_TEXT_ANALYZER.md
   - PROCESS MINING AQL EXAMPLES: de/analytics/PROCESS_MINING_AQL_EXAMPLES.md
   - PROCESS MINING RESEARCH AND ROADMAP: de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md
   - PROCESS MINING SUMMARY: de/analytics/PROCESS_MINING_SUMMARY.md
   - README PROCESS MINING: de/analytics/README_PROCESS_MINING.md
-  - BPMN Future Enhancements: de/analytics/bpmn_future_enhancements.md
+  - olap guide: de/analytics/olap_guide.md
+  - process mining guide: de/analytics/process_mining_guide.md
 - Apis:
   - Übersicht: de/apis/README.md
   - ACTUALIZATION SUMMARY: de/apis/ACTUALIZATION_SUMMARY.md

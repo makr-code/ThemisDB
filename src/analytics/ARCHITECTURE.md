@@ -194,11 +194,6 @@ Analytics Dispatcher
 ## 12. References
 
 - `src/analytics/README.md` — module overview
-- `src/analytics/ROADMAP.md` — roadmap and planned features
-- `src/analytics/FUTURE_ENHANCEMENTS.md` — future enhancements
+- `src/analytics/FUTURE_ENHANCEMENTS.md` — roadmap
 - `docs/architecture/architecture_multi_model.md` — multi-model data model
 - `ARCHITECTURE.md` (root) — full system architecture
-- `docs/de/analytics/README.md` — secondary documentation hub (German)
-- `docs/de/analytics/olap_guide.md` — OLAP usage guide
-- `docs/de/analytics/cep_guide.md` — CEP engine guide
-- `docs/de/analytics/forecasting_guide.md` — forecasting guide

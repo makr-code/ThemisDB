@@ -1,12 +1,5 @@
 # Analytics Module - Future Enhancements
 
-**Version:** 1.7.0
-**Status:** 📋 Planned
-**Last Updated:** 2026-03-09
-**Module Path:** `include/analytics/`
-
----
-
 ## Scope
 
 - API-level enhancements to `include/analytics/` headers — new C++ interfaces for GPU-accelerated analytics pipelines
