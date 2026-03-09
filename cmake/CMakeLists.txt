@@ -1562,6 +1562,9 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/self_improvement_orchestrator.cpp
     ../src/prompt_engineering/prompt_engineering_integration.cpp
     ../src/prompt_engineering/prompt_injection_detector.cpp
+    ../src/prompt_engineering/chain_of_thought.cpp
+    ../src/prompt_engineering/rag_prompt_builder.cpp
+    ../src/prompt_engineering/system_prompt_manager.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>

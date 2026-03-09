@@ -8,10 +8,10 @@ The Prompt Engineering module provides a complete lifecycle management system fo
 
 | Interface / File | Role |
 |-----------------|------|
-| `prompt_template_manager.cpp` | Template storage and context-variable rendering |
-| `chain_of_thought.cpp` | Chain-of-thought prompt construction |
+| `prompt_manager.cpp` | Template storage, context-variable rendering, and YAML bulk-load |
+| `chain_of_thought.cpp` | Chain-of-thought prompt construction with step delimiters |
 | `rag_prompt_builder.cpp` | RAG context injection into prompt templates |
-| `system_prompt_manager.cpp` | System prompt management and versioning |
+| `system_prompt_manager.cpp` | System prompt management with per-role overrides |
 
 ## Scope
 
@@ -193,6 +193,46 @@ Pattern-based detection and sanitization layer for prompt injection attacks. Cal
 - `DetectionResult::toJson()` — serialise result for audit logging
 - `Config::enabled` flag for runtime toggle (returns zero-risk result when disabled)
 
+### ChainOfThoughtBuilder
+**Location:** `chain_of_thought.cpp`
+
+Constructs chain-of-thought (CoT) prompt strings that guide LLMs through explicit step-by-step reasoning before producing a final answer.
+
+**Features:**
+- **Builder mode** — add named reasoning steps incrementally via `addStep()` / `addReasoningStep()`, set a final answer with `setFinalAnswer()`, then call `build()`
+- Auto-numbering of steps (`Step 1:`, `Step 2:`, …) or explicit labels per step
+- Configurable step delimiter and prefix via `CoTConfig`
+- **`buildZeroShot(question)`** — appends "Let's think step by step." to elicit zero-shot CoT
+- **`buildFewShot(question, examples)`** — prepends solved (Q, A) examples before the target question
+- **`wrapWithCoT(prompt, explicit_steps)`** — wraps an existing prompt with CoT instructions; optionally adds explicit step headings
+
+### RAGPromptBuilder
+**Location:** `rag_prompt_builder.cpp`
+
+Assembles Retrieval-Augmented Generation (RAG) prompts by injecting retrieved document chunks as grounding context into LLM prompt templates.
+
+**Features:**
+- **`build(template, query, chunks)`** — replaces `{context}` and `{query}` placeholders in a base template with the assembled context block and the user query
+- **`buildContextSection(chunks)`** — produces a formatted context block (header + chunks + optional footer) for use in custom templates
+- **`buildFullPrompt(system_instruction, query, chunks)`** — combines system instruction, context block, and query into a standard RAG prompt
+- **`selectChunks(candidates, max_total_length)`** — greedy budget-aware chunk selection; optionally sorts candidates by `relevance_score` descending
+- Source citations — each chunk prefixed with `[Source N: <source_id>]` when enabled
+- Configurable `RAGPromptConfig`: `max_context_length`, `context_header/footer`, `chunk_separator`, `template_placeholder`, citation toggle
+
+### SystemPromptManager
+**Location:** `system_prompt_manager.cpp`
+
+Manages a registry of system prompts keyed by a strongly-typed `Role` enumeration, with support for arbitrary custom role names.
+
+**Features:**
+- Built-in roles: `DEFAULT`, `USER`, `ASSISTANT`, `ADMIN`, `SYSTEM`
+- Custom roles via `setCustomPrompt(role_name, …)` / `getCustomPrompt(role_name)`
+- `getPromptContent(role, default_content)` — returns registered content or a caller-supplied fallback
+- **Context-variable rendering**: `renderPrompt(role, context)` / `renderCustomPrompt(role_name, context)` — substitute `{placeholder}` tokens using a `std::unordered_map`
+- `listPrompts()` — enumerate all registered prompts (built-in and custom)
+- `SystemPrompt::toJson()` / `SystemPrompt::fromJson()` — JSON serialisation for persistence
+- Thread-safe via `std::mutex`
+
 ## Architecture
 
 ```
@@ -214,7 +254,11 @@ PromptEngineeringIntegration  (facade + background worker)
         │
         ├─ PromptEngineeringMetrics  (Prometheus export)
         │
-        └─ PromptInjectionDetector   (stateless security layer; called by callers)
+        ├─ PromptInjectionDetector   (stateless security layer; called by callers)
+        │
+        ├─ ChainOfThoughtBuilder     (pure computation; CoT prompt construction)
+        ├─ RAGPromptBuilder          (pure computation; RAG context injection)
+        └─ SystemPromptManager       (in-memory registry; per-role system prompts)
 ```
 
 ## Dependencies
@@ -237,6 +281,9 @@ PromptEngineeringIntegration  (facade + background worker)
 #include "prompt_engineering/prompt_engineering_integration.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "prompt_engineering/feedback_collector.h"
+#include "prompt_engineering/chain_of_thought.h"
+#include "prompt_engineering/rag_prompt_builder.h"
+#include "prompt_engineering/system_prompt_manager.h"
 
 using namespace themis::prompt_engineering;
 
@@ -249,6 +296,36 @@ auto result = mgr.getPromptWithContext("sql_generation_v1",
 if (result) {
     // pass *result to LLM inference
 }
+
+// --- Chain-of-Thought prompt construction ---
+ChainOfThoughtBuilder cot;
+cot.addStep("Identify all entities mentioned in the legal text.")
+   .addStep("Determine the relationship between each entity pair.")
+   .setFinalAnswer("List each relationship on a separate line.");
+std::string cot_prompt = cot.build();
+
+// Zero-shot CoT shortcut
+auto zs_prompt = ChainOfThoughtBuilder::buildZeroShot("What are the key obligations?");
+
+// --- RAG prompt assembly ---
+std::vector<RetrievedChunk> chunks = {
+    {"Clause 4.2: The vendor shall deliver by Q3.", "contract_v2.pdf", 0.95},
+    {"Clause 7.1: Liability is limited to …",       "contract_v2.pdf", 0.82}
+};
+RAGPromptBuilder rag;
+std::string rag_prompt = rag.buildFullPrompt(
+    "You are a legal contract analyst.",
+    "What are the delivery obligations?",
+    chunks);
+
+// --- System prompts with per-role overrides ---
+SystemPromptManager spm;
+spm.setPrompt(Role::USER,  "You are a helpful assistant for {product}.", "1.0");
+spm.setPrompt(Role::ADMIN, "You are an expert DBA with full access to {product}.", "1.0");
+spm.setCustomPrompt("legal_reviewer", "Review contracts for legal accuracy.", "1.0");
+
+std::string user_sys  = spm.renderPrompt(Role::USER, {{"product", "ThemisDB"}});
+std::string admin_sys = spm.renderPrompt(Role::ADMIN, {{"product", "ThemisDB"}});
 
 // --- Record feedback ---
 FeedbackCollector collector(&db, cf_feedback);
