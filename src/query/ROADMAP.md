@@ -32,10 +32,10 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Short-term (Next 3-6 months)
 - [P] Query result type annotations for client SDK code generation (Issue: #1432)
-- [!] Query cancellation via request ID (Issue: #2431)
+- [x] Query cancellation via request ID (Issue: #2431)
 
 ### Long-term (6-12 months)
-- [I] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
+- [x] Vectorized execution engine (column-store style batch processing) (Issue: #2434)
 - [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [P] Multi-statement transaction AQL (BEGIN/COMMIT in query) (Issue: #2435, PR: #2608)
 
@@ -64,12 +64,16 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 ### Phase 3: Resource Management & UDF (Status: In Progress 🚧)
 - [x] Query result type annotations for client SDK code generation
 - [x] Per-query resource limits (max rows, max memory, timeout)
-- [ ] Query cancellation via request ID
+- [x] Query cancellation via request ID
 - [x] Parallel scan for large collection full-table queries
 - [x] User-defined functions (UDF) registration API
 
 ### Phase 4: Vectorized Execution & Cross-Cluster Federation (Status: In Progress 🚧)
-- [ ] Vectorized execution engine (column-store style batch processing)
+- [x] Vectorized execution engine (column-store style batch processing)
+  - Implemented in `include/query/vectorized_execution.h` (`VectorizedExecutionEngine`, `VectorizedQueryPlan`, `VectorizedPredicate`, `VectorizedAggregation`)
+    and `src/query/vectorized_execution.cpp`
+  - Delegates to `analytics/columnar_execution.h` for SIMD batch processing with `SelectionVector` late-materialization
+  - Accepts `std::vector<nlohmann::json>` rows, converts to columnar layout, then materializes results back to JSON
 - [P] Adaptive query re-optimization on runtime statistics (Issue: #2232)
 - [x] Cross-cluster federated AQL with cost estimation (Issue: #2233)
   - Implemented in `include/query/cross_cluster_federation.h` (`ClusterEndpoint`, `ClusterCostEstimate`, `CrossClusterFederator`)

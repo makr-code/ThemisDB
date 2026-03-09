@@ -130,6 +130,7 @@ enum class ErrorCode {
     ERR_QUERY_TYPE_MISMATCH = 6107,
     ERR_QUERY_RESOURCE_EXHAUSTED = 6108,
     ERR_QUERY_INVALID = 6109,
+    ERR_QUERY_CANCELLED = 6112,  ///< Query was explicitly cancelled via request ID
     ERR_CACHE_ENTRY_TOO_LARGE = 6110,
     ERR_CACHE_FULL = 6111,
     ERR_QUERY_INVALID_INPUT = 6150,
