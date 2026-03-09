@@ -22,7 +22,7 @@ The Replication module provides ThemisDB's high-availability and data durability
 |-----------------|------|
 | `include/replication/replication_manager.h` | All leader-follower classes: `ReplicationManager`, `WALManager`, `LeaderElection`, `ReplicationStream`, `CompressedReplicationStream`, `IReplicationListener`, `CDCManager`, `CrossClusterPublication`, `CrossClusterSubscription`, `WALArchivalManager`, `MultiRegionActiveActiveManager`, `LagBasedReadRouter`, `ReplicationAnalytics`, `ReplicationBenchmark` |
 | `include/replication/multi_master_replication.h` | Multi-master classes: `MultiMasterReplicationManager`, `VectorClock`, `HybridLogicalClock`, `ConflictResolver`, `LastWriteWinsResolver`, `CRDTMergeResolver`, `CustomResolver` |
-| `src/replication/replication_manager.cpp` | Full implementation of all replication classes (5 100+ lines) |
+| `src/replication/replication_manager.cpp` | Full implementation of all replication classes (5,100+ lines) |
 
 ## Scope
 

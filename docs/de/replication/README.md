@@ -58,7 +58,7 @@ Lese-Skalierbarkeit über verteilte Datenbank-Cluster.
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `replication_manager.cpp` | Vollständige Implementierung aller Replikations-Klassen (~5 100 Zeilen) |
+| `replication_manager.cpp` | Vollständige Implementierung aller Replikations-Klassen (~5.100 Zeilen) |
 
 **Gesamt:** 2 Header-Dateien, 1 Implementierungsdatei in `src/replication/`
 
