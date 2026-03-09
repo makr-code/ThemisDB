@@ -1,4 +1,6 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 # Performance Module Roadmap
 
