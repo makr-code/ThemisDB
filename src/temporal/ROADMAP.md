@@ -19,8 +19,8 @@
 - [x] Unit tests for conflict resolver, query engine, temporal index, aggregator, and bi-temporal table (`tests/temporal/`)
 
 ## In Progress 🚧
-- [~] Bitemporal joins (system time + valid time combined predicates) (Target: Q3 2026)
-- [~] SEQUENCED vs. NON-SEQUENCED temporal query semantics (Target: Q3 2026)
+- [x] Bitemporal joins (system time + valid time combined predicates) (Target: Q3 2026)
+- [x] SEQUENCED vs. NON-SEQUENCED temporal query semantics (Target: Q3 2026)
 
 ## Planned Features 📋
 
@@ -56,8 +56,8 @@
 - [x] Unit tests: aggregator, index, query engine, bi-temporal (`tests/temporal/`)
 
 ### Phase 3: SQL Syntax & Temporal Constraints (Status: In Progress 🚧)
-- [~] Bitemporal join operator (combined transaction-time + valid-time predicates)
-- [~] SEQUENCED / NON-SEQUENCED query semantics
+- [x] Bitemporal join operator (combined transaction-time + valid-time predicates)
+- [x] SEQUENCED / NON-SEQUENCED query semantics
 - [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser
 - [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing
 - [I] Temporal uniqueness constraints (no valid-time overlaps per key)
