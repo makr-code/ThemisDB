@@ -1,8 +1,10 @@
 # Prompt Engineering Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/ARCHITECTURE.md · docs/de/prompt_engineering/README.md -->
 
 ## Scope
 
-This document covers planned enhancements to ThemisDB's prompt engineering subsystem, which manages LLM prompt templates, chain-of-thought construction, RAG prompt assembly, and system prompt versioning. It targets the gap between the current Alpha/experimental state of `prompt_manager.cpp`, `prompt_optimizer.cpp`, and `prompt_version_control.cpp` and a robust, observable prompt lifecycle suitable for production legal-domain inference.
+This document covers planned enhancements to ThemisDB's prompt engineering subsystem, which manages LLM prompt templates, chain-of-thought construction, RAG prompt assembly, and system prompt versioning. It targets the gap between the current production-ready state of the core components and advanced future capabilities such as a typed DSL, CoT tracing, and automated quality regression.
 
 ## Design Constraints
 
@@ -139,3 +141,51 @@ Extend `prompt_version_control.cpp` and `prompt_optimizer.cpp` to support traffi
 - [ ] The A/B experimentation framework must not leak experiment assignments across tenant boundaries; `experiment_context` must be scoped to a single tenant ID.
 - [?] Clarify whether chain-of-thought traces containing legal case content are subject to e-discovery retention requirements before enabling long-term storage.
 - [ ] `ContextWindowBudgetManager` must enforce a hard maximum token cap regardless of model-reported limit to prevent prompt-injection via oversized context chunks.
+
+## Scientific References
+
+The planned enhancements are grounded in the following peer-reviewed literature and industry research:
+
+### Structured Prompt Template DSL
+
+[1] L.-H. Beurer-Kellner et al., "Prompting Is Programming: A Query Language for Large Language Models," in *Proc. PLDI 2023*, pp. 1946–1969, 2023. [DOI: 10.1145/3591300] Available: https://arxiv.org/abs/2212.06094
+
+[2] A. Dohan et al., "Language Model Cascades," *arXiv preprint arXiv:2207.10342*, 2022. Available: https://arxiv.org/abs/2207.10342
+
+[3] J. White et al., "A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT," *arXiv preprint arXiv:2302.11382*, 2023. Available: https://arxiv.org/abs/2302.11382
+
+### Chain-of-Thought Step Tracer
+
+[4] J. Wei et al., "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models," in *Proc. NeurIPS*, vol. 35, pp. 24824–24837, 2022. Available: https://arxiv.org/abs/2201.11903
+
+[5] X. Wang et al., "Self-Consistency Improves Chain of Thought Reasoning in Language Models," in *Proc. ICLR 2023*, 2023. Available: https://arxiv.org/abs/2203.11171
+
+[6] T. Kojima et al., "Large Language Models are Zero-Shot Reasoners," in *Proc. NeurIPS*, vol. 35, pp. 22199–22213, 2022. Available: https://arxiv.org/abs/2205.11916
+
+### RAG Context Window Budget Management
+
+[7] P. Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," in *Proc. NeurIPS*, vol. 33, pp. 9459–9474, 2020. Available: https://arxiv.org/abs/2005.11401
+
+[8] Y. Gao et al., "Retrieval-Augmented Generation for Large Language Models: A Survey," *arXiv preprint arXiv:2312.10997*, 2023. Available: https://arxiv.org/abs/2312.10997
+
+[9] Z. Shi et al., "REPLUG: Retrieval-Augmented Black-Box Language Models," *arXiv preprint arXiv:2301.12652*, 2023. Available: https://arxiv.org/abs/2301.12652
+
+### Prompt A/B Experimentation Framework
+
+[10] Y. Zhou et al., "Large Language Models Are Human-Level Prompt Engineers," in *Proc. ICLR 2023*, 2023. Available: https://arxiv.org/abs/2211.01910
+
+[11] R. Pryzant et al., "Automatic Prompt Optimization with 'Gradient Descent' and Beam Search," in *Proc. EMNLP 2023*, pp. 7957–7968, 2023. Available: https://arxiv.org/abs/2305.03495
+
+### Automated Quality Regression
+
+[12] C.-Y. Lin, "ROUGE: A Package for Automatic Evaluation of Summaries," in *Proc. Workshop on Text Summarization Branches Out*, pp. 74–81, 2004. Available: https://aclanthology.org/W04-1013
+
+[13] K. Papineni et al., "BLEU: A Method for Automatic Evaluation of Machine Translation," in *Proc. ACL 2002*, pp. 311–318, 2002. [DOI: 10.3115/1073083.1073135]
+
+[14] L. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," in *Proc. NeurIPS*, vol. 36, 2023. Available: https://arxiv.org/abs/2306.05685
+
+### Prompt Injection Security
+
+[15] K. Greshake et al., "Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection," in *Proc. AISec@CCS 2023*, pp. 79–90, 2023. Available: https://arxiv.org/abs/2302.12173
+
+[16] F. Perez and I. Ribeiro, "Ignore Previous Prompt: Attack Techniques For Language Models," *arXiv preprint arXiv:2211.09527*, 2022. Available: https://arxiv.org/abs/2211.09527

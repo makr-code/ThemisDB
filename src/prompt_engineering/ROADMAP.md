@@ -1,4 +1,6 @@
 # Prompt Engineering Module Roadmap
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 

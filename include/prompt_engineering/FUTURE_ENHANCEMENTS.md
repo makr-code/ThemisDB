@@ -1,4 +1,6 @@
 # Prompt Engineering Module - Future Header Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/prompt_engineering/FUTURE_ENHANCEMENTS.md · src/prompt_engineering/README.md · src/prompt_engineering/ROADMAP.md · docs/de/prompt_engineering/README.md -->
 
 ## Scope
 
@@ -92,3 +94,17 @@
 - `IChainOfThoughtTracer` callbacks receive only reasoning step metadata; full model output is never passed to tracer hooks
 - `IRAGContextBudgetManager` enforces hard token limits to prevent context-stuffing attacks via oversized retrieval results
 - `IMetaPromptGenerator` generates templates in an isolated sandbox context; generated templates undergo the same injection validation as hand-authored ones
+
+## Scientific References
+
+[1] J. Wei et al., "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models," in *Proc. NeurIPS*, vol. 35, pp. 24824–24837, 2022. Available: https://arxiv.org/abs/2201.11903
+
+[2] P. Lewis et al., "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," in *Proc. NeurIPS*, vol. 33, pp. 9459–9474, 2020. Available: https://arxiv.org/abs/2005.11401
+
+[3] Y. Zhou et al., "Large Language Models Are Human-Level Prompt Engineers," in *Proc. ICLR 2023*, 2023. Available: https://arxiv.org/abs/2211.01910
+
+[4] K. Greshake et al., "Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection," in *Proc. AISec@CCS 2023*, pp. 79–90, 2023. Available: https://arxiv.org/abs/2302.12173
+
+[5] R. Pryzant et al., "Automatic Prompt Optimization with 'Gradient Descent' and Beam Search," in *Proc. EMNLP 2023*, pp. 7957–7968, 2023. Available: https://arxiv.org/abs/2305.03495
+
+[6] L. Zheng et al., "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena," in *Proc. NeurIPS*, vol. 36, 2023. Available: https://arxiv.org/abs/2306.05685
