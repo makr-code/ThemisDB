@@ -1,3 +1,9 @@
+---
+status: current
+doc_version: "1.5.0"
+validated: "2026-03-09"
+---
+
 # Developers Guide
 
 **Stand:** 5. Dezember 2025  

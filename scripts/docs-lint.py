@@ -31,9 +31,28 @@ import os
 import re
 import sys
 import argparse
+from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import List, Dict, Optional, Tuple
 import json
+
+try:
+    import yaml
+    _YAML_AVAILABLE = True
+except ImportError:
+    _YAML_AVAILABLE = False
+
+# Valid values for the `status` metadata field
+VALID_DOC_STATUSES = {"current", "drifting", "stale", "archived"}
+
+# Default directories that require YAML front-matter metadata
+DEFAULT_METADATA_PATHS = [
+    "docs/de/development",
+    "docs/de/features",
+    "docs/de/guides",
+    "docs/de/architecture",
+    "docs/de/security",
+]
 
 
 class DocumentationLinter:
@@ -168,7 +187,111 @@ class DocumentationLinter:
                 "File extension should be lowercase (.md)"
             )
 
-    def lint_file(self, file_path: Path):
+    def _parse_frontmatter(self, lines: List[str]) -> Optional[Dict]:
+        """Parse YAML front matter from a list of lines.
+
+        Returns the parsed dict on success, or None if no valid front matter
+        was found.  The YAML block must start on line 1 (index 0) and be
+        delimited by ``---`` markers.
+        """
+        if not lines or lines[0].strip() != "---":
+            return None
+
+        end_index = None
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                end_index = i
+                break
+
+        if end_index is None:
+            return None
+
+        yaml_text = "".join(lines[1:end_index])
+
+        if _YAML_AVAILABLE:
+            try:
+                data = yaml.safe_load(yaml_text)
+                return data if isinstance(data, dict) else None
+            except yaml.YAMLError:
+                return None
+        else:
+            # Minimal fallback: parse simple "key: value" pairs without PyYAML.
+            # Only simple scalar values on a single line are supported; complex
+            # (multi-line / nested) YAML structures are silently ignored.
+            print(
+                "Warning: PyYAML not available; YAML front-matter parsed with limited "
+                "fallback parser. Install pyyaml for full support.",
+                file=sys.stderr,
+            )
+            data = {}
+            for line in lines[1:end_index]:
+                # Match: key: value  OR  key: "value"  OR  key: 'value'
+                m = re.match(
+                    r'^([A-Za-z_][A-Za-z0-9_]*):\s*'
+                    r'(?:"([^"]*)"'          # double-quoted
+                    r"|'([^']*)'"            # single-quoted
+                    r'|([^#\n]*))'           # unquoted
+                    r'\s*(?:#.*)?$',
+                    line,
+                )
+                if m:
+                    key = m.group(1).strip()
+                    value = (m.group(2) or m.group(3) or (m.group(4) or "")).strip()
+                    data[key] = value
+            return data if data else None
+
+    def check_doc_metadata(self, file_path: Path, lines: List[str]):
+        """Validate required YAML front-matter metadata fields.
+
+        Required fields:
+        - ``status``: one of current | drifting | stale | archived
+        - ``doc_version``: non-empty semver tag or branch name
+
+        Optional:
+        - ``validated``: date in YYYY-MM-DD format
+        """
+        frontmatter = self._parse_frontmatter(lines)
+
+        if frontmatter is None:
+            self.add_error(
+                str(file_path),
+                0,
+                "Missing YAML front matter (required: status, doc_version)"
+            )
+            return
+
+        # Validate `status`
+        status = frontmatter.get("status")
+        if not status:
+            self.add_error(str(file_path), 0, "Metadata field 'status' is missing")
+        elif str(status) not in VALID_DOC_STATUSES:
+            self.add_error(
+                str(file_path),
+                0,
+                f"Invalid metadata 'status': '{status}' "
+                f"(allowed: {', '.join(sorted(VALID_DOC_STATUSES))})"
+            )
+
+        # Validate `doc_version`
+        doc_version = frontmatter.get("doc_version")
+        if not doc_version:
+            self.add_error(str(file_path), 0, "Metadata field 'doc_version' is missing")
+
+        # Validate optional `validated` field format
+        validated = frontmatter.get("validated")
+        if validated is not None:
+            date_str = str(validated)
+            try:
+                datetime.strptime(date_str, "%Y-%m-%d")
+            except ValueError:
+                self.add_warning(
+                    str(file_path),
+                    0,
+                    f"Metadata field 'validated' must be a valid date in YYYY-MM-DD format, "
+                    f"got: '{date_str}'"
+                )
+
+    def lint_file(self, file_path: Path, check_metadata: bool = False):
         """Lint a single markdown file"""
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
@@ -181,6 +304,8 @@ class DocumentationLinter:
             self.check_heading_hierarchy(file_path, lines)
             self.check_markdown_syntax(file_path, lines)
             self.check_required_sections(file_path, lines, file_path.name)
+            if check_metadata:
+                self.check_doc_metadata(file_path, lines)
             
         except UnicodeDecodeError:
             self.add_error(str(file_path), 0, "File encoding error (not UTF-8)")
@@ -188,7 +313,8 @@ class DocumentationLinter:
             print(f"[ERROR] Unexpected error in {file_path}: {e}", file=sys.stderr)
             self.add_error(str(file_path), 0, f"Unexpected error: {str(e)}")
 
-    def lint_directory(self, directory: Path, exclude_patterns: List[str] = None):
+    def lint_directory(self, directory: Path, exclude_patterns: List[str] = None,
+                       check_metadata: bool = False):
         """Lint all markdown files in a directory recursively"""
         exclude_patterns = exclude_patterns or []
         exclude_dirs = {'node_modules', '.git', 'site', 'build', '__pycache__', 'output'}
@@ -212,7 +338,7 @@ class DocumentationLinter:
             for file in files:
                 if file.endswith('.md'):
                     file_path = root_path / file
-                    self.lint_file(file_path)
+                    self.lint_file(file_path, check_metadata=check_metadata)
 
     def generate_report(self, output_format: str = 'text') -> str:
         """Generate a report of linting results"""
@@ -290,6 +416,24 @@ def main():
         action='store_true',
         help='Exit with error code if warnings are found'
     )
+    parser.add_argument(
+        '--check-metadata',
+        action='store_true',
+        help=(
+            'Enforce YAML front-matter metadata (status, doc_version) on Secondary Docs. '
+            'Applies to paths given by --metadata-paths.'
+        )
+    )
+    parser.add_argument(
+        '--metadata-paths',
+        nargs='*',
+        default=DEFAULT_METADATA_PATHS,
+        metavar='PATH',
+        help=(
+            'Directories that require YAML front-matter metadata when --check-metadata is set '
+            f'(default: {", ".join(DEFAULT_METADATA_PATHS)})'
+        )
+    )
     
     args = parser.parse_args()
     
@@ -298,18 +442,30 @@ def main():
     
     # Create linter
     linter = DocumentationLinter(base_path)
-    
-    # Lint all specified paths
-    for path_str in args.paths:
-        path = base_path / path_str
-        if not path.exists():
-            print(f"Warning: Path does not exist: {path}", file=sys.stderr)
-            continue
-        
-        if path.is_file():
-            linter.lint_file(path)
-        else:
-            linter.lint_directory(path, args.exclude)
+
+    if args.check_metadata:
+        # Metadata-check mode: scan only the designated secondary-doc paths
+        # and enforce YAML front-matter on every file found there.
+        for mp_str in args.metadata_paths:
+            mp = base_path / mp_str
+            if not mp.exists():
+                print(f"Warning: Metadata path does not exist: {mp}", file=sys.stderr)
+                continue
+            if mp.is_file():
+                linter.lint_file(mp, check_metadata=True)
+            else:
+                linter.lint_directory(mp, args.exclude, check_metadata=True)
+    else:
+        # Standard lint mode: scan the positional paths without metadata checks.
+        for path_str in args.paths:
+            path = base_path / path_str
+            if not path.exists():
+                print(f"Warning: Path does not exist: {path}", file=sys.stderr)
+                continue
+            if path.is_file():
+                linter.lint_file(path)
+            else:
+                linter.lint_directory(path, args.exclude)
     
     # Generate report
     report = linter.generate_report(args.format)
