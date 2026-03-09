@@ -69,6 +69,12 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
   - Security: `..` path components rejected; credentials never logged
 - [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
 - [x] Change-data-capture (CDC) source for live database streams (Issue: #2199)
+  - `ingestFromStream()` implemented using PostgreSQL logical replication protocol (libpq, `test_decoding` output plugin) under `THEMIS_ENABLE_CDC_STREAM`
+  - `isAvailable()` performs a live `IDENTIFY_SYSTEM` check when `THEMIS_ENABLE_CDC_STREAM` is set
+  - Replication slot created automatically on first use (`CREATE_REPLICATION_SLOT ... IF NOT EXISTS LOGICAL test_decoding`)
+  - WAL polling loop with exponential-timeout drain (3 consecutive empty polls), LSN tracking, and Standby Status Update feedback
+  - Supports `table_filter`, `operations`, `text_columns`, `max_events`, `poll_timeout_ms`, `from_lsn` options
+  - Mock-injection path (`setCdcEventFetchForTesting`) for unit tests without a live database
 - [P] JDBC-compatible database source connector (`ingestion/database_connector.cpp`) (Issue: #1894)
 - [x] Plugin API for third-party source connectors (`ingestion_manager.h`: `ConnectorPluginRegistry`, `IngestionManager::registerConnectorPlugin`, `IngestionBuilder::withPluginSource`) (Issue: #1908)
 
