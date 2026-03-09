@@ -1,95 +1,89 @@
 # LLM Module - Future Header Enhancements
 
+<!-- Status: current | validated: 2026-03-09 | Primary: include/llm/ | Secondary: docs/de/llm/ -->
+<!-- Links: ../../src/llm/FUTURE_ENHANCEMENTS.md · ../../src/llm/README.md · ../../src/llm/ROADMAP.md -->
+
 ## Scope
 
-- `ILLMAdapter` interface extensions for multi-backend adapter abstraction
-- Streaming token output interface via pull-based `IStreamingTokenIterator`
-- OpenAI-compatible chat completions adapter API (opt-in)
-- LoRA adapter hot-swap interface for zero-downtime fine-tune deployment
-- Adapter load balancer API for multi-instance dispatch
-- Worker pool management interface for shared thread pool configuration
+The following interface enhancements were planned in this document. Most have been implemented in v1.15.0–v1.16.0:
+
+- `IInferenceEngine::submitStreaming()` — **implemented** in `async_inference_engine.h` / `inference_engine_enhanced.h` (`StreamingCallback` = `std::function<void(std::string_view, bool)>`)
+- OpenAI-compatible chat completions adapter — **implemented** in `include/llm/openai_compat_adapter.h` + `src/llm/openai_compat_adapter.cpp`
+- LoRA adapter hot-swap — **implemented** via `InferenceEngineEnhanced::loadLoRAAdapter()` / `unloadLoRAAdapter()` (`include/llm/inference_engine_enhanced.h`)
+- Shared worker pool — **implemented** in `include/llm/shared_worker_pool.h` + `src/llm/shared_worker_pool.cpp`
+- Adapter load balancer — **implemented** in `include/llm/adapter_load_balancer.h`
+
+Remaining planned work: see `src/llm/FUTURE_ENHANCEMENTS.md` (federated inference, Issue #1928).
 
 ## Design Constraints
 
-- [ ] Streaming interface uses a pull-based `IStreamingTokenIterator`; no push callbacks to avoid inversion of control
-- [ ] OpenAI compatibility layer is opt-in via `THEMIS_ENABLE_OPENAI_COMPAT`; default builds do not expose it
-- [ ] LoRA hot-swap is atomic: the swap completes between generation steps and no mid-generation adapter change is permitted
-- [ ] Adapter registry is thread-safe for concurrent reads; writes are serialized via internal locking
-- [ ] Worker pool configuration is injected at `ILLMAdapter` construction time; reconfiguration requires a new adapter instance
-- [ ] `IAdapterLoadBalancer` selection policy is pluggable but must complete in ≤ 100 µs; slow policies are rejected at registration
+- [x] Streaming interface uses a callback (`StreamingCallback`); pull-based `IStreamingTokenIterator` remains an alternative design considered but not adopted
+- [x] OpenAI compatibility layer is opt-in via `THEMIS_ENABLE_OPENAI_COMPAT`; default builds do not expose it
+- [x] LoRA hot-swap is atomic: the swap completes between generation steps and no mid-generation adapter change is permitted
+- [x] Adapter registry is thread-safe for concurrent reads; writes are serialized via internal locking
+- [x] Worker pool configuration is injected at engine construction time; reconfiguration requires a new engine instance
+- [x] `AdapterLoadBalancer` selection policy is pluggable
 
 ## Required Interfaces
 
-| Interface | Consumer | Notes |
+| Interface | Consumer | Status |
 |---|---|---|
-| `ILLMAdapter` | Inference engine, REST /completions endpoint, CLI query | Base interface; all LLM backends derive from this |
-| `IStreamingTokenIterator` | HTTP SSE writer, chunked response handler, token logger | Pull-based; `next(Token&)` returns `IteratorStatus` |
-| `IOpenAICompatAdapter` | OpenAI-compatible REST endpoint, SDK compatibility layer | Opt-in; guarded by `THEMIS_ENABLE_OPENAI_COMPAT` |
-| `ILoRAHotSwap` | Fine-tune deployment pipeline, A/B testing framework | Atomic swap; no mid-generation state corruption |
-| `IAdapterLoadBalancer` | Multi-instance inference dispatcher, request router | Selection policy pluggable; must complete in ≤ 100 µs |
-| `IWorkerPoolManager` | Inference thread pool, batch scheduler, resource governor | Configures thread count, affinity, and priority |
+| `IInferenceEngine::submitStreaming()` | HTTP SSE writer, OpenAI compat adapter | ✅ Implemented (`async_inference_engine.h`, `inference_engine_enhanced.h`) |
+| `OpenAICompatAdapter` | OpenAI-compatible REST endpoint | ✅ Implemented (`openai_compat_adapter.h`) |
+| `InferenceEngineEnhanced::loadLoRAAdapter()` | Fine-tune deployment, A/B testing | ✅ Implemented (`inference_engine_enhanced.h`) |
+| `AdapterLoadBalancer` | Multi-instance inference dispatcher | ✅ Implemented (`adapter_load_balancer.h`) |
+| `SharedWorkerPool` | Inference thread pool | ✅ Implemented (`shared_worker_pool.h`) |
 
-## Planned Features
+## Implemented Features
 
-### Streaming Token Output Interface
+### Streaming Token Output Interface ✅
 
-- [ ] Define `IStreamingTokenIterator` with `next(Token&) -> IteratorStatus` and `cancel()`
-- [ ] `Token` value type carries text fragment, log-probability (optional), and finish reason
-- [ ] `IteratorStatus` variants: `OK`, `END_OF_SEQUENCE`, `CANCELLED`, `ERROR`
-- [ ] Iterator obtained via `ILLMAdapter::generateStreaming(prompt, GenerationConfig)`; iterator lifetime tied to the generation request
-- [ ] `cancel()` is non-blocking; generation stops at the next token boundary
+- [x] `IInferenceEngine::submitStreaming(request, TokenCallback)` defined in both engines
+- [x] `TokenCallback` is `std::function<void(std::string_view token, bool is_final)>`
+- [x] `cancel()` is non-blocking via shared atomic cancel token; generation stops at the next token boundary
+- [x] Returns an `InferenceHandle` from `submitStreaming()` for cancellation
 
-### OpenAI-Compatible Adapter API
+### OpenAI-Compatible Adapter API ✅
 
-- [ ] Define `IOpenAICompatAdapter` (guarded by `#ifdef THEMIS_ENABLE_OPENAI_COMPAT`) with `chatCompletion(ChatRequest) -> ChatResponse`
-- [ ] `ChatRequest` mirrors the OpenAI `/v1/chat/completions` request body: model, messages, temperature, max_tokens, stream flag
-- [ ] Streaming variant returns `IStreamingTokenIterator` when `stream=true`
-- [ ] No-op stub provided when `THEMIS_ENABLE_OPENAI_COMPAT` is not defined, returning `AdapterError::NOT_SUPPORTED`
+- [x] `OpenAICompatAdapter` implemented (`openai_compat_adapter.h` / `.cpp`)
+- [x] Maps `POST /v1/chat/completions` JSON body including `messages`, `temperature`, `max_tokens`, `stream`, `stop`, `tools`
+- [x] `stream=true` routes to `submitStreaming()` and emits SSE chunks
+- [x] Guarded by `THEMIS_ENABLE_OPENAI_COMPAT`
 
-### LoRA Adapter Hot-Swap Interface
+### LoRA Adapter Hot-Swap Interface ✅
 
-- [ ] Define `ILoRAHotSwap` with `loadAdapter(LoRAConfig) -> AdapterHandle` and `swapAdapter(AdapterHandle)`
-- [ ] `swapAdapter()` is atomic; it waits for the current generation step to complete before switching
-- [ ] `AdapterHandle` is an opaque, reference-counted token; the loaded adapter is unloaded when the last handle is released
-- [ ] `ILoRAHotSwap` exposes `activeAdapter() -> AdapterHandle` for introspection and monitoring
+- [x] `InferenceEngineEnhanced::loadLoRAAdapter(adapter_id, weights_path, metadata)` implemented
+- [x] `unloadLoRAAdapter(adapter_id, wait_for_completion)` implemented
+- [x] `getLoadedLoRAAdapters()` returns metadata for all registered adapters
+- [x] Swap is atomic between generation steps
 
-### Speculative Decoding Hook
+### Shared Worker Pool ✅
 
-- [ ] Define `ISpeculativeDecodingHook` with `proposeDraft(context, draftLength) -> DraftTokens` and `verify(DraftTokens) -> VerifiedTokens`
-- [ ] Draft tokens generated by a smaller draft model; verification performed by the main model
-- [ ] Hook is optional; registered via `ILLMAdapter::setSpeculativeHook()`; absent hook uses standard autoregressive decoding
-- [ ] `VerifiedTokens` indicates accepted prefix length; the adapter continues from the last accepted position
+- [x] `SharedWorkerPool` implemented in `shared_worker_pool.h` / `.cpp`
+- [x] Work-stealing thread pool shared between `AsyncInferenceEngine` and `InferenceEngineEnhanced`
 
-### Adapter Load Balancer API
+### Speculative Decoding Hook ✅
 
-- [ ] Define `IAdapterLoadBalancer` with `selectAdapter(InferenceRequest) -> ILLMAdapter&`
-- [ ] Selection policies: `ROUND_ROBIN`, `LEAST_LOAD`, `AFFINITY_BY_MODEL`, `CUSTOM`
-- [ ] Custom policy registered via `IAdapterLoadBalancer::setPolicy(std::unique_ptr<ISelectionPolicy>)`
-- [ ] Load balancer exposes `adapterStats() -> std::vector<AdapterMetrics>` for queue depth and latency monitoring
+- [x] `SpeculativeDecoder` implemented in `speculative_decoder.h` / `.cpp`
 
 ## Test Strategy
 
-- Unit-test `IStreamingTokenIterator` with a mock adapter: verify token ordering, `END_OF_SEQUENCE` termination, and `cancel()` stopping generation at the next boundary
-- Test `IOpenAICompatAdapter` request/response mapping against the OpenAI API schema for both non-streaming and streaming modes
-- Integration-test `ILoRAHotSwap`: load adapter A, begin generation, swap to adapter B between steps, verify no corrupt output and correct adapter activation
-- Test `IAdapterLoadBalancer` all built-in policies under simulated load; verify `LEAST_LOAD` routes to the adapter with the shortest queue
-- Compile-flag test: build with and without `THEMIS_ENABLE_OPENAI_COMPAT`; assert no linker errors and correct no-op stub behavior
-- Security test: inject a prompt containing a PII pattern; verify `ILLMAdapter` output filter strips it before the token is returned via `IStreamingTokenIterator`
+- Unit-test streaming with a mock adapter: verify token ordering, `is_final=true` termination, and `cancel()` stopping generation (tests/llm/test_streaming_handler.cpp)
+- Test `OpenAICompatAdapter` request/response mapping (tests/llm/test_openai_compat_adapter.cpp)
+- Integration-test LoRA hot-loading: load adapter, begin generation, unload (tests/llm/test_lora_hot_loading.cpp)
+- Compile-flag test: build with and without `THEMIS_ENABLE_OPENAI_COMPAT`
 
 ## Performance Targets
 
-- Token streaming first-token latency (`IStreamingTokenIterator::next()` first call after `generateStreaming()`) ≤ 200 ms on a reference 7B-parameter model
-- LoRA adapter swap (`ILoRAHotSwap::swapAdapter()`) completes in ≤ 50 ms including weight application
-- Adapter selection (`IAdapterLoadBalancer::selectAdapter()`) ≤ 100 µs for up to 64 registered adapters
-- Worker pool dispatch overhead (`IWorkerPoolManager` task submission to first execution) ≤ 500 µs under normal load
-- `IOpenAICompatAdapter::chatCompletion()` non-streaming round-trip latency overhead vs. native API ≤ 2 ms
-- `ISpeculativeDecodingHook` acceptance rate target ≥ 70% for in-distribution prompts (draft model size ≥ 1B parameters)
+- Token streaming first-token latency ≤ 200 ms on a 7B-parameter model on A10G
+- LoRA adapter load (`loadLoRAAdapter()`) ≤ 5 s for rank-64 adapter
+- Adapter selection (`AdapterLoadBalancer`) ≤ 100 µs
+- Worker pool dispatch overhead ≤ 50 µs p99
 
 ## Security / Reliability
 
-- LLM input prompts are sanitized for prompt-injection patterns before dispatch via `ILLMAdapter::generate()`; sanitization is applied at the interface boundary, not left to implementations
-- Model weights are never exposed through any public interface method; `AdapterHandle` is opaque and carries no weight data
-- Adapter registry restricts `ILoRAHotSwap::loadAdapter()` to callers with the `ADMIN` role; unauthorized callers receive `AdapterError::FORBIDDEN`
-- Inference output is filtered for PII (names, emails, phone numbers, SSNs) before tokens are yielded by `IStreamingTokenIterator`; filtering is configurable but enabled by default
-- `IAdapterLoadBalancer` enforces a maximum queue depth per adapter; requests exceeding the limit return `InferenceError::CAPACITY_EXCEEDED` rather than blocking indefinitely
-- Worker pool configuration changes require re-instantiation of `ILLMAdapter`; hot reconfiguration is not permitted to prevent resource exhaustion during live inference
+- LLM input prompts are sanitized for prompt-injection patterns via `llm_security_utils.h` before dispatch
+- Model weights are never exposed through any public interface method
+- `loadLoRAAdapter()` accepts only paths within the configured `adapter_load_dir`
+- Inference output is filtered for PII before tokens are yielded by streaming callbacks; filtering is configurable but enabled by default
+- `AdapterLoadBalancer` enforces a maximum queue depth per adapter; requests exceeding the limit return an error rather than blocking indefinitely

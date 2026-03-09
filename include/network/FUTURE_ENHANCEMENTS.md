@@ -1,5 +1,8 @@
 # Network Module Headers - Future Enhancements
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ../src/network/README.md · ../src/network/ARCHITECTURE.md · ../src/network/FUTURE_ENHANCEMENTS.md -->
+
 ## Scope
 
 - API-level enhancements to `include/network/` public C++ headers

@@ -1,5 +1,9 @@
 # Observability Module
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
+<!-- Primärdokumentation: src/observability/ -->
+
 Comprehensive monitoring, tracing, and performance analysis implementation for ThemisDB with Prometheus and Grafana integration.
 
 ## Module Purpose
@@ -8,20 +12,30 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 
 ## Subsystem Scope
 
-**In scope:** Prometheus-compatible metrics collection and export, OpenTelemetry distributed tracing, structured logging aggregation, health check endpoints, alerting rules.
+**In scope:** Prometheus-compatible metrics collection and export, OpenTelemetry distributed tracing, structured logging aggregation, health check endpoints, alerting rules, query/storage profiling, performance analysis, eBPF-based kernel tracing, continuous profiling, distributed flame graph generation.
 
 **Out of scope:** Log storage (external Elasticsearch/Loki), alerting backend (external Alertmanager/PagerDuty), dashboarding (external Grafana).
 
 ## Relevant Interfaces
 
-- `metrics_collector.cpp` — Prometheus metric collection and exposition
-- `tracer.cpp` — OpenTelemetry span management
-- `log_aggregator.cpp` — structured log collection
-- Health endpoints
+| File | Role |
+|---|---|
+| `metrics_collector.cpp` | Prometheus metric collection and `/metrics` endpoint |
+| `alertmanager.cpp` | Alertmanager integration — alert routing and notification webhooks |
+| `continuous_profiler.cpp` | Continuous profiling (pprof / async-profiler compatible), adaptive sampling |
+| `ebpf_tracer.cpp` | eBPF-based kernel-level performance tracing (Linux perf counters) |
+| `distributed_flame_graph.cpp` | Distributed flame graph generation across nodes |
+| `query_profiler.cpp` | Per-phase and per-operator query timing with index usage tracking |
+| `storage_profiler.cpp` | RocksDB stats, write/read amplification, compaction metrics, cache hit rates |
+| `performance_analyzer.cpp` | Automated issue detection with optimization recommendations |
+
+**Note:** `tracer.cpp` and `log_aggregator.cpp` referenced in older docs **do not exist** — distributed tracing is in `continuous_profiler.cpp`; structured logging is via the Core `ILogger` interface.
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Prometheus metrics and structured logging operational; OpenTelemetry tracing integration in progress.
+**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, and Alertmanager integration are all fully implemented. OTLP direct export (`otlp_exporter.cpp`) is pending.
+
+**Validated:** 2026-03-09 (Reality-Check against Sourcecode; see [docs/de/observability/missing-implementations.md](../../docs/de/observability/missing-implementations.md))
 
 ## Table of Contents
 

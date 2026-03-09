@@ -1,26 +1,35 @@
 # ThemisDB Network Module Headers
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ../src/network/README.md · ../src/network/ARCHITECTURE.md -->
+
 ## Module Purpose
 
-The Network headers define the public interfaces for ThemisDB's high-performance networking layer. These headers expose wire protocol server capabilities, connection pooling abstractions, socket timeout management, and protocol helpers without requiring clients to depend on implementation details or external networking libraries beyond standard interfaces.
+The Network headers define the public interfaces for ThemisDB's high-performance networking layer. These headers expose wire protocol server capabilities, connection pooling abstractions, socket timeout management, QoS, UDP fast-path, QUIC, gRPC, geo-topology routing, and service mesh integration without requiring clients to depend on implementation details or external networking libraries beyond standard interfaces.
 
 ## Scope
 
 **In Scope:**
-- Wire Protocol Server interface for binary TCP communication
+- Wire Protocol Server interface for binary TCP communication (port 8766)
+- Wire Protocol V2 interface for multiplexed binary communication
+- WebSocket upgrade on port 8766 (`wire_protocol_websocket.h`, guarded by `THEMIS_ENABLE_WEBSOCKET`)
 - Connection pool interfaces for client-side and server-side pooling
 - Socket timeout manager with circuit breaker pattern
+- QoS manager — per-tenant bandwidth quotas, token bucket, priority queuing
 - Protocol buffer wire format parsing utilities
 - Network security interfaces (TLS/mTLS configuration)
 - Health checking and keepalive abstractions
 - Network statistics and monitoring interfaces
 - Cross-platform socket abstractions (Windows/Unix)
+- UDP fast-path for read-only queries (port 8769)
+- QUIC/HTTP3 transport (port 8770, guarded by `THEMIS_ENABLE_HTTP3`)
+- gRPC native transport (port 8771, guarded by `THEMIS_ENABLE_GRPC`)
+- Geo topology router for geo-distributed cluster routing
+- Service mesh integration (Istio/Envoy sidecar, guarded by `THEMIS_ENABLE_SERVICE_MESH`)
+- Connection-level compression helpers (LZ4, Zstd — `connection_compression.h`)
 
 **Out of Scope:**
 - HTTP/REST API server (handled by api module headers)
-- WebSocket implementation (future enhancement)
-- UDP/QUIC protocols (future enhancement)
-- Service mesh integration (future enhancement)
 - Concrete TLS implementation (delegated to OpenSSL/Boost.Asio)
 
 ## Key Components
