@@ -71,12 +71,19 @@ std::string sanitizeKey(const std::string& key) {
         throw std::invalid_argument("Key contains path traversal sequence: " + key);
     }
 
+    // Reject keys that are only '.' (current directory reference)
+    auto trimmed = key;
+    while (!trimmed.empty() && (trimmed.front() == '/' || trimmed.front() == '\\')) {
+        trimmed.erase(trimmed.begin());
+    }
+    if (trimmed == ".") {
+        throw std::invalid_argument("Key is a current-directory reference: " + key);
+    }
+    if (trimmed.empty()) return "_";
+
     std::string safe;
-    safe.reserve(key.size());
-    // Strip leading separators
-    std::size_t start = key.find_first_not_of("/\\");
-    const std::string& src = (start == std::string::npos) ? key : key.substr(start);
-    for (char c : src) {
+    safe.reserve(trimmed.size());
+    for (char c : trimmed) {
         safe += (c == '/' || c == '\\' || c == ':' || c == '*' ||
                  c == '?' || c == '"' || c == '<' || c == '>' || c == '|')
                     ? '_'
@@ -195,7 +202,20 @@ bool TieredStorageManager::put(const std::string& key, const std::string& value)
 }
 
 std::string TieredStorageManager::get(const std::string& key) {
-    // Search tiers from hottest to coldest
+    // Fast path: check AccessTracker to determine which tier likely holds the key
+    {
+        auto snap = tracker_.snapshot();
+        auto it = snap.find(key);
+        if (it != snap.end()) {
+            StorageTierLevel expected = it->second.tier;
+            if (existsInTier(key, expected)) {
+                tracker_.recordRead(key);
+                return readFromTier(key, expected);
+            }
+        }
+    }
+
+    // Fallback: scan all tiers in hot-to-cold order (handles tracker miss)
     for (auto tier : {StorageTierLevel::HOT, StorageTierLevel::WARM, StorageTierLevel::COLD}) {
         if (existsInTier(key, tier)) {
             tracker_.recordRead(key);
@@ -232,7 +252,7 @@ StorageTierLevel TieredStorageManager::tierOf(const std::string& key) const {
 bool TieredStorageManager::migrateKey(const std::string& key,
                                        StorageTierLevel from,
                                        StorageTierLevel to) {
-    // Read from source
+    // Read from source (validate existence first)
     if (!existsInTier(key, from)) {
         THEMIS_WARN("TieredStorage: migrateKey({}, {} -> {}): key not found in source",
                     key,
@@ -241,6 +261,14 @@ bool TieredStorageManager::migrateKey(const std::string& key,
         return false;
     }
     std::string value = readFromTier(key, from);
+    // Validate that the read succeeded (readFromTier returns "" on I/O error)
+    // A zero-byte file is a valid value, so we only abort on actual read failure.
+    if (value.empty() && !existsInTier(key, from)) {
+        // File disappeared between existsInTier and readFromTier – concurrent deletion
+        THEMIS_WARN("TieredStorage: migrateKey({}) source disappeared during read", key);
+        stat_migration_errors_++;
+        return false;
+    }
 
     // Write to destination (copy-then-delete for crash safety)
     if (!writeToTier(key, value, to)) {

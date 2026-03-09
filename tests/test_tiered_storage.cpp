@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <cstdint>
 
 // ── GCS backend tests ─────────────────────────────────────────────────────
 // The GCS backend requires google-cloud-cpp and live ADC credentials, so the
@@ -162,12 +163,17 @@ protected:
     }
 
     void SetUp() override {
-        base_dir_ = (fs::temp_directory_path() / "themis_tiered_test").string();
-        fs::remove_all(base_dir_);
+        // Use unique directory per test to support parallel test execution
+        auto pid = std::to_string(
+            static_cast<long>(reinterpret_cast<std::uintptr_t>(this)));
+        base_dir_ = (fs::temp_directory_path() / ("themis_tiered_" + pid)).string();
+        std::error_code ec;
+        fs::remove_all(base_dir_, ec);  // best-effort cleanup; errors ignored
     }
 
     void TearDown() override {
-        fs::remove_all(base_dir_);
+        std::error_code ec;
+        fs::remove_all(base_dir_, ec);
     }
 };
 

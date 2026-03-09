@@ -156,15 +156,19 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
     }
 
     std::vector<uint8_t> data;
-    data.reserve(static_cast<std::size_t>(ref.size_bytes > 0 ? ref.size_bytes : 0));
+    if (ref.size_bytes > 0) {
+        data.reserve(static_cast<std::size_t>(ref.size_bytes));
+    }
 
     char buf[65536];
     while (reader.read(buf, sizeof(buf))) {
-        auto n = reader.gcount();
+        const auto n = reader.gcount();
         data.insert(data.end(), buf, buf + n);
     }
-    if (reader.gcount() > 0) {
-        data.insert(data.end(), buf, buf + reader.gcount());
+    // Capture any final partial read
+    const auto tail = reader.gcount();
+    if (tail > 0) {
+        data.insert(data.end(), buf, buf + tail);
     }
 
     // Integrity check
