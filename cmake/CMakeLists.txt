@@ -2011,6 +2011,7 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/continuous_profiler.cpp
     ../src/observability/ebpf_tracer.cpp
     ../src/observability/distributed_flame_graph.cpp
+    ../src/observability/slo_reporter.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>

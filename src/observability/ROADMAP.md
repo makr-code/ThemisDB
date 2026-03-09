@@ -52,7 +52,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Implementation: `DistributedFlameGraph` (add/merge/diff node profiles, normalise-per-node, JSON/folded export)
   - Tests: `tests/test_distributed_flame_graph.cpp`
 - [?] Metrics federation across multiple ThemisDB clusters
-- [I] SLO/SLA compliance reporting with burn-rate alerts (Issue: #2148)
+- [x] SLO/SLA compliance reporting with burn-rate alerts (Issue: #2148)
+  - Files: `observability/slo_reporter.h`, `observability/slo_reporter.cpp`
+  - Implementation: `SloReporter` with `SloDefinition`, multi-window burn-rate detection (FAST 14.4×/MEDIUM 6×/SLOW 3×), `publishMetrics()`, `generateReport()`, `generateReportJson()`
+  - Tests: `tests/test_slo_reporter.cpp`
 
 ## Implementation Phases
 
@@ -83,7 +86,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [ ] Anomaly detection on metrics time-series (ML-based)
 - [x] Distributed flame graph generation across nodes
   — `observability/distributed_flame_graph.h/cpp`, tests: `tests/test_distributed_flame_graph.cpp`
-- [ ] SLO/SLA compliance reporting with burn-rate alerts
+- [x] SLO/SLA compliance reporting with burn-rate alerts
+  — `observability/slo_reporter.h/cpp`, tests: `tests/test_slo_reporter.cpp`
 
 ## Production Readiness Checklist
 - [?] Unit tests coverage > 80%
