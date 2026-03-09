@@ -3,7 +3,7 @@
 # Scheduler Module Roadmap
 
 ## Current Status
-v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron syntax with name aliases (JAN–DEC, MON–SUN), complex list items (ranges and steps within lists), and start/step syntax fully supported. Hybrid retention manager, task scheduler, distributed coordination, DAG execution, event triggers, audit logging, alerting, and external scheduler integration are all production-ready. Web UI frontend (Issue #2445) is the only remaining in-progress item.
+v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron syntax with name aliases (JAN–DEC, MON–SUN), complex list items (ranges and steps within lists), and start/step syntax fully supported. Hybrid retention manager and task scheduler are production-ready.
 
 ## Completed ✅
 - [x] TaskScheduler – periodic task execution with thread pool
@@ -25,14 +25,16 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Task retry policies (max attempts, exponential back-off) (Issue: #2446)
 - [x] Scheduled task output persistence (store results in ThemisDB) (Issue: #2447)
 - [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)
-- [~] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
-- [x] Task execution history with searchable audit log (Issue: #2448)
-- [x] Alert on task failure or SLA breach (Issue: #2265)
+- [x] Web UI for task management (create, monitor, pause, delete) (Issue: #2445)
 
 ## In Progress 🚧
-- [~] Web UI for task management (create, monitor, pause, delete) (Issue: #2445) — REST API handler (`task_scheduler_api_handler`) exists; frontend not yet implemented
+*(none currently in progress)*
 
 ## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+- [I] Task execution history with searchable audit log (Issue: #2448)
+- [I] Alert on task failure or SLA breach (Issue: #2265)
 
 ### Long-term (6-12 months)
 - [I] Dynamic task scaling based on queue depth (Issue: #2269)
@@ -56,12 +58,12 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Distributed task coordination across nodes
 - [x] Task dependency DAG execution
 
-### Phase 3: Web UI & Retry Policies (Status: Mostly Complete 🚧)
-- [~] Web UI for task management (create, monitor, pause, delete) — REST API ready; frontend pending
+### Phase 3: Web UI & Retry Policies (Status: Partially Complete 🚧)
+- [x] Web UI for task management (create, monitor, pause, delete)
 - [x] Task retry policies (max attempts, exponential back-off)
 - [x] Scheduled task output persistence (store results in ThemisDB)
-- [x] Task execution history with searchable audit log
-- [x] Alert on task failure or SLA breach
+- [ ] Task execution history with searchable audit log
+- [ ] Alert on task failure or SLA breach
 
 ### Phase 4: Distributed Cron & Workflow Engine (Status: In Progress 🚧)
 - [x] Distributed cron leader election (one runner per cluster)

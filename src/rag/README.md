@@ -1,104 +1,62 @@
 # ThemisDB RAG Module Implementation
 
-**Last Updated:** March 2026
-
 ## Module Purpose
 
-Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining vector similarity search, LLM integration, hybrid retrieval, multi-judge evaluation, hallucination detection, citation highlighting, and continuous learning.
+Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining vector similarity search, LLM inference, and hybrid retrieval to answer queries from stored documents.
 
 ## Subsystem Scope
 
-**In scope:** Vector retrieval from ThemisDB index, LLM integration for answer generation, context window management, hybrid search (vector + BM25), re-ranking, faithfulness/relevance/completeness/coherence evaluation, bias detection, knowledge-graph augmented retrieval, agentic/multi-modal RAG, continuous learning orchestration, A/B testing, and per-query evaluation reporting.
+**In scope:** Vector retrieval from ThemisDB index, LLM integration for answer generation, context window management, hybrid search (vector + BM25), re-ranking.
 
 **Out of scope:** LLM model management (handled by llm module), full-text index construction (handled by search module), embedding generation (handled by LLM module).
 
 ## Relevant Interfaces
 
-- `rag_judge.cpp` — main orchestrator for multi-dimensional evaluation
+- `rag_pipeline.cpp` — orchestrates retrieval → augmentation → generation
 - `llm_integration.cpp` — LLM connector for RAG
-- `hybrid_retriever.cpp` — BM25 + vector fusion with RRF weighting
-- `streaming_retriever.cpp` — incremental context window filling
-- `continuous_learning_orchestrator.cpp` — adaptive learning from evaluation feedback
+- `context_manager.cpp` — context window management
+- `retriever.cpp` — vector and hybrid retrieval
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production Ready — Full RAG pipeline with evaluation, hallucination detection, hybrid retrieval, re-ranking, citation highlighting, knowledge-graph retrieval, and continuous learning operational.
+**Maturity:** 🟡 Beta — Basic RAG pipeline with vector retrieval and LLM integration operational; hybrid search and re-ranking in progress.
 
 ## Overview
 
-Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system providing intelligent document retrieval, quality evaluation, knowledge gap detection, ethical compliance checking, and adaptive continuous learning.
+Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system providing intelligent document retrieval, quality evaluation, knowledge gap detection, and ethical compliance checking.
 
-## Implementation Files (41 files, ~17,400 LOC)
+## Implementation Files (20 files, ~7,900 LOC)
 
 ### Core Components
 1. **rag_judge.cpp** - Main orchestrator for multi-dimensional evaluation
 2. **knowledge_gap_detector.cpp** - Three-level gap detection system
 3. **llm_integration.cpp** - Bridge to LLM inference engine
 
-### Streaming Retrieval
+### Streaming Retrieval (Phase 2)
 4. **streaming_retriever.cpp** - Incremental context window filling with token-budget
    enforcement, relevance-ordered streaming, MMR deduplication, and cancellation support
 
-### Hybrid & Graph Retrieval
-5. **hybrid_retriever.cpp** - BM25 + vector fusion with configurable RRF weights
-6. **knowledge_graph_retriever.cpp** - Knowledge graph-augmented retrieval with entity linking
-7. **reranker.cpp** - Cross-encoder re-ranking with heuristic scorer and ONNX stub
-
 ### Evaluators
-8. **faithfulness_evaluator.cpp** - Fact-checking against sources
-9. **relevance_evaluator.cpp** - Query-answer alignment
-10. **completeness_evaluator.cpp** - Query aspect coverage
-11. **coherence_evaluator.cpp** - Structure and readability
-12. **bias_detector.cpp** - Ethical compliance checking
-13. **cot_evaluator.cpp** - Chain-of-thought evaluation
-14. **geval_evaluator.cpp** - G-Eval framework (Liu et al., 2023)
-15. **rubric_evaluator.cpp** - Custom rubric evaluation
+5. **faithfulness_evaluator.cpp** - Fact-checking against sources
+6. **relevance_evaluator.cpp** - Query-answer alignment
+7. **completeness_evaluator.cpp** - Query aspect coverage
+8. **coherence_evaluator.cpp** - Structure and readability
+9. **bias_detector.cpp** - Ethical compliance checking
 
 ### Support Components
-16. **claim_extractor.cpp** - Extract atomic claims from answers
-17. **nli_faithfulness_verifier.cpp** - NLI entailment-based claim verification
-18. **response_parser.cpp** - Parse LLM evaluation responses
-19. **prompt_templates.cpp** - Template and few-shot management
-20. **judge_config.cpp** - Configuration validation
-21. **onnx_model_loader.cpp** - ONNX runtime model loading for NLI/cross-encoder
+10. **claim_extractor.cpp** - Extract atomic claims from answers
+11. **response_parser.cpp** - Parse LLM evaluation responses
+12. **prompt_templates.cpp** - Template and few-shot management
+13. **judge_config.cpp** - Configuration validation
+14. **rubric_evaluator.cpp** - Custom rubric evaluation
 
-### Advanced Evaluation
-22. **judge_ensemble.cpp** - Multi-judge voting strategies
-23. **pairwise_comparator.cpp** - Head-to-head comparisons
-24. **llm_judge_integration.cpp** - Judge orchestration
-25. **llm_judge_client.cpp** - HTTP client for remote LLM judge endpoints
-26. **llm_meta_analyzer.cpp** - Performance meta-analysis
-
-### Document Processing
-27. **document_splitter.cpp** - Configurable chunk size, overlap, and strategy
-28. **document_summarizer.cpp** - Multi-document summarization before context injection
-29. **citation_highlighter.cpp** - Map answer sentences to source chunks
-
-### Reporting & Monitoring
-30. **evaluation_report_exporter.cpp** - Per-query evaluation report export (JSON / HTML)
-31. **hallucination_dashboard.cpp** - Rolling-window hallucination rate tracking
-32. **http_metrics_client.cpp** - HTTP metrics export
-
-### Continuous Learning
-33. **continuous_learning_orchestrator.cpp** - Adaptive learning from evaluation feedback with LoRA retraining
-34. **continuous_learning_client.cpp** - Client interface for learning orchestrator
-35. **bayesian_optimizer.cpp** - Bayesian optimization over retrieval parameters
-36. **ab_testing_framework.cpp** - Traffic-splitting A/B testing with statistical validation
-37. **learning_metrics.cpp** - Sliding-window metrics with mean/std-dev/trend export
-
-### Quality Control
-38. **quality_control_pipeline.cpp** - Automated quality control pipeline
-39. **quality_control_factory.cpp** - Factory for quality control components
-
-### Agentic & Multi-Modal
-40. **agentic_rag.cpp** - Agentic RAG with iterative retrieval loops
-41. **multimodal_rag.cpp** - Multi-modal RAG (image + text retrieval)
-
-### Header-Only Components
-- **batch_evaluator.h** - Batch evaluation pipeline (header-only)
-- **calibration_manager.h** - Evaluator score calibration (header-only)
-- **evaluation_cache.h** - Evaluation result caching (header-only)
-- **rag_integration_helpers.h** - Integration helper utilities (header-only)
+### Advanced Components
+15. **judge_ensemble.cpp** - Multi-judge voting strategies
+16. **pairwise_comparator.cpp** - Head-to-head comparisons
+17. **cot_evaluator.cpp** - Chain-of-thought evaluation
+18. **geval_evaluator.cpp** - G-Eval framework (Liu et al., 2023)
+19. **llm_judge_integration.cpp** - Judge orchestration
+20. **llm_meta_analyzer.cpp** - Performance meta-analysis
 
 ## Performance Characteristics
 
@@ -112,25 +70,10 @@ Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system 
 
 ```bash
 ./build/tests/test_rag_judge
-./build/tests/test_rag_judge_phase1
-./build/tests/test_rag_judge_phase2
-./build/tests/test_rag_judge_phase3
-./build/tests/test_rag_judge_phase4
 ./build/tests/test_knowledge_gap_detector
 ./build/tests/test_rag_streaming_retriever
-./build/tests/test_rag_hybrid_retriever
-./build/tests/test_rag_reranker
-./build/tests/test_rag_document_splitter
-./build/tests/test_rag_document_summarizer
-./build/tests/test_rag_citation_highlighter
-./build/tests/test_rag_hallucination_dashboard
-./build/tests/test_rag_evaluation_report_exporter
-./build/tests/test_rag_agentic
-./build/tests/test_rag_multimodal
-./build/tests/test_rag_knowledge_graph_retriever
-./build/tests/test_rag_ethics
-./build/benchmarks/bench_rag_hybrid_retriever
-./build/benchmarks/bench_rag_ethics
+./build/tests/test_rag_pipeline_integration
+./build/benchmarks/bench_rag_evaluation
 ```
 
 ## Wissenschaftliche Grundlagen
@@ -190,13 +133,13 @@ Die Implementierung basiert auf folgenden peer-reviewten Forschungsarbeiten:
 
 ## See Also
 
-- Headers: `../../include/rag/`
-- Secondary docs (DE): `../../docs/de/rag/README.md`
+- Headers: `../../include/rag/README.md`
+- Documentation: `../../docs/src/rag/`
 - Examples: `../../examples/rag/`
 
 ---
 
-*41 files | ~17,400 lines | MIT License*
+*19 files | ~7,600 lines | MIT License*
 
 ## Scientific References
 

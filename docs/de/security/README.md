@@ -1,13 +1,7 @@
 # ThemisDB Security Documentation
 
-**Stand:** 9. März 2026
-**Version:** v1.5.0
-**Validated:** 2026-03-09 (HEAD, branch `copilot/sync-documentation-with-sourcecode`)
-**Status:** current
-
-**Primäre Dokumentation:** [`src/security/README.md`](../../src/security/README.md)
-**Roadmap:** [`src/security/ROADMAP.md`](../../src/security/ROADMAP.md)
-**Fehlende Implementierungen:** [`missing-implementations.md`](missing-implementations.md)
+**Stand:** 7. Januar 2026  
+**Version:** v1.4.0-alpha
 
 ---
 

@@ -20,9 +20,10 @@ The Replication module provides ThemisDB's high-availability and data durability
 
 | Interface / File | Role |
 |-----------------|------|
-| `include/replication/replication_manager.h` | All leader-follower classes: `ReplicationManager`, `WALManager`, `LeaderElection`, `ReplicationStream`, `CompressedReplicationStream`, `IReplicationListener`, `CDCManager`, `CrossClusterPublication`, `CrossClusterSubscription`, `WALArchivalManager`, `MultiRegionActiveActiveManager`, `LagBasedReadRouter`, `ReplicationAnalytics`, `ReplicationBenchmark` |
-| `include/replication/multi_master_replication.h` | Multi-master classes: `MultiMasterReplicationManager`, `VectorClock`, `HybridLogicalClock`, `ConflictResolver`, `LastWriteWinsResolver`, `CRDTMergeResolver`, `CustomResolver` |
-| `src/replication/replication_manager.cpp` | Full implementation of all replication classes (5,100+ lines) |
+| `raft_node.cpp` | Raft consensus node: leader election and log replication |
+| `replication_log.cpp` | WAL-based replication log management |
+| `snapshot_manager.cpp` | Snapshot creation and restoration for PITR |
+| `leader_election.cpp` | Raft leader election protocol implementation |
 
 ## Scope
 
@@ -998,8 +999,8 @@ endif()
    - No automatic read-your-writes guarantee with SECONDARY read preference
 
 4. **WAL Management**:
-   - WAL *streaming* uses Zstd compression (`CompressedReplicationStream`); WAL *files at rest* are not compressed by default
-   - `WALArchivalManager` supports local-directory WAL archival; archival to cloud object storage (S3, GCS) is not yet supported
+   - WAL segments are not compressed (disk usage can be high)
+   - No automatic WAL archival to object storage (S3, GCS)
    - WAL replay for PITR can take hours for large databases
 
 5. **Scalability**:
@@ -1024,7 +1025,7 @@ endif()
 
 ## Status
 
-**Production Ready** (as of v1.6.0)
+**Production Ready** (as of v1.5.0)
 
 ✅ **Stable Features:**
 - Leader-follower replication with Raft-like consensus
@@ -1033,26 +1034,16 @@ endif()
 - Replication lag monitoring
 - Read preferences and replica routing
 - Prometheus metrics export
-- Multi-master replication with CRDT conflict resolution
-- Compressed WAL streaming (Zstd via `CompressedReplicationStream`)
-- Cascading replication for hierarchical topologies
-- Cross-region replication
-- Witness node support for 2-node quorum
-- Lag-based read traffic routing (`LagBasedReadRouter`)
-- CDC event streaming (`CDCManager`)
-- Cross-cluster publish/subscribe (`CrossClusterPublication` / `CrossClusterSubscription`)
-- WAL local archival (`WALArchivalManager`)
 
 ⚠️ **Beta Features:**
-- Multi-region active-active with bounded staleness (`MultiRegionActiveActiveManager`)
-- Schema-aware CDC with Avro/Protobuf schema registry
+- Multi-master replication (v1.5.0+)
+- CRDT-based conflict resolution (v1.5.0+)
+- Cascading replication (v1.5.0+)
+- Cross-region replication (v1.5.0+)
 
-🔬 **Experimental / Planned (v1.7.0):**
-- `ReplicationObserver` / `observability.h` — structured per-event observability hooks
-- `ThreeWayMergeResolver` / `FieldLevelMergeResolver` / `conflict_resolution.h` — field-level merge conflict resolution
-- `ReplicationEventStream` / `event_stream.h` — typed event stream (implements `IReplicationListener`)
-- `ReplicationPolicy` / `policy.h` — declarative replication policy DSL
-- `ReplicationSlot` / `ReplicationSlotManager` / `replication_slot.h` — pauseable per-consumer replication slots
+🔬 **Experimental:**
+- Selective replication (filtered) (v1.5.0+)
+- Compressed replication streams (v1.5.0+)
 
 ## Related Documentation
 
@@ -1062,9 +1053,9 @@ endif()
 - [Deployment Guide](../../docs/deployment/replication.md) - Replication setup and best practices
 - [Operations Guide](../../docs/operations/failover.md) - Failover procedures and recovery
 
-*Last Updated: March 2026*  
-*Module Version: v1.6.0*  
-*Next Review: v1.7.0 Release*
+*Last Updated: February 2026*  
+*Module Version: v1.5.0*  
+*Next Review: v1.6.0 Release*
 
 ## Scientific References
 

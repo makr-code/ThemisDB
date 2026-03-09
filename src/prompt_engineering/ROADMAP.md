@@ -56,9 +56,9 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 ### Phase 1: Template Management & Evaluation (Status: Completed ✅)
 - [x] PromptManager – CRUD with RocksDB persistence and YAML bulk-load
 - [x] Context injection (`{placeholder}` variable substitution) and `buildContextFromSchema()`
-- [?] Chain-of-thought (CoT) prompt support with step delimiters
-- [?] RAG prompt construction helpers (retrieved context injection)
-- [?] System prompt management and per-role override
+- [x] Chain-of-thought (CoT) prompt support with step delimiters
+- [x] RAG prompt construction helpers (retrieved context injection)
+- [x] System prompt management and per-role override
 - [x] FeedbackCollector, PromptEvaluator, PromptOptimizer, MetaPromptGenerator
 - [x] Git-like version control (branches, commits, diffs)
 - [x] A/B testing with statistical significance (p-value)

@@ -1,30 +1,20 @@
 # ThemisDB Scheduler Module
 
-**Last Updated:** March 2026
-**Version:** 1.5.0
-
 ## Module Purpose
 
-The Scheduler module provides ThemisDB's task scheduling and automation implementation. It enables cron-like periodic execution of AQL queries and custom functions for data processing, maintenance, backup, retention, and analytics workflows. The module includes a generic task scheduler, a specialized hybrid retention manager for time-series data lifecycle management, distributed task coordination, DAG-based workflow execution, event-triggered tasks, external scheduler integration, audit logging with searchable history, and alerting on task failure or SLA breach.
+The Scheduler module provides ThemisDB's task scheduling and automation implementation. It enables cron-like periodic execution of AQL queries and custom functions for data processing, maintenance, backup, retention, and analytics workflows. The module includes a generic task scheduler and a specialized hybrid retention manager for time-series data lifecycle management.
 
 ## Relevant Interfaces
 
-| Interface / File | Header | Role |
-|-----------------|--------|------|
-| `task_scheduler.cpp` | `include/scheduler/task_scheduler.h` | Task scheduling engine with thread pool, retry policies, DAG execution |
-| `hybrid_retention_manager.cpp` | `include/scheduler/hybrid_retention_manager.h` | Three-stage time-series data lifecycle |
-| `distributed_task_coordinator.cpp` | `include/scheduler/distributed_task_coordinator.h` | Cluster-wide leader election and task coordination |
-| `event_trigger.cpp` | `include/scheduler/event_trigger.h` | CDC changefeed → task execution triggers |
-| `external_scheduler_adapter.cpp` | `include/scheduler/external_scheduler_adapter.h` | Kubernetes CronJob and Apache Airflow integration |
-| `task_audit_manager.cpp` | `include/scheduler/task_audit_manager.h` | Searchable audit log for task execution history |
-| `task_audit_event.cpp` | `include/scheduler/task_audit_event.h` | Structured audit event types |
-| `task_anomaly_detector.cpp` | `include/scheduler/task_anomaly_detector.h` | Statistical anomaly detection for task execution patterns |
-| `task_result_store.cpp` | `include/scheduler/task_result_store.h` | Persistent storage of scheduled task output results |
-| `../utils/cron_parser.cpp` | `../include/utils/cron_parser.h` | Full cron expression parsing (v1.5.0) |
+| Interface / File | Role |
+|-----------------|------|
+| `task_scheduler.cpp` | Task scheduling engine with thread pool |
+| `hybrid_retention_manager.cpp` | Three-stage time-series data lifecycle |
+| `../utils/cron_parser.cpp` | Full cron expression parsing (v1.5.0) |
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Full cron expression parsing (v1.5.0) complete; thread pool task scheduler, hybrid retention manager, distributed coordination, DAG execution, event triggers, audit logging, alerting, and external scheduler integration all production-ready.
+**Maturity:** 🟡 Beta — Full cron expression parsing (v1.5.0) complete; thread pool task scheduler and hybrid retention manager production-ready. Distributed coordination and DAG execution in progress.
 
 ## Scope
 
@@ -39,27 +29,20 @@ The Scheduler module provides ThemisDB's task scheduling and automation implemen
 - Rate limiting and resource management
 - OpenTelemetry tracing integration
 - **Full cron expression parsing** (wildcards, ranges, lists with embedded ranges/steps, start/step syntax, month/weekday name aliases, @-specials, 6-field year constraint, timezone-aware scheduling)
-- Distributed task coordination with leader election
-- Task dependency DAG execution with conditional branching
-- Event-triggered tasks (CDC changefeed integration)
-- Task retry policies (max attempts, exponential/Fibonacci/jitter back-off)
-- Scheduled task output persistence (store results in ThemisDB via `TaskResultStore`)
-- Task execution history with searchable audit log (`TaskAuditManager`)
-- Alert on task failure or SLA breach (Alertmanager integration)
-- External scheduler integration (Kubernetes CronJob, Apache Airflow)
 
 **Out of Scope:**
+- Distributed coordination (future enhancement)
+- Task dependencies and DAG execution (future)
 - Authentication/authorization logic (handled by auth module)
 - Query parsing (handled by query module)
 - Storage operations (handled by storage module)
-- Web UI frontend for task management (REST API exists; frontend planned)
 
 ## Key Components
 
 ### TaskScheduler
 **Location:** `task_scheduler.cpp`, `../include/scheduler/task_scheduler.h`
 
-Core scheduler implementation providing periodic task execution with comprehensive security controls and distributed tracing integration. Supports multiple retry strategies (FIXED_DELAY, EXPONENTIAL_BACKOFF, LINEAR_BACKOFF, JITTER_BACKOFF, FIBONACCI_BACKOFF), DAG-based task execution with conditional branching, SLA deadline monitoring, and Alertmanager integration for failure/SLA-breach notifications.
+Core scheduler implementation providing periodic task execution with comprehensive security controls and distributed tracing integration.
 
 **Thread Safety:** All operations are thread-safe with internal locking.
 
@@ -78,36 +61,6 @@ Three-stage data lifecycle management achieving 99.9% storage reduction for time
 3. Time-based retention (>1 year): Daily aggregates
 
 See full documentation in README for configuration and usage.
-
-### DistributedTaskCoordinator
-**Location:** `distributed_task_coordinator.cpp`, `../include/scheduler/distributed_task_coordinator.h`
-
-Cluster-wide leader election and task coordination. Uses the `DistributedCoordinator` (sharding module) for leader election; activates or deactivates the local `TaskScheduler` depending on whether the node is the elected leader.
-
-### EventTrigger / EventTriggerManager
-**Location:** `event_trigger.cpp`, `../include/scheduler/event_trigger.h`
-
-CDC changefeed-to-task execution bridge. Listens to a `Changefeed` stream and fires registered `ScheduledTask` callbacks when filter predicates match, with per-trigger circuit breaker and throttling controls.
-
-### ExternalSchedulerAdapter
-**Location:** `external_scheduler_adapter.cpp`, `../include/scheduler/external_scheduler_adapter.h`
-
-Generates Kubernetes CronJob manifests and Apache Airflow DAG Python files from `ScheduledTask` definitions, enabling round-trip integration with external orchestration systems.
-
-### TaskAuditManager
-**Location:** `task_audit_manager.cpp`, `../include/scheduler/task_audit_manager.h`
-
-Searchable audit log for all task execution events. Provides `queryAuditEvents(AuditQueryParams)` and `querySecurityEvents()` with filtering by task ID, time range, status, and user. Exports to JSONL for SIEM integration. Backed by `utils::AuditLogger` for tamper-evident logging.
-
-### TaskResultStore
-**Location:** `task_result_store.cpp`, `../include/scheduler/task_result_store.h`
-
-Persists scheduled task execution output (`TaskExecutionResult`) to RocksDB. Results are retrievable by task ID and time range.
-
-### TaskAnomalyDetector
-**Location:** `task_anomaly_detector.cpp`, `../include/scheduler/task_anomaly_detector.h`
-
-Statistical anomaly detection for task execution patterns. Raises alerts when task durations, failure rates, or queue depths deviate significantly from historical baselines.
 
 ### CronExpression Parser
 **Location:** `../utils/cron_parser.cpp`, `../include/utils/cron_parser.h`

@@ -36,13 +36,6 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 
 ### Short-term (Next 3-6 months)
 - [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
-  - `ReplicationSlot` / `ReplicationSlotManager` in new header `replication_slot.h`
-
-### Medium-term (v1.7.0)
-- [ ] `observability.h` – `ReplicationObserver` interface for structured per-event observability hooks (Target: v1.7.0)
-- [ ] `conflict_resolution.h` – `ThreeWayMergeResolver` and `FieldLevelMergeResolver` for fine-grained field-level conflict merging (Target: v1.7.0)
-- [ ] `event_stream.h` – `ReplicationEventStream` (implements `IReplicationListener` + `std::enable_shared_from_this<ReplicationEventStream>`) for typed event delivery (Target: v1.7.0)
-- [ ] `policy.h` – `ReplicationPolicy` declarative policy DSL for selective and conditional replication rules (Target: v1.7.0)
 
 ### Long-term (6-12 months)
 - [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
@@ -82,15 +75,11 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Automated lag-based read traffic shifting
 - [x] Cross-cluster logical replication (publish/subscribe model)
 
-### Phase 4: Full Raft v2, Multi-Region Active-Active & v1.7.0 Extensions (Status: Planned 📋)
+### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Planned 📋)
 - [ ] Full Raft v2 implementation (joint consensus for membership changes)
 - [~] Multi-region active-active with bounded staleness guarantees
 - [P] Schema-aware CDC with Avro/Protobuf schema registry integration
 - [ ] Conflict-free Replicated Data Types (CRDT) library expansion
-- [ ] `observability.h` – `ReplicationObserver` for structured per-event observability
-- [ ] `conflict_resolution.h` – `ThreeWayMergeResolver` and `FieldLevelMergeResolver`
-- [ ] `event_stream.h` – `ReplicationEventStream` (typed event stream)
-- [ ] `policy.h` – `ReplicationPolicy` declarative replication policy DSL
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (177 test cases including 31 cross-cluster pub/sub tests and 7 witness-node tests)
