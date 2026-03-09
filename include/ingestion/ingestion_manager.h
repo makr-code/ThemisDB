@@ -398,7 +398,8 @@ using DocumentValidatorFn = std::function<DocumentValidationResult(const std::st
  * @brief Function type for injecting a mock HTTP GET response in tests.
  *
  * Returns `{status_code, response_body}`.  When injected via
- * `GenericApiConnector::setHttpGetForTesting()` or
+ * `GenericApiConnector::setHttpGetForTesting()`,
+ * `HuggingFaceConnector::setHttpGetForTesting()`, or
  * `IngestionManager::setApiHttpGetForTesting()`, this function is called
  * instead of a real libcurl request.  Intended for unit tests only.
  */
@@ -913,11 +914,12 @@ public:
     bool clearCheckpoint(const std::string& source_id);
 
     /**
-     * @brief Inject a mock HTTP GET function for all API connectors (testing only)
+     * @brief Inject a mock HTTP GET function for all HTTP-based connectors (testing only)
      *
-     * When set, every `GenericApiConnector` created by this manager will have
-     * the supplied function installed via `setHttpGetForTesting()` before its
-     * first use.  Pass an empty `ApiHttpGetFn{}` to restore real HTTP.
+     * When set, every `GenericApiConnector` and `HuggingFaceConnector` created
+     * by this manager will have the supplied function installed via
+     * `setHttpGetForTesting()` before its first use.  Pass an empty
+     * `ApiHttpGetFn{}` to restore real HTTP.
      */
     void setApiHttpGetForTesting(ApiHttpGetFn fn);
 

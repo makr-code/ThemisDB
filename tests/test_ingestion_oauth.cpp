@@ -334,10 +334,18 @@ static SourceConfig makeHfSourceConfig() {
 }
 
 TEST(HuggingFaceConnectorOAuthTest, SuccessfulTokenRefreshBatchMode) {
-    // The simulated HttpClient::get always returns 200, but we can verify
-    // that setOAuthConfig and setHttpPostForTesting are accepted without error.
+    // Inject a GET mock so the test does not make real network calls.
+    // Both the dataset availability check and the metadata endpoint return 200.
     HuggingFaceConnector conn;
     ASSERT_TRUE(conn.initialize(makeHfSourceConfig()));
+
+    conn.setHttpGetForTesting(
+        [](const std::string& url, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            if (url.find("/metadata") != std::string::npos)
+                return {200, "{\"rows\":12000}"};
+            return {200, "{\"status\":\"available\"}"};
+        });
 
     std::atomic<int> post_call_count{0};
     conn.setHttpPostForTesting(
@@ -353,11 +361,11 @@ TEST(HuggingFaceConnectorOAuthTest, SuccessfulTokenRefreshBatchMode) {
     oauth.access_token   = "hf-expired";
     conn.setOAuthConfig(oauth);
 
-    // With the simulated client returning 200, no POST is needed.
+    // With the mock GET returning 200, no POST is needed.
     auto stats = conn.ingest("col", nullptr);
     EXPECT_EQ(post_call_count.load(), 0)
         << "Token refresh must not be triggered when no 401 occurs";
-    EXPECT_EQ(stats.documents_processed, 12000u); // stub always returns 12000
+    EXPECT_EQ(stats.documents_processed, 12000u);
 }
 
 TEST(HuggingFaceConnectorOAuthTest, OAuthConfigIsRefreshable) {
@@ -382,14 +390,31 @@ TEST(HuggingFaceConnectorOAuthTest, OAuthConfigViaSourceOptions) {
     HuggingFaceConnector conn;
     ASSERT_TRUE(conn.initialize(cfg));
 
+    // Inject a GET mock so the test does not make real network calls.
+    conn.setHttpGetForTesting(
+        [](const std::string& url, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            if (url.find("/metadata") != std::string::npos)
+                return {200, "{\"rows\":10}"};
+            return {200, "{\"status\":\"ok\"}"};
+        });
+
     // Connector should not crash and should use the stored OAuth config.
-    // (Full 401 path is exercised in integration tests against real stubbed HTTP.)
     EXPECT_NO_THROW(conn.ingest("col", nullptr));
 }
 
 TEST(HuggingFaceConnectorOAuthTest, SetHttpPostForTestingAccepted) {
     HuggingFaceConnector conn;
     ASSERT_TRUE(conn.initialize(makeHfSourceConfig()));
+
+    // Inject a GET mock so the test does not make real network calls.
+    conn.setHttpGetForTesting(
+        [](const std::string& url, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            if (url.find("/metadata") != std::string::npos)
+                return {200, "{\"rows\":5}"};
+            return {200, "{\"status\":\"ok\"}"};
+        });
 
     bool called = false;
     conn.setHttpPostForTesting(
@@ -399,7 +424,7 @@ TEST(HuggingFaceConnectorOAuthTest, SetHttpPostForTestingAccepted) {
             return {200, makeTokenResponse("tok")};
         });
 
-    // The hook is stored but not called because the simulated GET returns 200.
+    // The POST hook must not be called when no 401 occurs.
     conn.ingest("col", nullptr);
     EXPECT_FALSE(called)
         << "POST hook must not be called when no 401 occurs";

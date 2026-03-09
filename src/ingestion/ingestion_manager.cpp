@@ -540,6 +540,9 @@ public:
                 case SourceType::HUGGINGFACE: {
                     auto hf_connector = std::make_unique<HuggingFaceConnector>();
                     hf_connector->setRetryConfig(retry_config_);
+                    if (api_http_get_fn_) {
+                        hf_connector->setHttpGetForTesting(api_http_get_fn_);
+                    }
                     if (!hf_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
