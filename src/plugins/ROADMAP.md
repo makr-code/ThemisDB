@@ -1,4 +1,6 @@
 # Plugins Module Roadmap
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/plugins/README.md · src/plugins/ARCHITECTURE.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -14,10 +16,13 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [x] Secure plugin execution sandbox
 - [x] Plugin signer tool (`tools/plugin_signer/`)
 - [x] Runtime plugin capability negotiation with version ranges (`PluginCapabilityNegotiator`, Issue: #1984)
+- [x] Plugin hot-reload without server restart (Evidence: `plugin_manager.cpp:953`)
+- [x] Plugin dependency resolution with topological sort and cycle detection
+- [x] Plugin health monitoring and automatic restart on crash (`plugin_health_monitor.cpp`)
+- [x] Remote plugin loading from OCI registries (`oci_registry_client.cpp`)
+- [x] Signed plugin repository with pinned-key store (`signed_plugin_repository.cpp`)
 
 ## In Progress 🚧
-- [I] Plugin hot-reload without server restart (Target: Q2 2026) (Issue: #2223)
-- [P] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #2427)
 - [?] Plugin marketplace / registry integration (Target: Q3 2026)
 
 ## Planned Features 📋
@@ -25,13 +30,11 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 ### Short-term (Next 3-6 months)
 - [?] Plugin configuration schema validation (JSON Schema)
 - [?] Per-plugin resource quotas (CPU time, memory)
-- [?] Plugin health monitoring and automatic restart on crash
 - [?] Plugin API versioning with compatibility matrix
 - [?] First-party importer plugins (MySQL, SQLite, MongoDB)
 
 ### Long-term (6-12 months)
 - [?] WebAssembly (WASM) plugin runtime for sandboxed execution
-- [I] Remote plugin loading from OCI registries (Issue: #2224)
 - [?] Plugin capability permissions model (fine-grained access control)
 - [?] Plugin SDK (C++, Python, Go bindings)
 - [?] Community plugin repository with security scanning
@@ -53,7 +56,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [?] Ed25519 manifest signing workflow (`plugins/manifest_signer.cpp`) with key-rotation support (Target: Q2 2026)
 - [?] Capability-based permission model (fine-grained access control per plugin) (Target: Q2 2026)
 - [x] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026)
-- [ ] Plugin hot-reload without server restart (Target: Q3 2026)
+- [x] Plugin hot-reload without server restart (Evidence: `src/plugins/plugin_manager.cpp:953` — `PluginManager::reloadPlugin()`, full 3-phase TOCTOU-safe implementation)
 
 ### Phase 3: WASM Sandbox & Ecosystem (Status: Planned 📋)
 - [?] WebAssembly (WASM) plugin runtime via Wasmtime for sandbox isolation
