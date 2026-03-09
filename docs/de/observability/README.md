@@ -1,7 +1,11 @@
 # Observability & Analytics Module
 
-**Stand:** 04. Februar 2026  
-**Version:** v1.4.1-dev  
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ../../../src/observability/README.md · ../../../src/observability/ARCHITECTURE.md · missing-implementations.md -->
+<!-- Primärdokumentation: ../../../src/observability/ -->
+
+**Stand:** 9. März 2026
+**Version:** v1.1
 **Kategorie:** 🔍 Observability
 
 ---
