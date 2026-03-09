@@ -165,4 +165,4 @@ Universal module format across platforms.
 ---
 
 *Last Updated: March 2026*  
-*Module Version: v1.0.0*
+*Module Version: v1.1.0*

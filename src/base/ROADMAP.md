@@ -47,7 +47,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Trust levels: TRUSTED, VERIFIED, UNTRUSTED
 - [x] Revocation checking for certificates
 - [x] Development mode to allow unsigned modules
-- [x] Plugin lifecycle management: initialize, execute, shutdown (`base/plugin_lifecycle.cpp`)
+- [x] Plugin lifecycle management: initialize, execute, shutdown (`base/module_loader.cpp`)
 - [x] Interface discovery to query plugin capabilities
 - [x] Automatic resource cleanup on unload
 - [x] Cross-platform export/import macros and version compatibility checking

@@ -1,7 +1,7 @@
 # Base Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/base/`
 
 ---
