@@ -232,11 +232,41 @@ public:
         }
         entries_.clear();
         std::remove(manifestPath().c_str());
+        std::remove(calibrationManifestPath().c_str());
     }
 
     // -------------------------------------------------------------------------
     std::string manifestPath() const {
         return config_.checkpoint_dir + "/" + config_.manifest_filename;
+    }
+
+    // -------------------------------------------------------------------------
+    std::string calibrationManifestPath() const {
+        return config_.checkpoint_dir + "/calibration_manifest.json";
+    }
+
+    // -------------------------------------------------------------------------
+    void saveCalibrationJson(const std::string& json_content) {
+        std::ofstream f(calibrationManifestPath(), std::ios::trunc);
+        if (!f.is_open()) {
+            throw std::runtime_error(
+                "LoRACheckpointManager: cannot write calibration_manifest.json to "
+                + config_.checkpoint_dir);
+        }
+        f << json_content;
+        if (!f.good()) {
+            throw std::runtime_error(
+                "LoRACheckpointManager: I/O error writing calibration_manifest.json");
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    std::string loadCalibrationJson() const {
+        std::ifstream f(calibrationManifestPath());
+        if (!f.is_open()) return "";
+        std::ostringstream oss;
+        oss << f.rdbuf();
+        return oss.str();
     }
 
 private:
@@ -298,6 +328,14 @@ void LoRACheckpointManager::clearAll() {
 
 std::string LoRACheckpointManager::manifestPath() const {
     return impl_->manifestPath();
+}
+
+void LoRACheckpointManager::saveCalibrationJson(const std::string& json_content) {
+    impl_->saveCalibrationJson(json_content);
+}
+
+std::string LoRACheckpointManager::loadCalibrationJson() const {
+    return impl_->loadCalibrationJson();
 }
 
 } // namespace training

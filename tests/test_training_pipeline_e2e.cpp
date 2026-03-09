@@ -42,6 +42,8 @@
 #include "training/training_pipeline.h"
 #include <string>
 #include <vector>
+#include <fstream>
+#include <filesystem>
 
 using namespace themis::training;
 
@@ -321,6 +323,9 @@ TEST_F(TrainingPipelineE2ETest, PipelineStats_DefaultValues) {
     EXPECT_EQ(stats.selection_input_count,    0u);
     EXPECT_EQ(stats.selection_output_count,   0u);
     EXPECT_EQ(stats.selection_filtered_count, 0u);
+    // Phase 3: provenance fields
+    EXPECT_EQ(stats.provenance_records_written,  0u);
+    EXPECT_EQ(stats.provenance_records_rejected, 0u);
 }
 
 // ============================================================================
@@ -387,4 +392,122 @@ TEST_F(TrainingPipelineE2ETest, Run_SelectionStatsPopulated) {
     EXPECT_GE(stats.selection_input_count,    0u);
     EXPECT_GE(stats.selection_output_count,   0u);
     EXPECT_GE(stats.selection_filtered_count, 0u);
+}
+
+// ============================================================================
+// Phase 3: Provenance integration tests
+// ============================================================================
+
+TEST_F(TrainingPipelineE2ETest, PipelineConfig_ProvenanceFields_Defaults) {
+    PipelineConfig cfg;
+    // Provenance is opt-in (disabled by default to avoid breaking existing tests)
+    EXPECT_FALSE(cfg.enable_provenance);
+    EXPECT_FALSE(cfg.enable_checkpoint_manager);
+}
+
+TEST_F(TrainingPipelineE2ETest, Run_ProvenanceDisabled_NoRecordsWritten) {
+    config_.enable_provenance = false;
+    TrainingPipeline pipeline(config_, db_conn_);
+    auto stats = pipeline.run();
+    EXPECT_EQ(stats.provenance_records_written, 0u);
+}
+
+TEST_F(TrainingPipelineE2ETest, Run_ProvenanceEnabled_DoesNotThrow) {
+    config_.enable_provenance = true;
+    config_.provenance_config.graph_collection = "TestSamples";
+    config_.provenance_config.emit_audit_events = false;
+    EXPECT_NO_THROW({
+        TrainingPipeline pipeline(config_, db_conn_);
+        pipeline.run();
+    });
+}
+
+TEST_F(TrainingPipelineE2ETest, Run_ProvenanceStats_NonNegative) {
+    config_.enable_provenance = true;
+    config_.provenance_config.emit_audit_events = false;
+    TrainingPipeline pipeline(config_, db_conn_);
+    auto stats = pipeline.run();
+    // With no DB, samples_created == 0 → no provenance records written
+    EXPECT_GE(stats.provenance_records_written,  0u);
+    EXPECT_GE(stats.provenance_records_rejected, 0u);
+}
+
+// ============================================================================
+// Phase 3: ConfidenceCalibrator integration with TrainingPipeline
+// ============================================================================
+
+TEST_F(TrainingPipelineE2ETest, RunCalibration_EmptySamples_Succeeds) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    auto result = pipeline.runCalibration();
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.thresholds.empty());
+}
+
+TEST_F(TrainingPipelineE2ETest, AddCalibrationSample_ThenCalibrate_ProducesThreshold) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    for (int i = 0; i < 20; ++i) {
+        float c = static_cast<float>(i) / 20.0f;
+        pipeline.addCalibrationSample("obligation", c, c >= 0.5f);
+    }
+    auto result = pipeline.runCalibration();
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.thresholds.size(), 1u);
+    EXPECT_EQ(result.thresholds[0].category, "obligation");
+    EXPECT_GE(result.thresholds[0].threshold, 0.0f);
+    EXPECT_LE(result.thresholds[0].threshold, 1.0f);
+}
+
+TEST_F(TrainingPipelineE2ETest, RunCalibration_WithCheckpointManager_PersistsManifest) {
+    namespace fs = std::filesystem;
+    // Setup a temporary checkpoint directory
+    fs::path tmp_dir = fs::temp_directory_path() / "themis_ckpt_pipeline";
+    fs::create_directories(tmp_dir);
+
+    config_.enable_checkpoint_manager = true;
+    config_.checkpoint_manager_config.checkpoint_dir = tmp_dir.string();
+    config_.checkpoint_manager_config.max_checkpoints = 3;
+
+    TrainingPipeline pipeline(config_, db_conn_);
+    pipeline.addCalibrationSample("obligation", 0.7f, true);
+    pipeline.addCalibrationSample("obligation", 0.3f, false);
+
+    auto result = pipeline.runCalibration();
+    EXPECT_TRUE(result.success);
+
+    // Verify calibration manifest was written
+    fs::path manifest_path = tmp_dir / "calibration_manifest.json";
+    EXPECT_TRUE(fs::exists(manifest_path))
+        << "calibration_manifest.json not found at " << manifest_path;
+
+    // Cleanup
+    fs::remove_all(tmp_dir);
+}
+
+// ============================================================================
+// Phase 3: LoRACheckpointManager calibration JSON API
+// ============================================================================
+
+TEST_F(TrainingPipelineE2ETest, CheckpointManager_SaveLoadCalibrationJson) {
+    namespace fs = std::filesystem;
+    fs::path tmp_dir = fs::temp_directory_path() / "themis_cal_test";
+    fs::create_directories(tmp_dir);
+
+    CheckpointManagerConfig cfg;
+    cfg.checkpoint_dir = tmp_dir.string();
+    LoRACheckpointManager mgr(cfg);
+
+    std::string test_json = "success=true\nthreshold_count=2\n"
+                            "threshold[obligation]=0.55 samples=100 f1_improvement=0.03\n"
+                            "threshold[permission]=0.40 samples=80 f1_improvement=0.05\n";
+
+    EXPECT_NO_THROW(mgr.saveCalibrationJson(test_json));
+
+    auto loaded = mgr.loadCalibrationJson();
+    EXPECT_EQ(loaded, test_json);
+
+    // clearAll removes calibration manifest too
+    mgr.clearAll();
+    EXPECT_TRUE(mgr.loadCalibrationJson().empty());
+
+    fs::remove_all(tmp_dir);
 }

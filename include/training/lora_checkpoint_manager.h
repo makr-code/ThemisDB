@@ -156,6 +156,25 @@ public:
      */
     std::string manifestPath() const;
 
+    /**
+     * @brief Persist a calibration result as `calibration_manifest.json`
+     *        in the checkpoint directory.
+     *
+     * The calibration manifest is written alongside adapter weights so that
+     * `ConfidenceCalibrator` thresholds are always co-located with the
+     * checkpoint they were derived from.
+     *
+     * @param json_content Serialised calibration result (key=value or JSON string).
+     * @throws std::runtime_error on I/O failure.
+     */
+    void saveCalibrationJson(const std::string& json_content);
+
+    /**
+     * @brief Load the calibration manifest from the checkpoint directory.
+     * @return Contents of `calibration_manifest.json`, or empty string if not present.
+     */
+    std::string loadCalibrationJson() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

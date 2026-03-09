@@ -29,6 +29,8 @@
 #include "training/knowledge_graph_enricher.h"
 #include "training/incremental_lora_trainer.h"
 #include "training/lora_data_selection.h"
+#include "training/provenance_tracker.h"
+#include "training/lora_checkpoint_manager.h"
 
 #include <string>
 #include <vector>
@@ -70,6 +72,10 @@ struct PipelineStats {
     // Data quality
     size_t quality_issues_found  = 0;
     bool   drift_detected        = false;
+
+    // Provenance tracking (Phase 3)
+    size_t provenance_records_written  = 0;  ///< Records written to provenance graph
+    size_t provenance_records_rejected = 0;  ///< Records rejected (missing URN, etc.)
 
     PipelineStats() = default;
 };
@@ -199,6 +205,14 @@ struct PipelineConfig {
     IncrementalTrainingConfig trainer_config;
     LoRADataSelectionConfig  data_selection_config;  ///< Automated data selection settings
 
+    // Phase 3: Provenance tracking
+    ProvenanceTrackerConfig  provenance_config;      ///< Provenance tracker settings
+    bool enable_provenance      = false;  ///< Write provenance records after labeling (Phase 3)
+
+    // Phase 3: Checkpoint manager + calibration manifest
+    CheckpointManagerConfig  checkpoint_manager_config; ///< Checkpoint manager settings
+    bool enable_checkpoint_manager = false; ///< Enable checkpoint manager for calibration manifest
+
     bool enable_labeling        = true;   ///< Run auto-labeling stage
     bool enable_enrichment      = true;   ///< Run graph enrichment stage
     bool enable_data_selection  = true;   ///< Run automated data selection stage
@@ -282,6 +296,32 @@ public:
      * @brief Run only the training stage
      */
     TrainingResult runTraining(TrainingCallback callback = nullptr);
+
+    /**
+     * @brief Run the confidence calibration stage and persist the result.
+     *
+     * Executes `ConfidenceCalibrator::calibrate()` on any accumulated
+     * per-sample (confidence, correct) pairs and, when
+     * `enable_checkpoint_manager` is true, writes a `calibration_manifest.json`
+     * to the checkpoint directory via `LoRACheckpointManager`.
+     *
+     * @return Calibration result with per-category thresholds.
+     */
+    CalibrationResult runCalibration();
+
+    /**
+     * @brief Feed a per-sample validation pair to the internal calibrator.
+     *
+     * Should be called once per sample after the validation loop in
+     * `IncrementalLoRATrainer` to accumulate data for `runCalibration()`.
+     *
+     * @param category      Legal category of the sample.
+     * @param confidence    Model confidence score in [0, 1].
+     * @param model_correct Whether the model produced the correct label.
+     */
+    void addCalibrationSample(const std::string& category,
+                              float confidence,
+                              bool model_correct);
 
     /**
      * @brief Perform data-quality checks on the training collection
