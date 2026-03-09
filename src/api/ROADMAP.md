@@ -18,6 +18,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] GraphQL schema for multi-model queries (Issue: #1493)
 - [x] WebSocket support for real-time change subscriptions (Issue: #1494)
 - [x] Rate limiting middleware (Issue: #1495)
+- [x] Request tracing and correlation IDs — `TracingMiddleware` with `X-Correlation-ID` propagation (Issue: #1496)
 - [x] Bulk operation endpoints (batch insert, batch delete) (Issue: #1498)
 - [x] API gateway integration (Kong, Nginx) (Issue: #1500)
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
@@ -30,7 +31,6 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Request tracing and correlation IDs (Issue: #1496)
 - [I] Versioned API endpoints (v1, v2 prefix routing) (Issue: #1497)
 
 ### Long-term (6-12 months)
@@ -51,7 +51,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
-- [I] Add request correlation IDs propagated through all log lines (Issue: #1519)
+- [x] Add request correlation IDs propagated through all log lines — `TracingMiddleware` in `tracing_middleware.cpp` (Issue: #1519)
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: In Progress 🚧)
 - [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)
