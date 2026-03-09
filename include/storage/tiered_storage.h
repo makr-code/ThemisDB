@@ -44,9 +44,9 @@ struct TieredStorageConfig {
     std::string cold_tier_path = "./data/cold";
 
     // ── Age-based migration policy ─────────────────────────────────────────
-    /// Days after write/last-access before hot→warm migration (0 = disabled)
+    /// Days since last write before hot→warm migration (0 = disabled)
     uint32_t hot_to_warm_days  = 30;
-    /// Days after write/last-access before warm→cold migration (0 = disabled)
+    /// Days since last write before warm→cold migration (0 = disabled)
     uint32_t warm_to_cold_days = 90;
 
     // ── Access-frequency policy ────────────────────────────────────────────

@@ -62,16 +62,27 @@ std::size_t AccessTracker::size() const {
 
 namespace {
 
-// Replace '/' and characters that are unsafe for filenames with '_'.
+// Replace characters that are unsafe for filenames and reject path traversal sequences.
 std::string sanitizeKey(const std::string& key) {
+    if (key.empty()) return "_empty_";
+
+    // Reject keys that could escape tier directories
+    if (key.find("..") != std::string::npos) {
+        throw std::invalid_argument("Key contains path traversal sequence: " + key);
+    }
+
     std::string safe;
     safe.reserve(key.size());
-    for (char c : key) {
+    // Strip leading separators
+    std::size_t start = key.find_first_not_of("/\\");
+    const std::string& src = (start == std::string::npos) ? key : key.substr(start);
+    for (char c : src) {
         safe += (c == '/' || c == '\\' || c == ':' || c == '*' ||
                  c == '?' || c == '"' || c == '<' || c == '>' || c == '|')
                     ? '_'
                     : c;
     }
+    if (safe.empty()) safe = "_";
     return safe;
 }
 
@@ -187,11 +198,8 @@ std::string TieredStorageManager::get(const std::string& key) {
     // Search tiers from hottest to coldest
     for (auto tier : {StorageTierLevel::HOT, StorageTierLevel::WARM, StorageTierLevel::COLD}) {
         if (existsInTier(key, tier)) {
-            std::string value = readFromTier(key, tier);
-            if (!value.empty() || existsInTier(key, tier)) {
-                tracker_.recordRead(key);
-                return value;
-            }
+            tracker_.recordRead(key);
+            return readFromTier(key, tier);
         }
     }
     return {};
@@ -225,14 +233,14 @@ bool TieredStorageManager::migrateKey(const std::string& key,
                                        StorageTierLevel from,
                                        StorageTierLevel to) {
     // Read from source
-    std::string value = readFromTier(key, from);
-    if (value.empty() && !existsInTier(key, from)) {
+    if (!existsInTier(key, from)) {
         THEMIS_WARN("TieredStorage: migrateKey({}, {} -> {}): key not found in source",
                     key,
                     static_cast<int>(from),
                     static_cast<int>(to));
         return false;
     }
+    std::string value = readFromTier(key, from);
 
     // Write to destination (copy-then-delete for crash safety)
     if (!writeToTier(key, value, to)) {

@@ -3,7 +3,6 @@
 #include "storage/blob_storage_backend.h"
 #include <string>
 #include <vector>
-#include <optional>
 
 namespace themis {
 namespace storage {

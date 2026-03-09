@@ -41,11 +41,14 @@ TEST_F(GCSBlobBackendTest, UnavailableWithoutCredentials) {
     // In CI / sandbox there are no GCS credentials, so the backend must
     // report unavailable instead of crashing.
     GCSBlobBackend backend("test-bucket");
-    // Even if THEMIS_ENABLE_GCS is defined, no credentials → unavailable
-    // If not defined at all, also unavailable.
-    // We just verify isAvailable() returns a bool without throwing.
+    // When THEMIS_ENABLE_GCS is not defined, must always be unavailable.
+    // When defined but no ADC credentials present, also unavailable.
+    // In a proper GCS-enabled environment with credentials, this would be true.
+#ifndef THEMIS_ENABLE_GCS
+    EXPECT_FALSE(backend.isAvailable());
+#endif
+    // In all cases, it must not throw.
     [[maybe_unused]] bool avail = backend.isAvailable();
-    // No assertion on the value – depends on compile flags and environment.
 }
 
 TEST_F(GCSBlobBackendTest, OperationsReturnErrorWhenUnavailable) {
@@ -143,7 +146,7 @@ TEST_F(AccessTrackerTest, Remove) {
 
 class TieredStorageTest : public ::testing::Test {
 protected:
-    std::string base_dir_ = "/tmp/themis_tiered_test";
+    std::string base_dir_;
 
     TieredStorageConfig makeConfig() {
         TieredStorageConfig cfg;
@@ -159,6 +162,7 @@ protected:
     }
 
     void SetUp() override {
+        base_dir_ = (fs::temp_directory_path() / "themis_tiered_test").string();
         fs::remove_all(base_dir_);
     }
 

@@ -116,7 +116,8 @@ Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
     ref.uri        = "gs://" + impl_->bucket + "/" + obj;
     ref.size_bytes = static_cast<int64_t>(data.size());
     ref.hash_sha256 = computeSHA256(data);
-    ref.created_at = std::chrono::system_clock::now().time_since_epoch().count();
+    ref.created_at = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
 
     THEMIS_DEBUG("GCS blob stored: id={}, size={} bytes", blob_id, data.size());
     return Ok(ref);
