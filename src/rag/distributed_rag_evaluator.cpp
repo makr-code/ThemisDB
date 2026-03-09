@@ -67,41 +67,61 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
                                  ? n
                                  : impl_->config.max_parallel_judges;
 
-    // Build judges lazily; one per worker, not shared between calls.
-    std::vector<std::unique_ptr<judge::RAGJudge>> judges;
-    judges.reserve(n);
-    for (const auto& w : impl_->workers) {
-        judges.push_back(std::make_unique<judge::RAGJudge>(w.judge_config));
+    // Snapshot config fields.  Only `aggregation` is mutable after construction
+    // (via setAggregationStrategy), so only that field is read under the mutex.
+    AggregationStrategy agg_strategy;
+    const auto          timeout        = impl_->config.per_judge_timeout;
+    const bool          skip_failed    = impl_->config.skip_failed_judges;
+    const size_t        min_ok_judges  = impl_->config.min_successful_judges;
+    {
+        std::lock_guard<std::mutex> lk(impl_->config_mutex);
+        agg_strategy = impl_->config.aggregation;
     }
 
-    // Launch futures
-    const auto timeout = impl_->config.per_judge_timeout;
+    // Build judges as shared_ptrs so timed-out lambdas don't access freed memory.
+    std::vector<std::shared_ptr<judge::RAGJudge>> judges;
+    judges.reserve(n);
+    for (const auto& w : impl_->workers) {
+        judges.push_back(std::make_shared<judge::RAGJudge>(w.judge_config));
+    }
 
-    // Semaphore-like control for max_parallel (simple token approach)
-    std::atomic<size_t> running{0};
-    std::mutex          run_mutex;
-    std::condition_variable run_cv;
+    // Copy the input into shared storage so lambdas that outlive evaluate()
+    // (due to timeout handling) still have valid access.
+    auto shared_input = std::make_shared<judge::EvaluationInput>(input);
+
+    // Semaphore-like control for max_parallel.
+    // Use shared_ptr so lambdas that run past the evaluate() return keep
+    // valid references (only possible when per_judge_timeout > 0).
+    struct SemState {
+        std::atomic<size_t>     running{0};
+        std::mutex              mtx;
+        std::condition_variable cv;
+    };
+    auto sem = std::make_shared<SemState>();
 
     std::vector<std::future<judge::EvaluationResult>> futures;
     futures.reserve(n);
 
     for (size_t i = 0; i < n; ++i) {
-        // Acquire slot
+        // Acquire a parallelism slot before launching.
         {
-            std::unique_lock<std::mutex> lk(run_mutex);
-            run_cv.wait(lk, [&] { return running.load() < max_parallel; });
-            ++running;
+            std::unique_lock<std::mutex> lk(sem->mtx);
+            sem->cv.wait(lk, [&sem, max_parallel] {
+                return sem->running.load() < max_parallel;
+            });
+            ++sem->running;
         }
 
+        auto judge_ptr = judges[i];  // shared ownership — safe across timeouts
         futures.push_back(
             std::async(std::launch::async,
-                       [&judges, i, &input, &running, &run_mutex, &run_cv]() {
-                           auto result = judges[i]->evaluate(input);
+                       [judge_ptr, shared_input, sem]() {
+                           auto result = judge_ptr->evaluate(*shared_input);
                            {
-                               std::lock_guard<std::mutex> lk(run_mutex);
-                               --running;
+                               std::lock_guard<std::mutex> lk(sem->mtx);
+                               --sem->running;
                            }
-                           run_cv.notify_one();
+                           sem->cv.notify_one();
                            return result;
                        }));
     }
@@ -142,7 +162,7 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
             ++meta.successful_judges;
         } else {
             ++meta.failed_judges;
-            if (!impl_->config.skip_failed_judges) {
+            if (!skip_failed) {
                 throw std::runtime_error(
                     "DistributedRAGEvaluator: judge '" +
                     impl_->workers[i].judge_id + "' failed and skip_failed_judges=false");
@@ -152,17 +172,17 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
         meta.individual_results.push_back(res);
     }
 
-    const size_t min_ok = impl_->config.min_successful_judges;
-    if (meta.successful_judges < min_ok) {
+    if (meta.successful_judges < min_ok_judges) {
         throw std::runtime_error(
             "DistributedRAGEvaluator: only " +
             std::to_string(meta.successful_judges) +
             " judge(s) succeeded; need at least " +
-            std::to_string(min_ok));
+            std::to_string(min_ok_judges));
     }
 
-    // Aggregate
-    auto aggregated = aggregateResults(successful_results, successful_weights);
+    // Aggregate (pass strategy explicitly to avoid re-reading config under lock)
+    auto aggregated = aggregateResults(successful_results, successful_weights,
+                                       agg_strategy);
 
     // Compute agreement
     meta.inter_judge_agreement = computeAgreement(successful_results);
@@ -232,7 +252,8 @@ uint64_t DistributedRAGEvaluator::totalEvaluations() const
 
 judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     const std::vector<judge::EvaluationResult>& results,
-    const std::vector<double>&                  weights) const
+    const std::vector<double>&                  weights,
+    AggregationStrategy                         strategy) const
 {
     if (results.empty()) {
         return judge::EvaluationResult{};
@@ -240,8 +261,6 @@ judge::EvaluationResult DistributedRAGEvaluator::aggregateResults(
     if (results.size() == 1) {
         return results[0];
     }
-
-    const AggregationStrategy strategy = impl_->config.aggregation;
 
     // ── BEST_OF_N ─────────────────────────────────────────────────────────
     if (strategy == AggregationStrategy::BEST_OF_N) {

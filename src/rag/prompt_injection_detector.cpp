@@ -71,14 +71,14 @@ const std::vector<DetectionRule>& getRules()
             "instruction_override", S::HIGH,
             "Instruction injection via imperative form",
             std::regex(
-                R"(\b(?:you\s+(?:must|will|shall|should)\s+now|from\s+now\s+on\s+you|new\s+instructions?\s*:)",
+                R"(\b(?:you\s+(?:must|will|shall|should)\s+now|from\s+now\s+on\s+you|new\s+instructions?\s*:))",
                 std::regex::icase)
         });
         r.push_back({
             "instruction_override", S::HIGH,
             "Score/output manipulation instruction",
             std::regex(
-                R"(\b(?:always\s+(?:return|output|give|respond\s+with)\s+(?:a\s+(?:score\s+of|rating\s+of)\s+[0-9.]+|10|perfect)|rate\s+(?:this|everything)\s+as\s+(?:excellent|perfect|10|100%))",
+                R"(\b(?:always\s+(?:return|output|give|respond\s+with)\s+(?:a\s+(?:score\s+of|rating\s+of)\s+[0-9.]+|10|perfect)|rate\s+(?:this|everything)\s+as\s+(?:excellent|perfect|10|100%)))",
                 std::regex::icase)
         });
 

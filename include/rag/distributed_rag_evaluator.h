@@ -192,7 +192,8 @@ private:
     /// Aggregate a vector of per-judge results using the configured strategy.
     judge::EvaluationResult aggregateResults(
         const std::vector<judge::EvaluationResult>& results,
-        const std::vector<double>&                  weights
+        const std::vector<double>&                  weights,
+        AggregationStrategy                         strategy
     ) const;
 
     /// Compute inter-judge agreement on overall_score in [0, 1].

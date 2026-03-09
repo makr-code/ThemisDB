@@ -53,7 +53,7 @@ enum class InjectionSeverity {
  */
 struct InjectionFinding {
     /// Severity of this finding.
-    InjectionSeverity severity;
+    InjectionSeverity severity = InjectionSeverity::NONE;
 
     /// Short tag identifying the attack category.
     std::string       category;
