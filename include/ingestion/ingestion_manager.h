@@ -398,7 +398,8 @@ using DocumentValidatorFn = std::function<DocumentValidationResult(const std::st
  * @brief Function type for injecting a mock HTTP GET response in tests.
  *
  * Returns `{status_code, response_body}`.  When injected via
- * `GenericApiConnector::setHttpGetForTesting()` or
+ * `GenericApiConnector::setHttpGetForTesting()`,
+ * `HuggingFaceConnector::setHttpGetForTesting()`, or
  * `IngestionManager::setApiHttpGetForTesting()`, this function is called
  * instead of a real libcurl request.  Intended for unit tests only.
  */
@@ -418,6 +419,22 @@ using ApiHttpGetFn =
 using ApiHttpPostFn =
     std::function<std::pair<int, std::string>(const std::string& url,
                                               const std::string& body)>;
+
+/**
+ * @brief Function type for injecting a mock document write in unit tests.
+ *
+ * Called by `IngestionAdminApi::retryQuarantineItem()` when a per-document
+ * retry is performed.  The function receives the source identifier and the
+ * raw serialized payload and should return `true` on a successful write or
+ * `false` to simulate a write failure so the retry / permanently-failed
+ * logic can be exercised.
+ *
+ * Inject via `IngestionManager::setDocumentWriteForTesting()`.
+ * When no function is installed the retry always succeeds (same as before).
+ */
+using DocumentWriteFn =
+    std::function<bool(const std::string& source_id,
+                       const std::string& payload)>;
 
 /**
  * @brief OAuth 2.0 token refresh configuration for ingestion connectors
@@ -807,6 +824,14 @@ public:
     RetryConfig getRetryConfig() const;
 
     /**
+     * @brief Return the currently installed document write function (may be empty)
+     *
+     * Used internally by `IngestionAdminApi::retryQuarantineItem()` to obtain
+     * the injectable write function without exposing the Impl directly.
+     */
+    DocumentWriteFn getDocumentWriteFn() const;
+
+    /**
      * @brief Return the cumulative count of successful quarantine retries
      *
      * Counts every call to `IngestionAdminApi::retryQuarantineItem()` that
@@ -913,13 +938,25 @@ public:
     bool clearCheckpoint(const std::string& source_id);
 
     /**
-     * @brief Inject a mock HTTP GET function for all API connectors (testing only)
+     * @brief Inject a mock HTTP GET function for all HTTP-based connectors (testing only)
      *
-     * When set, every `GenericApiConnector` created by this manager will have
-     * the supplied function installed via `setHttpGetForTesting()` before its
-     * first use.  Pass an empty `ApiHttpGetFn{}` to restore real HTTP.
+     * When set, every `GenericApiConnector` and `HuggingFaceConnector` created
+     * by this manager will have the supplied function installed via
+     * `setHttpGetForTesting()` before its first use.  Pass an empty
+     * `ApiHttpGetFn{}` to restore real HTTP.
      */
     void setApiHttpGetForTesting(ApiHttpGetFn fn);
+
+    /**
+     * @brief Inject a mock document write function for quarantine retry tests (testing only)
+     *
+     * When set, `IngestionAdminApi::retryQuarantineItem()` calls this function
+     * instead of assuming that every write succeeds.  This allows tests to
+     * exercise both the success and failure code paths of the quarantine retry
+     * loop.  Pass an empty `DocumentWriteFn{}` to restore the default
+     * behaviour (always succeed).
+     */
+    void setDocumentWriteForTesting(DocumentWriteFn fn);
 
     // ── Plugin connector registry ───────────────────────────────────────────
 

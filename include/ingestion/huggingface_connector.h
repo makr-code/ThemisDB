@@ -139,6 +139,17 @@ public:
     void setOAuthConfig(const OAuthConfig& config);
 
     /**
+     * @brief Inject a mock HTTP GET function for dataset API calls (unit testing only)
+     *
+     * When set, every HTTP GET that would normally be performed via libcurl
+     * is replaced by a call to @p fn.  The function receives the URL and
+     * the Bearer token, and returns `{status_code, response_body}`.
+     *
+     * Pass an empty `ApiHttpGetFn{}` to restore the real libcurl path.
+     */
+    void setHttpGetForTesting(ApiHttpGetFn fn);
+
+    /**
      * @brief Inject a mock HTTP POST function for OAuth token refresh (unit testing only)
      *
      * When set, every token-refresh POST that would normally be performed

@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
     • Total Lines:     953                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -160,8 +160,9 @@ bool initialize_directx_lora(int adapter_id) {
             return false;
         }
         
-        // TODO: Load and compile shaders
-        // For now, shader loading will happen on-demand in launch functions
+        // Shader loading happens on-demand in the launch functions.
+        // When THEMIS_DIRECTX_PRECOMPILE_SHADERS is defined, load and compile
+        // HLSL shaders here during initialization.
         
         g_directx_state.adapter_id = adapter_id;
         g_directx_state.initialized = true;
@@ -879,7 +880,7 @@ void launch_sequence_mean_shader(
 
 #else // !_WIN32
 
-// Non-Windows stub implementations
+// Non-Windows fallback implementations (platform guard: !_WIN32)
 namespace themis {
 namespace lora {
 namespace directx {

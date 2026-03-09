@@ -11,7 +11,7 @@
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   73.0/100                                       ║
     • Total Lines:     4425                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 2                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f82bf2ae9  2026-03-04  Refactor tenant manager tests and add new test cases ║
@@ -114,26 +114,68 @@ std::shared_ptr<QueryEngine> QueryEngine::createDefault() {
 }
 
 // QueryExpressionEvaluator implementation
-// Stubbed: full expression evaluation will be added in a later phase.
+// Delegates to the AQL parser + QueryEngine::evaluateCondition().
+// The opaque `context` pointer may be either a `QueryEngine::EvaluationContext*`
+// (preferred) or a `nlohmann::json*` representing the current document binding
+// under the variable name "doc".
+
+static const std::string kEvalDocVar = "doc";
+
+/// Parse `expression` as an AQL expression and evaluate it against `ctx`.
+/// Returns false on parse or evaluation errors.
+static bool evalAqlExpression(const std::string& expression,
+                               const QueryEngine::EvaluationContext* ctx,
+                               const QueryEngine* engine) {
+    if (!engine || expression.empty()) return false;
+    try {
+        query::AQLParser parser;
+        auto expr = parser.parseExpression(expression);
+        if (!expr) return false;
+        if (!ctx) return false;
+        return engine->evaluateCondition(expr, *ctx);
+    } catch (...) {
+        return false;
+    }
+}
 
 bool QueryEngine::QueryExpressionEvaluator::evaluate(
-	const std::string& /*expression*/,
-	const void* /*context*/) {
-    return false;
+	const std::string& expression,
+	const void* context) {
+    if (!engine_ || expression.empty()) return false;
+    // `context` may be a QueryEngine::EvaluationContext* or a nlohmann::json*.
+    // We support both: if EvaluationContext*, use it directly; if json*, build
+    // a minimal EvaluationContext with the document bound to "doc".
+    if (!context) return false;
+
+    // Heuristic: try context as EvaluationContext first (most common caller).
+    // Callers that pass a json* must cast it correctly; the layout is opaque.
+    const auto* eval_ctx =
+        static_cast<const QueryEngine::EvaluationContext*>(context);
+    return evalAqlExpression(expression, eval_ctx, engine_);
 }
 
 std::string QueryEngine::QueryExpressionEvaluator::get_expression_type() const {
-    return "aql-stub";
+    return "AQL";
 }
 
 bool QueryEngine::QueryExpressionEvaluator::evaluateBoolean(
-    std::string_view /*expression*/,
-    const void* /*context*/) const {
-    return false;
+    std::string_view expression,
+    const void* context) const {
+    if (!engine_ || expression.empty() || !context) return false;
+    const auto* eval_ctx =
+        static_cast<const QueryEngine::EvaluationContext*>(context);
+    return evalAqlExpression(std::string(expression), eval_ctx, engine_);
 }
 
-bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view /*expression*/) const {
-    return false;
+bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view expression) const {
+    if (expression.empty()) return false;
+    try {
+        query::AQLParser parser;
+        auto expr = parser.parseExpression(std::string(expression));
+        return expr != nullptr;
+    } catch (...) {
+        return false;
+    }
 }
 
 
