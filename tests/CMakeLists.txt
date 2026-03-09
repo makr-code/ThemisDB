@@ -78,6 +78,9 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_agentic\\.cpp$"
         ".*test_rag_evaluation_report_exporter\\.cpp$"
         ".*test_rag_multimodal\\.cpp$"
+        ".*test_rag_evaluation_cache\\.cpp$"
+        ".*test_rag_calibration_manager\\.cpp$"
+        ".*test_rag_batch_evaluator\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -595,6 +598,11 @@ if(NOT THEMIS_ENABLE_LLM)
         # EvaluationReportExporter has no LLM dependency (pure serialisation);
         # re-include so non-LLM builds exercise the JSON/HTML export feature.
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_report_exporter.cpp
+        # EvaluationCache, CalibrationManager, BatchEvaluator have no LLM
+        # dependency; re-include so non-LLM builds exercise these features.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_cache.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_calibration_manager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_batch_evaluator.cpp
     )
 endif()
 
@@ -614,6 +622,9 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
     ${CMAKE_SOURCE_DIR}/src/server/grpc_web_proxy_handler.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/evaluation_report_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/evaluation_cache.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
     ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
 )
 
