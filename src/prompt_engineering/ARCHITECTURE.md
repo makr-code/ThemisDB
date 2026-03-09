@@ -1,7 +1,9 @@
 # Prompt Engineering Module — Architecture Guide
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
 
 **Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/prompt_engineering/`
 
 ---

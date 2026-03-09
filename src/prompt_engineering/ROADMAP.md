@@ -1,9 +1,11 @@
 # Prompt Engineering Module Roadmap
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, Prometheus metrics, and prompt injection attack detection are all implemented.
+v1.x – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, Prometheus metrics, prompt injection attack detection, chain-of-thought prompt construction, RAG prompt assembly, and system prompt management are all implemented.
 
 ## Completed ✅
 - [x] PromptManager – CRUD with RocksDB persistence and YAML bulk-load
@@ -31,6 +33,9 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Integration facade combining all subsystems
 - [x] **Prompt injection attack detection** – `PromptInjectionDetector` with 10 built-in patterns, keyword/syntax scoring, `detect()`, `detectInResponse()`, `sanitize()`, pluggable custom patterns (Issue: #2428, PR: #2534)
 - [x] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026) (Issue: #2429)
+- [x] **Chain-of-thought prompt construction** – `ChainOfThoughtBuilder` with step delimiters, auto-numbering, zero-shot/few-shot/wrap helpers
+- [x] **RAG prompt builder** – `RAGPromptBuilder` with budget-aware chunk selection, source citations, template injection, and full-prompt assembly
+- [x] **System prompt manager** – `SystemPromptManager` with built-in and custom role support, context-variable rendering, and JSON serialisation
 
 ## In Progress 🚧
 - [?] Token counting and context-window budget enforcement (Target: Q2 2026)
@@ -56,9 +61,9 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 ### Phase 1: Template Management & Evaluation (Status: Completed ✅)
 - [x] PromptManager – CRUD with RocksDB persistence and YAML bulk-load
 - [x] Context injection (`{placeholder}` variable substitution) and `buildContextFromSchema()`
-- [x] Chain-of-thought (CoT) prompt support with step delimiters
-- [x] RAG prompt construction helpers (retrieved context injection)
-- [x] System prompt management and per-role override
+- [x] Chain-of-thought (CoT) prompt support with step delimiters (`ChainOfThoughtBuilder`)
+- [x] RAG prompt construction helpers (retrieved context injection) (`RAGPromptBuilder`)
+- [x] System prompt management and per-role override (`SystemPromptManager`)
 - [x] FeedbackCollector, PromptEvaluator, PromptOptimizer, MetaPromptGenerator
 - [x] Git-like version control (branches, commits, diffs)
 - [x] A/B testing with statistical significance (p-value)
@@ -89,6 +94,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Threshold-based alerting with pluggable callbacks
 - [x] All prompt_engineering sources compiled in the build
 - [x] Prompt injection attack detection layer (`PromptInjectionDetector`)
+- [x] Chain-of-thought, RAG prompt builder, and system prompt manager implemented
 - [?] Unit tests coverage > 80%
 - [?] Integration tests (version control round-trip, A/B statistical significance)
 - [?] Performance benchmarks (optimization loop latency, concurrent access)

@@ -393,6 +393,9 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_detector.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager_multimodal.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_chain_of_thought.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_prompt_builder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_system_prompt_manager.cpp
 )
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
