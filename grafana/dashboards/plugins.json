@@ -1,0 +1,249 @@
+{
+  "dashboard": {
+    "title": "ThemisDB Plugin Subsystem",
+    "tags": [
+      "themisdb",
+      "plugins",
+      "observability"
+    ],
+    "timezone": "browser",
+    "refresh": "10s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "plugin",
+          "type": "query",
+          "datasource": "Prometheus",
+          "query": "label_values(plugin_function_calls, plugin)",
+          "refresh": 2,
+          "multi": true,
+          "includeAll": true,
+          "label": "Plugin"
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "datasource": "Prometheus",
+          "expr": "ALERTS{alertname=~\"Plugin.*\"}",
+          "name": "Plugin Alerts",
+          "step": "60s",
+          "tagKeys": "alertname,severity,plugin",
+          "titleFormat": "Alert",
+          "textFormat": "{{alertname}} – {{plugin}}"
+        }
+      ]
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Plugin Health Score",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_health_score{plugin=~\"$plugin\"}",
+            "legendFormat": "{{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percentunit",
+            "min": 0,
+            "max": 1,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0,   "color": "red" },
+                { "value": 0.5, "color": "yellow" },
+                { "value": 0.8, "color": "green" }
+              ]
+            },
+            "mappings": []
+          }
+        },
+        "options": {
+          "reduceOptions": { "calcs": ["lastNotNull"] },
+          "orientation": "auto",
+          "colorMode": "background"
+        },
+        "gridPos": { "x": 0, "y": 0, "w": 24, "h": 4 }
+      },
+      {
+        "id": 2,
+        "title": "Function Calls (total)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_function_calls{plugin=~\"$plugin\"}",
+            "legendFormat": "{{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "short", "label": "Calls" },
+          { "format": "short" }
+        ],
+        "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 }
+      },
+      {
+        "id": 3,
+        "title": "Errors (total)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_errors{plugin=~\"$plugin\"}",
+            "legendFormat": "{{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "short", "label": "Errors" },
+          { "format": "short" }
+        ],
+        "alert": {
+          "name": "Plugin Error Spike",
+          "conditions": [
+            {
+              "evaluator": { "params": [10], "type": "gt" },
+              "operator": { "type": "and" },
+              "query": { "params": ["A", "5m", "now"] },
+              "reducer": { "type": "avg" },
+              "type": "query"
+            }
+          ]
+        },
+        "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 }
+      },
+      {
+        "id": 4,
+        "title": "Call Latency – Average (ms)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_call_latency_avg_ms{plugin=~\"$plugin\"}",
+            "legendFormat": "avg – {{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "ms", "label": "Latency (ms)" },
+          { "format": "short" }
+        ],
+        "gridPos": { "x": 0, "y": 12, "w": 24, "h": 8 }
+      },
+      {
+        "id": 5,
+        "title": "Call Latency Percentiles – P95 & P99 (ms)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_call_latency_p95_ms{plugin=~\"$plugin\"}",
+            "legendFormat": "p95 – {{plugin}}",
+            "refId": "A"
+          },
+          {
+            "expr": "plugin_call_latency_p99_ms{plugin=~\"$plugin\"}",
+            "legendFormat": "p99 – {{plugin}}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          { "format": "ms", "label": "Latency (ms)" },
+          { "format": "short" }
+        ],
+        "gridPos": { "x": 0, "y": 20, "w": 24, "h": 8 }
+      },
+      {
+        "id": 6,
+        "title": "Memory Usage per Plugin (bytes)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_memory_bytes{plugin=~\"$plugin\"}",
+            "legendFormat": "{{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          { "format": "bytes", "label": "Memory" },
+          { "format": "short" }
+        ],
+        "gridPos": { "x": 0, "y": 28, "w": 12, "h": 8 }
+      },
+      {
+        "id": 7,
+        "title": "Reload Count",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_reload_count{plugin=~\"$plugin\"}",
+            "legendFormat": "{{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 5, "color": "yellow" },
+                { "value": 10, "color": "red" }
+              ]
+            }
+          }
+        },
+        "options": {
+          "reduceOptions": { "calcs": ["lastNotNull"] },
+          "colorMode": "background"
+        },
+        "gridPos": { "x": 12, "y": 28, "w": 12, "h": 8 }
+      },
+      {
+        "id": 8,
+        "title": "Load Time (ms)",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "plugin_load_time_ms{plugin=~\"$plugin\"}",
+            "legendFormat": "{{plugin}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "ms",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0,  "color": "green" },
+                { "value": 20, "color": "yellow" },
+                { "value": 80, "color": "red" }
+              ]
+            }
+          }
+        },
+        "options": {
+          "reduceOptions": { "calcs": ["lastNotNull"] },
+          "colorMode": "value"
+        },
+        "gridPos": { "x": 0, "y": 36, "w": 24, "h": 4 }
+      }
+    ]
+  }
+}

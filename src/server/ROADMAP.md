@@ -42,7 +42,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 
 ### Long-term (6-12 months)
 - [P] gRPC-web proxy for browser clients (Issue: #2303)
-- [~] Edge caching integration (CDN cache-control header management) (Issue: #2305)
+- [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`) (Issue: #2305)
 - [I] Service mesh sidecar proxy mode (Envoy xDS compatibility) (Issue: #2306)
 
 ## Implementation Phases
@@ -66,9 +66,9 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Model Context Protocol (MCP) server for AI integrations
 - [x] Graceful shutdown and connection draining
 
-### Phase 2: HTTP/3 Hardening & GraphQL (Status: In Progress 🚧)
-- [~] HTTP/3 QUIC performance tuning and production hardening
-- [~] GraphQL endpoint for schema-driven API access
+### Phase 2: HTTP/3 Hardening & GraphQL (Status: Completed ✅)
+- [x] HTTP/3 QUIC performance tuning and production hardening (`server/http3_session.cpp`)
+- [x] GraphQL endpoint for schema-driven API access (`server/graphql_api_handler.cpp`)
 - [x] API versioning strategy (deprecation headers, sunset dates, URL path prefixes `/v1/` / `/v2/`)
 
 ### Phase 3: OpenAPI & Request Validation (Status: In Progress 🚧)
@@ -79,9 +79,9 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] WebSocket binary frame support for wire protocol upgrade
 
 ### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: In Progress 🚧)
-- [x] Serverless function hosting (run user code in-process) (Issue: #2467)
+- [x] Serverless function hosting (run user code in-process) (`server/serverless_function_api_handler.cpp`) (Issue: #2467)
 - [ ] gRPC-web proxy for browser clients
-- [~] Edge caching integration (CDN cache-control header management)
+- [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`)
 - [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
 - [x] HTTP/3 datagram support for real-time low-latency streams
 

@@ -25,6 +25,7 @@
 
 #include "plugins/self_healing_plugin.h"
 #include "plugins/plugin_manager.h"
+#include "core/concerns/i_metrics.h"
 #include "utils/logger.h"
 #include <string>
 #include <unordered_map>
@@ -151,6 +152,9 @@ private:
     
     HealthMonitorConfig config_;
     std::vector<MonitoringEventCallback> event_callbacks_;
+    
+    // Optional IMetrics sink for publishing health scores to Prometheus
+    themis::core::concerns::IMetrics* metrics_sink_{nullptr};
     
     // Statistics
     std::atomic<uint64_t> total_health_checks_{0};
@@ -289,6 +293,17 @@ public:
     bool setPluginMonitoringEnabled(const std::string& name, bool enabled);
     
     /**
+     * @brief Attach a metrics sink for publishing per-plugin health scores.
+     *
+     * When set, the monitor emits a `plugin_health_score` gauge (0.0–1.0) to
+     * @p sink after every health check cycle.  Pass nullptr to detach.
+     * The caller must ensure the sink outlives the monitor.
+     *
+     * @param sink  IMetrics backend; e.g. a PrometheusMetricsAdapter instance.
+     */
+    void attachMetrics(themis::core::concerns::IMetrics* sink);
+    
+    /**
      * @brief Get singleton instance
      */
     static PluginHealthMonitor& instance();
@@ -337,6 +352,23 @@ private:
      * @brief Disable plugin after max failures
      */
     void disablePlugin(MonitoredPlugin& plugin, const std::string& reason);
+
+    /**
+     * @brief Compute health score in [0.0, 1.0] from diagnostics.
+     *
+     * Formula:
+     *   HEALTHY   → 1.0 − (error_rate × 0.2)
+     *   DEGRADED  → 0.7 − (error_rate × 0.2)
+     *   UNHEALTHY → 0.3 − (error_rate × 0.2)
+     *   CRITICAL / RECOVERING → max(0.0, 0.1 − error_rate × 0.1)
+     */
+    static double computeHealthScore(const PluginDiagnostics& diag) noexcept;
+
+    /**
+     * @brief Publish plugin_health_score gauge to metrics_sink_ (if attached).
+     *  Must be called with mutex_ held.
+     */
+    void publishHealthScore(const MonitoredPlugin& plugin) noexcept;
 };
 
 } // namespace plugins

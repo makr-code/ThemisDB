@@ -57,7 +57,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [?] Chunk-level encryption at rest with per-series key derivation
 - [?] Parquet export bridge for analytical pipeline integration
 - [ ] Columnar storage layout for analytical scan queries
-- [~] Prometheus remote-write endpoint compatibility (Issue: #2037)
+- [x] Prometheus remote-write endpoint compatibility (`timeseries/prometheus_remote_write.cpp`) (Issue: #2037)
   - Endpoint: `POST /api/v1/prom/write`; headers: `Content-Encoding: snappy`, `Content-Type: application/x-protobuf`
   - Implemented in `prometheus_remote_write.{h,cpp}` (hand-rolled protobuf decoder) + `timeseries_api_handler.cpp`
   - Label mapping: `__name__` → metric, `instance` → entity, all other labels → tags JSON

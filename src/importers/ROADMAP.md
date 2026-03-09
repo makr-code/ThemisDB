@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Comprehensive data import pipeline. Multi-source importers are fully implemented: PostgreSQL, MongoDB, MySQL/MariaDB, SQLite, Kafka, Oracle, S3-compatible object storage, and flat-file (CSV/TSV/Parquet). Schema auto-detection and validation is available via `SchemaValidator`. The plugin API allows third-party extensions.
+v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaDB, MongoDB, Oracle, SQLite, Kafka, S3/flat-file importers implemented. Plugin API, streaming, conflict resolution, and schema auto-detection complete.
 
 ## Completed ✅
 - [x] PostgreSQL importer
@@ -26,12 +26,25 @@ v1.x – Comprehensive data import pipeline. Multi-source importers are fully im
 ## In Progress 🚧
 *(none currently in progress)*
 
+## Completed ✅ (additional)
+- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compatible config (Issue: #1835)
+- [x] MongoDB importer for document collections (Issue: #1836)
+- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
+- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) with schema auto-detection (Issue: #1839)
+- [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
+- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
+- [I] Import progress reporting with streaming callbacks (Target: Q3 2026) (Issue: #1864)
+
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-*(none — all short-term items completed)*
+- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
+- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) (Issue: #1839)
+- [x] Schema auto-detection and validation on import (Issue: #1856)
 
 ### Long-term (6-12 months)
+- [x] Kafka consumer importer for real-time streaming ingestion (`importers/kafka_importer.cpp`) (Issue: #1843)
+- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
 - [I] Microsoft SQL Server importer (Issue: #1845)
 - [~] GUI-based import wizard (web UI) (Issue: #1847)
 
@@ -81,9 +94,12 @@ v1.x – Comprehensive data import pipeline. Multi-source importers are fully im
 - [I] API stability guaranteed (Issue: #1862)
 
 ## Known Issues & Limitations
-- Microsoft SQL Server importer not yet implemented.
+- MySQL/Oracle importers require the respective client library at link time (`THEMIS_ENABLE_MYSQL`, `THEMIS_ENABLE_OCI`); builds without those flags return `CONNECTOR_NOT_SUPPORTED`.
+- Kafka importer requires `THEMIS_ENABLE_KAFKA` and librdkafka at link time; compiles cleanly without it but every `importData()` call returns an error.
 - Binary/blob field types may require manual mapping.
 - No distributed parallel import across multiple nodes.
+- GUI-based import wizard is planned but not yet implemented (Issue: #1847).
+- Microsoft SQL Server importer is planned (Issue: #1845).
 
 ## Breaking Changes
 - Importer plugin API will be stabilised in v1.5.0; breaking changes expected before that milestone.

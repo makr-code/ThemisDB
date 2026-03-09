@@ -25,6 +25,7 @@
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
+#include <algorithm>
 
 namespace themis {
 namespace plugins {
@@ -260,6 +261,13 @@ bool PluginHealthMonitor::setPluginMonitoringEnabled(const std::string& name, bo
     return true;
 }
 
+void PluginHealthMonitor::attachMetrics(themis::core::concerns::IMetrics* sink) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    metrics_sink_ = sink;
+    THEMIS_INFO("PluginHealthMonitor: metrics sink {}",
+                sink ? "attached" : "detached");
+}
+
 // ============================================================================
 // Singleton
 // ============================================================================
@@ -328,6 +336,9 @@ void PluginHealthMonitor::checkPlugin(MonitoredPlugin& plugin) {
         plugin.last_check = std::chrono::system_clock::now();
         total_health_checks_++;
 
+        // Emit health score gauge to attached Prometheus sink (if any)
+        publishHealthScore(plugin);
+
         emitEvent({
             MonitoringEvent::HEALTH_CHECK_COMPLETED, plugin.name,
             std::chrono::system_clock::now(),
@@ -346,7 +357,15 @@ void PluginHealthMonitor::checkPlugin(MonitoredPlugin& plugin) {
         THEMIS_ERROR("PluginHealthMonitor: exception in health check for '{}': {}",
                      plugin.name, e.what());
         plugin.consecutive_failures++;
+        // Only downgrade to UNHEALTHY if the status is not already more severe
+        if (plugin.last_diagnostics.status == PluginHealthStatus::HEALTHY ||
+            plugin.last_diagnostics.status == PluginHealthStatus::DEGRADED) {
+            plugin.last_diagnostics.status = PluginHealthStatus::UNHEALTHY;
+        }
         total_health_checks_++;
+
+        // Emit degraded health score even when the check throws
+        publishHealthScore(plugin);
 
         emitEvent({
             MonitoringEvent::HEALTH_CHECK_FAILED, plugin.name,
@@ -610,6 +629,38 @@ void PluginHealthMonitor::disablePlugin(MonitoredPlugin& plugin, const std::stri
     if (config_.notify_on_critical) {
         notifyAdministrators(plugin.name, plugin.last_diagnostics,
             "Plugin disabled: " + reason);
+    }
+}
+
+// ============================================================================
+// Private: health score computation and Prometheus emission
+// ============================================================================
+
+double PluginHealthMonitor::computeHealthScore(const PluginDiagnostics& diag) noexcept {
+    const double error_rate = diag.getErrorRate();
+    switch (diag.status) {
+        case PluginHealthStatus::HEALTHY:
+            return std::max(0.0, 1.0 - error_rate * 0.2);
+        case PluginHealthStatus::DEGRADED:
+            return std::max(0.0, 0.7 - error_rate * 0.2);
+        case PluginHealthStatus::UNHEALTHY:
+            return std::max(0.0, 0.3 - error_rate * 0.2);
+        case PluginHealthStatus::CRITICAL:
+        case PluginHealthStatus::RECOVERING:
+            return std::max(0.0, 0.1 - error_rate * 0.1);
+        default:
+            return 0.0;
+    }
+}
+
+void PluginHealthMonitor::publishHealthScore(const MonitoredPlugin& plugin) noexcept {
+    // mutex_ must be held by caller; metrics_sink_ may be null
+    if (!metrics_sink_) return;
+    try {
+        const double score = computeHealthScore(plugin.last_diagnostics);
+        metrics_sink_->setGauge("plugin_health_score", score, {{"plugin", plugin.name}});
+    } catch (...) {
+        // noexcept: swallow any exception from the metrics backend
     }
 }
 

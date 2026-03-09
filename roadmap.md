@@ -178,12 +178,12 @@ cross-backend consistency, error handling, and resource management.
 - [!] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
 
 #### 1.9 Sharding — Observability & Repair
-- [~] Advanced metrics and distributed tracing (Target: Q2 2026)
+- [x] Advanced metrics and distributed tracing (`sharding/operational_metrics.cpp`, `observability/distributed_flame_graph.cpp`, `observability/ebpf_tracer.cpp`)
 - [I] Automated shard rebalancing (Target: Q3 2026)
 
 #### 1.10 Storage — Production Hardening
-- [~] Benchmark-driven performance optimisation (Target: Q2 2026)
-- [~] Backup/PITR integration tests (Target: Q2 2026)
+- [x] Benchmark-driven performance optimisation (`tests/test_storage_latency_bench.cpp`)
+- [x] Backup/PITR integration tests (`tests/test_backup_restore_integration.cpp`)
 
 ---
 
@@ -334,7 +334,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [x] Performance benchmarks defined
 - [x] Security audit completed or scheduled
 - [x] API stability guaranteed or documented as unstable
-- [~] Prometheus metrics exported where applicable
+- [x] Prometheus metrics exported where applicable
 
 ### System-Wide Requirements
 - [x] All 44 modules integrated into the CMake build system

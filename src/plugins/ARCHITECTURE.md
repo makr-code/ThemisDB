@@ -188,9 +188,9 @@ Caller: plugin_registry.get("analytics_plugin")
 
 ## 11. Known Limitations & Future Work
 
-- WASM sandboxing is planned for untrusted plugins.
-- Plugin dependency management (plugin A requires plugin B) is not yet implemented.
-- The `plugin_system_edition.cpp` edition gates are enforced at load time only.
+- WASM sandboxing is planned for untrusted plugins (target v0.9.0).
+- Plugin dependency management is implemented via `PluginDependencyResolver` (topological sort, cycle detection); see `include/plugins/plugin_dependency_resolver.h`.
+- The `plugin_system_edition.cpp` edition gates are enforced at load time only; runtime capability escalation is not yet blocked programmatically.
 
 ---
 
