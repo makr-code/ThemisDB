@@ -22,15 +22,16 @@ interfaces to benchmark and integration consumers.
 ## 2. Design Principles
 
 - **Interface Segregation** – `IDatabaseAdapter` is split into functional sub-interfaces
-  (IRelationalOps, IVectorOps, IGraphOps, IDocumentOps) so adapters implement only what
-  they support.
+  (`IRelationalAdapter`, `IVectorAdapter`, `IGraphAdapter`, `IDocumentAdapter`,
+  `ITransactionAdapter`, `ISystemInfoAdapter`) so adapters implement only what they support.
 - **Factory Pattern** – adapters are registered by name at startup; consumers create them
   by string name without knowing the concrete class.
 - **Thread-Safe Registry** – the singleton factory registry is protected by a mutex so
   adapters can be registered concurrently during static initialization.
 - **Vendor Neutrality** – no ThemisDB-internal types leak into the adapter interface; all
-  data passes through neutral `nlohmann::json` or `AdapterResult<T>` types.
-- **Result Types** – all operations return `AdapterResult<T>` (a `std::expected`-like type)
+  data passes through neutral chimera types (`Scalar`, `Document`, `Vector`,
+  `RelationalTable`, `GraphNode`, `GraphEdge`, `GraphPath`) wrapped in `Result<T>`.
+- **Result Types** – all operations return `Result<T>` (a `std::expected`-like type)
   to avoid exception-based control flow in benchmark hot paths.
 
 ---
@@ -53,6 +54,13 @@ interfaces to benchmark and integration consumers.
 
 ### 3.2 Component Diagram
 
+Abbreviations used in the diagram below:
+- `IDocAdp` = `IDocumentAdapter`
+- `IRelAdp` = `IRelationalAdapter`
+- `IVecAdp` = `IVectorAdapter`
+- `IGraphAdp` = `IGraphAdapter`
+- `All 6 ifaces` = all six interfaces: `IRelationalAdapter`, `IVectorAdapter`, `IGraphAdapter`, `IDocumentAdapter`, `ITransactionAdapter`, `ISystemInfoAdapter`
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │              Benchmark Harness / Integration Consumer           │
@@ -70,8 +78,8 @@ interfaces to benchmark and integration consumers.
 │ThemisDB     │ │MongoDB │ │Postgre-│ │Elas- │ │Pine│ │Qdrant│ │Weaviate│ │Neo4j     │
 │Adapter      │ │Adapter │ │SQL     │ │search│ │cone│ │Adapter│ │Adapter │ │Adapter   │
 │(reference)  │ │doc+vec │ │rel+vec │ │text+ │ │vec │ │vec    │ │vec     │ │graph     │
-│All 5 ops    │ │IDocOps │ │IRelOps │ │vec   │ │only│ │only   │ │only    │ │IGraphOps │
-└─────────────┘ └────────┘ │IVecOps │ │IVec  │ └────┘ └───────┘ └────────┘ └──────────┘
+│All 6 ifaces │ │IDocAdp │ │IRelAdp │ │vec   │ │only│ │only   │ │only    │ │IGraphAdp │
+└─────────────┘ └────────┘ │IVecAdp │ │IVec  │ └────┘ └───────┘ └────────┘ └──────────┘
                             └────────┘ └──────┘
 ```
 
@@ -107,12 +115,12 @@ Static initializer:
 benchmark_harness: AdapterFactory::create("ThemisDB")
     │
     ▼
-ThemisDBAdapter::connect(config)
+ThemisDBAdapter::connect(connection_string, options)
     │
     ▼
-ThemisDBAdapter::insertDocument(collection, doc)  → AdapterResult<DocId>
-ThemisDBAdapter::vectorSearch(collection, vec, k) → AdapterResult<Results>
-ThemisDBAdapter::graphTraversal(start, depth)     → AdapterResult<Paths>
+ThemisDBAdapter::insert_document(collection, doc)  → Result<std::string>
+ThemisDBAdapter::search_vectors(collection, vec, k) → Result<std::vector<std::pair<Vector, double>>>
+ThemisDBAdapter::traverse(start, depth)             → Result<std::vector<GraphNode>>
     │
     ▼
 benchmark_harness: record latency / throughput / accuracy
@@ -152,17 +160,18 @@ ThemisDBAdapter::disconnect()
 |---|---|
 | Registry lookup | `std::map<string, creator>` O(log n); n ≤ ~20 adapters |
 | Adapter pooling | Benchmark harness may pool adapter instances per thread |
-| Neutral data types | `nlohmann::json` for cross-adapter data exchange (no serialization overhead in hot path) |
+| Neutral data types | Chimera type system (`Scalar`, `Document`, `Vector`, `RelationalTable`, `GraphNode`/`GraphEdge`/`GraphPath`) wrapped in `Result<T>`; no serialization overhead in the hot path |
 
 ---
 
 ## 8. Security Considerations
 
-- Adapter connections use credentials passed through the `AdapterConfig` struct; credentials
-  are not logged.
+- Adapter connections use a plain connection-string URI plus an options map passed to
+  `connect(connection_string, options)`; credentials embedded in the URI are masked
+  before being stored in memory so they cannot be exposed through logs or core dumps.
 - The factory registry does not execute user-supplied code; adapter registrations are
   compile-time static initializers.
-- External adapters (MongoDB, PostgreSQL) should validate connection strings to prevent
+- External adapters (MongoDB, PostgreSQL) validate connection strings to prevent
   SSRF or credential injection.
 
 ---
@@ -183,8 +192,8 @@ ThemisDBAdapter::disconnect()
 |---|---|
 | Unknown adapter name | `create()` returns `nullptr` |
 | Duplicate registration | `register_adapter()` returns `false`; existing entry preserved |
-| Connection failure | `AdapterResult` with structured error; no exception thrown |
-| Query failure | `AdapterResult` error variant with error code and message |
+| Connection failure | `Result<T>` with structured error; no exception thrown |
+| Query failure | `Result<T>` error variant with error code and message |
 
 ---
 
@@ -196,7 +205,7 @@ ThemisDBAdapter::disconnect()
   for HTTP-based adapters).
 - No adapter-level connection pooling; each `create()` call creates a new connection.
 - Operations not applicable to a system's data model (e.g. relational ops on Qdrant) return
-  `AdapterResult` with `ErrorCode::NOT_IMPLEMENTED`.
+  `Result<T>` with `ErrorCode::NOT_IMPLEMENTED`.
 
 ---
 
