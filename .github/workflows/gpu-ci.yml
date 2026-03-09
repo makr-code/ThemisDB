@@ -68,9 +68,11 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install mimalloc
+        run: sudo apt-get update && sudo apt-get install -y libmimalloc-dev
+
       - name: Install build dependencies
         run: |
-          sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             cmake ninja-build g++ clang \
             libgtest-dev libbenchmark-dev \
