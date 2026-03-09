@@ -1,5 +1,7 @@
 # Prompt Engineering Module
 
+**Last Updated:** March 2026
+
 ## Module Purpose
 
 The Prompt Engineering module provides a complete lifecycle management system for LLM prompt templates in ThemisDB. It covers prompt creation and storage, version control (branching, diffing, rollback), iterative optimization via meta-prompts, feedback collection, performance tracking, A/B testing, and a self-improvement orchestrator that automatically detects underperforming prompts and triggers optimization cycles. Prometheus metrics and a high-level integration facade are included for production observability.
@@ -8,10 +10,17 @@ The Prompt Engineering module provides a complete lifecycle management system fo
 
 | Interface / File | Role |
 |-----------------|------|
-| `prompt_template_manager.cpp` | Template storage and context-variable rendering |
-| `chain_of_thought.cpp` | Chain-of-thought prompt construction |
-| `rag_prompt_builder.cpp` | RAG context injection into prompt templates |
-| `system_prompt_manager.cpp` | System prompt management and versioning |
+| `prompt_manager.cpp` | Template CRUD, context injection, multi-modal prompt assembly |
+| `feedback_collector.cpp` | Feedback recording, aggregate stats, failure pattern analysis |
+| `prompt_evaluator.cpp` | Quality scoring, statistical significance testing |
+| `prompt_optimizer.cpp` | Iterative prompt improvement |
+| `meta_prompt_generator.cpp` | LLM-assisted meta-prompt rewriting |
+| `prompt_version_control.cpp` | Git-like version control for prompts |
+| `prompt_performance_tracker.cpp` | Per-prompt execution metrics |
+| `self_improvement_orchestrator.cpp` | Auto-optimization orchestration and A/B tests |
+| `prompt_engineering_metrics.cpp` | Prometheus metrics export and persistence |
+| `prompt_injection_detector.cpp` | Pattern-based injection detection and sanitization |
+| `prompt_engineering_integration.cpp` | High-level facade and background worker |
 
 ## Scope
 
@@ -32,7 +41,7 @@ The Prompt Engineering module provides a complete lifecycle management system fo
 
 **Out of Scope:**
 - LLM inference itself (callers supply the model inference function)
-- Multi-modal prompts (images, audio)
+- Audio and video modalities (image descriptions alongside text are supported via `PromptManager::ImageDescription` and `buildMultiModalPrompt()`)
 - Token counting or context-window management
 
 ## Key Components

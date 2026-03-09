@@ -1,0 +1,89 @@
+{
+  "module": "prompt_engineering",
+  "generated": "2026-03-09",
+  "validated_at_commit": "09f7c55",
+  "branch": "copilot/sync-documentation-with-sourcecode",
+  "primary_source": "src/prompt_engineering/",
+  "summary": "Production-ready as of v1.x. Four documentation-accuracy findings corrected: ghost file references, wrong out-of-scope claim for multi-modal, three falsely-completed ROADMAP items, and missing Last Updated date.",
+  "findings": [
+    {
+      "id": "FINDING-PE-001",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/prompt_engineering/README.md: Relevant Interfaces table",
+      "expected": "Files prompt_template_manager.cpp, chain_of_thought.cpp, rag_prompt_builder.cpp, system_prompt_manager.cpp exist",
+      "observed": "None of these files exist in src/prompt_engineering/ or include/prompt_engineering/",
+      "evidence_paths": ["src/prompt_engineering/"],
+      "issue_title_suggestion": "Fix ghost file references in prompt_engineering README Relevant Interfaces table",
+      "label_suggestions": ["documentation", "bug"]
+    },
+    {
+      "id": "FINDING-PE-002",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/prompt_engineering/README.md: Out of Scope section",
+      "expected": "Multi-modal prompts (images, audio) are out of scope",
+      "observed": "PromptManager::ImageDescription struct and buildMultiModalPrompt() implemented in include/prompt_engineering/prompt_manager.h; tests/test_prompt_manager_multimodal.cpp exists (305 lines); introduced in commit 928e297c4 (2026-02-23). Audio and video remain out of scope.",
+      "evidence_paths": [
+        "include/prompt_engineering/prompt_manager.h",
+        "tests/test_prompt_manager_multimodal.cpp"
+      ],
+      "issue_title_suggestion": "Fix stale Out-of-Scope claim: image descriptions are supported in PromptManager",
+      "label_suggestions": ["documentation", "accuracy"]
+    },
+    {
+      "id": "FINDING-PE-003",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/prompt_engineering/ROADMAP.md: Phase 1, three [x] items",
+      "expected": "Chain-of-thought support, RAG prompt helpers, and system prompt management are implemented",
+      "observed": "No source files (chain_of_thought.cpp, rag_prompt_builder.cpp, system_prompt_manager.cpp) or headers exist. No related APIs found in prompt_manager.h or any other module source.",
+      "evidence_paths": [
+        "src/prompt_engineering/",
+        "include/prompt_engineering/"
+      ],
+      "issue_title_suggestion": "ROADMAP Phase 1: revert CoT, RAG helpers, system-prompt items from [x] to [?] — no code evidence",
+      "label_suggestions": ["documentation", "roadmap"]
+    },
+    {
+      "id": "FINDING-PE-004",
+      "severity": "low",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/prompt_engineering/README.md: file header",
+      "expected": "No Last Updated date present",
+      "observed": "Peer module src/query/README.md has an explicit Last Updated field; prompt_engineering README lacked one",
+      "evidence_paths": [
+        "src/prompt_engineering/README.md"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    }
+  ],
+  "open_items": [
+    {
+      "id": "OPEN-PE-001",
+      "description": "Chain-of-thought (CoT) prompt support with step delimiters",
+      "roadmap_status": "[?]",
+      "files_missing": ["src/prompt_engineering/chain_of_thought.cpp", "include/prompt_engineering/chain_of_thought.h"],
+      "recommendation": "Create chain_of_thought.cpp / .h implementing step-delimiter-based CoT construction. Update ROADMAP from [?] to [~] when in progress."
+    },
+    {
+      "id": "OPEN-PE-002",
+      "description": "RAG prompt construction helpers (retrieved context injection)",
+      "roadmap_status": "[?]",
+      "files_missing": ["src/prompt_engineering/rag_prompt_builder.cpp", "include/prompt_engineering/rag_prompt_builder.h"],
+      "recommendation": "Create rag_prompt_builder.cpp / .h or add buildRAGPrompt() to PromptManager. Coordinate with the rag/ module."
+    },
+    {
+      "id": "OPEN-PE-003",
+      "description": "System prompt management and per-role override",
+      "roadmap_status": "[?]",
+      "files_missing": ["src/prompt_engineering/system_prompt_manager.cpp", "include/prompt_engineering/system_prompt_manager.h"],
+      "recommendation": "Create system_prompt_manager.cpp / .h or document per-role system-prompt support via PromptTemplate metadata convention."
+    }
+  ]
+}
