@@ -1,5 +1,12 @@
 # ThemisDB Analytics Module - Implementation
 
+**Version:** 1.7.0
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-03-09
+**Module Path:** `src/analytics/`
+
+---
+
 ## Module Purpose
 
 The Analytics module provides comprehensive data analysis capabilities for ThemisDB, including OLAP query processing, statistical analysis, time-series analytics, graph analytics, spatial analytics, process mining, text analytics, and machine learning integration. This module transforms ThemisDB from a transactional database into a powerful analytical platform capable of real-time insights, predictive analytics, and complex event processing.
@@ -1736,9 +1743,17 @@ Part of ThemisDB. See LICENSE file in the root directory.
 ## See Also
 
 - **API Documentation**: [`../../include/analytics/README.md`](../../include/analytics/README.md)
+- **Architecture**: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- **Roadmap**: [`ROADMAP.md`](./ROADMAP.md)
 - **Future Plans**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **Secondary Docs (de)**: [`../../docs/de/analytics/README.md`](../../docs/de/analytics/README.md)
 - **OLAP Guide**: [`../../docs/de/analytics/olap_guide.md`](../../docs/de/analytics/olap_guide.md)
 - **Process Mining Guide**: [`../../docs/de/analytics/process_mining_guide.md`](../../docs/de/analytics/process_mining_guide.md)
+- **Forecasting Guide**: [`../../docs/de/analytics/forecasting_guide.md`](../../docs/de/analytics/forecasting_guide.md)
+- **CEP Guide**: [`../../docs/de/analytics/cep_guide.md`](../../docs/de/analytics/cep_guide.md)
+- **Anomaly Detection Guide**: [`../../docs/de/analytics/anomaly_detection_guide.md`](../../docs/de/analytics/anomaly_detection_guide.md)
+- **Streaming Windows Guide**: [`../../docs/de/analytics/streaming_window_guide.md`](../../docs/de/analytics/streaming_window_guide.md)
+- **ML & AutoML Guide**: [`../../docs/de/analytics/ml_guide.md`](../../docs/de/analytics/ml_guide.md)
 - **Query Module**: [`../query/README.md`](../query/README.md)
 - **Index Module**: [`../index/README.md`](../index/README.md)
 - **Observability**: [`../observability/README.md`](../observability/README.md)

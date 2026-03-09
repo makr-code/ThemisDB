@@ -1,5 +1,12 @@
 # ThemisDB Analytics Module - Header Files
 
+**Version:** 1.7.0
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-03-09
+**Module Path:** `include/analytics/`
+
+---
+
 ## Module Purpose
 
 The Analytics module provides comprehensive data analysis capabilities for ThemisDB, including OLAP query processing, statistical analysis, time-series analytics, graph analytics, spatial analytics, process mining, text analytics, and machine learning integration. This module transforms ThemisDB from a transactional database into a powerful analytical platform capable of real-time insights, predictive analytics, and complex event processing.
@@ -884,3 +891,14 @@ When contributing to the Analytics module:
 ## License
 
 Part of ThemisDB. See LICENSE file in the root directory.
+
+## See Also
+
+- **Implementation Documentation**: [`../../src/analytics/README.md`](../../src/analytics/README.md)
+- **Architecture**: [`../../src/analytics/ARCHITECTURE.md`](../../src/analytics/ARCHITECTURE.md)
+- **Roadmap**: [`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md)
+- **Future Enhancements (API)**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **Secondary Docs (de)**: [`../../docs/de/analytics/README.md`](../../docs/de/analytics/README.md)
+- **OLAP Guide**: [`../../docs/de/analytics/olap_guide.md`](../../docs/de/analytics/olap_guide.md)
+- **Forecasting Guide**: [`../../docs/de/analytics/forecasting_guide.md`](../../docs/de/analytics/forecasting_guide.md)
+- **CEP Guide**: [`../../docs/de/analytics/cep_guide.md`](../../docs/de/analytics/cep_guide.md)

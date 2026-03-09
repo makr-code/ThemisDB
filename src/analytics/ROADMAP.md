@@ -1,5 +1,10 @@
 # Analytics Module Roadmap
 
+**Version:** 1.7.0
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-03-09
+**Module Path:** `src/analytics/`
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
@@ -51,7 +56,21 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ### Long-term (6-12 months)
 
-## Implementation Phases
+- [ ] CUDA geospatial distance and containment kernels (Target: Q3 2026)
+  - Inputs: WGS84 points/polygons, batch-size up to 1e6
+  - Outputs: distance matrix + containment bitset
+  - Constraints: deterministic FP tolerance ≤ 1e-6
+  - Tests: unit + property-based + GPU/CPU parity
+  - Perf: ≥ 8x speedup vs CPU baseline on RTX-class GPU
+- [ ] Federated analytics query dispatch across multiple ThemisDB clusters (Target: Q3 2026)
+  - Per-tenant data isolation at the `SourceRegistry` boundary
+  - Scatter-gather coordinator with partial failure handling
+- [ ] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
+  - Extends existing `ForecastMethod` enum
+  - Confidence intervals and decomposition retained
+- [ ] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
+  - Export trained models to ONNX format for external serving
+  - Integration with `include/analytics/automl.h`
 
 ### Phase 1: Core Analytics Engine (Status: Completed ✅)
 - [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS (`analytics/olap_engine.cpp`)
@@ -100,3 +119,11 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 
 ## Breaking Changes
 - Arrow export format options may expand in v1.7.0 (additive, non-breaking)
+
+## See Also
+
+- **Implementation README**: [`README.md`](./README.md)
+- **Architecture**: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- **Future Enhancements**: [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md)
+- **API Documentation**: [`../../include/analytics/README.md`](../../include/analytics/README.md)
+- **Secondary Docs (de)**: [`../../docs/de/analytics/README.md`](../../docs/de/analytics/README.md)

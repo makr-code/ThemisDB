@@ -1,8 +1,8 @@
 # Process Mining Guide
 
-**Version:** v1.3.0 Phase 2  
-**Status:** Production-Ready  
-**Last Updated:** December 22, 2025
+**Version:** v1.7.0
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-03-09
 
 ---
 
@@ -13,22 +13,26 @@ ThemisDB's Process Mining module enables automated discovery and analysis of bus
 ## Key Features
 
 ### Process Discovery Algorithms
+
 - **Alpha Miner**: Classical algorithm for structured processes
 - **Heuristic Miner**: Robust algorithm handling noise and exceptions
 - **Inductive Miner**: Sound process models with guaranteed fitness
 
 ### Analysis Capabilities
+
 - **Directly-Follows Graph (DFG)**: Visualize process flows with frequencies
 - **Variant Analysis**: Identify common and rare process execution patterns
 - **Bottleneck Detection**: Find performance issues and delays
 - **Social Network Mining**: Analyze collaboration patterns between resources
 
 ### Conformance Checking
+
 - Token replay for fitness calculation
 - Deviation detection and analysis
 - Model-reality alignment
 
 ### Export Formats
+
 - BPMN 2.0 XML for standard process modeling
 - Petri Net (PNML) for formal analysis
 - JSON for programmatic access
@@ -90,12 +94,16 @@ auto metrics = mining.calculateCollaborationMetrics(social_network);
 
 ## Related Documentation
 
-- [Future Enhancements](./bpmn_future_enhancements.md) - Planned improvements for BPMN/process engine
-
-See full documentation at https://github.com/makr-code/ThemisDB
+- [Analytics Docs Hub](./README.md)
+- [PROCESS_MINING_AQL_EXAMPLES](./PROCESS_MINING_AQL_EXAMPLES.md)
+- [BPMN Future Enhancements](./bpmn_future_enhancements.md)
+- [OLAP Guide](./olap_guide.md)
+- [Forecasting Guide](./forecasting_guide.md)
+- [API Reference](../../../include/analytics/README.md)
+- [Implementation Overview](../../../src/analytics/README.md)
 
 ---
 
-**Last Updated:** December 22, 2025  
-**Version:** v1.3.0 Phase 2  
-**Status:** Production-Ready
+**Last Updated:** 2026-03-09
+**Version:** v1.7.0
+**Status:** 🟢 Production-Ready
