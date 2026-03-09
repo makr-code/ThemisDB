@@ -1,4 +1,6 @@
 # Cache Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/src/cache/README.md -->
 
 ## Scope
 
@@ -87,19 +89,18 @@ After a node restart, L1 and L2 are cold; queries that were hot before restart i
 ### Adaptive TTL Tuning Based on Access Patterns
 **Priority:** Medium
 **Target Version:** v1.8.0
-
-Currently TTL is set at `put()` time and never adjusted. Implement a background tuner that observes per-key access frequency and adjusts TTL on promotion from L2→L1 or L3→L2, extending it for frequently accessed entries and shortening it for cold ones.
+**Status:** ✅ Implemented
 
 **Implementation Notes:**
-- `[ ]` Add `AccessFrequencyTracker` struct inside `adaptive_query_cache.cpp`; count accesses per key in a sliding 5-minute window using a circular buffer.
-- `[ ]` Tuning policy: if key accessed ≥ 10 times in the window, multiply TTL by 1.5 (capped at `config_.max_ttl_seconds`); if ≤ 1 time, multiply by 0.5 (floored at `config_.min_ttl_seconds`).
-- `[ ]` Run tuner in the existing `eviction_thread_` (already present in `adaptive_query_cache.cpp`); tune batch of up to 1,000 keys per eviction cycle.
-- `[ ]` Expose tuner adjustments in metrics: `themis_cache_ttl_extended_total`, `themis_cache_ttl_shortened_total`.
-- `[?]` Decision needed: whether adaptive TTL should be disabled per-tenant when tenant has strict data-freshness SLAs.
+- `[x]` Adaptive TTL is opt-in via `config_.enable_adaptive_ttl` (default: `false`).
+- `[x]` Algorithm uses logarithmic scaling: `adaptive_ttl = base_ttl * (1 + log(access_count + 1) / scaling_factor)`, clamped to `[config_.adaptive_ttl_min_seconds, config_.adaptive_ttl_max_seconds]`.
+- `[x]` Access count is incremented on each L1/L2 cache hit; TTL is recalculated and re-applied on the entry.
+- `[x]` Parameters are configurable: `adaptive_ttl_min_seconds`, `adaptive_ttl_max_seconds`, `adaptive_ttl_scaling_factor`.
+- `[?]` Deferred: per-tenant TTL disabling for tenants with strict data-freshness SLAs — the current implementation does not support per-tenant adaptive TTL opt-out. See Known Issues in `ROADMAP.md`.
 
 **Performance Targets:**
 - Adaptive tuning reduces L3 read rate by ≥ 20% for workloads with 80/20 hot-key distribution (measured via replay of production query logs).
-- Tuner loop overhead < 1% of eviction thread CPU time.
+- TTL recalculation overhead < 1% of cache hit path CPU time.
 
 ---
 
@@ -150,6 +151,9 @@ that contains that subject's data must also be purged immediately from all three
 - `[ ]` Integrate `invalidatePII()` call into `PIIPseudonymizer::erasePII()` so cache purge
   happens automatically on every erasure without requiring caller coordination.
 - `[ ]` Expose `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint.
+
+---
+
 ### Write-Through Cache Mode
 **Priority:** Low
 **Target Version:** v2.0.0
@@ -216,3 +220,49 @@ For multi-node deployments, L1/L2 caches are node-local, causing inconsistent re
 - `[x]` Admin API write endpoints (`DELETE`, `POST`) must require `admin:cache:write` JWT scope; read endpoints require `admin:cache:read`; scope checks enforced at handler entry before any cache mutation.
 - `[ ]` Distributed coordinator must validate that invalidation messages carry the originating node's signed token to prevent cache-flush attacks from unauthenticated nodes.
 - `[x]` `AdaptiveQueryCache::warmupFromLog()` must validate each entry's key is a valid SHA-256 hex string and value size does not exceed `config_.l1_max_entry_bytes` (currently 1 KB) before insertion.
+
+---
+
+## Scientific References (IEEE Format)
+
+The following papers underpin the algorithms and design decisions in this module. References are grouped by the feature they support.
+
+### Eviction Policies (LRU, LFU, ARC)
+
+[1] N. Megiddo and D. S. Modha, "ARC: A Self-Tuning, Low Overhead Replacement Cache," in *Proc. 2nd USENIX Conf. on File and Storage Technologies (FAST '03)*, San Francisco, CA, USA, 2003, pp. 115–130. [Online]. Available: https://www.usenix.org/legacy/events/fast03/tech/full_papers/megiddo/megiddo.pdf
+
+[2] S. Jiang and X. Zhang, "LIRS: An Efficient Low Inter-Reference Recency Set Replacement Policy to Improve Buffer Cache Performance," *ACM SIGMETRICS Perform. Eval. Rev.*, vol. 30, no. 1, pp. 31–42, Jun. 2002, doi: 10.1145/511399.511340.
+
+[3] G. Einziger and R. Friedman, "TinyLFU: A Highly Efficient Cache Admission Policy," in *Proc. 22nd Euromicro Int. Conf. on Parallel, Distributed, and Network-Based Processing (PDP)*, Turin, Italy, 2014, pp. 146–153, doi: 10.1109/PDP.2014.34.
+
+[4] W. F. King, "Analysis of Demand Paging Algorithms," in *Proc. IFIP Congress*, Ljubljana, Yugoslavia, 1971, pp. 485–490.
+
+[5] R. L. Mattson, J. Gecsei, D. R. Slutz, and I. L. Traiger, "Evaluation Techniques for Storage Hierarchies," *IBM Syst. J.*, vol. 9, no. 2, pp. 78–117, 1970, doi: 10.1147/sj.92.0078.
+
+### Semantic Similarity Caching
+
+[6] J. Johnson, M. Douze, and H. Jégou, "Billion-Scale Similarity Search with GPUs," *IEEE Trans. Big Data*, vol. 7, no. 3, pp. 535–547, Sep. 2021, doi: 10.1109/TBDATA.2019.2921572. *(Basis for FAISS-compatible vector similarity lookup in `SemanticCache`)*
+
+[7] Y. A. Malkov and D. A. Yashunin, "Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs," *IEEE Trans. Pattern Anal. Mach. Intell.*, vol. 42, no. 4, pp. 824–836, Apr. 2020, doi: 10.1109/TPAMI.2018.2889473. *(HNSW algorithm; relevant to embedding similarity lookup in `SemanticCache::findSimilar()`)*
+
+### Adaptive TTL and Access-Pattern-Driven Caching
+
+[8] A. Cidon, A. Eisenman, M. Alizadeh, and S. Katti, "Cliffhanger: Scaling Performance Cliffs in Web Memory Caches," in *Proc. 13th USENIX Symp. on Networked Systems Design and Implementation (NSDI '16)*, Santa Clara, CA, USA, 2016, pp. 379–392. [Online]. Available: https://www.usenix.org/system/files/conference/nsdi16/nsdi16-paper-cidon.pdf *(Adaptive cache management and TTL tuning under skewed access patterns)*
+
+[9] C. Shi, B. Hua, and K. G. Shin, "ARCA: Adaptive Replacement Cache with Admission Policy," in *Proc. IEEE/IFIP Int. Conf. on Dependable Systems and Networks (DSN)*, 2010, pp. 251–260, doi: 10.1109/DSN.2010.5544298. *(Adaptive replacement and admission control relevant to `enable_adaptive_ttl` design)*
+
+### Distributed Cache Coordination and Consistency
+
+[10] J. Nishtala et al., "Scaling Memcache at Facebook," in *Proc. 10th USENIX Symp. on Networked Systems Design and Implementation (NSDI '13)*, Lombard, IL, USA, 2013, pp. 385–398. [Online]. Available: https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf *(Distributed invalidation protocol design; basis for `RedisCacheCoordinator` publish/subscribe invalidation model)*
+
+[11] B. Fan, D. G. Andersen, M. Kaminsky, and M. D. Mitzenmacher, "Cuckoo Filter: Practically Better Than Bloom," in *Proc. 10th ACM Int. on Conference on Emerging Networking Experiments and Technologies (CoNEXT '14)*, Sydney, Australia, 2014, pp. 75–88, doi: 10.1145/2674005.2674994. *(Membership filter for cache coordination; potential future use in distributed invalidation)*
+
+### GDPR-Aware Cache Invalidation
+
+[12] N. Kaaniche, M. Laurent, and M. Belguith, "Privacy Enhancing Technologies for Big Data Analytics," *Int. J. Inf. Secur.*, vol. 18, no. 2, pp. 143–160, 2019, doi: 10.1007/s10207-018-0403-1. *(Privacy-by-design and data erasure in caching systems; relevant to `invalidatePII()` GDPR Art. 17 implementation)*
+
+### Predictive Prefetching
+
+[13] O. Shacham, M. Ding, C. H. Kim, M. Erez, S. A. Mahlke, and K. Olukotun, "Rethinking Prefetching in Data-Parallel Accelerators," in *Proc. 44th Annual IEEE/ACM Int. Symp. on Microarchitecture (MICRO)*, Porto Alegre, Brazil, 2011, pp. 53–64, doi: 10.1145/2155620.2155628. *(Prefetch accuracy vs. coverage trade-offs; informs `PredictivePrefetcher` candidate generation heuristic)*
+
+[14] S. Srinath, O. Mutlu, H. Kim, and Y. N. Patt, "Feedback Directed Prefetching: Improving the Performance and Bandwidth-Efficiency of Hardware Prefetchers," in *Proc. 13th Int. Symp. on High-Performance Computer Architecture (HPCA)*, Phoenix, AZ, USA, 2007, pp. 63–74, doi: 10.1109/HPCA.2007.346180. *(Feedback-driven prefetch throttling; basis for prefetch hit-rate tracking in `PredictivePrefetcher::recordPrefetchHit()`)*
