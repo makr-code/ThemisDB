@@ -39,7 +39,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **geo** | 🟡 Beta — CPU queries tested; GPU backend with CPU fallback | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
 | **governance** | 🟡 Beta — GDPR/HIPAA rules functional; OPA planned | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
 | **gpu** | 🟡 Beta — Device management complete; multi-node coordination in progress | [src/gpu/ROADMAP.md](src/gpu/ROADMAP.md) |
-| **graph** | 🟡 Beta — Cost-based optimiser functional; distributed graph planned | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
+| **graph** | 🟡 Beta — Cost-based optimiser, constrained path finding, parallel traversal, distributed shards, GPU fallback functional; EXPLAIN AQL output planned | [src/graph/ROADMAP.md](src/graph/ROADMAP.md) |
 | **importers** | 🟡 Beta — PostgreSQL import functional; additional sources planned | [src/importers/ROADMAP.md](src/importers/ROADMAP.md) |
 | **index** | ✅ Production-ready | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
 | **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
