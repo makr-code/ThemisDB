@@ -35,11 +35,11 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
+- [x] Replication slot management API (pause/resume individual slots) (Issue: #2249)
 
 ### Long-term (6-12 months)
-- [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
-- [~] Multi-region active-active with bounded staleness guarantees (Issue: #2254)
+- [ ] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
+- [x] Multi-region active-active with bounded staleness guarantees (Issue: #2254)
 - [P] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
 - [I] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
 
@@ -68,21 +68,28 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Replication topology visualizer (web UI)
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction
 
-### Phase 3: Witness Nodes & Slot Management (Status: In Progress 🚧)
+### Phase 3: Witness Nodes & Slot Management (Status: Completed ✅)
 - [x] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154, #2001)
-- [ ] Replication slot management API (pause/resume individual slots)
+- [x] Replication slot management API (pause/resume individual slots)
 - [x] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
 - [x] Automated lag-based read traffic shifting
 - [x] Cross-cluster logical replication (publish/subscribe model)
 
-### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Planned 📋)
+## New Modules (v1.7.0)
+- [x] `include/replication/observability.h` + `src/replication/observability.cpp` — ReplicationObserver with lag snapshots, topology, bottleneck detection, and health scores
+- [x] `include/replication/conflict_resolution.h` + `src/replication/conflict_resolution.cpp` — ThreeWayMergeResolver (git-style) and FieldLevelMergeResolver (UNION/INTERSECT/LEFT_BIAS/RIGHT_BIAS)
+- [x] `include/replication/event_stream.h` + `src/replication/event_stream.cpp` — ReplicationEventStream with RAII subscription handles
+- [x] `include/replication/policy.h` + `src/replication/policy.cpp` — ReplicationPolicy with per-collection policy assignment and topology validation
+- [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
+
+### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: In Progress 🚧)
 - [ ] Full Raft v2 implementation (joint consensus for membership changes)
-- [~] Multi-region active-active with bounded staleness guarantees
+- [x] Multi-region active-active with bounded staleness guarantees (MultiRegionActiveActiveManager implemented)
 - [P] Schema-aware CDC with Avro/Protobuf schema registry integration
 - [ ] Conflict-free Replicated Data Types (CRDT) library expansion
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (177 test cases including 31 cross-cluster pub/sub tests and 7 witness-node tests)
+- [x] Unit tests coverage > 80% (209 test cases: 177 original + 30 new v1.7.0 feature tests + 2 commit-index tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [?] Performance benchmarks (replication lag p99, WAL throughput)
 - [?] Security audit (WAL encryption in transit, CDC stream authentication)

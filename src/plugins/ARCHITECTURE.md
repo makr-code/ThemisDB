@@ -1,7 +1,9 @@
 # Plugins Module — Architecture Guide
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 **Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/plugins/`
 
 ---

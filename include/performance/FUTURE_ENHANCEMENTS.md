@@ -1,5 +1,8 @@
 # Performance Module Headers - Future Enhancements
 
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Primary → src/performance/README.md | Secondary → docs/de/performance/README.md -->
+
 ## Scope
 
 - API-level enhancements to `include/performance/` headers — public C++ interfaces for performance instrumentation

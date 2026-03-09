@@ -1,5 +1,8 @@
 # Performance Module - Future Enhancements
 
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
+
 ## Scope
 
 - Cycle-accurate hardware timing via RDTSC/RDTSCP (x86-64) and CNTVCT_EL0 (ARM64) with < 1 ns overhead per measurement point

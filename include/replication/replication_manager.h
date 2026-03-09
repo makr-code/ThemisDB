@@ -502,6 +502,13 @@ public:
     // Get current term
     uint64_t getCurrentTerm() const { return current_term_.load(); }
 
+    /**
+     * Returns the highest WAL sequence that this follower knows to be
+     * committed by the leader quorum.  Updated by receiveHeartbeat().
+     * Leaders always have commit_index == their own getCurrentSequence.
+     */
+    uint64_t getCommitIndex() const { return commit_index_.load(); }
+
     // Raft leader lease management -----------------------------------------
 
     /**
@@ -535,6 +542,7 @@ private:
     std::string current_leader_;
     std::atomic<uint32_t> votes_received_{0};    // Votes gathered in current election
     std::atomic<uint32_t> cluster_size_{1};      // Total known cluster size (set externally)
+    std::atomic<uint64_t> commit_index_{0};      // Highest WAL sequence known committed by leader quorum
     std::chrono::steady_clock::time_point last_heartbeat_time_;
 
     // Leader lease expiry time; epoch when no lease is held.

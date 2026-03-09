@@ -234,7 +234,8 @@ static ScheduledTask::ErrorCategory categorizeError(const std::string& error_mes
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
                              Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger,
                              RocksDBWrapper* result_storage)
-    : query_engine_(query_engine), changefeed_(changefeed), config_(config) {
+    : query_engine_(query_engine), changefeed_(changefeed), config_(config)
+    , dynamic_limit_(config.max_concurrent_tasks) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
     }
@@ -1311,6 +1312,17 @@ std::string TaskScheduler::exportMetrics() const {
         }
     }
 
+    // Dynamic scaling metrics (always emitted; values reflect config when scaling disabled)
+    out << "# HELP themis_scheduler_concurrency_limit"
+           " Current effective max-concurrent-tasks limit (dynamic or static).\n";
+    out << "# TYPE themis_scheduler_concurrency_limit gauge\n";
+    out << "themis_scheduler_concurrency_limit " << dynamic_limit_.load() << "\n";
+
+    out << "# HELP themis_scheduler_queue_depth"
+           " Number of tasks ready to run but waiting for a free worker slot on the last tick.\n";
+    out << "# TYPE themis_scheduler_queue_depth gauge\n";
+    out << "themis_scheduler_queue_depth " << queue_depth_.load() << "\n";
+
     return out.str();
 }
 
@@ -1369,10 +1381,16 @@ void TaskScheduler::schedulerLoop() {
         auto now = std::chrono::system_clock::now();
         
         std::vector<std::shared_ptr<ScheduledTask>> tasks_to_execute;
+        size_t pending_count = 0;  // tasks ready but over the concurrency limit
         
         {
             std::lock_guard<std::mutex> lock(tasks_mutex_);
             last_run_ = now;
+
+            // Use the dynamically adjusted limit (or the static config value).
+            const size_t effective_limit = config_.enable_dynamic_scaling
+                ? dynamic_limit_.load()
+                : config_.max_concurrent_tasks;
             
             for (auto& [id, task] : tasks_) {
                 if (!task->enabled || task->running) {
@@ -1383,9 +1401,10 @@ void TaskScheduler::schedulerLoop() {
                     // Check concurrent task limit
                     size_t running_count = active_task_threads_.load();
                     
-                    if (running_count >= config_.max_concurrent_tasks) {
+                    if (running_count >= effective_limit) {
                         THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
-                                    config_.max_concurrent_tasks, id);
+                                    effective_limit, id);
+                        ++pending_count;
                         continue;
                     }
                     
@@ -1410,6 +1429,9 @@ void TaskScheduler::schedulerLoop() {
                 }
             }
         }
+
+        // Adjust concurrency limit based on pending queue depth (no-op when scaling disabled).
+        adjustConcurrencyLimit(pending_count);
         
         // Execute tasks outside the lock
         for (auto& task : tasks_to_execute) {
@@ -1437,6 +1459,7 @@ void TaskScheduler::schedulerLoop() {
         }
         
         span.setAttribute("tasks_executed", static_cast<int64_t>(tasks_to_execute.size()));
+        span.setAttribute("tasks_pending",  static_cast<int64_t>(pending_count));
         
         // Wait for next check interval or shutdown signal
         std::unique_lock<std::mutex> lock(tasks_mutex_);
@@ -2562,6 +2585,49 @@ void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
     } else {
         THEMIS_WARN("Failed to resolve task failure alert for task {}: {}",
                     task_id, result.error().message());
+    }
+}
+
+// ===== Dynamic scaling (Issue #2269) =====
+
+size_t TaskScheduler::getQueueDepth() const noexcept {
+    return queue_depth_.load();
+}
+
+size_t TaskScheduler::getDynamicConcurrencyLimit() const noexcept {
+    return dynamic_limit_.load();
+}
+
+void TaskScheduler::adjustConcurrencyLimit(size_t pending_count) noexcept {
+    if (!config_.enable_dynamic_scaling) return;
+
+    queue_depth_.store(pending_count);
+
+    const size_t floor_limit = std::max(config_.min_concurrent_tasks, size_t{1});
+    const size_t ceil_limit  = std::max(config_.max_concurrent_tasks_ceil, floor_limit);
+    size_t cur = dynamic_limit_.load();
+
+    if (pending_count >= config_.scale_up_queue_depth) {
+        // Scale up by 1 slot, capped at ceiling
+        idle_ticks_.store(0);
+        size_t next = std::min(cur + 1, ceil_limit);
+        if (next != cur) {
+            dynamic_limit_.store(next);
+            THEMIS_INFO("TaskScheduler: scaled up concurrency limit {} → {} (queue_depth={})",
+                        cur, next, pending_count);
+        }
+    } else if (pending_count == 0) {
+        size_t idle = idle_ticks_.fetch_add(1) + 1;
+        if (idle >= config_.scale_down_idle_ticks && cur > floor_limit) {
+            size_t next = cur - 1;
+            dynamic_limit_.store(next);
+            idle_ticks_.store(0);
+            THEMIS_INFO("TaskScheduler: scaled down concurrency limit {} → {} (idle_ticks={})",
+                        cur, next, idle);
+        }
+    } else {
+        // Pending > 0 but below scale_up_queue_depth – stay at current limit
+        idle_ticks_.store(0);
     }
 }
 

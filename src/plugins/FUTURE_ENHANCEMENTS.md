@@ -1,4 +1,6 @@
 # Plugins Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · docs/de/plugins/README.md -->
 
 ## Scope
 

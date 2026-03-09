@@ -1,62 +1,69 @@
 # Plugins Module
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/plugins/README.md · src/plugins/ARCHITECTURE.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
 Plugin system infrastructure for ThemisDB.
 
 ## Module Purpose
 
-Implements the plugin system infrastructure for ThemisDB, providing dynamic plugin loading, secure plugin execution with manifest validation and signing, and plugin lifecycle management.
+Implements the plugin system infrastructure for ThemisDB, providing dynamic plugin loading, secure plugin execution with manifest validation and Ed25519 signing, plugin lifecycle management, hot-reload, dependency resolution, health monitoring, and per-plugin metrics.
 
 ## Subsystem Scope
 
-**In scope:** Dynamic shared library loading, plugin manifest validation (JSON Schema v2), Ed25519 signing/verification, plugin lifecycle (register/initialize/execute/shutdown), capability-based permissions, dependency resolution, hot-reload, health monitoring, Prometheus metrics, OCI registry client.
+**In scope:** Dynamic shared library loading, plugin manifest validation, Ed25519 signing/verification, plugin lifecycle (register/initialize/execute/shutdown), capability-based permissions, hot-reload without server restart, dependency resolution and topological load ordering, plugin health monitoring and self-healing, per-plugin Prometheus-compatible metrics, OCI registry integration, RPC service registration.
 
-**Out of scope:** Plugin business logic (in individual plugin packages), WASM sandboxing (planned for v0.9.0), plugin SDK bindings for Python/Go (planned).
+**Out of scope:** Plugin business logic (in individual plugin packages), WASM sandboxing (planned), community plugin marketplace (planned).
 
 ## Relevant Interfaces
 
-- `plugin_manager.cpp` — lifecycle orchestrator: load, initialize, hot-reload, shutdown
-- `plugin_registry.cpp` — central registry of loaded plugins and their metadata
-- `plugin_hot_plug_monitor.cpp` — directory watcher for hot-plug install/update
-- `plugin_health_monitor.cpp` — periodic health checks and auto-unload of failing plugins
-- `plugin_metrics.cpp` — per-plugin call counts, latency, error rates (Prometheus)
-- `signed_plugin_repository.cpp` — Ed25519 signing and signature verification
-- `plugin_system_edition.cpp` — edition-aware plugin limits and capability gates
+| File / Component | Role |
+|---|---|
+| `plugin_manager.cpp` | Core lifecycle management: load, unload, hot-reload, capability negotiation, autoLoad |
+| `plugin_registry.cpp` | Plugin registration, manifest validation, Ed25519 signature verification |
+| `plugin_system_edition.cpp` | Edition-gated feature flags (CORE / Professional / Enterprise) |
+| `plugin_metrics.cpp` | Per-plugin metrics: call count, latency, error rate |
+| `plugin_health_monitor.cpp` | Liveness probing, automatic restart on consecutive failures |
+| `plugin_hot_plug_monitor.cpp` | Directory watcher: detects new/updated plugins and triggers reload |
+| `signed_plugin_repository.cpp` | Signed plugin repository: pinned-key store, remote manifest fetch |
+| `oci_registry_client.cpp` | Remote plugin loading from OCI (Docker Hub-compatible) registries |
+| `rpc_service_registry.cpp` | Registry for plugins that expose gRPC/RPC service endpoints |
+| `huggingface_ingestion_plugin.cpp` | First-party plugin: HuggingFace model ingestion |
+
+## Header Interfaces (`include/plugins/`)
+
+| Header | Role |
+|---|---|
+| `plugin_interface.h` | `IThemisPlugin`, `IStatefulPlugin`, `ISelfHealingPlugin`, `PluginCapabilityNegotiator` |
+| `plugin_manager.h` | `PluginManager` — main entry point for host code |
+| `plugin_registry.h` | `PluginRegistry` — registration, validation, verification |
+| `plugin_api.h` | Public plugin API types and version constants |
+| `plugin_dependency_resolver.h` | `PluginDependencyResolver` — header-only topological sort / cycle detection |
+| `plugin_health_monitor.h` | `PluginHealthMonitor` — liveness probe API |
+| `plugin_hot_plug_monitor.h` | `PluginHotPlugMonitor` — filesystem watch API |
+| `plugin_metrics.h` | `PluginMetrics` — per-plugin telemetry |
+| `signed_plugin_repository.h` | `SignedPluginRepository` — key store and entry management |
+| `oci_registry_client.h` | `OciRegistryClient` — remote registry fetch |
+| `rpc_plugin_interface.h` | `RpcPlugin`, `RpcServiceRegistry` — RPC plugin base types |
+| `self_healing_plugin.h` | `ISelfHealingPlugin` — heartbeat and auto-restart contract |
+| `manifest_schema_v2.json` | JSON Schema v2 for capability-aware manifests |
+| `image_analysis_interface.h` | `IImageAnalysisPlugin` — image analysis plugin base |
+| `image_analysis_manager.h` | `ImageAnalysisManager` — multi-backend plugin manager |
+| `huggingface_ingestion_plugin.h` | `HuggingFaceIngestionPlugin` — HuggingFace first-party plugin |
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production Ready — Dynamic loading, manifest validation, Ed25519 signing, dependency resolution, hot-reload, health monitoring, and capability negotiation are all implemented and tested.
-
-## Components
-
-- Plugin manager (lifecycle: load, initialize, hot-reload, shutdown)
-- Plugin registry (central catalog with type-indexed lookup)
-- Plugin health monitor (liveness probes, auto-restart on failure)
-- Plugin hot-plug monitor (filesystem watcher for zero-downtime updates)
-- Plugin metrics (Prometheus-compatible per-plugin telemetry)
-- Plugin security (Ed25519 signing/verification, manifest schema v2)
-- Plugin dependency resolver (topological sort, cycle detection)
-- OCI registry client (pull plugins from OCI/Docker registries)
-
-## Features
-
-- Dynamic plugin loading (dlopen/LoadLibrary, platform-native)
-- Secure plugin execution (Ed25519 signature verification, capability-based permissions)
-- Plugin manifest validation (JSON Schema v2)
-- Plugin signing and verification (Ed25519, key rotation support)
-- Dependency resolution (Kahn's algorithm, circular dependency detection)
-- Hot-reload without server restart (atomic swap with rollback on failure)
-- Plugin health monitoring and automatic restart on repeated failure
-- Prometheus metrics per plugin (call count, P50/P95/P99 latency, error rate)
-- Runtime capability negotiation with version-range constraints
-- OCI registry integration for remote plugin distribution
+**Maturity:** 🟡 Beta — Core plugin loading, manifest validation, Ed25519 signing, hot-reload, dependency resolution, health monitoring, metrics, OCI registry, and RPC integration are all implemented. WASM sandbox isolation and community marketplace are planned.
 
 ## Documentation
 
 For plugin documentation, see:
-- [Plugin Security](../../docs/plugins/PLUGIN_SECURITY.md)
-- [Plugin Migration](../../docs/plugins/PLUGIN_MIGRATION.md)
-- [Manifest Signatures](../../docs/plugins/MANIFEST_SIGNATURES.md)
-- [Plugin Signer Tool](../../tools/plugin_signer/)
+- [ARCHITECTURE (src/plugins)](ARCHITECTURE.md) — detailed architecture guide
+- [ROADMAP (src/plugins)](ROADMAP.md) — development roadmap, verified against source
+- [Secondary Docs (docs/de/plugins)](../../docs/de/plugins/README.md) — German-language overview
+- [Plugin Migration Guide](../../docs/de/plugins/PLUGIN_MIGRATION.md)
+- [Manifest Signatures](../../docs/de/plugins/MANIFEST_SIGNATURES.md)
+- [Hot-Reload Guide](../../docs/de/plugins/HOT_RELOAD_GUIDE.md)
+- [Dependency Resolver Usage](../../docs/de/plugins/DEPENDENCY_RESOLVER_USAGE.md)
 
 ## Scientific References
 

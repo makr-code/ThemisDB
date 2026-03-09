@@ -1,5 +1,8 @@
 # Observability Module - Future Enhancements
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/observability/README.md -->
+
 ## Scope
 
 - Prometheus metrics export (`/metrics`, `themis_*` namespace) via `MetricsCollector` singleton
@@ -1198,3 +1201,63 @@ Integration with Elastic Observability stack.
 - [README.md](README.md) - Current observability features
 - [../../docs/roadmap.md](../../docs/roadmap.md) - Product roadmap
 - [../core/README.md](../core/README.md) - Core interfaces
+
+---
+
+## Scientific References
+
+### Prometheus / Metrics Collection
+
+[1] B. Volz, "Prometheus: Monitoring at SoundCloud," *SoundCloud Engineering Blog*, 2012. [Online]. Available: https://developers.soundcloud.com/blog/prometheus-monitoring-at-soundcloud
+
+[2] J. Turnbull, "Monitoring with Prometheus," *Turnbull Press*, 2018, ISBN 978-0-9889405-6-4.
+
+[3] T. Vaillancourt, B. Sherif, and C. Larsen, "Scalable Metric Storage and Query in Practice: Facebook's Gorilla," in *Proc. USENIX OSDI*, 2015, pp. 617–630.
+
+### Distributed Tracing / OpenTelemetry
+
+[4] B. H. Sigelman, L. A. Barroso, M. Burrows, P. Stephenson, M. Plakal, D. Beaver, S. Jaspan, and C. Shanbhag, "Dapper, a Large-Scale Distributed Systems Tracing Infrastructure," *Google Technical Report TR-2010-003*, 2010. [Online]. Available: https://research.google/pubs/pub36356/
+
+[5] Y. Wu, J. Yin, J. Chen, X. Chen, and Z. Li, "MicroRCA: Root Cause Localization of Performance Issues in Microservices," in *Proc. IEEE/IFIP Network Operations and Management Symposium (NOMS)*, 2020, pp. 1–9. doi: 10.1109/NOMS47738.2020.9110353.
+
+[6] OpenTelemetry Authors, "OpenTelemetry Specification," Cloud Native Computing Foundation, 2024. [Online]. Available: https://opentelemetry.io/docs/specs/otel/
+
+### eBPF-Based Kernel Tracing
+
+[7] T. Høiland-Jørgensen, M. B. Brouer, D. Ahern, J. Fastabend, T. Herbert, D. Johansen, and D. Taht, "The eXpress Data Path: Fast Programmable Packet Processing in the Operating System Kernel," in *Proc. ACM CoNEXT*, 2018, pp. 54–66. doi: 10.1145/3281411.3281443.
+
+[8] B. Gregg, "BPF Performance Tools: Linux System and Application Observability," *Addison-Wesley Professional*, 2019, ISBN 0-13-655482-4.
+
+[9] A. Miano, F. Risso, and M. V. Bernal, "Creating Complex Network Services with eBPF: Experience and Lessons Learned," in *Proc. IEEE International Symposium on Local and Metropolitan Area Networks (LANMAN)*, 2018. doi: 10.1109/LANMAN.2018.8475067.
+
+### Continuous Profiling
+
+[10] J. Gutierrez, E. Heisig, and A. Boekholt, "Google-Wide Profiling: A Continuous Profiling Infrastructure for Data Centers," *IEEE Micro*, vol. 30, no. 4, pp. 65–79, Jul. 2010. doi: 10.1109/MM.2010.68.
+
+[11] M. Ayers, J. Leners, and M. Aguilera, "Iago Attacks: Why the System Call API is a Bad Untrusted RPC Interface," in *Proc. ACM ASPLOS*, 2013, pp. 253–264.
+
+### Performance Analysis / Anomaly Detection
+
+[12] A. Dean, S. Zhong, and C. Pang, "Benchmarking Cloud Serving Systems with YCSB," in *Proc. ACM SoCC*, 2010, pp. 143–154. doi: 10.1145/1807128.1807152.
+
+[13] H. Nguyen, Y. Xu, G. Bai, and A. Gu, "FChain: Toward Black-box Online Fault Localization for Cloud Systems," in *Proc. IEEE ICDCS*, 2013, pp. 110–119. doi: 10.1109/ICDCS.2013.26.
+
+[14] M. Ma, S. Lin, J. Xu, and Z. Li, "MS-Rank: Multi-Metric and Self-Adaptive Root Cause Diagnosis for Microservice Applications," in *Proc. IEEE ICWS*, 2019, pp. 60–67. doi: 10.1109/ICWS.2019.00022.
+
+### Distributed Flame Graphs
+
+[15] B. Gregg, "The Flame Graph," *Communications of the ACM*, vol. 59, no. 6, pp. 48–57, Jun. 2016. doi: 10.1145/2912563.
+
+[16] B. Gregg, "FlameGraph: Stack Trace Visualizer," 2016. [Online]. Available: https://github.com/brendangregg/FlameGraph
+
+### Query Profiling / Storage Monitoring
+
+[17] A. Pavlo, G. Angulo, J. Arulraj, H. Lin, J. Lin, L. Ma, P. Menon, T. C. Mowry, M. Perron, I. Quah, S. Santurkar, A. Tomasic, S. Toor, D. Van Aken, Z. Wang, Y. Wu, R. Xian, and T. Zhang, "Self-Driving Database Management Systems," in *Proc. CIDR*, 2017.
+
+[18] D. Lomet, "A Review of Recent Work on Multi-Version Concurrency Control," *ACM SIGMOD Record*, vol. 41, no. 4, pp. 56–63, 2012.
+
+### SLO / Alerting
+
+[19] N. Murphy, B. Beyer, C. Jones, and J. Petoff, "Site Reliability Engineering: How Google Runs Production Systems," *O'Reilly Media*, 2016, ISBN 978-1-4919-2909-4.
+
+[20] A. Iosup, S. Ostermann, M. N. Yigitbasi, R. Prodan, T. Fahringer, and D. Epema, "Performance Analysis of Cloud Computing Services for Many-Tasks Scientific Computing," *IEEE Transactions on Parallel and Distributed Systems*, vol. 22, no. 6, pp. 931–945, 2011. doi: 10.1109/TPDS.2011.66.

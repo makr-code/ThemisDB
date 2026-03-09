@@ -33,11 +33,31 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Task execution history with searchable audit log (Issue: #2448)
-- [I] Alert on task failure or SLA breach (Issue: #2265)
+- [x] Task execution history with searchable audit log (Issue: #2448)
+  - Files: `scheduler/task_audit_manager.h`, `scheduler/task_scheduler.h`
+  - Implementation: `TaskAuditManager::queryAuditEvents()` + `TaskScheduler::getExecutionHistory()`
+  - Runtime behaviour: returns up to `limit` audit events from the in-memory cache (up to 10 000 events) and on-disk JSONL log, ordered by `timestamp DESC`; filters by `task_id`, `event_type`, `success`, `anomalous_only`, `start_time`, `end_time`
+  - Error cases: returns empty vector when audit logging is disabled; query errors are logged and re-raise only on I/O failures
+  - Tests: `tests/test_task_scheduler.cpp` (audit history section)
+  - Perf: query over 10 000 cached events < 10 ms
+
+- [x] Alert on task failure or SLA breach (Issue: #2265)
+  - Files: `scheduler/task_scheduler.h`, `scheduler/task_scheduler.cpp`
+  - Implementation: `setAlertmanager()`, `fireTaskFailureAlert()`, `fireTaskSlaBreachAlert()`, `resolveTaskFailureAlert()`; `ScheduledTask::sla_deadline`
+  - Runtime behaviour: fires `TaskFailure` alert when all retry attempts are exhausted; fires `TaskSlaBreached` alert when execution time exceeds `sla_deadline`; automatically resolves failure alert on next successful run of the same task
+  - Error cases: alertmanager not set → silent no-op; alert send failure → logged at WARN level, task execution continues
+  - Tests: `tests/test_task_scheduler.cpp` (SLA section)
+  - Security: alert_mutex_ released before I/O to avoid lock-under-I/O deadlocks
 
 ### Long-term (6-12 months)
-- [I] Dynamic task scaling based on queue depth (Issue: #2269)
+- [x] Dynamic task scaling based on queue depth (Issue: #2269)
+  - Files: `scheduler/task_scheduler.h`, `scheduler/task_scheduler.cpp`
+  - Implementation: `Config::{enable_dynamic_scaling, min_concurrent_tasks, max_concurrent_tasks_ceil, scale_up_queue_depth, scale_down_idle_ticks}`, `getQueueDepth()`, `getDynamicConcurrencyLimit()`, `adjustConcurrencyLimit()`, pending-queue tracking in `schedulerLoop()`
+  - Runtime behaviour: when `pending_count >= scale_up_queue_depth` the effective limit is increased by 1 per tick (up to `max_concurrent_tasks_ceil`); after `scale_down_idle_ticks` consecutive ticks with no pending tasks the limit is decreased by 1 (floor: `min_concurrent_tasks`); when disabled, `max_concurrent_tasks` is used as a fixed static limit
+  - Error cases: `min_concurrent_tasks > max_concurrent_tasks_ceil` is accepted and handled safely (floor wins); disabled by default (backward-compatible)
+  - Tests: `tests/test_task_scheduler_dynamic_scaling.cpp`
+  - Metrics: `themis_scheduler_concurrency_limit` and `themis_scheduler_queue_depth` gauges emitted by `exportMetrics()`
+  - Perf: scaling decision adds at most one atomic load + store per scheduler tick (< 1 µs)
 
 ## Implementation Phases
 
@@ -58,18 +78,18 @@ v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron synta
 - [x] Distributed task coordination across nodes
 - [x] Task dependency DAG execution
 
-### Phase 3: Web UI & Retry Policies (Status: Partially Complete 🚧)
+### Phase 3: Web UI & Retry Policies (Status: Completed ✅)
 - [x] Web UI for task management (create, monitor, pause, delete)
 - [x] Task retry policies (max attempts, exponential back-off)
 - [x] Scheduled task output persistence (store results in ThemisDB)
-- [ ] Task execution history with searchable audit log
-- [ ] Alert on task failure or SLA breach
+- [x] Task execution history with searchable audit log
+- [x] Alert on task failure or SLA breach
 
-### Phase 4: Distributed Cron & Workflow Engine (Status: In Progress 🚧)
+### Phase 4: Distributed Cron & Workflow Engine (Status: Completed ✅)
 - [x] Distributed cron leader election (one runner per cluster)
 - [x] Workflow engine (multi-step DAG with conditional branching)
 - [x] Event-triggered tasks (changefeed → task execution)
-- [ ] Dynamic task scaling based on queue depth
+- [x] Dynamic task scaling based on queue depth
 - [x] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Production Readiness Checklist

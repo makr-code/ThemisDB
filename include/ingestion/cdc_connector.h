@@ -47,16 +47,17 @@ namespace ingestion {
  * unless a mock has been injected via `setCdcEventFetchForTesting()`.
  *
  * Supported `SourceConfig::options` keys:
- * | Key               | Description                                              | Default              |
- * |-------------------|----------------------------------------------------------|----------------------|
- * | `slot_name`       | Replication slot name (PostgreSQL) or equivalent         | `themis_cdc`         |
- * | `table_filter`    | Comma-separated table names to capture (empty = all)     | (all tables)         |
- * | `operations`      | Comma-separated ops to capture: `INSERT,UPDATE,DELETE`   | `INSERT,UPDATE,DELETE` |
- * | `text_columns`    | Comma-separated columns to use as document text          | (full event JSON)    |
- * | `batch_size`      | Number of events to fetch per poll iteration             | `500`                |
- * | `max_events`      | Maximum events to consume (0 = unlimited)                | `0`                  |
- * | `poll_timeout_ms` | Poll timeout waiting for new events (milliseconds)       | `1000`               |
- * | `from_lsn`        | Start from this LSN / binlog position (empty = start)    | (from beginning)     |
+ * | Key                  | Description                                              | Default              |
+ * |----------------------|----------------------------------------------------------|----------------------|
+ * | `slot_name`          | Replication slot name (PostgreSQL) or equivalent         | `themis_cdc`         |
+ * | `table_filter`       | Comma-separated table names to capture (empty = all)     | (all tables)         |
+ * | `operations`         | Comma-separated ops to capture: `INSERT,UPDATE,DELETE`   | `INSERT,UPDATE,DELETE` |
+ * | `text_columns`       | Comma-separated columns to use as document text          | (full event JSON)    |
+ * | `batch_size`         | Number of events to fetch per poll iteration             | `500`                |
+ * | `max_events`         | Maximum events to consume (0 = unlimited)                | `0`                  |
+ * | `poll_timeout_ms`    | Poll sleep duration between empty polls (milliseconds)   | `1000`               |
+ * | `max_empty_polls`    | Consecutive empty polls before stopping (≥1)             | `3`                  |
+ * | `from_lsn`           | Start from this LSN / binlog position (empty = start)    | (from beginning)     |
  *
  * `SourceConfig::location` must be a database connection URL:
  *   `postgresql://localhost:5432/mydb`

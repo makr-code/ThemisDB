@@ -1562,6 +1562,9 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/self_improvement_orchestrator.cpp
     ../src/prompt_engineering/prompt_engineering_integration.cpp
     ../src/prompt_engineering/prompt_injection_detector.cpp
+    ../src/prompt_engineering/chain_of_thought.cpp
+    ../src/prompt_engineering/rag_prompt_builder.cpp
+    ../src/prompt_engineering/system_prompt_manager.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -1697,6 +1700,11 @@ set(THEMIS_CORE_SOURCES
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
     ../src/replication/replication_manager.cpp
+    ../src/replication/observability.cpp
+    ../src/replication/conflict_resolution.cpp
+    ../src/replication/event_stream.cpp
+    ../src/replication/policy.cpp
+    ../src/replication/replication_slot.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -1999,6 +2007,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
     ../src/network/geo_topology_router.cpp
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
@@ -2013,6 +2022,11 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/continuous_profiler.cpp
     ../src/observability/ebpf_tracer.cpp
     ../src/observability/distributed_flame_graph.cpp
+    ../src/observability/slo_reporter.cpp
+    ../src/observability/metric_anomaly_detector.cpp
+    ../src/observability/query_profiler.cpp
+    ../src/observability/storage_profiler.cpp
+    ../src/observability/performance_analyzer.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -3954,6 +3968,40 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    # RaBitQ ProductQuantizer k-means tests
+    add_executable(test_rabitq_product_quantizer
+        ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+    )
+    target_link_libraries(test_rabitq_product_quantizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_rabitq_product_quantizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Cicada OCC data-install and transaction-protocol tests
+    if(THEMIS_ENABLE_CICADA)
+        add_executable(test_cicada
+            ${THEMIS_ROOT_DIR}/tests/performance/test_cicada.cpp
+        )
+        target_link_libraries(test_cicada
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_cicada
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cicada>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 
     # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
     # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)

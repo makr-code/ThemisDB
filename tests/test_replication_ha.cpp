@@ -406,6 +406,51 @@ TEST_F(LeaderElectionTest, HeartbeatConvertsCandidateToFollower) {
     EXPECT_EQ(le.getLeaderId(), "node-leader");
 }
 
+TEST_F(LeaderElectionTest, HeartbeatAdvancesCommitIndex) {
+    LeaderElection le("node-ci", config_, wal_);
+    le.setClusterSize(3);
+
+    // Initial commit index must be 0
+    EXPECT_EQ(le.getCommitIndex(), 0u);
+
+    // Append some WAL entries so that last_log_sequence > 0
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "ci_test";
+    entry.document_id = "doc1";
+    entry.data        = "{}";
+    uint64_t seq = wal_->append(entry);
+    ASSERT_GT(seq, 0u);
+
+    // Simulate a heartbeat from the leader that has committed up to seq
+    le.receiveHeartbeat(wal_->getCurrentTerm() + 1, "node-leader", seq);
+
+    // commit_index must be updated to min(leader_commit, our last_log_seq) = seq
+    EXPECT_EQ(le.getCommitIndex(), seq);
+}
+
+TEST_F(LeaderElectionTest, CommitIndexNeverGoesBackward) {
+    LeaderElection le("node-ci2", config_, wal_);
+    le.setClusterSize(3);
+
+    WALEntry entry;
+    entry.operation = "INSERT";
+    entry.collection = "ci_test";
+    entry.document_id = "d1";
+    entry.data = "{}";
+    uint64_t seq = wal_->append(entry);
+    ASSERT_GT(seq, 0u);
+
+    // First heartbeat: advance to seq
+    le.receiveHeartbeat(1, "leader", seq);
+    EXPECT_EQ(le.getCommitIndex(), seq);
+
+    // Second heartbeat: try to go backward (leader_commit < current)
+    le.receiveHeartbeat(1, "leader", 0);
+    // commit_index must not decrease
+    EXPECT_EQ(le.getCommitIndex(), seq);
+}
+
 TEST_F(LeaderElectionTest, RequestVoteGrantedWhenLogIsUpToDate) {
     LeaderElection le("node-4", config_, wal_);
 

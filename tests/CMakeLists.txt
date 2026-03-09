@@ -78,6 +78,10 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_agentic\\.cpp$"
         ".*test_rag_evaluation_report_exporter\\.cpp$"
         ".*test_rag_multimodal\\.cpp$"
+        ".*test_rag_evaluation_cache\\.cpp$"
+        ".*test_rag_calibration_manager\\.cpp$"
+        ".*test_rag_batch_evaluator\\.cpp$"
+        ".*test_rag_pipeline_integration\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -389,6 +393,9 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_detector.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager_multimodal.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_chain_of_thought.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_prompt_builder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_system_prompt_manager.cpp
 )
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
@@ -595,6 +602,13 @@ if(NOT THEMIS_ENABLE_LLM)
         # EvaluationReportExporter has no LLM dependency (pure serialisation);
         # re-include so non-LLM builds exercise the JSON/HTML export feature.
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_report_exporter.cpp
+        # EvaluationCache, CalibrationManager, BatchEvaluator have no LLM
+        # dependency; re-include so non-LLM builds exercise these features.
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_cache.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_calibration_manager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_batch_evaluator.cpp
+        # Pipeline integration test (heuristic/FAST mode, no LLM dependency).
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_pipeline_integration.cpp
     )
 endif()
 
@@ -614,6 +628,9 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
     ${CMAKE_SOURCE_DIR}/src/server/grpc_web_proxy_handler.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/evaluation_report_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/evaluation_cache.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
+    ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
     ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
 )
 

@@ -12,6 +12,16 @@ v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaD
 - [x] Incremental import support
 - [x] Custom import format handlers
 - [x] Import pipeline infrastructure
+- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) (Issue: #1835)
+- [x] MongoDB importer for document collections (`importers/mongo_importer.cpp`) (Issue: #1836)
+- [x] Import progress reporting with streaming callbacks (Issue: #1864)
+- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
+- [x] CSV / TSV / Parquet flat-file importer (`importers/flatfile_importer.cpp`) (Issue: #1839)
+- [x] Schema auto-detection and validation on import (`importers/schema_validator.cpp`) (Issue: #1856)
+- [x] Kafka consumer importer (`importers/kafka_importer.cpp`) (Issue: #1843)
+- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
+- [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
+- [x] S3-compatible object-storage source connector (`importers/s3_importer.cpp`) (Issue: #1855)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -59,8 +69,11 @@ v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaD
 - [x] MongoDB importer (`importers/mongo_importer.cpp`) for document collections (Issue: #1852)
 - [x] Flat-file CSV / TSV / Parquet importer with schema auto-detection (`importers/flatfile_importer.cpp`) (Issue: #1853)
 - [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
-- [x] S3-compatible object-storage source connector (Issue: #1855)
-- [x] Schema auto-detection and validation on import
+- [x] S3-compatible object-storage source connector (`importers/s3_importer.cpp`) (Issue: #1855)
+- [x] Schema auto-detection and validation on import (`importers/schema_validator.cpp`) (Issue: #1856)
+- [x] SQLite importer (`importers/sqlite_importer.cpp`) (Issue: #1838)
+- [x] Kafka consumer importer (`importers/kafka_importer.cpp`) (Issue: #1843)
+- [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
 
 ### Phase 4: Abstract Interface Contracts (Status: Completed ✅)
 - [x] `IImportConflictResolver` – stateless conflict-resolution interface (`include/importers/importer_interfaces.h`)
