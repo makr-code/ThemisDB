@@ -3,7 +3,10 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. MongoDB, Weaviate, and Qdrant adapters are implemented. PostgreSQL adapter is in progress.
+**Alpha** — All planned adapter implementations are complete in simulation mode (no live server
+required for tests). ThemisDB reference adapter and adapter factory infrastructure are
+functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and
+graph operations across 8 adapters.
 
 ## Completed ✅
 - [x] Adapter factory with thread-safe singleton registry
@@ -18,22 +21,29 @@
 - [x] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
 - [x] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
 - [x] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
+- [x] Elasticsearch adapter (full-text + vector search) (Issue: #1640)
+- [x] Pinecone adapter (managed vector search) (Issue: #1639)
+- [x] Qdrant adapter (native vector database)
+- [x] Weaviate adapter (native vector database)
+- [x] Neo4j adapter (native graph database) (Issue: #1650)
 
 ## In Progress 🚧
-- [P] PostgreSQL vendor adapter implementation (Target: Q2 2026) (Issue: #1629)
+- [~] PostgreSQL vendor adapter — simulation mode complete; production wiring to `libpqxx` pending (Issue: #1629)
+- [~] Production driver integration for all HTTP-based adapters (libmongocxx, cpp-httplib / cpr)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [P] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
+- [ ] Production driver integration: `libpqxx` for PostgreSQL (Issue: #1632)
+- [ ] Production driver integration: `libmongocxx` for MongoDB
+- [ ] Production driver integration: HTTP client (`cpp-httplib` / `cpr`) for Elasticsearch, Pinecone, Qdrant, Weaviate
+- [ ] Neo4j Bolt/HTTP client integration for production deployments
 
 ### Long-term (6-12 months)
-- [I] Neo4j adapter (native graph database) (Issue: #1650)
-- [P] Pinecone adapter (managed vector search) (Issue: #1639)
-- [P] Elasticsearch adapter (full-text + vector) (Issue: #1640, Target: Q2 2026)
+- [ ] Cross-system query federation for hybrid benchmarks (Issue: #1642)
+- [ ] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
 - [I] Cassandra adapter (wide-column) (Issue: #1641)
-- [I] Cross-system query federation for hybrid benchmarks (Issue: #1642)
-- [P] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
+- [ ] Adapter-level connection pooling
 
 ## Implementation Phases
 
@@ -49,31 +59,35 @@
 - [x] Result type conversions and error handling
 
 ### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
-- [P] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026) (Issue: #1656)
-- [x] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026) (Issue: #1657)
-- [x] Benchmark result normalization and scoring framework (Target: Q3 2026)
+- [~] PostgreSQL vendor adapter (`chimera/postgresql_adapter.cpp`) — simulation complete, production driver pending (Issue: #1656)
+- [x] MongoDB vendor adapter (`chimera/mongodb_adapter.cpp`) (Issue: #1657)
+- [x] Benchmark result normalization and scoring framework
 
-### Phase 3: Ecosystem Expansion & Reporting (Status: In Progress 🚧)
+### Phase 3: Ecosystem Expansion & Reporting (Status: Completed ✅)
 - [x] Weaviate adapter (native vector database)
 - [x] Qdrant adapter (native vector database)
+- [x] Elasticsearch adapter (full-text + vector search)
+- [x] Pinecone adapter (managed vector search)
+- [x] Neo4j adapter (native graph database)
 - [x] Unified benchmark harness (workload definitions, warm-up, run, report)
 - [x] Adapter capability matrix (which operations each system supports)
 - [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
-- [ ] Neo4j adapter (native graph database)
 
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1651)
-- [x] Integration tests (adapter factory, ThemisDB adapter, MongoDB adapter, PostgreSQL adapter, Weaviate adapter, Qdrant adapter)
+- [x] Integration tests (adapter factory, ThemisDB, MongoDB, PostgreSQL, Elasticsearch, Pinecone, Qdrant, Weaviate, Neo4j)
 - [P] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
 - [P] Security audit (connection credential handling) (Issue: #1653)
-- [I] Documentation complete (Issue: #1654)
+- [x] Documentation complete (primary docs synchronised with source)
 - [x] API stability guaranteed
 
 ## Known Issues & Limitations
-- PostgreSQL and MongoDB vendor adapters are implemented in simulation mode (no live server required for tests); production use requires linking libpqxx / mongocxx
-- Weaviate adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
-- Qdrant adapter is implemented in simulation mode (no live server required for tests); production use requires an HTTP client library (e.g. cpp-httplib or cpr)
-- Neo4j adapter is not yet implemented
+- All vendor adapters are implemented in simulation mode (in-process `std::unordered_map`
+  storage, no live server required for tests); production use requires linking the respective
+  native client library (e.g. `libmongocxx`, `libpqxx`, `cpp-httplib`/`cpr` for HTTP-based
+  adapters) and replacing the simulation blocks.
+- No adapter-level connection pooling; each `create()` call produces a new independent
+  connection.
 
 ## Breaking Changes
 - Adapter interface is stable; new capability methods will be added with default no-op implementations (backward-compatible)

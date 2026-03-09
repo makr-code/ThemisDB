@@ -1,4 +1,6 @@
 # CDC Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 ## Scope
 
@@ -388,3 +390,36 @@ When a data-subject deletion request arrives, all historical change log entries 
 - `[x]` WebSocket upgrade requests must be validated by `auth::JWTValidator` with `cdc:subscribe` scope before the HTTP 101 switch; reject with 401 before protocol upgrade.
 - `[ ]` `CDCAdmin::redactByKeyPrefix()` requires `admin:cdc:redact` JWT scope and must write an immutable audit log entry before beginning redaction to ensure the operation is traceable even if it fails midway.
 - `[ ]` Kafka producer credentials (SASL/TLS) must be loaded from `config/security/` paths via `ConfigPathResolver::resolve()`; credentials must never be logged even at DEBUG level.
+
+---
+
+## Scientific References
+
+References for the features described in this document. IEEE/ACM format, numbered.
+
+[1] M. Kleppmann, *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*. Sebastopol, CA: O'Reilly Media, 2017. ISBN: 978-1-449-37332-0.
+*(Transactional outbox pattern, at-least-once vs. exactly-once delivery, log-based CDC, consumer group semantics.)*
+
+[2] J. Gray, "The Transaction Concept: Virtues and Limitations," in *Proc. 7th Int. Conf. Very Large Data Bases (VLDB)*, Cannes, France, 1981, pp. 144–154.
+*(Foundational transaction model underpinning at-least-once / exactly-once delivery guarantees.)*
+
+[3] L. S. Colby, T. Griffin, L. Libkin, I. S. Mumick, and H. Trickey, "Algorithms for Deferred View Maintenance," in *Proc. ACM SIGMOD Int. Conf. Management of Data*, Montreal, Canada, 1996, pp. 469–480. https://doi.org/10.1145/233269.233364
+*(Incremental materialized view maintenance algorithms; directly applicable to `CDCMaterializedViewMaintainer`.)*
+
+[4] A. Gupta and I. S. Mumick, "Maintenance of Materialized Views: Problems, Techniques, and Applications," *IEEE Data Engineering Bulletin*, vol. 18, no. 2, pp. 3–18, 1995.
+*(Survey of view maintenance strategies; basis for CDC-driven O(1)-per-change update model.)*
+
+[5] T. Akidau, R. Bradshaw, C. Chambers, S. Chernyak, R. J. Fernández-Moctezuma, R. Lax, S. McVeety, D. Mills, F. Perry, E. Schmidt, and S. Whittle, "The Dataflow Model: A Practical Approach to Balancing Correctness, Latency, and Cost in Massive-Scale, Unbounded, Out-of-Order Data Processing," *Proc. VLDB Endowment*, vol. 8, no. 12, pp. 1792–1803, 2015. https://doi.org/10.14778/2824032.2824076
+*(Exactly-once semantics and watermark-based progress tracking; reference for `IDeliveryGuaranteeConfig::ExactlyOnce` design.)*
+
+[6] M. Zaharia, T. Das, H. Li, T. Hunter, S. Shenker, and I. Stoica, "Discretized Streams: Fault-Tolerant Streaming Computation at Scale," in *Proc. 24th ACM Symp. Operating Systems Principles (SOSP)*, Farmington, PA, 2013, pp. 423–438. https://doi.org/10.1145/2517349.2522737
+*(Backpressure semantics and micro-batch recovery; informs `TenantBufferManager` high-water-mark design.)*
+
+[7] J. Kreps, N. Narkhede, and J. Rao, "Kafka: A Distributed Messaging System for Log Processing," in *Proc. 6th Int. Workshop Networking Meets Databases (NetDB)*, Athens, Greece, 2011.
+*(Log-structured distributed messaging; foundational for `KafkaCDCProducer` and Debezium-format design.)*
+
+[8] Apache Software Foundation, "Apache Avro Specification, v1.11," 2023. [Online]. Available: https://avro.apache.org/docs/current/spec.html
+*(Schema evolution rules (FORWARD, BACKWARD, FULL compatibility) underpinning `CdcSchemaEncoder` and `SchemaRegistryClient`.)*
+
+[9] R. C. Richardson, *Microservices Patterns: With Examples in Java*. Shelter Island, NY: Manning Publications, 2018. ISBN: 978-1-617294549.
+*(Transactional outbox pattern (Chapter 3) and saga/event-driven design patterns directly applied in `OutboxWriter`/`OutboxRelay`.)*

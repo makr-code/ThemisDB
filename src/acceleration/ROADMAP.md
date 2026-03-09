@@ -6,6 +6,10 @@
 ## Current Status
 Pre-production hardening — backend surface is broad, but production-grade kernel coverage, runtime negotiation and cross-backend validation are still in progress.
 
+## In Progress 🚧
+- [~] CUDA kernel implementations for vector similarity (Issue: #1366) — `cuda/vector_kernels.cu` implemented; `cuda_backend.cpp` still has 6 stubs pending production wiring
+- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` implemented; full production dispatch wiring pending
+
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
 - [x] Vector similarity search acceleration stubs
@@ -14,7 +18,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Matrix operations for embeddings (scaffolding)
 - [x] Documentation cross-references (CUDA_BACKEND.md, VULKAN_BACKEND.md)
 - [x] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) — `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`
-- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
+- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373) — `vulkan_backend_full.cpp` (0 stubs, quality score 94) + SPIR-V compute shaders in `vulkan/shaders/` (l2_distance.comp, cosine_distance.comp, inner_product_distance.comp, batch_search.comp, topk_selection.comp, haversine_distance.comp, point_in_polygon.comp) fully implemented
 - [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
 - [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`

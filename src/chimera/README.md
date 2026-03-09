@@ -12,6 +12,11 @@ The Chimera module provides the core implementation for the **CHIMERA** (Compreh
 | `themisdb_adapter.cpp` | ThemisDB reference implementation adapter |
 | `mongodb_adapter.cpp` | MongoDB adapter (document + Atlas Vector Search) |
 | `postgresql_adapter.cpp` | PostgreSQL adapter (relational + pgvector) |
+| `elasticsearch_adapter.cpp` | Elasticsearch adapter (full-text + vector search) |
+| `pinecone_adapter.cpp` | Pinecone adapter (managed vector search) |
+| `qdrant_adapter.cpp` | Qdrant adapter (native vector database) |
+| `weaviate_adapter.cpp` | Weaviate adapter (native vector database) |
+| `neo4j_adapter.cpp` | Neo4j adapter (native graph database) |
 
 ## Scope
 
@@ -88,7 +93,8 @@ if (adapter) {
 
 // Query supported systems
 auto systems = AdapterFactory::get_supported_systems();
-// Returns: ["ArangoDB", "MongoDB", "Neo4j", "PostgreSQL", "ThemisDB", "Weaviate"]
+// Returns: ["Elasticsearch", "MongoDB", "Neo4j", "Pinecone", "PostgreSQL",
+//           "Qdrant", "ThemisDB", "Weaviate"]
 ```
 
 **Thread Safety:**
@@ -819,7 +825,7 @@ target_link_libraries(themisdb_chimera
 
 ## Status
 
-**Current Status:** Alpha — Vendor adapters complete in simulation mode (no live server required)
+**Current Status:** Alpha — All adapter implementations complete in simulation mode (no live server required)
 
 ✅ **Complete:**
 - Factory pattern implementation with auto-registration (static init)
@@ -827,21 +833,28 @@ target_link_libraries(themisdb_chimera
 - Error handling infrastructure
 - Capability reporting
 - Thread-safe registry
+- ThemisDB reference adapter (all 5 operation interfaces)
 - MongoDB adapter: document CRUD + Atlas Vector Search (cosine similarity)
 - MongoDB adapter: transaction lifecycle + security (credential masking)
 - PostgreSQL adapter: relational CRUD + pgvector similarity search
 - PostgreSQL adapter: JSONB document store + transaction lifecycle
-- ThemisDB reference adapter (stub demonstrating all interfaces)
+- Elasticsearch adapter: full-text search + k-NN vector search
+- Pinecone adapter: managed vector search (upsert, query, delete)
+- Qdrant adapter: native vector database (collections, search, payload filtering)
+- Weaviate adapter: native vector database (objects, semantic search)
+- Neo4j adapter: native graph database (Cypher queries, graph traversal)
 
 ⚠️ **Simulation Mode (no live server required):**
-- MongoDB and PostgreSQL adapters use in-process `std::unordered_map` storage for tests
-- Production deployments require linking `libmongocxx` / `libpqxx` and replacing simulation blocks
+- All vendor adapters use in-process `std::unordered_map` storage for tests
+- Production deployments require linking the respective native client library
+  (e.g. `libmongocxx`, `libpqxx`, `cpp-httplib`/`cpr` for HTTP-based adapters)
+  and replacing the simulation blocks with real API calls
 
 🔮 **Future Work:**
-- Weaviate, Qdrant, Neo4j vendor adapters
-- Production driver integration (libmongocxx, libpqxx)
+- Production driver integration for all adapters
 - Connection pooling
 - Retry logic and error recovery
+- Cross-system query federation
 
 ## Related Documentation
 
@@ -864,9 +877,9 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Last Updated: February 2026*  
-*Module Version: v1.0.0 (Reference Implementation)*  
-*Status: Stub/Template - Production Implementation Pending*
+*Last Updated: March 2026*  
+*Module Version: v1.1.0 (All Adapters Implemented)*  
+*Status: Alpha — Simulation Mode; Production Driver Integration Pending*
 
 ## Scientific References
 

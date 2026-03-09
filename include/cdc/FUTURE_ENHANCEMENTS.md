@@ -1,4 +1,6 @@
 # CDC Module - Future Header Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: ../../src/cdc/README.md · ../../src/cdc/ARCHITECTURE.md · ../../src/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 ## Scope
 
@@ -92,3 +94,24 @@
 - Schema validation prevents malformed events from reaching `ICDCMaterializedViewHook`; invalid events never propagate past the validation boundary
 - `ICDCPauseControl::pause()` is privilege-gated; only callers with `CDC_PAUSE` capability can invoke it
 - Audit log entries are written for every `pause()`, `resume()`, and schema-evolution event to support forensic analysis
+
+---
+
+## Scientific References
+
+References for the planned header interfaces. IEEE/ACM format, numbered.
+
+[1] T. Akidau, R. Bradshaw, C. Chambers, S. Chernyak, R. J. Fernández-Moctezuma, R. Lax, S. McVeety, D. Mills, F. Perry, E. Schmidt, and S. Whittle, "The Dataflow Model: A Practical Approach to Balancing Correctness, Latency, and Cost in Massive-Scale, Unbounded, Out-of-Order Data Processing," *Proc. VLDB Endowment*, vol. 8, no. 12, pp. 1792–1803, 2015. https://doi.org/10.14778/2824032.2824076
+*(Exactly-once delivery semantics and delivery mode configuration; basis for `IDeliveryGuaranteeConfig::DeliveryMode::ExactlyOnce` and `IIdempotentCDCListener`.)*
+
+[2] M. Zaharia, T. Das, H. Li, T. Hunter, S. Shenker, and I. Stoica, "Discretized Streams: Fault-Tolerant Streaming Computation at Scale," in *Proc. 24th ACM Symp. Operating Systems Principles (SOSP)*, Farmington, PA, 2013, pp. 423–438. https://doi.org/10.1145/2517349.2522737
+*(Backpressure levels and pause/resume mechanics; informs `ICDCBackpressureSignal` (`BackpressureLevel`) and `ICDCPauseControl` designs.)*
+
+[3] J. Li, K. Tufte, V. Shkapenyuk, V. Papadimos, T. Johnson, and D. Maier, "Out-of-Order Processing: A New Architecture for High-Performance Stream Systems," *Proc. VLDB Endowment*, vol. 1, no. 1, pp. 274–288, 2008. https://doi.org/10.14778/1453856.1453886
+*(Multi-source event ordering and merge policies; directly applicable to `ICDCFanIn` and `IFanInMergePolicy` design.)*
+
+[4] Apache Software Foundation, "Apache Avro Specification, v1.11," 2023. [Online]. Available: https://avro.apache.org/docs/current/spec.html
+*(Schema compatibility rules (FORWARD, BACKWARD, FULL); basis for `ICDCEventSchema::onSchemaEvolution` and `SchemaEvolutionDescriptor` design.)*
+
+[5] J. M. Hellerstein, M. Stonebraker, and J. Hamilton, "Architecture of a Database System," *Foundations and Trends in Databases*, vol. 1, no. 2, pp. 141–259, 2007. https://doi.org/10.1561/1900000002
+*(Foundational streaming listener and subscription model; background for `ICDCListener::onEvents(std::span<CDCEvent>)` batch delivery design.)*
