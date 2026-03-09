@@ -125,6 +125,22 @@ public:
      */
     std::vector<VersionedDocument> getHistory(const std::string& key) const;
 
+    /**
+     * Bi-temporal table scan.
+     * Returns all rows where sys_time contains sys_as_of AND
+     * valid_time contains valid_at.
+     * Equivalent to a full-table AS-OF bi-temporal query.
+     */
+    std::vector<VersionedDocument> scanBiTemporal(Timestamp sys_as_of,
+                                                   Timestamp valid_at) const;
+
+    /**
+     * Return all known keys (including keys whose rows have all been
+     * logically deleted).  Useful for bi-temporal joins that must
+     * enumerate every key ever written to the table.
+     */
+    std::vector<std::string> getAllKeys() const;
+
     // ── Metadata ─────────────────────────────────────────────────────────────
 
     const std::string& tableName() const noexcept { return table_name_; }

@@ -151,3 +151,59 @@ TEST_F(BiTemporalTableTest, Statistics_CorrectCounts) {
     EXPECT_EQ(stats["current_rows"], 1);
     EXPECT_EQ(stats["historical_rows"], 1);
 }
+
+// ── scanBiTemporal ───────────────────────────────────────────────────────────
+
+TEST_F(BiTemporalTableTest, ScanBiTemporal_MatchingRow_ReturnsIt) {
+    table.insertWithValidTime("c1", {{"amount", 999}}, {500, 2000});
+    Timestamp sys_after = now();
+
+    // sys_as_of is after insert; valid_at=1000 is inside [500,2000)
+    auto rows = table.scanBiTemporal(sys_after, 1000);
+    ASSERT_EQ(rows.size(), 1u);
+    EXPECT_EQ(rows[0].data["amount"], 999);
+}
+
+TEST_F(BiTemporalTableTest, ScanBiTemporal_ValidTimeNotContained_ReturnsEmpty) {
+    table.insertWithValidTime("c1", {{"amount", 500}}, {100, 200});
+
+    // valid_at=5000 is outside [100, 200)
+    auto rows = table.scanBiTemporal(now(), 5000);
+    EXPECT_TRUE(rows.empty());
+}
+
+TEST_F(BiTemporalTableTest, ScanBiTemporal_MultipleRows_ReturnsAllMatching) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 500});
+    table.insertWithValidTime("c2", {{"v", 2}}, {200, 600});
+    table.insertWithValidTime("c3", {{"v", 3}}, {700, 900}); // valid range does not include 400
+
+    auto rows = table.scanBiTemporal(now(), 400);
+    // c1 [100,500) contains 400, c2 [200,600) contains 400, c3 [700,900) does not
+    EXPECT_EQ(rows.size(), 2u);
+}
+
+// ── getAllKeys ────────────────────────────────────────────────────────────────
+
+TEST_F(BiTemporalTableTest, GetAllKeys_ReturnsAllKnownKeys) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 200});
+    table.insertWithValidTime("c2", {{"v", 2}}, {100, 200});
+    table.insertWithValidTime("c3", {{"v", 3}}, {100, 200});
+
+    auto keys = table.getAllKeys();
+    EXPECT_EQ(keys.size(), 3u);
+}
+
+TEST_F(BiTemporalTableTest, GetAllKeys_IncludesDeletedKeys) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 500});
+    table.deleteForValidTime("c1", 300); // logically delete
+
+    // Key is still known even after all current rows are deleted
+    auto keys = table.getAllKeys();
+    EXPECT_EQ(keys.size(), 1u);
+    EXPECT_EQ(keys[0], "c1");
+}
+
+TEST_F(BiTemporalTableTest, GetAllKeys_EmptyTable_ReturnsEmpty) {
+    auto keys = table.getAllKeys();
+    EXPECT_TRUE(keys.empty());
+}

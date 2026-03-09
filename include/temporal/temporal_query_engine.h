@@ -33,6 +33,7 @@
 
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
+#include "temporal/bi_temporal.h"
 #include <functional>
 #include <string>
 #include <utility>
@@ -51,6 +52,22 @@ enum class TemporalOperator {
     SUCCEEDS,   ///< left period starts after right period ends
     MEETS,      ///< left period ends exactly where right period starts
     EQUALS      ///< periods are identical
+};
+
+/**
+ * Temporal query semantics (SQL:2011 §4.16.5).
+ *
+ * SEQUENCED:     Each row is evaluated independently per temporal period.
+ *                Temporal predicates are applied relative to each row's
+ *                sys_time period; results preserve temporal consistency.
+ *
+ * NON_SEQUENCED: The time dimension is ignored; rows are treated as an
+ *                atemporal relation.  All versions across all time are
+ *                returned without temporal filtering.
+ */
+enum class TemporalSemantics {
+    SEQUENCED,
+    NON_SEQUENCED
 };
 
 /**
@@ -138,6 +155,52 @@ public:
         Timestamp as_of,
         const std::function<bool(const VersionedDocument&,
                                  const VersionedDocument&)>& predicate);
+
+    /**
+     * Bi-temporal join between two BiTemporalTables.
+     *
+     * Returns pairs (left_row, right_row) where:
+     *   - Both rows have sys_time.contains(sys_as_of)
+     *   - Both rows have valid_time.contains(valid_at)
+     *   - predicate(left_row, right_row) returns true
+     *
+     * This implements the combined transaction-time + valid-time join
+     * semantics defined in SQL:2011.
+     *
+     * @param left       Left-hand bi-temporal table.
+     * @param right      Right-hand bi-temporal table.
+     * @param sys_as_of  System-time point applied to both tables.
+     * @param valid_at   Valid-time point applied to both tables.
+     * @param predicate  Join condition evaluated on every (left, right) pair.
+     */
+    static std::vector<std::pair<VersionedDocument, VersionedDocument>>
+    joinBiTemporal(
+        const BiTemporalTable& left,
+        const BiTemporalTable& right,
+        Timestamp sys_as_of,
+        Timestamp valid_at,
+        const std::function<bool(const VersionedDocument&,
+                                 const VersionedDocument&)>& predicate);
+
+    /**
+     * Query a SystemVersionedTable with explicit SEQUENCED or NON-SEQUENCED
+     * semantics (SQL:2011 §4.16.5).
+     *
+     * SEQUENCED:     Returns rows whose sys_time overlaps the given period.
+     *                Temporal predicates are respected per individual period.
+     * NON_SEQUENCED: Returns all row versions regardless of sys_time,
+     *                treating the table as an atemporal relation.
+     *
+     * @param table     Source table.
+     * @param semantics SEQUENCED or NON_SEQUENCED.
+     * @param period    Reference period (used for SEQUENCED filtering only).
+     * @param filters   Optional field-level row filters.
+     */
+    static std::vector<VersionedDocument> queryWithSemantics(
+        const SystemVersionedTable& table,
+        TemporalSemantics semantics,
+        const TimeRange& period,
+        const std::vector<RowFilter>& filters = {});
 
     /**
      * Compute the overlap intersection of two time ranges.

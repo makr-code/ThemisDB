@@ -221,6 +221,33 @@ std::vector<VersionedDocument> BiTemporalTable::getHistory(
     return it->second;
 }
 
+std::vector<VersionedDocument> BiTemporalTable::scanBiTemporal(
+    Timestamp sys_as_of, Timestamp valid_at) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    std::vector<VersionedDocument> result;
+    for (const auto& [key, versions] : rows_) {
+        for (const auto& v : versions) {
+            if (v.sys_time.contains(sys_as_of) &&
+                v.valid_time.contains(valid_at)) {
+                result.push_back(v);
+            }
+        }
+    }
+    return result;
+}
+
+std::vector<std::string> BiTemporalTable::getAllKeys() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    std::vector<std::string> keys;
+    keys.reserve(rows_.size());
+    for (const auto& [key, _] : rows_) {
+        keys.push_back(key);
+    }
+    return keys;
+}
+
 // ============================================================================
 // Metadata
 // ============================================================================
