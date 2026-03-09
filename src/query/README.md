@@ -27,11 +27,28 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 
 | Interface / File | Role |
 |-----------------|------|
-| `aql_parser.cpp` | AQL syntax parsing and AST generation |
-| `query_optimizer.cpp` | Logical query plan optimization |
-| `query_planner.cpp` | Physical execution plan generation |
-| `execution_engine.cpp` | Query plan execution across all data models |
-| `join_executor.cpp` | Join algorithm implementations (hash, merge, nested-loop) |
+| `aql_parser.cpp` / `aql_parser_json.cpp` | AQL and JSON query syntax parsing; AST generation |
+| `aql_translator.cpp` | AST → internal query representation |
+| `query_optimizer.cpp` / `adaptive_optimizer.cpp` | Logical and cost-based plan optimization |
+| `optimizer_cost_model.cpp` | Cardinality and selectivity estimation |
+| `query_engine.cpp` | Physical execution (scan, filter, sort, aggregate, join) |
+| `aql_runner.cpp` | Top-level query dispatch (AQL, SQL, RLS, limits, cancellation) |
+| `sql_parser.cpp` | SQL SELECT/INSERT/UPDATE/DELETE → AQL compatibility layer |
+| `sparql_parser.cpp` | SPARQL → AQL translation for RDF/knowledge-graph queries |
+| `query_cache.cpp` / `query_cache_manager.cpp` | Exact-match query result cache |
+| `semantic_cache.cpp` | Embedding-based similarity cache |
+| `cte_cache.cpp` / `cte_subquery.cpp` / `materialized_cte.cpp` | CTE evaluation and caching |
+| `cross_cluster_federation.cpp` | Distributed federated AQL across cluster endpoints |
+| `query_federation.cpp` | Internal shard-level query federation |
+| `vectorized_execution.cpp` | Column-store batch execution (SIMD via analytics layer) |
+| `runtime_reoptimizer.cpp` | Adaptive re-optimization from runtime statistics |
+| `query_plan_visualizer.cpp` | EXPLAIN / EXPLAIN ANALYZE plan output |
+| `query_canceller.cpp` | Cooperative query cancellation via request ID |
+| `result_stream.cpp` / `result_type_annotation.cpp` | Result streaming, pagination, type inference |
+| `window_evaluator.cpp` / `statistical_aggregator.cpp` | Window and statistical aggregate functions |
+| `let_evaluator.cpp` | LET variable binding evaluation |
+| `workload_cache_strategy.cpp` | Adaptive workload-based cache eviction |
+| `functions/` | 100+ AQL built-in functions (math, string, geo, vector, graph, AI, …) |
 
 ## Scope
 
@@ -56,9 +73,10 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 
 ## Key Components
 
-> **Note on Parser Implementations:** All query parser logic is implemented in `aql_parser.cpp`
-> (and `aql_parser_json.cpp` for JSON query support). There is no separate SQL parser;
-> if SQL support is needed in the future, see the roadmap entry in `FUTURE_ENHANCEMENTS.md`.
+> **Note on Parser Implementations:** The primary query parser is `aql_parser.cpp`
+> (and `aql_parser_json.cpp` for JSON query objects). A separate SQL compatibility
+> parser (`sql_parser.cpp`) translates basic SELECT/INSERT/UPDATE/DELETE into AQL.
+> A SPARQL parser (`sparql_parser.cpp`) handles RDF / knowledge-graph queries.
 
 ### AQL Parser
 **Location:** `aql_parser.cpp`, `../include/query/aql_parser.h`
@@ -608,6 +626,29 @@ for (auto& row : rows) {
 }
 ```
 
+### Query Cancellation via Request ID
+
+`executeAqlCancellable()` wraps `executeAql()` and registers the query under a
+caller-assigned **request ID** in the process-wide `QueryCanceller` registry.
+Any other thread can cancel it at any time by calling `QueryCanceller::cancel()`.
+
+**Header:** `include/query/query_canceller.h`
+
+```cpp
+#include "query/aql_runner.h"
+#include "query/query_canceller.h"
+
+// Execute (e.g. in an HTTP worker thread):
+auto result = executeAqlCancellable(aql, engine, "request-42");
+
+// Cancel from any other thread (e.g. HTTP cancel handler):
+bool was_live = QueryCanceller::instance().cancel("request-42");
+```
+
+On cancellation `executeAqlCancellable()` returns
+`Err(ERR_QUERY_CANCELLED, request_id)`. The registration is automatically
+cleaned up when the function returns.
+
 ### Advanced Query Execution
 
 ```cpp
@@ -795,8 +836,8 @@ target_link_libraries(themisdb_query
 
 3. **Execution Limitations**:
    - Graph traversal depth limited to 20 hops (configurable, but memory-intensive)
-   - No parallel execution within a single query (planned for v1.6.0)
-   - Join algorithm is nested loop (no hash join or sort-merge join yet)
+   - Parallel execution is limited to the parallel-scan operator (`parallel_scan.h`); intra-operator parallelism within a single plan is planned for v1.6.0
+   - Join algorithm selection is adaptive; hash-join and nested-loop variants are implemented in `query_engine.cpp`
 
 4. **Caching Limitations**:
    - Query cache uses exact string matching (whitespace-sensitive)
@@ -810,7 +851,7 @@ target_link_libraries(themisdb_query
 
 6. **Function Limitations**:
    - Some advanced functions require optional dependencies
-   - User-defined functions (UDFs) not yet supported (planned)
+   - WASM/Python UDF runtimes are planned; C++ UDFs can be registered via `UDFRegistry` in `include/query/functions/udf_registry.h`
    - Limited support for aggregate window functions
 
 7. **Memory Constraints**:
@@ -836,6 +877,17 @@ target_link_libraries(themisdb_query
 - Result streaming and pagination
 - Expression evaluation and function registry
 - Subquery and CTE support
+- SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE)
+- SPARQL compatibility for RDF / knowledge-graph queries
+- Per-query resource limits (rows, memory, timeout)
+- Query cancellation via request ID (`QueryCanceller`)
+- Vectorized execution (column-store batch processing)
+- Cross-cluster federated AQL
+- UDF registration (`UDFRegistry`)
+- Query plan visualization (EXPLAIN / EXPLAIN ANALYZE)
+- Result type annotations (for SDK code generation)
+- Parallel collection scans (`ParallelScanner`)
+- Runtime re-optimization from execution statistics
 
 ⚠️ **Beta Features:**
 - Adaptive query optimization (v1.5.0+)
@@ -857,7 +909,7 @@ target_link_libraries(themisdb_query
 - [IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md](../../IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
 - [IMPLEMENTATION_SUMMARY_OPTIMIZER.md](../../IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
 
-*Last Updated: February 2026*  
+*Last Updated: March 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
 

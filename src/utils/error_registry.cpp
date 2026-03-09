@@ -959,6 +959,19 @@ void ErrorRegistry::registerDefaultErrors() {
     });
 
     registerError({
+        ErrorCode::ERR_QUERY_CANCELLED,
+        "Query",
+        "Warning",
+        "Query cancelled by request: {}",
+        "The query was explicitly cancelled via its request ID before or during execution.",
+        "1. Retry the query if cancellation was unintended\n"
+        "2. Check client-side cancellation logic\n"
+        "3. Review query timeout and resource settings",
+        {"/docs/query/cancellation.md"},
+        {"query", "cancel", "request", "abort"}
+    });
+
+    registerError({
         ErrorCode::ERR_QUERY_INVALID_INPUT,
         "Query",
         "Error",

@@ -1,4 +1,6 @@
 # Plugins Module - Future Header Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/plugins/FUTURE_ENHANCEMENTS.md · src/plugins/README.md · src/plugins/ROADMAP.md · docs/de/plugins/README.md -->
 
 ## Scope
 
@@ -92,3 +94,17 @@
 - Metric hooks cannot access plugin internals or raw invocation arguments; only timing and error codes are exposed
 - `IPluginDependencyResolver` rejects plugins with unsatisfied or cyclic dependencies before any activation occurs
 - Manifest schema v2 capability fields are validated against a sealed schema; unknown fields cause load rejection to prevent confused-deputy attacks
+
+## Scientific References
+
+[1] A. Haas et al., "Bringing the Web up to Speed with WebAssembly," in *Proc. PLDI 2017*, pp. 185–200, 2017. [DOI: 10.1145/3062341.3062363]
+
+[2] M. S. Miller, "Robust Composition: Towards a Unified Approach to Access Control and Concurrency Control," Ph.D. dissertation, Johns Hopkins University, 2006. Available: http://www.erights.org/talks/thesis/
+
+[3] B. Bernstein, "EdDSA for more curves," *IRTF CFRG*, 2015. Available: https://tools.ietf.org/html/draft-irtf-cfrg-eddsa
+
+[4] A. Kahn, "Topological Sorting of Large Networks," *Communications of the ACM*, vol. 5, no. 11, pp. 558–562, 1962. [DOI: 10.1145/368996.369025]
+
+[5] D. Devriese and F. Piessens, "Noninterference through Secure Multi-Execution," in *Proc. IEEE S&P 2010*, pp. 109–124, 2010. [DOI: 10.1109/SP.2010.15]
+
+[6] B. Beyer et al., "Site Reliability Engineering: How Google Runs Production Systems," *O'Reilly Media*, 2016. ISBN: 978-1-491-92912-4

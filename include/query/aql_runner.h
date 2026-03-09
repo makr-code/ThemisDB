@@ -33,6 +33,7 @@
 #include "query/aql_translator.h"
 #include "query/result_type_annotation.h"
 #include "query/query_resource_limits.h"
+#include "query/query_canceller.h"
 #include "query/sql_parser.h"
 #include "query_engine.h"
 #include "utils/expected.h"
@@ -154,6 +155,33 @@ Result<nlohmann::json> executeAqlWithRLS(
 Result<query::AnnotatedQueryResult> executeAqlAnnotated(
     const std::string& aql,
     QueryEngine& engine
+);
+
+/// Execute AQL with cooperative cancellation support.
+///
+/// Registers the query under @p request_id in the process-wide
+/// QueryCanceller registry before execution.  The registration is
+/// automatically cleaned up (unregistered) when this function returns.
+///
+/// Cancellation is checked once before execution begins.  Any thread that
+/// calls QueryCanceller::instance().cancel(@p request_id) while the query
+/// is running will cause the next cooperative checkpoint to return
+/// ERR_QUERY_CANCELLED.
+///
+/// The @p canceller parameter exists for testing; production callers should
+/// omit it to use the process-wide singleton.
+///
+/// @param aql          The AQL query string to execute.
+/// @param engine       The QueryEngine instance to execute against.
+/// @param request_id   Caller-assigned unique identifier for this query.
+/// @param canceller    Optional: override the canceller registry (for tests).
+/// @return             Result<nlohmann::json> on success, or an Err with
+///                     ERR_QUERY_CANCELLED when the query was cancelled.
+Result<nlohmann::json> executeAqlCancellable(
+    const std::string& aql,
+    QueryEngine& engine,
+    const std::string& request_id,
+    query::QueryCanceller& canceller = query::QueryCanceller::instance()
 );
 
 } // namespace themis

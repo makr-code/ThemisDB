@@ -34,6 +34,8 @@
 
 ### Long-term (6-12 months)
 - [I] Video frame extraction and scene detection (Issue: #1688)
+- [x] OCR for image-embedded text (Tesseract integration, `ocr_processor.cpp`) (Issue: #1689)
+- [x] Multi-language text detection and routing (`content/language_detector.cpp`) (Issue: #1690)
 
 ## Implementation Phases
 

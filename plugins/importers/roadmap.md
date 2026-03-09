@@ -19,7 +19,9 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 ## In Progress
 
 - [~] Integration tests for the PostgreSQL importer using a Docker-based Postgres fixture
-- [~] Verification of MongoDB importer status
+
+## Completed ✅ (additional)
+- [x] MongoDB importer (`src/importers/mongo_importer.cpp`) — Production Ready
 
 ## Planned Features
 
@@ -36,20 +38,19 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 ## Short-term Goals (next 1–2 sprints)
 
 - [ ] Add integration tests for the PostgreSQL importer using a Docker-based Postgres fixture.
-- [ ] Document all configuration parameters for both importers.
-- [ ] Verify MongoDB importer status and update this roadmap accordingly.
+- [ ] Document all configuration parameters for all importers.
 
 ## Mid-term Goals (1–3 months)
 
-- [P] **MySQL / MariaDB importer** – common alternative to PostgreSQL. *(PR open)*
-- [P] **SQLite importer** – portable single-file database import. *(PR open)*
-- [ ] **CSV / TSV importer** – bulk-load flat files into ThemisDB collections.
+- [x] **MySQL / MariaDB importer** – `src/importers/mysql_importer.cpp` *(Production Ready)*
+- [x] **SQLite importer** – `src/importers/sqlite_importer.cpp` *(Production Ready)*
+- [x] **CSV / TSV / Parquet flat-file importer** – `src/importers/flatfile_importer.cpp` with schema auto-detection *(Production Ready)*
+- [x] **Oracle Database importer** – `src/importers/oracle_importer.cpp` *(Production Ready)*
 - [ ] Incremental import mode: import only rows added/changed since last import timestamp.
-- [ ] Schema auto-detection: infer ThemisDB collection schema from source table structure.
 
 ## Long-term Goals (3–12 months)
 
-- [~] **Kafka consumer importer** – consume and import Kafka topic messages in real time. (`src/importers/kafka_importer.cpp`)
+- [x] **Kafka consumer importer** – consume and import Kafka topic messages in real time. (`src/importers/kafka_importer.cpp`) *(Production Ready)*
 - [ ] **Elasticsearch importer** – migrate indices to ThemisDB.
 - [ ] **Redis importer** – import Redis keys/values/hashes.
 - [ ] **Change Data Capture (CDC)** – continuous real-time ingestion via Debezium / logical replication.
@@ -61,8 +62,10 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 |-----------|--------|--------|
 | MySQL importer MVP | Q2 2026 | ✅ Done |
 | SQLite importer MVP | Q2 2026 | ✅ Done |
-| CSV importer | Q3 2026 | 🔲 Planned |
-| CDC / real-time ingestion | 2026 | 🚧 In Progress |
+| Oracle importer MVP | Q2 2026 | ✅ Done |
+| Kafka consumer importer | Q2 2026 | ✅ Done |
+| CSV / flat-file importer | Q2 2026 | ✅ Done |
+| CDC / real-time ingestion | 2026 | 🔲 Planned |
 
 ## Implementation Phases
 
@@ -108,20 +111,22 @@ Entry-point: `plugins/importers/` · implementations in `src/importers/`
 | PostgreSQL importer | ✅ Ready |
 | MySQL / MariaDB importer | ✅ Ready |
 | SQLite importer | ✅ Ready |
+| Oracle Database importer | ✅ Ready |
 | S3-compatible object storage importer | ✅ Ready |
-| MongoDB importer | ✅ Ready (status unconfirmed – verify) |
+| MongoDB importer | ✅ Ready |
+| Kafka consumer importer | ✅ Ready (requires `THEMIS_ENABLE_KAFKA`) |
+| CSV / TSV / Parquet flat-file importer | ✅ Ready |
 | Integration tests running in CI | ❌ Pending |
-| CSV / TSV importer | ❌ Not implemented |
-| Kafka consumer importer | ❌ In progress |
+| Elasticsearch importer | ❌ Not implemented |
 | CDC / Debezium importer | ❌ Not implemented |
 | Target throughput documented | ❌ Undefined |
 
 ## Known Issues & Limitations
 
-- No integration tests are running in CI; all importers are tested manually only
-- MongoDB importer status has not been re-confirmed; roadmap may be out of date
+- No integration tests are running in CI; importers are tested with unit tests and manual testing
+- MySQL/Oracle importers require the respective client library at link time (`THEMIS_ENABLE_MYSQL`, `THEMIS_ENABLE_OCI`); builds without those flags return `CONNECTOR_NOT_SUPPORTED`
+- Kafka importer requires `THEMIS_ENABLE_KAFKA` and librdkafka; compiles cleanly without it but every `importData()` call returns an error describing the missing build flag
 - Target import throughput (rows/sec) has not been defined or benchmarked
-- Kafka importer exists in `src/importers/kafka_importer.cpp` but is not production-ready
 
 ---
 

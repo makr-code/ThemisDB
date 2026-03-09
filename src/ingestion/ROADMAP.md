@@ -113,7 +113,7 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
 - [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
 - [x] Security audit (path traversal, API key storage) (Issue: #1912)
-- [~] Documentation complete (Issue: #1913) — in progress (this PR)
+- [x] Documentation complete (Issue: #1913)
 - [I] API stability guaranteed (Issue: #1914)
 
 ## Known Issues & Limitations

@@ -9,9 +9,9 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   90.0/100                                       ║
+    • Quality Score:   100.0/100                                       ║
     • Total Lines:     5117                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -584,8 +584,13 @@ void LeaderElection::receiveHeartbeat(
     }
     // Notify the election loop so it resets its timeout countdown
     election_cv_.notify_one();
-    // TODO(future): apply leader_commit to follower's local commit index
-    (void)leader_commit;
+    // Advance the follower's commit index to min(leader_commit, last_log_sequence).
+    // This matches Raft §5.3: commitIndex = min(leaderCommit, index of last new entry).
+    const uint64_t my_last_seq = wal_ ? wal_->getCurrentSequence() : 0;
+    const uint64_t new_commit  = std::min(leader_commit, my_last_seq);
+    uint64_t expected = commit_index_.load();
+    while (new_commit > expected &&
+           !commit_index_.compare_exchange_weak(expected, new_commit)) {}
 }
 
 std::string LeaderElection::getLeaderId() const {

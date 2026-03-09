@@ -155,5 +155,41 @@ PluginMetrics::PluginStats& PluginMetrics::getOrCreateStats(const std::string& p
     return result.first->second;
 }
 
+// ============================================================================
+// PluginMetricsCollector
+// ============================================================================
+
+void PluginMetricsCollector::collect(themis::core::concerns::IMetrics& sink) const {
+    using Labels = themis::core::concerns::IMetrics::Labels;
+
+    const auto all_stats = metrics_.getAllStats();
+
+    for (const auto& [name, stats] : all_stats) {
+        const Labels labels = {{"plugin", name}};
+
+        // Call / error counters exposed as gauges (absolute snapshots)
+        sink.setGauge("plugin_function_calls",
+                      static_cast<double>(stats.function_calls), labels);
+        sink.setGauge("plugin_errors",
+                      static_cast<double>(stats.errors), labels);
+        sink.setGauge("plugin_reload_count",
+                      static_cast<double>(stats.reload_count), labels);
+
+        // Timing gauges (milliseconds)
+        sink.setGauge("plugin_load_time_ms",
+                      static_cast<double>(stats.load_time.count()), labels);
+        sink.setGauge("plugin_call_latency_avg_ms",
+                      stats.avg_call_latency_ms, labels);
+        sink.setGauge("plugin_call_latency_p95_ms",
+                      stats.p95_call_latency_ms, labels);
+        sink.setGauge("plugin_call_latency_p99_ms",
+                      stats.p99_call_latency_ms, labels);
+
+        // Resource gauge
+        sink.setGauge("plugin_memory_bytes",
+                      static_cast<double>(stats.memory_bytes), labels);
+    }
+}
+
 } // namespace plugins
 } // namespace themis
