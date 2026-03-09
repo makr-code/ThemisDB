@@ -1,0 +1,125 @@
+{
+  "module": "search",
+  "generated": "2026-03-09",
+  "validated_at_commit": "191ef83",
+  "branch": "copilot/sync-documentation-with-sourcecode",
+  "primary_source": "src/search/",
+  "summary": "Production-ready as of v1.8.0. No falsely-claimed [x] roadmap items for core feature set. Six documentation-accuracy findings corrected.",
+  "findings": [
+    {
+      "id": "FINDING-S-001",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "191ef83",
+      "claim_source": "src/search/README.md: Relevant Interfaces section",
+      "expected": "Files inverted_index.cpp, bm25_scorer.cpp, search_engine.cpp exist",
+      "observed": "None of these files exist in src/search/ or anywhere in the repository. 14 real source files exist instead.",
+      "evidence_paths": ["src/search/"],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-S-002",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "191ef83",
+      "claim_source": "src/search/README.md: Architecture diagram",
+      "expected": "QueryParser, Tokenizer, ResultRanker are search-module components",
+      "observed": "No query_parser.cpp, tokenizer.cpp, or result_ranker.cpp in src/search/ or include/search/. Text processing is in utils module; query parsing is in query module.",
+      "evidence_paths": ["include/search/", "src/search/"],
+      "issue_title_suggestion": "[search] Verify or implement QueryParser in search module",
+      "label_suggestions": ["question", "search", "documentation"]
+    },
+    {
+      "id": "FINDING-S-003",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "191ef83",
+      "claim_source": "src/search/ROADMAP.md: Completed section and Phase 1",
+      "expected": "[x] QueryParser and [x] ResultRanker marked as done",
+      "observed": "No dedicated source files for these classes in the search module. grep -rn 'class QueryParser|class ResultRanker' include/search/ src/search/ returns no results.",
+      "evidence_paths": ["src/search/", "include/search/"],
+      "issue_title_suggestion": "[search] Verify or implement ResultRanker in search module",
+      "label_suggestions": ["question", "search", "documentation"]
+    },
+    {
+      "id": "FINDING-S-004",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "191ef83",
+      "claim_source": "src/search/README.md: Documentation section",
+      "expected": "docs/search/hybrid_search.md, docs/search/bm25.md, docs/search/vector_search.md, docs/search/reciprocal_rank_fusion.md exist",
+      "observed": "The docs/search/ directory does not exist",
+      "evidence_paths": [],
+      "issue_title_suggestion": "[search] Create docs/search/ guide directory (hybrid_search, bm25, vector_search, RRF)",
+      "label_suggestions": ["documentation", "search"]
+    },
+    {
+      "id": "FINDING-S-005",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "191ef83",
+      "claim_source": "src/search/README.md: Current Delivery Status section",
+      "expected": "Module is 🟡 Beta with hybrid search in progress",
+      "observed": "Module is at v1.8.0 with 14 production-ready components, 0 open stubs, quality score 100/100 on all source files",
+      "evidence_paths": [
+        "src/search/hybrid_search.cpp",
+        "include/search/hybrid_search.h"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-S-006",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "191ef83",
+      "claim_source": "docs/de/search/README.md (Datum: Januar 2026, Version: v1.4.0)",
+      "expected": "Secondary docs are current and list all search module components",
+      "observed": "No component table existed at all. Module grew from 0 to 14 documented C++ components since last update. Stray index-module API snippets (GraphIndexManager, PropertyGraph, TemporalGraph) were incorrectly included at the bottom of the file.",
+      "evidence_paths": [
+        "include/search/",
+        "src/search/"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    }
+  ],
+  "open_remaining_items": [
+    {
+      "item": "Highlight / snippet generation for matched terms",
+      "roadmap_status": "[I]",
+      "issue_ref": "#2457",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "item": "Negative keyword filtering (NOT operator)",
+      "roadmap_status": "[I]",
+      "issue_ref": "#2003",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "item": "Distributed search across shards with result merging",
+      "roadmap_status": "[I]",
+      "issue_ref": "#2280",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "item": "QueryParser (search-module-specific)",
+      "roadmap_status": "[?]",
+      "issue_ref": null,
+      "issue_title_suggestion": "[search] Verify or implement QueryParser in search module",
+      "label_suggestions": ["question", "search", "documentation"]
+    },
+    {
+      "item": "ResultRanker (search-module-specific)",
+      "roadmap_status": "[?]",
+      "issue_ref": null,
+      "issue_title_suggestion": "[search] Verify or implement ResultRanker in search module",
+      "label_suggestions": ["question", "search", "documentation"]
+    }
+  ]
+}

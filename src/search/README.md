@@ -14,14 +14,28 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 
 ## Relevant Interfaces
 
-- `inverted_index.cpp` — inverted index construction and lookup
-- `bm25_scorer.cpp` — BM25 relevance scoring
-- `hybrid_search.cpp` — combined vector and keyword search
-- `search_engine.cpp` — query dispatch and result ranking
+| Header | Source | Description |
+|--------|--------|-------------|
+| `hybrid_search.h` | `hybrid_search.cpp` | RRF-based BM25 + vector fusion |
+| `fuzzy_matcher.h` | `fuzzy_matcher.cpp` | Levenshtein, Soundex, Metaphone, N-gram similarity |
+| `query_expander.h` | `query_expander.cpp` | Synonym expansion, spelling correction, query relaxation |
+| `faceted_search.h` | `faceted_search.cpp` | Per-field value facets, range buckets, drill-down filters |
+| `search_analytics.h` | `search_analytics.cpp` | Thread-safe query log; avg/p95/p99 latency, zero-result rate |
+| `autocomplete.h` | `autocomplete.cpp` | Prefix-index + popular-query suggestions |
+| `learning_to_rank.h` | `learning_to_rank.cpp` | Linear re-ranker, pairwise gradient-descent training, A/B selector |
+| `multi_modal_search.h` | `multi_modal_search.cpp` | TEXT/IMAGE/AUDIO/CUSTOM modality RRF fusion |
+| `multi_field_search.h` | `multi_field_search.cpp` | Multi-field boosted search (title > body > tags) |
+| `neural_sparse_retrieval.h` | `neural_sparse_retrieval.cpp` | SPLADE/BERT-based neural sparse retrieval |
+| `cross_lingual_search.h` | `cross_lingual_search.cpp` | Cross-lingual semantic search via multilingual embeddings |
+| `personalized_ranker.h` | `personalized_ranker.cpp` | Per-user time-decayed interaction history + re-ranking |
+| `llm_query_rewriter.h` | `llm_query_rewriter.cpp` | LLM-based alternative query generation for improved recall |
+| `llm_reranker.h` | `llm_reranker.cpp` | Batched LLM re-ranking with closed-loop LTR bridge |
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Inverted index and BM25 scoring operational; hybrid vector+keyword search in progress.
+**Maturity:** 🟢 Production-Ready — Full hybrid search stack (v1.8.0) with 14 production components, 29+ unit/integration tests, and no open stubs.
+
+**Last Updated:** March 2026
 
 ## Components
 
@@ -68,12 +82,22 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 ```
 SearchModule
 ├─→ HybridSearch (RRF-based result fusion)
-│   ├─→ SecondaryIndexManager (BM25 full-text search)
-│   └─→ VectorIndexManager (Semantic vector search)
-├─→ QueryParser (Natural language processing)
-├─→ Tokenizer (Text analysis and stemming)
-├─→ FuzzyMatcher (Typo tolerance)
-└─→ ResultRanker (Score aggregation and ranking)
+│   ├─→ SecondaryIndexManager (BM25 full-text search, index module)
+│   ├─→ VectorIndexManager (Semantic vector search, index module)
+│   └─→ LlmReranker (optional, configurable LLM re-ranking)
+├─→ QueryExpander (synonym expansion, spelling correction, relaxation)
+├─→ FuzzyMatcher (Levenshtein, Soundex, Metaphone, N-gram)
+├─→ FacetedSearch (value facets, range buckets, drill-down)
+├─→ SearchAnalytics (thread-safe query log, latency percentiles)
+├─→ AutocompleteEngine (prefix + popular-query suggestions)
+├─→ LearningToRank (linear re-ranker, online gradient-descent)
+├─→ MultiModalSearch (TEXT/IMAGE/AUDIO modality RRF fusion)
+├─→ MultiFieldBoostedSearch (title > body > tags weighting)
+├─→ NeuralSparseRetrieval (SPLADE/BERT-based)
+├─→ CrossLingualSearch (multilingual embeddings)
+├─→ PersonalizedRanker (per-user time-decayed history)
+├─→ LlmQueryRewriter (LLM-based alternative query generation)
+└─→ LlmReranker (batched LLM scoring + LTR bridge)
 ```
 
 ## Use Cases
@@ -247,11 +271,12 @@ their own thread-safety guarantees — consult their documentation.
 ## Documentation
 
 For detailed implementation documentation, see:
-- [Hybrid Search Implementation](../../docs/search/hybrid_search.md)
-- [BM25 Algorithm](../../docs/search/bm25.md)
-- [Vector Search](../../docs/search/vector_search.md)
-- [RRF Algorithm](../../docs/search/reciprocal_rank_fusion.md)
 - [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+
+> **Note:** The previously linked sub-guides (`docs/search/hybrid_search.md`,
+> `docs/search/bm25.md`, `docs/search/vector_search.md`,
+> `docs/search/reciprocal_rank_fusion.md`) do not yet exist. See
+> `docs/de/search/` for the available German-language search documentation.
 
 ## Version History
 

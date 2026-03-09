@@ -20,8 +20,8 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] Phrase search (exact phrase matching)
 - [x] Text-only, vector-only, and hybrid search modes
 - [x] High recall@10 (85%+) with hybrid search
-- [x] QueryParser – natural language query parsing
-- [x] ResultRanker – configurable score aggregation
+- [?] QueryParser – natural language query parsing (no dedicated source file found in search module; may be implemented within the query module — needs verification)
+- [?] ResultRanker – configurable score aggregation (no dedicated source file found in search module — needs verification)
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
 - [x] `QueryExpander` – synonym expansion, Levenshtein spelling correction, zero-result relaxation (v1.5.0)
 - [x] `FuzzyMatcher` – Levenshtein, Soundex, Metaphone, N-gram (Dice) similarity (v1.5.0)
@@ -57,8 +57,8 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] Fuzzy matching (edit distance), phonetic search (Soundex, Metaphone)
 - [x] Stemming, stop-word filtering, synonym expansion, and phrase search
 - [x] Text-only, vector-only, and hybrid search modes with 85%+ recall@10
-- [x] `QueryParser` – natural language query parsing
-- [x] `ResultRanker` – configurable score aggregation
+- [?] `QueryParser` – natural language query parsing (no dedicated source file in search module)
+- [?] `ResultRanker` – configurable score aggregation (no dedicated source file in search module)
 
 ### Phase 2: LLM Query Rewriting & Faceted Search (Status: In Progress 🚧)
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
