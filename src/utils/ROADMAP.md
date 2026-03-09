@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII detection, text processing, compression, tracing, key derivation, encryption key management, serialization, and geospatial helpers are all production-ready. Phase 2 and Phase 3 short-term features (streaming PII, sampled logger, HKDF TTL cache, SAGA compaction, Bloom filter, consistent hashing, rate limiter, timestamp utils) are now complete.
+v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII detection, text processing, compression, tracing, key derivation, encryption key management, serialization, and geospatial helpers are all production-ready. Phase 2 and Phase 3 features (streaming PII, sampled logger, HKDF TTL cache, SAGA compaction, tamper-evident hash-chain audit writer, Bloom filter, consistent hashing, rate limiter, timestamp utils) are now complete.
 
 ## Completed ✅
 - [x] Logger – structured logging with ILogger interface
@@ -32,6 +32,8 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - [x] ConsistentHashRing – FNV-1a 64-bit, virtual nodes, `getNodes(key, n)` for replication
 - [x] RateLimiter – token-bucket; `try_acquire` / `acquire` / `set_rate`; `std::condition_variable`
 - [x] TimestampUtils – ISO 8601 / RFC 3339 parse + format (ms, timezone offsets), `formatDuration`, Unix-ms helpers
+- [x] HashChainAuditWriter – standalone tamper-evident audit writer (SHA-256 chain, persisted head, HKDF-seedable genesis)
+- [x] AuditLogVerifier – standalone chain replay verifier; detects first tampered or missing link
 
 ## In Progress 🚧
 - [?] Structured log query API (search logs like data) (Target: Q2 2026)
@@ -74,7 +76,7 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - [x] LEK rotation automation without manual intervention (Target: Q3 2026)
 
 ### Phase 3: Tamper-Evidence & Compaction (Status: Completed ✅)
-- [?] Tamper-evident audit hash chain (SHA-256 Merkle chain linking audit records)
+- [x] Tamper-evident audit hash chain – `HashChainAuditWriter` (SHA-256 chain, persisted head) + `AuditLogVerifier::verify_chain()` (standalone chain replay verifier)
 - [x] HKDF cache with TTL-based eviction – bounded LRU, `purge_by_ikm_hash()`, `OPENSSL_cleanse`, sharded mutex
 - [x] SAGA log compaction – `SAGALogCompactor::compact()` archives completed sagas atomically; `SAGALogReplayer::replay_incomplete()` for disaster recovery
 - [?] Geospatial utility hardening: H3 / S2 cell encoding, polygon containment
