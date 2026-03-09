@@ -969,7 +969,8 @@ json MonitoringApiHandler::buildConcernsJson(
         {"cache",           {{"ok", status.cache.ok},           {"message", status.cache.message}}},
         {"secrets",         {{"ok", status.secrets.ok},         {"message", status.secrets.message}}},
         {"circuit_breaker", {{"ok", status.circuit_breaker.ok}, {"message", status.circuit_breaker.message}}},
-        {"feature_flags",   {{"ok", status.featureFlags.ok},    {"message", status.featureFlags.message}}}
+        {"feature_flags",   {{"ok", status.featureFlags.ok},    {"message", status.featureFlags.message}}},
+        {"audit_log",       {{"ok", status.auditLog.ok},        {"message", status.auditLog.message}}}
     };
     if (!status.isHealthy()) {
         ok = false;

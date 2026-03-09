@@ -33,6 +33,7 @@
 #include "core/concerns/i_secrets.h"
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
+#include "core/concerns/i_audit_log.h"
 
 namespace themis {
 namespace core {
@@ -195,6 +196,21 @@ public:
     bool isEnabled(std::string_view /*name*/) const override { return false; }
     void setValue(std::string_view /*name*/, bool /*value*/) override {}
     std::unordered_map<std::string, bool> getAllFlags() const override { return {}; }
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+};
+
+/**
+ * @brief No-op audit log — silently discards all events.
+ *
+ * Use in unit tests or builds where compliance audit logging is not needed.
+ * All lifecycle hooks are no-ops; isHealthy() always returns healthy.
+ */
+class NoOpAuditLog : public IAuditLog {
+public:
+    void record(const AuditEvent& /*event*/) noexcept override {}
 
     void flush() noexcept override {}
     void shutdown() noexcept override {}

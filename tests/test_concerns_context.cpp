@@ -33,6 +33,7 @@
 #include "core/concerns/i_context.h"
 #include "core/concerns/i_async_logger.h"
 #include "core/concerns/i_async_cache.h"
+#include "core/concerns/i_audit_log.h"
 #include "core/config_validator.h"
 #include <gtest/gtest.h>
 #include <latch>
@@ -1386,4 +1387,277 @@ TEST_F(ConcernsContextTest, ShutdownIncludesFeatureFlags) {
 TEST_F(ConcernsContextTest, ConstFeatureFlagsAccessor) {
     const auto ctx = ConcernsContext::createNoOp();
     EXPECT_FALSE(ctx->featureFlags().isEnabled("f"));
+}
+
+// ===== Dynamic Log Level Adjustment Tests (Issue #1412) =====
+
+TEST_F(ConcernsContextTest, SetLogLevelChangesActiveLevel) {
+    auto ctx = ConcernsContext::createNoOp();
+    ctx->setLogLevel(ILogger::Level::DEBUG);
+    EXPECT_EQ(ILogger::Level::DEBUG, ctx->getLogLevel());
+}
+
+TEST_F(ConcernsContextTest, SetLogLevelThenRevert) {
+    auto ctx = ConcernsContext::createNoOp();
+    const auto original = ctx->getLogLevel();
+    ctx->setLogLevel(ILogger::Level::WARN);
+    EXPECT_EQ(ILogger::Level::WARN, ctx->getLogLevel());
+    ctx->setLogLevel(original);
+    EXPECT_EQ(original, ctx->getLogLevel());
+}
+
+TEST_F(ConcernsContextTest, SetLogLevelAllLevels) {
+    auto ctx = ConcernsContext::createNoOp();
+    for (auto level : {ILogger::Level::TRACE, ILogger::Level::DEBUG,
+                       ILogger::Level::INFO,  ILogger::Level::WARN,
+                       ILogger::Level::ERROR, ILogger::Level::CRITICAL}) {
+        ctx->setLogLevel(level);
+        EXPECT_EQ(level, ctx->getLogLevel());
+    }
+}
+
+TEST_F(ConcernsContextTest, GetLogLevelMatchesLoggerDirectly) {
+    auto ctx = ConcernsContext::createNoOp();
+    ctx->setLogLevel(ILogger::Level::ERROR);
+    EXPECT_EQ(ctx->logger().getLevel(), ctx->getLogLevel());
+}
+
+// ===== IAuditLog / NoOpAuditLog Tests =====
+
+TEST(NoOpAuditLogTest, RecordDoesNotCrash) {
+    NoOpAuditLog log;
+    EXPECT_NO_THROW(log.record(AuditEvent::success("auth", "user-1", "login", "login")));
+}
+
+TEST(NoOpAuditLogTest, LifecycleDoesNotCrash) {
+    NoOpAuditLog log;
+    EXPECT_NO_THROW(log.flush());
+    EXPECT_NO_THROW(log.shutdown());
+}
+
+TEST(NoOpAuditLogTest, IsHealthy) {
+    NoOpAuditLog log;
+    EXPECT_TRUE(log.isHealthy().ok);
+}
+
+// ===== InMemoryAuditLog Tests =====
+
+TEST(InMemoryAuditLogTest, RecordAndRetrieve) {
+    InMemoryAuditLog log;
+    EXPECT_EQ(0u, log.size());
+
+    auto ev = AuditEvent::success("data_access", "alice", "users", "read");
+    log.record(ev);
+    EXPECT_EQ(1u, log.size());
+
+    auto events = log.getEvents();
+    ASSERT_EQ(1u, events.size());
+    EXPECT_EQ("data_access", events[0].event_type);
+    EXPECT_EQ("alice",        events[0].actor);
+    EXPECT_EQ("users",        events[0].resource);
+    EXPECT_EQ("read",         events[0].action);
+    EXPECT_EQ("success",      events[0].outcome);
+    EXPECT_GT(events[0].timestamp_ms, 0);
+}
+
+TEST(InMemoryAuditLogTest, MultipleEventsPreserveOrder) {
+    InMemoryAuditLog log;
+    log.record(AuditEvent::success("auth", "u1", "login", "login"));
+    log.record(AuditEvent::denied("auth", "u2", "admin", "write"));
+    log.record(AuditEvent::error("data_access", "u3", "orders", "delete"));
+
+    auto events = log.getEvents();
+    ASSERT_EQ(3u, events.size());
+    EXPECT_EQ("success", events[0].outcome);
+    EXPECT_EQ("denied",  events[1].outcome);
+    EXPECT_EQ("error",   events[2].outcome);
+}
+
+TEST(InMemoryAuditLogTest, ClearRemovesAllEvents) {
+    InMemoryAuditLog log;
+    log.record(AuditEvent::success("auth", "u1", "login", "login"));
+    log.record(AuditEvent::success("auth", "u2", "login", "login"));
+    EXPECT_EQ(2u, log.size());
+    log.clear();
+    EXPECT_EQ(0u, log.size());
+    EXPECT_TRUE(log.getEvents().empty());
+}
+
+TEST(InMemoryAuditLogTest, ShutdownClearsEvents) {
+    InMemoryAuditLog log;
+    log.record(AuditEvent::success("auth", "u1", "login", "login"));
+    log.shutdown();
+    EXPECT_EQ(0u, log.size());
+}
+
+TEST(InMemoryAuditLogTest, IsHealthy) {
+    InMemoryAuditLog log;
+    EXPECT_TRUE(log.isHealthy().ok);
+}
+
+TEST(InMemoryAuditLogTest, GetEventsReturnsSnapshot) {
+    InMemoryAuditLog log;
+    log.record(AuditEvent::success("auth", "u1", "login", "login"));
+    auto snap1 = log.getEvents();
+    log.record(AuditEvent::success("auth", "u2", "login", "login"));
+    auto snap2 = log.getEvents();
+    // snap1 is a copy, unaffected by the second record
+    EXPECT_EQ(1u, snap1.size());
+    EXPECT_EQ(2u, snap2.size());
+}
+
+TEST(AuditEventTest, MakeFactoryPopulatesAllFields) {
+    auto ev = AuditEvent::make(
+        "config_change", "admin", "config/log_level", "write", "success",
+        {{"old_value", "info"}, {"new_value", "debug"}});
+    EXPECT_EQ("config_change",       ev.event_type);
+    EXPECT_EQ("admin",               ev.actor);
+    EXPECT_EQ("config/log_level",    ev.resource);
+    EXPECT_EQ("write",               ev.action);
+    EXPECT_EQ("success",             ev.outcome);
+    EXPECT_GT(ev.timestamp_ms, 0);
+    EXPECT_EQ("info",  ev.details.at("old_value"));
+    EXPECT_EQ("debug", ev.details.at("new_value"));
+}
+
+TEST(AuditEventTest, FactoryMethodsSetCorrectOutcome) {
+    auto ok  = AuditEvent::success("auth", "u", "r", "login");
+    auto den = AuditEvent::denied("auth",  "u", "r", "write");
+    auto err = AuditEvent::error("data",   "u", "r", "delete");
+    EXPECT_EQ("success", ok.outcome);
+    EXPECT_EQ("denied",  den.outcome);
+    EXPECT_EQ("error",   err.outcome);
+}
+
+// ===== ConcernsContext Audit Log Integration Tests =====
+
+TEST_F(ConcernsContextTest, NoOpContextAuditLogDiscards) {
+    // createNoOp() should install a NoOpAuditLog — record() must not crash
+    EXPECT_NO_THROW(context->auditLog().record(
+        AuditEvent::success("test", "u", "r", "read")));
+}
+
+TEST_F(ConcernsContextTest, ConstAuditLogAccessor) {
+    const auto ctx = ConcernsContext::createNoOp();
+    EXPECT_NO_THROW(ctx->auditLog().isHealthy());
+}
+
+TEST_F(ConcernsContextTest, CustomContextWithInMemoryAuditLog) {
+    auto audit = std::make_unique<InMemoryAuditLog>();
+    auto* audit_ptr = audit.get();
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<NoOpSecrets>(),
+        std::make_unique<NoOpFeatureFlags>(),
+        std::move(audit)
+    );
+
+    ctx->auditLog().record(AuditEvent::success("auth", "alice", "login", "login"));
+    ctx->auditLog().record(AuditEvent::denied("data_access", "bob", "payroll", "read"));
+
+    EXPECT_EQ(2u, audit_ptr->size());
+    auto events = audit_ptr->getEvents();
+    EXPECT_EQ("alice", events[0].actor);
+    EXPECT_EQ("bob",   events[1].actor);
+}
+
+TEST_F(ConcernsContextTest, HealthCheckIncludesAuditLog) {
+    auto ctx = ConcernsContext::createNoOp();
+    auto status = ctx->healthCheck();
+    EXPECT_TRUE(status.auditLog.ok);
+    EXPECT_TRUE(status.isHealthy());
+}
+
+TEST_F(ConcernsContextTest, UnhealthyAuditLogMarksContextUnhealthy) {
+    class UnhealthyAuditLog : public IAuditLog {
+    public:
+        void record(const AuditEvent&) noexcept override {}
+        ProbeResult isHealthy() const override {
+            return ProbeResult::unhealthy("audit backend unreachable");
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>(),
+        std::make_unique<NoOpSecrets>(),
+        std::make_unique<NoOpFeatureFlags>(),
+        std::make_unique<UnhealthyAuditLog>()
+    );
+
+    auto status = ctx->healthCheck();
+    EXPECT_FALSE(status.auditLog.ok);
+    EXPECT_EQ("audit backend unreachable", status.auditLog.message);
+    EXPECT_FALSE(status.isHealthy());
+}
+
+TEST_F(ConcernsContextTest, FlushIncludesAuditLog) {
+    auto ctx = ConcernsContext::createNoOp();
+    EXPECT_NO_THROW(ctx->flush());
+}
+
+TEST_F(ConcernsContextTest, ShutdownIncludesAuditLog) {
+    auto ctx = ConcernsContext::createNoOp();
+    EXPECT_NO_THROW(ctx->shutdown());
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenInMemoryAuditLogSelection) {
+    ConcernsContext::Config cfg;
+    cfg.auditAdapter   = "inmemory";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_NO_THROW(ctx->auditLog().record(
+        AuditEvent::success("test", "u", "r", "read")));
+    EXPECT_TRUE(ctx->auditLog().isHealthy().ok);
+}
+
+TEST_F(ConcernsContextTest, ConfigDrivenNoopAuditLogSelection) {
+    ConcernsContext::Config cfg;
+    cfg.auditAdapter   = "noop";
+    cfg.tracingEnabled = false;
+    cfg.metricsEnabled = false;
+
+    std::shared_ptr<ConcernsContext> ctx;
+    ASSERT_NO_THROW(ctx = ConcernsContext::create(cfg));
+    ASSERT_NE(nullptr, ctx);
+    EXPECT_NO_THROW(ctx->auditLog().record(
+        AuditEvent::success("test", "u", "r", "read")));
+}
+
+TEST_F(ConcernsContextTest, ConfigAdapterUnknownAuditAdapterIsInvalid) {
+    auto result = themis::core::ConfigValidator::validateAdapterConfig(
+        "spdlog", "", "", "inmemory", "default", "inmemory", "kafka");
+    EXPECT_FALSE(result.valid);
+    ASSERT_EQ(1u, result.errors.size());
+    EXPECT_NE(std::string::npos, result.errors[0].find("auditAdapter"));
+    EXPECT_NE(std::string::npos, result.errors[0].find("kafka"));
+}
+
+TEST(InMemoryAuditLogTest, ThreadSafetyUnderConcurrentRecord) {
+    InMemoryAuditLog log;
+    constexpr int kThreads = 8;
+    constexpr int kPerThread = 100;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&log, t]() {
+            for (int i = 0; i < kPerThread; ++i) {
+                log.record(AuditEvent::success(
+                    "test", "actor-" + std::to_string(t),
+                    "resource", "read"));
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+    EXPECT_EQ(static_cast<size_t>(kThreads * kPerThread), log.size());
 }

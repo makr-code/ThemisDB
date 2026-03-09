@@ -32,11 +32,11 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Dynamic log level adjustment at runtime (Issue: #1412)
+- [x] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
 - [I] Secrets interface for credential injection into components (Issue: #1417)
-- [I] Audit event interface for compliance logging (Issue: #1418)
+- [x] Audit event interface for compliance logging (Issue: #1418)
 
 ## Implementation Phases
 
@@ -64,6 +64,8 @@
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [x] Feature flag interface for runtime enable/disable (Issue: #1707)
 - [x] Secrets interface for credential injection into components
+- [x] Dynamic log level adjustment at runtime (Issue: #1412)
+- [x] Audit event interface for compliance logging (Issue: #1418)
 
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1419)
