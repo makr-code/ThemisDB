@@ -30,6 +30,7 @@
 #include <memory>
 #include <mutex>
 #include <chrono>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "storage/rocksdb_wrapper.h"
 
@@ -250,9 +251,28 @@ public:
     bool indexExists(const std::string& collection,
                     const std::string& field) const;
 
+    /**
+     * @brief Register an existing index so it is excluded from suggestions
+     * @param collection Collection name
+     * @param field Field name
+     */
+    void registerIndex(const std::string& collection, const std::string& field);
+
+    /**
+     * @brief Unregister an existing index (e.g. after it has been dropped)
+     * @param collection Collection name
+     * @param field Field name
+     */
+    void unregisterIndex(const std::string& collection, const std::string& field);
+
 private:
     QueryPatternTracker* tracker_;
     SelectivityAnalyzer* analyzer_;
+
+    // In-memory registry of indexes that already exist.
+    // Key format: "<collection>:<field>"
+    mutable std::mutex existingIndexesMutex_;
+    std::unordered_set<std::string> existingIndexes_;
     
     double calculateScore(const QueryPatternTracker::QueryPattern& pattern,
                          const SelectivityAnalyzer::SelectivityStats& stats) const;
