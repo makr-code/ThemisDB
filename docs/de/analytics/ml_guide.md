@@ -43,15 +43,22 @@ durch Hyperparameter-Suche, Feature Engineering und Ensemble-Generierung.
 using namespace themisdb::analytics;
 
 // Trainingsdaten als DataPoint-Vektor aufbauen
+// Jeder DataPoint enthält named features + das Zielfeld (label)
+struct Sample { double feat_a, feat_b, feat_c; std::string label; };
+std::vector<Sample> raw_data = {
+    {1.0, 2.5, 0.3, "cat"},
+    {2.1, 1.8, 0.7, "dog"},
+    /* ... */
+};
+
 std::vector<DataPoint> data;
-for (auto& [a, b, c, label] : std::vector<std::tuple<double,double,double,std::string>>{
-    {1.0, 2.5, 0.3, "cat"}, {2.1, 1.8, 0.7, "dog"}, /* ... */
-}) {
+data.reserve(raw_data.size());
+for (const auto& s : raw_data) {
     DataPoint dp;
-    dp.set("feature_a", a);
-    dp.set("feature_b", b);
-    dp.set("feature_c", c);
-    dp.set("label", label);   // Zielfeld — muss dem AutoMLConfig::target entsprechen
+    dp.set("feature_a", s.feat_a);
+    dp.set("feature_b", s.feat_b);
+    dp.set("feature_c", s.feat_c);
+    dp.set("label", s.label);   // Zielfeld — muss dem AutoMLConfig::target entsprechen
     data.push_back(dp);
 }
 

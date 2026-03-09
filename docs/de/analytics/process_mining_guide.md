@@ -26,8 +26,8 @@ ThemisDB's Process Mining module enables automated discovery and analysis of bus
 
 ### Conformance Checking
 
-- Token replay for fitness calculation
-- Alignment-based conformance (precise, but slower)
+- Token replay for fitness calculation (fast; measures how well the model explains the log)
+- Alignment-based conformance (precise, but slower; finds minimal-cost edit sequence between model and log)
 - Deviation detection and analysis
 
 ### Export Formats
