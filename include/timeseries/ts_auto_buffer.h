@@ -335,7 +335,14 @@ private:
             ewma_latency_ms = alpha * observed_ms + (1.0 - alpha) * ewma_latency_ms;
 
             // Scale batch size inversely with latency relative to SLO.
-            // At latency = slo/2 we use batch_max; at latency = slo we use batch_min.
+            // ratio = slo / ewma: ratio > 1 means latency is below SLO (fast path),
+            // ratio < 1 means latency exceeds SLO (slow path).
+            // After clamping ratio to [0.1, 2.0]:
+            //   - ratio = 2.0 (latency = slo/2, very fast) → target = batch_min + batch_max - batch_min = batch_max
+            //   - ratio = 1.0 (latency = slo, at the threshold) → target = batch_min + (batch_max - batch_min) / 2
+            //   - ratio = 0.1 (latency = 10×slo, very slow) → target ≈ batch_min
+            // Division by 2.0 maps the [0.1, 2.0] ratio range onto [batch_min, batch_max]
+            // such that ratio 2.0 reaches batch_max exactly.
             if (ewma_latency_ms <= 0.0) {
                 current_batch_size = batch_max;
             } else {

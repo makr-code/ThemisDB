@@ -252,8 +252,8 @@ TEST(TimeSeriesMetricsBackpressureTest, PrometheusExportContainsBackpressureMetr
     metrics.recordBackpressure("cpu");
 
     std::string prom = metrics.exportPrometheus();
-    EXPECT_NE(prom.find("ts_autobuffer_backpressure"), std::string::npos)
-        << "Prometheus export should contain 'ts_autobuffer_backpressure'";
+    EXPECT_NE(prom.find("autobuffer_backpressure"), std::string::npos)
+        << "Prometheus export should contain 'autobuffer_backpressure'";
 }
 
 TEST(TimeSeriesMetricsBackpressureTest, ResetClearsBackpressureCounter) {

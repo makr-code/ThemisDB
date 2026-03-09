@@ -288,7 +288,9 @@ size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& bu
     size_t flushed = points.size();
     stats_.points_flushed += flushed;
     stats_.current_buffer_size -= flushed;
-    bp_buffer_size_.fetch_sub(flushed, std::memory_order_relaxed);
+    // Guard against underflow: only subtract if the counter is large enough
+    size_t prev = bp_buffer_size_.load(std::memory_order_relaxed);
+    bp_buffer_size_.store(prev >= flushed ? prev - flushed : 0, std::memory_order_relaxed);
     stats_.current_buffer_memory -= buffer.memory_bytes;
     
     // Clear buffer
