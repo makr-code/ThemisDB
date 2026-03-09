@@ -1,0 +1,74 @@
+version: 1
+
+applies_to:
+  include:
+    - "docs/**/*.md"
+  exclude:
+    - "docs/**/ARCHIVED/**"
+    - "docs/**/archive/**"
+
+enforcement:
+  mode: "changed-only" # changed-only | all
+  require_header_on_new_files: true
+  require_header_on_modified_files: true
+  header_must_be_within_first_n_lines: 40
+
+breadcrumb:
+  required: true
+  style: "link-chain"
+  domain_optional: true
+  separator: " > "
+  required_segments:
+    - "docs"
+    - "lang"
+    - "module"
+    - "doc_kind"
+  doc_kind_allowed:
+    - "architecture"
+    - "feature"
+    - "howto"
+    - "reference"
+    - "roadmap"
+    - "troubleshooting"
+    - "faq"
+  segment_expectations:
+    docs:
+      must_be_markdown_link: true
+    lang:
+      must_be_markdown_link: true
+      lang_from_path: "docs/<lang>/..."
+    domain:
+      must_be_markdown_link: true
+      optional: true
+    module:
+      must_be_markdown_link: true
+    doc_kind:
+      must_be_markdown_link: true
+      link_target_pattern: "./<doc_kind>.md"
+
+header_fields:
+  date:
+    label: "Datum"
+    required: true
+    format: "YYYY-MM-DD"
+  status:
+    label: "Status"
+    required: true
+    allowed:
+      - "draft"
+      - "review"
+      - "stable"
+      - "deprecated"
+      - "archived"
+  primary_sources:
+    label: "Primary (Quelle der Wahrheit)"
+    required: true
+    min_items: 1
+    allowed_prefixes:
+      - "src/"
+      - "include/"
+      - "examples/"
+  reference:
+    label: "Bezug / Reference"
+    required: true
+    min_lines: 1
