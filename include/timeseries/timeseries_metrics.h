@@ -120,6 +120,12 @@ public:
      */
     void recordOptimizerResult(bool hit);
 
+    /**
+     * @brief Record a backpressure event from TSAutoBuffer
+     * @param metric_name Name of the metric triggering backpressure (empty = global)
+     */
+    void recordBackpressure(const std::string& metric_name = "");
+
     // ==================== Storage Metrics ====================
     
     /**
@@ -179,6 +185,7 @@ public:
     uint64_t getOptimizerMisses() const { return optimizer_misses_.load(); }
     uint64_t getOutOfOrderAccepted() const { return out_of_order_accepted_.load(); }
     uint64_t getLateArrivalRejected() const { return late_arrival_rejected_.load(); }
+    uint64_t getTotalBackpressureEvents() const { return total_backpressure_events_.load(); }
     
     double getAverageWriteLatency() const;
     double getAverageQueryLatency() const;
@@ -196,6 +203,7 @@ private:
     std::atomic<uint64_t> total_bytes_written_compressed_{0};
     std::atomic<uint64_t> out_of_order_accepted_{0};
     std::atomic<uint64_t> late_arrival_rejected_{0};
+    std::atomic<uint64_t> total_backpressure_events_{0};
     
     // Query counters
     std::atomic<uint64_t> total_queries_executed_{0};

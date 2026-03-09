@@ -17,14 +17,14 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
 
 ## In Progress 🚧
-- [?] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
-- [?] Distributed time series partitioning across shards (Target: Q3 2026)
+- [~] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
+- [~] Distributed time series partitioning across shards (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Columnar storage layout for analytical scan queries (Issue: #2007)
-- [?] Downsampling policies (min/max/avg/sum per window)
+- [x] Downsampling policies (min/max/avg/sum per window) — DownsamplingPipeline + TierSelector
 - [?] Time series anomaly detection (Z-score, IQR-based)
 - [?] Gap-filling functions (forward fill, linear interpolation)
 - [?] Multi-series JOIN queries with aligned timestamps
@@ -48,8 +48,8 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 
 ### Phase 2: Incremental Aggregation & Downsampling (Status: In Progress 🚧)
 - [?] Incremental continuous aggregation (avoid full recompute on append) (Target: Q2 2026)
-- [?] Multi-tier downsampling policies (1s → 1m → 1h → 1d) (Target: Q2 2026)
-- [?] Adaptive TSAutoBuffer flush based on write pressure (Target: Q2 2026)
+- [x] Multi-tier downsampling policies (1s → 1m → 1h → 1d) — `DownsamplingPipeline` + `TierSelector` in `downsampling.{h,cpp}` + `query_optimizer.cpp`
+- [x] Adaptive TSAutoBuffer flush based on write pressure — `FlushController` EWMA + backpressure signalling in `ts_auto_buffer.{h,cpp}` + `timeseries_metrics.{h,cpp}`
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
 
 ### Phase 3: SIMD, Encryption & Export (Status: Planned 📋)

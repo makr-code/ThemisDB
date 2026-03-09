@@ -78,7 +78,7 @@ Implement a configurable multi-tier downsampling pipeline (raw → 1 min → 1 h
 
 ---
 
-### [~] TSAutoBuffer Adaptive Flush with Backpressure Signalling
+### [x] TSAutoBuffer Adaptive Flush with Backpressure Signalling
 **Priority:** High
 **Target Version:** v0.9.0
 
