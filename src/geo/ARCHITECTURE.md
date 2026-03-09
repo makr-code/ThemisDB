@@ -17,8 +17,9 @@ and integrates with the acceleration module for GPU-accelerated spatial joins on
 
 ## 2. Design Principles
 
-- **Two-Tier Backend** – a CPU backend provides full correctness; a GPU backend (stub,
-  in progress) provides throughput at scale. Requests fall back to CPU automatically.
+- **Two-Tier Backend** – a CPU backend provides full correctness; a GPU backend (CUDA
+  and ROCm/HIP) provides throughput at scale. Requests fall back to CPU automatically
+  via circuit-breaker on any CUDA/HIP runtime error.
 - **OGC Compliance** – spatial predicates follow the OGC Simple Feature Access standard
   (Part 1: Common Architecture).
 - **S2/H3 Cell Indexing** – geospatial data is indexed using Google S2 or Uber H3 cells
@@ -38,10 +39,20 @@ and integrates with the acceleration module for GPU-accelerated spatial joins on
 
 | File | Role |
 |---|---|
-| `cpu_backend.cpp` | Primary CPU geospatial backend (contains, intersects, distance) |
+| `cpu_backend.cpp` | Primary CPU geospatial backend (contains, intersects, distance, ST_BUFFER, ST_UNION, ST_DIFFERENCE) |
 | `boost_cpu_exact_backend.cpp` | Boost.Geometry exact computation backend |
 | `geo_rtree.cpp` | R-tree spatial index for 2D bounding-box queries |
-| `gpu_backend_stub.cpp` | GPU backend stub with automatic CPU fallback |
+| `gpu_backend_stub.cpp` | GPU dispatch orchestrator with circuit-breaker CPU fallback |
+| `gpu_backend_cuda.cu` | CUDA kernel dispatch for distance and containment (requires `THEMIS_GEO_CUDA=ON`) |
+| `gpu_backend_hip.cpp` | ROCm/HIP kernel dispatch for AMD hardware (requires `THEMIS_ENABLE_HIP=ON`) |
+| `gpu_backend_production.cpp` | Production GPU backend wrapper (metrics, structured audit log) |
+| `gpu_kernel_dispatcher_cpu.cpp` | CPU-side GPU kernel dispatcher (fallback path) |
+| `spatial_join.cpp` | Spatial JOIN: all point pairs within a configurable distance threshold |
+| `geo_clustering.cpp` | DBSCAN and k-means clustering for geo point datasets |
+| `raster.cpp` | Raster grid queries: elevation sampling, bbox extraction, Gaussian KDE heatmaps |
+| `temporal_spatial_query.cpp` | Location-at-time-T queries over `SystemVersionedTable` |
+| `tile_server.cpp` | Map tile server integration |
+| `device_detector.cpp` | Runtime GPU device discovery and compute-capability/VRAM reporting |
 
 ### 3.2 Component Diagram
 
@@ -56,13 +67,13 @@ and integrates with the acceleration module for GPU-accelerated spatial joins on
 │                                                                  │
 │  ┌─────────────────────────────────┐  ┌─────────────────────┐   │
 │  │        GPU Backend Stub         │  │    CPU Backend      │   │
-│  │   (CUDA kernels – in progress)  │→ │  (fallback)         │   │
-│  └─────────────────────────────────┘  └──────────┬──────────┘   │
-│                                                   │              │
-│                           ┌───────────────────────┴──────────┐  │
-│                           │  Boost.Geometry Exact Backend     │  │
-│                           │  (high-precision operations)      │  │
-│                           └───────────────────────────────────┘  │
+│  │  (CUDA/HIP kernels implemented) │→ │  (fallback)         │   │
+│  └──────────┬──────────────────────┘  └──────────┬──────────┘   │
+│             │                                     │              │
+│  ┌──────────▼──────────┐         ┌────────────────▼──────────┐  │
+│  │  gpu_backend_cuda.cu│         │ Boost.Geometry Exact       │  │
+│  │  gpu_backend_hip.cpp│         │ Backend                    │  │
+│  └─────────────────────┘         └───────────────────────────┘  │
 └──────────────────────────────────────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────────┐
@@ -98,12 +109,16 @@ Results filtered by radius → return to query engine
 ### 4.2 GPU → CPU Fallback
 
 ```
-GPU backend stub: check for CUDA device
-    ├─ device available → run CUDA kernel (planned)
-    └─ device unavailable / error → 
-           GeoKernelFallbackDispatcher (src/acceleration/)
-               → cpu_backend.cpp
+GPU backend stub: check for CUDA/HIP device
+    ├─ device available → run CUDA kernel (gpu_backend_cuda.cu)
+    │                   or HIP kernel (gpu_backend_hip.cpp)
+    └─ device unavailable / runtime error →
+           circuit-breaker triggers (structured audit log entry)
+               → GeoKernelFallbackDispatcher (src/acceleration/)
+                   → cpu_backend.cpp
 ```
+
+Note: ST_BUFFER, ST_UNION, and ST_DIFFERENCE currently use the CPU fallback path for GPU requests; dedicated CUDA kernels for these set operations are deferred to v2.2.0.
 
 ---
 
@@ -170,19 +185,20 @@ GPU backend stub: check for CUDA device
 
 ## 11. Known Limitations & Future Work
 
-- GPU backend (`gpu_backend_stub.cpp`) is a stub; CUDA kernels are planned.
-- Full GeoJSON RFC 7946 parsing is planned (currently partial).
-- `ST_Buffer` is implemented (CPU-exact and Boost.Geometry backends; GPU backend falls back to CPU — CUDA kernel dispatch is deferred to v2.1.0).
-- `ST_Union` and `ST_Difference` are planned.
+- ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU path; dedicated CUDA kernels for these set operations are deferred to v2.2.0.
+- DBSCAN and k-means clustering use O(n²) brute-force distance computation; spatial-index acceleration and GPU-accelerated paths are deferred to a future release.
 - 3D geometry operations (Z-coordinate) are partially implemented.
+- Spherical WGS-84 ellipsoid geometry (as opposed to the current planar/Haversine approximation) is planned.
 - Routing/navigation algorithms (shortest path via road network) are out of scope.
 
 ---
 
 ## 12. References
 
-- `src/geo/README.md` — module overview
-- `docs/geospatial_future_enhancements.md` — planned features
+- `src/geo/README.md` — module overview and feature list
+- `src/geo/FUTURE_ENHANCEMENTS.md` — planned features with IEEE scientific references
+- `src/geo/ROADMAP.md` — module roadmap and implementation phases
 - `docs/gpu_roadmap.md` — GPU integration status
 - `docs/gpu_runbooks.md#6-gpu-geospatial-backend-issues` — operations runbook
+- `docs/de/geo/` — German-language developer documentation
 - `ARCHITECTURE.md` (root) — full system architecture
