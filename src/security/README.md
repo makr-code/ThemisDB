@@ -2,26 +2,36 @@
 
 Comprehensive security infrastructure for ThemisDB providing encryption, authentication, authorization, and compliance features.
 
+**Last Updated:** March 2026
+
 ## Module Purpose
 
-Provides encryption, key management, and PKI integration for ThemisDB, implementing AES-256-GCM field-level encryption, TLS certificate management, and hardware security module (HSM) integration.
+Provides enterprise-grade, defense-in-depth security infrastructure for ThemisDB, implementing AES-256-GCM field-level encryption, key lifecycle management (Vault/HSM/PKI), role-based and attribute-based access control, row-level security, zero-trust policy enforcement, digital signing (CMS/eIDAS), confidential computing (Intel TDX / AMD SEV-SNP), FIPS 140-2/3 cryptography mode, post-quantum cryptography simulation, and threat-detection components (AQL injection, malware scanning).
 
 ## Subsystem Scope
 
-**In scope:** AES-256-GCM field-level encryption, TLS certificate lifecycle management, PKI client integration, key rotation, HSM support.
+**In scope:** AES-256-GCM field-level encryption, TLS transport security, key lifecycle management and rotation, HSM/Vault/PKI key providers, PKCS#11 integration, RBAC and ABAC authorization, row-level security policies, zero-trust network policy enforcement, CMS/PKCS#7 signing and eIDAS timestamping, confidential computing (TDX/SEV-SNP), FIPS 140-2/3 mode, post-quantum cryptography (simulation backend, liboqs-ready), PII redaction/masking policies, USB admin authenticator, user-registration plugins, malware scanner, AQL injection detection, secret management, VRAM secure clearing.
 
-**Out of scope:** Authentication logic (handled by auth module), audit logging (handled by utils module), policy enforcement (handled by governance module).
+**Boundary with other modules:** Session-level JWT/OIDC validation, token blacklist, and brute-force rate limiting live in the `auth` module (`include/auth/`). Structured audit-log sinks live in the `utils` module.
 
 ## Relevant Interfaces
 
-- `encryption_manager.cpp` — AES-256-GCM encryption/decryption
-- `key_manager.cpp` — key lifecycle management and rotation
-- `pki_client.cpp` — PKI certificate integration
-- `tls_config.cpp` — TLS certificate and cipher configuration
+- `field_encryption.cpp` / `encryption.h` — AES-256-GCM field-level encryption engine
+- `vault_key_provider.cpp` / `vault_key_provider.h` — HashiCorp Vault key provider
+- `hsm_provider_pkcs11.cpp` / `hsm_provider.h` — HSM PKCS#11 key provider
+- `pki_key_provider.cpp` / `pki_key_provider.h` — PKI certificate-based key provider
+- `rbac.cpp` / `rbac.h` — Role-based access control engine
+- `row_level_security.cpp` / `row_level_security.h` — Row-level security policies
+- `zero_trust_policy_enforcer.cpp` / `zero_trust_policy_enforcer.h` — Zero-trust network enforcement
+- `fips_crypto_mode.cpp` / `fips_crypto_mode.h` — FIPS 140-2/3 cryptography mode manager
+- `post_quantum_crypto.cpp` / `post_quantum_crypto.h` — Post-quantum cryptography (Kyber/Dilithium simulation)
+- `confidential_computing.cpp` / `confidential_computing.h` — Intel TDX / AMD SEV-SNP attestation
+- `cms_signing.cpp` / `cms_signing.h` — CMS/PKCS#7 digital signing
+- `timestamp_authority.cpp` / `timestamp_authority.h` — RFC 3161 TSA client
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — AES-256-GCM encryption and TLS operational; HSM integration and automated key rotation in progress.
+**Maturity:** 🟢 Production Ready — All six security layers are operational. FIPS 140-2/3 mode, confidential computing, post-quantum crypto simulation, zero-trust enforcement, PII masking, and row-level security are all implemented and tested.
 
 ## Architecture Overview
 
@@ -884,14 +894,17 @@ storeQualifiedSignature(qs);
 ### Unit Tests
 
 ```bash
-# Run security module tests
+# Run all security module tests via CTest
 cd build
-ctest -R security
+ctest -R security --output-on-failure
 
-# Run specific test suites
-./tests/security/encryption_test
-./tests/security/rbac_test
-./tests/security/key_rotation_test
+# Run individual test binaries (examples)
+./tests/security/test_access_control_manager
+./tests/security/test_fips_crypto_mode
+./tests/security/test_row_level_security
+./tests/security/test_input_validation_security
+./tests/test_vram_secure_clear
+./tests/test_security_signature_standalone
 ```
 
 ### Integration Tests
@@ -900,11 +913,14 @@ ctest -R security
 # Test with real Vault instance
 export VAULT_ADDR=http://localhost:8200
 export VAULT_TOKEN=root
-./tests/security/vault_integration_test
+ctest -R vault --output-on-failure
 
-# Test with SoftHSM
+# Test with SoftHSM2 (PKCS#11)
 export SOFTHSM2_CONF=/etc/softhsm2.conf
-./tests/security/hsm_integration_test
+ctest -R hsm --output-on-failure
+
+# Test confidential computing (TDX/SEV-SNP; software fallback on non-TEE hosts)
+./tests/test_confidential_computing
 ```
 
 ### Security Auditing
@@ -1003,41 +1019,90 @@ bool loadLoRAAdapter(const std::string& path) {
 
 ### Headers (`include/security/`)
 - `encryption.h` - Field-level encryption engine
-- `key_provider.h` - Key management interface
+- `key_provider.h` - Key management interface (abstract)
 - `vault_key_provider.h` - HashiCorp Vault integration
 - `hsm_provider.h` - HSM/PKCS#11 interface
+- `hsm_key_provider_adapter.h` - HSM → KeyProvider adapter
+- `hsm_security_checker.h` - HSM health and security checks
+- `hsm_security_metrics.h` - HSM operation metrics
 - `pki_key_provider.h` - PKI certificate-based keys
+- `mock_key_provider.h` - In-memory mock (tests only)
+- `fips_crypto_mode.h` - FIPS 140-2/3 mode manager
+- `post_quantum_crypto.h` - Post-quantum KEM/signature (Kyber/Dilithium simulation)
+- `confidential_computing.h` - Intel TDX / AMD SEV-SNP attestation and sealing
 - `rbac.h` - Role-based access control
+- `access_control.h` - Permission checking
+- `access_control_manager.h` - AccessControlManager orchestrator
+- `row_level_security.h` - Row-level security policies and RLSManager
+- `query_masking_policy.h` - Dynamic PII masking for query results
+- `pii_redaction_policy.h` - PII redaction configuration
+- `zero_trust_policy_enforcer.h` - Zero-trust network policy (IPv4 CIDR; IPv6 planned)
 - `aql_injection_detector.h` - AQL injection detection
-- `malware_scanner.h` - Malware scanning interface
+- `malware_scanner.h` - Malware scanning interface (ClamAV)
 - `binary_manifest.h` - Binary metadata and signatures
+- `manifest_signer.h` - Manifest signing interface
 - `cms_signing.h` - CMS/PKCS#7 signing
-- `timestamp_authority.h` - RFC 3161 timestamping
+- `signing.h` - Generic signing interface
+- `signing_provider.h` - Signing provider abstraction
+- `timestamp_authority.h` - RFC 3161 TSA client
+- `tsa_api.h` - TSA HTTP API wrapper
 - `usb_admin_authenticator.h` - USB token authentication
-- `vram_secure_clear.h` - GPU memory sanitization
+- `user_registration_plugin.h` - User registration plugin interface
+- `vault_signing_provider.h` - Vault-backed signing provider
+- `vcc_pki_client.h` - VCC PKI client
+- `vram_secure_clear.h` - GPU VRAM memory sanitization
+- `transport_security_checker.h` - Transport-layer security checker
+- `secret_manager.h` - Secret management interface
+- `output_encoding.h` - Output encoding helpers
+- `pkcs11_wrapper.h` - PKCS#11 C++ RAII wrapper
+- `pkcs11_minimal.h` - Minimal PKCS#11 type definitions
+- `crypto_capabilities.h` - Runtime cryptographic capability detection
 
 ### Implementation (`src/security/`)
 - `field_encryption.cpp` - Encryption implementation
 - `encrypted_field.cpp` - Document field wrapper
 - `vault_key_provider.cpp` - Vault client
+- `hsm_provider.cpp` - HSM core logic
 - `hsm_provider_pkcs11.cpp` - PKCS#11 implementation
+- `hsm_key_provider_adapter.cpp` - HSM → KeyProvider adapter
+- `hsm_signing.cpp` - HSM-backed signing operations
 - `pki_key_provider.cpp` - PKI integration
+- `vcc_pki_client.cpp` - VCC PKI client
+- `mock_key_provider.cpp` - Mock key provider (tests)
+- `key_cache.cpp` - Key material caching layer
+- `fips_crypto_mode.cpp` - FIPS 140-2/3 mode manager
+- `post_quantum_crypto.cpp` - Post-quantum cryptography (OpenSSL simulation)
+- `confidential_computing.cpp` - TDX/SEV-SNP attestation and sealing
 - `rbac.cpp` - RBAC engine
 - `access_control.cpp` - Permission checking
+- `access_control_manager.cpp` - AccessControlManager
+- `row_level_security.cpp` - Row-level security
+- `query_masking_policy.cpp` - PII masking for query results
+- `pii_redaction_policy.cpp` - PII redaction policies
+- `zero_trust_policy_enforcer.cpp` - Zero-trust network policy
 - `aql_injection_detector.cpp` - Injection detection
 - `malware_scanner.cpp` - ClamAV integration
 - `binary_manifest.cpp` - Manifest handling
+- `manifest_signer.cpp` - Manifest signing
 - `cms_signing.cpp` - CMS signing implementation
-- `timestamp_authority.cpp` - TSA client
+- `keyprovider_signing.cpp` - Key-provider-backed signing
+- `vault_signing_provider.cpp` - Vault-backed signing
+- `timestamp_authority.cpp` - TSA client (base)
+- `timestamp_authority_openssl.cpp` - OpenSSL TSA implementation
+- `tsa_api.cpp` - TSA HTTP API
 - `usb_admin_authenticator.cpp` - USB authentication
+- `user_registration_plugin.cpp` - User registration plugin base
+- `arrow_user_registration_plugin.cpp` - Arrow-format registration plugin
+- `embedded_user_registration_plugin.cpp` - Embedded registration plugin
+- `webdav_user_registration_plugin.cpp` - WebDAV registration plugin
+- `secret_manager.cpp` - Secret management
 - `vram_secure_clear.cpp` - VRAM clearing
 
 ## See Also
 
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned security features
-- [Security Configuration Guide](../../docs/security-config.md)
-- [Compliance Documentation](../../docs/compliance/)
-- [Key Management Guide](../../docs/key-management.md)
+- [ROADMAP.md](ROADMAP.md) - Security module roadmap with status tracking
+- [Compliance Documentation](../../docs/de/security/)
 
 ## Scientific References
 

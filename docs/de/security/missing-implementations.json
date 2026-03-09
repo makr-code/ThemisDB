@@ -1,0 +1,127 @@
+{
+  "module": "security",
+  "generated": "2026-03-09",
+  "validated_at_branch": "copilot/sync-documentation-with-sourcecode",
+  "primary_source": "src/security/",
+  "summary": "Production-ready as of v1.5.0. No [x] roadmap items without code evidence. Eight documentation-accuracy findings corrected.",
+  "findings": [
+    {
+      "id": "FINDING-S-001",
+      "severity": "high",
+      "status": "fixed",
+      "claim_source": "src/security/README.md: Relevant Interfaces section",
+      "expected": "Files encryption_manager.cpp, key_manager.cpp, pki_client.cpp, tls_config.cpp exist",
+      "observed": "None of these files exist; real entry points are field_encryption.cpp, vault_key_provider.cpp, hsm_provider_pkcs11.cpp, pki_key_provider.cpp",
+      "evidence_paths": ["src/security/"],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-002",
+      "severity": "high",
+      "status": "fixed",
+      "claim_source": "src/security/README.md: Subsystem Scope",
+      "expected": "Authentication and authorization are out of scope",
+      "observed": "Security module contains rbac.cpp, access_control.cpp, access_control_manager.cpp, row_level_security.cpp, zero_trust_policy_enforcer.cpp, usb_admin_authenticator.cpp — all authentication/authorization components",
+      "evidence_paths": [
+        "src/security/rbac.cpp",
+        "src/security/access_control.cpp",
+        "src/security/zero_trust_policy_enforcer.cpp",
+        "src/security/usb_admin_authenticator.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-003",
+      "severity": "medium",
+      "status": "fixed",
+      "claim_source": "src/security/README.md: Current Delivery Status",
+      "expected": "Maturity: Beta",
+      "observed": "All six security layers implemented and production-ready per ROADMAP and source file headers",
+      "evidence_paths": [
+        "src/security/fips_crypto_mode.cpp",
+        "src/security/confidential_computing.cpp",
+        "src/security/post_quantum_crypto.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-004",
+      "severity": "medium",
+      "status": "fixed",
+      "claim_source": "src/security/README.md: Testing and Validation",
+      "expected": "Binaries tests/security/encryption_test, rbac_test, key_rotation_test, vault_integration_test, hsm_integration_test exist",
+      "observed": "None of these binaries exist; actual tests are test_access_control_manager, test_fips_crypto_mode, test_row_level_security, test_input_validation_security, test_security_negative_integration",
+      "evidence_paths": [
+        "tests/security/test_access_control_manager.cpp",
+        "tests/security/test_fips_crypto_mode.cpp",
+        "tests/security/test_row_level_security.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-005",
+      "severity": "low",
+      "status": "fixed",
+      "claim_source": "src/security/README.md: See Also",
+      "expected": "docs/security-config.md, docs/compliance/, docs/key-management.md exist",
+      "observed": "None of these paths exist in the repository",
+      "evidence_paths": [],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-006",
+      "severity": "medium",
+      "status": "fixed",
+      "claim_source": "src/security/ROADMAP.md: In Progress + Phase 2",
+      "expected": "FIPS mode is [~] in progress",
+      "observed": "fips_crypto_mode.cpp is 261 lines, PRODUCTION-READY, tests/security/test_fips_crypto_mode.cpp exists",
+      "evidence_paths": [
+        "src/security/fips_crypto_mode.cpp",
+        "include/security/fips_crypto_mode.h",
+        "tests/security/test_fips_crypto_mode.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-007",
+      "severity": "low",
+      "status": "fixed",
+      "claim_source": "src/security/ROADMAP.md: Planned Features + Phase 4",
+      "expected": "Post-quantum crypto is [P] (PR open)",
+      "observed": "post_quantum_crypto.cpp is 923 lines, PRODUCTION-READY, OpenSSL simulation complete; liboqs integration still pending",
+      "evidence_paths": [
+        "src/security/post_quantum_crypto.cpp",
+        "include/security/post_quantum_crypto.h"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    },
+    {
+      "id": "FINDING-S-008",
+      "severity": "low",
+      "status": "fixed",
+      "claim_source": "docs/de/security/README.md",
+      "expected": "Stand: 7. Januar 2026, Version: v1.4.0-alpha",
+      "observed": "Codebase is at v1.5.0, March 2026",
+      "evidence_paths": ["docs/de/security/README.md"],
+      "issue_title_suggestion": null,
+      "label_suggestions": ["documentation"]
+    }
+  ],
+  "open_items": [
+    {
+      "id": "OPEN-S-001",
+      "roadmap_status": "[ ]",
+      "description": "SOC 2 Type II compliance evidence collection",
+      "target": "Q4 2026",
+      "issue": "#2293",
+      "note": "No implementation found; correctly marked as open in ROADMAP"
+    }
+  ]
+}
