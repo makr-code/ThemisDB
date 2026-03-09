@@ -49,10 +49,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
-- [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
-- [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
-- [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
-- [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
+- [~] Agentic RAG with iterative retrieval loops (Issue: #2241) — `agentic_rag.cpp` exists; full iterative loop not yet marked complete
+- [~] Multi-modal RAG (image + text retrieval) (Issue: #2243) — `multimodal_rag.cpp` exists; integration not yet marked complete
+- [ ] Distributed RAG evaluation across multiple judge models (Issue: #2245)
 
 ## Implementation Phases
 
@@ -79,10 +78,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 - [x] Multi-document summarization before context injection
 - [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 ### Phase 4: Agentic & Knowledge-Graph RAG (Status: In Progress 🚧)
-- [P] Agentic RAG with iterative retrieval loops
+- [~] Agentic RAG with iterative retrieval loops — `agentic_rag.cpp` exists; full loop coverage pending
 - [x] Knowledge graph-augmented retrieval (entity linking)
-- [P] Multi-modal RAG (image + text retrieval)
-- [ ] Online learning from evaluation feedback (adaptive retrieval)
+- [~] Multi-modal RAG (image + text retrieval) — `multimodal_rag.cpp` exists; integration pending
 - [ ] Distributed RAG evaluation across multiple judge models
 
 ## Production Readiness Checklist
@@ -101,7 +99,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 22 implementati
 ## Known Issues & Limitations
 - Evaluation accuracy depends on quality of the injected LLM judge model.
 - Thorough mode (~2 s latency) is not suitable for real-time interactive use.
-- No built-in document chunking strategy: now provided by `DocumentSplitter` (configurable chunk size, overlap, and strategy).
+- Agentic RAG and multi-modal RAG source files exist but are not yet fully validated in the production pipeline; see Phase 4.
 
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.

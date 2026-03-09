@@ -1,0 +1,112 @@
+{
+  "module": "plugins",
+  "generated": "2026-03-09",
+  "validated_at_commit": "09f7c55",
+  "branch": "copilot/sync-documentation-with-sourcecode",
+  "primary_source": "src/plugins/",
+  "summary": "Beta-level as of v1.5.0. Core plugin loading, Ed25519 verification, manifest validation, capability negotiation, dependency resolution, hot-plug, health monitoring, and OCI registry are implemented. Four documentation-accuracy findings corrected. No [x] roadmap items lack code evidence.",
+  "findings": [
+    {
+      "id": "FINDING-P-001",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/plugins/README.md: Relevant Interfaces section",
+      "expected": "Files plugin_loader.cpp, plugin_api.cpp, manifest_validator.cpp, plugin_signer.cpp exist in src/plugins/",
+      "observed": "None of these four files exist in src/plugins/. Dynamic loading is in plugin_manager.cpp; plugin_api.h is header-only; ManifestSchemaValidator is in plugin_interface.h; signing is in signed_plugin_repository.cpp and tools/plugin_signer/sign_plugin.py",
+      "evidence_paths": [
+        "src/plugins/",
+        "include/plugins/plugin_api.h",
+        "include/plugins/plugin_interface.h",
+        "src/plugins/signed_plugin_repository.cpp",
+        "tools/plugin_signer/sign_plugin.py"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-P-002",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/plugins/README.md: Current Delivery Status",
+      "expected": "Ed25519 signing is in progress",
+      "observed": "Ed25519 signature verification is fully implemented in signed_plugin_repository.h/.cpp with key-pinning. PluginManager::verifyPlugin() (plugin_manager.cpp:135) calls it, NDEBUG-guarded. reloadPlugin() performs Phase-2 atomic TOCTOU-safe signature check before swap.",
+      "evidence_paths": [
+        "include/plugins/signed_plugin_repository.h",
+        "src/plugins/signed_plugin_repository.cpp",
+        "src/plugins/plugin_manager.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-P-003",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "src/plugins/README.md: Documentation section",
+      "expected": "Links point to docs/plugins/PLUGIN_SECURITY.md, docs/plugins/PLUGIN_MIGRATION.md, docs/plugins/MANIFEST_SIGNATURES.md",
+      "observed": "docs/plugins/ does not contain these files. Correct paths: docs/de/plugins/PLUGIN_MIGRATION.md, docs/de/plugins/MANIFEST_SIGNATURES.md. PLUGIN_SECURITY.md does not exist anywhere.",
+      "evidence_paths": [
+        "docs/de/plugins/PLUGIN_MIGRATION.md",
+        "docs/de/plugins/MANIFEST_SIGNATURES.md",
+        "docs/de/plugins/RPC_PLUGIN_ARCHITECTURE.md"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-P-004",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "09f7c55",
+      "claim_source": "docs/de/plugins/README.md (Stand: 22. Dezember 2025)",
+      "expected": "4 features listed: Manifest Signatures, Plugin Migration, RPC Framework, Image Analysis",
+      "observed": "Module has 15 headers, 10 source files, 13 implemented features. Missing from table: plugin_manager, plugin_registry, plugin_metrics, plugin_health_monitor, plugin_hot_plug_monitor, plugin_dependency_resolver, signed_plugin_repository, oci_registry_client, plugin_api, plugin_system_edition, self_healing_plugin. Ghost source reference to include/enterprise/analytics_plugins.h which does not exist.",
+      "evidence_paths": [
+        "include/plugins/",
+        "src/plugins/"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    }
+  ],
+  "open_remaining_items": [
+    {
+      "item": "WASM plugin runtime (Wasmtime sandbox isolation)",
+      "roadmap_status": "[?] Phase 3",
+      "issue_ref": null,
+      "issue_title_suggestion": "[plugins] WASM sandbox runtime via Wasmtime",
+      "label_suggestions": ["enhancement", "plugins", "security"]
+    },
+    {
+      "item": "Per-plugin resource quotas (CPU time, memory)",
+      "roadmap_status": "[?] Short-term",
+      "issue_ref": null,
+      "issue_title_suggestion": "[plugins] Per-plugin CPU/memory resource quotas",
+      "label_suggestions": ["enhancement", "plugins", "resource-mgmt"]
+    },
+    {
+      "item": "Plugin configuration JSON Schema validation",
+      "roadmap_status": "[?] Short-term",
+      "issue_ref": null,
+      "issue_title_suggestion": "[plugins] Plugin configuration JSON Schema validation",
+      "label_suggestions": ["enhancement", "plugins"]
+    },
+    {
+      "item": "Plugin SDK (C++, Python, Go bindings)",
+      "roadmap_status": "[?] Phase 3",
+      "issue_ref": null,
+      "issue_title_suggestion": "[plugins] Plugin SDK: C++, Python, Go bindings",
+      "label_suggestions": ["enhancement", "plugins", "sdk"]
+    },
+    {
+      "item": "Community plugin repository with security scanning",
+      "roadmap_status": "[?] Phase 3",
+      "issue_ref": null,
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    }
+  ]
+}

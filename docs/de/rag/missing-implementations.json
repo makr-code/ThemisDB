@@ -1,0 +1,165 @@
+{
+  "module": "rag",
+  "generated": "2026-03-09",
+  "validated_at_commit": "cea4844",
+  "branch": "copilot/sync-documentation-with-sourcecode",
+  "primary_source": "src/rag/",
+  "summary": "Production-ready as of v1.x. No [x] roadmap items without code evidence. Eight documentation-accuracy findings corrected. Two items (agentic_rag, multimodal_rag) source files exist but production integration is in progress.",
+  "findings": [
+    {
+      "id": "FINDING-RAG-001",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/README.md: Relevant Interfaces section",
+      "expected": "Files rag_pipeline.cpp, context_manager.cpp, retriever.cpp exist",
+      "observed": "None of these files exist in src/rag/ or anywhere in the repository",
+      "evidence_paths": ["src/rag/"],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-RAG-002",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/README.md: heading 'Implementation Files (20 files, ~7,900 LOC)' and footer '19 files | ~7,600 lines'",
+      "expected": "20 (or 19) source files, ~7,600-7,900 LOC",
+      "observed": "ls src/rag/*.cpp | wc -l = 41; wc -l src/rag/*.cpp | tail -1 = 17364 total",
+      "evidence_paths": ["src/rag/"],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-RAG-003",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/README.md: Current Delivery Status section",
+      "expected": "Maturity: Beta (hybrid search and re-ranking in progress)",
+      "observed": "ROADMAP says v1.x production-ready; hybrid_retriever.cpp, reranker.cpp, and their tests all exist",
+      "evidence_paths": [
+        "src/rag/hybrid_retriever.cpp",
+        "src/rag/reranker.cpp",
+        "tests/test_rag_hybrid_retriever.cpp",
+        "tests/test_rag_reranker.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-RAG-004",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/README.md: Implementation Files component list",
+      "expected": "20 named components",
+      "observed": "41 .cpp files exist; 21 components missing from README: hybrid_retriever, reranker, document_splitter, document_summarizer, citation_highlighter, evaluation_report_exporter, hallucination_dashboard, continuous_learning_orchestrator, continuous_learning_client, bayesian_optimizer, ab_testing_framework, learning_metrics, quality_control_pipeline, quality_control_factory, nli_faithfulness_verifier, onnx_model_loader, llm_judge_client, http_metrics_client, agentic_rag, multimodal_rag, plus 4 header-only components",
+      "evidence_paths": ["src/rag/", "include/rag/"],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-RAG-005",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/README.md: Testing section",
+      "expected": "test_rag_pipeline_integration and bench_rag_evaluation exist",
+      "observed": "tests/test_rag_pipeline_integration.cpp does not exist; benchmarks/bench_rag_evaluation.cpp does not exist",
+      "evidence_paths": ["tests/", "benchmarks/"],
+      "issue_title_suggestion": "[rag] Full end-to-end integration test: retrieve → generate → evaluate",
+      "label_suggestions": ["testing", "rag", "integration"]
+    },
+    {
+      "id": "FINDING-RAG-006",
+      "severity": "low",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/ROADMAP.md: Planned Features section",
+      "expected": "Online learning listed as planned [I] Issue #2244",
+      "observed": "Same item already marked [x] done in Completed section with full implementation detail (bayesian_optimizer, getOptimizedRetrievalParams)",
+      "evidence_paths": ["src/rag/ROADMAP.md"],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-RAG-007",
+      "severity": "low",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/ROADMAP.md: Known Issues & Limitations",
+      "expected": "Limitation: No built-in document chunking strategy",
+      "observed": "Same sentence states it is 'now provided by DocumentSplitter' — self-contradictory stale entry; document_splitter.cpp exists with 37 tests",
+      "evidence_paths": [
+        "src/rag/document_splitter.cpp",
+        "tests/test_rag_document_splitter.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-RAG-008",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "cea4844",
+      "claim_source": "src/rag/ROADMAP.md: Phase 4 and Planned Features sections",
+      "expected": "Agentic RAG marked [P] (PR only); Multi-modal RAG marked [I] (Issue only)",
+      "observed": "agentic_rag.cpp, agentic_rag.h, tests/test_rag_agentic.cpp exist; multimodal_rag.cpp, multimodal_rag.h, tests/test_rag_multimodal.cpp exist",
+      "evidence_paths": [
+        "src/rag/agentic_rag.cpp",
+        "include/rag/agentic_rag.h",
+        "tests/test_rag_agentic.cpp",
+        "src/rag/multimodal_rag.cpp",
+        "include/rag/multimodal_rag.h",
+        "tests/test_rag_multimodal.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    }
+  ],
+  "open_remaining_items": [
+    {
+      "item": "Agentic RAG full iterative loop production validation",
+      "roadmap_status": "[~]",
+      "issue_ref": "#2241",
+      "issue_title_suggestion": "[rag] Complete agentic RAG iterative loop validation",
+      "label_suggestions": ["enhancement", "rag", "agentic"]
+    },
+    {
+      "item": "Multi-modal RAG (image + text) production integration",
+      "roadmap_status": "[~]",
+      "issue_ref": "#2243",
+      "issue_title_suggestion": "[rag] Multi-modal RAG (image+text) production integration",
+      "label_suggestions": ["enhancement", "rag", "multimodal"]
+    },
+    {
+      "item": "Distributed RAG evaluation across multiple judge models",
+      "roadmap_status": "[ ]",
+      "issue_ref": "#2245",
+      "issue_title_suggestion": null,
+      "label_suggestions": ["enhancement", "rag", "distributed"]
+    },
+    {
+      "item": "Full end-to-end integration test: retrieve -> generate -> evaluate",
+      "roadmap_status": "[?]",
+      "issue_ref": null,
+      "issue_title_suggestion": "[rag] Full end-to-end integration test: retrieve → generate → evaluate",
+      "label_suggestions": ["testing", "rag", "integration"]
+    },
+    {
+      "item": "Recall@10 / latency benchmark per evaluation mode",
+      "roadmap_status": "[?]",
+      "issue_ref": null,
+      "issue_title_suggestion": "[rag] Recall@10 / latency benchmark per evaluation mode",
+      "label_suggestions": ["performance", "rag", "benchmark"]
+    },
+    {
+      "item": "Security audit: prompt injection via retrieved context",
+      "roadmap_status": "[?]",
+      "issue_ref": null,
+      "issue_title_suggestion": "[rag] Security audit: prompt injection via retrieved context",
+      "label_suggestions": ["security", "rag"]
+    }
+  ]
+}
