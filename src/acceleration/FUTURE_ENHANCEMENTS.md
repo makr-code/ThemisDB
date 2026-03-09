@@ -177,6 +177,8 @@ All planned features in this document are grounded in the following peer-reviewe
 7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]  
    — Informs HIP API usage, rocBLAS, and RCCL multi-GPU collectives (`hip_backend.cpp`, `rccl_vector_backend.cpp`).
 
+## 📚 Future enhancements
+
 **[1]** Y. Chen, T. Li, Y. Zhou, and Z. Wang, "Accelerating Database Operations on GPUs: A Survey," *IEEE Trans. Knowl. Data Eng.*, vol. 29, no. 1, pp. 147–165, Jan. 2017, doi: 10.1109/TKDE.2016.2603064. [Online]. Available: https://ieeexplore.ieee.org/document/7586066. Accessed: Mar. 2, 2026.
 
 **[2]** A. He, S. Pandey, and A. Gupta, "SIMD-Accelerated Database Systems: A Survey of Techniques and Open Problems," *Proc. VLDB Endow.*, vol. 12, no. 3, pp. 309–322, Nov. 2018, doi: 10.14778/3352063.3352067. [Online]. Available: https://www.vldb.org/pvldb/vol12/p309-he.pdf. Accessed: Mar. 2, 2026.
