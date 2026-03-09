@@ -261,6 +261,7 @@ site/
 wiki-temp/
 wiki/
 *.wiki/
+artifacts/docs/
 
 # Docker / containers
 docker-compose.override.yml

@@ -1,6 +1,14 @@
 #!/bin/bash
 # Build ThemisDB Documentation with MkDocs
-# Generates static site and PDF export
+# Generates static site and optional PDF export
+#
+# Usage:
+#   ./scripts/build-docs.sh                       # site only (no PDF)
+#   ENABLE_PDF_EXPORT=1 ./scripts/build-docs.sh   # site + PDF
+#
+# Output:
+#   Static site: ./site/
+#   PDF (optional): ./artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf
 
 set -e
 
@@ -20,23 +28,22 @@ pip3 install -r requirements-docs.txt --upgrade
 echo "Cleaning previous build..."
 rm -rf site/
 
-# Build MkDocs site
-echo "Building MkDocs site..."
-mkdocs build --clean
-
-# Generate PDF if wkhtmltopdf is available
-if command -v wkhtmltopdf &> /dev/null; then
-    echo "Generating PDF..."
-    ./scripts/export_pdf_wkhtml.sh
+if [ -n "${ENABLE_PDF_EXPORT}" ]; then
+    # Build MkDocs site with PDF export (output goes to artifacts/docs/)
+    echo "Building MkDocs site (with PDF export)..."
+    mkdir -p artifacts/docs
+    mkdocs build --clean
+    echo "Documentation build complete!"
+    echo "   Static site: ./site/"
+    if [ -f "artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf" ]; then
+        echo "   PDF: ./artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf"
+        ls -lh artifacts/docs/ThemisDB-Documentation-v1.3.5.pdf
+    fi
 else
-    echo "âš ï¸  wkhtmltopdf not found. Skipping PDF generation."
-    echo "   Install with: sudo apt-get install wkhtmltopdf (Debian/Ubuntu)"
-    echo "             or: brew install wkhtmltopdf (macOS)"
-fi
-
-echo "âœ… Documentation build complete!"
-echo "   Static site: ./site/"
-if [ -f "docs/ThemisDB-Documentation.pdf" ]; then
-    echo "   PDF: ./docs/ThemisDB-Documentation.pdf"
-    ls -lh docs/ThemisDB-Documentation.pdf
+    # Build MkDocs site without PDF
+    echo "Building MkDocs site (no PDF)..."
+    mkdocs build --config-file mkdocs-nopdf.yml --clean
+    echo "Documentation build complete!"
+    echo "   Static site: ./site/"
+    echo "   Tip: set ENABLE_PDF_EXPORT=1 to also generate a PDF"
 fi
