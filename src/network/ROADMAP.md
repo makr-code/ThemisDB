@@ -14,7 +14,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection limits (global and per-IP)
 - [x] Circuit breaker pattern for socket timeouts
 - [x] Protocol buffer wire format helpers (lightweight parser/serializer)
-- [x] Authentication (token-based) with configurable auth timeout
+- [~] Authentication (token-based) with configurable auth timeout — ⚠️ `handleAuthRequest()` is a stub returning an error response; `authenticated_` flag is never set to `true` through the wire protocol; see NETWORK-MISSING-001 in `docs/de/network/missing-implementations.md`
 - [x] Health checking and keepalive mechanisms
 - [x] Automatic retry logic with configurable back-off
 - [x] Transport security validation (`validateTransportSecurity`)
@@ -31,13 +31,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
 
 ## In Progress 🚧
-- [~] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
+- [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
   - UDP socket on port 8769 (dedicated, separate from TCP wire protocol port 8766)
   - Read-only opcodes only: GET, QUERY_AQL, VECTOR_SEARCH, PING
   - Per-source-IP rate limiting (configurable packets/second)
   - Compact 10-byte binary header with request-ID echo for correlation
   - `UDPFastPath` class in `include/network/udp_fast_path.h` / `src/network/udp_fast_path.cpp`
   - Unit tests in `tests/test_udp_fast_path.cpp` (config, packet validation, opcode filter, response builder)
+  - ⚠️ Implementation complete; ROADMAP status reflects pending production validation / integration tests
 - [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
   - `QuicTransport` class in `include/network/quic_transport.h` / `src/network/quic_transport.cpp`
   - Port 8770 (dedicated, separate from TCP 8766 and UDP 8769)
@@ -123,10 +124,17 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
 
 ## Known Issues & Limitations
+- Core wire protocol v1 operation handlers are stubs: HELLO, AUTH, GET, PUT, DELETE, QUERY,
+  VECTOR_SEARCH, and GEO_QUERY in `wire_protocol_server.cpp` (lines 866–904) return error
+  responses; see `NETWORK-MISSING-001` and `NETWORK-MISSING-002` in
+  `docs/de/network/missing-implementations.md`.
+- `handleAuthRequest()` is a stub; `authenticated_` session flag is never set `true` through
+  the wire protocol; all BPMN handlers that check `authenticated_.load()` return 401.
+- `grpc_transport.cpp` was missing from `cmake/CMakeLists.txt` (fixed: 2026-03-09).
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
   dispatched (clients receive a structured error and should use text/JSON frames or
   the native TCP binary connection).
-- UDP fast-path is in progress; QUIC transport is implemented (`QuicTransport`, port 8770).
+- UDP fast-path is implemented; pending final integration tests and production validation.
 - gRPC native transport is implemented (`GrpcTransport`, port 8771); this module provides
   the transport layer only — the gRPC service layer lives in the server/api modules.
 - Service mesh integration is in progress (`ServiceMeshIntegration`, port 8082);

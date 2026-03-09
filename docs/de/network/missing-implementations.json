@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T15:30:00Z",
+    "module": "network",
+    "source_paths": [
+      "src/network/",
+      "include/network/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-documentation-sync (2026-03-09)."
+  },
+  "missing_implementations": [
+    {
+      "id": "NETWORK-MISSING-001",
+      "title": "Wire Protocol V1 opcode handlers are stubs",
+      "claim_source": "src/network/ROADMAP.md",
+      "claim_section": "Completed ✅ — WireProtocolServer (high-performance binary TCP server)",
+      "expected": "Fully implemented dispatch handlers for all Wire Protocol V1 opcodes: HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, GEO_QUERY",
+      "observed": "8 handlers in wire_protocol_server.cpp (lines 866–904) are stubs that call sendError(0x0003, '... not yet implemented'). No storage/index dispatch occurs.",
+      "evidence": {
+        "files_present": [
+          "src/network/wire_protocol_server.cpp"
+        ],
+        "stub_lines": "wire_protocol_server.cpp lines 866–904 (9 TODO comments; file header reports TODOs: 9)",
+        "dispatch_table_lines": "wire_protocol_server.cpp lines 714–735 (correct dispatch; handler body is stub)",
+        "affected_opcodes": [
+          "0x01 HELLO",
+          "0x03 AUTH_REQUEST",
+          "0x04 GET",
+          "0x05 PUT",
+          "0x06 DELETE",
+          "0x07 QUERY",
+          "0x08 VECTOR_SEARCH",
+          "0x09 GEO_QUERY"
+        ],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "stub",
+      "roadmap_marker_before": "[x]",
+      "roadmap_marker_after": "[~] (corrected 2026-03-09)",
+      "issue_number": null,
+      "criticality": "high",
+      "suggested_issue_title": "[network] Implement WireProtocolServer V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, GEO_QUERY)",
+      "suggested_labels": ["type:feature", "priority:high", "network", "status:open"]
+    },
+    {
+      "id": "NETWORK-MISSING-002",
+      "title": "Token-based authentication not wired — authenticated_ flag never set true",
+      "claim_source": "src/network/ROADMAP.md",
+      "claim_section": "Completed ✅ — Authentication (token-based) with configurable auth timeout",
+      "expected": "Token-based authentication: after successful AUTH sequence, authenticated_ is set to true; protected handlers (BPMN, etc.) accept authenticated sessions",
+      "observed": "handleAuthRequest() (wire_protocol_server.cpp:871–873) is a stub returning sendError(0x0003, 'AUTH not yet implemented'). authenticated_ (wire_protocol_server.h:412, std::atomic<bool> authenticated_{false}) is never set to true anywhere in the source. BPMN handlers that check authenticated_.load() (lines 1179, 1277, 1364) always return 401.",
+      "evidence": {
+        "files_present": [
+          "src/network/wire_protocol_server.cpp",
+          "include/network/wire_protocol_server.h"
+        ],
+        "stub_lines": "wire_protocol_server.cpp:871–873",
+        "authenticated_declaration": "wire_protocol_server.h:412",
+        "authenticated_set_occurrences": 0,
+        "bpmn_guard_lines": [1179, 1277, 1364],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "stub",
+      "roadmap_marker_before": "[x]",
+      "roadmap_marker_after": "[~] (corrected 2026-03-09)",
+      "issue_number": null,
+      "criticality": "high",
+      "suggested_issue_title": "[network] Implement token-based authentication in WireProtocolServer (handleAuthRequest, set authenticated_ flag)",
+      "suggested_labels": ["type:feature", "priority:high", "network", "status:open"]
+    },
+    {
+      "id": "NETWORK-MISSING-003",
+      "title": "grpc_transport.cpp missing from cmake/CMakeLists.txt",
+      "claim_source": "src/network/ROADMAP.md",
+      "claim_section": "Completed ✅ / Phase 3: gRPC native transport",
+      "expected": "src/network/grpc_transport.cpp compiled into themis_core / themis_network when THEMIS_ENABLE_GRPC=ON",
+      "observed": "src/network/grpc_transport.cpp was NOT listed in cmake/CMakeLists.txt (network section); the compilation unit was missing from the build despite a present source file and test coverage",
+      "evidence": {
+        "files_present": [
+          "src/network/grpc_transport.cpp",
+          "include/network/grpc_transport.h",
+          "tests/test_grpc_transport.cpp"
+        ],
+        "cmake_section": "cmake/CMakeLists.txt lines 1990–2002 (network section; grpc_transport.cpp absent before fix)",
+        "source_file_lines": 290,
+        "source_file_stubs": 0,
+        "test_file_present": true,
+        "test_guard": "#ifdef THEMIS_ENABLE_GRPC"
+      },
+      "roadmap_status": "fixed",
+      "roadmap_marker_before": "[x]",
+      "roadmap_marker_after": "[x] (build fix applied 2026-03-09)",
+      "fix_description": "$<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp> added to cmake/CMakeLists.txt network section",
+      "fix_date": "2026-03-09",
+      "fix_branch": "copilot/update-documentation-sync",
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": null
+    },
+    {
+      "id": "NETWORK-MISSING-004",
+      "title": "WebSocket binary frame dispatch not implemented",
+      "claim_source": "src/network/ROADMAP.md §Known Issues (already documented)",
+      "claim_section": "Known Issues & Limitations",
+      "expected": "Binary frames over WebSocket forwarded to wire protocol handler / storage dispatch",
+      "observed": "wire_protocol_server_ws.cpp receives binary frames but does not dispatch them to storage/index; clients receive a structured error response",
+      "evidence": {
+        "files_present": [
+          "src/network/wire_protocol_server_ws.cpp"
+        ],
+        "roadmap_known_issue": "ROADMAP.md §Known Issues: 'Binary frames over WebSocket are not yet dispatched'",
+        "source_file_lines": 1001
+      },
+      "roadmap_status": "known_issue",
+      "roadmap_marker_before": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[network] Dispatch binary WebSocket frames to wire protocol handler",
+      "suggested_labels": ["type:feature", "priority:low", "network", "status:open"]
+    }
+  ],
+  "summary": {
+    "total_findings": 4,
+    "high_criticality": 2,
+    "medium_criticality": 1,
+    "low_criticality": 1,
+    "fixed": 1,
+    "open": 3,
+    "roadmap_items_correct": 28,
+    "roadmap_items_corrected": 1,
+    "build_fixes_applied": 1,
+    "note": "All other ROADMAP entries (V2 protocol, WebSocket upgrade, UDP fast-path, QUIC, gRPC transport, geo topology router, service mesh, QoS manager, connection pool, socket timeout manager) are backed by present implementation files and unit tests on the develop branch. The critical gap is the wire protocol V1 opcode handler stubs (NETWORK-MISSING-001/002), which make the binary wire protocol non-functional for database operations."
+  }
+}

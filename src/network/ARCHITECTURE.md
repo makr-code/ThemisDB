@@ -1,7 +1,10 @@
 # Network Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
+
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/network/`
 
 ---
@@ -12,9 +15,17 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 binary wire protocol. It provides the TCP server, connection pool, TLS/mTLS configuration,
 socket timeout management, Quality-of-Service (QoS) management, and protocol buffer helpers.
 
+In addition to the core TCP wire protocol, the module provides WebSocket upgrade
+(port 8766, `wire_protocol_server_ws.cpp`), Wire Protocol V2 multiplexing
+(`wire_protocol_v2.cpp`), UDP fast-path (port 8769, `udp_fast_path.cpp`), QUIC/HTTP3
+transport (port 8770, `quic_transport.cpp`), gRPC native transport (port 8771,
+`grpc_transport.cpp`), geo-topology routing, and Istio/Envoy service mesh integration.
+
 The wire protocol is an alternative to HTTP/REST — it is a binary framing protocol
-optimized for low-latency, high-throughput client connections. HTTP, gRPC, and WebSocket
-are handled by the `api` module; this module focuses on the custom binary protocol.
+optimized for low-latency, high-throughput client connections. HTTP/REST and the gRPC
+service layer (ThemisDBService, WalGrpcService) are handled by the `api` and `server`
+modules; `grpc_transport.cpp` provides **transport only** (raw binary frames over gRPC
+bidirectional streaming).
 
 ---
 
@@ -39,14 +50,20 @@ are handled by the `api` module; this module focuses on the custom binary protoc
 
 | File | Role |
 |---|---|
-| `wire_protocol_server.cpp` | Core TCP server: accept, auth, frame dispatch, rate limiting |
+| `wire_protocol_server.cpp` | Core TCP server: accept, rate limiting, frame dispatch |
 | `wire_protocol_connection_pool.cpp` | Client-side connection pool for outbound connections |
 | `wire_protocol_helpers.cpp` | Frame serialization/deserialization, message types |
 | `wire_protocol_performance.cpp` | Performance monitoring for the wire protocol |
-| `wire_protocol_server_ws.cpp` | WebSocket transport layer for the wire protocol |
-| `wire_protocol_v2.cpp` | Wire protocol v2 implementation (in progress) |
+| `wire_protocol_server_ws.cpp` | WebSocket upgrade on port 8766 (`THEMIS_ENABLE_WEBSOCKET`) |
+| `wire_protocol_v2.cpp` | Wire protocol v2: multi-stream, flow control, server push |
 | `qos_manager.cpp` | QoS: traffic classification, bandwidth quotas, priority queuing |
 | `socket_timeout_manager.cpp` | Socket timeout enforcement, circuit breaker |
+| `udp_fast_path.cpp` | UDP read-only fast-path (port 8769) |
+| `quic_transport.cpp` | QUIC/HTTP3 transport (port 8770, `THEMIS_ENABLE_HTTP3`) |
+| `grpc_transport.cpp` | gRPC native transport (port 8771, `THEMIS_ENABLE_GRPC`) |
+| `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
+| `service_mesh.cpp` | Istio/Envoy probe server (`THEMIS_ENABLE_SERVICE_MESH`) |
+| `envoy_xds.cpp` | Envoy xDS v3 REST polling client (`THEMIS_ENABLE_SERVICE_MESH`) |
 | `themis_wire_v1.proto` | Protobuf schema for wire protocol v1 message types |
 
 ### 3.2 Component Diagram
@@ -199,10 +216,18 @@ Replication / sharding: connect to peer node
 
 ## 11. Known Limitations & Future Work
 
-- Wire protocol v2 (`wire_protocol_v2.cpp`) is in progress; v1 is current production.
-- UDP-based protocols are not planned.
-- Service mesh integration (Envoy, Istio) is planned but not implemented.
-- WebSocket transport (`wire_protocol_server_ws.cpp`) for browser clients is experimental.
+- Core wire protocol v1 operation handlers (HELLO, AUTH, GET, PUT, DELETE, QUERY,
+  VECTOR_SEARCH, GEO_QUERY) are implemented as stubs returning error responses;
+  dispatch to the storage/index layer is pending (9 TODO comments in
+  `wire_protocol_server.cpp` lines 866–904).
+- Authentication (`handleAuthRequest`) is a stub; `authenticated_` is never set to `true`
+  through the wire protocol path. BPMN handlers that guard on `authenticated_.load()`
+  will always return 401.
+- WebSocket binary frame dispatch is not yet implemented; clients must use text/JSON frames.
+- UDP fast-path (port 8769) is fully implemented but still `[~]` in ROADMAP (pending
+  final integration tests and production validation).
+- DPDK kernel-bypass is not implemented; `io_uring` is guarded by `THEMIS_ENABLE_IO_URING`
+  and off by default.
 
 ---
 
