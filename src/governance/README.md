@@ -14,19 +14,24 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 
 ## Relevant Interfaces
 
-- `policy_engine.cpp` — core policy evaluation engine
+- `policy_engine.cpp` — core policy evaluation engine (evaluate, checkQueryPermission, simulateDecision)
 - `policy_manager.cpp` — policy lifecycle management (load, validate, activate)
+- `policy_manager_versioned.cpp` — versioned policy management with rollback and conflict detection
 - `cross_tenant_policy_inheritance.cpp` — cross-tenant governance policy inheritance
-- `compliance_reporter.cpp` — GDPR/HIPAA/CCPA compliance reporting
-- `compliance_reporting.cpp` — report generation engine (JSON, CSV, HTML)
+- `compliance_reporter.cpp` — GDPR/HIPAA/CCPA/PCI-DSS/SOC 2 compliance reporting
+- `compliance_reporting.cpp` — report generation engine (JSON, CSV, HTML, PDF)
 - `data_lineage.cpp` — data lineage tracking for governed datasets
 - `ccpa_rules.cpp` — CCPA/CPRA data subject rights rule evaluators
 - `soc2_controls.cpp` — SOC 2 Trust Services Criteria controls and evidence collection
-- `policy_template.cpp` — built-in policy templates (GDPR, HIPAA, SOC 2, etc.)
+- `pci_dss_rules.cpp` — PCI-DSS data isolation and compliance rules
+- `data_masker.cpp` — field-level data masking (REDACT, TOKENIZE, TRUNCATE, HASH)
+- `model_governance.cpp` — AI/ML model training governance and bias auditing
+- `opa_adapter.cpp` — Open Policy Agent integration for Rego-based policy evaluation
+- `policy_template.cpp` — built-in policy templates (GDPR, HIPAA, SOC 2, least-privilege, etc.)
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Policy engine, GDPR/HIPAA/CCPA rule evaluation, SOC 2 controls, hot-reload, and compliance reporting operational; OPA integration planned.
+**Maturity:** 🟢 Production-Ready — Policy engine, GDPR/HIPAA/CCPA/CPRA/PCI-DSS/SOC 2 rule evaluation, OPA integration, policy simulation, hot-reload, compliance reporting, data masking, data lineage, cross-tenant policy inheritance, and AI/ML model governance are all operational.
 
 ## Components
 
@@ -37,22 +42,30 @@ Implements policy-based data governance for ThemisDB, enabling GDPR/HIPAA compli
 
 ## Features
 
-- Policy-based data access control
-- Compliance rule evaluation (GDPR, HIPAA, CCPA/CPRA, etc.)
+- Policy-based data access control (attribute-based, classification-based, and RBAC)
+- Compliance rule evaluation (GDPR, HIPAA, CCPA/CPRA, PCI-DSS, ISO 27001, SOC 2)
 - SOC 2 Trust Services Criteria controls and evidence collection (CC6.1, CC7.2, CC8.1, A1.1, C1.1, PI1.2)
 - Automated data retention policies
 - Data classification and labeling
-- CCPA/CPRA data subject rights enforcement
+- CCPA/CPRA data subject rights enforcement (right-to-know, right-to-delete, opt-out-of-sale, data portability)
+- PCI-DSS data isolation rules
 - Policy hot-reload without service restart
 - Cross-tenant governance policy inheritance with most-restrictive-wins merge semantics
+- Automated data masking in query results (REDACT, TOKENIZE, TRUNCATE, HASH)
+- Data lineage tracking for governed datasets
+- AI/ML model governance (training data lineage, bias auditing, export control)
+- OPA (Open Policy Agent) integration for Rego-based policy evaluation
+- Policy simulation / dry-run mode (`simulateDecision`) without audit trail side effects
+- Policy versioning with rollback and conflict detection (contradictory, overlapping, circular)
 
 ## Documentation
 
 For governance documentation, see:
-- [Policy Engine](../../docs/src/governance/policy_engine.cpp.md)
-- [Governance Usage](../../docs/governance_usage.md)
-- [Compliance Governance Strategy](../../docs/compliance_governance_strategy.md)
-- [Compliance Integration](../../docs/compliance_integration.md)
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Architecture guide with component diagram and data flow
+- [ROADMAP.md](./ROADMAP.md) — Development roadmap and production readiness checklist
+- [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) — Planned features with performance targets and IEEE references
+- [include/governance/README.md](../../include/governance/README.md) — Public API header overview
+- [docs/de/governance/README.md](../../docs/de/governance/README.md) — German secondary documentation
 
 ## Scientific References
 

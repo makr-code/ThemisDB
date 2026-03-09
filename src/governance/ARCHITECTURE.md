@@ -44,15 +44,22 @@ Policy-Based Access Control (PBAC) architecture.
 | `policy_manager_versioned.cpp` | Versioned policy management with history tracking |
 | `policy_coordinator.cpp` | Coordinates policy evaluation across distributed nodes |
 | `policy_validator.cpp` | Syntactic and semantic policy validation |
-| `policy_validation.cpp` | Policy rule conflict detection |
-| `policy_template.cpp` | Built-in policy templates (GDPR, HIPAA, SOC 2) |
+| `policy_validation.cpp` | Policy rule conflict detection (contradictory, overlapping, circular) |
+| `policy_template.cpp` | Built-in policy templates (GDPR, HIPAA, SOC 2, least-privilege, time-based) |
 | `policy_version_history.cpp` | Policy change history and rollback |
 | `policy_file_watcher.cpp` | inotify/FSEvents-based hot-reload of policy files |
 | `policy_review.cpp` | Policy review workflow: draft → review → approve → activate |
 | `review_scheduler.cpp` | Scheduled policy review reminders |
-| `compliance_reporter.cpp` | GDPR/HIPAA compliance reports |
+| `compliance_reporter.cpp` | GDPR/HIPAA/CCPA/PCI-DSS/SOC 2 compliance reports |
 | `compliance_reporting.cpp` | Report generation engine (PDF, JSON, HTML) |
-| `soc2_controls.cpp` | SOC 2 Trust Services Criteria controls and evidence collection |
+| `soc2_controls.cpp` | SOC 2 Trust Services Criteria controls and evidence collection (CC6.1, CC7.2, CC8.1, A1.1, C1.1, PI1.2) |
+| `ccpa_rules.cpp` | CCPA/CPRA data subject rights rule evaluators (RightToKnow, RightToDelete, OptOutOfSale, DataPortability) |
+| `pci_dss_rules.cpp` | PCI-DSS data isolation and compliance rules |
+| `data_masker.cpp` | Field-level data masking (REDACT, TOKENIZE, TRUNCATE, HASH strategies) |
+| `data_lineage.cpp` | Data lineage tracking for governed datasets |
+| `cross_tenant_policy_inheritance.cpp` | Cross-tenant hierarchical policy composition (most-restrictive-wins) |
+| `model_governance.cpp` | AI/ML model training governance, bias auditing, training data lineage |
+| `opa_adapter.cpp` | Open Policy Agent integration for Rego-based policy evaluation |
 
 ### 3.2 Component Diagram
 
@@ -198,10 +205,11 @@ Generate report: PDF / JSON / HTML
 
 ## 11. Known Limitations & Future Work
 
-- OPA (Open Policy Agent) integration for Rego-based policies is planned.
-- ABAC (Attribute-Based Access Control) expressions in policies are partial.
-- Distributed policy coordination (`policy_coordinator.cpp`) is experimental.
-- Automated GDPR data subject request handling (erasure, portability) is planned.
+- ABAC (Attribute-Based Access Control) expressions in policy rules are partially supported; complex expression trees are not yet evaluated.
+- Distributed policy coordination (`policy_coordinator.cpp`) is experimental; consistency guarantees in multi-node deployments are not yet validated.
+- Cross-border data transfer control (ISO 3166-based region enforcement) is planned as a future header interface (`IDataTransferPolicy`).
+- OPA (Open Policy Agent) integration is implemented (`opa_adapter.cpp`); Wasm-embedded bundle evaluation (offline mode) is not yet supported.
+- GDPR data subject request handling (erasure, portability) is implemented for CCPA/CPRA rights via `ccpa_rules.cpp`; full GDPR Article 17/20 automated workflows are planned.
 
 ---
 
