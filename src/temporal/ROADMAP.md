@@ -3,12 +3,12 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), and HLC-based conflict resolution are operational. Bitemporal joins and SEQUENCED/NON-SEQUENCED query semantics are partially implemented; SQL `PERIOD FOR` DDL syntax is not yet supported.
+**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), HLC-based conflict resolution, bitemporal joins, and SEQUENCED/NON-SEQUENCED query semantics are fully operational. SQL `PERIOD FOR` DDL syntax is not yet supported.
 
 ## Completed ✅
 - [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
 - [x] System-versioned table: automatic transaction-time versioning, non-destructive updates (`system_versioned_table.cpp`)
-- [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection (`bi_temporal.cpp`)
+- [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection, full-table bi-temporal scan (`bi_temporal.cpp`)
 - [x] Time-travel query engine: `AS OF`, `FROM...TO`, `BETWEEN...AND` queries with row filters (`temporal_query_engine.cpp`)
 - [x] Period-based temporal index: B-tree on `(sys_start, sys_end)` for efficient range lookups (`temporal_index.cpp`)
 - [x] Temporal aggregations: tumbling and sliding window aggregation over version history (`temporal_aggregator.cpp`)
@@ -17,10 +17,11 @@
 - [x] Conflict resolution audit trail: all resolutions logged for auditability
 - [x] Thread-safe version writes (per-record lock) with lock-free reads via MVCC
 - [x] Unit tests for conflict resolver, query engine, temporal index, aggregator, and bi-temporal table (`tests/temporal/`)
+- [x] Bitemporal joins: combined transaction-time + valid-time join predicates (`TemporalQueryEngine::joinBiTemporal`)
+- [x] SEQUENCED vs. NON-SEQUENCED temporal query semantics per SQL:2011 §4.16.5 (`TemporalQueryEngine::queryWithSemantics`)
 
 ## In Progress 🚧
-- [x] Bitemporal joins (system time + valid time combined predicates) (Target: Q3 2026)
-- [x] SEQUENCED vs. NON-SEQUENCED temporal query semantics (Target: Q3 2026)
+*(no items currently in progress)*
 
 ## Planned Features 📋
 
@@ -46,8 +47,8 @@
 - [x] Unit tests for all conflict resolution policies (`tests/temporal/test_temporal_conflict_resolver.cpp`)
 
 ### Phase 2: Full Temporal Data Model (Status: Completed ✅)
-- [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()` (`system_versioned_table.cpp`)
-- [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`)
+- [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()`, `getAllKeys()` (`system_versioned_table.cpp`)
+- [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`); new: `scanBiTemporal(sys_as_of, valid_at)`, `getAllKeys()`
 - [x] `TemporalIndex`: period B-tree index with `insert`, `queryAsOf`, `queryRange`, `stats` (`temporal_index.cpp`)
 - [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)
 - [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`)
@@ -55,12 +56,12 @@
 - [x] `TemporalAggregator`: tumbling/sliding window aggregation over version history, `AggregateResult` output (`temporal_aggregator.cpp`)
 - [x] Unit tests: aggregator, index, query engine, bi-temporal (`tests/temporal/`)
 
-### Phase 3: SQL Syntax & Temporal Constraints (Status: In Progress 🚧)
-- [x] Bitemporal join operator (combined transaction-time + valid-time predicates)
-- [x] SEQUENCED / NON-SEQUENCED query semantics
-- [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser
-- [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing
-- [I] Temporal uniqueness constraints (no valid-time overlaps per key)
+### Phase 3: SQL Syntax & Temporal Constraints (Status: C++ layer complete ✅; SQL syntax deferred to Phase 3b 📋)
+- [x] Bitemporal join operator (combined transaction-time + valid-time predicates) — `TemporalQueryEngine::joinBiTemporal()`
+- [x] SEQUENCED / NON-SEQUENCED query semantics — `TemporalQueryEngine::queryWithSemantics()` + `TemporalSemantics` enum
+- [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser (deferred → Phase 3b)
+- [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing (deferred → Phase 3b)
+- [I] Temporal uniqueness constraints (no valid-time overlaps per key) (deferred → Phase 3b)
 
 ### Phase 4: Advanced Retention, Compression & CDC (Status: Planned 📋)
 - [I] Archive-to-cold-storage retention variant (`s3://` or filesystem archive before purge)
@@ -78,15 +79,14 @@
 
 ## Production Readiness Checklist
 - [x] Unit tests for core components (conflict resolver, query engine, index, aggregator, bi-temporal)
-- [~] Integration tests (temporal queries via AQL layer end-to-end)
+- [x] Integration tests present (time-travel queries, temporal aggregation, temporal graph, geo-temporal)
 - [~] Performance benchmarks (time-travel query latency, retention throughput, index speedup)
 - [I] Security audit (temporal history immutability, RBAC/RLS on time-travel queries)
 - [~] Documentation complete (ARCHITECTURE.md and README.md present; API docs pending)
-- [I] API stability guaranteed (C++ API is functional; SQL syntax layer not yet stable)
+- [~] API stability guaranteed (C++ API is stable at v1.0; SQL syntax layer not yet stable)
 
 ## Known Issues & Limitations
 - SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API.
-- Bitemporal joins and SEQUENCED/NON-SEQUENCED query semantics are partially implemented.
 - No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
 - History table compression is not yet implemented; historical data storage overhead is proportional to version count.
 - Temporal CDC (streaming change events) is not yet available.
