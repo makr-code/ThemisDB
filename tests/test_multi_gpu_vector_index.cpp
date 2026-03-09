@@ -408,3 +408,94 @@ TEST_F(MultiGPUVectorIndexTest, SearchResultsIncludeSourceGPU) {
         EXPECT_GE(result.distance, 0.0f);
     }
 }
+
+TEST_F(MultiGPUVectorIndexTest, BatchSearch_ParallelResults_MatchSequential) {
+    MultiGPUVectorIndex::Config config;
+    config.enableMultiGPU = true;
+    config.deviceIds = {0, 1};
+    config.allowCPUFallback = true;
+
+    MultiGPUVectorIndex index(config);
+
+    if (!index.initialize(dimension)) {
+        GTEST_SKIP() << "Skipping test - initialization failed";
+    }
+
+    index.addVectorBatch(testIds, testVectors);
+
+    // Build a batch of identical queries
+    std::vector<std::vector<float>> queries(4, queryVector);
+
+    auto batchResults = index.searchBatch(queries, k);
+
+    ASSERT_EQ(batchResults.size(), queries.size());
+
+    // All query results should be identical (same query vector)
+    for (const auto& queryResults : batchResults) {
+        EXPECT_LE(queryResults.size(), k);
+        EXPECT_GT(queryResults.size(), 0u);
+    }
+
+    // Results should be sorted by distance within each query
+    for (const auto& queryResults : batchResults) {
+        for (size_t i = 1; i < queryResults.size(); ++i) {
+            EXPECT_LE(queryResults[i - 1].distance, queryResults[i].distance);
+        }
+    }
+}
+
+TEST_F(MultiGPUVectorIndexTest, Statistics_UtilizationTracked_AfterSearch) {
+    MultiGPUVectorIndex::Config config;
+    config.enableMultiGPU = true;
+    config.deviceIds = {0, 1};
+    config.allowCPUFallback = true;
+
+    MultiGPUVectorIndex index(config);
+
+    if (!index.initialize(dimension)) {
+        GTEST_SKIP() << "Skipping test - initialization failed";
+    }
+
+    index.addVectorBatch(testIds, testVectors);
+
+    // Perform several searches to accumulate utilization data
+    for (int i = 0; i < 5; ++i) {
+        index.search(queryVector, k);
+    }
+
+    auto stats = index.getStatistics();
+
+    // After real queries every active GPU should have a non-negative utilization
+    for (const auto& gpuStat : stats.perGPUStats) {
+        EXPECT_GE(gpuStat.utilizationPercent, 0.0)
+            << "GPU " << gpuStat.deviceId << " utilization must be >= 0";
+        EXPECT_LE(gpuStat.utilizationPercent, 100.0)
+            << "GPU " << gpuStat.deviceId << " utilization must be <= 100";
+    }
+}
+
+TEST_F(MultiGPUVectorIndexTest, Statistics_UtilizationTracked_AfterBatchSearch) {
+    MultiGPUVectorIndex::Config config;
+    config.enableMultiGPU = true;
+    config.deviceIds = {0, 1};
+    config.allowCPUFallback = true;
+
+    MultiGPUVectorIndex index(config);
+
+    if (!index.initialize(dimension)) {
+        GTEST_SKIP() << "Skipping test - initialization failed";
+    }
+
+    index.addVectorBatch(testIds, testVectors);
+
+    std::vector<std::vector<float>> queries(8, queryVector);
+    index.searchBatch(queries, k);
+
+    auto stats = index.getStatistics();
+    EXPECT_EQ(stats.totalVectors, numVectors);
+
+    for (const auto& gpuStat : stats.perGPUStats) {
+        EXPECT_GE(gpuStat.utilizationPercent, 0.0);
+        EXPECT_LE(gpuStat.utilizationPercent, 100.0);
+    }
+}

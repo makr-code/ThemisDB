@@ -60,6 +60,9 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
 - [x] Learned index structures (ML-based B-tree replacement)
 - [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
+- [x] Parallel batch search across GPUs in MultiGPUVectorIndex
+- [x] GPU utilization tracking in MultiGPUVectorIndex statistics
+- [x] IndexSuggestionEngine::indexExists backed by in-memory index registry
 - [x] Distributed vector index across shards
 - [x] Partial / filtered indexes on secondary index manager
 - [x] Cold/warm tier index migration (Issue: #2407) (Target: Q3 2026)
