@@ -52,8 +52,15 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 | `compute_backend.h` | Abstrakte `ComputeBackend`-Klasse und `DeviceCapabilityInfo` |
 | `device_manager.h` | Geräte-Enumeration und Capability-Probing-API |
 | `kernel_fallback_dispatcher.h` | `ANNKernelFallbackDispatcher` und `GeoKernelFallbackDispatcher` |
+| `kernel_invocation.h` | Eingefrorene ANN- und Geospatial-Kernel-Dispatch-Tabellen (`INTERFACE_VERSION = 100`) |
 | `batch_validator.h` | Eingabe-Validierungshelfer für alle Backends |
+| `graphics_backends.h` | `DirectXVectorBackend`, `VulkanVectorBackend`, `VulkanGeoBackend`, `OpenGLVectorBackend` |
 | `error_codes.h` / `error_context.h` | Strukturierte Fehler-Taxonomie |
+
+**Unterverzeichnisse:**
+
+- `raii/` — Header-only RAII-Wrapper für GPU-Ressourcen (`CudaStream`, `CudaDeviceMemory`, OpenCL- und Vulkan-Ressourcen); siehe [`include/acceleration/raii/README.md`](../../../include/acceleration/raii/README.md)
+- `metrics/` — Backend-Metriken (`BackendMetrics`, `MetricsCollector`, `Counter`, `Gauge`, `Histogram`, `Timer`)
 
 **Gesamt:** ~40 Implementierungsdateien, ~27 Header-Dateien
 
