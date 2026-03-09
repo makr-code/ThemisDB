@@ -167,7 +167,8 @@ jobs:
         with:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev
+          # librocksdb-dev added to fix CMake "RocksDB not found" fatal error
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev
 
       - name: Configure and build
         uses: ./.github/actions/configure-themis
@@ -362,7 +363,8 @@ jobs:
         with:
           cc:             gcc-12
           cxx:            g++-12
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev lcov
+          # librocksdb-dev added to fix CMake "RocksDB not found" fatal error
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev lcov
 
       - name: Configure and build (coverage)
         uses: ./.github/actions/configure-themis
