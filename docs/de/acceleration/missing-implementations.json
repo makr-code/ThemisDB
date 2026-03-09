@@ -1,16 +1,16 @@
 {
   "module": "acceleration",
   "validated": "2026-03-09",
-  "revision": "HEAD (copilot/update-module-chimera-docs)",
+  "revision": "HEAD (copilot/inventory-check-acceleration-module)",
   "checked_paths": [
     "src/acceleration/",
     "include/acceleration/"
   ],
   "summary": {
-    "total": 6,
+    "total": 5,
     "critical": 1,
     "medium": 2,
-    "low": 3
+    "low": 2
   },
   "entries": [
     {
@@ -90,22 +90,6 @@
       "impact": "Sub-optimal throughput for large batch sizes (no DMA-shader overlap)",
       "issue_title_suggestion": "perf(acceleration): implement double-buffered staging in vulkan_backend_full.cpp",
       "label_suggestions": ["module:acceleration", "kind:performance", "priority:low"]
-    },
-    {
-      "id": "ACC-006",
-      "severity": "low",
-      "title": "ROADMAP Phase 3 Status Error: Fallback/Retry (#1387) is Implemented",
-      "claim_source": "src/acceleration/ROADMAP.md — Phase 3, Issue: #1387",
-      "file": "include/acceleration/kernel_fallback_dispatcher.h",
-      "expected": "ROADMAP Phase 3 #1387 marked [x] — ANNKernelFallbackDispatcher and GeoKernelFallbackDispatcher implement retry with exponential back-off",
-      "observed": "ROADMAP marks #1387 as [I] (issue open); but kernel_fallback_dispatcher.h implements retry + CPU fallback for DeviceLost/OperationTimeout/SynchronizationFailed. Only deterministic tie-breaking (#1388) remains open.",
-      "evidence": [
-        "include/acceleration/kernel_fallback_dispatcher.h: RetryPolicy + exponential back-off implemented",
-        "src/acceleration/ROADMAP.md Phase 3: [I] for #1387"
-      ],
-      "impact": "Documentation drift only; no functional impact. Should be corrected to [x] for #1387.",
-      "issue_title_suggestion": "fix(acceleration/docs): correct ROADMAP Phase 3 status for #1387 (fallback/retry implemented)",
-      "label_suggestions": ["module:acceleration", "kind:documentation"]
     }
   ]
 }

@@ -1,7 +1,7 @@
 # Acceleration Module — Missing Implementations Report
 
 **Validiert:** 2026-03-09  
-**Geprüfte Revision:** `HEAD` (`copilot/update-module-chimera-docs`)  
+**Geprüfte Revision:** `HEAD` (`copilot/inventory-check-acceleration-module`)  
 **Geprüfte Pfade:** `src/acceleration/`, `include/acceleration/`  
 **Methode:** Reality-Check (Doku ↔ Sourcecode); Suche nach `STUB`, `TODO`, `NOT_IMPLEMENTED`; Zeilenzählung via `wc -l`; Kernel-Count via `__global__`-Suche
 
@@ -13,7 +13,7 @@
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 1 |
 | 🟡 Mittel (Funktional eingeschränkt) | 2 |
-| 🟢 Gering (Hardening / Optimierung) | 3 |
+| 🟢 Gering (Hardening / Optimierung) | 2 |
 
 ---
 
@@ -118,24 +118,6 @@
 
 ---
 
-### 6. Fallback/Retry Semantics for Transient Device Errors (🟢 Gering)
-
-**Claim-Quelle:** `src/acceleration/ROADMAP.md` → Phase 3, Issue: #1387  
-**Datei:** `include/acceleration/kernel_fallback_dispatcher.h`  
-
-**Erwartet:** Vollständige Fallback/Retry-Semantik für nicht unterstützte Kernel und transiente Gerätezustände (Phase 3 `[I]`).
-
-**Beobachtet:** `ANNKernelFallbackDispatcher` und `GeoKernelFallbackDispatcher` implementieren Retry mit Exponential-Backoff für bekannte transiente Fehler (`DeviceLost`, `OperationTimeout`, `SynchronizationFailed`) — **diese sind implementiert**. Offen bleibt: deterministische Tie-Breaking-Semantik bei Partial-Failure (Phase 3, Issue: #1388).
-
-**Evidence:**
-- `include/acceleration/kernel_fallback_dispatcher.h`: Retry + CPU Fallback implementiert ✅
-- `src/acceleration/ROADMAP.md` Phase 3: `[I]` für #1387 (Fallback/Retry) und #1388 (Determinismus) — **Status-Fehler**: Fallback/Retry ist implementiert, nur Determinismus-Constraints (#1388) fehlen noch
-
-**Issue-Titelvorschlag:** `fix(acceleration/docs): correct ROADMAP Phase 3 status for #1387 (fallback/retry implemented)`  
-**Label-Vorschläge:** `module:acceleration`, `kind:documentation`
-
----
-
 ## Nicht gefundene Claims (positiv verifiziert)
 
 Die folgenden ROADMAP-Claims wurden überprüft und als korrekt befunden:
@@ -143,13 +125,15 @@ Die folgenden ROADMAP-Claims wurden überprüft und als korrekt befunden:
 | Claim | Evidence |
 |-------|----------|
 | CUDA geospatial kernels (`cuda/geo_kernels.cu`) | 396 Zeilen, Haversine + Ray-Casting implementiert ✅ |
-| Vulkan shaders (`vulkan/shaders/*.comp`) | 7 GLSL-Compute-Shader implementiert ✅ |
+| Vulkan shaders (`vulkan/shaders/*.comp`) | 7 GLSL-Compute-Shader vollständig implementiert ✅ |
 | BatchValidator utility (`include/acceleration/batch_validator.h`) | Datei existiert ✅ |
 | `BACKEND_CONTRACT_VERSION = 100` (`compute_backend.h`) | Verifiziert ✅ |
 | `KERNEL_INVOCATION_INTERFACE_VERSION = 100` (`kernel_invocation.h`) | Verifiziert ✅ |
 | Plugin security hardening (`plugin_security.cpp`) | `RTLD_NOW`, file-permission check, size cap implementiert ✅ |
+| Plugin security sandbox für alle dynamisch geladenen Backends | `plugin_loader.cpp` `loadPlugin()` ruft `PluginSecurityVerifier::verifyPlugin()` für alle Backends auf ✅ |
 | Device Manager TTL-Cache (`device_manager.cpp`) | `kCacheTTL = 60 s`, `refresh()` implementiert ✅ |
 | HIP ANN + Geo kernels | `hip/ann_kernels.hip`, `hip/geo_kernels.hip` existieren ✅ |
 | `CUDAGraphCache` + `batchKnnSearchWithGraph()` | In `cuda_backend.h`/`cuda_backend.cpp` implementiert ✅ |
 | `MultiGPUVectorBackend` range-based sharding | `multi_gpu_backend.cpp` implementiert ✅ |
 | Tensor Core FP16/BF16 (`tensor_core_matmul.cpp` + `cuda/tensor_core_matmul.cu`) | Beide Dateien existieren ✅ |
+| ROADMAP Phase 3: Fallback/Retry #1387 korrekt als `[x]` markiert | Phase 3 zeigt `[x]` für #1387; doppelter `[ ]`-Eintrag in „Long-term"-Abschnitt **behoben** ✅ |

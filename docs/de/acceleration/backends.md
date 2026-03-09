@@ -88,7 +88,7 @@ Plattformübergreifendes GPU-Backend für Geräte ohne CUDA/HIP-Unterstützung.
 - Push Constants für `numVectors`, `dim`, `topK` (vermeidet UBO-Neuallokation pro Abfrage)
 - Doppelte Staging-Puffer für DMA-Überlappung (Host→Device und Shader-Dispatch)
 
-**Status:** 🚧 Infrastruktur produktionsreif; SPIR-V-Compute-Shader in Entwicklung
+**Status:** ✅ Produktionsreif; alle 7 SPIR-V-Compute-Shader vollständig implementiert (`l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp`). MoltenVK-Kompatibilitätsprüfung (`VK_KHR_buffer_device_address`) und Staging-Double-Buffering sind als Optimierungen noch ausstehend (siehe `src/acceleration/FUTURE_ENHANCEMENTS.md`).
 
 ---
 

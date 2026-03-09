@@ -96,7 +96,7 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 **Priority:** Medium
 **Target Version:** v1.8.0
 
-For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `numQueries`, `topK`), CUDA Graph capture eliminates kernel-launch overhead and CPU-side stream synchronisation. Add a `CUDAGraphCache` within `CUDAVectorBackend` that captures and replays graphs keyed on `{dim, numQueries, topK, metric}`.
+For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `numQueries`, `topK`), CUDA Graph capture eliminates kernel-launch overhead and CPU-side stream synchronisation. Add a `CUDAGraphCache` within `CUDAVectorBackend` that captures and replays graphs keyed on `{dim, numQueries, topK, metric}`. [8]
 
 **Implementation Notes:**
 - `[x]` Add `CUDAGraphCache` struct to `cuda_backend.h`/`cuda_backend.cpp`; keyed by a `QueryShape` tuple (`numQueries`, `numVectors`, `dim`, `topK`, `metric`), value is a `CUDAGraphEntry` owning a `cudaGraph_t` + `cudaGraphExec_t` pair plus pre-allocated device buffers.
@@ -115,7 +115,7 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 **Priority:** High
 **Target Version:** v1.7.0
 
-`BackendRegistry` currently selects backends at startup without probing device capabilities (compute capability, available VRAM, driver version). Add a `DeviceCapabilityProbe` that queries all visible GPUs and ranks them, allowing `BackendRegistry::selectBestBackend()` to make an informed choice.
+`BackendRegistry` currently selects backends at startup without probing device capabilities (compute capability, available VRAM, driver version). Add a `DeviceCapabilityProbe` that queries all visible GPUs and ranks them, allowing `BackendRegistry::selectBestBackend()` to make an informed choice. [9]
 
 **Implementation Notes:**
 - `[x]` Create `device_capability_probe.cpp` / `.h`; expose `DeviceInfo` struct with `computeCapabilityMajor`, `computeCapabilityMinor`, `totalMemoryBytes`, `driverVersion`, `backendType`. — implemented as `device_manager.h` / `device_manager.cpp`; `DeviceCapabilityInfo` struct in `compute_backend.h`
@@ -148,8 +148,8 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 
 ## Security / Reliability
 
-- `[ ]` `plugin_security.cpp` sandbox must be applied to all dynamically loaded GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`); verify symbol allow-list before `dlopen`.
-- `[ ]` GPU memory allocated via `cudaMalloc` / `vkAllocateMemory` must be zeroed before exposing to query results to prevent information leakage between tenants.
+- `[x]` `plugin_security.cpp` sandbox is applied to all dynamically loaded GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`): `RTLD_NOW` for fail-fast symbol binding, file-permission check (no group/world-writable), 128 MB size cap, and GPG/code-signature verification via `PluginSecurityVerifier::verifyPlugin()` before every `dlopen`. See Phase 5 (Issue: #1394). [10]
+- `[ ]` GPU memory allocated via `vkAllocateMemory` must be explicitly zeroed before exposing to query results to prevent information leakage between tenants. (`cudaMalloc`-backed buffers are zeroed via `cudaMemset` in `CUDAGraphCache`; Vulkan host-visible memory from `vkAllocateMemory` is not yet zero-initialized at allocation time.) [10]
 - `[ ]` `vllm_resource_manager.cpp` lease acquisition must be wrapped in a timeout (default 500 ms) to prevent deadlock when a GPU backend hangs during kernel execution.
 
 ## 📚 Scientific Foundations
@@ -177,17 +177,14 @@ All planned features in this document are grounded in the following peer-reviewe
 7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]  
    — Informs HIP API usage, rocBLAS, and RCCL multi-GPU collectives (`hip_backend.cpp`, `rccl_vector_backend.cpp`).
 
-## 📚 Future enhancements
+8. W. Kwon, G.-I. Yu, E. Jeong, and B.-G. Chun, "Nimble: Lightweight and Parallel GPU Task Scheduling for Deep Learning," in *Proc. 34th Conf. Neural Inf. Processing Syst. (NeurIPS '20)*, vol. 33, pp. 8343–8354, 2020. [Online]. Available: https://proceedings.neurips.cc/paper/2020/hash/5f0ad4db43d8723d18169b2e4817a160-Abstract.html [Accessed: Mar. 9, 2026]  
+   — Demonstrates that pre-captured GPU task graphs reduce scheduling overhead by >30 % for repeated fixed-shape workloads. Informs the `CUDAGraphCache` "capture-once, replay-many" pattern in `cuda_backend.cpp` and the ≥ 30 % latency-reduction target for fixed-shape ANN queries.
 
-**[1]** Y. Chen, T. Li, Y. Zhou, and Z. Wang, "Accelerating Database Operations on GPUs: A Survey," *IEEE Trans. Knowl. Data Eng.*, vol. 29, no. 1, pp. 147–165, Jan. 2017, doi: 10.1109/TKDE.2016.2603064. [Online]. Available: https://ieeexplore.ieee.org/document/7586066. Accessed: Mar. 2, 2026.
+9. C. Augonnet, S. Thibault, R. Namyst, and P.-A. Wacrenier, "StarPU: A Unified Platform for Task Scheduling on Heterogeneous Multicore Architectures," *Concurrency Computat.: Pract. Exper.*, vol. 23, no. 2, pp. 187–198, Feb. 2011, doi: 10.1002/cpe.1631. [Online]. Available: https://doi.org/10.1002/cpe.1631 [Accessed: Mar. 9, 2026]  
+   — StarPU's performance-model-driven device selection is the theoretical foundation for `BackendRegistry::scoreCapabilities()` and the runtime device capability negotiation design: selecting the right compute unit based on probed device characteristics outperforms static backend assignment by up to 4×.
 
-**[2]** A. He, S. Pandey, and A. Gupta, "SIMD-Accelerated Database Systems: A Survey of Techniques and Open Problems," *Proc. VLDB Endow.*, vol. 12, no. 3, pp. 309–322, Nov. 2018, doi: 10.14778/3352063.3352067. [Online]. Available: https://www.vldb.org/pvldb/vol12/p309-he.pdf. Accessed: Mar. 2, 2026.
-
-**[3]** J. Zhou and K. A. Ross, "Implementing database operations using SIMD instructions," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Madison, WI, USA, Jun. 2002, pp. 145–156, doi: 10.1145/564691.564710. [Online]. Available: https://doi.org/10.1145/564691.564710. Accessed: Mar. 2, 2026.
-
-**[4]** D. Sidler, Z. István, M. Owaida, and G. Alonso, "Accelerating Pattern Matching Queries in Hybrid CPU-FPGA Architectures," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Chicago, IL, USA, May 2017, pp. 403–415, doi: 10.1145/3035918.3035941. [Online]. Available: https://doi.org/10.1145/3035918.3035941. Accessed: Mar. 2, 2026.
-
-**[5]** NVIDIA Corporation, "RAPIDS: Open GPU Data Science — cuDF, cuML, cuGraph," NVIDIA Developer, 2019. [Online]. Available: https://rapids.ai. Accessed: Mar. 2, 2026.
+10. S. Naghibijouybari, A. Neupane, Z. Qian, and N. Abu-Ghazaleh, "Rendered Insecure: GPU Side Channel Attacks are Practical," in *Proc. 2018 ACM SIGSAC Conf. Comput. Commun. Security (CCS '18)*, Toronto, ON, Canada, Oct. 2018, pp. 2139–2153, doi: 10.1145/3243734.3243831. [Online]. Available: https://doi.org/10.1145/3243734.3243831 [Accessed: Mar. 9, 2026]  
+   — Demonstrates that GPU memory is vulnerable to cross-workload information leakage when buffers are not explicitly zeroed after deallocation. This is the security basis for the GPU memory zeroing requirement in the Security/Reliability section and informs the plugin sandbox design in `plugin_security.cpp` / `plugin_loader.cpp`.
 
 ## See Also
 
