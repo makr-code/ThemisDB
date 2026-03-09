@@ -2807,6 +2807,167 @@ else()
     message(STATUS "Tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
 endif()
 
+# Transaction Timeout Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_timeout.cpp")
+    message(STATUS "Adding Transaction Timeout tests")
+
+    add_executable(test_transaction_timeout
+        test_transaction_timeout.cpp
+    )
+
+    target_link_libraries(test_transaction_timeout PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_timeout PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionTimeoutTests COMMAND test_transaction_timeout)
+
+    set_tests_properties(TransactionTimeoutTests PROPERTIES
+        LABELS "transaction;timeout;auto-rollback;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Timeout: setTimeout, isTimedOut, auto-rollback, setDefaultTransactionTimeout")
+else()
+    message(STATUS "Transaction Timeout tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_timeout.cpp")
+endif()
+
+# Transaction Isolation Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation.cpp")
+    message(STATUS "Adding Transaction Isolation tests")
+
+    add_executable(test_transaction_isolation
+        test_transaction_isolation.cpp
+    )
+
+    target_link_libraries(test_transaction_isolation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_isolation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionIsolationTests COMMAND test_transaction_isolation)
+
+    set_tests_properties(TransactionIsolationTests PROPERTIES
+        LABELS "transaction;isolation;mvcc;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Isolation: ReadCommitted, Snapshot, Serializable isolation levels")
+else()
+    message(STATUS "Transaction Isolation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation.cpp")
+endif()
+
+# SAGA Concurrent Execution Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_concurrent_execution.cpp")
+    message(STATUS "Adding SAGA Concurrent Execution tests")
+
+    add_executable(test_saga_concurrent_execution
+        test_saga_concurrent_execution.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga.cpp
+    )
+
+    target_link_libraries(test_saga_concurrent_execution PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_concurrent_execution PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SagaConcurrentExecutionTests COMMAND test_saga_concurrent_execution)
+
+    set_tests_properties(SagaConcurrentExecutionTests PROPERTIES
+        LABELS "transaction;saga;concurrent;compensation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAGA Concurrent Execution: parallel compensations, retry, metrics")
+else()
+    message(STATUS "SAGA Concurrent Execution tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_concurrent_execution.cpp")
+endif()
+
+# Distributed SAGA Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga.cpp")
+    message(STATUS "Adding Distributed SAGA tests")
+
+    add_executable(test_distributed_saga
+        test_distributed_saga.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
+    )
+
+    target_link_libraries(test_distributed_saga PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_saga PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedSagaTests COMMAND test_distributed_saga)
+
+    set_tests_properties(DistributedSagaTests PROPERTIES
+        LABELS "transaction;saga;distributed;compensation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Distributed SAGA: DAG execution, compensation ordering, retry, step timeouts, metrics")
+else()
+    message(STATUS "Distributed SAGA tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga.cpp")
+endif()
+
+# SagaOperation Tests (indexPutWithCompensation, graphAddWithCompensation, etc.)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
+    message(STATUS "Adding SagaOperation tests")
+
+    add_executable(test_saga_operation
+        test_saga_operation.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga.cpp
+    )
+
+    target_link_libraries(test_saga_operation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_operation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SagaOperationTests COMMAND test_saga_operation)
+
+    set_tests_properties(SagaOperationTests PROPERTIES
+        LABELS "transaction;saga;compensation;secondary-index;graph;vector;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SagaOperation: indexPutWithCompensation, graphAddWithCompensation, putEntityWithCompensation, deleteEntityWithCompensation, vectorAddWithCompensation")
+else()
+    message(STATUS "SagaOperation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")
