@@ -1,5 +1,8 @@
 # Acceleration Module - Future Enhancements
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/acceleration/README.md -->
+
 ## Scope
 
 This document covers implementation-specific future enhancements for the Acceleration module (`src/acceleration/`), focusing on GPU and hardware-accelerated compute backends including CUDA (`cuda_backend.cpp`), Vulkan (`vulkan_backend_full.cpp`), HIP (`hip_backend.cpp`), and the backend registry (`backend_registry.cpp`). Enhancements to higher-level query planning or AQL execution are out of scope. CPU fallback paths in `cpu_backend.cpp` and `cpu_backend_mt.cpp` are included only where they affect GPU parity or benchmarking.

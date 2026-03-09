@@ -1,4 +1,6 @@
 # Acceleration Module Roadmap
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
@@ -26,26 +28,27 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Short-term (Next 3-6 months)
 - [P] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)
-- [I] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)
+- [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` in `device_manager.h`/`device_manager.cpp`; 60 s TTL probe cache, `BackendRegistry::refresh()` force re-probe; `BackendRegistry::deviceInfo()` observability accessor
 - [P] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)
 ### Long-term (6-12 months)
-- [I] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)
+- [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `tensor_core_matmul.cpp` + `include/acceleration/tensor_core_matmul.h`; PRODUCTION-READY (0 stubs); requires CUDA device sm_70+ (FP16) or sm_80+ (BF16)
 - [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
+
 ## Implementation Phases
 
 ### Phase 1: Design / API-Vertrag
 - [P] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)
 - [P] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
-- [I] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)
+- [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `include/acceleration/error_codes.h` (`AccelerationErrorCode` enum, PRODUCTION-READY); `include/acceleration/error_context.h` for structured context
 
 ### Phase 2: Core-Implementierung
-- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`
+- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`; ANN vector kernels (L2, cosine, inner-product, top-K) present in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; **Note:** HNSW integration pending — ANN queries currently fall through to CPU until HNSW graph traversal is wired (see Known Issues)
 - [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [x] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to all active backends: `CUDAVectorBackend`, `CPUVectorBackend`, `CPUVectorBackendMT`, `CPUVectorBackendTBB`, `HIPVectorBackend`; geo and graph CPU backends also guarded via `BatchValidator` utility (`include/acceleration/batch_validator.h`)
-- [I] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387)
+- [x] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387) — `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` in `include/acceleration/kernel_fallback_dispatcher.h`; `RetryPolicy` struct with configurable `maxAttempts`, initial/max delay, and back-off multiplier
 - [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)
 
 ### Phase 4: Tests
