@@ -3953,6 +3953,22 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # RaBitQ ProductQuantizer k-means tests
+    add_executable(test_rabitq_product_quantizer
+        ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+    )
+    target_link_libraries(test_rabitq_product_quantizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_rabitq_product_quantizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
     # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
     if(THEMIS_ENABLE_GPU)

@@ -27,12 +27,12 @@ This roadmap outlines the path to achieving 100% production readiness for the Th
 **Target: Q2 2026**
 
 #### BwTree Completion
-- [ ] Implement full tree traversal (root to leaf)
+- [x] Implement full tree traversal (root to leaf)
 - [ ] Add split/merge operations for tree balancing
-- [ ] Implement proper `remove()` functionality
-- [ ] Integrate epoch-based memory reclamation or hazard pointers
+- [x] Implement proper `remove()` functionality
+- [x] Integrate epoch-based memory reclamation or hazard pointers
 - [ ] Add comprehensive concurrency tests (stress testing, race detection)
-- [ ] **Estimated Effort**: 6-8 weeks, 2 engineers
+- [ ] **Estimated Effort**: remaining: ~2-3 weeks, 1 engineer
 
 #### SplinterDB Robustness
 - [ ] Convert global task queue to instance-based design
@@ -90,12 +90,12 @@ This roadmap outlines the path to achieving 100% production readiness for the Th
 **Target: Q3 2026**
 
 #### RaBitQ Production Features
-- [ ] Implement k-means clustering for ProductQuantizer training
+- [x] Implement k-means clustering for ProductQuantizer training
 - [ ] Add codebook persistence and loading
 - [ ] Implement lookup tables for fast distance computation
 - [ ] Optimize asymmetric distance calculations
 - [ ] Add multi-threaded training support
-- [ ] **Estimated Effort**: 4-5 weeks, 1 engineer
+- [ ] **Estimated Effort**: remaining ~2 weeks, 1 engineer
 
 ### 1.6 Query Optimization Integration (Priority: MEDIUM)
 **Target: Q3 2026**
