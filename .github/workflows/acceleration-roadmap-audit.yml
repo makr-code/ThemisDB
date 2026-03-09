@@ -78,10 +78,10 @@ jobs:
       - name: Summarize audit results
         if: always()
         run: |
-          if [ -f docs/audits/acceleration-roadmap-audit.md ]; then
-            echo "## Acceleration ROADMAP Audit" >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            python3 - << 'PYEOF'
+          echo "## Acceleration ROADMAP Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f docs/audits/acceleration-roadmap-audit.json ]; then
+            python3 - << 'PYEOF' >> "$GITHUB_STEP_SUMMARY" 2>&1 || true
           import json, os
           path = "docs/audits/acceleration-roadmap-audit.json"
           if not os.path.exists(path):
@@ -106,7 +106,7 @@ jobs:
                               for d in ia["discrepancies"]:
                                   print(f"- **#{ia['number']}**: {d}")
           PYEOF
-          fi >> "$GITHUB_STEP_SUMMARY" 2>&1 || true
+          fi
 
       - name: Fail if discrepancies found
         if: steps.audit.outcome == 'failure'

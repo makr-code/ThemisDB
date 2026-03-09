@@ -71,6 +71,9 @@ DEFAULT_OUTPUT_DIR = REPO_ROOT / "docs" / "audits"
 
 GITHUB_API_BASE = "https://api.github.com"
 
+# Polite delay between GitHub API calls to avoid triggering secondary rate limits.
+API_RATE_LIMIT_DELAY_SECONDS = 0.25
+
 # Source paths to check for evidence of implementation (relative to REPO_ROOT)
 EVIDENCE_PATHS: list[str] = [
     "src/acceleration",
@@ -379,7 +382,7 @@ def audit_item(item: dict, token: str | None) -> dict:
             }
         )
         # Small delay to be polite to the API
-        time.sleep(0.25)
+        time.sleep(API_RATE_LIMIT_DELAY_SECONDS)
 
     has_discrepancy = any(d for ia in issue_audits for d in ia["discrepancies"])
     return {
@@ -614,6 +617,7 @@ def generate_markdown_report(audit: dict) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    global REPO_OWNER, REPO_NAME  # noqa: PLW0603
     parser = argparse.ArgumentParser(
         description="Audit src/acceleration/ROADMAP.md against GitHub issue status and source files."
     )
@@ -621,6 +625,16 @@ def main(argv: list[str] | None = None) -> int:
         "--output-dir",
         default=str(DEFAULT_OUTPUT_DIR),
         help="Directory to write audit reports (default: docs/audits/)",
+    )
+    parser.add_argument(
+        "--repo-owner",
+        default=os.environ.get("GITHUB_REPOSITORY_OWNER", REPO_OWNER),
+        help="GitHub repository owner (default: makr-code, or GITHUB_REPOSITORY_OWNER env var)",
+    )
+    parser.add_argument(
+        "--repo-name",
+        default=os.environ.get("GITHUB_REPOSITORY_NAME", REPO_NAME),
+        help="GitHub repository name (default: ThemisDB, or GITHUB_REPOSITORY_NAME env var)",
     )
     parser.add_argument(
         "--gh-cli",
@@ -638,6 +652,10 @@ def main(argv: list[str] | None = None) -> int:
         help="Write only the Markdown report (skip JSON).",
     )
     args = parser.parse_args(argv)
+
+    # Apply repo overrides (affects module-level globals used by audit functions)
+    REPO_OWNER = args.repo_owner  # type: ignore[assignment]
+    REPO_NAME = args.repo_name  # type: ignore[assignment]
 
     # Resolve token
     token: str | None = None
