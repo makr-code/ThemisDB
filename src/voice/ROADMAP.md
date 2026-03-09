@@ -3,7 +3,7 @@
 # Voice Module Roadmap
 
 ## Current Status
-v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whisper-based STT, llama.cpp TTS/LLM integration, session management, phone call transcription, and meeting protocol generation are implemented.
+v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator with Whisper-based STT, llama.cpp TTS/LLM integration, session management, phone call transcription, meeting protocol generation, real-time browser WebSocket streaming, and voice biometric authentication are all implemented.
 
 ## Completed ✅
 - [x] VoiceAssistant – central coordinator for all voice interaction
@@ -21,14 +21,13 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Real-time streaming STT (word-by-word transcription as audio arrives) (Issue: #2496)
 - [x] Wake-word detection for hands-free activation (Issue: #2365)
 - [x] Voice biometric authentication (speaker verification) (Issue: #2494)
+- [x] Multi-speaker diarization improvements (Issue: #2497)
+- [x] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 
 ## In Progress 🚧
-- [x] Multi-speaker diarization improvements (Target: Q3 2026) (Issue: #2497)
+- [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Planned Features 📋
-
-### Short-term (Next 3-6 months)
-- [I] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 
 ### Long-term (6-12 months)
 - [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
@@ -54,11 +53,11 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Wake-word detection for hands-free activation
 - [x] Multi-speaker diarization improvements
 
-### Phase 3: Voice Macros & Browser Streaming [~] (Status: In Progress 🚧)
+### Phase 3: Voice Macros & Browser Streaming (Status: Completed ✅)
 - [x] Voice command macros (user-defined shortcuts to AQL queries)
 - [x] Language detection and automatic locale switching
 - [x] Noise suppression preprocessing (RNNoise integration)
-- [ ] WebSocket audio streaming endpoint for browser clients
+- [x] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 - [x] Voice session playback and search in stored transcripts
 
 ### Phase 4: Multi-Language TTS & Biometric Authentication (Status: In Progress 🚧)
