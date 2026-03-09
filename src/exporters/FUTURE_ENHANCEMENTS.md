@@ -23,62 +23,46 @@ This document covers planned enhancements to the Exporters module beyond what is
 
 ## Planned Features
 
-### Parquet Export with Configurable Schema
-**Priority:** High
-**Target Version:** v1.6.0
+### ~~Parquet Export with Configurable Schema~~ ✅ Implemented (Issue #1710)
+**Priority:** High  
+**Target Version:** v1.6.0 — **Delivered**
 
-Add a Parquet export writer backed by Apache Arrow's C++ library. Export documents from any ThemisDB collection to columnar `.parquet` files suitable for direct consumption by PyTorch/Hugging Face `datasets.load_dataset()`. Field mapping is driven by the same `FieldSelector` already used by `jsonl_llm_exporter.cpp`.
+Parquet export is implemented in `parquet_exporter.cpp` / `parquet_exporter.h`. A fallback
+minimal Parquet v2 writer is always available; the Arrow C++ path is activated when
+`ARROW_ENABLED` is defined. Field mapping reuses the same `FieldSelector` used by
+`jsonl_llm_exporter.cpp`. The `exporter_parquet_bytes_written_total` counter is emitted
+in `exporter_metrics.cpp`.
 
-**Implementation Notes:**
-- Add `parquet_exporter.cpp` alongside `jsonl_llm_exporter.cpp`; register via `ExportFormatRegistry`.
-- Link `arrow` and `parquet` from the existing vcpkg manifest (`vcpkg.json`).
-- Reuse `PiiDetector::scrub()` before column construction; add a unit test asserting no PII columns appear in output schema.
-- Use `arrow::RecordBatchWriter` with row-group size configurable via `ExportConfig::parquet_row_group_size` (default 65 536 rows).
-- Emit `exporter_parquet_bytes_written_total` counter in `exporter_metrics.cpp`.
+**Remaining (future issues):**
+- Register Parquet writer in a formal `ExportFormatRegistry` (additive, non-breaking).
 
-**Performance Targets:**
-- Export throughput ≥ 500 MB/s uncompressed on a single core (measured with `benchmarks/export_bench.cpp`).
-- Snappy-compressed output ≤ 40 % of raw JSONL size for typical text-heavy collections.
+### ~~Streaming Export for Large Collections~~ ✅ Implemented
+**Priority:** High  
+**Target Version:** v1.6.0 — **Delivered**
 
----
+Cursor-driven streaming export is implemented in `streaming_exporter.cpp` / `streaming_exporter.h`.
+`VectorExportCursor` advances one page at a time (`page_size` configurable). `StreamWriter`
+enforces `max_buffer_bytes` (default 256 MB). Checkpoint-based resumable export is supported;
+`ExporterMetrics::recordCheckpoint()` emits resume events.
 
-### Streaming Export for Large Collections
-**Priority:** High
-**Target Version:** v1.6.0
-
-Replace the current full-batch export path in `jsonl_llm_exporter.cpp` with a cursor-driven streaming pipeline. The `StreamWriter` class in `stream_writer.cpp` will gain a backpressure mechanism so that the database cursor advances only when downstream I/O has consumed the previous chunk.
-
-**Implementation Notes:**
-- Add `ExportCursor` abstraction wrapping the AQL query cursor; advance one page at a time (`page_size` configurable, default 1 000 documents).
-- Integrate with `StreamWriter::writeChunk()` and enforce `max_buffer_bytes` (default 256 MB) before advancing the cursor.
-- Support resumable export: persist cursor position to a checkpoint file; on restart, resume from the last committed offset.
-- Expose `ExporterMetrics::recordCheckpoint()` so operators can track resume events in Prometheus/Grafana.
-
-**Performance Targets:**
-- Peak resident memory during export of a 50 GB collection ≤ 512 MB process-wide.
-- Export of 10 M documents at ≥ 200 000 docs/sec sustained throughput (single thread, local NVMe).
+**Remaining (future issues):**
+- Backpressure integration with real storage cursor when the AQL engine exposes an async pull API.
 
 ---
 
-### Incremental / Delta Export
-**Priority:** Medium
-**Target Version:** v1.7.0
+### ~~Incremental / Delta Export~~ ✅ Implemented (Issue #1726)
+**Priority:** Medium  
+**Target Version:** v1.7.0 — **Delivered**
 
-Add a delta-export mode that exports only documents created or modified since the last export run. A watermark file records the highest `_last_modified` timestamp committed to the output. Subsequent runs query `FOR doc IN collection FILTER doc._last_modified > @watermark` using the AQL engine.
+Delta export is implemented in `incremental_exporter.cpp` / `incremental_exporter.h`.
+A JSON watermark file records the highest sequence number committed to the output.
+Atomic watermark update uses `.tmp` + `rename()`. The
+`exporter_delta_docs_skipped_total` metric distinguishes full-export from delta runs.
 
-**Implementation Notes:**
-- Store watermark as a JSON file alongside the output; path configurable via `ExportConfig::watermark_path`.
-- Add `--incremental` flag to the CLI export command in `tools/`.
-- Atomic watermark update: write to `.tmp` then `rename()` to prevent corrupt state on crash.
-- Emit `exporter_delta_docs_skipped_total` metric to distinguish full-export from delta-export runs.
-
-**Performance Targets:**
-- A delta run over a collection with 0.1 % change rate completes ≥ 10× faster than a full export.
-- Watermark file read/write adds ≤ 1 ms overhead per export invocation.
+**Remaining (future issues):**
+- `--incremental` flag on the CLI export command in `tools/`.
 
 ---
-
-### ~~Instruction-Tuning Format Templates~~ ✅ Implemented (Issue #1727)
 **Priority:** Medium  
 **Target Version:** v1.7.0 — **Delivered**
 
@@ -90,21 +74,18 @@ Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine
 
 ---
 
-### Export Encryption and Authorization
-**Priority:** Medium
-**Target Version:** v1.8.0
+### ~~Export Encryption and Authorization~~ ✅ Implemented (Issue #1728)
+**Priority:** Medium  
+**Target Version:** v1.8.0 — **Delivered**
 
-Integrate with the Governance module to enforce per-collection export authorization and add optional AES-256-GCM output encryption for sensitive training datasets. The `PiiDetector` pipeline is the last in-process defense; encryption provides an additional layer for data at rest.
+AES-256-GCM encryption is implemented in `export_encryption.cpp` / `export_encryption.h`.
+A file-format header (`TENC` magic, format version, IV, GCM tag) ensures authenticated
+decryption. Key material is referenced by ID only; DEK is derived via HKDF-SHA256 from a
+KEK reference in `ExportConfig::encryption_kek_id`. Raw keys are never logged.
 
-**Implementation Notes:**
-- Before export, call `PolicyEngine::checkExportPermission(collection, requester_id)`; abort and log to the audit trail if denied.
-- Accept a key-encryption-key (KEK) reference (not the raw key) from `ExportConfig::encryption_kek_id`; derive a data-encryption-key (DEK) per export job using HKDF-SHA256.
-- Write DEK-encrypted data with an AAD header containing the export job ID so decryption failures are attributable.
-- Never log raw keys; log only key IDs and algorithm identifiers.
-
-**Performance Targets:**
-- AES-256-GCM encryption throughput ≥ 2 GB/s on hardware with AES-NI (measured via `benchmarks/export_bench.cpp`).
-- Authorization check latency ≤ 2 ms p99 (local policy engine).
+**Remaining (future issues):**
+- Full integration with `PolicyEngine::checkExportPermission()` for per-collection
+  authorization checks before any cursor is opened.
 
 ---
 
@@ -121,9 +102,9 @@ Integrate with the Governance module to enforce per-collection export authorizat
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
 | JSONL export throughput | ~150 MB/s (full batch) | ≥ 200 000 docs/sec sustained | `benchmarks/export_bench.cpp`, 10 M doc fixture |
-| Peak memory (50 GB export) | Unbounded (full batch) | ≤ 512 MB | `/proc/self/status` VmRSS sampled in bench harness |
-| Parquet export throughput | N/A (not yet implemented) | ≥ 500 MB/s uncompressed | Same bench harness, Parquet writer path |
-| Delta export speedup (0.1% change) | N/A | ≥ 10× vs full export | Timed comparison in integration test suite |
+| Peak memory (50 GB export) | Bounded via `StreamingExporter` (≤ 512 MB) | ≤ 512 MB | `/proc/self/status` VmRSS sampled in bench harness |
+| Parquet export throughput | Implemented (fallback writer) | ≥ 500 MB/s uncompressed (Arrow path) | Same bench harness, Parquet writer path |
+| Delta export speedup (0.1% change) | Implemented | ≥ 10× vs full export | Timed comparison in integration test suite |
 
 ## Security / Reliability
 
@@ -132,3 +113,59 @@ Integrate with the Governance module to enforce per-collection export authorizat
 - Encryption keys are referenced by ID only; raw key material must never appear in logs, metrics labels, or exported file headers.
 - Watermark files are written atomically (`rename()`) to prevent partial state that could cause duplicate or missing records on restart.
 - `exporter_metrics.cpp` must not emit document content or field values in Prometheus labels to prevent data leakage through the metrics endpoint.
+
+---
+
+## Planned Features (Next Milestones)
+
+### Hugging Face Hub Direct Upload Integration
+**Priority:** Medium
+**Target Version:** v1.9.0 (Issue: #1719)
+
+Upload exported datasets directly to the Hugging Face Hub via the Hub HTTP API without requiring an intermediate filesystem step. Reuses the Parquet shards and `dataset_card.md` already produced by `huggingface_exporter.cpp`.
+
+**Implementation Notes:**
+- Add `HuggingFaceHubClient` using libcurl; authenticate via `HF_TOKEN` env variable or `ExportConfig::hf_token_kek_id`.
+- Stream Parquet shards directly from memory via chunked HTTP upload; do not write shards to disk if the Hub is the sole destination.
+- Report upload progress via the existing `ExportStats` progress callback.
+- Inputs: exported dataset directory (output of `HuggingFaceExporter`), Hub repo ID, commit message.
+- Outputs: Hub dataset URL; structured error on upload failure.
+- Error cases: network timeout (retry ×3 with exponential backoff), 401 Unauthorized (surface as `ExportStatus::FORBIDDEN`), 413 Payload Too Large (split shard).
+
+**Performance Targets:**
+- Upload throughput limited by Hub API; no additional in-process bottleneck vs. a direct `curl` upload.
+- Retry overhead ≤ 3× round-trip time p99.
+
+---
+
+### Cross-Collection Join Export
+**Priority:** Low
+**Target Version:** v2.0.0 (Issue: #1722)
+
+Export a joined view of two or more collections (e.g., `documents JOIN annotations`) into a single JSONL or Parquet output file. Uses the AQL engine to evaluate the join predicate.
+
+**Implementation Notes:**
+- Add `JoinExportConfig` struct with `left_collection`, `right_collection`, `join_predicate` (AQL expression), and `output_fields`.
+- Implement as a new exporter class `JoinExporter` that opens two `AqlPredicateFilter` cursors and merges record batches.
+- PII detection runs on the merged record before serialization.
+- Error cases: collection not found, join predicate parse failure, ambiguous field names (rename via `output_fields` alias map).
+
+**Performance Targets:**
+- Join export throughput ≥ 50 000 merged docs/sec (hash-join on in-memory right side ≤ 10 M rows).
+- Memory budget for right-side hash table ≤ 1 GB configurable.
+
+---
+
+## Scientific References
+
+1. Abadi, D., Boncz, P., Harizopoulos, S., Idreos, S., & Madden, S. (2013). **The Design and Implementation of Modern Column-Oriented Database Systems**. *Foundations and Trends in Databases*, 5(3), 197–280. https://doi.org/10.1561/1900000024
+
+2. Apache Arrow Community. (2016). **Apache Arrow: A Cross-Language Development Platform for In-Memory Data**. Apache Software Foundation. https://arrow.apache.org/
+
+3. Lhoest, Q., Villanova del Moral, A., Jernite, Y., Thakur, A., von Platen, P., Patil, S., Chaumond, J., Drame, M., Plu, J., Tunstall, L., Davison, J., Šaško, M., Chhablani, G., Malik, B., Brandeis, S., Le Scao, T., Sanh, V., Xu, C., Patry, N., … Wolf, T. (2021). **Datasets: A Community Library for Natural Language Processing**. In *Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing: System Demonstrations* (pp. 175–184). ACL. https://doi.org/10.18653/v1/2021.emnlp-demo.21
+
+4. Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023). **QLoRA: Efficient Finetuning of Quantized LLMs**. In *Advances in Neural Information Processing Systems*, 36. https://arxiv.org/abs/2305.14314
+
+5. McGrew, D., & Viega, J. (2004). **The Galois/Counter Mode of Operation (GCM)**. NIST Submission. https://csrc.nist.gov/publications/detail/sp/800-38d/final
+
+6. Krawczyk, H., Bellare, M., & Canetti, R. (1997). **HMAC: Keyed-Hashing for Message Authentication**. RFC 2104. IETF. https://doi.org/10.17487/RFC2104
