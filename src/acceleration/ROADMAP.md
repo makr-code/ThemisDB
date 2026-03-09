@@ -6,10 +6,6 @@
 ## Current Status
 Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
 
-## In Progress 🚧
-- [~] CUDA kernel implementations for vector similarity (Issue: #1366) — `cuda/vector_kernels.cu` implemented; `cuda_backend.cpp` still has 6 stubs pending production wiring
-- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` implemented; full production dispatch wiring pending
-
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
 - [x] Vector similarity search acceleration stubs
