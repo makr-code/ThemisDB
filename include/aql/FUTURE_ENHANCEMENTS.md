@@ -35,14 +35,20 @@
 **Priority:** High  
 **Target Version:** v1.7.0
 
-Add streaming API for progressive token generation.
+Basic SSE token streaming for AQL explanations is **already implemented** via
+`LlmAqlHandler::streamExplainAQLAsSSE()` (see `include/aql/llm_aql_handler.h`).
 
-**Current Interface:**
+The remaining planned work is a generic `TokenStream` iterator API that covers
+*arbitrary* inference calls, not just explanations.
+
+**Current Interface (SSE explanations — ✅ done):**
 ```cpp
-Result<std::string> infer(const InferRequest& req);
+// Streams explanation tokens as Server-Sent Events (already shipped)
+std::string streamExplainAQLAsSSE(const std::string& aql_query,
+                                  SseResponseWriter& writer);
 ```
 
-**Proposed Interface:**
+**Proposed Extension (generic `TokenStream` — target v1.7.0):**
 ```cpp
 class TokenStream {
 public:

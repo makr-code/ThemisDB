@@ -341,15 +341,16 @@ class OpenAIBackend : public ILLMBackend { /* ... */ };
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
-Stream tokens as they're generated instead of waiting for completion.
+SSE streaming for AQL explanations is already shipped via `streamExplainAQLAsSSE()`.
+The remaining work is a generic `TokenStream` API covering all inference calls.
 
-**Current API:**
+**Already Shipped (SSE explanation streaming):**
 ```cpp
-Result<std::string> infer(const std::string& prompt);
-// Returns only after full completion
+// Streams explanation tokens as Server-Sent Events
+std::string streamExplainAQLAsSSE(const std::string& aql, SseResponseWriter& writer);
 ```
 
-**Proposed API:**
+**Proposed Generic API:**
 ```cpp
 Result<TokenStream> inferStreaming(const std::string& prompt);
 // Returns immediately with iterator
@@ -360,7 +361,7 @@ for (auto token : stream) {
 ```
 
 **Benefits:**
-- Better user experience (progressive output)
+- Better user experience (progressive output for all commands)
 - Lower time-to-first-token
 - Cancel long-running inferences
 
