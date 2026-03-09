@@ -20,7 +20,7 @@ planning, and trend analysis.
 ### Supported Algorithms
 
 | Algorithm | Enum | Description |
-|---|---|---|
+| --- | --- | --- |
 | Ordinary Least Squares | `LINEAR_REGRESSION` | Trend-line extrapolation |
 | Simple Exponential Smoothing | `EXP_SMOOTHING` | Level-only smoothing (SES/ETS-ANN) |
 | Holt-Winters | `HOLT_WINTERS` | Triple exponential smoothing with trend + seasonality (additive or multiplicative) |
@@ -28,6 +28,7 @@ planning, and trend analysis.
 | Ensemble | `ENSEMBLE` | Weighted combination of all four models above |
 
 ### Capabilities
+
 - **Multi-step ahead forecasting** — predict any number of future steps
 - **Confidence intervals** — empirical 95 % (or custom level) bounds on every forecast point
 - **Seasonal decomposition** — additive and multiplicative trend / seasonal / residual split
@@ -175,7 +176,7 @@ auto [train, test] = ts.trainTestSplit(0.8);
 ## ForecastConfig Reference
 
 | Field | Default | Description |
-|---|---|---|
+| --- | --- | --- |
 | `alpha` | 0.3 | Level smoothing factor (0 < α < 1) |
 | `beta` | 0.1 | Trend smoothing factor (0 < β < 1) |
 | `gamma` | 0.1 | Seasonal smoothing factor (0 < γ < 1) |
@@ -197,7 +198,7 @@ auto [train, test] = ts.trainTestSplit(0.8);
 `ForecastMetrics`:
 
 | Field | Formula |
-|---|---|
+| --- | --- |
 | `mae` | Mean Absolute Error |
 | `rmse` | Root Mean Squared Error |
 | `mape` | Mean Absolute Percentage Error (%) |
