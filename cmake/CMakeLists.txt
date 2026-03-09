@@ -1444,6 +1444,8 @@ set(THEMIS_CORE_SOURCES
     ../src/metadata/information_schema.cpp
     ../src/metadata/schema_constraints.cpp
     ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/schema_audit_log.cpp
+    ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/index_recommender.cpp
     ../src/metadata/column_lineage.cpp
     ../src/metadata/catalog_exporter.cpp
