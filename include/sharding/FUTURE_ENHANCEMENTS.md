@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- `[ ]` `IShardRouter` is fully thread-safe; all routing lookups must be lock-free on the read path
-- `[ ]` Adaptive rebalancer batches migration plans; no live data migration occurs while active queries reference the affected shards
-- `[ ]` `IConsistentHashRing` is immutable during a rebalance lock; callers observe the pre-rebalance ring until the lock is released
-- `[ ]` `IRaftSnapshotManager` snapshot initiation is async; `initiateSnapshot()` returns `std::future<SnapshotHandle>`
-- `[ ]` Distributed transaction coordinator exposes a typed error for each 2PC phase failure; no silent rollbacks
-- `[ ]` Cross-shard query routing overhead is accounted for in the query plan cost model exposed through the public header
+- `[x]` `IShardRouter` is fully thread-safe; all routing lookups must be lock-free on the read path
+- `[x]` Adaptive rebalancer batches migration plans; no live data migration occurs while active queries reference the affected shards
+- `[x]` `IConsistentHashRing` is immutable during a rebalance lock; callers observe the pre-rebalance ring until the lock is released
+- `[x]` `IRaftSnapshotManager` snapshot initiation is async; `initiateSnapshot()` returns `std::future<SnapshotHandle>`
+- `[x]` Distributed transaction coordinator exposes a typed error for each 2PC phase failure; no silent rollbacks
+- `[x]` Cross-shard query routing overhead is accounted for in the query plan cost model exposed through the public header
 
 ## Required Interfaces
 
@@ -33,38 +33,38 @@
 
 ### Adaptive Shard Rebalancer Interface
 
-- `[ ]` Define `IAdaptiveRebalancer` with `planRebalance(const ClusterStats&) -> RebalancePlan` — pure computation, no side effects
-- `[ ]` `RebalancePlan` carries `migrations` (`std::vector<ShardMigration>`), `estimatedDurationMs`, and `affectedShards`
-- `[ ]` Add `applyPlan(const RebalancePlan&) -> std::future<RebalanceResult>` for async execution
-- `[ ]` Rebalancer exposes `cancel(RebalancePlanId) -> bool`; cancellation is best-effort and safe to call from any thread
+- `[x]` Define `IAdaptiveRebalancer` with `planRebalance(const ClusterStats&) -> RebalancePlan` — pure computation, no side effects
+- `[x]` `RebalancePlan` carries `migrations` (`std::vector<ShardMigration>`), `estimatedDurationMs`, and `affectedShards`
+- `[x]` Add `applyPlan(const RebalancePlan&) -> std::future<RebalanceResult>` for async execution
+- `[x]` Rebalancer exposes `cancel(RebalancePlanId) -> bool`; cancellation is best-effort and safe to call from any thread
 
 ### Distributed Transaction Coordinator API
 
-- `[ ]` Define `IDistributedTxCoordinator` with Percolator-style phases: `begin() -> TxHandle`, `prepare(TxHandle) -> PrepareResult`, `commit(TxHandle)`, `abort(TxHandle)`
-- `[ ]` `PrepareResult` is a typed variant: `Prepared`, `ConflictError(TxId conflicting)`, `TimeoutError`
-- `[ ]` `TxHandle` is move-only RAII; destructor calls `abort()` if neither `commit()` nor explicit `abort()` was called
-- `[ ]` Coordinator exposes `maxConcurrentTx() -> size_t` and `activeTxCount() -> size_t` for backpressure signalling
+- `[x]` Define `IDistributedTxCoordinator` with Percolator-style phases: `begin() -> TxHandle`, `prepare(TxHandle) -> PrepareResult`, `commit(TxHandle)`, `abort(TxHandle)`
+- `[x]` `PrepareResult` is a typed variant: `Prepared`, `ConflictError(TxId conflicting)`, `TimeoutError`
+- `[x]` `TxHandle` is move-only RAII; destructor calls `abort()` if neither `commit()` nor explicit `abort()` was called
+- `[x]` Coordinator exposes `maxConcurrentTx() -> size_t` and `activeTxCount() -> size_t` for backpressure signalling
 
 ### Raft Snapshot Compaction Interface
 
-- `[ ]` Define `IRaftSnapshotManager` with `initiateSnapshot(ShardId) -> std::future<SnapshotHandle>`
-- `[ ]` `SnapshotHandle` exposes `id()`, `sizeBytes()`, `createdAt()`, `verifyIntegrity() -> bool`
-- `[ ]` Add `compactLog(ShardId, SnapshotHandle) -> std::future<CompactionResult>` to truncate log up to snapshot index
-- `[ ]` Snapshot API is async throughout; no blocking calls on the public interface
+- `[x]` Define `IRaftSnapshotManager` with `initiateSnapshot(ShardId) -> std::future<SnapshotHandle>`
+- `[x]` `SnapshotHandle` exposes `id()`, `sizeBytes()`, `createdAt()`, `verifyIntegrity() -> bool`
+- `[x]` Add `compactLog(ShardId, SnapshotHandle) -> std::future<CompactionResult>` to truncate log up to snapshot index
+- `[x]` Snapshot API is async throughout; no blocking calls on the public interface
 
 ### Consistent Hash Ring API
 
-- `[ ]` Define `IConsistentHashRing` with `getNode(const ShardKey&) -> NodeId` and `getNodes(const ShardKey&, size_t replicationFactor) -> std::vector<NodeId>`
-- `[ ]` Add `acquireRebalanceLock() -> RebalanceLockHandle`; ring is immutable while any lock handle is alive
-- `[ ]` `RebalanceLockHandle` is RAII move-only; destruction releases the lock
-- `[ ]` Ring exposes `virtualNodes() -> size_t` and `physicalNodes() -> std::span<const NodeId>` for introspection
+- `[x]` Define `IConsistentHashRing` with `getNode(const ShardKey&) -> NodeId` and `getNodes(const ShardKey&, size_t replicationFactor) -> std::vector<NodeId>`
+- `[x]` Add `acquireRebalanceLock() -> RebalanceLockHandle`; ring is immutable while any lock handle is alive
+- `[x]` `RebalanceLockHandle` is RAII move-only; destruction releases the lock
+- `[x]` Ring exposes `virtualNodes() -> size_t` and `physicalNodes() -> std::vector<NodeId>` for introspection
 
 ### Cross-Shard Query Routing Interface
 
-- `[ ]` Define `ICrossShardQueryRouter` with `fanOut(const QueryPlan&) -> std::vector<ShardQueryPlan>`
-- `[ ]` Add `merge(std::span<const ShardResult>) -> ResultSet` with configurable merge strategy (enum: `Union`, `Intersect`, `Sorted`)
-- `[ ]` Query router exposes `estimateCost(const QueryPlan&) -> QueryCostEstimate` returning `shardCount`, `estimatedRows`, `networkHops`
-- `[ ]` All methods are `const` and thread-safe; routing is stateless with respect to ongoing transactions
+- `[x]` Define `ICrossShardQueryRouter` with `fanOut(const QueryPlan&) -> std::vector<ShardQueryPlan>`
+- `[x]` Add `merge(std::span<const ShardResult>) -> ResultSet` with configurable merge strategy (enum: `Union`, `Intersect`, `Sorted`)
+- `[x]` Query router exposes `estimateCost(const QueryPlan&) -> QueryCostEstimate` returning `shardCount`, `estimatedRows`, `networkHops`
+- `[x]` All methods are `const` and thread-safe; routing is stateless with respect to ongoing transactions
 
 ## Test Strategy
 
