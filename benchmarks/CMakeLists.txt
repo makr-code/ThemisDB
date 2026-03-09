@@ -760,6 +760,55 @@ else()
 endif()
 
 # ============================================================================
+# RAG Evaluation Benchmarks (recall@K, latency per mode, distributed, security)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
+    message(STATUS "Adding RAG Evaluation benchmarks")
+
+    add_executable(bench_rag_evaluation
+        bench_rag_evaluation.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/distributed_rag_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/rag/prompt_injection_detector.cpp
+    )
+
+    target_link_libraries(bench_rag_evaluation PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_rag_evaluation PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_rag_evaluation PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_rag_evaluation
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    add_custom_target(run_benchmark_rag_evaluation
+        COMMAND bench_rag_evaluation --benchmark_min_time=0.5
+        DEPENDS bench_rag_evaluation
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running RAG Evaluation benchmarks (recall@K, latency, security)..."
+    )
+
+    message(STATUS "  RAG Evaluation: recall@K, FAST/BALANCED/THOROUGH latency, distributed, injection scan")
+else()
+    message(STATUS "RAG Evaluation benchmarks not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_rag_evaluation.cpp")
+endif()
+
+# ============================================================================
 # Advanced Patterns Benchmarks (Sharding Strategy)
 # ============================================================================
 

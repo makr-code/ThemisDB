@@ -711,6 +711,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
     ../src/rag/citation_highlighter.cpp
+    # Phase 5: Distributed evaluation and security
+    ../src/rag/distributed_rag_evaluator.cpp
+    ../src/rag/prompt_injection_detector.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp

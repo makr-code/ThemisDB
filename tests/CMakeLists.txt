@@ -78,6 +78,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_agentic\\.cpp$"
         ".*test_rag_evaluation_report_exporter\\.cpp$"
         ".*test_rag_multimodal\\.cpp$"
+        ".*test_rag_distributed_evaluator\\.cpp$"
+        ".*test_rag_prompt_injection\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
