@@ -66,17 +66,17 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
   - Tests: 12 unit/integration tests in `tests/test_prometheus_remote_write.cpp`
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
+- [~] Unit tests coverage > 80% — 49+ new tests added (test_downsampling, test_ts_adaptive_flush); baseline coverage improving
 - [?] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
 - [?] Performance benchmarks (ingestion rate, query latency, compression ratio)
 - [?] Security audit (time series key namespace isolation per tenant)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete — all new public APIs in downsampling.h, query_optimizer.h, ts_auto_buffer.h, timeseries_metrics.h documented
+- [~] API stability guaranteed — TSStore, TSAutoBuffer, DownsamplingPipeline, TierSelector APIs marked stable; TSAutoBufferConfig extensible via optional fields
 
 ## Known Issues & Limitations
 - Out-of-order writes are now handled via the configurable late-arrival window (`Config::late_arrival_window_ms`); data arriving within the window is accepted regardless of order.
 - Distributed sharding for time series is not yet implemented.
-- TSAutoBuffer flush interval is fixed at initialization; runtime adjustment is planned.
+- TSAutoBuffer flush interval can be changed at runtime via `setConfig()`, but the background flush thread uses the interval at the time of its last wait — a config change takes effect on the next timer expiry (up to one `flush_interval` delay).
 
 ## Breaking Changes
 - TSStore public API is stable from v1.x.

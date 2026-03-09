@@ -126,6 +126,18 @@ public:
      */
     void recordBackpressure(const std::string& metric_name = "");
 
+    /**
+     * @brief Record an overdue flush event from TSAutoBuffer.
+     *
+     * An overdue flush occurs when buffered data is older than the configured
+     * flush interval but could not be written because TSStore returned errors
+     * on the previous flush attempt.
+     *
+     * @param metric_name   Name of the metric with overdue data (empty = global)
+     * @param age_ms        Age of the oldest buffered point in milliseconds
+     */
+    void recordOverdueFlush(const std::string& metric_name = "", double age_ms = 0.0);
+
     // ==================== Storage Metrics ====================
     
     /**
@@ -186,6 +198,7 @@ public:
     uint64_t getOutOfOrderAccepted() const { return out_of_order_accepted_.load(); }
     uint64_t getLateArrivalRejected() const { return late_arrival_rejected_.load(); }
     uint64_t getTotalBackpressureEvents() const { return total_backpressure_events_.load(); }
+    uint64_t getTotalOverdueFlushEvents() const { return total_overdue_flush_events_.load(); }
     
     double getAverageWriteLatency() const;
     double getAverageQueryLatency() const;
@@ -204,6 +217,7 @@ private:
     std::atomic<uint64_t> out_of_order_accepted_{0};
     std::atomic<uint64_t> late_arrival_rejected_{0};
     std::atomic<uint64_t> total_backpressure_events_{0};
+    std::atomic<uint64_t> total_overdue_flush_events_{0};
     
     // Query counters
     std::atomic<uint64_t> total_queries_executed_{0};

@@ -56,6 +56,8 @@
 
 namespace themis {
 
+class TimeSeriesMetrics; // forward declaration – caller includes timeseries_metrics.h if needed
+
 /**
  * @brief Configuration for time series auto-batching
  */
@@ -90,6 +92,16 @@ struct TSAutoBufferConfig {
     size_t adaptive_batch_max = 5000;        // Maximum adaptive batch size
     size_t backpressure_high_watermark = 8000; // Total buffered points above which producers block
     size_t backpressure_low_watermark = 2000;  // Total buffered points below which blocked producers resume
+
+    // A buffer is considered "overdue" when its oldest point is older than
+    // flush_interval * overdue_flush_multiplier.  Overdue buffers emit a metrics
+    // alert via TimeSeriesMetrics::recordOverdueFlush() and a WARN log.
+    unsigned overdue_flush_multiplier = 2;   // Default: 2× the flush interval
+
+    // Optional metrics integration – when set, backpressure events and overdue flushes are
+    // reported via TimeSeriesMetrics::recordBackpressure() / recordOverdueFlush().
+    // Not owned; must outlive the TSAutoBuffer.
+    TimeSeriesMetrics* metrics = nullptr;
 };
 
 /**

@@ -20,7 +20,8 @@
  *
  * Tests: FlushController construction, EWMA update, batch-size adaptation,
  *        backpressure flag, TSAutoBufferConfig new fields, stats propagation,
- *        and integration with TimeSeriesMetrics.
+ *        TimeSeriesMetrics integration (recordBackpressure + recordOverdueFlush),
+ *        running_ guard after backpressure wait, and latency-based trigger.
  */
 
 #include <gtest/gtest.h>
@@ -261,6 +262,139 @@ TEST(TimeSeriesMetricsBackpressureTest, ResetClearsBackpressureCounter) {
     metrics.recordBackpressure();
     metrics.reset();
     EXPECT_EQ(metrics.getTotalBackpressureEvents(), 0u);
+}
+
+// =========================================================================
+// TimeSeriesMetrics overdue flush counter
+// =========================================================================
+
+TEST(TimeSeriesMetricsOverdueFlushTest, InitialCounterIsZero) {
+    TimeSeriesMetrics metrics;
+    EXPECT_EQ(metrics.getTotalOverdueFlushEvents(), 0u);
+}
+
+TEST(TimeSeriesMetricsOverdueFlushTest, RecordOverdueFlushIncrementsCounter) {
+    TimeSeriesMetrics metrics;
+    metrics.recordOverdueFlush("cpu", 12345.0);
+    metrics.recordOverdueFlush();
+    EXPECT_EQ(metrics.getTotalOverdueFlushEvents(), 2u);
+}
+
+TEST(TimeSeriesMetricsOverdueFlushTest, ResetClearsOverdueFlushCounter) {
+    TimeSeriesMetrics metrics;
+    metrics.recordOverdueFlush("mem", 1000.0);
+    metrics.reset();
+    EXPECT_EQ(metrics.getTotalOverdueFlushEvents(), 0u);
+}
+
+TEST(TimeSeriesMetricsOverdueFlushTest, PrometheusExportContainsOverdueMetric) {
+    TimeSeriesMetrics metrics;
+    metrics.recordOverdueFlush("disk", 50000.0);
+
+    std::string prom = metrics.exportPrometheus();
+    EXPECT_NE(prom.find("overdue_flush"), std::string::npos)
+        << "Prometheus export should contain 'overdue_flush'";
+}
+
+// =========================================================================
+// TSAutoBuffer + TimeSeriesMetrics integration
+// =========================================================================
+
+TEST_F(AdaptiveFlushFixture, MetricsPointerIsWiredThroughConfig) {
+    TimeSeriesMetrics metrics;
+
+    auto cfg = adaptiveConfig();
+    cfg.metrics = &metrics;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    EXPECT_EQ(buf.getConfig().metrics, &metrics);
+}
+
+TEST_F(AdaptiveFlushFixture, MetricsNullByDefault) {
+    TSAutoBufferConfig cfg;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    EXPECT_EQ(buf.getConfig().metrics, nullptr);
+}
+
+TEST_F(AdaptiveFlushFixture, MetricsUpdatedBySetConfig) {
+    TimeSeriesMetrics metrics;
+
+    TSAutoBufferConfig cfg;
+    cfg.async_flush = false;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    EXPECT_EQ(buf.getConfig().metrics, nullptr);
+
+    auto new_cfg = adaptiveConfig();
+    new_cfg.metrics = &metrics;
+    buf.setConfig(new_cfg);
+    EXPECT_EQ(buf.getConfig().metrics, &metrics);
+}
+
+// =========================================================================
+// getStats() regression: dedup_dropped_count + memory_limit_rejected_count
+// =========================================================================
+
+TEST_F(AdaptiveFlushFixture, GetStatsCopiesDedupDroppedCount) {
+    TSAutoBufferConfig cfg;
+    cfg.async_flush  = false;
+    cfg.enable_dedup = true;
+    cfg.max_points_per_buffer = 100;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+
+    // Add two points with the same timestamp — second should be deduped
+    buf.add(makePoint("dup", "e1", 1.0, 1700000000000LL));
+    buf.add(makePoint("dup", "e1", 2.0, 1700000000000LL));  // same timestamp → dropped
+
+    EXPECT_EQ(buf.getStats().dedup_dropped_count.load(), 1u);
+}
+
+TEST_F(AdaptiveFlushFixture, GetStatsCopiesMemoryLimitRejectedCount) {
+    TSAutoBufferConfig cfg;
+    cfg.async_flush                = false;
+    cfg.max_memory_per_metric_bytes = 1;   // extremely small → reject after first point
+    cfg.max_points_per_buffer       = 100;
+    TSAutoBuffer buf(tsstore.get(), cfg);
+
+    buf.add(makePoint("over", "e1", 1.0, 1700000000000LL));
+    buf.add(makePoint("over", "e1", 2.0, 1700000000001LL));  // should be rejected
+
+    EXPECT_GE(buf.getStats().memory_limit_rejected_count.load(), 1u);
+}
+
+// =========================================================================
+// running_ guard: add() must return error after stop() while in backpressure
+// =========================================================================
+
+TEST_F(AdaptiveFlushFixture, AddErrorsAfterStopDuringBackpressureWait) {
+    auto cfg = adaptiveConfig();
+    cfg.backpressure_high_watermark = 2;   // very low threshold for test
+    cfg.backpressure_low_watermark  = 0;
+    cfg.adaptive_batch_min          = 1;
+    cfg.adaptive_batch_max          = 100;
+    cfg.flush_batch_size            = 1;
+    cfg.async_flush                 = true;  // need background thread to stop
+    TSAutoBuffer buf(tsstore.get(), cfg);
+    buf.start();
+
+    // Fill buffer up to the high-watermark
+    buf.add(makePoint("p", "e1", 1.0, 1700000000000LL));
+    buf.add(makePoint("p", "e1", 2.0, 1700000000001LL));
+
+    // Stop the buffer in a separate thread while a producer might be blocked
+    std::thread stopper([&]() {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        buf.stop();
+    });
+
+    // This add may block on backpressure; after stop() it must either succeed
+    // (if buffer was drained) or return ERR_API_RESOURCE_EXHAUSTED (if stopped
+    // during the wait).  The critical property is: no deadlock.
+    auto result = buf.add(makePoint("p", "e1", 3.0, 1700000000002LL));
+    EXPECT_TRUE(result.has_value() ||
+                result.error().code() == errors::ErrorCode::ERR_API_RESOURCE_EXHAUSTED)
+        << "Expected either success or ERR_API_RESOURCE_EXHAUSTED, got: "
+        << (result.has_value() ? "ok" : result.error().message());
+
+    stopper.join();
 }
 
 }  // namespace

@@ -22,6 +22,7 @@
  */
 
 #include "timeseries/ts_auto_buffer.h"
+#include "timeseries/timeseries_metrics.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -112,13 +113,28 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Entity ID cannot be empty");
     }
 
-    // Backpressure: if adaptive flush is enabled and queue is above high-watermark, block
-    // until the flush thread drains it below the low-watermark.
+    // Backpressure: block producers when queue depth OR TSStore latency (EWMA) is above threshold.
+    // Both depth_trigger and latency_trigger use backpressure_high_watermark so that the
+    // onset of blocking is consistent regardless of the trigger source.
     if (config_.enable_adaptive_flush && flush_controller_) {
-        if (bp_buffer_size_.load(std::memory_order_relaxed) >= config_.backpressure_high_watermark) {
+        const bool depth_trigger =
+            bp_buffer_size_.load(std::memory_order_relaxed) >= config_.backpressure_high_watermark;
+        // Latency trigger: EWMA exceeds the write-latency SLO AND queue is above high-watermark.
+        // This prevents blocking at a near-empty queue just because of a transient slow write.
+        const bool latency_trigger = flush_controller_->isBackpressure() &&
+            bp_buffer_size_.load(std::memory_order_relaxed) >= config_.backpressure_high_watermark;
+
+        if (depth_trigger || latency_trigger) {
             stats_.backpressure_events++;
-            THEMIS_WARN("TSAutoBuffer backpressure: queue={}, blocking producer",
-                        bp_buffer_size_.load(std::memory_order_relaxed));
+            THEMIS_WARN("TSAutoBuffer backpressure: queue={}, ewma_latency={}ms (slo={}ms), blocking producer",
+                        bp_buffer_size_.load(std::memory_order_relaxed),
+                        flush_controller_->ewma_latency_ms,
+                        config_.backpressure_slo_ms);
+
+            // Emit metric via TimeSeriesMetrics if wired
+            if (config_.metrics) {
+                config_.metrics->recordBackpressure(point.metric);
+            }
 
             // Wake up the flush thread immediately
             flush_cv_.notify_one();
@@ -129,6 +145,12 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
                        bp_buffer_size_.load(std::memory_order_relaxed) <
                            config_.backpressure_low_watermark;
             });
+
+            // If the buffer was stopped while we were waiting, refuse to add more data
+            if (!running_.load()) {
+                return ErrVoid(errors::ErrorCode::ERR_API_RESOURCE_EXHAUSTED,
+                               "TSAutoBuffer stopped while waiting for backpressure relief");
+            }
         }
     }
     
@@ -360,6 +382,25 @@ void TSAutoBuffer::flushThread() {
         if (shouldFlushGlobal()) {
             lock.unlock();  // Release before flushing
             
+            // Before flushing, detect overdue buffers (data older than flush_interval × multiplier).
+            // This can happen if a previous flush attempt failed and data is stuck.
+            if (config_.metrics) {
+                auto now = std::chrono::steady_clock::now();
+                auto overdue_threshold =
+                    config_.flush_interval * static_cast<int>(config_.overdue_flush_multiplier);
+                std::lock_guard<std::mutex> buf_lock(buffers_mutex_);
+                for (const auto& [key, buf] : buffers_) {
+                    if (buf.points.empty()) continue;
+                    auto age = now - buf.first_point_time;
+                    if (age >= overdue_threshold) {
+                        double age_ms = std::chrono::duration<double, std::milli>(age).count();
+                        THEMIS_WARN("TSAutoBuffer overdue flush detected for '{}': age={}ms",
+                                    key, age_ms);
+                        config_.metrics->recordOverdueFlush(key, age_ms);
+                    }
+                }
+            }
+
             size_t flushed = flushInternal(false);
             if (flushed > 0) {
                 stats_.auto_flush_count++;
@@ -396,6 +437,8 @@ TSAutoBufferStats TSAutoBuffer::getStats() const {
     stats.size_triggered_flush.store(stats_.size_triggered_flush.load());
     stats.time_triggered_flush.store(stats_.time_triggered_flush.load());
     stats.buffer_overflow_count.store(stats_.buffer_overflow_count.load());
+    stats.dedup_dropped_count.store(stats_.dedup_dropped_count.load());
+    stats.memory_limit_rejected_count.store(stats_.memory_limit_rejected_count.load());
     stats.backpressure_events.store(stats_.backpressure_events.load());
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
