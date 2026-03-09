@@ -1,5 +1,7 @@
 # Observability Module Roadmap
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
@@ -33,7 +35,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [?] Real-time query cost estimator dashboard
 
 ### Long-term (6-12 months)
-- [P] eBPF-based low-overhead kernel-level tracing (Issue: #2055, Target: Q3 2026)
+- [x] eBPF-based low-overhead kernel-level tracing (Issue: #2055) — ✅ implemented; `ebpf_tracer.cpp` (0 stubs, unit tests in `tests/test_ebpf_tracer.cpp`)
   - Files: `observability/ebpf_tracer.h`, `observability/ebpf_tracer.cpp`
   - Subsystems: MetricsCollector (gauge export), background sampling thread
   - Behaviour: polls `perf_event_open(2)` software counters at configurable interval (default 1 s); publishes `themis_ebpf_{context_switches,page_faults,cpu_migrations,task_clock_ns,collection_cycles}_total` gauges; optional libbpf BPF program attach via `THEMIS_ENABLE_EBPF`
@@ -41,7 +43,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Tests: unit tests in `tests/test_ebpf_tracer.cpp` (lifecycle, config, stats, ring-buffer, callback, metrics)
   - Perf target: < 0.1 % CPU overhead per probe type at 1-second interval
 - [I] Anomaly detection on metrics time-series (ML-based) (Issue: #2097)
-- [I] Distributed flame graph generation across nodes (Issue: #2108)
+- [x] Distributed flame graph generation across nodes (Issue: #2108) — ✅ implemented; `distributed_flame_graph.cpp` (0 stubs, unit tests in `tests/test_distributed_flame_graph.cpp`)
 - [?] Metrics federation across multiple ThemisDB clusters
 - [I] SLO/SLA compliance reporting with burn-rate alerts (Issue: #2148)
 
@@ -64,12 +66,12 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
 - [x] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
 
-### Phase 3: ML-Augmented & Distributed Observability (Status: Planned 📋)
+### Phase 3: ML-Augmented & Distributed Observability (Status: In Progress 🚧)
 - [ ] Exemplars on Prometheus histograms (link traces to metrics)
 - [~] Custom user-defined alert rules via API
-- [~] eBPF-based low-overhead kernel-level tracing
+- [x] eBPF-based low-overhead kernel-level tracing — ✅ implemented (`ebpf_tracer.cpp`, unit tests)
 - [ ] Anomaly detection on metrics time-series (ML-based)
-- [P] Distributed flame graph generation across nodes
+- [x] Distributed flame graph generation across nodes — ✅ implemented (`distributed_flame_graph.cpp`, unit tests)
 - [ ] SLO/SLA compliance reporting with burn-rate alerts
 
 ## Production Readiness Checklist
@@ -81,8 +83,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- OTLP export is not yet implemented; traces use internal span propagation only.
+- OTLP export is not yet implemented (`otlp_exporter.cpp` does not exist); traces use internal span propagation only.
 - Telemetry aggregation across shards is eventually consistent.
+- `query_profiler.cpp`, `storage_profiler.cpp`, and `performance_analyzer.cpp` were missing from `cmake/CMakeLists.txt` — fixed 2026-03-09; `test_observability_profilers.cpp` would fail to link without this fix.
+- `tracer.cpp` and `log_aggregator.cpp` are referenced in older docs but do not exist; distributed tracing is in `continuous_profiler.cpp`; logging is via Core `ILogger`; see `docs/de/observability/missing-implementations.md`.
 
 ## Breaking Changes
 - Prometheus metric names follow `themis_*` namespace; stable from v1.x.

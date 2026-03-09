@@ -1,5 +1,8 @@
 # Observability Module Headers - Future Enhancements
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ../src/observability/README.md · ../src/observability/FUTURE_ENHANCEMENTS.md -->
+
 Planned extensions to ThemisDB observability API headers.
 
 ## Scope

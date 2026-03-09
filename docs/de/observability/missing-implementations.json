@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T16:45:00Z",
+    "module": "observability",
+    "source_paths": [
+      "src/observability/",
+      "include/observability/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-documentation-sync (2026-03-09)."
+  },
+  "missing_implementations": [
+    {
+      "id": "OBS-MISSING-001",
+      "title": "tracer.cpp and log_aggregator.cpp referenced in README but do not exist",
+      "claim_source": "src/observability/README.md §Relevant Interfaces",
+      "expected": "tracer.cpp (OpenTelemetry span management) and log_aggregator.cpp (structured log collection) as standalone implementation files",
+      "observed": "Neither src/observability/tracer.cpp nor src/observability/log_aggregator.cpp exist. Distributed tracing is implemented in continuous_profiler.cpp; structured logging is via Core ILogger interface.",
+      "evidence": {
+        "files_checked": ["src/observability/tracer.cpp", "src/observability/log_aggregator.cpp"],
+        "files_found": [],
+        "actual_tracing_file": "src/observability/continuous_profiler.cpp",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "documentation_error",
+      "fix_description": "README.md corrected (2026-03-09): stale entries removed, correct files listed",
+      "fix_date": "2026-03-09",
+      "fix_branch": "copilot/update-documentation-sync",
+      "criticality": "low",
+      "suggested_issue_title": "[docs] observability/README.md: remove stale tracer.cpp / log_aggregator.cpp references",
+      "suggested_labels": ["type:docs", "priority:low", "observability"]
+    },
+    {
+      "id": "OBS-MISSING-002",
+      "title": "query_profiler.cpp, storage_profiler.cpp, performance_analyzer.cpp missing from cmake/CMakeLists.txt",
+      "claim_source": "src/observability/ROADMAP.md §Completed — QueryProfiler, StorageProfiler",
+      "expected": "query_profiler.cpp, storage_profiler.cpp, performance_analyzer.cpp compiled into themis_core and linkable for test_observability_profilers.cpp",
+      "observed": "All three files exist in src/observability/ (0 stubs each) but are NOT listed in cmake/CMakeLists.txt observability section. test_observability_profilers.cpp (280 lines) links against themis_core — without these .cpp files the link would fail.",
+      "evidence": {
+        "files_present": [
+          "src/observability/query_profiler.cpp",
+          "src/observability/storage_profiler.cpp",
+          "src/observability/performance_analyzer.cpp"
+        ],
+        "cmake_section_before_fix": "cmake/CMakeLists.txt lines 2009–2015 (only metrics_collector.cpp, alertmanager.cpp, continuous_profiler.cpp, ebpf_tracer.cpp, distributed_flame_graph.cpp)",
+        "test_file": "tests/test_observability_profilers.cpp",
+        "test_in_all_sources": true
+      },
+      "roadmap_status": "fixed",
+      "fix_description": "Added ../src/observability/query_profiler.cpp, ../src/observability/storage_profiler.cpp, ../src/observability/performance_analyzer.cpp to cmake/CMakeLists.txt observability section",
+      "fix_date": "2026-03-09",
+      "fix_branch": "copilot/update-documentation-sync",
+      "criticality": "high",
+      "suggested_issue_title": null
+    },
+    {
+      "id": "OBS-MISSING-003",
+      "title": "eBPF tracer and distributed flame graph marked as planned/in-progress but are fully implemented",
+      "claim_source": "src/observability/ROADMAP.md §Long-term: eBPF [P] (#2055), Distributed Flame Graph [I] (#2108)",
+      "expected": "Both features still pending according to ROADMAP",
+      "observed": "src/observability/ebpf_tracer.cpp (526 lines, 0 stubs) and src/observability/distributed_flame_graph.cpp (0 stubs) are fully implemented. Unit tests exist in tests/test_ebpf_tracer.cpp and tests/test_distributed_flame_graph.cpp. File headers report Maturity: PRODUCTION-READY.",
+      "evidence": {
+        "files_present": [
+          "src/observability/ebpf_tracer.cpp",
+          "src/observability/distributed_flame_graph.cpp"
+        ],
+        "ebpf_lines": 526,
+        "ebpf_stubs": 0,
+        "ebpf_test": "tests/test_ebpf_tracer.cpp",
+        "flame_graph_stubs": 0,
+        "flame_graph_test": "tests/test_distributed_flame_graph.cpp",
+        "maturity_header": "PRODUCTION-READY"
+      },
+      "roadmap_status": "corrected",
+      "roadmap_marker_before": "[P]/[I]",
+      "roadmap_marker_after": "[x] (corrected 2026-03-09)",
+      "criticality": "medium",
+      "suggested_issue_title": null
+    },
+    {
+      "id": "OBS-MISSING-004",
+      "title": "OTLP exporter not implemented (otlp_exporter.cpp does not exist)",
+      "claim_source": "src/observability/ROADMAP.md §Phase 2: OTLP gRPC/HTTP export, Target Q2 2026",
+      "expected": "src/observability/otlp_exporter.cpp implementing OpenTelemetry OTLP gRPC/HTTP export to Jaeger/Tempo/Collector",
+      "observed": "File does not exist. ROADMAP correctly marks this as [?] (blocked). Traces currently use internal span propagation only.",
+      "evidence": {
+        "files_checked": ["src/observability/otlp_exporter.cpp"],
+        "files_found": [],
+        "roadmap_marker": "[?]",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "open",
+      "roadmap_marker": "[?]",
+      "criticality": "medium",
+      "suggested_issue_title": "[observability] Implement OTLP gRPC/HTTP exporter (otlp_exporter.cpp)",
+      "suggested_labels": ["type:feature", "priority:medium", "observability", "status:open"]
+    }
+  ],
+  "summary": {
+    "total_findings": 4,
+    "high_criticality": 1,
+    "medium_criticality": 2,
+    "low_criticality": 1,
+    "fixed": 3,
+    "open": 1,
+    "roadmap_items_corrected": 2,
+    "build_fixes_applied": 1,
+    "note": "The primary build fix (OBS-MISSING-002) adds three missing .cpp files to CMakeLists.txt, preventing linker failures for test_observability_profilers.cpp. The observability module is otherwise in good shape: all major components are fully implemented with 0 stubs. The only open item is the OTLP export (OBS-MISSING-004) which is already tracked in ROADMAP as [?]."
+  }
+}
