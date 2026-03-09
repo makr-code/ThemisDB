@@ -1,4 +1,6 @@
 # Cache Module
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/src/cache/README.md -->
 
 Caching implementations for ThemisDB.
 
