@@ -87,19 +87,18 @@ After a node restart, L1 and L2 are cold; queries that were hot before restart i
 ### Adaptive TTL Tuning Based on Access Patterns
 **Priority:** Medium
 **Target Version:** v1.8.0
-
-Currently TTL is set at `put()` time and never adjusted. Implement a background tuner that observes per-key access frequency and adjusts TTL on promotion from L2→L1 or L3→L2, extending it for frequently accessed entries and shortening it for cold ones.
+**Status:** ✅ Implemented
 
 **Implementation Notes:**
-- `[ ]` Add `AccessFrequencyTracker` struct inside `adaptive_query_cache.cpp`; count accesses per key in a sliding 5-minute window using a circular buffer.
-- `[ ]` Tuning policy: if key accessed ≥ 10 times in the window, multiply TTL by 1.5 (capped at `config_.max_ttl_seconds`); if ≤ 1 time, multiply by 0.5 (floored at `config_.min_ttl_seconds`).
-- `[ ]` Run tuner in the existing `eviction_thread_` (already present in `adaptive_query_cache.cpp`); tune batch of up to 1,000 keys per eviction cycle.
-- `[ ]` Expose tuner adjustments in metrics: `themis_cache_ttl_extended_total`, `themis_cache_ttl_shortened_total`.
-- `[?]` Decision needed: whether adaptive TTL should be disabled per-tenant when tenant has strict data-freshness SLAs.
+- `[x]` Adaptive TTL is opt-in via `config_.enable_adaptive_ttl` (default: `false`).
+- `[x]` Algorithm uses logarithmic scaling: `adaptive_ttl = base_ttl * (1 + log(access_count + 1) / scaling_factor)`, clamped to `[config_.adaptive_ttl_min_seconds, config_.adaptive_ttl_max_seconds]`.
+- `[x]` Access count is incremented on each L1/L2 cache hit; TTL is recalculated and re-applied on the entry.
+- `[x]` Parameters are configurable: `adaptive_ttl_min_seconds`, `adaptive_ttl_max_seconds`, `adaptive_ttl_scaling_factor`.
+- `[?]` Deferred: per-tenant TTL disabling for tenants with strict data-freshness SLAs — the current implementation does not support per-tenant adaptive TTL opt-out. See Known Issues in `ROADMAP.md`.
 
 **Performance Targets:**
 - Adaptive tuning reduces L3 read rate by ≥ 20% for workloads with 80/20 hot-key distribution (measured via replay of production query logs).
-- Tuner loop overhead < 1% of eviction thread CPU time.
+- TTL recalculation overhead < 1% of cache hit path CPU time.
 
 ---
 
@@ -150,6 +149,9 @@ that contains that subject's data must also be purged immediately from all three
 - `[ ]` Integrate `invalidatePII()` call into `PIIPseudonymizer::erasePII()` so cache purge
   happens automatically on every erasure without requiring caller coordination.
 - `[ ]` Expose `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint.
+
+---
+
 ### Write-Through Cache Mode
 **Priority:** Low
 **Target Version:** v2.0.0
