@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
