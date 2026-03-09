@@ -274,6 +274,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/update_state_machine.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
+    ../src/updates/preflight_health_check.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp

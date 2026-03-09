@@ -25,7 +25,11 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Schema migration testing framework (apply to staging before production) (Issue: #2487)
 
 ## In Progress 🚧
-- [!] Update pre-flight health checks (disk space, memory, dependency versions) (Target: Q3 2026) (Issue: #2490)
+- [x] Update pre-flight health checks (disk space, memory, dependency versions) (Issue: #2490)
+  - Implemented: `include/updates/preflight_health_check.h`, `src/updates/preflight_health_check.cpp`
+  - `IHealthCheck` abstract interface + `DiskSpaceChecker`, `MemoryHeadroomChecker`, `DependencyVersionChecker`, `PreflightHealthChecker`
+  - Injectable providers for full testability (no real filesystem/sysinfo required)
+  - Completes in ≤ 2 s; disk check enforces ≥ 2× bundle size of free space
 
 ## Planned Features 📋
 
@@ -60,7 +64,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ### Phase 2: Delta Updates & Canary Rollout (Status: In Progress 🚧)
 - [x] Delta (binary diff) updates to reduce download size
 - [x] Canary rollout mode (update a fraction of nodes first)
-- [~] Update pre-flight health checks (disk space, memory, dependency versions)
+- [x] Update pre-flight health checks (disk space, memory, dependency versions)
 
 ### Phase 3: In-Place Migration & Notification Webhooks (Status: In Progress 🚧)
 - [x] In-place schema migration without data copy for additive changes
@@ -83,7 +87,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator: 23 tests; module total: 97 tests)
+- [x] Unit tests coverage > 80% (DeltaUpdateEngine: 29 tests; InPlaceSchemaMigrator: 23 tests; PreflightHealthChecker: 35 tests; module total: 132 tests)
 - [x] Integration tests (applyDelta end-to-end: generate → apply → hash verify → atomic install; InPlaceSchemaMigrator: apply → version verify → history check)
 - [?] Performance benchmarks (migration duration, downtime measurement)
 - [x] Security audit (path traversal in update bundles fixed; `isSafePath` guard in `applyDelta`; InPlaceSchemaMigrator: metadata-only, no data access, no path operations)
