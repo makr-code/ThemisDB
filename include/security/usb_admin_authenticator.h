@@ -28,6 +28,7 @@
 #include <chrono>
 #include <vector>
 #include <mutex>
+#include <unordered_map>
 
 namespace themis {
 namespace security {
@@ -120,7 +121,39 @@ public:
     };
     
     Metrics getMetrics() const;
-    
+
+    /**
+     * @brief Generate a one-time cryptographic challenge for replay-protected auth.
+     *
+     * The challenge is a CSPRNG-generated 32-byte value encoded as a 64-character
+     * lowercase hex string.  The challenge is registered internally with a
+     * timestamp; `validateChallengeResponse()` enforces the TTL and one-time-use
+     * invariant.
+     *
+     * @return 64-character lowercase hex challenge string.
+     */
+    std::string createChallenge() const;
+
+    /**
+     * @brief Validate a challenge-response round-trip.
+     *
+     * The expected response is HMAC-SHA256(key=license_key, message=challenge),
+     * hex-encoded.  Only the holder of the USB license (and therefore its
+     * `license_key`) can produce a matching response.
+     *
+     * Security properties:
+     *   - **Replay prevention**: each challenge is one-time-use.
+     *   - **TTL enforcement**: challenges expire after `challenge_ttl` seconds.
+     *   - **Constant-time comparison**: prevents timing side-channels.
+     *
+     * @param challenge  Challenge string previously returned by `createChallenge()`.
+     * @param response   Hex-encoded HMAC-SHA256 response.
+     * @return true if response is valid; false if unknown challenge, expired,
+     *         no license present, or HMAC mismatch.
+     */
+    bool validateChallengeResponse(const std::string& challenge,
+                                    const std::string& response) const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -133,6 +166,11 @@ private:
     std::chrono::system_clock::time_point lockout_until_;
     std::optional<USBAdminLicense> current_license_;
     std::chrono::system_clock::time_point last_usb_check_;
+
+    // Challenge tracking: maps challenge hex string → issued timestamp.
+    // Challenges are one-time-use; used ones are erased after validation.
+    // Expired entries (older than challenge_ttl) are purged lazily.
+    mutable std::unordered_map<std::string, std::chrono::system_clock::time_point> issued_challenges_;
     
     /// Internal: Check if USB device is mounted at expected path
     bool checkUSBMounted() const;
@@ -145,12 +183,6 @@ private:
     
     /// Internal: Get hardware ID for this system
     std::string getSystemHardwareID() const;
-    
-    /// Internal: Create challenge for replay protection
-    std::string createChallenge() const;
-    
-    /// Internal: Validate challenge response
-    bool validateChallengeResponse(const std::string& challenge, const std::string& response) const;
     
     /// Internal: Audit log entry
     void auditLog(const std::string& event, const std::string& details, const std::string& user_id) const;

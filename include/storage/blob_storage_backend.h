@@ -146,6 +146,12 @@ struct BlobStorageConfig {
     std::string azure_connection_string;
     std::string azure_container;
     
+    // GCS backend
+    bool enable_gcs = false;
+    std::string gcs_bucket;
+    std::string gcs_prefix;
+    // Credentials: uses GOOGLE_APPLICATION_CREDENTIALS env var (ADC); fail-closed if absent
+
     // WebDAV backend (for ActiveDirectory/SharePoint)
     bool enable_webdav = false;
     std::string webdav_base_url;

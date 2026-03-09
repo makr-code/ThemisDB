@@ -1,7 +1,7 @@
 # Scheduler Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/scheduler/`
 
 ---
@@ -37,12 +37,12 @@ and an event-trigger system for event-driven task execution.
 
 | File | Role |
 |---|---|
-| `task_scheduler.cpp` | Core scheduler: cron parsing, thread pool, task dispatch |
+| `task_scheduler.cpp` | Core scheduler: cron parsing, thread pool, task dispatch, dynamic scaling, DAG execution, SLA alerts |
 | `hybrid_retention_manager.cpp` | Three-stage time-series retention lifecycle |
 | `event_trigger.cpp` | Event-driven task triggers (CDC events, metrics thresholds) |
-| `distributed_task_coordinator.cpp` | Distributed leader election for scheduled tasks (in progress) |
-| `external_scheduler_adapter.cpp` | Integration with external schedulers (Airflow, etc.) |
-| `task_audit_manager.cpp` | Task execution audit log |
+| `distributed_task_coordinator.cpp` | Distributed leader election for scheduled tasks |
+| `external_scheduler_adapter.cpp` | Integration with external schedulers (Airflow, Kubernetes CronJob) |
+| `task_audit_manager.cpp` | Searchable task execution audit log |
 | `task_audit_event.cpp` | Audit event schema |
 | `task_anomaly_detector.cpp` | Detects anomalous task execution patterns |
 | `task_result_store.cpp` | Persists task execution results and history |
@@ -63,23 +63,26 @@ and an event-trigger system for event-driven task execution.
 │  CronExpression::parse("* * * * *") → next_execution            │
 │  Timer: fire at next_execution                                   │
 │  SecurityValidator: AQL injection check + resource limits       │
+│  DynamicScaling: adjust concurrency limit from queue depth      │
 │  Work-stealing thread pool: dispatch task                       │
 └──────────────────────────┬──────────────────────────────────────┘
                            │
-       ┌───────────────────┴────────────────────────┐
-       │                                            │
-┌──────▼──────────────────┐           ┌────────────▼──────────────┐
+       ┌───────────────────┴──────────────────────────┐
+       │                                              │
+┌──────▼──────────────────┐           ┌──────────────▼────────────┐
 │  Task Execution          │           │  HybridRetentionManager   │
 │  AQL → QueryEngine       │           │  Stage 1: Gorilla (0-7d) │
 │  or custom fn            │           │  Stage 2: Downsample (1y) │
-│                          │           │  Stage 3: Daily agg (>1y) │
+│  DAG dependency order    │           │  Stage 3: Daily agg (>1y) │
 └──────┬──────────────────┘           └───────────────────────────┘
        │
-┌──────▼──────────────────┐
-│  TaskAuditManager        │
-│  TaskResultStore         │
-│  OpenTelemetry trace      │
-└──────────────────────────┘
+┌──────▼────────────────────────────────────┐
+│  Post-execution                           │
+│  TaskAuditManager  (searchable audit log) │
+│  TaskResultStore   (persistent results)   │
+│  Alertmanager      (failure / SLA alerts) │
+│  OpenTelemetry trace                      │
+└───────────────────────────────────────────┘
 ```
 
 ---
@@ -194,10 +197,9 @@ TimeSeries data lifecycle (daily background job):
 
 ## 11. Known Limitations & Future Work
 
-- Distributed task coordination (single-node execution guarantee) is in progress.
-- DAG-based task dependencies are planned.
-- External scheduler integration (Airflow, Temporal) is experimental.
-- Task result streaming for long-running AQL tasks is planned.
+- Auth context integration: task audit events currently log `user_id = "system"` as a placeholder; full integration with the authentication module (tracked as `#TODO-AUTH-CONTEXT`) will propagate the actual user identity.
+- Function sandboxing: custom function execution is not yet sandboxed at the OS level; resource limits are enforced via task `timeout` and query-engine quotas. Full cgroup-based sandboxing is a future enhancement.
+- Task result streaming: streaming output for long-running AQL tasks is planned but not yet implemented.
 
 ---
 

@@ -78,6 +78,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_agentic\\.cpp$"
         ".*test_rag_evaluation_report_exporter\\.cpp$"
         ".*test_rag_multimodal\\.cpp$"
+        ".*test_rag_distributed_evaluator\\.cpp$"
+        ".*test_rag_prompt_injection\\.cpp$"
         ".*test_rag_evaluation_cache\\.cpp$"
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
@@ -624,6 +626,8 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
     ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
     ${CMAKE_SOURCE_DIR}/src/search/multi_field_search.cpp
+    ${CMAKE_SOURCE_DIR}/src/search/search_highlighter.cpp
+    ${CMAKE_SOURCE_DIR}/src/search/negative_keyword_filter.cpp
     ${CMAKE_SOURCE_DIR}/src/sharding/cloud_backup.cpp
     ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
     ${CMAKE_SOURCE_DIR}/src/server/grpc_web_proxy_handler.cpp
@@ -1019,6 +1023,43 @@ add_test(NAME BuildInfoTests
     COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
 set_tests_properties(BuildInfoTests PROPERTIES
     LABELS "build;info;module;availability;themis;unit"
+    TIMEOUT 60
+)
+
+# Edition manager tests (subset of AllTests)
+# Covers: singleton identity, edition information (type/name/limits),
+#         feature availability (compile-time gate + runtime license gate),
+#         resource-limit checks (node count, VRAM), feature enumeration,
+#         upgrade messages, RuntimeLicenseGate integration
+#         (from test_edition_manager.cpp, Issue #2469)
+add_test(NAME EditionManagerTests
+    COMMAND themis_tests --gtest_filter=EditionManager.*)
+set_tests_properties(EditionManagerTests PROPERTIES
+    LABELS "edition;feature;gating;themis;unit"
+    TIMEOUT 60
+)
+
+# Dynamic feature-flag override tests (subset of AllTests)
+# Covers: setFeatureOverride / clearFeatureOverride / clearAllFeatureOverrides /
+#         hasFeatureOverride / getFeatureOverride, interaction with compile-time
+#         edition gate and RuntimeLicenseGate, feature enumeration, thread-safety
+#         (from test_dynamic_feature_flags.cpp, Issue #2469)
+add_test(NAME DynamicFeatureFlagTests
+    COMMAND themis_tests --gtest_filter=DynamicFeatureFlagTest.*)
+set_tests_properties(DynamicFeatureFlagTests PROPERTIES
+    LABELS "edition;feature;override;themis;unit"
+    TIMEOUT 60
+)
+
+# Runtime license gate tests (subset of AllTests)
+# Covers: uninitialized gate, active/expired/grace/invalid/offline license states,
+#         compile-time OFF features, unknown features, initialize()/update()
+#         idempotency, diagnostics (licenseStatus, graceDaysRemaining, currentLicense)
+#         (from test_runtime_license_gate.cpp)
+add_test(NAME RuntimeLicenseGateTests
+    COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+set_tests_properties(RuntimeLicenseGateTests PROPERTIES
+    LABELS "license;runtime;gate;themis;unit"
     TIMEOUT 60
 )
 

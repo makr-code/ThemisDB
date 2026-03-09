@@ -722,4 +722,43 @@ Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine) {
     return executeAql(transpile_result.value(), engine);
 }
 
+// ── Query cancellation via request ID ────────────────────────────────────────
+
+Result<nlohmann::json> executeAqlCancellable(
+    const std::string& aql,
+    QueryEngine& engine,
+    const std::string& request_id,
+    query::QueryCanceller& canceller)
+{
+    // registerQuery inserts a fresh token into the canceller map and returns
+    // the strong shared_ptr.  ScopedRegistration only stores the request_id
+    // for cleanup; it does NOT call registerQuery again (no double registration).
+    auto token = canceller.registerQuery(request_id);
+    // RAII guard: calls canceller.unregisterQuery(request_id) on scope exit.
+    query::QueryCanceller::ScopedRegistration guard(request_id, canceller);
+
+    // Pre-execution cancellation check: the token may have been cancelled
+    // between registration and reaching this point.
+    if (token->isCancelled()) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_CANCELLED,
+            request_id
+        );
+    }
+
+    // Execute the query through the standard pipeline.
+    auto result = executeAql(aql, engine);
+
+    // Post-execution cancellation check: if the query was cancelled while
+    // running, report the cancellation rather than a partial result.
+    if (token->isCancelled()) {
+        return Err<nlohmann::json>(
+            errors::ErrorCode::ERR_QUERY_CANCELLED,
+            request_id
+        );
+    }
+
+    return result;
+}
+
 } // namespace themis

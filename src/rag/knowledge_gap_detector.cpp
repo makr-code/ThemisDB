@@ -1492,4 +1492,32 @@ std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::create(
     return std::make_unique<KnowledgeGapDetector>(config);
 }
 
+std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createProductionReady() {
+    KnowledgeGapConfig config;
+    config.mode = DetectionMode::BALANCED;
+    config.enable_flare = true;
+    config.enable_token_probability = true;
+    config.enable_query_aspect_analysis = true;
+    config.enable_self_consistency_check = true;
+    config.perplexity_threshold = 100.0;
+    config.perplexity_window_size = 10;
+    config.max_retrieval_rounds = 3;
+    config.flare_confidence_threshold = 0.5;
+    config.self_consistency_samples = 5;
+    config.consistency_threshold = 0.6;
+    THEMIS_DEBUG("KnowledgeGapDetector: FLARE mode ENABLED (production-ready)");
+    return std::make_unique<KnowledgeGapDetector>(config);
+}
+
+std::unique_ptr<KnowledgeGapDetector> KnowledgeGapDetectorFactory::createLegacy() {
+    KnowledgeGapConfig config;
+    config.mode = DetectionMode::BALANCED;
+    config.enable_flare = false;
+    config.enable_token_probability = true;
+    config.enable_query_aspect_analysis = true;
+    config.enable_self_consistency_check = false;
+    THEMIS_DEBUG("KnowledgeGapDetector: FLARE mode DISABLED (legacy v1.3 compat)");
+    return std::make_unique<KnowledgeGapDetector>(config);
+}
+
 } // namespace themis::rag::knowledge_gap

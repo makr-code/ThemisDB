@@ -3,7 +3,7 @@
 # Themis Core Framework Module Roadmap
 
 ## Current Status
-v1.7.0 (in progress) – Build info and license validation live in `src/utils/`; module loading in `src/base/`. The `src/themis/` directory now contains `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`) and `module_dependency_resolver.cpp`. The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
+v1.7.0 (in progress) – Build info and license validation live in `src/utils/`; module loading in `src/base/`. The `src/themis/` directory now contains `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`), `module_dependency_resolver.cpp`, and `edition_manager.cpp` (Issue: #2469, dynamic feature-flag override API included). The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
 
 ## Completed ✅
 - [x] Public header interfaces defined (`include/themis/`)
@@ -16,16 +16,16 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] `isModuleCompiledIn()` – runtime module availability check (Issue: #2470)
 - [x] SHA-256 hash verification for loaded modules (Issue: #2471)
 - [x] Module dependency resolution and load-order management (Issue: #2474)
+- [x] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating with dynamic override API (Issue: #2469)
 
 ## In Progress 🚧
-- [x] `build_info.cpp` – migrated from `src/utils/` to `src/themis/` (v1.7.0, Issue: #2311)
 - [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
 - [~] `module_loader.cpp` – implemented in `src/base/`; pending migration to `src/themis/` (Target: Q3 2026, v1.7.0)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
+See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` migration status.
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
@@ -46,9 +46,9 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
 
-### Phase 3: Wire Protocol & Edition Manager (Status: In Progress 🚧)
+### Phase 3: Wire Protocol & Edition Manager (Status: Completed ✅)
 - [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (`src/themis/wire_protocol_server.cpp`, namespace `themis::wire`)
-- [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
+- [x] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
 - [x] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [x] `isModuleCompiledIn()` – runtime module availability check
 - [x] SHA-256 hash verification for loaded modules
@@ -62,6 +62,9 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (tests/test_themis_wire_protocol_server.cpp; CTest: ThemisWireProtocolV1Tests)
+- [x] Unit tests for edition_manager (tests/test_edition_manager.cpp; CTest: EditionManagerTests)
+- [x] Unit tests for dynamic feature-flag overrides (tests/test_dynamic_feature_flags.cpp; CTest: DynamicFeatureFlagTests)
+- [x] Unit tests for runtime license gate (tests/test_runtime_license_gate.cpp; CTest: RuntimeLicenseGateTests)
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
@@ -69,7 +72,7 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory contains `wire_protocol_server.cpp` (Phase 3 complete), `module_dependency_resolver.cpp`, and the SHA-256 module hash verifier; the monolithic build distributes other logic (edition manager) elsewhere.
+- The `src/themis/` directory contains `wire_protocol_server.cpp` (Phase 3 complete), `module_dependency_resolver.cpp`, `edition_manager.cpp`, and the SHA-256 module hash verifier. `license_info.cpp` and `module_loader.cpp` remain in `src/utils/` and `src/base/` respectively, pending migration (see Planned Features).
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which

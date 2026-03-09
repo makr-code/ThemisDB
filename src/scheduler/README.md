@@ -8,13 +8,19 @@ The Scheduler module provides ThemisDB's task scheduling and automation implemen
 
 | Interface / File | Role |
 |-----------------|------|
-| `task_scheduler.cpp` | Task scheduling engine with thread pool |
+| `task_scheduler.cpp` | Task scheduling engine with thread pool, cron parsing, dynamic scaling, DAG execution |
 | `hybrid_retention_manager.cpp` | Three-stage time-series data lifecycle |
+| `distributed_task_coordinator.cpp` | Distributed leader election for scheduled tasks |
+| `external_scheduler_adapter.cpp` | Integration with external schedulers (Kubernetes CronJob, Airflow) |
+| `task_audit_manager.cpp` | Searchable task execution audit log |
+| `task_anomaly_detector.cpp` | Anomaly detection for task execution patterns |
+| `event_trigger.cpp` | CDC event-driven task triggers |
+| `task_result_store.cpp` | Persistent task execution results |
 | `../utils/cron_parser.cpp` | Full cron expression parsing (v1.5.0) |
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Full cron expression parsing (v1.5.0) complete; thread pool task scheduler and hybrid retention manager production-ready. Distributed coordination and DAG execution in progress.
+**Maturity:** 🟢 Production-Ready — Full cron expression parsing (v1.5.0) complete; thread pool task scheduler, hybrid retention manager, distributed task coordination, DAG execution with conditional branching, SLA alerts, audit history, and dynamic concurrency scaling all production-ready.
 
 ## Scope
 
@@ -29,10 +35,18 @@ The Scheduler module provides ThemisDB's task scheduling and automation implemen
 - Rate limiting and resource management
 - OpenTelemetry tracing integration
 - **Full cron expression parsing** (wildcards, ranges, lists with embedded ranges/steps, start/step syntax, month/weekday name aliases, @-specials, 6-field year constraint, timezone-aware scheduling)
+- **Distributed task coordination** across nodes with leader election
+- **Task dependency DAG execution** with conditional branching
+- **Workflow engine** (multi-step DAG with conditional branching)
+- **Task retry policies** (max attempts, exponential/linear/jitter/Fibonacci backoff)
+- **Scheduled task output persistence** (store results in ThemisDB)
+- **Task execution history** with searchable audit log
+- **SLA monitoring** (alert on task failure or SLA breach via Alertmanager)
+- **Dynamic concurrency scaling** based on queue depth
+- **Integration with external schedulers** (Kubernetes CronJob, Apache Airflow)
+- **CDC event-driven task triggers**
 
 **Out of Scope:**
-- Distributed coordination (future enhancement)
-- Task dependencies and DAG execution (future)
 - Authentication/authorization logic (handled by auth module)
 - Query parsing (handled by query module)
 - Storage operations (handled by storage module)

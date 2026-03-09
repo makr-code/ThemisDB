@@ -215,6 +215,8 @@ set(THEMIS_STORAGE_SOURCES
     # Atomic history and conflict layer
     ../src/storage/history_manager.cpp
     ../src/storage/raft_mvcc_bridge.cpp
+    # Tiered storage (hot/warm/cold) with age- and access-based migration
+    ../src/storage/tiered_storage.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     
     # Metadata management
@@ -476,6 +478,7 @@ set(THEMIS_SECURITY_SOURCES
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
     ../src/search/llm_reranker.cpp
+    ../src/search/llm_query_rewriter.cpp
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
     ../src/search/faceted_search.cpp
@@ -487,6 +490,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/multi_field_search.cpp
     ../src/search/neural_sparse_retrieval.cpp
     ../src/search/search_highlighter.cpp
+    ../src/search/cross_lingual_search.cpp
+    ../src/search/search_highlighter.cpp
+    ../src/search/negative_keyword_filter.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -718,6 +724,9 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/document_splitter.cpp
     ../src/rag/hybrid_retriever.cpp
     ../src/rag/citation_highlighter.cpp
+    # Phase 5: Distributed evaluation and security
+    ../src/rag/distributed_rag_evaluator.cpp
+    ../src/rag/prompt_injection_detector.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp

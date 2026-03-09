@@ -1,0 +1,149 @@
+{
+  "module": "query",
+  "generated": "2026-03-09",
+  "validated_at_commit": "ab3b22a",
+  "branch": "copilot/sync-documentation-with-sourcecode",
+  "primary_source": "src/query/",
+  "summary": "Production-ready as of v1.5.0. No missing [x] roadmap items. Seven documentation-accuracy findings corrected.",
+  "findings": [
+    {
+      "id": "FINDING-Q-001",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "src/query/README.md: Relevant Interfaces table",
+      "expected": "Files query_planner.cpp, execution_engine.cpp, join_executor.cpp exist",
+      "observed": "None of these files exist in src/query/ or anywhere in the repository",
+      "evidence_paths": ["src/query/"],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-Q-002",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "src/query/README.md: Key Components callout box",
+      "expected": "No SQL parser exists",
+      "observed": "src/query/sql_parser.cpp (41 KB) and include/query/sql_parser.h implement SELECT/INSERT/UPDATE/DELETE passthrough; tests/test_sql_parser.cpp and tests/test_sql_runner.cpp exist",
+      "evidence_paths": [
+        "src/query/sql_parser.cpp",
+        "include/query/sql_parser.h",
+        "tests/test_sql_parser.cpp",
+        "tests/test_sql_runner.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-Q-003",
+      "severity": "medium",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "src/query/README.md: Known Limitations §6",
+      "expected": "UDFs not yet supported",
+      "observed": "include/query/functions/udf_registry.h and src/query/functions/udf_registry.cpp implement C++ UDF registration; WASM/Python runtimes are still planned",
+      "evidence_paths": [
+        "include/query/functions/udf_registry.h",
+        "src/query/functions/udf_registry.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-Q-004",
+      "severity": "low",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "src/query/README.md: Known Limitations §3",
+      "expected": "No parallel execution within a single query",
+      "observed": "include/query/parallel_scan.h implements parallel collection scans; full intra-operator parallelism is still planned",
+      "evidence_paths": [
+        "include/query/parallel_scan.h",
+        "tests/test_parallel_scan.cpp"
+      ],
+      "issue_title_suggestion": "[query] Full intra-operator parallel execution pipeline (v1.6.0)",
+      "label_suggestions": ["enhancement", "query", "performance"]
+    },
+    {
+      "id": "FINDING-Q-005",
+      "severity": "low",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "src/query/README.md: Known Limitations §3",
+      "expected": "Only nested-loop join, no hash join",
+      "observed": "query_engine.cpp implements multiple join strategies; the limitation was overstated",
+      "evidence_paths": [
+        "src/query/query_engine.cpp"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-Q-006",
+      "severity": "high",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "docs/de/query/README.md (Stand: 5. Dezember 2025)",
+      "expected": "Secondary docs up to date with 9 components listed",
+      "observed": "Module has 30 headers and 26 source files; 21 components were missing from the table including sql_parser, sparql_parser, query_canceller, vectorized_execution, runtime_reoptimizer, cross_cluster_federation, parallel_scan, result_type_annotation, query_resource_limits, udf_registry, workload_cache_strategy, query_plan_visualizer",
+      "evidence_paths": [
+        "include/query/",
+        "src/query/"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "FINDING-Q-007",
+      "severity": "low",
+      "status": "fixed",
+      "fixed_in_commit": "ab3b22a",
+      "claim_source": "docs/de/query/README.md: component table",
+      "expected": "SubqueryOptimizer has source file subquery_optimizer.cpp",
+      "observed": "include/query/subquery_optimizer.h exists but there is no src/query/subquery_optimizer.cpp; logic is in query_optimizer.cpp",
+      "evidence_paths": [
+        "include/query/subquery_optimizer.h"
+      ],
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    }
+  ],
+  "open_remaining_items": [
+    {
+      "item": "SQL JOIN / subquery / GROUP BY / DDL support",
+      "roadmap_status": "[P]",
+      "issue_ref": "#2236",
+      "issue_title_suggestion": "[query] SQL compatibility: add JOIN, subquery, GROUP BY, DDL support",
+      "label_suggestions": ["enhancement", "query", "sql-compat"]
+    },
+    {
+      "item": "Full adaptive query re-optimization runtime feedback loop",
+      "roadmap_status": "[P]",
+      "issue_ref": "#2232",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "item": "Intra-operator parallelism within a single query plan",
+      "roadmap_status": "planned v1.6.0",
+      "issue_ref": null,
+      "issue_title_suggestion": "[query] Full intra-operator parallel execution pipeline (v1.6.0)",
+      "label_suggestions": ["enhancement", "query", "performance"]
+    },
+    {
+      "item": "WASM/Python UDF sandbox runtime",
+      "roadmap_status": "FUTURE_ENHANCEMENTS.md",
+      "issue_ref": null,
+      "issue_title_suggestion": "[query] WASM/Python UDF sandbox runtime",
+      "label_suggestions": ["enhancement", "query", "udf"]
+    },
+    {
+      "item": "General spill-to-disk for large intermediate result sets",
+      "roadmap_status": "FUTURE_ENHANCEMENTS.md",
+      "issue_ref": null,
+      "issue_title_suggestion": "[query] Spill-to-disk for large intermediate result sets",
+      "label_suggestions": ["enhancement", "query", "memory"]
+    }
+  ]
+}

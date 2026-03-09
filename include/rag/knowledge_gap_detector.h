@@ -144,7 +144,7 @@ struct KnowledgeGapConfig {
     size_t consistency_timeout_ms = 10000;       ///< Max timeout per sample (10s)
     
     // Phase 2: FLARE-Style Active Retrieval
-    bool enable_flare = false;                   ///< Enable FLARE active retrieval
+    bool enable_flare = true;                    ///< Enable FLARE active retrieval (default: true since v1.4.0)
     size_t max_retrieval_rounds = 3;             ///< Max re-retrieval rounds
     double flare_confidence_threshold = 0.5;     ///< Trigger re-retrieval if confidence < 0.5
     
@@ -358,6 +358,23 @@ public:
      * @brief Create a custom configured detector
      */
     static std::unique_ptr<KnowledgeGapDetector> create(const KnowledgeGapConfig& config);
+
+    /**
+     * @brief Create a production-ready detector with FLARE enabled (v1.4.0+)
+     *
+     * FLARE (Feedback Loop Active Retrieval) with Token Perplexity Threshold
+     * gating is enabled by default. Use this factory for new deployments.
+     */
+    static std::unique_ptr<KnowledgeGapDetector> createProductionReady();
+
+    /**
+     * @brief Create a legacy-compatible detector with FLARE disabled
+     *
+     * Provides backward compatibility with v1.3.x behaviour where FLARE was
+     * disabled. Use this factory when migrating from v1.3 or when FLARE must
+     * be explicitly opted out.
+     */
+    static std::unique_ptr<KnowledgeGapDetector> createLegacy();
 };
 
 } // namespace themis::rag::knowledge_gap

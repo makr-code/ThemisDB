@@ -40,7 +40,7 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Tiered storage (hot/warm/cold) with automatic data migration based on access patterns (Target: v1.6.0)
+- [x] Tiered storage (hot/warm/cold) with automatic data migration based on access patterns (Target: v1.6.0)
   - Inputs: RocksDB key-space with per-key last-access timestamps tracked by `AccessTracker`
   - Outputs: transparent reads/writes regardless of tier; background `TierMigrationWorker` moves data between NVMe (hot), SATA (warm), and object storage (cold)
   - Affected files: new `tiered_storage.cpp`, extend `StorageEngine`, `DiskSpaceMonitor`
@@ -48,7 +48,7 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
   - Errors: migration failure rolls back and retries with exponential backoff; partial migration never leaves data inconsistent (copy-then-delete)
   - Tests: unit tests for policy evaluation; integration test verifying read-after-migrate returns original data
   - Perf: migration background overhead < 5% of sustained write throughput; cold-tier read latency documented in config (object storage SLA dependent)
-- [ ] GCS (Google Cloud Storage) blob backend (`blob_backend_gcs.cpp`) (Target: v1.6.0)
+- [x] GCS (Google Cloud Storage) blob backend (`blob_backend_gcs.cpp`) (Target: v1.6.0)
   - Inputs/outputs: same `IBlobBackend` interface as existing S3/Azure backends
   - Affected files: new `blob_backend_gcs.cpp`, `../include/storage/blob_backend_gcs.h`; register in `BlobStorageManager`
   - Auth: ADC (Application Default Credentials) via `GOOGLE_APPLICATION_CREDENTIALS`; fail-closed if credentials absent
@@ -120,9 +120,9 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] `HistoryManager` version tracking
 - [x] `NLPMetadataExtractor` automatic metadata
 
-### Phase 5: Tiered Storage & Distributed Transactions (Status: Planned 📋)
-- [ ] Tiered storage (hot/warm/cold) with age- and access-based migration policies
-- [ ] GCS blob backend
+### Phase 5: Tiered Storage & Distributed Transactions (Status: In Progress 🚧)
+- [x] Tiered storage (hot/warm/cold) with age- and access-based migration policies
+- [x] GCS blob backend
 - [ ] Erasure coding in `BlobRedundancyManager`
 - [ ] 2PC distributed transactions with Raft coordination
 
@@ -132,14 +132,14 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] Backup and PITR restore validation
 - [x] Encryption enabled in all production deployments (`THEMIS_PRODUCTION_MODE`)
 - [x] Audit logging for all write operations
-- [ ] Performance benchmarks for tiered storage migration (Target: v1.6.0)
+- [x] Performance benchmarks for tiered storage migration (Target: v1.6.0)
 - [ ] Chaos/fault-injection tests for blob backend failover (Target: v1.7.0)
 
 ## Known Issues & Limitations
-- GCS blob backend not yet implemented; S3 and Azure Blob are available as alternatives
 - Erasure coding in `BlobRedundancyManager` is planned but not implemented; current redundancy is RAID-1 mirror only
 - `NLPMetadataExtractor` depends on an external NLP model; slow startup if model is not pre-warmed
 - `ColumnarFormat` does not yet support native Parquet export
+- Tiered storage uses flat filesystem files per key; for large datasets a more efficient store (e.g. RocksDB column-family per tier) is recommended
 
 ## Breaking Changes
 - `StorageEngine::createDefault()` factory is deprecated; use the DI constructor with explicit `IExpressionEvaluatorPtr`, `IFieldEncryptionPtr`, `IKeyProviderPtr`, and `IIndexManagerPtr` to avoid insecure defaults in production

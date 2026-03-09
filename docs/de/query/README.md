@@ -1,30 +1,67 @@
 # Query Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 9. März 2026
+**Version:** 1.5.0
 **Kategorie:** Query
+**Validated:** 2026-03-09 (ab3b22a)
+**Status:** current
 
 ---
 
 ## Übersicht
 
-Das Query-Modul implementiert den AQL-Parser, Query-Optimizer und Query-Engine für ThemisDB.
+Das Query-Modul implementiert den vollständigen AQL-Abfrage-Stack von ThemisDB: Parser,
+Optimizer, Execution-Engine und Caching-Infrastruktur. AQL unterstützt relationale,
+Dokument-, Graph-, Vektor-, Geo- und Zeitreihen-Modelle sowie SQL- und SPARQL-Kompatibilität.
+
+**Primäre Dokumentation:** [`src/query/README.md`](../../src/query/README.md)  
+**Architektur:** [`src/query/ARCHITECTURE.md`](../../src/query/ARCHITECTURE.md)  
+**Roadmap:** [`src/query/ROADMAP.md`](../../src/query/ROADMAP.md)  
+**Geplante Erweiterungen:** [`src/query/FUTURE_ENHANCEMENTS.md`](../../src/query/FUTURE_ENHANCEMENTS.md)
+
+---
 
 ## Source-Code Referenz
 
 | Komponente | Header | Source | Beschreibung |
 |------------|--------|--------|--------------|
-| AQLParser | `aql_parser.h` | `aql_parser.cpp` | AQL Parser & AST |
-| AQLTranslator | `aql_translator.h` | `aql_translator.cpp` | AST → Execution Plan |
-| QueryEngine | `query_engine.h` | `query_engine.cpp` | Query Execution |
-| QueryOptimizer | `query_optimizer.h` | `query_optimizer.cpp` | Plan Optimization |
-| SemanticCache | `semantic_cache.h` | `semantic_cache.cpp` | Query Result Cache |
-| WindowEvaluator | `window_evaluator.h` | `window_evaluator.cpp` | Window Functions |
-| LetEvaluator | `let_evaluator.h` | `let_evaluator.cpp` | LET Bindings |
-| CTECache | `cte_cache.h` | `cte_cache.cpp` | Common Table Expressions |
-| SubqueryOptimizer | `subquery_optimizer.h` | `subquery_optimizer.cpp` | Subquery Optimization |
+| AQLParser | `aql_parser.h` | `aql_parser.cpp` | AQL → AST |
+| AQLParser (JSON) | *(aql_parser.h)* | `aql_parser_json.cpp` | JSON-Query → AST |
+| AQLTranslator | `aql_translator.h` | `aql_translator.cpp` | AST → interne Query-Repr. |
+| SQLParser | `sql_parser.h` | `sql_parser.cpp` | SQL SELECT/INSERT/UPDATE/DELETE → AQL |
+| SPARQLParser | `sparql_parser.h` | `sparql_parser.cpp` | SPARQL → AQL (RDF/Knowledge-Graph) |
+| QueryOptimizer | `query_optimizer.h` | `query_optimizer.cpp` | Kosten-basierte Planoptimierung |
+| AdaptiveOptimizer | `adaptive_optimizer.h` | `adaptive_optimizer.cpp` | Lernende Kostenmodell-Anpassung |
+| OptimizerCostModel | `optimizer_cost_model.h` | `optimizer_cost_model.cpp` | Kardinalitäts- und Selektivitätsschätzung |
+| RuntimeReoptimizer | `runtime_reoptimizer.h` | `runtime_reoptimizer.cpp` | Laufzeit-Reoptimierung aus Statistiken |
+| QueryEngine | `query_engine.h` | `query_engine.cpp` | Physische Ausführung (Scan, Filter, Sort, Join) |
+| AQLRunner | `aql_runner.h` | `aql_runner.cpp` | Top-Level-Dispatch (AQL, SQL, RLS, Limits, Abbruch) |
+| QueryCanceller | `query_canceller.h` | `query_canceller.cpp` | Kooperativer Query-Abbruch via Request-ID |
+| QueryResourceLimits | `query_resource_limits.h` | *(header-only)* | Max-Rows/Memory/Timeout-Guard |
+| QueryPlanVisualizer | `query_plan_visualizer.h` | `query_plan_visualizer.cpp` | EXPLAIN / EXPLAIN ANALYZE |
+| VectorizedExecution | `vectorized_execution.h` | `vectorized_execution.cpp` | Column-Store-Batch-Verarbeitung (SIMD) |
+| ParallelScan | `parallel_scan.h` | *(header-only)* | Paralleler Collection-Scan |
+| CrossClusterFederator | `cross_cluster_federation.h` | `cross_cluster_federation.cpp` | Verteilte Query-Federation über Cluster-Endpoints |
+| QueryFederation | `query_federation.h` | `query_federation.cpp` | Interne Shard-Level-Federation |
+| QueryCache | `query_cache.h` | `query_cache.cpp` | Exakter Query-Result-Cache |
+| QueryCacheManager | `query_cache_manager.h` | `query_cache_manager.cpp` | Cache-Verwaltung und -Metriken |
+| SemanticCache | `semantic_cache.h` | `semantic_cache.cpp` | Embedding-basierter Ähnlichkeits-Cache |
+| WorkloadCacheStrategy | `workload_cache_strategy.h` | `workload_cache_strategy.cpp` | Adaptive Cache-Eviction |
+| CTECache | `cte_cache.h` | `cte_cache.cpp` | CTE-Zwischenergebnis-Cache |
+| CTESubquery | `cte_subquery.h` | `cte_subquery.cpp` | CTE-Auswertung |
+| MaterializedCTE | `materialized_cte.h` | `materialized_cte.cpp` | Inkrementelle CTE-Materialisierung |
+| LetEvaluator | `let_evaluator.h` | `let_evaluator.cpp` | LET-Variable-Auswertung |
+| WindowEvaluator | `window_evaluator.h` | `window_evaluator.cpp` | Window-Funktionen (RANK, LAG, LEAD, …) |
+| StatisticalAggregator | `statistical_aggregator.h` | `statistical_aggregator.cpp` | Statistische Aggregationen |
+| ResultStream | `result_stream.h` | `result_stream.cpp` | Ergebnis-Streaming & Pagination |
+| ResultTypeAnnotation | `result_type_annotation.h` | `result_type_annotation.cpp` | Typ-Inferenz für SDK-Code-Generierung |
+| SubqueryOptimizer | `subquery_optimizer.h` | *(im query_optimizer)* | Subquery-Optimierung (header-only) |
+| FunctionRegistry | `functions/function_registry.h` | `functions/function_registry.cpp` | 100+ AQL-Funktionen (25+ Kategorien) |
+| UDFRegistry | `functions/udf_registry.h` | `functions/udf_registry.cpp` | User-Defined Functions (C++) |
 
-**Gesamt:** 12 Header, 12 Source-Dateien, ~12,500 LOC
+**Gesamt:** 30 Header, 26 Source-Dateien in `src/query/` + Header-only-Komponenten
+
+---
 
 ## AST Node Types
 
@@ -40,7 +77,7 @@ enum class ASTNodeType {
     LetNode,            // LET variable = expression
     CollectNode,        // COLLECT ... AGGREGATE ...
     WithNode,           // WITH cteName AS subquery
-    
+
     // Expressions
     BinaryOp,           // ==, !=, >, <, AND, OR, +, -, *, /
     UnaryOp,            // NOT, -, +
@@ -58,24 +95,9 @@ enum class ASTNodeType {
 };
 ```
 
-## Operators
+## Query-Typen
 
-```cpp
-enum class BinaryOperator {
-    // Comparison
-    Eq, Neq, Lt, Lte, Gt, Gte,
-    // Logical
-    And, Or, Xor,
-    // Arithmetic
-    Add, Sub, Mul, Div, Mod,
-    // Special
-    In, Like, Regex
-};
-```
-
-## Query Types
-
-### AQL Queries
+### AQL-Abfragen
 ```sql
 FOR doc IN users
   FILTER doc.age > 18
@@ -93,59 +115,65 @@ FOR doc IN products
   RETURN {doc, score}
 ```
 
-### Graph Traversal
+### Graph-Traversal
 ```sql
 FOR v, e, p IN 1..3 OUTBOUND @start GRAPH 'social'
   FILTER v.active == true
   RETURN {vertex: v, path: p}
 ```
 
-### Window Functions
+### SQL-Kompatibilität (Passthrough)
 ```sql
-FOR doc IN sales
-  COLLECT year = DATE_YEAR(doc.date)
-  AGGREGATE total = SUM(doc.amount)
-  WINDOW running = SUM(total) OVER (ORDER BY year)
-  RETURN {year, total, running}
+SELECT name, age FROM users WHERE age > 18 ORDER BY name LIMIT 10
+```
+Wird intern zu AQL transpiliert via `sql_parser.cpp`.
+
+### Query-Abbruch via Request-ID
+```cpp
+// In einem HTTP-Worker-Thread ausführen:
+auto result = executeAqlCancellable(aql, engine, "request-42");
+
+// Aus einem anderen Thread abbrechen (z.B. HTTP-Cancel-Handler):
+QueryCanceller::instance().cancel("request-42");
 ```
 
-## QueryOptimizer
+## Wichtige Schnittstellen
 
 ```cpp
-class QueryOptimizer {
-    // Optimization Rules
-    enum class Rule {
-        PushDownFilter,      // Move FILTERs closer to scan
-        IndexSelection,      // Select best index
-        JoinReordering,      // Optimize join order
-        SubqueryFlattening,  // Flatten correlated subqueries
-        ConstantFolding,     // Evaluate constants at compile time
-        DeadCodeElimination  // Remove unused expressions
-    };
-    
-    ExecutionPlan optimize(const Query& ast);
-    void applyRule(Rule rule, ExecutionPlan& plan);
-};
-```
+// Einfache AQL-Ausführung
+Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine);
 
-## Query Engine
+// Mit Ressourcen-Limits (max_rows, max_memory_bytes, timeout_ms)
+Result<nlohmann::json> executeAqlWithLimits(
+    const std::string& aql, QueryEngine& engine,
+    const QueryResourceLimits& limits);
 
-```cpp
-class QueryEngine {
-    // Execute AQL query
-    Result execute(const std::string& aql, const Bindings& params);
-    
-    // Prepare for repeated execution
-    PreparedQuery prepare(const std::string& aql);
-    Result execute(const PreparedQuery& query, const Bindings& params);
-    
-    // Explain query plan
-    ExplainResult explain(const std::string& aql);
-};
+// Mit kooperativem Abbruch
+Result<nlohmann::json> executeAqlCancellable(
+    const std::string& aql, QueryEngine& engine,
+    const std::string& request_id,
+    QueryCanceller& canceller = QueryCanceller::instance());
+
+// SQL-Passthrough
+Result<nlohmann::json> executeSQL(const std::string& sql, QueryEngine& engine);
+
+// EXPLAIN / EXPLAIN ANALYZE
+Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine,
+                                   bool analyze = false);
+Result<std::string>    explainAqlText(const std::string& aql, QueryEngine& engine,
+                                       bool analyze = false);
+Result<std::string>    explainAqlDot(const std::string& aql, QueryEngine& engine);
 ```
 
 ## Verwandte Dokumentation
 
-- [AQL Syntax](../aql/aql_syntax.md) - AQL-Referenz
-- [Hybrid Search](query_vector_hybrid.md) - Vector + Filter
-- [Query Benchmarks](query_hybrid_benchmarks.md) - Performance
+- [Primary Source Docs](../../src/query/README.md) — vollständige API-Referenz
+- [Architecture](../../src/query/ARCHITECTURE.md) — Komponenten-Diagramm, Datenfluss
+- [ROADMAP](../../src/query/ROADMAP.md) — Implementierungsstand und geplante Features
+- [AQL Syntax](../aql/aql_syntax.md) — AQL-Sprachreferenz
+- [Hybrid Search](query_vector_hybrid.md) — Vector + Filter Hybridabfragen
+- [Filtered Vector Queries](query_filtered_vector.md) — Gefilterte Vektorsuche
+- [Hybrid Overview](query_hybrid_overview.md) — Übersicht Hybrid-Queries
+- [Query Benchmarks](query_hybrid_benchmarks.md) — Performance-Messungen
+- [Missing Implementations](missing-implementations.md) — Bekannte Lücken und geplante Arbeiten
+

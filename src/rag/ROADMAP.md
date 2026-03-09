@@ -56,7 +56,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`) (Issue: #2241)
 - [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`) (Issue: #2243)
 - [x] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
-- [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
+- [x] Distributed RAG evaluation across multiple judge models (Issue: #2245) — `rag/distributed_rag_evaluator.h/.cpp`; thread-pool parallel dispatch; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N aggregation; inter-judge agreement metric; factory helpers
+- [x] Performance benchmarks (recall@10, latency targets) — `benchmarks/bench_rag_evaluation.cpp`; recall@K harness; FAST/BALANCED/THOROUGH latency; batch throughput; DistributedRAGEvaluator benchmark; PromptInjectionDetector scan throughput; end-to-end pipeline
+- [x] Security audit (prompt injection in retrieved context) — `rag/prompt_injection_detector.h/.cpp`; pattern-based detection (instruction-override, system-prompt-leak, delimiter-escape, role-injection, markup-injection, Unicode bidi); density threshold; PromptInjectionSanitizer; full unit test coverage
 
 ## Implementation Phases
 
@@ -84,19 +86,15 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
 ### Phase 4: Agentic & Knowledge-Graph RAG (Status: Completed ✅)
-- [x] Agentic RAG with iterative retrieval loops (`agentic_rag.cpp`, Issue: #2241)
-- [x] Knowledge graph-augmented retrieval (entity linking, `knowledge_graph_retriever.cpp`)
-- [x] Multi-modal RAG (image + text retrieval, `multimodal_rag.cpp`, Issue: #2243)
-- [x] Online learning from evaluation feedback (adaptive retrieval via Bayesian optimizer, `bayesian_optimizer.cpp`, Issue: #2244)
-- [ ] Distributed RAG evaluation across multiple judge models (Issue: #2245, planned)
+- [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`)
+- [x] Knowledge graph-augmented retrieval (entity linking)
+- [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`)
+- [x] Online learning from evaluation feedback (adaptive retrieval)
 
-### Phase 5: Batch Evaluation, Calibration & Caching (Status: Completed ✅)
-- [x] `EvaluationCache` – LRU cache with TTL, invalidation triggers, statistics, and warm-up API
-- [x] `CalibrationManager` – temperature/Platt/isotonic regression; ECE, Brier score, inter-annotator agreement
-- [x] `BatchEvaluator` – parallel workers, async futures, progress callbacks, stop/resume lifecycle
-
-### Phase 6: Future (Planned 📋)
-- [ ] Distributed RAG evaluation across multiple judge models (Issue: #2245)
+### Phase 5: Distributed Evaluation, Benchmarks & Security (Status: Completed ✅)
+- [x] Distributed RAG evaluation across multiple judge models (`rag/distributed_rag_evaluator.h/.cpp`) (Issue: #2245) — thread-pool parallel dispatch; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N aggregation; factory helpers
+- [x] Performance benchmark harness (`benchmarks/bench_rag_evaluation.cpp`) — recall@K (K=1/5/10/20/50); FAST/BALANCED/THOROUGH latency; batch throughput; end-to-end pipeline benchmark
+- [x] Prompt injection detection and sanitization (`rag/prompt_injection_detector.h/.cpp`) — security audit for retrieved context; pattern-based heuristic detector; PromptInjectionSanitizer with configurable thresholds
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
@@ -105,12 +103,12 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Unit tests for ClaimExtractor (test_claim_extractor.cpp: extract, verify, calculateFaithfulness, SelfConsistencyEvaluator)
 - [x] Unit tests for CitationHighlighter (test_rag_citation_highlighter.cpp: comprehensive coverage; available in all build variants)
 - [x] Unit tests for EvaluationReportExporter (test_rag_evaluation_report_exporter.cpp: JSON/HTML export; file I/O; edge cases; factory; available in all build variants)
-- [x] Unit tests for EvaluationCache (test_rag_evaluation_cache.cpp: LRU eviction, TTL expiry, invalidation, statistics, thread-safety; available in all build variants)
-- [x] Unit tests for CalibrationManager (test_rag_calibration_manager.cpp: ECE, Brier, inter-annotator agreement, temperature scaling, model persistence; available in all build variants)
-- [x] Unit tests for BatchEvaluator (test_rag_batch_evaluator.cpp: sync/async batch, progress callback, stop/resume, aggregated stats)
-- [x] Integration tests (test_rag_pipeline_integration.cpp: split → retrieve → evaluate end-to-end, EvaluationCache hit/miss, BatchEvaluator consistency)
-- [?] Performance benchmarks (recall@10, latency per mode)
-- [?] Security audit (prompt injection in retrieved context)
+- [x] Unit tests for DistributedRAGEvaluator (test_rag_distributed_evaluator.cpp: construction validation, aggregation strategies, meta fields, factory helpers, batch evaluate)
+- [x] Unit tests for PromptInjectionDetector and Sanitizer (test_rag_prompt_injection.cpp: benign pass-through, instruction override, system-prompt leak, delimiter escape, role injection, markup injection, Unicode bidi, sanitizer truncation/replacement)
+- [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
+- [?] Integration tests (full pipeline: retrieve → generate → evaluate)
+- [x] Performance benchmarks (recall@10, latency per mode)
+- [x] Security audit (prompt injection in retrieved context)
 - [x] Documentation complete (streaming_retriever.h, reranker.h, hybrid_retriever.h: full Doxygen API docs)
 - [x] API stability guaranteed (streaming_retriever API: stable; CrossEncoderConfig: stable; HybridRetrieverConfig: stable)
 
