@@ -1,7 +1,7 @@
 # Chimera Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/chimera/`
 
 ---
@@ -43,7 +43,13 @@ interfaces to benchmark and integration consumers.
 |---|---|
 | `adapter_factory.cpp` | Thread-safe singleton registry: register/create/list adapters |
 | `themisdb_adapter.cpp` | ThemisDB reference implementation of `IDatabaseAdapter` |
-| `mongodb_adapter.cpp` | MongoDB adapter (in progress) |
+| `mongodb_adapter.cpp` | MongoDB adapter (document + Atlas Vector Search) |
+| `postgresql_adapter.cpp` | PostgreSQL adapter (relational + pgvector) |
+| `elasticsearch_adapter.cpp` | Elasticsearch adapter (full-text + vector search) |
+| `pinecone_adapter.cpp` | Pinecone adapter (managed vector search) |
+| `qdrant_adapter.cpp` | Qdrant adapter (native vector database) |
+| `weaviate_adapter.cpp` | Weaviate adapter (native vector database) |
+| `neo4j_adapter.cpp` | Neo4j adapter (native graph database) |
 
 ### 3.2 Component Diagram
 
@@ -58,19 +64,15 @@ interfaces to benchmark and integration consumers.
 │  register_adapter(name, creator_fn) → O(log n) registry         │
 │  create(name) → std::unique_ptr<IDatabaseAdapter>               │
 │  get_supported_systems() → sorted vector<string>                │
-└──────────────────────────┬──────────────────────────────────────┘
-                           │
-         ┌─────────────────┴──────────────────────┐
-         │                                        │
-┌────────▼──────────────┐            ┌────────────▼──────────────┐
-│  ThemisDBAdapter      │            │   MongoDBAdapter          │
-│  (reference impl)     │            │   (in progress)           │
-│  IRelationalOps       │            │   IDocumentOps            │
-│  IVectorOps           │            └───────────────────────────┘
-│  IGraphOps            │
-│  IDocumentOps         │
-│  ITransactionOps      │
-└───────────────────────┘
+└──────┬───────────┬──────────┬──────────┬────────┬──────┬───────┘
+       │           │          │          │        │      │
+┌──────▼──────┐ ┌─▼──────┐ ┌─▼──────┐ ┌─▼────┐ ┌▼───┐ ┌▼──────┐ ┌───────────┐
+│ThemisDB     │ │MongoDB │ │Postgre-│ │Elas- │ │Pine│ │Qdrant│ │Weaviate│ │Neo4j     │
+│Adapter      │ │Adapter │ │SQL     │ │search│ │cone│ │Adapter│ │Adapter │ │Adapter   │
+│(reference)  │ │doc+vec │ │rel+vec │ │text+ │ │vec │ │vec    │ │vec     │ │graph     │
+│All 5 ops    │ │IDocOps │ │IRelOps │ │vec   │ │only│ │only   │ │only    │ │IGraphOps │
+└─────────────┘ └────────┘ │IVecOps │ │IVec  │ └────┘ └───────┘ └────────┘ └──────────┘
+                            └────────┘ └──────┘
 ```
 
 ---
@@ -85,6 +87,18 @@ Static initializer:
         []() { return std::make_unique<ThemisDBAdapter>(); });
     AdapterFactory::register_adapter("MongoDB",
         []() { return std::make_unique<MongoDBAdapter>(); });
+    AdapterFactory::register_adapter("PostgreSQL",
+        []() { return std::make_unique<PostgreSQLAdapter>(); });
+    AdapterFactory::register_adapter("Elasticsearch",
+        []() { return std::make_unique<ElasticsearchAdapter>(); });
+    AdapterFactory::register_adapter("Pinecone",
+        []() { return std::make_unique<PineconeAdapter>(); });
+    AdapterFactory::register_adapter("Qdrant",
+        []() { return std::make_unique<QdrantAdapter>(); });
+    AdapterFactory::register_adapter("Weaviate",
+        []() { return std::make_unique<WeaviateAdapter>(); });
+    AdapterFactory::register_adapter("Neo4j",
+        []() { return std::make_unique<Neo4jAdapter>(); });
 ```
 
 ### 4.2 Benchmark Execution
@@ -176,10 +190,13 @@ ThemisDBAdapter::disconnect()
 
 ## 11. Known Limitations & Future Work
 
-- PostgreSQL adapter is planned but not yet implemented.
-- ArangoDB, Weaviate, and Neo4j adapters are listed as planned.
-- MongoDB adapter is in progress.
+- All vendor adapters operate in simulation mode (in-process `std::unordered_map` storage);
+  production deployments require linking the respective native client library and replacing
+  simulation blocks with real API calls (e.g. `libmongocxx`, `libpqxx`, `cpp-httplib`/`cpr`
+  for HTTP-based adapters).
 - No adapter-level connection pooling; each `create()` call creates a new connection.
+- Operations not applicable to a system's data model (e.g. relational ops on Qdrant) return
+  `AdapterResult` with `ErrorCode::NOT_IMPLEMENTED`.
 
 ---
 
