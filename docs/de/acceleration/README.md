@@ -1,8 +1,9 @@
 # Acceleration Module
 
 **Stand:** 9. März 2026  
-**Version:** 1.0  
-**Kategorie:** GPU / Hardware-Beschleunigung
+**Version:** 1.1  
+**Kategorie:** GPU / Hardware-Beschleunigung  
+**Validated:** 2026-03-09 (Reality-Check gegen Sourcecode; siehe [missing-implementations.md](missing-implementations.md))
 
 ---
 
@@ -176,6 +177,11 @@ cmake -DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_VULKAN=OFF ..
 - [Capability Negotiation](../../acceleration/capability_negotiation.md) — Backend-Auswahlprozess und Fallback-Kette
 - [Troubleshooting](../../acceleration/troubleshooting.md) — Betriebliches Fehlerbehebungshandbuch
 - [Fehler-Codes](../../acceleration/error_codes.md) — Strukturierte Fehler-Taxonomie
+
+### Reality-Check & Offene Implementierungen
+
+- [missing-implementations.md](missing-implementations.md) — Reality-Check-Bericht: fehlende/unvollständige Implementierungen mit Evidence, Impact und Issue-Vorschlägen (Stand 2026-03-09)
+- [missing-implementations.json](missing-implementations.json) — Maschinenlesbares Format des obigen Berichts
 
 ### Verwandte Module
 
