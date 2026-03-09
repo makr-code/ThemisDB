@@ -26,6 +26,10 @@
 #include <algorithm>
 #include <sstream>
 #include <cmath>
+#include <functional>
+#include <list>
+#include <mutex>
+#include <unordered_map>
 
 namespace themis {
 namespace training {
@@ -78,6 +82,84 @@ namespace graph_aql {
 } // namespace graph_aql
 
 // ============================================================================
+// Thread-safe LRU cache for enrichment results (Phase 9)
+// ============================================================================
+class EnrichmentLRUCache {
+public:
+    using Key   = std::string;
+    using Value = GraphContext;
+
+    explicit EnrichmentLRUCache(size_t capacity) : capacity_(capacity) {}
+
+    // Attempt to retrieve a cached result. Returns true on hit.
+    bool get(const Key& key, Value& out) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        auto it = map_.find(key);
+        if (it == map_.end()) {
+            ++stats_.misses;
+            return false;
+        }
+        // Move accessed node to front (MRU position)
+        list_.splice(list_.begin(), list_, it->second);
+        out = it->second->second;
+        ++stats_.hits;
+        return true;
+    }
+
+    // Insert or update a cache entry.
+    void put(const Key& key, Value value) {
+        std::unique_lock<std::mutex> lock(mutex_);
+        auto it = map_.find(key);
+        if (it != map_.end()) {
+            it->second->second = std::move(value);
+            list_.splice(list_.begin(), list_, it->second);
+            return;
+        }
+        // Evict LRU entry if at capacity
+        if (list_.size() >= capacity_) {
+            auto last = list_.end();
+            --last;
+            map_.erase(last->first);
+            list_.pop_back();
+            ++stats_.evictions;
+        }
+        list_.emplace_front(key, std::move(value));
+        map_[key] = list_.begin();
+    }
+
+    // Evict all entries (e.g., on graph-version change).
+    void evictAll() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        stats_.evictions += list_.size();
+        list_.clear();
+        map_.clear();
+    }
+
+    EnrichmentCacheStats stats() const {
+        std::unique_lock<std::mutex> lock(mutex_);
+        EnrichmentCacheStats s = stats_;
+        s.size = list_.size();
+        return s;
+    }
+
+    void resetStats() {
+        std::unique_lock<std::mutex> lock(mutex_);
+        stats_ = {};
+    }
+
+private:
+    using ListEntry = std::pair<Key, Value>;
+    using List      = std::list<ListEntry>;
+    using Map       = std::unordered_map<Key, typename List::iterator>;
+
+    size_t                      capacity_;
+    List                        list_;
+    Map                         map_;
+    mutable std::mutex          mutex_;
+    EnrichmentCacheStats        stats_;
+};
+
+// ============================================================================
 // Pimpl implementation (Phase 6)
 // ============================================================================
 class KnowledgeGraphEnricher::Impl {
@@ -85,6 +167,11 @@ public:
     explicit Impl(const EnrichmentConfig& config, const std::string& db_connection)
         : config_(config)
         , db_connection_(db_connection) {
+        // Phase 9: Initialise LRU cache if enabled in configuration
+        if (config_.cache.enabled) {
+            cache_ = std::make_unique<EnrichmentLRUCache>(
+                config_.cache.capacity > 0 ? config_.cache.capacity : 50000);
+        }
     }
 
     ~Impl() = default;
@@ -155,6 +242,14 @@ public:
             return context;
         }
 
+        // Phase 9: Check LRU cache before executing AQL queries
+        if (cache_) {
+            GraphContext cached;
+            if (cache_->get(cacheKey(source_document_id), cached)) {
+                return cached;
+            }
+        }
+
         // Phase 6: Execute graph traversal queries
         if (config_.include_provisions) {
             context.related_provisions = findRelatedProvisions(source_document_id,
@@ -178,6 +273,11 @@ public:
 
         // Phase 6: Build context summary
         context.context_summary = buildContextSummary(context);
+
+        // Phase 9: Store in cache for future lookups
+        if (cache_) {
+            cache_->put(cacheKey(source_document_id), context);
+        }
 
         return context;
     }
@@ -307,10 +407,45 @@ public:
         return "";
     }
 
+    // -------------------------------------------------------------------------
+    // Phase 9: LRU cache management
+    // -------------------------------------------------------------------------
+    void enableCache(const EnrichmentCacheConfig& cfg) {
+        cache_ = std::make_unique<EnrichmentLRUCache>(
+            cfg.capacity > 0 ? cfg.capacity : 50000);
+    }
+
+    void disableCache() {
+        if (cache_) {
+            cache_->evictAll();
+            cache_.reset();
+        }
+    }
+
+    EnrichmentCacheStats getCacheStats() const {
+        if (!cache_) {
+            return {};
+        }
+        return cache_->stats();
+    }
+
 private:
     EnrichmentConfig config_;
     std::string db_connection_;
     std::unordered_map<std::string, std::string> custom_queries_;
+    std::unique_ptr<EnrichmentLRUCache> cache_; ///< optional LRU cache (Phase 9)
+
+    // Build the cache key for a given entity + graph version
+    std::string cacheKey(const std::string& entity_key) const {
+        // In production: append the current graph schema version to the key
+        // to enable version-based invalidation. Here we use "v0" as a static
+        // placeholder; a live implementation would query the AQL metadata API.
+        std::hash<std::string> hasher;
+        size_t h = hasher(entity_key + ":v0");
+        std::ostringstream oss;
+        oss << std::hex << h;
+        return oss.str();
+    }
 
     // Phase 6: Resolve the source document ID for a given sample
     std::string resolveSourceDocumentId(const std::string& sample_id) const {
@@ -408,6 +543,18 @@ void KnowledgeGraphEnricher::setCustomQuery(const std::string& query_name,
 
 std::string KnowledgeGraphEnricher::getQueryTemplate(const std::string& query_name) const {
     return impl_->getQueryTemplate(query_name);
+}
+
+void KnowledgeGraphEnricher::enableCache(const EnrichmentCacheConfig& config) {
+    impl_->enableCache(config);
+}
+
+void KnowledgeGraphEnricher::disableCache() {
+    impl_->disableCache();
+}
+
+EnrichmentCacheStats KnowledgeGraphEnricher::getCacheStats() const {
+    return impl_->getCacheStats();
 }
 
 } // namespace training

@@ -41,7 +41,7 @@ Extend `LegalAutoLabeler` in `auto_labeler.cpp` to detect and separately process
 
 ---
 
-### [~] LoRA Checkpoint Manager with Integrity Validation
+### [x] LoRA Checkpoint Manager with Integrity Validation
 **Priority:** High
 **Target Version:** v0.9.0
 
@@ -59,7 +59,7 @@ Harden the checkpoint save/resume path in `incremental_lora_trainer.cpp` with SH
 
 ---
 
-### [ ] Knowledge Graph Enrichment Query Cache
+### [x] Knowledge Graph Enrichment Query Cache
 **Priority:** Medium
 **Target Version:** v0.9.0
 
@@ -78,7 +78,7 @@ Add a read-through LRU cache to `knowledge_graph_enricher.cpp` to avoid redundan
 
 ---
 
-### [ ] Confidence-Threshold Auto-Calibration
+### [x] Confidence-Threshold Auto-Calibration
 **Priority:** Medium
 **Target Version:** v0.10.0
 
@@ -96,7 +96,7 @@ Replace the static per-category confidence thresholds in `training_pipeline.cpp`
 
 ---
 
-### [ ] Training Sample Provenance and Lineage Tracking
+### [x] Training Sample Provenance and Lineage Tracking
 **Priority:** High
 **Target Version:** v0.9.0
 

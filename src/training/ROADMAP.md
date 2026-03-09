@@ -23,6 +23,11 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] Pimpl pattern for ABI stability across all three components
 
 ## In Progress 🚧
+- [x] LoRA Checkpoint Manager with SHA-256 integrity validation (Target: Q1 2026)
+- [x] Training Sample Provenance and Lineage Tracking (Target: Q1 2026)
+- [x] Knowledge Graph Enrichment LRU Cache (Target: Q1 2026)
+- [x] ContentModality enum for multi-modality sample tracking (Target: Q1 2026)
+- [x] Confidence-Threshold Auto-Calibration via isotonic regression (Target: Q1 2026)
 - [?] Multi-GPU distributed training coordination (Target: Q2 2026)
 - [?] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
 - [?] Adapter serving integration with LLM inference layer (Target: Q3 2026)
@@ -63,11 +68,14 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [?] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
 - [?] Adapter serving integration with the LLM inference layer (Target: Q3 2026)
 
-### Phase 3: Multi-Modality & Provenance (Status: Planned 📋)
-- [?] Multi-modality parser for code snippets and tabular data (`training/modality_parser.cpp`)
-- [?] LoRA checkpoint manager with deduplication and storage quota enforcement
-- [?] Confidence auto-calibration (Platt scaling / isotonic regression)
-- [?] Provenance tracking – record source document and extraction path per training sample
+### Phase 3: Multi-Modality & Provenance (Status: In Progress 🚧)
+- [x] `ContentModality` enum (TEXT_CLAUSE, TABLE, CITATION, OCR_IMAGE, UNKNOWN) added to `auto_labeler.h`
+- [x] `modality` field added to `TrainingSample` struct for per-modality confidence thresholds
+- [x] `LoRACheckpointManager` – SHA-256 integrity validation, atomic rotation, rolling 3-checkpoint window, manifest JSON (`lora_checkpoint_manager.h/.cpp`)
+- [x] `ProvenanceTracker` – ProvenanceRecord, write(), recordFilteredSample(), queryLineage(), getRecord() (`provenance_tracker.h/.cpp`)
+- [x] `EnrichmentLRUCache` – thread-safe LRU map inside `KnowledgeGraphEnricher`, enableCache/disableCache/getCacheStats API
+- [x] `ConfidenceCalibrator` – isotonic regression (PAV algorithm) per-category threshold selection in `training_pipeline.h/.cpp`
+- [?] Multi-modality full parser for code snippets and tabular data (`training/modality_parser.cpp`)
 - [?] Active learning loop (auto-select most informative unlabelled samples)
 
 ## Production Readiness Checklist

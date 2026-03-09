@@ -37,6 +37,20 @@ namespace analytics {
 namespace training {
 
 /**
+ * @brief Content modality of a training sample.
+ *
+ * Populated by the ModalityDetector in auto_labeler.cpp so that the training
+ * pipeline can apply modality-specific confidence thresholds.
+ */
+enum class ContentModality {
+    TEXT_CLAUSE,  ///< Plain-text legal clause (default modality)
+    TABLE,        ///< Structured table (e.g., damages schedule)
+    CITATION,     ///< Embedded statutory or case-law citation
+    OCR_IMAGE,    ///< Scanned page processed via OCR
+    UNKNOWN       ///< Modality could not be determined
+};
+
+/**
  * @brief Training sample with auto-generated labels
  */
 struct TrainingSample {
@@ -46,6 +60,7 @@ struct TrainingSample {
     float confidence;            ///< Confidence score [0.0, 1.0]
     std::string source_id;       ///< Source document ID
     std::string metadata;        ///< Additional metadata (JSON)
+    ContentModality modality = ContentModality::TEXT_CLAUSE; ///< Content modality
     
     TrainingSample() : confidence(0.0f) {}
 };

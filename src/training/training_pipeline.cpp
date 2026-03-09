@@ -30,6 +30,7 @@
 #include <numeric>
 #include <sstream>
 #include <map>
+#include <cmath>
 
 namespace themis {
 namespace training {
@@ -355,6 +356,147 @@ void TrainingPipeline::scheduleRetraining(size_t interval_hours, PipelineCallbac
 
 PipelineStats TrainingPipeline::getLastStats() const {
     return impl_->getLastStats();
+}
+
+// ============================================================================
+// ConfidenceCalibrator implementation (Phase 3 – isotonic regression / PAV)
+// ============================================================================
+
+void ConfidenceCalibrator::addSample(const std::string& category,
+                                     float confidence,
+                                     bool model_correct) {
+    samples_.push_back({category, confidence, model_correct});
+}
+
+CalibrationResult ConfidenceCalibrator::calibrate() const {
+    CalibrationResult result;
+    if (samples_.empty()) {
+        result.success = true;
+        result.summary = "No samples provided; returning empty threshold list";
+        return result;
+    }
+
+    auto t0 = std::chrono::steady_clock::now();
+
+    // Group samples by category
+    std::map<std::string, std::vector<Sample>> by_category;
+    for (const auto& s : samples_) {
+        by_category[s.category].push_back(s);
+    }
+
+    for (const auto& [category, cat_samples] : by_category) {
+        if (cat_samples.empty()) continue;
+
+        // Sort samples by ascending confidence
+        std::vector<Sample> sorted = cat_samples;
+        std::sort(sorted.begin(), sorted.end(),
+                  [](const Sample& a, const Sample& b) {
+                      return a.confidence < b.confidence;
+                  });
+
+        // Pool Adjacent Violators (PAV) algorithm for isotonic regression.
+        // We model the target as y_i = 1 if model_correct else 0 and fit a
+        // monotone non-decreasing function.
+        std::vector<double> y(sorted.size());
+        for (size_t i = 0; i < sorted.size(); ++i) {
+            y[i] = sorted[i].correct ? 1.0 : 0.0;
+        }
+
+        // PAV: build blocks of equal isotonic values
+        struct Block { double value; size_t count; };
+        std::vector<Block> blocks;
+        for (double yi : y) {
+            blocks.push_back({yi, 1});
+            // Merge blocks while the top-of-stack violates monotonicity
+            while (blocks.size() >= 2) {
+                auto& prev = blocks[blocks.size() - 2];
+                auto& curr = blocks[blocks.size() - 1];
+                if (prev.value > curr.value) {
+                    // Merge: weighted mean
+                    double merged_val = (prev.value * prev.count + curr.value * curr.count)
+                                        / (prev.count + curr.count);
+                    size_t merged_cnt = prev.count + curr.count;
+                    blocks.pop_back();
+                    blocks.back() = {merged_val, merged_cnt};
+                } else {
+                    break;
+                }
+            }
+        }
+
+        // Expand blocks back to per-sample isotonic values
+        std::vector<double> iso(sorted.size());
+        size_t idx = 0;
+        for (const auto& blk : blocks) {
+            for (size_t j = 0; j < blk.count; ++j, ++idx) {
+                iso[idx] = blk.value;
+            }
+        }
+
+        // Select the threshold that maximises F1 on the calibration set.
+        // Scan over unique confidence values and compute precision/recall.
+        float best_threshold  = 0.5f;
+        double best_f1        = -1.0;
+
+        for (size_t t = 0; t < sorted.size(); ++t) {
+            float thr = sorted[t].confidence;
+            size_t tp = 0, fp = 0, fn = 0;
+            for (size_t i = 0; i < sorted.size(); ++i) {
+                bool predicted_positive = sorted[i].confidence >= thr;
+                bool actually_positive  = sorted[i].correct;
+                if (predicted_positive && actually_positive)  ++tp;
+                else if (predicted_positive && !actually_positive) ++fp;
+                else if (!predicted_positive && actually_positive) ++fn;
+            }
+            double precision = (tp + fp) > 0 ? static_cast<double>(tp) / (tp + fp) : 0.0;
+            double recall    = (tp + fn) > 0 ? static_cast<double>(tp) / (tp + fn) : 0.0;
+            double f1 = (precision + recall) > 0
+                        ? 2.0 * precision * recall / (precision + recall)
+                        : 0.0;
+            if (f1 > best_f1) {
+                best_f1        = f1;
+                best_threshold = thr;
+            }
+        }
+
+        // Estimate F1 improvement vs. static 0.5 baseline
+        double static_f1 = 0.0;
+        {
+            float static_thr = 0.5f;
+            size_t tp = 0, fp = 0, fn = 0;
+            for (const auto& s : sorted) {
+                bool pred = s.confidence >= static_thr;
+                if (pred && s.correct)   ++tp;
+                else if (pred)           ++fp;
+                else if (s.correct)      ++fn;
+            }
+            double p = (tp + fp) > 0 ? (double)tp / (tp + fp) : 0.0;
+            double r = (tp + fn) > 0 ? (double)tp / (tp + fn) : 0.0;
+            static_f1 = (p + r) > 0 ? 2.0 * p * r / (p + r) : 0.0;
+        }
+
+        CalibratedThreshold entry;
+        entry.category       = category;
+        entry.threshold      = best_threshold;
+        entry.sample_count   = cat_samples.size();
+        entry.f1_improvement = best_f1 - static_f1;
+        result.thresholds.push_back(std::move(entry));
+    }
+
+    auto t1 = std::chrono::steady_clock::now();
+    result.elapsed_seconds = std::chrono::duration<double>(t1 - t0).count();
+    result.success = true;
+    result.summary = "Calibrated " + std::to_string(result.thresholds.size())
+                     + " categories from " + std::to_string(samples_.size()) + " samples";
+    return result;
+}
+
+void ConfidenceCalibrator::reset() {
+    samples_.clear();
+}
+
+size_t ConfidenceCalibrator::sampleCount() const {
+    return samples_.size();
 }
 
 } // namespace training
