@@ -345,6 +345,9 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # binary causes a duplicate-symbol linker error.  Build it as a dedicated
     # standalone target below instead.
     ".*test_importer_plugin_api\\.cpp$"
+    # test_importer_interfaces is built as a dedicated standalone target below
+    # to allow running the abstract-interface tests in isolation.
+    ".*test_importer_interfaces\\.cpp$"
     # test_plugin_capability_negotiation is built as a dedicated standalone
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
@@ -3332,6 +3335,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
     message(STATUS "  ImporterPluginApi: registry, loader, macro, descriptor, thread safety")
 else()
     message(STATUS "Importer Plugin API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
+endif()
+
+# ============================================================================
+# Importer Abstract Interfaces Tests (standalone target)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
+    message(STATUS "Adding Importer Interfaces tests (standalone binary)")
+
+    add_executable(test_importer_interfaces
+        test_importer_interfaces.cpp
+    )
+
+    target_include_directories(test_importer_interfaces PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_interfaces PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_importer_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterInterfacesTests COMMAND test_importer_interfaces)
+
+    set_tests_properties(ImporterInterfacesTests PROPERTIES
+        LABELS "importers;interfaces;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterInterfaces: IImportConflictResolver, IFlatFileSchemaDetector, IKafkaConsumerSource, IIncrementalImportCursor, IImporterPlugin, IImporterPluginRegistry, REGISTER_IMPORTER_PLUGIN")
+else()
+    message(STATUS "Importer Interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
 endif()
 
 # ============================================================================
