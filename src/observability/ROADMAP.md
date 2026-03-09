@@ -46,7 +46,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Error handling: graceful no-op on non-Linux; fails-open when perf fd open fails (continues without that probe)
   - Tests: unit tests in `tests/test_ebpf_tracer.cpp` (lifecycle, config, stats, ring-buffer, callback, metrics)
   - Perf target: < 0.1 % CPU overhead per probe type at 1-second interval
-- [I] Anomaly detection on metrics time-series (ML-based) (Issue: #2097)
+- [x] Anomaly detection on metrics time-series (ML-based) (Issue: #2097)
+  - Files: `observability/metric_anomaly_detector.h`, `observability/metric_anomaly_detector.cpp`
+  - Implementation: `MetricAnomalyDetector` (monitor/observe/getAnomalies/publishMetrics/generateReport), bridges `analytics::StreamingAnomalyDetector` (Z_SCORE, MODIFIED_Z_SCORE, IQR, ISOLATION_FOREST, LOF, ENSEMBLE) with `MetricsCollector` gauges; `AnomalyCallback` hook; JSON & text reports
+  - Tests: `tests/test_metric_anomaly_detector.cpp`
 - [x] Distributed flame graph generation across nodes (Issue: #2108)
   - Files: `observability/distributed_flame_graph.h`, `observability/distributed_flame_graph.cpp`
   - Implementation: `DistributedFlameGraph` (add/merge/diff node profiles, normalise-per-node, JSON/folded export)
@@ -83,7 +86,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/alertmanager.h/cpp`, tests: `tests/test_alert_rules.cpp`
 - [x] eBPF-based low-overhead kernel-level tracing
   — `observability/ebpf_tracer.h/cpp`, tests: `tests/test_ebpf_tracer.cpp`
-- [ ] Anomaly detection on metrics time-series (ML-based)
+- [x] Anomaly detection on metrics time-series (ML-based)
+  — `observability/metric_anomaly_detector.h/cpp`, tests: `tests/test_metric_anomaly_detector.cpp`
 - [x] Distributed flame graph generation across nodes
   — `observability/distributed_flame_graph.h/cpp`, tests: `tests/test_distributed_flame_graph.cpp`
 - [x] SLO/SLA compliance reporting with burn-rate alerts
