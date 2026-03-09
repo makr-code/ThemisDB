@@ -341,8 +341,8 @@ TEST(BwTreeTest, ConcurrentConsolidationSafety) {
 TEST(BwTreeTest, AutomaticConsolidation) {
     BwTree tree;
     
-    // Insert enough records to trigger consolidation threshold
-    // The threshold is 10 deltas per the constant in bwtree.h
+    // Insert more than DELTA_CHAIN_THRESHOLD (defined as 10 in bwtree.h) records
+    // on the same key so they all land in a single growing delta chain.
     for (int i = 0; i < 15; i++) {
         EXPECT_TRUE(tree.insert(1, "value_" + std::to_string(i)));
     }
@@ -350,7 +350,7 @@ TEST(BwTreeTest, AutomaticConsolidation) {
     // Get stats to verify consolidation happened
     auto stats = tree.get_stats();
     
-    // After 15 inserts with threshold of 10, we should have triggered
+    // After 15 inserts with DELTA_CHAIN_THRESHOLD=10 we should have triggered
     // at least one consolidation, so delta count should be < 15
     EXPECT_LT(stats.num_deltas, 15u);
     
@@ -360,4 +360,93 @@ TEST(BwTreeTest, AutomaticConsolidation) {
     EXPECT_EQ(value, "value_14");  // Last inserted value
 }
 
+// ==================== Remove Tests ====================
+
+TEST(BwTreeTest, RemoveExistingKey) {
+    BwTree tree;
+
+    tree.insert(10, "ten");
+    tree.insert(20, "twenty");
+    tree.insert(30, "thirty");
+
+    // Remove an existing key
+    EXPECT_TRUE(tree.remove(20));
+
+    // Removed key must not be found
+    std::string value;
+    EXPECT_FALSE(tree.search(20, value));
+
+    // Other keys must still be present
+    EXPECT_TRUE(tree.search(10, value));
+    EXPECT_EQ(value, "ten");
+    EXPECT_TRUE(tree.search(30, value));
+    EXPECT_EQ(value, "thirty");
+}
+
+TEST(BwTreeTest, RemoveNonExistentKeyReturnsFalse) {
+    BwTree tree;
+
+    tree.insert(10, "ten");
+
+    // remove() installs a DeltaDelete unconditionally when it succeeds via CAS.
+    // The delta has no effect during apply_deltas() if the key was never present,
+    // but the operation itself is valid (and returns true on CAS success).
+    // The important invariant: the key must not appear in subsequent searches.
+    tree.remove(99);  // key absent — operation is benign
+
+    // Existing key must be unaffected
+    std::string value;
+    EXPECT_TRUE(tree.search(10, value));
+    EXPECT_FALSE(tree.search(99, value));
+}
+
+TEST(BwTreeTest, RemoveThenReinsert) {
+    BwTree tree;
+
+    tree.insert(42, "original");
+    EXPECT_TRUE(tree.remove(42));
+
+    std::string value;
+    EXPECT_FALSE(tree.search(42, value));
+
+    // Re-insert the same key with a different value
+    EXPECT_TRUE(tree.insert(42, "reinserted"));
+    EXPECT_TRUE(tree.search(42, value));
+    EXPECT_EQ(value, "reinserted");
+}
+
+TEST(BwTreeTest, RemoveAffectsRangeScan) {
+    BwTree tree;
+
+    tree.insert(10, "ten");
+    tree.insert(20, "twenty");
+    tree.insert(30, "thirty");
+
+    tree.remove(20);
+
+    auto results = tree.range_scan(10, 30);
+
+    // Only 10 and 30 should remain
+    EXPECT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0].first, 10);
+    EXPECT_EQ(results[1].first, 30);
+}
+
+TEST(BwTreeTest, RemoveAfterConsolidation) {
+    BwTree tree;
+
+    // Insert more than DELTA_CHAIN_THRESHOLD (10) distinct keys to trigger at
+    // least one consolidation before we attempt the remove.
+    for (int i = 0; i < 15; i++) {
+        tree.insert(i * 10, "val_" + std::to_string(i));
+    }
+
+    // Remove a key that survived consolidation
+    EXPECT_TRUE(tree.remove(50));
+
+    std::string value;
+    EXPECT_FALSE(tree.search(50, value));
+    EXPECT_TRUE(tree.search(40, value));
+    EXPECT_TRUE(tree.search(60, value));
+}
 

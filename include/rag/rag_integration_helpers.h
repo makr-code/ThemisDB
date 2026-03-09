@@ -4,14 +4,14 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_integration_helpers.h                          ║
   Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:54:57                                ║
+  Last Modified:   2026-03-09 18:19:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     236                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Total Lines:     250                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -34,6 +34,7 @@
 #include "rag/knowledge_gap_detector.h"
 #include "index/vector_index.h"
 #include "storage/base_entity.h"
+#include <functional>
 #include <vector>
 #include <string>
 
@@ -179,60 +180,70 @@ inline std::vector<knowledge_gap::RetrievedDocument> convertToRetrievedDocuments
  */
 
 /**
- * @brief Batch conversion for multiple queries (GPU-accelerated pipeline)
- * 
- * For high-throughput scenarios, this function processes multiple queries
- * in batch, leveraging GPU acceleration where available.
- * 
- * @param queries Vector of query strings
- * @param vector_mgr VectorIndexManager instance
- * @param db Database wrapper
- * @param k Number of results per query
- * @param metric Distance metric
- * @return Vector of document lists (one per query)
- * 
- * @note This is a placeholder implementation. Full batch processing
- *       requires integration with an embedding model and will be
- *       implemented in Phase 2.
- * 
- * @warning DO NOT USE IN PRODUCTION - Returns empty results
+ * @brief Embedding function type for converting query strings to vectors
+ *
+ * The function receives a query string and returns a float vector suitable
+ * for `VectorIndexManager::searchKnn()`.  Return an empty vector to signal
+ * that embedding generation failed for the given query; the corresponding
+ * result list will then be empty.
  */
-inline std::vector<std::vector<knowledge_gap::RetrievedDocument>> 
+using EmbeddingFunction = std::function<std::vector<float>(const std::string&)>;
+
+/**
+ * @brief Batch conversion for multiple queries
+ *
+ * For each query string the provided @p embed_fn generates a dense embedding,
+ * which is then used for a K-NN search via @p vector_mgr.  Resulting
+ * VectorIndexManager::Result lists are converted to RetrievedDocument vectors
+ * using convertToRetrievedDocuments().
+ *
+ * @param queries     Vector of query strings to process.
+ * @param vector_mgr  VectorIndexManager instance (must outlive this call).
+ * @param db          Database wrapper for entity content retrieval.
+ * @param embed_fn    Function that converts a query string to a float embedding.
+ *                    Called sequentially from a single thread; no concurrency
+ *                    guarantees are required of the provided callable.
+ * @param k           Number of nearest neighbours to retrieve per query.
+ * @param metric      Distance metric used for similarity conversion.
+ * @return Vector of document lists — one per input query (same order).
+ *         An empty inner list indicates that either embedding generation failed
+ *         or the K-NN search returned no results for that query.
+ *
+ * @note This function processes queries sequentially.  Parallel execution
+ *       requires a thread-safe VectorIndexManager implementation.
+ */
+inline std::vector<std::vector<knowledge_gap::RetrievedDocument>>
 batchConvertToRetrievedDocuments(
     const std::vector<std::string>& queries,
     VectorIndexManager& vector_mgr,
     RocksDBWrapper& db,
+    const EmbeddingFunction& embed_fn,
     size_t k = 10,
     VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE
 ) {
     std::vector<std::vector<knowledge_gap::RetrievedDocument>> all_documents;
     all_documents.reserve(queries.size());
-    
-    // TODO Phase 2: Implement batch embedding and search
-    // This requires:
-    // 1. Batch embedding generation (e.g., via GPU-accelerated model)
-    // 2. Batch vector search using VectorIndexManager
-    // 3. Parallel document retrieval
-    
-    // Placeholder implementation - returns empty results
-    // DO NOT USE IN PRODUCTION
+
     for (const auto& query : queries) {
-        // Example of what the final implementation would look like:
-        // std::vector<float> query_embedding = batchEmbedQueries({query})[0];
-        // auto [status, results] = vector_mgr.searchKnn(query_embedding, k);
-        // if (status.ok) {
-        //     all_documents.push_back(convertToRetrievedDocuments(results, db, metric));
-        // } else {
-        //     all_documents.push_back({});
-        // }
-        
-        (void)vector_mgr;  // Suppress unused parameter warning
-        (void)db;
-        (void)k;
-        (void)metric;
-        all_documents.push_back({});
+        std::vector<float> embedding = embed_fn(query);
+
+        if (embedding.empty()) {
+            // Embedding generation failed for this query — return empty list.
+            all_documents.emplace_back();
+            continue;
+        }
+
+        auto [status, results] = vector_mgr.searchKnn(embedding, k);
+
+        if (status.ok) {
+            all_documents.push_back(
+                convertToRetrievedDocuments(results, db, metric)
+            );
+        } else {
+            all_documents.emplace_back();
+        }
     }
-    
+
     return all_documents;
 }
 

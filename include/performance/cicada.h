@@ -32,6 +32,7 @@
 
 #include <cstdint>
 #include <atomic>
+#include <string>
 #include <vector>
 #include <functional>
 #include <memory>
@@ -48,6 +49,8 @@ public:
     static constexpr uint64_t VERSION_MASK = ~WRITE_LOCK_BIT;  // Bits 0-62 are version
     
     CicadaRecord() : version_and_lock_(0) {}
+    explicit CicadaRecord(std::string initial_data)
+        : version_and_lock_(0), data_(std::move(initial_data)) {}
     
     // Try to acquire write lock
     bool try_lock() {
@@ -79,8 +82,20 @@ public:
         return (version_and_lock_.load(std::memory_order_acquire) & WRITE_LOCK_BIT) != 0;
     }
 
+    // Data access.
+    // set_data(): caller must hold the write lock (try_lock() returned true).
+    // get_data(): safe to call after confirming get_version() matches the snapshot
+    //             taken before the read (standard OCC read-validation pattern).
+    //             Concurrent set_data() + get_data() without lock/version-check
+    //             is a data race — use the version stamp to detect this.
+    void set_data(std::string new_data) {
+        data_ = std::move(new_data);
+    }
+    const std::string& get_data() const { return data_; }
+
 private:
     std::atomic<uint64_t> version_and_lock_;
+    std::string data_;  // Record payload written by install_writes()
 };
 
 /// Transaction context for Cicada
@@ -91,8 +106,8 @@ public:
     // Record read operation
     void record_read(CicadaRecord* record, uint64_t version_read);
     
-    // Record write operation  
-    void record_write(CicadaRecord* record);
+    // Record write operation — data is the new value to install on commit
+    void record_write(CicadaRecord* record, std::string data);
     
     // Execute transaction logic
     using TransactionFunc = std::function<bool()>;

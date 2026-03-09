@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are functional. PDF extraction (poppler-cpp) and Office document extraction (DOCX/XLSX/PPTX/ODF via libzip+pugixml) are implemented. OCR and audio transcription support are planned.
+**Production** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are fully functional. PDF extraction (poppler-cpp), Office document extraction (DOCX/XLSX/PPTX/ODF), HTML boilerplate removal, Markdown/frontmatter parsing, audio metadata extraction, audio transcription (Whisper / STT), and video metadata extraction are all implemented.
 
 ## Completed ✅
 - [x] Content manager with ingestion pipeline
@@ -14,25 +14,28 @@
 - [x] Content compression using zstd
 - [x] Content type detection for routing to specialized processors
 - [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
+- [x] PDF text extraction (poppler-cpp, `pdf_processor.cpp`) (Issue: #1681)
+- [x] Office document text extraction — OOXML/ODF via libzip+pugixml (`office_processor.cpp`) (Issue: #1694)
+- [x] HTML content extraction with boilerplate removal (`html_processor.cpp`) (Issue: #1682)
+- [x] Markdown processing and frontmatter parsing (`markdown_processor.cpp`) (Issue: #1683)
+- [x] Audio metadata extraction (`audio_processor.cpp`) (Issue: #1679)
+- [x] Audio transcription / STT integration (`stt_processor.cpp`) (Issue: #1687)
+- [x] Video metadata extraction (`video_processor.cpp`) (Issue: #1680)
+- [x] OCR for image-embedded text (Tesseract integration, `ocr_processor.cpp`) (Issue: #1689)
+- [x] Multi-language text detection and routing (`language_detector.cpp`) (Issue: #1690)
 
 ## In Progress 🚧
-- [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
-- [P] Video metadata and thumbnail extraction (Target: Q3 2026) (Issue: #1680)
+*(none currently in progress)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] PDF text extraction (poppler-cpp, `pdf_processor.cpp`) (Issue: #1681)
-- [x] Office document text extraction — OOXML/ODF via libzip+pugixml (`office_processor.cpp`) (Issue: #1681)
-- [P] HTML content extraction with boilerplate removal (Issue: #1682)
-- [P] Markdown processing and frontmatter parsing (Issue: #1683)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
 
 ### Long-term (6-12 months)
-- [P] Audio transcription integration (Whisper / speech-to-text) (Issue: #1687)
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [x] OCR for image-embedded text (Tesseract integration, `ocr_processor.cpp`) (Issue: #1689)
-- [~] Multi-language text detection and routing (Issue: #1690)
+- [x] Multi-language text detection and routing (`content/language_detector.cpp`) (Issue: #1690)
 
 ## Implementation Phases
 
@@ -45,17 +48,23 @@
 - [x] Implemented JSON ingestion with schema-less document storage
 - [x] Implemented zstd compression for stored content blobs
 
-### Phase 2: Pipeline Hardening (Status: In Progress)
-- [P] Harden pipeline orchestration with per-stage error recovery and retry logic (Issue: #1701)
-- [I] Implement content deduplication via SHA-256 hash before storage (Issue: #1702)
-- [I] Add configurable processor chain to enable/disable stages per content type (Issue: #1703)
+### Phase 2: Pipeline Hardening (Status: Completed ✅)
+- [x] Harden pipeline orchestration with per-stage error recovery and retry logic (`content_manager.cpp`) (Issue: #1701)
+- [x] Implement content deduplication via SHA-256 hash before storage (`deduplication_checker.cpp`) (Issue: #1702)
+- [x] Add configurable processor chain to enable/disable stages per content type (`content_policy.cpp`) (Issue: #1703)
 
-### Phase 3: Advanced Format Support (Status: Completed)
+### Phase 3: Advanced Format Support (Status: Completed ✅)
 - [x] Integrate poppler-cpp for PDF text extraction with layout preservation (`content/pdf_processor.cpp`) (Issue: #1678)
 - [x] Add Office document text extraction via libzip+pugixml for OOXML and ODF formats (`content/office_processor.cpp`) (Issue: #1694)
 - [x] Implement chunked streaming ingestion for files larger than 100 MB (Issue: #1695)
 - [x] Integrate Tesseract OCR for text extraction from image content (`content/ocr_processor.cpp`) (Issue: #1696)
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
+- [x] HTML content extraction with boilerplate removal (`html_processor.cpp`) (Issue: #1682)
+- [x] Markdown processing and frontmatter parsing (`markdown_processor.cpp`) (Issue: #1683)
+- [x] Audio metadata extraction (`audio_processor.cpp`) (Issue: #1679)
+- [x] Audio transcription / STT integration (`stt_processor.cpp`) (Issue: #1687)
+- [x] Video metadata extraction (`video_processor.cpp`) (Issue: #1680)
+- [x] Multi-language text detection and routing (`language_detector.cpp`) (Issue: #1690)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1698)

@@ -216,7 +216,19 @@ std::string MetricsCollector::getPrometheusMetrics() const {
         oss << name << labels << "{quantile=\"0.5\"} " << std::fixed << std::setprecision(2) 
             << hist->percentile(0.5) << "\n";
         oss << name << labels << "{quantile=\"0.95\"} " << hist->percentile(0.95) << "\n";
-        oss << name << labels << "{quantile=\"0.99\"} " << hist->percentile(0.99) << "\n";
+
+        // p99 – attach exemplar when one has been recorded for this series
+        {
+            double p99 = hist->percentile(0.99);
+            std::string exemplar_str = formatExemplar(hist->latest_exemplar);
+            oss << name << labels << "{quantile=\"0.99\"} "
+                << std::fixed << std::setprecision(2) << p99;
+            if (!exemplar_str.empty()) {
+                oss << " " << exemplar_str;
+            }
+            oss << "\n";
+        }
+
         oss << name << "_count" << labels << " " << hist->values.size() << "\n";
         oss << name << "_sum" << labels << " " << std::accumulate(hist->values.begin(), hist->values.end(), 0.0) << "\n";
     }
@@ -328,6 +340,24 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
     histograms_[key]->observe(value);
 }
 
+void MetricsCollector::observeHistogramWithExemplar(const std::string& name, double value,
+                                                    const Exemplar& exemplar,
+                                                    const std::map<std::string, std::string>& labels) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::string key = makeKey(name, labels);
+    if (!checkCardinality(name, key)) return;
+
+    if (histograms_.find(key) == histograms_.end()) {
+        histograms_[key] = std::make_shared<Histogram>();
+    }
+
+    histograms_[key]->observe(value);
+    // Overwrite the latest exemplar (last-write-wins, only when a trace_id is provided)
+    if (!exemplar.trace_id.empty()) {
+        histograms_[key]->latest_exemplar = exemplar;
+    }
+}
+
 std::string MetricsCollector::makeKey(const std::string& name, const std::map<std::string, std::string>& labels) const {
     if (labels.empty()) {
         return name;
@@ -359,6 +389,23 @@ std::string MetricsCollector::formatMetricLine(const std::string& name, const st
     return oss.str();
 }
 
+std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
+    if (exemplar.trace_id.empty()) return "";
+
+    // Emit in Prometheus OpenMetrics exemplar format:
+    // # {traceID="<id>"} <value> <unix_seconds_with_millis>
+    auto ts_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                     exemplar.timestamp.time_since_epoch())
+                     .count();
+    double ts_sec = static_cast<double>(ts_ms) / 1000.0;
+
+    std::ostringstream oss;
+    oss << "# {traceID=\"" << exemplar.trace_id << "\"} "
+        << std::fixed << std::setprecision(3) << exemplar.value
+        << " " << std::fixed << std::setprecision(3) << ts_sec;
+    return oss.str();
+}
+
 // ===== Histogram Implementation =====
 
 void MetricsCollector::Histogram::observe(double value) {
@@ -373,6 +420,7 @@ void MetricsCollector::Histogram::observe(double value) {
 void MetricsCollector::Histogram::reset() {
     values.clear();
     last_reset = std::chrono::steady_clock::now();
+    latest_exemplar = Exemplar{};
 }
 
 double MetricsCollector::Histogram::percentile(double p) const {

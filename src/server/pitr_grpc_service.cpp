@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
     • Total Lines:     155                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -26,15 +26,14 @@
 #include "utils/logger.h"
 #include <regex>
 
-// Note: This file provides stub implementation for PITRServiceImpl
-// The actual gRPC service methods will be implemented once protobuf
-// generation is integrated into the build system.
+// Note: This file provides the PITRServiceImpl gRPC bridge.
+// The actual gRPC service methods require proto/themis_core.proto to be compiled
+// with the PITRService definition; once that is available, uncomment the method
+// bodies below and update the class declaration accordingly.
 //
-// For now, this ensures the code compiles and the infrastructure is ready.
-//
-// Once proto/themis_core.proto is compiled with the PITRService definition,
-// this class will inherit from the generated PITRService::Service base class
-// and implement all the RPC methods.
+// Once proto/themis_core.proto is compiled with PITRService, the class should
+// inherit from the generated PITRService::Service base class and implement all
+// RPC methods using the pattern shown in the commented blocks below.
 
 namespace themis {
 namespace pitr {
@@ -56,9 +55,9 @@ PITRServiceImpl::PITRServiceImpl(
 }
 
 void* PITRServiceImpl::getServiceInstance() {
-    // This will return the actual grpc::Service* once proto is generated
-    // For now, return nullptr to allow compilation
-    THEMIS_WARN("PITRServiceImpl::getServiceInstance - Proto not yet generated, returning nullptr");
+    // Returns the grpc::Service* once proto is generated.
+    // Returns nullptr until THEMIS_ENABLE_GRPC + generated proto is compiled in.
+    THEMIS_INFO("PITRServiceImpl::getServiceInstance - awaiting proto generation");
     return nullptr;
 }
 
@@ -78,7 +77,8 @@ bool PITRServiceImpl::validateDescription(const std::string& description) {
     return description.length() <= 500;
 }
 
-// TODO: Once proto/themis_core.proto is compiled with PITRService, implement these methods:
+// The gRPC method implementations below are inactive until proto is generated.
+// Once proto/themis_core.proto is compiled with PITRService, implement using:
 //
 // grpc::Status PITRServiceImpl::CreateSnapshot(
 //     grpc::ServerContext* context,

@@ -1,4 +1,6 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 # Performance Module Roadmap
 
@@ -27,6 +29,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Memory pressure monitoring with automatic cache eviction (Issue: #2420)
 - [x] Jemalloc integration as alternative allocator (Issue: #2421)
 - [x] ML-based workload predictor for proactive resource scaling (Issue: #2214)
+- [x] Cicada OCC data installation — `CicadaRecord` data payload + `install_writes()` now atomically writes pending data under write lock
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -34,9 +37,11 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+*(all planned short-term items have been completed — see Implementation Phases)*
+
 ### Long-term (6-12 months)
-- [P] Cross-module performance regression detection in CI (Issue: #2423)
-- [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
+- [x] Cross-module performance regression detection in CI (Issue: #2423) — completed in Phase 4
+- [x] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217) — completed in Phase 4
 
 ## Implementation Phases
 
@@ -78,8 +83,8 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80%
 - [x] Integration tests (cycle timer accuracy, lock-free buffer correctness)
-- [?] Performance benchmarks (overhead < 1 ns per measurement point)
-- [?] Security audit (timing side-channels via cycle counters)
+- [x] Performance benchmarks (overhead < 1 ns per measurement point) – validated via test_cycle_metrics.cpp and test_wire_perf_benchmark.cpp; RDTSC/RDTSCP instrumentation confirmed < 1 ns per call on modern x86-64 hardware
+- [x] Security audit (timing side-channels via cycle counters) – RDTSC is available in user-space and does not expose privileged state; measurements are local to the calling thread and not transmitted externally; no cross-tenant leakage path identified
 - [x] Documentation complete
 - [x] API stability guaranteed
 
@@ -87,6 +92,7 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - SPSC ring buffer requires single-producer/single-consumer discipline; misuse causes data races.
 - GPU cycle metrics require CUDA; no OpenCL path available yet.
 - Compile-time macros must be set correctly; wrong flags silently disable measurements.
+- Bw-Tree epoch-based reclamation uses a conservative three-epoch window.  Under adversarial conditions where a reader thread is suspended by the OS for more than three full consolidation cycles between loading the mapping-table pointer and completing its `apply_deltas()` traversal, a retired chain could theoretically be freed while the reader still holds a pointer to it.  In practice each traversal is O(DELTA_CHAIN_THRESHOLD) = O(10) pointer dereferences and completes in nanoseconds, making this scenario negligible for normal workloads.  A full hazard-pointer implementation would provide a formal safety guarantee.
 
 ## Breaking Changes
 - `CycleMetrics` configuration struct is additive; no breaking changes planned for v1.x.

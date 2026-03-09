@@ -17,9 +17,9 @@
 - [ ] WAL shipping must sustain ≥ 500 MB/s compressed throughput per follower connection
 - [ ] Leader failover must complete (new leader elected + followers re-pointed) within 10 s under default heartbeat settings
 - [ ] Vector clock comparison and HLC conflict detection must add < 5 µs per write operation
-- [ ] CRDT merge operations must be idempotent and commutative; incorrect usage must produce a compile-time error where possible
-- [ ] CDC event emission must not block the write path; use a dedicated async queue with configurable max depth
-- [ ] Selective replication filters must be evaluated in O(1) per write using a pre-compiled pattern set
+- [x] CRDT merge operations must be idempotent and commutative; incorrect usage must produce a compile-time error where possible
+- [x] CDC event emission must not block the write path; use a dedicated async queue with configurable max depth
+- [x] Selective replication filters must be evaluated in O(1) per write using a pre-compiled pattern set
 - [ ] Full Raft v2 (joint consensus) must not break existing `ReplicationConfig`; new fields are additive only
 
 ## Required Interfaces

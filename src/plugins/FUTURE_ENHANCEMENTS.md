@@ -1,8 +1,10 @@
 # Plugins Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · docs/de/plugins/README.md -->
 
 ## Scope
 
-This document covers planned enhancements to ThemisDB's plugin subsystem, which provides dynamic loading, lifecycle management, secure execution sandboxing, manifest validation, and plugin signing/verification. It addresses the gap between the current Alpha-stage `plugin_manager.cpp` / `plugin_registry.cpp` implementation and a production-hardened plugin platform suitable for third-party distribution.
+This document covers planned enhancements to ThemisDB's plugin subsystem, which is currently **Production Ready** for dynamic loading, lifecycle management, manifest validation, Ed25519 signing, dependency resolution, hot-reload, health monitoring, and Prometheus metrics. The following features are planned for future releases to further harden and extend the platform.
 
 ## Design Constraints
 
@@ -93,16 +95,17 @@ Support `dependencies` field in plugin manifests to declare inter-plugin depende
 
 ---
 
-### [ ] Plugin Metrics Dashboard Integration
+### [x] Plugin Metrics Dashboard Integration
 **Priority:** Medium
 **Target Version:** v0.9.0
 
-Expose per-plugin Prometheus metrics (call count, P50/P95/P99 latency, error rate, memory RSS) from `plugin_metrics.cpp` and wire them to the existing Prometheus scrape endpoint in the observability subsystem.
+**Status:** Implemented. `PluginMetricsCollector::collect(IMetrics&)` publishes per-plugin counters, latency gauges, and memory metrics to any `IMetrics` sink (e.g. `PrometheusMetricsAdapter`). `PluginHealthMonitor::attachMetrics(IMetrics*)` emits `plugin_health_score` after every health check. The Grafana dashboard template is at `grafana/dashboards/plugins.json`.
 
 **Implementation Notes:**
-- Extend `plugin_metrics.cpp` with a `PluginMetricsCollector` that implements the `IMetricsProvider` interface used by the observability module.
-- Add Grafana dashboard template under `grafana/dashboards/plugins.json` with per-plugin latency panels.
-- `plugin_health_monitor.cpp` should emit a `plugin_health_score` gauge (0–1) computed from error rate and heartbeat age.
+- `PluginMetricsCollector` (in `plugin_metrics.h` / `plugin_metrics.cpp`) reads `PluginMetrics::getAllStats()` and emits labelled gauges via `IMetrics::setGauge()`.
+- `PluginHealthMonitor::attachMetrics(IMetrics*)` wires the monitor to a Prometheus sink; call once at startup with a `PrometheusMetricsAdapter`.
+- `PluginHealthMonitor::computeHealthScore()` maps `PluginHealthStatus` + error rate to a 0–1 score; emitted as `plugin_health_score{plugin=…}`.
+- Grafana dashboard (`grafana/dashboards/plugins.json`) provides panels for health score, call latency (avg/P95/P99), error count, memory, reload count, and load time.
 
 **Performance Targets:**
 - Metrics scrape overhead: <0.5 ms per registered plugin.
@@ -131,8 +134,8 @@ Expose per-plugin Prometheus metrics (call count, P50/P95/P99 latency, error rat
 
 ## Security / Reliability
 
-- [ ] All plugins must carry a valid Ed25519 signature verified against the node trust store before any code is executed; `plugin_registry.cpp` must fail closed on verification errors.
-- [ ] Capability declarations in the manifest are the sole authorization mechanism; plugins must not be able to acquire capabilities at runtime beyond what was declared at registration.
-- [ ] WASM linear-memory isolation prevents a malicious plugin from reading host process memory; native plugins run in a separate subprocess with seccomp-bpf filter (Linux) or App Sandbox (macOS).
+- [x] All plugins must carry a valid Ed25519 signature verified before any code is executed; the system must fail closed on verification errors. — **Implemented:** `PluginManager::verifyPlugin()` (in `plugin_manager.cpp`) enforces signature in production (NDEBUG) mode; load is rejected on failure (`ERR_PLUGIN_INVALID_SIGNATURE`). `plugin_registry.cpp` is the registry entry point and delegates to the same pipeline.
+- [~] Capability declarations in the manifest are the sole authorization mechanism; plugins must not be able to acquire capabilities at runtime beyond what was declared at registration. — **Partial:** capabilities are validated at load time via `PluginCapabilityNegotiator`; programmatic runtime escalation block is planned.
+- [ ] WASM linear-memory isolation prevents a malicious plugin from reading host process memory; native plugins run in a separate subprocess with seccomp-bpf filter (Linux) or App Sandbox (macOS). — **Planned** (WASM sandbox not yet implemented).
 - [?] Clarify policy for plugin author identity (org-level vs. individual key) before v0.8.0 GA.
-- [ ] Plugin hot-plug must hold a read lock during signature re-verification to prevent TOCTOU between verification and dlopen/wasm instantiation.
+- [x] Plugin hot-plug must hold a read lock during signature re-verification to prevent TOCTOU between verification and dlopen/wasm instantiation. — **Implemented:** `PluginManager::reloadPlugin()` Phase 2 verifies the signature (`verifyPlugin()`) before the atomic swap under mutex, so the old plugin continues running while verification proceeds.

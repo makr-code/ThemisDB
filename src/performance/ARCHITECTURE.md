@@ -1,7 +1,10 @@
 # Performance Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
+
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/performance/`
 
 ---
@@ -182,10 +185,10 @@ Thread starts on NUMA node 1:
 
 ## 11. Known Limitations & Future Work
 
-- DiskANN integration with the vector index is in progress.
+- DiskANN integration with the vector index is complete (`src/index/vector_index.cpp`).
 - JIT compilation for query operators is planned.
 - Phase 4 optimizations are experimental; production deployment requires extensive testing.
-- Ligra parallel graph processing requires the Ligra library to be linked.
+- Ligra parallel graph processing is self-contained (uses `std::thread`); no external Ligra library required.
 
 ---
 

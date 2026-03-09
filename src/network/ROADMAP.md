@@ -83,7 +83,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `WireProtocolWebSocketSession` (include/network/wire_protocol_websocket.h)
   - JSON text-frame messages: ping, get, put, delete, query
   - Guarded by `THEMIS_ENABLE_WEBSOCKET`; config: `enable_websocket_upgrade`
-- [~] UDP-based fast-path for read-only queries (Target: Q3 2026)
+- [x] UDP-based fast-path for read-only queries (Target: Q3 2026)
 - [x] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
 
 ### Phase 3: Advanced Networking & Service Mesh (Status: Completed ✅)
@@ -136,7 +136,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
   dispatched (clients receive a structured error and should use text/JSON frames or
   the native TCP binary connection).
-- UDP fast-path is implemented; pending final integration tests and production validation.
+- UDP fast-path is implemented (`UDPFastPath`, port 8769); QUIC transport is implemented (`QuicTransport`, port 8770).
 - gRPC native transport is implemented (`GrpcTransport`, port 8771); this module provides
   the transport layer only — the gRPC service layer lives in the server/api modules.
 - Service mesh integration is in progress (`ServiceMeshIntegration`, port 8082);

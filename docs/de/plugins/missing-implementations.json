@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T18:41:00Z",
+    "module": "plugins",
+    "source_paths": [
+      "src/plugins/",
+      "include/plugins/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-documentation-sync-again (2026-03-09)."
+  },
+  "missing_implementations": [
+    {
+      "id": "PLUGINS-MISSING-001",
+      "title": "README listed non-existent source files",
+      "claim_source": "src/plugins/README.md",
+      "claim_section": "Relevant Interfaces",
+      "expected": "Files plugin_loader.cpp, plugin_api.cpp, manifest_validator.cpp, plugin_signer.cpp",
+      "observed": "None of these 4 files exist in src/plugins/; actual implementation is in plugin_manager.cpp, plugin_registry.cpp, signed_plugin_repository.cpp, etc.",
+      "evidence": {
+        "files_absent": [
+          "src/plugins/plugin_loader.cpp",
+          "src/plugins/plugin_api.cpp",
+          "src/plugins/manifest_validator.cpp",
+          "src/plugins/plugin_signer.cpp"
+        ],
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "corrected",
+      "roadmap_marker": "n/a",
+      "criticality": "low",
+      "status": "fixed_in_pr",
+      "fix_note": "README updated to list actual source files",
+      "suggested_issue_title": null,
+      "suggested_labels": []
+    },
+    {
+      "id": "PLUGINS-MISSING-002",
+      "title": "ROADMAP marked hot-reload as [ ] but implementation is complete",
+      "claim_source": "src/plugins/ROADMAP.md",
+      "claim_section": "Phase 2, line 56",
+      "expected": "[ ] Plugin hot-reload without server restart",
+      "observed": "PluginManager::reloadPlugin() is fully implemented in src/plugins/plugin_manager.cpp:953; ~250-line TOCTOU-safe 3-phase implementation (Phase 1: pre-validation, Phase 2: load + verify, Phase 3: atomic swap); test coverage in test_plugin_hot_reload_enhanced.cpp",
+      "evidence": {
+        "files_present": [
+          "src/plugins/plugin_manager.cpp"
+        ],
+        "implementation_lines": "plugin_manager.cpp:953-1200",
+        "test_file": "tests/test_plugin_hot_reload_enhanced.cpp",
+        "pr_evidence": "none (discovered via source audit 2026-03-09)"
+      },
+      "roadmap_status": "corrected",
+      "roadmap_marker": "[x]",
+      "criticality": "low",
+      "status": "fixed_in_pr",
+      "fix_note": "ROADMAP Phase 2 updated from [ ] to [x] with evidence reference",
+      "suggested_issue_title": null,
+      "suggested_labels": []
+    },
+    {
+      "id": "PLUGINS-MISSING-003",
+      "title": "Ed25519 manifest signing with key-rotation — manifest_signer.cpp not implemented",
+      "claim_source": "src/plugins/ROADMAP.md",
+      "claim_section": "Phase 2: [?] Ed25519 manifest signing workflow",
+      "expected": "manifest_signer.cpp with key-rotation support; integration with utils/pki_client.cpp for certificate chain validation and key rotation events",
+      "observed": "manifest_signer.cpp does not exist; SignedPluginRepository provides manual addPinnedKey/removePinnedKey but no automated rotation protocol; no pki_client.cpp integration",
+      "evidence": {
+        "files_absent": ["src/plugins/manifest_signer.cpp"],
+        "files_present": ["src/plugins/signed_plugin_repository.cpp"],
+        "note": "signed_plugin_repository.cpp:99-130 provides manual key management only",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_started",
+      "roadmap_marker": "[?]",
+      "target_date": "Q2 2026",
+      "criticality": "high",
+      "suggested_issue_title": "[plugins] Implement manifest_signer.cpp with Ed25519 key-rotation support",
+      "suggested_labels": ["type:feature", "priority:high", "plugins", "security", "status:planned"]
+    },
+    {
+      "id": "PLUGINS-MISSING-004",
+      "title": "Runtime capability enforcement — post-activation capability escalation not prevented",
+      "claim_source": "src/plugins/ROADMAP.md",
+      "claim_section": "Phase 2: [?] Capability-based permission model",
+      "expected": "Fine-grained capability model: plugins can only use declared capabilities; runtime enforcement prevents post-activation capability escalation",
+      "observed": "PluginCapabilityNegotiator in plugin_interface.h is implemented; CapabilityChecker exists in plugin_system_edition.cpp; but no runtime gate on the hot call path prevents plugins from using undeclared capabilities after activation",
+      "evidence": {
+        "files_present": [
+          "src/plugins/plugin_manager.cpp",
+          "src/plugins/plugin_system_edition.cpp",
+          "include/plugins/plugin_interface.h"
+        ],
+        "implementation_note": "Negotiation works at load time (plugin_manager.cpp:1288); runtime enforcement on call path is absent",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "partial",
+      "roadmap_marker": "[?]",
+      "target_date": "Q2 2026",
+      "criticality": "high",
+      "suggested_issue_title": "[plugins] Implement runtime capability enforcement to prevent post-activation capability escalation",
+      "suggested_labels": ["type:security", "priority:high", "plugins", "status:planned"]
+    },
+    {
+      "id": "PLUGINS-MISSING-005",
+      "title": "WASM sandbox isolation — not implemented",
+      "claim_source": "src/plugins/ROADMAP.md",
+      "claim_section": "Phase 3: [?] WebAssembly (WASM) plugin runtime",
+      "expected": "WASM runtime (Wasmtime or WasmEdge) as alternative to dlopen; memory-safe isolation; wasm_plugin_loader.cpp; IWASMSandbox interface",
+      "observed": "No WASM code in src/plugins/; test_wasm_plugin_sandbox.cpp exists as test scaffold; IWASMSandbox interface documented in include/plugins/FUTURE_ENHANCEMENTS.md (all [ ])",
+      "evidence": {
+        "files_absent": ["src/plugins/wasm_plugin_loader.cpp"],
+        "test_scaffold": "tests/test_wasm_plugin_sandbox.cpp",
+        "future_enhancements_ref": "include/plugins/FUTURE_ENHANCEMENTS.md §WebAssembly Sandbox Plugin Interface (all [ ])",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[?]",
+      "target_date": "Phase 3",
+      "criticality": "medium",
+      "suggested_issue_title": "[plugins] Implement WASM sandbox runtime via Wasmtime for plugin isolation",
+      "suggested_labels": ["type:feature", "priority:medium", "plugins", "status:planned"]
+    },
+    {
+      "id": "PLUGINS-MISSING-006",
+      "title": "Plugin metrics dashboard and health_score gauge — not wired to Prometheus",
+      "claim_source": "src/plugins/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "Plugin Metrics Dashboard Integration (all [ ])",
+      "expected": "PluginMetrics implements IMetricsProvider; Grafana dashboard template at grafana/dashboards/plugins.json; plugin_health_monitor emits plugin_health_score gauge",
+      "observed": "plugin_metrics.cpp is implemented (recordError, recordReload, call tracking); no IMetricsProvider interface; no Prometheus scrape endpoint wired; no Grafana dashboard; plugin_health_monitor.cpp does not emit plugin_health_score gauge",
+      "evidence": {
+        "files_present": [
+          "src/plugins/plugin_metrics.cpp",
+          "src/plugins/plugin_health_monitor.cpp"
+        ],
+        "files_absent": [
+          "grafana/dashboards/plugins.json"
+        ],
+        "future_enhancements_ref": "src/plugins/FUTURE_ENHANCEMENTS.md §Plugin Metrics Dashboard Integration (all [ ])",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "open",
+      "roadmap_marker": "[ ]",
+      "target_date": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[plugins] Wire PluginMetrics to Prometheus scrape endpoint and add plugin_health_score gauge",
+      "suggested_labels": ["type:feature", "priority:medium", "plugins", "observability", "status:planned"]
+    }
+  ],
+  "verified_complete": [
+    "Dynamic plugin loader (dlopen/LoadLibrary with RAII)",
+    "Plugin lifecycle management (load, initialize, unload)",
+    "Plugin API versioning and compatibility negotiation",
+    "Plugin manifest validation (JSON Schema v2)",
+    "Ed25519 plugin signing and signature verification",
+    "Secure plugin execution sandbox (capability isolation at load time)",
+    "PluginCapabilityNegotiator with PluginVersionRange and PluginCapabilityRequirement",
+    "PluginManager::negotiateCapabilities()",
+    "Plugin dependency resolution with topological sort and cycle detection (header-only Kahn)",
+    "Plugin hot-reload without server restart (PluginManager::reloadPlugin() — 3-phase TOCTOU-safe)",
+    "Plugin health monitoring and automatic restart on crash (PluginHealthMonitor)",
+    "PluginHotPlugMonitor (filesystem directory watch, triggers reload)",
+    "PluginMetrics (per-plugin call count, latency, error rate)",
+    "SignedPluginRepository (pinned-key store, manifest fetch, entry verification)",
+    "OciRegistryClient (remote plugin loading from OCI-compliant registries via libcurl)",
+    "RpcServiceRegistry (gRPC/RPC endpoint registration for plugins)",
+    "HuggingFaceIngestionPlugin (first-party HuggingFace model ingestion plugin)",
+    "manifest_schema_v2.json (JSON Schema v2 for capability-aware manifests)",
+    "IPlugin / IStatefulPlugin / ISelfHealingPlugin interfaces",
+    "PluginSystemEdition (edition-gated feature flags)"
+  ]
+}

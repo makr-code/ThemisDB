@@ -1,3 +1,6 @@
+<!-- status: current | validated: 2026-03-09 -->
+<!-- Links: Secondary → docs/de/performance/README.md | Root → ../../README.md -->
+
 # ThemisDB Performance Module
 
 ## Module Purpose
@@ -16,13 +19,24 @@ The Performance module provides ThemisDB's comprehensive optimization infrastruc
 
 | Interface / File | Role |
 |-----------------|------|
-| `benchmark_runner.cpp` | Benchmark execution harness and result reporting |
-| `performance_profiler.cpp` | Query and operation profiling with hardware counters |
-| `metrics_collector.cpp` | Resource metrics collection (CPU, memory, I/O, GPU) |
+| `cycle_metrics.cpp` | Hardware cycle counter measurement (RDTSC/CNTVCT_EL0/CUDA) |
+| `prometheus_exporter.cpp` | Prometheus text-format metrics serializer |
+| `async_metrics_exporter.cpp` | Async metrics export (background thread) |
+| `chimera_exporter.cpp` | Chimera benchmark-format exporter |
+| `numa_topology.cpp` | NUMA topology detection and thread pinning |
+| `workload_predictor.cpp` | ML-based workload predictor for resource scaling |
+| `wisckey.cpp` | WiscKey key-value separation (FAST '16) |
+| `dostoevsky.cpp` | Dostoevsky LSM compaction policy (SIGMOD '18) |
+| `cicada.cpp` | Cicada optimistic concurrency control (SIGMOD '17) |
+| `rabitq.cpp` | RaBitQ binary quantization for vector search (SIGMOD '24) |
+| `ligra.cpp` | Ligra parallel graph processing (PPoPP '13) |
+| `phase2_feature_flags.cpp` | Phase 2 runtime feature toggles |
+| `phase3/` | Phase 3 optimizations (DiskANN, Bw-Tree, SplinterDB, Gunrock, Bao) |
+| `phase4/` | Phase 4 optimizations (PMU counters, io_uring, PMEM) |
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Core benchmarking and performance profiling operational; JIT compilation integration planned.
+**Maturity:** 🟢 Production-Ready — All Phase 1–4 optimizations implemented; hardware cycle metrics, SIMD, NUMA, lock-free structures, adaptive feature flags, ML workload predictor, and research-based algorithms (WiscKey, Dostoevsky, Cicada, RaBitQ, Ligra) are production-grade.
 
 ## Scope
 

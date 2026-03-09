@@ -3,7 +3,7 @@
 # Query Module Roadmap
 
 ## Current Status
-v1.x – Production-grade AQL query engine with cost-based optimizer, multi-model execution, and comprehensive caching. AQL covers relational, document, graph, vector, spatial, and timeseries models with 100+ built-in functions.
+v1.x – Production-grade AQL query engine with cost-based optimizer, multi-model execution, and comprehensive caching. AQL covers relational, document, graph, vector, spatial, and timeseries models with 100+ built-in functions. SQL dialect compatibility layer, query plan visualization (EXPLAIN / ANALYZE), incremental CTE materialization, adaptive re-optimization, multi-statement transactions, and cross-cluster federation are all implemented.
 
 ## Completed ✅
 - [x] AQL parser with full AST generation (FOR, FILTER, SORT, LIMIT, RETURN, LET, COLLECT, WITH)
@@ -22,11 +22,16 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] Process mining and ethics functions
 - [x] JSON query support (`aql_parser_json.cpp`)
 - [x] Parallel scan for large collection full-table queries (Issue: #2432)
+- [x] SQL dialect compatibility layer – `sql_parser.cpp` (SELECT/INSERT/UPDATE/DELETE passthrough) (Issue: #2236)
+- [x] Query plan visualization API – `query_plan_visualizer.cpp` (EXPLAIN / EXPLAIN ANALYZE) (PR: #2075)
+- [x] Incremental view maintenance for materialized CTEs – `materialized_cte.cpp` (Issue: #1431)
+- [x] Query result type annotations – `result_type_annotation.cpp` (Issue: #1432)
+- [x] Adaptive query re-optimization on runtime statistics – `adaptive_optimizer.cpp`, `runtime_reoptimizer.cpp` (Issue: #2232)
+- [x] Multi-statement transaction AQL (BEGIN/COMMIT in query) – `aql_parser.cpp` (Issue: #2435)
+- [x] `QueryExpressionEvaluator` – delegates to AQL parser + `evaluateCondition()`; `get_expression_type()` returns `"AQL"`
 
 ## In Progress 🚧
-- [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #2236)
-- [P] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (PR: #2075)
-- [P] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
+*(none currently in progress)*
 
 ## Planned Features 📋
 
@@ -56,13 +61,13 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] LLM integration (LLM INFER, LLM RAG, LLM EMBED)
 - [x] Process mining and ethics functions
 
-### Phase 2: SQL Compatibility & Plan Visualization (Status: In Progress 🚧)
-- [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
-- [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
-- [x] Incremental view maintenance for materialized CTEs
+### Phase 2: SQL Compatibility & Plan Visualization (Status: Completed ✅)
+- [x] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) → `sql_parser.cpp`
+- [x] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) → `query_plan_visualizer.cpp`
+- [x] Incremental view maintenance for materialized CTEs → `materialized_cte.cpp`
 
 ### Phase 3: Resource Management & UDF (Status: In Progress 🚧)
-- [x] Query result type annotations for client SDK code generation
+- [x] Query result type annotations for client SDK code generation → `result_type_annotation.cpp`
 - [x] Per-query resource limits (max rows, max memory, timeout)
 - [x] Query cancellation via request ID
 - [x] Parallel scan for large collection full-table queries
