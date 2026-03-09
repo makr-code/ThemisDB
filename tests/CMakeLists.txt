@@ -1026,6 +1026,43 @@ set_tests_properties(BuildInfoTests PROPERTIES
     TIMEOUT 60
 )
 
+# Edition manager tests (subset of AllTests)
+# Covers: singleton identity, edition information (type/name/limits),
+#         feature availability (compile-time gate + runtime license gate),
+#         resource-limit checks (node count, VRAM), feature enumeration,
+#         upgrade messages, RuntimeLicenseGate integration
+#         (from test_edition_manager.cpp, Issue #2469)
+add_test(NAME EditionManagerTests
+    COMMAND themis_tests --gtest_filter=EditionManager.*)
+set_tests_properties(EditionManagerTests PROPERTIES
+    LABELS "edition;feature;gating;themis;unit"
+    TIMEOUT 60
+)
+
+# Dynamic feature-flag override tests (subset of AllTests)
+# Covers: setFeatureOverride / clearFeatureOverride / clearAllFeatureOverrides /
+#         hasFeatureOverride / getFeatureOverride, interaction with compile-time
+#         edition gate and RuntimeLicenseGate, feature enumeration, thread-safety
+#         (from test_dynamic_feature_flags.cpp, Issue #2469)
+add_test(NAME DynamicFeatureFlagTests
+    COMMAND themis_tests --gtest_filter=DynamicFeatureFlagTest.*)
+set_tests_properties(DynamicFeatureFlagTests PROPERTIES
+    LABELS "edition;feature;override;themis;unit"
+    TIMEOUT 60
+)
+
+# Runtime license gate tests (subset of AllTests)
+# Covers: uninitialized gate, active/expired/grace/invalid/offline license states,
+#         compile-time OFF features, unknown features, initialize()/update()
+#         idempotency, diagnostics (licenseStatus, graceDaysRemaining, currentLicense)
+#         (from test_runtime_license_gate.cpp)
+add_test(NAME RuntimeLicenseGateTests
+    COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+set_tests_properties(RuntimeLicenseGateTests PROPERTIES
+    LABELS "license;runtime;gate;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
