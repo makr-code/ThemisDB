@@ -3,7 +3,7 @@
 # Voice Module Roadmap
 
 ## Current Status
-v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator with Whisper-based STT, llama.cpp TTS/LLM integration, session management, phone call transcription, meeting protocol generation, real-time browser WebSocket streaming, and voice biometric authentication are all implemented.
+v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator with Whisper-based STT, llama.cpp TTS/LLM integration, session management, phone call transcription, meeting protocol generation, real-time browser WebSocket streaming, voice biometric authentication, and telephony bridge (SIP/WebRTC) are all implemented.
 
 ## Completed ✅
 - [x] VoiceAssistant – central coordinator for all voice interaction
@@ -23,14 +23,16 @@ v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator 
 - [x] Voice biometric authentication (speaker verification) (Issue: #2494)
 - [x] Multi-speaker diarization improvements (Issue: #2497)
 - [x] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
+- [x] Integration with telephony systems — SIP call sessions, WebRTC peer connections, IVR engine, TelephonyBridge coordinator (Issue: #2495)
 
 ## In Progress 🚧
-- [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
+- (none)
 
 ## Planned Features 📋
 
 ### Long-term (6-12 months)
-- [!] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
+- [ ] Federated learning for on-device voice model personalisation (Target: Q3 2026)
+- [ ] GPU-accelerated noise suppression and codec processing (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -60,12 +62,12 @@ v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator 
 - [x] WebSocket audio streaming endpoint for browser clients (Issue: #2350)
 - [x] Voice session playback and search in stored transcripts
 
-### Phase 4: Multi-Language TTS & Biometric Authentication (Status: In Progress 🚧)
+### Phase 4: Multi-Language TTS & Biometric Authentication (Status: Completed ✅)
 - [x] Multi-language TTS (German, French, Spanish voices)
 - [x] Emotion / sentiment detection from voice tone
 - [x] Voice biometric authentication (speaker verification)
 - [x] Real-time meeting transcription with action-item extraction (Target: Q1 2026)
-- [ ] Integration with telephony systems (SIP / WebRTC)
+- [x] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #2355)
