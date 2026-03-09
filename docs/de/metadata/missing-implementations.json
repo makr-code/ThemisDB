@@ -1,0 +1,106 @@
+{
+  "module": "metadata",
+  "validated": "2026-03-09",
+  "source_commit": "ab36d18bd",
+  "primary_doc": "src/metadata/README.md",
+  "findings": [
+    {
+      "id": "META-MISSING-001",
+      "title": "Performance benchmarks missing",
+      "claim_source": "src/metadata/ROADMAP.md",
+      "claim_section": "Production Readiness Checklist",
+      "claim_text": "[?] Performance benchmarks (cache hit rate, scan latency) – planned for v1.6.0",
+      "expected": "Dedicated benchmark suite for metadata cache hit rate and RocksDB scan latency",
+      "observed": "No bench_metadata_*.cpp or equivalent found in the repository; no benchmark results documented",
+      "checked_paths": [
+        "tests/bench_*",
+        "benchmarks/",
+        "src/metadata/"
+      ],
+      "evidence": "ROADMAP Production Readiness Checklist: '[?] Performance benchmarks'",
+      "severity": "low",
+      "status": "open",
+      "target_version": "v1.6.0",
+      "issue_title_suggestion": "bench(metadata): add cache hit rate and scan latency benchmarks (closes v1.6.0 target)",
+      "label_suggestions": ["performance", "metadata", "benchmarking"]
+    },
+    {
+      "id": "META-MISSING-002",
+      "title": "Security audit pending",
+      "claim_source": "src/metadata/ROADMAP.md",
+      "claim_section": "Production Readiness Checklist",
+      "claim_text": "[?] Security audit (metadata access control, information disclosure) – planned for v1.6.0",
+      "expected": "Formal security audit covering metadata API access control, information disclosure risks, and audit log tamper resistance",
+      "observed": "No audit results in repository; SchemaApiHandler checks HTTP auth but no formal security review evidence found",
+      "checked_paths": [
+        "src/server/schema_api_handler.cpp",
+        "include/metadata/schema_audit_log.h",
+        "docs/de/metadata/"
+      ],
+      "evidence": "ROADMAP Production Readiness Checklist: '[?] Security audit'",
+      "severity": "medium",
+      "status": "open",
+      "target_version": "v1.6.0",
+      "issue_title_suggestion": "security(metadata): conduct access control and information disclosure audit (closes v1.6.0 target)",
+      "label_suggestions": ["security", "metadata", "audit"]
+    },
+    {
+      "id": "META-MISSING-003",
+      "title": "README referenced non-existent source files",
+      "claim_source": "src/metadata/README.md",
+      "claim_section": "Relevant Interfaces",
+      "claim_text": "metadata_manager.cpp, schema_registry.cpp, type_system.cpp, index_metadata.cpp",
+      "expected": "Correct list of actually present source files",
+      "observed": "None of the four listed files exist in src/metadata/. Actual files: schema_manager.cpp, statistics_collector.cpp, information_schema.cpp, schema_version_manager.cpp, schema_audit_log.cpp, schema_consistency_checker.cpp, schema_constraints.cpp, column_lineage.cpp, er_diagram_exporter.cpp, catalog_exporter.cpp, distributed_catalog.cpp, index_recommender.cpp",
+      "checked_paths": [
+        "src/metadata/*.cpp"
+      ],
+      "evidence": "ls src/metadata/*.cpp shows none of the listed files",
+      "severity": "medium",
+      "status": "fixed",
+      "fix_commit": "ab36d18bd",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "META-MISSING-004",
+      "title": "README maturity status incorrectly listed as Beta",
+      "claim_source": "src/metadata/README.md",
+      "claim_section": "Current Delivery Status",
+      "claim_text": "Maturity: 🟡 Beta — Metadata catalog and schema management operational; metadata versioning in progress.",
+      "expected": "Correct maturity level reflecting actual v1.5.x production-ready state",
+      "observed": "All Phase 1-3 features are implemented and tested; ROADMAP correctly marks module as Production-Ready",
+      "checked_paths": [
+        "src/metadata/ROADMAP.md",
+        "tests/test_schema_*.cpp",
+        "tests/test_statistics_*.cpp"
+      ],
+      "evidence": "ROADMAP Current Status: 'Full-featured, production-ready metadata layer. All Phase 1-3 items are complete.'",
+      "severity": "low",
+      "status": "fixed",
+      "fix_commit": "ab36d18bd",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
+    },
+    {
+      "id": "META-MISSING-005",
+      "title": "No explicit forward/backward compat-mode policy enforcement",
+      "claim_source": "src/metadata/ROADMAP.md",
+      "claim_section": "Planned Features",
+      "claim_text": "[ ] Explicit compat-mode policy enforcement (forward/backward) (Target: v1.9 / Q1 2027)",
+      "expected": "Full forward/backward compatibility policy engine for schema evolution",
+      "observed": "validateMigration() in schema_version_manager.cpp checks basic structural consistency (no duplicate columns, not identical to previous version); explicit forward/backward compat-mode flags absent",
+      "checked_paths": [
+        "include/metadata/schema_version_manager.h",
+        "src/metadata/schema_version_manager.cpp"
+      ],
+      "evidence": "ROADMAP: validateMigration API present; explicit compat-mode policy deferred to v1.9 / Q1 2027",
+      "severity": "low",
+      "status": "known_limitation",
+      "target_version": "v1.9",
+      "target_date": "Q1 2027",
+      "issue_title_suggestion": "feat(metadata): implement explicit forward/backward compat-mode policy enforcement",
+      "label_suggestions": ["enhancement", "metadata", "schema-evolution"]
+    }
+  ]
+}

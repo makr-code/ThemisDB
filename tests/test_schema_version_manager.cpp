@@ -29,6 +29,7 @@
 
 #include "metadata/schema_version_manager.h"
 #include "metadata/schema_manager.h"
+#include "metadata/schema_audit_log.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -343,4 +344,116 @@ TEST_F(SchemaVersionManagerTest, HistoryToJSON) {
     ASSERT_EQ(j.size(), 2u);
     EXPECT_EQ(j[0]["version"], 1u);
     EXPECT_EQ(j[1]["version"], 2u);
+}
+
+// ============================================================================
+// SchemaAuditLog integration via setAuditLog()
+// ============================================================================
+
+class SchemaVersionManagerAuditTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        namespace fs = std::filesystem;
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        std::string path = (fs::temp_directory_path() /
+            ("test_ver_audit_" + std::to_string(now))).string();
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path       = path;
+        cfg.enable_blobdb = false;
+
+        db_      = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open()) << "Failed to open test database";
+        idx_mgr_ = std::make_unique<SecondaryIndexManager>(*db_);
+        schema_  = std::make_unique<SchemaManager>(*db_, idx_mgr_.get());
+        audit_   = std::make_unique<SchemaAuditLog>(*db_);
+    }
+
+    void TearDown() override {
+        if (db_) db_->close();
+    }
+
+    void registerSchema(const std::string& name) {
+        SchemaManager::TableSchema ts;
+        ts.name = name; ts.type = "relational";
+        SchemaManager::PropertyInfo p; p.name = "id"; p.type = "integer";
+        ts.properties.push_back(p);
+        schema_->setTableSchema(name, ts);
+    }
+
+    std::unique_ptr<RocksDBWrapper>        db_;
+    std::unique_ptr<SecondaryIndexManager> idx_mgr_;
+    std::unique_ptr<SchemaManager>         schema_;
+    std::unique_ptr<SchemaAuditLog>        audit_;
+};
+
+TEST_F(SchemaVersionManagerAuditTest, CreateVersionWritesToAuditLog) {
+    registerSchema("users");
+
+    SchemaVersionManager svm(*db_, *schema_);
+    svm.setAuditLog(audit_.get());
+
+    auto r = svm.createSchemaVersion("users", "alice", "initial version");
+    ASSERT_TRUE(r.ok);
+
+    // The audit log must contain at least one entry for "users"
+    auto history = audit_->getHistory("users");
+    EXPECT_FALSE(history.empty());
+    EXPECT_EQ(history.back().table_name, "users");
+    EXPECT_EQ(history.back().author,     "alice");
+}
+
+TEST_F(SchemaVersionManagerAuditTest, RollbackWritesToAuditLog) {
+    registerSchema("orders");
+
+    SchemaVersionManager svm(*db_, *schema_);
+    svm.setAuditLog(audit_.get());
+
+    // Create two versions so we can roll back
+    svm.createSchemaVersion("orders", "bob", "v1");
+
+    SchemaManager::TableSchema ts2;
+    ts2.name = "orders"; ts2.type = "relational";
+    SchemaManager::PropertyInfo p1; p1.name = "id";  p1.type = "integer";
+    SchemaManager::PropertyInfo p2; p2.name = "qty"; p2.type = "integer";
+    ts2.properties.push_back(p1);
+    ts2.properties.push_back(p2);
+    schema_->setTableSchema("orders", ts2);
+    svm.createSchemaVersion("orders", "bob", "v2");
+
+    auto r = svm.rollbackToVersion("orders", 1, "carol", "revert to v1");
+    ASSERT_TRUE(r.ok);
+
+    // Audit log must now contain entries for both create and rollback
+    auto history = audit_->getHistory("orders");
+    bool found_rollback = false;
+    for (const auto& e : history) {
+        if (e.operation == "rollback") { found_rollback = true; break; }
+    }
+    EXPECT_TRUE(found_rollback) << "Expected a 'rollback' entry in audit log";
+}
+
+TEST_F(SchemaVersionManagerAuditTest, NoAuditLogSetDoesNotCrash) {
+    registerSchema("products");
+
+    SchemaVersionManager svm(*db_, *schema_);
+    // Do NOT call setAuditLog – audit_log_ remains nullptr
+
+    auto r = svm.createSchemaVersion("products", "sys", "no audit");
+    EXPECT_TRUE(r.ok) << "createSchemaVersion must succeed even without audit log";
+}
+
+TEST_F(SchemaVersionManagerAuditTest, MultipleVersionsAllAppearInAuditLog) {
+    registerSchema("items");
+
+    SchemaVersionManager svm(*db_, *schema_);
+    svm.setAuditLog(audit_.get());
+
+    for (int i = 0; i < 3; ++i) {
+        auto r = svm.createSchemaVersion("items", "dev", "change " + std::to_string(i));
+        ASSERT_TRUE(r.ok);
+    }
+
+    auto history = audit_->getHistory("items");
+    EXPECT_GE(history.size(), 3u) << "Each createSchemaVersion call must produce an audit entry";
 }

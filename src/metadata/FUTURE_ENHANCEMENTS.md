@@ -13,14 +13,14 @@
 
 ## Design Constraints
 
-- [ ] Metadata cache TTL must be configurable per collection; adaptive TTL must track mutation rate with < 5 s lag
-- [ ] INFORMATION_SCHEMA column names must comply with SQL:2003 standard; no proprietary column names
-- [ ] Thread-safe access to all metadata APIs (shared_mutex on cache; exclusive lock on version counter)
-- [ ] Full schema scan on first load must complete in < 30 s for databases with up to 10M keys
-- [ ] Statistics must be refreshed at most once per TTL period even under concurrent query pressure
-- [ ] Schema version counter must be monotonically increasing; gaps are not permitted
-- [ ] Changefeed notifications must be delivered within 500 ms of the schema mutation event
-- [ ] External catalog integration (Apache Atlas, DataHub) must be optional and guarded by a feature flag
+- [x] Metadata cache TTL must be configurable per collection; adaptive TTL must track mutation rate with < 5 s lag
+- [x] INFORMATION_SCHEMA column names must comply with SQL:2003 standard; no proprietary column names
+- [x] Thread-safe access to all metadata APIs (shared_mutex on cache; exclusive lock on version counter)
+- [x] Full schema scan on first load must complete in < 30 s for databases with up to 10M keys
+- [x] Statistics must be refreshed at most once per TTL period even under concurrent query pressure
+- [x] Schema version counter must be monotonically increasing; gaps are not permitted
+- [x] Changefeed notifications must be delivered within 500 ms of the schema mutation event
+- [x] External catalog integration (Apache Atlas, DataHub) must be optional and guarded by a feature flag
 
 ## Required Interfaces
 
