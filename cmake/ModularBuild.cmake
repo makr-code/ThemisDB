@@ -473,6 +473,7 @@ set(THEMIS_SECURITY_SOURCES
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
     ../src/search/llm_reranker.cpp
+    ../src/search/llm_query_rewriter.cpp
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
     ../src/search/faceted_search.cpp
@@ -483,6 +484,9 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/personalized_ranker.cpp
     ../src/search/multi_field_search.cpp
     ../src/search/neural_sparse_retrieval.cpp
+    ../src/search/cross_lingual_search.cpp
+    ../src/search/search_highlighter.cpp
+    ../src/search/negative_keyword_filter.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES

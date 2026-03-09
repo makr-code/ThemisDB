@@ -3,7 +3,7 @@
 # Search Module Roadmap
 
 ## Current Status
-v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`.
+v2.2.0 – Production-ready hybrid search with highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support.
 
 ## Completed ✅
 - [x] HybridSearch – RRF-based fusion of BM25 and vector results
@@ -35,13 +35,14 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] Spelling correction suggestions (Issue: #2455)
 - [x] `PersonalizedRanker` – per-user interaction history tracking with time-decayed scoring and result re-ranking (v2.0.0) (Issue: #2279)
 
-## In Progress 🚧
-- [I] Highlight / snippet generation for matched terms (Target: Q3 2026) (Issue: #2457)
+## Completed ✅ (continued)
+- [x] Highlight / snippet generation for matched terms (`SearchHighlighter`, v2.1.0) (Issue: #2457)
+- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
+- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
 
 ### Long-term (6-12 months)
 - [I] Distributed search across shards with result merging (Issue: #2280)
@@ -60,14 +61,14 @@ v1.5.0 – Production-ready hybrid search. The core engine (BM25, HNSW vector, R
 - [x] `QueryParser` – natural language query parsing
 - [x] `ResultRanker` – configurable score aggregation
 
-### Phase 2: LLM Query Rewriting & Faceted Search (Status: In Progress 🚧)
+### Phase 2: LLM Query Rewriting & Faceted Search (Status: Completed ✅)
 - [x] LLM-based query rewriting for improved recall (`LlmQueryRewriter`)
 - [x] Faceted search with dynamic facet counting
-- [~] Highlight / snippet generation for matched terms
+- [x] Highlight / snippet generation for matched terms (`SearchHighlighter`, v2.1.0)
 
-### Phase 3: Multi-Field Boosting & Search Analytics (Status: In Progress 🚧)
+### Phase 3: Multi-Field Boosting & Search Analytics (Status: Completed ✅)
 - [x] Multi-field boosting (title > body > tags) (`MultiFieldBoostedSearch`, v1.9.0)
-- [ ] Negative keyword filtering (`NOT` operator)
+- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0)
 - [x] Configurable re-ranking with LLM feedback loop
 - [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)
 - [x] Spelling correction suggestions
