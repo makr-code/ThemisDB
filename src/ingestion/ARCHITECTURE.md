@@ -1,7 +1,10 @@
 # Ingestion Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+<!-- Status: current | validated: 2026-03-09 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
+
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/ingestion/`
 
 ---
@@ -38,14 +41,16 @@ queue for bad records, and Prometheus metrics export.
 
 | File | Role |
 |---|---|
-| `ingestion_manager.cpp` | Orchestrator: manages all sources, parallel execution, admin API |
-| `api_connector.cpp` | Generic REST API connector with pagination, retry, rate limiting |
+| `ingestion_manager.cpp` | Orchestrator: manages all sources, parallel execution, admin API, schema validation, plugin registry, dynamic reconfiguration |
+| `api_connector.cpp` | Generic REST API connector with pagination, retry, rate limiting (real `curl_easy_perform`) |
 | `filesystem_ingester.cpp` | Directory walker with binary MIME detection (PDF, DOCX) |
-| `huggingface_connector.cpp` | HuggingFace Hub dataset connector |
+| `huggingface_connector.cpp` | HuggingFace Hub dataset connector (HTTP simulated; see Known Limitations) |
 | `kafka_connector.cpp` | Apache Kafka consumer source connector (librdkafka) |
 | `object_storage_connector.cpp` | S3 / GCS / Azure Blob object-storage connector |
 | `database_connector.cpp` | JDBC-compatible database source connector (ODBC) |
 | `web_crawler_connector.cpp` | HTTP web crawler with BFS, sitemap, and robots.txt support |
+| `cdc_connector.cpp` | Change-data-capture source for live database streams (stream backend gated behind `THEMIS_ENABLE_CDC_STREAM`) |
+| `ingestion_coordinator.cpp` | Distributed ingestion coordinator with work-stealing thread pool |
 
 ### 3.2 Component Diagram
 
@@ -193,10 +198,13 @@ FileSystemIngester: encounter file "report.pdf"
 
 ## 11. Known Limitations & Future Work
 
-- PDF/DOCX ingestion requires external converters (pdftotext, pandoc) to be installed.
+- `HuggingFaceConnector`: HTTP client uses a simulated implementation (stub); replace with real `libcurl` calls for production use.
+- `CdcConnector`: `ingestFromStream()` is a compile-time gated stub; full replication driver integration (PostgreSQL libpq-fe.h or MySQL Connector/C) requires `THEMIS_ENABLE_CDC_STREAM`.
+- `IngestionAdminApi::retryQuarantineItem()`: write-success is always `true`; wire to real storage-write return value.
+- PDF/DOCX ingestion requires external converters (pdftotext, pandoc) to be installed; native parsing not supported.
 - WebSocket/real-time source connectors are planned.
-- Kafka and MQTT source connectors are planned.
-- Full-text extraction for complex PDFs (scanned images) requires OCR (Tesseract integration planned).
+- OCR for scanned PDF pages (Tesseract integration) is planned.
+- End-to-end ingestion lineage tracking not yet implemented (Issue: #1901).
 
 ---
 

@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T15:41:17Z",
+    "module": "llm",
+    "source_paths": [
+      "src/llm/",
+      "include/llm/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/update-documentation-reality-check (2026-03-09)."
+  },
+  "missing_implementations": [
+    {
+      "id": "LLM-MISSING-001",
+      "title": "AdaptiveVRAMAllocator — GPU memory allocation is a stub",
+      "claim_source": "src/llm/ROADMAP.md",
+      "claim_section": "Speculative Decoding for Latency Reduction; src/llm/FUTURE_ENHANCEMENTS.md §Security/Reliability (VRAM caps for draft model)",
+      "expected": "AdaptiveVRAMAllocator::allocateWithFragmentation() allocates real GPU VRAM; handleOutOfMemory() implements OOM recovery strategies (eviction, defragmentation, CPU spilling)",
+      "observed": "allocateWithFragmentation() sets *ptr = nullptr and returns aligned_bytes > 0 — no real GPU memory is allocated. handleOutOfMemory() returns false without any recovery action",
+      "evidence": {
+        "files": ["src/llm/adaptive_vram_allocator.cpp"],
+        "stub_lines": "lines 127 (// Stub implementation - would integrate with actual GPU allocator), 139 (*ptr = nullptr; // Stub), 145 (// Stub implementation - recovery strategies)",
+        "file_header_stubs": 3,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_tracked_separately",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[llm] Implement AdaptiveVRAMAllocator GPU memory allocation (cudaMalloc/hipMalloc)",
+      "suggested_labels": ["type:feature", "priority:medium", "llm", "gpu", "status:open"]
+    },
+    {
+      "id": "LLM-MISSING-002",
+      "title": "InferenceEngineEnhanced — KV-cache prewarming and embedding-based cache lookup are TODOs",
+      "claim_source": "src/llm/ARCHITECTURE.md",
+      "claim_section": "KV-Cache Reuse (Prefix Cache); src/llm/ROADMAP.md §Context caching (KV-cache reuse)",
+      "expected": "prewarmCache() pre-computes KV-cache entries for frequent prompts; checkCache() and updateCache() use real embedding similarity for fuzzy cache hits",
+      "observed": "prewarmCache() only logs prompt prefixes without computation. checkCache() and updateCache() use a zero vector (dummy_embedding(128, 0.0f)) instead of real embeddings",
+      "evidence": {
+        "files": ["src/llm/inference_engine_enhanced.cpp"],
+        "todo_lines": "line 495 (// TODO: In production, implement actual cache prewarming), line 1131 (// TODO: compute embeddings for similarity-based cache lookup), line 1139 (// Placeholder - not used in current implementation), line 1169 (// TODO: compute actual embeddings and KV cache)",
+        "file_header_todos": 3,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_tracked_separately",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[llm] Implement embedding-based prefix cache lookup in InferenceEngineEnhanced",
+      "suggested_labels": ["type:feature", "priority:medium", "llm", "status:open"]
+    },
+    {
+      "id": "LLM-MISSING-003",
+      "title": "DocsAssistant — LLM completion macro undefined, returns placeholder",
+      "claim_source": "src/llm/docs_assistant.cpp",
+      "claim_section": "DocsAssistant::generateAnswer()",
+      "expected": "generateAnswer() generates responses using LLM inference (THEMIS_LLM_COMPLETE macro or direct engine call)",
+      "observed": "The call THEMIS_LLM_COMPLETE(prompt.str()) is commented out with // TODO: Undefined macro; the function always returns the hardcoded string '[LLM completion placeholder]'",
+      "evidence": {
+        "files": ["src/llm/docs_assistant.cpp"],
+        "placeholder_lines": "lines 251-252 (// std::string answer = THEMIS_LLM_COMPLETE(prompt.str()); // TODO: Undefined macro; std::string answer = \"[LLM completion placeholder]\";)",
+        "file_header_todos": 1,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[llm] Wire DocsAssistant::generateAnswer() to actual LLM inference engine",
+      "suggested_labels": ["type:bug", "priority:low", "llm", "status:open"]
+    },
+    {
+      "id": "LLM-MISSING-004",
+      "title": "AsyncInferenceEngine — RAG context encoding is naive text concatenation",
+      "claim_source": "src/llm/ARCHITECTURE.md",
+      "claim_section": "Standard Inference (RAG integration via src/rag/llm_integration.cpp)",
+      "expected": "submitWithRAGContext() encodes RAG documents in a structured format (XML tags, chat template, structured JSON context)",
+      "observed": "RAG context is naively concatenated as 'Context:\\n<doc>\\n\\nQuestion: <prompt>' — no chat template, no structured format, no deduplication",
+      "evidence": {
+        "files": ["src/llm/async_inference_engine.cpp"],
+        "todo_lines": "line 373 (// TODO: Properly encode RAG context in request)",
+        "file_header_todos": 1,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[llm] Implement structured RAG context encoding in AsyncInferenceEngine::submitWithRAGContext()",
+      "suggested_labels": ["type:feature", "priority:low", "llm", "rag", "status:open"]
+    },
+    {
+      "id": "LLM-MISSING-005",
+      "title": "Federated inference across distributed nodes — not implemented",
+      "claim_source": "src/llm/ROADMAP.md",
+      "claim_section": "Planned Features / Remaining (Issue: #1928)",
+      "expected": "Distributed inference routing across multiple nodes; LLM requests distributed across machines",
+      "observed": "No implementation directory, no source files, no headers for federated inference. byzantine_detector.cpp exists for fault detection but no routing layer for distributed inference",
+      "evidence": {
+        "files": [],
+        "search_result": "No matches for 'federated_inference*' or 'distributed_inference*' in src/llm/",
+        "roadmap_marker_file": "src/llm/ROADMAP.md",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "planned",
+      "roadmap_marker": "[I]",
+      "issue_number": 1928,
+      "criticality": "low",
+      "suggested_issue_title": "[llm] Implement federated inference routing across distributed nodes",
+      "suggested_labels": ["type:feature", "priority:low", "llm", "distributed", "status:open"]
+    }
+  ],
+  "summary": {
+    "total_findings": 5,
+    "by_criticality": {
+      "high": 0,
+      "medium": 2,
+      "low": 3
+    },
+    "by_type": {
+      "stub": 1,
+      "todo": 2,
+      "placeholder": 1,
+      "not_implemented": 1
+    },
+    "note": "All other ROADMAP entries are backed by present implementation files in develop. No stub exists in the critical inference execution path (AsyncInferenceEngine, InferenceEngineEnhanced, LlamaWrapper, grammar, LoRA hot-loading, speculative decoding, streaming)."
+  }
+}
