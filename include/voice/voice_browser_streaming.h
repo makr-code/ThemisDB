@@ -1,0 +1,302 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            voice_browser_streaming.h                          ║
+  Version:         1.1.0                                              ║
+  Last Modified:   2026-03-09                                         ║
+  Author:          ThemisDB Team                                      ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                       ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • v1.1.0  2026-03-09  feat(voice): WebSocket browser audio        ║
+                           streaming (Issue #2350)                     ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+/**
+ * @file voice_browser_streaming.h
+ * @brief WebSocket-based voice streaming for browser clients.
+ *
+ * Implements real-time bidirectional audio streaming between a browser and
+ * the ThemisDB voice pipeline via WebSocket connections (Issue #2350).
+ *
+ * ## Architecture
+ * ```
+ * Browser ──── wss://host/voice/stream ──── VoiceStreamingSession
+ *   │  (64 KB max frames, binary)               │
+ *   │  audio chunks (PCM/Opus/WebM)             ├── STT (incremental)
+ *   │  ◄── PartialTranscript JSON               ├── NLU / LLM intent
+ *   │  ◄── FinalTranscript JSON                 └── TTS audio chunks ──►
+ * ```
+ *
+ * ## REST control endpoints (RFC 6455 upgrade handled by server layer)
+ * | Method | Path                        | Action                   |
+ * |--------|-----------------------------|--------------------------|
+ * | POST   | /api/v1/voice/stream/start  | Create session, return stream_id |
+ * | DELETE | /api/v1/voice/stream/end    | Terminate session        |
+ *
+ * ## Constraints (from FUTURE_ENHANCEMENTS.md)
+ * - Max frame size: 64 KB
+ * - Session duration: ≤10 minutes
+ * - ≥100 simultaneous WebSocket clients
+ * - End-to-end latency: ≤500 ms
+ * - Audio encrypted in-transit (TLS) and at-rest
+ *
+ * @note Thread Safety: VoiceStreamingSession is NOT thread-safe per instance.
+ *   Concurrent access from the send/receive WebSocket callbacks must be
+ *   serialised with a mutex at the caller level.
+ *
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <atomic>
+#include <chrono>
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+namespace themis {
+namespace voice {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Data types
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Opaque stream identifier
+using StreamID = std::string;
+
+/**
+ * @brief Word-level timing information from STT.
+ */
+struct Word {
+    std::string text;
+    float       start_s = 0.0f;   ///< Start time in seconds relative to stream start
+    float       end_s   = 0.0f;   ///< End time in seconds
+    float       confidence = 0.0f;
+};
+
+/**
+ * @brief Incremental STT result returned while audio is still flowing.
+ */
+struct PartialTranscript {
+    StreamID    stream_id;
+    std::string text;             ///< Text recognised so far (may change)
+    bool        is_final = false; ///< True iff this is the conclusive result
+    float       confidence = 0.0f;
+    std::vector<Word> words;      ///< Word-level timing (if available)
+    int64_t     timestamp_ms = 0; ///< Wall-clock time of this update
+};
+
+/**
+ * @brief Definitive transcript + intent for a completed utterance.
+ */
+struct FinalTranscript {
+    StreamID    stream_id;
+    std::string text;
+    float       confidence = 0.0f;
+    std::vector<Word> words;
+    std::string intent;           ///< NLU intent label (empty if not run)
+    float       intent_confidence = 0.0f;
+    int64_t     duration_ms = 0;  ///< Total utterance duration
+};
+
+/**
+ * @brief Audio format description for incoming browser audio.
+ */
+struct AudioFormat {
+    enum class Encoding { PCM16, OPUS, WEBM_OPUS };
+    Encoding encoding      = Encoding::PCM16;
+    uint32_t sample_rate   = 16000;  ///< Hz
+    uint16_t channels      = 1;
+    uint16_t bits_per_sample = 16;   ///< Only for PCM16
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VoiceStreamingSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief WebSocket voice streaming session.
+ *
+ * Manages the lifecycle of one bidirectional voice stream from a browser
+ * client: audio ingestion, incremental STT, optional NLU, and TTS synthesis
+ * back to the browser.
+ *
+ * ## Typical flow
+ * ```cpp
+ * auto session = VoiceStreamingSession::create(config);
+ *
+ * // Attach callbacks before starting
+ * session->onPartialTranscript([](auto& pt){ … });
+ * session->onFinalTranscript([](auto& ft){ … });
+ * session->onTtsChunk([](auto& chunk){ … }); // send back to browser
+ *
+ * session->start();
+ *
+ * // Called by the WebSocket on each incoming message:
+ * session->sendAudioChunk(raw_audio_bytes);
+ *
+ * session->end(); // or auto-closes after max_duration_s
+ * ```
+ */
+class VoiceStreamingSession {
+public:
+    /**
+     * @brief Session configuration.
+     */
+    struct Config {
+        std::string session_id;               ///< Auth/user session ID
+        std::string user_id;                  ///< Optional user ID for personalisation
+        AudioFormat audio_format;             ///< Expected incoming audio format
+        std::string language = "en";          ///< BCP-47 language code
+        bool        run_nlu  = true;          ///< Extract intent after each utterance
+        bool        enable_tts = false;       ///< Synthesise and stream TTS back to browser
+        uint32_t    max_frame_bytes = 65536;  ///< Max accepted WebSocket frame size (64 KB)
+        uint32_t    max_duration_s  = 600;    ///< Auto-close after this many seconds (10 min)
+        bool        partial_results = true;   ///< Emit PartialTranscript as audio arrives
+    };
+
+    /**
+     * @brief Factory: construct and return a new session.
+     *
+     * @param config  Session configuration.
+     * @return Owning pointer to the new session.
+     * @throws std::invalid_argument if config is invalid.
+     */
+    static std::unique_ptr<VoiceStreamingSession> create(Config config);
+
+    ~VoiceStreamingSession();
+
+    // Non-copyable
+    VoiceStreamingSession(const VoiceStreamingSession&)            = delete;
+    VoiceStreamingSession& operator=(const VoiceStreamingSession&) = delete;
+
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Start the session (allocate resources, begin STT pipeline).
+     * @return The session's unique StreamID.
+     */
+    StreamID start();
+
+    /**
+     * @brief Terminate the session and flush any buffered audio.
+     *
+     * Blocks until the final transcript is delivered.
+     */
+    void end();
+
+    /**
+     * @brief True while the session is active (between start() and end()).
+     */
+    bool isActive() const noexcept;
+
+    // ── Audio ingestion ───────────────────────────────────────────────────────
+
+    /**
+     * @brief Feed an audio chunk from the browser WebSocket frame.
+     *
+     * @param audio_chunk  Raw audio bytes (format specified in Config::audio_format).
+     * @return PartialTranscript if Config::partial_results is true and STT has an
+     *         incremental result; otherwise empty (is_final=false, text="").
+     */
+    PartialTranscript sendAudioChunk(const std::vector<uint8_t>& audio_chunk);
+
+    /**
+     * @brief Signal end-of-utterance (e.g. silence detected or VAD trigger).
+     *
+     * Forces the STT engine to finalise the current hypothesis.
+     */
+    void endOfUtterance();
+
+    // ── Callbacks ─────────────────────────────────────────────────────────────
+
+    using PartialTranscriptCb = std::function<void(const PartialTranscript&)>;
+    using FinalTranscriptCb   = std::function<void(const FinalTranscript&)>;
+    using TtsChunkCb          = std::function<void(const std::vector<uint8_t>&)>;
+    using ErrorCb             = std::function<void(const std::string& error)>;
+
+    void onPartialTranscript(PartialTranscriptCb cb);
+    void onFinalTranscript(FinalTranscriptCb cb);
+    void onTtsChunk(TtsChunkCb cb);       ///< Called with TTS audio chunks when enable_tts=true
+    void onError(ErrorCb cb);
+
+    // ── Session info ──────────────────────────────────────────────────────────
+
+    StreamID     streamId()    const noexcept;
+    const Config& config()     const noexcept;
+    int64_t      startedAtMs() const noexcept;
+    size_t       bytesReceived()const noexcept;
+
+private:
+    explicit VoiceStreamingSession(Config config);
+
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VoiceStreamingManager
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Manages the pool of active VoiceStreamingSession instances.
+ *
+ * Enforces the ≥100 concurrent-session requirement and provides lookup by
+ * StreamID for the WebSocket message router.
+ *
+ * @note Thread Safety: All public methods are thread-safe.
+ */
+class VoiceStreamingManager {
+public:
+    explicit VoiceStreamingManager(size_t max_concurrent_sessions = 200);
+    ~VoiceStreamingManager() = default;
+
+    /**
+     * @brief Create a new session and register it.
+     *
+     * @return StreamID of the created session, or empty string when the
+     *         max_concurrent_sessions limit is reached.
+     */
+    StreamID createSession(VoiceStreamingSession::Config config);
+
+    /**
+     * @brief Route an incoming audio chunk to the correct session.
+     *
+     * @return PartialTranscript for the session, or empty if not found.
+     */
+    PartialTranscript routeAudio(const StreamID&             stream_id,
+                                  const std::vector<uint8_t>& audio_chunk);
+
+    /**
+     * @brief Terminate and remove a session.
+     */
+    void closeSession(const StreamID& stream_id);
+
+    /**
+     * @brief Return the number of currently active sessions.
+     */
+    size_t activeSessionCount() const noexcept;
+
+private:
+    size_t max_sessions_;
+    mutable std::mutex sessions_mutex_;
+    std::unordered_map<std::string, std::unique_ptr<VoiceStreamingSession>> sessions_;
+};
+
+} // namespace voice
+} // namespace themis
