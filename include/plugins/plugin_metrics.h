@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "core/concerns/i_metrics.h"
 #include <string>
 #include <deque>
 #include <map>
@@ -149,6 +150,46 @@ private:
     
     // Helper to ensure plugin stats exist
     PluginStats& getOrCreateStats(const std::string& plugin);
+};
+
+/**
+ * @brief Bridges PluginMetrics snapshots to an IMetrics sink (e.g. Prometheus).
+ *
+ * Call collect() periodically to push all per-plugin counters, latency gauges,
+ * and resource metrics into the observability backend so they appear on the
+ * Prometheus scrape endpoint and in the Grafana plugin dashboard.
+ *
+ * Metric names and labels emitted:
+ *   plugin_function_calls      {plugin="<name>"}  gauge
+ *   plugin_errors              {plugin="<name>"}  gauge
+ *   plugin_reload_count        {plugin="<name>"}  gauge
+ *   plugin_load_time_ms        {plugin="<name>"}  gauge
+ *   plugin_memory_bytes        {plugin="<name>"}  gauge
+ *   plugin_call_latency_avg_ms {plugin="<name>"}  gauge
+ *   plugin_call_latency_p95_ms {plugin="<name>"}  gauge
+ *   plugin_call_latency_p99_ms {plugin="<name>"}  gauge
+ */
+class PluginMetricsCollector {
+public:
+    /**
+     * @brief Construct a collector bound to the given PluginMetrics store.
+     * @param metrics  The PluginMetrics instance to read from.
+     */
+    explicit PluginMetricsCollector(const PluginMetrics& metrics) : metrics_(metrics) {}
+
+    /**
+     * @brief Publish a point-in-time snapshot of all per-plugin metrics to sink.
+     *
+     * Iterate all plugins tracked by PluginMetrics and emit each stat as a
+     * labelled gauge into @p sink.  All values are absolute snapshots; the
+     * caller is responsible for invoking this at a suitable scrape interval.
+     *
+     * @param sink  IMetrics backend to write into (e.g. PrometheusMetricsAdapter).
+     */
+    void collect(themis::core::concerns::IMetrics& sink) const;
+
+private:
+    const PluginMetrics& metrics_;
 };
 
 } // namespace plugins

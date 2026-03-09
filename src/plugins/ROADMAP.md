@@ -58,7 +58,7 @@ v1.x – Core plugin infrastructure production-ready. Dynamic loading, manifest 
 
 ### Phase 3: WASM Sandbox & Ecosystem (Status: In Progress 🚧)
 - [?] WebAssembly (WASM) plugin runtime via Wasmtime for sandbox isolation (Target: Q3 2027)
-- [x] Plugin metrics dashboard (call latency, error rate per plugin — `plugin_metrics.cpp`)
+- [x] Plugin metrics dashboard (call latency, error rate per plugin — `plugin_metrics.cpp`, `PluginMetricsCollector`, `grafana/dashboards/plugins.json`)
 - [x] Remote plugin loading from OCI registries (`oci_registry_client.cpp`)
 - [?] Plugin SDK with C++, Python, and Go bindings (Target: Q4 2027)
 - [?] Community plugin repository with automated security scanning (Target: Q4 2027)
@@ -71,6 +71,7 @@ v1.x – Core plugin infrastructure production-ready. Dynamic loading, manifest 
 - [?] Security audit (signature enforcement, sandbox escape prevention)
 - [x] Documentation complete (README, ARCHITECTURE, ROADMAP, FUTURE_ENHANCEMENTS)
 - [x] API stability guaranteed (v1.x stable, breaking changes require major version bump)
+- [x] Prometheus metrics integration (`PluginMetricsCollector`, `plugin_health_score` gauge, Grafana dashboard)
 
 ## Known Issues & Limitations
 - Plugin execution is in-process; a crash in a native plugin can affect the server (WASM isolation planned).

@@ -93,16 +93,17 @@ Support `dependencies` field in plugin manifests to declare inter-plugin depende
 
 ---
 
-### [~] Plugin Metrics Dashboard Integration
+### [x] Plugin Metrics Dashboard Integration
 **Priority:** Medium
 **Target Version:** v0.9.0
 
-**Status:** Core per-plugin metrics (call count, P50/P95/P99 latency, error rate, memory RSS) are implemented in `plugin_metrics.cpp`. Remaining work: wire `PluginMetricsCollector` to the Prometheus scrape endpoint via `IMetricsProvider`, and add a Grafana dashboard.
+**Status:** Implemented. `PluginMetricsCollector::collect(IMetrics&)` publishes per-plugin counters, latency gauges, and memory metrics to any `IMetrics` sink (e.g. `PrometheusMetricsAdapter`). `PluginHealthMonitor::attachMetrics(IMetrics*)` emits `plugin_health_score` after every health check. The Grafana dashboard template is at `grafana/dashboards/plugins.json`.
 
 **Implementation Notes:**
-- Extend `plugin_metrics.cpp` with a `PluginMetricsCollector` that implements the `IMetricsProvider` interface used by the observability module.
-- Add Grafana dashboard template under `grafana/dashboards/plugins.json` with per-plugin latency panels.
-- `plugin_health_monitor.cpp` should emit a `plugin_health_score` gauge (0–1) computed from error rate and heartbeat age.
+- `PluginMetricsCollector` (in `plugin_metrics.h` / `plugin_metrics.cpp`) reads `PluginMetrics::getAllStats()` and emits labelled gauges via `IMetrics::setGauge()`.
+- `PluginHealthMonitor::attachMetrics(IMetrics*)` wires the monitor to a Prometheus sink; call once at startup with a `PrometheusMetricsAdapter`.
+- `PluginHealthMonitor::computeHealthScore()` maps `PluginHealthStatus` + error rate to a 0–1 score; emitted as `plugin_health_score{plugin=…}`.
+- Grafana dashboard (`grafana/dashboards/plugins.json`) provides panels for health score, call latency (avg/P95/P99), error count, memory, reload count, and load time.
 
 **Performance Targets:**
 - Metrics scrape overhead: <0.5 ms per registered plugin.
