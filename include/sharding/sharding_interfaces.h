@@ -227,13 +227,20 @@ struct SnapshotHandle {
     std::chrono::system_clock::time_point created_at;
     uint64_t last_log_index{0};
     uint64_t last_log_term{0};
+    /// Set to true by IRaftSnapshotManager when HMAC verification detects
+    /// tampering.  Concrete implementations must set this field when they
+    /// detect that snapshot content no longer matches its stored HMAC.
+    bool is_corrupted{false};
 
     const std::string& id() const noexcept { return snapshot_id; }
     size_t sizeBytes() const noexcept { return size_bytes; }
     std::chrono::system_clock::time_point createdAt() const noexcept { return created_at; }
 
-    /// Returns false if the snapshot HMAC is invalid or the handle is empty.
-    bool verifyIntegrity() const noexcept { return !snapshot_id.empty() && size_bytes > 0; }
+    /// Returns false if the snapshot HMAC is invalid, the handle is empty,
+    /// or is_corrupted has been set by the snapshot manager.
+    bool verifyIntegrity() const noexcept {
+        return !is_corrupted && !snapshot_id.empty() && size_bytes > 0;
+    }
 };
 
 /// Outcome of IRaftSnapshotManager::compactLog().
@@ -461,8 +468,17 @@ public:
     /// Current number of active (begin()-but-not-committed/aborted) transactions.
     virtual size_t activeTxCount() const = 0;
 
+    /// Configurable TTL for abandoned transactions.
+    /// The coordinator must abort any TxHandle whose begin()-to-now duration
+    /// exceeds this value, even if the handle was never explicitly
+    /// committed or aborted.  Returns zero duration if no TTL enforcement
+    /// is applied (transactions are never forcibly timed out by the
+    /// coordinator, relying solely on explicit abort() or TxHandle destruction).
+    virtual std::chrono::milliseconds transactionTimeoutMs() const = 0;
+
     /// Always returns true: every cross-shard RPC must use mTLS.
-    virtual bool requiresMTLS() const { return true; }
+    /// Non-virtual: the mTLS requirement cannot be relaxed by subclasses.
+    bool requiresMTLS() const noexcept { return true; }
 
 protected:
     /// Helper for concrete implementations to create a TxHandle.

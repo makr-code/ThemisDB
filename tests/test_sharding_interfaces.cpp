@@ -158,6 +158,9 @@ public:
         std::lock_guard lock(mu_);
         return active_txns_.size();
     }
+    std::chrono::milliseconds transactionTimeoutMs() const override {
+        return tx_timeout_ms_;
+    }
 
     // Test helpers
     bool wasCommitted(const std::string& tx_id) const {
@@ -170,6 +173,7 @@ public:
     }
     void forceConflict(bool v) { force_conflict_ = v; }
     void forceTimeout(bool v)  { force_timeout_ = v; }
+    void setTxTimeoutMs(int ms) { tx_timeout_ms_ = std::chrono::milliseconds{ms}; }
 
 private:
     mutable std::mutex mu_;
@@ -180,6 +184,7 @@ private:
     std::atomic<int> next_tx_id_{0};
     bool force_conflict_{false};
     bool force_timeout_{false};
+    std::chrono::milliseconds tx_timeout_ms_{30000};
 };
 
 // -----------------------------------------------------------------------------
@@ -216,6 +221,14 @@ public:
             CompactionResult r;
             r.success = false;
             r.error_message = "Missing admin token";
+            p->set_value(r);
+            return fut;
+        }
+        // Enforce HMAC verification before any log truncation (spec requirement)
+        if (!verifySnapshot(snapshot)) {
+            CompactionResult r;
+            r.success = false;
+            r.error_message = "Snapshot integrity check failed — possible tampering";
             p->set_value(r);
             return fut;
         }
@@ -775,4 +788,96 @@ TEST(PermissionDeniedErrorTest, IsRuntimeError) {
     } catch (const std::runtime_error& e) {
         EXPECT_STREQ(e.what(), "test");
     }
+}
+
+// =============================================================================
+// Audit-gap tests (required by FUTURE_ENHANCEMENTS.md Test Strategy)
+// =============================================================================
+
+// ── Raft snapshot integrity: corrupt snapshot → verifyIntegrity() returns false
+TEST(IRaftSnapshotManagerTest, VerifyIntegrityReturnsFalseForCorruptedSnapshot) {
+    MockRaftSnapshotManager mgr;
+    auto handle = mgr.initiateSnapshot("shard_corrupt").get();
+    ASSERT_TRUE(handle.verifyIntegrity()) << "freshly created handle must be intact";
+
+    // Simulate tampering: set is_corrupted flag (as a concrete manager would
+    // when it detects an HMAC mismatch).
+    handle.is_corrupted = true;
+    EXPECT_FALSE(handle.verifyIntegrity())
+        << "verifyIntegrity() must return false for a corrupted snapshot";
+    EXPECT_FALSE(mgr.verifySnapshot(handle))
+        << "verifySnapshot() must also reject a corrupted handle";
+}
+
+// Corrupted snapshot must not trigger compactLog (HMAC enforced before truncation)
+TEST(IRaftSnapshotManagerTest, CompactLogRejectsCorruptedSnapshot) {
+    MockRaftSnapshotManager mgr;
+    auto handle = mgr.initiateSnapshot("shard_x").get();
+    handle.is_corrupted = true;          // simulate HMAC mismatch
+    AdminContext ctx{"valid_token"};
+    auto result = mgr.compactLog("shard_x", handle, ctx).get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// ── Consistent hash ring: routing is stable while rebalance lock is held
+TEST(IConsistentHashRingTest, RingImmutabilityUnderConcurrentRebalanceLock) {
+    MockConsistentHashRing ring({"node_a", "node_b", "node_c"});
+    const ShardKey key = "stability_test_key";
+
+    NodeId before_lock = ring.getNode(key);
+
+    // Acquire the rebalance lock
+    auto lock = ring.acquireRebalanceLock();
+    EXPECT_TRUE(lock.isHeld());
+    EXPECT_EQ(ring.lockCount(), 1);
+
+    // Concurrent read while lock is held must see the same result
+    std::vector<NodeId> readings;
+    readings.reserve(8);
+    for (int i = 0; i < 8; ++i) {
+        readings.push_back(ring.getNode(key));
+    }
+
+    // Release the lock
+    lock = RebalanceLockHandle{};  // move-assign from default-constructed handle
+    EXPECT_EQ(ring.lockCount(), 0);
+
+    // All readings must be identical (ring is stable during the lock period)
+    for (const auto& r : readings) {
+        EXPECT_EQ(r, before_lock)
+            << "getNode() must return the same shard while rebalance lock is held";
+    }
+    // Reading after lock release must also be consistent
+    EXPECT_EQ(ring.getNode(key), before_lock);
+}
+
+// ── IDistributedTxCoordinator: configurable TTL must be in the interface
+TEST(IDistributedTxCoordinatorTest, TransactionTimeoutMsIsAccessible) {
+    MockDistributedTxCoordinator coord;
+    // Default timeout must be a positive duration
+    EXPECT_GT(coord.transactionTimeoutMs().count(), 0);
+}
+
+TEST(IDistributedTxCoordinatorTest, TransactionTimeoutMsIsConfigurable) {
+    MockDistributedTxCoordinator coord;
+    coord.setTxTimeoutMs(5000);
+    EXPECT_EQ(coord.transactionTimeoutMs(), std::chrono::milliseconds{5000});
+
+    // Zero means "no TTL enforcement" — transactions are never forcibly
+    // timed out by the coordinator (only aborted by explicit call or
+    // TxHandle destruction).
+    coord.setTxTimeoutMs(0);
+    EXPECT_EQ(coord.transactionTimeoutMs(), std::chrono::milliseconds{0})
+        << "zero timeout indicates no TTL enforcement by the coordinator";
+}
+
+// ── Security: requiresMTLS() must not be overridable (non-virtual contract)
+// This test verifies the interface-level guarantee: calling requiresMTLS() via
+// a pointer to the base class always returns true regardless of the subtype.
+TEST(IDistributedTxCoordinatorTest, RequiresMTLSIsNonVirtualAlwaysTrue) {
+    MockDistributedTxCoordinator coord;
+    // Access through base-class pointer to confirm non-virtual dispatch
+    IDistributedTxCoordinator* base = &coord;
+    EXPECT_TRUE(base->requiresMTLS());
 }

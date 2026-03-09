@@ -26,7 +26,7 @@
 | `IAdaptiveRebalancer` | Cluster manager, admin API | Exposes `planRebalance() -> RebalancePlan`, `applyPlan(const RebalancePlan&) -> std::future<RebalanceResult>` |
 | `IDistributedTxCoordinator` | Transaction manager, write path | Exposes `begin() -> TxHandle`, `prepare(TxHandle) -> PrepareResult`, `commit(TxHandle)`, `abort(TxHandle)` |
 | `IRaftSnapshotManager` | Raft consensus layer, compaction | Exposes `initiateSnapshot(ShardId) -> std::future<SnapshotHandle>`, `verifySnapshot(SnapshotHandle) -> bool` |
-| `IConsistentHashRing` | Shard router, rebalancer | Exposes `getNode(const ShardKey&) -> NodeId`, `nodes() -> std::span<const NodeId>`; immutable under rebalance lock |
+| `IConsistentHashRing` | Shard router, rebalancer | Exposes `getNode(const ShardKey&) -> NodeId`, `physicalNodes() -> std::vector<NodeId>`; immutable under rebalance lock |
 | `ICrossShardQueryRouter` | Query planner, scan engine | Exposes `fanOut(const QueryPlan&) -> std::vector<ShardQueryPlan>`, `merge(std::span<ShardResult>) -> ResultSet` |
 
 ## Planned Features
