@@ -14,11 +14,11 @@ Provides GPU compute integration for ThemisDB, implementing VRAM management with
 
 ## Relevant Interfaces
 
-- `gpu_memory_manager_edition.cpp` — VRAM slab allocator with tenant quotas
-- `safe_fail.cpp` — GPU→CPU safe-fail (circuit breaker)
-- `device_discovery.cpp` — CUDA/ROCm device discovery
-- `query_accelerator.cpp` — parallel query operations
-- `metrics.cpp` — Prometheus metrics
+- `gpu_memory_manager.cpp` — VRAM slab allocator with tenant quotas
+- `circuit_breaker.cpp` — GPU→CPU safe-fail
+- `device_enumerator.cpp` — CUDA/ROCm device discovery
+- `gpu_query_accelerator.cpp` — parallel query operations
+- `gpu_metrics.cpp` — Prometheus metrics
 
 ## Current Delivery Status
 

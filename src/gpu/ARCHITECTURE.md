@@ -52,20 +52,10 @@ safety, and provides the operational plumbing that makes GPU work production-saf
 | `launcher.cpp` | Typed async work-item / batch launcher |
 | `stream_manager.cpp` | Named GPU streams with CPU fallback budget |
 | `kernel_validator.cpp` | FNV-1a checksum whitelist; validate before launch |
-| `query_accelerator.cpp` | Parallel scan / filter / sort / aggregate / join; ANN search via cuVS/RAFT |
-| `graph_cache.cpp` | LRU CUDA Graph capture cache keyed on QueryShape (OpType × rows × param_hash) |
+| `query_accelerator.cpp` | Parallel scan / filter / sort / aggregate / join |
 | `tensor_buffer.cpp` | Typed tensor containers with shape/dtype, views, checkpointing |
 | `training_loop.cpp` | Training loop coordinator: batch iteration, loss, early stopping |
 | `rocm_backend.cpp` | ROCm/HIP stream lifecycle and device memory |
-| `vulkan_backend.cpp` | Cross-vendor Vulkan compute backend (AMD/Intel/NVIDIA via SPIR-V) |
-| `cluster_topology.cpp` | NVLink/InfiniBand topology detection and preferred-interconnect routing |
-| `cluster_coordinator.cpp` | Multi-node GPU cluster coordination: heartbeat, health, least-loaded scheduling |
-| `profiler.cpp` | NVTX/rocTX profiling markers for NVIDIA Nsight and ROCm Profiler |
-| `unified_memory.cpp` | CUDA/HIP unified (managed) memory allocator with CPU fallback |
-| `time_slice_scheduler.cpp` | Round-robin per-tenant GPU time-slice dispatcher |
-| `mig_manager.cpp` | MIG partition lifecycle for NVIDIA Ampere/Hopper (A/H series) |
-| `p2p_transfer.cpp` | Peer-to-peer GPU-to-GPU direct transfers via NVLink/PCIe |
-| `wasm_kernel_sandbox.cpp` | WASM-based sandbox for untrusted third-party GPU kernel blobs |
 | `metrics.cpp` | Prometheus-compatible counter/gauge registry |
 | `alerts.cpp` | Threshold-based alert manager with callbacks |
 | `audit_log.cpp` | Ring-buffer structured GPU audit event log |
@@ -89,15 +79,10 @@ safety, and provides the operational plumbing that makes GPU work production-saf
 │                                                                  │
 │  Observability: GPUMetrics + GPUAuditLog + GPUAlertManager       │
 │  Operations: GPUAdminAPI + GPUFeatureFlags + GPUConfig           │
-│  Advanced: GPUGraphCache + GPUQueryAccelerator + MIGManager      │
-│  Cluster: GPUClusterTopology + GPUClusterCoordinator             │
-│  Isolation: GPUTimeSliceScheduler + WASMKernelSandbox            │
 └──────────────────────────────────────────────────────────────────┘
          │
          ├── CUDA device via CUDA Runtime API
-         ├── ROCm/HIP device via ROCmBackend
-         ├── Cross-vendor GPU via VulkanComputeBackend
-         └── CPU fallback (no GPU hardware required)
+         └── ROCm/HIP device via ROCmBackend
 ```
 
 ---
@@ -227,20 +212,9 @@ GPUSafeFailManager: record failure
 
 ## 11. Known Limitations & Future Work
 
-- Multi-node GPU cluster coordination is implemented as CPU-level bookkeeping
-  (`GPUClusterCoordinator`); real NVLink/InfiniBand fabric integration requires
-  hardware and NCCL/RCCL wiring.
-- Peer-to-peer GPU-to-GPU direct transfers are implemented (`GPUP2PTransferManager`);
-  production verification of `cudaMemcpyPeer` throughput on NVLink hardware is pending.
-- CUDA Graph capture is implemented as CPU bookkeeping simulation (`GPUGraphCache`);
-  production `cudaGraph_t` / `cudaStreamBeginCapture` wiring requires GPU hardware.
-- MIG partitioning infrastructure is implemented (`MIGManager`); real
-  `nvmlDeviceCreateGpuInstance` calls require CUDA + NVML hardware.
-- Vulkan compute backend infrastructure is implemented (`VulkanComputeBackend`);
-  real `VkQueue` command-buffer submission requires the Vulkan SDK + hardware.
-- WASM kernel sandbox uses CPU simulation; full sandboxing requires a
-  Wasmtime/WasmEdge runtime (see `FUTURE_ENHANCEMENTS.md`).
-- Kernel validation whitelist management UI is not yet implemented.
+- Multi-node GPU coordination (across server instances) is in progress.
+- NVLink/PCIe peer-to-peer memory transfer optimization is planned.
+- Kernel validation whitelist management UI is planned.
 
 ---
 

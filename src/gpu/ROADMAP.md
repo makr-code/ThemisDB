@@ -61,9 +61,9 @@
 ## Implementation Phases
 
 ### Phase 1: GPU Resource Management & Acceleration (Status: Completed ✅)
-- [x] Edition-aware VRAM allocation with tenant quotas (`gpu/gpu_memory_manager_edition.cpp`)
+- [x] Edition-aware VRAM allocation with tenant quotas (`gpu/vram_allocator.cpp`)
 - [x] CUDA/ROCm device enumeration with CPU-fallback sentinel
-- [x] Circuit-breaker safe-fail with GPU→CPU fallback (`gpu/safe_fail.cpp`)
+- [x] Circuit-breaker safe-fail with GPU→CPU fallback (`gpu/circuit_breaker.cpp`)
 - [x] Ring-buffer structured audit event log
 - [x] Default-deny capability gate for GPU usage
 - [x] Slab-based memory pre-allocator with fragmentation tracking

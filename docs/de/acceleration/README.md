@@ -73,7 +73,7 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 |---|---|---|---|
 | CUDA | NVIDIA GPU (sm_70+) | `THEMIS_ENABLE_CUDA` | ✅ Produktionsreif |
 | HIP/ROCm | AMD GPU | `THEMIS_ENABLE_HIP` | ✅ Implementiert |
-| Vulkan | Plattformübergreifend (Mali, Apple M, AMD) | `THEMIS_ENABLE_VULKAN` | 🚧 In Bearbeitung |
+| Vulkan | Plattformübergreifend (Mali, Apple M, AMD) | `THEMIS_ENABLE_VULKAN` | ✅ Implementiert (MoltenVK-Hardening ausstehend) |
 | OpenCL | Breite Hardware-Unterstützung | — | 🔜 Geplant |
 | Metal | Apple macOS/iOS | — | 🧪 Experimentell |
 | DirectX | Windows | — | 🧪 Experimentell |
