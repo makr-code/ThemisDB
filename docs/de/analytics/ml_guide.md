@@ -42,53 +42,70 @@ durch Hyperparameter-Suche, Feature Engineering und Ensemble-Generierung.
 #include "analytics/automl.h"
 using namespace themisdb::analytics;
 
-// Trainingsdaten vorbereiten
-AutoMLDataset dataset;
-dataset.features = {
-    {1.0, 2.5, 0.3},
-    {2.1, 1.8, 0.7},
-    // ...
-};
-dataset.labels = {0, 1, 0, 1, /* ... */};
-dataset.feature_names = {"feature_a", "feature_b", "feature_c"};
+// Trainingsdaten als DataPoint-Vektor aufbauen
+std::vector<DataPoint> data;
+for (auto& [a, b, c, label] : std::vector<std::tuple<double,double,double,std::string>>{
+    {1.0, 2.5, 0.3, "cat"}, {2.1, 1.8, 0.7, "dog"}, /* ... */
+}) {
+    DataPoint dp;
+    dp.set("feature_a", a);
+    dp.set("feature_b", b);
+    dp.set("feature_c", c);
+    dp.set("label", label);   // Zielfeld — muss dem AutoMLConfig::target entsprechen
+    data.push_back(dp);
+}
 
 // AutoML konfigurieren
 AutoMLConfig cfg;
-cfg.max_time_seconds = 60;        // Max. Trainingszeit
-cfg.cv_folds = 5;                 // Cross-Validation Faltungen
-cfg.metric = AutoMLMetric::F1;    // Optimierungsmetrik
-cfg.generate_ensemble = true;     // Ensemble aus Top-Modellen
+cfg.target           = "label";
+cfg.task             = AutoMLTask::CLASSIFICATION;
+cfg.max_time_minutes = 1;                   // Max. Trainingszeit in Minuten
+cfg.cv_folds         = 5;                   // Cross-Validation Faltungen
+cfg.metric           = AutoMLMetric::F1;    // Optimierungsmetrik
+cfg.ensemble         = true;                // Ensemble aus Top-Modellen
+cfg.max_trials       = 20;                  // Max. auszuprobierender Hyperparameter-Sets
 
-AutoMLEngine automl(cfg);
-automl.fit(dataset);
+// Training starten — gibt das beste Modell zurück
+AutoML automl;
+AutoMLModel best_model = automl.trainClassifier(data, cfg);
 
-// Bestes Modell abrufen
-auto best_model = automl.bestModel();
-std::cout << "Bestes Modell: " << best_model.algorithm_name << "\n";
-std::cout << "F1-Score: " << best_model.cv_score << "\n";
+std::cout << "Bestes Modell: " << modelAlgorithmName(best_model.algorithm()) << "\n";
+std::cout << "F1-Score: " << best_model.metrics().f1 << "\n";
 
-// SHAP-Erklärungen
-auto shap = automl.computeSHAPValues(dataset.features[0]);
-for (size_t i = 0; i < shap.size(); ++i) {
-    std::cout << dataset.feature_names[i] << ": " << shap[i] << "\n";
+// Top-Kandidaten einsehen
+for (const auto& c : best_model.candidateModels()) {
+    std::cout << c.name << " cv_score=" << c.cv_score << "\n";
 }
 
-// Inferenz
-std::vector<double> new_sample = {1.5, 2.0, 0.5};
-auto prediction = best_model.predict(new_sample);
-std::cout << "Klasse: " << prediction.label
-          << " (Konfidenz: " << prediction.confidence << ")\n";
+// SHAP-Erklärungen für einen einzelnen Datenpunkt
+DataPoint sample;
+sample.set("feature_a", 1.5); sample.set("feature_b", 2.0); sample.set("feature_c", 0.5);
+
+auto exp = best_model.explainOne(sample);
+std::cout << "Vorhergesagte Klasse: " << exp.predicted_label
+          << " (Konfidenz: " << exp.confidence << ")\n";
+for (const auto& [feat, contrib] : exp.feature_contributions)
+    std::cout << feat << ": " << contrib << "\n";
+
+// Einzelinferenz
+std::string label = best_model.predictOne(sample);
+
+// Batch-Inferenz
+auto predictions = best_model.predict(data);
 ```
 
 ### AutoMLConfig Referenz
 
 | Feld | Standard | Beschreibung |
 | --- | --- | --- |
-| `max_time_seconds` | 60 | Maximale Trainingszeit in Sekunden |
-| `cv_folds` | 5 | Anzahl Cross-Validation-Faltungen |
-| `metric` | `ACCURACY` | Optimierungsmetrik (ACCURACY, F1, AUC, RMSE) |
-| `generate_ensemble` | false | Ensemble aus Top-3-Modellen erstellen |
-| `max_models` | 10 | Maximale Anzahl auszuprobierender Modelle |
+| `target` | `""` | Name des Zielfeldes in `DataPoint` |
+| `task` | `CLASSIFICATION` | `CLASSIFICATION` oder `REGRESSION` |
+| `max_time_minutes` | 5 | Maximale Trainingszeit in **Minuten** |
+| `cv_folds` | 3 | Anzahl Cross-Validation-Faltungen |
+| `metric` | `F1` | Optimierungsmetrik (ACCURACY, F1, AUC\_ROC, RMSE, …) |
+| `ensemble` | true | Ensemble aus Top-`ensemble_top_k`-Modellen erstellen |
+| `ensemble_top_k` | 3 | Anzahl Modelle im Ensemble |
+| `max_trials` | 50 | Maximale Anzahl Hyperparameter-Versuche |
 | `feature_engineering` | true | Automatisches Feature Engineering aktivieren |
 
 ---
@@ -103,45 +120,51 @@ std::cout << "Klasse: " << prediction.label
 #include "analytics/ml_serving.h"
 using namespace themisdb::analytics;
 
-// ONNX-Modell laden
+// ONNX-Backend konfigurieren
 MLServingConfig cfg;
-cfg.backend = MLBackend::ONNX;
-cfg.model_path = "/models/classifier.onnx";
+cfg.backend                       = MLBackendType::ONNX_RUNTIME;
+cfg.onnx_config.model_directory   = "/models";   // Verzeichnis mit *.onnx-Dateien
+cfg.onnx_config.enable_cuda       = false;        // CUDA-Provider deaktiviert
 
 MLServingClient client(cfg);
 
-// Inferenz
+// Inferenz über DataPoint (Felder werden alphabetisch sortiert → float32)
 DataPoint dp;
-dp.features = {1.0, 2.5, 0.3, 4.1};
+dp.set("feat_a", 1.0); dp.set("feat_b", 2.5); dp.set("feat_c", 0.3);
 
-auto result = client.infer(dp);
-std::cout << "Klasse: " << result.predicted_class << "\n";
-std::cout << "Wahrscheinlichkeiten: ";
-for (auto p : result.probabilities)
-    std::cout << p << " ";
+auto resp = client.inferFromDataPoint("classifier", dp);
+if (resp.ok()) {
+    // resp.outputs[0].data enthält den rohen float32-Ausgabe-Tensor
+    for (float v : resp.outputs[0].data)
+        std::cout << v << " ";
+} else {
+    std::cerr << "Fehler: " << resp.error_message << "\n";
+}
 ```
 
 ### TensorFlow Serving (REST-API)
 
 ```cpp
 MLServingConfig cfg;
-cfg.backend = MLBackend::TENSORFLOW_SERVING;
-cfg.endpoint = "http://tf-serving:8501/v1/models/my_model:predict";
-cfg.timeout_ms = 5000;
+cfg.backend                 = MLBackendType::TF_SERVING;
+cfg.tf_config.base_url      = "http://tf-serving:8501";  // Basis-URL (ohne Modelpfad)
+cfg.tf_config.timeout_ms    = 5000;
+cfg.tf_config.api_key       = "bearer-token";  // optional
 
 MLServingClient client(cfg);
-// Graceful Degradation: Gibt leeres Ergebnis zurück wenn Backend nicht erreichbar
-auto result = client.infer(dp);
 ```
 
 ### Graceful Degradation
 
-Wenn ein ML-Backend nicht verfügbar ist, degradiert `MLServingClient` graceful:
+Wenn ein ML-Backend nicht verfügbar ist, gibt `MLServingClient` einen strukturierten
+Fehler zurück:
 
 ```cpp
-auto result = client.infer(dp);
-if (result.is_degraded) {
-    // Fallback-Logik, z.B. regelbasiertes System
+auto resp = client.inferFromDataPoint("model", dp);
+if (!resp.ok()) {
+    if (resp.status == MLServingStatus::UNAVAILABLE) {
+        // Fallback-Logik, z.B. regelbasiertes System
+    }
 }
 ```
 
@@ -158,50 +181,53 @@ using namespace themisdb::analytics;
 
 ModelServingEngine engine;
 
-// Modell registrieren
-ModelConfig cfg;
-cfg.name = "fraud_detector";
-cfg.version = "v2.1";
-cfg.algorithm = "gradient_boosting";
-// ... Modellparameter ...
-engine.registerModel(cfg);
+// Trainiertes AutoMLModel registrieren (Move-Semantik)
+AutoML automl;
+AutoMLModel model = automl.trainClassifier(training_data, cfg);
+engine.registerModel("fraud_detector", "v2.1", std::move(model));
 
-// Online-Inferenz (einzelner Datenpunkt)
+// Online-Inferenz (einzelner Datenpunkt) — gibt Label als string zurück
 DataPoint dp;
-dp.features = {100.0, 3, 0.5, /* ... */};
+dp.set("amount",     100.0);
+dp.set("n_items",    3.0);
+dp.set("risk_score", 0.5);
 
-auto result = engine.infer("fraud_detector", "v2.1", dp);
-std::cout << "Fraud-Wahrscheinlichkeit: " << result.probabilities[1] << "\n";
+std::string label = engine.predict("fraud_detector", "v2.1", dp);
+
+// Klassen-Wahrscheinlichkeiten (Classification)
+auto probas = engine.predictProba("fraud_detector", "v2.1", {dp});
+// probas[0] = map<string,double>: {"fraud": 0.87, "legit": 0.13}
 
 // Batch-Inferenz
 std::vector<DataPoint> batch = {dp1, dp2, dp3};
-auto batch_results = engine.inferBatch("fraud_detector", "v2.1", batch);
+auto batch_labels = engine.predictBatch("fraud_detector", "v2.1", batch);
 
 // Modell-Health-Metriken
-auto metrics = engine.getModelMetrics("fraud_detector", "v2.1");
-std::cout << "Anfragen gesamt: " << metrics.total_requests << "\n";
-std::cout << "Ø Latenz (ms): " << metrics.avg_latency_ms << "\n";
-std::cout << "Fehlerrate: " << metrics.error_rate << "\n";
+auto metrics = engine.healthMetrics("fraud_detector", "v2.1");
+if (metrics) {
+    std::cout << "Anfragen gesamt: " << metrics->total_predictions << "\n";
+    std::cout << "Ø Latenz (ms): "   << metrics->avg_latency_ms << "\n";
+}
 
-// Modell serialisieren/deserialisiern
+// Modell serialisieren/deserialisieren
 std::string serialized = engine.serializeModel("fraud_detector", "v2.1");
-engine.loadModel(serialized);
+engine.loadModel("fraud_detector", "v2.1-restored", serialized);
 ```
 
 ### Modell-Versionierung
 
 ```cpp
-// Modell-Versionen auflisten
-auto versions = engine.listVersions("fraud_detector");
-for (const auto& v : versions) {
-    std::cout << v.version << " (" << v.status << ")\n";
+// Alle registrierten Modelle auflisten
+for (const auto& info : engine.listModels()) {
+    std::cout << info.name << " " << info.version
+              << " active=" << info.is_active << "\n";
 }
 
-// Version deaktivieren
-engine.deactivateModel("fraud_detector", "v1.0");
+// Modell aus der Registry entfernen (deaktivieren)
+engine.unregisterModel("fraud_detector", "v1.0");
 
-// Aktuellste aktive Version abrufen
-auto latest = engine.getLatestVersion("fraud_detector");
+// Prüfen ob ein Modell registriert ist
+if (engine.isRegistered("fraud_detector", "v2.1")) { /* ... */ }
 ```
 
 ---
@@ -210,11 +236,11 @@ auto latest = engine.getLatestVersion("fraud_detector");
 
 | Komponente | Methode | Thread-Sicher? |
 | --- | --- | --- |
-| AutoMLEngine | `fit()` | Nein — ein Thread pro Training |
-| AutoMLEngine | `predict()` | Ja — read-only nach fit |
-| MLServingClient | `infer()` | Ja |
-| ModelServingEngine | `infer()`, `inferBatch()` | Ja |
-| ModelServingEngine | `registerModel()` | Ja |
+| `AutoML` | `trainClassifier()` / `trainRegressor()` | Nein — ein Thread pro Training |
+| `AutoMLModel` | `predict()`, `predictOne()`, `explain()` | Ja — read-only nach Training |
+| `MLServingClient` | `infer()`, `inferFromDataPoint()` | Ja |
+| `ModelServingEngine` | `predict()`, `predictBatch()`, `predictProba()` | Ja (shared lock) |
+| `ModelServingEngine` | `registerModel()`, `unregisterModel()`, `loadModel()` | Ja (exclusive lock) |
 
 ---
 

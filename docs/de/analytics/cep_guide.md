@@ -82,7 +82,13 @@ ACTION log("INFO")
 #include "analytics/cep_engine.h"
 using namespace themisdb::analytics;
 
-CEPEngine engine;
+// CEPEngine ist ein Singleton — keine direkte Konstruktion
+CEPEngine& engine = CEPEngine::getInstance();
+
+// Engine konfigurieren und initialisieren
+CEPConfig cfg;
+cfg.worker_threads = 4;
+engine.initialize(cfg);
 
 std::string epl = R"(
   CREATE RULE high_error_rate AS
@@ -94,15 +100,16 @@ std::string epl = R"(
   ACTION alert("high-error-rate")
 )";
 
-engine.loadRule(epl);
+engine.addRuleFromEPL(epl);
 
-// Ereignisse zuführen
+// Ereignis erzeugen und einspeisen
 Event evt;
-evt.source = "app_events";
-evt.fields["level"] = "ERROR";
-evt.fields["message"] = "Connection timeout";
-evt.timestamp_ms = getCurrentTimeMs();
-engine.ingest(evt);
+evt.event_name    = "high_error";
+evt.collection_name = "app_events";
+evt.timestamp     = std::chrono::system_clock::now();
+evt.setField("level",   std::string("ERROR"));
+evt.setField("message", std::string("Connection timeout"));
+engine.submitEvent(evt);
 ```
 
 ### Aggregation mit GROUP BY
@@ -118,7 +125,7 @@ std::string epl = R"(
   ACTION webhook("https://alerts.example.com/revenue")
 )";
 
-engine.loadRule(epl);
+engine.addRuleFromEPL(epl);
 ```
 
 ### Mustererkennung (PATTERN)
@@ -134,7 +141,7 @@ std::string epl = R"(
   ACTION alert("brute-force-detected")
 )";
 
-engine.loadRule(epl);
+engine.addRuleFromEPL(epl);
 ```
 
 ### TOPN-Aggregation
@@ -147,6 +154,7 @@ std::string epl = R"(
   WINDOW TUMBLING 10m
   ACTION log("INFO")
 )";
+engine.addRuleFromEPL(epl);
 ```
 
 ---
@@ -172,12 +180,13 @@ Dies garantiert, dass laufende Mustererkennung nach einem Neustart nahtlos fortg
 
 ```cpp
 CEPConfig cfg;
-cfg.max_queue_depth = 10000;       // Max. Ereignisse in der Queue
-cfg.backpressure_threshold = 0.8;  // 80% → Backpressure-Signal
-cfg.drop_policy = DropPolicy::OldestFirst;
-cfg.window_thread_pool_size = 4;
+cfg.max_queue_depth                = 10000;  // Max. Ereignisse in der Engine-Queue
+cfg.global_backpressure_threshold  = 0.8f;  // 80% Queue-Füllstand → Backpressure-Signal
+cfg.worker_threads                 = 4;      // Anzahl Worker-Threads
 
-CEPEngine engine(cfg);
+// Engine initialisieren (Singleton)
+CEPEngine& engine = CEPEngine::getInstance();
+engine.initialize(cfg);
 ```
 
 Prometheus-Metriken werden automatisch unter `themisdb_cep_*` exponiert.
@@ -186,9 +195,9 @@ Prometheus-Metriken werden automatisch unter `themisdb_cep_*` exponiert.
 
 ## Thread-Sicherheit
 
-- `CEPEngine::ingest()` — **thread-safe**; Events können von mehreren Threads gesendet werden
-- `CEPEngine::loadRule()` — **nicht** thread-safe während des Ingests; Regeln vor Start laden
-- Window-Aggregationen laufen in dedizierten Hintergrundthreads (Pool-Größe konfigurierbar)
+- `CEPEngine::submitEvent()` — **thread-safe**; Events können von mehreren Threads gesendet werden
+- `CEPEngine::addRuleFromEPL()` / `addRule()` — **nicht** thread-safe während des Event-Ingests; Regeln vor dem Start laden
+- Window-Aggregationen laufen in dedizierten Worker-Threads (Anzahl via `CEPConfig::worker_threads`)
 
 ---
 

@@ -22,72 +22,84 @@ ThemisDB's Process Mining module enables automated discovery and analysis of bus
 
 - **Directly-Follows Graph (DFG)**: Visualize process flows with frequencies
 - **Variant Analysis**: Identify common and rare process execution patterns
-- **Bottleneck Detection**: Find performance issues and delays
-- **Social Network Mining**: Analyze collaboration patterns between resources
+- **Bottleneck Detection**: Find performance issues and delays via performance enhancement
 
 ### Conformance Checking
 
 - Token replay for fitness calculation
+- Alignment-based conformance (precise, but slower)
 - Deviation detection and analysis
-- Model-reality alignment
 
 ### Export Formats
 
 - BPMN 2.0 XML for standard process modeling
 - Petri Net (PNML) for formal analysis
-- JSON for programmatic access
+- ThemisDB process definition (saved to `_process_definitions`)
 
 ## Usage Examples
 
 ### Basic Process Discovery
 
 ```cpp
-ProcessMining mining(db);
+ProcessMining mining(db);  // requires RocksDBWrapper&
 
 // Extract event log from collection
 EventLogConfig config;
-config.case_id_field = "order_id";
-config.activity_field = "action";
+config.case_id_field   = "order_id";
+config.activity_field  = "action";
 config.timestamp_field = "timestamp";
 
-auto event_log = mining.extractEventLog("audit_log", config);
+auto [status1, event_log] = mining.extractEventLog("audit_log", config);
+if (!status1.ok) { /* handle error */ }
 
-// Discover process model
-auto model = mining.discoverProcess(event_log, MiningAlgorithm::HEURISTIC);
+// Discover process model (MiningConfig wraps MiningAlgorithm)
+MiningConfig mcfg;
+mcfg.algorithm = MiningAlgorithm::HEURISTIC;
+
+auto [status2, model] = mining.discoverProcess(event_log, mcfg);
 
 // Export to BPMN
-std::string bpmn = mining.exportToBPMN(model);
+auto [status3, bpmn] = mining.exportToBPMN(model);
 ```
 
 ### Variant Analysis
 
 ```cpp
-auto variants = mining.analyzeVariants(event_log);
+auto [status, variants] = mining.analyzeVariants(event_log);
 
 // Find most common process variant
-auto most_common = variants[0];
-std::cout << "Most common variant occurs " << most_common.frequency << " times" << std::endl;
+if (!variants.empty()) {
+    const auto& most_common = variants[0]; // sorted by frequency desc
+    std::cout << "Most common variant occurs "
+              << most_common.frequency << " times ("
+              << most_common.percentage << "%)" << std::endl;
+}
 ```
 
 ### Bottleneck Detection
 
-```cpp
-auto bottlenecks = mining.detectBottlenecks(event_log, 0.9); // 90th percentile
+Bottleneck detection requires a performance-enhanced process model:
 
-for (const auto& bottleneck : bottlenecks) {
-    std::cout << "Bottleneck: " << bottleneck.activity 
-              << " (avg: " << bottleneck.avg_duration_ms << "ms)" << std::endl;
+```cpp
+// First enhance model with performance data
+auto [s1, enhanced] = mining.enhanceWithPerformance(model, event_log);
+
+// Then detect bottlenecks (returns names of bottleneck nodes)
+auto [s2, bottleneck_nodes] = mining.detectBottlenecks(enhanced, 0.9); // 90th percentile
+
+for (const auto& node_name : bottleneck_nodes) {
+    std::cout << "Bottleneck node: " << node_name << std::endl;
+    // Performance details are in enhanced.node_avg_duration[node_name]
 }
 ```
 
-### Social Network Analysis
+### Conformance Checking
 
 ```cpp
-auto social_network = mining.extractSocialNetwork(event_log);
-auto handovers = mining.analyzeHandovers(social_network);
-
-// Analyze collaboration patterns
-auto metrics = mining.calculateCollaborationMetrics(social_network);
+auto [s, conformance] = mining.checkConformance(event_log, model);
+std::cout << "Fitness: " << conformance.fitness << "\n";
+for (const auto& dev : conformance.deviations)
+    std::cout << "Deviation: " << dev << "\n";
 ```
 
 ---

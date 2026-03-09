@@ -21,8 +21,8 @@ Die Engine unterstützt adaptives Lernen und Ensemble-Methoden.
 
 | Algorithmus | Enum | Beschreibung | Geeignet für |
 | --- | --- | --- | --- |
-| Z-Score | `ZSCORE` | Normalverteilungsbasierte Ausreißererkennung | Normalverteilte Daten |
-| Modified Z-Score (MAD) | `MODIFIED_ZSCORE` | Robuster Z-Score via Median Absolute Deviation | Robuster gegen Ausreißer |
+| Z-Score | `Z_SCORE` | Normalverteilungsbasierte Ausreißererkennung | Normalverteilte Daten |
+| Modified Z-Score (MAD) | `MODIFIED_Z_SCORE` | Robuster Z-Score via Median Absolute Deviation | Robuster gegen Ausreißer |
 | Interquartile Range | `IQR` | Boxplot-basierte Ausreißererkennung | Nicht-normalverteilte Daten |
 | Isolation Forest | `ISOLATION_FOREST` | Baum-basierte Isolation von Ausreißern | Hochdimensionale Daten |
 | Local Outlier Factor | `LOF` | Dichte-basierte Nachbarschaftsanalyse | Cluster-basierte Anomalien |
@@ -38,15 +38,25 @@ Die Engine unterstützt adaptives Lernen und Ensemble-Methoden.
 #include "analytics/anomaly_detection.h"
 using namespace themisdb::analytics;
 
-AnomalyDetector detector(AnomalyMethod::ZSCORE);
+AnomalyDetector detector(AnomalyMethod::Z_SCORE);
 
-// Trainingsdaten (Normalbetrieb)
-std::vector<double> baseline = {10.1, 9.8, 10.3, 10.0, 9.9, 10.2};
-detector.fit(baseline);
+// Trainingsdaten (Normalbetrieb) — als DataPoint-Vektor
+std::vector<DataPoint> baseline;
+for (double v : {10.1, 9.8, 10.3, 10.0, 9.9, 10.2}) {
+    DataPoint dp;
+    dp.set("value", v);
+    baseline.push_back(dp);
+}
+detector.train(baseline);
 
 // Neue Datenpunkte prüfen
-std::vector<double> observations = {10.1, 10.3, 45.7, 9.8};
-auto results = detector.detect(observations);
+std::vector<DataPoint> observations;
+for (double v : {10.1, 10.3, 45.7, 9.8}) {
+    DataPoint dp;
+    dp.set("value", v);
+    observations.push_back(dp);
+}
+auto results = detector.predictBatch(observations);
 
 for (size_t i = 0; i < results.size(); ++i) {
     if (results[i].is_anomaly) {
@@ -59,80 +69,95 @@ for (size_t i = 0; i < results.size(); ++i) {
 ### Isolation Forest für mehrdimensionale Daten
 
 ```cpp
-AnomalyConfig cfg;
-cfg.n_estimators = 100;      // Anzahl Bäume
+DetectorConfig cfg;
+cfg.method        = AnomalyMethod::ISOLATION_FOREST;
+cfg.n_estimators  = 100;     // Anzahl Bäume
 cfg.contamination = 0.05;    // Erwarteter Ausreißer-Anteil (5%)
-cfg.max_samples = 256;
+cfg.max_samples   = 256;
 
-AnomalyDetector detector(AnomalyMethod::ISOLATION_FOREST, cfg);
+AnomalyDetector detector(cfg);
 
-// Trainingsdaten: Vektoren von Features
-std::vector<std::vector<double>> training_data = {
-    {1.0, 2.0, 3.0},
-    {1.1, 1.9, 3.1},
-    // ... viele normale Datenpunkte ...
-};
-detector.fit(training_data);
+// Trainingsdaten: DataPoints mit named features
+std::vector<DataPoint> training_data;
+for (auto& [a, b, c] : std::vector<std::tuple<double,double,double>>{
+    {1.0, 2.0, 3.0}, {1.1, 1.9, 3.1}  // ... viele normale Datenpunkte ...
+}) {
+    DataPoint dp;
+    dp.set("feat_a", a); dp.set("feat_b", b); dp.set("feat_c", c);
+    training_data.push_back(dp);
+}
+detector.train(training_data);
 
-// Testpunkte
-std::vector<double> test_point = {100.0, 200.0, 300.0};
-auto result = detector.detectSingle(test_point);
+// Einzelnen Testpunkt prüfen
+DataPoint test_point;
+test_point.set("feat_a", 100.0); test_point.set("feat_b", 200.0); test_point.set("feat_c", 300.0);
+auto result = detector.predict(test_point);
 if (result.is_anomaly) {
     std::cout << "Ausreißer erkannt (Score: " << result.score << ")\n";
+    auto exp = detector.explain(test_point);
+    // exp.feature_contributions enthält den Feature-Beitrag je Feld
 }
 ```
 
 ### LOF (Local Outlier Factor)
 
 ```cpp
-AnomalyConfig cfg;
-cfg.n_neighbors = 20;         // k-Nachbarn für Dichteberechnung
+DetectorConfig cfg;
+cfg.method       = AnomalyMethod::LOF;
+cfg.k_neighbors  = 20;        // k-Nachbarn für Dichteberechnung
 cfg.contamination = 0.1;      // 10% Ausreißer erwartet
 
-AnomalyDetector detector(AnomalyMethod::LOF, cfg);
-detector.fit(training_data);
+AnomalyDetector detector(cfg);
+detector.train(training_data);
 
-auto results = detector.detect(test_data);
+auto results = detector.predictBatch(test_data);
 ```
 
 ### Ensemble-Methode
 
 ```cpp
-AnomalyConfig cfg;
-// Gewichte: [ZSCORE, MODIFIED_ZSCORE, IQR, ISOLATION_FOREST, LOF]
-cfg.ensemble_weights = {0.2, 0.2, 0.2, 0.2, 0.2};
-cfg.adaptive_learning = true;  // Gewichte automatisch anpassen
+DetectorConfig cfg;
+cfg.method = AnomalyMethod::ENSEMBLE;
+// Methoden und deren Gewichte (gleiche Reihenfolge)
+cfg.ensemble_methods  = {AnomalyMethod::Z_SCORE, AnomalyMethod::IQR,
+                         AnomalyMethod::ISOLATION_FOREST, AnomalyMethod::LOF};
+cfg.ensemble_weights  = {0.25, 0.25, 0.25, 0.25};
+cfg.adaptive          = true;  // Online-Update via detector.update() aktivieren
 
-AnomalyDetector detector(AnomalyMethod::ENSEMBLE, cfg);
-detector.fit(baseline_data);
+AnomalyDetector detector(cfg);
+detector.train(baseline_data);
 
-auto results = detector.detect(new_observations);
+auto results = detector.predictBatch(new_observations);
 ```
 
-### Adaptives Lernen
+### Adaptives Lernen (Online-Update)
 
-Der Ensemble-Detektor kann aus Feedback lernen und seine Gewichte anpassen:
+Der Detektor kann mit `update()` inkrementell neue Beobachtungen einfließen lassen,
+wenn `DetectorConfig::adaptive == true` gesetzt ist:
 
 ```cpp
-// Feedback: Index 5 war eine echte Anomalie, Index 7 war ein False Positive
-detector.provideFeedback(5, true);    // true = echte Anomalie
-detector.provideFeedback(7, false);   // false = kein Ausreißer
-// Ensemble passt interne Gewichte an
+// Neuen Datenpunkt in das Modell einarbeiten
+DataPoint new_point;
+new_point.set("value", 10.5);
+detector.update(new_point);
+// Die internen Sliding-Window-Statistiken werden aktualisiert
 ```
 
 ---
 
-## AnomalyConfig Referenz
+## DetectorConfig Referenz
 
 | Feld | Standard | Beschreibung |
 | --- | --- | --- |
-| `threshold` | 3.0 | Z-Score/LOF-Schwellenwert für Anomalie-Flag |
-| `n_neighbors` | 20 | LOF: Anzahl der k-Nachbarn |
+| `method` | `Z_SCORE` | Algorithmus (wird im Konstruktor oder in der Config gesetzt) |
+| `threshold` | 0.6 | Score-Schwellenwert für Anomalie-Flag (score ≥ threshold → is_anomaly) |
+| `k_neighbors` | 5 | LOF: Anzahl der k-Nachbarn |
 | `n_estimators` | 100 | Isolation Forest: Anzahl der Bäume |
 | `max_samples` | 256 | Isolation Forest: Max. Samples pro Baum |
 | `contamination` | 0.1 | Erwarteter Anteil von Ausreißern (0.0–0.5) |
-| `adaptive_learning` | false | Ensemble: Gewichte aus Feedback lernen |
-| `ensemble_weights` | {} | Ensemble: Manuelle Gewichte pro Methode |
+| `adaptive` | false | Online-Update via `update()` aktivieren |
+| `ensemble_methods` | {} | Ensemble: Liste der verwendeten Methoden |
+| `ensemble_weights` | {} | Ensemble: Gewichte pro Methode (uniform wenn leer) |
 
 ---
 
@@ -140,10 +165,12 @@ detector.provideFeedback(7, false);   // false = kein Ausreißer
 
 ```cpp
 struct AnomalyResult {
-    bool is_anomaly;    // true wenn Ausreißer
-    double score;       // Anomalie-Score (höher = anomaler)
-    double threshold;   // Verwendeter Schwellenwert
-    std::string method; // Verwendeter Algorithmus
+    std::string   id;           // DataPoint-ID
+    bool          is_anomaly;   // true wenn Ausreißer (score >= threshold)
+    double        score;        // Anomalie-Score: 0.0 = normal, 1.0 = definitiv anomal
+    AnomalyMethod method;       // Verwendeter Algorithmus
+    int64_t       timestamp_ms; // Zeitstempel des Datenpunkts
+    std::string   description;  // Lesbare Zusammenfassung
 };
 ```
 
@@ -151,9 +178,9 @@ struct AnomalyResult {
 
 ## Thread-Sicherheit
 
-- `fit()` — **nicht** thread-safe; Initialisierung vor paralleler Nutzung
-- `detect()`, `detectSingle()` — **thread-safe** (read-only nach fit)
-- `provideFeedback()` — **thread-safe** (interne Synchronisation)
+- `train()` — **nicht** thread-safe; vor paralleler Nutzung abschließen
+- `predict()`, `predictBatch()`, `explain()` — **thread-safe** (read-only nach Training)
+- `update()` — **nicht** thread-safe; Synchronisation durch den Aufrufer erforderlich
 
 ---
 

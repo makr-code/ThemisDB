@@ -42,21 +42,30 @@ Zeit:    0----60----120----180----240
 #include "analytics/streaming_window.h"
 using namespace themisdb::analytics;
 
-TumblingWindow window(
-    std::chrono::seconds(60),   // Fenstergröße: 60 Sekunden
-    AggregationType::COUNT      // Aggregation: COUNT
-);
+// Konfiguration: 60s Fenstergröße
+TumblingWindowConfig cfg;
+cfg.size = std::chrono::seconds(60);
 
-// Ereignisse hinzufügen
-window.add(event1);
-window.add(event2);
+TumblingWindow window(cfg);
 
-// Aktuelle Fensterergebnisse abrufen
-auto results = window.flush();
-for (const auto& result : results) {
-    std::cout << "Window [" << result.start_ms << ", " << result.end_ms << "]: "
-              << result.value << "\n";
-}
+// Aggregation registrieren: COUNT aller Ereignisse
+window.addAggregation(AggregateSpec("event_count", AggFunc::COUNT, ""));
+
+// Callback wenn ein Fenster schließt
+window.setResultCallback([](WindowResult result) {
+    std::cout << "Fenster geschlossen: " << result.record_count
+              << " Ereignisse\n";
+});
+
+// Ereignisse als StreamRecord einspeisen
+StreamRecord rec;
+rec.event_time  = std::chrono::system_clock::now();
+rec.ingest_time = rec.event_time;
+rec.fields["level"] = std::string("ERROR");
+window.ingest(rec);
+
+// Am Ende alle offenen Fenster schließen
+window.flush();
 ```
 
 ---
@@ -74,14 +83,18 @@ Zeit:    0----30----60----90----120
 ```
 
 ```cpp
-SlidingWindow window(
-    std::chrono::seconds(60),   // Fenstergröße
-    std::chrono::seconds(30),   // Schritt (advance)
-    AggregationType::AVG        // Aggregation: Durchschnitt
-);
+SlidingWindowConfig cfg;
+cfg.size  = std::chrono::seconds(60);   // Fenstergröße
+cfg.slide = std::chrono::seconds(30);   // Schrittweite (advance)
 
-window.add(event);
-auto results = window.getActiveWindows();
+SlidingWindow window(cfg);
+window.addAggregation(AggregateSpec("avg_latency", AggFunc::AVG, "latency_ms"));
+window.setResultCallback([](WindowResult result) { /* ... */ });
+
+StreamRecord rec;
+rec.event_time = std::chrono::system_clock::now();
+rec.fields["latency_ms"] = 42.5;
+window.ingest(rec);
 ```
 
 ---
@@ -98,16 +111,22 @@ Zeit:       |--|--|--|---------|--|--|
 ```
 
 ```cpp
-SessionWindow window(
-    std::chrono::seconds(30),   // Session-Timeout
-    AggregationType::SUM        // Aggregation
-);
+SessionWindowConfig cfg;
+cfg.gap = std::chrono::seconds(30);   // Session-Timeout
 
-window.add(event);
+SessionWindow window(cfg);
+window.addAggregation(AggregateSpec("total", AggFunc::SUM, "amount"));
+window.setResultCallback([](WindowResult result) { /* ... */ });
 
-// Session wird abgeschlossen wenn kein Event für 30s kommt
-// oder manuell via:
-auto completed = window.closeExpiredSessions(currentTimeMs());
+StreamRecord rec;
+rec.event_time     = std::chrono::system_clock::now();
+rec.partition_key  = "user_alice";  // Sessions werden pro partition_key getrennt
+rec.fields["amount"] = 100.0;
+window.ingest(rec);
+
+// Session wird automatisch durch den internen Expiry-Thread geschlossen.
+// Am Shutdown alle Sessions schließen:
+window.flush();
 ```
 
 ---
@@ -115,58 +134,85 @@ auto completed = window.closeExpiredSessions(currentTimeMs());
 ## Hopping Window
 
 Regelmäßig vorwärts rückende Fenster mit fester Größe und Schrittweite.
-Ähnlich wie Sliding Window, aber mit regelmäßigem Vorwärtsrücken.
+Ähnlich wie Sliding Window, aber mit explizit getrennter `hop`-Konfiguration.
 
 ```cpp
-HoppingWindow window(
-    std::chrono::minutes(10),   // Fenstergröße
-    std::chrono::minutes(1),    // Vorwärtsschritt
-    AggregationType::MAX        // Aggregation: Maximum
-);
+HoppingWindowConfig cfg;
+cfg.size = std::chrono::minutes(10);  // Fenstergröße
+cfg.hop  = std::chrono::minutes(1);   // Vorwärtsschritt
+
+HoppingWindow window(cfg);
+window.addAggregation(AggregateSpec("peak", AggFunc::MAX, "cpu_usage"));
+window.setResultCallback([](WindowResult result) { /* ... */ });
 ```
 
 ---
 
 ## Watermark-Unterstützung
 
-Watermarks ermöglichen die Verarbeitung von Ereignissen mit Verzögerung (late events):
+Watermarks ermöglichen die Verarbeitung von Ereignissen mit Verzögerung (late events).
+Die Konfiguration erfolgt über `WatermarkConfig` im jeweiligen Fenster-Config-Struct:
 
 ```cpp
-TumblingWindow window(std::chrono::seconds(60), AggregationType::COUNT);
+TumblingWindowConfig cfg;
+cfg.size = std::chrono::seconds(60);
+// Ereignisse bis zu 5s verspätet erlaubt
+cfg.watermark.max_out_of_orderness = std::chrono::seconds(5);
+// Nach 60s ohne Ereignisse Watermark auf processing-time vorrücken
+cfg.watermark.idle_timeout = std::chrono::seconds(60);
 
-// Watermark setzen: Ereignisse bis zu 5s verspätet erlaubt
-window.setWatermark(std::chrono::seconds(5));
+TumblingWindow window(cfg);
+window.addAggregation(AggregateSpec("cnt", AggFunc::COUNT, ""));
+window.setResultCallback([](WindowResult result) { /* ... */ });
 
-// Verspätete Ereignisse werden noch dem richtigen Fenster zugeordnet,
-// solange sie nicht mehr als watermark_delay nach Fensterabschluss ankommen
-window.add(lateEvent);
+// Verspätete Ereignisse werden dem richtigen Fenster zugeordnet,
+// solange sie innerhalb von max_out_of_orderness ankommen.
+StreamRecord late_rec;
+late_rec.event_time = std::chrono::system_clock::now() - std::chrono::seconds(3);
+window.ingest(late_rec);
 ```
 
 ---
 
-## Aggregationstypen
+## Aggregationstypen (`AggFunc`)
 
 | Typ | Enum | Beschreibung |
 | --- | --- | --- |
-| Anzahl | `COUNT` | Ereignisanzahl im Fenster |
-| Summe | `SUM` | Summe eines numerischen Feldes |
-| Durchschnitt | `AVG` | Mittelwert eines Feldes |
-| Minimum | `MIN` | Kleinstes Wert |
-| Maximum | `MAX` | Größtes Wert |
-| Standardabweichung | `STDDEV` | Populationsstandardabweichung |
-| Varianz | `VARIANCE` | Populationsvarianz |
+| Anzahl | `AggFunc::COUNT` | Ereignisanzahl im Fenster |
+| Summe | `AggFunc::SUM` | Summe eines numerischen Feldes |
+| Durchschnitt | `AggFunc::AVG` | Mittelwert eines Feldes |
+| Minimum | `AggFunc::MIN` | Kleinstes Wert |
+| Maximum | `AggFunc::MAX` | Größtes Wert |
+| Standardabweichung | `AggFunc::STDDEV` | Populationsstandardabweichung |
+| Varianz | `AggFunc::VARIANCE` | Populationsvarianz |
+| Perzentil | `AggFunc::PERCENTILE` | p-tes Perzentil (p via `AggregateSpec::percentile_p`) |
 
 ---
 
 ## Konfigurationsreferenz
 
+Jeder Fenstertyp hat ein eigenes Konfigurations-Struct:
+
 ```cpp
-WindowConfig cfg;
-cfg.size_ms       = 60000;    // Fenstergröße in Millisekunden
-cfg.advance_ms    = 10000;    // Schrittgröße (Sliding/Hopping)
-cfg.timeout_ms    = 30000;    // Session-Timeout
-cfg.watermark_ms  = 5000;     // Erlaubte Ereignisverzögerung
-cfg.max_events    = 100000;   // Max. Events pro Fenster (Speicherschutz)
+// Tumbling Window
+TumblingWindowConfig tcfg;
+tcfg.size                         = std::chrono::milliseconds(60000); // Fenstergröße
+tcfg.watermark.max_out_of_orderness = std::chrono::milliseconds(5000); // Late-event-Toleranz
+tcfg.emit_empty_windows            = false; // Leere Fenster nicht emittieren
+
+// Sliding Window
+SlidingWindowConfig scfg;
+scfg.size  = std::chrono::milliseconds(60000); // Fenstergröße
+scfg.slide = std::chrono::milliseconds(10000); // Schrittgröße
+
+// Session Window
+SessionWindowConfig sessioncfg;
+sessioncfg.gap = std::chrono::milliseconds(30000); // Inaktivitäts-Timeout
+
+// Hopping Window
+HoppingWindowConfig hcfg;
+hcfg.size = std::chrono::milliseconds(600000); // Fenstergröße
+hcfg.hop  = std::chrono::milliseconds(60000);  // Vorwärtsschritt
 ```
 
 ---
@@ -192,9 +238,10 @@ ACTION alert("errors")
 
 ## Thread-Sicherheit
 
-- `add()` — **thread-safe**; Events können von mehreren Threads eingefügt werden
-- `flush()`, `getActiveWindows()` — **thread-safe**
-- Fensterabschluss und Aggregation läuft in dediziertem Hintergrundthread
+- `ingest()` — **thread-safe**; Events können von mehreren Threads eingefügt werden
+- `flush()` — **thread-safe**
+- `getStats()` — **thread-safe**
+- Fensterabschluss und Callback-Aufruf erfolgen innerhalb der `ingest()`-Sperre
 
 ---
 

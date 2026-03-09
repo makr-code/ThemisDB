@@ -81,7 +81,9 @@ std::string epl = R"(
   HAVING cnt > 100
   ACTION alert("high-error-rate")
 )";
-engine.loadRule(epl);
+CEPEngine& engine = CEPEngine::getInstance();
+engine.initialize(CEPConfig{});
+engine.addRuleFromEPL(epl);
 ```
 
 → [Vollständiger CEP Guide](./cep_guide.md)

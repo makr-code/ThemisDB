@@ -71,7 +71,7 @@ This directory (`src/analytics/`) contains **implementation files only**. For AP
 
 ### 1. OLAP Engine (`olap.cpp`)
 
-**Lines of Code:** ~800 lines  
+**Lines of Code:** ~1800 lines  
 **Dependencies:** nlohmann/json, optional Apache Arrow
 
 Multi-dimensional analytical query processing with aggregations and window functions.
@@ -130,7 +130,7 @@ for (const auto& row : result.rows) {
 
 ### 2. Arrow Export (`arrow_export.cpp`)
 
-**Lines of Code:** ~650 lines  
+**Lines of Code:** ~200 lines  
 **Dependencies:** nlohmann/json, optional Apache Arrow C++
 
 **Status:** ✅ Production-ready columnar data structure
@@ -172,7 +172,7 @@ Data export interfaces with optional Apache Arrow integration.
 
 ### 3. Analytics Export (`analytics_export.cpp`)
 
-**Lines of Code:** ~650 lines  
+**Lines of Code:** ~750 lines  
 **Dependencies:** nlohmann/json, optional Apache Arrow C++, spdlog
 
 **Status:** ✅ Production-ready with Arrow support
@@ -235,7 +235,7 @@ if (result.status == ExportStatus::NOT_SUPPORTED) {
 
 ### 4. Process Mining (`process_mining.cpp`)
 
-**Lines of Code:** ~850 lines  
+**Lines of Code:** ~1700 lines  
 **Dependencies:** GraphIndex, VectorIndex, OLAP, nlohmann/json
 
 Process discovery, conformance checking, and performance analysis.
@@ -276,7 +276,7 @@ Process discovery, conformance checking, and performance analysis.
 
 ### 5. Process Pattern Matcher (`process_pattern_matcher.cpp`)
 
-**Lines of Code:** ~620 lines  
+**Lines of Code:** ~850 lines  
 **Dependencies:** ProcessMining, VectorIndex, GraphIndex
 
 Find similar processes using multiple similarity methods.
@@ -307,7 +307,7 @@ Find similar processes using multiple similarity methods.
 
 ### 6. Text Analytics (`nlp_text_analyzer.cpp`)
 
-**Lines of Code:** ~780 lines  
+**Lines of Code:** ~1600 lines  
 **Dependencies:** Standard C++17
 
 Lightweight NLP-based text analysis.
@@ -393,7 +393,7 @@ config.enable_caching = true;
 
 ### 8. Diff Engine (`diff_engine.cpp`)
 
-**Lines of Code:** ~420 lines  
+**Lines of Code:** ~575 lines  
 **Dependencies:** Changefeed, SnapshotManager, nlohmann/json
 
 Git-like diff functionality for versioned data.
