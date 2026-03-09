@@ -400,9 +400,9 @@ target_link_libraries(my_app
    - Currently tightly coupled to llama.cpp
    - Need abstract backend interface (planned v1.6.0)
 
-2. **No Streaming Interface**
-   - Currently returns full response
-   - Streaming API planned for v1.7.0
+2. **Streaming Interface**
+   - SSE token streaming for AQL explanations is implemented (`streamExplainAQLAsSSE()`)
+   - A generic `TokenStream` iterator API (for arbitrary inference) is planned for v1.7.0
 
 3. **Limited Multi-Modal Support**
    - Text-only currently
@@ -420,11 +420,9 @@ target_link_libraries(my_app
 - LlmAqlHandler
 - DocsAssistantFunctions
 - InferRequest, RAGRequest, EmbedRequest
-
-⚠️ **Beta:**
 - LoRA adapter support
-- Natural language to AQL translation
-- Query explanation
+- Natural language to AQL translation (`translateNLToAQL`, `translateNLToAQLWithConfidence`)
+- Query explanation via SSE streaming (`streamExplainAQLAsSSE`)
 
 🔬 **Experimental:**
 - Multi-modal interfaces

@@ -75,7 +75,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 - **LLM STATS**: Performance monitoring and statistics
 - **LLM CACHE**: Prompt cache management
 
-**Recent Improvements (v1.3.2):**
+**Improvements through v1.5.0:**
 - ✅ Active model and LoRA selection in all inference methods
 - ✅ Complete RAG integration with VectorIndexManager for similarity search
 - ✅ Automatic similarity threshold filtering for RAG queries
@@ -720,11 +720,13 @@ Run the benchmarks after a Release build:
 - LLM MODEL management
 - Basic RAG queries
 
-⚠️ **Beta Features:**
+✅ **Also Stable (added in v1.5.0):**
 - LLM LORA adapter support
+- Natural language to AQL translation (with confidence scoring, prompt-injection prevention)
+- Query explanation AI assistant (SSE streaming)
+
+⚠️ **Beta Features:**
 - Advanced RAG with multi-hop reasoning
-- Natural language to AQL translation
-- Query explanation AI assistant
 
 🔬 **Experimental:**
 - Multi-modal LLM support (images, audio)

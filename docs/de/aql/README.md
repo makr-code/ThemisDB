@@ -1,9 +1,9 @@
 # 🔍 AQL (Advanced Query Language) Module
 
 **Category:** 🔍 Core AQL  
-**Version:** v1.3.0  
+**Version:** v1.5.0  
 **Status:** ✅ Production Ready  
-**Datum:** 22. Dezember 2025
+**Datum:** 9. März 2026
 
 ---
 
@@ -11,6 +11,7 @@
 
 - [📋 Übersicht](#-übersicht)
 - [✨ Features & Highlights](#-features--highlights)
+- [🤖 LLM-AQL Komponenten](#-llm-aql-komponenten)
 - [🚀 Schnellstart](#-schnellstart)
 - [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
 - [💡 Best Practices](#-best-practices)
@@ -110,6 +111,58 @@ FOR doc IN users
 - **Subqueries & CTEs:** WITH-Klauseln und verschachtelte Abfragen
 - **Window Functions:** ROW_NUMBER, RANK, LAG, LEAD, etc.
 - **Volltext-Suche:** BM25-basiertes FULLTEXT() mit Stemming
+
+---
+
+## 🤖 LLM-AQL Komponenten
+
+Neben der Kernsprache enthält das AQL-Modul eine KI-gestützte Hilfsschicht für
+LLM-unterstützte Abfrageautoren und Entwickler-Tooling. Diese Komponenten leben
+in `src/aql/` (Implementierung) und `include/aql/` (Schnittstellen).
+
+> 🔗 **Primäre Dokumentation:** [src/aql/README.md](../../../src/aql/README.md) ·
+> [include/aql/README.md](../../../include/aql/README.md)
+
+| Komponente | Datei | Beschreibung |
+|---|---|---|
+| `LlmAqlHandler` | `llm_aql_handler.cpp` | LLM-Befehle: INFER, RAG, EMBED, MODEL, LORA |
+| `AQLQueryBuilder` | `aql_query_builder.cpp` | Schema-bewusste, programmatische AQL-Konstruktion |
+| `AQLQueryValidator` | `aql_query_validator.cpp` | Strukturelle Validierung & Linting generierter Queries |
+| `AQLSyntaxHighlighter` | `aql_syntax_highlighter.cpp` | ANSI-Farb-Highlighting und Fehlermarkierung |
+| `AQLConfidenceScorer` | `aql_confidence_scorer.cpp` | Konfidenz-Score für LLM-generierte Queries (0.0–1.0) |
+| `AQLAutocomplete` | `aql_autocomplete.cpp` | Token-Level-Autocompletion (LSP-kompatibel) |
+| `AQLFewShotExampleLibrary` | `aql_fewshot_example_library.cpp` | Beispiel-Bibliothek für verbesserte NL→AQL-Genauigkeit |
+| `AQLConversationContext` | `aql_conversation_context.cpp` | Multi-Turn-Gesprächshistorie |
+| `AQLOptimizerAdvisor` | `aql_optimizer_advisor.cpp` | Query-Plan-Erklärung & Optimierungshinweise |
+| `AQLQueryTemplateLibrary` | `aql_query_template_library.cpp` | Vorvalidierte Abfrage-Templates |
+| `AQLLoraFinetuner` | `aql_lora_finetuner.cpp` | LoRA-Adapter-Fine-Tuning auf AQL-Korpora |
+| `AQLMigrationAssistant` | `aql_migration_assistant.cpp` | Migration Legacy-AQL (ArangoDB → ThemisDB) |
+| `LLMMetricsCollector` | `llm_metrics_collector.cpp` | Latenz, Token-Zähler, Cache-Hit-Metriken |
+
+### Schnelles Beispiel
+
+```aql
+-- Natürlichsprachliche Abfrage → AQL (via LLM)
+LLM INFER 'Alle Nutzer, die sich letzten Monat angemeldet haben'
+  MODEL 'llama-3-8b'
+-- Ergebnis wird intern durch translateNLToAQL() in gültiges AQL übersetzt
+
+-- RAG-Abfrage
+LLM RAG 'Was sind die Vorteile von Vektordatenbanken?'
+  SEARCH IN documentation
+  TOP 5
+  MODEL 'llama-3-8b'
+
+-- Streaming-Erklärung (SSE)
+-- POST /api/v1/llm/aql/explain/stream
+-- Body: {"aql": "FOR u IN users FILTER u.age > 30 RETURN u"}
+```
+
+### Status (v1.5.0)
+
+✅ **Stabil:** NL→AQL-Übersetzung, Konfidenz-Scoring, SSE-Streaming, Autocompletion,
+LoRA-Adapter, Konversationskontext, Query-Validierung, Few-Shot-Bibliothek  
+🔬 **Experimentell:** Multi-Modal (Bilder, Audio), Fine-Tuning-Pipeline, Agenten-Framework
 
 ---
 
@@ -325,6 +378,14 @@ FOR u IN users
 
 ## 📚 Siehe auch
 
+### 🔗 Primäre Dokumentation (Quelle der Details)
+
+- [src/aql/README.md](../../../src/aql/README.md) — Implementierungs-Übersicht: LLM-Befehle, NL→AQL, Komponenten
+- [src/aql/ARCHITECTURE.md](../../../src/aql/ARCHITECTURE.md) — Architektur: Komponenten-Diagramm, Datenfluss, Threading
+- [src/aql/ROADMAP.md](../../../src/aql/ROADMAP.md) — Roadmap: abgeschlossene Features, geplante Phasen
+- [src/aql/FUTURE_ENHANCEMENTS.md](../../../src/aql/FUTURE_ENHANCEMENTS.md) — Geplante Erweiterungen (Multi-Modal, Agenten, Fine-Tuning)
+- [include/aql/README.md](../../../include/aql/README.md) — Interface-Spezifikation: Header, API-Verträge
+
 ### 📘 Kern-Dokumentation
 
 - [AQL Syntax Referenz](aql_syntax.md) - Vollständige Sprachdefinition
@@ -333,8 +394,7 @@ FOR u IN users
 
 ### 🔎 Erweiterte Features
 
-- **[🎯 AQL Phases 1-3 Consolidated Guide](AQL_PHASES_1_2_3_CONSOLIDATED.md)** - **NEU:** Komplette Dokumentation 
-  aller Hybrid Query Features, Syntax Sugar und Subqueries in einem Dokument
+- **[🎯 AQL Phases 1-3 Consolidated Guide](AQL_PHASES_1_2_3_CONSOLIDATED.md)** - Komplette Dokumentation aller Hybrid Query Features, Syntax Sugar und Subqueries
 - [Hybrid Queries Guide](aql_hybrid_queries.md) - Vector+Geo, Content+Geo (Phase 2)
 - [Hybrid Queries Phase 1.5](aql_hybrid_queries_phase15.md) - Performance Optimizations
 - [Subquery & CTE Reference](aql_subquery_reference.md) - WITH, Scalar Subqueries (Phase 3)
@@ -358,6 +418,11 @@ FOR u IN users
 
 ## 📝 Changelog
 
+### v1.5.0 - 9. März 2026
+- ✅ **LLM-AQL-Abschnitt:** Neuer Abschnitt über KI-gestützte Hilfskomponenten (NL→AQL, SSE-Streaming, LoRA, etc.)
+- ✅ **Primär-Links:** Verlinkung auf `src/aql/README.md` und `include/aql/README.md`
+- ✅ **Status-Update:** Version auf v1.5.0 angehoben (Production Ready)
+
 ### v1.3.0 - 22. Dezember 2025
 - ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
 - ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
@@ -369,17 +434,3 @@ FOR u IN users
 - Parser, Translator, Query Engine komplett
 - 355+ Built-in Functions implementiert
 - Subqueries, CTEs, Window Functions verfügbar
-|----------|-----------|
-| **String** | CONCAT, LOWER, UPPER, TRIM, SUBSTRING, LENGTH |
-| **Math** | SUM, AVG, MIN, MAX, COUNT, FLOOR, CEIL, ROUND |
-| **Date** | DATE_NOW, DATE_YEAR, DATE_MONTH, DATE_DAY |
-| **Array** | LENGTH, FIRST, LAST, PUSH, POP, FLATTEN |
-| **Geo** | ST_DISTANCE, ST_CONTAINS, ST_INTERSECTS |
-| **Vector** | SIMILARITY, PROXIMITY |
-
-## Verwandte Dokumentation
-
-- [aql_syntax.md](aql_syntax.md) - Vollständige Syntax-Referenz
-- [aql_hybrid_queries.md](aql_hybrid_queries.md) - Hybrid Query Details
-- [aql_pattern_matching.md](aql_pattern_matching.md) - Pattern Matching
-- [aql_subquery_reference.md](aql_subquery_reference.md) - Subquery-Referenz
