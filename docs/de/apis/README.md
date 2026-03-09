@@ -32,6 +32,18 @@ ThemisDB v1.4 bietet umfassende API-Dokumentation für alle unterstützten Proto
 - **[GraphQL API Specification](GRAPHQL_API_SPECIFICATION.md)** - Schema-Definition, Queries, Mutations, Subscriptions, Client-Integration
 - **[MCP API Specification](MCP_API_SPECIFICATION.md)** - Model Context Protocol für LLM-Integration, Claude Desktop Setup, Tool-Definitionen
 
+## Source-Code Modul
+
+Die primäre Entwickler-Dokumentation des `api`-Moduls lebt im Quellcode-Verzeichnis:
+
+| Dokument | Beschreibung |
+|----------|--------------|
+| [`src/api/README.md`](../../../src/api/README.md) | Modulübersicht: Komponenten, Architektur, Integration |
+| [`src/api/ARCHITECTURE.md`](../../../src/api/ARCHITECTURE.md) | Architekturguide: Datenfluss, Threading, Fehlerbehandlung, Konfiguration |
+| [`src/api/ROADMAP.md`](../../../src/api/ROADMAP.md) | Roadmap: abgeschlossene und geplante Features, Phasen |
+| [`src/api/FUTURE_ENHANCEMENTS.md`](../../../src/api/FUTURE_ENHANCEMENTS.md) | Zukünftige Erweiterungen mit Design-Constraints und API-Sketches |
+| [`include/api/README.md`](../../../include/api/README.md) | Übersicht aller öffentlichen Header-Dateien |
+
 ## Source-Code Referenz
 
 | Komponente | Header | Source |
