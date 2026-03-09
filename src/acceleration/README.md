@@ -2,6 +2,9 @@
 <!-- Status: current | validated: 2026-03-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
+
 ## Overview
 
 The Acceleration module provides hardware-accelerated compute backends for ThemisDB. Its goal is to speed up compute-heavy primitives used by higher-level subsystems (e.g., vector similarity search / ANN, graph analytics, and geospatial operators) while preserving **correctness**, **determinism**, and a **CPU fallback** when no suitable accelerator is available.
@@ -94,7 +97,8 @@ In practice, this module is responsible for:
 Acceleration backends are optional and must not be required to build ThemisDB.
 
 - `THEMIS_ENABLE_CUDA`: enables CUDA sources, kernel compilation, and CUDA backend registration.  
-- `THEMIS_ENABLE_VULKAN`: enables Vulkan sources and shader compilation/integration.
+- `THEMIS_ENABLE_VULKAN`: enables Vulkan sources and shader compilation/integration.  
+- `THEMIS_ENABLE_HIP`: enables HIP/ROCm sources and AMD GPU backend registration.
 
 When these flags are OFF (or SDKs are missing), the build must still succeed and the runtime must still function via CPU backends.
 

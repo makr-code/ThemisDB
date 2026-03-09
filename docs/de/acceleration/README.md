@@ -2,6 +2,9 @@
 <!-- Status: current | validated: 2026-03-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Primärdokumentation: ../../../src/acceleration/ -->
+
 **Stand:** 9. März 2026  
 **Version:** 1.1  
 **Kategorie:** GPU / Hardware-Beschleunigung  
@@ -73,7 +76,7 @@ Das Acceleration-Modul stellt hardware-beschleunigte Compute-Backends für Themi
 
 | Backend | Plattform | Feature-Flag | Status |
 |---|---|---|---|
-| CUDA | NVIDIA GPU (sm_70+) | `THEMIS_ENABLE_CUDA` | ✅ Produktionsreif |
+| CUDA | NVIDIA GPU (sm_70+) | `THEMIS_ENABLE_CUDA` | 🚧 Release-Candidate |
 | HIP/ROCm | AMD GPU | `THEMIS_ENABLE_HIP` | ✅ Implementiert |
 | Vulkan | Plattformübergreifend (Mali, Apple M, AMD) | `THEMIS_ENABLE_VULKAN` | 🚧 In Bearbeitung |
 | OpenCL | Breite Hardware-Unterstützung | — | 🔜 Geplant |
@@ -196,3 +199,4 @@ cmake -DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_VULKAN=OFF ..
 ## Weitere Themen
 
 - [Backend-Typen und Konfiguration](backends.md) — Detaillierte Beschreibung der unterstützten Backends
+- [Fehlende Implementierungen](missing-implementations.md) — Reality-Check-Report: offene Implementierungslücken mit Code-Evidence und Issue-Vorschlägen

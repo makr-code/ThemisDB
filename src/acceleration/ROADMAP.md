@@ -74,10 +74,12 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- `cuda_backend.cpp` has 6 remaining stubs (`launchL2DistanceKernel` etc.); CUDA ANN/vector ops fall through to CPU pending full production wiring to `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu`
-- Tensor Core matrix ops (`CUDAMatrixBackend`) are implemented; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
-- `MultiGPUVectorBackend` uses CPU sub-backends internally pending NCCL group-call wiring with real CUDA kernels
-- `opencl_backend.cpp` has 1 remaining stub; not yet production-ready
+- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
+- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
+- DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
+- Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
+- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
+- HIP top-K selection for k > 1024: heap-based/radix path not yet implemented (TODO in `hip_backend.cpp` line 204)
 
 ## Breaking Changes
 - GPU kernel APIs are not yet stable; function signatures may change before v1.0
