@@ -15,12 +15,12 @@ This document covers planned enhancements to the Geospatial module beyond what i
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `GeoBackend::stBuffer(geom, distance_m)` | AQL `GEO_BUFFER()` function, spatial JOIN planner | New operation; must be implemented in both `cpu_backend.cpp` and the GPU path |
+| `GeoBackend::stBuffer(geom, distance_m)` | AQL `GEO_BUFFER()` function, spatial JOIN planner | **Implemented**: CPU-exact and Boost backends; GPU delegates to CPU (CUDA kernel deferred to v2.2.0) |
 | `GeoBackend::stUnion(geom_a, geom_b)` | AQL `ST_UNION()` function | **Implemented**: CPU-exact (Greiner-Hormann), Boost (`union_`), GPU CPU-fallback; CUDA kernel deferred to v2.2.0 |
 | `GeoBackend::stDifference(geom_a, geom_b)` | AQL `ST_DIFFERENCE()` function | **Implemented**: CPU-exact (Greiner-Hormann), Boost (`difference`), GPU CPU-fallback; CUDA kernel deferred to v2.2.0 |
-| `GeoJsonParser::parseGeometryCollection()` | `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp` | Currently incomplete; must cover all seven GeoJSON geometry types per RFC 7946 |
-| `SpatialIndex::rTreeQuery(bbox)` | `cpu_backend.cpp` query planner | New R-tree index replaces linear scan for contains/intersects on large datasets |
-| `GpuKernelDispatcher::dispatch(op, geom[], n)` | `gpu_backend_stub.cpp` | New CUDA kernel entry point; stub to be replaced with real kernel in v2.1.0 |
+| `GeoJsonParser::parseGeometryCollection()` | `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp` | **Implemented**: all seven GeoJSON geometry types per RFC 7946 |
+| `SpatialIndex::rTreeQuery(bbox)` | `cpu_backend.cpp` query planner | **Implemented**: R-tree index in `geo_rtree.cpp` replaces linear scan |
+| `GpuKernelDispatcher::dispatch(op, geom[], n)` | `gpu_backend_stub.cpp` | **Implemented**: CUDA (`gpu_backend_cuda.cu`) and HIP (`gpu_backend_hip.cpp`) kernel dispatch |
 
 ## Planned Features
 
@@ -36,6 +36,7 @@ All seven geometry types (`Point`, `MultiPoint`, `LineString`, `MultiLineString`
 ### R-tree Spatial Index for CPU Backend
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented in `src/geo/geo_rtree.cpp` + `include/geo/geo_rtree.h`
 
 Replace the linear scan in `boost_cpu_exact_backend.cpp` for `contains` and `intersects` queries with an in-memory R-tree index (Boost.Geometry `rtree` with `rstar` packing algorithm). For collections with > 10 000 geometries the current O(n) scan becomes the dominant query cost.
 
@@ -48,6 +49,11 @@ Replace the linear scan in `boost_cpu_exact_backend.cpp` for `contains` and `int
 **Performance Targets:**
 - `intersects` query over 1 M point geometries: ≤ 5 ms p99 with R-tree vs ~2 s with linear scan.
 - Bulk-load of 1 M geometries into the R-tree ≤ 3 s wall clock.
+
+**Scientific References:**
+- [1] Guttman, A. (1984). R-Trees: A Dynamic Index Structure for Spatial Searching. *Proceedings of the 1984 ACM SIGMOD International Conference on Management of Data*, 47–57. https://doi.org/10.1145/602259.602266
+- [2] Beckmann, N., Kriegel, H.-P., Schneider, R., & Seeger, B. (1990). The R*-Tree: An Efficient and Robust Access Method for Points and Rectangles. *Proceedings of the 1990 ACM SIGMOD International Conference on Management of Data*, 322–331. https://doi.org/10.1145/93597.98741
+- [3] Leutenegger, S. T., Lopez, M. A., & Edgington, J. (1997). STR: A Simple and Efficient Algorithm for R-Tree Packing. *Proceedings of the 13th IEEE International Conference on Data Engineering*, 497–506. https://doi.org/10.1109/ICDE.1997.582015
 
 ---
 
@@ -211,9 +217,143 @@ region R at time T?".
 - DBSCAN: 10 000 points at 500 m epsilon in ≤ 5 s single-threaded (CPU).
 - k-means: k=10, 100 000 points, 100 iterations in ≤ 2 s single-threaded (CPU).
 
+**Scientific References:**
+- [1] Ester, M., Kriegel, H.-P., Sander, J., & Xu, X. (1996). A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise. *Proceedings of the 2nd International Conference on Knowledge Discovery and Data Mining (KDD-96)*, 226–231. https://dl.acm.org/doi/10.5555/3001460.3001507
+- [2] Lloyd, S. P. (1982). Least Squares Quantization in PCM. *IEEE Transactions on Information Theory*, 28(2), 129–137. https://doi.org/10.1109/TIT.1982.1056489
+- [3] Arthur, D., & Vassilvitskii, S. (2007). k-means++: The Advantages of Careful Seeding. *Proceedings of the 18th Annual ACM-SIAM Symposium on Discrete Algorithms (SODA '07)*, 1027–1035. https://dl.acm.org/doi/10.5555/1283383.1283494
+
 ## Security / Reliability
 
 - All GeoJSON inputs must be validated for coordinate range (longitude ∈ [−180, 180], latitude ∈ [−90, 90]) before being passed to any backend; out-of-range values are rejected with a typed error, not silently clamped.
 - `GeometryCollection` recursive parsing is bounded by a configurable depth limit (default 8) to prevent stack-overflow attacks from deeply nested inputs.
 - CUDA kernel failures always trigger the circuit-breaker and fall back to CPU; partial GPU results are never returned to the caller.
 - The structured audit log entry for every GPU↔CPU backend switch must include timestamp, operation name, error code, and collection ID to support incident investigation.
+
+---
+
+## Planned: Spherical WGS-84 Ellipsoid Geometry
+**Priority:** Medium
+**Target Version:** v2.5.0
+**Status:** Planned (Issue: #1744)
+
+Replace the current Haversine/spherical-earth approximation with proper WGS-84 ellipsoid calculations for ST_Distance and ST_Buffer. This improves geodesic accuracy by up to 0.5% for long-distance queries near the poles or equator.
+
+**Scope:**
+- Affected files: `cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`, `spatial_join.cpp`, `temporal_spatial_query.cpp`
+- Add `GeoDistanceFormula::Ellipsoidal` variant alongside the existing `Haversine` and `Vincenty` entries in `include/geo/spatial_backend.h`
+- Implement Vincenty's formulae as the ellipsoidal backend; Karney (2013) geodesics as the high-precision option
+
+**Design Constraints:**
+- Ellipsoidal distance must not regress performance by more than 5× vs Haversine for 1 M point pairs
+- All GPU kernel inputs remain WGS-84 (lat/lon in degrees); ellipsoid parameters are passed as constants
+- Existing ST_Distance behaviour is preserved by default; `geo.distance_formula = "ellipsoidal"` opt-in config key
+
+**Performance Targets:**
+- Ellipsoidal ST_Distance over 1 M point pairs: ≤ 500 ms single-threaded (CPU)
+- GPU ellipsoidal kernel: ≤ 50 ms on A10G-class hardware for 1 M pairs
+
+**Scientific References:**
+- [1] Vincenty, T. (1975). Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application of Nested Equations. *Survey Review*, 23(176), 88–93. https://doi.org/10.1179/sre.1975.23.176.88
+- [2] Karney, C. F. F. (2013). Algorithms for Geodesics. *Journal of Geodesy*, 87(1), 43–55. https://doi.org/10.1007/s00190-012-0578-z
+- [3] Bowring, B. R. (1983). The Geodesic Line on the Surface of the Ellipsoid. *Survey Review*, 27(210), 200–206. https://doi.org/10.1179/sre.1983.27.210.200
+
+---
+
+## Planned: Configurable Precision Mode
+**Priority:** Medium
+**Target Version:** v2.2.0
+**Status:** In Progress (Issue: #1742)
+
+Expose `GeoPrecisionMode` selection to AQL callers via a query hint or collection-level config so that operators can trade exact geometric accuracy for query throughput.
+
+**Scope:**
+- `getBackendForPrecision(GeoPrecisionMode)` factory already exists in `include/geo/spatial_backend.h`
+- Add AQL query hint `/*+ GEO_PRECISION(approximate) */` processed by `src/query/`
+- Add `geo.default_precision` config key (values: `"exact"` | `"approximate"`)
+
+**Design Constraints:**
+- `Approximate` mode must never produce false negatives (safe as a spatial pre-filter)
+- `Exact` mode must not regress performance vs current baseline
+- Mode selection is per-query; collection-level default is overridable per statement
+
+**Scientific References:**
+- [1] Böhm, C., Berchtold, S., & Keim, D. A. (2001). Searching in High-Dimensional Spaces: Index Structures for Improving the Performance of Multimedia Databases. *ACM Computing Surveys*, 33(3), 322–373. https://doi.org/10.1145/502807.502809
+- [2] Rigaux, P., Scholl, M., & Voisard, A. (2001). *Spatial Databases: With Application to GIS*. Morgan Kaufmann. ISBN 978-1558605886.
+
+---
+
+## Planned: GPU-Accelerated Clustering
+**Priority:** Low
+**Target Version:** v2.3.0
+**Status:** Planned
+
+Accelerate DBSCAN and k-means geo-clustering on GPU to lift the O(n²) CPU barrier for large datasets (> 100 K points).
+
+**Scope:**
+- New CUDA kernel `geo_clustering_kernels.cu` with a pairwise Haversine distance kernel
+- GPU-accelerated k-means: centroid update step in CUDA (dominant cost for large k)
+- DBSCAN GPU port: leverages the existing CUDA device detection in `device_detector.h`
+
+**Design Constraints:**
+- GPU clustering results must match CPU reference within `tolerance_m` convergence threshold
+- Falls back to CPU path via circuit-breaker on any CUDA error
+
+**Performance Targets:**
+- DBSCAN: 100 000 points at 500 m epsilon in ≤ 5 s GPU vs ~500 s CPU (>100× speedup)
+- k-means: k=20, 1 M points, 100 iterations in ≤ 10 s GPU
+
+**Scientific References:**
+- [1] Andrade, G., Ramos, G., Madeira, D., Sachetto, R., Ferreira, R., & Rocha, L. (2013). G-DBSCAN: A GPU Accelerated Algorithm for Density-Based Clustering. *Procedia Computer Science*, 18, 369–378. https://doi.org/10.1016/j.procs.2013.05.200
+- [2] Zhao, W., Ma, H., & He, Q. (2009). Parallel k-Means Clustering Based on MapReduce. *Proceedings of the 1st International Conference on Cloud Computing (CloudCom 2009)*, Lecture Notes in Computer Science, vol 5931, 674–679. https://doi.org/10.1007/978-3-642-10665-1_71
+- [3] Li, Y., Zhao, K., Chu, X., & Liu, J. (2013). Speeding Up k-Means Algorithm by GPUs. *Journal of Computer and System Sciences*, 79(2), 216–229. https://doi.org/10.1016/j.jcss.2012.04.007
+
+---
+
+## Planned: CUDA Kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE
+**Priority:** Medium
+**Target Version:** v2.2.0
+**Status:** Planned (ST_BUFFER/UNION/DIFFERENCE currently CPU-only on GPU path)
+
+Implement dedicated CUDA kernels for the set-operation ST_ functions so that the GPU path no longer delegates to CPU for these operations.
+
+**Scope:**
+- New kernel `stBufferKernel` in `src/acceleration/cuda/geo_kernels.cu`
+- New kernels `stUnionKernel`, `stDifferenceKernel` using parallel polygon clipping (Greiner-Hormann on GPU)
+- Integration via `GpuKernelDispatcher` dispatch table
+
+**Design Constraints:**
+- Kernel output must pass the existing `tests/geo/test_geo_st_buffer.cpp` parametric tests on GPU path
+- Maximum input polygon vertex count bounded by 4096 per geometry to fit in shared memory
+
+**Performance Targets:**
+- ST_BUFFER: 10 000 Point geometries at 500 m radius in ≤ 20 ms on A10G (10× speedup vs CPU baseline)
+- ST_UNION: 1 000 polygon pairs in ≤ 10 ms on A10G
+
+**Scientific References:**
+- [1] Greiner, G., & Hormann, K. (1998). Efficient Clipping of Arbitrary Polygons. *ACM Transactions on Graphics*, 17(2), 71–83. https://doi.org/10.1145/274363.274364
+- [2] Liu, F., Zhao, H., Hu, Z., & Shen, X. (2010). GPU-Accelerated Geo-Processing. *Proceedings of the 2010 18th International Conference on Geoinformatics*, 1–6. https://doi.org/10.1109/GEOINFORMATICS.2010.5567729
+- [3] Owens, J. D., Houston, M., Luebke, D., Green, S., Stone, J. E., & Phillips, J. C. (2008). GPU Computing. *Proceedings of the IEEE*, 96(5), 879–899. https://doi.org/10.1109/JPROC.2008.917757
+
+---
+
+## References
+
+[R1] Guttman, A. (1984). R-Trees: A Dynamic Index Structure for Spatial Searching. *Proceedings of the 1984 ACM SIGMOD International Conference on Management of Data*, 47–57. https://doi.org/10.1145/602259.602266
+
+[R2] Beckmann, N., Kriegel, H.-P., Schneider, R., & Seeger, B. (1990). The R*-Tree: An Efficient and Robust Access Method for Points and Rectangles. *Proceedings of the 1990 ACM SIGMOD International Conference on Management of Data*, 322–331. https://doi.org/10.1145/93597.98741
+
+[R3] Ester, M., Kriegel, H.-P., Sander, J., & Xu, X. (1996). A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise. *Proceedings of the 2nd International Conference on Knowledge Discovery and Data Mining (KDD-96)*, 226–231. https://dl.acm.org/doi/10.5555/3001460.3001507
+
+[R4] Lloyd, S. P. (1982). Least Squares Quantization in PCM. *IEEE Transactions on Information Theory*, 28(2), 129–137. https://doi.org/10.1109/TIT.1982.1056489
+
+[R5] Vincenty, T. (1975). Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application of Nested Equations. *Survey Review*, 23(176), 88–93. https://doi.org/10.1179/sre.1975.23.176.88
+
+[R6] Karney, C. F. F. (2013). Algorithms for Geodesics. *Journal of Geodesy*, 87(1), 43–55. https://doi.org/10.1007/s00190-012-0578-z
+
+[R7] Greiner, G., & Hormann, K. (1998). Efficient Clipping of Arbitrary Polygons. *ACM Transactions on Graphics*, 17(2), 71–83. https://doi.org/10.1145/274363.274364
+
+[R8] Andrade, G., et al. (2013). G-DBSCAN: A GPU Accelerated Algorithm for Density-Based Clustering. *Procedia Computer Science*, 18, 369–378. https://doi.org/10.1016/j.procs.2013.05.200
+
+[R9] Brinkhoff, T., Kriegel, H.-P., & Seeger, B. (1993). Efficient Processing of Spatial Joins Using R-Trees. *Proceedings of the 1993 ACM SIGMOD International Conference on Management of Data*, 237–246. https://doi.org/10.1145/170035.170075
+
+[R10] Open Geospatial Consortium. (2010). OpenGIS® Implementation Standard for Geographic Information – Simple Feature Access – Part 1: Common Architecture (Version 1.2.1). OGC 06-103r4. https://www.ogc.org/standards/sfa
