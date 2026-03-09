@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_connector.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:58:46                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-09 15:27:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     622                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     637                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -33,11 +33,6 @@
 #undef ERROR
 #endif
 
-// Note: For actual HTTP GET requests, a simulated HttpClient is used to
-// preserve the existing stub structure (real libcurl replacement is tracked
-// as a separate roadmap item).  OAuth 2.0 token refresh POST requests are
-// performed via real libcurl (apiHttpPost) when no test hook is injected.
-
 namespace themis {
 namespace ingestion {
 
@@ -48,43 +43,96 @@ struct HttpResponse {
     std::string error;
 };
 
-// Simulated HTTP client (would use libcurl in production)
-class HttpClient {
-public:
-    // Note: timeout_ms will be passed to curl_easy_setopt(CURLOPT_TIMEOUT_MS)
-    // once libcurl is integrated; currently unused in the simulated implementation.
-    static HttpResponse get(const std::string& url, const std::string& auth_token = "",
-                            int /*timeout_ms*/ = 30000) {
-        HttpResponse response;
-        
-        // In production, this would use libcurl:
-        // CURL* curl = curl_easy_init();
-        // curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        // curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, timeout_ms);
-        // if (!auth_token.empty()) {
-        //     std::string auth_header = "Authorization: Bearer " + auth_token;
-        //     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        // }
-        // curl_easy_perform(curl);
-        
-        // Simulated response for demonstration
-        response.status_code = 200;
-        response.body = "{\"status\": \"available\", \"rows\": 12000}";
-        
-        return response;
-    }
-};
+namespace {
 
-// Helper: perform an HTTP GET with exponential back-off retry
+// libcurl write callback – appends received data to a std::string.
+// Shared by both GET and POST operations.
+static size_t hfCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                   void* userdata) {
+    const auto total = size * nmemb;
+    static_cast<std::string*>(userdata)->append(ptr, total);
+    return total;
+}
+
+// Production HTTP GET using libcurl.
+static HttpResponse hfHttpGet(const std::string& url,
+                               const std::string& auth_token,
+                               int timeout_ms) {
+    HttpResponse r;
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        r.error = "Failed to initialize libcurl handle";
+        return r;
+    }
+
+    struct curl_slist* headers = nullptr;
+    if (!auth_token.empty()) {
+        std::string auth_header = "Authorization: Bearer " + auth_token;
+        headers = curl_slist_append(headers, auth_header.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, hfCurlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    const CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        r.error = curl_easy_strerror(res);
+        r.status_code = 0;
+    } else {
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        r.status_code = static_cast<int>(http_code);
+    }
+
+    if (headers) curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+    return r;
+}
+
+/// Extract the first non-negative integer value of `"key":N` from a JSON string.
+/// Returns 0 when the key is absent, the value is missing, or the value starts
+/// with a non-digit character (including '-' for negative numbers, which cannot
+/// be represented as size_t and are treated as 0).
+static size_t hfJsonExtractSizeT(const std::string& json,
+                                  const std::string& key) {
+    std::string needle = "\"" + key + "\":";
+    auto pos = json.find(needle);
+    if (pos == std::string::npos) return 0;
+    pos += needle.size();
+    while (pos < json.size() && (json[pos] == ' ' || json[pos] == '\t')) ++pos;
+    if (pos >= json.size()) return 0;
+    size_t val = 0;
+    bool found_digit = false;
+    while (pos < json.size() && std::isdigit(static_cast<unsigned char>(json[pos]))) {
+        val = val * 10 + static_cast<size_t>(json[pos] - '0');
+        ++pos;
+        found_digit = true;
+    }
+    return found_digit ? val : 0;
+}
+
+} // anonymous namespace
+
+// Helper: perform an HTTP GET with exponential back-off retry.
+// `http_get` is a callable matching `HttpResponse(url, auth_token, timeout_ms)`.
 static HttpResponse getWithRetry(const std::string& url,
                                  const std::string& auth_token,
                                  const RetryConfig& retry_cfg,
-                                 IngestionStats& stats) {
+                                 IngestionStats& stats,
+                                 const std::function<HttpResponse(const std::string&,
+                                                                   const std::string&,
+                                                                   int)>& http_get) {
     HttpResponse response;
     double delay_ms = retry_cfg.initial_delay_ms;
 
     for (int attempt = 1; attempt <= retry_cfg.max_attempts; ++attempt) {
-        response = HttpClient::get(url, auth_token, retry_cfg.timeout_ms);
+        response = http_get(url, auth_token, retry_cfg.timeout_ms);
 
         if (response.status_code == 200) {
             return response;  // success
@@ -127,14 +175,6 @@ static HttpResponse getWithRetry(const std::string& url,
 }
 
 namespace {
-
-// libcurl write callback used by the production OAuth POST.
-static size_t hfCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
-                                   void* userdata) {
-    const auto total = size * nmemb;
-    static_cast<std::string*>(userdata)->append(ptr, total);
-    return total;
-}
 
 // Production HTTP POST via libcurl (OAuth 2.0 token refresh only).
 static HttpResponse hfHttpPost(const std::string& url,
@@ -254,11 +294,7 @@ public:
         try {
             // Check HuggingFace Hub API availability
             std::string api_url = "https://huggingface.co/api/datasets/" + dataset_name_;
-            
-            // Make HTTP request (simulated)
-            auto response = HttpClient::get(api_url, buildAuthToken(), retry_config_.timeout_ms);
-            
-            // Check if dataset exists (200 OK)
+            auto response = httpGet(api_url, buildAuthToken(), retry_config_.timeout_ms);
             return response.status_code == 200;
             
         } catch (const std::exception&) {
@@ -275,22 +311,24 @@ public:
             std::string api_url = "https://huggingface.co/api/datasets/" + 
                                 dataset_name_ + "/metadata";
             
-            auto response = HttpClient::get(api_url, buildAuthToken(), retry_config_.timeout_ms);
+            auto response = httpGet(api_url, buildAuthToken(), retry_config_.timeout_ms);
             
             if (response.status_code == 200) {
-                // Parse JSON response to get row count
-                // In production: Use nlohmann/json or similar
-                // auto json = nlohmann::json::parse(response.body);
-                // return json["rows"].get<size_t>();
-                
-                return 12000;  // Would be parsed from API response
+                // Parse the row count from the API response JSON.
+                // `rows` is tried first; `count` is a fallback for APIs that use
+                // different field names.  Note: a genuine `"rows":0` is
+                // indistinguishable from a missing field and will cause the
+                // fallback to `count` to run, which is acceptable because
+                // datasets with exactly 0 rows would produce an empty ingest run
+                // regardless of which field is used.
+                size_t rows = hfJsonExtractSizeT(response.body, "rows");
+                if (rows == 0) rows = hfJsonExtractSizeT(response.body, "count");
+                return rows;
             }
             
-        } catch (const std::exception&) {
-            // Error querying metadata
-        }
+        } catch (const std::exception&) {}
         
-        return 0;  // Unknown
+        return 0;
     }
     
     IngestionStats ingest(const std::string& target_collection,
@@ -339,6 +377,19 @@ private:
     std::string buildAuthToken() const {
         return !oauth_config_.access_token.empty() ? oauth_config_.access_token
                                                    : api_token_;
+    }
+
+    // Perform an HTTP GET, delegating to the test hook when set.
+    HttpResponse httpGet(const std::string& url, const std::string& auth_token,
+                         int timeout_ms) const {
+        if (http_get_fn_) {
+            auto [status, body] = http_get_fn_(url, auth_token);
+            HttpResponse r;
+            r.status_code = status;
+            r.body        = std::move(body);
+            return r;
+        }
+        return hfHttpGet(url, auth_token, timeout_ms);
     }
 
     // Perform an HTTP POST, delegating to the test hook when set.
@@ -403,6 +454,10 @@ private:
         
         size_t total_docs = getDocumentCount();
         size_t processed = 0;
+
+        auto http_get = [this](const std::string& u, const std::string& a, int t) {
+            return httpGet(u, a, t);
+        };
         
         while (processed < total_docs) {
             size_t chunk_size = std::min(batch_size_, total_docs - processed);
@@ -411,7 +466,8 @@ private:
                 "?offset=" + std::to_string(processed) +
                 "&limit="  + std::to_string(chunk_size);
 
-            auto response = getWithRetry(chunk_url, buildAuthToken(), retry_config_, stats);
+            auto response = getWithRetry(chunk_url, buildAuthToken(), retry_config_, stats,
+                                         http_get);
 
             // OAuth 2.0 token refresh on HTTP 401 (RFC 6749 §6).
             if (response.status_code == 401 && oauth_config_.isRefreshable()) {
@@ -421,8 +477,8 @@ private:
                         stats.errors.pop_back();
                         --stats.metrics.error_count;
                     }
-                    response = HttpClient::get(chunk_url, buildAuthToken(),
-                                               retry_config_.timeout_ms);
+                    response = httpGet(chunk_url, buildAuthToken(),
+                                       retry_config_.timeout_ms);
                 }
             }
 
@@ -485,8 +541,13 @@ private:
                                const std::string& /*target_collection*/,
                                ProgressCallback callback) {
         IngestionStats stats;
-        
-        auto response = getWithRetry(api_url, buildAuthToken(), retry_config_, stats);
+
+        auto http_get = [this](const std::string& u, const std::string& a, int t) {
+            return httpGet(u, a, t);
+        };
+
+        auto response = getWithRetry(api_url, buildAuthToken(), retry_config_, stats,
+                                     http_get);
 
         // OAuth 2.0 token refresh on HTTP 401 (RFC 6749 §6).
         if (response.status_code == 401 && oauth_config_.isRefreshable()) {
@@ -496,8 +557,8 @@ private:
                     stats.errors.pop_back();
                     --stats.metrics.error_count;
                 }
-                response = HttpClient::get(api_url, buildAuthToken(),
-                                           retry_config_.timeout_ms);
+                response = httpGet(api_url, buildAuthToken(),
+                                   retry_config_.timeout_ms);
             }
         }
 
@@ -545,6 +606,10 @@ public:
         oauth_config_ = config;
     }
 
+    void setHttpGetForTesting(ApiHttpGetFn fn) {
+        http_get_fn_ = std::move(fn);
+    }
+
     void setHttpPostForTesting(ApiHttpPostFn fn) {
         http_post_fn_ = std::move(fn);
     }
@@ -562,6 +627,7 @@ private:
     bool streaming_enabled_;
     RetryConfig retry_config_;
     OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
+    ApiHttpGetFn  http_get_fn_;  // testing hook; empty = use real libcurl GET
     ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
     DocumentValidatorFn document_validator_; ///< Optional per-document validator
 };
@@ -608,6 +674,10 @@ void HuggingFaceConnector::setRetryConfig(const RetryConfig& config) {
 
 void HuggingFaceConnector::setOAuthConfig(const OAuthConfig& config) {
     impl_->setOAuthConfig(config);
+}
+
+void HuggingFaceConnector::setHttpGetForTesting(ApiHttpGetFn fn) {
+    impl_->setHttpGetForTesting(std::move(fn));
 }
 
 void HuggingFaceConnector::setHttpPostForTesting(ApiHttpPostFn fn) {

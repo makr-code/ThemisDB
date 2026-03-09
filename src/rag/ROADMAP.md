@@ -53,6 +53,9 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 ### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
+- [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`) (Issue: #2241)
+- [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`) (Issue: #2243)
+- [x] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
 - [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
 
 ## Implementation Phases

@@ -299,26 +299,42 @@ static SourceConfig makeHfConfig(const std::string& source_id,
     return cfg;
 }
 
+// Shared mock HTTP GET for HuggingFace tests.
+// Returns a `rows` metadata count for `/api/datasets/.../metadata` URLs and
+// HTTP 200 for all other (data) URLs so the ingestion loop completes without
+// making real network requests.
+// DEFAULT_HF_TEST_ROWS matches the row count used in test assertions to keep
+// the mock and expectations in sync without hardcoding "12000" in multiple places.
+static constexpr size_t DEFAULT_HF_TEST_ROWS = 12000;
+static ApiHttpGetFn makeHfHttpGetMock(size_t row_count = DEFAULT_HF_TEST_ROWS) {
+    return [row_count](const std::string& url, const std::string& /*auth*/)
+           -> std::pair<int, std::string> {
+        if (url.find("/metadata") != std::string::npos)
+            return {200, "{\"rows\":" + std::to_string(row_count) + "}"};
+        return {200, "{\"status\":\"ok\"}"};
+    };
+}
+
 TEST(HuggingFaceIntegrationTest, BatchModeIngestViaManager) {
     IngestionManager mgr("test_db");
+    mgr.setApiHttpGetForTesting(makeHfHttpGetMock());
     ASSERT_TRUE(mgr.registerSource(
         makeHfConfig("hf_batch", "lexlms/ger_legal_data", "train", false)));
 
     auto stats = mgr.ingestSource("hf_batch");
-    // The stub connector returns 12 000 documents in batch mode
-    EXPECT_EQ(stats.documents_processed, 12000u);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
     EXPECT_EQ(stats.documents_failed,    0u);
     EXPECT_TRUE(stats.errors.empty());
 }
 
 TEST(HuggingFaceIntegrationTest, StreamingModeIngestViaManager) {
     IngestionManager mgr("test_db");
+    mgr.setApiHttpGetForTesting(makeHfHttpGetMock());
     ASSERT_TRUE(mgr.registerSource(
         makeHfConfig("hf_stream", "allenai/c4", "validation", true)));
 
     auto stats = mgr.ingestSource("hf_stream");
-    // Stub returns 12 000 regardless of streaming flag
-    EXPECT_EQ(stats.documents_processed, 12000u);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
     EXPECT_EQ(stats.documents_failed,    0u);
 }
 
@@ -330,15 +346,17 @@ TEST(HuggingFaceIntegrationTest, ApiTokenPropagatedViaOptions) {
     HuggingFaceConnector conn;
     ASSERT_TRUE(conn.initialize(cfg));
     conn.setApiToken("hf_api_token_abc123");
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
 
     auto stats = conn.ingest("col", nullptr);
-    EXPECT_EQ(stats.documents_processed, 12000u);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
     EXPECT_EQ(stats.documents_failed,    0u);
 }
 
 TEST(HuggingFaceIntegrationTest, DatasetSplitTrainVsTest) {
     // Both splits should succeed via IngestionManager
     IngestionManager mgr("test_db");
+    mgr.setApiHttpGetForTesting(makeHfHttpGetMock());
 
     ASSERT_TRUE(mgr.registerSource(
         makeHfConfig("hf_train", "dataset/example", "train")));
@@ -348,7 +366,7 @@ TEST(HuggingFaceIntegrationTest, DatasetSplitTrainVsTest) {
     auto report = mgr.ingestAll();
     EXPECT_EQ(report.source_stats.count("hf_train"), 1u);
     EXPECT_EQ(report.source_stats.count("hf_test"),  1u);
-    EXPECT_EQ(report.source_stats.at("hf_train").documents_processed, 12000u);
+    EXPECT_EQ(report.source_stats.at("hf_train").documents_processed, DEFAULT_HF_TEST_ROWS);
     EXPECT_EQ(report.source_stats.at("hf_test").documents_processed,  12000u);
 }
 
@@ -358,6 +376,7 @@ TEST(HuggingFaceIntegrationTest, BatchSizeConfigured) {
     ASSERT_TRUE(conn.initialize(cfg));
     conn.setBatchSize(500);
     conn.setStreamingMode(false);
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
 
     // Setting batch size must not crash or corrupt the ingestion flow
     auto stats = conn.ingest("col", nullptr);
@@ -375,6 +394,7 @@ TEST(HuggingFaceIntegrationTest, RetryConfigApplied) {
     retry.initial_delay_ms = 10.0;  // short delay for tests
     retry.backoff_factor   = 2.0;
     conn.setRetryConfig(retry);
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
 
     EXPECT_NO_THROW(conn.ingest("col", nullptr));
 }
@@ -383,6 +403,7 @@ TEST(HuggingFaceIntegrationTest, IsAvailableAndDocumentCount) {
     HuggingFaceConnector conn;
     SourceConfig cfg = makeHfConfig("hf_meta", "test/dataset", "train");
     ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
 
     // isAvailable() and getDocumentCount() must not throw
     EXPECT_NO_THROW(conn.isAvailable());
@@ -394,6 +415,7 @@ TEST(HuggingFaceIntegrationTest, IsAvailableAndDocumentCount) {
 
 TEST(HuggingFaceIntegrationTest, ProgressCallbackFired) {
     IngestionManager mgr("test_db");
+    mgr.setApiHttpGetForTesting(makeHfHttpGetMock());
     ASSERT_TRUE(mgr.registerSource(
         makeHfConfig("hf_prog", "test/dataset", "train", false)));
 
@@ -404,7 +426,7 @@ TEST(HuggingFaceIntegrationTest, ProgressCallbackFired) {
     };
 
     auto stats = mgr.ingestSource("hf_prog", cb);
-    EXPECT_EQ(stats.documents_processed, 12000u);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
     EXPECT_GE(cb_count.load(), 1);
 }
 

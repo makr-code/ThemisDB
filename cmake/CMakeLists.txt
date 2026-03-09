@@ -2014,6 +2014,8 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/continuous_profiler.cpp
     ../src/observability/ebpf_tracer.cpp
     ../src/observability/distributed_flame_graph.cpp
+    ../src/observability/slo_reporter.cpp
+    ../src/observability/metric_anomaly_detector.cpp
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp
@@ -3958,6 +3960,40 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_predictor>
         EXTRA_ARGS --gtest_color=yes
     )
+
+    # RaBitQ ProductQuantizer k-means tests
+    add_executable(test_rabitq_product_quantizer
+        ${THEMIS_ROOT_DIR}/tests/performance/test_rabitq_product_quantizer.cpp
+    )
+    target_link_libraries(test_rabitq_product_quantizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_rabitq_product_quantizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rabitq_product_quantizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Cicada OCC data-install and transaction-protocol tests
+    if(THEMIS_ENABLE_CICADA)
+        add_executable(test_cicada
+            ${THEMIS_ROOT_DIR}/tests/performance/test_cicada.cpp
+        )
+        target_link_libraries(test_cicada
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_cicada
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cicada>
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 
     # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
     # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)

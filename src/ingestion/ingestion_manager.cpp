@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     1976                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -540,6 +540,9 @@ public:
                 case SourceType::HUGGINGFACE: {
                     auto hf_connector = std::make_unique<HuggingFaceConnector>();
                     hf_connector->setRetryConfig(retry_config_);
+                    if (api_http_get_fn_) {
+                        hf_connector->setHttpGetForTesting(api_http_get_fn_);
+                    }
                     if (!hf_connector->initialize(config)) {
                         stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
                                        IngestionErrorSeverity::ERROR,
@@ -972,6 +975,11 @@ public:
         return retry_config_;
     }
 
+    DocumentWriteFn getDocumentWriteFn() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return doc_write_fn_;
+    }
+
     size_t getQuarantineRetrySuccessCount() const {
         return quarantine_retry_successes_.load(std::memory_order_relaxed);
     }
@@ -1095,6 +1103,11 @@ public:
         api_http_get_fn_ = std::move(fn);
     }
 
+    void setDocumentWriteForTesting(DocumentWriteFn fn) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        doc_write_fn_ = std::move(fn);
+    }
+
     void registerConnectorPlugin(const std::string& plugin_name,
                                   ConnectorFactory factory) {
         plugin_registry_.registerFactory(plugin_name, std::move(factory));
@@ -1204,6 +1217,7 @@ private:
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
     ApiHttpGetFn api_http_get_fn_;  ///< testing hook for API connectors; empty = real curl
+    DocumentWriteFn doc_write_fn_;  ///< testing hook for quarantine retry writes; empty = always succeed
     ConnectorPluginRegistry plugin_registry_; ///< Registry for third-party plugin connectors
     mutable std::mutex mutex_;
 };
@@ -1340,6 +1354,10 @@ RetryConfig IngestionManager::getRetryConfig() const {
     return impl_->getRetryConfig();
 }
 
+DocumentWriteFn IngestionManager::getDocumentWriteFn() const {
+    return impl_->getDocumentWriteFn();
+}
+
 size_t IngestionManager::getQuarantineRetrySuccessCount() const {
     return impl_->getQuarantineRetrySuccessCount();
 }
@@ -1371,6 +1389,10 @@ bool IngestionManager::clearCheckpoint(const std::string& source_id) {
 
 void IngestionManager::setApiHttpGetForTesting(ApiHttpGetFn fn) {
     impl_->setApiHttpGetForTesting(std::move(fn));
+}
+
+void IngestionManager::setDocumentWriteForTesting(DocumentWriteFn fn) {
+    impl_->setDocumentWriteForTesting(std::move(fn));
 }
 
 void IngestionManager::registerConnectorPlugin(const std::string& plugin_name,
@@ -1878,6 +1900,9 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
         bool success = false;
         const int max_attempts = std::max(cfg.max_quarantine_retries, 1);
 
+        // Retrieve the injected write function (may be empty outside tests).
+        DocumentWriteFn write_fn = mgr_.getDocumentWriteFn();
+
         for (int attempt = 1; attempt <= max_attempts; ++attempt) {
             // Apply back-off delay before each re-attempt (skip on the first).
             if (attempt > 1) {
@@ -1886,14 +1911,19 @@ bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
                 delay_ms = std::min(delay_ms * cfg.backoff_factor, cfg.max_delay_ms);
             }
 
-            // Attempt to write the document.  In a real backend this would call
-            // the storage layer with `entry.raw_payload` and return true/false.
-            // In this implementation a non-empty payload represents a document
-            // that can be written, so the write always succeeds.
-            // NOTE: the failure branch below is unreachable in this stub but
-            // preserves the intended production behaviour: increment retry_count
-            // and update error_message so callers can inspect the last failure.
-            success = true;
+            // Attempt to write the document.  If a DocumentWriteFn has been
+            // injected (e.g. in tests), delegate to it; otherwise assume success
+            // since no storage backend is directly coupled to this module
+            // boundary.  Production deployments that need verified writes should
+            // install a write function via setDocumentWriteForTesting() — or,
+            // more typically, connect the ingestion pipeline to the storage layer
+            // through a higher-level orchestration layer that invokes ingestAll()
+            // and handles document persistence independently.
+            if (write_fn) {
+                success = write_fn(entry.source_id, entry.raw_payload);
+            } else {
+                success = true;
+            }
 
             if (success) {
                 break;

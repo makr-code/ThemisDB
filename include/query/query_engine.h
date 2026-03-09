@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     787                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -697,18 +697,16 @@ private:
         explicit QueryExpressionEvaluator(QueryEngine* engine) 
             : engine_(engine) {}
         
-        // Minimal stub implementation matching IExpressionEvaluator
+        // Delegates to AQL parser + QueryEngine::evaluateCondition()
         bool evaluate(const std::string& expression, const void* context) override;
         std::string get_expression_type() const override;
 
-        // Helpers reserved for future richer evaluation paths (non-override)
+        // Helpers for richer evaluation paths (non-override)
         bool evaluateBoolean(std::string_view expression, const void* context) const;
         bool canEvaluate(std::string_view expression) const;
         
     private:
         QueryEngine* engine_;
-        // Note: Implementation is currently a stub for Phase 3
-        // Full evaluation will be added in Phase 4 integration
     };
     
     // Expression evaluation helpers (implemented in cpp)
