@@ -28,6 +28,8 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
 - [x] Post-quantum cryptography migration path (CRYSTALS-Kyber / Dilithium) (`include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`)
 - [x] Systematic attack vector test suite (`tests/security/attack-vectors/crypto/`, `injection/`, `authentication/`)
+- [x] USB admin authenticator HMAC-SHA256 challenge-response with replay protection; Windows MachineGuid fix
+- [x] SOC 2 Type II security compliance evidence collection (`include/security/security_evidence_collector.h`)
 
 ## In Progress 🚧
 - [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
@@ -95,12 +97,26 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - `crypto/test_crypto_attack_vectors.cpp` — IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
   - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params
   - `authentication/test_authentication_attack_vectors.cpp` — RBAC: privilege escalation, permission boundary, lateral movement, deleted/unknown roles, role injection, multi-role combinations
+- [x] USB admin authenticator: HMAC-SHA256 challenge-response with replay protection (`src/security/usb_admin_authenticator.cpp`)
+  - `createChallenge()` now uses OpenSSL CSPRNG and registers challenges with timestamps
+  - `validateChallengeResponse()` verifies HMAC-SHA256(license_key, challenge), enforces TTL and one-time-use
+  - Windows `MachineGuid` read from registry (`HKLM\SOFTWARE\Microsoft\Cryptography\MachineGuid`)
+  - Tests: 7 new tests in `tests/test_usb_admin_authenticator.cpp` (valid HMAC, wrong response, replay, unknown, expired, empty, multi-challenge)
+- [x] SOC 2 Type II compliance evidence collection (`include/security/security_evidence_collector.h`, `src/security/security_evidence_collector.cpp`)
+  - Audit log export via `AuditLogger::generateComplianceReport()` + `searchEntries()`
+  - Key-rotation records from `KeyProvider::listKeys()` with version-based rotation detection
+  - Access-control report from `RBAC::listRoles()` / `getRole()` — empty roles, admin wildcard detection
+  - Security metrics snapshot: active keys, deprecated keys, role count, audit log entry count
+  - Append-only JSON export with atomic file write; 12-month retention enforcement; retention verification
+  - Tests: 30 test cases in `tests/security/test_security_evidence_collector.cpp`
 - [ ] SOC 2 Type II compliance evidence collection (Target: Q4 2026, Issue: #2293)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider, KyberKEM, DilithiumSigner, HybridEncryption)
+- [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider, KyberKEM, DilithiumSigner, HybridEncryption, SecurityEvidenceCollector)
 - [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
 - [x] Attack vector tests (crypto IV/tag/key confusion, injection, authentication privilege escalation)
+- [x] Challenge-response security: HMAC-SHA256 with replay protection, TTL, one-time-use
+- [x] SOC 2 evidence collection: audit log, key rotations, metrics, RBAC report, retention enforcement
 - [~] Performance benchmarks (encryption overhead, auth latency) (Target: Q2 2026)
 - [~] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026)
 - [x] Documentation complete (ROADMAP.md, FUTURE_ENHANCEMENTS.md, inline docblocks)
@@ -109,8 +125,9 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Known Issues & Limitations
 - HSM integration uses RSA-OAEP (SHA-256 / MGF1-SHA-256) for DEK wrapping via PKCS#11 C_Encrypt/C_Decrypt.
 - FIPS 140-2 mode requires a FIPS-validated OpenSSL build; not bundled by default.
-- AQL injection detection uses pattern matching; semantic analysis deferred to v1.6.0+.
+- AQL injection detection uses pattern matching; AST-level semantic analysis deferred to v1.6.0+.
 - Zero-trust `ZeroTrustPolicyEnforcer` supports IPv4 CIDR policies only; IPv6 support planned for a follow-up.
+- USB admin challenge-response uses HMAC-SHA256 with the license key as the HMAC secret; consider migrating to Ed25519 signatures with a dedicated per-USB key pair in a future iteration.
 
 ## Breaking Changes
 - SecurityManager API is stable from v1.x.
