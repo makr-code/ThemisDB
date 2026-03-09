@@ -1,7 +1,7 @@
 # Config Module — Architecture Guide
 
 **Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/config/`
 
 ---
@@ -37,11 +37,14 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 
 | File | Role |
 |---|---|
-| `config_path_resolver.h` / `config_path_resolver.cpp` | Main path resolution logic (60+ mappings, LRU cache, metrics) |
+| `config_path_resolver.h` / `config_path_resolver.cpp` | Main path resolution logic (60+ mappings, LRU cache, metrics, multi-env overlay) |
+| `config_schema_validator.h` / `config_schema_validator.cpp` | JSON Schema (Draft 7 subset) validation of YAML/JSON config files |
+| `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
 | `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus text-format exporter; wired into `/metrics` endpoint |
 | `lru_cache.h` | Generic LRU cache with per-entry TTL eviction |
 | `path_mapping_metadata.h` | Deprecation date, removal date, migration guide URL per mapped path |
 | `config_errors.h` | Typed exception hierarchy: `ConfigNotFoundException`, `MappingNotFoundException`, `InvalidPathException`, `ConfigPermissionException` |
+| `config_migration_scanner_impl.h` | Testable inline implementation for the `config_migration_scanner` CLI tool |
 
 ### 3.2 Component Diagram
 
@@ -57,20 +60,54 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 │  1. validate(path) → check for '..' traversal, null bytes        │
 │  2. LRUCacheWithTTL<string,string>: cache hit? → return          │
 │  3. lookup PATH_MAPPING table (60+ entries)                      │
-│  4. does new path exist on filesystem? → return new path         │
-│  5. does legacy path exist? → log deprecation warning → return   │
-│  6. neither exists → throw ConfigNotFoundException               │
+│  4. does overlay path exist? (dev/staging only) → return         │
+│  5. does new path exist on filesystem? → return new path         │
+│  6. does legacy path exist? → log deprecation warning → return   │
+│  7. neither exists → throw ConfigNotFoundException               │
 │                                                                  │
+│  Audit:   ConfigAuditLog (bounded ring-buffer, opt-in)           │
 │  Metrics: total_resolves, cache_hits, legacy_fallbacks, errors   │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │ metrics() / cacheStats() / deprecationReport()
-┌──────────────────────▼──────────────────────────────────────────┐
-│                ConfigMetricsExporter (static)                    │
-│                                                                  │
-│  collect()             → Prometheus text format (for /metrics)   │
-│  updateMetricsCollector() → push gauges to MetricsCollector      │
-└──────────────────────────────────────────────────────────────────┘
+└──────────┬───────────────────────────────┬──────────────────────┘
+           │ validate(config, schema)       │ metrics() / cacheStats() / deprecationReport()
+┌──────────▼──────────────────────┐  ┌─────▼──────────────────────────────────────────────┐
+│   ConfigSchemaValidator (static) │  │              ConfigMetricsExporter (static)         │
+│                                  │  │                                                      │
+│  validate(config_path, schema)   │  │  collect()             → Prometheus text format      │
+│  validateWithSchemaFile(...)     │  │  updateMetricsCollector() → push to MetricsCollector │
+│  loadAsJson(file_path)           │  └──────────────────────────────────────────────────────┘
+│  (YAML/JSON, Draft-7 subset)     │
+└──────────────────────────────────┘
 ```
+
+---
+
+## 3.3 ConfigSchemaValidator
+
+`ConfigSchemaValidator` (in `config_schema_validator.h` / `config_schema_validator.cpp`) is a
+standalone static utility for validating YAML and JSON config files against a JSON Schema
+(Draft 7 subset). It integrates with `ConfigPathResolver` for schema file lookups so that
+legacy-to-new path mapping is applied automatically when loading schema files.
+
+**Supported keywords:** `type`, `properties`, `required`, `additionalProperties`,
+`minLength`, `maxLength`, `pattern`, `minimum`, `maximum`, `exclusiveMinimum`,
+`exclusiveMaximum`, `minItems`, `maxItems`, `items`, `enum`, `const`.
+
+**YAML → JSON conversion:** yaml-cpp `Node` → `nlohmann::json` (type inference: null, bool,
+int, float, string).
+
+**Error reporting:** `ValidationResult` collects all validation errors and warnings before
+returning, enabling callers to receive the full list of schema violations in one pass.
+
+---
+
+## 3.4 ConfigAuditLog
+
+`ConfigAuditLog` (in `config_audit_log.h` / `config_audit_log.cpp`) is an opt-in, bounded
+ring-buffer that records every successful `resolve()` / `tryResolve()` call.  It is disabled
+by default and carries no overhead when disabled.
+
+Each `AuditEntry` captures: `requested_path`, `resolved_path`, `timestamp`,
+`is_legacy` (true when the legacy fallback branch was used), and `is_cache_hit`.
 
 ---
 
@@ -125,6 +162,8 @@ resolve("llm_config.yaml")
 - `PATH_MAPPING` is a `const static` table initialized at compile time — zero-overhead reads.
 - Metrics counters are `std::atomic<uint64_t>` — safe for concurrent increment without locks.
 - `LRUCacheWithTTL` uses an internal `std::mutex` for thread safety.
+- `ConfigAuditLog` uses an internal `std::mutex`; audit recording is a separate lock acquisition from path resolution.
+- `ConfigSchemaValidator` exposes only stateless static methods — safe for concurrent use with no shared state.
 - `ConfigPathResolver` is stateless (static methods only); multiple threads may call it
   simultaneously without coordination.
 
@@ -159,6 +198,7 @@ The Config module itself has no runtime configuration file. Its behavior is cont
 |---|---|---|---|
 | `LRU_CACHE_CAPACITY` | 1000 | `THEMIS_CONFIG_CACHE_SIZE` | Max cached path resolutions (valid range: 10–100000) |
 | `LRU_CACHE_TTL_SECONDS` | 300 | `THEMIS_CONFIG_CACHE_TTL` | Cache entry TTL in seconds (valid range: 1–86400) |
+| `CONFIG_ENVIRONMENT` | `prod` | `THEMIS_CONFIG_ENV` | Active deployment environment: `dev`, `staging`, or `prod` |
 | `PATH_MAPPING` | 60+ entries | — | Static legacy→new mapping table (compile-time constant) |
 
 Both `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL` are read once at static initialization. Values outside the valid range cause a `stderr` warning and fall back to the defaults.
