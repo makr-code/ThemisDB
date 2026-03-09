@@ -40,9 +40,15 @@ namespace utils {
 namespace {
 
 // Parse a fixed-width integer at position pos in s, advancing pos by width.
+// width is caller-controlled (max 4 for a 4-digit year) so overflow is not
+// possible for valid timestamps; we still guard against non-digit characters.
 int parseField(const std::string& s, size_t& pos, size_t width) {
     if (pos + width > s.size()) {
         throw std::invalid_argument("TimestampUtils::parse: unexpected end of string");
+    }
+    if (width > 9) {
+        // Defensive: prevent accumulating more than 9 digits into a signed int.
+        throw std::invalid_argument("TimestampUtils::parse: field width exceeds safe limit");
     }
     int val = 0;
     for (size_t i = 0; i < width; ++i) {

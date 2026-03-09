@@ -157,7 +157,7 @@ struct HKDFCache::Impl {
 // HKDFCache public methods
 // ---------------------------------------------------------------------------
 
-HKDFCache::HKDFCache(Config cfg) : impl_(new Impl(std::move(cfg))) {}
+HKDFCache::HKDFCache(Config cfg) : impl_(std::make_unique<Impl>(std::move(cfg))) {}
 HKDFCache::~HKDFCache() = default;
 
 HKDFCache& HKDFCache::threadLocal() {
