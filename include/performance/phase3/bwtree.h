@@ -79,6 +79,15 @@ struct DeltaInsert : public BwTreePage {
     }
 };
 
+/// Delta record for delete
+struct DeltaDelete : public BwTreePage {
+    int64_t key;
+
+    explicit DeltaDelete(int64_t k) : key(k) {
+        type = PageType::DELTA_DELETE;
+    }
+};
+
 /// Mapping table (lock-free hash table)
 class MappingTable {
 public:

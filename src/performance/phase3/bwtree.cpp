@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     307                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -114,8 +114,35 @@ bool BwTree::insert(int64_t key, const std::string& value) {
 }
 
 bool BwTree::remove(int64_t key) {
-    // Simplified: not implemented in this basic version
-    return false;
+    while (true) {
+        BwTreePage* page = mapping_table_->get(root_pid_);
+        if (!page) {
+            return false;
+        }
+
+        // Check if consolidation is needed before attempting remove
+        if (count_delta_chain_length(page) >= DELTA_CHAIN_THRESHOLD) {
+            consolidate(root_pid_);
+            continue;
+        }
+
+        // Create delta delete record and link it to the current chain head.
+        // We install it unconditionally: apply_deltas() handles the case where
+        // the key is absent (it simply skips the erase).  A pre-CAS search
+        // would introduce a TOCTOU race — another thread could remove the same
+        // key between the check and the CAS, making the check unreliable.
+        auto delta = new DeltaDelete(key);
+        delta->next_delta.store(page, std::memory_order_relaxed);
+
+        // Try to install delta via CAS.
+        if (mapping_table_->compare_and_swap(root_pid_, page, delta)) {
+            return true;
+        }
+
+        // CAS failed: `delta` was never published to the mapping table so no
+        // other thread holds a reference to it — safe to delete immediately.
+        delete delta;
+    }
 }
 
 bool BwTree::search(int64_t key, std::string& value) const {
@@ -282,8 +309,23 @@ std::unique_ptr<LeafPage> BwTree::apply_deltas(BwTreePage* page) const {
             } else {
                 result->records.insert(pos, {insert_delta->key, insert_delta->value});
             }
+        } else if (delta->type == PageType::DELTA_DELETE) {
+            auto delete_delta = static_cast<DeltaDelete*>(delta);
+
+            // Remove the key if it is present in the consolidated records
+            auto pos = std::lower_bound(
+                result->records.begin(),
+                result->records.end(),
+                delete_delta->key,
+                [](const std::pair<int64_t, std::string>& record, int64_t k) {
+                    return record.first < k;
+                }
+            );
+
+            if (pos != result->records.end() && pos->first == delete_delta->key) {
+                result->records.erase(pos);
+            }
         }
-        // Handle other delta types (DELETE, SPLIT, etc.) here
     }
     
     return result;

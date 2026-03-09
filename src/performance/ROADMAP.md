@@ -34,9 +34,11 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+*(all planned short-term items have been completed — see Implementation Phases)*
+
 ### Long-term (6-12 months)
-- [P] Cross-module performance regression detection in CI (Issue: #2423)
-- [I] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217)
+- [x] Cross-module performance regression detection in CI (Issue: #2423) — completed in Phase 4
+- [x] DPDK / io_uring zero-copy I/O path for network performance (Issue: #2217) — completed in Phase 4
 
 ## Implementation Phases
 
