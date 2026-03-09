@@ -1,9 +1,11 @@
 # Acceleration ROADMAP Audit Report
 
-> Generated: 2026-03-09T11:28:47Z  
+> Generated: 2026-03-09T12:26:36Z (updated)
 > Repo: `makr-code/ThemisDB`  
 > Source: `src/acceleration/ROADMAP.md`  
 > Audit note: Pre-computed from GitHub MCP API queries on 2026-03-09.
+> After review pass: #1369 corrected from `[x]` → `[~]` (CUDA ANN kernels present
+> but HNSW integration pending; contradicted Known Issues section).
 > Re-run `scripts/acceleration_roadmap_audit.py` for live data.
 
 ## Summary
@@ -15,40 +17,48 @@
 | Issues closed on GitHub | **37** |
 | Issues open on GitHub | 0 |
 | Issues not found | 0 |
-| Items with discrepancies | **16** |
+| Items corrected in this PR | **16** |
+| Items corrected ([P]/[I] → [x]) | 15 |
+| Items corrected ([P] → [~] in-progress) | 1 (#1369) |
+| **Remaining discrepancies** | **0** |
 
 **Key finding:** All 37 referenced issues (#1366–#1403) are **closed** on GitHub
-with `state_reason: completed`.  However, 16 ROADMAP entries are still marked
-`[P]` (open PR) or `[I]` (open issue), which is inconsistent.  No linked merged
-PRs were found in issue timelines; evidence of implementation was instead
-confirmed by the presence of the claimed source files on disk.
+with `state_reason: completed`.  However, 16 ROADMAP entries had stale
+`[P]` (open PR) or `[I]` (open issue) markers.  After a reality-check against
+source files:
+- 15 entries were upgraded to `[x]` (implementation files confirmed present)
+- 1 entry (#1369) was set to `[~]` (CUDA ANN kernels exist but HNSW integration
+  is not wired — ANN queries fall through to CPU, as stated in Known Issues)
 
 ---
 
-## ⚠️ Discrepancies Found
+## Corrections Made
 
-The following ROADMAP entries have a mismatch between the checkbox status and
-the GitHub issue state or file evidence.  All 16 have been corrected in
-`src/acceleration/ROADMAP.md` as part of this PR.
+### Markers updated to `[x]` (implementation files confirmed present)
 
-| Issue | ROADMAP (before) | GitHub state | Evidence files | Recommended |
-|---|---|---|---|---|
-| [#1366](https://github.com/makr-code/ThemisDB/issues/1366) | `[P]` | closed/completed | `cuda/vector_kernels.cu`, `cuda/ann_kernels.cu` ✅ | `[x]` |
-| [#1367](https://github.com/makr-code/ThemisDB/issues/1367) | `[P]` | closed/completed | `vulkan/shaders/`, `graphics_backends.cpp` ✅ | `[x]` |
-| [#1368](https://github.com/makr-code/ThemisDB/issues/1368) | `[P]` | closed/completed | `geo_acceleration_bridge.cpp`, header ✅ | `[x]` |
-| [#1369](https://github.com/makr-code/ThemisDB/issues/1369) | `[P]` | closed/completed | `cuda/ann_kernels.cu` ✅ | `[x]` |
-| [#1374](https://github.com/makr-code/ThemisDB/issues/1374) | `[I]` | closed/completed | `device_manager.cpp`, `device_manager.h` ✅ | `[x]` |
-| [#1375](https://github.com/makr-code/ThemisDB/issues/1375) | `[P]` | closed/completed | `bench_cuda_vs_cpu.cpp`, `baseline.json` ✅ | `[x]` |
-| [#1377](https://github.com/makr-code/ThemisDB/issues/1377) | `[I]` | closed/completed | `cuda/tensor_core_matmul.cu`, `tensor_core_matmul.cpp` ✅ | `[x]` |
-| [#1379](https://github.com/makr-code/ThemisDB/issues/1379) | `[I]` | closed/completed | `opencl_backend.cpp` ✅ | `[x]` |
-| [#1380](https://github.com/makr-code/ThemisDB/issues/1380) | `[P]` | closed/completed | `compute_backend.h` ✅ | `[x]` |
-| [#1381](https://github.com/makr-code/ThemisDB/issues/1381) | `[P]` | closed/completed | `kernel_invocation.h` ✅ | `[x]` |
-| [#1382](https://github.com/makr-code/ThemisDB/issues/1382) | `[I]` | closed/completed | `error_codes.h` ✅ | `[x]` |
-| [#1384](https://github.com/makr-code/ThemisDB/issues/1384) | `[I]` | closed/completed | `vulkan/shaders/`, `graphics_backends.cpp` ✅ | `[x]` |
-| [#1387](https://github.com/makr-code/ThemisDB/issues/1387) | `[I]` | closed/completed | `kernel_fallback_dispatcher.h` ✅ | `[x]` |
-| [#1388](https://github.com/makr-code/ThemisDB/issues/1388) | `[I]` | closed/completed | `batch_validator.h` ✅ | `[x]` |
-| [#1397](https://github.com/makr-code/ThemisDB/issues/1397) | `[I]` | closed/completed | *(review task, no code file)* | `[x]` |
-| [#1398](https://github.com/makr-code/ThemisDB/issues/1398) | `[I]` | closed/completed | *(coverage threshold, no code file)* | `[x]` |
+| Issue | ROADMAP (before) | GitHub state | Evidence files |
+|---|---|---|---|
+| [#1366](https://github.com/makr-code/ThemisDB/issues/1366) | `[P]` | closed/completed | `cuda/vector_kernels.cu`, `cuda/ann_kernels.cu` ✅ |
+| [#1367](https://github.com/makr-code/ThemisDB/issues/1367) | `[P]` | closed/completed | `vulkan/shaders/` ✅, `graphics_backends.cpp` (Vulkan section) ✅ |
+| [#1368](https://github.com/makr-code/ThemisDB/issues/1368) | `[P]` | closed/completed | `geo_acceleration_bridge.cpp`, header ✅ |
+| [#1374](https://github.com/makr-code/ThemisDB/issues/1374) | `[I]` | closed/completed | `device_manager.cpp`, `device_manager.h` ✅ |
+| [#1375](https://github.com/makr-code/ThemisDB/issues/1375) | `[P]` | closed/completed | `bench_cuda_vs_cpu.cpp`, `baseline.json` ✅ |
+| [#1377](https://github.com/makr-code/ThemisDB/issues/1377) | `[I]` | closed/completed | `cuda/tensor_core_matmul.cu`, `tensor_core_matmul.cpp` ✅ |
+| [#1379](https://github.com/makr-code/ThemisDB/issues/1379) | `[I]` | closed/completed | `opencl_backend.cpp` ✅ |
+| [#1380](https://github.com/makr-code/ThemisDB/issues/1380) | `[P]` | closed/completed | `compute_backend.h` ✅ |
+| [#1381](https://github.com/makr-code/ThemisDB/issues/1381) | `[P]` | closed/completed | `kernel_invocation.h` ✅ |
+| [#1382](https://github.com/makr-code/ThemisDB/issues/1382) | `[I]` | closed/completed | `error_codes.h` ✅ |
+| [#1384](https://github.com/makr-code/ThemisDB/issues/1384) | `[I]` | closed/completed | `vulkan/shaders/`, `graphics_backends.cpp` (Vulkan section) ✅ |
+| [#1387](https://github.com/makr-code/ThemisDB/issues/1387) | `[I]` | closed/completed | `kernel_fallback_dispatcher.h` ✅ |
+| [#1388](https://github.com/makr-code/ThemisDB/issues/1388) | `[I]` | closed/completed | `batch_validator.h` ✅ |
+| [#1397](https://github.com/makr-code/ThemisDB/issues/1397) | `[I]` | closed/completed | *(review task, no code file)* |
+| [#1398](https://github.com/makr-code/ThemisDB/issues/1398) | `[I]` | closed/completed | *(coverage threshold, no code file)* |
+
+### Marker corrected to `[~]` (in progress — HNSW not wired)
+
+| Issue | ROADMAP (before) | GitHub state | Finding |
+|---|---|---|---|
+| [#1369](https://github.com/makr-code/ThemisDB/issues/1369) | `[P]` | closed/completed | CUDA ANN kernels present (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`, 0 stubs), but HNSW graph traversal is **not wired** — ANN queries fall through to CPU. Contradicts marking `[x]`; set to `[~]` pending HNSW integration. |
 
 ---
 
@@ -63,7 +73,7 @@ The following entries were already correct (`[x]` with closed issues and files p
 | [#1370](https://github.com/makr-code/ThemisDB/issues/1370) | `[x]` | closed/completed | `hip/ann_kernels.hip`, `hip/geo_kernels.hip` ✅ |
 | [#1376](https://github.com/makr-code/ThemisDB/issues/1376) | `[x]` | closed/completed | `multi_gpu_backend.cpp`, `tests/test_multi_gpu_backend.cpp` ✅ |
 | [#1378](https://github.com/makr-code/ThemisDB/issues/1378) | `[x]` | closed/completed | `cuda_backend.cpp`, `tests/test_cuda_graph_capture.cpp` ✅ |
-| [#1383](https://github.com/makr-code/ThemisDB/issues/1383) | `[x]` | closed/completed | `cuda/ann_kernels.cu`, `cuda/geo_kernels.cu` ✅ |
+| [#1383](https://github.com/makr-code/ThemisDB/issues/1383) | `[x]` | closed/completed | `cuda/ann_kernels.cu`, `cuda/geo_kernels.cu` ✅ (HNSW note added) |
 | [#1385](https://github.com/makr-code/ThemisDB/issues/1385) | `[x]` | closed/completed | `backend_registry.cpp` ✅ |
 | [#1386](https://github.com/makr-code/ThemisDB/issues/1386) | `[x]` | closed/completed | `batch_validator.h` ✅ |
 | [#1389](https://github.com/makr-code/ThemisDB/issues/1389) | `[x]` | closed/completed | `tests/test_backend_selection_matrix.cpp` ✅ |

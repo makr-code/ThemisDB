@@ -1,8 +1,10 @@
 # Acceleration Module Roadmap
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-All planned implementation phases complete (issues #1366–#1403 closed). The acceleration surface covers CUDA, Vulkan, HIP/ROCm, OpenCL, and CPU backends with capability negotiation, input validation, fallback dispatchers, benchmark harness, security hardening, and full documentation. See Known Issues & Limitations for outstanding production-readiness caveats.
+Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
 
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
@@ -25,7 +27,7 @@ All planned implementation phases complete (issues #1366–#1403 closed). The ac
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; issue closed 2026-02-23
+- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; **end-to-end ANN search still falls through to CPU pending HNSW graph traversal wiring** (see Known Issues); issue closed 2026-02-23
 - [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` implemented in `src/acceleration/device_manager.cpp` / `include/acceleration/device_manager.h`; 60-second TTL cache; issue closed 2026-02-23
 - [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` with JSON output; baselines in `benchmarks/baselines/acceleration/baseline.json`; issue closed 2026-02-23
 ### Long-term (6-12 months)
@@ -39,7 +41,7 @@ All planned implementation phases complete (issues #1366–#1403 closed). The ac
 - [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `AccelerationError` codes defined in `include/acceleration/error_codes.h` and `include/acceleration/error_context.h`; issue closed 2026-02-21
 
 ### Phase 2: Core-Implementierung
-- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`
+- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`; ANN vector kernels (L2, cosine, inner-product, top-K) present in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; **Note:** HNSW integration pending — ANN queries currently fall through to CPU until HNSW graph traversal is wired (see Known Issues)
 - [x] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — Vulkan compute shaders for L2 distance, cosine distance, inner-product distance, Haversine distance, point-in-polygon, and top-K selection in `src/acceleration/vulkan/shaders/`; wired in `src/acceleration/graphics_backends.cpp`; issue closed 2026-02-23
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 

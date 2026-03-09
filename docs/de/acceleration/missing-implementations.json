@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T12:26:36Z",
+    "module": "acceleration",
+    "source_paths": [
+      "src/acceleration/",
+      "include/acceleration/"
+    ],
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed during PR copilot/validate-roadmap-against-source (2026-03-09)."
+  },
+  "missing_implementations": [
+    {
+      "id": "ACCEL-MISSING-001",
+      "title": "CUDA ANN — HNSW graph traversal not wired into production search path",
+      "claim_source": "src/acceleration/ROADMAP.md",
+      "claim_section": "Short-term Planned Features (Issue #1369)",
+      "expected": "CUDA-accelerated Approximate Nearest Neighbor search (HNSW-based) as the primary search path",
+      "observed": "CUDA kernels present in cuda/ann_kernels.cu and cuda/vector_kernels.cu (0 stubs in kernel code); HNSW graph traversal NOT wired — ANN queries currently fall through to CPU",
+      "evidence": {
+        "files_present": [
+          "src/acceleration/cuda/ann_kernels.cu",
+          "src/acceleration/cuda/vector_kernels.cu"
+        ],
+        "known_issues_reference": "src/acceleration/ROADMAP.md §Known Issues: 'CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW integration'",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "in_progress",
+      "roadmap_marker": "[~]",
+      "issue_number": 1369,
+      "criticality": "high",
+      "suggested_issue_title": "[acceleration] Wire HNSW graph traversal into CUDAVectorBackend ANN search path",
+      "suggested_labels": ["type:feature", "priority:high", "acceleration", "status:open"]
+    },
+    {
+      "id": "ACCEL-MISSING-002",
+      "title": "CUDAGraphBackend — fully stubbed, no GPU implementation",
+      "claim_source": "src/acceleration/cuda_backend.cpp",
+      "claim_section": "CUDAGraphBackend (referenced via Issue #1378 CUDA graph capture)",
+      "expected": "CUDA-accelerated graph algorithms (BFS, shortest path) with CUDA graph capture for recurring workloads",
+      "observed": "CUDAGraphBackend::isAvailable() always returns false; batchBFS() and batchShortestPath() return empty vectors; no CUDA code executes",
+      "evidence": {
+        "files_present": ["src/acceleration/cuda_backend.cpp"],
+        "stub_lines": "cuda_backend.cpp lines 875-935 (// CUDAGraphBackend Stub Implementation)",
+        "file_header_stubs": 6,
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "stub",
+      "roadmap_marker": "[x]",
+      "roadmap_note": "ROADMAP #1378 is marked [x] for 'CUDAGraphCache + batchKnnSearchWithGraph()' — the cache exists for the vector backend, but the graph backend (batchBFS/batchShortestPath) is a stub",
+      "issue_number": null,
+      "criticality": "medium",
+      "suggested_issue_title": "[acceleration] Implement CUDAGraphBackend BFS and shortest-path CUDA kernels",
+      "suggested_labels": ["type:feature", "priority:medium", "acceleration", "status:open"]
+    },
+    {
+      "id": "ACCEL-MISSING-003",
+      "title": "DirectXVectorBackend — stub, no implementation",
+      "claim_source": "src/acceleration/graphics_backends.cpp",
+      "claim_section": "DirectX Vector Backend",
+      "expected": "DirectX 12 Compute Shader backend for Windows platform",
+      "observed": "isAvailable() always returns false (comment: 'Stub: not fully implemented yet'); batchKnnSearch() and computeDistances() return empty vectors",
+      "evidence": {
+        "files_present": ["src/acceleration/graphics_backends.cpp"],
+        "stub_lines": "graphics_backends.cpp lines 579-638",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[acceleration] Implement DirectX 12 Compute Shader backend for Windows",
+      "suggested_labels": ["type:feature", "priority:low", "acceleration", "status:open"]
+    },
+    {
+      "id": "ACCEL-MISSING-004",
+      "title": "OpenGLVectorBackend — stub, no implementation",
+      "claim_source": "src/acceleration/graphics_backends.cpp",
+      "claim_section": "OpenGL Vector Backend",
+      "expected": "OpenGL 4.3+ Compute Shader backend for broad platform compatibility",
+      "observed": "isAvailable() always returns false (comment: 'Stub: not implemented yet'); batchKnnSearch() and computeDistances() return empty vectors",
+      "evidence": {
+        "files_present": ["src/acceleration/graphics_backends.cpp"],
+        "stub_lines": "graphics_backends.cpp lines 1015-1085",
+        "pr_evidence": "none"
+      },
+      "roadmap_status": "not_tracked",
+      "roadmap_marker": null,
+      "issue_number": null,
+      "criticality": "low",
+      "suggested_issue_title": "[acceleration] Implement OpenGL Compute Shader backend",
+      "suggested_labels": ["type:feature", "priority:low", "acceleration", "status:open"]
+    }
+  ],
+  "summary": {
+    "total_findings": 4,
+    "high_criticality": 1,
+    "medium_criticality": 1,
+    "low_criticality": 2,
+    "roadmap_items_correct": 36,
+    "roadmap_items_corrected": 1,
+    "note": "All other ROADMAP entries (#1366-#1403 except #1369) are backed by present implementation files on develop. The HNSW wiring gap (#1369) is the only high-priority incomplete item."
+  }
+}

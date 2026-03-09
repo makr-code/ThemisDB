@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generated_at": "2026-03-09T11:28:47Z",
+    "generated_at": "2026-03-09T12:26:36Z",
     "roadmap_path": "src/acceleration/ROADMAP.md",
     "repo": "makr-code/ThemisDB",
-    "audit_note": "Pre-computed report based on GitHub MCP API queries performed during PR creation on 2026-03-09. Re-run script for live data.",
+    "audit_note": "Pre-computed report. Initial audit (2026-03-09): found 16 discrepancies. After corrections: 15 items [P]/[I] \u2192 [x] (files confirmed present), 1 item #1369 [P] \u2192 [~] (CUDA ANN kernels present but HNSW not wired). All 16 discrepancies resolved. Re-run script for live data.",
     "total_roadmap_items_with_issues": 37,
     "total_issues_audited": 37,
     "closed_issues": 37,
     "open_issues": 0,
     "not_found_issues": 0,
-    "items_with_discrepancies": 16
+    "items_with_discrepancies": 0
   },
   "items": [
     {
@@ -284,8 +284,8 @@
     },
     {
       "section": "Short-term (Next 3-6 months)",
-      "status_marker": "[P]",
-      "status_label": "open_pr",
+      "status_marker": "[~]",
+      "status_label": "in_progress",
       "description": "CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)",
       "issue_audits": [
         {
@@ -308,12 +308,10 @@
             "all_files_present": true,
             "any_file_present": true
           },
-          "discrepancies": [
-            "Issue #1369 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
-          ]
+          "discrepancies": []
         }
       ],
-      "has_discrepancy": true
+      "has_discrepancy": false
     },
     {
       "section": "Short-term (Next 3-6 months)",
