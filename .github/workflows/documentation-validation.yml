@@ -286,6 +286,28 @@ jobs:
           echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
 
+  doc-header-check:
+    name: Doc Header Check (changed-only)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run doc header check (changed-only)
+        run: python3 scripts/doc-header-check.py --mode changed-only --base-ref origin/develop
+
   validation-summary:
     name: Validation Summary
     runs-on: ubuntu-latest
