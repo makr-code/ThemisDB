@@ -1,0 +1,7 @@
+# Documentation Header Standard
+
+## Standards
+- Breadcrumb: Each document should include a breadcrumb link-chain.
+- Domain: Including an optional domain is encouraged.
+- Document Kind: The filename should indicate the doc_kind.
+- Changed-Only Enforcement: Only changed sections should be enforced in revisions.
