@@ -33,12 +33,15 @@ that adding a new protocol requires touching only `src/api/`, not the query or s
 
 | File | Role |
 |---|---|
-| `http_server.cpp` | HTTP/1.1 and HTTP/2 server setup, routing table, middleware chain |
 | `grpc_server.cpp` | gRPC server initialization and service registration |
 | `themisdb_grpc_service.cpp` | gRPC service implementation (protocol buffer bridge) |
-| `ws_handler.cpp` | WebSocket upgrade handler and frame dispatcher |
-| `graphql.cpp` | GraphQL schema, resolver dispatch, and subscription support |
-| `geo_index_hooks.cpp` | Geospatial API hooks for spatial index endpoints |
+| `ws_handler.cpp` | WebSocket upgrade handler and frame dispatcher for `/v2/changes` and `/v2/cdc/stream` |
+| `graphql.cpp` | GraphQL schema, resolver dispatch, LRU query-plan cache, and subscription support |
+| `tracing_middleware.cpp` | `X-Correlation-ID` propagation and thread-local request context injection |
+| `geo_index_hooks.cpp` | GeoJSON validation and spatial-index write/delete hooks |
+
+> **Note:** `http_server.cpp` in this directory is a **deprecated placeholder** and is not compiled.
+> The live HTTP/REST server implementation (11,000+ lines) resides in `src/server/http_server.cpp`.
 
 ### 3.2 Component Diagram
 
@@ -48,21 +51,24 @@ that adding a new protocol requires touching only `src/api/`, not the query or s
 │   HTTP/REST   │   gRPC   │   WebSocket   │   GraphQL            │
 └───────┬───────┴────┬─────┴───────┬───────┴────┬─────────────────┘
         │            │             │             │
-┌───────▼────────────▼─────────────▼─────────────▼─────────────────┐
-│                       API Module (src/api/)                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────┐  ┌──────────┐  │
-│  │ http_server  │  │ grpc_server  │  │   ws    │  │ graphql  │  │
-│  │     .cpp     │  │    .cpp      │  │handler  │  │  .cpp    │  │
-│  └──────┬───────┘  └──────┬───────┘  └────┬────┘  └────┬─────┘  │
-│         └─────────────────┴───────────────┴────────────┘         │
-│                            │ internal request objects             │
-└────────────────────────────┼──────────────────────────────────────┘
-                             │
-┌────────────────────────────▼──────────────────────────────────────┐
-│                    Server Module (src/server/)                    │
-│                  40+ API handlers / rate limiter                  │
+        │     ┌──────▼─────────────▼─────────────▼─────────────────┐
+        │     │              API Module (src/api/)                  │
+        │     │  ┌──────────────┐  ┌──────────┐  ┌─────────────┐   │
+        │     │  │ grpc_server  │  │    ws    │  │  graphql    │   │
+        │     │  │ themisdb_    │  │ handler  │  │    .cpp     │   │
+        │     │  │ grpc_service │  │  .cpp    │  └──────┬──────┘   │
+        │     │  └──────┬───────┘  └────┬─────┘         │          │
+        │     │  tracing_middleware.cpp (all transports)            │
+        │     │  geo_index_hooks.cpp (storage write/delete hooks)   │
+        │     └──────┬────────────────┬─────────────────┬───────────┘
+        │            │                │                 │
+┌───────▼────────────▼────────────────▼─────────────────▼───────────┐
+│              src/server/ HTTP server + 40+ API handlers           │
 └───────────────────────────────────────────────────────────────────┘
 ```
+
+> HTTP/REST requests are handled entirely by `src/server/http_server.cpp`; the
+> `src/api/http_server.cpp` stub is not compiled and exists only for historical reference.
 
 ---
 
@@ -74,7 +80,7 @@ that adding a new protocol requires touching only `src/api/`, not the query or s
 Client HTTP request
     │
     ▼
-http_server.cpp: parse headers, path, body
+src/server/http_server.cpp: parse headers, path, body
     │
     ▼
 Auth middleware (delegated to src/auth/)
@@ -123,11 +129,13 @@ Async push frames to client (fan-out via src/cdc/)
 | Direction | Module | Interface |
 |---|---|---|
 | **Delegates to** | `src/server/` | All business logic handlers |
-| **Uses** | `src/auth/` | Auth middleware before routing |
+| **Uses** | `src/auth/` | Auth middleware before routing (`JWTValidator`, `AuthMiddleware`) |
 | **Uses** | `src/network/` | Low-level socket management |
-| **Uses** | `src/cdc/` | Changefeed subscriptions over WebSocket |
+| **Uses** | `src/cdc/` | Changefeed subscriptions over WebSocket (`cdc::Changefeed`) |
+| **Uses** | `src/index/` | Spatial index upsert/remove via `geo_index_hooks.cpp` |
 | **Uses** | `src/observability/` | Request metrics and tracing |
-| **Provides to** | external clients | HTTP/gRPC/WS/GraphQL endpoints |
+| **Uses** | `src/utils/` | Thread-local logger for `X-Correlation-ID` injection |
+| **Provides to** | external clients | gRPC/WebSocket/GraphQL endpoints |
 
 ---
 
@@ -191,7 +199,11 @@ Async push frames to client (fan-out via src/cdc/)
 - HTTP/3 (QUIC) support is planned but not yet implemented.
 - GraphQL subscription scaling across multiple server instances requires a shared
   pub-sub broker (Redis/Kafka integration planned).
-- gRPC reflection service for tooling (grpcurl) is not yet enabled.
+- gRPC reflection service is enabled in **debug builds only** (via `#ifndef NDEBUG`);
+  production builds intentionally disable it to prevent schema leakage.
+- `X-Correlation-ID` / `traceparent` header format decision is still pending
+  (see `src/api/FUTURE_ENHANCEMENTS.md`).
+- OpenAPI 3.x specification is incomplete for several newer endpoints (Issue: #1491).
 
 ---
 
