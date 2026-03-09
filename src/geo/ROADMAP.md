@@ -64,6 +64,28 @@
 - [x] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
 - [x] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
+### Phase 4: Advanced Features (Status: Completed)
+- [x] Implement DBSCAN and k-means geo-point clustering (`geo_clustering.cpp`, `geo_clustering.h`) (Issue: #1747)
+- [x] Implement raster data queries: elevation sampling, bbox extraction, Gaussian KDE heatmaps (`raster.cpp`, `raster.h`) (Issue: #1745)
+- [x] Implement temporal-spatial queries (location at time T, entities within distance at time T) (`temporal_spatial_query.cpp`) (Issue: #1746)
+- [x] Implement ROCm/HIP GPU backend for AMD hardware (`gpu_backend_hip.cpp`) (Issue: #1743)
+- [x] Implement tile server integration (`tile_server.cpp`, `tile_server.h`) (Issue: #1748)
+- [x] Implement runtime GPU device discovery and capability reporting (`device_detector.cpp`, `device_detector.h`) (Issue: #1758)
+
+### Phase 5: Performance & Hardening (Status: In Progress)
+- [I] Unit test coverage > 80% across geo module (Issue: #1754)
+- [I] Configurable precision mode: expose `GeoPrecisionMode` enum and `getBackendForPrecision()` factory to AQL callers (Issue: #1742)
+- [ ] GPU-accelerated DBSCAN / k-means clustering (Target: v2.3.0)
+- [ ] CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU (Target: v2.2.0)
+- [I] Spherical WGS-84 ellipsoid geometry support (Issue: #1744, Target: v2.5.0)
+
+### Phase 6: Documentation & Acceptance (Status: In Progress)
+- [x] GPU backend runbook (`docs/gpu_runbooks.md#6`)
+- [x] ROADMAP.md, ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md complete
+- [x] API stability guaranteed for spatial query API
+- [x] Security audit (no code execution from geometry inputs)
+- [ ] English documentation in `docs/en/geo/` (Target: v2.2.0)
+
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1754)
 - [x] Integration tests (CPU backend, GPU fallback, S2/H3 indexing)

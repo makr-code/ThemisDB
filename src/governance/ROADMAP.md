@@ -3,7 +3,7 @@
 
 ## Current Status
 
-**Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, data classification, CCPA/CPRA data subject rights, and OPA integration are functional.
+**Production-Ready** — Policy-based data access control, GDPR/HIPAA/CCPA/CPRA/PCI-DSS/SOC 2 compliance rule evaluation, automated data retention, data classification, OPA integration, policy simulation, cross-tenant inheritance, data masking, data lineage, AI/ML model governance, and compliance reporting are all operational.
 
 ## Completed ✅
 
@@ -23,22 +23,19 @@
 - [x] AI/ML model governance (training data lineage, bias auditing) (Issue: #1771)
 - [x] Cross-tenant governance policy inheritance (Target: Q1 2026) (Issue: #1772)
 - [x] Automated data masking for sensitive fields in query results (Issue: #1773)
+- [x] Policy conflict detection and resolution reporting (Issue: #1760)
+- [x] CCPA compliance rule set (`ccpa_rules.cpp`, `CcpaRuleSet`) (Issue: #1761)
+- [x] Policy simulation / dry-run mode (`PolicyEngine::simulateDecision()`) (Issue: #1766)
+- [x] OPA (Open Policy Agent) integration for policy-as-code (`opa_adapter.cpp`) (Issue: #1768)
+- [x] PCI-DSS data isolation rules (`pci_dss_rules.cpp`) (Issue: #1770)
 
 ## In Progress 🚧
 
-- [I] Policy conflict detection and resolution reporting (Target: Q2 2026) (Issue: #1760)
-- [~] CCPA compliance rule set (Target: Q3 2026) (Issue: #1761)
+_(No items currently in progress — all tracked features are implemented.)_
 
 ## Planned Features 📋
 
-### Short-term (Next 3-6 months)
-
-- [P] Policy simulation / dry-run mode to preview access decisions (Issue: #1766)
-
-### Long-term (6-12 months)
-
-- [I] OPA (Open Policy Agent) integration for policy-as-code (Issue: #1768)
-- [I] PCI-DSS data isolation rules (Issue: #1770)
+_(No new planned features at this time — see `FUTURE_ENHANCEMENTS.md` for long-horizon research items.)_
 
 ## Implementation Phases
 
@@ -50,9 +47,9 @@
 - [x] Implemented data classification and labeling for PII, PHI, and confidential fields
 - [x] Integrated audit trail recording all governance enforcement events
 
-### Phase 2: Policy Versioning and Reporting (Status: In Progress)
+### Phase 2: Policy Versioning and Reporting (Status: Completed)
 
-- [I] Implement policy versioning with rollback support (`governance/policy_manager_versioned.cpp`) (Issue: #1780)
+- [x] Implement policy versioning with rollback support (`governance/policy_manager_versioned.cpp`) (Issue: #1780)
 - [x] Implement compliance report generation summarizing rule evaluations per time window (Issue: #1781)
 - [x] Implement policy conflict detection for overlapping access control rules (Issue: #1782)
 

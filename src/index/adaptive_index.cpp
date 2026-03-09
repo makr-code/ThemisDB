@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
     • Total Lines:     637                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -414,10 +414,20 @@ IndexSuggestionEngine::generateSuggestions(const std::string& collection,
 
 bool IndexSuggestionEngine::indexExists(const std::string& collection,
                                        const std::string& field) const {
-    (void)collection; (void)field;
-    // TODO: Check actual index registry
-    // For now, assume no indexes exist (always suggest)
-    return false;
+    std::lock_guard<std::mutex> lock(existingIndexesMutex_);
+    return existingIndexes_.count(collection + ":" + field) > 0;
+}
+
+void IndexSuggestionEngine::registerIndex(const std::string& collection,
+                                          const std::string& field) {
+    std::lock_guard<std::mutex> lock(existingIndexesMutex_);
+    existingIndexes_.insert(collection + ":" + field);
+}
+
+void IndexSuggestionEngine::unregisterIndex(const std::string& collection,
+                                             const std::string& field) {
+    std::lock_guard<std::mutex> lock(existingIndexesMutex_);
+    existingIndexes_.erase(collection + ":" + field);
 }
 
 double IndexSuggestionEngine::calculateScore(

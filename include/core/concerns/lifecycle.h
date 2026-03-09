@@ -70,11 +70,13 @@ struct HealthStatus {
     ProbeResult secrets = ProbeResult::healthy();
   ProbeResult circuit_breaker = ProbeResult::healthy();
   ProbeResult featureFlags = ProbeResult::healthy();
+    ProbeResult auditLog = ProbeResult::healthy();
 
     /// @return true only when every concern reports healthy/ready.
     bool isHealthy() const noexcept {
         return logger.ok && tracer.ok && metrics.ok && cache.ok &&
-               secrets.ok && circuit_breaker.ok && featureFlags.ok;
+               secrets.ok && circuit_breaker.ok && featureFlags.ok &&
+               auditLog.ok;
     }
 };
 

@@ -55,6 +55,16 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [x] S3-compatible object-storage source connector (Issue: #1855)
 - [P] Schema auto-detection and validation on import
 
+### Phase 4: Abstract Interface Contracts (Status: Completed ✅)
+- [x] `IImportConflictResolver` – stateless conflict-resolution interface (`include/importers/importer_interfaces.h`)
+- [x] `IFlatFileSchemaDetector` – advisory flat-file schema detection interface with `SchemaConfidence`
+- [x] `IKafkaConsumerSource` – async Kafka consumer source interface with explicit offset commit
+- [x] `IIncrementalImportCursor` – pull-based resumable cursor with `CheckpointToken`
+- [x] `IImporterPlugin` – URI-scheme-based plugin entry point (`pluginId()`, `supportedSchemes()`, `createImporter()`)
+- [x] `IImporterPluginRegistry` – scheme-keyed plugin registry with `resolve(uri)` returning `nullptr` for unknown schemes
+- [x] `REGISTER_IMPORTER_PLUGIN` macro – static-init plugin registration
+- [x] Unit tests for all abstract interfaces (`tests/test_importer_interfaces.cpp`, 42 tests)
+
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1857)
 - [x] Integration tests against live PostgreSQL (Issue: #1858)

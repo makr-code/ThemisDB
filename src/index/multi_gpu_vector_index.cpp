@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
     • Total Lines:     726                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -25,9 +25,12 @@
 #include "acceleration/nccl_vector_backend.h"
 #include "acceleration/rccl_vector_backend.h"
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <cmath>
 #include <functional>
+#include <future>
+#include <mutex>
 #include <stdexcept>
 #include <iostream>
 #include <iomanip>
@@ -69,7 +72,11 @@ public:
     std::chrono::steady_clock::time_point startTime;
     size_t totalQueries = 0;
     double totalQueryTimeMs = 0.0;
-    
+
+    // Per-GPU utilization tracking (microseconds of active query processing per GPU)
+    std::vector<uint64_t> perGpuQueryTimeUs;
+    mutable std::mutex statsMutex;
+
     Impl(const Config& cfg) : config(cfg) {
         startTime = std::chrono::steady_clock::now();
     }
@@ -115,6 +122,9 @@ public:
             return false;
         }
         
+        // Initialize per-GPU utilization counters (one entry per active GPU)
+        perGpuQueryTimeUs.assign(activeDeviceIds.size(), 0u);
+
         std::cout << "Successfully initialized " << activeDeviceIds.size() << " GPUs\n";
         std::cout << "Communication backend: " << getCommBackendName() << "\n";
         initialized = true;
@@ -342,14 +352,24 @@ public:
             return {};
         }
         
-        auto startTime = std::chrono::steady_clock::now();
+        auto searchStart = std::chrono::steady_clock::now();
         
         // Broadcast query to all GPUs and collect results
         std::vector<MultiGPUVectorIndex::SearchResult> allResults;
         
         for (size_t gpuIdx = 0; gpuIdx < gpuIndices.size(); ++gpuIdx) {
+            auto gpuStart = std::chrono::steady_clock::now();
             auto gpuResults = gpuIndices[gpuIdx]->search(query, k);
-            
+            auto gpuEnd = std::chrono::steady_clock::now();
+
+            // Accumulate per-GPU active query time for utilization tracking
+            if (gpuIdx < perGpuQueryTimeUs.size()) {
+                uint64_t gpuUs = static_cast<uint64_t>(
+                    std::chrono::duration_cast<std::chrono::microseconds>(gpuEnd - gpuStart).count());
+                std::lock_guard<std::mutex> lock(statsMutex);
+                perGpuQueryTimeUs[gpuIdx] += gpuUs;
+            }
+
             // Convert to MultiGPU results with source GPU info
             for (const auto& result : gpuResults) {
                 MultiGPUVectorIndex::SearchResult mgpuResult;
@@ -370,24 +390,94 @@ public:
                 [](const auto& a, const auto& b) { return a.distance < b.distance; });
         }
         
-        auto endTime = std::chrono::steady_clock::now();
-        updateQueryStats(startTime, endTime);
+        auto searchEnd = std::chrono::steady_clock::now();
+        updateQueryStats(searchStart, searchEnd);
         
         return allResults;
     }
     
     std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> searchBatch(
         const std::vector<std::vector<float>>& queries, size_t k) {
-        
-        std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> results;
-        results.reserve(queries.size());
-        
-        // For now, process queries sequentially
-        // TODO: Implement parallel batch processing across GPUs
-        for (const auto& query : queries) {
-            results.push_back(search(query, k));
+
+        if (!initialized || gpuIndices.empty() || queries.empty()) {
+            return {};
         }
-        
+
+        const size_t numQueries = queries.size();
+        const size_t numGPUs = gpuIndices.size();
+
+        // Launch one async task per GPU; each GPU processes the full query batch.
+        // This fans out the broadcast-and-merge pattern of search() across GPUs in
+        // parallel so that per-GPU query time does not compound.
+        using GPUResults = std::vector<std::vector<GPUVectorIndex::SearchResult>>;
+        std::vector<std::future<GPUResults>> futures;
+        futures.reserve(numGPUs);
+
+        auto batchStart = std::chrono::steady_clock::now();
+
+        for (size_t gpuIdx = 0; gpuIdx < numGPUs; ++gpuIdx) {
+            futures.push_back(std::async(std::launch::async, [this, gpuIdx, &queries, k]() {
+                auto gpuStart = std::chrono::steady_clock::now();
+                auto res = gpuIndices[gpuIdx]->searchBatch(queries, k);
+                auto gpuEnd = std::chrono::steady_clock::now();
+
+                // Record per-GPU active time
+                if (gpuIdx < perGpuQueryTimeUs.size()) {
+                    uint64_t gpuUs = static_cast<uint64_t>(
+                        std::chrono::duration_cast<std::chrono::microseconds>(
+                            gpuEnd - gpuStart).count());
+                    std::lock_guard<std::mutex> lock(statsMutex);
+                    perGpuQueryTimeUs[gpuIdx] += gpuUs;
+                }
+                return res;
+            }));
+        }
+
+        // Collect results from all GPUs: perGpuResults[gpuIdx][queryIdx]
+        std::vector<GPUResults> perGpuResults;
+        perGpuResults.reserve(numGPUs);
+        for (auto& f : futures) {
+            perGpuResults.push_back(f.get());
+        }
+
+        auto batchEnd = std::chrono::steady_clock::now();
+
+        // Merge per-query results across GPUs and take top-k
+        std::vector<std::vector<MultiGPUVectorIndex::SearchResult>> results(numQueries);
+        for (size_t qi = 0; qi < numQueries; ++qi) {
+            std::vector<MultiGPUVectorIndex::SearchResult> allResults;
+            for (size_t gi = 0; gi < numGPUs; ++gi) {
+                if (qi < perGpuResults[gi].size()) {
+                    for (const auto& r : perGpuResults[gi][qi]) {
+                        MultiGPUVectorIndex::SearchResult mgpuResult;
+                        mgpuResult.id = r.id;
+                        mgpuResult.distance = r.distance;
+                        mgpuResult.sourceGPU = activeDeviceIds[gi];
+                        allResults.push_back(mgpuResult);
+                    }
+                }
+            }
+            if (allResults.size() > k) {
+                std::partial_sort(allResults.begin(), allResults.begin() + k,
+                    allResults.end(),
+                    [](const auto& a, const auto& b) { return a.distance < b.distance; });
+                allResults.resize(k);
+            } else {
+                std::sort(allResults.begin(), allResults.end(),
+                    [](const auto& a, const auto& b) { return a.distance < b.distance; });
+            }
+            results[qi] = std::move(allResults);
+        }
+
+        // Update aggregate stats: count each query in the batch as one query
+        {
+            std::lock_guard<std::mutex> lock(statsMutex);
+            double batchMs = std::chrono::duration_cast<std::chrono::microseconds>(
+                batchEnd - batchStart).count() / 1000.0;
+            totalQueries += numQueries;
+            totalQueryTimeMs += batchMs;
+        }
+
         return results;
     }
     
@@ -396,11 +486,15 @@ public:
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         double queryTimeMs = duration.count() / 1000.0;
         
+        std::lock_guard<std::mutex> lock(statsMutex);
         totalQueries++;
         totalQueryTimeMs += queryTimeMs;
     }
     
     Statistics getStatistics() const {
+        // Snapshot mutable stats under lock
+        std::lock_guard<std::mutex> lock(statsMutex);
+
         Statistics stats;
         stats.totalVectors = vectorToGPU.size();
         stats.totalDimension = dimension;
@@ -414,10 +508,14 @@ public:
         
         // Calculate throughput
         auto now = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - startTime);
-        if (duration.count() > 0) {
-            stats.throughputQPS = totalQueries / static_cast<double>(duration.count());
+        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - startTime);
+        double elapsedSeconds = elapsed.count() / 1e6;
+        if (elapsedSeconds > 0.0) {
+            stats.throughputQPS = totalQueries / elapsedSeconds;
         }
+
+        // Total elapsed microseconds used to normalize per-GPU utilization
+        double elapsedUs = static_cast<double>(elapsed.count());
         
         // Per-GPU statistics
         size_t maxVectors = 0;
@@ -431,7 +529,17 @@ public:
             perGPUStat.numVectors = gpuStats.numVectors;
             perGPUStat.vramUsageBytes = gpuStats.vramUsageBytes;
             perGPUStat.avgQueryTimeMs = gpuStats.avgQueryTimeMs;
-            perGPUStat.utilizationPercent = 0.0;  // TODO: Implement utilization tracking
+
+            // Utilisation: fraction of wall-clock time this GPU was actively
+            // processing search requests, expressed as a percentage (0–100).
+            if (elapsedUs > 0.0 && i < perGpuQueryTimeUs.size()) {
+                double activeUs = static_cast<double>(perGpuQueryTimeUs[i]);
+                perGPUStat.utilizationPercent =
+                    std::min(100.0, (activeUs / elapsedUs) * 100.0);
+            } else {
+                perGPUStat.utilizationPercent = 0.0;
+            }
+
             perGPUStat.isActive = true;
             perGPUStat.hasFailed = false;
             

@@ -1,0 +1,1219 @@
+{
+  "meta": {
+    "generated_at": "2026-03-09T12:26:36Z",
+    "roadmap_path": "src/acceleration/ROADMAP.md",
+    "repo": "makr-code/ThemisDB",
+    "audit_note": "Pre-computed report. Initial audit (2026-03-09): found 16 discrepancies. After corrections: 15 items [P]/[I] \u2192 [x] (files confirmed present), 1 item #1369 [P] \u2192 [~] (CUDA ANN kernels present but HNSW not wired). All 16 discrepancies resolved. Re-run script for live data.",
+    "total_roadmap_items_with_issues": 37,
+    "total_issues_audited": 37,
+    "closed_issues": 37,
+    "open_issues": 0,
+    "not_found_issues": 0,
+    "items_with_discrepancies": 0
+  },
+  "items": [
+    {
+      "section": "Completed \u2705",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) \u2014 `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`",
+      "issue_audits": [
+        {
+          "number": 1372,
+          "title": "[acceleration] Implement geospatial distance and containment kernels on CUDA",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1372",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:14:31Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/cuda/geo_kernels.cu",
+              "tests/test_geo_gpu_backend.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/cuda/geo_kernels.cu": true,
+              "tests/test_geo_gpu_backend.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Completed \u2705",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)",
+      "issue_audits": [
+        {
+          "number": 1373,
+          "title": "[acceleration] Implement Vulkan fallback for non-NVIDIA hardware",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1373",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:09:29Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/vulkan/shaders",
+              "src/acceleration/graphics_backends.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/vulkan/shaders": true,
+              "src/acceleration/graphics_backends.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Completed \u2705",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "ROCm/HIP support for AMD GPU acceleration (Issue: #1370) \u2014 `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added",
+      "issue_audits": [
+        {
+          "number": 1370,
+          "title": "[acceleration] [!] ROCM/HIP support for AMD GPU acceleration",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1370",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T16:55:28Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/hip/ann_kernels.hip",
+              "src/acceleration/hip/geo_kernels.hip"
+            ],
+            "file_results": {
+              "src/acceleration/hip/ann_kernels.hip": true,
+              "src/acceleration/hip/geo_kernels.hip": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Completed \u2705",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) \u2014 `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`",
+      "issue_audits": [
+        {
+          "number": 1376,
+          "title": "[acceleration] Multi-GPU sharding for large embedding datasets",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1376",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T16:04:22Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/multi_gpu_backend.cpp",
+              "tests/test_multi_gpu_backend.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/multi_gpu_backend.cpp": true,
+              "tests/test_multi_gpu_backend.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Completed \u2705",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) \u2014 `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`",
+      "issue_audits": [
+        {
+          "number": 1378,
+          "title": "[acceleration] CUDA graph capture for recurring query workloads",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1378",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T16:10:19Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/cuda_backend.cpp",
+              "tests/test_cuda_graph_capture.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/cuda_backend.cpp": true,
+              "tests/test_cuda_graph_capture.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "In Progress \ud83d\udea7",
+      "status_marker": "[P]",
+      "status_label": "open_pr",
+      "description": "CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366)",
+      "issue_audits": [
+        {
+          "number": 1366,
+          "title": "[acceleration] Implement CUDA kernel optimizations for vector similarity",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1366",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T12:54:41Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/cuda/vector_kernels.cu",
+              "src/acceleration/cuda/ann_kernels.cu"
+            ],
+            "file_results": {
+              "src/acceleration/cuda/vector_kernels.cu": true,
+              "src/acceleration/cuda/ann_kernels.cu": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1366 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "In Progress \ud83d\udea7",
+      "status_marker": "[P]",
+      "status_label": "open_pr",
+      "description": "Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367)",
+      "issue_audits": [
+        {
+          "number": 1367,
+          "title": "[acceleration] Vulkan compute shader pipeline for cross-platform GPU",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1367",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-21T20:20:45Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/vulkan/shaders",
+              "src/acceleration/graphics_backends.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/vulkan/shaders": true,
+              "src/acceleration/graphics_backends.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1367 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "In Progress \ud83d\udea7",
+      "status_marker": "[P]",
+      "status_label": "open_pr",
+      "description": "Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368)",
+      "issue_audits": [
+        {
+          "number": 1368,
+          "title": "[acceleration] Integrate GPU backend with geo module",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1368",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T13:03:09Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/geo_acceleration_bridge.cpp",
+              "include/acceleration/geo_acceleration_bridge.h"
+            ],
+            "file_results": {
+              "src/acceleration/geo_acceleration_bridge.cpp": true,
+              "include/acceleration/geo_acceleration_bridge.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1368 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Short-term (Next 3-6 months)",
+      "status_marker": "[~]",
+      "status_label": "in_progress",
+      "description": "CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369)",
+      "issue_audits": [
+        {
+          "number": 1369,
+          "title": "[acceleration] Implement CUDA-accelerated ANN search",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1369",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T13:18:40Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/cuda/ann_kernels.cu"
+            ],
+            "file_results": {
+              "src/acceleration/cuda/ann_kernels.cu": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Short-term (Next 3-6 months)",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374)",
+      "issue_audits": [
+        {
+          "number": 1374,
+          "title": "[acceleration] Detect runtime device capabilities",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1374",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:04:26Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/device_manager.cpp",
+              "include/acceleration/device_manager.h"
+            ],
+            "file_results": {
+              "src/acceleration/device_manager.cpp": true,
+              "include/acceleration/device_manager.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1374 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Short-term (Next 3-6 months)",
+      "status_marker": "[P]",
+      "status_label": "open_pr",
+      "description": "Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375)",
+      "issue_audits": [
+        {
+          "number": 1375,
+          "title": "[acceleration] Benchmark CUDA vs CPU performance",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1375",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:21:05Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "benchmarks/bench_cuda_vs_cpu.cpp",
+              "benchmarks/baselines/acceleration/baseline.json"
+            ],
+            "file_results": {
+              "benchmarks/bench_cuda_vs_cpu.cpp": true,
+              "benchmarks/baselines/acceleration/baseline.json": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1375 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Long-term (6-12 months)",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377)",
+      "issue_audits": [
+        {
+          "number": 1377,
+          "title": "[acceleration] Matrix ops with FP16/BF16 on Tensor Core",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1377",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:54:14Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/cuda/tensor_core_matmul.cu",
+              "src/acceleration/tensor_core_matmul.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/cuda/tensor_core_matmul.cu": true,
+              "src/acceleration/tensor_core_matmul.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1377 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Long-term (6-12 months)",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)",
+      "issue_audits": [
+        {
+          "number": 1379,
+          "title": "[acceleration] OpenCL backend for broad hardware compatibility",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1379",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T19:28:08Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/opencl_backend.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/opencl_backend.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1379 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 1: Design / API-Vertrag",
+      "status_marker": "[P]",
+      "status_label": "open_pr",
+      "description": "Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)",
+      "issue_audits": [
+        {
+          "number": 1380,
+          "title": "[acceleration] Define backend capability contract",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1380",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-21T19:18:55Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/compute_backend.h"
+            ],
+            "file_results": {
+              "include/acceleration/compute_backend.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1380 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 1: Design / API-Vertrag",
+      "status_marker": "[P]",
+      "status_label": "open_pr",
+      "description": "Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)",
+      "issue_audits": [
+        {
+          "number": 1381,
+          "title": "[acceleration] Freeze kernel invocation interfaces for ANN and geospatial operations",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1381",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-21T16:53:04Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/kernel_invocation.h"
+            ],
+            "file_results": {
+              "include/acceleration/kernel_invocation.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1381 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[P]' (open_pr). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 1: Design / API-Vertrag",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)",
+      "issue_audits": [
+        {
+          "number": 1382,
+          "title": "[acceleration] Define error taxonomy for device selection, kernel launch and validation failures",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1382",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-21T16:32:48Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/error_codes.h"
+            ],
+            "file_results": {
+              "include/acceleration/error_codes.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1382 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 2: Core-Implementierung",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) \u2014 ANN vector kernels (L2, cosine, inner-product, top-K) complete; geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`",
+      "issue_audits": [
+        {
+          "number": 1383,
+          "title": "[acceleration] Implement CUDA ANN and geospatial kernels for production execution",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1383",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:59:05Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/cuda/ann_kernels.cu",
+              "src/acceleration/cuda/geo_kernels.cu"
+            ],
+            "file_results": {
+              "src/acceleration/cuda/ann_kernels.cu": true,
+              "src/acceleration/cuda/geo_kernels.cu": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 2: Core-Implementierung",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)",
+      "issue_audits": [
+        {
+          "number": 1384,
+          "title": "[acceleration] Implement Vulkan compute equivalents",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1384",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:32:35Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/vulkan/shaders",
+              "src/acceleration/graphics_backends.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/vulkan/shaders": true,
+              "src/acceleration/graphics_backends.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1384 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 2: Core-Implementierung",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) \u2014 `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`",
+      "issue_audits": [
+        {
+          "number": 1385,
+          "title": "[acceleration] Integrate capability-driven backend registry selection",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1385",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:47:19Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/backend_registry.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/backend_registry.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 3: Fehlerbehandlung & Edge Cases",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) \u2014 null pointer, zero-dim/count guards and k-clamp added to all active backends: `CUDAVectorBackend`, `CPUVectorBackend`, `CPUVectorBackendMT`, `CPUVectorBackendTBB`, `HIPVectorBackend`; geo and graph CPU backends also guarded via `BatchValidator` utility (`include/acceleration/batch_validator.h`)",
+      "issue_audits": [
+        {
+          "number": 1386,
+          "title": "[acceleration] Add strict input validation for shape/dtype/range",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1386",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T14:51:38Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/batch_validator.h"
+            ],
+            "file_results": {
+              "include/acceleration/batch_validator.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 3: Fehlerbehandlung & Edge Cases",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387)",
+      "issue_audits": [
+        {
+          "number": 1387,
+          "title": "[acceleration] Implement fallback/retry semantics for unsupported kernels and transient device states",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1387",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:38:31Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/kernel_fallback_dispatcher.h"
+            ],
+            "file_results": {
+              "include/acceleration/kernel_fallback_dispatcher.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1387 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 3: Fehlerbehandlung & Edge Cases",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)",
+      "issue_audits": [
+        {
+          "number": 1388,
+          "title": "[acceleration] Add deterministic behavior constraints for tie-breaking",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1388",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T15:42:57Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/batch_validator.h"
+            ],
+            "file_results": {
+              "include/acceleration/batch_validator.h": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": [
+            "Issue #1388 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Phase 4: Tests",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) \u2014 `tests/test_backend_selection_matrix.cpp` added (65 tests: full fallback order, CPUMatrixBackend capabilities, capability negotiation matrix, precision/metric requirement matrix, `selectMatrixBackendFor`/`getBestMatrixBackend`, `getAvailableBackends`, `BackendHealthStatus` helpers)",
+      "issue_audits": [
+        {
+          "number": 1389,
+          "title": "[acceleration] Add unit tests for backend selection and capability negotiation matrix",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1389",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T16:14:33Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "tests/test_backend_selection_matrix.cpp"
+            ],
+            "file_results": {
+              "tests/test_backend_selection_matrix.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 4: Tests",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Add GPU/CPU parity integration tests for ANN and geospatial queries (Target: Q3 2026) (Issue: #1390) \u2014 CPU parity tests and GPU end-to-end tests (skipped gracefully when no hardware) in `test_cuda_ann_search.cpp`",
+      "issue_audits": [
+        {
+          "number": 1390,
+          "title": "[acceleration] Add GPU/CPU parity integration tests",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1390",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T16:21:04Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "tests/test_cuda_ann_search.cpp"
+            ],
+            "file_results": {
+              "tests/test_cuda_ann_search.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 4: Tests",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Add regression tests for invalid input and runtime fallback correctness (Target: Q3 2026) (Issue: #1391) \u2014 null-pointer, zero-dim, k-clamp regression tests in `test_cuda_ann_search.cpp`",
+      "issue_audits": [
+        {
+          "number": 1391,
+          "title": "[acceleration] Add regression tests for invalid input and runtime fallback correctness",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1391",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T16:28:51Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "tests/test_cuda_ann_search.cpp"
+            ],
+            "file_results": {
+              "tests/test_cuda_ann_search.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 5: Performance/Hardening",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Add benchmark suite with latency/throughput baselines per backend (Target: Q3 2026) (Issue: #1392) \u2014 `bench_cuda_vs_cpu` harness (CPU ANN + Geo) with JSON output; baselines in `benchmarks/baselines/acceleration/`",
+      "issue_audits": [
+        {
+          "number": 1392,
+          "title": "[acceleration] Add benchmark suite with latency/throughput baselines",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1392",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:01:39Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "benchmarks/bench_cuda_vs_cpu.cpp"
+            ],
+            "file_results": {
+              "benchmarks/bench_cuda_vs_cpu.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 5: Performance/Hardening",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Establish performance gates for key workloads and batch sizes (Target: Q3 2026) (Issue: #1393) \u2014 regression thresholds (minor 5 %, major 10 %, critical 20 %) enforced in `.github/workflows/acceleration-benchmark-ci.yml`",
+      "issue_audits": [
+        {
+          "number": 1393,
+          "title": "[acceleration] Establish performance gates for key workloads",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1393",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:08:22Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              ".github/workflows/acceleration-benchmark-ci.yml"
+            ],
+            "file_results": {
+              ".github/workflows/acceleration-benchmark-ci.yml": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 5: Performance/Hardening",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Run security hardening pass for plugin/driver interaction surfaces (Target: Q4 2026) (Issue: #1394) \u2014 `RTLD_NOW` replaces `RTLD_LAZY` in `loadLibrary` for fail-fast symbol binding; file permission check rejects group/world-writable plugins; file size cap (128 MB) guards against resource exhaustion; `verifyGPGSignature` (Linux) replaced `popen`+shell with `posix_spawn`+`execv` to eliminate shell-injection surface; `verifyMacOSCodeSignature` (macOS) replaced shell invocation with direct `SecStaticCodeCheckValidity` Security-framework call; tests in `tests/test_plugin_security_audit.cpp`",
+      "issue_audits": [
+        {
+          "number": 1394,
+          "title": "[acceleration] Run security hardening pass for plugin/driver interaction",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1394",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:22:44Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/plugin_security.cpp",
+              "tests/test_plugin_security_audit.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/plugin_security.cpp": true,
+              "tests/test_plugin_security_audit.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 6: Dokumentation & Abnahme",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) \u2014 full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)",
+      "issue_audits": [
+        {
+          "number": 1395,
+          "title": "[acceleration] Publish backend capability matrix and configuration guide",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1395",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:30:18Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "docs/acceleration/capability_negotiation.md"
+            ],
+            "file_results": {
+              "docs/acceleration/capability_negotiation.md": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 6: Dokumentation & Abnahme",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) \u2014 covered in `docs/acceleration/capability_negotiation.md`",
+      "issue_audits": [
+        {
+          "number": 1396,
+          "title": "[acceleration] Publish operational troubleshooting guide for fallback and driver issues",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1396",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:35:51Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "docs/acceleration/capability_negotiation.md"
+            ],
+            "file_results": {
+              "docs/acceleration/capability_negotiation.md": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Phase 6: Dokumentation & Abnahme",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)",
+      "issue_audits": [
+        {
+          "number": 1397,
+          "title": "[acceleration] Final production-readiness review and API stability sign-off",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1397",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-24T08:46:03Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [],
+            "file_results": {},
+            "all_files_present": false,
+            "any_file_present": false
+          },
+          "discrepancies": [
+            "Issue #1397 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Production Readiness Checklist",
+      "status_marker": "[I]",
+      "status_label": "open_issue",
+      "description": "Unit tests coverage > 80% (Issue: #1398)",
+      "issue_audits": [
+        {
+          "number": 1398,
+          "title": "[acceleration] Improve unit test coverage threshold",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1398",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:39:44Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [],
+            "file_results": {},
+            "all_files_present": false,
+            "any_file_present": false
+          },
+          "discrepancies": [
+            "Issue #1398 is CLOSED (reason: completed) on GitHub but ROADMAP still marks it as '[I]' (open_issue). Consider updating to [x] (if files exist) or [~]."
+          ]
+        }
+      ],
+      "has_discrepancy": true
+    },
+    {
+      "section": "Production Readiness Checklist",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Integration tests for CPU/GPU parity across supported backends (Issue: #1399) \u2014 `tests/test_cpu_gpu_parity.cpp` covers CUDA + Vulkan ANN and Geo parity; tests are skipped gracefully when hardware is absent",
+      "issue_audits": [
+        {
+          "number": 1399,
+          "title": "[acceleration] Integration tests for CPU/GPU parity",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1399",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:44:09Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "tests/test_cpu_gpu_parity.cpp"
+            ],
+            "file_results": {
+              "tests/test_cpu_gpu_parity.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Production Readiness Checklist",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Performance benchmarks with regression thresholds in CI (Issue: #1400) \u2014 `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`",
+      "issue_audits": [
+        {
+          "number": 1400,
+          "title": "[acceleration] Performance benchmarks with regression thresholds in CI",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1400",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:48:33Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              ".github/workflows/acceleration-benchmark-ci.yml",
+              "benchmarks/baselines/acceleration/baseline.json"
+            ],
+            "file_results": {
+              ".github/workflows/acceleration-benchmark-ci.yml": true,
+              "benchmarks/baselines/acceleration/baseline.json": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Production Readiness Checklist",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Security audit for backend plugin loading and runtime probes (Issue: #1401) \u2014 permission/size hardening added to `PluginLoader::loadPlugin`; shell-invocation surface removed from platform signature verifiers; audit-log coverage confirmed in `tests/test_plugin_security_audit.cpp`",
+      "issue_audits": [
+        {
+          "number": 1401,
+          "title": "[acceleration] Security audit for backend plugin loading and runtime probes",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1401",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:52:17Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "src/acceleration/plugin_security.cpp",
+              "tests/test_plugin_security_audit.cpp"
+            ],
+            "file_results": {
+              "src/acceleration/plugin_security.cpp": true,
+              "tests/test_plugin_security_audit.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Production Readiness Checklist",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "Documentation complete for capability negotiation and fallback behavior (Issue: #1402)",
+      "issue_audits": [
+        {
+          "number": 1402,
+          "title": "[acceleration] Documentation complete for capability negotiation and fallback behavior",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1402",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T17:56:41Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "docs/acceleration/capability_negotiation.md"
+            ],
+            "file_results": {
+              "docs/acceleration/capability_negotiation.md": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    },
+    {
+      "section": "Production Readiness Checklist",
+      "status_marker": "[x]",
+      "status_label": "done",
+      "description": "API stability guaranteed for acceleration backend contracts (Issue: #1403) \u2014 `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour",
+      "issue_audits": [
+        {
+          "number": 1403,
+          "title": "[acceleration] API stability guaranteed for acceleration backend contracts",
+          "html_url": "https://github.com/makr-code/ThemisDB/issues/1403",
+          "github_state": "closed",
+          "state_reason": "completed",
+          "closed_at": "2026-02-23T18:01:05Z",
+          "closed_by": "makr-code",
+          "linked_prs": [],
+          "merged_prs": [],
+          "evidence": {
+            "expected_files": [
+              "include/acceleration/compute_backend.h",
+              "tests/test_backend_api_stability.cpp"
+            ],
+            "file_results": {
+              "include/acceleration/compute_backend.h": true,
+              "tests/test_backend_api_stability.cpp": true
+            },
+            "all_files_present": true,
+            "any_file_present": true
+          },
+          "discrepancies": []
+        }
+      ],
+      "has_discrepancy": false
+    }
+  ]
+}

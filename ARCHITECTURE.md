@@ -1301,6 +1301,69 @@ A: Check the `examples/` directory and [online documentation](https://makr-code.
 - **[BRANCHING_STRATEGY.md](docs/BRANCHING_STRATEGY.md)**: Git workflow guide
 - **[BENCHMARK_RUNBOOK.md](docs/BENCHMARK_RUNBOOK.md)**: Performance testing guide
 
+### Acceleration Module ROADMAP Audit
+
+The acceleration module ROADMAP (`src/acceleration/ROADMAP.md`) is subject to an
+automated audit process to ensure that checkbox statuses (`[x]`, `[P]`, `[I]`,
+etc.) are consistent with the actual GitHub issue state and the presence of
+implementation files.
+
+#### Running the Audit
+
+```bash
+# Unauthenticated (60 req/h rate limit, sufficient for one-off runs)
+python3 scripts/acceleration_roadmap_audit.py
+
+# Authenticated run (recommended — 5 000 req/h)
+GITHUB_TOKEN=ghp_xxx python3 scripts/acceleration_roadmap_audit.py
+
+# Pull token from gh CLI session
+python3 scripts/acceleration_roadmap_audit.py --gh-cli
+
+# Write reports to a custom directory
+python3 scripts/acceleration_roadmap_audit.py --output-dir /tmp/audit
+```
+
+Reports are written to:
+- `docs/audits/acceleration-roadmap-audit.json` — machine-readable
+- `docs/audits/acceleration-roadmap-audit.md` — human-readable
+
+The script exits with code `0` when no discrepancies are found, `1` when
+discrepancies are detected, and `2` on fatal errors (missing file, API failure).
+
+#### Token / Scopes
+
+Set `GITHUB_TOKEN` (or `GH_TOKEN`) to a personal access token with at least
+the `public_repo` scope.  Without a token the tool falls back to unauthenticated
+requests which are rate-limited to 60 requests per hour per IP address.
+
+#### ROADMAP Checkbox Policy
+
+| Status | Meaning | When to use |
+|---|---|---|
+| `[x]` | Done | A **merged PR or commit** exists AND files are present on disk |
+| `[~]` | In progress | Active work; open PR or ongoing commits |
+| `[P]` | PR open | PR exists but not yet merged |
+| `[I]` | Issue open | GitHub Issue is open, work not started |
+| `[ ]` | Planned | Planned item; no issue yet |
+| `[?]` | Blocked | Needs human decision |
+| `[!]` | Unclear | Status unknown; needs investigation |
+
+> **Rule:** A closed GitHub issue alone is **not** sufficient to mark an item `[x]`.
+> The implementation files must exist in the repository.  If they do not, use `[~]`
+> (in progress) or `[?]` (blocked) until the code is merged.
+
+#### CI Integration
+
+A GitHub Actions workflow (`.github/workflows/acceleration-roadmap-audit.yml`)
+runs the audit automatically on:
+- Pushes to `develop` or `main` that touch `src/acceleration/ROADMAP.md`
+- Pull requests that touch `src/acceleration/**` or `ROADMAP.md`
+- Manual `workflow_dispatch`
+
+The workflow uploads the JSON and Markdown reports as artifacts and fails the
+build if any discrepancies are found.
+
 ### Related Documentation
 
 - **[00_DOCUMENTATION_INDEX.md](docs/00_DOCUMENTATION_INDEX.md)**: Complete documentation index

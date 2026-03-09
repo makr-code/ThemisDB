@@ -33,6 +33,7 @@
 #include "core/concerns/i_secrets.h"
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
+#include "core/concerns/i_audit_log.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
@@ -117,6 +118,11 @@ public:
         /// Pre-populated flag values for the in-memory provider.
         /// Ignored when featureFlagsAdapter is "noop".
         std::unordered_map<std::string, bool> initialFeatureFlags;
+
+        // Audit log config
+        /// Which audit log adapter to use: "noop" (default) or "inmemory".
+        /// In production deployments replace with a persistent adapter.
+        std::string auditAdapter = "noop";
     };
 
     /**
@@ -167,6 +173,23 @@ public:
     );
 
     /**
+     * @brief Create a context with a custom audit log implementation.
+     *
+     * All other concerns default to no-op.  Use in tests that need to
+     * verify audit records, or in deployments with a custom audit backend.
+     * @p auditLog is optional; nullptr installs a NoOpAuditLog.
+     */
+    static std::shared_ptr<ConcernsContext> createCustom(
+        std::unique_ptr<ILogger> logger,
+        std::unique_ptr<ITracer> tracer,
+        std::unique_ptr<IMetrics> metrics,
+        std::unique_ptr<ICache> cache,
+        std::unique_ptr<ISecrets> secrets,
+        std::unique_ptr<IFeatureFlags> featureFlags,
+        std::unique_ptr<IAuditLog> auditLog
+    );
+
+    /**
      * @brief Create a no-op context (all concerns disabled).
      */
     static std::shared_ptr<ConcernsContext> createNoOp();
@@ -179,6 +202,7 @@ public:
     ISecrets& secrets() { return *secrets_; }
     ICircuitBreaker& circuitBreaker() { return *circuit_breaker_; }
     IFeatureFlags& featureFlags() { return *featureFlags_; }
+    IAuditLog& auditLog() { return *auditLog_; }
 
     const ILogger& logger() const { return *logger_; }
     const ITracer& tracer() const { return *tracer_; }
@@ -187,12 +211,30 @@ public:
     const ISecrets& secrets() const { return *secrets_; }
     const ICircuitBreaker& circuitBreaker() const { return *circuit_breaker_; }
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
+    const IAuditLog& auditLog() const { return *auditLog_; }
 
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
     void logError(const std::string& message) { logger_->error(message); }
     void logWarn(const std::string& message) { logger_->warn(message); }
     void logDebug(const std::string& message) { logger_->debug(message); }
+
+    /**
+     * @brief Dynamically adjust the active log level at runtime.
+     *
+     * Delegates to `ILogger::setLevel()` on the active logger adapter so
+     * that the minimum severity threshold can be changed without restarting
+     * the database process (Issue #1412).
+     *
+     * @param level New minimum severity level.
+     */
+    void setLogLevel(ILogger::Level level) { logger_->setLevel(level); }
+
+    /**
+     * @brief Return the currently active log level.
+     * @return Active minimum severity level.
+     */
+    ILogger::Level getLogLevel() const { return logger_->getLevel(); }
 
     std::unique_ptr<ITracer::ISpan> startSpan(const std::string& name) {
         return tracer_->startSpan(name);
@@ -263,6 +305,7 @@ public:
         secrets_->flush();
         circuit_breaker_->flush();
         featureFlags_->flush();
+        auditLog_->flush();
     }
 
     /**
@@ -284,6 +327,7 @@ public:
         tracer_->flush();
         metrics_->flush();
         featureFlags_->flush();
+        auditLog_->flush();
 
         secrets_->shutdown();
         tracer_->shutdown();
@@ -291,6 +335,7 @@ public:
         cache_->shutdown();
         circuit_breaker_->shutdown();
         featureFlags_->shutdown();
+        auditLog_->shutdown();
         logger_->shutdown();
     }
 
@@ -317,7 +362,8 @@ public:
             cache_->isHealthy(),
             secrets_->isHealthy(),
             circuit_breaker_->isHealthy(),
-            featureFlags_->isHealthy()
+            featureFlags_->isHealthy(),
+            auditLog_->isHealthy()
         };
     }
 
@@ -348,14 +394,16 @@ private:
         std::unique_ptr<ICache> cache,
         std::unique_ptr<ICircuitBreaker> circuit_breaker,
         std::unique_ptr<ISecrets> secrets,
-        std::unique_ptr<IFeatureFlags> featureFlags
+        std::unique_ptr<IFeatureFlags> featureFlags,
+        std::unique_ptr<IAuditLog> auditLog
     ) : logger_(std::move(logger)),
         tracer_(std::move(tracer)),
         metrics_(std::move(metrics)),
         cache_(std::move(cache)),
         secrets_(std::move(secrets)),
         circuit_breaker_(std::move(circuit_breaker)),
-        featureFlags_(std::move(featureFlags)) {}
+        featureFlags_(std::move(featureFlags)),
+        auditLog_(std::move(auditLog)) {}
 
     std::unique_ptr<ILogger> logger_;
     std::unique_ptr<ITracer> tracer_;
@@ -364,6 +412,7 @@ private:
     std::unique_ptr<ISecrets> secrets_;
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
+    std::unique_ptr<IAuditLog> auditLog_;
 };
 
 } // namespace concerns

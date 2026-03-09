@@ -1,4 +1,9 @@
 # Acceleration Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
+
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/acceleration/README.md -->
 
 ## Scope
 
@@ -26,13 +31,12 @@ This document covers implementation-specific future enhancements for the Acceler
 **Priority:** High
 **Target Version:** v1.7.0
 
-`cuda_backend.cpp` currently declares 13 stub kernel launch functions (`launchL2DistanceKernel`, `launchCosineDistanceKernel`, `launchTopKKernel`, …). All kernels must be fully implemented using cuBLAS batched GEMM for L2/cosine distance and a CUB-based top-k selection pass.
+`cuda_backend.cpp` declares stub kernel launch functions (`launchL2DistanceKernel`, `launchCosineDistanceKernel`, `launchTopKKernel`, …). The core kernels have been implemented in `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu`; the remaining work is wiring the HNSW index layer to call these CUDA kernels instead of the CPU fallback. cuBLAS batched GEMM is the target for L2/cosine distance; CUB `DeviceSegmentedSort` is the target for top-k selection \[6\].
 
 **Implementation Notes:**
-- `[ ]` Implement `.cu` kernel files alongside `cuda_backend.cpp`; link via `CMakeLists.txt` `target_sources` under `THEMIS_ENABLE_CUDA`.
-- `[ ]` Use `cudaStream_t` per-query for async overlap; expose stream pool in `CUDAVectorBackend::streamPool_`.
-- `[ ]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory.
-- `[ ]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort`; for k > 1024 fall back to thrust `partial_sort`.
+- `[~]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented; HNSW graph traversal wiring into `CUDAVectorBackend` is still pending.
+- `[ ]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
+- `[ ]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[7\]; for k > 1024 fall back to `thrust::partial_sort` \[8\].
 - `[ ]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
 
 **Performance Targets:**
@@ -57,15 +61,14 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 ### Vulkan Compute Shader Pipeline for Cross-Platform GPU
 **Priority:** High
 **Target Version:** v1.7.0
+**Status:** ✅ IMPLEMENTED
 
-`vulkan_backend_full.cpp` is production-ready infrastructure (quality score 94, 0 stubs). SPIR-V compute shaders for vector distance and geospatial operators are **implemented** in `vulkan/shaders/`. Remaining work is performance tuning and MoltenVK compatibility hardening for Apple Silicon.
+`vulkan_backend_full.cpp` is PRODUCTION-READY (0 stubs). All SPIR-V compute shaders for vector distance and geospatial operations are implemented in `vulkan/shaders/`: `l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp` \[9\]. The LoRA shaders (`matmul.comp`, `elementwise.comp`, `gradient.comp`, etc.) are also complete.
 
-**Status:**
-- `[x]` `shaders/l2_distance.comp`, `shaders/cosine_distance.comp`, `shaders/inner_product_distance.comp`, `shaders/batch_search.comp`, `shaders/topk_selection.comp`, `shaders/haversine_distance.comp`, `shaders/point_in_polygon.comp` — all implemented
-- `[x]` Push constants used for `numVectors`, `dim`, `topK` (no per-query UBO re-allocation)
-- `[ ]` MoltenVK path: disable `VK_KHR_buffer_device_address` if not available; add capability probe in `VulkanBackend::initialize()`
-- `[ ]` Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch
-- `[ ]` Benchmark workgroup size tuning on Mali-G710 and RDNA2
+**Remaining Hardening:**
+- `[ ]` MoltenVK path: verify `VK_KHR_buffer_device_address` capability probe on Apple M-series.
+- `[ ]` Benchmark on Mali-G710 and RDNA2 to validate workgroup size (256 threads) occupancy targets.
+- `[ ]` Double-buffer staging buffers to overlap host→device DMA with shader dispatch.
 
 **Performance Targets:**
 - 500K × 128-dim cosine search in < 20 ms on Apple M2 Pro via MoltenVK.
@@ -77,7 +80,7 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 **Priority:** Medium
 **Target Version:** v1.9.0
 
-`nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather`.
+`nccl_vector_backend.cpp` and `rccl_vector_backend.cpp` stub NCCL/RCCL collective operations. Implement a sharding strategy in `BackendRegistry` that partitions an embedding index across N GPUs and scatters queries using NCCL `ncclBcast` + `ncclAllGather` \[10\]. The tensor-parallel all-reduce communication pattern follows the Megatron-LM approach \[6\].
 
 **Implementation Notes:**
 - `[x]` Introduce `MultiGPUVectorBackend` in a new file `multi_gpu_backend.cpp`; register it in `BackendRegistry` when `cudaGetDeviceCount() > 1`.
@@ -95,8 +98,9 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 ### CUDA Graph Capture for Recurring Query Workloads
 **Priority:** Medium
 **Target Version:** v1.8.0
+**Status:** ✅ IMPLEMENTED
 
-For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `numQueries`, `topK`), CUDA Graph capture eliminates kernel-launch overhead and CPU-side stream synchronisation. Add a `CUDAGraphCache` within `CUDAVectorBackend` that captures and replays graphs keyed on `{dim, numQueries, topK, metric}`.
+For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `numQueries`, `topK`), CUDA Graph capture eliminates kernel-launch overhead and CPU-side stream synchronisation \[7\]. `CUDAGraphCache` is implemented in `cuda_backend.h`/`cuda_backend.cpp` and captures/replays graphs keyed on `{dim, numQueries, topK, metric}`.
 
 **Implementation Notes:**
 - `[x]` Add `CUDAGraphCache` struct to `cuda_backend.h`/`cuda_backend.cpp`; keyed by a `QueryShape` tuple (`numQueries`, `numVectors`, `dim`, `topK`, `metric`), value is a `CUDAGraphEntry` owning a `cudaGraph_t` + `cudaGraphExec_t` pair plus pre-allocated device buffers.
@@ -176,18 +180,6 @@ All planned features in this document are grounded in the following peer-reviewe
 
 7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]  
    — Informs HIP API usage, rocBLAS, and RCCL multi-GPU collectives (`hip_backend.cpp`, `rccl_vector_backend.cpp`).
-
-## 📚 Future enhancements
-
-**[1]** Y. Chen, T. Li, Y. Zhou, and Z. Wang, "Accelerating Database Operations on GPUs: A Survey," *IEEE Trans. Knowl. Data Eng.*, vol. 29, no. 1, pp. 147–165, Jan. 2017, doi: 10.1109/TKDE.2016.2603064. [Online]. Available: https://ieeexplore.ieee.org/document/7586066. Accessed: Mar. 2, 2026.
-
-**[2]** A. He, S. Pandey, and A. Gupta, "SIMD-Accelerated Database Systems: A Survey of Techniques and Open Problems," *Proc. VLDB Endow.*, vol. 12, no. 3, pp. 309–322, Nov. 2018, doi: 10.14778/3352063.3352067. [Online]. Available: https://www.vldb.org/pvldb/vol12/p309-he.pdf. Accessed: Mar. 2, 2026.
-
-**[3]** J. Zhou and K. A. Ross, "Implementing database operations using SIMD instructions," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Madison, WI, USA, Jun. 2002, pp. 145–156, doi: 10.1145/564691.564710. [Online]. Available: https://doi.org/10.1145/564691.564710. Accessed: Mar. 2, 2026.
-
-**[4]** D. Sidler, Z. István, M. Owaida, and G. Alonso, "Accelerating Pattern Matching Queries in Hybrid CPU-FPGA Architectures," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Chicago, IL, USA, May 2017, pp. 403–415, doi: 10.1145/3035918.3035941. [Online]. Available: https://doi.org/10.1145/3035918.3035941. Accessed: Mar. 2, 2026.
-
-**[5]** NVIDIA Corporation, "RAPIDS: Open GPU Data Science — cuDF, cuML, cuGraph," NVIDIA Developer, 2019. [Online]. Available: https://rapids.ai. Accessed: Mar. 2, 2026.
 
 ## See Also
 

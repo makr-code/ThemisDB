@@ -74,7 +74,15 @@ jobs:
           sudo apt-get install -y --no-install-recommends \
             cmake ninja-build g++ clang \
             libgtest-dev libbenchmark-dev \
-            pkg-config
+            pkg-config \
+            librocksdb-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libzstd-dev \
+            liblz4-dev \
+            libfmt-dev \
+            libspdlog-dev \
+            nlohmann-json3-dev
 
       - name: Configure CMake (${{ matrix.edition }})
         run: |

@@ -345,6 +345,9 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # binary causes a duplicate-symbol linker error.  Build it as a dedicated
     # standalone target below instead.
     ".*test_importer_plugin_api\\.cpp$"
+    # test_importer_interfaces is built as a dedicated standalone target below
+    # to allow running the abstract-interface tests in isolation.
+    ".*test_importer_interfaces\\.cpp$"
     # test_plugin_capability_negotiation is built as a dedicated standalone
     # target below (PluginCapabilityNegotiationTests) to allow running the
     # capability-negotiation tests in isolation.
@@ -489,6 +492,15 @@ if(THEMIS_ENABLE_GPU)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_cache.cpp
     )
 endif()
+
+# Re-include the GPU graph traversal test excluded by the broad ".*test_gpu_.*\\.cpp$"
+# pattern.  This test validates GPUGraphTraversal (CSR load, BFS, DFS) using the
+# CPU fallback path that is always active when no CUDA device is present.
+# It exercises the complete traversal API (load, bfs, dfs, getStats) and does
+# not require GPU hardware.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_traversal.cpp
+)
 
 # Re-include the GPU query accelerator test excluded by the broad
 # ".*test_gpu_.*\\.cpp$" pattern.  This test validates GPUQueryAccelerator
@@ -729,6 +741,8 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
             ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
             ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+            ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
@@ -1246,6 +1260,48 @@ else()
 endif()
 
 # ============================================================================
+# Graph Advanced Features Tests (standalone — excluded from unified binary
+# because helper functions use bare assert() calls that abort the process)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_advanced_features.cpp")
+    message(STATUS "Adding Graph Advanced Features tests")
+
+    add_executable(test_graph_advanced_features
+        test_graph_advanced_features.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_advanced_features PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_advanced_features PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphAdvancedFeaturesTests COMMAND test_graph_advanced_features)
+
+    set_tests_properties(GraphAdvancedFeaturesTests PROPERTIES
+        LABELS "graph;path-constraints;advanced;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Graph Advanced Features: PathConstraints validation, constrained path finding, optimizer integration")
+else()
+    message(STATUS "Graph Advanced Features tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_advanced_features.cpp")
+endif()
+
+# ============================================================================
 # Distributed Graph Tests
 # ============================================================================
 
@@ -1323,6 +1379,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
     message(STATUS "  Parallel Graph Traversal: multi-source BFS/DFS, fan-out threshold, depth/result limits")
 else()
     message(STATUS "Parallel Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_parallel_traversal.cpp")
+endif()
+
+# ============================================================================
+# GPU Graph Traversal Tests (standalone — CPU fallback, no GPU required)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_traversal.cpp")
+    message(STATUS "Adding GPU Graph Traversal tests (CPU fallback)")
+
+    add_executable(test_gpu_graph_traversal
+        test_gpu_graph_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/gpu_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_gpu_graph_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gpu_graph_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GPUGraphTraversalTests COMMAND test_gpu_graph_traversal)
+
+    set_tests_properties(GPUGraphTraversalTests PROPERTIES
+        LABELS "graph;gpu;bfs;dfs;cpu-fallback;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GPU Graph Traversal: CSR load, BFS/DFS correctness, CPU fallback, stats")
+else()
+    message(STATUS "GPU Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_traversal.cpp")
 endif()
 
 # ============================================================================
@@ -3237,6 +3335,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
     message(STATUS "  ImporterPluginApi: registry, loader, macro, descriptor, thread safety")
 else()
     message(STATUS "Importer Plugin API tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
+endif()
+
+# ============================================================================
+# Importer Abstract Interfaces Tests (standalone target)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
+    message(STATUS "Adding Importer Interfaces tests (standalone binary)")
+
+    add_executable(test_importer_interfaces
+        test_importer_interfaces.cpp
+    )
+
+    target_include_directories(test_importer_interfaces PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_interfaces PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_importer_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterInterfacesTests COMMAND test_importer_interfaces)
+
+    set_tests_properties(ImporterInterfacesTests PROPERTIES
+        LABELS "importers;interfaces;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterInterfaces: IImportConflictResolver, IFlatFileSchemaDetector, IKafkaConsumerSource, IIncrementalImportCursor, IImporterPlugin, IImporterPluginRegistry, REGISTER_IMPORTER_PLUGIN")
+else()
+    message(STATUS "Importer Interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
 endif()
 
 # ============================================================================

@@ -10,7 +10,7 @@ Provides multi-format content ingestion and processing for ThemisDB, handling JS
 
 **In scope:** Multi-format content ingestion (JSON, images, documents), MIME type detection, text extraction and processing, image metadata extraction, geospatial data processing, zstd compression.
 
-**Out of scope:** PDF/binary format parsing (planned), full-text indexing (handled by search module), vector embedding generation (handled by LLM/RAG modules).
+**Out of scope:** Full-text indexing (handled by search module), vector embedding generation (handled by LLM/RAG modules), legacy Office formats (DOC/XLS/PPT via LibreOffice headless — planned).
 
 ## Relevant Interfaces
 
@@ -23,7 +23,7 @@ Provides multi-format content ingestion and processing for ThemisDB, handling JS
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Core content ingestion and processing operational; PDF/OCR pipeline and streaming ingestion planned.
+**Maturity:** 🟢 Production-Ready — Core content ingestion, PDF (poppler-cpp), Office OOXML/ODF (libzip+pugixml), OCR (Tesseract), streaming ingestion, perceptual deduplication, and embedding pipeline are operational. Legacy Office formats (DOC/XLS/PPT), MimeDetector-triggered OCR, and LibreOffice headless remain open items.
 
 ## Components
 

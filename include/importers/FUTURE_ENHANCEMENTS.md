@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- [ ] All importers must implement `IImporter`; no direct instantiation of concrete importer types across module boundaries
-- [ ] Conflict resolver is stateless; it receives both the existing and incoming record and returns a resolution decision, without retaining any state
-- [ ] Flat-file schema detection is advisory and non-blocking; callers may proceed with a manual schema if detection returns `SchemaConfidence::LOW`
-- [ ] Kafka consumer source is asynchronous; offset commits are decoupled from record delivery via an explicit `commitOffset()` call
-- [ ] Importer plugin registry is read-only after module initialization; plugins register at static-init time via `REGISTER_IMPORTER_PLUGIN`
-- [ ] Incremental import cursor exposes checkpoint tokens; cursor must be resumable from the last committed checkpoint after a process restart
+- [x] All importers must implement `IImporter`; no direct instantiation of concrete importer types across module boundaries
+- [x] Conflict resolver is stateless; it receives both the existing and incoming record and returns a resolution decision, without retaining any state
+- [x] Flat-file schema detection is advisory and non-blocking; callers may proceed with a manual schema if detection returns `SchemaConfidence::LOW`
+- [x] Kafka consumer source is asynchronous; offset commits are decoupled from record delivery via an explicit `commitOffset()` call
+- [x] Importer plugin registry is read-only after module initialization; plugins register at static-init time via `REGISTER_IMPORTER_PLUGIN`
+- [x] Incremental import cursor exposes checkpoint tokens; cursor must be resumable from the last committed checkpoint after a process restart
 
 ## Required Interfaces
 
@@ -33,38 +33,38 @@
 
 ### Flat-File Schema Auto-Detection Interface
 
-- [ ] Define `IFlatFileSchemaDetector` with `detect(FileHandle, SampleRows) -> SchemaDetectionResult`
-- [ ] `SchemaDetectionResult` carries detected column names, inferred types, and a `SchemaConfidence` enum (`HIGH`, `MEDIUM`, `LOW`)
-- [ ] Detection samples up to a configurable number of rows (default: 1,000); caller controls sample size
-- [ ] Detector must handle BOM-prefixed UTF-8, Latin-1, and UTF-16 encoded files; encoding detection is part of the result
+- [x] Define `IFlatFileSchemaDetector` with `detect(FileHandle, SampleRows) -> SchemaDetectionResult`
+- [x] `SchemaDetectionResult` carries detected column names, inferred types, and a `SchemaConfidence` enum (`HIGH`, `MEDIUM`, `LOW`)
+- [x] Detection samples up to a configurable number of rows (default: 1,000); caller controls sample size
+- [x] Detector must handle BOM-prefixed UTF-8, Latin-1, and UTF-16 encoded files; encoding detection is part of the result
 
 ### Conflict Resolution Hook API
 
-- [ ] Define `IImportConflictResolver` with `resolve(existing: Record, incoming: Record) -> ConflictResolution`
-- [ ] `ConflictResolution` variants: `KEEP_EXISTING`, `REPLACE_WITH_INCOMING`, `MERGE_FIELDS`, `REJECT`
-- [ ] `MERGE_FIELDS` resolution carries a `FieldMergeSpec` listing which fields to take from each source
-- [ ] Resolver is stateless and must be safe to call concurrently from multiple import worker threads
+- [x] Define `IImportConflictResolver` with `resolve(existing: Record, incoming: Record) -> ConflictResolution`
+- [x] `ConflictResolution` variants: `KEEP_EXISTING`, `REPLACE_WITH_INCOMING`, `MERGE_FIELDS`, `REJECT`
+- [x] `MERGE_FIELDS` resolution carries a `FieldMergeSpec` listing which fields to take from each source
+- [x] Resolver is stateless and must be safe to call concurrently from multiple import worker threads
 
 ### Kafka Consumer Source Interface
 
-- [ ] Define `IKafkaConsumerSource` with `poll(timeout) -> KafkaBatch` and `commitOffset(KafkaOffset)`
-- [ ] `KafkaBatch` contains a list of `KafkaRecord` with topic, partition, offset, key, and value
-- [ ] SASL authentication parameters injected at construction via `KafkaSourceConfig`; credentials never stored in the interface type
-- [ ] Consumer group ID is mandatory; `IKafkaConsumerSource` construction fails with `KafkaError::MISSING_GROUP_ID` if absent
+- [x] Define `IKafkaConsumerSource` with `poll(timeout) -> KafkaBatch` and `commitOffset(KafkaOffset)`
+- [x] `KafkaBatch` contains a list of `KafkaRecord` with topic, partition, offset, key, and value
+- [x] SASL authentication parameters injected at construction via `KafkaSourceConfig`; credentials never stored in the interface type
+- [x] Consumer group ID is mandatory; `IKafkaConsumerSource` construction fails with `KafkaError::MISSING_GROUP_ID` if absent
 
 ### Incremental Import Cursor
 
-- [ ] Define `IIncrementalImportCursor` with `next(ImportBatch&) -> CursorStatus` and `checkpoint() -> CheckpointToken`
-- [ ] `CheckpointToken` is an opaque, serializable value type; cursor can be resumed by passing the token to `IImporter::openCursor(token)`
-- [ ] Cursor exposes `estimatedRemainingRows()` for progress reporting; may return `UNKNOWN` for streaming sources
-- [ ] `CursorStatus::CHECKPOINT_REQUIRED` returned when the source requires an explicit commit before proceeding
+- [x] Define `IIncrementalImportCursor` with `next(ImportBatch&) -> CursorStatus` and `checkpoint() -> CheckpointToken`
+- [x] `CheckpointToken` is an opaque, serializable value type; cursor can be resumed by passing the token to `IImporter::openCursor(token)`
+- [x] Cursor exposes `estimatedRemainingRows()` for progress reporting; may return `UNKNOWN` for streaming sources
+- [x] `CursorStatus::CHECKPOINT_REQUIRED` returned when the source requires an explicit commit before proceeding
 
 ### Plugin-Based Importer Registry
 
-- [ ] Define `IImporterPlugin` with `pluginId()`, `supportedSchemes()`, and `createImporter(ImportConfig) -> std::unique_ptr<IImporter>`
-- [ ] Registry keyed by URI scheme (e.g., `mysql://`, `mongodb://`, `s3://`)
-- [ ] Plugins registered at static-init time via `REGISTER_IMPORTER_PLUGIN(PluginClass)` macro
-- [ ] `IImporterPluginRegistry::resolve(uri)` returns `nullptr` for unknown schemes without throwing
+- [x] Define `IImporterPlugin` with `pluginId()`, `supportedSchemes()`, and `createImporter(ImportConfig) -> std::unique_ptr<IImporter>`
+- [x] Registry keyed by URI scheme (e.g., `mysql://`, `mongodb://`, `s3://`)
+- [x] Plugins registered at static-init time via `REGISTER_IMPORTER_PLUGIN(PluginClass)` macro
+- [x] `IImporterPluginRegistry::resolve(uri)` returns `nullptr` for unknown schemes without throwing
 
 ## Test Strategy
 
