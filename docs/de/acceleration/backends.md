@@ -86,8 +86,9 @@ Plattformübergreifendes GPU-Backend für Geräte ohne CUDA/HIP-Unterstützung.
 **Shader-Infrastruktur:**
 - GLSL/HLSL-Shader werden zur Build-Zeit in SPIR-V kompiliert (`glslangValidator`)
 - Push Constants für `numVectors`, `dim`, `topK` (vermeidet UBO-Neuallokation pro Abfrage)
+- Doppelte Staging-Puffer für DMA-Überlappung (Host→Device und Shader-Dispatch)
 
-**Status:** ✅ Implementiert — `vulkan_backend_full.cpp` (0 Stubs, Quality Score 94); alle SPIR-V-Compute-Shader implementiert (`l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp`). MoltenVK-Kompatibilitätsprobe (`VK_KHR_buffer_device_address`) und Staging-Buffer-Double-Buffering noch ausstehend (siehe `FUTURE_ENHANCEMENTS.md`).
+**Status:** 🚧 Infrastruktur produktionsreif; SPIR-V-Compute-Shader in Entwicklung
 
 ---
 
