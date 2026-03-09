@@ -26,16 +26,16 @@ This document covers implementation-specific future enhancements for the Content
 
 ### PDF and Office Document Text Extraction
 **Priority:** High
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0 ✅ Implemented
 
-`pdf_processor.cpp` and `office_processor.cpp` exist as stubs. Implement full text extraction for PDF (using PDFium or pdfmium), DOCX/XLSX/PPTX (using a libzip-based OOXML parser), and legacy `.doc`/`.xls` (via LibreOffice headless subprocess), with layout-preserving paragraph segmentation.
+`pdf_processor.cpp` and `office_processor.cpp` are fully implemented. PDF text extraction uses **poppler-cpp** (not pdfium); DOCX/XLSX/PPTX/ODF extraction uses built-in minizip + pugixml. Legacy `.doc`/`.xls` via LibreOffice headless is not yet implemented (see open item below).
 
 **Implementation Notes:**
-- `[ ]` PDF: integrate `pdfium` (static linkage preferred) in `pdf_processor.cpp`; extract text per page with `FPDF_GetPageText`; preserve page number as metadata field `page_number` in the output JSON.
-- `[ ]` DOCX: unzip `.docx` with `libzip`; parse `word/document.xml` extracting `<w:t>` nodes; preserve heading levels as `{"heading": 2, "text": "..."}` blocks for structured retrieval.
-- `[ ]` XLSX: extract cell values from `xl/worksheets/sheet*.xml`; return as JSON array-of-arrays; cap at 1,000 rows × 100 columns to prevent memory exhaustion.
-- `[ ]` LibreOffice headless fallback (`.doc`, `.ppt`, `.xls`): spawn `soffice --headless --convert-to txt` in a sandboxed subprocess with a 30 s timeout; clean up temp files on completion or timeout.
-- `[ ]` All processors must report `content_metrics.cpp` counters: `content_pdf_extracted_total`, `content_office_extracted_total`, `content_extract_errors_total`.
+- `[x]` PDF: `pdf_processor.cpp` uses poppler-cpp (`THEMIS_ENABLE_PDF=ON`); extracts text per page with layout preservation; `page_number` preserved as metadata field; Quality Score 100/100, 0 stubs (poppler was chosen over pdfium for its C++ API).
+- `[x]` DOCX: `office_processor.cpp::extractDOCX()` — unzips `.docx` with minizip/libzip; parses `word/document.xml` extracting `<w:t>` nodes via pugixml.
+- `[x]` XLSX: `office_processor.cpp::extractXLSX()` — extracts cell values from `xl/worksheets/sheet*.xml`; returns JSON array-of-arrays; row/column cap enforced.
+- `[ ]` LibreOffice headless fallback (`.doc`, `.ppt`, `.xls`): spawn `soffice --headless --convert-to txt` in a sandboxed subprocess with a 30 s timeout; run under restricted OS user via `posix_spawn`; clean up temp files on completion or timeout.
+- `[x]` Prometheus counters `content_pdf_extracted_total`, `content_office_extracted_total`, `content_extract_errors_total` implemented in `content_metrics.cpp`.
 
 **Performance Targets:**
 - PDF extraction: 100-page, 500 KB PDF in < 2 s on a single CPU core.
@@ -97,17 +97,17 @@ Exact duplicate detection (SHA-256 of raw bytes) is already performed in `conten
 
 ### OCR for Image-Embedded Text (Tesseract Integration)
 **Priority:** Medium
-**Target Version:** v1.8.0
+**Target Version:** v1.8.0 ✅ Partially Implemented
 
-`image_processor.cpp` extracts EXIF/IPTC metadata but does not extract embedded text from scanned documents or diagrams. Integrate Tesseract OCR as an optional plugin loaded at runtime; fall back gracefully if Tesseract is not installed.
+`ocr_processor.cpp` is implemented with Tesseract integration (Quality Score 97/100, 1 stub: `generateEmbedding` delegates to pipeline). The following items remain open.
 
 **Implementation Notes:**
-- `[ ]` Create `ocr_processor.cpp` implementing `IIngestionPlugin`; wraps `tesseract::TessBaseAPI`.
+- `[x]` `ocr_processor.cpp` implementing `IIngestionPlugin` created; wraps `tesseract::TessBaseAPI` (enabled via `THEMIS_ENABLE_OCR=ON`).
 - `[ ]` `MimeDetector` triggers OCR for `image/png`, `image/jpeg`, `image/tiff` when `ContentPolicy::ocrEnabled() == true` for the collection.
-- `[ ]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (bundled with Tesseract).
-- `[ ]` Language packs loaded from `config/ai_ml/tesseract_lang/`; default `eng`; configurable per-collection.
-- `[ ]` OCR output stored as `content_ocr_text` metadata field alongside image; also routed to `text_processor.cpp` for text indexing.
-- `[ ]` If `libtesseract.so` is absent at runtime, `ocr_processor.cpp` returns a `ContentProcessResult` with `skipped=true` and logs a DEBUG message.
+- `[ ]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (Leptonica used for image loading; explicit DPI rescaling not yet implemented).
+- `[ ]` Language packs loaded from `config/ai_ml/tesseract_lang/`; default `eng`; configurable per-collection (language is configurable via `config_.language`; data directory path not yet constrained to `config/ai_ml/tesseract_lang/`).
+- `[x]` OCR output stored as `content_ocr_text` metadata field alongside image (`result.metadata["content_ocr_text"] = result.text` in `ocr_processor.cpp:220`).
+- `[x]` If `libtesseract.so` is absent at runtime, `ocr_processor.cpp` returns a skipped/unavailable `ContentProcessResult` and logs the absence.
 
 **Performance Targets:**
 - A4 scanned page at 300 DPI OCR'd in < 3 s per page on a single CPU core.
