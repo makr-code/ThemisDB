@@ -1697,6 +1697,11 @@ set(THEMIS_CORE_SOURCES
     # Replication
     ../src/cdc/cdc_ws_handler.cpp
     ../src/replication/replication_manager.cpp
+    ../src/replication/observability.cpp
+    ../src/replication/conflict_resolution.cpp
+    ../src/replication/event_stream.cpp
+    ../src/replication/policy.cpp
+    ../src/replication/replication_slot.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp

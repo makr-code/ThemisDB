@@ -35,7 +35,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Replication slot management API (pause/resume individual slots) (Issue: #2249)
+- [x] Replication slot management API (pause/resume individual slots) (Issue: #2249)
 
 ### Long-term (6-12 months)
 - [!] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
@@ -68,12 +68,19 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Replication topology visualizer (web UI)
 - [x] Compressed WAL shipping (Zstd) for bandwidth reduction
 
-### Phase 3: Witness Nodes & Slot Management (Status: In Progress 🚧)
+### Phase 3: Witness Nodes & Slot Management (Status: Completed ✅)
 - [x] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2154, #2001)
-- [ ] Replication slot management API (pause/resume individual slots)
+- [x] Replication slot management API (pause/resume individual slots)
 - [x] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
 - [x] Automated lag-based read traffic shifting
 - [x] Cross-cluster logical replication (publish/subscribe model)
+
+## New Modules (v1.7.0)
+- [x] `include/replication/observability.h` + `src/replication/observability.cpp` — ReplicationObserver with lag snapshots, topology, bottleneck detection, and health scores
+- [x] `include/replication/conflict_resolution.h` + `src/replication/conflict_resolution.cpp` — ThreeWayMergeResolver (git-style) and FieldLevelMergeResolver (UNION/INTERSECT/LEFT_BIAS/RIGHT_BIAS)
+- [x] `include/replication/event_stream.h` + `src/replication/event_stream.cpp` — ReplicationEventStream with RAII subscription handles
+- [x] `include/replication/policy.h` + `src/replication/policy.cpp` — ReplicationPolicy with per-collection policy assignment and topology validation
+- [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
 
 ### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Planned 📋)
 - [ ] Full Raft v2 implementation (joint consensus for membership changes)
