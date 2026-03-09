@@ -1,0 +1,115 @@
+{
+  "module": "base",
+  "validated": "2026-03-09",
+  "audit_commit": "0091524",
+  "source_paths": [
+    "src/base/",
+    "include/themis/base/"
+  ],
+  "findings": [
+    {
+      "id": 1,
+      "title": "Plugin health monitoring & automatic restart",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Completed ✅",
+      "claim_text": "[x] Plugin health monitoring and automatic restart (Issue: #2373)",
+      "expected": "Plugins are automatically restarted after a health-check failure (watchdog mechanism).",
+      "observed": "Health-check infrastructure exists in module_loader.cpp (healthChecks_ map, runHealthChecks(), lines 452–1178). Checks run at module activation stage. No automatic restart mechanism found in any base source file (no restart_count, watchdog, or auto_recover symbol in module_loader.cpp, hot_reload_manager.cpp, or module_sandbox.cpp).",
+      "severity": "medium",
+      "evidence": [
+        {
+          "path": "src/base/module_loader.cpp",
+          "detail": "healthChecks_ map; activation stage lines 452–476; runHealthChecks() lines 1148–1190"
+        },
+        {
+          "path": "include/themis/base/module_loader.h",
+          "detail": "registerHealthCheck() API present; no restart API"
+        },
+        {
+          "path": "src/base/hot_reload_manager.cpp",
+          "detail": "no restart/watchdog symbol"
+        },
+        {
+          "path": "include/themis/base/module_sandbox.h",
+          "detail": "no restart/watchdog symbol"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): implement automatic plugin restart on health-check failure",
+      "label_suggestions": ["enhancement", "module:base", "priority:medium"],
+      "related_issue": "#2373"
+    },
+    {
+      "id": 2,
+      "title": "WASM-based plugin isolation — WasmRuntime injection required",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Completed ✅",
+      "claim_text": "[x] WASM-based plugin isolation for untrusted code (Issue: #1572)",
+      "expected": "Fully functional WASM isolation for untrusted plugins, operational without additional setup.",
+      "observed": "WasmPluginSandbox infrastructure is fully implemented. setRuntime(std::unique_ptr<WasmRuntime>) must be called before callExport(); without injection, callExport() fails with 'inject a WasmRuntime before calling callExport()' (wasm_plugin_sandbox.cpp line 457). No concrete WasmRuntime implementation (Wasmtime, WasmEdge) found in the repository.",
+      "severity": "medium",
+      "evidence": [
+        {
+          "path": "src/base/wasm_plugin_sandbox.cpp",
+          "detail": "setRuntime() at line 288; error message at line 457"
+        },
+        {
+          "path": "include/themis/base/wasm_plugin_sandbox.h",
+          "detail": "WasmRuntime abstract interface defined; no concrete implementation"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): integrate concrete WasmRuntime (Wasmtime or WasmEdge) into WasmPluginSandbox",
+      "label_suggestions": ["enhancement", "module:base", "priority:medium"],
+      "related_issue": "#1572"
+    },
+    {
+      "id": 3,
+      "title": "Signed plugin repository — public-key pinning missing",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Phase 3: Marketplace & Sandboxing",
+      "claim_text": "[x] Signed plugin repository with key pinning",
+      "expected": "The remote plugin registry's public key is pinned in server configuration; downloads are verified against this fixed key independent of CA trust.",
+      "observed": "RegistryConfig in remote_registry_client.h has verify_ssl = true (CA-based TLS cert verification). No pinned_pubkey, cert_pin, or pubkey_fingerprint field found in remote_registry_client.h or remote_registry_client.cpp.",
+      "severity": "low",
+      "evidence": [
+        {
+          "path": "include/themis/base/remote_registry_client.h",
+          "detail": "RegistryConfig::verify_ssl at line 71; no pin_* field"
+        },
+        {
+          "path": "src/base/remote_registry_client.cpp",
+          "detail": "no pin symbol found"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): implement public-key pinning for remote plugin registry",
+      "label_suggestions": ["enhancement", "module:base", "security", "priority:low"],
+      "related_issue": null
+    },
+    {
+      "id": 4,
+      "title": "Runtime plugin capability negotiation (version ranges) — not enforced",
+      "claim_source": "src/base/ROADMAP.md",
+      "claim_section": "Phase 3: Marketplace & Sandboxing",
+      "claim_text": "[x] Runtime plugin capability negotiation (version ranges)",
+      "expected": "Plugins actively negotiate version compatibility at runtime.",
+      "observed": "PluginDependencyGraph stores minVersion/maxVersion per dependency edge (plugin_dependency_graph.h lines 109–110). No negotiate(), checkCompatibility(), or similar enforcement method found in plugin_dependency_graph.h/.cpp or module_loader.h/.cpp. Version ranges are declared and shown in DOT visualization but not enforced at runtime. Actual enforcement is part of Issue #1566.",
+      "severity": "low",
+      "evidence": [
+        {
+          "path": "include/themis/base/plugin_dependency_graph.h",
+          "detail": "Edge::minVersion/maxVersion at lines 109–110; no negotiation method"
+        },
+        {
+          "path": "src/base/plugin_dependency_graph.cpp",
+          "detail": "topologicalOrder() implemented; no version enforcement"
+        },
+        {
+          "path": "include/themis/base/module_loader.h",
+          "detail": "no negotiate symbol"
+        }
+      ],
+      "issue_title_suggestion": "feat(base): implement runtime version compatibility enforcement in PluginDependencyGraph (part of #1566)",
+      "label_suggestions": ["enhancement", "module:base", "priority:medium"],
+      "related_issue": "#1566"
+    }
+  ]
+}

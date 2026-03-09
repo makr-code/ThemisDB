@@ -176,7 +176,11 @@ public:
 
 - **Dependency-Ordered Loading** (Issue #1566, Target Q2 2026): Die Ladereihenfolge für Plugins mit deklarierten Abhängigkeiten muss aktuell noch manuell gesteuert werden.
 - **WASM-Runtime**: `WasmPluginSandbox` benötigt die Injektion eines konkreten WASM-Runtimes (Wasmtime, WasmEdge o. ä.) für die vollständige Ausführungsunterstützung.
+- **Auto-Restart**: Zustandsprüfungen (Health-Checks) beim Laden sind implementiert; automatischer Neustart bei fehlgeschlagener Zustandsprüfung ist noch nicht vorhanden (Issue #2373).
+- **Key Pinning**: Der Remote-Registry-Client prüft TLS-Zertifikate (CA-basiert); Public-Key-Pinning ist noch nicht implementiert.
 - **Test-Coverage**: Unit-Tests (> 80 %), Integrationstests und Performance-Benchmarks sind noch offen (Issues #1573, #1574, #1575, Target Q2 2026).
+
+Detaillierter Report: [missing-implementations.md](./missing-implementations.md)
 
 ---
 
@@ -188,9 +192,16 @@ public:
 |----------|--------|
 | [src/base/README.md](../../../src/base/README.md) | Vollständige Modul-Übersicht, Konfiguration, Beispiele, Best Practices |
 | [src/base/ARCHITECTURE.md](../../../src/base/ARCHITECTURE.md) | Architekturdetails, Datenfluss, Threading-Modell, Sicherheitsarchitektur |
-| [src/base/ROADMAP.md](../../../src/base/ROADMAP.md) | Feature-Status, offene Issues, Implementierungsphasen |
-| [src/base/FUTURE_ENHANCEMENTS.md](../../../src/base/FUTURE_ENHANCEMENTS.md) | Geplante Features, Design-Constraints, Test-Strategie, Performance-Ziele |
+| [src/base/ROADMAP.md](../../../src/base/ROADMAP.md) | Feature-Status mit Code-Evidence, offene Issues, Implementierungsphasen |
+| [src/base/FUTURE_ENHANCEMENTS.md](../../../src/base/FUTURE_ENHANCEMENTS.md) | Geplante Features, Design-Constraints, Test-Strategie, Performance-Ziele, IEEE-Referenzen |
 | [include/themis/base/README.md](../../../include/themis/base/README.md) | Öffentliche Header-Übersicht, DI-Interface-Dokumentation |
+
+### Fehlende Implementierungen
+
+| Dokument | Inhalt |
+|----------|--------|
+| [missing-implementations.md](./missing-implementations.md) | Detaillierter Report aller Diskrepanzen ROADMAP vs. Code (Markdown) |
+| [missing-implementations.json](./missing-implementations.json) | Maschinenlesbare Fassung desselben Reports (JSON) |
 
 ### Verwandte Module
 

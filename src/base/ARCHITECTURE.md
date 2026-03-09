@@ -2,6 +2,8 @@
 
 **Version:** 1.1  
 **Last Updated:** 2026-03-09  
+**Status:** current  
+**Validated:** 2026-03-09 (source-code audit, commit 0091524)  
 **Module Path:** `src/base/`
 
 ---
