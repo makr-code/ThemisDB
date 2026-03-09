@@ -1,4 +1,5 @@
 # Config Module — Architecture Guide
+<!-- status: current | validated: 2026-03-09 | source: src/config/ -->
 
 **Version:** 1.0  
 **Last Updated:** 2026-03-09  

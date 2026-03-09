@@ -1,4 +1,5 @@
 # Config Module
+<!-- status: current | validated: 2026-03-09 | source: src/config/ -->
 
 ## Module Purpose
 

@@ -1,5 +1,6 @@
 # Config Module Roadmap
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- validated: 2026-03-09 | status: current | source: src/config/ -->
 
 ## Current Status
 Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, thread-safe metrics, deprecation warning aggregation, and Prometheus metrics export via the `/metrics` endpoint. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
@@ -60,11 +61,11 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
-- [~] Unit tests coverage > 80% (Issue: #1674)
+- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (539 lines) (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
-- [I] Performance benchmarks (cache hit rate, resolution latency) (Issue: #1675)
+- [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675)
 - [x] Security audit (path traversal prevention, symlink escape hardening)
-- [x] Documentation complete (`src/config/README.md`, `SETUP.md`)
+- [x] Documentation complete (`src/config/README.md`, `src/config/ARCHITECTURE.md`, `src/config/ROADMAP.md`, `src/config/FUTURE_ENHANCEMENTS.md`)
 - [x] API stability guaranteed for ConfigPathResolver
 
 ## Known Issues & Limitations

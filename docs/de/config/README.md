@@ -1,4 +1,5 @@
 # Config-Modul
+<!-- status: current | validated: 2026-03-09 | primary: src/config/ -->
 
 **Modul:** `src/config/`  
 **Stand:** 9. März 2026  
@@ -169,19 +170,28 @@ config_migration_scanner --root /srv/themis --fix
 
 ---
 
+## Dokumentation in diesem Ordner
+
+| Datei | Beschreibung |
+|-------|--------------|
+| [README.md](README.md) | Diese Seite — Einstieg und Schnellübersicht |
+| [missing-implementations.md](missing-implementations.md) | Fehlende Implementierungen: Claim vs. Ist-Stand |
+
+---
+
 ## Weiterführende Dokumentation (Primary)
 
 | Dokument | Pfad | Beschreibung |
 |----------|------|--------------|
-| Modul-README | [`src/config/README.md`](../../../../src/config/README.md) | Vollständige Komponentenbeschreibung, Interfaces, Konfiguration, Beispiele |
-| Architektur | [`src/config/ARCHITECTURE.md`](../../../../src/config/ARCHITECTURE.md) | Komponentendiagramme, Datenflüsse, Threading-Modell |
-| Roadmap | [`src/config/ROADMAP.md`](../../../../src/config/ROADMAP.md) | Implementierungsstatus und geplante Features |
-| Future Enhancements | [`src/config/FUTURE_ENHANCEMENTS.md`](../../../../src/config/FUTURE_ENHANCEMENTS.md) | Detaillierte Planung zukünftiger Features |
-| Migrations-Leitfaden | [`docs/config_migration_guide.md`](../../../config_migration_guide.md) | Operator-Leitfaden: Legacy-Pfade auf neue Hierarchie migrieren |
+| Modul-README | [`src/config/README.md`](../../../src/config/README.md) | Vollständige Komponentenbeschreibung, Interfaces, Konfiguration, Beispiele |
+| Architektur | [`src/config/ARCHITECTURE.md`](../../../src/config/ARCHITECTURE.md) | Komponentendiagramme, Datenflüsse, Threading-Modell |
+| Roadmap | [`src/config/ROADMAP.md`](../../../src/config/ROADMAP.md) | Implementierungsstatus und geplante Features |
+| Future Enhancements | [`src/config/FUTURE_ENHANCEMENTS.md`](../../../src/config/FUTURE_ENHANCEMENTS.md) | Detaillierte Planung zukünftiger Features (inkl. wissenschaftliche Quellen) |
+| Migrations-Leitfaden | [`docs/config_migration_guide.md`](../../config_migration_guide.md) | Operator-Leitfaden: Legacy-Pfade auf neue Hierarchie migrieren |
 
 ---
 
 ## Verwandte Module
 
-- [Security-Modul](../../security/README.md) — Verschlüsselung, TLS, Key Management
-- [Observability-Modul](../../observability/README.md) — Prometheus, Grafana, Tracing
+- [Security-Modul](../security/README.md) — Verschlüsselung, TLS, Key Management
+- [Observability-Modul](../observability/README.md) — Prometheus, Grafana, Tracing
