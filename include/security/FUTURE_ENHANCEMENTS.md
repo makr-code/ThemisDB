@@ -11,11 +11,11 @@
 
 ## Design Constraints
 
-- [ ] All crypto APIs use `Result<T>` for error handling — no exceptions thrown
-- [ ] PQC algorithms are compile-time selectable via feature flags (e.g., `THEMIS_HAS_POST_QUANTUM`)
-- [ ] HSM operations are async — blocking HSM calls must not stall the I/O thread
-- [ ] New headers are strictly additive — no modifications to existing stable API surfaces
-- [ ] All key material is represented as opaque byte vectors; no raw key types in header signatures
+- [x] All crypto APIs use `Result<T>` for error handling — no exceptions thrown
+- [x] PQC algorithms are compile-time selectable via feature flags (e.g., `THEMIS_HAS_POST_QUANTUM`)
+- [~] HSM operations are async — blocking HSM calls must not stall the I/O thread
+- [x] New headers are strictly additive — no modifications to existing stable API surfaces
+- [x] All key material is represented as opaque byte vectors; no raw key types in header signatures
 
 ## Required Interfaces
 
