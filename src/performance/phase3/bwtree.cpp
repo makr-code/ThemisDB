@@ -68,8 +68,14 @@ BwTree::BwTree() {
 }
 
 BwTree::~BwTree() {
-    // Clean up all pages
-    // In production, would need proper page traversal and cleanup
+    // Reclaim all deferred-deletion chains accumulated during operation.
+    // At destruction time there are no concurrent readers, so it is safe
+    // to delete every chain unconditionally.
+    std::lock_guard<std::mutex> lk(retired_mutex_);
+    for (auto& rc : retired_chains_) {
+        delete_chain(rc.head);
+    }
+    retired_chains_.clear();
 }
 
 bool BwTree::insert(int64_t key, const std::string& value) {
@@ -201,20 +207,15 @@ void BwTree::consolidate(PageID pid) {
             // CAS succeeded - transfer ownership to mapping table
             consolidated.release();
             
-            // TODO: Clean up old delta chain with proper memory reclamation
-            // The old delta chain (starting at 'page') should be deleted, but
-            // concurrent readers might still be accessing it. A production
-            // implementation would use epoch-based reclamation or hazard pointers
-            // to safely reclaim memory. For now, we leak the old chain to avoid
-            // use-after-free bugs.
-            // 
-            // OLD UNSAFE CODE (commented out to prevent use-after-free):
-            // BwTreePage* current = page;
-            // while (current) {
-            //     BwTreePage* next = current->next_delta.load(std::memory_order_acquire);
-            //     delete current;
-            //     current = next;
-            // }
+            // Defer reclamation of the old delta chain.  Concurrent readers
+            // that loaded the mapping-table pointer before this CAS may still
+            // be traversing the old chain in apply_deltas().  We tag the
+            // retired chain with the current epoch and advance the epoch
+            // counter; after kSafeReclaimEpochs more consolidation rounds the
+            // chain is guaranteed to be unreachable by any active reader.
+            retire_chain(page);
+            consolidation_epoch_.fetch_add(1, std::memory_order_relaxed);
+            reclaim_retired_chains();
             
             return;
         }
@@ -303,6 +304,46 @@ size_t BwTree::count_delta_chain_length(BwTreePage* page) const {
     }
     
     return count;
+}
+
+// ---------------------------------------------------------------------------
+// Epoch-based memory reclamation helpers
+// ---------------------------------------------------------------------------
+
+void BwTree::retire_chain(BwTreePage* head) noexcept {
+    if (!head) return;
+    std::lock_guard<std::mutex> lk(retired_mutex_);
+    retired_chains_.push_back({head,
+        consolidation_epoch_.load(std::memory_order_acquire)});
+}
+
+void BwTree::reclaim_retired_chains() noexcept {
+    std::lock_guard<std::mutex> lk(retired_mutex_);
+    // Load epoch under the lock so the comparison is consistent with any
+    // concurrent retire_chain() call that also holds the lock.
+    const uint64_t current_epoch =
+        consolidation_epoch_.load(std::memory_order_acquire);
+
+    auto it = retired_chains_.begin();
+    while (it != retired_chains_.end()) {
+        // Use wrapping unsigned subtraction so the comparison remains correct
+        // when consolidation_epoch_ rolls over UINT64_MAX.
+        if (current_epoch - it->retirement_epoch >= kSafeReclaimEpochs) {
+            delete_chain(it->head);
+            it = retired_chains_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void BwTree::delete_chain(BwTreePage* head) noexcept {
+    BwTreePage* current = head;
+    while (current) {
+        BwTreePage* next = current->next_delta.load(std::memory_order_acquire);
+        delete current;
+        current = next;
+    }
 }
 
 } // namespace phase3

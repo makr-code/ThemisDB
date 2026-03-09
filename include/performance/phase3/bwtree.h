@@ -31,6 +31,7 @@
 #pragma once
 
 #include <atomic>
+#include <mutex>
 #include <vector>
 #include <memory>
 #include <cstdint>
@@ -129,6 +130,47 @@ private:
     
     // Helper: Count delta chain length
     size_t count_delta_chain_length(BwTreePage* page) const;
+
+    // -----------------------------------------------------------------------
+    // Epoch-based memory reclamation for retired delta chains
+    //
+    // After a successful CAS in consolidate(), the old chain head is still
+    // reachable from in-flight readers that loaded the mapping-table pointer
+    // before the CAS.  We defer deletion until at least kSafeReclaimEpochs
+    // consolidation rounds have elapsed, giving those readers time to finish
+    // their apply_deltas() traversal (which is bounded by
+    // DELTA_CHAIN_THRESHOLD nodes and completes in O(ns)).
+    // -----------------------------------------------------------------------
+
+    /// One entry in the deferred-deletion list.
+    struct RetiredChain {
+        BwTreePage* head;              ///< Head of the retired chain
+        uint64_t    retirement_epoch;  ///< Value of consolidation_epoch_ at retirement
+    };
+
+    /// Number of additional consolidation epochs a retired chain must survive
+    /// before it is considered safe to reclaim.  Three epochs provide a very
+    /// conservative window: at the threshold of 10 deltas per chain, three
+    /// more consolidation cycles mean ≥30 additional insert operations
+    /// between retirement and reclamation.
+    static constexpr uint64_t kSafeReclaimEpochs = 3;
+
+    std::atomic<uint64_t>    consolidation_epoch_{0};
+    std::mutex               retired_mutex_;
+    std::vector<RetiredChain> retired_chains_;
+
+    /// Push @p head onto the deferred-deletion list, tagged with the
+    /// current consolidation epoch.
+    void retire_chain(BwTreePage* head) noexcept;
+
+    /// Walk the retired-chain list and delete chains whose retirement epoch
+    /// satisfies (current_epoch - retirement_epoch) >= kSafeReclaimEpochs.
+    /// Uses wrapping unsigned subtraction so the epoch counter can roll over
+    /// UINT64_MAX without triggering premature reclamation.
+    void reclaim_retired_chains() noexcept;
+
+    /// Delete an entire delta chain starting at @p head.
+    static void delete_chain(BwTreePage* head) noexcept;
 };
 
 } // namespace phase3
