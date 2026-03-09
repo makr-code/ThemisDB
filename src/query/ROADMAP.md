@@ -58,7 +58,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Phase 2: SQL Compatibility & Plan Visualization (Status: In Progress 🚧)
 - [P] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough)
-- [~] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE)
+- [x] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (`query/query_plan_visualizer.h`, `src/query/query_plan_visualizer.cpp`)
 - [x] Incremental view maintenance for materialized CTEs
 
 ### Phase 3: Resource Management & UDF (Status: In Progress 🚧)

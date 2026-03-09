@@ -51,7 +51,7 @@
 
 ### Streaming Ingestion
 
-- [~] **Apache Kafka consumer** – consume and ingest Kafka topic messages in real time. (`src/importers/kafka_importer.cpp`)
+- [x] **Apache Kafka consumer** – consume and ingest Kafka topic messages in real time. (`src/importers/kafka_importer.cpp`)
 - [ ] **MQTT** – IoT message ingestion.
 - [ ] **WebSocket** – live data feed ingestion.
 

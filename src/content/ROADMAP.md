@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are functional. PDF extraction (poppler-cpp) and Office document extraction (DOCX/XLSX/PPTX/ODF via libzip+pugixml) are implemented. OCR and audio transcription support are planned.
+**Beta** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are functional. PDF extraction (poppler-cpp), Office document extraction (DOCX/XLSX/PPTX/ODF via libzip+pugixml), OCR (Tesseract), and multi-language text detection and routing are implemented. Audio transcription support is planned.
 
 ## Completed ✅
 - [x] Content manager with ingestion pipeline
@@ -14,6 +14,7 @@
 - [x] Content compression using zstd
 - [x] Content type detection for routing to specialized processors
 - [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
+- [x] Multi-language text detection and routing (`content/language_detector.cpp`) (Issue: #1690)
 
 ## In Progress 🚧
 - [I] Audio metadata extraction (Target: Q2 2026) (Issue: #1679)
@@ -32,7 +33,7 @@
 - [P] Audio transcription integration (Whisper / speech-to-text) (Issue: #1687)
 - [I] Video frame extraction and scene detection (Issue: #1688)
 - [x] OCR for image-embedded text (Tesseract integration, `ocr_processor.cpp`) (Issue: #1689)
-- [~] Multi-language text detection and routing (Issue: #1690)
+- [x] Multi-language text detection and routing (`content/language_detector.cpp`) (Issue: #1690)
 
 ## Implementation Phases
 

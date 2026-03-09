@@ -576,8 +576,8 @@ Suggested heuristic: assign to the **earliest open milestone** of the module.
 | #1846 | Q2 2026 | `- [I] Plugin API for third-party importer extensions (Issue: #1846)` |
 | #1847 | Q2 2026 | `- [I] GUI-based import wizard (web UI) (Issue: #1847)` |
 | #1848 | Q2 2026 | `- [I] Import conflict resolution strategies (skip, overwrite, merge) (Issue: #18` |
-| #1851 | Q2 2026 | `- [~] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compat` |
-| #1852 | Q2 2026 | `- [~] MongoDB importer (`importers/mongo_importer.cpp`) for document collections` |
+| #1851 | Q2 2026 | `- [x] MySQL / MariaDB importer (`importers/mysql_importer.cpp`) with JDBC-compat` |
+| #1852 | Q2 2026 | `- [x] MongoDB importer (`importers/mongo_importer.cpp`) for document collections` |
 | #1853 | Q2 2026 | `- [I] Flat-file CSV / TSV / Parquet importer with schema auto-detection (Issue: ` |
 | #1854 | Q2 2026 | `- [I] Plugin API for third-party importer extensions (`importers/importer_plugin` |
 | #1855 | Q2 2026 | `- [I] S3-compatible object-storage source connector (Issue: #1855)` |
@@ -780,7 +780,7 @@ Suggested heuristic: assign to the **earliest open milestone** of the module.
 | #2448 | Q2 2026 | `- [I] Task execution history with searchable audit log (Issue: #2448)` |
 | #2449 | Q2 2026 | `- [x] Workflow engine (multi-step DAG with conditional branching) (Issue: #2449)` |
 | #2450 | Q2 2026 | `- [X] Event-triggered tasks (changefeed → task execution) (Issue: #2450)` |
-| #2451 | Q2 2026 | `- [~] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue:` |
+| #2451 | Q2 2026 | `- [x] Integration with external schedulers (Kubernetes CronJob, Airflow) (Issue:` |
 
 ### Module: `search` (10 issues)
 
@@ -805,11 +805,11 @@ Suggested heuristic: assign to the **earliest open milestone** of the module.
 | #2289 | Q2 2026 | `- [I] Secret scanning pre-commit hook for CI pipelines (Issue: #2289)` |
 | #2293 | Q2 2026 | `- [I] SOC 2 Type II compliance evidence collection (Issue: #2293)` |
 | #2294 | Q2 2026 | `- [I] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issu` |
-| #2458 | Q2 2026 | `- [~] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issu` |
+| #2458 | Q2 2026 | `- [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issu` |
 | #2459 | Q2 2026 | `- [!] Anomaly detection on authentication patterns (brute-force, credential stuf` |
 | #2460 | Q2 2026 | `- [P] Row-level security policies in AQL execution (Issue: #2460)` |
 | #2461 | Q2 2026 | `- [x] Zero-trust network policy enforcement (per-request identity verification) ` |
-| #2462 | Q2 2026 | `- [~] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (I` |
+| #2462 | Q2 2026 | `- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (I` |
 | #2463 | Q2 2026 | `- [P] Dynamic data masking for PII fields in query results (Issue: #2463)` |
 
 ### Module: `server` (10 issues)
@@ -825,7 +825,7 @@ Suggested heuristic: assign to the **earliest open milestone** of the module.
 | #2307 | Q2 2026 | `- [I] HTTP/3 datagram support for real-time low-latency streams (Issue: #2307)` |
 | #2308 | Q2 2026 | `- [x] API versioning strategy (deprecation headers, sunset dates, URL path prefi` |
 | #2466 | Q2 2026 | `- [x] Response streaming for large result sets (chunked transfer) (Issue: #2466)` |
-| #2467 | Q2 2026 | `- [~] Serverless function hosting (run user code in-process) (Issue: #2467)` |
+| #2467 | Q2 2026 | `- [x] Serverless function hosting (run user code in-process) (Issue: #2467)` |
 
 ### Module: `themis` (10 issues)
 

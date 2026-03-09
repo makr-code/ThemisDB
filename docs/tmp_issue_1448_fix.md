@@ -15,9 +15,9 @@ Phase 1: Multi-Protocol Server & Core API (Status
 - [x] MQTT broker integration for IoT use cases
 - [x] PostgreSQL wire protocol for SQL client compatibility
 Phase 2: HTTP/3 Hardening & GraphQL (Status
-- In Progress ): [~] HTTP/3 QUIC performance tuning and production hardening
-- [~] GraphQL endpoint for schema-driven API access
-- [~] API versioning strategy (deprecation headers, sunset dates)
+- In Progress ): [x] HTTP/3 QUIC performance tuning and production hardening
+- [x] GraphQL endpoint for schema-driven API access
+- [x] API versioning strategy (deprecation headers, sunset dates)
 Phase 3: OpenAPI & Request Validation (Status
 - Planned ): [ ] OpenAPI 3.1 spec auto-generation from handler annotations
 - [ ] Request validation middleware (JSON Schema per endpoint)
@@ -69,9 +69,9 @@ Phase 4: gRPC-Web, Serverless & Service Mesh (Status
 - [ ] [x] MQTT broker integration for IoT use cases
 - [ ] [x] PostgreSQL wire protocol for SQL client compatibility
 - [ ] Phase 2: HTTP/3 Hardening & GraphQL (Status
-- [ ] In Progress ): [~] HTTP/3 QUIC performance tuning and production hardening
-- [ ] [~] GraphQL endpoint for schema-driven API access
-- [ ] [~] API versioning strategy (deprecation headers, sunset dates)
+- [x] In Progress ): [x] HTTP/3 QUIC performance tuning and production hardening
+- [x] [x] GraphQL endpoint for schema-driven API access
+- [x] [x] API versioning strategy (deprecation headers, sunset dates)
 - [ ] Phase 3: OpenAPI & Request Validation (Status
 - [ ] Planned ): [ ] OpenAPI 3.1 spec auto-generation from handler annotations
 - [ ] [ ] Request validation middleware (JSON Schema per endpoint)
