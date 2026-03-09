@@ -56,6 +56,10 @@ available, the system transparently falls back to CPU backends without any exter
 | `device_manager.cpp` | Device enumeration and lifecycle |
 | `plugin_loader.cpp` | Dynamic loading of external backend plugins |
 | `plugin_security.cpp` | Signature verification for loaded plugins |
+| `shader_integrity.cpp` | SPIR-V shader integrity verification before pipeline creation |
+| `graphics_backends.cpp` | Shared graphics/GPU utility helpers |
+| `zluda_backend.cpp` | ZLUDA backend (AMD GPUs via CUDA API compatibility layer) |
+| `oneapi_backend.cpp` | Intel oneAPI/SYCL backend |
 | `vllm_resource_manager.cpp` | vLLM GPU resource management integration |
 | `kernel_fallback_dispatcher.h` *(include/)* | `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` |
 

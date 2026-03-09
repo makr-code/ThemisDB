@@ -83,14 +83,14 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 **Priority:** High
 **Target Version:** v1.7.0
 
-`vulkan_backend_full.cpp` is production-ready infrastructure (quality score 94) but the actual SPIR-V compute shaders for vector distance are missing (1 remaining stub). Implement GLSL/HLSL shaders compiled to SPIR-V at build time, covering L2 and cosine distance for ARM Mali, Apple M-series (MoltenVK), and AMD RDNA.
+`vulkan_backend_full.cpp` is production-ready infrastructure (quality score 94, 0 stubs). SPIR-V compute shaders for vector distance and geospatial operators are **implemented** in `vulkan/shaders/`. Remaining work is performance tuning and MoltenVK compatibility hardening for Apple Silicon.
 
-**Implementation Notes:**
-- `[ ]` Add `shaders/vector_l2.comp` and `shaders/vector_cosine.comp`; integrate `glslangValidator` into CMake `THEMIS_ENABLE_VULKAN` path.
-- `[ ]` Use push constants for `numVectors`, `dim`, `topK`; avoid UBO re-allocation per query.
-- `[ ]` Workgroup size: 256 threads; benchmark on Mali-G710 and RDNA2 to tune occupancy.
-- `[ ]` MoltenVK path: disable `VK_KHR_buffer_device_address` if not available; add capability probe in `VulkanBackend::initialize()`.
-- `[ ]` Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch.
+**Status:**
+- `[x]` `shaders/l2_distance.comp`, `shaders/cosine_distance.comp`, `shaders/inner_product_distance.comp`, `shaders/batch_search.comp`, `shaders/topk_selection.comp`, `shaders/haversine_distance.comp`, `shaders/point_in_polygon.comp` — all implemented
+- `[x]` Push constants used for `numVectors`, `dim`, `topK` (no per-query UBO re-allocation)
+- `[ ]` MoltenVK path: disable `VK_KHR_buffer_device_address` if not available; add capability probe in `VulkanBackend::initialize()`
+- `[ ]` Implement double-buffering of staging buffers to overlap host→device DMA with shader dispatch
+- `[ ]` Benchmark workgroup size tuning on Mali-G710 and RDNA2
 
 **Performance Targets:**
 - 500K × 128-dim cosine search in < 20 ms on Apple M2 Pro via MoltenVK.
