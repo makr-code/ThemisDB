@@ -169,3 +169,44 @@ TEST_F(KnowledgeGapDetectorTest, PostGeneration_NoGapForSimpleAnswer) {
     EXPECT_FALSE(result.gap_detected);
 }
 
+// ---- Integration tests: FLARE default, legacy mode, semantic search ------
+
+TEST(KnowledgeGapDetectorFactory, FlareEnabledByDefault) {
+    // v1.4.0: FLARE must be enabled in the default KnowledgeGapConfig
+    KnowledgeGapConfig default_config;
+    EXPECT_TRUE(default_config.enable_flare);
+
+    // createProductionReady() must also have FLARE enabled
+    auto production = KnowledgeGapDetectorFactory::createProductionReady();
+    ASSERT_NE(production, nullptr);
+    EXPECT_TRUE(production->getConfig().enable_flare);
+}
+
+TEST(KnowledgeGapDetectorFactory, BackwardCompatLegacyMode) {
+    // createLegacy() must have FLARE disabled for v1.3 compat
+    auto legacy = KnowledgeGapDetectorFactory::createLegacy();
+    ASSERT_NE(legacy, nullptr);
+    EXPECT_FALSE(legacy->getConfig().enable_flare);
+
+    // Functional smoke-test: legacy detector still detects pre-generation gaps
+    auto docs = makeDocs(1, 0.9); // fewer than min_documents=3
+    auto result = legacy->detectPreGeneration("What is the capital of France?", docs);
+    EXPECT_TRUE(result.gap_detected);
+}
+
+TEST(KnowledgeGapDetectorFactory, FlareWithSemanticSearchIntegration) {
+    // createProductionReady() should work with detectWithActiveRetrieval
+    auto detector = KnowledgeGapDetectorFactory::createProductionReady();
+    ASSERT_NE(detector, nullptr);
+    EXPECT_TRUE(detector->getConfig().enable_flare);
+    EXPECT_EQ(detector->getConfig().max_retrieval_rounds, 3u);
+    EXPECT_DOUBLE_EQ(detector->getConfig().perplexity_threshold, 100.0);
+
+    // Exercise the FLARE path with a small document set
+    auto docs = makeDocs(2, 0.6);
+    auto result = detector->detectWithActiveRetrieval("complex multi-hop query", docs);
+    // Result is structurally valid regardless of gap outcome
+    EXPECT_GE(result.confidence_score, 0.0);
+    EXPECT_LE(result.confidence_score, 1.0);
+}
+
