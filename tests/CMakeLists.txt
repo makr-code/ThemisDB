@@ -81,6 +81,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_evaluation_cache\\.cpp$"
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
+        ".*test_rag_pipeline_integration\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -603,6 +604,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_evaluation_cache.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_calibration_manager.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_batch_evaluator.cpp
+        # Pipeline integration test (heuristic/FAST mode, no LLM dependency).
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_pipeline_integration.cpp
     )
 endif()
 

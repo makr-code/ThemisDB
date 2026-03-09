@@ -43,6 +43,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] EvaluationCache – thread-safe LRU cache with TTL expiry, invalidation triggers, and statistics tracking (`evaluation_cache.cpp`)
 - [x] CalibrationManager – temperature scaling, Platt scaling, and isotonic regression to align judge scores with human annotations; ECE/Brier/correlation metrics (`calibration_manager.cpp`)
 - [x] BatchEvaluator – parallel batch processing with configurable worker threads, async evaluation via futures/promises, and aggregated statistics (`batch_evaluator.cpp`)
+- [x] `batchConvertToRetrievedDocuments` – implemented with `EmbeddingFunction` callback; sequential per-query K-NN search; no placeholder / DO NOT USE warning removed (`rag_integration_helpers.h`)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -52,9 +53,6 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 ### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
-- [P] Agentic RAG with iterative retrieval loops (Issue: #2241)
-- [I] Multi-modal RAG (image + text retrieval) (Issue: #2243)
-- [I] Online learning from evaluation feedback (adaptive retrieval) (Issue: #2244)
 - [I] Distributed RAG evaluation across multiple judge models (Issue: #2245)
 
 ## Implementation Phases
@@ -82,17 +80,20 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Multi-document summarization before context injection
 - [x] Per-query evaluation report export (JSON / HTML) (Issue: #2240)
 
+### Phase 4: Agentic & Knowledge-Graph RAG (Status: Completed ✅)
+- [x] Agentic RAG with iterative retrieval loops (`agentic_rag.cpp`, Issue: #2241)
+- [x] Knowledge graph-augmented retrieval (entity linking, `knowledge_graph_retriever.cpp`)
+- [x] Multi-modal RAG (image + text retrieval, `multimodal_rag.cpp`, Issue: #2243)
+- [x] Online learning from evaluation feedback (adaptive retrieval via Bayesian optimizer, `bayesian_optimizer.cpp`, Issue: #2244)
+- [ ] Distributed RAG evaluation across multiple judge models (Issue: #2245, planned)
+
 ### Phase 5: Batch Evaluation, Calibration & Caching (Status: Completed ✅)
 - [x] `EvaluationCache` – LRU cache with TTL, invalidation triggers, statistics, and warm-up API
 - [x] `CalibrationManager` – temperature/Platt/isotonic regression; ECE, Brier score, inter-annotator agreement
 - [x] `BatchEvaluator` – parallel workers, async futures, progress callbacks, stop/resume lifecycle
 
-### Phase 4: Agentic & Knowledge-Graph RAG (Status: In Progress 🚧)
-- [P] Agentic RAG with iterative retrieval loops
-- [x] Knowledge graph-augmented retrieval (entity linking)
-- [P] Multi-modal RAG (image + text retrieval)
-- [ ] Online learning from evaluation feedback (adaptive retrieval)
-- [ ] Distributed RAG evaluation across multiple judge models
+### Phase 6: Future (Planned 📋)
+- [ ] Distributed RAG evaluation across multiple judge models (Issue: #2245)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
@@ -104,7 +105,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Unit tests for EvaluationCache (test_rag_evaluation_cache.cpp: LRU eviction, TTL expiry, invalidation, statistics, thread-safety; available in all build variants)
 - [x] Unit tests for CalibrationManager (test_rag_calibration_manager.cpp: ECE, Brier, inter-annotator agreement, temperature scaling, model persistence; available in all build variants)
 - [x] Unit tests for BatchEvaluator (test_rag_batch_evaluator.cpp: sync/async batch, progress callback, stop/resume, aggregated stats)
-- [?] Integration tests (full pipeline: retrieve → generate → evaluate)
+- [x] Integration tests (test_rag_pipeline_integration.cpp: split → retrieve → evaluate end-to-end, EvaluationCache hit/miss, BatchEvaluator consistency)
 - [?] Performance benchmarks (recall@10, latency per mode)
 - [?] Security audit (prompt injection in retrieved context)
 - [x] Documentation complete (streaming_retriever.h, reranker.h, hybrid_retriever.h: full Doxygen API docs)
