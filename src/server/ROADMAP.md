@@ -37,6 +37,51 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Edge caching integration (CDN cache-control header management) (`server/cdn_cache_middleware.cpp`) (Issue: #2305)
 - [x] Service mesh sidecar proxy mode (Envoy xDS compatibility) (`network/service_mesh.cpp`, `server/service_mesh_api_handler.cpp`) (Issue: #2306)
 
+## In Progress 🚧
+*(none currently in progress – all Phase 1–4 items completed)*
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+- [ ] OAuth2/OIDC native support (authorization code flow, PKCE, refresh token rotation) (Target: v1.6.0)
+  - Files: `server/auth_middleware.cpp`, new `server/oauth2_provider.cpp` + `include/server/oauth2_provider.h`
+  - Behavior: full RFC 6749 authorization-code + PKCE flow; discovery via `/.well-known/openid-configuration`; refresh token rotation on each use; JWT introspection at `POST /api/v1/auth/token/introspect`
+  - Errors: expired access token → 401 with `WWW-Authenticate: Bearer error="invalid_token"`; invalid refresh token → 400; PKCE verifier mismatch → 400
+  - Tests: unit (token validation, expiry, rotation), integration (full OIDC provider mock), negative (replay attacks, invalid verifier)
+  - Perf: token validation ≤ 1 ms with in-process JWT cache (LRU, 10 000 entries); no network round-trip for cached tokens
+- [ ] Distributed rate limiting via Redis backend (cluster-wide token bucket) (Target: v1.6.0)
+  - Files: `server/rate_limiter_v2.cpp` + `include/server/rate_limiter_v2.h` (add `Backend::REDIS` strategy)
+  - Behavior: all gateway nodes share a single token bucket per client key in Redis using atomic `EVALSHA`; propagation delay ≤ 10 ms; graceful fallback to local bucket on Redis unavailability
+  - Errors: Redis timeout → fall back to node-local limit + emit `WARN`; Redis connection failure → same fallback; over-limit → 429 with `Retry-After` header
+  - Tests: unit (local fallback), integration (multi-node Redis mock, concurrent burst), property-based (bucket never exceeds capacity under concurrent writers)
+  - Perf: Redis round-trip ≤ 5 ms p99 on same LAN; throughput ≥ 50 000 check/s per node
+
+### Long-term (6-12 months)
+- [ ] Distributed API Gateway with Raft-based config sync and automatic failover (Target: v1.7.0)
+  - Files: new `server/distributed_gateway.cpp` + `include/server/distributed_gateway.h`; reuses `replication/replication_manager.h` for Raft
+  - Behavior: multi-node gateway cluster (3 or 5 nodes); routing rules and rate-limit config replicated via Raft log; leader failover ≤ 500 ms; session affinity for WebSocket/SSE via consistent-hash ring
+  - Errors: quorum loss → gateway continues with last-known config + emits `CRITICAL` alert; split-brain → reject writes to config until quorum restored
+  - Tests: unit (config replication, consistent-hash routing), integration (5-node cluster, leader kill, rejoin), chaos (network partition, message drop)
+  - Perf: config propagation ≤ 100 ms across 5 nodes on LAN; no additional per-request latency vs single-node gateway
+- [ ] gRPC-Web TypeScript client auto-generation (Target: v1.7.0)
+  - Files: new `scripts/gen_grpc_web_ts.py`; reads existing `.proto` files under `protos/`
+  - Behavior: generates typed TypeScript stubs for all public gRPC services; emits `@themisdb/client-grpc-web` npm package
+  - Errors: proto syntax error → generator exits with non-zero code and line-level error message; missing import → clear diagnostic
+  - Tests: unit (generator parses protos, emits valid TS), integration (generated client calls live `GrpcWebProxyHandler`)
+  - Perf: generation completes in ≤ 5 s for current proto set (< 50 files)
+- [ ] WebAssembly API handlers (user-defined handlers in WASI sandbox) (Target: v1.8.0)
+  - Files: new `server/wasm_handler_registry.cpp` + `include/server/wasm_handler_registry.h`; depends on `themis/base/wasm_runtime_injector.h`
+  - Behavior: tenant uploads `.wasm` binary; handler registered at `POST /api/v1/functions/{id}/wasm`; invoked per request in isolated WASI sandbox with CPU-time limit (default 500 ms) and memory cap (default 64 MB)
+  - Errors: CPU limit exceeded → 504 + `grpc-status: DEADLINE_EXCEEDED`; memory overflow → 500 + sandbox kill; invalid wasm binary → 400 at upload time
+  - Tests: unit (sandbox isolation, memory cap enforcement), integration (Rust→wasm handler round-trip), security (escape-attempt wasm modules must not access host memory)
+  - Perf: wasm invocation overhead ≤ 5 ms per call; throughput ≥ 5 000 simple handler calls/s per node
+- [ ] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
+  - Files: new `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h`; integrates into `server/auth_middleware.cpp`
+  - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`
+  - Errors: invalid assertion signature → 401; expired assertion → 401 with clock-skew hint; missing required attribute → 403
+  - Tests: unit (assertion validation, attribute mapping, SLO), integration (mock IdP issuing real SAML2 XML), negative (tampered signatures, expired assertions, replay)
+  - Perf: assertion validation ≤ 5 ms (XML parse + RSA verify); no per-request overhead after session cookie issued
+
 ## Implementation Phases
 
 ### Phase 1: Multi-Protocol Server & Core API (Status: Completed ✅)

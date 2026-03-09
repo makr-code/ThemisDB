@@ -413,6 +413,11 @@ Real-time change streaming for data synchronization.
 - **update_api_handler.h** - Software updates
 - **sharding_metrics_handler.h** - Sharding metrics
 - **review_scheduling_api_handler.h** - Review scheduling
+- **serverless_function_api_handler.h** - Serverless function hosting
+- **cdn_cache_middleware.h** - CDN edge-cache header management
+- **graphql_api_handler.h** - GraphQL schema-driven queries
+- **async_job_api_handler.h** - Async job polling (`/v2/jobs`)
+- **udf_api_handler.h** - User-defined functions
 
 ---
 
@@ -474,6 +479,7 @@ PostgreSQL-compatible interface for SQL clients.
 - **llm_grpc_service.h** - LLM gRPC service
 - **pitr_grpc_service.h** - PITR gRPC service
 - **wal_grpc_service.h** - WAL streaming gRPC
+- **grpc_web_proxy_handler.h** - gRPC-Web proxy for browser clients (Issue: #2303)
 
 ---
 
@@ -526,6 +532,23 @@ MCP server for AI/LLM integrations.
 - Tool calling for LLMs
 - Context management
 - Database resource exposure
+
+---
+
+#### service_mesh_api_handler.h
+**Service mesh sidecar proxy REST API**
+
+Read-only REST endpoints exposing `network::ServiceMeshIntegration` state for
+Kubernetes/Istio deployments.  Active only when compiled with
+`THEMIS_ENABLE_SERVICE_MESH`.
+
+**Key Classes:**
+- `ServiceMeshApiHandler` - Facade over `ServiceMeshIntegration`
+
+**Endpoints:**
+- `GET /api/v1/service-mesh/status` - Running state, probe stats, Envoy presence
+- `GET /api/v1/service-mesh/config` - Probe port, inbound/excluded ports
+- `GET /api/v1/service-mesh/annotations` - Istio pod-annotation hints
 
 ---
 
