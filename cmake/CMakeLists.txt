@@ -2330,6 +2330,9 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/agentic_rag.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
     ../src/rag/multimodal_rag.cpp
+    # Phase 5: Distributed evaluation and security
+    ../src/rag/distributed_rag_evaluator.cpp
+    ../src/rag/prompt_injection_detector.cpp
     )
 endif()
 
@@ -3429,6 +3432,10 @@ if(THEMIS_ENABLE_LLM)
 
         # RAG Enhancement: Citation Highlighting (Phase 3)
         ../src/rag/citation_highlighter.cpp
+
+        # RAG Enhancement: Distributed Evaluation and Security (Phase 5)
+        ../src/rag/distributed_rag_evaluator.cpp
+        ../src/rag/prompt_injection_detector.cpp
         
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
