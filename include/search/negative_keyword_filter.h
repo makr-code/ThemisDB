@@ -72,13 +72,33 @@ namespace themis {
  * an error Status and the original `candidate_pks` unchanged — the caller can
  * choose whether to treat this as a fatal or degraded-mode condition.
  *
- * @note Thread Safety: A single NegativeKeywordFilter instance is NOT thread-safe.
+ * @note Thread Safety: `NegativeKeywordFilter` is itself stateless (it holds only a
+ *   non-owning pointer to the SecondaryIndexManager).  `parseQuery()` is a pure
+ *   static function and is fully thread-safe.  `filter()` is safe to call from
+ *   multiple threads as long as the underlying SecondaryIndexManager is also
+ *   thread-safe for concurrent reads — consult its documentation for details.
+ *   The standard SecondaryIndexManager implementation does not guarantee concurrent
+ *   read safety, so external synchronization is required if filter() is called
+ *   from multiple threads on the same manager instance.
  * @note Exception Safety: `filter()` and `parseQuery()` never throw.
  *
  * v2.2.0 Feature: initial delivery (Issue #2003).
  */
 class NegativeKeywordFilter {
 public:
+    /**
+     * @brief Configuration for NegativeKeywordFilter.
+     */
+    struct Config {
+        /// Maximum number of documents fetched per negative term when scanning
+        /// the secondary index.  0 means no limit.  Default 100'000.
+        ///
+        /// For common terms this bound prevents unbounded memory use, but it
+        /// may result in *incomplete* exclusion when a negative term matches
+        /// more documents than `max_exclude_scan`.  Set to 0 to disable the
+        /// limit and guarantee complete exclusion at the cost of higher memory.
+        size_t max_exclude_scan = 100'000;
+    };
     /**
      * @brief A query split into a positive search string and excluded terms.
      *
@@ -92,13 +112,15 @@ public:
     };
 
     /**
-     * @brief Construct with a (possibly null) secondary index.
+     * @brief Construct with a (possibly null) secondary index and optional config.
      *
      * @param index  Non-owning pointer to the SecondaryIndexManager used to
      *               look up documents containing excluded terms.  May be null;
      *               all filter() calls return an error in that case.
+     * @param config Engine configuration.
      */
-    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr);
+    explicit NegativeKeywordFilter(SecondaryIndexManager* index = nullptr,
+                                   const Config& config = Config{});
 
     // -----------------------------------------------------------------------
     // Static helpers
@@ -167,9 +189,11 @@ public:
     // -----------------------------------------------------------------------
 
     SecondaryIndexManager* getIndex() const { return index_; }
+    const Config& getConfig() const { return config_; }
 
 private:
     SecondaryIndexManager* index_;
+    Config config_;
 };
 
 } // namespace themis

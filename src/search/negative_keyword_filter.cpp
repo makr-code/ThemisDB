@@ -21,6 +21,7 @@
 #include "utils/logger.h"
 #include <algorithm>
 #include <cctype>
+#include <limits>
 #include <sstream>
 #include <unordered_set>
 
@@ -30,8 +31,9 @@ namespace themis {
 // Construction
 // ============================================================================
 
-NegativeKeywordFilter::NegativeKeywordFilter(SecondaryIndexManager* index)
-    : index_(index) {}
+NegativeKeywordFilter::NegativeKeywordFilter(SecondaryIndexManager* index,
+                                             const Config& config)
+    : index_(index), config_(config) {}
 
 // ============================================================================
 // Static helpers
@@ -129,7 +131,10 @@ NegativeKeywordFilter::filter(
 
         try {
             auto [status, neg_results] = index_->scanFulltext(
-                table, column, term, /*limit=*/10'000);
+                table, column, term,
+                config_.max_exclude_scan == 0
+                    ? std::numeric_limits<size_t>::max()
+                    : config_.max_exclude_scan);
 
             if (!status.ok) {
                 THEMIS_WARN(

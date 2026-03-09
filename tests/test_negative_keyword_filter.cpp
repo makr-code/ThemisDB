@@ -173,6 +173,25 @@ TEST(NegativeKeywordFilterConstruct, StoresIndex) {
     EXPECT_EQ(f.getIndex(), nullptr);
 }
 
+TEST(NegativeKeywordFilterConstruct, ConfigDefaultMaxExcludeScan) {
+    NegativeKeywordFilter f{nullptr};
+    EXPECT_EQ(f.getConfig().max_exclude_scan, 100'000u);
+}
+
+TEST(NegativeKeywordFilterConstruct, ConfigCustomMaxExcludeScan) {
+    NegativeKeywordFilter::Config cfg;
+    cfg.max_exclude_scan = 500;
+    NegativeKeywordFilter f{nullptr, cfg};
+    EXPECT_EQ(f.getConfig().max_exclude_scan, 500u);
+}
+
+TEST(NegativeKeywordFilterConstruct, ConfigZeroMeansNoLimit) {
+    NegativeKeywordFilter::Config cfg;
+    cfg.max_exclude_scan = 0;
+    NegativeKeywordFilter f{nullptr, cfg};
+    EXPECT_EQ(f.getConfig().max_exclude_scan, 0u);
+}
+
 // ============================================================================
 // filter() — null index
 // ============================================================================
