@@ -1520,7 +1520,7 @@ TEST(AuditEventTest, MakeFactoryPopulatesAllFields) {
     EXPECT_EQ("debug", ev.details.at("new_value"));
 }
 
-TEST(AuditEventTest, SuccessFactorySetsDeniedAndErrorOutcome) {
+TEST(AuditEventTest, FactoryMethodsSetCorrectOutcome) {
     auto ok  = AuditEvent::success("auth", "u", "r", "login");
     auto den = AuditEvent::denied("auth",  "u", "r", "write");
     auto err = AuditEvent::error("data",   "u", "r", "delete");
