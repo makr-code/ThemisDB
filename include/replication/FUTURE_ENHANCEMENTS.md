@@ -12,11 +12,11 @@
 ## Design Constraints
 
 - [ ] Replication mode changes are atomic and appended to the audit log before taking effect
-- [ ] Conflict resolver is stateless; `resolve()` receives all context by value and returns a single winner
-- [ ] Vector clock API is thread-safe; `increment()` and `merge()` use `std::atomic` or `std::mutex` internally
-- [ ] Replication policy assignment is validated against current topology before acceptance
+- [x] Conflict resolver is stateless; `resolve()` receives all context by value and returns a single winner
+- [x] Vector clock API is thread-safe; `increment()` and `merge()` use `std::atomic` or `std::mutex` internally
+- [x] Replication policy assignment is validated against current topology before acceptance
 - [ ] All replication admin API methods require an explicit `AdminCredential` parameter; no ambient authority
-- [ ] Event stream subscriptions must be unregisterable; RAII subscription handle auto-unsubscribes on destruction
+- [x] Event stream subscriptions must be unregisterable; RAII subscription handle auto-unsubscribes on destruction
 
 ## Required Interfaces
 
