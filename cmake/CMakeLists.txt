@@ -2014,6 +2014,8 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/continuous_profiler.cpp
     ../src/observability/ebpf_tracer.cpp
     ../src/observability/distributed_flame_graph.cpp
+    ../src/observability/slo_reporter.cpp
+    ../src/observability/metric_anomaly_detector.cpp
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp

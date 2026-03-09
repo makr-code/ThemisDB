@@ -37,6 +37,35 @@ namespace observability {
 class LatencyTracker;
 
 /**
+ * @brief An exemplar links a specific trace context to a metric observation.
+ *
+ * Exemplars are stored on histogram metrics and emitted in the Prometheus
+ * OpenMetrics text format alongside the histogram summary output:
+ *
+ * ```
+ * # TYPE some_latency_ms summary
+ * some_latency_ms{quantile="0.99"} 42.0 # {traceID="3e561c74cee40c12"} 42.0 1712000000.000
+ * ```
+ *
+ * At most one exemplar is retained per metric series (last-write-wins).
+ *
+ * @see observeHistogramWithExemplar()
+ */
+struct Exemplar {
+    /// W3C-compatible trace ID string (e.g. 16-hex-char span ID or 32-hex-char trace ID).
+    std::string trace_id;
+    /// The observed metric value that this exemplar is associated with.
+    double value{0.0};
+    /// Wall-clock timestamp of the observation.
+    std::chrono::system_clock::time_point timestamp;
+
+    Exemplar() : timestamp(std::chrono::system_clock::now()) {}
+    Exemplar(std::string tid, double v)
+        : trace_id(std::move(tid)), value(v),
+          timestamp(std::chrono::system_clock::now()) {}
+};
+
+/**
  * Central metrics collector for ThemisDB observability.
  * 
  * Aggregates metrics from all subsystems (TSStore, Query Engine, Sharding, Cache, etc.)
@@ -159,6 +188,27 @@ public:
     void observeHistogram(const std::string& name, double value,
                           const std::map<std::string, std::string>& labels = {});
 
+    /**
+     * @brief Record an observation in a named histogram and attach an exemplar.
+     *
+     * Works identically to @c observeHistogram but additionally stores an
+     * @c Exemplar that links the observation to a specific trace context.
+     * Only the most recent exemplar per metric series is retained.
+     *
+     * The exemplar is emitted alongside the Prometheus summary output:
+     * @code
+     * some_latency_ms{quantile="0.99"} 42.0 # {traceID="3e561c74cee40c12"} 42.0 1712000000.000
+     * @endcode
+     *
+     * @param name     Metric name.
+     * @param value    Observed value.
+     * @param exemplar Exemplar carrying the trace ID and observation context.
+     * @param labels   Optional label set.
+     */
+    void observeHistogramWithExemplar(const std::string& name, double value,
+                                      const Exemplar& exemplar,
+                                      const std::map<std::string, std::string>& labels = {});
+
 private:
     MetricsCollector() = default;
     ~MetricsCollector() = default;
@@ -184,6 +234,9 @@ private:
         std::vector<double> values;
         std::chrono::steady_clock::time_point last_reset;
         size_t max_samples = 1000;
+        /// Most recent exemplar attached to this histogram (optional).
+        /// Empty trace_id means no exemplar has been recorded yet.
+        Exemplar latest_exemplar;
         
         void observe(double value);
         void reset();
@@ -207,6 +260,9 @@ private:
     std::string makeKey(const std::string& name, const std::map<std::string, std::string>& labels) const;
     std::string formatLabels(const std::map<std::string, std::string>& labels) const;
     std::string formatMetricLine(const std::string& name, const std::string& labels, double value) const;
+    /// Format an exemplar for Prometheus OpenMetrics output.
+    /// Returns an empty string if the exemplar has no trace_id.
+    static std::string formatExemplar(const Exemplar& exemplar);
 };
 
 /**
