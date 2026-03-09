@@ -3,7 +3,7 @@
 # Transaction Module Roadmap
 
 ## Current Status
-v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern, deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, and CDC changefeed integration are all implemented.
+v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern (with fully-implemented compensating actions for relational, secondary-index, graph, and vector operations), deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, CDC changefeed integration, transaction explain (locks + write-set), and multi-region Global Transaction Manager (TrueTime 2PC) are all implemented across Phases 1–4.
 
 ## Completed ✅
 - [x] TransactionManager – ACID guarantees via RocksDB WriteBatch
@@ -31,19 +31,30 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Transaction timeout with automatic rollback
 - [x] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
 - [x] Branch merge conflict resolution UI (Issue: #2478)
+- [x] Transaction explain – `explain()` / `explainTransaction()` (show locks held, write set / MVCC version chain) (Issue: #2477)
+- [x] SAGA compensation for secondary index operations (fixed: `SagaOperation::indexPutWithCompensation` now calls `idx.erase()`)
+- [x] SAGA compensation for graph edge additions (fixed: `SagaOperation::graphAddWithCompensation` now calls `graph.deleteEdge()`)
+- [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+- [x] Global transaction manager for multi-region ACID guarantees with TrueTime 2PC (Issue: #2327)
 
 ## In Progress 🚧
-> All Phase 2 items are now complete.
+> All Phase 3 and Phase 4 items are now complete.
 
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
+- [x] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
+  — implemented in `Transaction::explain()` / `TransactionManager::explainTransaction()`;
+  tests in `tests/test_transaction_manager.cpp` and `tests/test_transaction_manager_comprehensive.cpp`
 
 ### Long-term (6-12 months)
-- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326) — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`, tests in `tests/test_distributed_saga.cpp`
-- [I] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
+- [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+  — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`,
+  tests in `tests/test_distributed_saga.cpp`
+- [x] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
+  — implemented in `include/transaction/global_transaction_manager.h`,
+  `src/transaction/global_transaction_manager.cpp`, tests in `tests/test_global_transaction_manager.cpp`
 
 ## Implementation Phases
 
@@ -67,16 +78,16 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
 - [x] Transaction savepoints (partial rollback within a transaction)
 
-### Phase 3: OCC Mode & Bulk API (Status: In Progress 🚧)
+### Phase 3: OCC Mode & Bulk API (Status: Completed ✅)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
 - [x] Transaction timeout with automatic rollback
 - [x] Bulk transaction API (batch insert/update without per-row overhead)
-- [ ] Transaction explain (show locks acquired, MVCC version chain)
+- [x] Transaction explain (show locks acquired, MVCC version chain)
 - [x] Per-tenant transaction isolation namespace
 
-### Phase 4: Distributed SAGA & Global Transaction Manager (Status: In Progress 🚧)
+### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Completed ✅)
 - [x] Distributed SAGA orchestration across multiple nodes
-- [ ] Global transaction manager for multi-region ACID guarantees
+- [x] Global transaction manager for multi-region ACID guarantees
 - [x] Calvin protocol for deterministic distributed transactions
 - [x] Time-travel queries against snapshot history
 - [x] Branch merge conflict resolution UI
