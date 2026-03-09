@@ -37,6 +37,7 @@
 #include "cdc/changefeed.h"
 #include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
 #include <iostream>
 #include <thread>
 
@@ -240,8 +241,9 @@ int main() {
             return 1;
         }
         
-        auto changefeed = std::make_unique<Changefeed>(storage->getDB());
-        auto query_engine = std::make_unique<QueryEngine>(storage.get());
+        auto changefeed = std::make_unique<Changefeed>(storage->getRawDB());
+        auto idx = std::make_unique<SecondaryIndexManager>(*storage);
+        auto query_engine = std::make_unique<QueryEngine>(*storage, *idx);
         
         // Create scheduler with CDC support
         TaskScheduler::Config scheduler_config;

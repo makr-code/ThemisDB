@@ -3,7 +3,17 @@
 # Scheduler Module Roadmap
 
 ## Current Status
-v1.5.0 – Full cron expression parsing implemented. Standard 5-field cron syntax with name aliases (JAN–DEC, MON–SUN), complex list items (ranges and steps within lists), and start/step syntax fully supported. Hybrid retention manager and task scheduler are production-ready.
+v1.5.0 – All four implementation phases complete and production-ready:
+
+- **Scheduling engine** – full cron expression parsing (5/6-field, wildcards, ranges, lists, steps, name aliases, @-specials, timezone-aware), fixed-interval, CDC event-triggered, manual, and webhook trigger types; hybrid trigger logic (OR / AND)
+- **Distributed coordination** – leader election via `DistributedTaskCoordinator`; one-runner-per-cluster guarantee
+- **DAG & workflow engine** – topological task dependency execution with parallel fan-out, cascading-failure propagation, and conditional branching (`branch_condition`)
+- **Retry policies** – FIXED_DELAY, EXPONENTIAL_BACKOFF, LINEAR_BACKOFF, JITTER_BACKOFF, FIBONACCI_BACKOFF with per-task `RetryPolicy` and conditional `should_retry` predicate
+- **Persistence & results** – task definitions persisted to disk; scheduled output stored in ThemisDB via `TaskResultStore`
+- **Observability** – searchable audit log (`TaskAuditManager`), Prometheus metrics export (`exportMetrics()`), OpenTelemetry tracing, anomaly detection (`TaskAnomalyDetector`)
+- **Alerting** – SLA breach and task-failure alerts via Alertmanager (`setAlertmanager`, `sla_deadline`)
+- **Dynamic scaling** – concurrency limit auto-adjusted from queue depth (`enable_dynamic_scaling`, `getQueueDepth`, `getDynamicConcurrencyLimit`)
+- **External integrations** – Kubernetes CronJob and Apache Airflow adapters (`ExternalSchedulerAdapter`)
 
 ## Completed ✅
 - [x] TaskScheduler – periodic task execution with thread pool
