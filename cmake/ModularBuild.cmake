@@ -214,6 +214,8 @@ set(THEMIS_STORAGE_SOURCES
     # Atomic history and conflict layer
     ../src/storage/history_manager.cpp
     ../src/storage/raft_mvcc_bridge.cpp
+    # Tiered storage (hot/warm/cold) with age- and access-based migration
+    ../src/storage/tiered_storage.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     
     # Metadata management

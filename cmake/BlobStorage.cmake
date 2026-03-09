@@ -1,6 +1,6 @@
 # Blob Storage Backend Sources
-# Multiple blob storage implementations: S3, Azure, FileSystem, WebDAV
-# Requires: THEMIS_ENABLE_S3, THEMIS_ENABLE_AZURE, THEMIS_ENABLE_WEBDAV (optional)
+# Multiple blob storage implementations: S3, Azure, FileSystem, WebDAV, GCS
+# Requires: THEMIS_ENABLE_S3, THEMIS_ENABLE_AZURE, THEMIS_ENABLE_WEBDAV, THEMIS_ENABLE_GCS (optional)
 
 list(APPEND THEMIS_CORE_SOURCES
     # Unified blob storage interface
@@ -31,4 +31,12 @@ if(THEMIS_ENABLE_WEBDAV)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/storage/blob_backend_webdav.cpp
     )
+endif()
+
+# Google Cloud Storage blob backend
+if(THEMIS_ENABLE_GCS)
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/storage/blob_backend_gcs.cpp
+    )
+    add_compile_definitions(THEMIS_ENABLE_GCS)
 endif()
