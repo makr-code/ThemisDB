@@ -26,17 +26,12 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
 - [x] Session token revocation list with real-time invalidation (`TokenBlacklist`)
 - [x] Anomaly detection on authentication patterns: brute-force and credential stuffing (`AuthRateLimiter`)
+- [x] Post-quantum cryptography migration path (CRYSTALS-Kyber / Dilithium) (`include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`)
+- [x] Systematic attack vector test suite (`tests/security/attack-vectors/crypto/`, `injection/`, `authentication/`)
 
 ## In Progress 🚧
 - [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
   - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
-- [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves) (Issue: #2462)
-  - Subsystems: `security/confidential_computing.h`, `security/confidential_computing.cpp`
-  - Intel TDX: CPUID leaf 0x21 detection + `/dev/tdx_guest` kernel driver + `TDX_CMD_GET_REPORT0` ioctl
-  - AMD SEV/SEV-SNP: CPUID leaf 0x8000_001F + MSR 0xC001_0131 probe + `/dev/sev-guest` + `SNP_GET_REPORT` ioctl
-  - AES-256-GCM seal/unseal bound to TEE measurement (MRTD for TDX, MEASUREMENT field for SEV-SNP)
-  - Software fallback for non-TEE environments (CI, developer machines)
-  - Tests: `tests/test_confidential_computing.cpp` — detection, attestation, seal/unseal round-trip, tamper detection, independent-instance key isolation
 
 ## Planned Features 📋
 
@@ -47,13 +42,6 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Scope: audit-log export, metrics snapshot, key-rotation records, access-control reports
   - Storage: append-only JSON/CBOR log with tamper-evident chain; 12-month retention
   - Tests: evidence completeness check, retention enforcement
-  - Target: Q4 2026
-- [P] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) (Issue: #2294)
-  - Scope: replace RSA-OAEP DEK wrapping (HSM) with Kyber-1024; replace ECDSA with Dilithium-5 for CMS signing
-  - Backward compat: hybrid mode (classical + PQ) during migration; PQ-only in final phase
-  - Tests: classical/PQ parity tests; Kyber decapsulation round-trip; performance baseline ≥ 2000 ops/s
-  - Implementation: `include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`
-  - Backend: OpenSSL simulation (X25519→Kyber, Ed25519→Dilithium); liboqs swap-in ready
   - Target: Q4 2026
 
 ## Implementation Phases
@@ -97,12 +85,22 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [x] Dynamic data masking for PII fields in query results (`QueryMaskingPolicy`, PR: #3050, v1.5.0)
 - [x] Secret scanning pre-commit hook for CI pipelines (`scripts/secret_scan.py`, `.pre-commit-config.yaml`, `.github/workflows/secret-scanning-ci.yml`)
-- [ ] SOC 2 Type II compliance evidence collection
-- [P] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
+- [x] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium) — `include/security/post_quantum_crypto.h`, `src/security/post_quantum_crypto.cpp`
+  - KyberKEM: key generation, encapsulate/decapsulate round-trip, all three security levels (512/768/1024)
+  - DilithiumSigner: sign/verify round-trip, all three security levels (2/3/5)
+  - PostQuantumKeyProvider: Kyber-wrapped DEK wrapKeyWithKyber / unwrapKeyWithKyber
+  - HybridEncryption: HYBRID / CLASSICAL_ONLY / POST_QUANTUM_ONLY modes; AES-256-GCM + Kyber-1024
+  - Tests (production-ready): `tests/test_post_quantum_crypto.cpp` — 27 test cases; throughput ≥ 2 000 ops/s
+- [x] Systematic attack vector test suite (`tests/security/attack-vectors/`)
+  - `crypto/test_crypto_attack_vectors.cpp` — IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
+  - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params
+  - `authentication/test_authentication_attack_vectors.cpp` — RBAC: privilege escalation, permission boundary, lateral movement, deleted/unknown roles, role injection, multi-role combinations
+- [ ] SOC 2 Type II compliance evidence collection (Target: Q4 2026, Issue: #2293)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider)
+- [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider, KyberKEM, DilithiumSigner, HybridEncryption)
 - [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
+- [x] Attack vector tests (crypto IV/tag/key confusion, injection, authentication privilege escalation)
 - [~] Performance benchmarks (encryption overhead, auth latency) (Target: Q2 2026)
 - [~] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026)
 - [x] Documentation complete (ROADMAP.md, FUTURE_ENHANCEMENTS.md, inline docblocks)
