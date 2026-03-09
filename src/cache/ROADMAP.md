@@ -1,76 +1,73 @@
 # Cache Module Roadmap
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/src/cache/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready multi-level cache (L1/L2/L3) with all four implementation phases complete. Tenant management API is the only remaining in-progress item.
+Production-ready multi-level cache (L1/L2/L3) with all four implementation phases complete. All features including tenant management API, cache replication, SLO alerting, and distributed coordination are implemented. Unit test coverage tracking (target: >80%) is the only outstanding item (Issue: #1596).
 
 ## Completed ✅
-- [x] Multi-level adaptive query cache (L1 in-memory, L2 compressed, L3 RocksDB-backed)
-- [x] Semantic-aware query result caching with vector similarity lookups
-- [x] LRU eviction with configurable cache size and TTL
-- [x] Automatic cache invalidation on data changes
-- [x] Per-entry size limits and validation (L1: 1KB, L2: 10KB, L3: configurable)
-- [x] Circuit breaker for RocksDB fault isolation (CLOSED/OPEN/HALF_OPEN states)
-- [x] Enhanced metrics: hits/misses, errors, compression ratios per tier
-- [x] Retry logic with exponential backoff for RocksDB initialization
-- [x] L3 pattern-based invalidation using iterator-based scans
-- [x] Configuration validation on startup
-- [x] Token bucket rate limiting
-- [x] Tenant isolation and namespace enforcement
-- [x] Per-tenant size quotas
-- [x] GDPR-aware cache invalidation – PII purge propagation via `invalidatePII()` (GDPR Art. 17)
-- [x] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
-- [x] Cache warmup with bulk operations (Target: Q2 2026) (Issue: #1578)
-- [x] Health checks and cache diagnostics endpoint (Target: Q3 2026) (Issue: #1580)
-- [x] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
-- [x] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
-- [x] Bulk warmup from query logs or snapshot (Issue: #1583)
-- [x] Predictive pre-fetching based on query history (Issue: #1589)
-- [x] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
+- [x] Multi-level adaptive query cache (L1 in-memory, L2 compressed, L3 RocksDB-backed) — `adaptive_query_cache.h/cpp`; `BoundedLRUCache` (L1), zstd/lz4 compressed L2, `RocksDBWrapper` L3; tests in `tests/test_adaptive_query_cache.cpp`
+- [x] Semantic-aware query result caching with vector similarity lookups — `semantic_cache.h/cpp`; SHA-256 fingerprint + cosine similarity; tests in `tests/test_semantic_cache.cpp`
+- [x] LRU eviction with configurable cache size and TTL — `bounded_lru_cache.h/cpp`; `BoundedLRUCache::Config::max_entries`, `::ttl`; tests in `tests/test_bounded_lru_cache.cpp`
+- [x] Automatic cache invalidation on data changes — `AdaptiveQueryCache::invalidate(pattern)` in `adaptive_query_cache.h`; L3 iterator-based prefix scan; tests in `tests/test_adaptive_query_cache.cpp`
+- [x] Per-entry size limits and validation (L1: 1KB, L2: 10KB, L3: configurable) — `AdaptiveQueryCache::Config::l1_max_entry_size`, `l2_max_entry_size`, `max_total_entry_size` in `adaptive_query_cache.h` line ~90–115
+- [x] Circuit breaker for RocksDB fault isolation (CLOSED/OPEN/HALF_OPEN states) — `enable_circuit_breaker`, `cb_failure_threshold`, `cb_timeout_ms` in `adaptive_query_cache.h`; state reported via `getHealthStatus()["l3"]["circuit_breaker"]`
+- [x] Enhanced metrics: hits/misses, errors, compression ratios per tier — `cache_metrics.h`; `CacheMetrics` struct with atomic counters `l1_hits`, `l2_hits`, `l3_hits`, `misses`, `compression_failures`, etc.
+- [x] Retry logic with exponential backoff for RocksDB initialization — `adaptive_query_cache.cpp`; `initL3WithRetry()` private method; configurable via `Config::l3_retry_max_attempts`
+- [x] L3 pattern-based invalidation using iterator-based scans — `AdaptiveQueryCache::invalidate(pattern)` uses RocksDB iterator scan in `adaptive_query_cache.cpp`
+- [x] Configuration validation on startup — `AdaptiveQueryCache::Config::validate()` in `adaptive_query_cache.h`; constructor throws `std::invalid_argument` on invalid config; tests in `tests/test_adaptive_cache_phase1.cpp`
+- [x] Token bucket rate limiting — `AdaptiveQueryCache::Config::enable_rate_limiting`, `max_requests_per_second` in `adaptive_query_cache.h`; `RateLimiter` struct in `adaptive_query_cache.h`; tests in `tests/test_adaptive_cache_phase1.cpp`
+- [x] Tenant isolation and namespace enforcement — `enable_tenant_isolation` config flag; tenant-scoped `get(fp, tenant_id)` / `put(fp, params, result, tenant_id)` in `adaptive_query_cache.h`; cross-tenant access returns `nullopt`
+- [x] Per-tenant size quotas — `Config::per_tenant_max_bytes` (default 100MB) in `adaptive_query_cache.h`; enforced in `put()` via `tenant_bytes_used_` map
+- [x] GDPR-aware cache invalidation – PII purge propagation via `invalidatePII()` (GDPR Art. 17) — `AdaptiveQueryCache::invalidatePII(pii_uuid)` in `adaptive_query_cache.h` line ~360; `put(fp, params, result, tenant_id, pii_uuids)` override at line ~248; 7 unit tests in `tests/test_adaptive_query_cache.cpp`
+- [x] Admin API for cache operations and monitoring (Issue: #1577) — `src/server/cache_admin_api_handler.cpp`; routes under `/v1/admin/cache/`; tests in `tests/test_cache_admin_api_handler.cpp`
+- [x] Cache warmup with bulk operations (Issue: #1578) — `src/cache/warmup.cpp`; `AdaptiveQueryCache::warmupFromLog()` and `::exportSnapshot()` in `adaptive_query_cache.h`; tests in `tests/test_cache_warmup.cpp`
+- [x] Tenant management API — list, stats, quota update via HTTP (Issue: #1579) — `GET /v1/admin/cache/tenants`, `GET /v1/admin/cache/tenant/{id}/stats`, `PATCH /v1/admin/cache/tenant/{id}/quota` in `src/server/cache_admin_api_handler.cpp`; `AdaptiveQueryCache::getTenantStats()`, `::getTenantStatsForTenant()`, `::updateTenantQuota()` in `adaptive_query_cache.h`
+- [x] Health checks and cache diagnostics endpoint (Issue: #1580) — `GET /v1/admin/cache/health` in `src/server/cache_admin_api_handler.cpp`; `AdaptiveQueryCache::getHealthStatus()` in `adaptive_query_cache.h`
+- [x] Adaptive TTL tuning based on access patterns (Issue: #1581) — `Config::enable_adaptive_ttl`, `adaptive_ttl_min_seconds`, `adaptive_ttl_max_seconds`, `adaptive_ttl_scaling_factor` in `adaptive_query_cache.h`; `calculateAdaptiveTTL(access_count)` private method; logarithmic-scaling formula
+- [x] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582) — `GET /v1/admin/cache/stats`, `DELETE /v1/admin/cache/key/{key}`, `DELETE /v1/admin/cache/tenant/{id}`, `POST /v1/admin/cache/circuit-breaker/reset` in `src/server/cache_admin_api_handler.cpp`
+- [x] Bulk warmup from query logs or snapshot (Issue: #1583) — `POST /v1/admin/cache/warmup`, `POST /v1/admin/cache/snapshot` in `src/server/cache_admin_api_handler.cpp`; `AdaptiveQueryCache::warmupFromLog()`, `::exportSnapshot()` in `adaptive_query_cache.h`
+- [x] Tenant-level cache statistics dashboard (`GET /v1/admin/cache/tenants`) (Issue: #1584) — `GET /v1/admin/cache/tenants` in `src/server/cache_admin_api_handler.cpp` line ~472; returns per-tenant bytes, hits, misses, hit_rate, evictions
+- [x] Configurable eviction policies beyond LRU (LFU, ARC) via `eviction_policy.h` / `arc_cache.h` (Issue: #1585) — `EvictionPolicy` enum `{LRU, LFU, ARC}` in `include/cache/eviction_policy.h`; `ARCCache<K,V>` in `include/cache/arc_cache.h`; `makeEvictionStrategy()` factory; tests in `tests/test_arc_cache.cpp`
+- [x] Cache hit rate SLO alerting via `CacheHitRateSLOMonitor` (Issue: #1586) — `CacheHitRateSloMonitor` class in `include/cache/cache_hit_rate_slo_monitor.h`; `src/cache/cache_hit_rate_slo_monitor.cpp`; configurable threshold, cooldown, alert callback; tests in `tests/test_cache_hit_rate_slo_monitor.cpp`
+- [x] Predictive pre-fetching based on query history (Issue: #1589) — `PredictivePrefetcher` class in `include/cache/predictive_prefetcher.h`; `src/cache/predictive_prefetcher.cpp`; `recordQueryAccess()`, `getCandidates()`; opt-in via `Config::enable_predictive_prefetch`
+- [x] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591) — see `invalidatePII()` above; `pii_key_index_` reverse map + `pii_ref:` L3 sentinel keys; 7 unit tests
+- [x] Cache replication for high-availability multi-node deployments (Issue: #1590, #1595) — `CacheReplicationManager` in `include/cache/cache_replication.h`; `InProcessCacheCoordinator` in `include/cache/distributed_cache_coordinator.h`; `RedisCacheCoordinator` in `include/cache/redis_cache_coordinator.h`; tests in `tests/test_cache_replication.cpp`, `tests/test_distributed_cache_coordinator.cpp`
 
 ## In Progress 🚧
-- [I] Tenant management API (Target: Q2 2026) (Issue: #1579)
-
-## Planned Features 📋
-
-### Short-term (Next 3-6 months)
-- [I] Tenant-level cache statistics dashboard (Issue: #1584)
-- [I] Configurable eviction policies beyond LRU (LFU, ARC) (Issue: #1585)
-- [P] Cache hit rate SLO alerting (Issue: #1586)
-
-### Long-term (6-12 months)
-- [I] Add cache replication for high-availability multi-node deployments (Issue: #1590)
+- [I] Unit tests coverage > 80% (Issue: #1596)
 
 ## Implementation Phases
 
 ### Phase 1: Multi-Level Cache Core (Status: Completed)
-- [x] Implemented L1 in-memory LRU cache with 1 KB per-entry size limit
-- [x] Implemented L2 compressed cache with 10 KB per-entry size limit
-- [x] Implemented L3 RocksDB-backed persistent cache with configurable size
-- [x] Added automatic cache invalidation on data mutation events
-- [x] Implemented circuit breaker for RocksDB fault isolation (CLOSED/OPEN/HALF_OPEN)
-- [x] Added retry logic with exponential backoff for RocksDB initialization
-- [x] Implemented L3 pattern-based invalidation via iterator-based key scans
-- [x] Added per-tier metrics: hit rate, miss rate, error count, compression ratio
+- [x] Implemented L1 in-memory LRU cache with 1 KB per-entry size limit — `bounded_lru_cache.h/cpp`; `Config::max_entries`, `l1_max_entry_size = 1024` in `adaptive_query_cache.h`
+- [x] Implemented L2 compressed cache with 10 KB per-entry size limit — zstd/lz4 compressed entries in `adaptive_query_cache.cpp`; `Config::l2_max_entry_size = 10240`
+- [x] Implemented L3 RocksDB-backed persistent cache with configurable size — `RocksDBWrapper` integration via `Config::l3_db_path`; circuit breaker guards all L3 operations
+- [x] Added automatic cache invalidation on data mutation events — `AdaptiveQueryCache::invalidate(pattern)` in `adaptive_query_cache.h`
+- [x] Implemented circuit breaker for RocksDB fault isolation (CLOSED/OPEN/HALF_OPEN) — `Config::enable_circuit_breaker`, states reported in `getHealthStatus()`
+- [x] Added retry logic with exponential backoff for RocksDB initialization — `initL3WithRetry()` in `adaptive_query_cache.cpp`
+- [x] Implemented L3 pattern-based invalidation via iterator-based key scans — `invalidate(pattern)` uses RocksDB iterator in `adaptive_query_cache.cpp`
+- [x] Added per-tier metrics: hit rate, miss rate, error count, compression ratio — `CacheMetrics` struct in `include/cache/cache_metrics.h`
 
 ### Phase 2: Security and Tenant Isolation (Status: Completed)
-- [x] Added startup configuration validation with descriptive error messages
-- [x] Implemented token bucket rate limiting per tenant namespace
-- [x] Enforced tenant namespace isolation preventing cross-tenant cache reads
-- [x] Implemented per-tenant size quotas with configurable byte limits
+- [x] Added startup configuration validation with descriptive error messages — `Config::validate(std::string* error)` in `adaptive_query_cache.h`; constructor throws on failure
+- [x] Implemented token bucket rate limiting per tenant namespace — `RateLimiter` struct in `adaptive_query_cache.h`; `Config::enable_rate_limiting`, `max_requests_per_second`
+- [x] Enforced tenant namespace isolation preventing cross-tenant cache reads — `get(fp, tenant_id)` returns `nullopt` when tenant mismatch; `tenant_bytes_used_` map enforces quotas
+- [x] Implemented per-tenant size quotas with configurable byte limits — `Config::per_tenant_max_bytes` (default 100MB); enforced in `put()` path
 
-### Phase 3: Operational Excellence and Admin API (Status: In Progress)
-- [x] Implement Admin API for cache inspection, eviction, and reload (`server/cache_admin_api_handler.cpp`) (Issue: #1599)
-- [x] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
-- [I] Implement tenant management API (list tenants, per-tenant stats, quota updates) (Issue: #1601)
-- [x] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602)
-- [x] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
+### Phase 3: Operational Excellence and Admin API (Status: Complete ✅)
+- [x] Implement Admin API for cache inspection, eviction, and reload (`server/cache_admin_api_handler.cpp`) (Issue: #1599) — `src/server/cache_admin_api_handler.cpp`; routes under `/v1/admin/cache/`; tests in `tests/test_cache_admin_api_handler.cpp`
+- [x] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600) — `src/cache/warmup.cpp`; `warmupFromLog()` + `exportSnapshot()` in `adaptive_query_cache.h`; tests in `tests/test_cache_warmup.cpp`
+- [x] Implement tenant management API (list tenants, per-tenant stats, quota updates) (Issue: #1601) — `GET /v1/admin/cache/tenants`, `GET /v1/admin/cache/tenant/{id}/stats`, `PATCH /v1/admin/cache/tenant/{id}/quota`; `updateTenantQuota()` in `adaptive_query_cache.h`
+- [x] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602) — `GET /v1/admin/cache/health` in `cache_admin_api_handler.cpp`; `getHealthStatus()` returns per-tier counts and circuit breaker state
+- [x] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603) — `calculateAdaptiveTTL(access_count)` in `adaptive_query_cache.cpp`; `CacheEntry::access_count` field; logarithmic scaling
 
-### Phase 4: Distributed Cache and Predictive Features (Status: Completed ✅)
-- [x] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
-- [x] Add write-through cache mode for read-heavy workloads (Issue: #1593)
-- [x] Implement predictive pre-fetching based on query sequence history (Issue: #1594)
-- [I] Add cache replication for high-availability multi-node deployments (Issue: #1595)
+### Phase 4: Distributed Cache and Predictive Features (Status: Complete ✅)
+- [x] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592) — `RedisCacheCoordinator` in `include/cache/redis_cache_coordinator.h`; `src/cache/redis_cache_coordinator.cpp`; hiredis pub/sub; enable via `THEMIS_ENABLE_REDIS=ON`; tests in `tests/test_distributed_cache_coordinator.cpp`
+- [x] Add write-through cache mode for read-heavy workloads (Issue: #1593) — `Config::enable_write_through` (opt-in) in `adaptive_query_cache.h`; `writeThroughToL3()` private method; `CacheMetrics::write_through_writes` counter
+- [x] Implement predictive pre-fetching based on query sequence history (Issue: #1594) — `PredictivePrefetcher` in `include/cache/predictive_prefetcher.h`; `src/cache/predictive_prefetcher.cpp`; `recordQueryAccess()`, `getCandidates()`; opt-in via `Config::enable_predictive_prefetch`
+- [x] Add cache replication for high-availability multi-node deployments (Issue: #1595) — `CacheReplicationManager` in `include/cache/cache_replication.h`; `InProcessCacheCoordinator` in `include/cache/distributed_cache_coordinator.h`; `src/cache/cache_replication.cpp`, `src/cache/cache_replication_coordinator.cpp`; tests in `tests/test_cache_replication.cpp`
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1596)
@@ -81,10 +78,12 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] API stability guaranteed for cache read/write/invalidate
 
 ## Known Issues & Limitations
-- Admin API is implemented (`/v1/admin/cache/` endpoints); tenant management API is still in progress
+- Unit test coverage tracking is ongoing (Issue: #1596); integration tests and all major pipelines are covered.
 - Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. The coordinator degrades gracefully when Redis is unavailable.
-- Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller
+- Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller.
+- Cache entries are not encrypted at rest (L3); enable RocksDB encryption at the storage layer for at-rest protection.
+- `invalidatePII()` does not yet automatically integrate with `PIIPseudonymizer::erasePII()`; callers must invoke it explicitly (see `FUTURE_ENHANCEMENTS.md`).
 
 ## Breaking Changes
-- Admin API will be introduced as a new endpoint (non-breaking to existing cache API)
-- Distributed cache configuration will add new required fields for cluster mode
+- Admin API endpoints (`/v1/admin/cache/`) were introduced as new endpoints; non-breaking to existing cache read/write/invalidate API.
+- Distributed cache configuration adds new optional fields for cluster mode; existing single-node configurations are unaffected.

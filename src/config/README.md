@@ -1,4 +1,5 @@
 # Config Module
+<!-- status: current | validated: 2026-03-09 | source: src/config/ -->
 
 ## Module Purpose
 
@@ -11,9 +12,11 @@ The Config module provides backward-compatible configuration path resolution and
 | `config_path_resolver.h` / `config_path_resolver.cpp` | Legacy-to-new config path mapping with filesystem fallback |
 | `config_schema_validator.h` / `config_schema_validator.cpp` | JSON Schema (Draft 7 subset) validation of YAML/JSON config files |
 | `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
+| `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus text-format metrics exporter for the `/metrics` endpoint |
 | `lru_cache.h` | LRU cache with TTL for resolved path results |
 | `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
 | `config_errors.h` | Typed exception hierarchy for config-related errors |
+| `config_migration_scanner_impl.h` | Testable inline implementation for the `config_migration_scanner` CLI tool |
 
 ## Scope
 
@@ -41,7 +44,7 @@ The Config module provides backward-compatible configuration path resolution and
 Static utility that resolves legacy config paths to their new hierarchical locations. Checks the new path first, then falls back to the legacy path with a deprecation warning.
 
 **Features:**
-- **Path Mapping Table**: 50+ mappings covering AI/ML, security, compliance, performance, platform, networking, and monitoring categories
+- **Path Mapping Table**: 60+ mappings covering AI/ML, security, compliance, performance, platform, networking, and monitoring categories
 - **Filesystem Fallback**: Tries the new path first; if absent, uses the legacy path and emits a `spdlog` warning
 - **Optional API**: `tryResolve()` returns `std::nullopt` instead of throwing on failure
 - **Metadata Lookup**: `getMetadata()` returns deprecation date, removal date, and migration guide link per path
@@ -382,7 +385,7 @@ config_migration_scanner --root /srv/themis --fix
 - All public methods are thread-safe for concurrent read access
 - Path-traversal prevention and symlink escape hardening are enforced via `validatePath()`
 - LRU cache avoids repeated filesystem calls under load; capacity and TTL are configurable at runtime via env vars
-- Complete deprecation metadata for all 50+ mapped paths in `METADATA_TABLE`
+- Complete deprecation metadata for all 60+ mapped paths in `METADATA_TABLE`
 - Known limitations:
   - HTTP/network config paths are not validated for reachability; only filesystem presence is checked
   - Migration tooling (`config_migration_scanner`) scans for path references but does not handle binary files

@@ -22,6 +22,7 @@ ThemisDB bietet Export-Funktionen für LLM-Training und Multi-LoRA-Integration.
 
 | Datei | Beschreibung |
 |-------|--------------|
+| [chimera.md](chimera.md) | Chimera — Datenbank-Adapter-Framework (Benchmark-Adapter) |
 | [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Implementation Overview |
 | [JSONL_LLM_EXPORTER.md](JSONL_LLM_EXPORTER.md) | JSONL Export für LLM Training |
 | [LORA_ADAPTER_METADATA.md](LORA_ADAPTER_METADATA.md) | LoRA Adapter Konfiguration |

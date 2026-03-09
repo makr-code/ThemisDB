@@ -1,4 +1,6 @@
 # Change Data Capture (CDC) Module
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 
 Change Data Capture and changefeed implementation for ThemisDB.
 
@@ -8,9 +10,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 
 ## Subsystem Scope
 
-**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management, cross-collection aggregated streams, CDC-based materialized view maintenance, Kafka producer transport (`KafkaCDCProducer`), `ICDCTransport` abstract interface.
-
-**Out of scope:** WebSocket HTTP server endpoint wiring (transport class exists, wiring is a follow-up).
+**In scope:** Changefeed engine, SSE event streaming, per-collection/per-key filtering, change log persistence, historical replay, subscription lifecycle management, cross-collection aggregated streams, CDC-based materialized view maintenance, WebSocket transport (`WsTransport`, `cdc_ws_handler.cpp`), Kafka producer transport (`KafkaCDCProducer`), `ICDCTransport` abstract interface, consumer group semantics (`ConsumerGroupManager`), at-least-once delivery (`DeliveryTracker`), dead-letter queue (`DeadLetterQueue`), transactional outbox (`OutboxWriter`, `OutboxRelay`), change stream compression, Debezium format support, schema registry integration, GDPR-aware change log redaction.
 
 ## Relevant Interfaces
 
@@ -67,10 +67,11 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 ## Documentation
 
 For CDC documentation, see:
-- [Changefeed](../../docs/src/cdc/changefeed.cpp.md)
-- [Change Data Capture](../../docs/change_data_capture.md)
-- [CDC Documentation](../../docs/cdc.md)
-- [Changefeed Development](../../docs/development/changefeed/)
+- [Architecture Guide](ARCHITECTURE.md) — component diagram, data flow, threading model
+- [Roadmap](ROADMAP.md) — feature status and planned work
+- [CDC Operations Runbook](../../docs/CDC_OPERATIONS_RUNBOOK.md) — production operations
+- [CDC Implementation Summary](../../docs/CDC_IMPLEMENTATION_SUMMARY.md) — implementation history
+- [Change Data Capture (DE)](../../docs/de/features/features_change_data_capture.md) — end-user guide (German)
 
 ## Scientific References
 

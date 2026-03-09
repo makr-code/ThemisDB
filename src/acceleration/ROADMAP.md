@@ -6,6 +6,10 @@
 ## Current Status
 Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
 
+## In Progress 🚧
+- [~] CUDA kernel implementations for vector similarity (Issue: #1366) — `cuda/vector_kernels.cu` implemented; `cuda_backend.cpp` still has 6 stubs pending production wiring
+- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` implemented; full production dispatch wiring pending
+
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
 - [x] Vector similarity search acceleration stubs
@@ -14,7 +18,7 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [x] Matrix operations for embeddings (scaffolding)
 - [x] Documentation cross-references (CUDA_BACKEND.md, VULKAN_BACKEND.md)
 - [x] CUDA geospatial distance and containment kernels (Target: Q3 2026) (Issue: #1372) — `cuda/geo_kernels.cu` implemented with Haversine distance and ray-casting point-in-polygon kernels; wired via `GeoAccelerationBridge::populateGeoDispatch()`; tests in `tests/test_geo_gpu_backend.cpp`
-- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373)
+- [x] Vulkan fallback for non-NVIDIA hardware (Target: Q3 2026) (Issue: #1373) — `vulkan_backend_full.cpp` (0 stubs, quality score 94) + SPIR-V compute shaders in `vulkan/shaders/` (l2_distance.comp, cosine_distance.comp, inner_product_distance.comp, batch_search.comp, topk_selection.comp, haversine_distance.comp, point_in_polygon.comp) fully implemented
 - [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
 - [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
@@ -74,10 +78,10 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW integration
-- Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
-- Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels
-- Some backend source files are staged but not feature-complete for production traffic
+- `cuda_backend.cpp` has 6 remaining stubs (`launchL2DistanceKernel` etc.); CUDA ANN/vector ops fall through to CPU pending full production wiring to `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu`
+- Tensor Core matrix ops (`CUDAMatrixBackend`) are implemented; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
+- `MultiGPUVectorBackend` uses CPU sub-backends internally pending NCCL group-call wiring with real CUDA kernels
+- `opencl_backend.cpp` has 1 remaining stub; not yet production-ready
 
 ## Breaking Changes
 - GPU kernel APIs are not yet stable; function signatures may change before v1.0

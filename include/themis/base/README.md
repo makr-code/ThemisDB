@@ -1,8 +1,27 @@
-# ThemisDB Base Interfaces
+# ThemisDB Base Module — Public Headers
 
-This directory contains abstract interface definitions that enable dependency inversion within ThemisDB's monolithic core. These interfaces break circular dependencies and enable better testability and modularity.
+This directory contains the public C++ header files for the `base` module: plugin-loading
+infrastructure, hot-reload, OS-level sandboxing, WASM isolation, remote registry client,
+plugin dependency graph, A/B test manager, platform export macros, and the abstract
+dependency-inversion interfaces.
 
-## Overview
+## Header Files
+
+| Header | Purpose |
+|--------|---------|
+| `module_loader.h` | Secure cross-platform shared-library loading, signature verification, trust levels, per-plugin audit trail |
+| `hot_reload_manager.h` | Zero-downtime hot-reload and rollback |
+| `module_sandbox.h` | OS-level resource limits (CPU/memory) and ABI compatibility checking |
+| `wasm_plugin_sandbox.h` | WASM-based memory-safe isolation for untrusted plugins |
+| `remote_registry_client.h` | Authenticated download and installation of marketplace plugins |
+| `plugin_dependency_graph.h` | Dependency declaration, visualization, and topological ordering |
+| `ab_test_manager.h` | Traffic-split A/B testing via module swapping |
+| `export.h` | Platform-specific `THEMIS_BASE_API` export/import macros |
+
+## `interfaces/` Subdirectory
+
+This subdirectory contains **abstract dependency-inversion interfaces** that break circular
+dependencies between ThemisDB's core components and enable testability and modularity.
 
 ThemisDB has historically had circular dependencies between core components:
 - **Query ↔ Storage ↔ Index**: Query needs Storage, Storage needs Query (for filtering), Index needs Query (for expression evaluation)
@@ -14,9 +33,9 @@ These interfaces apply the **Dependency Inversion Principle (DIP)** to break the
 - Low-level modules implement abstractions
 - Abstractions don't depend on details; details depend on abstractions
 
-## Interface Files
+## Interface Files in `interfaces/`
 
-### `storage_interface.h`
+### `interfaces/storage_interface.h`
 Abstract interface for storage backends.
 
 **Key Types:**
@@ -31,7 +50,7 @@ Abstract interface for storage backends.
 - Enables mock storage for unit testing
 - Allows swapping RocksDB for alternative backends
 
-### `query_interface.h`
+### `interfaces/query_interface.h`
 Abstract interface for query execution and expression evaluation.
 
 **Key Types:**
@@ -48,7 +67,7 @@ Abstract interface for query execution and expression evaluation.
 - Enables mock query engine for testing
 - Expression evaluator can be injected into indexes without circular dependencies
 
-### `index_interface.h`
+### `interfaces/index_interface.h`
 Abstract interfaces for various index types.
 
 **Key Types:**
@@ -66,7 +85,7 @@ Abstract interfaces for various index types.
 - Enables mock indexes for testing
 - Supports multiple index implementations
 
-### `security_interface.h`
+### `interfaces/security_interface.h`
 Abstract interfaces for encryption and key management.
 
 **Key Types:**
@@ -249,6 +268,10 @@ TEST(MockStorage, ImplementsInterface) {
 
 ## Related Documentation
 
+- [src/base README](../../../src/base/README.md) — module overview and usage guide
+- [src/base ARCHITECTURE](../../../src/base/ARCHITECTURE.md) — detailed architecture guide
+- [src/base ROADMAP](../../../src/base/ROADMAP.md) — feature roadmap and status
+- [src/base FUTURE_ENHANCEMENTS](../../../src/base/FUTURE_ENHANCEMENTS.md) — planned features and design constraints
 - [Architecture Decision Records](../../../docs/architecture/)
 - [Modularization Plan](../../../docs/architecture/MODULARIZATION_PLAN.md)
 - [Testing Strategy](../../../tests/README.md)
