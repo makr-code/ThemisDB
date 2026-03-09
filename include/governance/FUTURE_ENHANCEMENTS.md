@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- [ ] Policy evaluation is synchronous and `noexcept`; implementations must not throw or block on I/O
-- [ ] Masking hooks are stateless; key material and configuration are injected at construction, not during `mask()` calls
-- [ ] OPA integration is optional via `THEMIS_ENABLE_OPA`; absent symbols produce a clear `static_assert` at link time
-- [ ] Data subject rights requests are always audit-logged; the audit sink is injected via `IGovernancePolicy::setAuditSink()`
-- [ ] Cross-tenant policy inheritance is expressed as a DAG; cycles detected at `build()` time and returned as `PolicyError::CYCLE_DETECTED`
-- [ ] AI/ML model governance hooks are called synchronously before inference dispatch; rejection is surfaced as `ModelGovernanceError`
+- [x] Policy evaluation is synchronous and `noexcept`; implementations must not throw or block on I/O
+- [x] Masking hooks are stateless; key material and configuration are injected at construction, not during `mask()` calls
+- [x] OPA integration is optional via `THEMIS_ENABLE_OPA`; absent symbols produce a clear `static_assert` at link time
+- [x] Data subject rights requests are always audit-logged; the audit sink is injected via `IGovernancePolicy::setAuditSink()`
+- [x] Cross-tenant policy inheritance is expressed as a DAG; cycles detected at `build()` time and returned as `PolicyError::CYCLE_DETECTED`
+- [x] AI/ML model governance hooks are called synchronously before inference dispatch; rejection is surfaced as `ModelGovernanceError`
 
 ## Required Interfaces
 
@@ -92,3 +92,23 @@
 - OPA bundle integrity is verified via signature before loading; bundles with invalid signatures are rejected with `PolicyError::BUNDLE_SIGNATURE_INVALID`
 - Cross-border transfer control defaults to `DENY` for unknown or missing region metadata; fail-closed behavior is not overridable at the interface level
 - Data subject rights requests are idempotent by `requestId`; duplicate submissions return the original result without re-executing the operation
+
+## Scientific References
+
+[1] T. Moses, Ed., "eXtensible Access Control Markup Language (XACML) Version 3.0," OASIS Standard, Jan. 2013. https://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.html
+
+[2] V. C. Hu, D. Ferraiolo, R. Kuhn, A. Schnitzer, K. Sandlin, R. Miller, and K. Scarfone, "Guide to Attribute Based Access Control (ABAC) Definition and Considerations," NIST Special Publication 800-162, Jan. 2014. https://doi.org/10.6028/NIST.SP.800-162
+
+[3] Open Policy Agent contributors, "Open Policy Agent Documentation," 2024. https://www.openpolicyagent.org/docs/latest/
+
+[4] European Parliament and Council, "General Data Protection Regulation (GDPR)," *Official Journal of the European Union*, L 119, May 2016. https://eur-lex.europa.eu/eli/reg/2016/679/oj
+
+[5] California Legislature, "California Consumer Privacy Act (CCPA)," California Civil Code §1798.100 et seq., 2018. https://oag.ca.gov/privacy/ccpa
+
+[6] Payment Card Industry Security Standards Council, "PCI DSS v4.0," Mar. 2022. https://www.pcisecuritystandards.org/document_library/
+
+[7] R. S. Sandhu, E. J. Coyne, H. L. Feinstein, and C. E. Youman, "Role-Based Access Control Models," *IEEE Computer*, vol. 29, no. 2, pp. 38–47, Feb. 1996. https://doi.org/10.1109/2.485845
+
+[8] M. Merkle, "A Certified Digital Signature," in *Advances in Cryptology — CRYPTO '89*, G. Brassard, Ed., New York: Springer, 1990, pp. 218–238. https://doi.org/10.1007/0-387-34805-0_21
+
+[9] ISO/IEC, "Information technology — Security techniques — Information security management systems — Requirements," ISO/IEC 27001:2022, Oct. 2022. https://www.iso.org/standard/27001
