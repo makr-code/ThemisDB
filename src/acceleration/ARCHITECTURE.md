@@ -1,4 +1,6 @@
 # Acceleration Module — Architecture Guide
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
 **Version:** 1.0  
 **Last Updated:** 2026-03-09  
@@ -222,6 +224,7 @@ Performance targets:
 ## 12. References
 
 - `src/acceleration/README.md` — module overview and development guide
+- `src/acceleration/ROADMAP.md` — development roadmap and production-readiness checklist
 - `src/acceleration/FUTURE_ENHANCEMENTS.md` — detailed roadmap
 - `docs/acceleration/capability_negotiation.md` — capability negotiation deep dive
 - `docs/acceleration/troubleshooting.md` — operational runbook

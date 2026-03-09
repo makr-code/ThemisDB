@@ -1,4 +1,6 @@
 # Acceleration Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-09 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
 <!-- Status: current | validated: 2026-03-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/acceleration/README.md -->
@@ -178,38 +180,6 @@ All planned features in this document are grounded in the following peer-reviewe
 
 7. AMD, "ROCm documentation: Software platform for GPU computing," AMD. [Online]. Available: https://rocmdocs.amd.com/ [Accessed: 2026-02-22]  
    — Informs HIP API usage, rocBLAS, and RCCL multi-GPU collectives (`hip_backend.cpp`, `rccl_vector_backend.cpp`).
-
-## 📚 Future enhancements
-
-**[1]** Y. Chen, T. Li, Y. Zhou, and Z. Wang, "Accelerating Database Operations on GPUs: A Survey," *IEEE Trans. Knowl. Data Eng.*, vol. 29, no. 1, pp. 147–165, Jan. 2017, doi: 10.1109/TKDE.2016.2603064. [Online]. Available: https://ieeexplore.ieee.org/document/7586066. Accessed: Mar. 9, 2026.
-
-**[2]** A. He, S. Pandey, and A. Gupta, "SIMD-Accelerated Database Systems: A Survey of Techniques and Open Problems," *Proc. VLDB Endow.*, vol. 12, no. 3, pp. 309–322, Nov. 2018, doi: 10.14778/3352063.3352067. [Online]. Available: https://www.vldb.org/pvldb/vol12/p309-he.pdf. Accessed: Mar. 9, 2026.
-
-**[3]** J. Zhou and K. A. Ross, "Implementing database operations using SIMD instructions," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Madison, WI, USA, Jun. 2002, pp. 145–156, doi: 10.1145/564691.564710. [Online]. Available: https://doi.org/10.1145/564691.564710. Accessed: Mar. 9, 2026.
-
-**[4]** D. Sidler, Z. István, M. Owaida, and G. Alonso, "Accelerating Pattern Matching Queries in Hybrid CPU-FPGA Architectures," in *Proc. ACM SIGMOD Int. Conf. Manag. Data*, Chicago, IL, USA, May 2017, pp. 403–415, doi: 10.1145/3035918.3035941. [Online]. Available: https://doi.org/10.1145/3035918.3035941. Accessed: Mar. 9, 2026.
-
-**[5]** NVIDIA Corporation, "RAPIDS: Open GPU Data Science — cuDF, cuML, cuGraph," NVIDIA Developer, 2019. [Online]. Available: https://rapids.ai. Accessed: Mar. 9, 2026.
-
-**[6]** M. Shoeybi, M. Patwary, R. Puri, P. LeGresley, J. Casper, and B. Catanzaro, "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism," *arXiv*, preprint arXiv:1909.08053, Sep. 2019. [Online]. Available: https://arxiv.org/abs/1909.08053. Accessed: Mar. 9, 2026.
-
-> **Relevance:** Informs the multi-GPU sharding strategy in `multi_gpu_backend.cpp` and `nccl_vector_backend.cpp`; the tensor-parallel all-reduce collective pattern directly motivates the fan-out KNN + host-side top-k merge design. The NCCL `ncclBcast` + `ncclAllGather` scatter/gather approach maps to the `ncclGroupStart`/`ncclGroupEnd` pattern deferred to v2.5+.
-
-**[7]** NVIDIA Corporation, "CUDA C++ Programming Guide: CUDA Graphs," NVIDIA Developer Documentation, 2024. [Online]. Available: https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#cuda-graphs. Accessed: Mar. 9, 2026.
-
-> **Relevance:** Specifies the `cudaStreamBeginCapture` / `cudaStreamEndCapture` / `cudaGraphInstantiate` / `cudaGraphLaunch` API sequence used by `CUDAGraphCache` in `cuda_backend.h`/`cuda_backend.cpp`. The pre-allocated device buffer strategy for fixed-shape graph replay (avoiding node-parameter updates on each replay) is taken directly from this specification.
-
-**[8]** N. Bell and J. Hoberock, "Thrust: A Productivity-Oriented Library for CUDA," in *GPU Computing Gems: Jade Edition*, W.-m. W. Hwu, Ed., Morgan Kaufmann, 2012, pp. 359–371. [Online]. Available: https://thrust.github.io/. Accessed: Mar. 9, 2026.
-
-> **Relevance:** Informs the `thrust::partial_sort` fallback path for top-k selection when k > 1024 (where CUB `DeviceSegmentedSort` is not used). The Thrust high-level reduction and sort primitives serve as the verified CPU/GPU baseline for correctness cross-checking between `cpu_backend.cpp` and `cuda_backend.cpp`.
-
-**[9]** Khronos Group, "SPIR-V Specification Version 1.6," Khronos Standards, 2022. [Online]. Available: https://www.khronos.org/registry/SPIR-V/. Accessed: Mar. 9, 2026.
-
-> **Relevance:** Defines the SPIR-V portable intermediate representation used by all Vulkan compute shaders in `src/acceleration/vulkan/shaders/` (L2, cosine, inner-product, top-K, Haversine, point-in-polygon). `shader_integrity.cpp` verifies shader binaries against this format before pipeline creation.
-
-**[10]** S. Jeaugey, "NCCL: Accelerated Multi-GPU Collective Communications," in *Proc. Deep Learning on Supercomputers Workshop (DLS), SC*, 2017. [Online]. Available: https://developer.nvidia.com/nccl. Accessed: Mar. 9, 2026.
-
-> **Relevance:** Specifies the NCCL collective communication primitives (`ncclBcast`, `ncclAllGather`, `ncclGroupStart`, `ncclGroupEnd`) used by `nccl_vector_backend.cpp` for multi-GPU vector search fan-out and result gather. The RCCL mirror in `rccl_vector_backend.cpp` exposes an identical interface for AMD GPUs.
 
 ## See Also
 

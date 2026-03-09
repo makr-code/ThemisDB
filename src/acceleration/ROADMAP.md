@@ -4,11 +4,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Pre-production hardening — backend surface is broad, but production-grade kernel coverage, runtime negotiation and cross-backend validation are still in progress.
-
-## In Progress 🚧
-- [~] CUDA kernel implementations for vector similarity (Issue: #1366) — `cuda/vector_kernels.cu` implemented; `cuda_backend.cpp` still has 6 stubs pending production wiring
-- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` implemented; full production dispatch wiring pending
+Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
 
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
@@ -24,36 +20,35 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
 
 ## In Progress 🚧
-- [~] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — ANN kernels (L2, cosine, inner-product, top-K) implemented in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; HNSW graph traversal wiring into `CUDAVectorBackend` still pending (queries fall through to CPU)
-- [x] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367) — `vulkan_backend_full.cpp` PRODUCTION-READY (0 stubs); all SPIR-V compute shaders present in `vulkan/shaders/`: `l2_distance.comp`, `cosine_distance.comp`, `inner_product_distance.comp`, `batch_search.comp`, `topk_selection.comp`, `haversine_distance.comp`, `point_in_polygon.comp` + LoRA shaders
-- [x] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368) — `geo_acceleration_bridge.cpp` PRODUCTION-READY (0 stubs); `GeoAccelerationBridge::populateGeoDispatch()` implemented (commit e38662530); wires Haversine + point-in-polygon CUDA kernels
+- [x] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu` implemented; issue closed 2026-02-23
+- [x] Vulkan compute shader pipeline for cross-platform GPU (Target: Q2 2026) (Issue: #1367) — Vulkan compute shaders in `src/acceleration/vulkan/shaders/` (L2, cosine, inner-product, Haversine, PiP, top-K); wired in `graphics_backends.cpp`; issue closed 2026-02-21
+- [x] Integration with geo module GPU backend (Target: Q3 2026) (Issue: #1368) — `GeoAccelerationBridge` implemented in `src/acceleration/geo_acceleration_bridge.cpp` and `include/acceleration/geo_acceleration_bridge.h`; issue closed 2026-02-23
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — CUDA ANN kernels implemented in `cuda/ann_kernels.cu` (397 lines, 0 stubs); HNSW index integration pending (ANN queries still routed to CPU via fallback dispatcher)
-- [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` in `device_manager.h`/`device_manager.cpp`; 60 s TTL probe cache, `BackendRegistry::refresh()` force re-probe; `BackendRegistry::deviceInfo()` observability accessor
-- [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` PRODUCTION-READY (0 stubs, 454 lines); commit 83905a972
+- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; **end-to-end ANN search still falls through to CPU pending HNSW graph traversal wiring** (see Known Issues); issue closed 2026-02-23
+- [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` implemented in `src/acceleration/device_manager.cpp` / `include/acceleration/device_manager.h`; 60-second TTL cache; issue closed 2026-02-23
+- [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` with JSON output; baselines in `benchmarks/baselines/acceleration/baseline.json`; issue closed 2026-02-23
 ### Long-term (6-12 months)
-- [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `tensor_core_matmul.cpp` + `include/acceleration/tensor_core_matmul.h`; PRODUCTION-READY (0 stubs); requires CUDA device sm_70+ (FP16) or sm_80+ (BF16)
-- [I] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379)
-
+- [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `CUDAMatrixBackend` with FP16/BF16 Tensor Core support in `src/acceleration/cuda/tensor_core_matmul.cu` and `src/acceleration/tensor_core_matmul.cpp`; requires SM 7.0+ (FP16) or SM 8.0+ (BF16); issue closed 2026-02-23
+- [x] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379) — `src/acceleration/opencl_backend.cpp` implemented; issue closed 2026-02-23
 ## Implementation Phases
 
 ### Phase 1: Design / API-Vertrag
-- [x] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380) — `BACKEND_CONTRACT_VERSION = 100` in `include/acceleration/compute_backend.h`; full backend capability matrix (all GPU backends) documented in `docs/acceleration/capability_negotiation.md`; tests in `tests/test_backend_api_stability.cpp`
-- [x] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381) — `include/acceleration/kernel_invocation.h` status FROZEN, `KERNEL_INVOCATION_INTERFACE_VERSION = 100`; ANN and geospatial dispatch tables frozen for v1.x
-- [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `include/acceleration/error_codes.h` (`AccelerationErrorCode` enum, PRODUCTION-READY); `include/acceleration/error_context.h` for structured context
+- [x] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380) — `BackendCapability` struct and feature matrix defined in `include/acceleration/compute_backend.h`; `BACKEND_CONTRACT_VERSION = 100`; issue closed 2026-02-21
+- [x] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381) — `ANNKernelDispatch` and `GeoKernelDispatch` interfaces frozen in `include/acceleration/kernel_invocation.h`; `INTERFACE_VERSION = 100`; issue closed 2026-02-21
+- [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `AccelerationError` codes defined in `include/acceleration/error_codes.h` and `include/acceleration/error_context.h`; issue closed 2026-02-21
 
 ### Phase 2: Core-Implementierung
 - [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`; ANN vector kernels (L2, cosine, inner-product, top-K) present in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; **Note:** HNSW integration pending — ANN queries currently fall through to CPU until HNSW graph traversal is wired (see Known Issues)
-- [I] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384)
+- [x] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — Vulkan compute shaders for L2 distance, cosine distance, inner-product distance, Haversine distance, point-in-polygon, and top-K selection in `src/acceleration/vulkan/shaders/`; wired in `src/acceleration/graphics_backends.cpp`; issue closed 2026-02-23
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [x] Add strict input validation for shape/dtype/range and reject unsafe batches (Target: Q3 2026) (Issue: #1386) — null pointer, zero-dim/count guards and k-clamp added to all active backends: `CUDAVectorBackend`, `CPUVectorBackend`, `CPUVectorBackendMT`, `CPUVectorBackendTBB`, `HIPVectorBackend`; geo and graph CPU backends also guarded via `BatchValidator` utility (`include/acceleration/batch_validator.h`)
-- [x] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387) — `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` in `include/acceleration/kernel_fallback_dispatcher.h`; `RetryPolicy` struct with configurable `maxAttempts`, initial/max delay, and back-off multiplier
-- [I] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388)
+- [x] Implement fallback/retry semantics for unsupported kernels and transient device states (Target: Q3 2026) (Issue: #1387) — `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` with retry logic in `include/acceleration/kernel_fallback_dispatcher.h`; issue closed 2026-02-23
+- [x] Add deterministic behavior constraints for tie-breaking and partial-failure handling (Target: Q3 2026) (Issue: #1388) — deterministic tie-breaking and partial-failure guards in `include/acceleration/batch_validator.h`; issue closed 2026-02-23
 
 ### Phase 4: Tests
 - [x] Add unit tests for backend selection and capability negotiation matrix (Target: Q3 2026) (Issue: #1389) — `tests/test_backend_selection_matrix.cpp` added (65 tests: full fallback order, CPUMatrixBackend capabilities, capability negotiation matrix, precision/metric requirement matrix, `selectMatrixBackendFor`/`getBestMatrixBackend`, `getAvailableBackends`, `BackendHealthStatus` helpers)
@@ -68,10 +63,10 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ### Phase 6: Dokumentation & Abnahme
 - [x] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395) — full capability tables for all GPU backends (CUDA, HIP, Vulkan, ZLUDA, DirectX, OpenGL, OpenCL) in `docs/acceleration/capability_negotiation.md`; bug fixes in `HIPVectorBackend` and `ZLUDAVectorBackend` `getCapabilities()` (added missing `supportedPrecisions`/`supportedMetrics`; replaced non-existent `totalMemory`/`maxBatchSize` fields)
 - [x] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396) — covered in `docs/acceleration/capability_negotiation.md`
-- [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
+- [x] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397) — review completed by maintainer; `BACKEND_CONTRACT_VERSION = 100` guarantees API stability; issue closed 2026-02-24
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1398)
+- [x] Unit tests coverage > 80% (Issue: #1398) — coverage threshold confirmed by maintainer; issue closed 2026-02-23
 - [x] Integration tests for CPU/GPU parity across supported backends (Issue: #1399) — `tests/test_cpu_gpu_parity.cpp` covers CUDA + Vulkan ANN and Geo parity; tests are skipped gracefully when hardware is absent
 - [x] Performance benchmarks with regression thresholds in CI (Issue: #1400) — `bench_cuda_vs_cpu` + `acceleration-benchmark-ci.yml` + regression detector; baseline in `benchmarks/baselines/acceleration/baseline.json`
 - [x] Security audit for backend plugin loading and runtime probes (Issue: #1401) — permission/size hardening added to `PluginLoader::loadPlugin`; shell-invocation surface removed from platform signature verifiers; audit-log coverage confirmed in `tests/test_plugin_security_audit.cpp`
