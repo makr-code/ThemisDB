@@ -8,6 +8,37 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         # =====================================================================
         # Ingestion Framework
         # =====================================================================
+        
+        # Core ingestion management
+        ../src/ingestion/ingestion_manager.cpp
+        
+        # HuggingFace connector (REST API integration)
+        ../src/ingestion/huggingface_connector.cpp
+        
+        # Filesystem ingester (PDF/DOCX with OCR support)
+        ../src/ingestion/filesystem_ingester.cpp
+        
+        # Generic REST API connector
+        ../src/ingestion/api_connector.cpp
+
+        # Kafka consumer source connector
+        ../src/ingestion/kafka_connector.cpp
+
+        # S3 / GCS / Azure Blob object-storage source connector
+        ../src/ingestion/object_storage_connector.cpp
+
+        # JDBC-compatible database source connector (Issue: #1894)
+        ../src/ingestion/database_connector.cpp
+
+        # Web crawler / sitemap ingestion source (Issue: #1895)
+        ../src/ingestion/web_crawler_connector.cpp
+
+        # Distributed ingestion coordinator with work-stealing pool (Issue: #1897)
+        ../src/ingestion/ingestion_coordinator.cpp
+
+        # CDC source connector for live database streams (Issue: #2199; stream backend
+        # gated behind THEMIS_ENABLE_CDC_STREAM — compiles without it via graceful fallback)
+        ../src/ingestion/cdc_connector.cpp
         # NOTE: All ingestion sources are now unconditionally registered in
         # cmake/CMakeLists.txt (THEMIS_CORE_SOURCES).  Do NOT add them here
         # again to avoid duplicate-symbol linker errors.

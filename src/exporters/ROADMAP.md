@@ -67,7 +67,7 @@
 - [x] ExportFormatRegistry singleton with 9 built-in format factories (EXP-005)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1729)
+- [P] Unit tests coverage > 80% (Issue: #1729)
 - [x] Integration tests (JSONL export, LoRA metadata, Parquet, Arrow IPC, HuggingFace, streaming, incremental)
 - [x] Focused test targets for all 12 exporter test files registered in tests/CMakeLists.txt
 - [~] Performance benchmarks (export throughput) — `benchmarks/bench_exporters.cpp` added (Issue: #1730)

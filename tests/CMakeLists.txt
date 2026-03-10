@@ -287,7 +287,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
     ".*test_jsonl_llm_exporter\\.cpp$"
-    ".*test_huggingface_exporter\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -767,6 +766,9 @@ target_sources(themis_tests PRIVATE
 )
 
 # Ensure implementations required by unit tests are always linked.
+# NOTE: Many of these files are now registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake.
+# These target_sources entries serve as fallback for builds where the relevant feature flags are
+# OFF (e.g., THEMIS_ENABLE_HTTP_SERVER=OFF) so tests still compile and link correctly.
 target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
@@ -785,6 +787,14 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
     ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
+)
+
+# Re-include test_huggingface_exporter.cpp which was excluded as a missing-implementation.
+# Now that huggingface_exporter.cpp is registered in cmake/CMakeLists.txt and
+# cmake/ModularBuild.cmake the test can be compiled and linked normally.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_exporter.cpp
 )
 
 # Ensure legal training tests link even when the feature is disabled in themis_core
@@ -915,6 +925,10 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/prometheus_remote_write.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/downsampling.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/index/approximate_radius_search.cpp
+            ${THEMIS_ROOT_DIR}/src/index/graph_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/index/index_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/index/rotary_embeddings_gpu_cpu.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/changefeed_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/tenant_buffer_manager.cpp
@@ -9338,6 +9352,70 @@ add_prompt_focused_test(
     "MetaPromptGenerator: ILLMProvider interface, graceful fallback, strategy selection"
 )
 
+# ============================================================================
+# Index Module Focused Tests (Issue: #1882 — unit test coverage >80%)
+# Each test is a standalone executable covering a specific index subsystem.
+# ============================================================================
+
+function(add_index_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding Index focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_storage)
+            target_link_libraries(${target_name} PRIVATE themis_storage)
+        endif()
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "Index focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_index_focused_test(
+    test_ann_index_focused
+    index/test_ann_index.cpp
+    AnnIndexFocusedTests
+    "index;ann;diskann;scann;focused;unit"
+    "AnnIndex: DiskANN and ScaNN alternative ANN algorithms, on-disk vector search"
+)
+
+add_index_focused_test(
+    test_distributed_vector_index_focused
+    index/test_distributed_vector_index.cpp
+    DistributedVectorIndexFocusedTests
+    "index;distributed;vector;shards;focused;unit"
+    "DistributedVectorIndex: vector search across shards, fan-out/merge, partition correctness"
+)
+
+# ============================================================================
+# Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
+# ============================================================================
 add_prompt_focused_test(
     test_prompt_performance_tracker_focused
     test_prompt_performance_tracker.cpp
@@ -9414,7 +9492,229 @@ add_prompt_focused_test(
 # Custom Test Targets
 # ============================================================================
 
-# Add custom target to run all tests
+# ============================================================================
+# Ingestion Module Focused Tests (Issue: #1910 — Integration tests)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
+    message(STATUS "Adding Ingestion Integration focused tests (Issue #1910)")
+
+    add_executable(test_ingestion_integration_focused
+        test_ingestion_integration.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/filesystem_ingester.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/api_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
+    )
+
+    target_include_directories(test_ingestion_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ingestion_integration_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ingestion_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IngestionIntegrationFocusedTests COMMAND test_ingestion_integration_focused)
+
+    set_tests_properties(IngestionIntegrationFocusedTests PROPERTIES
+        LABELS "ingestion;integration;filesystem;huggingface;api;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  IngestionIntegration: FileSystemIngester, HuggingFaceConnector, GenericApiConnector end-to-end flows")
+else()
+    message(STATUS "Ingestion Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
+    message(STATUS "Adding Ingestion Coordinator focused tests (Issue #1910)")
+
+    add_executable(test_ingestion_coordinator_focused
+        test_ingestion_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/filesystem_ingester.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/api_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
+    )
+
+    target_include_directories(test_ingestion_coordinator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ingestion_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ingestion_coordinator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IngestionCoordinatorFocusedTests COMMAND test_ingestion_coordinator_focused)
+
+    set_tests_properties(IngestionCoordinatorFocusedTests PROPERTIES
+        LABELS "ingestion;coordinator;distributed;work-stealing;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  IngestionCoordinator: distributed coordinator, consistent-hash ring, work-stealing pool, leader election")
+else()
+    message(STATUS "Ingestion Coordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
+endif()
+
+# ============================================================================
+# Voice Module Focused Tests (Issue: #2356 — Integration tests)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+    message(STATUS "Adding Voice Production focused tests (Issue #2356)")
+
+    add_executable(test_voice_production_focused
+        test_voice_production.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_assistant.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_assistant_llm.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/wake_word_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/audio_preprocessing.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_batch_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_authenticator.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_macro_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_browser_streaming.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_telephony.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/emotion_analyzer.cpp
+    )
+
+    target_include_directories(test_voice_production_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_voice_production_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_voice_production_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceProductionFocusedTests COMMAND test_voice_production_focused)
+
+    set_tests_properties(VoiceProductionFocusedTests PROPERTIES
+        LABELS "voice;production;pipeline;stt;tts;emotion;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VoiceProduction: full pipeline (audio→STT→LLM→TTS→audio), session management, emotion detection")
+else()
+    message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+endif()
+
+# ============================================================================
+# Exporter Module Focused Tests (Issue: #1729 — Unit tests coverage >80%)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+    message(STATUS "Adding HuggingFace Exporter focused tests (Issue #1729)")
+
+    add_executable(test_huggingface_exporter_focused
+        exporters/test_huggingface_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
+    )
+
+    target_include_directories(test_huggingface_exporter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_huggingface_exporter_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_huggingface_exporter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HuggingFaceExporterFocusedTests COMMAND test_huggingface_exporter_focused)
+
+    set_tests_properties(HuggingFaceExporterFocusedTests PROPERTIES
+        LABELS "exporters;huggingface;export;jsonl;shards;focused"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  HuggingFaceExporter: dataset export (JSONL shards, dataset_card.md, dataset_info.json), shard rotation")
+else()
+    message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+    message(STATUS "Adding Data Augmentation focused tests (Issue #1729)")
+
+    add_executable(test_data_augmentation_focused
+        exporters/test_data_augmentation.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/data_augmentation.cpp
+    )
+
+    target_include_directories(test_data_augmentation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_data_augmentation_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_data_augmentation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DataAugmentationFocusedTests COMMAND test_data_augmentation_focused)
+
+    set_tests_properties(DataAugmentationFocusedTests PROPERTIES
+        LABELS "exporters;augmentation;synonym;paraphrase;backtranslation;focused"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DataAugmentation: synonym substitution, paraphrase variants, back-translation, dedup-safe augmentation")
+else()
+    message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
