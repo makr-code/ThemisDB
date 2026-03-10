@@ -1731,6 +1731,9 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/query_optimizer.cpp
     ../src/timeseries/prometheus_remote_write.cpp
     ../src/timeseries/ts_auto_buffer.cpp
+    ../src/timeseries/hypertable.cpp
+    ../src/timeseries/aggregates.cpp
+    ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
     
     ../src/utils/serialization.cpp

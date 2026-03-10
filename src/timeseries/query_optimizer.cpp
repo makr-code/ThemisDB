@@ -23,6 +23,7 @@
 #include "timeseries/query_optimizer.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "timeseries/downsampling.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -333,6 +334,61 @@ std::string TSQueryOptimizer::buildExplanation(
     }
     
     return oss.str();
+}
+
+// =========================================================================
+// Downsampling Tier Integration
+// =========================================================================
+
+void TSQueryOptimizer::setTierSelector(const TierSelector* selector) {
+    tier_selector_ = selector;
+}
+
+TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeWithTiers(
+    const std::string& metric,
+    const std::optional<std::string>& entity,
+    int64_t from_timestamp_ms,
+    int64_t to_timestamp_ms,
+    std::chrono::milliseconds requested_resolution_ms,
+    const OptimizationHint& hint)
+{
+    // If a TierSelector is registered and the caller requests a coarser resolution,
+    // try to find a matching downsampled tier before falling back to the standard
+    // aggregate lookup.
+    if (tier_selector_ && requested_resolution_ms.count() > 0) {
+        auto tier_metric = tier_selector_->selectTier(metric, requested_resolution_ms);
+        if (tier_metric.has_value()) {
+            int64_t time_range_ms = to_timestamp_ms - from_timestamp_ms;
+            size_t raw_points     = estimateRawPointCount(time_range_ms);
+            size_t agg_points     = estimateAggregatePointCount(
+                                        time_range_ms, requested_resolution_ms);
+
+            QueryPlan plan;
+            plan.uses_aggregate        = true;
+            plan.source_metric         = *tier_metric;
+            plan.from_timestamp_ms     = from_timestamp_ms;
+            plan.to_timestamp_ms       = to_timestamp_ms;
+            plan.estimated_points      = agg_points;
+            plan.estimated_speedup     = raw_points > 0
+                                             ? static_cast<double>(raw_points) / std::max(agg_points, size_t{1})
+                                             : 1.0;
+            if (hint.explain) {
+                std::ostringstream oss;
+                oss << "Tier routing: using downsampled metric '" << *tier_metric
+                    << "' (resolution=" << requested_resolution_ms.count() << "ms"
+                    << ", scans " << agg_points << " vs " << raw_points << " raw, "
+                    << std::fixed << std::setprecision(1) << plan.estimated_speedup << "x speedup)";
+                plan.explanation = oss.str();
+            }
+
+            THEMIS_DEBUG("TSQueryOptimizer::optimizeWithTiers: routed '{}' → '{}' ({}x speedup)",
+                         metric, *tier_metric, plan.estimated_speedup);
+            return plan;
+        }
+    }
+
+    // Fall back to standard aggregate optimisation
+    return optimizeAggregateQuery(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
 }
 
 } // namespace themis

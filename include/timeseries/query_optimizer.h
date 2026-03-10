@@ -35,6 +35,7 @@ namespace themis {
 
 class TSStore;
 struct AggConfig;
+class TierSelector;
 
 /**
  * Query optimizer for time-series queries.
@@ -206,6 +207,36 @@ public:
      */
     std::optional<IndexHint> getIndexHint(const std::string& metric) const;
 
+    // ========== Downsampling Tier Integration ==========
+
+    /**
+     * @brief Attach a TierSelector so the optimizer can route queries to
+     *        downsampling tiers when a suitable resolution is available.
+     *
+     * The selector is NOT owned by the optimizer.  Pass nullptr to disable
+     * tier-based routing.
+     */
+    void setTierSelector(const TierSelector* selector);
+
+    /**
+     * @brief Optimise a query taking downsampling tiers into account.
+     *
+     * Like optimizeAggregateQuery() but additionally consults the registered
+     * TierSelector to find the coarsest tier whose resolution is ≤
+     * `requested_resolution_ms`.  If a matching tier exists it is preferred
+     * over the standard continuous-aggregate lookup.
+     *
+     * @param requested_resolution_ms  The finest granularity the caller needs
+     *                                 (0 = full resolution, skip tier routing).
+     */
+    QueryPlan optimizeWithTiers(
+        const std::string& metric,
+        const std::optional<std::string>& entity,
+        int64_t from_timestamp_ms,
+        int64_t to_timestamp_ms,
+        std::chrono::milliseconds requested_resolution_ms,
+        const OptimizationHint& hint);
+
 private:
     TSStore* store_;
     
@@ -221,6 +252,9 @@ private:
     // Index hints registry
     mutable std::mutex index_mutex_;
     std::unordered_map<std::string, IndexHint> index_hints_;
+
+    // Optional downsampling tier selector (not owned)
+    const TierSelector* tier_selector_{nullptr};
 
     // Helpers
     std::string buildCacheKey(const std::string& metric,

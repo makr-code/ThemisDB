@@ -775,6 +775,7 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/timeseries_metrics.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/prometheus_remote_write.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/downsampling.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp

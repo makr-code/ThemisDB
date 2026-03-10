@@ -17,14 +17,14 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
 
 ## In Progress 🚧
-- [?] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
-- [?] Distributed time series partitioning across shards (Target: Q3 2026)
+- [~] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
+- [~] Distributed time series partitioning across shards (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Columnar storage layout for analytical scan queries (Issue: #2007)
-- [?] Downsampling policies (min/max/avg/sum per window)
+- [x] Downsampling policies (min/max/avg/sum per window) — DownsamplingPipeline + TierSelector
 - [?] Time series anomaly detection (Z-score, IQR-based)
 - [?] Gap-filling functions (forward fill, linear interpolation)
 - [?] Multi-series JOIN queries with aligned timestamps
@@ -48,8 +48,8 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 
 ### Phase 2: Incremental Aggregation & Downsampling (Status: In Progress 🚧)
 - [?] Incremental continuous aggregation (avoid full recompute on append) (Target: Q2 2026)
-- [?] Multi-tier downsampling policies (1s → 1m → 1h → 1d) (Target: Q2 2026)
-- [?] Adaptive TSAutoBuffer flush based on write pressure (Target: Q2 2026)
+- [x] Multi-tier downsampling policies (1s → 1m → 1h → 1d) — `DownsamplingPipeline` + `TierSelector` in `downsampling.{h,cpp}` + `query_optimizer.cpp`
+- [x] Adaptive TSAutoBuffer flush based on write pressure — `FlushController` EWMA + backpressure signalling in `ts_auto_buffer.{h,cpp}` + `timeseries_metrics.{h,cpp}`
 - [x] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
 
 ### Phase 3: SIMD, Encryption & Export (Status: Planned 📋)
@@ -66,17 +66,17 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
   - Tests: 12 unit/integration tests in `tests/test_prometheus_remote_write.cpp`
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
+- [~] Unit tests coverage > 80% — 49+ new tests added (test_downsampling, test_ts_adaptive_flush); baseline coverage improving
 - [?] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
 - [?] Performance benchmarks (ingestion rate, query latency, compression ratio)
 - [?] Security audit (time series key namespace isolation per tenant)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete — all new public APIs in downsampling.h, query_optimizer.h, ts_auto_buffer.h, timeseries_metrics.h documented
+- [~] API stability guaranteed — TSStore, TSAutoBuffer, DownsamplingPipeline, TierSelector APIs marked stable; TSAutoBufferConfig extensible via optional fields
 
 ## Known Issues & Limitations
 - Out-of-order writes are now handled via the configurable late-arrival window (`Config::late_arrival_window_ms`); data arriving within the window is accepted regardless of order.
 - Distributed sharding for time series is not yet implemented.
-- TSAutoBuffer flush interval is fixed at initialization; runtime adjustment is planned.
+- TSAutoBuffer flush interval can be changed at runtime via `setConfig()`, but the background flush thread uses the interval at the time of its last wait — a config change takes effect on the next timer expiry (up to one `flush_interval` delay).
 
 ## Breaking Changes
 - TSStore public API is stable from v1.x.

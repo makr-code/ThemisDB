@@ -78,7 +78,7 @@ Implement a configurable multi-tier downsampling pipeline (raw → 1 min → 1 h
 
 ---
 
-### [~] TSAutoBuffer Adaptive Flush with Backpressure Signalling
+### [x] TSAutoBuffer Adaptive Flush with Backpressure Signalling
 **Priority:** High
 **Target Version:** v0.9.0
 
@@ -141,4 +141,4 @@ Add AES-256-GCM encryption to individual time series chunks in `tsstore.cpp` usi
 - [ ] `retention.cpp` chunk deletion must be atomic at the chunk boundary and logged to `utils/audit_logger.cpp`; partially deleted chunks must be detected and repaired on startup.
 - [ ] The Gorilla SIMD decoder must validate chunk magic bytes and version headers before decoding to prevent corrupt chunk data from causing undefined behaviour in the SIMD path.
 - [?] Determine whether time series data containing legal event timestamps must be retained for a minimum period regardless of configured retention policy (regulatory constraint).
-- [ ] `TSAutoBuffer` must not silently drop data under extreme backpressure; instead it must surface a `BUFFER_FULL` error to the caller so the ingestion layer can apply back-pressure upstream.
+- [x] `TSAutoBuffer` must not silently drop data under extreme backpressure: producers block on `backpressure_cv_` and receive `ERR_API_RESOURCE_EXHAUSTED` when the buffer is stopped during the wait. Non-adaptive mode still accepts data up to `max_memory_bytes` then forces a flush.

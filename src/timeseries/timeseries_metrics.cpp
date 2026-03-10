@@ -147,6 +147,14 @@ void TimeSeriesMetrics::recordRetention(const std::string& metric_name, size_t d
     total_data_points_deleted_.fetch_add(deleted_points, std::memory_order_relaxed);
 }
 
+void TimeSeriesMetrics::recordBackpressure(const std::string& /*metric_name*/) {
+    total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
+}
+
+void TimeSeriesMetrics::recordOverdueFlush(const std::string& /*metric_name*/, double /*age_ms*/) {
+    total_overdue_flush_events_.fetch_add(1, std::memory_order_relaxed);
+}
+
 void TimeSeriesMetrics::recordContinuousAggregateRefresh(const std::string& metric_name, int64_t window_ms, 
                                                          double latency_ms, size_t points_processed) {
     total_continuous_agg_refreshes_.fetch_add(1, std::memory_order_relaxed);
@@ -180,6 +188,14 @@ std::string TimeSeriesMetrics::exportPrometheus() const {
     oss << formatPrometheusMetric("themis_timeseries_late_arrival_rejected_total", "counter",
                                   "Total data points rejected as outside the late-arrival window",
                                   late_arrival_rejected_.load());
+
+    oss << formatPrometheusMetric("themis_timeseries_autobuffer_backpressure_total", "counter",
+                                  "Total number of TSAutoBuffer backpressure events (producers blocked)",
+                                  total_backpressure_events_.load());
+
+    oss << formatPrometheusMetric("themis_timeseries_autobuffer_overdue_flush_total", "counter",
+                                  "Total number of TSAutoBuffer overdue flush events (data held beyond flush interval)",
+                                  total_overdue_flush_events_.load());
     
     // Query metrics
     oss << formatPrometheusMetric("themis_timeseries_queries_executed_total", "counter",
@@ -337,6 +353,8 @@ void TimeSeriesMetrics::reset() {
     total_bytes_written_compressed_.store(0);
     out_of_order_accepted_.store(0);
     late_arrival_rejected_.store(0);
+    total_backpressure_events_.store(0);
+    total_overdue_flush_events_.store(0);
     
     total_queries_executed_.store(0);
     total_aggregations_executed_.store(0);

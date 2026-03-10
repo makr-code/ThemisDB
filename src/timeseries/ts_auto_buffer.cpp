@@ -22,6 +22,7 @@
  */
 
 #include "timeseries/ts_auto_buffer.h"
+#include "timeseries/timeseries_metrics.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -39,6 +40,16 @@ TSAutoBuffer::TSAutoBuffer(TSStore* tsstore, TSAutoBufferConfig config)
         throw std::invalid_argument("TSAutoBuffer: tsstore cannot be null");
     }
     stats_.last_flush_time = std::chrono::steady_clock::now();
+
+    if (config_.enable_adaptive_flush) {
+        flush_controller_ = std::make_unique<FlushController>(
+            config_.ewma_alpha,
+            config_.backpressure_slo_ms,
+            config_.adaptive_batch_min,
+            config_.adaptive_batch_max,
+            config_.flush_batch_size);
+        stats_.current_adaptive_batch_size = config_.flush_batch_size;
+    }
 }
 
 TSAutoBuffer::~TSAutoBuffer() {
@@ -71,6 +82,9 @@ void TSAutoBuffer::stop() {
     
     // Wake up flush thread
     flush_cv_.notify_all();
+
+    // Unblock any producers waiting on backpressure
+    backpressure_cv_.notify_all();
     
     // Wait for flush thread to finish
     if (flush_thread_.joinable()) {
@@ -97,6 +111,47 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
     }
     if (point.entity.empty()) {
         return ErrVoid(errors::ErrorCode::ERR_API_INVALID_REQUEST, "Entity ID cannot be empty");
+    }
+
+    // Backpressure: block producers when queue depth OR TSStore latency (EWMA) is above threshold.
+    // Both depth_trigger and latency_trigger use backpressure_high_watermark so that the
+    // onset of blocking is consistent regardless of the trigger source.
+    if (config_.enable_adaptive_flush && flush_controller_) {
+        const bool depth_trigger =
+            bp_buffer_size_.load(std::memory_order_relaxed) >= config_.backpressure_high_watermark;
+        // Latency trigger: EWMA exceeds the write-latency SLO AND queue is above high-watermark.
+        // This prevents blocking at a near-empty queue just because of a transient slow write.
+        const bool latency_trigger = flush_controller_->isBackpressure() &&
+            bp_buffer_size_.load(std::memory_order_relaxed) >= config_.backpressure_high_watermark;
+
+        if (depth_trigger || latency_trigger) {
+            stats_.backpressure_events++;
+            THEMIS_WARN("TSAutoBuffer backpressure: queue={}, ewma_latency={}ms (slo={}ms), blocking producer",
+                        bp_buffer_size_.load(std::memory_order_relaxed),
+                        flush_controller_->ewma_latency_ms,
+                        config_.backpressure_slo_ms);
+
+            // Emit metric via TimeSeriesMetrics if wired
+            if (config_.metrics) {
+                config_.metrics->recordBackpressure(point.metric);
+            }
+
+            // Wake up the flush thread immediately
+            flush_cv_.notify_one();
+
+            std::unique_lock<std::mutex> bp_lock(backpressure_mutex_);
+            backpressure_cv_.wait(bp_lock, [this] {
+                return !running_.load() ||
+                       bp_buffer_size_.load(std::memory_order_relaxed) <
+                           config_.backpressure_low_watermark;
+            });
+
+            // If the buffer was stopped while we were waiting, refuse to add more data
+            if (!running_.load()) {
+                return ErrVoid(errors::ErrorCode::ERR_API_RESOURCE_EXHAUSTED,
+                               "TSAutoBuffer stopped while waiting for backpressure relief");
+            }
+        }
     }
     
     std::string buffer_key = makeBufferKey(point.metric, point.entity);
@@ -147,10 +202,11 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
         
         stats_.points_buffered++;
         stats_.current_buffer_size++;
+        bp_buffer_size_.fetch_add(1, std::memory_order_relaxed);
         stats_.current_buffer_memory = buffer.memory_bytes;
         
-        // Check if this buffer needs immediate flush
-        if (buffer.points.size() >= config_.max_points_per_buffer) {
+        // Check if this buffer needs immediate flush (use effective batch size)
+        if (buffer.points.size() >= effectiveBatchSize()) {
             THEMIS_DEBUG("Buffer size threshold reached for {}, flushing {} points",
                         buffer_key, buffer.points.size());
             
@@ -227,13 +283,25 @@ size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& bu
     auto span = Tracer::startSpan("TSAutoBuffer.flushBuffer");
     span.setAttribute("buffer_key", buffer_key);
     span.setAttribute("points", static_cast<int64_t>(buffer.points.size()));
+
+    auto t_start = std::chrono::steady_clock::now();
     
     // Convert deque to vector for putDataPoints
     std::vector<TSStore::DataPoint> points(buffer.points.begin(), buffer.points.end());
     
     // Use putDataPoints for batch compression
     auto result = tsstore_->putDataPoints(points);
+
+    auto t_end = std::chrono::steady_clock::now();
+    double latency_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
     
+    // Feed latency sample to FlushController (adaptive mode)
+    if (flush_controller_) {
+        flush_controller_->updateLatency(latency_ms);
+        stats_.current_ewma_latency_ms = flush_controller_->ewma_latency_ms;
+        stats_.current_adaptive_batch_size = flush_controller_->current_batch_size;
+    }
+
     if (!result) {
         THEMIS_ERROR("Failed to flush buffer {}: {}", buffer_key, result.error().message());
         return 0;
@@ -242,17 +310,26 @@ size_t TSAutoBuffer::flushBuffer(const std::string& buffer_key, MetricBuffer& bu
     size_t flushed = points.size();
     stats_.points_flushed += flushed;
     stats_.current_buffer_size -= flushed;
+    // Guard against underflow: only subtract if the counter is large enough
+    size_t prev = bp_buffer_size_.load(std::memory_order_relaxed);
+    bp_buffer_size_.store(prev >= flushed ? prev - flushed : 0, std::memory_order_relaxed);
     stats_.current_buffer_memory -= buffer.memory_bytes;
     
     // Clear buffer
     buffer.clear();
+
+    // Wake any producers that were blocked on backpressure
+    if (config_.enable_adaptive_flush &&
+        bp_buffer_size_.load(std::memory_order_relaxed) < config_.backpressure_low_watermark) {
+        backpressure_cv_.notify_all();
+    }
     
     return flushed;
 }
 
 bool TSAutoBuffer::shouldFlushBuffer(const MetricBuffer& buffer) const {
-    // Size threshold
-    if (buffer.points.size() >= config_.max_points_per_buffer) {
+    // Size threshold (use adaptive batch size when enabled)
+    if (buffer.points.size() >= effectiveBatchSize()) {
         return true;
     }
     
@@ -305,16 +382,47 @@ void TSAutoBuffer::flushThread() {
         if (shouldFlushGlobal()) {
             lock.unlock();  // Release before flushing
             
+            // Before flushing, detect overdue buffers (data older than flush_interval × multiplier).
+            // This can happen if a previous flush attempt failed and data is stuck.
+            if (config_.metrics) {
+                auto now = std::chrono::steady_clock::now();
+                auto overdue_threshold =
+                    config_.flush_interval * static_cast<int>(config_.overdue_flush_multiplier);
+                std::lock_guard<std::mutex> buf_lock(buffers_mutex_);
+                for (const auto& [key, buf] : buffers_) {
+                    if (buf.points.empty()) continue;
+                    auto age = now - buf.first_point_time;
+                    if (age >= overdue_threshold) {
+                        double age_ms = std::chrono::duration<double, std::milli>(age).count();
+                        THEMIS_WARN("TSAutoBuffer overdue flush detected for '{}': age={}ms",
+                                    key, age_ms);
+                        config_.metrics->recordOverdueFlush(key, age_ms);
+                    }
+                }
+            }
+
             size_t flushed = flushInternal(false);
             if (flushed > 0) {
                 stats_.auto_flush_count++;
                 stats_.time_triggered_flush++;
                 THEMIS_DEBUG("Auto-flushed {} points", flushed);
+
+                // After flushing, wake any producers blocked on backpressure
+                if (config_.enable_adaptive_flush) {
+                    backpressure_cv_.notify_all();
+                }
             }
         }
     }
     
     THEMIS_INFO("TSAutoBuffer flush thread stopped");
+}
+
+size_t TSAutoBuffer::effectiveBatchSize() const {
+    if (flush_controller_) {
+        return flush_controller_->current_batch_size;
+    }
+    return config_.max_points_per_buffer;
 }
 
 TSAutoBufferStats TSAutoBuffer::getStats() const {
@@ -329,8 +437,13 @@ TSAutoBufferStats TSAutoBuffer::getStats() const {
     stats.size_triggered_flush.store(stats_.size_triggered_flush.load());
     stats.time_triggered_flush.store(stats_.time_triggered_flush.load());
     stats.buffer_overflow_count.store(stats_.buffer_overflow_count.load());
+    stats.dedup_dropped_count.store(stats_.dedup_dropped_count.load());
+    stats.memory_limit_rejected_count.store(stats_.memory_limit_rejected_count.load());
+    stats.backpressure_events.store(stats_.backpressure_events.load());
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
+    stats.current_ewma_latency_ms = stats_.current_ewma_latency_ms;
+    stats.current_adaptive_batch_size = stats_.current_adaptive_batch_size;
     stats.last_flush_time = stats_.last_flush_time;
     
     return stats;
@@ -339,10 +452,24 @@ TSAutoBufferStats TSAutoBuffer::getStats() const {
 void TSAutoBuffer::setConfig(const TSAutoBufferConfig& config) {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     config_ = config;
+
+    if (config_.enable_adaptive_flush) {
+        flush_controller_ = std::make_unique<FlushController>(
+            config_.ewma_alpha,
+            config_.backpressure_slo_ms,
+            config_.adaptive_batch_min,
+            config_.adaptive_batch_max,
+            config_.flush_batch_size);
+        stats_.current_adaptive_batch_size = config_.flush_batch_size;
+    } else {
+        flush_controller_.reset();
+        stats_.current_adaptive_batch_size = 0;
+    }
     
-    THEMIS_INFO("TSAutoBuffer config updated: max_points={}, flush_interval={}ms",
+    THEMIS_INFO("TSAutoBuffer config updated: max_points={}, flush_interval={}ms, adaptive={}",
                 config_.max_points_per_buffer,
-                config_.flush_interval.count());
+                config_.flush_interval.count(),
+                config_.enable_adaptive_flush);
 }
 
 // ========== WAL Persistence ==========
@@ -408,6 +535,9 @@ std::ptrdiff_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
             auto key = makeBufferKey(pt.metric, pt.entity);
             buffers_[key].add(pt);
         }
+        // Synchronise bp_buffer_size_ with the newly added points
+        bp_buffer_size_.fetch_add(restored.size(), std::memory_order_relaxed);
+        stats_.current_buffer_size += restored.size();
     }
 
     THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
