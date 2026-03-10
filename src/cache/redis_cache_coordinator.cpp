@@ -39,6 +39,7 @@
 #include <stdexcept>
 #include <chrono>
 #include <cerrno>
+#include <climits>
 #include <iomanip>
 
 #ifdef THEMIS_ENABLE_REDIS
