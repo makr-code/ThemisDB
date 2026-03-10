@@ -95,8 +95,8 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] All prompt_engineering sources compiled in the build
 - [x] Prompt injection attack detection layer (`PromptInjectionDetector`)
 - [x] Chain-of-thought, RAG prompt builder, and system prompt manager implemented
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (version control round-trip, A/B statistical significance)
+- [x] Unit tests coverage > 80%
+- [x] Integration tests (version control round-trip, A/B statistical significance)
 - [?] Performance benchmarks (optimization loop latency, concurrent access)
 - [x] Security audit (prompt injection risk addressed via PromptInjectionDetector)
 - [?] Documentation complete

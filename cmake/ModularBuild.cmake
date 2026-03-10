@@ -664,7 +664,21 @@ set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
     ../src/llm/llm_response_cache.cpp
+    # Prompt Engineering Module (all components)
     ../src/prompt_engineering/prompt_manager.cpp
+    ../src/prompt_engineering/prompt_engineering_metrics.cpp
+    ../src/prompt_engineering/feedback_collector.cpp
+    ../src/prompt_engineering/prompt_evaluator.cpp
+    ../src/prompt_engineering/meta_prompt_generator.cpp
+    ../src/prompt_engineering/prompt_optimizer.cpp
+    ../src/prompt_engineering/prompt_performance_tracker.cpp
+    ../src/prompt_engineering/prompt_version_control.cpp
+    ../src/prompt_engineering/self_improvement_orchestrator.cpp
+    ../src/prompt_engineering/prompt_engineering_integration.cpp
+    ../src/prompt_engineering/prompt_injection_detector.cpp
+    ../src/prompt_engineering/chain_of_thought.cpp
+    ../src/prompt_engineering/rag_prompt_builder.cpp
+    ../src/prompt_engineering/system_prompt_manager.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
