@@ -218,7 +218,7 @@ TEST_F(RaftV2JointQuorumTest, QuorumDeniedWithNewMajorityMissingOldMajority) {
 // 5. Commit transition
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(RaftV2CommitTransitionTest, CommitColapsesToNewConfig) {
+TEST(RaftV2CommitTransitionTest, CommitCollapsesToNewConfig) {
     RaftV2ClusterConfig cfg(makeMembers({"A", "B", "C"}));
     cfg.beginAddMember("D");
     cfg.commitTransition();

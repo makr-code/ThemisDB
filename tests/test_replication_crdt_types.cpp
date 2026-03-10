@@ -410,9 +410,8 @@ TEST(RGArrayTest, MergeUnion) {
 TEST(EnableWinsFlagTest, DisabledByDefault) {
     EnableWinsFlag f;
     // Initial state: no enable or disable called → ts_enable_ == ts_disable_ == 0
-    // EW semantics: enable wins on tie → value() is true (0 >= 0)
-    // (both unset, so the flag starts in the "enabled wins" state)
-    (void)f.value();  // just make sure it compiles and doesn't crash
+    // EW semantics: enable wins on tie → value() returns true (0 >= 0)
+    EXPECT_TRUE(f.value());
 }
 
 TEST(EnableWinsFlagTest, EnableSetsTrue) {
