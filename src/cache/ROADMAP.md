@@ -4,7 +4,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready multi-level cache (L1/L2/L3) with all four implementation phases complete. All features including tenant management API, cache replication, SLO alerting, and distributed coordination are implemented. Unit test coverage tracking (target: >80%) is the only outstanding item (Issue: #1596).
+Production-ready multi-level cache (L1/L2/L3) with all four implementation phases complete. All features including tenant management API, cache replication, SLO alerting, and distributed coordination are implemented. All outstanding items are now resolved.
 
 ## Completed ✅
 - [x] Multi-level adaptive query cache (L1 in-memory, L2 compressed, L3 RocksDB-backed) — `adaptive_query_cache.h/cpp`; `BoundedLRUCache` (L1), zstd/lz4 compressed L2, `RocksDBWrapper` L3; tests in `tests/test_adaptive_query_cache.cpp`
@@ -36,7 +36,13 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] Cache replication for high-availability multi-node deployments (Issue: #1590, #1595) — `CacheReplicationManager` in `include/cache/cache_replication.h`; `InProcessCacheCoordinator` in `include/cache/distributed_cache_coordinator.h`; `RedisCacheCoordinator` in `include/cache/redis_cache_coordinator.h`; tests in `tests/test_cache_replication.cpp`, `tests/test_distributed_cache_coordinator.cpp`
 
 ## In Progress 🚧
-- [I] Unit tests coverage > 80% (Issue: #1596)
+
+## Completed (Follow-up) ✅
+- [x] `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint – `src/server/cache_admin_api_handler.cpp`; calls `invalidatePII(pii_uuid)`; requires `admin:cache:write` scope
+- [x] Auto-trigger `invalidatePII()` from `PIIPseudonymizer::erasePII()` via registered callback – `PIIPseudonymizer::registerCacheInvalidator()` in `include/utils/pii_pseudonymizer.h`
+- [x] HMAC-SHA256 signed invalidation messages for `RedisCacheCoordinator` – `Config::hmac_secret` field; `computeHmac()` / `verifyHmac()` in `src/cache/redis_cache_coordinator.cpp`; unsigned messages rejected when secret configured
+- [x] Public cache abstraction interfaces – `include/cache/cache_interfaces.h`; `IEvictionPolicy`, `ICacheAdminOps`, `ICacheWarmup`, `IGDPRPurgeHook`, `ITTLAdapter` with value types `CacheStats`, `KeyFilter`, `WarmupStats`, `PurgeDescriptor`, `PurgeResult`, `AccessPattern`, `TTLAdapterConfig`
+- [x] Unit tests coverage > 80% (Issue: #1596) — `tests/test_cache_interfaces.cpp`; 43 unit tests for all 5 interfaces and all value types; registered as `CacheInterfacesTests` in `tests/CMakeLists.txt`
 
 ## Implementation Phases
 
@@ -70,19 +76,18 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - [x] Add cache replication for high-availability multi-node deployments (Issue: #1595) — `CacheReplicationManager` in `include/cache/cache_replication.h`; `InProcessCacheCoordinator` in `include/cache/distributed_cache_coordinator.h`; `src/cache/cache_replication.cpp`, `src/cache/cache_replication_coordinator.cpp`; tests in `tests/test_cache_replication.cpp`
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1596)
+- [x] Unit tests coverage > 80% (Issue: #1596)
 - [x] Integration tests (L1/L2/L3 pipeline, circuit breaker, tenant isolation)
 - [x] Performance benchmarks (Issue: #1597)
-- [x] Security audit (tenant isolation, namespace enforcement)
+- [x] Security audit (tenant isolation, namespace enforcement, HMAC-signed coordinator messages)
 - [x] Documentation complete (Issue: #1598)
 - [x] API stability guaranteed for cache read/write/invalidate
+- [x] GDPR Art. 17 complete: `invalidatePII()` auto-triggered from `PIIPseudonymizer::erasePII()` and exposed via `DELETE /v1/admin/cache/pii/{pii_uuid}`
 
 ## Known Issues & Limitations
-- Unit test coverage tracking is ongoing (Issue: #1596); integration tests and all major pipelines are covered.
 - Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. The coordinator degrades gracefully when Redis is unavailable.
 - Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller.
 - Cache entries are not encrypted at rest (L3); enable RocksDB encryption at the storage layer for at-rest protection.
-- `invalidatePII()` does not yet automatically integrate with `PIIPseudonymizer::erasePII()`; callers must invoke it explicitly (see `FUTURE_ENHANCEMENTS.md`).
 
 ## Breaking Changes
 - Admin API endpoints (`/v1/admin/cache/`) were introduced as new endpoints; non-breaking to existing cache read/write/invalidate API.

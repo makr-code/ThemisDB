@@ -3,11 +3,11 @@
 ## Scope
 
 - `ICache<K,V>` interface extensions for pluggable eviction and write-through modes
-- Eviction policy plug-in interface (`IEvictionPolicy`) supporting LFU, ARC, and custom strategies
-- Cache warmup API (`ICacheWarmup`) for pre-populating entries from query logs at startup
-- Admin operation interface (`ICacheAdminOps`) for runtime inspection, flush, and stats collection
-- GDPR purge hook (`IGDPRPurgeHook`) for synchronous, audited removal of PII-bearing cache entries
-- TTL adaptation interface (`ITTLAdapter`) for workload-driven TTL tuning within configured bounds
+- Eviction policy plug-in interface (`IEvictionPolicy`) supporting LFU, ARC, and custom strategies — **✅ Implemented in `include/cache/cache_interfaces.h`**
+- Cache warmup API (`ICacheWarmup`) for pre-populating entries from query logs at startup — **✅ Implemented in `include/cache/cache_interfaces.h`**
+- Admin operation interface (`ICacheAdminOps`) for runtime inspection, flush, and stats collection — **✅ Implemented in `include/cache/cache_interfaces.h`**
+- GDPR purge hook (`IGDPRPurgeHook`) for synchronous, audited removal of PII-bearing cache entries — **✅ Implemented in `include/cache/cache_interfaces.h`**
+- TTL adaptation interface (`ITTLAdapter`) for workload-driven TTL tuning within configured bounds — **✅ Implemented in `include/cache/cache_interfaces.h`**
 
 ## Design Constraints
 

@@ -1108,5 +1108,120 @@ http::response<http::string_body> EntityApiHandler::makeResponse(
     return res;
 }
 
+// ---------------------------------------------------------------------------
+// POST /v2/documents  – bulk insert from newline-delimited JSON (NDJSON)
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> EntityApiHandler::handleBulkNdjson(
+    const http::request<http::string_body>& req)
+{
+    if (auth_ && auth_->isEnabled()) {
+        if (auto resp = requireAccess(req, "data:write", "write", "/v2/documents")) return *resp;
+    }
+    auto span = Tracer::startSpan("POST /v2/documents");
+
+    static constexpr size_t kMaxDocuments = 10000;
+
+    // Validate Content-Type
+    const auto ct_it = req.find(http::field::content_type);
+    if (ct_it == req.end() ||
+        ct_it->value().find("application/x-ndjson") == std::string_view::npos) {
+        span.setStatus(false, "Unsupported Media Type");
+        return makeErrorResponse(http::status::unsupported_media_type,
+            "Content-Type must be application/x-ndjson", req);
+    }
+
+    const std::string& body = req.body();
+    if (body.empty()) {
+        span.setStatus(false, "Empty body");
+        return makeErrorResponse(http::status::bad_request, "Request body is empty", req);
+    }
+
+    // Parse NDJSON: each non-empty line is one JSON document.
+    std::vector<json> documents;
+    documents.reserve(256);
+    std::vector<json> errors;
+
+    std::istringstream stream(body);
+    std::string line;
+    size_t line_number = 0;
+
+    while (std::getline(stream, line)) {
+        ++line_number;
+        // Skip blank lines
+        if (line.empty() || line == "\r") continue;
+        // Remove trailing CR if present
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+
+        if (documents.size() >= kMaxDocuments) {
+            span.setStatus(false, "Too many documents");
+            return makeErrorResponse(http::status::bad_request,
+                "Request exceeds maximum of " + std::to_string(kMaxDocuments) + " documents",
+                req);
+        }
+
+        try {
+            documents.push_back(json::parse(line));
+        } catch (const json::exception& ex) {
+            errors.push_back({
+                {"line",    static_cast<int64_t>(line_number)},
+                {"error",   std::string("JSON parse error: ") + ex.what()}
+            });
+        }
+    }
+
+    if (documents.empty() && errors.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "Request body contains no documents", req);
+    }
+
+    span.setAttribute("bulk.total_docs",   static_cast<int64_t>(documents.size()));
+    span.setAttribute("bulk.parse_errors", static_cast<int64_t>(errors.size()));
+
+    // Insert valid documents.
+    int64_t inserted = 0;
+    for (const auto& doc : documents) {
+        // Each document must have a "key" field; generate one if absent.
+        std::string key;
+        if (doc.contains("_key") && doc["_key"].is_string()) {
+            key = doc["_key"].get<std::string>();
+        } else if (doc.contains("key") && doc["key"].is_string()) {
+            key = doc["key"].get<std::string>();
+        } else {
+            // Auto-generate a key from the document index to keep behaviour deterministic.
+            key = "doc_" + std::to_string(inserted);
+        }
+
+        try {
+            if (storage_) {
+                storage_->put(key, doc.dump());
+                ++inserted;
+            }
+        } catch (const std::exception& ex) {
+            errors.push_back({
+                {"key",   key},
+                {"error", std::string("Storage error: ") + ex.what()}
+            });
+        }
+    }
+
+    span.setAttribute("bulk.inserted", inserted);
+    span.setStatus(true, "bulk_ndjson_complete");
+
+    const http::status status =
+        errors.empty() ? http::status::ok : http::status::multi_status;
+
+    json result = {
+        {"inserted",    inserted},
+        {"total",       static_cast<int64_t>(documents.size() + errors.size())},
+        {"error_count", static_cast<int64_t>(errors.size())}
+    };
+    if (!errors.empty()) {
+        result["errors"] = errors;
+    }
+
+    return makeResponse(status, result.dump(), req);
+}
+
 } // namespace server
 } // namespace themis

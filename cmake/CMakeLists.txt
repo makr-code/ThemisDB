@@ -1888,10 +1888,8 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_coordinator.cpp
     ../src/governance/compliance_reporting.cpp
     ../src/governance/policy_validation.cpp
-    ../src/governance/policy_coordinator.cpp
     ../src/governance/policy_version_history.cpp
     ../src/governance/policy_manager_versioned.cpp
-    ../src/governance/policy_template.cpp
     ../src/governance/compliance_reporter.cpp
     ../src/governance/policy_validator.cpp
     ../src/governance/review_scheduler.cpp
@@ -1908,13 +1906,16 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
     ../src/geo/geo_rtree.cpp
+    ../src/geo/geo_clustering.cpp
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
     ../src/geo/temporal_spatial_query.cpp
     ../src/geo/tile_server.cpp
     ../src/geo/device_detector.cpp
+    ../src/geo/gpu_backend_production.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp
@@ -2064,6 +2065,8 @@ set(THEMIS_CORE_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+    # GraphQL over WebSocket (graphql-transport-ws) handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/graphql_ws_handler.cpp>
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
@@ -2095,6 +2098,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
+    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
@@ -4223,6 +4227,51 @@ if(THEMIS_BUILD_TESTS)
             CONFIGURATIONS Release Debug
         )
     endif() # THEMIS_ENABLE_GPU
+
+    # -----------------------------------------------------------------------
+    # GPU Module Focused Test Targets
+    # Each target exercises one GPU subsystem in isolation.  All paths use
+    # CPU-side bookkeeping so no GPU hardware is required.
+    # -----------------------------------------------------------------------
+    if(THEMIS_ENABLE_GPU)
+        # Helper macro to reduce boilerplate
+        macro(_themis_gpu_test _name)
+            add_executable(${_name}
+                ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+            )
+            target_link_libraries(${_name}
+                PRIVATE
+                    themis_core
+                    GTest::gtest
+                    GTest::gtest_main
+            )
+            gtest_discover_tests(${_name}
+                DISCOVERY_MODE PRE_TEST
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}>
+                EXTRA_ARGS --gtest_color=yes
+                CONFIGURATIONS Release Debug
+            )
+        endmacro()
+
+        _themis_gpu_test(test_gpu_admin_api)
+        _themis_gpu_test(test_gpu_alerts)
+        _themis_gpu_test(test_gpu_audit_log)
+        _themis_gpu_test(test_gpu_config)
+        _themis_gpu_test(test_gpu_device_discovery)
+        _themis_gpu_test(test_gpu_feature_flags)
+        _themis_gpu_test(test_gpu_kernel_validator)
+        _themis_gpu_test(test_gpu_launcher)
+        _themis_gpu_test(test_gpu_memory_management)
+        _themis_gpu_test(test_gpu_module)
+        _themis_gpu_test(test_gpu_olap_accelerator)
+        _themis_gpu_test(test_gpu_policy)
+        _themis_gpu_test(test_gpu_safe_fail)
+        _themis_gpu_test(test_gpu_safe_fail_module)
+        _themis_gpu_test(test_gpu_stubs_comprehensive)
+        _themis_gpu_test(test_gpu_tensor)
+        _themis_gpu_test(test_gpu_training_loop)
+        _themis_gpu_test(test_gpu_vram_allocation)
+    endif() # THEMIS_ENABLE_GPU (focused GPU module targets)
 
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)

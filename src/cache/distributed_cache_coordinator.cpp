@@ -59,10 +59,16 @@
 #endif
 
 #include <cstring>
+#include <climits>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 #include <chrono>
 #include <thread>
+
+#include <openssl/hmac.h>
+#include <openssl/evp.h>
+#include <openssl/crypto.h>
 
 namespace themis {
 namespace cache {
@@ -169,6 +175,9 @@ bool RedisCacheCoordinator::readPubSubMessage(SocketFd,
 
 void RedisCacheCoordinator::dispatchMessage(const std::string&, const std::string&) {}
 
+std::string RedisCacheCoordinator::computeHmac(const std::string&) const { return {}; }
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json&) const { return true; }
+
 #else
 
 // ---------------------------------------------------------------------------
@@ -218,7 +227,18 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
     msg["ttl_seconds"] = ttl_seconds;
     msg["result"]     = result;
 
-    const std::string payload = msg.dump();
+    std::string payload = msg.dump();
+
+    // Sign the payload when an HMAC secret is configured.
+    // The HMAC is computed over the unsigned payload; the sig field is then
+    // appended and the message is re-serialised.  Two serialisations are
+    // necessary: the first produces the bytes to sign, the second includes sig.
+    std::string sig = computeHmac(payload);
+    if (!sig.empty()) {
+        msg["sig"] = sig;
+        payload = msg.dump();
+    }
+
     if (payload.size() > config_.max_message_bytes) {
         THEMIS_WARN("RedisCacheCoordinator: entry message too large ({} bytes), skipping",
                     payload.size());
@@ -241,7 +261,18 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
     msg["key"]       = pattern;
     msg["tenant_id"] = tenant_id;
 
-    const std::string payload = msg.dump();
+    std::string payload = msg.dump();
+
+    // Sign the payload when an HMAC secret is configured.
+    // The HMAC is computed over the unsigned payload; the sig field is then
+    // appended and the message is re-serialised.  Two serialisations are
+    // necessary: the first produces the bytes to sign, the second includes sig.
+    std::string sig = computeHmac(payload);
+    if (!sig.empty()) {
+        msg["sig"] = sig;
+        payload = msg.dump();
+    }
+
     if (!redisPublish(invalidationChannel(), payload)) {
         std::lock_guard<std::mutex> lk(stats_mutex_);
         ++publish_errors_;
@@ -626,6 +657,11 @@ void RedisCacheCoordinator::dispatchMessage(const std::string& channel,
         return;
     }
 
+    // Verify HMAC signature when a shared secret is configured.
+    if (!verifyHmac(msg)) {
+        return;
+    }
+
     const std::string type = msg.value("type", "");
 
     {
@@ -654,6 +690,81 @@ void RedisCacheCoordinator::dispatchMessage(const std::string& channel,
     } catch (const std::exception& e) {
         THEMIS_WARN("RedisCacheCoordinator: exception in subscriber callback: {}",
                     e.what());
+    }
+}
+
+std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const {
+    if (config_.hmac_secret.empty()) {
+        return {};
+    }
+
+    // Guard against pathological sizes that would truncate in the cast to int.
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) ||
+        payload.size() > static_cast<size_t>(INT_MAX)) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
+        return {};
+    }
+
+    unsigned char md[EVP_MAX_MD_SIZE];
+    unsigned int  md_len = 0;
+
+    if (!HMAC(EVP_sha256(),
+              config_.hmac_secret.data(),
+              static_cast<int>(config_.hmac_secret.size()),
+              reinterpret_cast<const unsigned char*>(payload.data()),
+              static_cast<int>(payload.size()),
+              md, &md_len)) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
+        return {};
+    }
+
+    std::ostringstream oss;
+    for (unsigned int i = 0; i < md_len; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<int>(md[i]);
+    }
+    return oss.str();
+}
+
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
+    // Signing disabled – accept all messages.
+    if (config_.hmac_secret.empty()) {
+        return true;
+    }
+
+    if (!j.contains("sig") || !j["sig"].is_string()) {
+        THEMIS_WARN("RedisCacheCoordinator: received unsigned message – rejected "
+                    "(hmac_secret is configured)");
+        return false;
+    }
+
+    std::string received_sig = j["sig"].get<std::string>();
+
+    // Re-compute the HMAC over the payload WITHOUT the "sig" field.
+    try {
+        nlohmann::json j_unsigned = j;
+        j_unsigned.erase("sig");
+        std::string unsigned_payload = j_unsigned.dump();
+
+        std::string expected_sig = computeHmac(unsigned_payload);
+        if (expected_sig.empty()) {
+            return false;
+        }
+
+        // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
+        if (received_sig.size() != expected_sig.size()) {
+            THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
+            return false;
+        }
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),
+                          expected_sig.size()) != 0) {
+            THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
+            return false;
+        }
+        return true;
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC verification error: {}", ex.what());
+        return false;
     }
 }
 

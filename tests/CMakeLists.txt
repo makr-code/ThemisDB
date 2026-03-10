@@ -149,6 +149,18 @@ if(NOT THEMIS_ENABLE_GPU)
     )
 endif()
 
+if(NOT THEMIS_GEO_CUDA)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_cuda_geo_kernels\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_GEO_HIP)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_hip_geo_kernels\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_VULKAN)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_vulkan_compute_equivalents\\.cpp$"
@@ -193,6 +205,7 @@ if(NOT THEMIS_ENABLE_WEBSOCKET)
         ".*test_wire_protocol_websocket\\.cpp$"
         ".*test_ws_handler\\.cpp$"
         ".*test_websocket_cdc\\.cpp$"
+        ".*test_graphql_ws_handler\\.cpp$"
     )
 endif()
 
@@ -640,6 +653,50 @@ endif()
 if(THEMIS_ENABLE_GPU)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_load_balancer.cpp
+    )
+endif()
+
+# Re-include GPU module tests that were excluded by the broad ".*test_gpu_.*\\.cpp$"
+# and related specific-pattern exclusions.  All of these tests exercise only
+# CPU-side bookkeeping paths and require no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        # GPUAdminAPI: JSON stats serialisation, tenant breakdown, dry-run simulation
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_admin_api.cpp
+        # GPUAlertManager: threshold evaluation, callback firing, hysteresis, stats
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_alerts.cpp
+        # GPUAuditLog: ring-buffer event recording, overflow, structured fields
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_audit_log.cpp
+        # GPUConfig: validation, dry-run simulation, VRAM cap enforcement
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_config.cpp
+        # DeviceDiscovery: CPU-fallback sentinel, healthy-device filter, best-device
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_device_discovery.cpp
+        # GPUFeatureFlags: per-edition gates, runtime overrides, serialisation
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_feature_flags.cpp
+        # GPUKernelValidator: FNV-1a whitelist, validate-before-launch enforcement
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_kernel_validator.cpp
+        # GPULauncher: typed work-item submission, timeout enforcement, batch launch
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_launcher.cpp
+        # GPUMemoryManagerEdition: tenant quotas, VRAM cap, pre-allocation hints
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_management.cpp
+        # GPUModule facade: policy → circuit-breaker → alloc → launch pipeline
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_module.cpp
+        # GPUOLAPAccelerator: parallel aggregation, sort, hash-join CPU paths
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_olap_accelerator.cpp
+        # GPUPolicy: default-deny gate, per-edition capability overrides
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_policy.cpp
+        # GPUSafeFail (circuit-breaker): trip/reset, fallback counter, callbacks
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_safe_fail.cpp
+        # GPUSafeFail integration through GPUModule facade
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_safe_fail_module.cpp
+        # Comprehensive stub coverage for GPU module public API surface
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_stubs_comprehensive.cpp
+        # GPUTensorBuffer: shape/dtype, views, checkpointing, CPU bookkeeping
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_tensor.cpp
+        # GPUTrainingLoop: batch iteration, loss tracking, early stopping
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_training_loop.cpp
+        # GPUMemoryManagerEdition VRAM allocation: tenant quotas, eviction
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_vram_allocation.cpp
     )
 endif()
 
@@ -2215,8 +2272,73 @@ else()
 endif()
 
 # ============================================================================
-# GraphQL Error Masking Tests
+# OTLP Exporter Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+    message(STATUS "Adding OTLP exporter tests")
+
+    add_executable(test_otlp_exporter
+        test_otlp_exporter.cpp
+    )
+
+    target_link_libraries(test_otlp_exporter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        CURL::libcurl
+    )
+
+    target_compile_definitions(test_otlp_exporter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OtlpExporterTests COMMAND test_otlp_exporter)
+
+    set_tests_properties(OtlpExporterTests PROPERTIES
+        LABELS "api;tracing;otlp;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OTLP Exporter: queue, span serialisation, middleware integration")
+else()
+    message(STATUS "OTLP exporter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+endif()
+
+# ============================================================================
+# API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+    message(STATUS "Adding API interface header tests")
+
+    add_executable(test_api_interfaces
+        test_api_interfaces.cpp
+    )
+
+    target_link_libraries(test_api_interfaces PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiInterfacesTests COMMAND test_api_interfaces)
+
+    set_tests_properties(ApiInterfacesTests PROPERTIES
+        LABELS "api;interfaces;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Interfaces: IHttpHandler, CorrelationId, WebSocketCloseCode, VersionDescriptor, GRPCMetadata")
+else()
+    message(STATUS "API interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")
@@ -2320,6 +2442,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
     message(STATUS "  GraphQL Multi-Model: timeseries queries, geo search, subscription type")
 else()
     message(STATUS "GraphQL Multi-Model tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+endif()
+
+# ============================================================================
+# GraphQL WebSocket Handler Tests (graphql-transport-ws protocol)
+# ============================================================================
+
+if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_ws_handler.cpp")
+    message(STATUS "Adding GraphQL WebSocket handler tests")
+
+    add_executable(test_graphql_ws_handler
+        test_graphql_ws_handler.cpp
+    )
+
+    target_link_libraries(test_graphql_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_WEBSOCKET=1
+    )
+
+    add_test(NAME GraphQLWsHandlerTests COMMAND test_graphql_ws_handler)
+
+    set_tests_properties(GraphQLWsHandlerTests PROPERTIES
+        LABELS "api;graphql;websocket;subscription;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL WS Handler: graphql-transport-ws protocol, subscription management")
 endif()
 
 # ============================================================================
@@ -3320,6 +3477,177 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
     message(STATUS "  Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry")
 endif()
 
+# Governance – OPA adapter focused tests (Issue: #1768 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_opa_adapter.cpp")
+    message(STATUS "Adding Governance OPA Adapter focused tests (Issue #1768 / #1778)")
+    add_executable(test_governance_opa_adapter test_governance_opa_adapter.cpp)
+    target_link_libraries(test_governance_opa_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_opa_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernanceOpaAdapterFocusedTests COMMAND test_governance_opa_adapter)
+    set_tests_properties(GovernanceOpaAdapterFocusedTests PROPERTIES
+        LABELS "governance;opa;policy-evaluator;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance OPA Adapter: construction, URL building, response parsing, fallback counter, CCPA enforcement on top of OPA")
+endif()
+
+# Governance – policy simulation / dry-run focused tests (Issue: #1766 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_simulation.cpp")
+    message(STATUS "Adding Governance Policy Simulation focused tests (Issue #1766 / #1778)")
+    add_executable(test_governance_policy_simulation test_governance_policy_simulation.cpp)
+    target_link_libraries(test_governance_policy_simulation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        yaml-cpp::yaml-cpp
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_policy_simulation PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernancePolicySimulationFocusedTests COMMAND test_governance_policy_simulation)
+    set_tests_properties(GovernancePolicySimulationFocusedTests PROPERTIES
+        LABELS "governance;policy;simulation;dry-run;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Policy Simulation: simulateDecision, YAML-loaded profiles, heuristic fallback, header overrides")
+endif()
+
+# Governance – compliance time window focused tests (Issue: #1781 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_compliance_time_window.cpp")
+    message(STATUS "Adding Governance Compliance Time-Window focused tests (Issue #1781 / #1778)")
+    add_executable(test_governance_compliance_time_window test_governance_compliance_time_window.cpp)
+    target_link_libraries(test_governance_compliance_time_window PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_compliance_time_window PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernanceComplianceTimeWindowFocusedTests COMMAND test_governance_compliance_time_window)
+    set_tests_properties(GovernanceComplianceTimeWindowFocusedTests PROPERTIES
+        LABELS "governance;compliance;reporter;time-window;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Compliance Time-Window: generateReport, CCPA report, time-range filtering")
+endif()
+
+# Governance – review scheduler focused tests (Issue: #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_review_scheduler.cpp")
+    message(STATUS "Adding Governance Review Scheduler focused tests (Issue #1778)")
+    add_executable(test_governance_review_scheduler test_governance_review_scheduler.cpp)
+    target_link_libraries(test_governance_review_scheduler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_review_scheduler PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernanceReviewSchedulerFocusedTests COMMAND test_governance_review_scheduler)
+    set_tests_properties(GovernanceReviewSchedulerFocusedTests PROPERTIES
+        LABELS "governance;review-scheduler;policy-review;phase4;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Review Scheduler: schedule, create/approve/reject review, overdue detection, history, export/import")
+endif()
+
+# Governance – AI/ML model governance focused tests (Issue: #1771 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_model_governance.cpp")
+    message(STATUS "Adding Model Governance focused tests (Issue #1771 / #1778)")
+    add_executable(test_model_governance_focused test_model_governance.cpp)
+    target_link_libraries(test_model_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_model_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ModelGovernanceFocusedTests COMMAND test_model_governance_focused)
+    set_tests_properties(ModelGovernanceFocusedTests PROPERTIES
+        LABELS "governance;model-governance;training-lineage;bias-audit;phase4;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Model Governance: training export request, bias audit, data lineage, checkExportAllowed")
+endif()
+
+# Governance – compliance + security integration focused tests (Issue: #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
+    message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
+    add_executable(test_compliance_security_governance_focused test_compliance_security_governance.cpp)
+    target_link_libraries(test_compliance_security_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_compliance_security_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ComplianceSecurityGovernanceFocusedTests COMMAND test_compliance_security_governance_focused)
+    set_tests_properties(ComplianceSecurityGovernanceFocusedTests PROPERTIES
+        LABELS "governance;compliance;security;gdpr;hipaa;soc2;pci-dss;ccpa;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  Compliance & Security Governance: GDPR, HIPAA, SOC 2, PCI-DSS, CCPA/CPRA cross-compliance scenarios")
+endif()
+
+# Governance – HTTP server governance endpoint focused tests (Issue: #1778)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_governance.cpp")
+    message(STATUS "Adding HTTP Governance endpoint focused tests (Issue #1778)")
+    add_executable(test_http_governance_focused test_http_governance.cpp)
+    target_link_libraries(test_http_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_http_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HttpGovernanceFocusedTests COMMAND test_http_governance_focused)
+    set_tests_properties(HttpGovernanceFocusedTests PROPERTIES
+        LABELS "governance;http;server;policy-engine;integration"
+        TIMEOUT 120
+    )
+    message(STATUS "  HTTP Governance: policy evaluation via HTTP, governance endpoints, access-control enforcement")
+endif()
+
+# Governance – HTTP changefeed + governance integration focused tests (Issue: #1778)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_changefeed_governance.cpp")
+    message(STATUS "Adding HTTP Changefeed Governance focused tests (Issue #1778)")
+    add_executable(test_http_changefeed_governance_focused test_http_changefeed_governance.cpp)
+    target_link_libraries(test_http_changefeed_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_http_changefeed_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HttpChangefeedGovernanceFocusedTests COMMAND test_http_changefeed_governance_focused)
+    set_tests_properties(HttpChangefeedGovernanceFocusedTests PROPERTIES
+        LABELS "governance;http;changefeed;cdc;integration"
+        TIMEOUT 120
+    )
+    message(STATUS "  HTTP Changefeed Governance: changefeed governance enforcement, policy gating on CDC streams")
+endif()
+
+# Governance – compliance reporting focused tests (Issue: #1781 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
+    message(STATUS "Adding Compliance Reporting focused tests (Issue #1781 / #1778)")
+    add_executable(test_compliance_reporting_focused test_compliance_reporting.cpp)
+    target_link_libraries(test_compliance_reporting_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_compliance_reporting_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ComplianceReportingFocusedTests COMMAND test_compliance_reporting_focused)
+    set_tests_properties(ComplianceReportingFocusedTests PROPERTIES
+        LABELS "governance;compliance;reporting;coverage;gap-detection;pdf;json;html;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  Compliance Reporting: CoverageAnalyzer, ComplianceGapDetector, ComplianceReporter (JSON/CSV/HTML/PDF)")
+endif()
+
 # Phase 5 – LEK Manager lifecycle tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
     message(STATUS "Adding LEK Manager lifecycle tests (Phase 5)")
@@ -4215,6 +4543,470 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
     message(STATUS "  ImporterInterfaces: IImportConflictResolver, IFlatFileSchemaDetector, IKafkaConsumerSource, IIncrementalImportCursor, IImporterPlugin, IImporterPluginRegistry, REGISTER_IMPORTER_PLUGIN")
 else()
     message(STATUS "Importer Interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
+endif()
+
+# ============================================================================
+# Flatfile Importer Focused Tests (standalone – has own main(), excluded from
+# main build via TEST_EXCLUDE_PATTERNS)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_flatfile_importer.cpp")
+    message(STATUS "Adding FlatfileImporter focused tests (standalone binary)")
+
+    add_executable(test_flatfile_importer_focused
+        test_flatfile_importer.cpp
+    )
+
+    target_include_directories(test_flatfile_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_flatfile_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_flatfile_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FlatfileImporterFocusedTests COMMAND test_flatfile_importer_focused)
+
+    set_tests_properties(FlatfileImporterFocusedTests PROPERTIES
+        LABELS "importers;flatfile;csv;tsv;parquet;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  FlatfileImporter: CSV/TSV/JSONL row parsing, schema detection, dry-run, streaming, UTF-8, metrics")
+else()
+    message(STATUS "FlatfileImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_flatfile_importer.cpp")
+endif()
+
+# ============================================================================
+# Schema Validator Importer Focused Tests (standalone – has own main(), excluded
+# from main build via TEST_EXCLUDE_PATTERNS)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_validator.cpp")
+    message(STATUS "Adding SchemaValidatorImporter focused tests (standalone binary)")
+
+    add_executable(test_schema_validator_importer_focused
+        test_schema_validator.cpp
+    )
+
+    target_include_directories(test_schema_validator_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_schema_validator_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_schema_validator_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SchemaValidatorImporterFocusedTests COMMAND test_schema_validator_importer_focused)
+
+    set_tests_properties(SchemaValidatorImporterFocusedTests PROPERTIES
+        LABELS "importers;schema;validation;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SchemaValidatorImporter: field-type validation, required fields, nested schema, conflict detection")
+else()
+    message(STATUS "SchemaValidatorImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_validator.cpp")
+endif()
+
+# ============================================================================
+# Importer Conflict Resolver Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_conflict_resolver.cpp")
+    message(STATUS "Adding ImporterConflictResolver focused tests (standalone binary)")
+
+    add_executable(test_importer_conflict_resolver_focused
+        test_importer_conflict_resolver.cpp
+    )
+
+    target_include_directories(test_importer_conflict_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_conflict_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_importer_conflict_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterConflictResolverFocusedTests COMMAND test_importer_conflict_resolver_focused)
+
+    set_tests_properties(ImporterConflictResolverFocusedTests PROPERTIES
+        LABELS "importers;conflict;resolver;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterConflictResolver: SKIP, OVERWRITE, MERGE (depth-1 and deep), ERROR strategies")
+else()
+    message(STATUS "ImporterConflictResolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_conflict_resolver.cpp")
+endif()
+
+# ============================================================================
+# Importer Async API Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_async_api.cpp")
+    message(STATUS "Adding ImporterAsyncApi focused tests (standalone binary)")
+
+    add_executable(test_importer_async_api_focused
+        test_importer_async_api.cpp
+    )
+
+    target_include_directories(test_importer_async_api_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_async_api_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_importer_async_api_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterAsyncApiFocusedTests COMMAND test_importer_async_api_focused)
+
+    set_tests_properties(ImporterAsyncApiFocusedTests PROPERTIES
+        LABELS "importers;async;streaming;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterAsyncApi: async import pipeline, streaming callbacks, progress reporting, cancellation")
+else()
+    message(STATUS "ImporterAsyncApi focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_async_api.cpp")
+endif()
+
+# ============================================================================
+# MySQL Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
+    message(STATUS "Adding MySQLImporter focused tests (standalone binary)")
+
+    add_executable(test_mysql_importer_focused
+        test_mysql_importer.cpp
+    )
+
+    target_include_directories(test_mysql_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mysql_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mysql_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MySQLImporterFocusedTests COMMAND test_mysql_importer_focused)
+
+    set_tests_properties(MySQLImporterFocusedTests PROPERTIES
+        LABELS "importers;mysql;mariadb;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MySQLImporter: type mapping, batch import, incremental, JDBC-compatible config, streaming callbacks")
+else()
+    message(STATUS "MySQLImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
+endif()
+
+# ============================================================================
+# MongoDB Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mongo_importer.cpp")
+    message(STATUS "Adding MongoImporter focused tests (standalone binary)")
+
+    add_executable(test_mongo_importer_focused
+        test_mongo_importer.cpp
+    )
+
+    target_include_directories(test_mongo_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mongo_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mongo_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MongoImporterFocusedTests COMMAND test_mongo_importer_focused)
+
+    set_tests_properties(MongoImporterFocusedTests PROPERTIES
+        LABELS "importers;mongodb;document;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MongoImporter: document collection import, nested docs, BSON type mapping, collection filtering")
+else()
+    message(STATUS "MongoImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mongo_importer.cpp")
+endif()
+
+# ============================================================================
+# SQLite Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sqlite_importer.cpp")
+    message(STATUS "Adding SQLiteImporter focused tests (standalone binary)")
+
+    add_executable(test_sqlite_importer_focused
+        test_sqlite_importer.cpp
+    )
+
+    target_include_directories(test_sqlite_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_sqlite_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sqlite_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SQLiteImporterFocusedTests COMMAND test_sqlite_importer_focused)
+
+    set_tests_properties(SQLiteImporterFocusedTests PROPERTIES
+        LABELS "importers;sqlite;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SQLiteImporter: table discovery, type mapping, incremental import, attached databases, streaming")
+else()
+    message(STATUS "SQLiteImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sqlite_importer.cpp")
+endif()
+
+# ============================================================================
+# Kafka Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
+    message(STATUS "Adding KafkaImporter focused tests (standalone binary)")
+
+    add_executable(test_kafka_importer_focused
+        test_kafka_importer.cpp
+    )
+
+    target_include_directories(test_kafka_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_kafka_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kafka_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KafkaImporterFocusedTests COMMAND test_kafka_importer_focused)
+
+    set_tests_properties(KafkaImporterFocusedTests PROPERTIES
+        LABELS "importers;kafka;streaming;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  KafkaImporter: consumer configuration, offset commit, topic filtering, async ingestion, back-pressure")
+else()
+    message(STATUS "KafkaImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
+endif()
+
+# ============================================================================
+# Oracle Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
+    message(STATUS "Adding OracleImporter focused tests (standalone binary)")
+
+    add_executable(test_oracle_importer_focused
+        test_oracle_importer.cpp
+    )
+
+    target_include_directories(test_oracle_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_oracle_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_oracle_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OracleImporterFocusedTests COMMAND test_oracle_importer_focused)
+
+    set_tests_properties(OracleImporterFocusedTests PROPERTIES
+        LABELS "importers;oracle;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OracleImporter: OCI config, type mapping (NUMBER/DATE/CLOB/BLOB), schema filtering, incremental import")
+else()
+    message(STATUS "OracleImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
+endif()
+
+# ============================================================================
+# S3 Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_s3_importer.cpp")
+    message(STATUS "Adding S3Importer focused tests (standalone binary)")
+
+    add_executable(test_s3_importer_focused
+        test_s3_importer.cpp
+    )
+
+    target_include_directories(test_s3_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_s3_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_s3_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME S3ImporterFocusedTests COMMAND test_s3_importer_focused)
+
+    set_tests_properties(S3ImporterFocusedTests PROPERTIES
+        LABELS "importers;s3;object-storage;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  S3Importer: bucket/prefix listing, object download, multipart, credential config, format auto-detect")
+else()
+    message(STATUS "S3Importer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_s3_importer.cpp")
+endif()
+
+# ============================================================================
+# PostgreSQL Importer Focused Tests (standalone binary – combines all
+# postgres_importer test variants: advanced, chaos, complex_ddl, datatypes,
+# integration, robustness, security_audit, streaming)
+# ============================================================================
+
+set(_postgres_importer_test_sources "")
+foreach(_pg_test
+        test_postgres_importer_advanced.cpp
+        test_postgres_importer_chaos.cpp
+        test_postgres_importer_complex_ddl.cpp
+        test_postgres_importer_datatypes.cpp
+        test_postgres_importer_integration.cpp
+        test_postgres_importer_live.cpp
+        test_postgres_importer_robustness.cpp
+        test_postgres_importer_security_audit.cpp
+        test_postgres_importer_streaming.cpp)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_pg_test}")
+        list(APPEND _postgres_importer_test_sources "${_pg_test}")
+    endif()
+endforeach()
+
+if(_postgres_importer_test_sources)
+    message(STATUS "Adding PostgresImporter focused tests (${_postgres_importer_test_sources})")
+
+    add_executable(test_postgres_importer_focused
+        ${_postgres_importer_test_sources}
+    )
+
+    target_include_directories(test_postgres_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_postgres_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_postgres_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PostgresImporterFocusedTests COMMAND test_postgres_importer_focused)
+
+    set_tests_properties(PostgresImporterFocusedTests PROPERTIES
+        LABELS "importers;postgres;postgresql;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  PostgresImporter: advanced mapping, chaos/retry, complex DDL, data types, integration, robustness, security audit, streaming")
+else()
+    message(STATUS "PostgresImporter focused test sources not found")
+endif()
+
+# ============================================================================
+# Import Wizard Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
+    message(STATUS "Adding ImportWizard focused tests (standalone binary)")
+
+    add_executable(test_import_wizard_focused
+        test_import_wizard.cpp
+    )
+
+    target_include_directories(test_import_wizard_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_import_wizard_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_import_wizard_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImportWizardFocusedTests COMMAND test_import_wizard_focused)
+
+    set_tests_properties(ImportWizardFocusedTests PROPERTIES
+        LABELS "importers;wizard;gui;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImportWizard: step-by-step configuration, source type selection, schema mapping, dry-run preview")
+else()
+    message(STATUS "ImportWizard focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
 endif()
 
 # ============================================================================
@@ -6265,6 +7057,296 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/te
 endif()
 
 # ============================================================================
+# Geo Module – Focused Standalone Test Targets
+# Each geo test is a standalone executable so it can be run independently
+# without requiring a full themis_tests build.  All tests run in CPU-only
+# simulation mode by default; CUDA/HIP variants are gated on THEMIS_GEO_CUDA
+# and THEMIS_GEO_HIP respectively.
+# ============================================================================
+
+function(add_geo_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding Geo focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_geo)
+            target_link_libraries(${target_name} PRIVATE themis_geo)
+        endif()
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        if(THEMIS_GEO_CUDA)
+            target_compile_definitions(${target_name} PRIVATE THEMIS_GEO_CUDA)
+        endif()
+
+        if(THEMIS_GEO_HIP)
+            target_compile_definitions(${target_name} PRIVATE THEMIS_GEO_HIP)
+        endif()
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "Geo focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_geo_focused_test(
+    test_geo_rtree_focused
+    geo/test_geo_rtree.cpp
+    GeoRtreeFocusedTests
+    "geo;rtree;spatial-index;focused;unit"
+    "GeoRTree: insert, nearest-neighbor, range query, bulk insert, memory footprint"
+)
+
+add_geo_focused_test(
+    test_geo_clustering_focused
+    geo/test_geo_clustering.cpp
+    GeoClusteringFocusedTests
+    "geo;clustering;dbscan;kmeans;focused;unit"
+    "GeoClustering: DBSCAN cluster detection, k-means convergence, noise point handling"
+)
+
+add_geo_focused_test(
+    test_geo_raster_focused
+    geo/test_geo_raster.cpp
+    GeoRasterFocusedTests
+    "geo;raster;elevation;heatmap;focused;unit"
+    "GeoRaster: elevation sampling, bbox extraction, Gaussian KDE heatmap generation"
+)
+
+add_geo_focused_test(
+    test_temporal_spatial_query_focused
+    geo/test_temporal_spatial_query.cpp
+    TemporalSpatialQueryFocusedTests
+    "geo;temporal;spatial;query;focused;unit"
+    "TemporalSpatialQuery: location at time T, entities within distance at time T"
+)
+
+add_geo_focused_test(
+    test_geo_tile_server_focused
+    geo/test_geo_tile_server.cpp
+    GeoTileServerFocusedTests
+    "geo;tile-server;mvt;focused;unit"
+    "GeoTileServer: tile request handling, MVT encoding, zoom level routing"
+)
+
+add_geo_focused_test(
+    test_geo_spatial_join_focused
+    geo/test_geo_spatial_join.cpp
+    GeoSpatialJoinFocusedTests
+    "geo;spatial-join;distance;focused;unit"
+    "GeoSpatialJoin: point-pair distance threshold, join result correctness"
+)
+
+add_geo_focused_test(
+    test_geo_device_detector_focused
+    geo/test_geo_device_detector.cpp
+    GeoDeviceDetectorFocusedTests
+    "geo;device-detector;gpu;capability;focused;unit"
+    "GeoDeviceDetector: GPU discovery, compute-capability check, VRAM threshold"
+)
+
+add_geo_focused_test(
+    test_geo_ewkb_focused
+    geo/test_geo_ewkb.cpp
+    GeoEwkbFocusedTests
+    "geo;ewkb;serialization;focused;unit"
+    "GeoEWKB: WKB/EWKB encode and decode round-trips for all geometry types"
+)
+
+add_geo_focused_test(
+    test_geo_precision_mode_focused
+    geo/test_geo_precision_mode.cpp
+    GeoPrecisionModeFocusedTests
+    "geo;precision;mode;backend;focused;unit"
+    "GeoPrecisionMode: GeoPrecisionMode enum, getBackendForPrecision factory"
+)
+
+add_geo_focused_test(
+    test_geo_st_buffer_focused
+    geo/test_geo_st_buffer.cpp
+    GeoStBufferFocusedTests
+    "geo;st-buffer;geometry;focused;unit"
+    "GeoSTBuffer: ST_BUFFER expand by fixed distance on CPU-exact and Boost backends"
+)
+
+add_geo_focused_test(
+    test_geo_st_union_difference_focused
+    geo/test_geo_st_union_difference.cpp
+    GeoStUnionDifferenceFocusedTests
+    "geo;st-union;st-difference;geometry;focused;unit"
+    "GeoSTUnionDifference: ST_UNION and ST_DIFFERENCE operations, degenerate inputs"
+)
+
+add_geo_focused_test(
+    test_rtree_cpu_integration_focused
+    geo/test_rtree_cpu_integration.cpp
+    RtreeCpuIntegrationFocusedTests
+    "geo;rtree;cpu;integration;focused;unit"
+    "RtreeCpuIntegration: R-tree backed CPU backend end-to-end spatial queries"
+)
+
+add_geo_focused_test(
+    test_spatial_index_focused
+    geo/test_spatial_index.cpp
+    SpatialIndexFocusedTests
+    "geo;spatial-index;s2;h3;focused;unit"
+    "SpatialIndex: S2 cell lookup, H3 hexagonal grid binning, index consistency"
+)
+
+add_geo_focused_test(
+    test_aql_st_functions_focused
+    geo/test_aql_st_functions.cpp
+    AqlStFunctionsFocusedTests
+    "geo;aql;st-functions;focused;unit"
+    "AqlStFunctions: ST_DISTANCE, ST_CONTAINS, ST_INTERSECTS, ST_BUFFER AQL integration"
+)
+
+add_geo_focused_test(
+    test_aql_st_queryengine_focused
+    geo/test_aql_st_queryengine.cpp
+    AqlStQueryengineFocusedTests
+    "geo;aql;query-engine;st-functions;focused;unit"
+    "AqlStQueryengine: full AQL query execution with spatial predicates and geo index"
+)
+
+add_geo_focused_test(
+    test_geo_3d_functions_focused
+    geo/test_geo_3d_functions.cpp
+    Geo3dFunctionsFocusedTests
+    "geo;3d;spatial;focused;unit"
+    "Geo3dFunctions: 3D containment, distance, intersection for point/polygon/polyhedron"
+)
+
+add_geo_focused_test(
+    test_geo_wgs84_spherical_focused
+    geo/test_geo_wgs84_spherical.cpp
+    GeoWgs84SphericalFocusedTests
+    "geo;wgs84;spherical;ellipsoid;focused;unit"
+    "GeoWgs84Spherical: spherical WGS-84 distance calculations, ellipsoid approximation"
+)
+
+add_geo_focused_test(
+    test_gpu_backend_production_focused
+    geo/test_gpu_backend_production.cpp
+    GpuBackendProductionFocusedTests
+    "geo;gpu-backend;production;focused;unit"
+    "GpuBackendProduction: production GPU backend dispatch, CPU fallback, circuit breaker"
+)
+
+add_geo_focused_test(
+    test_gpu_kernel_dispatcher_focused
+    geo/test_gpu_kernel_dispatcher.cpp
+    GpuKernelDispatcherFocusedTests
+    "geo;gpu-kernel;dispatcher;focused;unit"
+    "GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness"
+)
+
+if(THEMIS_GEO_CUDA)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_cuda_geo_kernels.cpp")
+        message(STATUS "Adding CUDA Geo Kernels focused tests (THEMIS_GEO_CUDA=ON)")
+
+        add_executable(test_cuda_geo_kernels_focused
+            geo/test_cuda_geo_kernels.cpp
+        )
+
+        target_include_directories(test_cuda_geo_kernels_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_cuda_geo_kernels_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_geo)
+            target_link_libraries(test_cuda_geo_kernels_focused PRIVATE themis_geo)
+        endif()
+
+        if(TARGET CUDA::cudart)
+            target_link_libraries(test_cuda_geo_kernels_focused PRIVATE CUDA::cudart)
+        endif()
+
+        target_compile_definitions(test_cuda_geo_kernels_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_GEO_CUDA
+        )
+
+        add_test(NAME CudaGeoKernelsFocusedTests COMMAND test_cuda_geo_kernels_focused)
+
+        set_tests_properties(CudaGeoKernelsFocusedTests PROPERTIES
+            LABELS "geo;cuda;kernels;focused;unit"
+            TIMEOUT 180  # GPU kernel init + device warm-up requires extra time
+        )
+
+        message(STATUS "  CudaGeoKernels: CUDA distance and containment kernel correctness vs CPU baseline")
+    endif()
+endif()
+
+if(THEMIS_GEO_HIP)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_hip_geo_kernels.cpp")
+        message(STATUS "Adding HIP Geo Kernels focused tests (THEMIS_GEO_HIP=ON)")
+
+        add_executable(test_hip_geo_kernels_focused
+            geo/test_hip_geo_kernels.cpp
+        )
+
+        target_include_directories(test_hip_geo_kernels_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_hip_geo_kernels_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_geo)
+            target_link_libraries(test_hip_geo_kernels_focused PRIVATE themis_geo)
+        endif()
+
+        target_compile_definitions(test_hip_geo_kernels_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_GEO_HIP
+        )
+
+        add_test(NAME HipGeoKernelsFocusedTests COMMAND test_hip_geo_kernels_focused)
+
+        set_tests_properties(HipGeoKernelsFocusedTests PROPERTIES
+            LABELS "geo;hip;rocm;kernels;focused;unit"
+            TIMEOUT 180  # GPU kernel init + device warm-up requires extra time
+        )
+
+        message(STATUS "  HipGeoKernels: ROCm/HIP distance and containment kernel correctness vs CPU baseline")
+    endif()
+endif()
+
+# ============================================================================
 # CHIMERA Adapter Focused Tests
 # Each adapter test is a standalone executable so it can be run independently
 # without needing the full themis_core link.  All adapters run in simulation
@@ -6565,6 +7647,40 @@ add_exporter_focused_test(
     "exporters;huggingface;hub;upload;libcurl;focused;unit"
     "HuggingFaceHubClient: token resolution, repo create, retry logic, error surfacing"
 )
+# Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
+    message(STATUS "Adding Cache Interfaces tests (Issue #1596)")
+
+    add_executable(test_cache_interfaces
+        test_cache_interfaces.cpp
+    )
+
+    target_include_directories(test_cache_interfaces PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cache_interfaces PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheInterfacesTests COMMAND test_cache_interfaces)
+
+    set_tests_properties(CacheInterfacesTests PROPERTIES
+        LABELS "cache;interfaces;eviction;gdpr;ttl;warmup;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CacheInterfaces: IEvictionPolicy, ICacheAdminOps, ICacheWarmup, IGDPRPurgeHook, ITTLAdapter")
+else()
+    message(STATUS "Cache Interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
+endif()
 
 # ============================================================================
 # Custom Test Targets

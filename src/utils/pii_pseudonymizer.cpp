@@ -207,12 +207,28 @@ bool PIIPseudonymizer::erasePII(const std::string& pii_uuid) {
                     {"timestamp", std::time(nullptr)}
                 });
             }
+            // Propagate GDPR erasure to the cache layer, if registered.
+            if (cache_invalidator_) {
+                try {
+                    cache_invalidator_(pii_uuid);
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("PIIPseudonymizer: cache_invalidator threw for {}: {}",
+                                pii_uuid, e.what());
+                }
+            }
             return true;
         }
         // Retry on busy/conflict
     }
     THEMIS_WARN("PIIPseudonymizer: erasePII commit failed after retries for {}", pii_uuid);
     return false;
+}
+
+void PIIPseudonymizer::registerCacheInvalidator(
+    std::function<void(const std::string&)> fn)
+{
+    std::scoped_lock lk(mu_);
+    cache_invalidator_ = std::move(fn);
 }
 
 bool PIIPseudonymizer::softDeletePII(const std::string& pii_uuid, const std::string& user_id) {

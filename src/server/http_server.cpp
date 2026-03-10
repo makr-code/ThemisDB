@@ -188,6 +188,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 // GraphQL types are included via server/graphql_api_handler.h (included in http_server.h)
 #include "server/api_version.h"
 #include "server/api_version_config.h"
+#include "server/route_version_router.h"
 #include "scheduler/task_scheduler.h"
 
 #include <nlohmann/json.hpp>
@@ -2083,6 +2084,7 @@ namespace {
         EntitiesDelete,
         EntitiesPost,
         EntitiesBatchPost,
+        V2DocumentsBulkPost,        // POST /v2/documents – bulk insert via NDJSON
         QueryPost,
         QueryAqlPost,
         QueryStreamSseGet,  // GET /v2/query/stream - SSE streaming of AQL results
@@ -2121,6 +2123,7 @@ namespace {
     AdminCacheTenantsGet,           // GET  /v1/admin/cache/tenants
     AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
     AdminCacheTenantQuotaPatch,     // PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+    AdminCachePiiEvictDelete,       // DELETE /v1/admin/cache/pii/{pii_uuid}
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2441,6 +2444,8 @@ namespace {
         // Exact matches for /entities endpoints BEFORE parametrized routes
         if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
         if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
+        // POST /v2/documents – bulk insert via NDJSON (application/x-ndjson body)
+        if (path_only == "/v2/documents" && method == http::verb::post) return Route::V2DocumentsBulkPost;
 
         // Parametrized entity by key (e.g., /entities/users:123)
         if (target.rfind("/entities/", 0) == 0) {
@@ -2503,6 +2508,7 @@ namespace {
         path_only.rfind("/quota") == path_only.size() - 6 &&
         method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
+    if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) return Route::AdminCachePiiEvictDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
@@ -3066,6 +3072,36 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
 
+    // ---------------------------------------------------------------------------
+    // Versioned path routing: redirect unversioned paths to /v1/<path>
+    //
+    // REST endpoints added before API versioning (e.g., /documents/{id}, /query)
+    // are implicitly treated as v1.  Clients that omit the version prefix receive a
+    // 301 Moved Permanently so their bookmarks / integrations are updated while
+    // the canonical /v1/ routes continue to function.
+    //
+    // Paths that are exempt from redirection (health-checks, already versioned
+    // paths, WebSocket endpoints, etc.) are defined in RouteVersionRouter.
+    // ---------------------------------------------------------------------------
+    {
+        static const RouteVersionRouter version_router;
+        if (auto redirect_target = version_router.getRedirectTarget(target)) {
+            http::response<http::string_body> res{http::status::moved_permanently, req.version()};
+            res.set(http::field::location, *redirect_target);
+            res.set(http::field::content_type, "application/json");
+            nlohmann::json body = {
+                {"status", 301},
+                {"message", "Moved Permanently – use versioned API path"},
+                {"location", *redirect_target}
+            };
+            res.body() = body.dump();
+            applyGovernanceHeaders(req, res);
+            res.prepare_payload();
+            recordLatency(std::chrono::microseconds(0));
+            return res;
+        }
+    }
+
     // Check rate limit BEFORE processing request
     if (auto rate_limit_response = checkRateLimit(req)) {
         auto end = std::chrono::steady_clock::now();
@@ -3291,6 +3327,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::EntitiesBatchPost:
             response = entity_api_->handleBatch(req);
+            break;
+        case Route::V2DocumentsBulkPost:
+            response = entity_api_->handleBulkNdjson(req);
             break;
         case Route::QueryPost:
             response = query_api_->handleQuery(req);
@@ -3570,6 +3609,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AdminCacheTenantQuotaPatch:
             if (cache_admin_api_) {
                 response = cache_admin_api_->handleUpdateTenantQuota(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCachePiiEvictDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handlePiiEvict(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }
