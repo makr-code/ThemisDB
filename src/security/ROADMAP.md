@@ -40,11 +40,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ### Short-term (Next 3-6 months)
 
 ### Long-term (6-12 months)
-- [I] SOC 2 Type II compliance evidence collection (Issue: #2293)
-  - Scope: audit-log export, metrics snapshot, key-rotation records, access-control reports
-  - Storage: append-only JSON/CBOR log with tamper-evident chain; 12-month retention
-  - Tests: evidence completeness check, retention enforcement
-  - Target: Q4 2026
+- [x] SOC 2 Type II compliance evidence collection (Issue: #2293) — **Shipped** in `src/security/security_evidence_collector.cpp`; 28 tests in `tests/security/test_security_evidence_collector.cpp`
 
 ## Implementation Phases
 
@@ -74,7 +70,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
     `verifyData`, `encryptData`, `decryptData`, `generateRsaKeyPair`,
     `getAttribute`, `getAttributeBytes`
   - Tests: `tests/test_pkcs11_wrapper.cpp` (pure-unit + optional SoftHSM2 integration)
-- [~] FIPS 140-2 / 140-3 validated cryptography mode
+- [~] FIPS 140-2 / 140-3 validated cryptography mode (see Phase 4: Zero-Trust & Post-Quantum Cryptography)
 
 ### Phase 3: Federated Auth & Anomaly Detection (Status: Completed ✅)
 - [x] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
@@ -92,7 +88,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - DilithiumSigner: sign/verify round-trip, all three security levels (2/3/5)
   - PostQuantumKeyProvider: Kyber-wrapped DEK wrapKeyWithKyber / unwrapKeyWithKyber
   - HybridEncryption: HYBRID / CLASSICAL_ONLY / POST_QUANTUM_ONLY modes; AES-256-GCM + Kyber-1024
-  - Tests (production-ready): `tests/test_post_quantum_crypto.cpp` — 27 test cases; throughput ≥ 2 000 ops/s
+  - Tests (production-ready): `tests/test_post_quantum_crypto.cpp` — 40 test cases; throughput ≥ 2 000 ops/s
 - [x] Systematic attack vector test suite (`tests/security/attack-vectors/`)
   - `crypto/test_crypto_attack_vectors.cpp` — IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
   - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params
@@ -101,18 +97,22 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - `createChallenge()` now uses OpenSSL CSPRNG and registers challenges with timestamps
   - `validateChallengeResponse()` verifies HMAC-SHA256(license_key, challenge), enforces TTL and one-time-use
   - Windows `MachineGuid` read from registry (`HKLM\SOFTWARE\Microsoft\Cryptography\MachineGuid`)
-  - Tests: 7 new tests in `tests/test_usb_admin_authenticator.cpp` (valid HMAC, wrong response, replay, unknown, expired, empty, multi-challenge)
+  - Tests: 18 tests in `tests/test_usb_admin_authenticator.cpp` (valid HMAC, wrong response, replay, unknown, expired, empty, multi-challenge)
 - [x] SOC 2 Type II compliance evidence collection (`include/security/security_evidence_collector.h`, `src/security/security_evidence_collector.cpp`)
   - Audit log export via `AuditLogger::generateComplianceReport()` + `searchEntries()`
   - Key-rotation records from `KeyProvider::listKeys()` with version-based rotation detection
   - Access-control report from `RBAC::listRoles()` / `getRole()` — empty roles, admin wildcard detection
   - Security metrics snapshot: active keys, deprecated keys, role count, audit log entry count
   - Append-only JSON export with atomic file write; 12-month retention enforcement; retention verification
-  - Tests: 30 test cases in `tests/security/test_security_evidence_collector.cpp`
-- [ ] SOC 2 Type II compliance evidence collection (Target: Q4 2026, Issue: #2293)
+  - Tests: 28 test cases in `tests/security/test_security_evidence_collector.cpp`
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider, KyberKEM, DilithiumSigner, HybridEncryption, SecurityEvidenceCollector)
+- [x] Unit tests coverage > 80%:
+  - KyberKEM/DilithiumSigner/HybridEncryption: 40 tests (`tests/test_post_quantum_crypto.cpp`)
+  - SecurityEvidenceCollector: 28 tests (`tests/security/test_security_evidence_collector.cpp`)
+  - FipsCryptoMode: 20 tests (`tests/security/test_fips_crypto_mode.cpp`)
+  - QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider: covered
+  - Standalone focused test targets for all security sub-directory tests
 - [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
 - [x] Attack vector tests (crypto IV/tag/key confusion, injection, authentication privilege escalation)
 - [x] Challenge-response security: HMAC-SHA256 with replay protection, TTL, one-time-use
