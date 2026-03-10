@@ -394,7 +394,15 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/export_encryption.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/importers/mysql_importer.cpp
+    ../src/importers/mongo_importer.cpp
+    ../src/importers/sqlite_importer.cpp
+    ../src/importers/flatfile_importer.cpp
+    ../src/importers/schema_validator.cpp
+    ../src/importers/kafka_importer.cpp
+    ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
+    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
 
 )
 

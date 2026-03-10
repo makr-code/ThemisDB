@@ -2091,6 +2091,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
+    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
