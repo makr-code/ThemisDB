@@ -535,6 +535,118 @@ struct IngestionReport {
     IngestionReport() = default;
 };
 
+// ============================================================================
+// Ingestion lineage tracking (Issue #1901)
+// ============================================================================
+
+/**
+ * @brief Status of a single lineage record
+ */
+enum class LineageStatus {
+    SUCCESS,     ///< Document written to the target collection
+    FAILED,      ///< Document processing failed (counted in documents_failed)
+    QUARANTINED, ///< Document added to the quarantine queue
+    DRY_RUN      ///< Run was in dry-run mode – no actual write occurred
+};
+
+/**
+ * @brief Lineage record for a single ingestion batch (one source run)
+ *
+ * Captures the provenance metadata for every ingestion run so that each
+ * batch of documents can be traced back to its source, connector, timestamp,
+ * and the transformations applied during intake.
+ *
+ * One record is created per call to `IngestionManager::ingestSource()` when
+ * lineage tracking is enabled.  Additionally, one record with
+ * `status = LineageStatus::QUARANTINED` is appended for each item that ends
+ * up in the quarantine queue during the same run.
+ *
+ * Records are stored in an in-memory `IngestionLineageStore` and can be
+ * retrieved via `IngestionManager::getLineageRecords()`.
+ *
+ * @see IngestionLineageStore
+ * @see IngestionManager::enableLineageTracking
+ */
+struct IngestionLineageRecord {
+    std::string run_correlation_id;  ///< Links to `IngestionStats::correlation_id`
+    std::string source_id;           ///< Source that produced the documents
+    std::string connector_type;      ///< Connector label, e.g. "FILESYSTEM", "KAFKA"
+    std::string connector_version;   ///< Semantic version of the connector (e.g. "1.0.0")
+    std::string doc_id;              ///< Document identifier: item_path for quarantine records;
+                                     ///<   "batch:<N>" for successful batch runs
+    std::string ingested_at;         ///< ISO-8601 UTC timestamp of the ingestion moment
+    size_t      bytes    = 0;        ///< Total bytes processed in this record
+    size_t      doc_count = 0;       ///< Number of documents covered by this record (≥1)
+    std::vector<std::string> transformation_steps; ///< Applied transformations, e.g.
+                                     ///<   {"schema_validation", "mime_detection", "rate_limiting"}
+    LineageStatus status = LineageStatus::SUCCESS; ///< Outcome of the ingestion attempt
+
+    IngestionLineageRecord() = default;
+};
+
+/**
+ * @brief Thread-safe in-memory store for ingestion lineage records
+ *
+ * Holds `IngestionLineageRecord` objects produced during ingestion runs.
+ * The store is owned by the `IngestionManager` and populated automatically
+ * when lineage tracking is enabled via `IngestionManager::enableLineageTracking()`.
+ *
+ * Querying is always available even if tracking is disabled; in that case the
+ * store simply remains empty.
+ */
+class IngestionLineageStore {
+public:
+    IngestionLineageStore() = default;
+
+    /// Append a lineage record (thread-safe).
+    void record(IngestionLineageRecord r) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        records_.push_back(std::move(r));
+    }
+
+    /// Return all records whose `source_id` matches (thread-safe).
+    std::vector<IngestionLineageRecord> getBySource(const std::string& source_id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        std::vector<IngestionLineageRecord> out;
+        for (const auto& r : records_) {
+            if (r.source_id == source_id) out.push_back(r);
+        }
+        return out;
+    }
+
+    /// Return all records whose `run_correlation_id` matches (thread-safe).
+    std::vector<IngestionLineageRecord> getByCorrelationId(const std::string& run_id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        std::vector<IngestionLineageRecord> out;
+        for (const auto& r : records_) {
+            if (r.run_correlation_id == run_id) out.push_back(r);
+        }
+        return out;
+    }
+
+    /// Return a copy of all stored records (thread-safe).
+    std::vector<IngestionLineageRecord> getAll() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return records_;
+    }
+
+    /// Remove all records (thread-safe).
+    void clear() {
+        std::lock_guard<std::mutex> lk(mutex_);
+        records_.clear();
+    }
+
+    /// Number of records currently stored (thread-safe).
+    size_t size() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return records_.size();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::vector<IngestionLineageRecord> records_;
+};
+
 /**
  * @brief Persistent checkpoint for a single ingestion source
  *
@@ -990,6 +1102,60 @@ public:
      * @return Sorted vector of plugin names
      */
     std::vector<std::string> listConnectorPlugins() const;
+
+    // ── Lineage tracking (Issue #1901) ──────────────────────────────────────
+
+    /**
+     * @brief Enable or disable end-to-end ingestion lineage tracking.
+     *
+     * When enabled, each call to `ingestSource()` appends one or more
+     * `IngestionLineageRecord` objects to the internal `IngestionLineageStore`:
+     *
+     * - **Successful batch**: one record with `status = SUCCESS` covering all
+     *   documents written in that run.
+     * - **Each quarantined item**: one record with `status = QUARANTINED`
+     *   carrying the item's path as `doc_id`.
+     * - **Dry-run**: one record with `status = DRY_RUN`; no writes occurred.
+     *
+     * Lineage tracking is **disabled** by default to avoid overhead when not
+     * needed.
+     *
+     * @param enabled true to enable, false to disable
+     */
+    void enableLineageTracking(bool enabled);
+
+    /**
+     * @brief Return whether lineage tracking is currently active.
+     */
+    bool isLineageTrackingEnabled() const;
+
+    /**
+     * @brief Return all lineage records for a specific source.
+     *
+     * @param source_id Source to query
+     * @return Vector of lineage records (may be empty)
+     */
+    std::vector<IngestionLineageRecord> getLineageRecords(
+        const std::string& source_id) const;
+
+    /**
+     * @brief Return all lineage records associated with an ingestion run.
+     *
+     * @param run_correlation_id Correlation ID from `IngestionStats::correlation_id`
+     * @return Vector of lineage records (may be empty)
+     */
+    std::vector<IngestionLineageRecord> getLineageRecordsByRun(
+        const std::string& run_correlation_id) const;
+
+    /**
+     * @brief Return all lineage records accumulated since the last clear.
+     */
+    std::vector<IngestionLineageRecord> getAllLineageRecords() const;
+
+    /**
+     * @brief Remove all stored lineage records.
+     */
+    void clearLineageRecords();
 
 private:
     class Impl;
