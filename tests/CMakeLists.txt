@@ -7417,6 +7417,294 @@ else()
 endif()
 
 # ============================================================================
+# LLM Module Focused Tests (tests/llm/)
+# ============================================================================
+
+function(add_llm_focused_test target_name test_src test_name labels description)
+    set(full_path "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    if(NOT EXISTS "${full_path}")
+        message(STATUS "LLM focused test not found: ${full_path}")
+        return()
+    endif()
+
+    message(STATUS "Adding LLM focused test: ${target_name}")
+
+    add_executable(${target_name} ${test_src})
+
+    target_include_directories(${target_name} PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    if(TARGET themis_llm)
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            themis_llm
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    else()
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+    endif()
+
+    target_compile_definitions(${target_name} PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    add_test(NAME ${test_name} COMMAND ${target_name})
+
+    set_tests_properties(${test_name} PROPERTIES
+        LABELS "${labels}"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ${description}")
+endfunction()
+
+if(THEMIS_ENABLE_LLM)
+
+    add_llm_focused_test(
+        test_llm_ai_orchestrator
+        llm/test_ai_orchestrator.cpp
+        LlmAiOrchestratorFocusedTests
+        "llm;ai;orchestrator;pipeline;unit"
+        "AiOrchestrator: YAML pipeline modes (ask/edit/rag/agentic/ethics/multi_agent), ToolRegistry, mode dispatch"
+    )
+
+    add_llm_focused_test(
+        test_llm_streaming_handler
+        llm/test_streaming_handler.cpp
+        LlmStreamingHandlerFocusedTests
+        "llm;streaming;sse;handler;unit"
+        "StreamingHandler: SSE token delivery, cancel mid-stream, is_final sentinel, backpressure"
+    )
+
+    add_llm_focused_test(
+        test_llm_openai_compat_adapter
+        llm/test_openai_compat_adapter.cpp
+        LlmOpenAICompatAdapterFocusedTests
+        "llm;openai;compat;adapter;unit"
+        "OpenAICompatAdapter: /v1/chat/completions mapping, stream=true SSE, tool_calls, 401 on denied"
+    )
+
+    add_llm_focused_test(
+        test_llm_lora_hot_loading
+        llm/test_lora_hot_loading.cpp
+        LlmLoraHotLoadingFocusedTests
+        "llm;lora;hot-loading;adapter;unit"
+        "LoRA hot-loading: loadLoRAAdapter, unloadLoRAAdapter, zero dropped requests during swap"
+    )
+
+    add_llm_focused_test(
+        test_llm_model_loader_async
+        llm/test_model_loader_async.cpp
+        LlmModelLoaderAsyncFocusedTests
+        "llm;model;loader;async;unit"
+        "ModelLoader async: lazy loading, concurrent requests, cancellation, timeout"
+    )
+
+    add_llm_focused_test(
+        test_llm_audit_logger
+        llm/test_llm_audit_logger.cpp
+        LlmAuditLoggerFocusedTests
+        "llm;audit;logger;unit"
+        "LlmModelAuditLogger: structured audit events, hash-chain integrity, PII redaction"
+    )
+
+    add_llm_focused_test(
+        test_llm_json_schema_binding
+        llm/test_json_schema_binding.cpp
+        LlmJsonSchemaBindingFocusedTests
+        "llm;json;schema;binding;tool-calls;unit"
+        "JSON schema binding: schema→GBNF conversion, tool-call output validation, nested schemas"
+    )
+
+    add_llm_focused_test(
+        test_llm_grammar_integration
+        llm/test_grammar_integration.cpp
+        LlmGrammarIntegrationFocusedTests
+        "llm;grammar;constrained-generation;unit"
+        "Grammar-constrained generation: EBNF compilation, runtime API detection, graceful degradation"
+    )
+
+    add_llm_focused_test(
+        test_llm_validator
+        llm/test_llm_validator.cpp
+        LlmValidatorFocusedTests
+        "llm;validator;production;unit"
+        "ProductionValidator: model health checks, benchmark thresholds, validation report"
+    )
+
+    add_llm_focused_test(
+        test_llm_deployment_plugin
+        llm/test_llm_deployment_plugin.cpp
+        LlmDeploymentPluginFocusedTests
+        "llm;deployment;plugin;unit"
+        "LlmDeploymentPlugin: model lifecycle, caching, audit, hot-swap"
+    )
+
+    add_llm_focused_test(
+        test_llm_lora_adapters
+        llm/test_lora_adapters.cpp
+        LlmLoraAdaptersFocusedTests
+        "llm;lora;adapters;unit"
+        "LoRA adapters: load/unload, metadata, versioning, VRAM footprint"
+    )
+
+    add_llm_focused_test(
+        test_llm_lora_auto_binding
+        llm/test_lora_auto_binding.cpp
+        LlmLoraAutoBindingFocusedTests
+        "llm;lora;auto-binding;unit"
+        "LoRA auto-binding: rule matching, priority ordering, fallback to base model"
+    )
+
+    add_llm_focused_test(
+        test_llm_lora_adapter_application
+        llm/test_lora_adapter_application.cpp
+        LlmLoraAdapterApplicationFocusedTests
+        "llm;lora;adapter;application;unit"
+        "LoRA adapter application: weight injection, rank/alpha params, output delta"
+    )
+
+    add_llm_focused_test(
+        test_llm_mcp_orchestrator_bridge
+        llm/test_mcp_orchestrator_bridge.cpp
+        LlmMcpOrchestratorBridgeFocusedTests
+        "llm;mcp;orchestrator;bridge;unit"
+        "MCP↔Orchestrator bridge: tool registration, call routing, result marshalling"
+    )
+
+    add_llm_focused_test(
+        test_llm_extended_context
+        llm/test_extended_context.cpp
+        LlmExtendedContextFocusedTests
+        "llm;context;extended;rope;unit"
+        "Extended context: RoPE scaling, context window extension, cache coherency"
+    )
+
+    add_llm_focused_test(
+        test_llm_inference_performance
+        llm/test_inference_performance.cpp
+        LlmInferencePerformanceFocusedTests
+        "llm;inference;performance;benchmark;unit"
+        "Inference performance: tokens/sec baseline, latency p99, batching throughput"
+    )
+
+    add_llm_focused_test(
+        test_llm_inference_quality
+        llm/test_inference_quality.cpp
+        LlmInferenceQualityFocusedTests
+        "llm;inference;quality;evaluation;unit"
+        "Inference quality: output determinism, grammar compliance, tool-call correctness"
+    )
+
+    add_llm_focused_test(
+        test_llm_kernel_fusion_cpu_fallback
+        llm/test_kernel_fusion_cpu_fallback.cpp
+        LlmKernelFusionCpuFallbackFocusedTests
+        "llm;kernel-fusion;cpu;fallback;unit"
+        "Kernel fusion CPU fallback: correctness vs reference, no CUDA dependency"
+    )
+
+    add_llm_focused_test(
+        test_llm_kernel_fusion_cuda
+        llm/test_kernel_fusion_cuda.cpp
+        LlmKernelFusionCudaFocusedTests
+        "llm;kernel-fusion;cuda;unit"
+        "Kernel fusion CUDA: Flash Attention parity, FP16/BF16 kernels, skip when no CUDA"
+    )
+
+    add_llm_focused_test(
+        test_llm_llama_cpp_tokenizer
+        llm/test_llama_cpp_tokenizer.cpp
+        LlmLlamaCppTokenizerFocusedTests
+        "llm;llama;tokenizer;unit"
+        "llama.cpp tokenizer: encode/decode round-trip, special tokens, BPE merges"
+    )
+
+    add_llm_focused_test(
+        test_llm_llama_wrapper_state
+        llm/test_llama_wrapper_state.cpp
+        LlmLlamaWrapperStateFocusedTests
+        "llm;llama;wrapper;state;unit"
+        "LlamaWrapper state: model load/unload, context lifecycle, thread safety"
+    )
+
+    add_llm_focused_test(
+        test_llm_gpu_lora_integration
+        llm/test_gpu_lora_integration.cpp
+        LlmGpuLoraIntegrationFocusedTests
+        "llm;gpu;lora;integration;unit"
+        "GPU LoRA integration: multi-LoRA on GPU, VRAM tracking, adapter switch latency"
+    )
+
+    add_llm_focused_test(
+        test_llm_real_embeddings
+        llm/test_real_embeddings.cpp
+        LlmRealEmbeddingsFocusedTests
+        "llm;embeddings;real;unit"
+        "Real embeddings: embedding generation via llamacpp, similarity search, dimension check"
+    )
+
+    add_llm_focused_test(
+        test_llm_model_loader_error_handling
+        llm/test_model_loader_error_handling.cpp
+        LlmModelLoaderErrorHandlingFocusedTests
+        "llm;model;loader;error-handling;unit"
+        "ModelLoader error handling: missing file, corrupted GGUF, OOM, permission denied"
+    )
+
+    add_llm_focused_test(
+        test_llm_model_loading_best_practices
+        llm/test_model_loading_best_practices.cpp
+        LlmModelLoadingBestPracticesFocusedTests
+        "llm;model;loading;best-practices;unit"
+        "Model loading best practices: lazy init, memory budget enforcement, eviction policies"
+    )
+
+    add_llm_focused_test(
+        test_llm_model_loading_from_themisdb
+        llm/test_model_loading_from_themisdb.cpp
+        LlmModelLoadingFromThemisDbFocusedTests
+        "llm;model;loading;themisdb;integration"
+        "Model loading from ThemisDB: store, retrieve, checksum verify, hot-reload"
+    )
+
+    # Benchmarks (registered as tests with longer timeout)
+    add_llm_focused_test(
+        bench_llm_continuous_batch_scheduler
+        llm/bench_continuous_batch_scheduler.cpp
+        LlmBenchContinuousBatchScheduler
+        "llm;benchmark;batch-scheduler;performance"
+        "Continuous batch scheduler benchmark: throughput at varying concurrency levels"
+    )
+
+    add_llm_focused_test(
+        bench_llm_model_loading_from_themisdb
+        llm/bench_model_loading_from_themisdb.cpp
+        LlmBenchModelLoadingFromThemisDb
+        "llm;benchmark;model-loading;performance"
+        "Model loading benchmark: cold/warm load latency, concurrent loads, memory overhead"
+    )
+
+else()
+    message(STATUS "LLM focused tests (tests/llm/) skipped (THEMIS_ENABLE_LLM=OFF)")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
