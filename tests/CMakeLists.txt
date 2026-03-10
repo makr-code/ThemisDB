@@ -3520,6 +3520,194 @@ else()
     message(STATUS "SAGA Compactor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_compactor.cpp")
 endif()
 
+# Sharding Transaction WAL Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
+    message(STATUS "Adding Sharding Transaction WAL focused tests")
+
+    add_executable(test_sharding_transaction_wal_focused
+        test_sharding_transaction_wal.cpp
+        ${CMAKE_SOURCE_DIR}/src/sharding/transaction_wal.cpp
+    )
+
+    target_link_libraries(test_sharding_transaction_wal_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_transaction_wal_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingTransactionWALFocusedTests COMMAND test_sharding_transaction_wal_focused)
+
+    set_tests_properties(ShardingTransactionWALFocusedTests PROPERTIES
+        LABELS "transaction;sharding;wal;2pc;saga;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingTransactionWAL: initialize, logBegin/Prepare/Commit/Abort/Compensate LSNs, config defaults, protocol values")
+else()
+    message(STATUS "Sharding Transaction WAL focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
+endif()
+
+# Multi-Shard Transaction Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
+    message(STATUS "Adding Multi-Shard Transaction focused tests")
+
+    add_executable(test_multi_shard_transactions_focused
+        test_multi_shard_transactions.cpp
+    )
+
+    target_link_libraries(test_multi_shard_transactions_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_shard_transactions_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiShardTransactionFocusedTests COMMAND test_multi_shard_transactions_focused)
+
+    set_tests_properties(MultiShardTransactionFocusedTests PROPERTIES
+        LABELS "transaction;sharding;2pc;distributed;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MultiShardTransaction: 2PC, rollback on prepare failure, concurrent transactions, cross-shard consistency, deadlock detection")
+else()
+    message(STATUS "Multi-Shard Transaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
+endif()
+
+# Distributed Transactions Focused Tests (disabled placeholder)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
+    message(STATUS "Adding Distributed Transactions focused tests")
+
+    add_executable(test_distributed_transactions_focused
+        test_distributed_transactions.cpp
+    )
+
+    target_link_libraries(test_distributed_transactions_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_transactions_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedTransactionsFocusedTests COMMAND test_distributed_transactions_focused)
+
+    set_tests_properties(DistributedTransactionsFocusedTests PROPERTIES
+        LABELS "transaction;distributed;2pc;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  DistributedTransactions: placeholder (full suite gated behind gRPC shard transport)")
+else()
+    message(STATUS "Distributed Transactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_transactions.cpp")
+endif()
+
+# Postgres Transaction Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_transactions.cpp")
+    message(STATUS "Adding Postgres Transaction focused tests")
+
+    add_executable(test_postgres_transactions_focused
+        test_postgres_transactions.cpp
+    )
+
+    target_link_libraries(test_postgres_transactions_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_postgres_transactions_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PostgresTransactionFocusedTests COMMAND test_postgres_transactions_focused)
+
+    set_tests_properties(PostgresTransactionFocusedTests PROPERTIES
+        LABELS "transaction;postgres;wire;2pc;savepoint;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PostgresTransaction: transaction state, BEGIN/COMMIT/ROLLBACK, savepoints, 2PC prepare/commit/rollback (POSTGRES_WIRE)")
+else()
+    message(STATUS "Postgres Transaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_transactions.cpp")
+endif()
+
+# AQL Multi-Statement Transaction Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_aql_multi_statement_transaction.cpp")
+    message(STATUS "Adding AQL Multi-Statement Transaction focused tests")
+
+    add_executable(test_aql_multi_statement_transaction_focused
+        test_aql_multi_statement_transaction.cpp
+    )
+
+    target_link_libraries(test_aql_multi_statement_transaction_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_multi_statement_transaction_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AQLMultiStatementTransactionFocusedTests COMMAND test_aql_multi_statement_transaction_focused)
+
+    set_tests_properties(AQLMultiStatementTransactionFocusedTests PROPERTIES
+        LABELS "transaction;aql;multi-statement;begin;commit;rollback;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AQLMultiStatementTransaction: BEGIN/COMMIT/ROLLBACK parse, multi-statement batching, query engine integration")
+else()
+    message(STATUS "AQL Multi-Statement Transaction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_aql_multi_statement_transaction.cpp")
+endif()
+
+# DB Transaction Isolation Focused Tests (tests/db/ subdirectory)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/db/test_transaction_isolation.cpp")
+    message(STATUS "Adding DB Transaction Isolation focused tests")
+
+    add_executable(test_db_transaction_isolation_focused
+        db/test_transaction_isolation.cpp
+    )
+
+    target_link_libraries(test_db_transaction_isolation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_db_transaction_isolation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DbTransactionIsolationFocusedTests COMMAND test_db_transaction_isolation_focused)
+
+    set_tests_properties(DbTransactionIsolationFocusedTests PROPERTIES
+        LABELS "transaction;isolation;mvcc;snapshot;deadlock;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  DbTransactionIsolation: ReadCommitted/Snapshot isolation, concurrent transactions, deadlock detection, rollback consistency")
+else()
+    message(STATUS "DB Transaction Isolation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/db/test_transaction_isolation.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")
@@ -6311,6 +6499,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
     message(STATUS "  TenantBufferManager: per-tenant CDC buffers, quota enforcement, metrics isolation, flush lifecycle")
 else()
     message(STATUS "Tenant Buffer Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
+endif()
+
 # Config Module – Focused Standalone Test Targets
 # ============================================================================
 
