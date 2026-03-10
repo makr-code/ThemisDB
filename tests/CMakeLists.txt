@@ -732,6 +732,9 @@ target_sources(themis_tests PRIVATE
 )
 
 # Ensure implementations required by unit tests are always linked.
+# NOTE: Many of these files are now registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake.
+# These target_sources entries serve as fallback for builds where the relevant feature flags are
+# OFF (e.g., THEMIS_ENABLE_HTTP_SERVER=OFF) so tests still compile and link correctly.
 target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
     ${CMAKE_SOURCE_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp

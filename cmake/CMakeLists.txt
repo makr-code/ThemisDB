@@ -1438,7 +1438,8 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/wal_storage.cpp
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
-    
+    ../src/storage/merge_operators.cpp
+
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
     ../src/metadata/information_schema.cpp
@@ -1507,6 +1508,9 @@ set(THEMIS_CORE_SOURCES
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
     ../src/performance/workload_predictor.cpp
+    ../src/performance/async_metrics_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/prometheus_exporter.cpp
     
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -1515,6 +1519,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
+    ../src/transaction/distributed_saga.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
     ../src/transaction/branch_manager.cpp
@@ -1555,6 +1560,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/cross_cluster_federation.cpp
     ../src/query/workload_cache_strategy.cpp
+    ../src/query/query_canceller.cpp
+    ../src/query/query_federation.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
@@ -1641,9 +1648,18 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/cdn_cache_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_wizard_builder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/profiling_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ethics_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>:../src/server/voice_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
@@ -1791,6 +1807,12 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
+    ../src/utils/bloom_filter.cpp             # Bloom filter for membership testing
+    ../src/utils/consistent_hash.cpp          # Consistent hash ring utilities
+    ../src/utils/pii_stream_scanner.cpp       # Streaming PII detection and redaction
+    ../src/utils/sampled_logger.cpp           # Sampling-based logger to avoid log flooding
+    ../src/utils/timestamp_utils.cpp          # Timestamp formatting and conversion utilities
+    ../src/utils/rate_limiter.cpp             # Token-bucket rate limiter (utils namespace)
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -2000,9 +2022,11 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/predictive_detector.cpp
     ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/shard_rpc_server.cpp
-    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>
-    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:/src/sharding/gpu_erasure_coder_opencl.cpp>
+    ../src/sharding/cloud_backup.cpp
+    ../src/sharding/orphan_detector.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
+    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
     ../src/server/sharding_metrics_handler.cpp
     
@@ -2384,8 +2408,13 @@ if(THEMIS_ENABLE_LLM)
     # Phase 5: Distributed evaluation and security
     ../src/rag/distributed_rag_evaluator.cpp
     ../src/rag/prompt_injection_detector.cpp
+    # Phase 5: Evaluation pipeline (evaluation report, cache, calibration, batch evaluator, bias detection)
+    ../src/rag/evaluation_report_exporter.cpp
+    ../src/rag/evaluation_cache.cpp
+    ../src/rag/calibration_manager.cpp
+    ../src/rag/batch_evaluator.cpp
+    ../src/rag/bias_detector.cpp
     )
-endif()
 
 # Ensure minimal LLM components are available when referenced from http_server.
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.
@@ -2771,6 +2800,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
             target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VULKAN)
             target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
             target_link_libraries(themis_core PRIVATE Vulkan::Vulkan)
+            list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/vulkan_backend_full.cpp)
             message(STATUS "Vulkan acceleration enabled")
             message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
         else()
@@ -3474,6 +3504,13 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ai_decision_auditor.cpp        # AI decision auditing with cryptographic signing
         ../src/llm/explanation_generator.cpp      # Human-readable explanation generation
         ../src/llm/ethical_guidelines_manager.cpp # Ethical guidelines management
+        ../src/llm/constitutional_reasoning_engine.cpp # Constitutional-AI constraint checking
+        ../src/llm/ethics_aware_confidence_detector.cpp # Ethics-aware confidence scoring
+        ../src/llm/moral_analyzer.cpp             # Moral dimension extraction and scoring
+        ../src/llm/multi_perspective_generator.cpp # Multi-perspective generation for ethical queries
+        ../src/llm/meta_prompt_generator.cpp      # Meta-prompt generation for self-improvement
+        ../src/llm/prompt_evaluator.cpp           # Prompt quality evaluation
+        ../src/llm/prompt_optimizer.cpp           # Prompt optimisation pipeline
 
         # AI Orchestrator: YAML-configurable LLM pipeline modes (ask, edit, rag, agentic, ethics, multi_agent)
         ../src/llm/mode_spec_loader.cpp           # ThemisModePack YAML loader + validator
@@ -3534,6 +3571,9 @@ if(THEMIS_ENABLE_LLM)
     # Add CLIP vision encoder only when explicitly enabled
     target_sources(themis_core PRIVATE
         ../src/llm/vision_config.cpp
+        ../src/llm/vision_resource_monitor.cpp    # Vision resource tracking and VRAM budget
+        ../src/llm/inference_handle.cpp           # Per-request inference handle with cancellation
+        ../src/llm/llm_security_utils.cpp         # LLM security utilities (API key masking, etc.)
     )
 
     if(THEMIS_ENABLE_VISION)

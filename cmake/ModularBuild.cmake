@@ -148,6 +148,13 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/boost_throw_exception.cpp
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
+    ../src/utils/bloom_filter.cpp
+    ../src/utils/consistent_hash.cpp
+    ../src/utils/checksum_utils.cpp
+    ../src/utils/pii_stream_scanner.cpp
+    ../src/utils/sampled_logger.cpp
+    ../src/utils/timestamp_utils.cpp
+    ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
@@ -168,6 +175,7 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/vllm_resource_manager.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/shader_integrity.cpp
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/acceleration/vulkan_backend_full.cpp>
     ../src/gpu/device_discovery.cpp
     
     # Plugin manager (core plugin orchestration)
@@ -212,6 +220,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     # Compaction and GC management
     ../src/storage/compaction_manager.cpp
+    # RocksDB merge operators (counter/last-write-wins/append merge semantics)
+    ../src/storage/merge_operators.cpp
     # Storage Audit Logger
     ../src/storage/storage_audit_logger.cpp
     # MVCC versioning and HLC timestamping
@@ -337,8 +347,13 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/query/cross_cluster_federation.cpp
+    ../src/query/query_canceller.cpp
+    ../src/query/query_federation.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
+    ../src/performance/async_metrics_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/prometheus_exporter.cpp
     ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp
     ../src/cache/distributed_cache_coordinator.cpp
@@ -551,7 +566,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/neural_sparse_retrieval.cpp
     ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
-    ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
 )
 
@@ -561,6 +575,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/lock_manager.cpp
     ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/saga.cpp
+    ../src/transaction/distributed_saga.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp
@@ -663,6 +678,8 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
     ../src/sharding/shard_rpc_server.cpp
+    ../src/sharding/cloud_backup.cpp
+    ../src/sharding/orphan_detector.cpp
     
     # GPU erasure coding (conditional)
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
@@ -704,6 +721,16 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/openai_compat_adapter.cpp
     ../src/llm/embedded_llm.cpp
     ../src/llm/ethical_guidelines_manager.cpp
+    ../src/llm/constitutional_reasoning_engine.cpp
+    ../src/llm/ethics_aware_confidence_detector.cpp
+    ../src/llm/moral_analyzer.cpp
+    ../src/llm/multi_perspective_generator.cpp
+    ../src/llm/meta_prompt_generator.cpp
+    ../src/llm/prompt_evaluator.cpp
+    ../src/llm/prompt_optimizer.cpp
+    ../src/llm/inference_handle.cpp
+    ../src/llm/llm_security_utils.cpp
+    ../src/llm/vision_resource_monitor.cpp
     ../src/llm/docs_assistant.cpp
     ../src/llm/feedback_store.cpp
     ../src/llm/llm_model_storage.cpp
@@ -787,6 +814,12 @@ set(THEMIS_LLM_SOURCES
     # Phase 5: Distributed evaluation and security
     ../src/rag/distributed_rag_evaluator.cpp
     ../src/rag/prompt_injection_detector.cpp
+    # Phase 5: Evaluation pipeline (report, cache, calibration, batch, bias)
+    ../src/rag/evaluation_report_exporter.cpp
+    ../src/rag/evaluation_cache.cpp
+    ../src/rag/calibration_manager.cpp
+    ../src/rag/batch_evaluator.cpp
+    ../src/rag/bias_detector.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp
@@ -980,6 +1013,15 @@ set(THEMIS_NETWORK_SOURCES
     # Advanced protocols (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/cdn_cache_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/import_wizard_builder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/profiling_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ethics_api_handler.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>:../src/server/voice_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
