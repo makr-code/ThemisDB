@@ -127,7 +127,7 @@ jobs:
         with:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev librocksdb-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev librocksdb-dev libfmt-dev
 
       - name: Configure and build (${{ matrix.edition }})
         uses: ./.github/actions/configure-themis
@@ -231,7 +231,7 @@ jobs:
         with:
           cc:             gcc-12
           cxx:            g++-12
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-15 clang++-15 librocksdb-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-15 clang++-15 librocksdb-dev libfmt-dev
 
       - name: Configure and build (ASan + UBSan)
         uses: ./.github/actions/configure-themis
@@ -321,7 +321,7 @@ jobs:
         with:
           cc:             gcc-12
           cxx:            g++-12
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev librocksdb-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev librocksdb-dev libfmt-dev
 
       - name: Configure and build themis_core (${{ matrix.edition }})
         uses: ./.github/actions/configure-themis
@@ -371,7 +371,7 @@ jobs:
         with:
           cc:             clang-15
           cxx:            clang++-15
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-tidy-15 librocksdb-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev nlohmann-json3-dev clang-tidy-15 librocksdb-dev libfmt-dev
 
       - name: Configure (generate compile_commands.json)
         uses: ./.github/actions/configure-themis
