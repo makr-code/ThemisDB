@@ -79,7 +79,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ### Phase 4: Streaming & Agent Framework (Status: In Progress 🚧)
 - [x] Generic `TokenStream` iterator API for all LLM inference calls (Target: v1.7.0)
   - `include/aql/aql_token_stream.h` – header-only, thread-safe push/pop/cancel/range-for
-  - `tests/test_aql_token_stream.cpp` – 16 unit tests covering single-threaded, concurrent, cancel, and range-for scenarios
+  - `tests/test_aql_token_stream.cpp` – 14 unit tests covering single-threaded, concurrent, cancel, and range-for scenarios
 - [x] AQL Agent Framework – ReAct multi-step agent with tool calling (Target: v1.7.0)
   - `include/aql/aql_agent.h` – `AgentTool`, `AgentConfig`, `ReasoningStep`, `AgentResult`, `IAgent`, `ReActAgent`
   - `src/aql/aql_agent.cpp` – Pimpl ReActAgent implementation
@@ -88,7 +88,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] `IAsyncLLMBackend` async interface (Target: v1.8.0)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 16 token-stream tests + 17 agent tests)
+- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 14 token-stream tests + 17 agent tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
 - [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)  

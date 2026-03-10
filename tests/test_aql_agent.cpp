@@ -139,7 +139,7 @@ TEST_F(AQLAgentTest, SetConfig_UpdatesConfiguration) {
     EXPECT_EQ(cfg.model_alias, "llama-test");
 }
 
-TEST_F(AQLAgentTest, DefaultConfig_MaxIterationsFive) {
+TEST_F(AQLAgentTest, DefaultConfig_MaxIterationsTen) {
     ReActAgent default_agent(handler);
     EXPECT_EQ(default_agent.getConfig().max_iterations, 10);
 }
