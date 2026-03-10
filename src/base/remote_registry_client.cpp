@@ -333,6 +333,10 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
         if (!config_.ca_bundle_path.empty()) {
             curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
         }
+        if (!config_.pinned_public_key.empty()) {
+            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY,
+                             config_.pinned_public_key.c_str());
+        }
 
         const CURLcode res = curl_easy_perform(curl);
         long http_code = 0;
@@ -420,6 +424,10 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
         if (!config_.ca_bundle_path.empty()) {
             curl_easy_setopt(curl, CURLOPT_CAINFO, config_.ca_bundle_path.c_str());
+        }
+        if (!config_.pinned_public_key.empty()) {
+            curl_easy_setopt(curl, CURLOPT_PINNEDPUBLICKEY,
+                             config_.pinned_public_key.c_str());
         }
 
         const CURLcode res = curl_easy_perform(curl);

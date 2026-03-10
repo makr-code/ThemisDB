@@ -85,6 +85,11 @@ v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaD
 - [x] `REGISTER_IMPORTER_PLUGIN` macro – static-init plugin registration
 - [x] Unit tests for all abstract interfaces (`tests/test_importer_interfaces.cpp`, 42 tests)
 
+### Phase 5: Build System Audit (Status: Completed ✅)
+- [x] All 11 `src/importers/*.cpp` files registered in `cmake/CMakeLists.txt` (`s3_importer.cpp` gated by `THEMIS_ENABLE_S3`)
+- [x] All 11 `src/importers/*.cpp` files registered in `cmake/ModularBuild.cmake` (`THEMIS_QUERY_SOURCES`; `s3_importer.cpp` gated by `THEMIS_ENABLE_S3`)
+- [x] Focused standalone test targets added in `tests/CMakeLists.txt`: FlatfileImporterFocusedTests, SchemaValidatorImporterFocusedTests, ImporterConflictResolverFocusedTests, ImporterAsyncApiFocusedTests, MySQLImporterFocusedTests, MongoImporterFocusedTests, SQLiteImporterFocusedTests, KafkaImporterFocusedTests, OracleImporterFocusedTests, S3ImporterFocusedTests, PostgresImporterFocusedTests, ImportWizardFocusedTests
+
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1857)
 - [x] Integration tests against live PostgreSQL (Issue: #1858)

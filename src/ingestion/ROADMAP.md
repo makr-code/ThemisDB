@@ -10,12 +10,12 @@ v1.x – Production-grade data intake layer. All planned Phase 1–3 connectors 
 **Connectors:** filesystem (HTML/XML), HuggingFace datasets, generic HTTP REST API, Kafka consumer, S3/GCS/Azure Blob, CDC (PostgreSQL logical replication), JDBC/ODBC, web crawler / sitemap, distributed multi-node coordinator (work-stealing thread pool), plugin API for third-party connectors.
 
 **Features:** token-bucket rate limiting per source, incremental checkpointing, quarantine queue with per-document exponential back-off retry, per-source schema validation, dry-run mode, Prometheus-compatible metrics, admin API (pause/resume/quarantine), fluent IngestionBuilder, cursor-based and offset/limit pagination, OAuth 2.0 token refresh.
-v1.5.x – Production-grade data intake layer. All connectors (FileSystem, HuggingFace, GenericAPI, Kafka, ObjectStorage, Database, WebCrawler, CDC) implemented and production-ready. Distributed ingestion coordinator with work-stealing pool available. Dynamic source reconfiguration, schema validation, and Plugin API complete. `HuggingFaceConnector` HTTP client still uses a simulated implementation (see Known Issues).
+v1.5.x – Production-grade data intake layer. All connectors (FileSystem, HuggingFace, GenericAPI, Kafka, ObjectStorage, Database, WebCrawler, CDC) implemented and production-ready. Distributed ingestion coordinator with work-stealing pool available. Dynamic source reconfiguration, schema validation, and Plugin API complete.
 
 ## Completed ✅
 - [x] GenericApiConnector – paginated JSON REST API ingestion with exponential back-off; real `curl_easy_perform` (PR #1915)
 - [x] FileSystemIngester – recursive directory walk with HTML/XML extraction (pugixml)
-- [x] HuggingFaceConnector – dataset split ingestion with API token auth (HTTP stub, see Known Issues)
+- [x] HuggingFaceConnector – dataset split ingestion with API token auth; real libcurl implementation (Issue: #1915)
 - [x] IngestionManager – parallel multi-source orchestration with thread pool
 - [x] Token-bucket rate limiting per source
 - [x] Incremental checkpoint-based ingestion (skip re-processing)
@@ -117,11 +117,9 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [I] API stability guaranteed (Issue: #1914)
 
 ## Known Issues & Limitations
-- `HuggingFaceConnector`: HTTP client uses a simulated implementation (hardcoded JSON response); replace with real `curl_easy_perform` calls in a follow-up PR. Note: `GenericApiConnector` already uses real `curl_easy_perform` (PR #1915).
-- `CdcConnector`: `ingestFromStream()` is a compile-time gated stub; full replication driver integration (PostgreSQL libpq-fe.h or MySQL Connector/C) is a follow-up task (requires `THEMIS_ENABLE_CDC_STREAM`).
-- `IngestionAdminApi::retryQuarantineItem()`: write-success is always `true` in the current implementation (unreachable failure branch); real storage-write result must be wired in.
 - PDF/DOCX ingestion requires external converters (pdftotext, pandoc); not handled natively.
 - End-to-end lineage tracking not yet implemented (Issue: #1901).
+- `CdcConnector`: full replication driver integration requires `THEMIS_ENABLE_CDC_STREAM` compile flag; without it, `ingestFromStream()` returns `CONNECTOR_NOT_SUPPORTED`.
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.

@@ -738,3 +738,74 @@ TEST_F(CacheAdminApiHandlerTest, UpdateTenantQuotaAppearsInListTenants) {
     ASSERT_TRUE(body["tenants"].contains(tenant));
     EXPECT_EQ(body["tenants"][tenant]["quota"].get<size_t>(), new_quota);
 }
+
+// ---------------------------------------------------------------------------
+// Tests: DELETE /v1/admin/cache/pii/{pii_uuid}
+// ---------------------------------------------------------------------------
+
+TEST_F(CacheAdminApiHandlerTest, PiiEvictReturns400ForMissingUuid) {
+    // Path ends exactly at the prefix with no UUID segment
+    auto req = makeRequest(http::verb::delete_, "/v1/admin/cache/pii/");
+    auto res = handler_->handlePiiEvict(req);
+
+    EXPECT_EQ(res.result(), http::status::bad_request);
+    json body = json::parse(res.body());
+    EXPECT_TRUE(body["error"].get<bool>());
+}
+
+TEST_F(CacheAdminApiHandlerTest, PiiEvictReturns503WhenCacheIsNull) {
+    auto handler_no_cache =
+        std::make_unique<themis::server::CacheAdminApiHandler>(nullptr, nullptr);
+    auto req = makeRequest(http::verb::delete_,
+                           "/v1/admin/cache/pii/some-pii-uuid");
+    EXPECT_EQ(handler_no_cache->handlePiiEvict(req).result(),
+              http::status::service_unavailable);
+}
+
+TEST_F(CacheAdminApiHandlerTest, PiiEvictReturns200WithZeroEvictedForUnknownUuid) {
+    // A UUID that was never registered returns 0 evicted entries (not an error).
+    auto req = makeRequest(http::verb::delete_,
+                           "/v1/admin/cache/pii/unknown-pii-uuid-99999");
+    auto res = handler_->handlePiiEvict(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_EQ(body["pii_uuid"], "unknown-pii-uuid-99999");
+    EXPECT_GE(body["evicted"].get<int>(), 0);
+}
+
+TEST_F(CacheAdminApiHandlerTest, PiiEvictReturnsCorrectUuidInResponse) {
+    const std::string pii_uuid = "test-pii-uuid-abc123";
+    auto req = makeRequest(http::verb::delete_,
+                           "/v1/admin/cache/pii/" + pii_uuid);
+    auto res = handler_->handlePiiEvict(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_EQ(body["pii_uuid"].get<std::string>(), pii_uuid);
+    EXPECT_TRUE(body.contains("evicted"));
+}
+
+TEST_F(CacheAdminApiHandlerTest, PiiEvictPurgesTaggedCacheEntries) {
+    // Insert a cache entry tagged with a PII UUID, then verify it is purged
+    // via the admin API endpoint.
+    const std::string pii_uuid = "pii-evict-test-uuid";
+    const std::string tenant   = "acme";
+
+    std::string fp = cache_->generateFingerprint("SELECT pii", {}, tenant);
+    bool ok = cache_->put(fp, {}, json::object(), tenant, {pii_uuid});
+    ASSERT_TRUE(ok) << "put() with pii_uuids must succeed";
+    ASSERT_TRUE(cache_->get(fp, tenant).has_value()) << "entry must be retrievable";
+
+    auto req = makeRequest(http::verb::delete_,
+                           "/v1/admin/cache/pii/" + pii_uuid);
+    auto res = handler_->handlePiiEvict(req);
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    json body = json::parse(res.body());
+    EXPECT_GE(body["evicted"].get<int>(), 1)
+        << "at least one tagged entry must have been purged";
+    EXPECT_FALSE(cache_->get(fp, tenant).has_value())
+        << "entry must no longer be in cache after PII eviction";
+}
+

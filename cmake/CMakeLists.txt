@@ -2093,6 +2093,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
+    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
@@ -4221,6 +4222,51 @@ if(THEMIS_BUILD_TESTS)
             CONFIGURATIONS Release Debug
         )
     endif() # THEMIS_ENABLE_GPU
+
+    # -----------------------------------------------------------------------
+    # GPU Module Focused Test Targets
+    # Each target exercises one GPU subsystem in isolation.  All paths use
+    # CPU-side bookkeeping so no GPU hardware is required.
+    # -----------------------------------------------------------------------
+    if(THEMIS_ENABLE_GPU)
+        # Helper macro to reduce boilerplate
+        macro(_themis_gpu_test _name)
+            add_executable(${_name}
+                ${THEMIS_ROOT_DIR}/tests/${_name}.cpp
+            )
+            target_link_libraries(${_name}
+                PRIVATE
+                    themis_core
+                    GTest::gtest
+                    GTest::gtest_main
+            )
+            gtest_discover_tests(${_name}
+                DISCOVERY_MODE PRE_TEST
+                WORKING_DIRECTORY $<TARGET_FILE_DIR:${_name}>
+                EXTRA_ARGS --gtest_color=yes
+                CONFIGURATIONS Release Debug
+            )
+        endmacro()
+
+        _themis_gpu_test(test_gpu_admin_api)
+        _themis_gpu_test(test_gpu_alerts)
+        _themis_gpu_test(test_gpu_audit_log)
+        _themis_gpu_test(test_gpu_config)
+        _themis_gpu_test(test_gpu_device_discovery)
+        _themis_gpu_test(test_gpu_feature_flags)
+        _themis_gpu_test(test_gpu_kernel_validator)
+        _themis_gpu_test(test_gpu_launcher)
+        _themis_gpu_test(test_gpu_memory_management)
+        _themis_gpu_test(test_gpu_module)
+        _themis_gpu_test(test_gpu_olap_accelerator)
+        _themis_gpu_test(test_gpu_policy)
+        _themis_gpu_test(test_gpu_safe_fail)
+        _themis_gpu_test(test_gpu_safe_fail_module)
+        _themis_gpu_test(test_gpu_stubs_comprehensive)
+        _themis_gpu_test(test_gpu_tensor)
+        _themis_gpu_test(test_gpu_training_loop)
+        _themis_gpu_test(test_gpu_vram_allocation)
+    endif() # THEMIS_ENABLE_GPU (focused GPU module targets)
 
     # GPU Vector Index Test
     if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)

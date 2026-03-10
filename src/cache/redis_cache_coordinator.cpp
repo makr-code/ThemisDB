@@ -39,10 +39,16 @@
 #include <stdexcept>
 #include <chrono>
 #include <cerrno>
+#include <climits>
+#include <iomanip>
 
 #ifdef THEMIS_ENABLE_REDIS
 #include <hiredis/hiredis.h>
 #endif
+
+#include <openssl/hmac.h>
+#include <openssl/evp.h>
+#include <openssl/crypto.h>
 
 namespace themis {
 namespace cache {
@@ -458,6 +464,11 @@ void RedisCacheCoordinator::handleMessage(const std::string& payload) {
     try {
         auto j = nlohmann::json::parse(payload);
 
+        // Verify HMAC signature when a shared secret is configured.
+        if (!verifyHmac(j)) {
+            return;
+        }
+
         // Discard messages originating from this node (self-echo prevention)
         if (j.value("node_id", "") == node_id_) {
             return;
@@ -506,7 +517,96 @@ std::string RedisCacheCoordinator::serializeMessage(const ReplicationMessage& ms
     j["ttl_seconds"] = msg.ttl_seconds;
     j["result"]      = msg.result;
     j["node_id"]     = node_id_;  // Used by peers for self-echo detection
-    return j.dump();
+
+    std::string payload = j.dump();
+
+    std::string sig = computeHmac(payload);
+    if (!sig.empty()) {
+        // Re-serialise with the signature field appended.  We produce the
+        // signature over the payload WITHOUT the sig field to avoid a
+        // chicken-and-egg dependency.
+        j["sig"] = sig;
+        payload = j.dump();
+    }
+
+    return payload;
+}
+
+std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const {
+    if (config_.hmac_secret.empty()) {
+        return {};
+    }
+
+    // Guard against pathological sizes that would truncate in the cast to int.
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) ||
+        payload.size() > static_cast<size_t>(INT_MAX)) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
+        return {};
+    }
+
+    unsigned char md[EVP_MAX_MD_SIZE];
+    unsigned int  md_len = 0;
+
+    if (!HMAC(EVP_sha256(),
+              config_.hmac_secret.data(),
+              static_cast<int>(config_.hmac_secret.size()),
+              reinterpret_cast<const unsigned char*>(payload.data()),
+              static_cast<int>(payload.size()),
+              md, &md_len)) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC computation failed");
+        return {};
+    }
+
+    std::ostringstream oss;
+    for (unsigned int i = 0; i < md_len; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<int>(md[i]);
+    }
+    return oss.str();
+}
+
+bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
+    // Signing disabled – all messages are accepted.
+    if (config_.hmac_secret.empty()) {
+        return true;
+    }
+
+    // The signature must be present.
+    if (!j.contains("sig") || !j["sig"].is_string()) {
+        THEMIS_WARN("RedisCacheCoordinator: received unsigned message – rejected "
+                    "(hmac_secret is configured)");
+        return false;
+    }
+
+    std::string received_sig = j["sig"].get<std::string>();
+
+    // Re-compute the HMAC over the payload WITHOUT the "sig" field.
+    // We reconstruct the unsigned JSON by removing the field, then dumping.
+    try {
+        nlohmann::json j_unsigned = j;
+        j_unsigned.erase("sig");
+        std::string unsigned_payload = j_unsigned.dump();
+
+        std::string expected_sig = computeHmac(unsigned_payload);
+        if (expected_sig.empty()) {
+            return false;
+        }
+
+        // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
+        if (received_sig.size() != expected_sig.size()) {
+            THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
+            return false;
+        }
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),
+                          expected_sig.size()) != 0) {
+            THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
+            return false;
+        }
+        return true;
+    } catch (const std::exception& ex) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC verification error: {}", ex.what());
+        return false;
+    }
 }
 
 std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(

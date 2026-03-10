@@ -100,6 +100,15 @@ struct RedisCacheCoordinatorConfig {
 
     /// Maximum number of bytes for a single published message.
     size_t max_message_bytes = 65536;
+
+    /// Optional HMAC-SHA256 secret for message signing/verification.
+    ///
+    /// When non-empty, every published message is signed with
+    /// HMAC-SHA256(hmac_secret, payload) and the resulting hex digest is
+    /// appended as a "sig" field.  Received messages whose "sig" field
+    /// is absent or does not match are silently discarded.
+    /// When empty, signing and verification are disabled (default).
+    std::string hmac_secret;
 };
 
 // ---------------------------------------------------------------------------
@@ -228,6 +237,15 @@ private:
     /// Dispatch a received message to the appropriate callback.
     void dispatchMessage(const std::string& channel,
                          const std::string& payload);
+
+    /// Compute HMAC-SHA256(config_.hmac_secret, payload) and return hex string.
+    /// Returns empty string when hmac_secret is empty.
+    std::string computeHmac(const std::string& payload) const;
+
+    /// Verify the "sig" field in parsed JSON against the unsigned payload.
+    /// Returns true when hmac_secret is empty (signing disabled) or when the
+    /// signature matches.  Returns false on mismatch or absent sig field.
+    bool verifyHmac(const nlohmann::json& j) const;
 
     // -----------------------------------------------------------------------
     // Members

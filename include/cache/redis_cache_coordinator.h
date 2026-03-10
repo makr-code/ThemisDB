@@ -106,6 +106,15 @@ public:
         /// originating node can skip its own echo.  Defaults to
         /// host:port if left empty.
         std::string node_id;
+
+        /// Optional HMAC-SHA256 secret for message signing/verification.
+        ///
+        /// When non-empty, every published message is signed with
+        /// HMAC-SHA256(hmac_secret, payload) and the resulting hex digest is
+        /// included in the "sig" field.  Received messages whose "sig" field
+        /// is absent or does not match are silently discarded.
+        /// When empty, signing and verification are disabled (default).
+        std::string hmac_secret;
     };
 
     // -----------------------------------------------------------------------
@@ -251,6 +260,16 @@ private:
     /// Deserialise a JSON string back to a ReplicationMessage.
     /// Returns nullopt on parse failure.
     std::optional<ReplicationMessage> deserializeMessage(const std::string& data) const;
+
+    /// Compute HMAC-SHA256(config_.hmac_secret, payload) and return hex string.
+    /// Returns empty string when hmac_secret is empty.
+    std::string computeHmac(const std::string& payload) const;
+
+    /// Verify that the "sig" field in the JSON object matches the expected HMAC.
+    /// Returns true when hmac_secret is empty (signing disabled) or when the
+    /// signature matches.  Returns false on mismatch or when signing is enabled
+    /// but the field is absent.
+    bool verifyHmac(const nlohmann::json& j) const;
 };
 
 } // namespace cache
