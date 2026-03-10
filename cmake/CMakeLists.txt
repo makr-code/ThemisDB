@@ -1840,6 +1840,9 @@ set(THEMIS_CORE_SOURCES
     ../src/security/manifest_signer.cpp
     ../src/security/confidential_computing.cpp
     ../src/security/fips_crypto_mode.cpp
+    ../src/security/post_quantum_crypto.cpp
+    ../src/security/secret_manager.cpp
+    ../src/security/security_evidence_collector.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
