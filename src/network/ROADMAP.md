@@ -133,6 +133,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - `handleAuthRequest()` is a stub; `authenticated_` session flag is never set `true` through
   the wire protocol; all BPMN handlers that check `authenticated_.load()` return 401.
 - `grpc_transport.cpp` was missing from `cmake/CMakeLists.txt` (fixed: 2026-03-09).
+- `envoy_xds.cpp`, `service_mesh.cpp`, `socket_timeout_manager.cpp`, `udp_fast_path.cpp`, `wire_protocol_server_ws.cpp` were missing from `cmake/ModularBuild.cmake` (fixed: 2026-03-10).
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
   dispatched (clients receive a structured error and should use text/JSON frames or
   the native TCP binary connection).
