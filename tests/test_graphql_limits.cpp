@@ -309,3 +309,99 @@ TEST(GraphQLLimits, NestedFieldsCountedCorrectly) {
     auto result = Parser::parse(query, limits);
     EXPECT_TRUE(result.success) << "Query with exactly max_fields should succeed";
 }
+
+
+// ============================================================================
+// Introspection Limits Tests
+// ============================================================================
+
+TEST(GraphQLLimits, IntrospectionAllowedByDefault) {
+    QueryLimits limits;  // allow_introspection = true by default
+
+    // __schema is allowed
+    auto r1 = Parser::parse("{ __schema { queryType { name } } }", limits);
+    EXPECT_TRUE(r1.success) << "Introspection should succeed when allow_introspection=true";
+
+    // __type is allowed
+    auto r2 = Parser::parse("{ __type(name: \"Query\") { name } }", limits);
+    EXPECT_TRUE(r2.success) << "__type should succeed when allow_introspection=true";
+
+    // __typename is allowed
+    auto r3 = Parser::parse("{ user { __typename id } }", limits);
+    EXPECT_TRUE(r3.success) << "__typename should succeed when allow_introspection=true";
+}
+
+TEST(GraphQLLimits, IntrospectionBlockedWhenDisabled) {
+    QueryLimits limits;
+    limits.allow_introspection = false;
+
+    // __schema rejected
+    auto r1 = Parser::parse("{ __schema { queryType { name } } }", limits);
+    EXPECT_FALSE(r1.success) << "__schema should be rejected when allow_introspection=false";
+    ASSERT_FALSE(r1.errors.empty());
+    EXPECT_NE(r1.errors[0].message.find("introspection"), std::string::npos)
+        << "Error message should mention introspection";
+
+    // __type rejected
+    auto r2 = Parser::parse("{ __type(name: \"Query\") { name } }", limits);
+    EXPECT_FALSE(r2.success) << "__type should be rejected when allow_introspection=false";
+
+    // __typename rejected
+    auto r3 = Parser::parse("{ user { __typename id } }", limits);
+    EXPECT_FALSE(r3.success) << "__typename should be rejected when allow_introspection=false";
+}
+
+TEST(GraphQLLimits, NonIntrospectionQueryAllowedWhenIntrospectionDisabled) {
+    QueryLimits limits;
+    limits.allow_introspection = false;
+
+    auto result = Parser::parse("{ user { id name email } }", limits);
+    EXPECT_TRUE(result.success) << "Regular query should still succeed even when introspection is disabled";
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST(GraphQLLimits, ProductionLimitsDisableIntrospection) {
+    auto limits = QueryLimits::production();
+    EXPECT_FALSE(limits.allow_introspection)
+        << "production() limits must disable introspection";
+
+    // Verify __schema is rejected
+    auto result = Parser::parse("{ __schema { types { name } } }", limits);
+    EXPECT_FALSE(result.success);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].message.find("introspection"), std::string::npos);
+}
+
+TEST(GraphQLLimits, DefaultsAllowIntrospection) {
+    auto limits = QueryLimits::defaults();
+    EXPECT_TRUE(limits.allow_introspection)
+        << "defaults() should allow introspection (development context)";
+}
+
+TEST(GraphQLLimits, PermissiveAllowsIntrospection) {
+    auto limits = QueryLimits::permissive();
+    EXPECT_TRUE(limits.allow_introspection)
+        << "permissive() should allow introspection (trusted context)";
+}
+
+TEST(GraphQLLimits, NestedIntrospectionBlockedWhenDisabled) {
+    QueryLimits limits;
+    limits.allow_introspection = false;
+
+    // Introspection nested inside a mutation
+    auto result = Parser::parse(
+        "mutation { createUser(name: \"alice\") { id __typename } }", limits);
+    EXPECT_FALSE(result.success) << "Nested __typename should be rejected when disabled";
+}
+
+TEST(GraphQLLimits, IntrospectionErrorMessageContainsFieldName) {
+    QueryLimits limits;
+    limits.allow_introspection = false;
+
+    auto result = Parser::parse("{ __schema { types { name } } }", limits);
+    ASSERT_FALSE(result.success);
+    ASSERT_FALSE(result.errors.empty());
+    // Error must identify the offending field name
+    EXPECT_NE(result.errors[0].message.find("__schema"), std::string::npos)
+        << "Error message should contain the offending field name '__schema'";
+}

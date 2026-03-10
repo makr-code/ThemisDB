@@ -205,6 +205,7 @@ if(NOT THEMIS_ENABLE_WEBSOCKET)
         ".*test_wire_protocol_websocket\\.cpp$"
         ".*test_ws_handler\\.cpp$"
         ".*test_websocket_cdc\\.cpp$"
+        ".*test_graphql_ws_handler\\.cpp$"
     )
 endif()
 
@@ -2269,8 +2270,73 @@ else()
 endif()
 
 # ============================================================================
-# GraphQL Error Masking Tests
+# OTLP Exporter Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+    message(STATUS "Adding OTLP exporter tests")
+
+    add_executable(test_otlp_exporter
+        test_otlp_exporter.cpp
+    )
+
+    target_link_libraries(test_otlp_exporter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        CURL::libcurl
+    )
+
+    target_compile_definitions(test_otlp_exporter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OtlpExporterTests COMMAND test_otlp_exporter)
+
+    set_tests_properties(OtlpExporterTests PROPERTIES
+        LABELS "api;tracing;otlp;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OTLP Exporter: queue, span serialisation, middleware integration")
+else()
+    message(STATUS "OTLP exporter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+endif()
+
+# ============================================================================
+# API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+    message(STATUS "Adding API interface header tests")
+
+    add_executable(test_api_interfaces
+        test_api_interfaces.cpp
+    )
+
+    target_link_libraries(test_api_interfaces PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiInterfacesTests COMMAND test_api_interfaces)
+
+    set_tests_properties(ApiInterfacesTests PROPERTIES
+        LABELS "api;interfaces;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Interfaces: IHttpHandler, CorrelationId, WebSocketCloseCode, VersionDescriptor, GRPCMetadata")
+else()
+    message(STATUS "API interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")
@@ -2374,6 +2440,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
     message(STATUS "  GraphQL Multi-Model: timeseries queries, geo search, subscription type")
 else()
     message(STATUS "GraphQL Multi-Model tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+endif()
+
+# ============================================================================
+# GraphQL WebSocket Handler Tests (graphql-transport-ws protocol)
+# ============================================================================
+
+if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_ws_handler.cpp")
+    message(STATUS "Adding GraphQL WebSocket handler tests")
+
+    add_executable(test_graphql_ws_handler
+        test_graphql_ws_handler.cpp
+    )
+
+    target_link_libraries(test_graphql_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_WEBSOCKET=1
+    )
+
+    add_test(NAME GraphQLWsHandlerTests COMMAND test_graphql_ws_handler)
+
+    set_tests_properties(GraphQLWsHandlerTests PROPERTIES
+        LABELS "api;graphql;websocket;subscription;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL WS Handler: graphql-transport-ws protocol, subscription management")
 endif()
 
 # ============================================================================
