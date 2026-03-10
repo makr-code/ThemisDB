@@ -337,33 +337,30 @@ class OpenAIBackend : public ILLMBackend { /* ... */ };
 
 ---
 
-### Streaming Response API
+### Streaming Response API ✅ SHIPPED (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0 — **Implemented**
 
-SSE streaming for AQL explanations is already shipped via `streamExplainAQLAsSSE()`.
-The remaining work is a generic `TokenStream` API covering all inference calls.
+SSE streaming for AQL explanations is shipped via `streamExplainAQLAsSSE()`.
+The generic `AQLTokenStream` API is now also shipped (`include/aql/aql_token_stream.h`).
 
-**Already Shipped (SSE explanation streaming):**
+**Shipped: SSE explanation streaming**
 ```cpp
 // Streams explanation tokens as Server-Sent Events
 std::string streamExplainAQLAsSSE(const std::string& aql, SseResponseWriter& writer);
 ```
 
-**Proposed Generic API:**
+**Shipped: Generic `AQLTokenStream` (v1.7.0)**
 ```cpp
-Result<TokenStream> inferStreaming(const std::string& prompt);
-// Returns immediately with iterator
-
-for (auto token : stream) {
-    std::cout << token;  // Print as generated
-}
+auto stream = std::make_shared<AQLTokenStream>();
+for (const auto& token : *stream) { std::cout << token; }
+stream->cancel();  // cooperative cancellation
 ```
 
-**Benefits:**
+**Benefits delivered:**
 - Better user experience (progressive output for all commands)
 - Lower time-to-first-token
-- Cancel long-running inferences
+- Cancel long-running inferences via `cancel()` / `isCancelled()`
 
 ---
 
@@ -582,42 +579,32 @@ auto result = backend->infer(prompt);
 
 ---
 
-### v1.6.x → v1.7.x: Streaming API
-**Breaking Changes:** Inference API signature change
+### v1.6.x → v1.7.x: Streaming API ✅ Done
+**Breaking Changes:** None (additive)
 
-**Old API:**
-```cpp
-Result<std::string> infer(const std::string& prompt);
-```
-
-**New API (backward compatible):**
-```cpp
-Result<std::string> infer(const std::string& prompt);  // Still works
-Result<TokenStream> inferStreaming(const std::string& prompt);  // New
-```
+**Shipped (v1.7.0):**
+- `AQLTokenStream` (`include/aql/aql_token_stream.h`) – header-only thread-safe token streaming
+- `IAgent` / `ReActAgent` (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`) – ReAct agent with tool calling
 
 **Migration Steps:**
 1. Update to v1.7.0
-2. Optionally adopt streaming API for better UX
-3. No breaking changes (additive only)
-
-**Timeline:** N/A (backward compatible)
+2. Use `AQLTokenStream` for token-by-token streaming in your consumer loop
+3. Use `ReActAgent` for multi-step reasoning workflows
+4. No breaking changes (additive only)
 
 ---
 
 ### v1.7.x → v1.8.x: Agent Framework
 **Breaking Changes:** None (new features)
 
-**New Features:**
-```aql
-LLM AGENT CREATE ...
-LLM AGENT EXECUTE ...
-```
+**Planned Features (v1.8.0):**
+- Multi-modal agent inputs (image/audio via `MultiModalInferRequest`)
+- `IAsyncLLMBackend` non-blocking async interface
 
 **Migration Steps:**
 1. Update to v1.8.0
-2. Explore agent capabilities
-3. No code changes required
+2. Optionally extend agents with multi-modal tool inputs
+3. No code changes required for existing agents
 
 **Timeline:** N/A (additive)
 
@@ -635,13 +622,13 @@ We welcome contributions in the following areas:
 
 ### Medium Complexity
 - [ ] Additional LLM backend implementations (VLLM, Ollama, OpenAI)
-- [ ] Streaming response API
+- [x] Streaming response API (`include/aql/aql_token_stream.h`, v1.7.0)
 - [ ] HyDE RAG implementation
 - [ ] Cross-encoder re-ranking
 
 ### Advanced Topics
 - [ ] Fine-tuning pipeline integration
-- [ ] Agent framework with tool calling
+- [x] Agent framework with tool calling (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, v1.7.0)
 - [ ] Speculative decoding
 - [ ] Multi-modal LLM support
 - [ ] Distributed model sharding
@@ -667,7 +654,27 @@ Have ideas for AQL and LLM improvements? We'd love to hear from you:
 
 ---
 
-## Test Strategy
+## Implementation Notes
+
+### AQLTokenStream (v1.7.0)
+- **Header-only** (`include/aql/aql_token_stream.h`); no `.cpp` file required.
+- Uses `std::queue<std::string>` protected by `std::mutex` + `std::condition_variable` for blocking consumer.
+- `cancelled_` is `std::atomic<bool>` so producers can check `isCancelled()` without holding the mutex.
+- `push()` after `cancel()` or `close()` is silently discarded (no exception, no undefined behaviour).
+- Destructor calls `close()` to unblock any waiting consumer thread – prevents deadlocks on early destruction.
+- Iterator satisfies the minimum input-iterator contract needed for range-based for-loops; it is not a full LegacyInputIterator.
+- No heap allocation per token (queue node is small-string-optimised by the STL implementation).
+
+### ReActAgent (v1.7.0)
+- **Pimpl pattern** keeps `ReActAgent.h` free of internal implementation details and provides ABI stability.
+- Tool registry is `std::unordered_map<std::string, AgentTool>` for O(1) lookup.
+- LLM prompt format follows the standard ReAct template: `Thought:` / `Action:` / `Action Input:` / `Observation:` / `Final Answer:`.
+- Tool executor exceptions are caught inside `invokeTool()` and returned as a JSON error object – they never propagate to `execute()` callers.
+- `Action Input:` is parsed as JSON; if parsing fails the raw string is wrapped as `{"input": "<raw>"}`.
+- `verbose = true` logs each reasoning step at `spdlog::debug` level.
+- The `context` JSON object is injected into the system prompt verbatim (2-space indented) to give the LLM per-invocation metadata.
+
+---
 
 - **Unit tests** (≥ 90 % line coverage): lexer tokenisation for all token types including edge cases (empty input, max-length identifiers, Unicode identifiers); parser round-trip for every grammar production rule
 - **Integration tests**: execute a suite of ≥ 500 canonical AQL queries (SELECT, INSERT, UPDATE, LLM INFER, LLM RAG, sub-queries, CTEs) against an in-memory dataset; verify result correctness and row counts

@@ -1,10 +1,10 @@
 # CDC (Change Data Capture) Module Roadmap
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · include/cdc/FUTURE_ENHANCEMENTS.md · docs/de/cdc/ -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented.
+**Production** — Real-time change notifications, SSE-based event streaming, WebSocket transport, consumer group semantics, and Kafka producer integration are all implemented. Build system audit completed (2026-03-10): all CDC source files are now registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`; standalone focused test targets added for `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests`.
 
 ## Completed ✅
 - [x] Changefeed implementation for real-time change tracking — `changefeed.cpp`, `include/cdc/changefeed.h`
@@ -61,6 +61,14 @@
 - [x] Add Debezium-compatible change event envelope format (Issue: #1621) — `include/cdc/debezium_format.h`; 23 tests in `tests/test_cdc_debezium_format.cpp`
 - [x] Implement GDPR-aware change log redaction for configured PII fields (Issue: #1622) — `changefeed.cpp`; fields with `encryption`/`pii` annotations masked in `before` field
 
+### Phase 4: Build System Audit (Status: Completed ✅)
+- [x] Register `changefeed_buffer.cpp` and `tenant_buffer_manager.cpp` in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake` — previously missing from both build files
+- [x] Register `cross_collection_stream.cpp` and `cdc_materialized_view.cpp` in `cmake/CMakeLists.txt` — previously only in `ModularBuild.cmake`
+- [x] Register `cdc_admin.cpp` in `cmake/CMakeLists.txt` (conditional on `THEMIS_ENABLE_HTTP_SERVER`) — previously only in `ModularBuild.cmake`
+- [x] Register `consumer_group.cpp`, `delivery_tracker.cpp`, `outbox.cpp`, and `ws_transport.cpp` in `cmake/ModularBuild.cmake` THEMIS_STORAGE_SOURCES — previously only in `CMakeLists.txt`
+- [x] Add all CDC source files to `_themis_test_extra_sources` in `tests/CMakeLists.txt` (including `delivery_tracker.cpp` and `ws_transport.cpp`)
+- [x] Add standalone focused test targets `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests` in `tests/CMakeLists.txt`
+
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1623)
 - [x] Integration tests (SSE streaming, change replay, subscription filtering)
@@ -68,6 +76,7 @@
 - [x] Security audit (subscription authorization, data leakage) (Issue: #1625)
 - [x] Documentation complete
 - [x] API stability guaranteed for changefeed and subscription APIs
+- [x] Build system audit complete — all source files registered in cmake (2026-03-10)
 
 ## Known Issues & Limitations
 - Consumer offset tracking is available via `ConsumerGroupManager`; full log scan is no longer required for existing groups
