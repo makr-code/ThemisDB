@@ -168,6 +168,8 @@ if(NOT THEMIS_ENABLE_LLM AND THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND ALL_TEST_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_data_selection.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_e2e.cpp"
+        # Phase 3 training tests – not LLM-dependent
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_checkpoint_manager.cpp"
     )
     list(REMOVE_DUPLICATES ALL_TEST_SOURCES)
 endif()
@@ -176,6 +178,8 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_lora_data_selection\\.cpp$"
         ".*test_training_pipeline_e2e\\.cpp$"
+        ".*test_lora_checkpoint_manager\\.cpp$"
+        ".*test_provenance_tracker\\.cpp$"
     )
 endif()
 
@@ -656,6 +660,8 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/incremental_lora_trainer.cpp
         ../src/training/training_pipeline.cpp
         ../src/training/lora_data_selection.cpp
+        ../src/training/lora_checkpoint_manager.cpp
+        ../src/training/provenance_tracker.cpp
     )
 endif()
 

@@ -65,6 +65,29 @@ using EnrichmentCallback = std::function<void(size_t processed,
                                               const std::string& status)>;
 
 /**
+ * @brief Configuration for the enrichment LRU cache.
+ */
+struct EnrichmentCacheConfig {
+    bool   enabled           = true;     ///< Enable or disable the cache
+    size_t capacity          = 50000;    ///< Maximum number of cached entries
+    size_t refresh_interval_seconds = 300; ///< Seconds between graph-version refreshes (0 = disable)
+
+    EnrichmentCacheConfig() = default;
+};
+
+/**
+ * @brief Runtime statistics for the enrichment LRU cache.
+ */
+struct EnrichmentCacheStats {
+    size_t hits       = 0;  ///< Cache hits since last reset
+    size_t misses     = 0;  ///< Cache misses since last reset
+    size_t evictions  = 0;  ///< Entries evicted due to capacity or version change
+    size_t size       = 0;  ///< Current number of cached entries
+
+    EnrichmentCacheStats() = default;
+};
+
+/**
  * @brief Configuration for graph enrichment
  */
 struct EnrichmentConfig {
@@ -78,7 +101,8 @@ struct EnrichmentConfig {
     bool include_guidance = true;          ///< Include internal guidance
     bool include_similar_docs = true;      ///< Include similar documents
     size_t batch_size = 50;                ///< Samples per batch
-    
+    EnrichmentCacheConfig cache;           ///< LRU cache configuration
+
     EnrichmentConfig() = default;
 };
 
@@ -188,6 +212,22 @@ public:
      * @return AQL query template string, or empty string if not found
      */
     std::string getQueryTemplate(const std::string& query_name) const;
+
+    /**
+     * @brief Enable the enrichment LRU cache (Phase 9).
+     * @param config Cache configuration (capacity, refresh interval).
+     */
+    void enableCache(const EnrichmentCacheConfig& config = {});
+
+    /**
+     * @brief Disable the enrichment LRU cache and evict all entries.
+     */
+    void disableCache();
+
+    /**
+     * @brief Return current cache hit/miss/eviction statistics.
+     */
+    EnrichmentCacheStats getCacheStats() const;
 
 private:
     class Impl;
