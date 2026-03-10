@@ -3,7 +3,7 @@
 # Transaction Module Roadmap
 
 ## Current Status
-v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern, deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, and CDC changefeed integration are all implemented.
+v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA pattern (with fully-implemented compensating actions for relational, secondary-index, graph, and vector operations), deadlock detection, full Serializable isolation (SSI via predicate locking), Git-like branching/merging, named snapshots, CDC changefeed integration, transaction explain (locks + write-set), and multi-region Global Transaction Manager (TrueTime 2PC) are all implemented across Phases 1–4.
 
 ## Completed ✅
 - [x] TransactionManager – ACID guarantees via RocksDB WriteBatch
@@ -31,19 +31,30 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Transaction timeout with automatic rollback
 - [x] Bulk transaction API (batch insert/update without per-row overhead) (Issue: #2476)
 - [x] Branch merge conflict resolution UI (Issue: #2478)
+- [x] Transaction explain – `explain()` / `explainTransaction()` (show locks held, write set / MVCC version chain) (Issue: #2477)
+- [x] SAGA compensation for secondary index operations (fixed: `SagaOperation::indexPutWithCompensation` now calls `idx.erase()`)
+- [x] SAGA compensation for graph edge additions (fixed: `SagaOperation::graphAddWithCompensation` now calls `graph.deleteEdge()`)
+- [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+- [x] Global transaction manager for multi-region ACID guarantees with TrueTime 2PC (Issue: #2327)
 
 ## In Progress 🚧
-> All Phase 2 items are now complete.
+> All Phase 3 and Phase 4 items are now complete.
 
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
+- [x] Transaction explain (show locks acquired, MVCC version chain) (Issue: #2477)
+  — implemented in `Transaction::explain()` / `TransactionManager::explainTransaction()`;
+  tests in `tests/test_transaction_manager.cpp` and `tests/test_transaction_manager_comprehensive.cpp`
 
 ### Long-term (6-12 months)
-- [I] Distributed SAGA orchestration across multiple nodes (Issue: #2326) — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`, tests in `tests/test_distributed_saga.cpp`
-- [I] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
+- [x] Distributed SAGA orchestration across multiple nodes (Issue: #2326)
+  — implemented in `include/transaction/distributed_saga.h`, `src/transaction/distributed_saga.cpp`,
+  tests in `tests/test_distributed_saga.cpp`
+- [x] Global transaction manager for multi-region ACID guarantees (Issue: #2327)
+  — implemented in `include/transaction/global_transaction_manager.h`,
+  `src/transaction/global_transaction_manager.cpp`, tests in `tests/test_global_transaction_manager.cpp`
 
 ## Implementation Phases
 
@@ -67,23 +78,23 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Two-phase commit (2PC) coordinator for cross-shard transactions
 - [x] Transaction savepoints (partial rollback within a transaction)
 
-### Phase 3: OCC Mode & Bulk API (Status: In Progress 🚧)
+### Phase 3: OCC Mode & Bulk API (Status: Completed ✅)
 - [x] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
 - [x] Transaction timeout with automatic rollback
 - [x] Bulk transaction API (batch insert/update without per-row overhead)
-- [ ] Transaction explain (show locks acquired, MVCC version chain)
+- [x] Transaction explain (show locks acquired, MVCC version chain)
 - [x] Per-tenant transaction isolation namespace
 
-### Phase 4: Distributed SAGA & Global Transaction Manager (Status: In Progress 🚧)
+### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Completed ✅)
 - [x] Distributed SAGA orchestration across multiple nodes
-- [ ] Global transaction manager for multi-region ACID guarantees
+- [x] Global transaction manager for multi-region ACID guarantees
 - [x] Calvin protocol for deterministic distributed transactions
 - [x] Time-travel queries against snapshot history
 - [x] Branch merge conflict resolution UI
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests covering bulkPutEntities/bulkEraseEntities, empty-vector no-op, single/multi-entity commit, rollback atomicity, invalid-PK rejection, finished-transaction guard, mixed put+erase, large-batch stress test); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_postgres_transactions.cpp`
-- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp` (`RollbackToSavepoint_TrimsSagaSteps`, `ReleaseSavepoint_PreservesSagaSteps`, etc.); bulk API atomicity verified in `test_transaction_bulk.cpp` (`BulkPutRollbackLeavesNoData`, `BulkPutAndEraseInSameTransaction`, `BulkEraseRemovesInsertedEntities`)
+- [x] Unit tests coverage > 80% (Verified: Q1 2026) — Primary: `tests/test_savepoints.cpp` (20 savepoint tests); bulk API: `tests/test_transaction_bulk.cpp` (12 tests); SagaOperation: `tests/test_saga_operation.cpp` (8 tests covering `indexPutWithCompensation`, `graphAddWithCompensation`, `putEntityWithCompensation`, `deleteEntityWithCompensation`, `vectorAddWithCompensation`); supplementary: `tests/test_transaction_isolation_levels.cpp`, `tests/test_postgres_transactions.cpp`
+- [x] Integration tests (commit, rollback, SAGA compensation, deadlock detection) — savepoint+SAGA integration covered in `test_savepoints.cpp`; bulk API atomicity in `test_transaction_bulk.cpp`; DistributedSAGA in `test_distributed_saga.cpp` (631 lines, DAG execution, retry, compensation ordering, metrics); concurrent SAGA in `test_saga_concurrent_execution.cpp`
 - [x] Performance benchmarks (TPS, lock contention, MVCC overhead) — `OccOptimisticPut`, `OccReadVersionAndUpdate`, `OccOptimisticErase`, `SavepointCreateAndRollback`, `SavepointNested`, `SavepointRelease` in `benchmarks/bench_transaction_throughput.cpp`
 - [?] Security audit (transaction isolation boundary, SAGA compensating action safety)
 - [x] Documentation complete — named savepoint API documented in `src/transaction/README.md`; bulk API documented in `include/transaction/transaction_manager.h`; time-travel query API documented in `include/transaction/transaction_manager.h`; `FUTURE_ENHANCEMENTS.md` updated; `ROADMAP.md` updated
