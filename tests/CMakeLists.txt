@@ -10345,4 +10345,175 @@ add_custom_target(run_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
+# ============================================================================
+# RAG Module Focused Tests
+# These test files are excluded from the main themis_tests binary (they require
+# the full LLM/RAG stack) but are exercised as standalone focused test targets.
+# ============================================================================
+
+# Macro for RAG focused tests that link against themis_core
+macro(add_rag_focused_test _target _src _test_name _labels _desc)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_src}")
+        message(STATUS "Adding RAG focused test: ${_target}")
+
+        add_executable(${_target} ${_src})
+
+        target_include_directories(${_target} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            spdlog::spdlog
+            Threads::Threads
+        )
+
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${_test_name} COMMAND ${_target})
+
+        set_tests_properties(${_test_name} PROPERTIES
+            LABELS "${_labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${_test_name}: ${_desc}")
+    else()
+        message(STATUS "RAG focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${_src}")
+    endif()
+endmacro()
+
+add_rag_focused_test(
+    test_rag_judge_focused
+    test_rag_judge.cpp
+    RAGJudgeFocusedTests
+    "rag;judge;evaluation;faithfulness;relevance;focused;unit"
+    "RAGJudge: multi-dimensional quality evaluation, fast/balanced/thorough modes"
+)
+
+add_rag_focused_test(
+    test_rag_judge_phase1_focused
+    test_rag_judge_phase1.cpp
+    RAGJudgePhase1FocusedTests
+    "rag;judge;phase1;faithfulness;coherence;focused;unit"
+    "RAGJudge Phase 1: faithfulness, relevance, completeness, coherence evaluators"
+)
+
+add_rag_focused_test(
+    test_rag_judge_phase2_focused
+    test_rag_judge_phase2.cpp
+    RAGJudgePhase2FocusedTests
+    "rag;judge;phase2;bias;rubric;pairwise;focused;unit"
+    "RAGJudge Phase 2: bias detector, rubric evaluator, pairwise comparator"
+)
+
+add_rag_focused_test(
+    test_rag_judge_phase3_focused
+    test_rag_judge_phase3.cpp
+    RAGJudgePhase3FocusedTests
+    "rag;judge;phase3;cot;geval;ensemble;focused;unit"
+    "RAGJudge Phase 3: CoT evaluator, G-Eval, judge ensemble, LLM meta-analyzer"
+)
+
+add_rag_focused_test(
+    test_rag_judge_phase4_focused
+    test_rag_judge_phase4.cpp
+    RAGJudgePhase4FocusedTests
+    "rag;judge;phase4;claim;nli;integration;focused;unit"
+    "RAGJudge Phase 4: claim extraction, NLI faithfulness, LLMJudge integration"
+)
+
+add_rag_focused_test(
+    test_rag_streaming_retriever_focused
+    test_rag_streaming_retriever.cpp
+    RAGStreamingRetrieverFocusedTests
+    "rag;streaming;retriever;mmr;context;focused;unit"
+    "StreamingRetriever: incremental context window filling, MMR diversity, priority queue"
+)
+
+add_rag_focused_test(
+    test_rag_reranker_focused
+    test_rag_reranker.cpp
+    RAGRerankerFocusedTests
+    "rag;reranker;cross-encoder;onnx;focused;unit"
+    "CrossEncoderReranker: heuristic scorer, ONNX stub, score normalization"
+)
+
+add_rag_focused_test(
+    test_rag_hallucination_dashboard_focused
+    test_rag_hallucination_dashboard.cpp
+    RAGHallucinationDashboardFocusedTests
+    "rag;hallucination;dashboard;rolling-window;metrics;focused;unit"
+    "HallucinationDashboard: rolling-window rate tracking, alerts, export"
+)
+
+add_rag_focused_test(
+    test_rag_document_summarizer_focused
+    test_rag_document_summarizer.cpp
+    RAGDocumentSummarizerFocusedTests
+    "rag;document;summarizer;multi-doc;context;focused;unit"
+    "DocumentSummarizer: multi-document summarization before context injection"
+)
+
+add_rag_focused_test(
+    test_rag_knowledge_graph_retriever_focused
+    test_rag_knowledge_graph_retriever.cpp
+    RAGKnowledgeGraphRetrieverFocusedTests
+    "rag;knowledge-graph;entity-linking;retrieval;focused;unit"
+    "KnowledgeGraphRetriever: entity linking, graph-augmented retrieval"
+)
+
+add_rag_focused_test(
+    test_rag_document_splitter_focused
+    test_rag_document_splitter.cpp
+    RAGDocumentSplitterFocusedTests
+    "rag;document;splitter;chunking;overlap;focused;unit"
+    "DocumentSplitter: configurable chunk size, overlap, sentence/paragraph strategies"
+)
+
+add_rag_focused_test(
+    test_rag_hybrid_retriever_focused
+    test_rag_hybrid_retriever.cpp
+    RAGHybridRetrieverFocusedTests
+    "rag;hybrid;bm25;vector;rrf;focused;unit"
+    "HybridRetriever: BM25 + vector fusion with configurable RRF weights"
+)
+
+add_rag_focused_test(
+    test_rag_agentic_focused
+    test_rag_agentic.cpp
+    RAGAgenticFocusedTests
+    "rag;agentic;iterative;multi-hop;self-evaluation;focused;unit"
+    "AgenticRAG: iterative retrieval loops, self-evaluation, multi-hop queries"
+)
+
+add_rag_focused_test(
+    test_rag_multimodal_focused
+    test_rag_multimodal.cpp
+    RAGMultimodalFocusedTests
+    "rag;multimodal;image;text;retrieval;focused;unit"
+    "MultimodalRAG: image + text retrieval, cross-modal scoring"
+)
+
+add_rag_focused_test(
+    test_rag_distributed_evaluator_focused
+    test_rag_distributed_evaluator.cpp
+    RAGDistributedEvaluatorFocusedTests
+    "rag;distributed;evaluation;aggregation;voting;focused;unit"
+    "DistributedRAGEvaluator: thread-pool dispatch, mean/weighted/voting/best-of-N aggregation"
+)
+
+add_rag_focused_test(
+    test_rag_uncovered_focused
+    test_rag_uncovered.cpp
+    RAGUncoveredFocusedTests
+    "rag;meta-analyzer;pairwise;position-bias;focused;unit"
+    "RAG uncovered modules: LLMMetaAnalyzer, PairwiseComparator heuristic paths"
+)
+
 message(STATUS "Tests configured successfully")

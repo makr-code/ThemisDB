@@ -2475,6 +2475,14 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/calibration_manager.cpp
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
+    # Phase 1-3: Core evaluator building blocks (no direct LLM header dependency)
+    ../src/rag/continuous_learning_client.cpp
+    ../src/rag/http_metrics_client.cpp
+    ../src/rag/judge_config.cpp
+    ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/onnx_model_loader.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/response_parser.cpp
     )
 
 # Ensure minimal LLM components are available when referenced from http_server.
@@ -3609,7 +3617,23 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Distributed Evaluation and Security (Phase 5)
         ../src/rag/distributed_rag_evaluator.cpp
         ../src/rag/prompt_injection_detector.cpp
-        
+
+        # RAG Enhancement: LLM-dependent evaluators (Phase 1–4)
+        ../src/rag/llm_integration.cpp
+        ../src/rag/llm_judge_integration.cpp
+        ../src/rag/geval_evaluator.cpp
+        ../src/rag/claim_extractor.cpp
+        ../src/rag/coherence_evaluator.cpp
+        ../src/rag/completeness_evaluator.cpp
+        ../src/rag/cot_evaluator.cpp
+        ../src/rag/document_summarizer.cpp
+        ../src/rag/faithfulness_evaluator.cpp
+        ../src/rag/judge_ensemble.cpp
+        ../src/rag/pairwise_comparator.cpp
+        ../src/rag/quality_control_factory.cpp
+        ../src/rag/relevance_evaluator.cpp
+        ../src/rag/rubric_evaluator.cpp
+
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
         ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit

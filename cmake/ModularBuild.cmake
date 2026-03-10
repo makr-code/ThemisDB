@@ -975,6 +975,34 @@ set(THEMIS_LLM_SOURCES
     ../src/aql/llm_metrics_collector.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
     ../src/rag/multimodal_rag.cpp
+    # Phase 1–4: Missing RAG evaluators and orchestrators
+    ../src/rag/ab_testing_framework.cpp
+    ../src/rag/agentic_rag.cpp
+    ../src/rag/bayesian_optimizer.cpp
+    ../src/rag/claim_extractor.cpp
+    ../src/rag/coherence_evaluator.cpp
+    ../src/rag/completeness_evaluator.cpp
+    ../src/rag/continuous_learning_client.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
+    ../src/rag/cot_evaluator.cpp
+    ../src/rag/faithfulness_evaluator.cpp
+    ../src/rag/hallucination_dashboard.cpp
+    ../src/rag/http_metrics_client.cpp
+    ../src/rag/judge_config.cpp
+    ../src/rag/judge_ensemble.cpp
+    ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/learning_metrics.cpp
+    ../src/rag/llm_judge_integration.cpp
+    ../src/rag/llm_meta_analyzer.cpp
+    ../src/rag/onnx_model_loader.cpp
+    ../src/rag/pairwise_comparator.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/quality_control_factory.cpp
+    ../src/rag/rag_judge.cpp
+    ../src/rag/relevance_evaluator.cpp
+    ../src/rag/response_parser.cpp
+    ../src/rag/rubric_evaluator.cpp
+    ../src/rag/streaming_retriever.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
