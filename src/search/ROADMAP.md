@@ -2,6 +2,9 @@
 
 # Search Module Roadmap
 
+<!-- validated: 2026-03-10 | Status: current -->
+<!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
+
 ## Current Status
 v2.2.0 – Production-ready hybrid search with highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support.
 

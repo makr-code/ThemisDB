@@ -9715,6 +9715,202 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Search Module Focused Test Targets
+# ─────────────────────────────────────────────────────────────────────────────
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hybrid_search.cpp")
+    message(STATUS "Adding HybridSearch focused tests")
+
+    add_executable(test_hybrid_search
+        test_hybrid_search.cpp
+    )
+
+    target_include_directories(test_hybrid_search PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_hybrid_search PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hybrid_search PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HybridSearchFocusedTests COMMAND test_hybrid_search)
+
+    set_tests_properties(HybridSearchFocusedTests PROPERTIES
+        LABELS "search;hybrid;bm25;vector;rrf;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  HybridSearch: RRF fusion, BM25+vector, LLM rewrite/rerank pipeline")
+else()
+    message(STATUS "HybridSearch focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_hybrid_search.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_negative_keyword_filter.cpp")
+    message(STATUS "Adding NegativeKeywordFilter focused tests")
+
+    add_executable(test_negative_keyword_filter
+        test_negative_keyword_filter.cpp
+    )
+
+    target_include_directories(test_negative_keyword_filter PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_negative_keyword_filter PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_negative_keyword_filter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NegativeKeywordFilterFocusedTests COMMAND test_negative_keyword_filter)
+
+    set_tests_properties(NegativeKeywordFilterFocusedTests PROPERTIES
+        LABELS "search;negative;filter;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  NegativeKeywordFilter: NOT-operator filtering, multi-term exclusion")
+else()
+    message(STATUS "NegativeKeywordFilter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_negative_keyword_filter.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_neural_sparse_retrieval.cpp")
+    message(STATUS "Adding NeuralSparseRetrieval focused tests")
+
+    add_executable(test_neural_sparse_retrieval
+        test_neural_sparse_retrieval.cpp
+    )
+
+    target_include_directories(test_neural_sparse_retrieval PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_neural_sparse_retrieval PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_neural_sparse_retrieval PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NeuralSparseRetrievalFocusedTests COMMAND test_neural_sparse_retrieval)
+
+    set_tests_properties(NeuralSparseRetrievalFocusedTests PROPERTIES
+        LABELS "search;neural;splade;sparse;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  NeuralSparseRetrieval: SPLADE sparse vectors, CSR format, vocabulary expansion")
+else()
+    message(STATUS "NeuralSparseRetrieval focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_neural_sparse_retrieval.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_lingual_search.cpp")
+    message(STATUS "Adding CrossLingualSearch focused tests")
+
+    add_executable(test_cross_lingual_search
+        test_cross_lingual_search.cpp
+    )
+
+    target_include_directories(test_cross_lingual_search PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cross_lingual_search PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_lingual_search PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossLingualSearchFocusedTests COMMAND test_cross_lingual_search)
+
+    set_tests_properties(CrossLingualSearchFocusedTests PROPERTIES
+        LABELS "search;cross-lingual;multilingual;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossLingualSearch: multilingual embeddings, language detection, cross-lingual retrieval")
+else()
+    message(STATUS "CrossLingualSearch focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_lingual_search.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_personalized_ranker.cpp")
+    message(STATUS "Adding PersonalizedRanker focused tests")
+
+    add_executable(test_personalized_ranker
+        test_personalized_ranker.cpp
+    )
+
+    target_include_directories(test_personalized_ranker PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_personalized_ranker PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_personalized_ranker PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PersonalizedRankerFocusedTests COMMAND test_personalized_ranker)
+
+    set_tests_properties(PersonalizedRankerFocusedTests PROPERTIES
+        LABELS "search;personalized;ranker;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PersonalizedRanker: user interaction history, time-decay scoring, result re-ranking")
+else()
+    message(STATUS "PersonalizedRanker focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_personalized_ranker.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_field_search.cpp")
+    message(STATUS "Adding MultiFieldSearch focused tests")
+
+    add_executable(test_multi_field_search
+        test_multi_field_search.cpp
+    )
+
+    target_include_directories(test_multi_field_search PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_multi_field_search PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_field_search PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiFieldSearchFocusedTests COMMAND test_multi_field_search)
+
+    set_tests_properties(MultiFieldSearchFocusedTests PROPERTIES
+        LABELS "search;multi-field;boost;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MultiFieldSearch: per-field boosting (title/body/tags), configurable weight vectors")
+else()
+    message(STATUS "MultiFieldSearch focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_field_search.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

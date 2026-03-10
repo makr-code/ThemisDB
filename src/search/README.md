@@ -1,5 +1,8 @@
 # Search Module
 
+<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
+
 Full-text and semantic search capabilities for ThemisDB.
 
 ## Module Purpose
@@ -21,7 +24,7 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Inverted index and BM25 scoring operational; hybrid vector+keyword search in progress.
+**Maturity:** 🟢 Production-Ready — All 16 components production-ready as of v2.2.0.
 
 ## Components
 

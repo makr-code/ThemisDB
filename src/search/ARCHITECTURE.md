@@ -1,7 +1,9 @@
 # Search Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+
+**Version:** 1.1  
+**Last Updated:** 2026-03-10  
 **Module Path:** `src/search/`
 
 ---
@@ -46,6 +48,12 @@ and LLM re-ranking.
 | `learning_to_rank.cpp` | Trained ranking model integration |
 | `multi_modal_search.cpp` | Text + image search fusion |
 | `search_analytics.cpp` | Search analytics: CTR, MRR, NDCG tracking |
+| `multi_field_search.cpp` | Per-field boosting (title > body > tags) with configurable weight vectors |
+| `neural_sparse_retrieval.cpp` | SPLADE-based sparse neural retrieval with vocabulary expansion |
+| `cross_lingual_search.cpp` | Cross-lingual semantic search via multilingual embedding models |
+| `personalized_ranker.cpp` | Per-user interaction history tracking with time-decayed scoring |
+| `search_highlighter.cpp` | Highlight and snippet generation for matched terms |
+| `negative_keyword_filter.cpp` | NOT-operator negative keyword filtering |
 
 *(Inverted index and BM25 scorer are in `src/index/inverted_index.cpp` and `src/query/functions/`)*
 
@@ -191,6 +199,6 @@ HybridSearch(query="database performance tuning", k=10)
 ## 12. References
 
 - `src/search/README.md` — module overview
-- `docs/search_roadmap.md` — roadmap
-- `docs/architecture/SEARCH_ARCHITECTURE.md` — search architecture
+- `src/search/ROADMAP.md` — roadmap
+- `src/search/ARCHITECTURE.md` — search architecture
 - `ARCHITECTURE.md` (root) — full system architecture
