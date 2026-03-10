@@ -3318,6 +3318,158 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
     message(STATUS "  Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry")
 endif()
 
+# Governance – OPA adapter focused tests (Issue: #1768 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_opa_adapter.cpp")
+    message(STATUS "Adding Governance OPA Adapter focused tests (Issue #1768 / #1778)")
+    add_executable(test_governance_opa_adapter test_governance_opa_adapter.cpp)
+    target_link_libraries(test_governance_opa_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_opa_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernanceOpaAdapterFocusedTests COMMAND test_governance_opa_adapter)
+    set_tests_properties(GovernanceOpaAdapterFocusedTests PROPERTIES
+        LABELS "governance;opa;policy-evaluator;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance OPA Adapter: construction, URL building, response parsing, fallback counter, CCPA enforcement on top of OPA")
+endif()
+
+# Governance – policy simulation / dry-run focused tests (Issue: #1766 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_simulation.cpp")
+    message(STATUS "Adding Governance Policy Simulation focused tests (Issue #1766 / #1778)")
+    add_executable(test_governance_policy_simulation test_governance_policy_simulation.cpp)
+    target_link_libraries(test_governance_policy_simulation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        yaml-cpp::yaml-cpp
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_policy_simulation PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernancePolicySimulationFocusedTests COMMAND test_governance_policy_simulation)
+    set_tests_properties(GovernancePolicySimulationFocusedTests PROPERTIES
+        LABELS "governance;policy;simulation;dry-run;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Policy Simulation: simulateDecision, YAML-loaded profiles, heuristic fallback, header overrides")
+endif()
+
+# Governance – compliance time window focused tests (Issue: #1781 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_compliance_time_window.cpp")
+    message(STATUS "Adding Governance Compliance Time-Window focused tests (Issue #1781 / #1778)")
+    add_executable(test_governance_compliance_time_window test_governance_compliance_time_window.cpp)
+    target_link_libraries(test_governance_compliance_time_window PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_compliance_time_window PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernanceComplianceTimeWindowFocusedTests COMMAND test_governance_compliance_time_window)
+    set_tests_properties(GovernanceComplianceTimeWindowFocusedTests PROPERTIES
+        LABELS "governance;compliance;reporter;time-window;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Compliance Time-Window: generateReport, CCPA report, time-range filtering")
+endif()
+
+# Governance – review scheduler focused tests (Issue: #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_review_scheduler.cpp")
+    message(STATUS "Adding Governance Review Scheduler focused tests (Issue #1778)")
+    add_executable(test_governance_review_scheduler test_governance_review_scheduler.cpp)
+    target_link_libraries(test_governance_review_scheduler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_governance_review_scheduler PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME GovernanceReviewSchedulerFocusedTests COMMAND test_governance_review_scheduler)
+    set_tests_properties(GovernanceReviewSchedulerFocusedTests PROPERTIES
+        LABELS "governance;review-scheduler;policy-review;phase4;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Governance Review Scheduler: schedule, create/approve/reject review, overdue detection, history, export/import")
+endif()
+
+# Governance – AI/ML model governance focused tests (Issue: #1771 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_model_governance.cpp")
+    message(STATUS "Adding Model Governance focused tests (Issue #1771 / #1778)")
+    add_executable(test_model_governance_focused test_model_governance.cpp)
+    target_link_libraries(test_model_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_model_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ModelGovernanceFocusedTests COMMAND test_model_governance_focused)
+    set_tests_properties(ModelGovernanceFocusedTests PROPERTIES
+        LABELS "governance;model-governance;training-lineage;bias-audit;phase4;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Model Governance: training export request, bias audit, data lineage, checkExportAllowed")
+endif()
+
+# Governance – compliance + security integration focused tests (Issue: #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
+    message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
+    add_executable(test_compliance_security_governance_focused test_compliance_security_governance.cpp)
+    target_link_libraries(test_compliance_security_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_compliance_security_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ComplianceSecurityGovernanceFocusedTests COMMAND test_compliance_security_governance_focused)
+    set_tests_properties(ComplianceSecurityGovernanceFocusedTests PROPERTIES
+        LABELS "governance;compliance;security;gdpr;hipaa;soc2;pci-dss;ccpa;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  Compliance & Security Governance: GDPR, HIPAA, SOC 2, PCI-DSS, CCPA/CPRA cross-compliance scenarios")
+endif()
+
+# Governance – HTTP server governance endpoint focused tests (Issue: #1778)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_governance.cpp")
+    message(STATUS "Adding HTTP Governance endpoint focused tests (Issue #1778)")
+    add_executable(test_http_governance_focused test_http_governance.cpp)
+    target_link_libraries(test_http_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_http_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HttpGovernanceFocusedTests COMMAND test_http_governance_focused)
+    set_tests_properties(HttpGovernanceFocusedTests PROPERTIES
+        LABELS "governance;http;server;policy-engine;integration"
+        TIMEOUT 120
+    )
+    message(STATUS "  HTTP Governance: policy evaluation via HTTP, governance endpoints, access-control enforcement")
+endif()
+
+# Governance – HTTP changefeed + governance integration focused tests (Issue: #1778)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_changefeed_governance.cpp")
+    message(STATUS "Adding HTTP Changefeed Governance focused tests (Issue #1778)")
+    add_executable(test_http_changefeed_governance_focused test_http_changefeed_governance.cpp)
+    target_link_libraries(test_http_changefeed_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_http_changefeed_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HttpChangefeedGovernanceFocusedTests COMMAND test_http_changefeed_governance_focused)
+    set_tests_properties(HttpChangefeedGovernanceFocusedTests PROPERTIES
+        LABELS "governance;http;changefeed;cdc;integration"
+        TIMEOUT 120
+    )
+    message(STATUS "  HTTP Changefeed Governance: changefeed governance enforcement, policy gating on CDC streams")
+endif()
+
 # Phase 5 – LEK Manager lifecycle tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
     message(STATUS "Adding LEK Manager lifecycle tests (Phase 5)")

@@ -472,6 +472,18 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
     ../src/governance/cross_tenant_policy_inheritance.cpp
+    ../src/governance/data_masker.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/compliance_reporting.cpp
+    ../src/governance/policy_validation.cpp
+    ../src/governance/policy_manager_versioned.cpp
+    ../src/governance/compliance_reporter.cpp
+    ../src/governance/policy_validator.cpp
+    ../src/governance/review_scheduler.cpp
+    ../src/governance/policy_review.cpp
+    ../src/governance/policy_file_watcher.cpp
+    ../src/governance/soc2_controls.cpp
     
     # PII detection
     ../src/utils/pii_detection_engine.cpp

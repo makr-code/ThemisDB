@@ -71,7 +71,7 @@ _(No new planned features at this time — see `FUTURE_ENHANCEMENTS.md` for long
 
 ## Production Readiness Checklist
 
-- [I] Unit tests coverage > 80% (Issue: #1778)
+- [x] Unit tests coverage > 80% (Issue: #1778) — 9 focused test targets registered in `tests/CMakeLists.txt`
 - [x] Integration tests (policy evaluation, retention enforcement, audit trail)
 - [x] Performance benchmarks (policy evaluation latency at query time) (Issue: #1779)
   - Benchmark file: `benchmarks/bench_governance_policy_latency.cpp`
