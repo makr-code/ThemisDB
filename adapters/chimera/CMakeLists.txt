@@ -196,6 +196,29 @@ if(BUILD_ELASTICSEARCH_ADAPTER)
 endif()
 
 # ==============================================================================
+# Neo4j Adapter (Optional - requires Bolt/HTTP client for production use)
+# ==============================================================================
+
+option(BUILD_NEO4J_ADAPTER "Build Neo4j adapter" OFF)
+
+if(BUILD_NEO4J_ADAPTER)
+    # Production deployments should link against a Bolt protocol client library
+    # (e.g. libneo4j-client or a custom cpp-httplib HTTP adapter) for live
+    # Neo4j Bolt/HTTP API access.
+    # The adapter also works in simulation mode without any external driver.
+    message(STATUS "Neo4j adapter: enabled (simulation mode; production requires Bolt/HTTP client)")
+    add_library(chimera_neo4j_adapter
+        ${CMAKE_SOURCE_DIR}/src/chimera/neo4j_adapter.cpp
+    )
+    target_include_directories(chimera_neo4j_adapter
+        PUBLIC ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(chimera_neo4j_adapter
+        PUBLIC chimera_interface
+    )
+endif()
+
+# ==============================================================================
 # Template Adapter (Header-only)
 # ==============================================================================
 
@@ -257,6 +280,7 @@ message(STATUS "  Weaviate adapter: ${BUILD_WEAVIATE_ADAPTER}")
 message(STATUS "  Qdrant adapter: ${BUILD_QDRANT_ADAPTER}")
 message(STATUS "  Pinecone adapter: ${BUILD_PINECONE_ADAPTER}")
 message(STATUS "  Elasticsearch adapter: ${BUILD_ELASTICSEARCH_ADAPTER}")
+message(STATUS "  Neo4j adapter: ${BUILD_NEO4J_ADAPTER}")
 message(STATUS "  Template adapter: provided")
 message(STATUS "  Tests: ${BUILD_CHIMERA_TESTS}")
 message(STATUS "")

@@ -1,16 +1,19 @@
 # Chimera Adapter Framework Sources
-# Adapter lifecycle management for LLM integration
+# Vendor-neutral database adapter architecture for the CHIMERA benchmark suite.
+# All adapters run in simulation mode (no external library dependencies).
 
-if(THEMIS_ENABLE_LLM)
-    list(APPEND THEMIS_CORE_SOURCES
-        # Chimera Adapter Factory and Lifecycle Management
-        ../src/chimera/adapter_factory.cpp
-        ../src/chimera/themisdb_adapter.cpp
-    )
-endif()
-
-# CHIMERA vendor adapters – compiled independently of the LLM module
 list(APPEND THEMIS_CORE_SOURCES
+    # Chimera Adapter Factory and Reference Implementation
+    ../src/chimera/adapter_factory.cpp
+    ../src/chimera/themisdb_adapter.cpp
+    # Relational / document adapters
     ../src/chimera/mongodb_adapter.cpp
     ../src/chimera/postgresql_adapter.cpp
+    # Full-text / vector search adapters
+    ../src/chimera/elasticsearch_adapter.cpp
+    ../src/chimera/pinecone_adapter.cpp
+    ../src/chimera/qdrant_adapter.cpp
+    ../src/chimera/weaviate_adapter.cpp
+    # Graph database adapter
+    ../src/chimera/neo4j_adapter.cpp
 )

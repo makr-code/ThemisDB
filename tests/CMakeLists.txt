@@ -6263,6 +6263,143 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/te
 endif()
 
 # ============================================================================
+# CHIMERA Adapter Focused Tests
+# Each adapter test is a standalone executable so it can be run independently
+# without needing the full themis_core link.  All adapters run in simulation
+# mode – no live database server required.
+# ============================================================================
+
+# Common list of all CHIMERA adapter source files shared by every focused target.
+set(CHIMERA_ADAPTER_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/chimera/adapter_factory.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/mongodb_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/postgresql_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/elasticsearch_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/pinecone_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/qdrant_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/weaviate_adapter.cpp
+    ${CMAKE_SOURCE_DIR}/src/chimera/neo4j_adapter.cpp
+)
+
+# Helper function to create a focused chimera test executable.
+function(add_chimera_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding CHIMERA focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+            ${CHIMERA_ADAPTER_SOURCES}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/tests/chimera
+        )
+
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            Threads::Threads
+        )
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "CHIMERA focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_chimera_focused_test(
+    test_chimera_adapter_factory
+    chimera/test_adapter_factory.cpp
+    ChimeraAdapterFactoryTests
+    "chimera;adapter;factory;unit"
+    "AdapterFactory: registration, create, list_supported, thread-safety"
+)
+
+add_chimera_focused_test(
+    test_chimera_themisdb_adapter
+    chimera/test_themisdb_adapter.cpp
+    ChimeraThemisDBAdapterTests
+    "chimera;adapter;themisdb;relational;vector;graph;document;unit"
+    "ThemisDBAdapter: connect/disconnect, relational/vector/graph/document ops, transaction lifecycle"
+)
+
+add_chimera_focused_test(
+    test_chimera_mongodb_adapter
+    chimera/test_mongodb_adapter.cpp
+    ChimeraMongoDBAdapterTests
+    "chimera;adapter;mongodb;document;vector;unit"
+    "MongoDBAdapter: document CRUD, Atlas Vector Search, transaction lifecycle, credential masking"
+)
+
+add_chimera_focused_test(
+    test_chimera_postgresql_adapter
+    chimera/test_postgresql_adapter.cpp
+    ChimeraPostgreSQLAdapterTests
+    "chimera;adapter;postgresql;relational;vector;document;unit"
+    "PostgreSQLAdapter: relational CRUD, pgvector similarity, JSONB document store, transaction lifecycle"
+)
+
+add_chimera_focused_test(
+    test_chimera_elasticsearch_adapter
+    chimera/test_elasticsearch_adapter.cpp
+    ChimeraElasticsearchAdapterTests
+    "chimera;adapter;elasticsearch;fulltext;vector;unit"
+    "ElasticsearchAdapter: full-text search, k-NN vector search, index management"
+)
+
+add_chimera_focused_test(
+    test_chimera_pinecone_adapter
+    chimera/test_pinecone_adapter.cpp
+    ChimeraPineconeAdapterTests
+    "chimera;adapter;pinecone;vector;unit"
+    "PineconeAdapter: managed vector search, upsert, query, delete"
+)
+
+add_chimera_focused_test(
+    test_chimera_qdrant_adapter
+    chimera/test_qdrant_adapter.cpp
+    ChimeraQdrantAdapterTests
+    "chimera;adapter;qdrant;vector;unit"
+    "QdrantAdapter: collections, vector search, payload filtering"
+)
+
+add_chimera_focused_test(
+    test_chimera_weaviate_adapter
+    chimera/test_weaviate_adapter.cpp
+    ChimeraWeaviateAdapterTests
+    "chimera;adapter;weaviate;vector;unit"
+    "WeaviateAdapter: objects, semantic search, schema management"
+)
+
+add_chimera_focused_test(
+    test_chimera_neo4j_adapter
+    chimera/test_neo4j_adapter.cpp
+    ChimeraNeo4jAdapterTests
+    "chimera;adapter;neo4j;graph;cypher;unit"
+    "Neo4jAdapter: Cypher queries, graph traversal, shortest path"
+)
+
+add_chimera_focused_test(
+    test_chimera_capability_matrix
+    chimera/test_capability_matrix.cpp
+    ChimeraCapabilityMatrixTests
+    "chimera;adapter;capability;matrix;unit"
+    "AdapterCapabilityMatrix: cross-system capability comparison for all 9 adapters"
+)
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
