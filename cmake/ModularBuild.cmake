@@ -138,6 +138,7 @@ set(THEMIS_BASE_SOURCES
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
+    ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
@@ -337,12 +338,17 @@ set(THEMIS_QUERY_SOURCES
     
     # Analytics
     ../src/analytics/olap.cpp
+    # Data export: JSON/CSV always available; Arrow/Parquet/Feather when THEMIS_HAS_ARROW
+    ../src/analytics/analytics_export.cpp
+    ../src/analytics/arrow_export.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/cep_engine.cpp
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
+    ../src/analytics/columnar_execution.cpp
+    ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
@@ -353,7 +359,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/distributed_analytics.cpp
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
-    ../src/analytics/arrow_export.cpp
     ../src/analytics/arrow_flight.cpp
     
     # AQL handlers (non-LLM)
