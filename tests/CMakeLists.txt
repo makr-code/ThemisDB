@@ -226,6 +226,18 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_markdown_processor\\.cpp$"
         ".*test_content_version_manager\\.cpp$"
         ".*test_content_streaming_ingestion\\.cpp$"
+        ".*test_content_audio_processor\\.cpp$"
+        ".*test_content_deduplication\\.cpp$"
+        ".*test_content_errors\\.cpp$"
+        ".*test_content_features\\.cpp$"
+        ".*test_content_fulltext_index\\.cpp$"
+        ".*test_content_language_detector\\.cpp$"
+        ".*test_content_logger\\.cpp$"
+        ".*test_content_metrics\\.cpp$"
+        ".*test_content_pipeline\\.cpp$"
+        ".*test_content_pipeline_hardening\\.cpp$"
+        ".*test_content_processor_chain\\.cpp$"
+        ".*test_content_security\\.cpp$"
     )
 endif()
 

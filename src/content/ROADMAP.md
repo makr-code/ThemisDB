@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Production** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are fully functional. PDF extraction (poppler-cpp), Office document extraction (DOCX/XLSX/PPTX/ODF), HTML boilerplate removal, Markdown/frontmatter parsing, audio metadata extraction, audio transcription (Whisper / STT), and video metadata extraction are all implemented.
+**Production** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are fully functional. PDF extraction (poppler-cpp), Office document extraction (DOCX/XLSX/PPTX/ODF), HTML boilerplate removal, Markdown/frontmatter parsing, audio metadata extraction, audio transcription (Whisper / STT), TTS generation, video metadata extraction, perceptual deduplication, language detection, and LLM-augmented content analysis are all implemented.
 
 ## Completed ✅
 - [x] Content manager with ingestion pipeline
@@ -20,9 +20,12 @@
 - [x] Markdown processing and frontmatter parsing (`markdown_processor.cpp`) (Issue: #1683)
 - [x] Audio metadata extraction (`audio_processor.cpp`) (Issue: #1679)
 - [x] Audio transcription / STT integration (`stt_processor.cpp`) (Issue: #1687)
+- [x] Text-to-speech generation (`tts_processor.cpp`)
 - [x] Video metadata extraction (`video_processor.cpp`) (Issue: #1680)
 - [x] OCR for image-embedded text (Tesseract integration, `ocr_processor.cpp`) (Issue: #1689)
 - [x] Multi-language text detection and routing (`language_detector.cpp`) (Issue: #1690)
+- [x] Perceptual deduplication — pHash (images) and MinHash+LSH (text) (`deduplication_checker.cpp`) (Issue: #1702)
+- [x] LLM-augmented content analysis — summary, topics, sentiment, category (`content_manager_llm.cpp`)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -31,15 +34,31 @@
 
 ### Short-term (Next 3-6 months)
 - [I] Configurable processing pipeline (plugin-based processor chain) (Issue: #1686)
+  - Inputs: `ProcessorChainConfig` per `ContentCategory`; dynamic registration via `IIngestionPlugin`
+  - Outputs: ordered stage list, per-stage enable/disable, fallback policy
+  - Constraints: no routing logic changes to `content_manager.cpp`; plugins register via `ingestion_plugin.cpp`
+  - Tests: test_content_processor_chain.cpp must cover runtime enable/disable of stages
+  - Target: Q3 2026
 
 ### Long-term (6-12 months)
-- [I] Video frame extraction and scene detection (Issue: #1688)
-- [x] OCR for image-embedded text (Tesseract integration, `ocr_processor.cpp`) (Issue: #1689)
-- [x] Multi-language text detection and routing (`content/language_detector.cpp`) (Issue: #1690)
+- [I] Video frame extraction and scene detection (Issue: #1688) (Target: Q4 2026)
+  - Inputs: video stream via FFmpeg
+  - Outputs: keyframe images + scene boundary timestamps
+  - Constraints: FFmpeg optional (`THEMIS_ENABLE_FFMPEG`); graceful stub without FFmpeg
+  - Target: Q4 2026
+- [ ] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` (CON-001) (Target: Q3 2026)
+  - Inputs: `.doc`, `.xls`, `.ppt` via OLE/Compound Document
+  - Constraints: `posix_spawn` with restricted OS user; 30 s timeout; no `system()` call
+  - Security: runs under restricted user with no write access to ThemisDB data directory
+  - Target: Q3 2026
+- [ ] MimeDetector-triggered OCR activation via ContentPolicy::ocrEnabled() (CON-002) (Target: Q3 2026)
+- [ ] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
+- [ ] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005) (Target: Q4 2026)
+- [ ] Zip-bomb protection in content_security.cpp — max 100× decompression ratio, max 1 000 entries (CON-006) (Target: Q3 2026)
 
 ## Implementation Phases
 
-### Phase 1: Core Ingestion Pipeline (Status: Completed)
+### Phase 1: Core Ingestion Pipeline (Status: Completed ✅)
 - [x] Implemented content manager with multi-format ingestion pipeline (`content/content_manager.cpp`)
 - [x] Implemented MIME type detection for routing to specialized processors
 - [x] Implemented text extraction and normalization processor
@@ -61,26 +80,66 @@
 - [x] Implement embedding generation pipeline (text → vector via local model) (Issue: #1697)
 - [x] HTML content extraction with boilerplate removal (`html_processor.cpp`) (Issue: #1682)
 - [x] Markdown processing and frontmatter parsing (`markdown_processor.cpp`) (Issue: #1683)
-- [x] Audio metadata extraction (`audio_processor.cpp`) (Issue: #1679)
-- [x] Audio transcription / STT integration (`stt_processor.cpp`) (Issue: #1687)
+- [x] Audio metadata extraction + STT integration (`audio_processor.cpp`, `stt_processor.cpp`) (Issue: #1679, #1687)
+- [x] Text-to-speech generation (`tts_processor.cpp`)
 - [x] Video metadata extraction (`video_processor.cpp`) (Issue: #1680)
 - [x] Multi-language text detection and routing (`language_detector.cpp`) (Issue: #1690)
+- [x] Perceptual deduplication — pHash for images, MinHash+band-LSH for text (`deduplication_checker.cpp`) (Issue: #1702)
+- [x] LLM-augmented analysis: summary, topics, sentiment, category (`content_manager_llm.cpp`)
+
+### Phase 4: Tests (Status: In Progress 🚧)
+- [I] Unit test coverage > 80% for all new-format processors (Issue: #1698)
+  - PDFProcessor: synthetic 2-page PDF fixture; ≥ 6 test cases
+  - OfficeProcessor: DOCX/XLSX/PPTX fixture extraction; malformed-file error paths
+  - DeduplicationChecker: pHash near-duplicate images; MinHash Jaccard threshold
+  - LanguageDetector: per-script detection accuracy; unknown-language fallback
+  - TTSProcessor: init/shutdown cycle; output format validation; fallback without Piper
+  - ContentManagerLLM: analyzeContent with mock EmbeddedLLM; error handling
+- [ ] Standalone focused test targets for: `test_content_deduplication.cpp`, `test_content_language_detector.cpp`, `test_content_audio_processor.cpp`, `test_content_metrics.cpp`, `test_content_security.cpp`, `test_content_processor_chain.cpp` (Target: Q3 2026)
+- [x] test_content_pipeline.cpp, test_content_pipeline_hardening.cpp — pipeline orchestration and retry logic
+- [x] test_content_streaming_ingestion.cpp — streaming chunk boundary handling
+- [x] test_content_version_manager.cpp — delta storage and rollback
+- [x] test_content_embedding_pipeline.cpp — embedding generation batch API
+
+### Phase 5: Performance / Hardening (Status: Planned 📋)
+- [I] Performance benchmarks per content type (benchmarks/content_bench.cpp) (Issue: #1699) (Target: Q3 2026)
+  - PDF extraction: 100-page, 500 KB PDF in < 2 s on a single CPU core
+  - Streaming ingestion throughput (NDJSON): ≥ 100 MB/s on NVMe
+  - pHash computation for a 4 MP JPEG in < 5 ms
+  - OCR (A4 page, 300 DPI): < 3 s per page
+  - Embedding batch (32 docs, 384-dim, CPU): < 50 ms
+- [ ] Zip-bomb protection in `archive_processor.cpp` — max 100× decompression ratio, max 1 000 extracted files (CON-006) (Target: Q3 2026)
+- [ ] Back-pressure for `ingestStream()` when `max_queue_depth` is exceeded (CON-005) (Target: Q4 2026)
+- [ ] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` via `posix_spawn` (CON-001) (Target: Q3 2026)
+- [ ] OCR DPI pre-processing: rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
+- [ ] MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` (CON-002) (Target: Q3 2026)
+
+### Phase 6: Documentation & Release (Status: In Progress 🚧)
+- [x] Architecture guide (`src/content/ARCHITECTURE.md`)
+- [x] FUTURE_ENHANCEMENTS.md with design constraints and required interfaces
+- [x] Missing-implementations audit report (`docs/de/content/missing-implementations.md`)
+- [x] German developer docs (`docs/de/content/`)
+- [ ] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004) (Target: Q3 2026)
+- [ ] API reference for `ContentManager::ingestStream()` back-pressure behaviour (Target: Q4 2026)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1698)
 - [x] Integration tests (ingestion pipeline, content type routing)
 - [I] Performance benchmarks (throughput per content type) (Issue: #1699)
 - [P] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
-- [x] Documentation complete (content manager, content pipeline)
+- [x] Documentation complete (content manager, content pipeline, architecture guide)
 - [x] API stability guaranteed for ingestion pipeline
 
 ## Known Issues & Limitations
-- Legacy Office formats (DOC/XLS/PPT via OLE/Compound Document) not fully supported; OOXML (DOCX/XLSX/PPTX) and ODF are handled
+- Legacy Office formats (DOC/XLS/PPT via OLE/Compound Document) not fully supported; OOXML (DOCX/XLSX/PPTX) and ODF are handled (CON-001)
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
-- OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); MimeDetector-triggered OCR routing and DPI pre-processing not yet implemented (see `missing-implementations.md`)
+- OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); MimeDetector-triggered OCR routing and DPI pre-processing not yet implemented (CON-002, CON-003; see `docs/de/content/missing-implementations.md`)
+- OCR language-pack data directory not defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - Large file streaming ingestion:
   - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size
   - Non-streaming types (image, PDF, binary, etc.): buffered up to `max_buffered_bytes` (default 256 MB) before delegating to `ingestRawBlob`; files exceeding the limit are rejected
+  - Back-pressure (blocking on `max_queue_depth`) not yet implemented (CON-005)
+- Zip-bomb protection in `content_security.cpp` decompression-ratio check not yet enforced (CON-006)
 
 ## Breaking Changes
-- Processor plugin API may be refined when the plugin-based pipeline is introduced
+- Processor plugin API may be refined when the plugin-based pipeline (Issue: #1686) is introduced
