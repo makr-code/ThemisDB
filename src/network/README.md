@@ -29,9 +29,9 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta / Production-Candidate — Transport infrastructure, connection pooling, multiplexing, compression, WebSocket, QUIC, gRPC, and service mesh operational. Core operation handlers (HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, GEO_QUERY) are implemented as stubs returning error responses; full dispatch to storage/index layer is pending.
+**Maturity:** 🟢 Production-Ready — Transport infrastructure, connection pooling, multiplexing, compression, WebSocket, QUIC, gRPC, and service mesh operational. Core Wire Protocol V1 operation handlers (HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH) fully implemented; QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API (engine integration pending).
 
-**Validated:** 2026-03-09 (Reality-Check against Sourcecode; see [docs/de/network/missing-implementations.md](../../docs/de/network/missing-implementations.md))
+**Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/missing-implementations.md](../../docs/de/network/missing-implementations.md))
 
 ## Scope
 
@@ -154,22 +154,22 @@ Each client connection is represented by a `Session` object that:
 
 **OpCode Handlers:**
 ```cpp
-// Connection lifecycle — ⚠️ HELLO and AUTH are stubs (return error; not yet wired to storage/auth)
-void handleHello();           // Protocol handshake — stub
-void handleAuthRequest();     // Token-based authentication — stub (authenticated_ never set true)
+// Connection lifecycle
+void handleHello();           // Protocol handshake — implemented (returns server info + capabilities)
+void handleAuthRequest();     // Token-based authentication — implemented (sets authenticated_ flag)
 void handlePing();            // Keepalive — implemented
 void handleClose();           // Graceful close — implemented
 
-// CRUD operations — ⚠️ ALL are stubs (return error response; storage dispatch pending)
-void handleGet();             // Single entity retrieval — stub
-void handlePut();             // Entity storage — stub
-void handleDelete();          // Entity deletion — stub
+// CRUD operations — implemented (dispatch to RocksDBWrapper via collection:key prefix)
+void handleGet();             // Single entity retrieval
+void handlePut();             // Entity storage
+void handleDelete();          // Entity deletion
 
-// Query operations — ⚠️ ALL are stubs (return error response)
-void handleQuery();           // AQL query execution — stub
-void handleVectorSearch();    // Vector similarity search — stub
-void handleGeoQuery();        // Geospatial query — stub
-void handleTimeseriesQuery(); // Timeseries aggregation — implemented
+// Query operations
+void handleQuery();           // AQL query — returns structured error; use HTTP REST API
+void handleVectorSearch();    // Vector similarity search — implemented (VectorIndexManager::searchKnn)
+void handleGeoQuery();        // Geospatial query — returns structured error; use HTTP REST API
+void handleTimeseriesQuery(); // Timeseries aggregation — implemented (TSStore dispatch)
 
 // Process orchestration (BPMN) — implemented (requires authentication guard)
 void handleBpmnStartProcess();
@@ -815,13 +815,15 @@ pool_config.ssl_ca_cert_path = "/etc/themisdb/ca.crt";
 
 ### Authentication
 ```cpp
-// ⚠️ Authentication is NOT yet implemented in the wire protocol handler.
-// handleAuthRequest() is a stub that returns an error response.
-// The `authenticated_` session flag is never set to true via the wire protocol.
-// BPMN operation handlers check `authenticated_.load()` and will always reject.
-// See docs/de/network/missing-implementations.md for details.
+// Token-based authentication (implemented, 2026-03-10).
+// handleAuthRequest() validates {"token":"...","username":"..."} payload.
+// Config::auth_token sets the expected pre-shared token; leave empty to accept
+// any non-empty token (development mode only).
+// On success: authenticated_ = true; username_ is recorded.
+// On failure: error 0x0401; stats_.auth_failures incremented.
 config.require_auth = true;
 config.auth_timeout_sec = 10;
+config.auth_token = "my-secret-token";  // optional pre-shared token
 ```
 
 ### Rate Limiting
@@ -964,12 +966,16 @@ for (size_t retry = 0; retry < config_.max_retries; ++retry) {
 
 ## Testing Recommendations
 
-### Unit Tests
-- Socket timeout behavior with mock sockets
-- Protocol parser/serializer correctness
-- Connection pool lifecycle (acquire, release, stale removal)
-- Circuit breaker state transitions
-- Rate limiting logic
+### Unit Tests (existing test files)
+- **`test_wire_protocol_v1_handlers.cpp`** — Config defaults, auth decision logic (3 modes), HELLO/AUTH/GET/PUT/DELETE/VECTOR_SEARCH response contracts, QUERY_AQL/GEO_QUERY structured-error shape
+- Socket timeout behaviour with mock sockets (`test_socket_timeout.cpp`, `test_network_timeout.cpp`)
+- Protocol parser/serializer correctness (`test_wire_protocol_integration.cpp`)
+- Connection pool lifecycle: acquire, release, stale removal (`test_wire_protocol_connection_pool.cpp`)
+- Circuit breaker state transitions (`test_network_timeout.cpp`)
+- Rate limiting / QoS logic (`test_qos_manager.cpp`)
+- V2 frame types, stream state machine, flow control (`test_wire_protocol_v2.cpp`)
+- UDP opcode filter and response builder (`test_udp_fast_path.cpp`)
+- QUIC/gRPC/Geo-Topology configuration (`test_quic_transport.cpp`, `test_grpc_transport.cpp`, `test_geo_topology_router.cpp`)
 
 ### Integration Tests
 - End-to-end wire protocol communication
@@ -1050,10 +1056,9 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
 ## Known Limitations
 
-1. **Wire protocol operation handlers are stubs:** HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, and GEO_QUERY in `wire_protocol_server.cpp` return error responses; storage/index dispatch is pending (9 TODO comments in source).
-2. **Authentication not wired:** `handleAuthRequest()` is a stub; `authenticated_` is never set to `true` through the wire protocol path. BPMN handlers that guard on `authenticated_.load()` will always return 401.
-3. **Limited Kernel Bypass:** No DPDK support; `io_uring` path is guarded by `THEMIS_ENABLE_IO_URING` and off by default.
-4. **WebSocket binary frames not dispatched:** Binary frames over WebSocket are received but not forwarded to storage; clients must use text/JSON frames.
+1. **QUERY_AQL and GEO_QUERY not yet integrated with wire protocol:** Both handlers return structured `{error_code:"AQL_NOT_INTEGRATED"/"GEO_NOT_INTEGRATED"}` responses directing clients to use the HTTP REST API (`POST /api/v1/query` / `GET /api/v1/geo/query`). Full engine dispatch over the binary wire protocol is planned.
+2. **Limited Kernel Bypass:** No DPDK support; `io_uring` path is guarded by `THEMIS_ENABLE_IO_URING` and off by default.
+3. **WebSocket binary frames not dispatched:** Binary frames over WebSocket are received but not forwarded to storage; clients must use text/JSON frames.
 
 ---
 

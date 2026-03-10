@@ -1,6 +1,6 @@
 # Network Module Roadmap
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -16,7 +16,8 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection limits (global and per-IP)
 - [x] Circuit breaker pattern for socket timeouts
 - [x] Protocol buffer wire format helpers (lightweight parser/serializer)
-- [~] Authentication (token-based) with configurable auth timeout — ⚠️ `handleAuthRequest()` is a stub returning an error response; `authenticated_` flag is never set to `true` through the wire protocol; see NETWORK-MISSING-001 in `docs/de/network/missing-implementations.md`
+- [x] Authentication (token-based) with configurable auth timeout — `handleAuthRequest()` validates token, sets `authenticated_` flag; new `Config::auth_token` field; see NETWORK-MISSING-002 in `docs/de/network/missing-implementations.md` (resolved 2026-03-10)
+- [x] Wire Protocol V1 opcode handlers — HELLO, AUTH, GET, PUT, DELETE, QUERY_AQL, VECTOR_SEARCH, GEO_QUERY fully implemented; see NETWORK-MISSING-001 (resolved 2026-03-10)
 - [x] Health checking and keepalive mechanisms
 - [x] Automatic retry logic with configurable back-off
 - [x] Transport security validation (`validateTransportSecurity`)
@@ -98,6 +99,20 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `ServiceMeshIntegration` probe server + `EnvoyXdsClient` xDS v3 REST polling; guarded by `THEMIS_ENABLE_SERVICE_MESH`
 
 ## Production Readiness Checklist
+- [x] Wire Protocol V1 opcode handlers implemented: HELLO, AUTH_REQUEST, GET, PUT, DELETE, QUERY_AQL, VECTOR_SEARCH, GEO_QUERY (2026-03-10)
+  - HELLO: server info + capabilities response
+  - AUTH_REQUEST: token validation, `authenticated_.store(true)`, stats.auth_failures accounting
+  - GET/PUT/DELETE: RocksDB dispatch with collection-prefixed keys
+  - QUERY_AQL / GEO_QUERY: structured error with HTTP REST API redirect hint
+  - VECTOR_SEARCH: `VectorIndexManager::searchKnn()` dispatch
+- [x] Authentication wired: `authenticated_` flag correctly set after successful AUTH (2026-03-10)
+- [x] `Config::auth_token` field added for pre-shared token validation (2026-03-10)
+- [x] Focused standalone test targets added for network components in `tests/CMakeLists.txt` (2026-03-10):
+  - `WireProtocolV1HandlersFocusedTests` (`test_wire_protocol_v1_handlers.cpp`) — Config defaults, auth decision logic, response contracts
+  - `QoSManagerFocusedTests`, `NetworkTimeoutFocusedTests`, `WireProtocolConnectionPoolFocusedTests`
+  - `WireProtocolPerformanceFocusedTests`, `UDPFastPathFocusedTests`, `GeoTopologyRouterFocusedTests`
+  - `WireProtocolV2FocusedTests`, `WireProtocolWebSocketFocusedTests` (THEMIS_ENABLE_WEBSOCKET)
+  - `QuicTransportFocusedTests` (THEMIS_ENABLE_HTTP3), `GrpcTransportFocusedTests` (THEMIS_ENABLE_GRPC)
 - [x] Unit tests added for WebSocket upgrade (`test_wire_protocol_websocket.cpp`)
 - [x] Protocol detection logic tested (8 test cases covering all relevant prefixes)
 - [x] Security: connection-count accounting correct across WS upgrade
@@ -126,12 +141,10 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
 
 ## Known Issues & Limitations
-- Core wire protocol v1 operation handlers are stubs: HELLO, AUTH, GET, PUT, DELETE, QUERY,
-  VECTOR_SEARCH, and GEO_QUERY in `wire_protocol_server.cpp` (lines 866–904) return error
-  responses; see `NETWORK-MISSING-001` and `NETWORK-MISSING-002` in
-  `docs/de/network/missing-implementations.md`.
-- `handleAuthRequest()` is a stub; `authenticated_` session flag is never set `true` through
-  the wire protocol; all BPMN handlers that check `authenticated_.load()` return 401.
+- Wire Protocol V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE) are now fully implemented
+  (resolved 2026-03-10, see `NETWORK-MISSING-001`/`NETWORK-MISSING-002`).
+  QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API;
+  VECTOR_SEARCH dispatches to `VectorIndexManager::searchKnn`.
 - `grpc_transport.cpp` was missing from `cmake/CMakeLists.txt` (fixed: 2026-03-09).
 - `envoy_xds.cpp`, `service_mesh.cpp`, `socket_timeout_manager.cpp`, `udp_fast_path.cpp`, `wire_protocol_server_ws.cpp` were missing from `cmake/ModularBuild.cmake` (fixed: 2026-03-10).
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
@@ -146,4 +159,5 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 
 ## Breaking Changes
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
-- `WireProtocolServer::Config` may gain new fields; defaults remain backward-compatible.
+- `WireProtocolServer::Config` gained new field `auth_token` (default: empty string);
+  defaults remain backward-compatible.

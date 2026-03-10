@@ -102,7 +102,7 @@
 - [x] test_content_embedding_pipeline.cpp — embedding generation batch API
 
 ### Phase 5: Performance / Hardening (Status: Planned 📋)
-- [I] Performance benchmarks per content type (benchmarks/content_bench.cpp) (Issue: #1699) (Target: Q3 2026)
+- [P] Performance benchmarks per content type (benchmarks/bench_content_versioning.cpp) (Issue: #1699) (Target: Q3 2026)
   - PDF extraction: 100-page, 500 KB PDF in < 2 s on a single CPU core
   - Streaming ingestion throughput (NDJSON): ≥ 100 MB/s on NVMe
   - pHash computation for a 4 MP JPEG in < 5 ms
@@ -125,7 +125,7 @@
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1698)
 - [x] Integration tests (ingestion pipeline, content type routing)
-- [I] Performance benchmarks (throughput per content type) (Issue: #1699)
+- [P] Performance benchmarks (throughput per content type) (Issue: #1699)
 - [P] Security audit (file upload validation, path traversal, zip-bomb protection) (Issue: #1700)
 - [x] Documentation complete (content manager, content pipeline, architecture guide)
 - [x] API stability guaranteed for ingestion pipeline

@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Production** — JSONL export, Parquet columnar export, Apache Arrow IPC export (file and stream), Hugging Face Datasets-compatible export, streaming export, incremental/delta export, AQL predicate filtering, instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI), AES-256-GCM export encryption, PII detection and redaction, and data augmentation are all operational. Hugging Face Hub direct upload integration and cross-collection join export remain planned.
+**Production** — JSONL export, Parquet columnar export, Apache Arrow IPC export (file and stream), Hugging Face Datasets-compatible export, HuggingFace Hub direct upload, streaming export, incremental/delta export, AQL predicate filtering, instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI), AES-256-GCM export encryption, PII detection and redaction, data augmentation, ExportFormatRegistry, and PolicyEngine authorization are all operational. Cross-collection join export remains planned.
 
 ## Completed ✅
 - [x] JSONL exporter for LLM training data
@@ -25,11 +25,14 @@
 - [x] Instruction-tuning format templates: Alpaca, ShareGPT, ChatML, OpenAI (`exporters/format_template.cpp`) (Issue: #1727)
 - [x] AES-256-GCM export encryption for sensitive training data (`exporters/export_encryption.cpp`) (Issue: #1728)
 - [x] Synthetic data augmentation pipeline (`exporters/data_augmentation.cpp`)
+- [x] PolicyEngine authorization check before cursor open — `enforceExportPolicy()` in all 6 exporters; `ERR_EXPORT_POLICY_DENIED` (9310) added to error_registry.h (EXP-001)
+- [x] HuggingFace Hub direct upload via libcurl — `HuggingFaceHubClient` in `include/exporters/huggingface_hub_client.h` and `src/exporters/huggingface_hub_client.cpp` (Issue: #1719, EXP-002)
+- [x] `--incremental` CLI flag — `tools/export_cli.cpp` (themis-export binary) supports `--format incremental` and `--incremental` shorthand (EXP-004)
+- [x] ExportFormatRegistry singleton — `include/exporters/export_format_registry.h` and `src/exporters/export_format_registry.cpp`; 9 built-in formats registered (EXP-005)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Hugging Face Hub direct upload integration (Issue: #1719)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
 
 ## Implementation Phases
@@ -57,17 +60,27 @@
 - [x] Implement AQL predicate filtering to restrict exported records without code changes (`exporters/aql_predicate_filter.cpp`) (Issue: #1715)
 - [x] Implement synthetic data augmentation pipeline for training data diversity (`exporters/data_augmentation.cpp`)
 
+### Phase 5: Authorization, Hub Upload, Registry, and CLI (Status: Completed ✅)
+- [x] PolicyEngine authorization check (`enforceExportPolicy()`) in all 6 exporters; `ERR_EXPORT_POLICY_DENIED` (9310) (EXP-001)
+- [x] HuggingFace Hub direct upload client (`HuggingFaceHubClient`) using libcurl (Issue: #1719, EXP-002)
+- [x] `--incremental` CLI flag in `tools/export_cli.cpp` (EXP-004)
+- [x] ExportFormatRegistry singleton with 9 built-in format factories (EXP-005)
+
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1729)
+- [P] Unit tests coverage > 80% (Issue: #1729)
 - [x] Integration tests (JSONL export, LoRA metadata, Parquet, Arrow IPC, HuggingFace, streaming, incremental)
-- [I] Performance benchmarks (export throughput) (Issue: #1730)
-- [x] Security audit (sensitive field redaction, export authorization) (Issue: #1731)
+- [x] Focused test targets for all 12 exporter test files registered in tests/CMakeLists.txt
+- [~] Performance benchmarks (export throughput) — `benchmarks/bench_exporters.cpp` added (Issue: #1730)
+- [x] Security audit (sensitive field redaction, export authorization via PolicyEngine) (Issue: #1731)
 - [x] Documentation complete (JSONL exporter, LoRA metadata, vLLM integration, Parquet, Arrow IPC, HuggingFace)
 - [x] API stability guaranteed for JSONL exporter
+- [x] All 15 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
 
 ## Known Issues & Limitations
 - JSONL exporter deduplication is opt-in (`quality.skip_duplicates`); Parquet exporter always deduplicates by primary key
 - JSONL exporter toxicity filtering is opt-in (`quality.enable_toxicity_filter`); heuristic word-list approach, not ML-based
+- HuggingFaceHubClient requires `CURL_ENABLED` compile flag and libcurl link; without it, uploadDataset() returns an error
+- `export_cli.cpp` loads data from stdin (`@collection_name` prefix) when not linked to an embedded store
 
 ## Breaking Changes
-- Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)
+- ~~Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)~~ — implemented as `ExportFormatRegistry` (EXP-005)

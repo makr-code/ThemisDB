@@ -35,7 +35,7 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 changefeeds, adaptive TTL, audit log, consistency checker, ER diagram export, external catalog
 integration (Apache Atlas, DataHub), column lineage, distributed catalog, and the Schema API REST
 endpoint are production-ready as of v1.5.x.
-<!-- status: current | validated: 2026-03-09 | commit: ab36d18bd -->
+<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
 
 ## Components
 

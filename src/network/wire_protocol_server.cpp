@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   82.0/100                                       ║
     • Total Lines:     1486                                           ║
-    • Open Issues:     TODOs: 9, Stubs: 0                             ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -864,43 +864,371 @@ void WireProtocolServer::Session::doWrite() {
 // =============================================================================
 
 void WireProtocolServer::Session::handleHello() {
-    // TODO: Implement HELLO handshake
-    sendError(0x0003, "HELLO not yet implemented");
+    // HELLO handshake: return server capabilities and version information.
+    // No authentication is required for HELLO – it must be the first message
+    // sent by a connecting client.
+    try {
+        json response;
+        response["server"] = "ThemisDB";
+        response["wire_protocol_version"] = 1;
+        response["server_version"] = "1.7.0";
+        response["auth_required"] = server_->config_.require_auth;
+        response["auth_mechanism"] = server_->config_.auth_mechanism;
+        response["capabilities"] = json::array({
+            "GET", "PUT", "DELETE", "QUERY_AQL",
+            "VECTOR_SEARCH", "TIMESERIES_QUERY",
+            "BPMN_START_PROCESS", "BPMN_TASK_COMPLETE", "BPMN_QUERY_INSTANCE",
+            "PING", "CLOSE"
+        });
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("HELLO error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleAuthRequest() {
-    // TODO: Implement authentication
-    sendError(0x0003, "AUTH not yet implemented");
+    // Token-based authentication.
+    // Expected payload (JSON): {"token": "<bearer-token>", "username": "<optional>"}
+    // On success sets authenticated_ = true and records the username.
+    // When Config::require_auth is false, any non-empty token (or no token) is accepted.
+    try {
+        std::string token;
+        std::string username_req;
+
+        if (!payload_buffer_.empty()) {
+            json request = parsePayloadJson(payload_buffer_);
+            token = request.value("token", "");
+            username_req = request.value("username", "");
+        }
+
+        bool accepted = false;
+
+        if (!server_->config_.require_auth) {
+            // Auth disabled – accept all clients.
+            accepted = true;
+        } else if (!server_->config_.auth_token.empty()) {
+            // Validate against the configured pre-shared token.
+            accepted = (token == server_->config_.auth_token);
+        } else {
+            // No token configured: accept any non-empty token (development mode).
+            accepted = !token.empty();
+        }
+
+        if (accepted) {
+            authenticated_.store(true, std::memory_order_release);
+            username_ = username_req.empty() ? "wire-client" : username_req;
+
+            json response;
+            response["authenticated"] = true;
+            response["username"] = username_;
+            response["message"] = "Authentication successful";
+
+            std::string response_str = response.dump();
+            std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+            asyncWriteResponse(response_data);
+        } else {
+            // Record auth failure in server statistics.
+            {
+                std::lock_guard<std::mutex> lock(server_->stats_mutex_);
+                server_->stats_.auth_failures++;
+            }
+            sendError(0x0401, "Authentication failed: invalid token");
+        }
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in AUTH payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("AUTH error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleGet() {
-    // TODO: Implement GET operation
-    sendError(0x0003, "GET not yet implemented");
+    // GET: retrieve a document by collection and key from RocksDB.
+    // Expected payload (JSON): {"collection": "...", "key": "..."}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->storage_) {
+        sendError(503, "Storage not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string collection = request.value("collection", "");
+        std::string key = request.value("key", "");
+
+        if (collection.empty() || key.empty()) {
+            sendError(400, "Missing 'collection' or 'key' in GET request");
+            return;
+        }
+
+        // Keys are stored as "<collection>:<key>" in RocksDB.
+        std::string storage_key = collection + ":" + key;
+        auto result = server_->storage_->get(storage_key);
+
+        json response;
+        if (result.has_value()) {
+            const auto& value_bytes = result.value();
+            // Try to parse value as JSON; fall back to base64-style string.
+            std::string value_str(value_bytes.begin(), value_bytes.end());
+            try {
+                response["value"] = json::parse(value_str);
+            } catch (...) {
+                response["value"] = value_str;
+            }
+            response["found"] = true;
+            response["collection"] = collection;
+            response["key"] = key;
+        } else {
+            response["found"] = false;
+            response["collection"] = collection;
+            response["key"] = key;
+        }
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in GET payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("GET error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handlePut() {
-    // TODO: Implement PUT operation
-    sendError(0x0003, "PUT not yet implemented");
+    // PUT: store a document by collection and key in RocksDB.
+    // Expected payload (JSON): {"collection": "...", "key": "...", "value": {...}}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->storage_) {
+        sendError(503, "Storage not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string collection = request.value("collection", "");
+        std::string key = request.value("key", "");
+
+        if (collection.empty() || key.empty()) {
+            sendError(400, "Missing 'collection' or 'key' in PUT request");
+            return;
+        }
+        if (!request.contains("value")) {
+            sendError(400, "Missing 'value' in PUT request");
+            return;
+        }
+
+        // Serialise value to JSON string for storage.
+        std::string value_str = request["value"].is_string()
+            ? request["value"].get<std::string>()
+            : request["value"].dump();
+
+        std::string storage_key = collection + ":" + key;
+        bool ok = server_->storage_->put(storage_key, value_str);
+
+        json response;
+        response["success"] = ok;
+        response["collection"] = collection;
+        response["key"] = key;
+        if (!ok) {
+            response["error"] = "Storage write failed";
+        }
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in PUT payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("PUT error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleDelete() {
-    // TODO: Implement DELETE operation
-    sendError(0x0003, "DELETE not yet implemented");
+    // DELETE: remove a document by collection and key from RocksDB.
+    // Expected payload (JSON): {"collection": "...", "key": "..."}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->storage_) {
+        sendError(503, "Storage not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string collection = request.value("collection", "");
+        std::string key = request.value("key", "");
+
+        if (collection.empty() || key.empty()) {
+            sendError(400, "Missing 'collection' or 'key' in DELETE request");
+            return;
+        }
+
+        std::string storage_key = collection + ":" + key;
+        bool ok = server_->storage_->del(storage_key);
+
+        json response;
+        response["success"] = ok;
+        response["collection"] = collection;
+        response["key"] = key;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in DELETE payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("DELETE error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleQuery() {
-    // TODO: Implement AQL query execution
-    sendError(0x0003, "QUERY not yet implemented");
+    // QUERY_AQL: execute an AQL query string.
+    // Expected payload (JSON): {"query": "FOR doc IN collection RETURN doc", "bind_vars": {...}}
+    // NOTE: Full AQL engine integration over the wire protocol is planned for a future
+    // release.  Until then clients should use the HTTP REST API (/api/v1/query).
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string query_str = request.value("query", "");
+
+        if (query_str.empty()) {
+            sendError(400, "Missing 'query' field in QUERY_AQL request");
+            return;
+        }
+
+        // AQL engine is not yet integrated with the wire protocol transport.
+        // Return a structured error so clients can detect this condition and
+        // fall back to the HTTP API endpoint.
+        json response;
+        response["success"] = false;
+        response["error_code"] = "AQL_NOT_INTEGRATED";
+        response["error"] = "AQL query execution is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint POST /api/v1/query instead.";
+        response["query"] = query_str;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in QUERY payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("QUERY error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleVectorSearch() {
-    // TODO: Implement vector search
-    sendError(0x0003, "VECTOR_SEARCH not yet implemented");
+    // VECTOR_SEARCH: k-nearest-neighbour search via VectorIndexManager.
+    // Expected payload (JSON):
+    //   {"vector": [f1, f2, ...], "k": 10, "collection": "..."}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->vector_index_) {
+        sendError(503, "Vector index not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+
+        if (!request.contains("vector") || !request["vector"].is_array()) {
+            sendError(400, "Missing or invalid 'vector' field in VECTOR_SEARCH request");
+            return;
+        }
+
+        std::vector<float> query_vector;
+        for (const auto& v : request["vector"]) {
+            query_vector.push_back(v.get<float>());
+        }
+
+        if (query_vector.empty()) {
+            sendError(400, "Empty query vector in VECTOR_SEARCH request");
+            return;
+        }
+
+        size_t k = request.value("k", static_cast<size_t>(10));
+        if (k == 0) k = 10;
+
+        auto [status, results] = server_->vector_index_->searchKnn(query_vector, k);
+
+        json response;
+        if (!status.ok) {
+            response["success"] = false;
+            response["error"] = status.message;
+        } else {
+            response["success"] = true;
+            response["count"] = results.size();
+            json hits = json::array();
+            for (const auto& r : results) {
+                json hit;
+                hit["pk"] = r.pk;
+                hit["distance"] = r.distance;
+                hits.push_back(std::move(hit));
+            }
+            response["hits"] = std::move(hits);
+        }
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in VECTOR_SEARCH payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("VECTOR_SEARCH error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleGeoQuery() {
-    // TODO: Implement geospatial query
-    sendError(0x0003, "GEO_QUERY not yet implemented");
+    // GEO_QUERY: geospatial proximity / containment queries.
+    // Expected payload (JSON):
+    //   {"lat": 48.137, "lon": 11.576, "radius_m": 1000, "collection": "...", "limit": 20}
+    // NOTE: Full geospatial query integration over the wire protocol is planned for a
+    // future release.  Until then clients should use the HTTP REST API (/api/v1/geo).
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+
+        std::string collection = request.value("collection", "");
+        if (collection.empty()) {
+            sendError(400, "Missing 'collection' field in GEO_QUERY request");
+            return;
+        }
+
+        // Geo index is not yet integrated with the wire protocol transport.
+        json response;
+        response["success"] = false;
+        response["error_code"] = "GEO_NOT_INTEGRATED";
+        response["error"] = "Geospatial query execution is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint GET /api/v1/geo/query instead.";
+        response["collection"] = collection;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in GEO_QUERY payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("GEO_QUERY error: ") + e.what());
+    }
 }
 
 void WireProtocolServer::Session::handleTimeseriesQuery() {

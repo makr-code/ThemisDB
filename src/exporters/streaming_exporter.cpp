@@ -28,7 +28,7 @@
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/export_encryption.h"
 #include "exporters/exporter_errors.h"
-#include "exporters/export_encryption.h"
+#include "exporters/exporter_interface.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -82,6 +82,8 @@ ExportStats StreamingExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
+    // Policy check before any cursor or file is opened (EXP-001).
+    enforceExportPolicy(options);
     VectorExportCursor cursor(entities, config_.page_size);
     return exportFromCursor(cursor, options);
 }
