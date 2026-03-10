@@ -84,10 +84,10 @@ Add a dedicated WebSocket endpoint `/v2/changes` that multiplexes multiple `cdc:
 Current REST routes use unversioned paths (e.g., `/documents/{id}`). Introduce a `/v1/` prefix retroactively (with redirect from unversioned) and implement `/v2/` routes that support bulk operations, streaming query results, and async job tracking.
 
 **Implementation Notes:**
-- `[ ]` Add `RouteVersionRouter` middleware in `src/server/http_server.cpp`; intercept requests at path prefix, rewrite to versioned handler.
-- `[ ]` `/v1/` routes: exact current behaviour; unversioned paths redirect 301 to `/v1/`.
-- `[ ]` `/v2/documents` — bulk insert endpoint accepting `application/x-ndjson` body (newline-delimited JSON documents, up to 10,000 per request).
-- `[ ]` `/v2/query/stream` — SSE endpoint returning result rows as they are produced by the AQL executor; wire to `aql::LLMAQLHandler` streaming API.
+- `[x]` Add `RouteVersionRouter` middleware in `include/server/route_version_router.h`; unversioned paths redirect 301 to `/v1/`; wired in `src/server/http_server.cpp`.
+- `[x]` `/v1/` routes: exact current behaviour; unversioned paths redirect 301 to `/v1/` via `RouteVersionRouter::getRedirectTarget()`.
+- `[x]` `/v2/documents` — bulk insert endpoint accepting `application/x-ndjson` body (newline-delimited JSON documents, up to 10,000 per request); implemented in `EntityApiHandler::handleBulkNdjson()`.
+- `[x]` `/v2/query/stream` — SSE endpoint implemented via `QueryApiHandler::handleQueryStreamSse()`; registered as `Route::QueryStreamSseGet`.
 - `[x]` `/v2/jobs/{id}` — async job status for long-running queries; store job state in `cache::AdaptiveQueryCache` with TTL = 1 hour.
 
 **Performance Targets:**
@@ -124,7 +124,7 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 **Implementation Notes:**
 - `[x]` Add `TracingMiddleware` in `src/api/tracing_middleware.cpp`; generate UUID v4 if `X-Correlation-ID` absent; inject into thread-local `RequestContext`. (**Implemented** — `TracingMiddleware::processRequest()` uses `boost::uuids::random_generator` per thread.)
 - `[x]` Forward `RequestContext::correlationId` to `utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
-- `[ ]` Echo back `X-Correlation-ID` in all responses including errors and SSE streams.
+- `[x]` Echo back `X-Correlation-ID` in all responses including errors and SSE streams (implemented in `HttpServer::applyGovernanceHeaders()`).
 - `[ ]` Export span data to OpenTelemetry collector via OTLP HTTP exporter (configurable endpoint in `config/networking/`).
 - `[?]` Decision needed: use W3C `traceparent` header format vs proprietary `X-Correlation-ID` — affects SDK compatibility.
 
@@ -152,5 +152,5 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 ## Security / Reliability
 
 - `[x]` All WebSocket upgrade requests must be validated by `auth::JWTValidator` before the upgrade handshake completes; reject with HTTP 401 before protocol switch. (`WsChangeHandler::validate()` checks Bearer token / JWT using `AuthMiddleware::authorize` with `cdc:subscribe` scope before any handshake)
-- `[ ]` GraphQL `__schema` introspection must be disabled via `QueryLimits::allowIntrospection = false` in production deployments; expose a config flag in `config/networking/`.
+- `[x]` GraphQL `__schema` introspection disabled via `QueryLimits::allow_introspection = false`; `QueryLimits::production()` factory sets this to `false`; enforced in `Parser::parseField()`. Expose a config flag in `config/networking/` when a configuration layer is added.
 - `[ ]` Rate limiting middleware (`auth::AuthRateLimiter`) must be applied to `/v2/` routes from first release to prevent bulk-insert abuse; default limit 100 req/s per tenant.

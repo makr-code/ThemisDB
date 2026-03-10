@@ -229,7 +229,18 @@ struct QueryLimits {
     size_t max_ast_nodes = 1000;                // Maximum AST nodes
     size_t max_subscriptions = 10;              // Maximum concurrent subscriptions per connection
 
-    // Default safe limits
+    /// Allow GraphQL introspection fields (`__schema`, `__type`, `__typename`).
+    ///
+    /// Set to `false` in production deployments to prevent schema leakage:
+    ///   auto limits = QueryLimits::production();   // allow_introspection = false
+    ///
+    /// When `false`, `Parser::parse()` rejects any query that contains a
+    /// top-level or nested introspection field and returns a parse error so the
+    /// query is never executed.  This blocks schema reconnaissance by untrusted
+    /// clients while leaving query execution and mutation paths unaffected.
+    bool allow_introspection = true;
+
+    // Default safe limits (development / trusted context)
     static QueryLimits defaults() {
         return QueryLimits{};
     }
@@ -241,8 +252,17 @@ struct QueryLimits {
             .max_depth = 20,
             .max_fields = 500,
             .max_ast_nodes = 5000,
-            .max_subscriptions = 50
+            .max_subscriptions = 50,
+            .allow_introspection = true
         };
+    }
+
+    /// Hardened limits for production deployments.
+    /// Disables introspection to prevent schema leakage by untrusted clients.
+    static QueryLimits production() {
+        QueryLimits l;
+        l.allow_introspection = false;
+        return l;
     }
 };
 
@@ -301,6 +321,9 @@ private:
     bool checkDepthLimit(size_t depth);
     bool checkFieldLimit();
     bool checkASTNodeLimit();
+    /// Return true if @p field_name is a GraphQL introspection field
+    /// (`__schema`, `__type`, or `__typename`).
+    static bool isIntrospectionFieldName(std::string_view field_name) noexcept;
     void incrementFieldCount() { field_count_++; }
     void incrementASTNodeCount() { ast_node_count_++; }
     
