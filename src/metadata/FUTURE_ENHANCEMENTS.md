@@ -1,4 +1,5 @@
 # Metadata Module - Future Enhancements
+<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
 
 ## Scope
 
@@ -209,6 +210,24 @@ Analyze query patterns and recommend indexes.
 
 ---
 
+## Scientific References (IEEE)
+
+The following references underpin the planned enhancements and design decisions in this module.
+
+[1] Y. E. Ioannidis and V. Poosala, "Balancing Histogram Optimality and Practicality for Query Result Size Estimation," in *Proc. ACM SIGMOD Int. Conf. Management of Data*, San Jose, CA, USA, 1995, pp. 233–244. https://doi.org/10.1145/223784.223816
+
+[2] S. Chaudhuri and V. R. Narasayya, "An Efficient Cost-Driven Index Selection Tool for Microsoft SQL Server," in *Proc. 23rd Int. Conf. Very Large Data Bases (VLDB)*, Athens, Greece, 1997, pp. 146–155. https://dl.acm.org/doi/10.5555/645923.671506
+
+[3] J. F. Roddick, "A Survey of Schema Versioning Issues for Database Systems," *Information and Software Technology*, vol. 37, no. 7, pp. 383–393, 1995. https://doi.org/10.1016/0950-5849(95)91245-R
+
+[4] P. Buneman, S. Khanna, and W. C. Tan, "Why and Where: A Characterization of Data Provenance," in *Proc. 8th Int. Conf. Database Theory (ICDT)*, London, UK, 2001, pp. 316–330. https://doi.org/10.1007/3-540-44503-X_20
+
+[5] W3C, "PROV-DM: The PROV Data Model," W3C Recommendation, Apr. 2013. https://www.w3.org/TR/prov-dm/
+
+[6] R. Ramakrishnan and J. Gehrke, *Database Management Systems*, 3rd ed. New York, NY, USA: McGraw-Hill, 2003. ISBN: 978-0-07-246563-1
+
+[7] ISO/IEC, *Information Technology – Database Languages – SQL – Part 11: Information and Definition Schemas (SQL/Schemata)*, ISO/IEC 9075-11:2016, 2016. https://www.iso.org/standard/63556.html
+
 ## See Also
 
 - [README.md](README.md) - Current module documentation
@@ -216,6 +235,6 @@ Analyze query patterns and recommend indexes.
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: March 2026*  
 *Module Version: v1.5.0*  
 *Next Review: v1.6.0 Release*
