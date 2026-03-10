@@ -2217,6 +2217,85 @@ else()
     message(STATUS "Multi-Region Active-Active tests not found")
 endif()
 
+# Replication HA Focused Tests (Phase 1-3 production-readiness)
+# Covers: config validation, WAL checksum, LWW/CRDT resolvers, quorum-based
+# leader election, thread-safe replica list, error handling, witness nodes.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+    message(STATUS "Adding Replication HA focused tests")
+
+    add_executable(test_replication_ha_focused
+        test_replication_ha.cpp
+    )
+
+    target_include_directories(test_replication_ha_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_replication_ha_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_ha_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationHAFocusedTests COMMAND test_replication_ha_focused)
+
+    set_tests_properties(ReplicationHAFocusedTests PROPERTIES
+        LABELS "replication;ha;witness-node;conflict-resolution;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ReplicationHA: config validation, WAL checksum, LWW/CRDT, quorum leader election, witness nodes")
+else()
+    message(STATUS "Replication HA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+endif()
+
+# Replication New Features Focused Tests (v1.7.0 modules)
+# Covers: ReplicationObserver, ThreeWayMergeResolver, FieldLevelMergeResolver,
+# ReplicationEventStream, ReplicationPolicy, ReplicationSlot/Manager.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
+    message(STATUS "Adding Replication New Features focused tests")
+
+    add_executable(test_replication_new_features_focused
+        test_replication_new_features.cpp
+    )
+
+    target_include_directories(test_replication_new_features_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_replication_new_features_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_new_features_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationNewFeaturesFocusedTests
+             COMMAND test_replication_new_features_focused)
+
+    set_tests_properties(ReplicationNewFeaturesFocusedTests PROPERTIES
+        LABELS "replication;v1.7.0;observer;conflict;event-stream;policy;slot;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ReplicationNewFeatures: observer, 3-way merge, field merge, event stream, policy, slot manager")
+else()
+    message(STATUS "Replication New Features focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
+endif()
+
 # RPC Geospatial Query Tests
 # ============================================================================
 
@@ -7771,6 +7850,110 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.c
 endif()
 
 # ============================================================================
+# Time Series Module – Focused Standalone Test Targets
+# Each test is a standalone executable covering a distinct Phase 2 / Phase 3
+# feature of the time series subsystem.  All tests are CPU-only; no TSStore
+# on-disk state is required for unit-level tests.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_downsampling.cpp")
+    message(STATUS "Adding Downsampling Pipeline focused tests")
+
+    add_executable(test_downsampling_focused
+        test_downsampling.cpp
+    )
+
+    target_include_directories(test_downsampling_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_downsampling_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_downsampling_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DownsamplingFocusedTests COMMAND test_downsampling_focused)
+
+    set_tests_properties(DownsamplingFocusedTests PROPERTIES
+        LABELS "timeseries;downsampling;pipeline;tier-selector;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Downsampling: DownsamplingTier factories, policy, TierSelector routing, DownsamplingPipeline lifecycle")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
+    message(STATUS "Adding TSAutoBuffer adaptive flush focused tests")
+
+    add_executable(test_ts_adaptive_flush_focused
+        test_ts_adaptive_flush.cpp
+    )
+
+    target_include_directories(test_ts_adaptive_flush_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ts_adaptive_flush_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_adaptive_flush_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSAdaptiveFlushFocusedTests COMMAND test_ts_adaptive_flush_focused)
+
+    set_tests_properties(TSAdaptiveFlushFocusedTests PROPERTIES
+        LABELS "timeseries;ts-auto-buffer;adaptive-flush;backpressure;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TSAdaptiveFlush: FlushController EWMA, backpressure, TSAutoBufferConfig, metrics integration")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
+    message(STATUS "Adding Prometheus Remote Write focused tests")
+
+    add_executable(test_prometheus_remote_write_focused
+        test_prometheus_remote_write.cpp
+    )
+
+    target_include_directories(test_prometheus_remote_write_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_prometheus_remote_write_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_prometheus_remote_write_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PrometheusRemoteWriteFocusedTests
+             COMMAND test_prometheus_remote_write_focused)
+
+    set_tests_properties(PrometheusRemoteWriteFocusedTests PROPERTIES
+        LABELS "timeseries;prometheus;remote-write;protobuf;snappy;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PrometheusRemoteWrite: snappy decode, protobuf label mapping, HTTP 204/400/501 paths")
+endif()
+
+# ============================================================================
 # Geo Module – Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently
 # without requiring a full themis_tests build.  All tests run in CPU-only
@@ -9702,6 +9885,139 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
     message(STATUS "  VoiceProduction: full pipeline (audio→STT→LLM→TTS→audio), session management, emotion detection")
 else()
     message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+endif()
+
+# Voice Coverage Focused Tests (Issue #2355 — Unit tests coverage >80%)
+# Covers: VoiceSessionManager (touchSession, expireOldSessions, getSessionState),
+# VoiceAudioStorage (checkDuplicate, computeTier, promoteTier), and other
+# previously untested voice module APIs.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
+    message(STATUS "Adding Voice Coverage focused tests (Issue #2355)")
+
+    add_executable(test_voice_coverage_focused
+        test_voice_coverage.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_batch_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_macro_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_authenticator.cpp
+    )
+
+    target_include_directories(test_voice_coverage_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_voice_coverage_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_voice_coverage_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
+
+    set_tests_properties(VoiceCoverageFocusedTests PROPERTIES
+        LABELS "voice;coverage;session;audio-storage;macro;accessibility;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VoiceCoverage: session touch/expire, audio tier promotion, macro management, accessibility, error handler")
+else()
+    message(STATUS "Voice Coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
+endif()
+
+# ============================================================================
+# Training Module Phase-3 Focused Tests (Issue #2355 equivalent — training coverage)
+# LoRACheckpointManager and ProvenanceTracker standalone test targets.
+# These files are excluded from the main themis_tests binary when
+# THEMIS_ENABLE_LEGAL_TRAINING is OFF.  The focused targets always build so
+# CI can validate the Phase-3 training components independently.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_checkpoint_manager.cpp")
+    message(STATUS "Adding LoRA Checkpoint Manager focused tests (Phase 3 training)")
+
+    add_executable(test_lora_checkpoint_manager_focused
+        test_lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+    )
+
+    target_include_directories(test_lora_checkpoint_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_checkpoint_manager_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_checkpoint_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRACheckpointManagerFocusedTests
+             COMMAND test_lora_checkpoint_manager_focused)
+
+    set_tests_properties(LoRACheckpointManagerFocusedTests PROPERTIES
+        LABELS "training;lora;checkpoint;sha256;integrity;rollback;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LoRACheckpointManager: save/resume, SHA-256, rolling window, auto-rollback, manifest persistence")
+else()
+    message(STATUS "LoRA Checkpoint Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_checkpoint_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_provenance_tracker.cpp")
+    message(STATUS "Adding Provenance Tracker focused tests (Phase 3 training)")
+
+    add_executable(test_provenance_tracker_focused
+        test_provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+    )
+
+    target_include_directories(test_provenance_tracker_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_provenance_tracker_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_provenance_tracker_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProvenanceTrackerFocusedTests
+             COMMAND test_provenance_tracker_focused)
+
+    set_tests_properties(ProvenanceTrackerFocusedTests PROPERTIES
+        LABELS "training;provenance;lineage;record;filtering;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ProvenanceTracker: write, recordFilteredSample, queryLineage, getRecord, rejection conditions")
+else()
+    message(STATUS "Provenance Tracker focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_provenance_tracker.cpp")
 endif()
 
 # ============================================================================

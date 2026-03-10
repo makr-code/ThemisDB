@@ -81,6 +81,7 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] `include/replication/event_stream.h` + `src/replication/event_stream.cpp` — ReplicationEventStream with RAII subscription handles
 - [x] `include/replication/policy.h` + `src/replication/policy.cpp` — ReplicationPolicy with per-collection policy assignment and topology validation
 - [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
+- [x] All 5 v1.7.0 files registered in `cmake/ModularBuild.cmake` THEMIS_TRANSACTION_SOURCES
 
 ### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: In Progress 🚧)
 - [ ] Full Raft v2 implementation (joint consensus for membership changes)
@@ -91,7 +92,8 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (209 test cases: 177 original + 30 new v1.7.0 feature tests + 2 commit-index tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
-- [?] Performance benchmarks (replication lag p99, WAL throughput)
+- [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
+- [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
 - [?] Security audit (WAL encryption in transit, CDC stream authentication)
 - [x] Documentation complete (replication-ha-guide.md, REPLICATION_IMPLEMENTATION_STATUS.md)
 - [x] API stability guaranteed (ReplicationConfig stable; new classes are additive)

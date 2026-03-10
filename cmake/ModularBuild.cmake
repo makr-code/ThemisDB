@@ -652,6 +652,11 @@ set(THEMIS_TRANSACTION_SOURCES
     
     # Replication
     ../src/replication/replication_manager.cpp
+    ../src/replication/observability.cpp
+    ../src/replication/conflict_resolution.cpp
+    ../src/replication/event_stream.cpp
+    ../src/replication/policy.cpp
+    ../src/replication/replication_slot.cpp
     
     # Graph index (used by transactions)
     ../src/index/graph_index.cpp
