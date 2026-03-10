@@ -108,6 +108,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Authentication wired: `authenticated_` flag correctly set after successful AUTH (2026-03-10)
 - [x] `Config::auth_token` field added for pre-shared token validation (2026-03-10)
 - [x] Focused standalone test targets added for network components in `tests/CMakeLists.txt` (2026-03-10):
+  - `WireProtocolV1HandlersFocusedTests` (`test_wire_protocol_v1_handlers.cpp`) — Config defaults, auth decision logic, response contracts
   - `QoSManagerFocusedTests`, `NetworkTimeoutFocusedTests`, `WireProtocolConnectionPoolFocusedTests`
   - `WireProtocolPerformanceFocusedTests`, `UDPFastPathFocusedTests`, `GeoTopologyRouterFocusedTests`
   - `WireProtocolV2FocusedTests`, `WireProtocolWebSocketFocusedTests` (THEMIS_ENABLE_WEBSOCKET)

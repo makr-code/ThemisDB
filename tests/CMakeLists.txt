@@ -7459,6 +7459,15 @@ macro(add_network_focused_test target src test_name labels desc)
     endif()
 endmacro()
 
+# --- Wire Protocol V1 Opcode Handlers ---
+add_network_focused_test(
+    test_wire_protocol_v1_handlers_focused
+    test_wire_protocol_v1_handlers.cpp
+    WireProtocolV1HandlersFocusedTests
+    "network;wire-protocol;v1;handlers;auth;get;put;delete;vector-search;focused;unit"
+    "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
+)
+
 # --- QoS Manager ---
 add_network_focused_test(
     test_qos_manager_focused
