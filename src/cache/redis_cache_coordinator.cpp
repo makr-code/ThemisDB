@@ -47,6 +47,7 @@
 
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
+#include <openssl/crypto.h>
 
 namespace themis {
 namespace cache {
@@ -583,17 +584,13 @@ bool RedisCacheCoordinator::verifyHmac(const nlohmann::json& j) const {
             return false;
         }
 
-        // Constant-time comparison to prevent timing side-channels.
+        // Constant-time comparison via CRYPTO_memcmp to prevent timing side-channels.
         if (received_sig.size() != expected_sig.size()) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed (size mismatch)");
             return false;
         }
-        volatile unsigned char diff = 0;
-        for (size_t i = 0; i < expected_sig.size(); ++i) {
-            diff |= static_cast<unsigned char>(received_sig[i]) ^
-                    static_cast<unsigned char>(expected_sig[i]);
-        }
-        if (diff != 0) {
+        if (CRYPTO_memcmp(received_sig.data(), expected_sig.data(),
+                          expected_sig.size()) != 0) {
             THEMIS_WARN("RedisCacheCoordinator: HMAC verification failed");
             return false;
         }
