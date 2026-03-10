@@ -3392,6 +3392,134 @@ else()
     message(STATUS "SagaOperation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
 endif()
 
+# Transaction Manager Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
+    message(STATUS "Adding Transaction Manager focused tests")
+
+    add_executable(test_transaction_manager_focused
+        test_transaction_manager.cpp
+    )
+
+    target_link_libraries(test_transaction_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionManagerFocusedTests COMMAND test_transaction_manager_focused)
+
+    set_tests_properties(TransactionManagerFocusedTests PROPERTIES
+        LABELS "transaction;mvcc;acid;occ;explain;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TransactionManager: ACID commit/rollback, graph/vector ops, isolation, statistics, explain")
+else()
+    message(STATUS "Transaction Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_manager.cpp")
+endif()
+
+# Transaction Isolation Levels Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+    message(STATUS "Adding Transaction Isolation Levels focused tests")
+
+    add_executable(test_transaction_isolation_levels_focused
+        test_transaction_isolation_levels.cpp
+    )
+
+    target_link_libraries(test_transaction_isolation_levels_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_isolation_levels_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionIsolationLevelsFocusedTests COMMAND test_transaction_isolation_levels_focused)
+
+    set_tests_properties(TransactionIsolationLevelsFocusedTests PROPERTIES
+        LABELS "transaction;isolation;lock;2pl;intent-lock;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TransactionIsolationLevels: enum correctness, LockManager RC/RR/SZ compliance, 2PL, intent locks")
+else()
+    message(STATUS "Transaction Isolation Levels focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation_levels.cpp")
+endif()
+
+# SAGA Logger Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_logger.cpp")
+    message(STATUS "Adding SAGA Logger focused tests")
+
+    add_executable(test_saga_logger_focused
+        test_saga_logger.cpp
+    )
+
+    target_link_libraries(test_saga_logger_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_logger_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGALoggerFocusedTests COMMAND test_saga_logger_focused)
+
+    set_tests_properties(SAGALoggerFocusedTests PROPERTIES
+        LABELS "utils;saga;logger;encryption;signing;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SAGALogger: signed batch flush, batch verification, encrypted step load, empty flush")
+else()
+    message(STATUS "SAGA Logger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_logger.cpp")
+endif()
+
+# SAGA Compactor Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_compactor.cpp")
+    message(STATUS "Adding SAGA Compactor focused tests")
+
+    add_executable(test_saga_compactor_focused
+        test_saga_compactor.cpp
+    )
+
+    target_link_libraries(test_saga_compactor_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_compactor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGACompactorFocusedTests COMMAND test_saga_compactor_focused)
+
+    set_tests_properties(SAGACompactorFocusedTests PROPERTIES
+        LABELS "utils;saga;compactor;wal;replay;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SAGACompactor: compact WAL, archive completed entries, replay pending compensations")
+else()
+    message(STATUS "SAGA Compactor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_compactor.cpp")
+endif()
+
 # Utilities Comprehensive Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "Adding Utilities comprehensive tests")
