@@ -70,8 +70,8 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1882)
-- [I] Integration tests (HNSW recall@10, spatial correctness) (Issue: #1883)
-- [I] Performance benchmarks (QPS, recall, memory) (Issue: #1884)
+- [P] Integration tests (HNSW recall@10, spatial correctness) (Issue: #1883)
+- [P] Performance benchmarks (QPS, recall, memory) (Issue: #1884)
 - [I] Security audit (GPU memory safety, RocksDB key prefix isolation) (Issue: #1885)
 - [I] Documentation complete (Issue: #1886)
 - [I] API stability guaranteed (Issue: #1887)

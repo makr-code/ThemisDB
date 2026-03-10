@@ -1,12 +1,13 @@
 {
   "module": "performance",
-  "validated": "2026-03-09",
+  "validated": "2026-03-10",
   "status": "current",
-  "source": "Issue #3525 Reality-Check",
+  "source": "Issue #3525 Reality-Check + Build-System-Audit (March 2026)",
   "summary": {
     "critical_missing": 0,
     "known_limitations": 2,
-    "doc_discrepancies_fixed": 3
+    "doc_discrepancies_fixed": 3,
+    "build_system_gaps_fixed": 1
   },
   "findings": [
     {
@@ -58,6 +59,51 @@
         "src/performance/FUTURE_ENHANCEMENTS.md",
         "include/performance/README.md",
         "include/performance/FUTURE_ENHANCEMENTS.md"
+      ]
+    },
+    {
+      "id": "PERF-BUILD-001",
+      "type": "build_system_gap",
+      "severity": "minor",
+      "status": "fixed",
+      "title": "5 source files missing from cmake/CMakeLists.txt, 10 from ModularBuild.cmake; 5 test targets unregistered; 2 options undeclared",
+      "claim_source": "Build-System-Audit (2026-03-10)",
+      "missing_sources_cmake": [
+        "src/performance/prometheus_exporter.cpp",
+        "src/performance/chimera_exporter.cpp",
+        "src/performance/async_metrics_exporter.cpp",
+        "src/performance/phase3/adaptive_batch_tuner.cpp",
+        "src/performance/phase4/io_uring_zero_copy.cpp"
+      ],
+      "missing_sources_modular": [
+        "src/performance/numa_topology.cpp",
+        "src/performance/prometheus_exporter.cpp",
+        "src/performance/chimera_exporter.cpp",
+        "src/performance/async_metrics_exporter.cpp",
+        "src/performance/phase3/memory_pressure.cpp",
+        "src/performance/phase3/adaptive_batch_tuner.cpp",
+        "src/performance/phase4/feature_flags.cpp",
+        "src/performance/phase4/pmu_counters.cpp",
+        "src/performance/phase4/pmem_storage.cpp",
+        "src/performance/phase4/io_uring_zero_copy.cpp"
+      ],
+      "missing_test_targets": [
+        "test_cycle_metrics",
+        "test_numa_topology",
+        "test_wire_perf_benchmark",
+        "test_adaptive_batch_tuner",
+        "test_io_uring_zero_copy"
+      ],
+      "missing_cmake_options": [
+        "THEMIS_ENABLE_PMU_COUNTERS",
+        "THEMIS_ENABLE_IO_URING"
+      ],
+      "additional_fix": "adaptive_batch_tuner.cpp removed from direct target_sources(themis_tests) in tests/CMakeLists.txt (was causing duplicate compilation; now in THEMIS_CORE_SOURCES)",
+      "fix_commit": "3806f255d",
+      "affected_files": [
+        "cmake/CMakeLists.txt",
+        "cmake/ModularBuild.cmake",
+        "tests/CMakeLists.txt"
       ]
     },
     {

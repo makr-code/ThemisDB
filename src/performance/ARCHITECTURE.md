@@ -1,6 +1,6 @@
 # Performance Module — Architecture Guide
 
-<!-- status: current | validated: 2026-03-09 -->
+<!-- status: current | validated: 2026-03-10 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 **Version:** 1.1  

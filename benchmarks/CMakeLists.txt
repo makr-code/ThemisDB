@@ -1281,6 +1281,51 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
 endif()
 
+# LLM Model Loading from ThemisDB Benchmarks
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loading_from_themisdb.cpp")
+    message(STATUS "Adding LLM Model Loading from ThemisDB benchmarks")
+
+    add_executable(bench_llm_model_loading_from_themisdb
+        ${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loading_from_themisdb.cpp
+    )
+
+    target_include_directories(bench_llm_model_loading_from_themisdb PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_llm_model_loading_from_themisdb PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_llm_model_loading_from_themisdb PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_llm_model_loading_from_themisdb PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_llm_model_loading_from_themisdb
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LLM: Model store/load latency (1KB/1MB/10MB), SHA256 verification, temp-file cleanup")
+endif()
+
 # ============================================================================
 # Rotary Embeddings Benchmarks (NEW)
 # ============================================================================
@@ -2005,6 +2050,651 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
 endif()
 
 # ============================================================================
+# Observability: MetricsCollector Performance Benchmarks
+# Measures metrics recording, aggregation, Prometheus text export,
+# and concurrent access performance.
+# Performance target: < 1% CPU overhead at steady-state 1,000 req/s workload.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
+    message(STATUS "Adding Observability: MetricsCollector performance benchmarks")
+
+    add_executable(bench_metrics_collector
+        bench_metrics_collector.cpp
+    )
+
+    target_include_directories(bench_metrics_collector PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_metrics_collector PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_metrics_collector PRIVATE
+# Index Module Benchmarks (Issue: #1884 — Performance benchmarks: QPS, recall, memory)
+# These benchmarks cover vector search, quantization, spatial indexing, and
+# approximate radius search.  All CPU-only benchmarks run without GPU hardware.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vector_search.cpp")
+    message(STATUS "Adding Vector Search benchmarks (Issue #1884)")
+
+    add_executable(bench_vector_search
+        bench_vector_search.cpp
+    )
+
+    target_link_libraries(bench_vector_search PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_vector_search PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_vector_search PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_vector_search
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  VectorSearch: HNSW insert QPS, k-NN search QPS (L2/Cosine), recall vs QPS trade-off")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_index_rebuild.cpp")
+    message(STATUS "Adding Index Rebuild benchmarks (Issue #1884)")
+
+    add_executable(bench_index_rebuild
+        bench_index_rebuild.cpp
+    )
+
+    target_link_libraries(bench_index_rebuild PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_index_rebuild PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_index_rebuild PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_index_rebuild
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  IndexRebuild: secondary index build time, online rebuild read-QPS impact, WriteBatch throughput")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_spatial_index.cpp")
+    message(STATUS "Adding Spatial Index benchmarks (Issue #1884)")
+
+    add_executable(bench_spatial_index
+        bench_spatial_index.cpp
+    )
+
+    target_link_libraries(bench_spatial_index PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET themis_geo)
+        target_link_libraries(bench_spatial_index PRIVATE themis_geo)
+    endif()
+
+    target_compile_definitions(bench_spatial_index PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_spatial_index PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_spatial_index
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  SpatialIndex: R-tree insert/search QPS, Z-order range query, KNN spatial queries")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_approximate_radius_search.cpp")
+    message(STATUS "Adding Approximate Radius Search benchmarks (Issue #1884)")
+
+    add_executable(bench_approximate_radius_search
+        bench_approximate_radius_search.cpp
+    )
+
+    target_link_libraries(bench_approximate_radius_search PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_approximate_radius_search PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_approximate_radius_search PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_approximate_radius_search
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ApproximateRadiusSearch: radius search QPS, recall vs radius, batch search throughput")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_binary_quantization.cpp")
+    message(STATUS "Adding Binary Quantization benchmarks (Issue #1884)")
+
+    add_executable(bench_binary_quantization
+        bench_binary_quantization.cpp
+    )
+
+    target_link_libraries(bench_binary_quantization PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_binary_quantization PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_binary_quantization PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_binary_quantization
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  BinaryQuantization: encode throughput, Hamming distance QPS, memory reduction factor")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_product_quantization.cpp")
+    message(STATUS "Adding Product Quantization benchmarks (Issue #1884)")
+
+    add_executable(bench_product_quantization
+        bench_product_quantization.cpp
+    )
+
+    target_link_libraries(bench_product_quantization PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_product_quantization PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_product_quantization PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_product_quantization
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ProductQuantization: train throughput, encode QPS, ADC distance table, memory footprint")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_residual_quantization.cpp")
+    message(STATUS "Adding Residual Quantization benchmarks (Issue #1884)")
+
+    add_executable(bench_residual_quantization
+        bench_residual_quantization.cpp
+    )
+
+    target_link_libraries(bench_residual_quantization PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_residual_quantization PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_residual_quantization PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_residual_quantization
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ResidualQuantization: multi-stage encode throughput, reconstruction error, cascade QPS")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_learned_quantization.cpp")
+    message(STATUS "Adding Learned Quantization benchmarks (Issue #1884)")
+
+    add_executable(bench_learned_quantization
+        bench_learned_quantization.cpp
+    )
+
+    target_link_libraries(bench_learned_quantization PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_learned_quantization PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_learned_quantization PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_learned_quantization
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LearnedQuantization: neural codebook training, encode throughput, distortion vs compression rate")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hnsw_prefilter_minimal.cpp")
+    message(STATUS "Adding HNSW Pre-filter benchmarks (Issue #1884)")
+
+    add_executable(bench_hnsw_prefilter_minimal
+        bench_hnsw_prefilter_minimal.cpp
+    )
+
+    target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(TARGET hnswlib::hnswlib)
+        target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE hnswlib::hnswlib)
+    endif()
+
+    target_compile_definitions(bench_hnsw_prefilter_minimal PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_hnsw_prefilter_minimal PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_hnsw_prefilter_minimal
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  HnswPrefilterMinimal: HNSW pre-filter vs post-filter recall/QPS, selective-filter throughput")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_hybrid_vector_geo.cpp")
+    message(STATUS "Adding Hybrid Vector+Geo benchmarks (Issue #1884)")
+
+    add_executable(bench_hybrid_vector_geo
+        bench_hybrid_vector_geo.cpp
+    )
+
+    target_link_libraries(bench_hybrid_vector_geo PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_hybrid_vector_geo PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_hybrid_vector_geo PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_hybrid_vector_geo
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  HybridVectorGeo: combined vector+geo search QPS, geo-filter overhead, fused query latency")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vector_prefilter.cpp")
+    message(STATUS "Adding Vector Prefilter benchmarks (Issue #1884)")
+
+    add_executable(bench_vector_prefilter
+        bench_vector_prefilter.cpp
+    )
+
+    target_link_libraries(bench_vector_prefilter PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_vector_prefilter PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_vector_prefilter PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_vector_prefilter
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  VectorPrefilter: pre-filter selectivity vs recall, attribute filter overhead, ANN+filter QPS")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vector_compression_lossless.cpp")
+    message(STATUS "Adding Vector Compression (Lossless) benchmarks (Issue #1884)")
+
+    add_executable(bench_vector_compression_lossless
+        bench_vector_compression_lossless.cpp
+    )
+
+    target_link_libraries(bench_vector_compression_lossless PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_vector_compression_lossless PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_vector_compression_lossless PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_vector_compression_lossless
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  VectorCompressionLossless: SIMD delta/varint encode throughput, compression ratio, decompress latency")
+endif()
+
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vector_index.cpp")
+    if(THEMIS_ENABLE_GPU)
+        message(STATUS "Adding GPU Vector Index benchmarks (THEMIS_ENABLE_GPU=ON, Issue #1884)")
+
+        add_executable(bench_gpu_vector_index
+            bench_gpu_vector_index.cpp
+        )
+
+        target_link_libraries(bench_gpu_vector_index PRIVATE
+            ${BENCHMARK_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET CUDA::cudart)
+            target_link_libraries(bench_gpu_vector_index PRIVATE CUDA::cudart)
+        endif()
+
+        target_compile_definitions(bench_gpu_vector_index PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+            THEMIS_ENABLE_GPU
+        )
+
+        if(CMAKE_BUILD_TYPE STREQUAL "Release")
+            if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+                set(BENCHMARK_ARCH_FLAGS "-march=native")
+            endif()
+            target_compile_options(bench_gpu_vector_index PRIVATE
+                -O3
+                ${BENCHMARK_ARCH_FLAGS}
+                -DNDEBUG
+            )
+        endif()
+
+        install(TARGETS bench_gpu_vector_index
+            RUNTIME DESTINATION bin/benchmarks
+            COMPONENT benchmarks
+        )
+
+        message(STATUS "  GpuVectorIndex: GPU insert/search QPS vs CPU, memory bandwidth utilisation, multi-GPU fan-out")
+    else()
+        message(STATUS "Skipping GPU Vector Index benchmarks (THEMIS_ENABLE_GPU=OFF)")
+    endif()
+endif()
+
+# ============================================================================
+# Ingestion Module Benchmarks (Issue: #1911 — Performance benchmarks: docs/sec, MB/sec)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_kv.cpp")
+    message(STATUS "Adding Ingestion KV benchmarks (Issue #1911)")
+
+    add_executable(bench_ingestion_kv
+        bench_ingestion_kv.cpp
+    )
+
+    target_link_libraries(bench_ingestion_kv PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_ingestion_kv PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_ingestion_kv PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_ingestion_kv
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  IngestionKV: bulk-insert throughput (docs/sec, MB/sec), WriteBatch sizing, checkpoint overhead")
+endif()
+
+# ============================================================================
+# Voice Assistant Benchmarks (Issue: #2357 — Performance benchmarks: STT latency, TTS speed)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_assistant.cpp")
+    message(STATUS "Adding Voice Assistant benchmarks (Issue #2356)")
+
+    add_executable(bench_voice_assistant
+        bench_voice_assistant.cpp
+    )
+
+    target_link_libraries(bench_voice_assistant PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+# Prompt Engineering Performance Benchmarks (ROADMAP Production Readiness)
+# Measures per-operation latency and concurrent-access throughput for the
+# prompt engineering module:
+#   1. PromptManager createTemplate / getTemplate (hit+miss) / injectContext /
+#      validateTemplate (valid+invalid)
+#   2. PromptVersionControl commit / getHistory
+#   3. FeedbackCollector recordFeedback / getStats (100 entries)
+#   4. PromptOptimizer optimize (1 iteration, deterministic eval_fn)
+#   5. PromptEvaluator evaluateSingle (structural similarity)
+#   6. PromptEngineeringMetrics recordOptimizationAttempt / recordPromptExecution
+#   7. Concurrent writes: PromptManager 4-thread TBB concurrent_hash_map insert
+#   8. Concurrent commits: PromptVersionControl 4-thread commit throughput
+#
+# Performance targets (from src/prompt_engineering/ROADMAP.md):
+#   - createTemplate (in-memory):   < 10 µs
+#   - getTemplate    (in-memory):   < 1 µs
+#   - injectContext  (5 vars):      < 5 µs
+#   - validateTemplate (valid):     < 5 µs
+#   - commit (in-memory):           < 20 µs
+#   - recordFeedback (in-memory):   < 10 µs
+#   - optimize (1 iter):            < 500 µs
+#   - evaluateSingle (structural):  < 50 µs
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
+    message(STATUS "Adding prompt engineering performance benchmarks")
+
+    add_executable(bench_prompt_engineering
+        bench_prompt_engineering.cpp
+    )
+
+    target_link_libraries(bench_prompt_engineering PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        TBB::tbb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_prompt_engineering PRIVATE
 # Exporters Throughput Benchmarks (Issue #1730)
 # JSONLLLMExporter: batch throughput (INSTRUCTION_TUNING, Alpaca, ChatML),
 # StreamingExporter: streaming throughput with progress callbacks,
@@ -2031,11 +2721,64 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         Threads::Threads
     )
 
+    target_compile_definitions(bench_voice_assistant PRIVATE
     target_compile_definitions(bench_exporters PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
 
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_metrics_collector PRIVATE
+        target_compile_options(bench_voice_assistant PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_metrics_collector
+    install(TARGETS bench_voice_assistant
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  VoiceAssistant: STT latency, TTS generation speed, command pipeline throughput, wake-word detection QPS")
+endif()
+
+# ============================================================================
+# Content Module Benchmarks (Issue: #1699 — Performance benchmarks per content type)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
+    message(STATUS "Adding Content Versioning benchmarks (Issue #1699)")
+
+    add_executable(bench_content_versioning
+        bench_content_versioning.cpp
+    )
+
+    target_link_libraries(bench_content_versioning PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_content_versioning PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_content_versioning PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+        target_compile_options(bench_prompt_engineering PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
         target_compile_options(bench_exporters PRIVATE
             -O3
             -march=native
@@ -2043,11 +2786,22 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         )
     endif()
 
+    install(TARGETS bench_content_versioning
+    install(TARGETS bench_prompt_engineering
     install(TARGETS bench_exporters
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
+    message(STATUS "  MetricsCollector: recordQuery, recordCacheHit, exportPrometheus, concurrent access, cardinality scaling")
+    message(STATUS "  ContentVersioning: content lifecycle throughput (create/update/fork/merge), version history scan, GC overhead")
+    message(STATUS "  PromptManager: createTemplate, getTemplate (hit/miss), injectContext, validateTemplate")
+    message(STATUS "  PromptVersionControl: commit, getHistory (10 versions)")
+    message(STATUS "  FeedbackCollector: recordFeedback, getStats (100 entries)")
+    message(STATUS "  PromptOptimizer: optimize (1 iter, deterministic eval_fn)")
+    message(STATUS "  PromptEvaluator: evaluateSingle (structural similarity)")
+    message(STATUS "  PromptEngineeringMetrics: recordOptimizationAttempt, recordPromptExecution")
+    message(STATUS "  Concurrent: PromptManager 4-thread insert, PromptVersionControl 4-thread commit")
     message(STATUS "  JSONL export: batch throughput (100/1000/10000 entities), Alpaca/ChatML templates, GZIP compression")
     message(STATUS "  StreamingExporter: throughput with progress callbacks (1000/5000 entities)")
     message(STATUS "  IncrementalExporter: full export vs delta export speedup (0.1% change scenario)")

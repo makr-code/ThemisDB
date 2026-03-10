@@ -38,7 +38,7 @@ Das Network-Modul implementiert ThemisDBs hochperformante, sichere Netzwerkschic
 
 | Datei / Komponente | Rolle | Status |
 |---|---|---|
-| `wire_protocol_server.cpp` | Kern-TCP-Server: Accept, Rate-Limiting, Frame-Dispatch | ✅ Implementiert; Opcode-Handler teilweise Stubs |
+| `wire_protocol_server.cpp` | Kern-TCP-Server: Accept, Rate-Limiting, Frame-Dispatch, V1-Opcode-Handler | ✅ Vollständig implementiert |
 | `wire_protocol_connection_pool.cpp` | Client-seitiger Connection-Pool, RAII-Handles | ✅ Implementiert |
 | `wire_protocol_helpers.cpp` | Frame-Parsing und -Serialisierung (ohne libprotobuf) | ✅ Implementiert |
 | `wire_protocol_v2.cpp` | V2-Protokoll: Multi-Stream, Flow-Control, Server-Push | ✅ Implementiert |
@@ -89,21 +89,17 @@ Das Network-Modul implementiert ThemisDBs hochperformante, sichere Netzwerkschic
 
 ## Status und bekannte Einschränkungen
 
-### ⚠️ Offene Implementierungslücken
+### ⚠️ Bekannte Einschränkungen (kein vollständiger Block mehr)
 
-1. **Wire-Protocol-V1-Opcode-Handler sind Stubs** — HELLO, AUTH, GET, PUT, DELETE, QUERY,
-   VECTOR_SEARCH und GEO_QUERY in `wire_protocol_server.cpp` (Zeilen 866–904) geben
-   Fehlermeldungen zurück; kein Dispatch an Storage/Index.
-2. **Authentifizierung nicht verdrahtet** — `handleAuthRequest()` ist ein Stub;
-   `authenticated_` wird nie auf `true` gesetzt; BPMN-Handler, die auf
-   `authenticated_.load()` prüfen, geben immer 401 zurück.
-3. **WebSocket-Binary-Frames nicht dispatched** — Nur JSON-Text-Frames funktionieren.
+1. **QUERY_AQL und GEO_QUERY noch nicht mit Wire-Protocol integriert** — Beide Handler geben strukturierte Fehlerantworten zurück (`error_code: "AQL_NOT_INTEGRATED"` / `"GEO_NOT_INTEGRATED"`) und verweisen Clients auf die HTTP-REST-API (`POST /api/v1/query` / `GET /api/v1/geo/query`). Vollständige Engine-Integration geplant.
+2. **WebSocket-Binary-Frames nicht dispatched** — Nur JSON-Text-Frames funktionieren vollständig.
 
 Vollständige Details: → [missing-implementations.md](missing-implementations.md)
 
 ### ✅ Vollständig implementiert
 
 - TCP-Wire-Protocol-Server (Port 8766): Accept, TLS, Rate-Limiting, Frame-Parsing
+- **V1-Opcode-Handler (2026-03-10)**: HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH — vollständig implementiert; Auth-Flag wird nach erfolgreicher Validierung gesetzt
 - Wire-Protocol-V2: Multiplexing, Flow-Control, Server-Push (29 Unit-Tests)
 - WebSocket-Upgrade: Protokollerkennung, JSON-Text-Frames (13 Unit-Tests)
 - UDP-Fast-Path: Read-only-Opcodes, Ratenlimitierung (Unit-Tests)
@@ -120,6 +116,7 @@ Vollständige Details: → [missing-implementations.md](missing-implementations.
 
 | Testdatei | Beschreibung |
 |---|---|
+| `tests/test_wire_protocol_v1_handlers.cpp` | V1-Opcode-Handler: Config-Defaults, Auth-Logik (3 Modi), HELLO-Capabilities, GET/PUT/DELETE-Key-Format, VECTOR_SEARCH-Shape, QUERY_AQL/GEO_QUERY-Error-Kontrakt |
 | `tests/test_wire_protocol_connection_pool.cpp` | Connection-Pool-Lifecycle, RAII-Handles |
 | `tests/test_wire_protocol_v2.cpp` | V2-Protokoll-Konstanten, Frame-Header, Stream-State (29 Tests) |
 | `tests/test_wire_protocol_websocket.cpp` | WebSocket-Upgrade, Protokollerkennung (13 Tests) |
