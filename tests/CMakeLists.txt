@@ -433,6 +433,30 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
 )
 
+# Re-include acceleration module tests excluded by the explicit patterns
+# ".*test_acceleration\\.cpp$" and ".*test_acceleration_dispatch\\.cpp$".
+# Both tests exercise only CPU backends and gracefully handle missing CUDA devices:
+#  - test_acceleration.cpp: BackendRegistry, CPUVectorBackend, CPUGeoBackend,
+#    CPUGraphBackend, capability negotiation, input validation, tie-breaking.
+#  - test_acceleration_dispatch.cpp: ANNKernelDispatch / GeoKernelDispatch CPU
+#    function-pointer table; CUDA dispatch table (graceful no-op when unavailable).
+# No GPU hardware is required to run these tests.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration_dispatch.cpp
+)
+
+# Re-include shader integrity test excluded by ".*test_shader_integrity\\.cpp$".
+# shader_integrity.cpp uses only OpenSSL SHA-256 (no GPU dependency) and is
+# now compiled unconditionally as a core acceleration source.  The test covers:
+#  - SHA-256 hash computation (13 test cases)
+#  - Hash registration, strict/non-strict verification modes
+#  - Manifest file parsing
+# No GPU hardware is required.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp
+)
+
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates the slab-based pre-allocator and the
 # defragmentation routine (GPUMemoryPool::defragment()).  It uses only the CPU

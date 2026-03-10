@@ -164,6 +164,9 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/device_manager.cpp
+    ../src/acceleration/vllm_resource_manager.cpp
+    ../src/acceleration/geo_acceleration_bridge.cpp
+    ../src/acceleration/shader_integrity.cpp
     ../src/gpu/device_discovery.cpp
     
     # Plugin manager (core plugin orchestration)
