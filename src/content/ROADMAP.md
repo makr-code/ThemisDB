@@ -95,7 +95,7 @@
   - LanguageDetector: per-script detection accuracy; unknown-language fallback
   - TTSProcessor: init/shutdown cycle; output format validation; fallback without Piper
   - ContentManagerLLM: analyzeContent with mock EmbeddedLLM; error handling
-- [ ] Standalone focused test targets for: `test_content_deduplication.cpp`, `test_content_language_detector.cpp`, `test_content_audio_processor.cpp`, `test_content_metrics.cpp`, `test_content_security.cpp`, `test_content_processor_chain.cpp` (Target: Q3 2026)
+- [x] Standalone focused test targets for: `test_content_deduplication.cpp`, `test_content_language_detector.cpp`, `test_content_audio_processor.cpp`, `test_content_metrics.cpp`, `test_content_security.cpp`, `test_content_processor_chain.cpp` — registered in `tests/CMakeLists.txt` (Target: Q3 2026)
 - [x] test_content_pipeline.cpp, test_content_pipeline_hardening.cpp — pipeline orchestration and retry logic
 - [x] test_content_streaming_ingestion.cpp — streaming chunk boundary handling
 - [x] test_content_version_manager.cpp — delta storage and rollback

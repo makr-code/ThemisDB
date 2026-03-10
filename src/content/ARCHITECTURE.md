@@ -48,12 +48,15 @@ The module sits between the API layer (upload endpoints) and the storage/index/L
 | `content_policy.cpp` | Configurable ingestion policy: allowed types, max sizes, depth limits |
 | `content_security.cpp` | Archive bomb detection, malware signature scanning |
 | `content_validator.cpp` | Format-level validation (JSON schema, image dimensions, etc.) |
-| `text_processor.cpp` | Text extraction, chunking, language detection |
-| `image_processor.cpp` | Image metadata extraction, thumbnail generation |
+| `text_processor.cpp` | Text extraction, chunking, MinHash perceptual deduplication |
+| `html_processor.cpp` | HTML content extraction with boilerplate removal |
+| `markdown_processor.cpp` | Markdown parsing and frontmatter extraction |
+| `image_processor.cpp` | Image metadata extraction, pHash perceptual deduplication |
 | `audio_processor.cpp` | Audio metadata extraction and optional STT transcription (`stt_processor.cpp`) |
-| `video_processor.cpp` | Video frame extraction, FFmpeg integration |
+| `video_processor.cpp` | Video metadata extraction and frame extraction (FFmpeg) |
 | `pdf_processor.cpp` | PDF text extraction via poppler-cpp (layout-preserving, per-page) |
-| `office_processor.cpp` | Office document text extraction (DOCX, XLSX, PPTX) |
+| `office_processor.cpp` | Office document text extraction (DOCX, XLSX, PPTX, ODF) |
+| `ocr_processor.cpp` | Tesseract OCR text extraction from images (`THEMIS_ENABLE_OCR`) |
 | `geo_processor.cpp` | Geospatial data extraction and GeoJSON normalization |
 | `cad_processor.cpp` | CAD file metadata extraction |
 | `stt_processor.cpp` | Speech-to-text processing interface |
@@ -66,7 +69,14 @@ The module sits between the API layer (upload endpoints) and the storage/index/L
 | `content_errors.cpp` | Typed error hierarchy for content processing failures |
 | `content_fs.cpp` | Filesystem utilities for temp file management |
 | `content_logger.cpp` | Content-specific structured logging |
-| `pipeline/` | Processing stage pipeline (multi-stage DAG) |
+| `mock_clip_processor.cpp` | Mock CLIP-based image embedding processor (testing / no-GPU path) |
+| `embedding_pipeline.cpp` | Text-to-vector embedding pipeline; batch generation, model dispatch |
+| `content_manager_embedding.cpp` | ContentManager::generateEmbedding() — delegates to EmbeddingPipeline |
+| `pipeline/content_chunker.cpp` | Fixed-size and sentence-boundary content chunking |
+| `pipeline/multimodal_chunker.cpp` | Multi-modal chunk assembly (text + image + metadata) |
+| `pipeline/zstd_compression.cpp` | zstd codec wrapper for content blob compression |
+| `pipeline/bulk_upload_interface.cpp` | Bulk-upload request/response types and validation |
+| `pipeline/async_bulk_uploader.cpp` | Async worker for batch bulk upload operations |
 
 ### 3.2 Component Diagram
 
