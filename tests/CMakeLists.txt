@@ -10292,6 +10292,240 @@ else()
     message(STATUS "ShardingIntegration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_integration.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_router.cpp")
+    message(STATUS "Adding AdaptiveShardRouter focused tests")
+
+    add_executable(test_adaptive_shard_router_focused
+        test_adaptive_shard_router.cpp
+    )
+
+    target_include_directories(test_adaptive_shard_router_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_adaptive_shard_router_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_shard_router_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AdaptiveShardRouterFocusedTests COMMAND test_adaptive_shard_router_focused)
+
+    set_tests_properties(AdaptiveShardRouterFocusedTests PROPERTIES
+        LABELS "sharding;routing;adaptive;capability;locality;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AdaptiveShardRouter: capability-aware routing, locality-preference, consistent-hash fallback")
+else()
+    message(STATUS "AdaptiveShardRouter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_router.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_coordinator.cpp")
+    message(STATUS "Adding CrossShardCoordinator focused tests")
+
+    add_executable(test_cross_shard_coordinator_focused
+        test_cross_shard_coordinator.cpp
+    )
+
+    target_include_directories(test_cross_shard_coordinator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cross_shard_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_shard_coordinator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossShardCoordinatorFocusedTests COMMAND test_cross_shard_coordinator_focused)
+
+    set_tests_properties(CrossShardCoordinatorFocusedTests PROPERTIES
+        LABELS "sharding;coordinator;calvin;2pc;deterministic;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossShardCoordinator: CalvinProtocol commit sequence, multi-shard deterministic ordering, abort handling")
+else()
+    message(STATUS "CrossShardCoordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_coordinator.cpp")
+endif()
+
+# test_cross_shard_distribution has all LoRA-specific tests wrapped in #if 0;
+# only a single DISABLED_ placeholder test is active.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_distribution.cpp")
+    message(STATUS "Adding CrossShardDistribution focused tests")
+
+    add_executable(test_cross_shard_distribution_focused
+        test_cross_shard_distribution.cpp
+    )
+
+    target_include_directories(test_cross_shard_distribution_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cross_shard_distribution_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_shard_distribution_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CrossShardDistributionFocusedTests COMMAND test_cross_shard_distribution_focused)
+
+    set_tests_properties(CrossShardDistributionFocusedTests PROPERTIES
+        LABELS "sharding;distribution;lora;cross-shard;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CrossShardDistribution: LoRA cross-shard transfer (currently DISABLED placeholder)")
+else()
+    message(STATUS "CrossShardDistribution focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cross_shard_distribution.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_shard.cpp")
+    message(STATUS "Adding MetadataShard focused tests")
+
+    add_executable(test_metadata_shard_focused
+        test_metadata_shard.cpp
+    )
+
+    target_include_directories(test_metadata_shard_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metadata_shard_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metadata_shard_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetadataShardFocusedTests COMMAND test_metadata_shard_focused)
+
+    set_tests_properties(MetadataShardFocusedTests PROPERTIES
+        LABELS "sharding;metadata;consistent-hash;lookup;write;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MetadataShard: MetadataShard construction, lookup/write, consistent-hash routing, multi-threaded access")
+else()
+    message(STATUS "MetadataShard focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_shard.cpp")
+endif()
+
+# test_multi_shard_transactions uses only STL + GTest (fully mock-based); no sharding lib dep.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
+    message(STATUS "Adding MultiShardTransactions focused tests")
+
+    add_executable(test_multi_shard_transactions_focused
+        test_multi_shard_transactions.cpp
+    )
+
+    target_include_directories(test_multi_shard_transactions_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_multi_shard_transactions_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_multi_shard_transactions_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MultiShardTransactionsFocusedTests COMMAND test_multi_shard_transactions_focused)
+
+    set_tests_properties(MultiShardTransactionsFocusedTests PROPERTIES
+        LABELS "sharding;transaction;2pc;rollback;deadlock;isolation;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MultiShardTransactions: 2PC commit/rollback, concurrent transactions, deadlock detection, isolation")
+else()
+    message(STATUS "MultiShardTransactions focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_shard_transactions.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pki_shard_certificate.cpp")
+    message(STATUS "Adding PkiShardCertificate focused tests")
+
+    add_executable(test_pki_shard_certificate_focused
+        test_pki_shard_certificate.cpp
+    )
+
+    target_include_directories(test_pki_shard_certificate_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_pki_shard_certificate_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_pki_shard_certificate_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PkiShardCertificateFocusedTests COMMAND test_pki_shard_certificate_focused)
+
+    set_tests_properties(PkiShardCertificateFocusedTests PROPERTIES
+        LABELS "sharding;pki;certificate;mtls;x509;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PkiShardCertificate: PKI certificate provisioning, shard identity binding, mTLS chain validation")
+else()
+    message(STATUS "PkiShardCertificate focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pki_shard_certificate.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raft_shard_manager.cpp")
+    message(STATUS "Adding RaftShardManager focused tests")
+
+    add_executable(test_raft_shard_manager_focused
+        test_raft_shard_manager.cpp
+    )
+
+    target_include_directories(test_raft_shard_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_raft_shard_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_raft_shard_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RaftShardManagerFocusedTests COMMAND test_raft_shard_manager_focused)
+
+    set_tests_properties(RaftShardManagerFocusedTests PROPERTIES
+        LABELS "sharding;raft;shard-manager;leader;replication;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RaftShardManager: RaftShardManager construction, leader election, log replication, topology updates")
+else()
+    message(STATUS "RaftShardManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_raft_shard_manager.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
