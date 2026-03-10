@@ -176,8 +176,11 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
+    ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
+    ../src/plugins/rpc_service_registry.cpp
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
@@ -260,6 +263,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
     
     # Performance enhancements
@@ -440,6 +444,10 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
     ../src/exporters/export_encryption.cpp
+    ../src/exporters/huggingface_exporter.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/export_format_registry.cpp
+    ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp

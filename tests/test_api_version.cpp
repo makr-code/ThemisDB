@@ -358,3 +358,171 @@ TEST(APIVersionEndpointContract, CurrentVersionToStringHasVPrefix) {
     auto s = mgr.getCurrentVersion().toString();
     EXPECT_EQ(s[0], 'v') << "version string must start with 'v'";
 }
+
+// ============================================================================
+// RouteVersionRouter Tests
+// ============================================================================
+
+#include "server/route_version_router.h"
+
+using themis::server::RouteVersionRouter;
+
+// ---------------------------------------------------------------------------
+// isVersioned()
+// ---------------------------------------------------------------------------
+
+TEST(RouteVersionRouter, IsVersioned_V1) {
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/v1/documents"));
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/v1/query/aql"));
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/v1/"));
+}
+
+TEST(RouteVersionRouter, IsVersioned_V2) {
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/v2/documents"));
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/v2/query/stream"));
+}
+
+TEST(RouteVersionRouter, IsVersioned_ApiPrefix) {
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/api/v1/graphql"));
+    EXPECT_TRUE(RouteVersionRouter::isVersioned("/api/v2/jobs"));
+}
+
+TEST(RouteVersionRouter, IsVersioned_Unversioned) {
+    EXPECT_FALSE(RouteVersionRouter::isVersioned("/documents"));
+    EXPECT_FALSE(RouteVersionRouter::isVersioned("/query/aql"));
+    EXPECT_FALSE(RouteVersionRouter::isVersioned("/health"));
+    EXPECT_FALSE(RouteVersionRouter::isVersioned("/"));
+    EXPECT_FALSE(RouteVersionRouter::isVersioned(""));
+}
+
+// ---------------------------------------------------------------------------
+// extractVersion()
+// ---------------------------------------------------------------------------
+
+TEST(RouteVersionRouter, ExtractVersion_V1) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/v1/documents"), 1);
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/v1/"), 1);
+}
+
+TEST(RouteVersionRouter, ExtractVersion_V2) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/v2/query/stream"), 2);
+}
+
+TEST(RouteVersionRouter, ExtractVersion_Unversioned) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/documents"), 0);
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/"), 0);
+    EXPECT_EQ(RouteVersionRouter::extractVersion(""), 0);
+}
+
+TEST(RouteVersionRouter, ExtractVersion_ApiNested) {
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/api/v1/graphql"), 1);
+    EXPECT_EQ(RouteVersionRouter::extractVersion("/api/v2/jobs"), 2);
+}
+
+// ---------------------------------------------------------------------------
+// stripVersionPrefix()
+// ---------------------------------------------------------------------------
+
+TEST(RouteVersionRouter, StripPrefix_V1) {
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/v1/documents/abc"),
+              "/documents/abc");
+}
+
+TEST(RouteVersionRouter, StripPrefix_V2) {
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/v2/query/stream"),
+              "/query/stream");
+}
+
+TEST(RouteVersionRouter, StripPrefix_Unversioned) {
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/documents"),
+              "/documents");
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/"),
+              "/");
+}
+
+TEST(RouteVersionRouter, StripPrefix_ApiNested_NotStripped) {
+    // /api/v1/graphql is kept as-is (only /vN/ top-level prefix is stripped)
+    EXPECT_EQ(RouteVersionRouter::stripVersionPrefix("/api/v1/graphql"),
+              "/api/v1/graphql");
+}
+
+// ---------------------------------------------------------------------------
+// normalize()
+// ---------------------------------------------------------------------------
+
+TEST(RouteVersionRouter, Normalize_V1Path) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/v1/documents/abc");
+    EXPECT_EQ(n.version, 1);
+    EXPECT_EQ(n.path, "/documents/abc");
+}
+
+TEST(RouteVersionRouter, Normalize_V2Path) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/v2/query/stream");
+    EXPECT_EQ(n.version, 2);
+    EXPECT_EQ(n.path, "/query/stream");
+}
+
+TEST(RouteVersionRouter, Normalize_UnversionedPath) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/documents/abc");
+    EXPECT_EQ(n.version, 0);
+    EXPECT_EQ(n.path, "/documents/abc");
+}
+
+TEST(RouteVersionRouter, Normalize_ApiPrefixedPath) {
+    RouteVersionRouter vr;
+    auto n = vr.normalize("/api/v1/graphql");
+    EXPECT_EQ(n.version, 1);
+    // /api/v1/graphql is kept intact (not a top-level /vN/ path)
+    EXPECT_EQ(n.path, "/api/v1/graphql");
+}
+
+// ---------------------------------------------------------------------------
+// getRedirectTarget()
+// ---------------------------------------------------------------------------
+
+TEST(RouteVersionRouter, Redirect_UnversionedPath) {
+    RouteVersionRouter vr;
+    auto t = vr.getRedirectTarget("/documents");
+    ASSERT_TRUE(t.has_value());
+    EXPECT_EQ(*t, "/v1/documents");
+}
+
+TEST(RouteVersionRouter, Redirect_UnversionedPathWithQuery) {
+    RouteVersionRouter vr;
+    auto t = vr.getRedirectTarget("/query/aql?limit=10");
+    ASSERT_TRUE(t.has_value());
+    EXPECT_EQ(*t, "/v1/query/aql?limit=10");
+}
+
+TEST(RouteVersionRouter, NoRedirect_AlreadyVersionedV1) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/v1/documents").has_value());
+}
+
+TEST(RouteVersionRouter, NoRedirect_AlreadyVersionedV2) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/v2/query/stream").has_value());
+}
+
+TEST(RouteVersionRouter, NoRedirect_HealthEndpoint) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/health").has_value());
+}
+
+TEST(RouteVersionRouter, NoRedirect_MetricsEndpoint) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/metrics").has_value());
+}
+
+TEST(RouteVersionRouter, NoRedirect_GraphQLWebSocket) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/graphql").has_value());
+}
+
+TEST(RouteVersionRouter, NoRedirect_RootPath) {
+    RouteVersionRouter vr;
+    EXPECT_FALSE(vr.getRedirectTarget("/").has_value());
+}

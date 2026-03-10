@@ -1920,6 +1920,7 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/gpu_backend_production.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp
@@ -2024,9 +2025,11 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
+    ../src/plugins/rpc_service_registry.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
@@ -2069,6 +2072,8 @@ set(THEMIS_CORE_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+    # GraphQL over WebSocket (graphql-transport-ws) handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/graphql_ws_handler.cpp>
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
@@ -2086,6 +2091,10 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
     ../src/exporters/export_encryption.cpp
+    ../src/exporters/huggingface_exporter.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/export_format_registry.cpp
+    ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
@@ -5187,6 +5196,28 @@ endif()
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
     add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
+endif()
+
+# Export CLI Tool (themis-export)
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
+    add_executable(themis-export
+        ${THEMIS_ROOT_DIR}/tools/export_cli.cpp
+    )
+    target_link_libraries(themis-export PRIVATE
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    if(TARGET CURL::libcurl)
+        target_link_libraries(themis-export PRIVATE CURL::libcurl)
+        target_compile_definitions(themis-export PRIVATE CURL_ENABLED=1)
+    endif()
+    target_include_directories(themis-export PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+    message(STATUS "Export CLI Tool: Enabled (themis-export)")
+
+    install(TARGETS themis-export
+        RUNTIME DESTINATION bin
+    )
 endif()
 
 # LLM Model Management CLI Tool (themis-model)
