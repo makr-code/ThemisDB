@@ -1547,6 +1547,119 @@ else()
 endif()
 
 # ============================================================================
+# Graph Analytics Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_analytics.cpp")
+    message(STATUS "Adding Graph Analytics tests (standalone)")
+
+    add_executable(test_graph_analytics
+        test_graph_analytics.cpp
+    )
+
+    target_link_libraries(test_graph_analytics PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_analytics PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphAnalyticsTests COMMAND test_graph_analytics)
+
+    set_tests_properties(GraphAnalyticsTests PROPERTIES
+        LABELS "graph;analytics;centrality;pagerank;community;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphAnalytics: degree/betweenness/closeness centrality, PageRank, Louvain community detection")
+else()
+    message(STATUS "Graph Analytics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_analytics.cpp")
+endif()
+
+# ============================================================================
+# Graph Type Filtering Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_type_filtering.cpp")
+    message(STATUS "Adding Graph Type Filtering tests (standalone)")
+
+    add_executable(test_graph_type_filtering
+        test_graph_type_filtering.cpp
+    )
+
+    target_link_libraries(test_graph_type_filtering PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_type_filtering PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphTypeFilteringTests COMMAND test_graph_type_filtering)
+
+    set_tests_properties(GraphTypeFilteringTests PROPERTIES
+        LABELS "graph;type-filtering;bfs;dijkstra;property-graph;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphTypeFiltering: BFS/Dijkstra with edge-type filters, property graph traversal")
+else()
+    message(STATUS "Graph Type Filtering tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_type_filtering.cpp")
+endif()
+
+# ============================================================================
+# Graph Edge Encryption Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_edge_encryption.cpp")
+    message(STATUS "Adding Graph Edge Encryption tests (standalone)")
+
+    add_executable(test_graph_edge_encryption
+        test_graph_edge_encryption.cpp
+    )
+
+    target_link_libraries(test_graph_edge_encryption PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_edge_encryption PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphEdgeEncryptionTests COMMAND test_graph_edge_encryption)
+
+    set_tests_properties(GraphEdgeEncryptionTests PROPERTIES
+        LABELS "graph;edge;encryption;aes-gcm;field-encryption;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphEdgeEncryption: field encryption round-trip, multi-user access, BFS traversal with encrypted edges")
+else()
+    message(STATUS "Graph Edge Encryption tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_edge_encryption.cpp")
+endif()
+
+# ============================================================================
 # HTTP Client Pool Tests
 # ============================================================================
 
