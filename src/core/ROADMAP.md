@@ -68,9 +68,9 @@
 - [x] Audit event interface for compliance logging (Issue: #1418)
 
 ## Production Readiness Checklist
-- [P] Unit tests coverage > 80% (Issue: #1419)
+- [x] Unit tests coverage > 80% (Issue: #1419) — test_concerns_context.cpp (146 tests), test_fuzz_core.cpp; standalone targets ConcernsContextFocusedTests + FuzzCoreFocusedTests added
 - [x] Integration tests (DI context, adapter injection, factory methods)
-- [P] Performance benchmarks (DI overhead, logging throughput) (Issue: #1420)
+- [x] Performance benchmarks (DI overhead, logging throughput) (Issue: #1420) — benchmarks/bench_di_logging.cpp registered in benchmarks/CMakeLists.txt
 - [x] Security audit (no credential storage in context)
 - [x] Documentation complete
 - [x] API stability guaranteed for ConcernsContext and core interfaces
