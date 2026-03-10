@@ -778,16 +778,20 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/downsampling.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/changefeed_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/tenant_buffer_manager.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/delivery_tracker.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cross_collection_stream.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_materialized_view.cpp
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
+            $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
@@ -4364,6 +4368,91 @@ else()
 endif()
 
 # ============================================================================
+# CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
+# THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_admin.cpp")
+    message(STATUS "Adding CDC Admin tests (Issue #1623, standalone binary)")
+
+    add_executable(test_cdc_admin
+        test_cdc_admin.cpp
+    )
+
+    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
+    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_admin PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_admin PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_admin PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_admin PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCAdminFocusedTests COMMAND test_cdc_admin)
+
+    set_tests_properties(CDCAdminFocusedTests PROPERTIES
+        LABELS "cdc;admin;retention;compaction;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement")
+else()
+    message(STATUS "CDC Admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_admin.cpp")
+endif()
+
+# ============================================================================
+# Tenant Buffer Manager Tests (standalone – changefeed_buffer.cpp and
+# tenant_buffer_manager.cpp are in themis_core; link directly)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
+    message(STATUS "Adding Tenant Buffer Manager tests (Issue #1623, standalone binary)")
+
+    add_executable(test_tenant_buffer_manager
+        test_tenant_buffer_manager.cpp
+    )
+
+    target_include_directories(test_tenant_buffer_manager PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_tenant_buffer_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tenant_buffer_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TenantBufferManagerFocusedTests COMMAND test_tenant_buffer_manager)
+
+    set_tests_properties(TenantBufferManagerFocusedTests PROPERTIES
+        LABELS "cdc;tenant;buffer;multi-tenant;isolation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TenantBufferManager: per-tenant CDC buffers, quota enforcement, metrics isolation, flush lifecycle")
+else()
+    message(STATUS "Tenant Buffer Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
 # Config Module – Focused Standalone Test Targets
 # ============================================================================
 

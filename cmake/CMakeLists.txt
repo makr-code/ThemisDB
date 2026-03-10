@@ -1634,6 +1634,7 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1693,7 +1694,11 @@ set(THEMIS_CORE_SOURCES
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/changefeed_buffer.cpp
     ../src/cdc/consumer_group.cpp
+    ../src/cdc/cross_collection_stream.cpp
+    ../src/cdc/cdc_materialized_view.cpp
+    ../src/cdc/tenant_buffer_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
     ../src/cdc/delivery_tracker.cpp
