@@ -3,7 +3,7 @@
 # Themis Core Framework Module Roadmap
 
 ## Current Status
-v1.7.0 (in progress) – Build info and license validation live in `src/utils/`; module loading in `src/base/`. The `src/themis/` directory now contains `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`), `module_dependency_resolver.cpp`, and `edition_manager.cpp` (Issue: #2469, dynamic feature-flag override API included). The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
+v1.7.0 (in progress) – License validation lives in `src/utils/`; module loading in `src/base/`. The `src/themis/` directory now contains all six implementation files: `build_info.cpp` (migrated from `src/utils/`), `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`), `module_dependency_resolver.cpp`, `edition_manager.cpp` (Issue: #2469, dynamic feature-flag override API included), `module_hash_verifier.cpp` (Issue: #2471, SHA-256 module integrity), and `module_signature_verifier.cpp` (Issue: #2473, Authenticode/GPG verification). The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
 
 ## Completed ✅
 - [x] Public header interfaces defined (`include/themis/`)
@@ -17,6 +17,9 @@ v1.7.0 (in progress) – Build info and license validation live in `src/utils/`;
 - [x] SHA-256 hash verification for loaded modules (Issue: #2471)
 - [x] Module dependency resolution and load-order management (Issue: #2474)
 - [x] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating with dynamic override API (Issue: #2469)
+- [x] `build_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/build_info.cpp` in both monolithic and modular builds)
+- [x] `module_hash_verifier.cpp` – SHA-256 manifest verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2471)
+- [x] `module_signature_verifier.cpp` – Authenticode/GPG signature verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2473)
 
 ## In Progress 🚧
 - [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
@@ -41,14 +44,16 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] Module loader headers
 - [x] Wire protocol server headers
 
-### Phase 2: Core Implementation Files (Status: Implemented in monolithic location ✅)
-- [x] `build_info.cpp` – build metadata collection and formatting (`src/utils/build_info.cpp`)
+### Phase 2: Core Implementation Files (Status: Implemented ✅)
+- [x] `build_info.cpp` – build metadata collection and formatting (`src/themis/build_info.cpp`; migrated from `src/utils/`)
 - [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: Completed ✅)
 - [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (`src/themis/wire_protocol_server.cpp`, namespace `themis::wire`)
 - [x] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating (Issue: #2469)
+- [x] `module_hash_verifier.cpp` – SHA-256 module integrity verification registered in build system (Issue: #2471)
+- [x] `module_signature_verifier.cpp` – Authenticode/GPG signature verification registered in build system (Issue: #2473)
 - [x] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [x] `isModuleCompiledIn()` – runtime module availability check
 - [x] SHA-256 hash verification for loaded modules
@@ -75,7 +80,7 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory contains `wire_protocol_server.cpp` (Phase 3 complete), `module_dependency_resolver.cpp`, `edition_manager.cpp`, and the SHA-256 module hash verifier. `license_info.cpp` and `module_loader.cpp` remain in `src/utils/` and `src/base/` respectively, pending migration (see Planned Features).
+- The `src/themis/` directory contains all six implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, and `module_signature_verifier.cpp`. `license_info.cpp` and `module_loader.cpp` remain in `src/utils/` and `src/base/` respectively, pending migration (see Planned Features).
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which
