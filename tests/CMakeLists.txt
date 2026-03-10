@@ -679,6 +679,8 @@ target_sources(themis_tests PRIVATE
 # Ensure implementations required by unit tests are always linked.
 target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
     ${CMAKE_SOURCE_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
     ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
     ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
@@ -6420,6 +6422,8 @@ set(EXPORTER_CORE_SOURCES
     ${CMAKE_SOURCE_DIR}/src/exporters/export_encryption.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_exporter.cpp
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
 )
 
 # Helper function to create an exporters focused test executable.
@@ -6544,6 +6548,22 @@ add_exporter_focused_test(
     DataAugmentationFocusedTests
     "exporters;augmentation;synthetic;diversity;focused;unit"
     "DataAugmentation: synthetic training data augmentation pipeline"
+)
+
+add_exporter_focused_test(
+    test_export_format_registry_focused
+    exporters/test_export_format_registry.cpp
+    ExportFormatRegistryFocusedTests
+    "exporters;registry;format;pluggable;focused;unit"
+    "ExportFormatRegistry: singleton registry, registerBuiltins, createExporter, hasFormat, registeredFormats"
+)
+
+add_exporter_focused_test(
+    test_huggingface_hub_client_focused
+    exporters/test_huggingface_hub_client.cpp
+    HuggingFaceHubClientFocusedTests
+    "exporters;huggingface;hub;upload;libcurl;focused;unit"
+    "HuggingFaceHubClient: token resolution, repo create, retry logic, error surfacing"
 )
 
 # ============================================================================
