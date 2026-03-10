@@ -92,6 +92,11 @@ const std::vector<DetectionRule>& getRules()
         });
 
         // ── Delimiter / escape attacks ────────────────────────────────────
+        // std::regex::multiline is intentional here: it makes ^ match at the
+        // start of each line (in addition to string start), allowing the
+        // patterns to detect injected section headers that appear mid-prompt.
+        // The (?:^|\n) construct is kept as a belt-and-suspenders guard that
+        // also catches an explicit '\n' character even in non-multiline mode.
         r.push_back({
             "delimiter_escape", S::HIGH,
             "Delimiter-based section injection (---SYSTEM / ###)",

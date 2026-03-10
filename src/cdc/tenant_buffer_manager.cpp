@@ -188,7 +188,7 @@ void TenantBufferManager::configureTenant(const TenantConfig& config) {
             state.buffer->start();
         }
         
-        tenant_buffers_[config.tenant_id] = std::move(state);
+        tenant_buffers_.try_emplace(config.tenant_id, std::move(state));
         
         THEMIS_INFO("Created new tenant: {}", config.tenant_id);
     }
@@ -354,7 +354,7 @@ TenantBufferManager::getOrCreateTenantBuffer(const std::string& tenant_id) {
     
     THEMIS_INFO("Auto-created buffer for new tenant: {}", tenant_id);
     
-    auto [inserted_it, _] = tenant_buffers_.emplace(tenant_id, std::move(state));
+    auto [inserted_it, ok] = tenant_buffers_.try_emplace(tenant_id, std::move(state));
     return inserted_it->second;
 }
 

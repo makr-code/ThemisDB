@@ -662,10 +662,19 @@ public:
      * @return       Result<AqlTransactionBlock> or an error.
      */
     Result<AqlTransactionBlock> parseTransactionBlock(const std::string& input);
-    
+
+    /**
+     * @brief Parse a standalone AQL expression string into an Expression tree.
+     *
+     * Used by QueryEngine evaluators to evaluate filter conditions independently
+     * of a full FOR…RETURN query.  Kept public because external callers such as
+     * QueryEngine::evalAqlExpression() and QueryExpressionEvaluator::canEvaluate()
+     * construct a local AQLParser and call this method directly.
+     */
+    std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
+
 private:
     // Helper methods (implemented in aql_parser.cpp)
-    std::shared_ptr<Expression> parseExpression(const std::string& expr_str);
     std::shared_ptr<Expression> parsePrimaryExpression(const std::string& expr_str);
     BinaryOperator stringToOperator(const std::string& op_str);
     // New: parse membership expression left IN right
