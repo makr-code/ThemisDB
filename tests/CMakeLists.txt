@@ -226,6 +226,18 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_markdown_processor\\.cpp$"
         ".*test_content_version_manager\\.cpp$"
         ".*test_content_streaming_ingestion\\.cpp$"
+        ".*test_content_audio_processor\\.cpp$"
+        ".*test_content_deduplication\\.cpp$"
+        ".*test_content_errors\\.cpp$"
+        ".*test_content_features\\.cpp$"
+        ".*test_content_fulltext_index\\.cpp$"
+        ".*test_content_language_detector\\.cpp$"
+        ".*test_content_logger\\.cpp$"
+        ".*test_content_metrics\\.cpp$"
+        ".*test_content_pipeline\\.cpp$"
+        ".*test_content_pipeline_hardening\\.cpp$"
+        ".*test_content_processor_chain\\.cpp$"
+        ".*test_content_security\\.cpp$"
     )
 endif()
 
@@ -4392,6 +4404,242 @@ else()
 endif()
 
 # ============================================================================
+# Content Module — Focused Standalone Test Targets (Phase 4)
+# These targets build directly against themis_content (or source files) and
+# can be run quickly without the full unified test binary.
+# ============================================================================
+
+if(THEMIS_ENABLE_CONTENT)
+
+    # -------------------------------------------------------------------------
+    # ContentMetrics focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_metrics.cpp")
+        message(STATUS "Adding Content Metrics focused tests (Phase 4, Issue #1698)")
+
+        add_executable(test_content_metrics_focused
+            test_content_metrics.cpp
+        )
+
+        target_include_directories(test_content_metrics_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_metrics_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_metrics_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentMetricsFocusedTests COMMAND test_content_metrics_focused)
+
+        set_tests_properties(ContentMetricsFocusedTests PROPERTIES
+            LABELS "content;metrics;prometheus;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  ContentMetrics: ingestion counters, error rates, embedding failures, Prometheus export")
+    else()
+        message(STATUS "Content Metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_metrics.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # ContentSecurity focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_security.cpp")
+        message(STATUS "Adding Content Security focused tests (Phase 4, Issue #1698)")
+
+        add_executable(test_content_security_focused
+            test_content_security.cpp
+        )
+
+        target_include_directories(test_content_security_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_security_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_security_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentSecurityFocusedTests COMMAND test_content_security_focused)
+
+        set_tests_properties(ContentSecurityFocusedTests PROPERTIES
+            LABELS "content;security;archive-bomb;validation;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  ContentSecurity: malware signature scan, archive-bomb detection, path traversal rejection")
+    else()
+        message(STATUS "Content Security focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_security.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # LanguageDetector focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_language_detector.cpp")
+        message(STATUS "Adding Content LanguageDetector focused tests (Phase 4, Issue #1698)")
+
+        add_executable(test_content_language_detector_focused
+            test_content_language_detector.cpp
+        )
+
+        target_include_directories(test_content_language_detector_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_language_detector_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_language_detector_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentLanguageDetectorFocusedTests COMMAND test_content_language_detector_focused)
+
+        set_tests_properties(ContentLanguageDetectorFocusedTests PROPERTIES
+            LABELS "content;language-detector;nlp;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  LanguageDetector: per-script detection, confidence scores, unknown-language fallback")
+    else()
+        message(STATUS "Content LanguageDetector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_language_detector.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # AudioProcessor focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_audio_processor.cpp")
+        message(STATUS "Adding Content AudioProcessor focused tests (Phase 4, Issue #1698)")
+
+        add_executable(test_content_audio_processor_focused
+            test_content_audio_processor.cpp
+        )
+
+        target_include_directories(test_content_audio_processor_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_audio_processor_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_audio_processor_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentAudioProcessorFocusedTests COMMAND test_content_audio_processor_focused)
+
+        set_tests_properties(ContentAudioProcessorFocusedTests PROPERTIES
+            LABELS "content;audio;metadata;stt;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  AudioProcessor: WAV/FLAC/MP3/Ogg parsing, ID3v2 tags, STT transcription init, error handling")
+    else()
+        message(STATUS "Content AudioProcessor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_audio_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # ProcessorChainConfig focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_processor_chain.cpp")
+        message(STATUS "Adding Content ProcessorChain focused tests (Phase 4, Issue #1698)")
+
+        add_executable(test_content_processor_chain_focused
+            test_content_processor_chain.cpp
+        )
+
+        target_include_directories(test_content_processor_chain_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_processor_chain_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_processor_chain_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentProcessorChainFocusedTests COMMAND test_content_processor_chain_focused)
+
+        set_tests_properties(ContentProcessorChainFocusedTests PROPERTIES
+            LABELS "content;processor-chain;pipeline;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  ProcessorChainConfig: per-ContentCategory chain, runtime enable/disable, fallback policy")
+    else()
+        message(STATUS "Content ProcessorChain focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_processor_chain.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # DeduplicationChecker focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_deduplication.cpp")
+        message(STATUS "Adding Content DeduplicationChecker focused tests (Phase 4, Issue #1698)")
+
+        add_executable(test_content_deduplication_focused
+            test_content_deduplication.cpp
+        )
+
+        target_include_directories(test_content_deduplication_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_deduplication_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            nlohmann_json::nlohmann_json
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_deduplication_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentDeduplicationFocusedTests COMMAND test_content_deduplication_focused)
+
+        set_tests_properties(ContentDeduplicationFocusedTests PROPERTIES
+            LABELS "content;deduplication;phash;minhash;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  DeduplicationChecker: pHash Hamming distance, MinHash band-LSH, SHA-256 exact dedup, ContentMetrics counters")
+    else()
+        message(STATUS "Content DeduplicationChecker focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_deduplication.cpp")
+    endif()
+
+endif() # THEMIS_ENABLE_CONTENT
 # CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
 # ============================================================================
