@@ -14,14 +14,18 @@ Implements temporal and bitemporal data management for ThemisDB, enabling transa
 
 ## Relevant Interfaces
 
-- `temporal_manager.cpp` — bitemporal data management
-- `time_travel_query.cpp` — historical query execution
-- `bitemporal_index.cpp` — temporal period indexing
-- `temporal_retention.cpp` — temporal data retention
+- `temporal_query_engine.cpp` — time-travel query execution (`AS OF`, `FROM...TO`, `BETWEEN...AND`, bitemporal joins, SEQUENCED/NON-SEQUENCED semantics)
+- `system_versioned_table.cpp` — automatic transaction-time versioning of all table rows
+- `bi_temporal.cpp` — bitemporal record management (system time + valid time axes)
+- `temporal_index.cpp` — period-based B-tree index for efficient time range queries
+- `temporal_aggregator.cpp` — temporal aggregations (tumbling and sliding window)
+- `temporal_conflict_resolver.cpp` — HLC-based conflict resolution for concurrent edits
+- `snapshot_manager.cpp` — temporal snapshot creation, querying, and release
+- `retention_manager.cpp` — automated expiry of old versions based on retention policy
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Transaction-time tracking and time travel queries operational; bitemporal query operators in progress.
+**Maturity:** 🟢 Production-Ready — Transaction-time and valid-time tracking, time-travel queries, bitemporal joins, SEQUENCED/NON-SEQUENCED query semantics, temporal aggregations, conflict resolution, snapshot management, and retention policies are all fully implemented and production-ready. SQL `PERIOD FOR` DDL syntax is not yet supported.
 
 ## Components
 
@@ -68,11 +72,14 @@ Implements temporal and bitemporal data management for ThemisDB, enabling transa
 
 ```
 TemporalModule
-├─→ TemporalConflictResolver (HLC-based conflict resolution)
-├─→ TemporalQueryEngine (Time-travel query execution)
-├─→ TemporalIndexManager (Time-based index optimization)
-├─→ RetentionManager (Historical data lifecycle management)
-└─→ VersionManager (Version tracking and storage)
+├─→ TemporalQueryEngine     (time-travel queries, bitemporal joins, SEQUENCED/NON-SEQUENCED semantics)
+├─→ SystemVersionedTable    (automatic transaction-time versioning)
+├─→ BiTemporalTable         (dual-axis: system time + valid time)
+├─→ TemporalIndex           (period B-tree index for fast range lookups)
+├─→ TemporalAggregator      (tumbling and sliding window aggregations)
+├─→ TemporalConflictResolver (HLC-based conflict resolution with five policies)
+├─→ TemporalSnapshotManager (consistent multi-table point-in-time snapshots)
+└─→ RetentionManager        (time-based and count-based history cleanup)
 ```
 
 ## Use Cases
@@ -111,8 +118,22 @@ TemporalModule
 
 ## Configuration
 
-### System-Versioned Table
+> **Note:** The SQL DDL syntax shown below (`PERIOD FOR`, `WITH SYSTEM VERSIONING`,
+> `FOR SYSTEM_TIME`, `ALTER TABLE … SET RETENTION_PERIOD`) is **not yet supported** in
+> the AQL parser.  The same functionality is fully available through the C++ API
+> (`SystemVersionedTable`, `BiTemporalTable`, `RetentionManager`).
+
+### System-Versioned Table (C++ API)
+```cpp
+SystemVersionedTable employees("employees");
+employees.insert("emp1", {{"name","Alice"},{"salary",90000}});
+employees.update("emp1", {{"salary",95000}});
+auto snapshot = employees.scan(as_of_timestamp);
+```
+
+### Planned DDL Syntax (not yet supported)
 ```sql
+-- Target: Q3 2026
 CREATE TABLE employees (
     id INTEGER PRIMARY KEY,
     name TEXT,
@@ -122,8 +143,16 @@ CREATE TABLE employees (
 WITH SYSTEM VERSIONING;
 ```
 
-### Application-Versioned Table
+### Application-Versioned Table (C++ API)
+```cpp
+BiTemporalTable contracts("contracts");
+contracts.insert("c1", doc, valid_from, valid_to);
+auto rows = contracts.scanBiTemporal(sys_as_of, valid_at);
+```
+
+### Planned DDL Syntax (not yet supported)
 ```sql
+-- Target: Q3 2026
 CREATE TABLE contracts (
     id INTEGER PRIMARY KEY,
     customer_id INTEGER,
@@ -133,19 +162,33 @@ CREATE TABLE contracts (
 );
 ```
 
-### Retention Policy
+### Retention Policy (C++ API)
+```cpp
+RetentionManager rm;
+rm.setPolicy("employees", {RetentionPolicy::Type::TIME_BASED, 365 /* days */});
+rm.enforceRetention("employees");
+```
+
+### Planned DDL Syntax (not yet supported)
 ```sql
+-- Target: Q3 2026
 ALTER TABLE employees
 SET RETENTION_PERIOD = INTERVAL '1 YEAR';
 ```
 
-### Time-Travel Query
+### Time-Travel Query (C++ API)
+```cpp
+TemporalQueryEngine engine(table);
+auto rows = engine.queryAsOf(target_ts);
+auto history = engine.queryFromTo(t_start, t_end);
+```
+
+### Planned SQL Syntax (not yet supported)
 ```sql
--- Query data as of specific time
+-- Target: Q3 2026
 SELECT * FROM employees
 FOR SYSTEM_TIME AS OF '2024-01-01 00:00:00';
 
--- Query all versions in time range
 SELECT * FROM employees
 FOR SYSTEM_TIME FROM '2024-01-01' TO '2024-12-31';
 ```
@@ -175,18 +218,17 @@ FOR SYSTEM_TIME FROM '2024-01-01' TO '2024-12-31';
 ## Documentation
 
 For detailed implementation documentation, see:
-- [Temporal Conflict Resolver](../../docs/temporal/temporal_conflict_resolver.md)
-- [Temporal Query Engine](../../docs/temporal/temporal_query_engine.md)
-- [Retention Policies](../../docs/temporal/retention_policies.md)
-- [Architecture Guide](../../ARCHITECTURE.md) - Temporal data model
+- [Architecture Guide](ARCHITECTURE.md) - Temporal module architecture and data flow
 - [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [ROADMAP](ROADMAP.md) - Implementation roadmap and status
 
 ## Version History
 
-- **v1.0.0**: Initial temporal conflict resolver with HLC support
-- **v1.1.0**: Planned - System-versioned table support
-- **v1.2.0**: Planned - Time-travel query engine
-- **v1.3.0**: Planned - Retention policy automation
+- **v1.0.0**: HLC-based temporal conflict resolver with five resolution policies
+- **v1.1.0**: System-versioned table with automatic transaction-time history
+- **v1.2.0**: BiTemporalTable (system time + valid time), TemporalIndex (period B-tree), TemporalQueryEngine (`AS OF`, `FROM...TO`, `BETWEEN...AND`)
+- **v1.3.0**: RetentionManager (time-based and count-based policies), TemporalAggregator (tumbling/sliding window), TemporalSnapshotManager
+- **v1.4.0**: Bitemporal joins (`joinBiTemporal`), SEQUENCED/NON-SEQUENCED query semantics (`queryWithSemantics`)
 
 ## See Also
 
