@@ -66,8 +66,8 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
   - Tests: 12 unit/integration tests in `tests/test_prometheus_remote_write.cpp`
 
 ## Production Readiness Checklist
-- [~] Unit tests coverage > 80% — 49+ new tests added (test_downsampling, test_ts_adaptive_flush); baseline coverage improving
-- [?] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
+- [~] Unit tests coverage > 80% — 19 focused test targets registered in tests/CMakeLists.txt; actual coverage % not yet measured
+- [x] Integration tests — TSIntegrationTests covers full pipeline (TSAutoBuffer→TSStore→ContinuousAgg→QueryOptimizer→RetentionManager); HttpTimeseriesTests for HTTP endpoints (gated on THEMIS_ENABLE_HTTP_SERVER)
 - [?] Performance benchmarks (ingestion rate, query latency, compression ratio)
 - [?] Security audit (time series key namespace isolation per tenant)
 - [x] Documentation complete — all new public APIs in downsampling.h, query_optimizer.h, ts_auto_buffer.h, timeseries_metrics.h documented
