@@ -1338,3 +1338,268 @@ TEST(ModuleMetrics, TotalUnloadsField) {
     EXPECT_EQ(metrics.totalUnloads, 0u);
 }
 
+// ============================================================================
+// ModuleDependencyResolver Tests
+// ============================================================================
+
+// --- registerModule / getRegisteredModules -----------------------------------
+
+TEST(ModuleDependencyResolver, EmptyResolverHasNoModules) {
+    ModuleDependencyResolver resolver;
+    EXPECT_TRUE(resolver.getRegisteredModules().empty());
+}
+
+TEST(ModuleDependencyResolver, RegisterModuleWithVersion) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base", "1.0.0", {});
+    auto modules = resolver.getRegisteredModules();
+    ASSERT_EQ(modules.size(), 1u);
+    EXPECT_EQ(modules[0].name, "themis_base");
+    EXPECT_EQ(modules[0].version, "1.0.0");
+    EXPECT_TRUE(modules[0].deps.empty());
+}
+
+TEST(ModuleDependencyResolver, RegisterModuleWithoutVersion) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base", {});
+    auto modules = resolver.getRegisteredModules();
+    ASSERT_EQ(modules.size(), 1u);
+    EXPECT_EQ(modules[0].name, "themis_base");
+    EXPECT_EQ(modules[0].version, "");
+}
+
+TEST(ModuleDependencyResolver, RegisterModuleReplacesExisting) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base", "1.0.0", {});
+    resolver.registerModule("themis_base", "2.0.0", {});
+    auto modules = resolver.getRegisteredModules();
+    ASSERT_EQ(modules.size(), 1u);
+    EXPECT_EQ(modules[0].version, "2.0.0");
+}
+
+TEST(ModuleDependencyResolver, ClearRemovesAllModules) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("a", {});
+    resolver.registerModule("b", {});
+    resolver.clear();
+    EXPECT_TRUE(resolver.getRegisteredModules().empty());
+}
+
+// --- isVersionCompatible -----------------------------------------------------
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_NoConstraints) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("1.2.3", "", ""));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MinOnly_Pass) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("2.0.0", "1.0.0", ""));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MinOnly_Equal) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("1.0.0", "1.0.0", ""));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MinOnly_Fail) {
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("0.9.0", "1.0.0", ""));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MaxOnly_Pass) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("1.0.0", "", "2.0.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MaxOnly_Equal) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("2.0.0", "", "2.0.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MaxOnly_Fail) {
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("3.0.0", "", "2.0.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_BothConstraints_Pass) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("1.5.0", "1.0.0", "2.0.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_BothConstraints_Fail_Below) {
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("0.5.0", "1.0.0", "2.0.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_BothConstraints_Fail_Above) {
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("3.0.0", "1.0.0", "2.0.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_EmptyVersion_NoConstraints) {
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("", "", ""));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_EmptyVersion_WithConstraints) {
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("", "1.0.0", ""));
+}
+
+// --- resolve() – load order --------------------------------------------------
+
+TEST(ModuleDependencyResolver, ResolveSingleModule) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base", "1.0.0", {});
+
+    auto result = resolver.resolve();
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.loadOrder.size(), 1u);
+    EXPECT_EQ(result.loadOrder[0], "themis_base");
+}
+
+TEST(ModuleDependencyResolver, ResolveEmptyRegistry) {
+    ModuleDependencyResolver resolver;
+    auto result = resolver.resolve();
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.loadOrder.empty());
+}
+
+TEST(ModuleDependencyResolver, ResolveLinearChain) {
+    // storage depends on base; query depends on storage.
+    // Expected load order: base → storage → query.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base",    "1.0.0", {});
+    resolver.registerModule("themis_storage", "1.0.0", {{"themis_base", "", "", true}});
+    resolver.registerModule("themis_query",   "1.0.0", {{"themis_storage", "", "", true}});
+
+    auto result = resolver.resolve();
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.loadOrder.size(), 3u);
+
+    auto idx = [&](const std::string& n) {
+        return static_cast<int>(
+            std::find(result.loadOrder.begin(), result.loadOrder.end(), n)
+            - result.loadOrder.begin());
+    };
+    EXPECT_LT(idx("themis_base"),    idx("themis_storage"));
+    EXPECT_LT(idx("themis_storage"), idx("themis_query"));
+}
+
+TEST(ModuleDependencyResolver, ResolveDiamondDependency) {
+    // Both B and C depend on A; D depends on both B and C.
+    // Expected: A before B and C, B and C before D.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("A", "1.0.0", {});
+    resolver.registerModule("B", "1.0.0", {{"A", "", "", true}});
+    resolver.registerModule("C", "1.0.0", {{"A", "", "", true}});
+    resolver.registerModule("D", "1.0.0", {{"B", "", "", true}, {"C", "", "", true}});
+
+    auto result = resolver.resolve();
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.loadOrder.size(), 4u);
+
+    auto idx = [&](const std::string& n) {
+        return static_cast<int>(
+            std::find(result.loadOrder.begin(), result.loadOrder.end(), n)
+            - result.loadOrder.begin());
+    };
+    EXPECT_LT(idx("A"), idx("B"));
+    EXPECT_LT(idx("A"), idx("C"));
+    EXPECT_LT(idx("B"), idx("D"));
+    EXPECT_LT(idx("C"), idx("D"));
+}
+
+TEST(ModuleDependencyResolver, ResolveIndependentModules) {
+    // Three modules with no mutual dependencies – all must appear in result.
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("mod_x", "1.0.0", {});
+    resolver.registerModule("mod_y", "1.0.0", {});
+    resolver.registerModule("mod_z", "1.0.0", {});
+
+    auto result = resolver.resolve();
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.loadOrder.size(), 3u);
+}
+
+// --- resolve() – cycle detection ---------------------------------------------
+
+TEST(ModuleDependencyResolver, ResolveDetectsDirectCycle) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("A", "1.0.0", {{"B", "", "", true}});
+    resolver.registerModule("B", "1.0.0", {{"A", "", "", true}});
+
+    auto result = resolver.resolve();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.cycles.empty());
+}
+
+TEST(ModuleDependencyResolver, ResolveDetectsTransitiveCycle) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("A", "1.0.0", {{"B", "", "", true}});
+    resolver.registerModule("B", "1.0.0", {{"C", "", "", true}});
+    resolver.registerModule("C", "1.0.0", {{"A", "", "", true}});
+
+    auto result = resolver.resolve();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.cycles.empty());
+}
+
+// --- resolve() – missing required dependencies -------------------------------
+
+TEST(ModuleDependencyResolver, ResolveReportsMissingRequiredDep) {
+    ModuleDependencyResolver resolver;
+    // "themis_query" requires "themis_storage" which is NOT registered.
+    resolver.registerModule("themis_query", "1.0.0", {{"themis_storage", "", "", true}});
+
+    auto result = resolver.resolve();
+    EXPECT_FALSE(result.success);
+    ASSERT_FALSE(result.missingRequired.empty());
+    EXPECT_EQ(result.missingRequired[0], "themis_storage");
+}
+
+TEST(ModuleDependencyResolver, ResolveIgnoresMissingOptionalDep) {
+    ModuleDependencyResolver resolver;
+    // Optional dependency on an unregistered module should not fail resolution.
+    resolver.registerModule("themis_query", "1.0.0", {{"themis_optional", "", "", false}});
+
+    auto result = resolver.resolve();
+    EXPECT_TRUE(result.success);
+}
+
+// --- resolve() – version mismatch detection ----------------------------------
+
+TEST(ModuleDependencyResolver, ResolveReportsVersionMismatch) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base",    "0.5.0", {});
+    // themis_storage requires themis_base >= 1.0.0
+    resolver.registerModule("themis_storage", "1.0.0",
+                            {{"themis_base", "1.0.0", "", true}});
+
+    auto result = resolver.resolve();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.versionMismatches.empty());
+}
+
+// --- resolveFor() ------------------------------------------------------------
+
+TEST(ModuleDependencyResolver, ResolveForSubset) {
+    ModuleDependencyResolver resolver;
+    resolver.registerModule("themis_base",    "1.0.0", {});
+    resolver.registerModule("themis_storage", "1.0.0", {{"themis_base", "", "", true}});
+    resolver.registerModule("themis_query",   "1.0.0", {{"themis_storage", "", "", true}});
+    // Register an unrelated module that should NOT appear in the result.
+    resolver.registerModule("themis_geo",     "1.0.0", {{"themis_storage", "", "", true}});
+
+    // Only resolve themis_query and its transitive deps.
+    auto result = resolver.resolveFor({"themis_query"});
+    ASSERT_TRUE(result.success);
+
+    // Exactly base + storage + query must appear (geo is excluded).
+    ASSERT_EQ(result.loadOrder.size(), 3u);
+    EXPECT_NE(std::find(result.loadOrder.begin(), result.loadOrder.end(), "themis_base"),
+              result.loadOrder.end());
+    EXPECT_NE(std::find(result.loadOrder.begin(), result.loadOrder.end(), "themis_storage"),
+              result.loadOrder.end());
+    EXPECT_NE(std::find(result.loadOrder.begin(), result.loadOrder.end(), "themis_query"),
+              result.loadOrder.end());
+    EXPECT_EQ(std::find(result.loadOrder.begin(), result.loadOrder.end(), "themis_geo"),
+              result.loadOrder.end());
+}
+
+TEST(ModuleDependencyResolver, ResolveForUnregisteredModuleFails) {
+    ModuleDependencyResolver resolver;
+    auto result = resolver.resolveFor({"nonexistent_module"});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.missingRequired.empty());
+}
+

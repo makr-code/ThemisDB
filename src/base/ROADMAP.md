@@ -28,7 +28,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Remote plugin loading from authenticated registry (`base/remote_registry_client.cpp`) — Evidence: TLS-verified download + SHA-256 integrity check in `remote_registry_client.cpp`
 
 ## In Progress 🚧
-- [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566) — `PluginDependencyGraph` stores `minVersion`/`maxVersion` per edge; enforcement of load order is not yet implemented
+- [x] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566) — `ModuleDependencyResolver` fully implemented in `module_loader.cpp`: `registerModule`, `resolve`, `resolveFor`, `isVersionCompatible` (semver), topological sort (Kahn's algorithm), cycle detection, missing-dependency and version-mismatch reporting
 
 ## Planned Features 📋
 
@@ -40,7 +40,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ### Long-term (6-12 months)
 - [ ] Concrete WasmRuntime integration (Wasmtime or WasmEdge) (Target: Q3 2026) — prerequisite: WasmPluginSandbox infrastructure complete; runtime injection required
-- [ ] Public-key pinning for signed plugin repository (Target: Q3 2026) — currently only TLS cert verification (`verify_ssl = true`); explicit key pinning not implemented
+- [ ] Public-key pinning for signed plugin repository (Target: Q3 2026) — TLS SPKI pinning implemented via `RegistryConfig::pinned_public_key` and `CURLOPT_PINNEDPUBLICKEY`; Ed25519 application-layer key pinning is separately handled by `SignedPluginRepository` in the plugins module
 
 ## Implementation Phases
 
@@ -62,14 +62,14 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin dependency graph visualization (`base/plugin_dependency_graph.cpp`) (Issue: #1563)
 - [x] Remote plugin loading from authenticated registry (`base/remote_registry_client.cpp`)
 - [x] A/B testing framework via module swapping (`base/ab_test_manager.cpp`) (Issue: #1565)
-- [I] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
+- [x] Plugin dependency resolution and ordered loading (Target: Q2 2026) (Issue: #1566)
 
 ### Phase 3: Marketplace & Sandboxing (Status: In Progress 🚧 — partially complete)
 - [x] Plugin marketplace manifest format (JSON schema) — Evidence: `setHashManifest()` in `module_loader.cpp`
 - [~] Runtime plugin capability negotiation (version ranges) — **Partial**: `minVersion`/`maxVersion` stored in `PluginDependencyGraph` edges; no active runtime negotiation protocol
 - [x] Plugin sandboxing with resource limits (memory, CPU) — Evidence: `module_sandbox.cpp`
 - [~] Plugin health monitoring and automatic restart — **Partial**: health checks implemented; automatic restart not yet implemented (Issue: #2373)
-- [~] Signed plugin repository with key pinning — **Partial**: TLS cert verification exists; no public-key pinning API in `remote_registry_client.h`
+- [~] Signed plugin repository with key pinning — **Partial**: TLS cert verification exists (`verify_ssl = true`); public-key pinning field `pinned_public_key` added to `RegistryConfig` and enforced via `CURLOPT_PINNEDPUBLICKEY` in all HTTP requests; application-layer Ed25519 key pinning in `SignedPluginRepository` (`plugins/signed_plugin_repository.h`) remains separate
 - [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; requires WasmRuntime injection (Issue: #1572)
 
 ## Production Readiness Checklist
@@ -81,10 +81,10 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] API stability guaranteed for module loading interface
 
 ## Known Issues & Limitations
-- Plugin dependency resolution is not yet enforced: loading order for plugins with declared dependencies must currently be managed manually (Issue: #1566)
+- Plugin dependency resolution is now enforced via `ModuleDependencyResolver`: topological sort (Kahn's algorithm), cycle detection, version constraint checking, and ordered loading are all implemented (Issue: #1566)
 - WASM plugin isolation (`WasmPluginSandbox`) requires injection of a concrete WASM runtime (Wasmtime, WasmEdge, etc.) for full execution support (Issue: #1572)
 - Automatic plugin restart after health-check failure is not implemented; health checks run on load only (Issue: #2373)
-- Public-key pinning for the remote plugin registry is not implemented; only TLS cert verification is present
+- Public-key pinning for the remote plugin registry (TLS SPKI) is now implemented via `RegistryConfig::pinned_public_key`; Ed25519 application-layer key pinning is handled by `SignedPluginRepository`
 - Unit test coverage, integration tests, and performance benchmarks are still open (Issues: #1573, #1574, #1575)
 
 ## Breaking Changes

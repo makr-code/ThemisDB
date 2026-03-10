@@ -72,6 +72,25 @@ struct RegistryConfig {
 
     /// Optional custom CA bundle path (empty = use system default).
     std::string ca_bundle_path;
+
+    /// Optional TLS public-key pin expressed as a SHA-256 fingerprint in the
+    /// format accepted by libcurl's CURLOPT_PINNEDPUBLICKEY:
+    ///   "sha256//<base64-encoded-SHA256-of-SubjectPublicKeyInfo-DER>"
+    ///
+    /// When non-empty the TLS handshake is rejected unless the server presents
+    /// a certificate whose public key matches this pin — regardless of the CA
+    /// chain.  This prevents MITM attacks even when a CA is compromised.
+    ///
+    /// Example:
+    ///   cfg.pinned_public_key = "sha256//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    ///
+    /// Obtain the pin with:
+    ///   openssl s_client -connect registry.example.com:443 | \
+    ///     openssl x509 -pubkey -noout | openssl pkey -pubin -outform DER | \
+    ///     openssl dgst -sha256 -binary | base64
+    ///
+    /// Leave empty to rely solely on CA-based certificate verification.
+    std::string pinned_public_key;
 };
 
 // =============================================================================
