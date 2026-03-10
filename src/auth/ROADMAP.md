@@ -75,6 +75,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1550)
 - [x] Integration tests (JWT, Kerberos, MFA flows)
+- [x] Focused standalone test targets registered in `tests/CMakeLists.txt` (30 test executables: JWT, API-key, MFA, TOTP, OAuth, SAML, mTLS, WebAuthn, session, zero-trust, anomaly detection)
 - [x] Performance benchmarks (token validation latency) (Issue: #1551)
 - [x] Security audit (JWT validation, Kerberos keytab handling)
 - [x] Documentation complete (configuration, flows, examples)

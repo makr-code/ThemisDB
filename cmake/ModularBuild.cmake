@@ -416,7 +416,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/access_control.cpp
     ../src/security/zero_trust_policy_enforcer.cpp
     ../src/auth/auth_audit_logger.cpp
-    ../src/auth/principal_validator.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
     ../src/security/webdav_user_registration_plugin.cpp

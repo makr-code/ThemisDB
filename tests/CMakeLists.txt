@@ -4883,6 +4883,1051 @@ else()
 endif()
 
 # ============================================================================
+# Auth Module Tests
+# ============================================================================
+
+# JWT Validator Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validator.cpp")
+    message(STATUS "Adding JWT Validator tests")
+
+    add_executable(test_jwt_validator
+        test_jwt_validator.cpp
+    )
+
+    target_link_libraries(test_jwt_validator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_validator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTValidatorTests COMMAND test_jwt_validator)
+
+    set_tests_properties(JWTValidatorTests PROPERTIES
+        LABELS "auth;jwt;validation;rs256;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT Validator: RS256 signature, JWKS caching, claim extraction, expiry, kid revocation")
+else()
+    message(STATUS "JWT Validator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validator.cpp")
+endif()
+
+# JWT EdDSA Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_eddsa_comprehensive.cpp")
+    message(STATUS "Adding JWT EdDSA Comprehensive tests")
+
+    add_executable(test_jwt_eddsa_comprehensive
+        test_jwt_eddsa_comprehensive.cpp
+    )
+
+    target_link_libraries(test_jwt_eddsa_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_eddsa_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTEdDSAComprehensiveTests COMMAND test_jwt_eddsa_comprehensive)
+
+    set_tests_properties(JWTEdDSAComprehensiveTests PROPERTIES
+        LABELS "auth;jwt;eddsa;ed25519;comprehensive;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT EdDSA: Ed25519/Ed448 signatures, positive/negative cases, algorithm agility")
+else()
+    message(STATUS "JWT EdDSA Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_eddsa_comprehensive.cpp")
+endif()
+
+# JWT ES256 Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_es256_comprehensive.cpp")
+    message(STATUS "Adding JWT ES256 Comprehensive tests")
+
+    add_executable(test_jwt_es256_comprehensive
+        test_jwt_es256_comprehensive.cpp
+    )
+
+    target_link_libraries(test_jwt_es256_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_es256_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTES256ComprehensiveTests COMMAND test_jwt_es256_comprehensive)
+
+    set_tests_properties(JWTES256ComprehensiveTests PROPERTIES
+        LABELS "auth;jwt;es256;ecdsa;comprehensive;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT ES256: ECDSA P-256 signatures, JWKS with EC keys, algorithm coverage")
+else()
+    message(STATUS "JWT ES256 Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_es256_comprehensive.cpp")
+endif()
+
+# JWT Integration Tests (live mini-JWKS HTTP server via Boost.Asio)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_integration.cpp")
+    message(STATUS "Adding JWT Integration tests")
+
+    add_executable(test_jwt_integration
+        test_jwt_integration.cpp
+    )
+
+    target_link_libraries(test_jwt_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(Boost_FOUND AND TARGET Boost::system)
+        target_link_libraries(test_jwt_integration PRIVATE Boost::system)
+    endif()
+
+    target_compile_definitions(test_jwt_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTIntegrationTests COMMAND test_jwt_integration)
+
+    set_tests_properties(JWTIntegrationTests PROPERTIES
+        LABELS "auth;jwt;integration;jwks;live-server;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  JWT Integration: live JWKS mini-server, end-to-end token validation, cache refresh")
+else()
+    message(STATUS "JWT Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_integration.cpp")
+endif()
+
+# JWT Key Rotation Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_key_rotation_comprehensive.cpp")
+    message(STATUS "Adding JWT Key Rotation Comprehensive tests")
+
+    add_executable(test_jwt_key_rotation_comprehensive
+        test_jwt_key_rotation_comprehensive.cpp
+    )
+
+    target_link_libraries(test_jwt_key_rotation_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_key_rotation_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTKeyRotationComprehensiveTests COMMAND test_jwt_key_rotation_comprehensive)
+
+    set_tests_properties(JWTKeyRotationComprehensiveTests PROPERTIES
+        LABELS "auth;jwt;key-rotation;comprehensive;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT Key Rotation: rotation manager, kid tracking, graceful overlap, revocation")
+else()
+    message(STATUS "JWT Key Rotation Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_key_rotation_comprehensive.cpp")
+endif()
+
+# JWT Management Comprehensive Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_management_comprehensive.cpp")
+    message(STATUS "Adding JWT Management Comprehensive tests")
+
+    add_executable(test_jwt_management_comprehensive
+        test_jwt_management_comprehensive.cpp
+    )
+
+    target_link_libraries(test_jwt_management_comprehensive PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_management_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTManagementComprehensiveTests COMMAND test_jwt_management_comprehensive)
+
+    set_tests_properties(JWTManagementComprehensiveTests PROPERTIES
+        LABELS "auth;jwt;management;comprehensive;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT Management: issuer/audience checks, clock skew, multi-audience, edge cases")
+else()
+    message(STATUS "JWT Management Comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_management_comprehensive.cpp")
+endif()
+
+# JWT Rotation Unit Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_rotation_unit.cpp")
+    message(STATUS "Adding JWT Rotation Unit tests")
+
+    add_executable(test_jwt_rotation_unit
+        test_jwt_rotation_unit.cpp
+    )
+
+    target_link_libraries(test_jwt_rotation_unit PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_rotation_unit PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTRotationUnitTests COMMAND test_jwt_rotation_unit)
+
+    set_tests_properties(JWTRotationUnitTests PROPERTIES
+        LABELS "auth;jwt;rotation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT Rotation Unit: key-id tracking, revalidation after rotation, determinism")
+else()
+    message(STATUS "JWT Rotation Unit tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_rotation_unit.cpp")
+endif()
+
+# JWT Token Revocation Integration Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_token_revocation_integration.cpp")
+    message(STATUS "Adding JWT Token Revocation Integration tests")
+
+    add_executable(test_jwt_token_revocation_integration
+        test_jwt_token_revocation_integration.cpp
+    )
+
+    target_link_libraries(test_jwt_token_revocation_integration PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_token_revocation_integration PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTTokenRevocationIntegrationTests COMMAND test_jwt_token_revocation_integration)
+
+    set_tests_properties(JWTTokenRevocationIntegrationTests PROPERTIES
+        LABELS "auth;jwt;revocation;blacklist;integration;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT Token Revocation: jti blacklist, per-token and per-kid revocation, persistence")
+else()
+    message(STATUS "JWT Token Revocation Integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_token_revocation_integration.cpp")
+endif()
+
+# JWT Validation Hardening Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validation_hardening.cpp")
+    message(STATUS "Adding JWT Validation Hardening tests")
+
+    add_executable(test_jwt_validation_hardening
+        test_jwt_validation_hardening.cpp
+    )
+
+    target_link_libraries(test_jwt_validation_hardening PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jwt_validation_hardening PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JWTValidationHardeningTests COMMAND test_jwt_validation_hardening)
+
+    set_tests_properties(JWTValidationHardeningTests PROPERTIES
+        LABELS "auth;jwt;hardening;security;injection;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JWT Validation Hardening: malformed tokens, alg:none attack, oversized inputs, injection")
+else()
+    message(STATUS "JWT Validation Hardening tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_jwt_validation_hardening.cpp")
+endif()
+
+# API Key Authenticator Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_key_authenticator.cpp")
+    message(STATUS "Adding API Key Authenticator tests")
+
+    add_executable(test_api_key_authenticator
+        test_api_key_authenticator.cpp
+    )
+
+    target_link_libraries(test_api_key_authenticator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_key_authenticator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiKeyAuthenticatorTests COMMAND test_api_key_authenticator)
+
+    set_tests_properties(ApiKeyAuthenticatorTests PROPERTIES
+        LABELS "auth;api-key;static-token;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Key Authenticator: key creation, HMAC validation, expiry, revocation, scopes")
+else()
+    message(STATUS "API Key Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_key_authenticator.cpp")
+endif()
+
+# Auth Anomaly Detection Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_anomaly_detection.cpp")
+    message(STATUS "Adding Auth Anomaly Detection tests")
+
+    add_executable(test_auth_anomaly_detection
+        test_auth_anomaly_detection.cpp
+    )
+
+    target_link_libraries(test_auth_anomaly_detection PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_anomaly_detection PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthAnomalyDetectionTests COMMAND test_auth_anomaly_detection)
+
+    set_tests_properties(AuthAnomalyDetectionTests PROPERTIES
+        LABELS "auth;anomaly;brute-force;rate-limiting;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Auth Anomaly Detection: brute-force detection, IP ban, concurrent attack simulation")
+else()
+    message(STATUS "Auth Anomaly Detection tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_anomaly_detection.cpp")
+endif()
+
+# Auth Audit Logger Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_audit_logger.cpp")
+    message(STATUS "Adding Auth Audit Logger tests")
+
+    add_executable(test_auth_audit_logger
+        test_auth_audit_logger.cpp
+    )
+
+    target_link_libraries(test_auth_audit_logger PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_audit_logger PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthAuditLoggerTests COMMAND test_auth_audit_logger)
+
+    set_tests_properties(AuthAuditLoggerTests PROPERTIES
+        LABELS "auth;audit;logging;compliance;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Auth Audit Logger: success/failure events, JWT/Kerberos/SAML/MFA audit trails")
+else()
+    message(STATUS "Auth Audit Logger tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_audit_logger.cpp")
+endif()
+
+# Auth Error Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_error.cpp")
+    message(STATUS "Adding Auth Error tests")
+
+    add_executable(test_auth_error
+        test_auth_error.cpp
+    )
+
+    target_link_libraries(test_auth_error PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_error PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthErrorTests COMMAND test_auth_error)
+
+    set_tests_properties(AuthErrorTests PROPERTIES
+        LABELS "auth;error;exception;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Auth Error: error codes, messages, JSON serialization, exception hierarchy")
+else()
+    message(STATUS "Auth Error tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_error.cpp")
+endif()
+
+# Auth Input Validation Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_input_validation.cpp")
+    message(STATUS "Adding Auth Input Validation tests")
+
+    add_executable(test_auth_input_validation
+        test_auth_input_validation.cpp
+    )
+
+    target_link_libraries(test_auth_input_validation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_input_validation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthInputValidationTests COMMAND test_auth_input_validation)
+
+    set_tests_properties(AuthInputValidationTests PROPERTIES
+        LABELS "auth;input-validation;security;injection;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Auth Input Validation: oversized tokens, null bytes, injection strings, boundary checks")
+else()
+    message(STATUS "Auth Input Validation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_input_validation.cpp")
+endif()
+
+# Auth Metrics Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_metrics.cpp")
+    message(STATUS "Adding Auth Metrics tests")
+
+    add_executable(test_auth_metrics
+        test_auth_metrics.cpp
+    )
+
+    target_link_libraries(test_auth_metrics PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_metrics PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthMetricsTests COMMAND test_auth_metrics)
+
+    set_tests_properties(AuthMetricsTests PROPERTIES
+        LABELS "auth;metrics;counters;latency;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Auth Metrics: success/failure counters, latency histograms, Prometheus export")
+else()
+    message(STATUS "Auth Metrics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_metrics.cpp")
+endif()
+
+# Auth Rate Limiter Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_rate_limiter.cpp")
+    message(STATUS "Adding Auth Rate Limiter tests")
+
+    add_executable(test_auth_rate_limiter
+        test_auth_rate_limiter.cpp
+    )
+
+    target_link_libraries(test_auth_rate_limiter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_rate_limiter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthRateLimiterTests COMMAND test_auth_rate_limiter)
+
+    set_tests_properties(AuthRateLimiterTests PROPERTIES
+        LABELS "auth;rate-limiter;brute-force;sliding-window;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Auth Rate Limiter: sliding window, per-IP, per-user, concurrent access, decay")
+else()
+    message(STATUS "Auth Rate Limiter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_rate_limiter.cpp")
+endif()
+
+# Auth Middleware Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+    message(STATUS "Adding Auth Middleware focused tests")
+
+    add_executable(test_auth_middleware
+        test_auth_middleware.cpp
+    )
+
+    target_link_libraries(test_auth_middleware PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_auth_middleware PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthMiddlewareFocusedTests COMMAND test_auth_middleware)
+
+    set_tests_properties(AuthMiddlewareFocusedTests PROPERTIES
+        LABELS "auth;middleware;jwt;api-key;scope;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Auth Middleware: JWT + API-key pipeline, scope enforcement, tenant isolation")
+else()
+    message(STATUS "Auth Middleware focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_auth_middleware.cpp")
+endif()
+
+# GSSAPI / Kerberos Authenticator Tests (requires THEMIS_ENABLE_KERBEROS)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gssapi_authenticator.cpp")
+    if(THEMIS_ENABLE_KERBEROS)
+        message(STATUS "Adding GSSAPI/Kerberos Authenticator tests")
+
+        add_executable(test_gssapi_authenticator
+            test_gssapi_authenticator.cpp
+        )
+
+        target_link_libraries(test_gssapi_authenticator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            Threads::Threads
+        )
+
+        if(TARGET KRB5::krb5)
+            target_link_libraries(test_gssapi_authenticator PRIVATE KRB5::krb5)
+        endif()
+        if(TARGET KRB5::gssapi)
+            target_link_libraries(test_gssapi_authenticator PRIVATE KRB5::gssapi)
+        endif()
+
+        target_compile_definitions(test_gssapi_authenticator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME GSSAPIAuthenticatorTests COMMAND test_gssapi_authenticator)
+
+        set_tests_properties(GSSAPIAuthenticatorTests PROPERTIES
+            LABELS "auth;gssapi;kerberos;enterprise-sso;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  GSSAPI Authenticator: Kerberos ticket validation, principal extraction, AD SSO")
+    else()
+        message(STATUS "GSSAPI Authenticator tests skipped (THEMIS_ENABLE_KERBEROS not set)")
+    endif()
+else()
+    message(STATUS "GSSAPI Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gssapi_authenticator.cpp")
+endif()
+
+# LDAP Authenticator Tests (requires THEMIS_LDAP_FOUND)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ldap_authenticator.cpp")
+    if(THEMIS_LDAP_FOUND)
+        message(STATUS "Adding LDAP Authenticator tests")
+
+        add_executable(test_ldap_authenticator
+            test_ldap_authenticator.cpp
+        )
+
+        target_link_libraries(test_ldap_authenticator PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            spdlog::spdlog
+            Threads::Threads
+        )
+
+        if(THEMIS_LDAP_LIBRARIES)
+            target_link_libraries(test_ldap_authenticator PRIVATE ${THEMIS_LDAP_LIBRARIES})
+        endif()
+
+        target_compile_definitions(test_ldap_authenticator PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME LDAPAuthenticatorTests COMMAND test_ldap_authenticator)
+
+        set_tests_properties(LDAPAuthenticatorTests PROPERTIES
+            LABELS "auth;ldap;active-directory;enterprise;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  LDAP Authenticator: bind authentication, group membership, DN template")
+    else()
+        message(STATUS "LDAP Authenticator tests skipped (THEMIS_LDAP_FOUND not set)")
+    endif()
+else()
+    message(STATUS "LDAP Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ldap_authenticator.cpp")
+endif()
+
+# MFA Authenticator Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mfa_authenticator.cpp")
+    message(STATUS "Adding MFA Authenticator tests")
+
+    add_executable(test_mfa_authenticator
+        test_mfa_authenticator.cpp
+    )
+
+    target_link_libraries(test_mfa_authenticator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mfa_authenticator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MFAAuthenticatorTests COMMAND test_mfa_authenticator)
+
+    set_tests_properties(MFAAuthenticatorTests PROPERTIES
+        LABELS "auth;mfa;totp;recovery-codes;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MFA Authenticator: TOTP generation/verification, recovery codes, replay prevention")
+else()
+    message(STATUS "MFA Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mfa_authenticator.cpp")
+endif()
+
+# mTLS Authenticator Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mtls_authenticator.cpp")
+    message(STATUS "Adding mTLS Authenticator focused tests")
+
+    add_executable(test_mtls_authenticator_focused
+        test_mtls_authenticator.cpp
+    )
+
+    target_link_libraries(test_mtls_authenticator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mtls_authenticator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MtlsAuthenticatorFocusedTests COMMAND test_mtls_authenticator_focused)
+
+    set_tests_properties(MtlsAuthenticatorFocusedTests PROPERTIES
+        LABELS "auth;mtls;certificate;mutual-tls;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  mTLS Authenticator: client certificate chain validation, identity mapping, SPIFFE")
+else()
+    message(STATUS "mTLS Authenticator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mtls_authenticator.cpp")
+endif()
+
+# OAuth 2.0 Device Flow Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oauth_device_flow.cpp")
+    message(STATUS "Adding OAuth 2.0 Device Flow tests")
+
+    add_executable(test_oauth_device_flow
+        test_oauth_device_flow.cpp
+    )
+
+    target_link_libraries(test_oauth_device_flow PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_oauth_device_flow PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OAuthDeviceFlowTests COMMAND test_oauth_device_flow)
+
+    set_tests_properties(OAuthDeviceFlowTests PROPERTIES
+        LABELS "auth;oauth;device-flow;rfc8628;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OAuth Device Flow: device code request, polling, approval, token exchange (RFC 8628)")
+else()
+    message(STATUS "OAuth Device Flow tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oauth_device_flow.cpp")
+endif()
+
+# OAuth 2.0 PKCE Flow Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oauth_pkce_flow.cpp")
+    message(STATUS "Adding OAuth 2.0 PKCE Flow tests")
+
+    add_executable(test_oauth_pkce_flow
+        test_oauth_pkce_flow.cpp
+    )
+
+    target_link_libraries(test_oauth_pkce_flow PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_oauth_pkce_flow PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OAuthPKCEFlowTests COMMAND test_oauth_pkce_flow)
+
+    set_tests_properties(OAuthPKCEFlowTests PROPERTIES
+        LABELS "auth;oauth;pkce;s256;rfc7636;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OAuth PKCE Flow: code verifier/challenge, S256 method, public client flow (RFC 7636)")
+else()
+    message(STATUS "OAuth PKCE Flow tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oauth_pkce_flow.cpp")
+endif()
+
+# SAML Authenticator Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saml_authenticator.cpp")
+    message(STATUS "Adding SAML Authenticator tests")
+
+    add_executable(test_saml_authenticator
+        test_saml_authenticator.cpp
+    )
+
+    target_link_libraries(test_saml_authenticator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(test_saml_authenticator PRIVATE pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(test_saml_authenticator PRIVATE pugixml::static)
+    endif()
+
+    target_compile_definitions(test_saml_authenticator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAMLAuthenticatorTests COMMAND test_saml_authenticator)
+
+    set_tests_properties(SAMLAuthenticatorTests PROPERTIES
+        LABELS "auth;saml;sso;idp;sp;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAML Authenticator: SP/IdP-initiated SSO, assertion validation, attribute mapping")
+else()
+    message(STATUS "SAML Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_authenticator.cpp")
+endif()
+
+# Session Manager Focused Tests (standalone binary)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
+    message(STATUS "Adding Session Manager focused tests (standalone binary)")
+
+    add_executable(test_session_manager_focused
+        test_session_manager.cpp
+    )
+
+    target_link_libraries(test_session_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        CURL::libcurl
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_session_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SessionManagerFocusedTests COMMAND test_session_manager_focused)
+
+    set_tests_properties(SessionManagerFocusedTests PROPERTIES
+        LABELS "auth;session;revocation;lifecycle;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Session Manager: creation, validation, idle/absolute timeout, concurrent session limits, revocation")
+else()
+    message(STATUS "Session Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
+endif()
+
+# TOTP Replay Cache Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_totp_replay_cache.cpp")
+    message(STATUS "Adding TOTP Replay Cache tests")
+
+    add_executable(test_totp_replay_cache
+        test_totp_replay_cache.cpp
+    )
+
+    target_link_libraries(test_totp_replay_cache PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_totp_replay_cache PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TOTPReplayCacheTests COMMAND test_totp_replay_cache)
+
+    set_tests_properties(TOTPReplayCacheTests PROPERTIES
+        LABELS "auth;totp;replay;cache;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TOTP Replay Cache: one-time-use enforcement, window expiry, concurrent access")
+else()
+    message(STATUS "TOTP Replay Cache tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_totp_replay_cache.cpp")
+endif()
+
+# TOTP Secret Encryption Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_totp_secret_encryption.cpp")
+    message(STATUS "Adding TOTP Secret Encryption tests")
+
+    add_executable(test_totp_secret_encryption
+        test_totp_secret_encryption.cpp
+    )
+
+    target_link_libraries(test_totp_secret_encryption PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_totp_secret_encryption PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TOTPSecretEncryptionTests COMMAND test_totp_secret_encryption)
+
+    set_tests_properties(TOTPSecretEncryptionTests PROPERTIES
+        LABELS "auth;totp;secret;encryption;aes-gcm;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TOTP Secret Encryption: AES-GCM wrapping, key derivation, round-trip, wrong-key rejection")
+else()
+    message(STATUS "TOTP Secret Encryption tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_totp_secret_encryption.cpp")
+endif()
+
+# WebAuthn / FIDO2 Authenticator Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_webauthn_authenticator.cpp")
+    message(STATUS "Adding WebAuthn/FIDO2 Authenticator tests")
+
+    add_executable(test_webauthn_authenticator
+        test_webauthn_authenticator.cpp
+    )
+
+    target_link_libraries(test_webauthn_authenticator PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_webauthn_authenticator PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME WebAuthnAuthenticatorTests COMMAND test_webauthn_authenticator)
+
+    set_tests_properties(WebAuthnAuthenticatorTests PROPERTIES
+        LABELS "auth;webauthn;fido2;hardware-token;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  WebAuthn/FIDO2: credential registration, assertion verification, CBOR, COSE keys")
+else()
+    message(STATUS "WebAuthn/FIDO2 Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_webauthn_authenticator.cpp")
+endif()
+
+# Zero-Trust Auth Verifier Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_auth_verifier.cpp")
+    message(STATUS "Adding Zero-Trust Auth Verifier tests")
+
+    add_executable(test_zero_trust_auth_verifier
+        test_zero_trust_auth_verifier.cpp
+    )
+
+    target_link_libraries(test_zero_trust_auth_verifier PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_zero_trust_auth_verifier PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroTrustAuthVerifierTests COMMAND test_zero_trust_auth_verifier)
+
+    set_tests_properties(ZeroTrustAuthVerifierTests PROPERTIES
+        LABELS "auth;zero-trust;continuous-verification;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Zero-Trust Auth Verifier: continuous verification, device posture, risk scoring")
+else()
+    message(STATUS "Zero-Trust Auth Verifier tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_auth_verifier.cpp")
+endif()
+
+# Zero-Trust Policy Enforcer Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_policy_enforcer.cpp")
+    message(STATUS "Adding Zero-Trust Policy Enforcer focused tests")
+
+    add_executable(test_zero_trust_policy_enforcer_focused
+        test_zero_trust_policy_enforcer.cpp
+    )
+
+    target_link_libraries(test_zero_trust_policy_enforcer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_zero_trust_policy_enforcer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ZeroTrustPolicyEnforcerFocusedTests COMMAND test_zero_trust_policy_enforcer_focused)
+
+    set_tests_properties(ZeroTrustPolicyEnforcerFocusedTests PROPERTIES
+        LABELS "auth;zero-trust;policy;rbac;abac;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Zero-Trust Policy Enforcer: RBAC/ABAC policy evaluation, principal mapping, deny-by-default")
+else()
+    message(STATUS "Zero-Trust Policy Enforcer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_policy_enforcer.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
