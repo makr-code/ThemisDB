@@ -3854,6 +3854,164 @@ else()
 endif()
 
 # ============================================================================
+# Config Module – Focused Standalone Test Targets
+# ============================================================================
+
+# Shared config source list used by all four focused config test executables.
+set(CONFIG_MODULE_SOURCES
+    ${THEMIS_ROOT_DIR}/src/config/config_path_resolver.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_metrics_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_schema_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_audit_log.cpp
+)
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
+    message(STATUS "Adding ConfigPathResolver focused tests")
+
+    add_executable(test_config_path_resolver_focused
+        test_config_path_resolver.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_path_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_path_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_path_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigPathResolverFocusedTests COMMAND test_config_path_resolver_focused)
+
+    set_tests_properties(ConfigPathResolverFocusedTests PROPERTIES
+        LABELS "config;path;resolver;lru;cache;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigPathResolver: path mapping, LRU cache, legacy fallback, metrics, audit trail")
+else()
+    message(STATUS "ConfigPathResolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
+    message(STATUS "Adding ConfigSchemaValidator focused tests")
+
+    add_executable(test_config_schema_validator_focused
+        test_config_schema_validator.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_schema_validator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_schema_validator_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_schema_validator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigSchemaValidatorFocusedTests COMMAND test_config_schema_validator_focused)
+
+    set_tests_properties(ConfigSchemaValidatorFocusedTests PROPERTIES
+        LABELS "config;schema;validator;yaml;json;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigSchemaValidator: JSON Schema Draft-7 subset, YAML/JSON loading, error reporting")
+else()
+    message(STATUS "ConfigSchemaValidator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
+    message(STATUS "Adding ConfigMigrationScanner focused tests")
+
+    add_executable(test_config_migration_scanner_focused
+        test_config_migration_scanner.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_migration_scanner_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_migration_scanner_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_migration_scanner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigMigrationScannerFocusedTests COMMAND test_config_migration_scanner_focused)
+
+    set_tests_properties(ConfigMigrationScannerFocusedTests PROPERTIES
+        LABELS "config;migration;scanner;cli;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigMigrationScanner: file scanning, dry-run, fix mode, output formats (text/json/csv)")
+else()
+    message(STATUS "ConfigMigrationScanner focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
+    message(STATUS "Adding Config coverage-gap focused tests")
+
+    add_executable(test_config_coverage_focused
+        test_config_coverage.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_coverage_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_coverage_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_coverage_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigCoverageFocusedTests COMMAND test_config_coverage_focused)
+
+    set_tests_properties(ConfigCoverageFocusedTests PROPERTIES
+        LABELS "config;coverage;lru;audit;exceptions;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Config coverage: LRUCacheWithTTL, ConfigAuditLog, exception hierarchy, schema edge-cases")
+else()
+    message(STATUS "Config coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
