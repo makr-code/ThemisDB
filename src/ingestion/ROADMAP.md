@@ -58,9 +58,9 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [I] Dynamic source reconfiguration without restart (Issue: #1900)
 ### Remaining
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)
-- [I] Unit tests coverage > 80% (Issue: #1909)
-- [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
-- [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
+- [x] Unit tests coverage > 80% (Issue: #1909) — 19 focused test targets registered in tests/CMakeLists.txt
+- [x] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910) — IngestionIntegrationFocusedTests added
+- [x] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911) — bench_ingestion_kv registered in cmake/CMakeLists.txt
 
 ## Implementation Phases
 
@@ -120,6 +120,7 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - PDF/DOCX ingestion requires external converters (pdftotext, pandoc); not handled natively.
 - End-to-end lineage tracking not yet implemented (Issue: #1901).
 - `CdcConnector`: full replication driver integration requires `THEMIS_ENABLE_CDC_STREAM` compile flag; without it, `ingestFromStream()` returns `CONNECTOR_NOT_SUPPORTED`.
+- Build system: all 10 ingestion source files are now unconditionally registered in `THEMIS_CORE_SOURCES` (cmake/CMakeLists.txt) and `THEMIS_INGESTION_SOURCES` (cmake/ModularBuild.cmake). `cdc_connector.cpp` is gated behind `THEMIS_ENABLE_CDC_STREAM`.
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.

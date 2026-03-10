@@ -1696,6 +1696,21 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     
+    # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
+    # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)
+    ../src/ingestion/ingestion_manager.cpp
+    ../src/ingestion/filesystem_ingester.cpp
+    ../src/ingestion/api_connector.cpp
+    ../src/ingestion/huggingface_connector.cpp
+    ../src/ingestion/kafka_connector.cpp
+    ../src/ingestion/object_storage_connector.cpp
+    ../src/ingestion/database_connector.cpp
+    ../src/ingestion/web_crawler_connector.cpp
+    ../src/ingestion/ingestion_coordinator.cpp
+    # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; the file
+    # always compiles and returns CONNECTOR_NOT_SUPPORTED when the flag is OFF.
+    ../src/ingestion/cdc_connector.cpp
+
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     ../src/cdc/changefeed_buffer.cpp
@@ -4589,6 +4604,18 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
     )
     
     target_link_libraries(bench_timeseries_ingestion
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Ingestion Key-Value throughput benchmark (Issue #1911 – docs/sec, MB/sec)
+    add_executable(bench_ingestion_kv
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_ingestion_kv.cpp
+    )
+
+    target_link_libraries(bench_ingestion_kv
         PRIVATE
             themis_core
             benchmark::benchmark

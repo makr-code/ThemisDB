@@ -255,6 +255,8 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_pipeline_hardening\\.cpp$"
         ".*test_content_processor_chain\\.cpp$"
         ".*test_content_security\\.cpp$"
+        # test_ingestion_manager_adapter uses content/async_ingestion_worker.h
+        ".*test_ingestion_manager_adapter\\.cpp$"
     )
 endif()
 
@@ -754,16 +756,9 @@ target_sources(themis_tests PRIVATE
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
-        ../src/ingestion/ingestion_manager.cpp
-        ../src/ingestion/huggingface_connector.cpp
-        ../src/ingestion/filesystem_ingester.cpp
-        ../src/ingestion/api_connector.cpp
-        ../src/ingestion/kafka_connector.cpp
-        ../src/ingestion/object_storage_connector.cpp
-        ../src/ingestion/database_connector.cpp
-        ../src/ingestion/web_crawler_connector.cpp
-        ../src/ingestion/ingestion_coordinator.cpp
-        ../src/ingestion/cdc_connector.cpp
+        # NOTE: All ingestion sources are now unconditionally in THEMIS_CORE_SOURCES
+        # (cmake/CMakeLists.txt). They are NO LONGER added here to avoid duplicate
+        # symbols when linking against themis_core.
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
@@ -7415,6 +7410,213 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
 else()
     message(STATUS "Cache Interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
 endif()
+
+# ============================================================================
+# Ingestion Module – Focused Standalone Test Targets
+# Each target links against themis_core (which now always includes all 10
+# ingestion source files) and the target's single test source.
+# ============================================================================
+
+# Shared source list used by ingestion focused test executables.
+set(INGESTION_CORE_SOURCES
+    ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/filesystem_ingester.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/api_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/database_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/web_crawler_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/cdc_connector.cpp
+)
+
+# Helper macro for ingestion focused tests
+macro(add_ingestion_focused_test TARGET_NAME TEST_SOURCE TEST_NAME LABELS DESCRIPTION)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${TEST_SOURCE}")
+        message(STATUS "Adding ingestion focused test: ${TARGET_NAME}")
+
+        add_executable(${TARGET_NAME}
+            ${TEST_SOURCE}
+        )
+
+        # Ingestion sources are in themis_core; if building without themis_core
+        # (standalone), add them explicitly to avoid missing-symbol errors.
+        if(NOT TARGET themis_core)
+            target_sources(${TARGET_NAME} PRIVATE ${INGESTION_CORE_SOURCES})
+        endif()
+
+        target_include_directories(${TARGET_NAME} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+
+        target_link_libraries(${TARGET_NAME} PRIVATE
+            ${TEST_LIBS}
+            $<$<TARGET_EXISTS:themis_core>:themis_core>
+            Threads::Threads
+        )
+
+        target_compile_definitions(${TARGET_NAME} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${TEST_NAME} COMMAND ${TARGET_NAME})
+
+        set_tests_properties(${TEST_NAME} PROPERTIES
+            LABELS "${LABELS}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${DESCRIPTION}")
+    else()
+        message(STATUS "Ingestion test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_SOURCE}")
+    endif()
+endmacro()
+
+add_ingestion_focused_test(
+    test_ingestion_builder_focused
+    test_ingestion_builder.cpp
+    IngestionBuilderFocusedTests
+    "ingestion;builder;ratelimit;metrics;focused;unit"
+    "IngestionBuilder: fluent API, RateLimitConfig, correlation_id, IngestionMetricsExporter"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_features_focused
+    test_ingestion_features.cpp
+    IngestionFeaturesFocusedTests
+    "ingestion;features;filesystem;checkpoint;focused;unit"
+    "IngestionFeatures: filesystem ingestion, checkpointing, parallel sources, dry-run"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_errors_focused
+    test_ingestion_errors.cpp
+    IngestionErrorsFocusedTests
+    "ingestion;errors;retry;quarantine;focused;unit"
+    "IngestionErrors: error codes, retry logic, quarantine queue, error propagation"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_checkpoint_focused
+    test_ingestion_checkpoint.cpp
+    IngestionCheckpointFocusedTests
+    "ingestion;checkpoint;incremental;focused;unit"
+    "IngestionCheckpoint: incremental progress, resume-from-checkpoint, cursor/offset pagination"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_resilience_focused
+    test_ingestion_resilience.cpp
+    IngestionResilienceFocusedTests
+    "ingestion;resilience;retry;backoff;focused;unit"
+    "IngestionResilience: exponential back-off, transient failures, partial-batch recovery"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_reconfig_focused
+    test_ingestion_reconfig.cpp
+    IngestionReconfigFocusedTests
+    "ingestion;reconfig;dynamic;focused;unit"
+    "IngestionReconfig: dynamic source reconfiguration without restart"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_plugin_api_focused
+    test_ingestion_plugin_api.cpp
+    IngestionPluginApiFocusedTests
+    "ingestion;plugin;registry;focused;unit"
+    "IngestionPluginApi: ConnectorPluginRegistry CRUD, concurrent isolation, IngestionBuilder plugin sources"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_schema_validation_focused
+    test_ingestion_schema_validation.cpp
+    IngestionSchemaValidationFocusedTests
+    "ingestion;schema;validation;focused;unit"
+    "IngestionSchemaValidation: field-existence/type/pattern rules, reject_invalid flag, schema_violations metric"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_security_focused
+    test_ingestion_security.cpp
+    IngestionSecurityFocusedTests
+    "ingestion;security;pathtraversal;credentials;focused;unit"
+    "IngestionSecurity: path-traversal guard, credential masking, SSRF prevention"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_oauth_focused
+    test_ingestion_oauth.cpp
+    IngestionOauthFocusedTests
+    "ingestion;oauth;token-refresh;focused;unit"
+    "IngestionOauth: OAuth 2.0 token refresh, expired token handling, connector retry"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_kafka_focused
+    test_ingestion_kafka.cpp
+    IngestionKafkaFocusedTests
+    "ingestion;kafka;consumer;offset;focused;unit"
+    "IngestionKafka: KafkaConnector consumer group, offset commit, topic filtering, async ingestion"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_object_storage_focused
+    test_ingestion_object_storage.cpp
+    IngestionObjectStorageFocusedTests
+    "ingestion;objectstorage;s3;gcs;azure;focused;unit"
+    "IngestionObjectStorage: S3/GCS/Azure mock-injection, prefix filter, path-traversal rejection, 28 tests"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_database_focused
+    test_ingestion_database.cpp
+    IngestionDatabaseFocusedTests
+    "ingestion;database;odbc;jdbc;focused;unit"
+    "IngestionDatabase: ODBC mock-injection, JDBC URL parsing, text_columns extraction, credential masking"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_web_crawler_focused
+    test_ingestion_web_crawler.cpp
+    IngestionWebCrawlerFocusedTests
+    "ingestion;webcrawler;sitemap;ssrf;focused;unit"
+    "IngestionWebCrawler: BFS crawl, sitemap parsing, robots.txt, SSRF prevention"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_coordinator_focused
+    test_ingestion_coordinator.cpp
+    IngestionCoordinatorFocusedTests
+    "ingestion;coordinator;distributed;workstealing;focused;unit"
+    "IngestionCoordinator: distributed work-stealing thread pool, progress aggregation, node coordination"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_cdc_focused
+    test_ingestion_cdc.cpp
+    IngestionCdcFocusedTests
+    "ingestion;cdc;replication;lsn;focused;unit"
+    "IngestionCdc: CdcConnector mock-injection, LSN tracking, WAL poll loop, table_filter"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_integration_focused
+    test_ingestion_integration.cpp
+    IngestionIntegrationFocusedTests
+    "ingestion;integration;filesystem;api;huggingface;focused;integration"
+    "IngestionIntegration: end-to-end filesystem/API/HuggingFace integration tests"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_pipeline_focused
+    test_ingestion_pipeline.cpp
+    IngestionPipelineFocusedTests
+    "ingestion;pipeline;kv;rocksdb;focused;unit"
+    "IngestionPipeline: key-value ingestion pipeline, RocksDB write path, batch throughput"
+)
 
 # ============================================================================
 # Custom Test Targets

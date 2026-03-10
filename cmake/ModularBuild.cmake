@@ -29,6 +29,7 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
+    option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
 endif()
 
 # Helper function to create a modular library target
@@ -869,6 +870,21 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
 )
 
+set(THEMIS_INGESTION_SOURCES
+    # Ingestion module – unified data intake layer
+    ../src/ingestion/ingestion_manager.cpp
+    ../src/ingestion/filesystem_ingester.cpp
+    ../src/ingestion/api_connector.cpp
+    ../src/ingestion/huggingface_connector.cpp
+    ../src/ingestion/kafka_connector.cpp
+    ../src/ingestion/object_storage_connector.cpp
+    ../src/ingestion/database_connector.cpp
+    ../src/ingestion/web_crawler_connector.cpp
+    ../src/ingestion/ingestion_coordinator.cpp
+    # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; always compile.
+    ../src/ingestion/cdc_connector.cpp
+)
+
 set(THEMIS_NETWORK_SOURCES
     # HTTP Server (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
@@ -1445,6 +1461,12 @@ function(themis_build_modular)
         )
     endif()
 
+    # Ingestion module (always included – covers all connector types)
+    themis_add_module(ingestion
+        SOURCES ${THEMIS_INGESTION_SOURCES}
+        DEPENDENCIES themis_base themis_storage
+    )
+
     # Cross-module fixups for modular build
     # Removed: storage -> security link to avoid cycle
     # if(TARGET themis_storage AND TARGET themis_security)
@@ -1493,6 +1515,8 @@ function(themis_build_modular)
     if(THEMIS_MODULE_CONTENT)
         list(APPEND THEMIS_ALL_MODULES themis_content)
     endif()
+
+    list(APPEND THEMIS_ALL_MODULES themis_ingestion)
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()
