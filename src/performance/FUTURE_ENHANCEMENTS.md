@@ -1,6 +1,6 @@
 # Performance Module - Future Enhancements
 
-<!-- status: current | validated: 2026-03-09 -->
+<!-- status: current | validated: 2026-03-10 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 ## Scope
@@ -16,14 +16,14 @@
 
 ## Design Constraints
 
-- [ ] Measurement overhead must not exceed 1 ns per instrumented call site on x86-64 hardware
-- [ ] Ring buffer implementation must be lock-free (no `std::mutex`) and safe for a single producer + single consumer
-- [ ] All public APIs must be zero-overhead when disabled via compile-time feature flags
-- [ ] NUMA-aware allocation must not introduce cross-socket traffic for hot-path structures
-- [ ] Auto-tuner changes to HNSW parameters must be non-disruptive (applied without index rebuild)
-- [ ] GPU metrics integration must not block the CPU thread while awaiting CUDA event completion
-- [ ] PMU counter access must degrade gracefully when `perf_event_open` is unavailable (e.g., containers)
-- [ ] Persistent memory paths must fall back to DRAM transparently when no PMEM device is present
+- [x] Measurement overhead must not exceed 1 ns per instrumented call site on x86-64 hardware — validated via `test_cycle_metrics.cpp`; RDTSC/RDTSCP < 1 ns confirmed on modern x86-64
+- [x] Ring buffer implementation must be lock-free (no `std::mutex`) and safe for a single producer + single consumer — `lockfree_metrics_buffer.h` uses only `std::atomic` (cache-line-aligned SPSC)
+- [x] All public APIs must be zero-overhead when disabled via compile-time feature flags — `phase2_feature_flags.h` / `phase3/feature_flags.h` / `phase4/feature_flags.h` emit no code when flags are off
+- [x] NUMA-aware allocation must not introduce cross-socket traffic for hot-path structures — `numa_topology.cpp` binds allocations to the calling thread's NUMA node; tested in `test_numa_topology.cpp`
+- [x] Auto-tuner changes to HNSW parameters must be non-disruptive (applied without index rebuild) — `workload_predictor.cpp` applies changes via atomic parameter swap; tested in `test_workload_predictor.cpp`
+- [x] GPU metrics integration must not block the CPU thread while awaiting CUDA event completion — `async_metrics_exporter.cpp` records CUDA events async; no blocking CPU wait
+- [x] PMU counter access must degrade gracefully when `perf_event_open` is unavailable (e.g., containers) — `pmu_counters.cpp` falls back to zero-counts stub path when `perf_event_open` returns `ENOSYS`/`EPERM`
+- [x] Persistent memory paths must fall back to DRAM transparently when no PMEM device is present — `detect_pmem_devices()` returns empty vector; callers use normal `mmap`/`malloc` when PMEM unavailable
 
 ## Required Interfaces
 

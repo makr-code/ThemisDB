@@ -14,7 +14,7 @@ DataHub), column lineage, distributed catalog, and the Schema API REST endpoint 
 - [x] Index metadata collection from IndexManager
 - [x] Relationship discovery (graph edges and foreign keys)
 - [x] Thread-safe metadata cache with configurable TTL (default 60 s)
-- [x] SystemCatalog – table, column, index, and statistics metadata persistence
+- [x] SystemCatalog – table, column, index, and statistics metadata persistence (implemented within `schema_manager.cpp`)
 - [x] INFORMATION_SCHEMA views (tables, columns, indexes, statistics)
 - [x] StatisticsCollector – cardinality, selectivity, equi-height histograms, and data distribution
 - [x] Schema version tracking, change history, diff, and migration script generation (Issue: #1946)
@@ -48,7 +48,7 @@ DataHub), column lineage, distributed catalog, and the Schema API REST endpoint 
 - [x] Index metadata collection from IndexManager
 - [x] Relationship discovery (graph edges and foreign keys)
 - [x] Thread-safe metadata cache with configurable TTL (default 60 s)
-- [x] SystemCatalog: table, column, index, and statistics metadata persistence (`metadata/system_catalog.cpp`)
+- [x] SystemCatalog: table, column, index, and statistics metadata persistence (implemented within `metadata/schema_manager.cpp`; no separate `system_catalog.cpp`)
 - [x] INFORMATION_SCHEMA views: tables, columns, indexes, statistics
 - [x] StatisticsCollector: cardinality, selectivity, and data distribution
 - [x] Schema version tracking and change history

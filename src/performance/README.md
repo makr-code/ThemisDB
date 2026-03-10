@@ -1,4 +1,4 @@
-<!-- status: current | validated: 2026-03-09 -->
+<!-- status: current | validated: 2026-03-10 -->
 <!-- Links: Secondary → docs/de/performance/README.md | Root → ../../README.md -->
 
 # ThemisDB Performance Module

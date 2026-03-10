@@ -1,0 +1,162 @@
+#pragma once
+
+#include <string>
+#include <string_view>
+#include <vector>
+#include <unordered_map>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
+#include <cstdint>
+
+namespace themis {
+namespace api {
+
+/**
+ * @brief Configuration for the OTLP HTTP span exporter.
+ *
+ * Mirrors the fields in `config/networking/otlp.yaml`.
+ *
+ * ### Defaults
+ * All default values match the YAML config.  Callers may construct a default-
+ * initialised instance and override only the fields they care about.
+ */
+struct OtlpExporterConfig {
+    bool        enabled        = false;
+    std::string endpoint       = "http://localhost:4318/v1/traces";
+    std::string service_name   = "themisdb";
+    std::string service_version;
+    int         timeout_ms     = 5000;
+    size_t      max_queue_size = 8192;
+    size_t      batch_size     = 64;
+    int         flush_interval_ms = 5000;
+
+    // TLS (leave empty to use plain HTTP)
+    std::string tls_ca_cert;
+    std::string tls_client_cert;
+    std::string tls_client_key;
+
+    // Optional Bearer token; placed in `Authorization: Bearer <token>`.
+    std::string auth_header;
+
+    // Extra static HTTP headers sent with every export request.
+    std::unordered_map<std::string, std::string> extra_headers;
+};
+
+/**
+ * @brief Lightweight span descriptor used by OtlpExporter.
+ *
+ * Callers fill in the fields they know; the exporter serialises the struct
+ * into OTLP JSON format.
+ */
+struct SpanData {
+    std::string  trace_id;       ///< 32 hex chars (128-bit); e.g. from X-Correlation-ID
+    std::string  span_id;        ///< 16 hex chars (64-bit); unique per request leg
+    std::string  parent_span_id; ///< 16 hex chars, or empty for root spans
+    std::string  name;           ///< Span name, e.g. "HTTP GET /v1/entity/{id}"
+    int64_t      start_time_unix_nano = 0; ///< epoch nanoseconds
+    int64_t      end_time_unix_nano   = 0; ///< epoch nanoseconds
+    int          status_code = 0; ///< 0 = Unset, 1 = OK, 2 = Error (OTLP StatusCode)
+    std::string  status_message;
+
+    /// Per-span key/value attributes (string values only for simplicity).
+    std::unordered_map<std::string, std::string> attributes;
+};
+
+/**
+ * @brief Asynchronous OTLP/HTTP span exporter.
+ *
+ * Implements a background-thread producer/consumer pipeline:
+ *  - `enqueue(SpanData)` is called from HTTP-handling threads (fast, lock-free for
+ *    normal operation).
+ *  - A single background thread batches queued spans and sends them to the
+ *    configured OTLP collector using a synchronous libcurl HTTP POST.
+ *
+ * The JSON payload sent to the collector follows the OTLP JSON trace format:
+ *   https://opentelemetry.io/docs/specs/otlp/#json-encoding
+ *
+ * ### Thread safety
+ * `enqueue()` is safe to call from any thread concurrently.
+ * `start()` / `stop()` should only be called once at server startup/shutdown.
+ *
+ * ### Lifecycle
+ * ```cpp
+ * OtlpExporter exporter(config);
+ * exporter.start();                   // launches background flush thread
+ * // … normal operation …
+ * exporter.enqueue(span);
+ * // …
+ * exporter.stop();                    // flushes remaining spans and joins thread
+ * ```
+ */
+class OtlpExporter {
+public:
+    explicit OtlpExporter(OtlpExporterConfig config = {});
+    ~OtlpExporter();
+
+    OtlpExporter(const OtlpExporter&) = delete;
+    OtlpExporter& operator=(const OtlpExporter&) = delete;
+    OtlpExporter(OtlpExporter&&) = delete;
+    OtlpExporter& operator=(OtlpExporter&&) = delete;
+
+    /**
+     * @brief Start the background flush thread.
+     *
+     * No-op if `config.enabled` is false or if already started.
+     */
+    void start();
+
+    /**
+     * @brief Stop the background flush thread and flush remaining spans.
+     *
+     * Blocks until the background thread has exited.
+     */
+    void stop();
+
+    /**
+     * @brief Enqueue a finished span for asynchronous export.
+     *
+     * If the queue is full (`max_queue_size`), the oldest span is dropped and
+     * a warning is logged.  This call never blocks.
+     *
+     * No-op if `config.enabled` is false.
+     *
+     * @param span  Completed span to export.
+     */
+    void enqueue(SpanData span);
+
+    /**
+     * @brief Return the total number of spans successfully exported since start().
+     */
+    uint64_t exportedSpanCount() const noexcept;
+
+    /**
+     * @brief Return the total number of spans dropped due to a full queue since start().
+     */
+    uint64_t droppedSpanCount() const noexcept;
+
+    /// Return the current configuration.
+    const OtlpExporterConfig& config() const noexcept { return config_; }
+
+private:
+    void flushLoop();
+    void flushBatch(std::vector<SpanData>& batch);
+
+    static std::string buildOtlpJson(const OtlpExporterConfig& cfg,
+                                     const std::vector<SpanData>& spans);
+
+    OtlpExporterConfig      config_;
+
+    std::vector<SpanData>   queue_;
+    mutable std::mutex      queue_mutex_;
+    std::condition_variable queue_cv_;
+
+    std::thread             flush_thread_;
+    std::atomic<bool>       stop_{false};
+    std::atomic<uint64_t>   exported_count_{0};
+    std::atomic<uint64_t>   dropped_count_{0};
+};
+
+} // namespace api
+} // namespace themis

@@ -205,6 +205,7 @@ if(NOT THEMIS_ENABLE_WEBSOCKET)
         ".*test_wire_protocol_websocket\\.cpp$"
         ".*test_ws_handler\\.cpp$"
         ".*test_websocket_cdc\\.cpp$"
+        ".*test_graphql_ws_handler\\.cpp$"
     )
 endif()
 
@@ -737,6 +738,8 @@ target_sources(themis_tests PRIVATE
 # Ensure implementations required by unit tests are always linked.
 target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
     ${CMAKE_SOURCE_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
     ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
     ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
@@ -1598,6 +1601,119 @@ else()
 endif()
 
 # ============================================================================
+# Graph Analytics Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_analytics.cpp")
+    message(STATUS "Adding Graph Analytics tests (standalone)")
+
+    add_executable(test_graph_analytics
+        test_graph_analytics.cpp
+    )
+
+    target_link_libraries(test_graph_analytics PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_analytics PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphAnalyticsTests COMMAND test_graph_analytics)
+
+    set_tests_properties(GraphAnalyticsTests PROPERTIES
+        LABELS "graph;analytics;centrality;pagerank;community;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphAnalytics: degree/betweenness/closeness centrality, PageRank, Louvain community detection")
+else()
+    message(STATUS "Graph Analytics tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_analytics.cpp")
+endif()
+
+# ============================================================================
+# Graph Type Filtering Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_type_filtering.cpp")
+    message(STATUS "Adding Graph Type Filtering tests (standalone)")
+
+    add_executable(test_graph_type_filtering
+        test_graph_type_filtering.cpp
+    )
+
+    target_link_libraries(test_graph_type_filtering PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_type_filtering PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphTypeFilteringTests COMMAND test_graph_type_filtering)
+
+    set_tests_properties(GraphTypeFilteringTests PROPERTIES
+        LABELS "graph;type-filtering;bfs;dijkstra;property-graph;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphTypeFiltering: BFS/Dijkstra with edge-type filters, property graph traversal")
+else()
+    message(STATUS "Graph Type Filtering tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_type_filtering.cpp")
+endif()
+
+# ============================================================================
+# Graph Edge Encryption Tests (standalone)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_edge_encryption.cpp")
+    message(STATUS "Adding Graph Edge Encryption tests (standalone)")
+
+    add_executable(test_graph_edge_encryption
+        test_graph_edge_encryption.cpp
+    )
+
+    target_link_libraries(test_graph_edge_encryption PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        fmt::fmt
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_edge_encryption PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphEdgeEncryptionTests COMMAND test_graph_edge_encryption)
+
+    set_tests_properties(GraphEdgeEncryptionTests PROPERTIES
+        LABELS "graph;edge;encryption;aes-gcm;field-encryption;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphEdgeEncryption: field encryption round-trip, multi-user access, BFS traversal with encrypted edges")
+else()
+    message(STATUS "Graph Edge Encryption tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_edge_encryption.cpp")
+endif()
+
+# ============================================================================
 # HTTP Client Pool Tests
 # ============================================================================
 
@@ -2264,8 +2380,73 @@ else()
 endif()
 
 # ============================================================================
-# GraphQL Error Masking Tests
+# OTLP Exporter Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+    message(STATUS "Adding OTLP exporter tests")
+
+    add_executable(test_otlp_exporter
+        test_otlp_exporter.cpp
+    )
+
+    target_link_libraries(test_otlp_exporter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        CURL::libcurl
+    )
+
+    target_compile_definitions(test_otlp_exporter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OtlpExporterTests COMMAND test_otlp_exporter)
+
+    set_tests_properties(OtlpExporterTests PROPERTIES
+        LABELS "api;tracing;otlp;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OTLP Exporter: queue, span serialisation, middleware integration")
+else()
+    message(STATUS "OTLP exporter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+endif()
+
+# ============================================================================
+# API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+    message(STATUS "Adding API interface header tests")
+
+    add_executable(test_api_interfaces
+        test_api_interfaces.cpp
+    )
+
+    target_link_libraries(test_api_interfaces PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiInterfacesTests COMMAND test_api_interfaces)
+
+    set_tests_properties(ApiInterfacesTests PROPERTIES
+        LABELS "api;interfaces;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Interfaces: IHttpHandler, CorrelationId, WebSocketCloseCode, VersionDescriptor, GRPCMetadata")
+else()
+    message(STATUS "API interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")
@@ -2369,6 +2550,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
     message(STATUS "  GraphQL Multi-Model: timeseries queries, geo search, subscription type")
 else()
     message(STATUS "GraphQL Multi-Model tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+endif()
+
+# ============================================================================
+# GraphQL WebSocket Handler Tests (graphql-transport-ws protocol)
+# ============================================================================
+
+if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_ws_handler.cpp")
+    message(STATUS "Adding GraphQL WebSocket handler tests")
+
+    add_executable(test_graphql_ws_handler
+        test_graphql_ws_handler.cpp
+    )
+
+    target_link_libraries(test_graphql_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_WEBSOCKET=1
+    )
+
+    add_test(NAME GraphQLWsHandlerTests COMMAND test_graphql_ws_handler)
+
+    set_tests_properties(GraphQLWsHandlerTests PROPERTIES
+        LABELS "api;graphql;websocket;subscription;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL WS Handler: graphql-transport-ws protocol, subscription management")
 endif()
 
 # ============================================================================
@@ -4362,6 +4578,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
 endif()
 
 # ============================================================================
+# Graph Module Focused Test Targets
+# Each target links only the graph source(s) it exercises, enabling fast
+# iteration without recompiling the full themis_core library.
+# ============================================================================
+
+# Graph Query EXPLAIN focused tests (Issue #1816)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_query_explain.cpp")
+    message(STATUS "Adding focused graph query EXPLAIN tests (Issue #1816)")
+
+    add_executable(test_graph_query_explain_focused
+        graph/test_query_explain.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_graph_query_explain_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_graph_query_explain_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_query_explain_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphQueryExplainFocusedTests COMMAND test_graph_query_explain_focused)
+
+    set_tests_properties(GraphQueryExplainFocusedTests PROPERTIES
+        LABELS "graph;query;explain;optimizer;plan;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphQueryExplain: explainPlan, explainConstrainedPath, dry-run, structural reuse, all query types")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
@@ -4938,6 +5202,452 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
     message(STATUS "  PluginCapabilityNegotiation: PluginVersionRange, PluginCapabilityNegotiator, PluginManager::negotiateCapabilities")
 else()
     message(STATUS "Plugin Capability Negotiation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
+endif()
+
+# ============================================================================
+# Plugin Module Focused Test Targets
+# Standalone binaries enabling fast, isolated iteration over each plugin
+# subsystem without requiring a full themis_tests build.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager.cpp")
+    message(STATUS "Adding Plugin Manager focused tests")
+
+    add_executable(test_plugin_manager_focused
+        test_plugin_manager.cpp
+    )
+
+    target_include_directories(test_plugin_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginManagerFocusedTests COMMAND test_plugin_manager_focused)
+
+    set_tests_properties(PluginManagerFocusedTests PROPERTIES
+        LABELS "plugins;manager;lifecycle;singleton;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginManager: singleton identity, scanPluginDirectory, autoLoad, hot-plug enable/disable, negotiateCapabilities")
+else()
+    message(STATUS "Plugin Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
+    message(STATUS "Adding Plugin Lifecycle focused tests")
+
+    add_executable(test_plugin_lifecycle_focused
+        test_plugin_lifecycle.cpp
+    )
+
+    target_include_directories(test_plugin_lifecycle_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_lifecycle_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_lifecycle_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginLifecycleFocusedTests COMMAND test_plugin_lifecycle_focused)
+
+    set_tests_properties(PluginLifecycleFocusedTests PROPERTIES
+        LABELS "plugins;lifecycle;load;unload;hot-reload;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginLifecycle: load/initialize/unload, hot-reload, dependency-ordered loading, RAII guards")
+else()
+    message(STATUS "Plugin Lifecycle focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
+    message(STATUS "Adding Plugin Health Monitor focused tests")
+
+    add_executable(test_plugin_health_monitor_focused
+        test_plugin_health_monitor.cpp
+    )
+
+    target_include_directories(test_plugin_health_monitor_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_health_monitor_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_health_monitor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginHealthMonitorFocusedTests COMMAND test_plugin_health_monitor_focused)
+
+    set_tests_properties(PluginHealthMonitorFocusedTests PROPERTIES
+        LABELS "plugins;health;liveness;auto-restart;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginHealthMonitor: liveness probes, consecutive-failure threshold, automatic restart")
+else()
+    message(STATUS "Plugin Health Monitor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+    message(STATUS "Adding Plugin Hot-Plug Monitor focused tests")
+
+    add_executable(test_plugin_hot_plug_focused
+        test_plugin_hot_plug.cpp
+    )
+
+    target_include_directories(test_plugin_hot_plug_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_hot_plug_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_hot_plug_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginHotPlugFocusedTests COMMAND test_plugin_hot_plug_focused)
+
+    set_tests_properties(PluginHotPlugFocusedTests PROPERTIES
+        LABELS "plugins;hot-plug;directory-watcher;reload;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger")
+else()
+    message(STATUS "Plugin Hot-Plug focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+    message(STATUS "Adding Plugin Hot-Reload Enhanced focused tests")
+
+    add_executable(test_plugin_hot_reload_enhanced_focused
+        test_plugin_hot_reload_enhanced.cpp
+    )
+
+    target_include_directories(test_plugin_hot_reload_enhanced_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_hot_reload_enhanced_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_hot_reload_enhanced_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginHotReloadEnhancedFocusedTests COMMAND test_plugin_hot_reload_enhanced_focused)
+
+    set_tests_properties(PluginHotReloadEnhancedFocusedTests PROPERTIES
+        LABELS "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback")
+else()
+    message(STATUS "Plugin Hot-Reload Enhanced focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_graph.cpp")
+    message(STATUS "Adding Plugin Dependency Graph focused tests")
+
+    add_executable(test_plugin_dependency_graph_focused
+        test_plugin_dependency_graph.cpp
+    )
+
+    target_include_directories(test_plugin_dependency_graph_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_dependency_graph_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_dependency_graph_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginDependencyGraphFocusedTests COMMAND test_plugin_dependency_graph_focused)
+
+    set_tests_properties(PluginDependencyGraphFocusedTests PROPERTIES
+        LABELS "plugins;dependency;graph;cycle-detection;kahn;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginDependencyGraph: Kahn topological sort, cycle detection, load-order validation")
+else()
+    message(STATUS "Plugin Dependency Graph focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_graph.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+    message(STATUS "Adding Plugin Dependency Resolver focused tests")
+
+    add_executable(test_plugin_dependency_resolver_focused
+        test_plugin_dependency_resolver.cpp
+    )
+
+    target_include_directories(test_plugin_dependency_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_dependency_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_dependency_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginDependencyResolverFocusedTests COMMAND test_plugin_dependency_resolver_focused)
+
+    set_tests_properties(PluginDependencyResolverFocusedTests PROPERTIES
+        LABELS "plugins;dependency;resolver;version-check;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginDependencyResolver: inter-plugin dependency resolution, API version satisfaction, ordered loading")
+else()
+    message(STATUS "Plugin Dependency Resolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+    message(STATUS "Adding Plugin Metrics focused tests")
+
+    add_executable(test_plugin_metrics_focused
+        test_plugin_metrics.cpp
+    )
+
+    target_include_directories(test_plugin_metrics_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_metrics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginMetricsFocusedTests COMMAND test_plugin_metrics_focused)
+
+    set_tests_properties(PluginMetricsFocusedTests PROPERTIES
+        LABELS "plugins;metrics;prometheus;call-count;latency;error-rate;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginMetrics: call-count, latency P99, error-rate, Prometheus export, PluginMetricsCollector")
+else()
+    message(STATUS "Plugin Metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+    message(STATUS "Adding Plugin Metrics Integration focused tests")
+
+    add_executable(test_plugin_metrics_integration_focused
+        test_plugin_metrics_integration.cpp
+    )
+
+    target_include_directories(test_plugin_metrics_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_metrics_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_metrics_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginMetricsIntegrationFocusedTests COMMAND test_plugin_metrics_integration_focused)
+
+    set_tests_properties(PluginMetricsIntegrationFocusedTests PROPERTIES
+        LABELS "plugins;metrics;integration;grafana;health-score;focused;integration"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  PluginMetricsIntegration: end-to-end metrics pipeline, Grafana dashboard integration, plugin_health_score gauge")
+else()
+    message(STATUS "Plugin Metrics Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_audit.cpp")
+    message(STATUS "Adding Plugin Security Audit focused tests")
+
+    add_executable(test_plugin_security_audit_focused
+        test_plugin_security_audit.cpp
+    )
+
+    target_include_directories(test_plugin_security_audit_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_security_audit_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_security_audit_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginSecurityAuditFocusedTests COMMAND test_plugin_security_audit_focused)
+
+    set_tests_properties(PluginSecurityAuditFocusedTests PROPERTIES
+        LABELS "plugins;security;audit;ed25519;signature;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginSecurityAudit: Ed25519 signature enforcement, unsigned plugin rejection, audit event emission")
+else()
+    message(STATUS "Plugin Security Audit focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_audit.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_implementation.cpp")
+    message(STATUS "Adding Plugin Security Implementation focused tests")
+
+    add_executable(test_plugin_security_impl_focused
+        test_plugin_security_implementation.cpp
+    )
+
+    target_include_directories(test_plugin_security_impl_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_security_impl_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_security_impl_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginSecurityImplementationFocusedTests COMMAND test_plugin_security_impl_focused)
+
+    set_tests_properties(PluginSecurityImplementationFocusedTests PROPERTIES
+        LABELS "plugins;security;sandbox;capability;isolation;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginSecurityImplementation: capability sandbox, in-process isolation, edition-gated enforcement")
+else()
+    message(STATUS "Plugin Security Implementation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_implementation.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
+    message(STATUS "Adding Plugin Marketplace Manifest focused tests")
+
+    add_executable(test_plugin_marketplace_manifest_focused
+        test_plugin_marketplace_manifest.cpp
+    )
+
+    target_include_directories(test_plugin_marketplace_manifest_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_marketplace_manifest_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_marketplace_manifest_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginMarketplaceManifestFocusedTests COMMAND test_plugin_marketplace_manifest_focused)
+
+    set_tests_properties(PluginMarketplaceManifestFocusedTests PROPERTIES
+        LABELS "plugins;marketplace;manifest;json-schema;validation;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginMarketplaceManifest: JSON Schema v2 validation, manifest field enforcement, capability declarations")
+else()
+    message(STATUS "Plugin Marketplace Manifest focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager_comprehensive.cpp")
+    message(STATUS "Adding Plugin Manager Comprehensive focused tests")
+
+    add_executable(test_plugin_manager_comprehensive_focused
+        test_plugin_manager_comprehensive.cpp
+    )
+
+    target_include_directories(test_plugin_manager_comprehensive_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_manager_comprehensive_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_manager_comprehensive_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginManagerComprehensiveFocusedTests COMMAND test_plugin_manager_comprehensive_focused)
+
+    set_tests_properties(PluginManagerComprehensiveFocusedTests PROPERTIES
+        LABELS "plugins;manager;comprehensive;integration;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  PluginManagerComprehensive: full lifecycle integration, multi-plugin scenarios, edition gating")
+else()
+    message(STATUS "Plugin Manager Comprehensive focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager_comprehensive.cpp")
 endif()
 
 # ============================================================================
@@ -7376,6 +8086,169 @@ add_chimera_focused_test(
 )
 
 # ============================================================================
+# Exporters Focused Test Targets
+# Each target compiles the full exporter source set and links themis_core
+# (when available) to resolve transitive dependencies (AQL parser, utils,
+# OpenSSL, zlib/zstd, Arrow/Parquet).
+# ============================================================================
+
+set(EXPORTER_CORE_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/exporters/jsonl_llm_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/format_template.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/exporter_metrics.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/pii_detector.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/stream_writer.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/parquet_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/streaming_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/aql_predicate_filter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/arrow_ipc_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/incremental_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_encryption.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
+)
+
+# Helper function to create an exporters focused test executable.
+function(add_exporter_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding exporters focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+            ${EXPORTER_CORE_SOURCES}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        # Link themis_core when available to satisfy transitive deps
+        # (AQL parser/evaluator, utils, compression libraries, Arrow/Parquet).
+        set(_exporter_test_libs ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
+        if(TARGET themis_core)
+            list(APPEND _exporter_test_libs themis_core)
+        endif()
+        if(TARGET OpenSSL::Crypto)
+            list(APPEND _exporter_test_libs OpenSSL::Crypto)
+        endif()
+
+        target_link_libraries(${target_name} PRIVATE ${_exporter_test_libs})
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "Exporters focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_exporter_focused_test(
+    test_jsonl_llm_exporter_focused
+    exporters/test_jsonl_llm_exporter.cpp
+    JsonlLlmExporterFocusedTests
+    "exporters;jsonl;llm;instruction-tuning;focused;unit"
+    "JsonlLlmExporter: JSONL export, instruction-tuning formats, PII redaction, toxicity filtering, deduplication"
+)
+
+add_exporter_focused_test(
+    test_huggingface_exporter_focused
+    exporters/test_huggingface_exporter.cpp
+    HuggingFaceExporterFocusedTests
+    "exporters;huggingface;datasets;focused;unit"
+    "HuggingFaceExporter: JSONL shards, dataset_card.md, dataset_info.json, field selection"
+)
+
+add_exporter_focused_test(
+    test_parquet_exporter_focused
+    exporters/test_parquet_exporter.cpp
+    ParquetExporterFocusedTests
+    "exporters;parquet;arrow;columnar;focused;unit"
+    "ParquetExporter: columnar export, configurable Arrow schema, fallback writer"
+)
+
+add_exporter_focused_test(
+    test_arrow_ipc_exporter_focused
+    exporters/test_arrow_ipc_exporter.cpp
+    ArrowIpcExporterFocusedTests
+    "exporters;arrow;ipc;zero-copy;focused;unit"
+    "ArrowIpcExporter: Arrow IPC file and stream format export"
+)
+
+add_exporter_focused_test(
+    test_streaming_exporter_focused
+    exporters/test_streaming_exporter.cpp
+    StreamingExporterFocusedTests
+    "exporters;streaming;progress;resumable;focused;unit"
+    "StreamingExporter: large-collection streaming, progress callbacks, resumable export"
+)
+
+add_exporter_focused_test(
+    test_incremental_exporter_focused
+    exporters/test_incremental_exporter.cpp
+    IncrementalExporterFocusedTests
+    "exporters;incremental;delta;watermark;focused;unit"
+    "IncrementalExporter: watermark-based delta export, checkpoint tracking"
+)
+
+add_exporter_focused_test(
+    test_aql_predicate_filter_focused
+    exporters/test_aql_predicate_filter.cpp
+    AqlPredicateFilterFocusedTests
+    "exporters;aql;predicate;filter;focused;unit"
+    "AqlPredicateFilter: AQL-based record filtering before export"
+)
+
+add_exporter_focused_test(
+    test_format_template_focused
+    exporters/test_format_template.cpp
+    FormatTemplateFocusedTests
+    "exporters;format;template;alpaca;sharegpt;chatml;focused;unit"
+    "FormatTemplate: Alpaca, ShareGPT, ChatML, OpenAI instruction-tuning transforms"
+)
+
+add_exporter_focused_test(
+    test_export_encryption_focused
+    exporters/test_export_encryption.cpp
+    ExportEncryptionFocusedTests
+    "exporters;encryption;aes-gcm;security;focused;unit"
+    "ExportEncryption: AES-256-GCM encryption and decryption of export files"
+)
+
+add_exporter_focused_test(
+    test_data_augmentation_focused
+    exporters/test_data_augmentation.cpp
+    DataAugmentationFocusedTests
+    "exporters;augmentation;synthetic;diversity;focused;unit"
+    "DataAugmentation: synthetic training data augmentation pipeline"
+)
+
+add_exporter_focused_test(
+    test_export_format_registry_focused
+    exporters/test_export_format_registry.cpp
+    ExportFormatRegistryFocusedTests
+    "exporters;registry;format;pluggable;focused;unit"
+    "ExportFormatRegistry: singleton registry, registerBuiltins, createExporter, hasFormat, registeredFormats"
+)
+
+add_exporter_focused_test(
+    test_huggingface_hub_client_focused
+    exporters/test_huggingface_hub_client.cpp
+    HuggingFaceHubClientFocusedTests
+    "exporters;huggingface;hub;upload;libcurl;focused;unit"
+    "HuggingFaceHubClient: token resolution, repo create, retry logic, error surfacing"
+)
 # Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
 # ============================================================================
 
@@ -7625,6 +8498,168 @@ add_ingestion_focused_test(
     "ingestion;lineage;provenance;tracking;focused;unit"
     "IngestionLineage: IngestionLineageRecord struct, IngestionLineageStore, IngestionManager lineage API (Issue #1901)"
 )
+# Metadata Module – Focused Test Targets
+# ============================================================================
+
+# Metadata – SchemaManager focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
+    message(STATUS "Adding Metadata SchemaManager focused tests")
+    add_executable(test_schema_manager_focused test_schema_manager.cpp)
+    target_include_directories(test_schema_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaManagerFocusedTests COMMAND test_schema_manager_focused)
+    set_tests_properties(SchemaManagerFocusedTests PROPERTIES
+        LABELS "metadata;schema;discovery;ttl;changefeed;adaptive-ttl;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  SchemaManager: automatic table discovery, property type detection, adaptive TTL, changefeeds")
+endif()
+
+# Metadata – StatisticsCollector focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
+    message(STATUS "Adding Metadata StatisticsCollector focused tests")
+    add_executable(test_statistics_collector_focused test_statistics_collector.cpp)
+    target_include_directories(test_statistics_collector_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_statistics_collector_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_statistics_collector_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StatisticsCollectorFocusedTests COMMAND test_statistics_collector_focused)
+    set_tests_properties(StatisticsCollectorFocusedTests PROPERTIES
+        LABELS "metadata;statistics;histograms;cardinality;selectivity;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh")
+endif()
+
+# Metadata – ColumnLineageTracker focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_column_lineage.cpp")
+    message(STATUS "Adding Metadata ColumnLineage focused tests")
+    add_executable(test_column_lineage_focused test_column_lineage.cpp)
+    target_include_directories(test_column_lineage_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_column_lineage_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_column_lineage_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ColumnLineageFocusedTests COMMAND test_column_lineage_focused)
+    set_tests_properties(ColumnLineageFocusedTests PROPERTIES
+        LABELS "metadata;lineage;provenance;dag;column-derivation;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ColumnLineage: derivation DAG, transitive upstream/downstream traversal, provenance JSON export")
+endif()
+
+# Metadata – CatalogExporter focused tests (Atlas + DataHub)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_catalog_exporter.cpp")
+    message(STATUS "Adding Metadata CatalogExporter focused tests")
+    add_executable(test_catalog_exporter_focused test_catalog_exporter.cpp)
+    target_include_directories(test_catalog_exporter_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_catalog_exporter_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_catalog_exporter_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME CatalogExporterFocusedTests COMMAND test_catalog_exporter_focused)
+    set_tests_properties(CatalogExporterFocusedTests PROPERTIES
+        LABELS "metadata;catalog;atlas;datahub;external-catalog;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  CatalogExporter: Apache Atlas entity bulk API, DataHub MCP emission, injected HTTP (no network)")
+endif()
+
+# Metadata – SchemaAuditLog focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_audit_log.cpp")
+    message(STATUS "Adding Metadata SchemaAuditLog focused tests")
+    add_executable(test_schema_audit_log_focused test_schema_audit_log.cpp)
+    target_include_directories(test_schema_audit_log_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_audit_log_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_audit_log_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaAuditLogFocusedTests COMMAND test_schema_audit_log_focused)
+    set_tests_properties(SchemaAuditLogFocusedTests PROPERTIES
+        LABELS "metadata;audit;schema-changes;ddl;rocksdb;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaAuditLog: durable per-table audit trail, JSON export, round-trip persistence")
+endif()
+
+# Metadata – SchemaConsistencyChecker focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_consistency_checker.cpp")
+    message(STATUS "Adding Metadata SchemaConsistencyChecker focused tests")
+    add_executable(test_schema_consistency_checker_focused test_schema_consistency_checker.cpp)
+    target_include_directories(test_schema_consistency_checker_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_consistency_checker_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_consistency_checker_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaConsistencyCheckerFocusedTests COMMAND test_schema_consistency_checker_focused)
+    set_tests_properties(SchemaConsistencyCheckerFocusedTests PROPERTIES
+        LABELS "metadata;consistency;background-scan;schema-health;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaConsistencyChecker: background health scan, inconsistency detection and reporting")
+endif()
+
+# Metadata – IndexRecommender focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
+    message(STATUS "Adding Metadata IndexRecommender focused tests")
+    add_executable(test_index_recommender_focused test_index_recommender.cpp)
+    target_include_directories(test_index_recommender_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_index_recommender_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_index_recommender_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME IndexRecommenderFocusedTests COMMAND test_index_recommender_focused)
+    set_tests_properties(IndexRecommenderFocusedTests PROPERTIES
+        LABELS "metadata;index;recommendation;query-patterns;advisor;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit")
+endif()
+
+# Metadata – DistributedMetadataCatalog focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
+    message(STATUS "Adding Metadata DistributedMetadataCatalog focused tests")
+    add_executable(test_distributed_catalog_focused test_distributed_catalog.cpp)
+    target_include_directories(test_distributed_catalog_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_distributed_catalog_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_distributed_catalog_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DistributedMetadataCatalogFocusedTests COMMAND test_distributed_catalog_focused)
+    set_tests_properties(DistributedMetadataCatalogFocusedTests PROPERTIES
+        LABELS "metadata;distributed;catalog;shards;replication;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup")
+endif()
 
 # ============================================================================
 # Custom Test Targets

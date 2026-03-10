@@ -24,6 +24,7 @@
 
 #include "exporters/huggingface_exporter.h"
 #include "exporters/exporter_errors.h"
+#include "exporters/exporter_interface.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <filesystem>
@@ -52,6 +53,9 @@ ExportStats HuggingFaceExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
+    // Policy check before any cursor or file is opened (EXP-001).
+    enforceExportPolicy(options);
+
     ExportStats stats;
     stats.metrics = metrics_;
     auto start_time = std::chrono::steady_clock::now();

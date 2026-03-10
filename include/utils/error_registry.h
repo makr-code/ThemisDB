@@ -214,6 +214,7 @@ enum class ErrorCode {
     ERR_EXPORT_WEIGHT_CALCULATION_FAILED = 9307,
     ERR_EXPORT_FORMAT_INVALID = 9308,
     ERR_EXPORT_CONFIG_INVALID = 9309,
+    ERR_EXPORT_POLICY_DENIED  = 9310,  ///< PolicyEngine::checkExportPermission() denied the request
     
     // Unknown
     ERR_UNKNOWN = 9999
