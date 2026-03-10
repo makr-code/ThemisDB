@@ -36,6 +36,8 @@ This directory contains vendor-neutral database adapter implementations for the 
 | **Weaviate** | Vector DB | CRUD, Vector Search, REST/GraphQL | ✅ Complete |
 | **Qdrant** | Vector DB | CRUD, Vector Search (HNSW), REST/gRPC | ✅ Complete |
 | **Pinecone** | Managed Vector DB | Vector Search, Batch Upsert, Metadata Filtering | ✅ Complete |
+| **Elasticsearch** | Search Engine | Full-text Search, k-NN Vector Search | ✅ Complete |
+| **Neo4j** | Graph DB | Cypher Queries, Graph Traversal, ACID Transactions | ✅ Complete |
 
 ### Template & Examples
 
@@ -46,11 +48,9 @@ This directory contains vendor-neutral database adapter implementations for the 
 
 ### Future Adapters (Contributions Welcome)
 
-- Neo4j (Graph database)
 - ArangoDB (Multi-model)
 - Cassandra (Wide-column)
 - Redis (Key-value)
-- Elasticsearch (Search engine)
 - Milvus (Vector database)
 
 ---
@@ -594,11 +594,12 @@ Special thanks to all contributors who have implemented adapters for their datab
 - [x] Weaviate adapter
 - [x] Qdrant adapter
 - [x] Pinecone adapter
+- [x] Elasticsearch adapter (full-text + k-NN vector search)
+- [x] Neo4j adapter (Cypher queries, graph traversal, ACID transactions)
 - [x] Template and documentation
 
 ### Version 2.x (Planned)
 
-- [ ] Neo4j adapter (Graph)
 - [ ] ArangoDB adapter (Multi-model)
 - [ ] Performance benchmarks
 - [ ] Async operation support
@@ -606,10 +607,10 @@ Special thanks to all contributors who have implemented adapters for their datab
 ### Community Contributions Welcome
 
 We especially welcome adapters for:
-- Graph databases (Neo4j, Neptune, TigerGraph)
-- Document stores (MongoDB, CouchDB, DynamoDB)
+- Graph databases (Neptune, TigerGraph)
+- Document stores (CouchDB, DynamoDB)
 - Vector databases (Milvus)
-- Search engines (Elasticsearch, Solr, MeiliSearch)
+- Search engines (Solr, MeiliSearch)
 - Time-series databases (InfluxDB, TimescaleDB, Prometheus)
 
 ---
