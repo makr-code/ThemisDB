@@ -2121,6 +2121,7 @@ namespace {
     AdminCacheTenantsGet,           // GET  /v1/admin/cache/tenants
     AdminCacheTenantStatsGet,       // GET  /v1/admin/cache/tenant/{tenant_id}/stats
     AdminCacheTenantQuotaPatch,     // PATCH /v1/admin/cache/tenant/{tenant_id}/quota
+    AdminCachePiiEvictDelete,       // DELETE /v1/admin/cache/pii/{pii_uuid}
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2503,6 +2504,7 @@ namespace {
         path_only.rfind("/quota") == path_only.size() - 6 &&
         method == http::verb::patch) return Route::AdminCacheTenantQuotaPatch;
     if (path_only.rfind("/v1/admin/cache/tenant/", 0) == 0 && method == http::verb::delete_) return Route::AdminCacheEvictTenantDelete;
+    if (path_only.rfind("/v1/admin/cache/pii/", 0) == 0 && method == http::verb::delete_) return Route::AdminCachePiiEvictDelete;
     if (path_only == "/v1/admin/cache/warmup" && method == http::verb::post) return Route::AdminCacheWarmupPost;
     if (path_only == "/v1/admin/cache/snapshot" && method == http::verb::post) return Route::AdminCacheSnapshotPost;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
@@ -3570,6 +3572,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AdminCacheTenantQuotaPatch:
             if (cache_admin_api_) {
                 response = cache_admin_api_->handleUpdateTenantQuota(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
+            }
+            break;
+        case Route::AdminCachePiiEvictDelete:
+            if (cache_admin_api_) {
+                response = cache_admin_api_->handlePiiEvict(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Cache admin API not initialized", req);
             }

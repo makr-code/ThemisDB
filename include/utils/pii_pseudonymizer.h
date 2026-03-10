@@ -26,6 +26,7 @@
 #include "utils/audit_logger.h"
 #include "security/encryption.h"
 #include "storage/rocksdb_wrapper.h"
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -90,6 +91,18 @@ public:
     bool erasePII(const std::string& pii_uuid);
 
     /**
+     * @brief Register a cache invalidation callback for GDPR Art. 17 propagation.
+     *
+     * When set, this callback is invoked automatically after every successful
+     * erasePII() call so that any cache tier (e.g. AdaptiveQueryCache) holding
+     * data tagged with pii_uuid is purged without requiring caller coordination.
+     *
+     * @param fn  Callable that receives the pii_uuid to be purged from cache.
+     *            Must be non-throwing; exceptions are logged and suppressed.
+     */
+    void registerCacheInvalidator(std::function<void(const std::string&)> fn);
+
+    /**
      * @brief Soft-Delete eines PII-Mappings (ausblenden, aber nicht löschen)
      * Markiert das Mapping als inactive und setzt deleted_at.
      * @param pii_uuid UUID des Mappings
@@ -121,7 +134,8 @@ private:
     std::shared_ptr<FieldEncryption> enc_;
     std::shared_ptr<PIIDetector> detector_;
     std::shared_ptr<AuditLogger> audit_logger_;
-    
+    std::function<void(const std::string&)> cache_invalidator_;
+
     // Recursive to avoid EDEADLK when higher-level helpers call into multiple operations
     // (e.g., eraseAll -> erasePII) within the same thread context.
     std::recursive_mutex mu_;

@@ -55,6 +55,7 @@ namespace server {
  *   GET    /v1/admin/cache/tenants                     – Per-tenant stats (all tenants)
  *   GET    /v1/admin/cache/tenant/{tenant_id}/stats    – Per-tenant stats (single tenant)
  *   PATCH  /v1/admin/cache/tenant/{tenant_id}/quota   – Update quota for a specific tenant
+ *   DELETE /v1/admin/cache/pii/{pii_uuid}              – GDPR Art.17 PII purge across all tiers
  *
  * Authentication: requires JWT with "admin:cache:read" scope for read endpoints
  * and "admin:cache:write" scope for write/mutation endpoints.
@@ -154,6 +155,20 @@ public:
      * Returns 404 when tenant isolation is disabled.
      */
     http::response<http::string_body> handleUpdateTenantQuota(
+        const http::request<http::string_body>& req);
+
+    /**
+     * DELETE /v1/admin/cache/pii/{pii_uuid}
+     *
+     * Purges all cache entries that were tagged with the given PII UUID via
+     * AdaptiveQueryCache::invalidatePII(pii_uuid).  This triggers GDPR Art. 17
+     * erasure propagation across all three cache tiers (L1, L2, L3).
+     *
+     * Requires "admin:cache:write" scope.
+     * Returns 200 with {"evicted": <count>, "pii_uuid": "<uuid>"} on success.
+     * Returns 400 when pii_uuid is missing or empty.
+     */
+    http::response<http::string_body> handlePiiEvict(
         const http::request<http::string_body>& req);
 
 private:

@@ -6400,6 +6400,42 @@ add_chimera_focused_test(
 )
 
 # ============================================================================
+# Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
+    message(STATUS "Adding Cache Interfaces tests (Issue #1596)")
+
+    add_executable(test_cache_interfaces
+        test_cache_interfaces.cpp
+    )
+
+    target_include_directories(test_cache_interfaces PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cache_interfaces PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cache_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CacheInterfacesTests COMMAND test_cache_interfaces)
+
+    set_tests_properties(CacheInterfacesTests PROPERTIES
+        LABELS "cache;interfaces;eviction;gdpr;ttl;warmup;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CacheInterfaces: IEvictionPolicy, ICacheAdminOps, ICacheWarmup, IGDPRPurgeHook, ITTLAdapter")
+else()
+    message(STATUS "Cache Interfaces tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cache_interfaces.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
