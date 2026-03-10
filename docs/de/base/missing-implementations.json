@@ -1,7 +1,9 @@
 {
   "module": "base",
   "validated": "2026-03-09",
+  "updated": "2026-03-10",
   "audit_commit": "0091524",
+  "follow_up_pr": "copilot/sync-developer-docs-module",
   "source_paths": [
     "src/base/",
     "include/themis/base/"
@@ -16,6 +18,7 @@
       "expected": "Plugins are automatically restarted after a health-check failure (watchdog mechanism).",
       "observed": "Health-check infrastructure exists in module_loader.cpp (healthChecks_ map, runHealthChecks(), lines 452–1178). Checks run at module activation stage. No automatic restart mechanism found in any base source file (no restart_count, watchdog, or auto_recover symbol in module_loader.cpp, hot_reload_manager.cpp, or module_sandbox.cpp).",
       "severity": "medium",
+      "status": "open",
       "evidence": [
         {
           "path": "src/base/module_loader.cpp",
@@ -47,6 +50,7 @@
       "expected": "Fully functional WASM isolation for untrusted plugins, operational without additional setup.",
       "observed": "WasmPluginSandbox infrastructure is fully implemented. setRuntime(std::unique_ptr<WasmRuntime>) must be called before callExport(); without injection, callExport() fails with 'inject a WasmRuntime before calling callExport()' (wasm_plugin_sandbox.cpp line 457). No concrete WasmRuntime implementation (Wasmtime, WasmEdge) found in the repository.",
       "severity": "medium",
+      "status": "open",
       "evidence": [
         {
           "path": "src/base/wasm_plugin_sandbox.cpp",
@@ -68,16 +72,19 @@
       "claim_section": "Phase 3: Marketplace & Sandboxing",
       "claim_text": "[x] Signed plugin repository with key pinning",
       "expected": "The remote plugin registry's public key is pinned in server configuration; downloads are verified against this fixed key independent of CA trust.",
-      "observed": "RegistryConfig in remote_registry_client.h has verify_ssl = true (CA-based TLS cert verification). No pinned_pubkey, cert_pin, or pubkey_fingerprint field found in remote_registry_client.h or remote_registry_client.cpp.",
+      "observed": "RegistryConfig in remote_registry_client.h had verify_ssl = true (CA-based TLS cert verification) but no public-key pinning field.",
       "severity": "low",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "RegistryConfig::pinned_public_key field (sha256//base64 format for CURLOPT_PINNEDPUBLICKEY) added to include/themis/base/remote_registry_client.h (line 93). CURLOPT_PINNEDPUBLICKEY is applied in both httpGet and httpGetBinary curl paths in src/base/remote_registry_client.cpp (lines 336-338, 428-430).",
       "evidence": [
         {
           "path": "include/themis/base/remote_registry_client.h",
-          "detail": "RegistryConfig::verify_ssl at line 71; no pin_* field"
+          "detail": "RegistryConfig::pinned_public_key at line 93 (added 2026-03-10)"
         },
         {
           "path": "src/base/remote_registry_client.cpp",
-          "detail": "no pin symbol found"
+          "detail": "CURLOPT_PINNEDPUBLICKEY applied at lines 336-338 (httpGet) and 428-430 (httpGetBinary)"
         }
       ],
       "issue_title_suggestion": "feat(base): implement public-key pinning for remote plugin registry",
@@ -91,20 +98,23 @@
       "claim_section": "Phase 3: Marketplace & Sandboxing",
       "claim_text": "[x] Runtime plugin capability negotiation (version ranges)",
       "expected": "Plugins actively negotiate version compatibility at runtime.",
-      "observed": "PluginDependencyGraph stores minVersion/maxVersion per dependency edge (plugin_dependency_graph.h lines 109–110). No negotiate(), checkCompatibility(), or similar enforcement method found in plugin_dependency_graph.h/.cpp or module_loader.h/.cpp. Version ranges are declared and shown in DOT visualization but not enforced at runtime. Actual enforcement is part of Issue #1566.",
+      "observed": "PluginDependencyGraph stored minVersion/maxVersion per edge but did not enforce them at runtime. ModuleDependencyResolver was declared in module_loader.h but unimplemented.",
       "severity": "low",
+      "status": "resolved",
+      "resolved_date": "2026-03-10",
+      "resolution": "ModuleDependencyResolver (registerModule, resolve, resolveFor, isVersionCompatible, topologicalSort) fully implemented in src/base/module_loader.cpp (lines 1247-1530). isVersionCompatible() enforces semver constraints; topologicalSort() reports version mismatches. Two bugs fixed: (1) resolveFor() now correctly reports unregistered transitive required dependencies; (2) isVersionCompatible() now uses per-component try-catch to correctly parse partially-malformed version strings (e.g. '1.2.abc' -> {1,2,0}). Regression tests added in tests/test_module_loader.cpp.",
       "evidence": [
         {
-          "path": "include/themis/base/plugin_dependency_graph.h",
-          "detail": "Edge::minVersion/maxVersion at lines 109–110; no negotiation method"
-        },
-        {
-          "path": "src/base/plugin_dependency_graph.cpp",
-          "detail": "topologicalOrder() implemented; no version enforcement"
+          "path": "src/base/module_loader.cpp",
+          "detail": "ModuleDependencyResolver implementation at lines 1247-1530"
         },
         {
           "path": "include/themis/base/module_loader.h",
-          "detail": "no negotiate symbol"
+          "detail": "ModuleDependencyResolver class declaration at lines 762-865"
+        },
+        {
+          "path": "tests/test_module_loader.cpp",
+          "detail": "regression tests: ResolveForRejectsMissingTransitiveDep, IsVersionCompatible_PartialMalformed_MajMin, and more"
         }
       ],
       "issue_title_suggestion": "feat(base): implement runtime version compatibility enforcement in PluginDependencyGraph (part of #1566)",
