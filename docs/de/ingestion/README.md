@@ -1,10 +1,10 @@
 # Ingestion-Modul
 
-<!-- Status: current | validated: 2026-03-09 | Primary: ../../../src/ingestion/ | ../../../include/ingestion/ -->
+<!-- Status: current | validated: 2026-03-10 | Primary: ../../../src/ingestion/ | ../../../include/ingestion/ -->
 <!-- Links: ../../../src/ingestion/README.md · ../../../src/ingestion/ROADMAP.md · inventory.md · missing-implementations.md -->
 
-**Stand:** 9. März 2026  
-**Version:** 1.5.x (Production-ready)  
+**Stand:** 10. März 2026  
+**Version:** 1.7.x (Production-ready)  
 **Kategorie:** Daten-Intake / Konnektoren
 
 ---
@@ -34,12 +34,12 @@ Das Ingestion-Modul ist ThemisDB's **Daten-Intake-Schicht**. Es stellt eine einh
 |---|---|---|
 | FileSystem-Ingester | `filesystem_ingester.cpp` | ✅ Production-ready |
 | Generic REST API | `api_connector.cpp` | ✅ Production-ready (real libcurl) |
-| HuggingFace-Datasets | `huggingface_connector.cpp` | ⚠️ HTTP simuliert (stub) |
+| HuggingFace-Datasets | `huggingface_connector.cpp` | ✅ Production-ready (real libcurl, PR #1915) |
 | Apache Kafka Consumer | `kafka_connector.cpp` | ✅ Production-ready |
 | S3 / GCS / Azure Blob | `object_storage_connector.cpp` | ✅ Production-ready |
 | JDBC-Datenbank | `database_connector.cpp` | ✅ Production-ready |
 | Web-Crawler / Sitemap | `web_crawler_connector.cpp` | ✅ Production-ready |
-| CDC (live DB-Streams) | `cdc_connector.cpp` | ⚠️ Stream-Backend Stub (THEMIS_ENABLE_CDC_STREAM) |
+| CDC (live DB-Streams) | `cdc_connector.cpp` | ✅ Production-ready (Replikations-Treiber via `THEMIS_ENABLE_CDC_STREAM`; graceful fallback ohne Flag) |
 | Verteilter Koordinator | `ingestion_coordinator.cpp` | ✅ Production-ready |
 
 ---
@@ -95,7 +95,4 @@ Vollständiges Inventar aller Quelldateien: **[inventory.md](./inventory.md)**
 Detaillierter Report: **[missing-implementations.md](./missing-implementations.md)**
 
 Kurzfassung:
-- `HuggingFaceConnector`: HTTP simuliert — nicht produktionsreif ohne echten libcurl-Call
-- `CdcConnector`: Stream-Backend ist ein Compile-Stub — erfordert PostgreSQL/MySQL-Replikations-Treiber
-- `IngestionAdminApi::retryQuarantineItem()`: Schreib-Erfolg immer `true` — Storage-Write nicht verdrahtet
-- Lineage-Tracking fehlt (Issue: #1901)
+- Lineage-Tracking fehlt (Issue: #1901) — einzige noch offene ROADMAP-Aufgabe

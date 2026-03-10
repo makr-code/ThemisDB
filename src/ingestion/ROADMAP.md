@@ -55,10 +55,10 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 
 ### Long-term (6-12 months)
 - [x] Distributed ingestion coordinator across nodes (Issue: #1897) → `ingestion/ingestion_coordinator.cpp`
-- [I] Dynamic source reconfiguration without restart (Issue: #1900)
+- [x] Dynamic source reconfiguration without restart (Issue: #1900) → `IngestionManager::reconfigureSource()`
 ### Remaining
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)
-- [x] Unit tests coverage > 80% (Issue: #1909) — 19 focused test targets registered in tests/CMakeLists.txt
+- [x] Unit tests coverage > 80% (Issue: #1909) — 18 focused test targets registered in tests/CMakeLists.txt
 - [x] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910) — IngestionIntegrationFocusedTests added
 - [x] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911) — bench_ingestion_kv registered in cmake/CMakeLists.txt
 
@@ -109,18 +109,17 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] Plugin API for third-party source connectors (`ingestion_manager.h`: `ConnectorPluginRegistry`, `IngestionManager::registerConnectorPlugin`, `IngestionBuilder::withPluginSource`) (Issue: #1908)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1909)
-- [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
-- [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
+- [x] Unit tests coverage > 80% (Issue: #1909) — 18 focused test targets in tests/CMakeLists.txt
+- [x] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910) — IngestionIntegrationFocusedTests
+- [x] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911) — bench_ingestion_kv in cmake/CMakeLists.txt
 - [x] Security audit (path traversal, API key storage) (Issue: #1912)
 - [x] Documentation complete (Issue: #1913)
-- [I] API stability guaranteed (Issue: #1914)
+- [x] API stability guaranteed (Issue: #1914) — `IngestionBuilder` fluent API stable from v1.x; connector interface locked
 
 ## Known Issues & Limitations
 - PDF/DOCX ingestion requires external converters (pdftotext, pandoc); not handled natively.
 - End-to-end lineage tracking not yet implemented (Issue: #1901).
-- `CdcConnector`: full replication driver integration requires `THEMIS_ENABLE_CDC_STREAM` compile flag; without it, `ingestFromStream()` returns `CONNECTOR_NOT_SUPPORTED`.
-- Build system: all 10 ingestion source files are now unconditionally registered in `THEMIS_CORE_SOURCES` (cmake/CMakeLists.txt) and `THEMIS_INGESTION_SOURCES` (cmake/ModularBuild.cmake). `cdc_connector.cpp` is gated behind `THEMIS_ENABLE_CDC_STREAM`.
+- `CdcConnector`: full replication driver requires `THEMIS_ENABLE_CDC_STREAM` at compile time; without it, `ingestFromStream()` returns `CONNECTOR_NOT_SUPPORTED`. The source file always compiles (uses `#ifdef` internally).
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
