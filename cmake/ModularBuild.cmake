@@ -994,11 +994,44 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/geo_rtree.cpp
     ../src/geo/spatial_join.cpp
     ../src/geo/geo_clustering.cpp
+    # GPU module sources unconditionally required by the geo backend
     ../src/gpu/device_discovery.cpp
     ../src/gpu/safe_fail.cpp
     ../src/gpu/metrics.cpp
     ../src/gpu/audit_log.cpp
 )
+
+# Full GPU module sources (gated on THEMIS_ENABLE_GPU)
+if(THEMIS_ENABLE_GPU)
+    list(APPEND THEMIS_GEO_SOURCES
+        ../src/gpu/gpu_module.cpp
+        ../src/gpu/config.cpp
+        ../src/gpu/feature_flags.cpp
+        ../src/gpu/gpu_memory_manager_edition.cpp
+        ../src/gpu/memory_pool.cpp
+        ../src/gpu/kernel_validator.cpp
+        ../src/gpu/policy.cpp
+        ../src/gpu/alerts.cpp
+        ../src/gpu/launcher.cpp
+        ../src/gpu/stream_manager.cpp
+        ../src/gpu/load_balancer.cpp
+        ../src/gpu/tensor_buffer.cpp
+        ../src/gpu/query_accelerator.cpp
+        ../src/gpu/graph_cache.cpp
+        ../src/gpu/training_loop.cpp
+        ../src/gpu/rocm_backend.cpp
+        ../src/gpu/cluster_topology.cpp
+        ../src/gpu/cluster_coordinator.cpp
+        ../src/gpu/profiler.cpp
+        ../src/gpu/unified_memory.cpp
+        ../src/gpu/time_slice_scheduler.cpp
+        ../src/gpu/wasm_kernel_sandbox.cpp
+        ../src/gpu/mig_manager.cpp
+        ../src/gpu/p2p_transfer.cpp
+        ../src/gpu/vulkan_backend.cpp
+        ../src/gpu/admin_api.cpp
+    )
+endif()
 
 # CUDA kernel dispatch for geo GPU backend (THEMIS_GEO_CUDA=ON)
 if(THEMIS_GEO_CUDA)
