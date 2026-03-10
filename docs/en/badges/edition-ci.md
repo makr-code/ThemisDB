@@ -16,9 +16,35 @@ All five editions share a single reusable workflow ([`edition-build-ci.yml`](../
 
 ## CI Mode and feature flags
 
-Because GitHub-hosted runners do not have heavyweight optional dependencies (gRPC, GPU libraries, llama.cpp), all edition CI builds pass `-DTHEMIS_CI_MODE=ON` to CMake. In CI mode the `EditionMatrix` validation logs REQUIRED features but does not force-enable them, so builds succeed without installing those dependencies.
+Because GitHub-hosted runners do not have heavyweight optional dependencies (gRPC, GPU libraries, llama.cpp), all edition CI builds pass `-DTHEMIS_CI_MODE=ON` to CMake. In CI mode the edition cmake files skip the `FORCE`-enable of heavyweight dependencies (LLM, gRPC, GPU, Tracing, Distributed Training), while `EditionMatrix` logs REQUIRED features without enforcing them — so builds succeed without installing those dependencies.
 
 ENTERPRISE, HYPERSCALER, and MILITARY Release builds would additionally require a valid `THEMIS_LICENSE_FILE`; the CI workflows always use `Debug` builds to avoid this requirement.
+
+## Branch Protection (required admin setup)
+
+To enforce that all five edition checks must be green before any PR can be merged into `main`, a repository administrator must configure branch protection rules in **Settings → Branches → Branch protection rules** for the `main` branch. The required status checks to add are the job IDs of the edition builds:
+
+| Status check name | Workflow |
+|-------------------|----------|
+| `MINIMAL · Linux · Debug` | `edition-minimal-ci.yml` / `edition-build-ci.yml` |
+| `COMMUNITY · Linux · Debug` | `edition-community-ci.yml` / `edition-build-ci.yml` |
+| `ENTERPRISE · Linux · Debug` | `edition-enterprise-ci.yml` / `edition-build-ci.yml` |
+| `HYPERSCALER · Linux · Debug` | `edition-hyperscaler-ci.yml` / `edition-build-ci.yml` |
+| `MILITARY · Linux · Debug` | `edition-military-ci.yml` / `edition-build-ci.yml` |
+
+The job `name` in `edition-build-ci.yml` is `${{ inputs.edition }} · Linux · ${{ inputs.build-type }}`, which renders to e.g. `MINIMAL · Linux · Debug`.
+
+**Steps to configure (GitHub UI):**
+
+1. Go to **Settings → Branches** in the ThemisDB repository.
+2. Click **Add classic branch protection rule** (or edit the existing rule for `main`).
+3. Set **Branch name pattern**: `main`.
+4. Enable **Require status checks to pass before merging**.
+5. Enable **Require branches to be up to date before merging**.
+6. In the search box, add each of the five status check names listed above.
+7. Save changes.
+
+After this configuration, GitHub will block PRs targeting `main` unless all five edition build jobs have completed successfully.
 
 ## Source of truth
 

@@ -14,8 +14,12 @@ set(THEMIS_MAX_CACHE_SIZE_MB 2048 CACHE STRING "Maximum cache size (MB)" FORCE)
 set(THEMIS_ENABLE_LLM OFF CACHE BOOL "LLM disabled for MILITARY edition (external cloud dependency)" FORCE)
 set(THEMIS_ENABLE_DISTRIBUTED_TRAINING OFF CACHE BOOL "Distributed training disabled for MILITARY edition" FORCE)
 
-# gRPC enabled for secure inter-node comms (required)
-set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC required for MILITARY edition secure communications" FORCE)
+# gRPC enabled for secure inter-node comms (required, skipped in CI mode)
+if(NOT THEMIS_CI_MODE)
+    set(THEMIS_ENABLE_GRPC ON CACHE BOOL "gRPC required for MILITARY edition secure communications" FORCE)
+else()
+    message(STATUS "  MILITARY CI mode: gRPC not force-enabled")
+endif()
 
 # Real HSM required for key management
 set(THEMIS_ENABLE_HSM_REAL ON CACHE BOOL "Real HSM required for MILITARY edition" FORCE)
