@@ -101,6 +101,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ## Known Issues & Limitations
 - AQLParser instances are NOT thread-safe; create per-thread or protect with a mutex.
+- `query_canceller.cpp`, `query_federation.cpp` were missing from `cmake/CMakeLists.txt` (fixed: 2026-03-10); `materialized_cte.cpp`, `sparql_parser.cpp`, `vectorized_execution.cpp`, `query_canceller.cpp`, `query_federation.cpp` were missing from `cmake/ModularBuild.cmake` (fixed: 2026-03-10).
 - SQL dialect support covers SELECT/INSERT/UPDATE/DELETE (basic syntax only); the following
   SQL features are **not** currently supported by the transpiler and will return a parse error:
   - JOINs (INNER JOIN, LEFT JOIN, etc.)

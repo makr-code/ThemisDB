@@ -66,6 +66,8 @@ SampledLogger::SampledLogger(std::shared_ptr<Logger> underlying, SampledLoggerCo
     // pointer so callers can store a shared_ptr<Logger> for lifetime control.
 }
 
+SampledLogger::~SampledLogger() = default;
+
 bool SampledLogger::should_log(Logger::Level level, const char* file, int line) {
     // Step 1: probabilistic sample-rate check per level.
     double rate = 1.0;
