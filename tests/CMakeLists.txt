@@ -7683,7 +7683,7 @@ if(THEMIS_ENABLE_LLM)
         "Model loading from ThemisDB: store, retrieve, checksum verify, hot-reload"
     )
 
-    # Benchmarks (registered as tests with longer timeout)
+    # GTest-based micro-benchmarks (registered as tests with longer timeout)
     add_llm_focused_test(
         bench_llm_continuous_batch_scheduler
         llm/bench_continuous_batch_scheduler.cpp
@@ -7691,14 +7691,9 @@ if(THEMIS_ENABLE_LLM)
         "llm;benchmark;batch-scheduler;performance"
         "Continuous batch scheduler benchmark: throughput at varying concurrency levels"
     )
-
-    add_llm_focused_test(
-        bench_llm_model_loading_from_themisdb
-        llm/bench_model_loading_from_themisdb.cpp
-        LlmBenchModelLoadingFromThemisDb
-        "llm;benchmark;model-loading;performance"
-        "Model loading benchmark: cold/warm load latency, concurrent loads, memory overhead"
-    )
+    # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
+    # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
+    # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.
 
 else()
     message(STATUS "LLM focused tests (tests/llm/) skipped (THEMIS_ENABLE_LLM=OFF)")
