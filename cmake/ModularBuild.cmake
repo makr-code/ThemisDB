@@ -765,6 +765,23 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/token_quota_manager.cpp
     ../src/llm/grafana_metrics.cpp
     ../src/llm/distributed_training_coordinator.cpp
+    # Inference & Sampling core
+    ../src/llm/inference_handle.cpp
+    ../src/llm/sampling_strategy.cpp
+    # Ethics, AI Safety & Multi-Perspective
+    ../src/llm/constitutional_reasoning_engine.cpp
+    ../src/llm/ethics_aware_confidence_detector.cpp
+    ../src/llm/moral_analyzer.cpp
+    ../src/llm/multi_perspective_generator.cpp
+    # Feedback & Security
+    ../src/llm/feedback_plugin_basic.cpp
+    ../src/llm/llm_security_utils.cpp
+    # Vision resource monitoring
+    ../src/llm/vision_resource_monitor.cpp
+    # LoRA framework additions (unconditional)
+    ../src/llm/lora_framework/distributed_dataloader.cpp
+    ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp
+    ../src/llm/lora_framework/paged_optimizer.cpp
         ../src/cache/embedding_cache.cpp
         ../src/llm/lora_framework/lora_layers.cpp
     
@@ -863,6 +880,20 @@ if(THEMIS_ENABLE_GPU)
         ../src/llm/lora_framework/gpu_utilization_monitor.cpp
         ../src/llm/lora_framework/gradient_checkpointing.cpp
         ../src/llm/lora_framework/gpu_training_loop.cpp
+    )
+endif()
+
+if(THEMIS_ENABLE_HIP)
+    list(APPEND THEMIS_LLM_SOURCES
+        ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp
+    )
+endif()
+
+if(THEMIS_ENABLE_VULKAN)
+    list(APPEND THEMIS_LLM_SOURCES
+        ../src/llm/lora_framework/vulkan_buffer.cpp
+        ../src/llm/lora_framework/vulkan_context.cpp
+        ../src/llm/lora_framework/vulkan_pipeline.cpp
     )
 endif()
 

@@ -3550,6 +3550,28 @@ if(THEMIS_ENABLE_LLM)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
         ../src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
+
+        # Inference & Sampling core (Phase 2 refactor)
+        ../src/llm/inference_handle.cpp           # InferenceHandle implementation
+        ../src/llm/sampling_strategy.cpp          # Token sampling strategies (top-p, top-k, mirostat)
+
+        # Ethics, AI Safety & Multi-Perspective Generation
+        ../src/llm/constitutional_reasoning_engine.cpp   # Constitutional AI reasoning
+        ../src/llm/ethics_aware_confidence_detector.cpp  # Ethics-aware confidence scoring
+        ../src/llm/moral_analyzer.cpp                    # Moral reasoning analysis
+        ../src/llm/multi_perspective_generator.cpp       # Multi-perspective response generation
+
+        # Feedback & Security
+        ../src/llm/feedback_plugin_basic.cpp      # Basic feedback plugin implementation
+        ../src/llm/llm_security_utils.cpp         # LLM security utilities (prompt sanitization)
+
+        # Vision resource monitoring
+        ../src/llm/vision_resource_monitor.cpp    # Vision model resource monitoring
+
+        # LoRA framework additions (unconditional)
+        ../src/llm/lora_framework/distributed_dataloader.cpp     # Distributed data loading for training
+        ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp  # CPU fused LoRA kernels (non-GPU fallback)
+        ../src/llm/lora_framework/paged_optimizer.cpp            # Paged AdamW optimizer for memory-efficient training
     )
 
     if(THEMIS_ENABLE_GPU)
@@ -3599,7 +3621,8 @@ if(THEMIS_ENABLE_LLM)
     # Add HIP kernel sources when HIP is enabled
     if(THEMIS_ENABLE_HIP)
         list(APPEND THEMIS_CORE_SOURCES
-            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels (AMD)
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp       # LoRA HIP kernels (AMD)
+            ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp # LoRA HIP fused kernels (AMD)
         )
         
         # Link RCCL if available
@@ -3616,6 +3639,9 @@ if(THEMIS_ENABLE_LLM)
     if(THEMIS_ENABLE_VULKAN)
         list(APPEND THEMIS_CORE_SOURCES
             ../src/llm/lora_framework/kernels/vulkan_kernels.cpp  # LoRA Vulkan compute
+            ../src/llm/lora_framework/vulkan_buffer.cpp           # Vulkan buffer management for LoRA
+            ../src/llm/lora_framework/vulkan_context.cpp          # Vulkan context initialization
+            ../src/llm/lora_framework/vulkan_pipeline.cpp         # Vulkan compute pipeline for LoRA
         )
         message(STATUS "LoRA: Vulkan compute kernels enabled (cross-platform)")
     endif()

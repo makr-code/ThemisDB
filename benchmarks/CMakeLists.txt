@@ -1281,6 +1281,51 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
 endif()
 
+# LLM Model Loading from ThemisDB Benchmarks
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loading_from_themisdb.cpp")
+    message(STATUS "Adding LLM Model Loading from ThemisDB benchmarks")
+
+    add_executable(bench_llm_model_loading_from_themisdb
+        ${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loading_from_themisdb.cpp
+    )
+
+    target_include_directories(bench_llm_model_loading_from_themisdb PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_llm_model_loading_from_themisdb PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_llm_model_loading_from_themisdb PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_llm_model_loading_from_themisdb PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_llm_model_loading_from_themisdb
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LLM: Model store/load latency (1KB/1MB/10MB), SHA256 verification, temp-file cleanup")
+endif()
+
 # ============================================================================
 # Rotary Embeddings Benchmarks (NEW)
 # ============================================================================
