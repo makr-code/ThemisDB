@@ -884,8 +884,8 @@ Have ideas for server header improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: February 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: March 2026*  
+*Module Version: v1.7.0*  
 *Next Review: v1.7.0 Release*
 
 ## Test Strategy

@@ -1,5 +1,7 @@
 # ThemisDB Server Module Headers
 
+**Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
+
 ## Module Purpose
 
 This directory contains public interfaces and declarations for ThemisDB's Server module. These headers define the API surface for HTTP/WebSocket/gRPC/MQTT/PostgreSQL protocol implementations, authentication, rate limiting, policy enforcement, and 40+ specialized API handlers.
