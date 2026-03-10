@@ -1634,6 +1634,7 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1697,7 +1698,11 @@ set(THEMIS_CORE_SOURCES
     
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
+    ../src/cdc/changefeed_buffer.cpp
     ../src/cdc/consumer_group.cpp
+    ../src/cdc/cross_collection_stream.cpp
+    ../src/cdc/cdc_materialized_view.cpp
+    ../src/cdc/tenant_buffer_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
     ../src/cdc/delivery_tracker.cpp
@@ -2000,6 +2005,10 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/device_manager.cpp
+    ../src/acceleration/vllm_resource_manager.cpp
+    # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
+    # Compiled unconditionally so ShaderIntegrityVerifier is always available.
+    ../src/acceleration/shader_integrity.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -2112,7 +2121,19 @@ set(THEMIS_CORE_SOURCES
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
     ../src/analytics/arrow_flight.cpp
-    
+
+    # Process Pattern Matcher – conformance checking and behavioral similarity (Phase 1)
+    ../src/analytics/process_pattern_matcher.cpp
+
+    # Real-Time Anomaly Detection – Z-Score, IQR, Isolation Forest, LOF, Ensemble (Phase 3)
+    ../src/analytics/anomaly_detection.cpp
+
+    # AutoML – automated model selection, hyperparameter search, SHAP explanations (Phase 3)
+    ../src/analytics/automl.cpp
+
+    # Distributed Analytics Sharding – scatter-gather coordinator for distributed OLAP (Phase 3)
+    ../src/analytics/distributed_analytics.cpp
+
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp
@@ -2622,7 +2643,9 @@ endif()
 
 # Graphics API backends
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/graphics_backends.cpp)
+    list(APPEND THEMIS_ACCELERATION_SOURCES
+        ../src/acceleration/graphics_backends.cpp
+    )
     
     if(THEMIS_ENABLE_DIRECTX)
         # Add DirectX 12 compute pipeline sources
@@ -2745,6 +2768,21 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
         message(STATUS "OpenGL acceleration enabled (stub)")
     endif()
+endif()
+
+# ZLUDA backend (AMD GPUs via CUDA API compatibility layer)
+if(THEMIS_ENABLE_ZLUDA)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/zluda_backend.cpp)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_ZLUDA)
+    message(STATUS "ZLUDA acceleration enabled (AMD GPU via CUDA compatibility layer)")
+endif()
+
+# Metal backend (Apple Silicon / macOS)
+if(THEMIS_ENABLE_METAL AND APPLE)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/metal_backend.mm)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_METAL)
+    target_link_libraries(themis_core PRIVATE "-framework Metal" "-framework Foundation")
+    message(STATUS "Metal acceleration enabled (Apple Silicon / macOS)")
 endif()
 
 # Add acceleration sources to core if any were selected

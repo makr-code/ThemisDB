@@ -445,6 +445,30 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
 )
 
+# Re-include acceleration module tests excluded by the explicit patterns
+# ".*test_acceleration\\.cpp$" and ".*test_acceleration_dispatch\\.cpp$".
+# Both tests exercise only CPU backends and gracefully handle missing CUDA devices:
+#  - test_acceleration.cpp: BackendRegistry, CPUVectorBackend, CPUGeoBackend,
+#    CPUGraphBackend, capability negotiation, input validation, tie-breaking.
+#  - test_acceleration_dispatch.cpp: ANNKernelDispatch / GeoKernelDispatch CPU
+#    function-pointer table; CUDA dispatch table (graceful no-op when unavailable).
+# No GPU hardware is required to run these tests.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration_dispatch.cpp
+)
+
+# Re-include shader integrity test excluded by ".*test_shader_integrity\\.cpp$".
+# shader_integrity.cpp uses only OpenSSL SHA-256 (no GPU dependency) and is
+# now compiled unconditionally as a core acceleration source.  The test covers:
+#  - SHA-256 hash computation (13 test cases)
+#  - Hash registration, strict/non-strict verification modes
+#  - Manifest file parsing
+# No GPU hardware is required.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp
+)
+
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates the slab-based pre-allocator and the
 # defragmentation routine (GPUMemoryPool::defragment()).  It uses only the CPU
@@ -790,16 +814,20 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/downsampling.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/changefeed_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/tenant_buffer_manager.cpp
             ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
             ${THEMIS_ROOT_DIR}/src/auth/auth_error.cpp
             ${THEMIS_ROOT_DIR}/src/auth/mtls_authenticator.cpp
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/delivery_tracker.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cross_collection_stream.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_materialized_view.cpp
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
+            $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
@@ -3585,6 +3613,516 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_window.cpp")
 endif()
 
 # ============================================================================
+# Analytics Focused Test Targets
+# Each target links only the analytics source(s) it exercises, enabling fast
+# iteration without recompiling the full themis_core library.
+# ============================================================================
+
+# Anomaly Detection focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
+    message(STATUS "Adding focused anomaly detection tests")
+
+    add_executable(test_anomaly_detection_focused
+        analytics/test_anomaly_detection.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+    )
+
+    target_include_directories(test_anomaly_detection_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_anomaly_detection_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_anomaly_detection_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AnomalyDetectionFocusedTests COMMAND test_anomaly_detection_focused)
+
+    set_tests_properties(AnomalyDetectionFocusedTests PROPERTIES
+        LABELS "analytics;anomaly;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AnomalyDetection: Z-Score, MAD, IQR, IsolationForest, LOF, Ensemble, streaming, serialize")
+endif()
+
+# AutoML focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl.cpp")
+    message(STATUS "Adding focused AutoML tests")
+
+    add_executable(test_automl_focused
+        analytics/test_automl.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/automl.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+    )
+
+    target_include_directories(test_automl_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_automl_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_automl_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AutoMlFocusedTests COMMAND test_automl_focused)
+
+    set_tests_properties(AutoMlFocusedTests PROPERTIES
+        LABELS "analytics;automl;ml;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  AutoML: classification, regression, feature engineering, ensemble, SHAP, serialize")
+endif()
+
+# Distributed Analytics focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_distributed_analytics.cpp")
+    message(STATUS "Adding focused distributed analytics tests")
+
+    add_executable(test_distributed_analytics_focused
+        analytics/test_distributed_analytics.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/distributed_analytics.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+    )
+
+    target_include_directories(test_distributed_analytics_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_analytics_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_analytics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedAnalyticsFocusedTests COMMAND test_distributed_analytics_focused)
+
+    set_tests_properties(DistributedAnalyticsFocusedTests PROPERTIES
+        LABELS "analytics;distributed;olap;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedAnalytics: shard management, scatter-gather, merge, partial failure")
+endif()
+
+# Process Pattern Matcher focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cpp")
+    message(STATUS "Adding focused process pattern matcher tests")
+
+    add_executable(test_process_pattern_matcher_focused
+        analytics/test_process_pattern_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_pattern_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+    )
+
+    target_include_directories(test_process_pattern_matcher_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_pattern_matcher_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_pattern_matcher_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessPatternMatcherFocusedTests COMMAND test_process_pattern_matcher_focused)
+
+    set_tests_properties(ProcessPatternMatcherFocusedTests PROPERTIES
+        LABELS "analytics;process-mining;pattern-matcher;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProcessPatternMatcher: graph, vector, behavioral, hybrid similarity, conformance")
+endif()
+
+# Forecasting focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting.cpp")
+    message(STATUS "Adding focused forecasting tests")
+
+    add_executable(test_forecasting_focused
+        analytics/test_forecasting.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+    )
+
+    target_include_directories(test_forecasting_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_forecasting_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_forecasting_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ForecastingFocusedTests COMMAND test_forecasting_focused)
+
+    set_tests_properties(ForecastingFocusedTests PROPERTIES
+        LABELS "analytics;forecasting;timeseries;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  Forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters, ARIMA, ENSEMBLE, serialize")
+endif()
+
+# Incremental View focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
+    message(STATUS "Adding focused incremental view tests")
+
+    add_executable(test_incremental_view_focused
+        analytics/test_incremental_view.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/incremental_view.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+    )
+
+    target_include_directories(test_incremental_view_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_incremental_view_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_incremental_view_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IncrementalViewFocusedTests COMMAND test_incremental_view_focused)
+
+    set_tests_properties(IncrementalViewFocusedTests PROPERTIES
+        LABELS "analytics;incremental-view;ivm;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  IncrementalView: delta maintenance, 10 aggregation functions, Welford STDDEV, COUNT_DISTINCT")
+endif()
+
+# Columnar Execution focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_columnar_execution.cpp")
+    message(STATUS "Adding focused columnar execution tests")
+
+    add_executable(test_columnar_execution_focused
+        analytics/test_columnar_execution.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+    )
+
+    target_include_directories(test_columnar_execution_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_columnar_execution_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_columnar_execution_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ColumnarExecutionFocusedTests COMMAND test_columnar_execution_focused)
+
+    set_tests_properties(ColumnarExecutionFocusedTests PROPERTIES
+        LABELS "analytics;columnar;vectorized;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ColumnarExecution: vectorized pipeline, SIMD aggregations, filter+project operators")
+endif()
+
+# JIT Aggregation focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_jit_aggregation.cpp")
+    message(STATUS "Adding focused JIT aggregation tests")
+
+    add_executable(test_jit_aggregation_focused
+        analytics/test_jit_aggregation.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/jit_aggregation.cpp
+    )
+
+    target_include_directories(test_jit_aggregation_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_jit_aggregation_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_jit_aggregation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME JitAggregationFocusedTests COMMAND test_jit_aggregation_focused)
+
+    set_tests_properties(JitAggregationFocusedTests PROPERTIES
+        LABELS "analytics;jit;aggregation;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  JITAggregation: hot-path detection, template dispatch, LLVM-MCJIT backend guard")
+endif()
+
+# ML Serving focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_ml_serving.cpp")
+    message(STATUS "Adding focused ML serving tests")
+
+    add_executable(test_ml_serving_focused
+        analytics/test_ml_serving.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/ml_serving.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+    )
+
+    target_include_directories(test_ml_serving_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_ml_serving_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ml_serving_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MlServingFocusedTests COMMAND test_ml_serving_focused)
+
+    set_tests_properties(MlServingFocusedTests PROPERTIES
+        LABELS "analytics;ml;serving;onnx;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MLServing: ONNX/TF-Serving unified client, DataPoint integration, graceful degradation")
+endif()
+
+# Model Serving focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_model_serving.cpp")
+    message(STATUS "Adding focused model serving tests")
+
+    add_executable(test_model_serving_focused
+        analytics/test_model_serving.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/model_serving.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+    )
+
+    target_include_directories(test_model_serving_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_model_serving_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_model_serving_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ModelServingFocusedTests COMMAND test_model_serving_focused)
+
+    set_tests_properties(ModelServingFocusedTests PROPERTIES
+        LABELS "analytics;model;serving;inference;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ModelServing: named+versioned registry, online/batch inference, health metrics, serialize")
+endif()
+
+# Arrow Flight focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
+    message(STATUS "Adding focused Arrow Flight tests")
+
+    add_executable(test_arrow_flight_focused
+        analytics/test_arrow_flight.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_flight.cpp
+    )
+
+    target_include_directories(test_arrow_flight_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_arrow_flight_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(THEMIS_HAS_ARROW)
+        target_link_libraries(test_arrow_flight_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW=1)
+    endif()
+
+    if(THEMIS_HAS_ARROW_FLIGHT)
+        target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW_FLIGHT=1)
+    endif()
+
+    target_compile_definitions(test_arrow_flight_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArrowFlightFocusedTests COMMAND test_arrow_flight_focused)
+
+    set_tests_properties(ArrowFlightFocusedTests PROPERTIES
+        LABELS "analytics;arrow;flight;rpc;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ArrowFlight: in-process registry, FlightDescriptor, put/get, client round-trip")
+endif()
+
+# CEP Engine focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
+    message(STATUS "Adding focused CEP engine tests")
+
+    add_executable(test_cep_engine_focused
+        analytics/test_cep_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+    )
+
+    target_include_directories(test_cep_engine_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_cep_engine_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cep_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CepEngineFocusedTests COMMAND test_cep_engine_focused)
+
+    set_tests_properties(CepEngineFocusedTests PROPERTIES
+        LABELS "analytics;cep;event-processing;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  CEPEngine: NFA patterns, EPL parser, window+aggregation, alerts, checkpoint I/O")
+endif()
+
+# Arrow Export focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
+    message(STATUS "Adding focused Arrow export tests")
+
+    add_executable(test_arrow_export_focused
+        analytics/test_arrow_export.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_export.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/analytics_export.cpp
+    )
+
+    target_include_directories(test_arrow_export_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_arrow_export_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(THEMIS_HAS_ARROW)
+        target_link_libraries(test_arrow_export_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        target_compile_definitions(test_arrow_export_focused PRIVATE THEMIS_HAS_ARROW=1)
+    endif()
+
+    if(THEMIS_HAS_PARQUET)
+        target_compile_definitions(test_arrow_export_focused PRIVATE THEMIS_HAS_PARQUET=1)
+    endif()
+
+    target_compile_definitions(test_arrow_export_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArrowExportFocusedTests COMMAND test_arrow_export_focused)
+
+    set_tests_properties(ArrowExportFocusedTests PROPERTIES
+        LABELS "analytics;arrow;export;parquet;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ArrowExport: RecordBatch, JSON/CSV export, optional Parquet/Feather/IPC, sanitization")
+endif()
+
+# Process Mining pattern-focused tests (file is test_process_mining_llm.cpp but exercises
+# process_pattern_matcher + process_mining only; has no actual LLM library dependency)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
+    message(STATUS "Adding focused process mining pattern tests")
+
+    add_executable(test_process_mining_pattern_focused
+        analytics/test_process_mining_llm.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_pattern_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+    )
+
+    target_include_directories(test_process_mining_pattern_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_mining_pattern_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_mining_pattern_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessMiningPatternFocusedTests COMMAND test_process_mining_pattern_focused)
+
+    set_tests_properties(ProcessMiningPatternFocusedTests PROPERTIES
+        LABELS "analytics;process-mining;pattern;conformance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
@@ -4102,6 +4640,247 @@ if(THEMIS_ENABLE_CONTENT)
     endif()
 
 endif() # THEMIS_ENABLE_CONTENT
+# CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
+# THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_admin.cpp")
+    message(STATUS "Adding CDC Admin tests (Issue #1623, standalone binary)")
+
+    add_executable(test_cdc_admin
+        test_cdc_admin.cpp
+    )
+
+    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
+    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_admin PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_admin PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_admin PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_admin PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCAdminFocusedTests COMMAND test_cdc_admin)
+
+    set_tests_properties(CDCAdminFocusedTests PROPERTIES
+        LABELS "cdc;admin;retention;compaction;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CDCAdmin: CDCAdmin, purgeOlderThan, compactLog, retentionPolicy, subscriptionManagement")
+else()
+    message(STATUS "CDC Admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_admin.cpp")
+endif()
+
+# ============================================================================
+# Tenant Buffer Manager Tests (standalone – changefeed_buffer.cpp and
+# tenant_buffer_manager.cpp are in themis_core; link directly)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
+    message(STATUS "Adding Tenant Buffer Manager tests (Issue #1623, standalone binary)")
+
+    add_executable(test_tenant_buffer_manager
+        test_tenant_buffer_manager.cpp
+    )
+
+    target_include_directories(test_tenant_buffer_manager PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_tenant_buffer_manager PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tenant_buffer_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TenantBufferManagerFocusedTests COMMAND test_tenant_buffer_manager)
+
+    set_tests_properties(TenantBufferManagerFocusedTests PROPERTIES
+        LABELS "cdc;tenant;buffer;multi-tenant;isolation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TenantBufferManager: per-tenant CDC buffers, quota enforcement, metrics isolation, flush lifecycle")
+else()
+    message(STATUS "Tenant Buffer Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
+# Config Module – Focused Standalone Test Targets
+# ============================================================================
+
+# Shared config source list used by all four focused config test executables.
+set(CONFIG_MODULE_SOURCES
+    ${THEMIS_ROOT_DIR}/src/config/config_path_resolver.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_metrics_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_schema_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_audit_log.cpp
+)
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
+    message(STATUS "Adding ConfigPathResolver focused tests")
+
+    add_executable(test_config_path_resolver_focused
+        test_config_path_resolver.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_path_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_path_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_path_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigPathResolverFocusedTests COMMAND test_config_path_resolver_focused)
+
+    set_tests_properties(ConfigPathResolverFocusedTests PROPERTIES
+        LABELS "config;path;resolver;lru;cache;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigPathResolver: path mapping, LRU cache, legacy fallback, metrics, audit trail")
+else()
+    message(STATUS "ConfigPathResolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
+    message(STATUS "Adding ConfigSchemaValidator focused tests")
+
+    add_executable(test_config_schema_validator_focused
+        test_config_schema_validator.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_schema_validator_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_schema_validator_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_schema_validator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigSchemaValidatorFocusedTests COMMAND test_config_schema_validator_focused)
+
+    set_tests_properties(ConfigSchemaValidatorFocusedTests PROPERTIES
+        LABELS "config;schema;validator;yaml;json;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigSchemaValidator: JSON Schema Draft-7 subset, YAML/JSON loading, error reporting")
+else()
+    message(STATUS "ConfigSchemaValidator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
+    message(STATUS "Adding ConfigMigrationScanner focused tests")
+
+    add_executable(test_config_migration_scanner_focused
+        test_config_migration_scanner.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_migration_scanner_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_migration_scanner_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_migration_scanner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigMigrationScannerFocusedTests COMMAND test_config_migration_scanner_focused)
+
+    set_tests_properties(ConfigMigrationScannerFocusedTests PROPERTIES
+        LABELS "config;migration;scanner;cli;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigMigrationScanner: file scanning, dry-run, fix mode, output formats (text/json/csv)")
+else()
+    message(STATUS "ConfigMigrationScanner focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
+    message(STATUS "Adding Config coverage-gap focused tests")
+
+    add_executable(test_config_coverage_focused
+        test_config_coverage.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_coverage_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_coverage_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_coverage_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigCoverageFocusedTests COMMAND test_config_coverage_focused)
+
+    set_tests_properties(ConfigCoverageFocusedTests PROPERTIES
+        LABELS "config;coverage;lru;audit;exceptions;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Config coverage: LRUCacheWithTTL, ConfigAuditLog, exception hierarchy, schema edge-cases")
+else()
+    message(STATUS "Config coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
+endif()
 
 # ============================================================================
 # Custom Test Targets

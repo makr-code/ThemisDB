@@ -1703,21 +1703,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
-        target_compile_options(bench_governance_policy_latency PRIVATE
+        target_compile_options(bench_config_path_resolver PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
         )
     endif()
 
-    install(TARGETS bench_governance_policy_latency
+    install(TARGETS bench_config_path_resolver
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
-    message(STATUS "  Governance benchmarks: evaluate(), checkQueryPermission(), CCPA overhead, masking overhead, throughput")
     message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
-    message(STATUS "  CDC benchmarks: event recording throughput, polling throughput, concurrent subscribers, burst writes, replication lag, recording/polling latency (p50/p95/p99)")
+else()
+    message(STATUS "ConfigPathResolver benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
 endif()
 
 # ============================================================================
