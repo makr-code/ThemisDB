@@ -1,8 +1,8 @@
 # Exporters Module — Missing Implementations Report
 
-**Validiert:** 2026-03-09  
-**Geprüfte Revision:** `HEAD` (`copilot/inventory-and-documentation-checks`)  
-**Geprüfte Pfade:** `src/exporters/`  
+**Validiert:** 2026-03-10  
+**Geprüfte Revision:** `HEAD`  
+**Geprüfte Pfade:** `src/exporters/`, `cmake/CMakeLists.txt`, `cmake/ModularBuild.cmake`, `tests/CMakeLists.txt`  
 **Methode:** Reality-Check (Doku ↔ Sourcecode); Suche nach `TODO`, `STUB`, `NOT_IMPLEMENTED`; Zeilenzählung via `wc -l`; Datei-Metadaten-Analyse
 
 ---
@@ -13,9 +13,10 @@
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 0 |
 | 🟡 Mittel (Funktional eingeschränkt) | 2 |
-| 🟢 Gering (Hardening / Optimierung) | 3 |
+| 🟢 Gering (Hardening / Optimierung) | 2 |
+| ✅ Behoben | 3 |
 
-Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`, `streaming_exporter`, `incremental_exporter`, `aql_predicate_filter`, `format_template`, `export_encryption`, `data_augmentation`, `pii_detector`, `exporter_metrics`, `stream_writer`) haben `Open Issues: TODOs: 0, Stubs: 0` und `Maturity Level: 🟢 PRODUCTION-READY` — mit einer Ausnahme (siehe EXP-001).
+Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`, `streaming_exporter`, `incremental_exporter`, `aql_predicate_filter`, `format_template`, `export_encryption`, `data_augmentation`, `pii_detector`, `exporter_metrics`, `stream_writer`) haben `Open Issues: TODOs: 0, Stubs: 0` und `Maturity Level: 🟢 PRODUCTION-READY`.
 
 ---
 
@@ -63,23 +64,9 @@ Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporte
 
 ---
 
-### 3. Stale TODO-Zähler in pii_detector.cpp-Header (🟢 Gering)
+### ~~3. Stale TODO-Zähler in pii_detector.cpp-Header~~ ✅ Behoben
 
-**Claim-Quelle:** `src/exporters/pii_detector.cpp`, Zeile 14  
-**Datei:** `src/exporters/pii_detector.cpp`
-
-**Erwartet:** `Open Issues: TODOs: 0, Stubs: 0` (konsistent mit dem verifizierten Produktionscode).
-
-**Beobachtet:** `Open Issues: TODOs: 1, Stubs: 0` — kein tatsächlicher `// TODO:`-Kommentar im Quellcode vorhanden; die Datei-Metadaten in der Header-Box sind veraltet (stale).
-
-**Evidence:**
-- `src/exporters/pii_detector.cpp`, Zeile 14: `TODOs: 1`
-- Keine `TODO`-Annotation im Funktionskörper von `pii_detector.cpp` gefunden (grep bestätigt: einziger Treffer ist Zeile 14 selbst)
-
-**Impact:** Gering — irreführende Metadaten in der Datei-Header-Box; keine funktionalen Auswirkungen.
-
-**Issue-Titelvorschlag:** `fix(exporters): correct stale TODOs:1 annotation in pii_detector.cpp header`  
-**Label-Vorschläge:** `module:exporters`, `kind:docs`, `priority:low`
+`src/exporters/pii_detector.cpp` Zeile 14: `TODOs: 1` → `TODOs: 0` korrigiert (kein tatsächlicher TODO-Kommentar im Funktionskörper).
 
 ---
 
@@ -120,6 +107,18 @@ Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporte
 
 **Issue-Titelvorschlag:** `feat(exporters): implement ExportFormatRegistry for pluggable format registration`  
 **Label-Vorschläge:** `module:exporters`, `kind:architecture`, `priority:low`
+
+---
+
+### ~~6. huggingface_exporter.cpp und data_augmentation.cpp nicht im Build-System~~ ✅ Behoben
+
+`huggingface_exporter.cpp` und `data_augmentation.cpp` zu `cmake/CMakeLists.txt` und `cmake/ModularBuild.cmake` hinzugefügt.
+
+---
+
+### ~~7. Keine Focused-Test-Targets für Exporters-Modul~~ ✅ Behoben
+
+10 Focused-Test-Targets in `tests/CMakeLists.txt` registriert: `JsonlLlmExporterFocusedTests`, `HuggingFaceExporterFocusedTests`, `ParquetExporterFocusedTests`, `ArrowIpcExporterFocusedTests`, `StreamingExporterFocusedTests`, `IncrementalExporterFocusedTests`, `AqlPredicateFilterFocusedTests`, `FormatTemplateFocusedTests`, `ExportEncryptionFocusedTests`, `DataAugmentationFocusedTests`.
 
 ---
 
