@@ -12,6 +12,7 @@
  */
 
 #include "sharding/paxos_state_persistence.h"
+#include "sharding/paxos_consensus.h"
 #include "utils/logger.h"
 
 #include <filesystem>
@@ -73,7 +74,7 @@ bool PaxosStatePersistence::open(const std::string& node_id) {
                         "slot={} round={} lsn={}",
                         node_state_.last_committed,
                         node_state_.current_round,
-                        node_state_.last_lsn);
+                        node_state_.last_lsn.toString());
         }
     } catch (const std::exception& ex) {
         THEMIS_WARN("PaxosStatePersistence: snapshot load failed: {}", ex.what());

@@ -166,7 +166,6 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
-    ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/shader_integrity.cpp
     ../src/gpu/device_discovery.cpp
     
@@ -178,7 +177,6 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_health_monitor.cpp
     ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
-    ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
     ../src/plugins/rpc_service_registry.cpp
     
@@ -260,8 +258,6 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/adaptive_index.cpp
     ../src/index/distributed_vector_index.cpp
     ../src/index/workload_replay.cpp
-    ../src/index/spatial_index.cpp
-    ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -768,9 +764,17 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
     ../src/rag/llm_integration.cpp
     ../src/rag/llm_judge_client.cpp
+    ../src/rag/llm_judge_integration.cpp
     ../src/rag/nli_faithfulness_verifier.cpp
     ../src/rag/quality_control_pipeline.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/response_parser.cpp
+    ../src/rag/faithfulness_evaluator.cpp
+    ../src/rag/relevance_evaluator.cpp
+    ../src/rag/completeness_evaluator.cpp
+    ../src/rag/coherence_evaluator.cpp
     ../src/rag/geval_evaluator.cpp
+    ../src/rag/rag_judge.cpp
     ../src/rag/reranker.cpp
     ../src/rag/document_summarizer.cpp
     ../src/rag/document_splitter.cpp
@@ -856,6 +860,7 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/plugins/huggingface_ingestion_plugin.cpp>
 )
 
 set(THEMIS_TIMESERIES_SOURCES
@@ -1014,6 +1019,9 @@ set(THEMIS_NETWORK_SOURCES
 
 set(THEMIS_GEO_SOURCES
     # Geospatial processing
+    ../src/acceleration/geo_acceleration_bridge.cpp
+    ../src/index/spatial_index.cpp
+    ../src/api/geo_index_hooks.cpp
     ../src/geo/cpu_backend.cpp
     ../src/geo/device_detector.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1379,6 +1387,7 @@ function(themis_build_modular)
         set(_themis_geo_deps
             themis_base
             themis_storage
+            themis_transaction
         )
         if(TARGET Boost::geometry)
             list(APPEND _themis_geo_deps Boost::geometry)

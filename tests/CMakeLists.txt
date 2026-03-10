@@ -5982,6 +5982,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
     message(STATUS "  TenantBufferManager: per-tenant CDC buffers, quota enforcement, metrics isolation, flush lifecycle")
 else()
     message(STATUS "Tenant Buffer Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
+endif()
 # Config Module – Focused Standalone Test Targets
 # ============================================================================
 
