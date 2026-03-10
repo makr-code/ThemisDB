@@ -38,7 +38,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
+- [x] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
