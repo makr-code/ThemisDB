@@ -9715,6 +9715,671 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
+# ============================================================================
+# TimeSeries Module – Focused Standalone Test Targets
+# ============================================================================
+
+# --- Gorilla Codec Core ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla.cpp")
+    message(STATUS "Adding Gorilla Codec core tests (timeseries module)")
+
+    add_executable(test_gorilla_core_focused
+        test_gorilla.cpp
+    )
+
+    target_include_directories(test_gorilla_core_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_gorilla_core_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gorilla_core_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GorillaCoreTests COMMAND test_gorilla_core_focused)
+
+    set_tests_properties(GorillaCoreTests PROPERTIES
+        LABELS "timeseries;gorilla;compression;codec;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GorillaCore: round-trip encode/decode, timestamp/value XOR delta")
+else()
+    message(STATUS "Gorilla core tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla.cpp")
+endif()
+
+# --- Gorilla Codec Edge Cases ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla_codec_edge_cases.cpp")
+    message(STATUS "Adding Gorilla Codec edge-case tests (timeseries module)")
+
+    add_executable(test_gorilla_codec_edge_cases_focused
+        test_gorilla_codec_edge_cases.cpp
+    )
+
+    target_include_directories(test_gorilla_codec_edge_cases_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_gorilla_codec_edge_cases_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gorilla_codec_edge_cases_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GorillaCodecEdgeCasesTests COMMAND test_gorilla_codec_edge_cases_focused)
+
+    set_tests_properties(GorillaCodecEdgeCasesTests PROPERTIES
+        LABELS "timeseries;gorilla;compression;edge-cases;NaN;Inf;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GorillaCodecEdgeCases: NaN/Inf values, single-point, large series, boundary timestamps")
+else()
+    message(STATUS "Gorilla codec edge-case tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla_codec_edge_cases.cpp")
+endif()
+
+# --- Gorilla Error Recovery ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla_error_recovery.cpp")
+    message(STATUS "Adding Gorilla Error Recovery tests (timeseries module)")
+
+    add_executable(test_gorilla_error_recovery_focused
+        test_gorilla_error_recovery.cpp
+    )
+
+    target_include_directories(test_gorilla_error_recovery_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_gorilla_error_recovery_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gorilla_error_recovery_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GorillaErrorRecoveryTests COMMAND test_gorilla_error_recovery_focused)
+
+    set_tests_properties(GorillaErrorRecoveryTests PROPERTIES
+        LABELS "timeseries;gorilla;compression;error-recovery;corrupt;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GorillaErrorRecovery: corrupt/truncated payload handling, graceful decode failure")
+else()
+    message(STATUS "Gorilla error-recovery tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla_error_recovery.cpp")
+endif()
+
+# --- Gorilla Probe ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla_probe.cpp")
+    message(STATUS "Adding Gorilla Probe tests (timeseries module)")
+
+    add_executable(test_gorilla_probe_focused
+        test_gorilla_probe.cpp
+    )
+
+    target_include_directories(test_gorilla_probe_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_gorilla_probe_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gorilla_probe_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GorillaProbeTests COMMAND test_gorilla_probe_focused)
+
+    set_tests_properties(GorillaProbeTests PROPERTIES
+        LABELS "timeseries;gorilla;compression;probe;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GorillaProbe: first-mismatch detection in large series")
+else()
+    message(STATUS "Gorilla probe tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gorilla_probe.cpp")
+endif()
+
+# --- TSStore ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore.cpp")
+    message(STATUS "Adding TSStore focused tests (timeseries module)")
+
+    add_executable(test_tsstore_focused
+        test_tsstore.cpp
+    )
+
+    target_include_directories(test_tsstore_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_tsstore_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tsstore_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSStoreFocusedTests COMMAND test_tsstore_focused)
+
+    set_tests_properties(TSStoreFocusedTests PROPERTIES
+        LABELS "timeseries;tsstore;storage;rocksdb;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSStore: put/range/aggregate, Gorilla encoding, key-schema isolation per metric+entity")
+else()
+    message(STATUS "TSStore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore.cpp")
+endif()
+
+# --- TSStore Out-of-Order Writes ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
+    message(STATUS "Adding TSStore out-of-order write tests (timeseries module)")
+
+    add_executable(test_tsstore_out_of_order_focused
+        test_tsstore_out_of_order.cpp
+    )
+
+    target_include_directories(test_tsstore_out_of_order_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_tsstore_out_of_order_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tsstore_out_of_order_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSStoreOutOfOrderTests COMMAND test_tsstore_out_of_order_focused)
+
+    set_tests_properties(TSStoreOutOfOrderTests PROPERTIES
+        LABELS "timeseries;tsstore;out-of-order;late-arrival;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSStoreOutOfOrder: late-arrival window, ERR_TIMESERIES_LATE_ARRIVAL, watermark advancement")
+else()
+    message(STATUS "TSStore out-of-order tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
+endif()
+
+# --- TSAutoBuffer ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_auto_buffer.cpp")
+    message(STATUS "Adding TSAutoBuffer focused tests (timeseries module)")
+
+    add_executable(test_ts_auto_buffer_focused
+        test_ts_auto_buffer.cpp
+    )
+
+    target_include_directories(test_ts_auto_buffer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ts_auto_buffer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_auto_buffer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSAutoBufferFocusedTests COMMAND test_ts_auto_buffer_focused)
+
+    set_tests_properties(TSAutoBufferFocusedTests PROPERTIES
+        LABELS "timeseries;ts-auto-buffer;batching;flush;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSAutoBuffer: single-point insert batching, flush lifecycle, config hot-reload")
+else()
+    message(STATUS "TSAutoBuffer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_auto_buffer.cpp")
+endif()
+
+# --- TSAutoBuffer Advanced ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_auto_buffer_advanced.cpp")
+    message(STATUS "Adding TSAutoBuffer advanced tests (timeseries module)")
+
+    add_executable(test_ts_auto_buffer_advanced_focused
+        test_ts_auto_buffer_advanced.cpp
+    )
+
+    target_include_directories(test_ts_auto_buffer_advanced_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ts_auto_buffer_advanced_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_auto_buffer_advanced_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSAutoBufferAdvancedTests COMMAND test_ts_auto_buffer_advanced_focused)
+
+    set_tests_properties(TSAutoBufferAdvancedTests PROPERTIES
+        LABELS "timeseries;ts-auto-buffer;deduplication;memory-limits;advanced;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSAutoBufferAdvanced: deduplication, memory-limit enforcement, concurrent writes")
+else()
+    message(STATUS "TSAutoBuffer advanced tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_auto_buffer_advanced.cpp")
+endif()
+
+# --- TSAdaptiveFlush ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
+    message(STATUS "Adding TS Adaptive Flush tests (timeseries module)")
+
+    add_executable(test_ts_adaptive_flush_focused
+        test_ts_adaptive_flush.cpp
+    )
+
+    target_include_directories(test_ts_adaptive_flush_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ts_adaptive_flush_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_adaptive_flush_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSAdaptiveFlushTests COMMAND test_ts_adaptive_flush_focused)
+
+    set_tests_properties(TSAdaptiveFlushTests PROPERTIES
+        LABELS "timeseries;ts-auto-buffer;adaptive-flush;backpressure;EWMA;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSAdaptiveFlush: FlushController EWMA, backpressure signalling, latency-based trigger, metrics integration")
+else()
+    message(STATUS "TS adaptive flush tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
+endif()
+
+# --- TimeSeries Integration ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_integration.cpp")
+    message(STATUS "Adding TimeSeries integration tests (timeseries module)")
+
+    add_executable(test_ts_integration_focused
+        test_ts_integration.cpp
+    )
+
+    target_include_directories(test_ts_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ts_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSIntegrationTests COMMAND test_ts_integration_focused)
+
+    set_tests_properties(TSIntegrationTests PROPERTIES
+        LABELS "timeseries;integration;pipeline;tsautobuffer;tsstore;cagg;optimizer;retention;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  TSIntegration: full pipeline TSAutoBuffer→TSStore→ContinuousAgg→QueryOptimizer→RetentionManager")
+else()
+    message(STATUS "TimeSeries integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_integration.cpp")
+endif()
+
+# --- TimeSeries Observability ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_observability.cpp")
+    message(STATUS "Adding TimeSeries observability tests (timeseries module)")
+
+    add_executable(test_ts_observability_focused
+        test_ts_observability.cpp
+    )
+
+    target_include_directories(test_ts_observability_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ts_observability_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_observability_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSObservabilityTests COMMAND test_ts_observability_focused)
+
+    set_tests_properties(TSObservabilityTests PROPERTIES
+        LABELS "timeseries;observability;metrics;prometheus;export;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TSObservability: Prometheus metrics export, counter/histogram rendering, per-metric stats")
+else()
+    message(STATUS "TimeSeries observability tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_observability.cpp")
+endif()
+
+# --- TS Query Optimizer ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_query_optimizer.cpp")
+    message(STATUS "Adding TS Query Optimizer tests (timeseries module)")
+
+    add_executable(test_ts_query_optimizer_focused
+        test_ts_query_optimizer.cpp
+    )
+
+    target_include_directories(test_ts_query_optimizer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ts_query_optimizer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ts_query_optimizer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TSQueryOptimizerTests COMMAND test_ts_query_optimizer_focused)
+
+    set_tests_properties(TSQueryOptimizerTests PROPERTIES
+        LABELS "timeseries;query-optimizer;aggregate-discovery;plan;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TSQueryOptimizer: dynamic aggregate discovery, query plan selection, tier-based routing")
+else()
+    message(STATUS "TS Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ts_query_optimizer.cpp")
+endif()
+
+# --- Downsampling ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_downsampling.cpp")
+    message(STATUS "Adding Downsampling focused tests (timeseries module)")
+
+    add_executable(test_downsampling_focused
+        test_downsampling.cpp
+    )
+
+    target_include_directories(test_downsampling_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_downsampling_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_downsampling_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DownsamplingFocusedTests COMMAND test_downsampling_focused)
+
+    set_tests_properties(DownsamplingFocusedTests PROPERTIES
+        LABELS "timeseries;downsampling;pipeline;tier-selector;min-max-avg;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Downsampling: DownsamplingPipeline, TierSelector, multi-tier (1s→1m→1h→1d), window functions")
+else()
+    message(STATUS "Downsampling focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_downsampling.cpp")
+endif()
+
+# --- Continuous Aggregation Comprehensive ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_agg_comprehensive.cpp")
+    message(STATUS "Adding Continuous Aggregation comprehensive tests (timeseries module)")
+
+    add_executable(test_continuous_agg_comprehensive_focused
+        test_continuous_agg_comprehensive.cpp
+    )
+
+    target_include_directories(test_continuous_agg_comprehensive_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_continuous_agg_comprehensive_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_continuous_agg_comprehensive_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContinuousAggComprehensiveTests COMMAND test_continuous_agg_comprehensive_focused)
+
+    set_tests_properties(ContinuousAggComprehensiveTests PROPERTIES
+        LABELS "timeseries;continuous-agg;rollup;hierarchy;robustness;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  ContinuousAggComprehensive: rollup hierarchy, AggregateScheduler, robustness under concurrent refresh")
+else()
+    message(STATUS "Continuous agg comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_agg_comprehensive.cpp")
+endif()
+
+# --- Prometheus Remote-Write ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
+    message(STATUS "Adding Prometheus Remote-Write tests (timeseries module, Issue #2037)")
+
+    add_executable(test_prometheus_remote_write_focused
+        test_prometheus_remote_write.cpp
+    )
+
+    target_include_directories(test_prometheus_remote_write_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_prometheus_remote_write_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_prometheus_remote_write_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PrometheusRemoteWriteTests COMMAND test_prometheus_remote_write_focused)
+
+    set_tests_properties(PrometheusRemoteWriteTests PROPERTIES
+        LABELS "timeseries;prometheus;remote-write;protobuf;snappy;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  PrometheusRemoteWrite: protobuf decode, snappy decompression, label mapping, HTTP 204/400/501")
+else()
+    message(STATUS "Prometheus remote-write tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
+endif()
+
+# --- TimeSeries Metrics ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_timeseries_metrics.cpp")
+    message(STATUS "Adding TimeSeries Metrics focused tests (timeseries module)")
+
+    add_executable(test_timeseries_metrics_focused
+        test_timeseries_metrics.cpp
+    )
+
+    target_include_directories(test_timeseries_metrics_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_timeseries_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_timeseries_metrics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TimeseriesMetricsFocusedTests COMMAND test_timeseries_metrics_focused)
+
+    set_tests_properties(TimeseriesMetricsFocusedTests PROPERTIES
+        LABELS "timeseries;metrics;counters;histograms;per-metric-stats;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TimeseriesMetrics: ingestion/query/compression counters, histograms, per-metric stats, OOO metrics")
+else()
+    message(STATUS "TimeSeries metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_timeseries_metrics.cpp")
+endif()
+
+# --- TimeSeries Retention ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_timeseries_retention.cpp")
+    message(STATUS "Adding TimeSeries Retention tests (timeseries module)")
+
+    add_executable(test_timeseries_retention_focused
+        test_timeseries_retention.cpp
+    )
+
+    target_include_directories(test_timeseries_retention_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_timeseries_retention_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_timeseries_retention_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TimeseriesRetentionTests COMMAND test_timeseries_retention_focused)
+
+    set_tests_properties(TimeseriesRetentionTests PROPERTIES
+        LABELS "timeseries;retention;policy;expiry;compaction;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TimeseriesRetention: RetentionManager policy registration, enforce-by-age, compaction trigger")
+else()
+    message(STATUS "TimeSeries retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_timeseries_retention.cpp")
+endif()
+
+# --- Retention Async ---
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_retention_async.cpp")
+    message(STATUS "Adding Retention Async tests (timeseries module)")
+
+    add_executable(test_retention_async_focused
+        test_retention_async.cpp
+    )
+
+    target_include_directories(test_retention_async_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_retention_async_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_retention_async_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RetentionAsyncTests COMMAND test_retention_async_focused)
+
+    set_tests_properties(RetentionAsyncTests PROPERTIES
+        LABELS "timeseries;retention;async;background-cleanup;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RetentionAsync: async background cleanup, start/stop lifecycle, enforce-while-running")
+else()
+    message(STATUS "Retention async tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_retention_async.cpp")
+endif()
+
+# --- HTTP TimeSeries (requires HTTP server) ---
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_timeseries.cpp")
+    message(STATUS "Adding HTTP TimeSeries tests (timeseries module, requires THEMIS_ENABLE_HTTP_SERVER)")
+
+    add_executable(test_http_timeseries_focused
+        test_http_timeseries.cpp
+    )
+
+    target_include_directories(test_http_timeseries_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_http_timeseries_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_http_timeseries_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HttpTimeseriesTests COMMAND test_http_timeseries_focused)
+
+    set_tests_properties(HttpTimeseriesTests PROPERTIES
+        LABELS "timeseries;http;api;endpoints;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  HttpTimeseries: PUT/GET/range/aggregate endpoints, Prometheus remote-write via HTTP")
+elseif(NOT THEMIS_ENABLE_HTTP_SERVER)
+    message(STATUS "HTTP TimeSeries tests skipped (THEMIS_ENABLE_HTTP_SERVER is OFF)")
+else()
+    message(STATUS "HTTP TimeSeries tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_timeseries.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
