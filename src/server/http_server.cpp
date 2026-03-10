@@ -2102,6 +2102,7 @@ namespace {
     GraphCostModelCalibratePost,
     GraphCostModelGet,
     GraphCostModelImportPost,
+    GraphQueryExplainPost,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -2478,6 +2479,7 @@ namespace {
     if (path_only == "/api/v1/graph/cost-model/calibrate" && method == http::verb::post) return Route::GraphCostModelCalibratePost;
     if (path_only == "/api/v1/graph/cost-model" && method == http::verb::get) return Route::GraphCostModelGet;
     if (path_only == "/api/v1/graph/cost-model" && method == http::verb::post) return Route::GraphCostModelImportPost;
+    if (path_only == "/api/v1/graph/query/explain" && method == http::verb::post) return Route::GraphQueryExplainPost;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -3423,6 +3425,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::GraphCostModelImportPost:
             if (graph_api_) {
                 response = graph_api_->handleCostModelImport(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphQueryExplainPost:
+            if (graph_api_) {
+                response = graph_api_->handleQueryExplain(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
             }

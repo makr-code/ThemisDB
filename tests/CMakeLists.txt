@@ -4140,6 +4140,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
 endif()
 
 # ============================================================================
+# Graph Module Focused Test Targets
+# Each target links only the graph source(s) it exercises, enabling fast
+# iteration without recompiling the full themis_core library.
+# ============================================================================
+
+# Graph Query EXPLAIN focused tests (Issue #1816)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_query_explain.cpp")
+    message(STATUS "Adding focused graph query EXPLAIN tests (Issue #1816)")
+
+    add_executable(test_graph_query_explain_focused
+        graph/test_query_explain.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_graph_query_explain_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_graph_query_explain_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_query_explain_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME GraphQueryExplainFocusedTests COMMAND test_graph_query_explain_focused)
+
+    set_tests_properties(GraphQueryExplainFocusedTests PROPERTIES
+        LABELS "graph;query;explain;optimizer;plan;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  GraphQueryExplain: explainPlan, explainConstrainedPath, dry-run, structural reuse, all query types")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
