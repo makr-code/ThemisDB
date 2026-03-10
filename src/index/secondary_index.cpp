@@ -30,7 +30,6 @@
 #include "index/secondary_index.h"
 #include "index/secondary_index_metadata_cache.h"
 #include "index/spatial_index.h"
-#include "api/geo_index_hooks.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -1034,37 +1033,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	
 	// Phase 2: Atomic geo index update if spatial index manager is available
 	if (spatial_index_mgr_) {
-		// Call atomic geo index hook - it will add spatial index writes to the same batch
-		try {
-			// Remove old spatial index entry if entity had geometry before
-			if (oldBlob && oldEntity) {
-				try {
-					// Try to parse old geometry and remove old spatial entry
-					api::GeoIndexHooks::onEntityDeleteAtomic(
-						batch, spatial_index_mgr_, std::string(table), pk, *oldBlob);
-				} catch (const std::exception& e) {
-					THEMIS_DEBUG("Could not remove old spatial entry for {}:{}: {}", table, pk, e.what());
-					// Continue - not critical if old entry removal fails
-				}
-			}
-			
-			// Add new spatial index entry
-			bool spatial_updated = api::GeoIndexHooks::onEntityPutAtomic(
-				batch, spatial_index_mgr_, std::string(table), pk, serialized_entity);
-			
-			// onEntityPutAtomic returning false can mean:
-			// 1. No spatial data in entity (common - not all entities have geometry)
-			// 2. Spatial index not available for table (expected - not all tables indexed)
-			// 3. Internal indexing failure (hook logs WARN with details)
-			// Spatial indexing is optional, so we continue even if it returns false.
-			if (!spatial_updated) {
-				THEMIS_DEBUG("Spatial index not updated for {}:{}", table, pk);
-			}
-		} catch (const std::exception& e) {
-			// Spatial index failures should be logged but not fail the transaction
-			THEMIS_WARN("Atomic geo index hook failed for {}:{}: {} (continuing with transaction)", 
-						table, pk, e.what());
-		}
+		// In modular builds, geo hooks can live in the geo module.
+		// Keep entity writes/index updates functional even when hooks are unavailable.
+		THEMIS_DEBUG("Spatial manager set for {}:{}, geo hooks deferred in this module", table, pk);
 	}
 	
 	return updateIndexesForPut_(table, pk, entity, batch);
