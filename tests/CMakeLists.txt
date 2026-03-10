@@ -10335,4 +10335,82 @@ else()
     message(STATUS "Base Interfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
 endif()
 
+# ============================================================================
+# Observability Module – Focused Standalone Test Targets
+# Covers QueryProfiler, StorageProfiler, PerformanceAnalyzer (profilers test)
+# and MetricsCollector / SpdlogLoggerAdapter (hardening test).
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_observability_profilers.cpp")
+    message(STATUS "Adding Observability Profilers focused tests")
+
+    add_executable(test_observability_profilers_focused
+        test_observability_profilers.cpp
+    )
+
+    target_include_directories(test_observability_profilers_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_observability_profilers_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_observability_profilers_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ObservabilityProfilersFocusedTests
+             COMMAND test_observability_profilers_focused)
+
+    set_tests_properties(ObservabilityProfilersFocusedTests PROPERTIES
+        LABELS "observability;profiler;query;storage;performance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ObservabilityProfilers: QueryProfiler lifecycle, StorageProfiler ops, PerformanceAnalyzer stats")
+else()
+    message(STATUS "Observability Profilers focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_observability_profilers.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_observability_hardening.cpp")
+    message(STATUS "Adding Observability Hardening focused tests")
+
+    add_executable(test_observability_hardening_focused
+        test_observability_hardening.cpp
+    )
+
+    target_include_directories(test_observability_hardening_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_observability_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_observability_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ObservabilityHardeningFocusedTests
+             COMMAND test_observability_hardening_focused)
+
+    set_tests_properties(ObservabilityHardeningFocusedTests PROPERTIES
+        LABELS "observability;hardening;metrics;logger;spdlog;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ObservabilityHardening: MetricsCollector, SpdlogLoggerAdapter, NoopImplementations")
+else()
+    message(STATUS "Observability Hardening focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_observability_hardening.cpp")
+endif()
+
 message(STATUS "Tests configured successfully")

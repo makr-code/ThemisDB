@@ -96,7 +96,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/slo_reporter.h/cpp`, tests: `tests/test_slo_reporter.cpp`
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
+- [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`
 - [?] Integration tests (Prometheus scrape, Grafana dashboard rendering)
 - [?] Performance benchmarks (metrics overhead < 1% CPU)
 - [?] Security audit (metrics endpoint authentication, trace data PII)
