@@ -227,7 +227,8 @@ struct QueryLimits {
     size_t max_depth = 10;                      // Maximum nesting depth
     size_t max_fields = 100;                    // Maximum total field count
     size_t max_ast_nodes = 1000;                // Maximum AST nodes
-    
+    size_t max_subscriptions = 10;              // Maximum concurrent subscriptions per connection
+
     // Default safe limits
     static QueryLimits defaults() {
         return QueryLimits{};
@@ -239,7 +240,8 @@ struct QueryLimits {
             .max_query_size_bytes = 1000000,
             .max_depth = 20,
             .max_fields = 500,
-            .max_ast_nodes = 5000
+            .max_ast_nodes = 5000,
+            .max_subscriptions = 50
         };
     }
 };

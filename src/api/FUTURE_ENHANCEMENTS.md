@@ -30,11 +30,11 @@ This document covers implementation-specific future enhancements for the API mod
 `graphql.cpp` implements a full parser and query executor but lacks mutation resolvers, schema introspection (`__schema`, `__type`), and subscription over WebSocket. Complete the schema to cover documents, graph edges, vector search, and geospatial queries; add `subscription` operation support backed by `cdc::Changefeed`.
 
 **Implementation Notes:**
-- `[ ]` Add `SchemaRegistry` class to `graphql.cpp`; auto-build from registered `TypeDefinition` objects at server start.
-- `[ ]` Implement `__schema` and `__type` introspection resolvers; required by all major GraphQL clients (Apollo, Relay).
-- `[ ]` Subscription transport: use Boost.Beast WebSocket upgrades; create `graphql_ws_handler.cpp` implementing the `graphql-transport-ws` protocol (not the legacy `subscriptions-transport-ws`).
+- `[x]` Add `SchemaRegistry` class to `graphql.cpp`; auto-build from registered `TypeDefinition` objects at server start.
+- `[x]` Implement `__schema` and `__type` introspection resolvers; required by all major GraphQL clients (Apollo, Relay).
+- `[x]` Subscription transport: use Boost.Beast WebSocket upgrades; create `graphql_ws_handler.cpp` implementing the `graphql-transport-ws` protocol (not the legacy `subscriptions-transport-ws`).
 - `[ ]` Wire `cdc::Changefeed::subscribe(filter)` as the event source for `subscription { onChange(collection: "...") { ... } }`.
-- `[ ]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
+- `[x]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
 
 **Performance Targets:**
 - GraphQL parse + validate + execute for a 10-field document query in < 2 ms (p99) under 500 concurrent HTTP/2 connections.

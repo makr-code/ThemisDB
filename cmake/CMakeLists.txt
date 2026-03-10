@@ -2047,6 +2047,8 @@ set(THEMIS_CORE_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+    # GraphQL over WebSocket (graphql-transport-ws) handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/graphql_ws_handler.cpp>
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>

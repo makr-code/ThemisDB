@@ -188,6 +188,7 @@ if(NOT THEMIS_ENABLE_WEBSOCKET)
         ".*test_wire_protocol_websocket\\.cpp$"
         ".*test_ws_handler\\.cpp$"
         ".*test_websocket_cdc\\.cpp$"
+        ".*test_graphql_ws_handler\\.cpp$"
     )
 endif()
 
@@ -2261,6 +2262,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
     message(STATUS "  GraphQL Multi-Model: timeseries queries, geo search, subscription type")
 else()
     message(STATUS "GraphQL Multi-Model tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_multimodel.cpp")
+endif()
+
+# ============================================================================
+# GraphQL WebSocket Handler Tests (graphql-transport-ws protocol)
+# ============================================================================
+
+if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_ws_handler.cpp")
+    message(STATUS "Adding GraphQL WebSocket handler tests")
+
+    add_executable(test_graphql_ws_handler
+        test_graphql_ws_handler.cpp
+    )
+
+    target_link_libraries(test_graphql_ws_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graphql_ws_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_WEBSOCKET=1
+    )
+
+    add_test(NAME GraphQLWsHandlerTests COMMAND test_graphql_ws_handler)
+
+    set_tests_properties(GraphQLWsHandlerTests PROPERTIES
+        LABELS "api;graphql;websocket;subscription;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphQL WS Handler: graphql-transport-ws protocol, subscription management")
 endif()
 
 # ============================================================================
