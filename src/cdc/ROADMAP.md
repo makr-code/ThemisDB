@@ -65,7 +65,8 @@
 - [x] Register `changefeed_buffer.cpp` and `tenant_buffer_manager.cpp` in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake` — previously missing from both build files
 - [x] Register `cross_collection_stream.cpp` and `cdc_materialized_view.cpp` in `cmake/CMakeLists.txt` — previously only in `ModularBuild.cmake`
 - [x] Register `cdc_admin.cpp` in `cmake/CMakeLists.txt` (conditional on `THEMIS_ENABLE_HTTP_SERVER`) — previously only in `ModularBuild.cmake`
-- [x] Add `changefeed_buffer.cpp` and `tenant_buffer_manager.cpp` to `_themis_test_extra_sources` in `tests/CMakeLists.txt`
+- [x] Register `consumer_group.cpp`, `delivery_tracker.cpp`, `outbox.cpp`, and `ws_transport.cpp` in `cmake/ModularBuild.cmake` THEMIS_STORAGE_SOURCES — previously only in `CMakeLists.txt`
+- [x] Add all CDC source files to `_themis_test_extra_sources` in `tests/CMakeLists.txt` (including `delivery_tracker.cpp` and `ws_transport.cpp`)
 - [x] Add standalone focused test targets `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests` in `tests/CMakeLists.txt`
 
 ## Production Readiness Checklist

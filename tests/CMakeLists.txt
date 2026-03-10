@@ -786,10 +786,12 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/tests/test_hsm_provider_stub.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/dead_letter_queue.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/consumer_group.cpp
+            ${THEMIS_ROOT_DIR}/src/cdc/delivery_tracker.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cross_collection_stream.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_materialized_view.cpp
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
+            $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)

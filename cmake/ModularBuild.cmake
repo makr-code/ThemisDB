@@ -283,11 +283,15 @@ set(THEMIS_STORAGE_SOURCES
     # Change data capture (used by metadata/schema manager)
     ../src/cdc/changefeed.cpp
     ../src/cdc/changefeed_buffer.cpp
+    ../src/cdc/consumer_group.cpp
+    ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/outbox.cpp
     ../src/cdc/cdc_ws_handler.cpp
     ../src/cdc/cross_collection_stream.cpp
     ../src/cdc/cdc_materialized_view.cpp
     ../src/cdc/tenant_buffer_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
