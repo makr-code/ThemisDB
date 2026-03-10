@@ -2003,3 +2003,72 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
 
     message(STATUS "  Updates: state machine transitions, rollback path, manifest JSON round-trip, generatePatch, applyPatch")
 endif()
+
+# ============================================================================
+# Prompt Engineering Performance Benchmarks (ROADMAP Production Readiness)
+# Measures per-operation latency and concurrent-access throughput for the
+# prompt engineering module:
+#   1. PromptManager createTemplate / getTemplate (hit+miss) / injectContext /
+#      validateTemplate (valid+invalid)
+#   2. PromptVersionControl commit / getHistory
+#   3. FeedbackCollector recordFeedback / getStats (100 entries)
+#   4. PromptOptimizer optimizePrompt (1 iteration, deterministic eval_fn)
+#   5. PromptEvaluator evaluatePrompt (structural similarity)
+#   6. PromptEngineeringMetrics recordOptimizationAttempt / recordPromptExecution
+#   7. Concurrent writes: PromptManager 4-thread TBB concurrent_hash_map insert
+#   8. Concurrent commits: PromptVersionControl 4-thread commit throughput
+#
+# Performance targets (from src/prompt_engineering/ROADMAP.md):
+#   - createTemplate (in-memory):   < 10 µs
+#   - getTemplate    (in-memory):   < 1 µs
+#   - injectContext  (5 vars):      < 5 µs
+#   - validateTemplate (valid):     < 5 µs
+#   - commit (in-memory):           < 20 µs
+#   - recordFeedback (in-memory):   < 10 µs
+#   - optimizePrompt (1 iter):      < 500 µs
+#   - evaluatePrompt (structural):  < 50 µs
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
+    message(STATUS "Adding prompt engineering performance benchmarks")
+
+    add_executable(bench_prompt_engineering
+        bench_prompt_engineering.cpp
+    )
+
+    target_link_libraries(bench_prompt_engineering PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        TBB::tbb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_prompt_engineering PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_prompt_engineering PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_prompt_engineering
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  PromptManager: createTemplate, getTemplate (hit/miss), injectContext, validateTemplate")
+    message(STATUS "  PromptVersionControl: commit, getHistory (10 versions)")
+    message(STATUS "  FeedbackCollector: recordFeedback, getStats (100 entries)")
+    message(STATUS "  PromptOptimizer: optimizePrompt (1 iter, deterministic eval_fn)")
+    message(STATUS "  PromptEvaluator: evaluatePrompt (structural similarity)")
+    message(STATUS "  PromptEngineeringMetrics: recordOptimizationAttempt, recordPromptExecution")
+    message(STATUS "  Concurrent: PromptManager 4-thread insert, PromptVersionControl 4-thread commit")
+endif()

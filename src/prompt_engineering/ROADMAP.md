@@ -97,10 +97,10 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Chain-of-thought, RAG prompt builder, and system prompt manager implemented
 - [x] Unit tests coverage > 80%
 - [x] Integration tests (version control round-trip, A/B statistical significance)
-- [?] Performance benchmarks (optimization loop latency, concurrent access)
+- [x] Performance benchmarks (optimization loop latency, concurrent access)
 - [x] Security audit (prompt injection risk addressed via PromptInjectionDetector)
 - [x] Documentation complete
-- [?] API stability guaranteed
+- [x] API stability guaranteed
 
 ## Known Issues & Limitations
 - Token counting and context-window management is out of scope; callers must manage limits.
