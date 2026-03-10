@@ -4946,6 +4946,452 @@ else()
 endif()
 
 # ============================================================================
+# Plugin Module Focused Test Targets
+# Standalone binaries enabling fast, isolated iteration over each plugin
+# subsystem without requiring a full themis_tests build.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager.cpp")
+    message(STATUS "Adding Plugin Manager focused tests")
+
+    add_executable(test_plugin_manager_focused
+        test_plugin_manager.cpp
+    )
+
+    target_include_directories(test_plugin_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginManagerFocusedTests COMMAND test_plugin_manager_focused)
+
+    set_tests_properties(PluginManagerFocusedTests PROPERTIES
+        LABELS "plugins;manager;lifecycle;singleton;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginManager: singleton identity, scanPluginDirectory, autoLoad, hot-plug enable/disable, negotiateCapabilities")
+else()
+    message(STATUS "Plugin Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
+    message(STATUS "Adding Plugin Lifecycle focused tests")
+
+    add_executable(test_plugin_lifecycle_focused
+        test_plugin_lifecycle.cpp
+    )
+
+    target_include_directories(test_plugin_lifecycle_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_lifecycle_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_lifecycle_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginLifecycleFocusedTests COMMAND test_plugin_lifecycle_focused)
+
+    set_tests_properties(PluginLifecycleFocusedTests PROPERTIES
+        LABELS "plugins;lifecycle;load;unload;hot-reload;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginLifecycle: load/initialize/unload, hot-reload, dependency-ordered loading, RAII guards")
+else()
+    message(STATUS "Plugin Lifecycle focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
+    message(STATUS "Adding Plugin Health Monitor focused tests")
+
+    add_executable(test_plugin_health_monitor_focused
+        test_plugin_health_monitor.cpp
+    )
+
+    target_include_directories(test_plugin_health_monitor_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_health_monitor_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_health_monitor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginHealthMonitorFocusedTests COMMAND test_plugin_health_monitor_focused)
+
+    set_tests_properties(PluginHealthMonitorFocusedTests PROPERTIES
+        LABELS "plugins;health;liveness;auto-restart;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginHealthMonitor: liveness probes, consecutive-failure threshold, automatic restart")
+else()
+    message(STATUS "Plugin Health Monitor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+    message(STATUS "Adding Plugin Hot-Plug Monitor focused tests")
+
+    add_executable(test_plugin_hot_plug_focused
+        test_plugin_hot_plug.cpp
+    )
+
+    target_include_directories(test_plugin_hot_plug_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_hot_plug_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_hot_plug_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginHotPlugFocusedTests COMMAND test_plugin_hot_plug_focused)
+
+    set_tests_properties(PluginHotPlugFocusedTests PROPERTIES
+        LABELS "plugins;hot-plug;directory-watcher;reload;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginHotPlug: directory watcher, new/updated plugin detection, reload trigger")
+else()
+    message(STATUS "Plugin Hot-Plug focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+    message(STATUS "Adding Plugin Hot-Reload Enhanced focused tests")
+
+    add_executable(test_plugin_hot_reload_enhanced_focused
+        test_plugin_hot_reload_enhanced.cpp
+    )
+
+    target_include_directories(test_plugin_hot_reload_enhanced_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_hot_reload_enhanced_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_hot_reload_enhanced_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginHotReloadEnhancedFocusedTests COMMAND test_plugin_hot_reload_enhanced_focused)
+
+    set_tests_properties(PluginHotReloadEnhancedFocusedTests PROPERTIES
+        LABELS "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  PluginHotReloadEnhanced: TOCTOU-safe 3-phase reload, state preservation, atomic swap, rollback")
+else()
+    message(STATUS "Plugin Hot-Reload Enhanced focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_graph.cpp")
+    message(STATUS "Adding Plugin Dependency Graph focused tests")
+
+    add_executable(test_plugin_dependency_graph_focused
+        test_plugin_dependency_graph.cpp
+    )
+
+    target_include_directories(test_plugin_dependency_graph_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_dependency_graph_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_dependency_graph_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginDependencyGraphFocusedTests COMMAND test_plugin_dependency_graph_focused)
+
+    set_tests_properties(PluginDependencyGraphFocusedTests PROPERTIES
+        LABELS "plugins;dependency;graph;cycle-detection;kahn;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginDependencyGraph: Kahn topological sort, cycle detection, load-order validation")
+else()
+    message(STATUS "Plugin Dependency Graph focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_graph.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+    message(STATUS "Adding Plugin Dependency Resolver focused tests")
+
+    add_executable(test_plugin_dependency_resolver_focused
+        test_plugin_dependency_resolver.cpp
+    )
+
+    target_include_directories(test_plugin_dependency_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_dependency_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_dependency_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginDependencyResolverFocusedTests COMMAND test_plugin_dependency_resolver_focused)
+
+    set_tests_properties(PluginDependencyResolverFocusedTests PROPERTIES
+        LABELS "plugins;dependency;resolver;version-check;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginDependencyResolver: inter-plugin dependency resolution, API version satisfaction, ordered loading")
+else()
+    message(STATUS "Plugin Dependency Resolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+    message(STATUS "Adding Plugin Metrics focused tests")
+
+    add_executable(test_plugin_metrics_focused
+        test_plugin_metrics.cpp
+    )
+
+    target_include_directories(test_plugin_metrics_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_metrics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginMetricsFocusedTests COMMAND test_plugin_metrics_focused)
+
+    set_tests_properties(PluginMetricsFocusedTests PROPERTIES
+        LABELS "plugins;metrics;prometheus;call-count;latency;error-rate;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginMetrics: call-count, latency P99, error-rate, Prometheus export, PluginMetricsCollector")
+else()
+    message(STATUS "Plugin Metrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+    message(STATUS "Adding Plugin Metrics Integration focused tests")
+
+    add_executable(test_plugin_metrics_integration_focused
+        test_plugin_metrics_integration.cpp
+    )
+
+    target_include_directories(test_plugin_metrics_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_metrics_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_metrics_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginMetricsIntegrationFocusedTests COMMAND test_plugin_metrics_integration_focused)
+
+    set_tests_properties(PluginMetricsIntegrationFocusedTests PROPERTIES
+        LABELS "plugins;metrics;integration;grafana;health-score;focused;integration"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  PluginMetricsIntegration: end-to-end metrics pipeline, Grafana dashboard integration, plugin_health_score gauge")
+else()
+    message(STATUS "Plugin Metrics Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_audit.cpp")
+    message(STATUS "Adding Plugin Security Audit focused tests")
+
+    add_executable(test_plugin_security_audit_focused
+        test_plugin_security_audit.cpp
+    )
+
+    target_include_directories(test_plugin_security_audit_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_security_audit_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_security_audit_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginSecurityAuditFocusedTests COMMAND test_plugin_security_audit_focused)
+
+    set_tests_properties(PluginSecurityAuditFocusedTests PROPERTIES
+        LABELS "plugins;security;audit;ed25519;signature;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginSecurityAudit: Ed25519 signature enforcement, unsigned plugin rejection, audit event emission")
+else()
+    message(STATUS "Plugin Security Audit focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_audit.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_implementation.cpp")
+    message(STATUS "Adding Plugin Security Implementation focused tests")
+
+    add_executable(test_plugin_security_impl_focused
+        test_plugin_security_implementation.cpp
+    )
+
+    target_include_directories(test_plugin_security_impl_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_security_impl_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_security_impl_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginSecurityImplementationFocusedTests COMMAND test_plugin_security_impl_focused)
+
+    set_tests_properties(PluginSecurityImplementationFocusedTests PROPERTIES
+        LABELS "plugins;security;sandbox;capability;isolation;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginSecurityImplementation: capability sandbox, in-process isolation, edition-gated enforcement")
+else()
+    message(STATUS "Plugin Security Implementation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_implementation.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
+    message(STATUS "Adding Plugin Marketplace Manifest focused tests")
+
+    add_executable(test_plugin_marketplace_manifest_focused
+        test_plugin_marketplace_manifest.cpp
+    )
+
+    target_include_directories(test_plugin_marketplace_manifest_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_marketplace_manifest_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_plugin_marketplace_manifest_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginMarketplaceManifestFocusedTests COMMAND test_plugin_marketplace_manifest_focused)
+
+    set_tests_properties(PluginMarketplaceManifestFocusedTests PROPERTIES
+        LABELS "plugins;marketplace;manifest;json-schema;validation;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PluginMarketplaceManifest: JSON Schema v2 validation, manifest field enforcement, capability declarations")
+else()
+    message(STATUS "Plugin Marketplace Manifest focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager_comprehensive.cpp")
+    message(STATUS "Adding Plugin Manager Comprehensive focused tests")
+
+    add_executable(test_plugin_manager_comprehensive_focused
+        test_plugin_manager_comprehensive.cpp
+    )
+
+    target_include_directories(test_plugin_manager_comprehensive_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_plugin_manager_comprehensive_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    target_compile_definitions(test_plugin_manager_comprehensive_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PluginManagerComprehensiveFocusedTests COMMAND test_plugin_manager_comprehensive_focused)
+
+    set_tests_properties(PluginManagerComprehensiveFocusedTests PROPERTIES
+        LABELS "plugins;manager;comprehensive;integration;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  PluginManagerComprehensive: full lifecycle integration, multi-plugin scenarios, edition gating")
+else()
+    message(STATUS "Plugin Manager Comprehensive focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager_comprehensive.cpp")
+endif()
+
+# ============================================================================
 # LLM Timeout and Cancellation Tests (standalone – requires themis_llm / themis_core)
 # ============================================================================
 
