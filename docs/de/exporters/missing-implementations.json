@@ -1,20 +1,26 @@
 {
   "module": "exporters",
-  "validated": "2026-03-09",
-  "revision": "HEAD (copilot/inventory-and-documentation-checks)",
+  "validated": "2026-03-10",
+  "revision": "HEAD",
   "checked_paths": [
-    "src/exporters/"
+    "src/exporters/",
+    "cmake/CMakeLists.txt",
+    "cmake/ModularBuild.cmake",
+    "tests/CMakeLists.txt",
+    "benchmarks/"
   ],
   "summary": {
-    "total": 5,
+    "total": 7,
     "critical": 0,
     "medium": 2,
-    "low": 3
+    "low": 2,
+    "resolved": 3
   },
   "entries": [
     {
       "id": "EXP-001",
       "severity": "medium",
+      "status": "open",
       "title": "PolicyEngine Integration for Export Authorization",
       "claim_source": "src/exporters/FUTURE_ENHANCEMENTS.md — Export Encryption and Authorization → Remaining",
       "file": "src/exporters/export_encryption.cpp",
@@ -31,6 +37,7 @@
     {
       "id": "EXP-002",
       "severity": "medium",
+      "status": "open",
       "title": "Hub Direct Upload Integration Not Implemented",
       "claim_source": "src/exporters/ROADMAP.md — Planned Features (Issue: #1719)",
       "file": null,
@@ -49,22 +56,16 @@
     {
       "id": "EXP-003",
       "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): register missing source files, add focused test targets, fix stale TODO annotation",
       "title": "Stale TODO Counter in pii_detector.cpp Header",
-      "claim_source": "src/exporters/pii_detector.cpp, line 14",
       "file": "src/exporters/pii_detector.cpp",
-      "expected": "Open Issues: TODOs: 0, Stubs: 0 (consistent with verified production code)",
-      "observed": "Header box shows 'TODOs: 1' but no actual // TODO: comment exists anywhere in the function bodies of pii_detector.cpp",
-      "evidence": [
-        "src/exporters/pii_detector.cpp, line 14: 'Open Issues: TODOs: 1, Stubs: 0'",
-        "grep confirms: only match for 'TODO' in pii_detector.cpp is line 14 itself (the header annotation)"
-      ],
-      "impact": "Low — misleading metadata in file header box; no functional impact",
-      "issue_title_suggestion": "fix(exporters): correct stale TODOs:1 annotation in pii_detector.cpp header",
-      "label_suggestions": ["module:exporters", "kind:docs", "priority:low"]
+      "resolution": "Header annotation corrected: TODOs: 1 → TODOs: 0 (no actual // TODO: comment in function bodies)"
     },
     {
       "id": "EXP-004",
       "severity": "low",
+      "status": "open",
       "title": "--incremental CLI Flag Missing",
       "claim_source": "src/exporters/FUTURE_ENHANCEMENTS.md — Incremental / Delta Export → Remaining",
       "file": "tools/",
@@ -80,6 +81,7 @@
     {
       "id": "EXP-005",
       "severity": "low",
+      "status": "open",
       "title": "ExportFormatRegistry Not Implemented",
       "claim_source": "src/exporters/ROADMAP.md — Breaking Changes; src/exporters/FUTURE_ENHANCEMENTS.md — Parquet → Remaining",
       "file": null,
@@ -93,6 +95,25 @@
       "impact": "Low — new formats require direct code access; additive extensibility not yet available",
       "issue_title_suggestion": "feat(exporters): implement ExportFormatRegistry for pluggable format registration",
       "label_suggestions": ["module:exporters", "kind:architecture", "priority:low"]
+    },
+    {
+      "id": "EXP-006",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): register missing source files, add focused test targets, fix stale TODO annotation",
+      "title": "huggingface_exporter.cpp and data_augmentation.cpp Not Registered in Build System",
+      "file": "cmake/CMakeLists.txt, cmake/ModularBuild.cmake",
+      "resolution": "Both files added to cmake/CMakeLists.txt and cmake/ModularBuild.cmake. All 13 exporter sources now registered."
+    },
+    {
+      "id": "EXP-007",
+      "severity": "low",
+      "status": "resolved",
+      "resolved_in": "feat(exporters): register missing source files, add focused test targets, fix stale TODO annotation",
+      "title": "No Focused Test Targets for Exporters Module",
+      "file": "tests/CMakeLists.txt",
+      "resolution": "10 focused test targets added: JsonlLlmExporterFocusedTests, HuggingFaceExporterFocusedTests, ParquetExporterFocusedTests, ArrowIpcExporterFocusedTests, StreamingExporterFocusedTests, IncrementalExporterFocusedTests, AqlPredicateFilterFocusedTests, FormatTemplateFocusedTests, ExportEncryptionFocusedTests, DataAugmentationFocusedTests."
     }
   ]
 }
+

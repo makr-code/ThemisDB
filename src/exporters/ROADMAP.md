@@ -61,7 +61,7 @@
 - [I] Unit tests coverage > 80% (Issue: #1729)
 - [x] Integration tests (JSONL export, LoRA metadata, Parquet, Arrow IPC, HuggingFace, streaming, incremental)
 - [x] Focused test targets for all 10 exporter test files registered in tests/CMakeLists.txt
-- [I] Performance benchmarks (export throughput) (Issue: #1730)
+- [~] Performance benchmarks (export throughput) — `benchmarks/bench_exporters.cpp` added (Issue: #1730)
 - [x] Security audit (sensitive field redaction, export authorization) (Issue: #1731)
 - [x] Documentation complete (JSONL exporter, LoRA metadata, vLLM integration, Parquet, Arrow IPC, HuggingFace)
 - [x] API stability guaranteed for JSONL exporter
