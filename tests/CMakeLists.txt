@@ -4216,6 +4216,470 @@ else()
 endif()
 
 # ============================================================================
+# Flatfile Importer Focused Tests (standalone – has own main(), excluded from
+# main build via TEST_EXCLUDE_PATTERNS)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_flatfile_importer.cpp")
+    message(STATUS "Adding FlatfileImporter focused tests (standalone binary)")
+
+    add_executable(test_flatfile_importer_focused
+        test_flatfile_importer.cpp
+    )
+
+    target_include_directories(test_flatfile_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_flatfile_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_flatfile_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FlatfileImporterFocusedTests COMMAND test_flatfile_importer_focused)
+
+    set_tests_properties(FlatfileImporterFocusedTests PROPERTIES
+        LABELS "importers;flatfile;csv;tsv;parquet;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  FlatfileImporter: CSV/TSV/JSONL row parsing, schema detection, dry-run, streaming, UTF-8, metrics")
+else()
+    message(STATUS "FlatfileImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_flatfile_importer.cpp")
+endif()
+
+# ============================================================================
+# Schema Validator Importer Focused Tests (standalone – has own main(), excluded
+# from main build via TEST_EXCLUDE_PATTERNS)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_validator.cpp")
+    message(STATUS "Adding SchemaValidatorImporter focused tests (standalone binary)")
+
+    add_executable(test_schema_validator_importer_focused
+        test_schema_validator.cpp
+    )
+
+    target_include_directories(test_schema_validator_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_schema_validator_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_schema_validator_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SchemaValidatorImporterFocusedTests COMMAND test_schema_validator_importer_focused)
+
+    set_tests_properties(SchemaValidatorImporterFocusedTests PROPERTIES
+        LABELS "importers;schema;validation;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SchemaValidatorImporter: field-type validation, required fields, nested schema, conflict detection")
+else()
+    message(STATUS "SchemaValidatorImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_validator.cpp")
+endif()
+
+# ============================================================================
+# Importer Conflict Resolver Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_conflict_resolver.cpp")
+    message(STATUS "Adding ImporterConflictResolver focused tests (standalone binary)")
+
+    add_executable(test_importer_conflict_resolver_focused
+        test_importer_conflict_resolver.cpp
+    )
+
+    target_include_directories(test_importer_conflict_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_conflict_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_importer_conflict_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterConflictResolverFocusedTests COMMAND test_importer_conflict_resolver_focused)
+
+    set_tests_properties(ImporterConflictResolverFocusedTests PROPERTIES
+        LABELS "importers;conflict;resolver;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterConflictResolver: SKIP, OVERWRITE, MERGE (depth-1 and deep), ERROR strategies")
+else()
+    message(STATUS "ImporterConflictResolver focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_conflict_resolver.cpp")
+endif()
+
+# ============================================================================
+# Importer Async API Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_async_api.cpp")
+    message(STATUS "Adding ImporterAsyncApi focused tests (standalone binary)")
+
+    add_executable(test_importer_async_api_focused
+        test_importer_async_api.cpp
+    )
+
+    target_include_directories(test_importer_async_api_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_importer_async_api_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_importer_async_api_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImporterAsyncApiFocusedTests COMMAND test_importer_async_api_focused)
+
+    set_tests_properties(ImporterAsyncApiFocusedTests PROPERTIES
+        LABELS "importers;async;streaming;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImporterAsyncApi: async import pipeline, streaming callbacks, progress reporting, cancellation")
+else()
+    message(STATUS "ImporterAsyncApi focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_importer_async_api.cpp")
+endif()
+
+# ============================================================================
+# MySQL Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
+    message(STATUS "Adding MySQLImporter focused tests (standalone binary)")
+
+    add_executable(test_mysql_importer_focused
+        test_mysql_importer.cpp
+    )
+
+    target_include_directories(test_mysql_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mysql_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mysql_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MySQLImporterFocusedTests COMMAND test_mysql_importer_focused)
+
+    set_tests_properties(MySQLImporterFocusedTests PROPERTIES
+        LABELS "importers;mysql;mariadb;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MySQLImporter: type mapping, batch import, incremental, JDBC-compatible config, streaming callbacks")
+else()
+    message(STATUS "MySQLImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
+endif()
+
+# ============================================================================
+# MongoDB Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mongo_importer.cpp")
+    message(STATUS "Adding MongoImporter focused tests (standalone binary)")
+
+    add_executable(test_mongo_importer_focused
+        test_mongo_importer.cpp
+    )
+
+    target_include_directories(test_mongo_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mongo_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mongo_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MongoImporterFocusedTests COMMAND test_mongo_importer_focused)
+
+    set_tests_properties(MongoImporterFocusedTests PROPERTIES
+        LABELS "importers;mongodb;document;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MongoImporter: document collection import, nested docs, BSON type mapping, collection filtering")
+else()
+    message(STATUS "MongoImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_mongo_importer.cpp")
+endif()
+
+# ============================================================================
+# SQLite Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sqlite_importer.cpp")
+    message(STATUS "Adding SQLiteImporter focused tests (standalone binary)")
+
+    add_executable(test_sqlite_importer_focused
+        test_sqlite_importer.cpp
+    )
+
+    target_include_directories(test_sqlite_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_sqlite_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sqlite_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SQLiteImporterFocusedTests COMMAND test_sqlite_importer_focused)
+
+    set_tests_properties(SQLiteImporterFocusedTests PROPERTIES
+        LABELS "importers;sqlite;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SQLiteImporter: table discovery, type mapping, incremental import, attached databases, streaming")
+else()
+    message(STATUS "SQLiteImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sqlite_importer.cpp")
+endif()
+
+# ============================================================================
+# Kafka Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
+    message(STATUS "Adding KafkaImporter focused tests (standalone binary)")
+
+    add_executable(test_kafka_importer_focused
+        test_kafka_importer.cpp
+    )
+
+    target_include_directories(test_kafka_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_kafka_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kafka_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KafkaImporterFocusedTests COMMAND test_kafka_importer_focused)
+
+    set_tests_properties(KafkaImporterFocusedTests PROPERTIES
+        LABELS "importers;kafka;streaming;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  KafkaImporter: consumer configuration, offset commit, topic filtering, async ingestion, back-pressure")
+else()
+    message(STATUS "KafkaImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
+endif()
+
+# ============================================================================
+# Oracle Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
+    message(STATUS "Adding OracleImporter focused tests (standalone binary)")
+
+    add_executable(test_oracle_importer_focused
+        test_oracle_importer.cpp
+    )
+
+    target_include_directories(test_oracle_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_oracle_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_oracle_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OracleImporterFocusedTests COMMAND test_oracle_importer_focused)
+
+    set_tests_properties(OracleImporterFocusedTests PROPERTIES
+        LABELS "importers;oracle;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OracleImporter: OCI config, type mapping (NUMBER/DATE/CLOB/BLOB), schema filtering, incremental import")
+else()
+    message(STATUS "OracleImporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
+endif()
+
+# ============================================================================
+# S3 Importer Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_s3_importer.cpp")
+    message(STATUS "Adding S3Importer focused tests (standalone binary)")
+
+    add_executable(test_s3_importer_focused
+        test_s3_importer.cpp
+    )
+
+    target_include_directories(test_s3_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_s3_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_s3_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME S3ImporterFocusedTests COMMAND test_s3_importer_focused)
+
+    set_tests_properties(S3ImporterFocusedTests PROPERTIES
+        LABELS "importers;s3;object-storage;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  S3Importer: bucket/prefix listing, object download, multipart, credential config, format auto-detect")
+else()
+    message(STATUS "S3Importer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_s3_importer.cpp")
+endif()
+
+# ============================================================================
+# PostgreSQL Importer Focused Tests (standalone binary – combines all
+# postgres_importer test variants: advanced, chaos, complex_ddl, datatypes,
+# integration, robustness, security_audit, streaming)
+# ============================================================================
+
+set(_postgres_importer_test_sources "")
+foreach(_pg_test
+        test_postgres_importer_advanced.cpp
+        test_postgres_importer_chaos.cpp
+        test_postgres_importer_complex_ddl.cpp
+        test_postgres_importer_datatypes.cpp
+        test_postgres_importer_integration.cpp
+        test_postgres_importer_live.cpp
+        test_postgres_importer_robustness.cpp
+        test_postgres_importer_security_audit.cpp
+        test_postgres_importer_streaming.cpp)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_pg_test}")
+        list(APPEND _postgres_importer_test_sources "${_pg_test}")
+    endif()
+endforeach()
+
+if(_postgres_importer_test_sources)
+    message(STATUS "Adding PostgresImporter focused tests (${_postgres_importer_test_sources})")
+
+    add_executable(test_postgres_importer_focused
+        ${_postgres_importer_test_sources}
+    )
+
+    target_include_directories(test_postgres_importer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_postgres_importer_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_postgres_importer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PostgresImporterFocusedTests COMMAND test_postgres_importer_focused)
+
+    set_tests_properties(PostgresImporterFocusedTests PROPERTIES
+        LABELS "importers;postgres;postgresql;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  PostgresImporter: advanced mapping, chaos/retry, complex DDL, data types, integration, robustness, security audit, streaming")
+else()
+    message(STATUS "PostgresImporter focused test sources not found")
+endif()
+
+# ============================================================================
+# Import Wizard Focused Tests (standalone binary)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
+    message(STATUS "Adding ImportWizard focused tests (standalone binary)")
+
+    add_executable(test_import_wizard_focused
+        test_import_wizard.cpp
+    )
+
+    target_include_directories(test_import_wizard_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_import_wizard_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_import_wizard_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ImportWizardFocusedTests COMMAND test_import_wizard_focused)
+
+    set_tests_properties(ImportWizardFocusedTests PROPERTIES
+        LABELS "importers;wizard;gui;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ImportWizard: step-by-step configuration, source type selection, schema mapping, dry-run preview")
+else()
+    message(STATUS "ImportWizard focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
+endif()
+
+# ============================================================================
 # Plugin Capability Negotiation Tests (standalone target for Issue #1984)
 # ============================================================================
 
