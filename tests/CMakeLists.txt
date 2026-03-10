@@ -9715,6 +9715,86 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
+# ============================================================================
+# Query Module Focused Tests (Issue #2431 — Query Cancellation)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_cancellation.cpp")
+    message(STATUS "Adding Query Cancellation focused tests (Issue #2431)")
+
+    add_executable(test_query_cancellation_focused
+        query/test_query_cancellation.cpp
+    )
+
+    target_include_directories(test_query_cancellation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_cancellation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_cancellation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QueryCancellationFocusedTests COMMAND test_query_cancellation_focused)
+
+    set_tests_properties(QueryCancellationFocusedTests PROPERTIES
+        LABELS "query;cancellation;request-id;cooperative;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  QueryCancellation: QueryCancellationToken, QueryCanceller, executeAqlCancellable cooperative cancellation")
+else()
+    message(STATUS "Query Cancellation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_cancellation.cpp")
+endif()
+
+# ============================================================================
+# Query Module Focused Tests – PageRank / Graph Functions
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_pagerank.cpp")
+    message(STATUS "Adding PageRank Query focused tests")
+
+    add_executable(test_pagerank_focused
+        query/test_pagerank.cpp
+    )
+
+    target_include_directories(test_pagerank_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_pagerank_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_pagerank_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PageRankFocusedTests COMMAND test_pagerank_focused)
+
+    set_tests_properties(PageRankFocusedTests PROPERTIES
+        LABELS "query;functions;graph;pagerank;centrality;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PageRank: graph function PageRank convergence, damping factor, isolated/disconnected nodes")
+else()
+    message(STATUS "PageRank focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/query/test_pagerank.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
