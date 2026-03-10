@@ -1850,6 +1850,9 @@ set(THEMIS_CORE_SOURCES
     ../src/security/manifest_signer.cpp
     ../src/security/confidential_computing.cpp
     ../src/security/fips_crypto_mode.cpp
+    ../src/security/post_quantum_crypto.cpp
+    ../src/security/secret_manager.cpp
+    ../src/security/security_evidence_collector.cpp
     ../src/auth/jwt_validator.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
@@ -2090,8 +2093,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/gui_import_wizard.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
-    ../src/aql/aql_migration_assistant.cpp
-    
+
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
@@ -2287,6 +2289,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_lora_finetuner.cpp
     ../src/aql/aql_migration_assistant.cpp
     ../src/aql/aql_autocomplete.cpp
+    ../src/aql/aql_agent.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers

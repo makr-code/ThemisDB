@@ -484,6 +484,16 @@ set(THEMIS_SECURITY_SOURCES
     # Post-quantum cryptography (CRYSTALS-Kyber / Dilithium migration path)
     ../src/security/post_quantum_crypto.cpp
 
+    # Advanced security features (Phase 4)
+    ../src/security/binary_manifest.cpp
+    ../src/security/manifest_signer.cpp
+    ../src/security/confidential_computing.cpp
+    ../src/security/fips_crypto_mode.cpp
+    ../src/security/hsm_signing.cpp
+    ../src/security/tsa_api.cpp
+    ../src/security/secret_manager.cpp
+    ../src/security/security_evidence_collector.cpp
+
     # Security initialization
     ../src/core/security_initialization.cpp
     

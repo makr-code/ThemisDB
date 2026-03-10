@@ -113,6 +113,11 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
         ".*test_aql_lora_finetuner\\.cpp$"
+        ".*test_aql_agent\\.cpp$"
+        ".*test_nl_to_aql_translation\\.cpp$"
+        ".*test_batch_nl_to_aql_translation\\.cpp$"
+        ".*test_rag_aql_integration\\.cpp$"
+        ".*test_aql_schema_aware\\.cpp$"
         ".*test_claim_extractor\\.cpp$"
         ".*test_learning_metrics\\.cpp$"
         ".*test_adapter_sync\\.cpp$"
@@ -6019,6 +6024,242 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fuzz_core.cpp")
     message(STATUS "  FuzzCoreFocused: WireV2 frame header, CompressionAdvisor, PayloadBufferPool, WireProtocolMetrics, AbiChecker, LicenseData, BuildInfo")
 else()
     message(STATUS "Core Fuzz tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fuzz_core.cpp")
+endif()
+
+# ============================================================================
+# Security Sub-directory Focused Test Targets
+# These provide dedicated standalone binaries for security module tests in
+# tests/security/ and tests/security/attack-vectors/, enabling fast focused
+# iteration without requiring a full themis_tests build.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_evidence_collector.cpp")
+    message(STATUS "Adding Security Evidence Collector focused tests")
+
+    add_executable(test_security_evidence_collector_focused
+        security/test_security_evidence_collector.cpp
+    )
+
+    target_include_directories(test_security_evidence_collector_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_security_evidence_collector_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_security_evidence_collector_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SecurityEvidenceCollectorFocusedTests
+             COMMAND test_security_evidence_collector_focused)
+
+    set_tests_properties(SecurityEvidenceCollectorFocusedTests PROPERTIES
+        LABELS "security;compliance;soc2;audit;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SecurityEvidenceCollector: audit-log export, key-rotation records, RBAC report, retention enforcement")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_fips_crypto_mode.cpp")
+    message(STATUS "Adding FIPS Crypto Mode focused tests")
+
+    add_executable(test_fips_crypto_mode_focused
+        security/test_fips_crypto_mode.cpp
+    )
+
+    target_include_directories(test_fips_crypto_mode_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_fips_crypto_mode_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_fips_crypto_mode_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FipsCryptoModeFocusedTests
+             COMMAND test_fips_crypto_mode_focused)
+
+    set_tests_properties(FipsCryptoModeFocusedTests PROPERTIES
+        LABELS "security;fips;crypto;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  FipsCryptoMode: FIPS activation, approved cipher suites, non-approved rejection")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_access_control_manager.cpp")
+    message(STATUS "Adding Access Control Manager focused tests")
+
+    add_executable(test_access_control_manager_focused
+        security/test_access_control_manager.cpp
+    )
+
+    target_include_directories(test_access_control_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_access_control_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_access_control_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AccessControlManagerFocusedTests
+             COMMAND test_access_control_manager_focused)
+
+    set_tests_properties(AccessControlManagerFocusedTests PROPERTIES
+        LABELS "security;access-control;rbac;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AccessControlManager: RBAC enforcement, middleware integration, role hierarchy")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_row_level_security.cpp")
+    message(STATUS "Adding Row Level Security focused tests")
+
+    add_executable(test_row_level_security_focused
+        security/test_row_level_security.cpp
+    )
+
+    target_include_directories(test_row_level_security_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_row_level_security_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_row_level_security_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME RowLevelSecurityFocusedTests
+             COMMAND test_row_level_security_focused)
+
+    set_tests_properties(RowLevelSecurityFocusedTests PROPERTIES
+        LABELS "security;rls;row-level;policy;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  RowLevelSecurity: policy evaluation, predicate injection, AQL filter integration")
+endif()
+
+# Attack Vector Tests (security/attack-vectors/ sub-directory)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp")
+    message(STATUS "Adding Crypto Attack Vector tests")
+
+    add_executable(test_crypto_attack_vectors
+        security/attack-vectors/crypto/test_crypto_attack_vectors.cpp
+    )
+
+    target_include_directories(test_crypto_attack_vectors PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_crypto_attack_vectors PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_crypto_attack_vectors PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CryptoAttackVectorTests COMMAND test_crypto_attack_vectors)
+
+    set_tests_properties(CryptoAttackVectorTests PROPERTIES
+        LABELS "security;attack-vector;crypto;iv-reuse;tag-tamper;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CryptoAttackVectors: IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/injection/test_injection_attack_vectors.cpp")
+    message(STATUS "Adding Injection Attack Vector tests")
+
+    add_executable(test_injection_attack_vectors
+        security/attack-vectors/injection/test_injection_attack_vectors.cpp
+    )
+
+    target_include_directories(test_injection_attack_vectors PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_injection_attack_vectors PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_injection_attack_vectors PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME InjectionAttackVectorTests COMMAND test_injection_attack_vectors)
+
+    set_tests_properties(InjectionAttackVectorTests PROPERTIES
+        LABELS "security;attack-vector;injection;aql;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  InjectionAttackVectors: AQL injection (comment, dangerous ops, boolean-blind, union, stacked, case bypass, oversized)")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp")
+    message(STATUS "Adding Authentication Attack Vector tests")
+
+    add_executable(test_authentication_attack_vectors
+        security/attack-vectors/authentication/test_authentication_attack_vectors.cpp
+    )
+
+    target_include_directories(test_authentication_attack_vectors PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_authentication_attack_vectors PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_authentication_attack_vectors PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AuthenticationAttackVectorTests COMMAND test_authentication_attack_vectors)
+
+    set_tests_properties(AuthenticationAttackVectorTests PROPERTIES
+        LABELS "security;attack-vector;authentication;rbac;privilege-escalation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AuthenticationAttackVectors: privilege escalation, permission boundary, lateral movement, role injection")
 endif()
 
 # ============================================================================
