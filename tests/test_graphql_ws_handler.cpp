@@ -29,14 +29,6 @@ using json = nlohmann::json;
 // Helpers
 // ---------------------------------------------------------------------------
 
-static std::string encode(const json& msg) {
-    return msg.dump();
-}
-
-static json decode(const std::string& frame) {
-    return json::parse(frame);
-}
-
 static graphql::Schema makeDefaultSchema() {
     return graphql::ThemisSchemaBuilder::build();
 }

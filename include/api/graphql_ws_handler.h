@@ -4,7 +4,6 @@
 
 #include "api/graphql.h"
 #include <boost/beast/http.hpp>
-#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -50,7 +49,7 @@ namespace http  = beast::http;
  * ```cpp
  * GraphQLWsHandler handler(schema, limits);
  * // On each incoming WebSocket text frame:
- * auto frames = handler.handleFrame(connection_id, frame_text);
+ * auto frames = handler.handleFrame(frame_text);
  * for (auto& f : frames) ws_session.sendText(f);
  * ```
  *
@@ -60,11 +59,6 @@ namespace http  = beast::http;
  */
 class GraphQLWsHandler {
 public:
-    /// Subscription callback: invoked when a subscription produces an event.
-    /// Parameters: subscription_id, JSON-encoded event payload.
-    using EventCallback = std::function<void(const std::string& sub_id,
-                                             const std::string& payload_json)>;
-
     /**
      * @brief Construct a handler for a single WebSocket connection.
      *

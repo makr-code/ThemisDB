@@ -43,13 +43,13 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ### Phase 1: Core HTTP API (Status: Completed)
 - [x] Integrated Crow/Beast HTTP server with request routing
 - [x] Implemented RESTful CRUD endpoints for documents, graphs, and collections
-- [x] Implemented AQL query execution endpoint (`api/aql_handler.cpp`)
+- [x] Implemented AQL query execution endpoint (handled in `src/server/http_server.cpp`)
 - [x] Implemented authentication and authorization middleware (`api/auth_middleware.cpp`)
 - [x] Added TLS/SSL support with certificate configuration
 - [x] Built request/response handling pipeline with error serialization
 
 ### Phase 2: GraphQL, WebSocket, and API Hardening (Status: Completed)
-- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
+- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql.cpp` + `server/graphql_api_handler.cpp`) (Issue: #1515)
 - [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)

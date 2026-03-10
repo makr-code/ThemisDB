@@ -128,18 +128,16 @@ std::vector<std::string>
 GraphQLWsHandler::handleSubscribe(const std::string& id,
                                    const std::string& payload_json)
 {
-    // ── 1. Reject duplicate subscription IDs ────────────────────────────────
+    // ── 1. Reject duplicate IDs AND enforce max_subscriptions under one lock ──
+    // Both checks must be atomic (Time-Of-Check-Time-Of-Use / TOCTOU): a
+    // concurrent subscribe from another thread could slip between two separate
+    // lock acquisitions and bypass either guard.
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (subscriptions_.count(id)) {
             THEMIS_WARN("GraphQLWsHandler: duplicate subscription id '{}'", id);
             return {buildError(id, "Subscriber for " + id + " already exists")};
         }
-    }
-
-    // ── 2. Enforce max_subscriptions limit ──────────────────────────────────
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
         if (subscriptions_.size() >= limits_.max_subscriptions) {
             THEMIS_WARN("GraphQLWsHandler: max_subscriptions ({}) reached for id '{}'",
                         limits_.max_subscriptions, id);
@@ -190,12 +188,9 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     THEMIS_INFO("GraphQLWsHandler: subscription '{}' registered (query: {} chars)",
                 id, query.size());
 
-    // ── 7. Send an immediate acknowledgement via 'complete' for non-streaming
-    //       subscriptions (placeholder; real event delivery is done externally
-    //       by pushing events through the EventCallback). ─────────────────────
-    // Return nothing here – the transport layer is responsible for
-    // wiring CDC/change-feed events to this subscription and calling
-    // buildNext() / buildComplete() as events arrive.
+    // ── 7. Real event delivery is done externally by the transport layer,
+    //       which calls buildNext() / buildComplete() as CDC events arrive.
+    // Return nothing here – the subscription is now registered and active.
     return {};
 }
 
