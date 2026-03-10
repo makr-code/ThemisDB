@@ -1996,6 +1996,7 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/device_manager.cpp
+    ../src/acceleration/vllm_resource_manager.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -2618,7 +2619,10 @@ endif()
 
 # Graphics API backends
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/graphics_backends.cpp)
+    list(APPEND THEMIS_ACCELERATION_SOURCES
+        ../src/acceleration/graphics_backends.cpp
+        ../src/acceleration/shader_integrity.cpp
+    )
     
     if(THEMIS_ENABLE_DIRECTX)
         # Add DirectX 12 compute pipeline sources
@@ -2741,6 +2745,21 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
         message(STATUS "OpenGL acceleration enabled (stub)")
     endif()
+endif()
+
+# ZLUDA backend (AMD GPUs via CUDA API compatibility layer)
+if(THEMIS_ENABLE_ZLUDA)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/zluda_backend.cpp)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_ZLUDA)
+    message(STATUS "ZLUDA acceleration enabled (AMD GPU via CUDA compatibility layer)")
+endif()
+
+# Metal backend (Apple Silicon / macOS)
+if(THEMIS_ENABLE_METAL AND APPLE)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/metal_backend.mm)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_METAL)
+    target_link_libraries(themis_core PRIVATE "-framework Metal" "-framework Foundation")
+    message(STATUS "Metal acceleration enabled (Apple Silicon / macOS)")
 endif()
 
 # Add acceleration sources to core if any were selected
