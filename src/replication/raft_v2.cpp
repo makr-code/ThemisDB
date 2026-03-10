@@ -217,29 +217,38 @@ void MembershipChangeManager::onNewConfigCommitted() {
 void MembershipChangeManager::applyEntry(const MembershipChangeEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
     if (entry.phase == MembershipChangeEntry::Phase::JOINT) {
-        // Followers apply the joint configuration immediately upon log write
+        // Followers must apply the joint configuration immediately upon
+        // writing the entry to the local log (Raft §4.1), even before it is
+        // committed.  We detect whether the entry represents an add or a
+        // remove by comparing old_members and new_members, then drive
+        // config_ into joint-consensus state accordingly.
         if (!config_->isInJointConsensus()) {
-            // Only begin transition if not already in one (idempotency)
             if (!entry.old_members.empty() &&
                 entry.new_members != entry.old_members) {
-                // Manually drive the config to match the entry
-                RaftV2ClusterConfig tmp(entry.old_members);
+                // Determine added node (in new but not old)
                 for (const auto& m : entry.new_members) {
                     if (!entry.old_members.count(m)) {
-                        tmp.beginAddMember(m);
+                        config_->beginAddMember(m);
                         break;
                     }
                 }
-                for (const auto& m : entry.old_members) {
-                    if (!entry.new_members.count(m)) {
-                        // It's a remove
+                // Determine removed node (in old but not new) – only if no
+                // add was performed (i.e. config_ is not yet in transition).
+                if (!config_->isInJointConsensus()) {
+                    for (const auto& m : entry.old_members) {
+                        if (!entry.new_members.count(m)) {
+                            config_->beginRemoveMember(m);
+                            break;
+                        }
                     }
                 }
             }
         }
         pending_ = entry;
     } else if (entry.phase == MembershipChangeEntry::Phase::COMMIT) {
-        config_->commitTransition();
+        if (config_->isInJointConsensus()) {
+            config_->commitTransition();
+        }
         pending_.reset();
     }
 }

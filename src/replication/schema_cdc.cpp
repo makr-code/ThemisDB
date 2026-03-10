@@ -116,19 +116,22 @@ void SchemaAwareCDCBridge::stop() {
 
 SchemaAwareCDCBridge::Stats SchemaAwareCDCBridge::getStats() const {
     std::lock_guard<std::mutex> lock(stats_mutex_);
-    return stats_;
+    Stats s = stats_;
+    s.events_skipped = skipped_events_.load(std::memory_order_relaxed);
+    return s;
 }
 
 void SchemaAwareCDCBridge::onWALEntryApplied(const WALEntry& wal_entry) {
-    // Snapshot state under lock
+    // Snapshot state under lock – do NOT hold mutex_ while acquiring
+    // stats_mutex_ to prevent lock ordering inversion.
     uint32_t schema_id = 0;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!started_) return;
         auto it = registered_.find(wal_entry.collection);
         if (it == registered_.end()) {
-            std::lock_guard<std::mutex> slock(stats_mutex_);
-            ++stats_.events_skipped;
+            // Increment skip counter lock-free (no nested lock needed)
+            skipped_events_.fetch_add(1, std::memory_order_relaxed);
             return;
         }
         schema_id = it->second;

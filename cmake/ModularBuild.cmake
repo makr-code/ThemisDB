@@ -1259,7 +1259,6 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp
-    ../src/query/result_stream.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
 )

@@ -224,8 +224,11 @@ private:
     std::vector<Subscription> subscriptions_;
     std::atomic<uint64_t>     next_sub_id_{1};
 
+    // Stats are maintained with individual atomics to avoid nested locking
+    // (mutex_ must never be held while acquiring stats_mutex_).
     mutable std::mutex stats_mutex_;
     Stats stats_;
+    std::atomic<uint64_t> skipped_events_{0};  // incremented lock-free
 
     bool started_{false};
 

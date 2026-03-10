@@ -34,9 +34,11 @@
  * 10. MembershipChangeManager – onJointCommitted writes COMMIT entry
  * 11. MembershipChangeManager – onNewConfigCommitted finalises transition
  * 12. MembershipChangeManager – proposeRemove creates JOINT entry
- * 13. MembershipChangeManager – applyEntry drives follower config
- * 14. MembershipChangeManager – concurrent change rejected
- * 15. RaftV2State – hasVoted semantics
+ * 13. MembershipChangeManager – applyEntry drives follower config (add)
+ * 14. MembershipChangeManager – applyEntry drives follower config (remove)
+ * 15. MembershipChangeManager – applyEntry idempotent when already in joint
+ * 16. MembershipChangeManager – concurrent change rejected
+ * 17. RaftV2State – hasVoted semantics
  */
 
 #include <gtest/gtest.h>
@@ -351,7 +353,104 @@ TEST_F(MCMTest, ProposeRemoveCreatesJointEntry) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 13. MembershipChangeManager – concurrent change rejected
+// 13. MembershipChangeManager – applyEntry drives follower config
+// ─────────────────────────────────────────────────────────────────────────────
+
+class MCMFollowerTest : public ::testing::Test {
+protected:
+    TempWALDir wd_{"/tmp/themis_raft_v2_follower_test"};
+    std::shared_ptr<RaftV2ClusterConfig> config_;
+    std::unique_ptr<MembershipChangeManager> follower_mgr_;
+
+    void SetUp() override {
+        config_ = std::make_shared<RaftV2ClusterConfig>(
+            makeMembers({"node1", "node2", "node3"}));
+        auto wal = makeWAL(wd_.path);
+        follower_mgr_ = std::make_unique<MembershipChangeManager>(
+            config_, "node2", std::move(wal));
+    }
+};
+
+TEST_F(MCMFollowerTest, ApplyJointEntryActivatesJointConsensus) {
+    // Simulate a JOINT entry arriving from the leader
+    MembershipChangeEntry entry;
+    entry.phase       = MembershipChangeEntry::Phase::JOINT;
+    entry.old_members = makeMembers({"node1", "node2", "node3"});
+    entry.new_members = makeMembers({"node1", "node2", "node3", "node4"});
+    entry.log_index   = 42;
+
+    follower_mgr_->applyEntry(entry);
+
+    // After applying the JOINT entry the config must be in joint consensus
+    EXPECT_TRUE(config_->isInJointConsensus());
+    // The new member must be visible
+    EXPECT_TRUE(config_->isMember("node4"));
+    // Change must be tracked as in-progress
+    EXPECT_TRUE(follower_mgr_->isChangeInProgress());
+    auto pending = follower_mgr_->pendingEntry();
+    ASSERT_TRUE(pending.has_value());
+    EXPECT_EQ(pending->phase, MembershipChangeEntry::Phase::JOINT);
+}
+
+TEST_F(MCMFollowerTest, ApplyCommitEntryFinalisesTransition) {
+    // First apply JOINT to enter joint consensus
+    MembershipChangeEntry joint;
+    joint.phase       = MembershipChangeEntry::Phase::JOINT;
+    joint.old_members = makeMembers({"node1", "node2", "node3"});
+    joint.new_members = makeMembers({"node1", "node2", "node3", "node4"});
+    joint.log_index   = 42;
+    follower_mgr_->applyEntry(joint);
+
+    // Now apply COMMIT to finalise
+    MembershipChangeEntry commit;
+    commit.phase       = MembershipChangeEntry::Phase::COMMIT;
+    commit.old_members = joint.old_members;
+    commit.new_members = joint.new_members;
+    commit.log_index   = 43;
+    follower_mgr_->applyEntry(commit);
+
+    // After COMMIT the joint consensus should be resolved
+    EXPECT_FALSE(config_->isInJointConsensus());
+    EXPECT_FALSE(follower_mgr_->isChangeInProgress());
+    // node4 remains a member in the new stable config
+    EXPECT_TRUE(config_->isMember("node4"));
+    // Old members still present
+    EXPECT_TRUE(config_->isMember("node1"));
+}
+
+TEST_F(MCMFollowerTest, ApplyJointEntryForRemove) {
+    // Simulate follower receiving a JOINT entry for a remove operation
+    MembershipChangeEntry entry;
+    entry.phase       = MembershipChangeEntry::Phase::JOINT;
+    entry.old_members = makeMembers({"node1", "node2", "node3"});
+    entry.new_members = makeMembers({"node1", "node2"});
+    entry.log_index   = 55;
+
+    follower_mgr_->applyEntry(entry);
+
+    EXPECT_TRUE(config_->isInJointConsensus());
+    // node3 must be visible as old member during transition
+    EXPECT_TRUE(config_->isMember("node3"));
+    // but absent from new config
+    EXPECT_FALSE(config_->getNewMembers().count("node3"));
+}
+
+TEST_F(MCMFollowerTest, ApplyEntryIdempotentWhenAlreadyInJoint) {
+    MembershipChangeEntry entry;
+    entry.phase       = MembershipChangeEntry::Phase::JOINT;
+    entry.old_members = makeMembers({"node1", "node2", "node3"});
+    entry.new_members = makeMembers({"node1", "node2", "node3", "node4"});
+    entry.log_index   = 42;
+
+    follower_mgr_->applyEntry(entry);
+    // Applying the same JOINT entry again must not throw
+    EXPECT_NO_THROW(follower_mgr_->applyEntry(entry));
+    // Still in joint consensus (no double-transition)
+    EXPECT_TRUE(config_->isInJointConsensus());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. MembershipChangeManager – concurrent change rejected
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(MCMTest, ConcurrentProposalRejected) {
