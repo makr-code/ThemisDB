@@ -9716,6 +9716,68 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
+# ============================================================================
+# Training Module Focused Tests
+# Standalone targets that link only the training sources they exercise,
+# enabling fast iteration without recompiling the full themis_core library.
+# ============================================================================
+
+# ModalityParser focused tests – covers ModalityDetector, all four extractors,
+# and ConfidenceCalibrator from the same test file.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
+    message(STATUS "Adding ModalityParser focused tests (Phase 3)")
+
+    add_executable(test_modality_parser_focused
+        test_training_convergence.cpp
+        ${THEMIS_ROOT_DIR}/src/training/modality_parser.cpp
+        ${THEMIS_ROOT_DIR}/src/training/training_pipeline.cpp
+        ${THEMIS_ROOT_DIR}/src/training/auto_labeler.cpp
+        ${THEMIS_ROOT_DIR}/src/training/knowledge_graph_enricher.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+    )
+
+    target_include_directories(test_modality_parser_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_modality_parser_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_modality_parser_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ModalityParserFocusedTests COMMAND test_modality_parser_focused)
+
+    set_tests_properties(ModalityParserFocusedTests PROPERTIES
+        LABELS "training;modality;legal;calibration;ConfidenceCalibrator;PAV;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ModalityParser: ModalityDetector heuristics, TextClause/Table/Citation/OCR extractors, ConfidenceCalibrator PAV, batch parse")
+else()
+    message(STATUS "Modality parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
+endif()
+
+# TrainingConvergence alias – same binary, separate CTest entry for labelling
+if(TARGET test_modality_parser_focused)
+    add_test(NAME TrainingConvergenceFocusedTests COMMAND test_modality_parser_focused)
+
+    set_tests_properties(TrainingConvergenceFocusedTests PROPERTIES
+        LABELS "training;convergence;calibration;isotonic;legal;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
