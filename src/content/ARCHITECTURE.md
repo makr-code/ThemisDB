@@ -40,18 +40,23 @@ The module sits between the API layer (upload endpoints) and the storage/index/L
 | File | Role |
 |---|---|
 | `content_manager.cpp` | Pipeline orchestrator: MIME detect → policy → security → route |
-| `content_manager_llm.cpp` | LLM-augmented extraction (embedding generation, OCR assistance) |
+| `content_manager_llm.cpp` | LLM-augmented extraction: summary, topics, sentiment, category (requires `THEMIS_ENABLE_LLM`) |
+| `deduplication_checker.cpp` | pHash deduplication for images; MinHash+band-LSH deduplication for text |
+| `language_detector.cpp` | Multi-language text detection and routing |
 | `mime_detector.cpp` | MIME type detection via magic bytes, extension, and libmagic |
 | `content_type.cpp` | MIME → ContentCategory mapping (TEXT, IMAGE, AUDIO, VIDEO, GEO, CAD, …) |
 | `content_policy.cpp` | Configurable ingestion policy: allowed types, max sizes, depth limits |
 | `content_security.cpp` | Archive bomb detection, malware signature scanning |
 | `content_validator.cpp` | Format-level validation (JSON schema, image dimensions, etc.) |
-| `text_processor.cpp` | Text extraction, chunking, language detection |
-| `image_processor.cpp` | Image metadata extraction, thumbnail generation |
-| `audio_processor.cpp` | Audio metadata, speech-to-text stub |
-| `video_processor.cpp` | Video frame extraction, FFmpeg integration |
-| `pdf_processor.cpp` | PDF text extraction (planned / in progress) |
-| `office_processor.cpp` | Office document text extraction (DOCX, XLSX, PPTX) |
+| `text_processor.cpp` | Text extraction, chunking, MinHash perceptual deduplication |
+| `html_processor.cpp` | HTML content extraction with boilerplate removal |
+| `markdown_processor.cpp` | Markdown parsing and frontmatter extraction |
+| `image_processor.cpp` | Image metadata extraction, pHash perceptual deduplication |
+| `audio_processor.cpp` | Audio metadata extraction and optional STT transcription (`stt_processor.cpp`) |
+| `video_processor.cpp` | Video metadata extraction and frame extraction (FFmpeg) |
+| `pdf_processor.cpp` | PDF text extraction via poppler-cpp (layout-preserving, per-page) |
+| `office_processor.cpp` | Office document text extraction (DOCX, XLSX, PPTX, ODF) |
+| `ocr_processor.cpp` | Tesseract OCR text extraction from images (`THEMIS_ENABLE_OCR`) |
 | `geo_processor.cpp` | Geospatial data extraction and GeoJSON normalization |
 | `cad_processor.cpp` | CAD file metadata extraction |
 | `stt_processor.cpp` | Speech-to-text processing interface |
@@ -64,7 +69,14 @@ The module sits between the API layer (upload endpoints) and the storage/index/L
 | `content_errors.cpp` | Typed error hierarchy for content processing failures |
 | `content_fs.cpp` | Filesystem utilities for temp file management |
 | `content_logger.cpp` | Content-specific structured logging |
-| `pipeline/` | Processing stage pipeline (multi-stage DAG) |
+| `mock_clip_processor.cpp` | Mock CLIP-based image embedding processor (testing / no-GPU path) |
+| `embedding_pipeline.cpp` | Text-to-vector embedding pipeline; batch generation, model dispatch |
+| `content_manager_embedding.cpp` | ContentManager::generateEmbedding() — delegates to EmbeddingPipeline |
+| `pipeline/content_chunker.cpp` | Fixed-size and sentence-boundary content chunking |
+| `pipeline/multimodal_chunker.cpp` | Multi-modal chunk assembly (text + image + metadata) |
+| `pipeline/zstd_compression.cpp` | zstd codec wrapper for content blob compression |
+| `pipeline/bulk_upload_interface.cpp` | Bulk-upload request/response types and validation |
+| `pipeline/async_bulk_uploader.cpp` | Async worker for batch bulk upload operations |
 
 ### 3.2 Component Diagram
 
@@ -211,10 +223,12 @@ ContentManager: update status → notify caller (webhook or polling)
 
 ## 11. Known Limitations & Future Work
 
-- PDF text extraction (`pdf_processor.cpp`) is in progress; currently returns limited metadata.
-- Full OCR pipeline (image → text via Tesseract) is planned.
-- Streaming ingestion (large files without buffering to disk) is planned.
-- Audio/video processing (`stt_processor.cpp`, `video_processor.cpp`) are stub implementations.
+- Legacy Office formats (`.doc`/`.xls`/`.ppt` via OLE/Compound Document) not yet supported; LibreOffice headless fallback is planned (CON-001; see `docs/de/content/missing-implementations.md`).
+- MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` not yet wired (CON-002).
+- OCR DPI pre-processing (300 DPI rescaling + adaptive binarisation via Leptonica) not yet implemented (CON-003).
+- Back-pressure for `ingestStream()` (blocking on `max_queue_depth`) is planned (CON-005).
+- Zip-bomb protection decompression-ratio check in `content_security.cpp` not yet enforced (CON-006).
+- Video scene detection, subtitle extraction, and keyframe extraction are stub implementations in non-FFmpeg builds.
 
 ---
 
