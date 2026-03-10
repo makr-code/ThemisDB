@@ -71,7 +71,7 @@ v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator 
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #2355)
-- [I] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
+- [P] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
 - [P] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
 - [I] Security audit (audio data storage, transcription PII handling) (Issue: #2358)
 - [I] Documentation complete (Issue: #2359)

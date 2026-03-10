@@ -2528,3 +2528,87 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_vector_index.cpp")
         message(STATUS "Skipping GPU Vector Index benchmarks (THEMIS_ENABLE_GPU=OFF)")
     endif()
 endif()
+
+# ============================================================================
+# Ingestion Module Benchmarks (Issue: #1911 — Performance benchmarks: docs/sec, MB/sec)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_kv.cpp")
+    message(STATUS "Adding Ingestion KV benchmarks (Issue #1911)")
+
+    add_executable(bench_ingestion_kv
+        bench_ingestion_kv.cpp
+    )
+
+    target_link_libraries(bench_ingestion_kv PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_ingestion_kv PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_ingestion_kv PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_ingestion_kv
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  IngestionKV: bulk-insert throughput (docs/sec, MB/sec), WriteBatch sizing, checkpoint overhead")
+endif()
+
+# ============================================================================
+# Voice Assistant Benchmarks (Issue: #2357 — Performance benchmarks: STT latency, TTS speed)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_assistant.cpp")
+    message(STATUS "Adding Voice Assistant benchmarks (Issue #2356)")
+
+    add_executable(bench_voice_assistant
+        bench_voice_assistant.cpp
+    )
+
+    target_link_libraries(bench_voice_assistant PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_assistant PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_voice_assistant PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_voice_assistant
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  VoiceAssistant: STT latency, TTS generation speed, command pipeline throughput, wake-word detection QPS")
+endif()

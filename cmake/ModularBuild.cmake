@@ -405,6 +405,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
     ../src/exporters/export_encryption.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/huggingface_exporter.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp

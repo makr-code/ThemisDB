@@ -58,7 +58,7 @@
 - [x] Implement synthetic data augmentation pipeline for training data diversity (`exporters/data_augmentation.cpp`)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1729)
+- [P] Unit tests coverage > 80% (Issue: #1729)
 - [x] Integration tests (JSONL export, LoRA metadata, Parquet, Arrow IPC, HuggingFace, streaming, incremental)
 - [I] Performance benchmarks (export throughput) (Issue: #1730)
 - [x] Security audit (sensitive field redaction, export authorization) (Issue: #1731)

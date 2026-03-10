@@ -55,7 +55,7 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 
 ### Long-term (6-12 months)
 - [x] Distributed ingestion coordinator across nodes (Issue: #1897) → `ingestion/ingestion_coordinator.cpp`
-- [I] Dynamic source reconfiguration without restart (Issue: #1900)
+- [x] Dynamic source reconfiguration without restart (Issue: #1900)
 ### Remaining
 - [I] End-to-end ingestion lineage tracking (Issue: #1901)
 - [I] Unit tests coverage > 80% (Issue: #1909)
@@ -110,8 +110,8 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1909)
-- [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
-- [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
+- [P] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
+- [P] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
 - [x] Security audit (path traversal, API key storage) (Issue: #1912)
 - [x] Documentation complete (Issue: #1913)
 - [I] API stability guaranteed (Issue: #1914)

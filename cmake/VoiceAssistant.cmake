@@ -25,5 +25,7 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_macro_manager.cpp
         ../src/voice/voice_browser_streaming.cpp
         ../src/voice/voice_telephony.cpp
+        # Emotion and sentiment detection from voice tone (acoustic features) (Issue: #2355)
+        ../src/voice/emotion_analyzer.cpp
     )
 endif()
