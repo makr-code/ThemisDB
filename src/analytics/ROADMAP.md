@@ -43,6 +43,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476) ✅
 - [x] Multi-language NLP support (beyond English) (Issue: #1478)
 - [x] Full morphological lemmatization (Issue: #1479)
+- [x] Arrow Flight RPC support for remote analytics: in-process + optional native gRPC transport (Issue: #1472) (`analytics/arrow_flight.cpp`)
 
 ## In Progress 🚧
 *(none — all Phase 3 items completed)*
@@ -52,7 +53,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ### Short-term (Next 3-6 months)
 - [P] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
 - [P] Zero-copy Arrow data transfer optimizations (Issue: #1471)
-- [P] Arrow Flight RPC support for remote analytics (Issue: #1472)
+- [x] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
 
@@ -118,6 +119,13 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Integration tests (query module, index module, CDC)
 - [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`) — including stateful checkpoint lifecycle (`StatefulCheckpointPreservesPartialMatches`, `CheckpointWithNoPartialMatchesIsClean`)
 - [x] Forecasting unit tests (`tests/analytics/test_forecasting.cpp`) — TimeSeries, all five algorithms, fit/predict/evaluate/decompose, serialize/deserialize, edge cases
+- [x] Anomaly detection unit tests (`tests/analytics/test_anomaly_detection.cpp`) — all 6 algorithms, streaming, serialize round-trip
+- [x] AutoML unit tests (`tests/analytics/test_automl.cpp`) — classification, regression, feature engineering, ensemble, SHAP, serialize
+- [x] Distributed analytics unit tests (`tests/analytics/test_distributed_analytics.cpp`) — shard management, scatter-gather, partial failure
+- [x] Process pattern matcher unit tests (`tests/analytics/test_process_pattern_matcher.cpp`) — graph/vector/behavioral/hybrid similarity, conformance
+- [x] Standalone focused test targets registered in `tests/CMakeLists.txt` for all analytics components
+- [x] Missing analytics sources (anomaly_detection, automl, distributed_analytics, process_pattern_matcher) added to `cmake/CMakeLists.txt`
+- [x] Arrow Flight RPC (`analytics/arrow_flight.cpp`) — in-process + optional native gRPC transport (Issue: #1472)
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
 - [x] Security audit (LLM API key handling, data export sanitization)
 - [x] Documentation complete (API docs, OLAP guide, process mining guide)

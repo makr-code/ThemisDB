@@ -2108,7 +2108,19 @@ set(THEMIS_CORE_SOURCES
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
     ../src/analytics/arrow_flight.cpp
-    
+
+    # Process Pattern Matcher – conformance checking and behavioral similarity (Phase 1)
+    ../src/analytics/process_pattern_matcher.cpp
+
+    # Real-Time Anomaly Detection – Z-Score, IQR, Isolation Forest, LOF, Ensemble (Phase 3)
+    ../src/analytics/anomaly_detection.cpp
+
+    # AutoML – automated model selection, hyperparameter search, SHAP explanations (Phase 3)
+    ../src/analytics/automl.cpp
+
+    # Distributed Analytics Sharding – scatter-gather coordinator for distributed OLAP (Phase 3)
+    ../src/analytics/distributed_analytics.cpp
+
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
     ../src/transaction/snapshot_manager.cpp
