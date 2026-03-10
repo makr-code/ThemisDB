@@ -2003,3 +2003,52 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
 
     message(STATUS "  Updates: state machine transitions, rollback path, manifest JSON round-trip, generatePatch, applyPatch")
 endif()
+
+# ============================================================================
+# Exporters Throughput Benchmarks (Issue #1730)
+# JSONLLLMExporter: batch throughput (INSTRUCTION_TUNING, Alpaca, ChatML),
+# StreamingExporter: streaming throughput with progress callbacks,
+# IncrementalExporter: full export vs delta export speedup.
+# Targets (src/exporters/FUTURE_ENHANCEMENTS.md):
+#   - JSONL throughput: >= 200 000 docs/sec
+#   - Delta export speedup (0.1% change): >= 10x vs full export
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
+    message(STATUS "Adding Exporters throughput benchmarks")
+
+    add_executable(bench_exporters
+        bench_exporters.cpp
+    )
+
+    target_link_libraries(bench_exporters PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_exporters PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        target_compile_options(bench_exporters PRIVATE
+            -O3
+            -march=native
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_exporters
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  JSONL export: batch throughput (100/1000/10000 entities), Alpaca/ChatML templates, GZIP compression")
+    message(STATUS "  StreamingExporter: throughput with progress callbacks (1000/5000 entities)")
+    message(STATUS "  IncrementalExporter: full export vs delta export speedup (0.1% change scenario)")
+endif()

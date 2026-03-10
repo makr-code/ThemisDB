@@ -736,6 +736,8 @@ target_sources(themis_tests PRIVATE
 # Ensure implementations required by unit tests are always linked.
 target_sources(themis_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
     ${CMAKE_SOURCE_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
     ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
     ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
@@ -7482,6 +7484,169 @@ add_chimera_focused_test(
 )
 
 # ============================================================================
+# Exporters Focused Test Targets
+# Each target compiles the full exporter source set and links themis_core
+# (when available) to resolve transitive dependencies (AQL parser, utils,
+# OpenSSL, zlib/zstd, Arrow/Parquet).
+# ============================================================================
+
+set(EXPORTER_CORE_SOURCES
+    ${CMAKE_SOURCE_DIR}/src/exporters/jsonl_llm_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/format_template.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/exporter_metrics.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/pii_detector.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/stream_writer.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/parquet_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/streaming_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/aql_predicate_filter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/arrow_ipc_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/incremental_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_encryption.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_exporter.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
+    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
+)
+
+# Helper function to create an exporters focused test executable.
+function(add_exporter_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding exporters focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+            ${EXPORTER_CORE_SOURCES}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        # Link themis_core when available to satisfy transitive deps
+        # (AQL parser/evaluator, utils, compression libraries, Arrow/Parquet).
+        set(_exporter_test_libs ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
+        if(TARGET themis_core)
+            list(APPEND _exporter_test_libs themis_core)
+        endif()
+        if(TARGET OpenSSL::Crypto)
+            list(APPEND _exporter_test_libs OpenSSL::Crypto)
+        endif()
+
+        target_link_libraries(${target_name} PRIVATE ${_exporter_test_libs})
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "Exporters focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_exporter_focused_test(
+    test_jsonl_llm_exporter_focused
+    exporters/test_jsonl_llm_exporter.cpp
+    JsonlLlmExporterFocusedTests
+    "exporters;jsonl;llm;instruction-tuning;focused;unit"
+    "JsonlLlmExporter: JSONL export, instruction-tuning formats, PII redaction, toxicity filtering, deduplication"
+)
+
+add_exporter_focused_test(
+    test_huggingface_exporter_focused
+    exporters/test_huggingface_exporter.cpp
+    HuggingFaceExporterFocusedTests
+    "exporters;huggingface;datasets;focused;unit"
+    "HuggingFaceExporter: JSONL shards, dataset_card.md, dataset_info.json, field selection"
+)
+
+add_exporter_focused_test(
+    test_parquet_exporter_focused
+    exporters/test_parquet_exporter.cpp
+    ParquetExporterFocusedTests
+    "exporters;parquet;arrow;columnar;focused;unit"
+    "ParquetExporter: columnar export, configurable Arrow schema, fallback writer"
+)
+
+add_exporter_focused_test(
+    test_arrow_ipc_exporter_focused
+    exporters/test_arrow_ipc_exporter.cpp
+    ArrowIpcExporterFocusedTests
+    "exporters;arrow;ipc;zero-copy;focused;unit"
+    "ArrowIpcExporter: Arrow IPC file and stream format export"
+)
+
+add_exporter_focused_test(
+    test_streaming_exporter_focused
+    exporters/test_streaming_exporter.cpp
+    StreamingExporterFocusedTests
+    "exporters;streaming;progress;resumable;focused;unit"
+    "StreamingExporter: large-collection streaming, progress callbacks, resumable export"
+)
+
+add_exporter_focused_test(
+    test_incremental_exporter_focused
+    exporters/test_incremental_exporter.cpp
+    IncrementalExporterFocusedTests
+    "exporters;incremental;delta;watermark;focused;unit"
+    "IncrementalExporter: watermark-based delta export, checkpoint tracking"
+)
+
+add_exporter_focused_test(
+    test_aql_predicate_filter_focused
+    exporters/test_aql_predicate_filter.cpp
+    AqlPredicateFilterFocusedTests
+    "exporters;aql;predicate;filter;focused;unit"
+    "AqlPredicateFilter: AQL-based record filtering before export"
+)
+
+add_exporter_focused_test(
+    test_format_template_focused
+    exporters/test_format_template.cpp
+    FormatTemplateFocusedTests
+    "exporters;format;template;alpaca;sharegpt;chatml;focused;unit"
+    "FormatTemplate: Alpaca, ShareGPT, ChatML, OpenAI instruction-tuning transforms"
+)
+
+add_exporter_focused_test(
+    test_export_encryption_focused
+    exporters/test_export_encryption.cpp
+    ExportEncryptionFocusedTests
+    "exporters;encryption;aes-gcm;security;focused;unit"
+    "ExportEncryption: AES-256-GCM encryption and decryption of export files"
+)
+
+add_exporter_focused_test(
+    test_data_augmentation_focused
+    exporters/test_data_augmentation.cpp
+    DataAugmentationFocusedTests
+    "exporters;augmentation;synthetic;diversity;focused;unit"
+    "DataAugmentation: synthetic training data augmentation pipeline"
+)
+
+add_exporter_focused_test(
+    test_export_format_registry_focused
+    exporters/test_export_format_registry.cpp
+    ExportFormatRegistryFocusedTests
+    "exporters;registry;format;pluggable;focused;unit"
+    "ExportFormatRegistry: singleton registry, registerBuiltins, createExporter, hasFormat, registeredFormats"
+)
+
+add_exporter_focused_test(
+    test_huggingface_hub_client_focused
+    exporters/test_huggingface_hub_client.cpp
+    HuggingFaceHubClientFocusedTests
+    "exporters;huggingface;hub;upload;libcurl;focused;unit"
+    "HuggingFaceHubClient: token resolution, repo create, retry logic, error surfacing"
+)
 # Cache Interfaces Tests (Issue: #1596 — unit test coverage >80%)
 # ============================================================================
 

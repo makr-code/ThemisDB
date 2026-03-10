@@ -35,7 +35,13 @@
 #include <optional>
 #include "exporters/export_encryption.h"
 #include "storage/base_entity.h"
-#include "exporters/export_encryption.h"
+
+// Forward-declare PolicyEngine so exporter_interface.h stays lean.
+// The full type is only included in export_policy_guard.h / exporters that
+// actually call enforceExportPolicy().
+namespace themis::governance {
+class PolicyEngine;
+} // namespace themis::governance
 
 namespace themis::exporters {
 
@@ -116,7 +122,37 @@ struct ExportOptions {
     // KEK referenced by ExportEncryptionConfig::kek_id.
     // The raw key material is never written to disk or emitted in any log.
     std::optional<ExportEncryptionConfig> encryption_config;
+
+    // ── Authorization (EXP-001) ──────────────────────────────────────────────
+    // When policy_engine is non-null, every exporter MUST call
+    // enforceExportPolicy(*this) before opening any cursor or output file.
+    // A PolicyEngine::checkExportPermission() denial throws ExporterException
+    // with code ERR_EXPORT_POLICY_DENIED.
+
+    /// Name of the collection being exported (required when policy_engine is set).
+    std::string collection_name;
+
+    /// Identity of the user/service requesting the export (required when
+    /// policy_engine is set; falls back to tenant_context.user_id when empty).
+    std::string requesting_user;
+
+    /// Optional PolicyEngine for per-collection authorization checks.
+    /// Raw non-owning pointer; the caller must ensure it outlives all
+    /// export calls.  Null = no policy check (backward compatible default).
+    themis::governance::PolicyEngine* policy_engine = nullptr;
 };
+
+/// @brief Enforce export policy before any cursor or output file is opened.
+///
+/// Builds a `ModelTrainingExportRequest` from `options` and calls
+/// `PolicyEngine::checkExportPermission()`.  If the engine denies the
+/// request an `ExporterException(ERR_EXPORT_POLICY_DENIED, ...)` is thrown.
+///
+/// This is a no-op when `options.policy_engine == nullptr`.
+///
+/// All concrete exporters MUST call this at the very start of
+/// `exportEntities()`, before opening any file or database cursor.
+void enforceExportPolicy(const ExportOptions& options);
 
 /// Generic exporter interface
 class IExporter {
