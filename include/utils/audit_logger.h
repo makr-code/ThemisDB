@@ -407,5 +407,132 @@ private:
     double calculateZScore(double value, double mean, double stddev) const;
 };
 
+// ---------------------------------------------------------------------------
+// HashChainAuditWriter
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Configuration for HashChainAuditWriter.
+ */
+struct HashChainAuditWriterConfig {
+    std::string log_path        = "data/logs/audit_chain.jsonl";
+    std::string chain_head_path = "data/logs/audit_chain_head.bin";
+    bool        fsync_on_write  = true;   ///< fdatasync the head file after each write
+};
+
+/**
+ * @brief Standalone tamper-evident audit record writer with SHA-256 hash chain.
+ *
+ * Each entry is stored as a JSON line with two extra fields injected:
+ *   "chain_seq"   — monotonically-increasing sequence number (uint64)
+ *   "prev_hash"   — SHA-256 hex digest of the previous log record's hash input
+ *
+ * The running chain head is persisted to `chain_head_path` after every write so
+ * that AuditLogVerifier::verify_chain() can verify from any checkpoint without
+ * replaying the whole log.
+ *
+ * Initial chain seed: SHA-256 of a caller-supplied seed string (typically
+ * derived via HKDF from the cluster root key so chain heads are cluster-specific).
+ *
+ * v1.5.0: Initial implementation (Phase 3 FUTURE_ENHANCEMENTS.md).
+ */
+class HashChainAuditWriter {
+public:
+    /**
+     * @param cfg        Writer configuration.
+     * @param chain_seed Hex string used to initialise the genesis hash.
+     *                   Should be HKDF-derived from the cluster root key.
+     *                   Defaults to 64 zeros (all-zero genesis) when empty.
+     */
+    explicit HashChainAuditWriter(HashChainAuditWriterConfig cfg = {},
+                                  const std::string& chain_seed = "");
+
+    ~HashChainAuditWriter();
+
+    /**
+     * @brief Append a JSON record to the chain log.
+     *
+     * Injects `chain_seq` and `prev_hash` into @p record, writes the
+     * augmented record as a JSON line, then updates and persists the chain head.
+     *
+     * Thread-safe.
+     */
+    void write(nlohmann::json record);
+
+    /**
+     * @brief Returns the current chain head hash (hex-SHA-256).
+     */
+    std::string headHash() const;
+
+    /**
+     * @brief Returns the number of entries written since construction.
+     */
+    uint64_t sequenceNumber() const;
+
+private:
+    HashChainAuditWriterConfig cfg_;
+    mutable std::mutex         mu_;
+    std::string                last_hash_;
+    uint64_t                   seq_{0};
+
+    static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
+    static std::string bytesToHex(const std::vector<uint8_t>& data);
+
+    void saveChainHead();
+    void loadOrInitChainHead(const std::string& chain_seed);
+};
+
+// ---------------------------------------------------------------------------
+// AuditLogVerifier
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Result of a hash-chain verification pass.
+ */
+struct AuditVerifyResult {
+    bool     ok            = true;     ///< true when chain is intact
+    uint64_t entries_ok    = 0;        ///< number of entries with valid chain links
+    uint64_t entries_total = 0;        ///< total non-empty lines inspected
+    uint64_t first_bad_seq = UINT64_MAX; ///< sequence number of first tampered entry (if any)
+    std::string error_message;         ///< human-readable description of first failure
+};
+
+/**
+ * @brief Standalone audit log chain verifier.
+ *
+ * Replays the hash chain in a log file written by HashChainAuditWriter and
+ * reports the first entry where the `prev_hash` field does not match the
+ * expected running hash.
+ *
+ * Usage:
+ * @code
+ *   AuditLogVerifier verifier;
+ *   auto result = verifier.verify_chain("data/logs/audit_chain.jsonl");
+ *   if (!result.ok) { ... }
+ * @endcode
+ *
+ * v1.5.0: Initial implementation (Phase 3 FUTURE_ENHANCEMENTS.md).
+ */
+class AuditLogVerifier {
+public:
+    AuditLogVerifier() = default;
+
+    /**
+     * @brief Replay the hash chain in @p log_path and verify each link.
+     *
+     * @param log_path      Path to the JSONL log file.
+     * @param genesis_hash  Expected genesis hash (64-char hex).  Use the
+     *                      all-zero default when the log was written with
+     *                      the default chain seed.
+     * @return Verification result struct.
+     */
+    AuditVerifyResult verify_chain(const std::string& log_path,
+                                   const std::string& genesis_hash = std::string(64, '0')) const;
+
+private:
+    static std::string computeEntryHash(const std::string& prev_hash,
+                                        const nlohmann::json& entry);
+};
+
 } // namespace utils
 } // namespace themis

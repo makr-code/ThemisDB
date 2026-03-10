@@ -27,9 +27,10 @@
 
 #include "pki_client.h"
 #include "expected.h"
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -300,6 +301,97 @@ public:
      * @return Masked value (e.g., "***@example.com", "**** **** **** 1234")
      */
     static std::string maskValue(PIIType type, const std::string& value, const std::string& mode);
+};
+
+// ---------------------------------------------------------------------------
+// PIIStreamScanner
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Configuration for streaming PII scanner.
+ */
+struct PIIStreamScannerConfig {
+    size_t lookahead_bytes = 256; ///< Buffer to handle cross-chunk entity spans
+    double min_confidence  = 0.5;
+};
+
+/**
+ * @brief Stateful streaming PII scanner for large documents.
+ *
+ * Process arbitrarily large documents without full in-memory loading.
+ * Handles entity spans that straddle chunk boundaries via a lookahead buffer.
+ *
+ * Usage:
+ * @code
+ *   PIIStreamScanner scanner(engine);
+ *   while (has_more_data) {
+ *       auto findings = scanner.scan_chunk(next_chunk());
+ *       process(findings);
+ *   }
+ *   auto last = scanner.scan_chunk(last_chunk, true);
+ * @endcode
+ */
+class PIIStreamScanner {
+public:
+    explicit PIIStreamScanner(std::shared_ptr<IPIIDetectionEngine> engine,
+                               PIIStreamScannerConfig cfg = {});
+
+    /**
+     * @brief Feed the next chunk of text. is_last=true signals end of document.
+     * @return Finalized findings with absolute offsets from document start.
+     */
+    std::vector<PIIFinding> scan_chunk(std::string_view chunk, bool is_last = false);
+
+    /** @brief Reset state for a new document. */
+    void reset();
+
+    /** @brief Total bytes processed since last reset(). */
+    size_t bytes_processed() const;
+
+private:
+    std::shared_ptr<IPIIDetectionEngine> engine_;
+    PIIStreamScannerConfig cfg_;
+    std::string lookahead_buf_;
+    size_t global_offset_ = 0;
+};
+
+// ---------------------------------------------------------------------------
+// PIIStreamPseudonymizer
+// ---------------------------------------------------------------------------
+
+// Forward declaration — full type in lek_manager.h
+class LEKManager;
+
+/**
+ * @brief Stateful streaming PII pseudonymizer companion for PIIStreamScanner.
+ *
+ * Scans each chunk for PII and replaces each detected span with a
+ * deterministic HMAC-SHA-256 pseudonym derived from the tenant root key.
+ */
+class PIIStreamPseudonymizer {
+public:
+    struct Config {
+        std::string tenant_id;
+        size_t lookahead_bytes = 256;
+    };
+
+    PIIStreamPseudonymizer(std::shared_ptr<IPIIDetectionEngine> engine,
+                            std::shared_ptr<LEKManager>          lek_mgr,
+                            Config                               cfg);
+
+    /**
+     * @brief Process a chunk: scan + pseudonymize findings.
+     * @return Text chunk with PII replaced by deterministic 8-hex-char pseudonyms.
+     */
+    std::string process_chunk(std::string_view chunk, bool is_last = false);
+
+    /** @brief Reset state for a new document. */
+    void reset();
+
+private:
+    PIIStreamScanner             scanner_;
+    std::shared_ptr<LEKManager>  lek_mgr_;
+    Config                       cfg_;
 };
 
 } // namespace utils

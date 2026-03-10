@@ -36,7 +36,9 @@
 #include <cstdint>
 #include <memory>
 #include <mutex>
+#include <random>
 #include <string>
+#include <unordered_map>
 
 namespace spdlog {
 class logger;
@@ -139,6 +141,63 @@ private:
     static bool json_mode_;
 
     static spdlog::level::level_enum toSpdlogLevel(Level level);
+};
+
+// ---------------------------------------------------------------------------
+// SampledLogger
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Configuration for sampled logging.
+ */
+struct SampledLoggerConfig {
+    double trace_sample_rate = 0.01;  ///< 1%
+    double debug_sample_rate = 0.10;  ///< 10%
+    double info_sample_rate  = 1.00;  ///< 100%
+    double warn_sample_rate  = 1.00;  ///< 100%
+    double error_sample_rate = 1.00;  ///< 100%
+    double burst_rate = 100.0;        ///< token-bucket rate (calls/s per site)
+    double burst_size = 10.0;         ///< initial token budget
+};
+
+/**
+ * @brief Logger decorator that samples and rate-limits high-frequency log calls.
+ *
+ * Uses per-(file, line, level) token-bucket rate limiters to prevent log flooding.
+ * Suppressed call counts are tracked for observability.
+ * Audit log calls (via AuditLogger) MUST bypass this decorator.
+ *
+ * v1.5.0: Initial implementation
+ */
+class THEMIS_BASE_API SampledLogger {
+public:
+    explicit SampledLogger(std::shared_ptr<Logger> underlying,
+                           SampledLoggerConfig cfg = {});
+
+    /// Log with sampling; file/line identify the call-site bucket.
+    void log(Logger::Level level, const std::string& msg,
+             const char* file = __builtin_FILE(),
+             int line = __builtin_LINE());
+
+    /// Total suppressed calls since construction.
+    uint64_t suppressed_total() const;
+
+    /// Reset suppression counters (for tests).
+    void reset_stats();
+
+    /// Hot-reload config at runtime.
+    void set_config(SampledLoggerConfig cfg);
+
+private:
+    struct Bucket;
+
+    bool should_log(Logger::Level level, const char* file, int line);
+
+    std::shared_ptr<Logger>  underlying_;
+    SampledLoggerConfig      cfg_;
+    std::atomic<uint64_t>    suppressed_{0};
+    mutable std::mutex       buckets_mutex_;
+    std::unordered_map<std::string, std::unique_ptr<Bucket>> buckets_;
 };
 
 } // namespace utils
