@@ -1902,6 +1902,7 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/device_detector.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp

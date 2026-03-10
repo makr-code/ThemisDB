@@ -256,6 +256,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/geo/geo_rtree.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
     
     # Performance enhancements

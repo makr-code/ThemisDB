@@ -2157,8 +2157,40 @@ else()
 endif()
 
 # ============================================================================
-# GraphQL Error Masking Tests
+# OTLP Exporter Tests
 # ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+    message(STATUS "Adding OTLP exporter tests")
+
+    add_executable(test_otlp_exporter
+        test_otlp_exporter.cpp
+    )
+
+    target_link_libraries(test_otlp_exporter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        CURL::libcurl
+    )
+
+    target_compile_definitions(test_otlp_exporter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OtlpExporterTests COMMAND test_otlp_exporter)
+
+    set_tests_properties(OtlpExporterTests PROPERTIES
+        LABELS "api;tracing;otlp;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  OTLP Exporter: queue, span serialisation, middleware integration")
+else()
+    message(STATUS "OTLP exporter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
+endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")

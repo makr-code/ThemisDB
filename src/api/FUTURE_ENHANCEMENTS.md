@@ -6,10 +6,10 @@ This document covers implementation-specific future enhancements for the API mod
 
 ## Design Constraints
 
-- `[ ]` REST endpoint signatures introduced in v1.x must remain backward-compatible; new capabilities are added via versioned prefixes (`/v2/`) or opt-in headers, not breaking changes to existing `/v1/` routes.
-- `[ ]` The GraphQL parser in `graphql.cpp` uses `QueryLimits::defaults()` for depth/complexity guards; any new field resolver must enforce those limits to prevent query amplification.
-- `[ ]` TLS is mandatory for all production transports; new WebSocket and gRPC transports must share the same TLS context as the existing HTTP listener.
-- `[ ]` Auth middleware (`src/auth/`) is a hard dependency; no new transport may bypass JWT/JWKS validation enforced by `jwt_validator.cpp`.
+- `[x]` REST endpoint signatures introduced in v1.x must remain backward-compatible; new capabilities are added via versioned prefixes (`/v2/`) or opt-in headers, not breaking changes to existing `/v1/` routes. (**Enforced** — `RouteVersionRouter` redirects unversioned paths 301 to `/v1/`; all new functionality is under `/v2/`.)
+- `[x]` The GraphQL parser in `graphql.cpp` uses `QueryLimits::defaults()` for depth/complexity guards; any new field resolver must enforce those limits to prevent query amplification. (**Enforced** — `QueryLimits` passed to `Parser::parse()` in all call sites; `QueryLimits::production()` disables introspection.)
+- `[x]` TLS is mandatory for all production transports; new WebSocket and gRPC transports must share the same TLS context as the existing HTTP listener. (**Enforced** — `GrpcApiServer` uses `grpc::SslServerCredentials` from the same PEM paths; WebSocket upgrades go through the Beast TLS acceptor.)
+- `[x]` Auth middleware (`src/auth/`) is a hard dependency; no new transport may bypass JWT/JWKS validation enforced by `jwt_validator.cpp`. (**Enforced** — `WsChangeHandler::validate()` and gRPC interceptor both call `AuthMiddleware::authorize` before any data is exchanged.)
 
 ## Required Interfaces
 
@@ -33,7 +33,8 @@ This document covers implementation-specific future enhancements for the API mod
 - `[x]` Add `SchemaRegistry` class to `graphql.cpp`; auto-build from registered `TypeDefinition` objects at server start.
 - `[x]` Implement `__schema` and `__type` introspection resolvers; required by all major GraphQL clients (Apollo, Relay).
 - `[x]` Subscription transport: use Boost.Beast WebSocket upgrades; create `graphql_ws_handler.cpp` implementing the `graphql-transport-ws` protocol (not the legacy `subscriptions-transport-ws`).
-- `[x]` Wire `cdc::Changefeed::subscribe(filter)` as the event source for `subscription { onChange(collection: "...") { ... } }`. Implemented: `Changefeed::subscribe(SubscriptionFilter, SubscriptionCallback)` + `SubscriptionHandle` RAII type in `changefeed.h/cpp`; wired in `GraphQLWsHandler::handleSubscribe()` via `extractOnChangeCollection()`.- `[x]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
+- `[x]` Wire `cdc::Changefeed::subscribe(filter)` as the event source for `subscription { onChange(collection: "...") { ... } }`. Implemented: `Changefeed::subscribe(SubscriptionFilter, SubscriptionCallback)` + `SubscriptionHandle` RAII type in `changefeed.h/cpp`; wired in `GraphQLWsHandler::handleSubscribe()` via `extractOnChangeCollection()`.
+- `[x]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
 
 **Performance Targets:**
 - GraphQL parse + validate + execute for a 10-field document query in < 2 ms (p99) under 500 concurrent HTTP/2 connections.
@@ -124,8 +125,8 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 - `[x]` Add `TracingMiddleware` in `src/api/tracing_middleware.cpp`; generate UUID v4 if `X-Correlation-ID` absent; inject into thread-local `RequestContext`. (**Implemented** — `TracingMiddleware::processRequest()` uses `boost::uuids::random_generator` per thread.)
 - `[x]` Forward `RequestContext::correlationId` to `utils/logger.h` log macros via a structured field (`correlation_id`). (**Implemented** — `utils::Logger::setTraceContext(corr_id)` called in `processRequest()`.)
 - `[x]` Echo back `X-Correlation-ID` in all responses including errors and SSE streams (implemented in `HttpServer::applyGovernanceHeaders()`).
-- `[ ]` Export span data to OpenTelemetry collector via OTLP HTTP exporter (configurable endpoint in `config/networking/`).
-- `[?]` Decision needed: use W3C `traceparent` header format vs proprietary `X-Correlation-ID` — affects SDK compatibility.
+- `[x]` Export span data to OpenTelemetry collector via OTLP HTTP exporter (configurable endpoint in `config/networking/`). Implemented in `include/api/otlp_exporter.h` + `src/api/otlp_exporter.cpp` (async queue + libcurl POST, OTLP JSON format); `TracingMiddleware` extended with `finishSpan()` and optional `OtlpExporter*`; configuration in `config/networking/otlp.yaml`.
+- `[x]` Decision: retain proprietary `X-Correlation-ID` as the primary correlation header; the OTLP exporter uses the correlation-ID value as the OTLP `traceId`. A future W3C `traceparent` bridge can be added when SDK interoperability is required.
 
 **Performance Targets:**
 - Middleware overhead < 10 µs per request (UUID generation + thread-local write).
