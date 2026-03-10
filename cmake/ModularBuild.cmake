@@ -998,10 +998,22 @@ set(THEMIS_NETWORK_SOURCES
     # Modular globals shared across handlers
     ../src/server/hsm_provider_global.cpp
     
-    # Observability (GAP-008: Alertmanager integration)
+    # Observability (GAP-008: Alertmanager integration + full stack)
     ../src/observability/alertmanager.cpp
     # Observability: continuous profiling (pprof / async-profiler compatible)
     ../src/observability/continuous_profiler.cpp
+    # Observability: eBPF-based kernel-level tracing (Issue #2055)
+    ../src/observability/ebpf_tracer.cpp
+    # Observability: distributed flame graph generation (Issue #2108)
+    ../src/observability/distributed_flame_graph.cpp
+    # Observability: SLO/SLA compliance reporting with burn-rate alerts (Issue #2148)
+    ../src/observability/slo_reporter.cpp
+    # Observability: ML-based anomaly detection on metric time-series (Issue #2097)
+    ../src/observability/metric_anomaly_detector.cpp
+    # Observability: query, storage, and performance profiling
+    ../src/observability/query_profiler.cpp
+    ../src/observability/storage_profiler.cpp
+    ../src/observability/performance_analyzer.cpp
 )
 
 set(THEMIS_GEO_SOURCES

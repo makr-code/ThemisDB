@@ -1,13 +1,13 @@
 # Observability-Modul — Missing Implementations
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/observability/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/observability/ROADMAP.md` oder anderen
 Primary-Docs als implementiert oder abgeschlossen beschrieben werden, jedoch beim
 Reality-Check als **nicht vollständig umgesetzt** oder **fehlerhaft dokumentiert** befunden wurden.
 
-Prüfstand: 2026-03-09 | Branch: `develop`
+Prüfstand: 2026-03-10 | Branch: `develop`
 
 ---
 
@@ -73,6 +73,36 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
+## 5. Sieben Observability-Quellen fehlten in `cmake/ModularBuild.cmake`
+
+| Feld | Wert |
+|---|---|
+| **ID** | OBS-MISSING-005 |
+| **Claim-Quelle** | `cmake/CMakeLists.txt` — alle 10 Observability-Quellen registriert |
+| **Erwartet** | Gleiches Set in `cmake/ModularBuild.cmake` (THEMIS_STORAGE_SOURCES) registriert |
+| **Beobachtet** | Nur `metrics_collector.cpp` (in THEMIS_BASE_SOURCES), `alertmanager.cpp` und `continuous_profiler.cpp` waren eingetragen. Fehlend: `ebpf_tracer.cpp`, `distributed_flame_graph.cpp`, `slo_reporter.cpp`, `metric_anomaly_detector.cpp`, `query_profiler.cpp`, `storage_profiler.cpp`, `performance_analyzer.cpp` |
+| **Evidence** | `cmake/ModularBuild.cmake` Zeile ~1001–1004 (vor Fix); `cmake/CMakeLists.txt` Zeile ~2050–2059 |
+| **Status** | ✅ **Behoben** am 2026-03-10: sieben Einträge in Observability-Sektion von `cmake/ModularBuild.cmake` hinzugefügt |
+| **Kritikalität** | Hoch — Modular-Build-Variante würde ohne Observability-Stack linken, Linker-Fehler bei allen Observability-Tests |
+| **Fix-Branch** | `copilot/update-observability-documentation-again` (2026-03-10) |
+
+---
+
+## 6. Keine Standalone Focused Test Targets für Observability
+
+| Feld | Wert |
+|---|---|
+| **ID** | OBS-MISSING-006 |
+| **Claim-Quelle** | `src/observability/ROADMAP.md` §"Planned Features" — 11 Test-Dateien beschrieben |
+| **Erwartet** | Standalone `add_executable` + `add_test` Targets für jede Observability-Test-Datei (wie bei `auth`, `analytics`, `chimera`) |
+| **Beobachtet** | Keine Focused-Test-Targets in `tests/CMakeLists.txt`; Tests nur über den monolithischen `themis_tests`-Build ausführbar (wenn nicht durch `TEST_EXCLUDE_PATTERNS` gefiltert) |
+| **Evidence** | `tests/CMakeLists.txt`: kein Eintrag für `SloReporterFocusedTests`, `EbpfTracerFocusedTests`, etc. |
+| **Status** | ✅ **Behoben** am 2026-03-10: 11 Standalone Focused Test Targets in `tests/CMakeLists.txt` hinzugefügt |
+| **Kritikalität** | Mittel — Observability-Tests schwer isoliert auszuführen ohne Focused Targets |
+| **Fix-Branch** | `copilot/update-observability-documentation-again` (2026-03-10) |
+
+---
+
 ## Zusammenfassung
 
 | ID | Titel | Kritikalität | Status |
@@ -81,3 +111,5 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | OBS-MISSING-002 | 3 `.cpp`-Dateien fehlten in CMakeLists | Hoch | ✅ Behoben (2026-03-09) |
 | OBS-MISSING-003 | eBPF-Tracer + Flame Graph als "planned" markiert, sind fertig | Mittel | ✅ ROADMAP korrigiert (2026-03-09) |
 | OBS-MISSING-004 | OTLP-Export (`otlp_exporter.cpp`) fehlt | Mittel | 🔴 Offen |
+| OBS-MISSING-005 | 7 Observability-Quellen fehlten in `ModularBuild.cmake` | Hoch | ✅ Behoben (2026-03-10) |
+| OBS-MISSING-006 | Keine Standalone Focused Test Targets für Observability | Mittel | ✅ Behoben (2026-03-10) |

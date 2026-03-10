@@ -7417,6 +7417,397 @@ else()
 endif()
 
 # ============================================================================
+# Observability Focused Test Targets
+# Each target links against themis_core so the full observability stack is
+# available.  Tests can be run in isolation without building the whole suite.
+# ============================================================================
+
+# MetricsCollector tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_collector.cpp")
+    message(STATUS "Adding Observability: MetricsCollector focused tests")
+
+    add_executable(test_metrics_collector_focused
+        test_metrics_collector.cpp
+    )
+
+    target_include_directories(test_metrics_collector_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metrics_collector_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metrics_collector_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsCollectorFocusedTests COMMAND test_metrics_collector_focused)
+
+    set_tests_properties(MetricsCollectorFocusedTests PROPERTIES
+        LABELS "observability;metrics;prometheus;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MetricsCollector: counters, gauges, histograms, Prometheus text export")
+else()
+    message(STATUS "MetricsCollector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_collector.cpp")
+endif()
+
+# MetricsExemplar tests (Issue #1995)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_exemplar.cpp")
+    message(STATUS "Adding Observability: MetricsExemplar focused tests (Issue #1995)")
+
+    add_executable(test_metrics_exemplar_focused
+        test_metrics_exemplar.cpp
+    )
+
+    target_include_directories(test_metrics_exemplar_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metrics_exemplar_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metrics_exemplar_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsExemplarFocusedTests COMMAND test_metrics_exemplar_focused)
+
+    set_tests_properties(MetricsExemplarFocusedTests PROPERTIES
+        LABELS "observability;metrics;exemplar;prometheus;histogram;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MetricsExemplar: Exemplar struct, observeHistogramWithExemplar, inline p99 exemplar export")
+else()
+    message(STATUS "MetricsExemplar focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_exemplar.cpp")
+endif()
+
+# AlertRules tests (Issue #2025)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_alert_rules.cpp")
+    message(STATUS "Adding Observability: AlertRules focused tests (Issue #2025)")
+
+    add_executable(test_alert_rules_focused
+        test_alert_rules.cpp
+    )
+
+    target_include_directories(test_alert_rules_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_alert_rules_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_alert_rules_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AlertRulesFocusedTests COMMAND test_alert_rules_focused)
+
+    set_tests_properties(AlertRulesFocusedTests PROPERTIES
+        LABELS "observability;alertmanager;alert-rules;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AlertRules: AlertRule, AlertRuleOperator, AlertRuleManager CRUD, evaluateRules")
+else()
+    message(STATUS "AlertRules focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_alert_rules.cpp")
+endif()
+
+# ContinuousProfiler tests (Issue #2418)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_profiler.cpp")
+    message(STATUS "Adding Observability: ContinuousProfiler focused tests (Issue #2418)")
+
+    add_executable(test_continuous_profiler_focused
+        test_continuous_profiler.cpp
+    )
+
+    target_include_directories(test_continuous_profiler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_continuous_profiler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_continuous_profiler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ContinuousProfilerFocusedTests COMMAND test_continuous_profiler_focused)
+
+    set_tests_properties(ContinuousProfilerFocusedTests PROPERTIES
+        LABELS "observability;profiling;pprof;adaptive-sampling;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ContinuousProfiler: lifecycle, pprof export, adaptive sampling, thread-safety")
+else()
+    message(STATUS "ContinuousProfiler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_profiler.cpp")
+endif()
+
+# EbpfTracer tests (Issue #2055)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ebpf_tracer.cpp")
+    message(STATUS "Adding Observability: EbpfTracer focused tests (Issue #2055)")
+
+    add_executable(test_ebpf_tracer_focused
+        test_ebpf_tracer.cpp
+    )
+
+    target_include_directories(test_ebpf_tracer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_ebpf_tracer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ebpf_tracer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EbpfTracerFocusedTests COMMAND test_ebpf_tracer_focused)
+
+    set_tests_properties(EbpfTracerFocusedTests PROPERTIES
+        LABELS "observability;ebpf;kernel-tracing;perf-event;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  EbpfTracer: lifecycle, config, stats, ring-buffer, callback, metrics export")
+else()
+    message(STATUS "EbpfTracer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ebpf_tracer.cpp")
+endif()
+
+# MetricAnomalyDetector tests (Issue #2097)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metric_anomaly_detector.cpp")
+    message(STATUS "Adding Observability: MetricAnomalyDetector focused tests (Issue #2097)")
+
+    add_executable(test_metric_anomaly_detector_focused
+        test_metric_anomaly_detector.cpp
+    )
+
+    target_include_directories(test_metric_anomaly_detector_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metric_anomaly_detector_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metric_anomaly_detector_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricAnomalyDetectorFocusedTests COMMAND test_metric_anomaly_detector_focused)
+
+    set_tests_properties(MetricAnomalyDetectorFocusedTests PROPERTIES
+        LABELS "observability;anomaly-detection;ml;metrics;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MetricAnomalyDetector: monitor/unmonitor, observe, getAnomalies, publishMetrics, generateReport")
+else()
+    message(STATUS "MetricAnomalyDetector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metric_anomaly_detector.cpp")
+endif()
+
+# DistributedFlameGraph tests (Issue #2108)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_flame_graph.cpp")
+    message(STATUS "Adding Observability: DistributedFlameGraph focused tests (Issue #2108)")
+
+    add_executable(test_distributed_flame_graph_focused
+        test_distributed_flame_graph.cpp
+    )
+
+    target_include_directories(test_distributed_flame_graph_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_distributed_flame_graph_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_flame_graph_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedFlameGraphFocusedTests COMMAND test_distributed_flame_graph_focused)
+
+    set_tests_properties(DistributedFlameGraphFocusedTests PROPERTIES
+        LABELS "observability;flame-graph;distributed-profiling;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DistributedFlameGraph: add/merge/diff node profiles, normalise-per-node, JSON/folded export")
+else()
+    message(STATUS "DistributedFlameGraph focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_flame_graph.cpp")
+endif()
+
+# SloReporter tests (Issue #2148)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_slo_reporter.cpp")
+    message(STATUS "Adding Observability: SloReporter focused tests (Issue #2148)")
+
+    add_executable(test_slo_reporter_focused
+        test_slo_reporter.cpp
+    )
+
+    target_include_directories(test_slo_reporter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_slo_reporter_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_slo_reporter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SloReporterFocusedTests COMMAND test_slo_reporter_focused)
+
+    set_tests_properties(SloReporterFocusedTests PROPERTIES
+        LABELS "observability;slo;sla;burn-rate;compliance;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SloReporter: SloDefinition, BurnRateLevel, registerSlo, record, getStatus, publishMetrics, generateReport")
+else()
+    message(STATUS "SloReporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_slo_reporter.cpp")
+endif()
+
+# ObservabilityProfilers tests (query_profiler, storage_profiler, performance_analyzer)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_observability_profilers.cpp")
+    message(STATUS "Adding Observability: Profilers focused tests")
+
+    add_executable(test_observability_profilers_focused
+        test_observability_profilers.cpp
+    )
+
+    target_include_directories(test_observability_profilers_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_observability_profilers_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_observability_profilers_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ObservabilityProfilersFocusedTests COMMAND test_observability_profilers_focused)
+
+    set_tests_properties(ObservabilityProfilersFocusedTests PROPERTIES
+        LABELS "observability;query-profiler;storage-profiler;performance-analyzer;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ObservabilityProfilers: QueryProfiler phases/operators, StorageProfiler RocksDB stats, PerformanceAnalyzer recommendations")
+else()
+    message(STATUS "ObservabilityProfilers focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_observability_profilers.cpp")
+endif()
+
+# ObservabilityHardening tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_observability_hardening.cpp")
+    message(STATUS "Adding Observability: Hardening focused tests")
+
+    add_executable(test_observability_hardening_focused
+        test_observability_hardening.cpp
+    )
+
+    target_include_directories(test_observability_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_observability_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_observability_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ObservabilityHardeningFocusedTests COMMAND test_observability_hardening_focused)
+
+    set_tests_properties(ObservabilityHardeningFocusedTests PROPERTIES
+        LABELS "observability;metrics;hardening;thread-safety;spdlog;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ObservabilityHardening: concurrent metric updates, spdlog logger adapter, thread-safety, OOM handling")
+else()
+    message(STATUS "ObservabilityHardening focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_observability_hardening.cpp")
+endif()
+
+# GAP-008 Observability integration tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gap008_observability.cpp")
+    message(STATUS "Adding Observability: GAP-008 integration focused tests")
+
+    add_executable(test_gap008_observability_focused
+        test_gap008_observability.cpp
+    )
+
+    target_include_directories(test_gap008_observability_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_gap008_observability_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gap008_observability_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME Gap008ObservabilityFocusedTests COMMAND test_gap008_observability_focused)
+
+    set_tests_properties(Gap008ObservabilityFocusedTests PROPERTIES
+        LABELS "observability;gap008;alertmanager;tracing;integration;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GAP-008 Observability: Alertmanager integration, tracing hooks, metric routing")
+else()
+    message(STATUS "GAP-008 Observability focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_gap008_observability.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
