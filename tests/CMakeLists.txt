@@ -134,6 +134,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_openai_compat_adapter\\.cpp$"
         ".*test_model_quantization_pipeline\\.cpp$"
         ".*test_model_router\\.cpp$"
+        # LLM feedback store – depends on llm/feedback_store.h / llm/i_feedback_plugin.h
+        ".*test_feedback_store\\.cpp$"
     )
 endif()
 
@@ -447,6 +449,35 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_prompt_builder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test_system_prompt_manager.cpp
 )
+
+# Re-include additional prompt_engineering tests that have no LLM runtime
+# dependency and are fully functional without THEMIS_ENABLE_LLM.  These files
+# are caught by the broad ".*test_prompt_.*\\.cpp$" or ".*test_meta_prompt.*\\.cpp$"
+# exclusion patterns added in the NOT THEMIS_ENABLE_LLM block, but they only
+# use the prompt_engineering/ headers which link cleanly against themis_core.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_optimizer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_meta_prompt_generator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_performance_tracker.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_metrics.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_orchestrator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_integration.cpp
+)
+
+# Re-include prompt_engineering tests that depend on the LLM subsystem (llm/
+# headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
+if(THEMIS_ENABLE_LLM)
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_policy.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_prompt_injection.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_store.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_api_handler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_grpc_service.cpp
+    )
+endif()
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test exercises the ROCm backend CPU fallback path and is fully
@@ -8940,6 +8971,163 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
     )
     message(STATUS "  DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup")
 endif()
+
+# ============================================================================
+# Prompt Engineering Module – Standalone Focused Test Targets
+# Each target is an independent executable so individual components can be
+# validated in isolation without linking the entire themis_tests binary.
+# All targets compile against themis_core only; no live database is required.
+# ============================================================================
+
+# Helper macro shared by all prompt_engineering focused targets.
+# Usage: add_prompt_focused_test(<target> <src> <test_name> <labels> <desc>)
+macro(add_prompt_focused_test _target _src _test_name _labels _desc)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_src}")
+        message(STATUS "Adding Prompt Engineering focused test: ${_target}")
+
+        add_executable(${_target} ${_src})
+
+        target_include_directories(${_target} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            spdlog::spdlog
+            Threads::Threads
+        )
+
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${_test_name} COMMAND ${_target})
+
+        set_tests_properties(${_test_name} PROPERTIES
+            LABELS "${_labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${_test_name}: ${_desc}")
+    else()
+        message(STATUS "Prompt Engineering focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${_src}")
+    endif()
+endmacro()
+
+add_prompt_focused_test(
+    test_prompt_manager_focused
+    test_prompt_manager.cpp
+    PromptManagerFocusedTests
+    "prompt_engineering;prompt_manager;crud;validation;yaml;unit"
+    "CRUD with RocksDB persistence, template validation, context injection, YAML bulk-load"
+)
+
+add_prompt_focused_test(
+    test_prompt_version_control_focused
+    test_prompt_version_control.cpp
+    PromptVersionControlFocusedTests
+    "prompt_engineering;version_control;branches;commits;diffs;unit"
+    "Git-like version control: branches, commits, diffs, A/B testing, parent tracking"
+)
+
+add_prompt_focused_test(
+    test_feedback_collector_focused
+    test_feedback_collector.cpp
+    FeedbackCollectorFocusedTests
+    "prompt_engineering;feedback;anomaly_detection;audit_checksum;unit"
+    "FeedbackCollector: 10 feedback types, aggregate stats, Z-score anomaly detection, FNV-1a checksums"
+)
+
+add_prompt_focused_test(
+    test_prompt_optimizer_focused
+    test_prompt_optimizer.cpp
+    PromptOptimizerFocusedTests
+    "prompt_engineering;optimizer;iterative;eval;unit"
+    "PromptOptimizer: iterative improvement loop, pluggable eval/improvement functions"
+)
+
+add_prompt_focused_test(
+    test_meta_prompt_generator_focused
+    test_meta_prompt_generator.cpp
+    MetaPromptGeneratorFocusedTests
+    "prompt_engineering;meta_prompt;llm_interface;fallback;unit"
+    "MetaPromptGenerator: ILLMProvider interface, graceful fallback, strategy selection"
+)
+
+add_prompt_focused_test(
+    test_prompt_performance_tracker_focused
+    test_prompt_performance_tracker.cpp
+    PromptPerformanceTrackerFocusedTests
+    "prompt_engineering;performance_tracker;metrics;thresholds;unit"
+    "PromptPerformanceTracker: execution stats, threshold alerts, percentile metrics"
+)
+
+add_prompt_focused_test(
+    test_prompt_engineering_metrics_focused
+    test_prompt_engineering_metrics.cpp
+    PromptEngineeringMetricsFocusedTests
+    "prompt_engineering;metrics;prometheus;persistence;crash_recovery;unit"
+    "PromptEngineeringMetrics: Prometheus counters, snapshotToJson/restoreFromJson crash recovery"
+)
+
+add_prompt_focused_test(
+    test_self_improvement_orchestrator_focused
+    test_self_improvement_orchestrator.cpp
+    SelfImprovementOrchestratorFocusedTests
+    "prompt_engineering;self_improvement;orchestrator;background_worker;unit"
+    "SelfImprovementOrchestrator: background worker, trigger thresholds, auto-optimization cycle"
+)
+
+add_prompt_focused_test(
+    test_prompt_injection_detector_focused
+    test_prompt_injection_detector.cpp
+    PromptInjectionDetectorFocusedTests
+    "prompt_engineering;injection_detector;security;sanitize;unit"
+    "PromptInjectionDetector: 10 built-in patterns, detect/sanitize, custom plugin support"
+)
+
+add_prompt_focused_test(
+    test_chain_of_thought_focused
+    test_chain_of_thought.cpp
+    ChainOfThoughtFocusedTests
+    "prompt_engineering;chain_of_thought;cot;few_shot;zero_shot;unit"
+    "ChainOfThoughtBuilder: step delimiters, auto-numbering, zero-shot/few-shot/wrap helpers"
+)
+
+add_prompt_focused_test(
+    test_rag_prompt_builder_focused
+    test_rag_prompt_builder.cpp
+    RAGPromptBuilderFocusedTests
+    "prompt_engineering;rag;budget;chunk_selection;citations;unit"
+    "RAGPromptBuilder: budget-aware chunk selection, source citations, template injection"
+)
+
+add_prompt_focused_test(
+    test_system_prompt_manager_focused
+    test_system_prompt_manager.cpp
+    SystemPromptManagerFocusedTests
+    "prompt_engineering;system_prompt;roles;context_variables;json;unit"
+    "SystemPromptManager: built-in and custom roles, context-variable rendering, JSON serialisation"
+)
+
+add_prompt_focused_test(
+    test_prompt_evaluator_focused
+    test_prompt_evaluator_ttest.cpp
+    PromptEvaluatorFocusedTests
+    "prompt_engineering;evaluator;welch_ttest;statistical_significance;unit"
+    "PromptEvaluator: Welch's two-sample t-test, semantic similarity, IEmbeddingProvider interface"
+)
+
+add_prompt_focused_test(
+    test_prompt_engineering_integration_focused
+    test_prompt_engineering_integration.cpp
+    PromptEngineeringIntegrationFocusedTests
+    "prompt_engineering;integration;facade;lifecycle;unit"
+    "PromptEngineeringIntegration: facade combining all subsystems, before/after execution hooks"
+)
 
 # ============================================================================
 # Custom Test Targets
