@@ -8973,6 +8973,287 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
 endif()
 
 # ============================================================================
+# Network Module – Focused Standalone Test Targets
+# Standalone executables so each network component can be tested in isolation
+# without linking the full themis_core library.
+# ============================================================================
+
+# Helper macro to create a standalone network focused test executable.
+# Usage:
+#   add_network_focused_test(<target> <src> <test_name> "<labels>" "<desc>" [LIBS ...])
+macro(add_network_focused_test target src test_name labels desc)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src}")
+        message(STATUS "Adding Network focused test: ${target}")
+
+        add_executable(${target} ${src})
+
+        target_include_directories(${target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(${target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(${target} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${test_name} COMMAND ${target})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  ${desc}")
+    else()
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${src}")
+    endif()
+endmacro()
+
+# --- Wire Protocol V1 Opcode Handlers ---
+add_network_focused_test(
+    test_wire_protocol_v1_handlers_focused
+    test_wire_protocol_v1_handlers.cpp
+    WireProtocolV1HandlersFocusedTests
+    "network;wire-protocol;v1;handlers;auth;get;put;delete;vector-search;focused;unit"
+    "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
+)
+
+# --- QoS Manager ---
+add_network_focused_test(
+    test_qos_manager_focused
+    test_qos_manager.cpp
+    QoSManagerFocusedTests
+    "network;qos;token-bucket;bandwidth;priority;focused;unit"
+    "QoSManager: TokenBucket construction/tryConsume/timeout, per-tenant quota, backpressure, stats, callback"
+)
+
+# --- Network Timeout (SocketTimeoutManager) ---
+add_network_focused_test(
+    test_network_timeout_focused
+    test_network_timeout.cpp
+    NetworkTimeoutFocusedTests
+    "network;timeout;socket;circuit-breaker;focused;unit"
+    "SocketTimeoutManager: construction/destruction, timeout recording, circuit breaker, health state transitions"
+)
+
+# --- Wire Protocol Connection Pool ---
+add_network_focused_test(
+    test_wire_protocol_connection_pool_focused
+    test_wire_protocol_connection_pool.cpp
+    WireProtocolConnectionPoolFocusedTests
+    "network;connection-pool;wire-protocol;lifecycle;focused;unit"
+    "WireProtocolConnectionPool: config defaults, acquire/release, health tracking, RAII handles"
+)
+
+# --- Wire Protocol Performance Monitor ---
+add_network_focused_test(
+    test_wire_protocol_performance_focused
+    test_wire_protocol_performance.cpp
+    WireProtocolPerformanceFocusedTests
+    "network;performance;metrics;wire-protocol;focused;unit"
+    "WireProtocolPerformanceMonitor: latency tracking, throughput counters, percentile computation"
+)
+
+# --- UDP Fast Path ---
+add_network_focused_test(
+    test_udp_fast_path_focused
+    test_udp_fast_path.cpp
+    UDPFastPathFocusedTests
+    "network;udp;fast-path;packet-validation;opcode-filter;focused;unit"
+    "UDPFastPath: config defaults, packet format validation, opcode filter, response builder"
+)
+
+# --- Geo Topology Router ---
+# Needs sharding sources for ShardTopology / ShardInfo types.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_geo_topology_router.cpp")
+    message(STATUS "Adding Network focused test: test_geo_topology_router_focused")
+
+    add_executable(test_geo_topology_router_focused
+        test_geo_topology_router.cpp
+    )
+
+    target_include_directories(test_geo_topology_router_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_geo_topology_router_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_geo_topology_router_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GeoTopologyRouterFocusedTests COMMAND test_geo_topology_router_focused)
+
+    set_tests_properties(GeoTopologyRouterFocusedTests PROPERTIES
+        LABELS "network;geo;topology;routing;sharding;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GeoTopologyRouter: PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity, fallback, stats")
+else()
+    message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_geo_topology_router.cpp")
+endif()
+
+# --- Wire Protocol V2 ---
+# Uses themis/network/wire_protocol_v2.hpp (header-only protocol types).
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_v2.cpp")
+    message(STATUS "Adding Network focused test: test_wire_protocol_v2_focused")
+
+    add_executable(test_wire_protocol_v2_focused
+        test_wire_protocol_v2.cpp
+    )
+
+    target_include_directories(test_wire_protocol_v2_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_wire_protocol_v2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_wire_protocol_v2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME WireProtocolV2FocusedTests COMMAND test_wire_protocol_v2_focused)
+
+    set_tests_properties(WireProtocolV2FocusedTests PROPERTIES
+        LABELS "network;wire-protocol;v2;multiplexing;flow-control;server-push;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  WireProtocolV2: frame types, stream state machine, flow control, server push, session cleanup")
+else()
+    message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_v2.cpp")
+endif()
+
+# --- WebSocket Upgrade ---
+if(THEMIS_ENABLE_WEBSOCKET)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp")
+        message(STATUS "Adding Network focused test: test_wire_protocol_websocket_focused")
+
+        add_executable(test_wire_protocol_websocket_focused
+            test_wire_protocol_websocket.cpp
+        )
+
+        target_include_directories(test_wire_protocol_websocket_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_WEBSOCKET=1
+        )
+
+        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND test_wire_protocol_websocket_focused)
+
+        set_tests_properties(WireProtocolWebSocketFocusedTests PROPERTIES
+            LABELS "network;websocket;upgrade;protocol-detection;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  WireProtocolWebSocket: protocol detection, upgrade handshake, connection accounting, text-frame dispatch")
+    else()
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_websocket.cpp")
+    endif()
+endif()
+
+# --- QUIC Transport ---
+if(THEMIS_ENABLE_HTTP3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_quic_transport.cpp")
+        message(STATUS "Adding Network focused test: test_quic_transport_focused")
+
+        add_executable(test_quic_transport_focused
+            test_quic_transport.cpp
+        )
+
+        target_include_directories(test_quic_transport_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_quic_transport_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_quic_transport_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_HTTP3=1
+        )
+
+        add_test(NAME QuicTransportFocusedTests COMMAND test_quic_transport_focused)
+
+        set_tests_properties(QuicTransportFocusedTests PROPERTIES
+            LABELS "network;quic;http3;transport;config;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  QuicTransport: config defaults, port validation, stats initialisation, protocol constants, isRunning state")
+    else()
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_quic_transport.cpp")
+    endif()
+endif()
+
+# --- gRPC Transport ---
+if(THEMIS_ENABLE_GRPC)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_transport.cpp")
+        message(STATUS "Adding Network focused test: test_grpc_transport_focused")
+
+        add_executable(test_grpc_transport_focused
+            test_grpc_transport.cpp
+        )
+
+        target_include_directories(test_grpc_transport_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        target_link_libraries(test_grpc_transport_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_grpc_transport_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_GRPC=1
+        )
+
+        add_test(NAME GrpcTransportFocusedTests COMMAND test_grpc_transport_focused)
+
+        set_tests_properties(GrpcTransportFocusedTests PROPERTIES
+            LABELS "network;grpc;transport;config;tls;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  GrpcTransport: config defaults, TLS flags, port validation, stats, address format, isRunning state")
+    else()
+        message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_transport.cpp")
+    endif()
+endif()
 # Prompt Engineering Module – Standalone Focused Test Targets
 # Each target is an independent executable so individual components can be
 # validated in isolation without linking the entire themis_tests binary.
