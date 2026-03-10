@@ -231,6 +231,17 @@ if(NOT THEMIS_ENABLE_SERVICE_MESH)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_HTTP_SERVER)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_task_scheduler\\.cpp$"
+        ".*test_task_scheduler_api_handler\\.cpp$"
+        ".*test_task_scheduler_dynamic_scaling\\.cpp$"
+        ".*test_task_scheduler_siem_integration\\.cpp$"
+        ".*test_task_scheduler_triggers\\.cpp$"
+        ".*test_scheduler_integration\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"
@@ -944,17 +955,24 @@ if(THEMIS_BUILD_MODULAR)
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
             $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/server/task_scheduler_api_handler.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_scheduler.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_audit_event.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_audit_manager.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_result_store.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_anomaly_detector.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/hybrid_retention_manager.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/event_trigger.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/external_scheduler_adapter.cpp>
-            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/distributed_task_coordinator.cpp>
         )
+
+        # Scheduler sources are compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
+        # Add them directly when HTTP_SERVER is OFF to avoid missing-symbol errors.
+        if(NOT THEMIS_ENABLE_HTTP_SERVER)
+            list(APPEND _themis_test_extra_sources
+                ${THEMIS_ROOT_DIR}/src/server/task_scheduler_api_handler.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/task_scheduler.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/task_audit_event.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/task_audit_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/task_result_store.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/task_anomaly_detector.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/hybrid_retention_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/event_trigger.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/external_scheduler_adapter.cpp
+                ${THEMIS_ROOT_DIR}/src/scheduler/distributed_task_coordinator.cpp
+            )
+        endif()
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
             list(APPEND _themis_test_extra_sources

@@ -57,18 +57,16 @@ Sourcecode als **nicht vollständig umgesetzt** befunden wurden.
 
 ---
 
-## Befund 4 – Grafana-Dashboard: nicht implementiert
+## Befund 4 – Grafana-Dashboard ✅ Behoben
 
 | Feld | Inhalt |
 |------|--------|
 | **Claim-Quelle** | `src/scheduler/FUTURE_ENHANCEMENTS.md` §"Observability Enhancements" |
 | **Claim** | Grafana-Dashboard für Scheduler-Metriken (Concurrency-Limit, Queue-Depth, Task-Erfolge/Fehler) |
 | **Erwartet** | JSON-Dashboard-Definition in `config/grafana/dashboards/` oder `deploy/kubernetes/monitoring/grafana-dashboards/` |
-| **Beobachtet** | Kein scheduler-spezifisches Grafana-Dashboard gefunden; Prometheus-Metriken via `exportMetrics()` werden emittiert (`themis_scheduler_*`), können aber nicht ohne Dashboard visualisiert werden; LoRA- und Shard-Dashboards existieren in `config/grafana/dashboards/` |
-| **Geprüfte Pfade** | `config/grafana/dashboards/` (3 Dateien, keine scheduler-bezogen), `deploy/kubernetes/monitoring/grafana-dashboards/` (shard-network-dashboard.json) |
-| **ROADMAP-Status** | `[ ]` offen (FUTURE_ENHANCEMENTS §"Observability Enhancements") |
-| **Issue-Titelvorschlag** | `feat(scheduler): add Grafana dashboard JSON for scheduler metrics` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `scheduler`, `observability`, `status:open` |
+| **Beobachtet (behoben)** | `config/grafana/dashboards/themisdb-scheduler-dashboard.json` erstellt; enthält 5 stat-Panels (Registered/Active/Running/ConcurrencyLimit/QueueDepth), 2 Zeitreihen-Panels (Concurrency & Queue Depth / Task Counts), 2 Raten-Panels (Success vs Failure / Failure Rate %), 4 Per-Task-Panels (Avg Duration / Failure Rate / Top-10-Slowest / Enabled Status), 1 Last-Run-Tabelle; `$task_name`-Variable für Filterung |
+| **Geprüfte Pfade** | `config/grafana/dashboards/themisdb-scheduler-dashboard.json` |
+| **Status** | ✅ **Behoben** – Dashboard mit allen `themis_scheduler_*` Metriken implementiert |
 
 ---
 

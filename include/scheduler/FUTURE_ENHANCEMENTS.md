@@ -195,6 +195,10 @@ transform_2 ─┘
 
 Assign priorities to tasks for resource contention resolution.
 
+> **Partial implementation (v1.7.0):** `schedulerLoop()` now sorts `tasks_to_execute` by
+> `ScheduledTask::priority` (HIGH → NORMAL → LOW) before dispatch. Full lock-free priority
+> queue, starvation prevention via aging, and per-slot reservation are still planned below.
+
 **Priority Levels:**
 ```cpp
 enum class TaskPriority {
@@ -212,10 +216,11 @@ struct ScheduledTask {
 ```
 
 **Scheduling Algorithm:**
-- Priority queue instead of FIFO
-- CRITICAL tasks preempt BATCH tasks (configurable)
-- Starvation prevention via aging
-- Dynamic priority adjustment based on wait time
+- [x] Priority-ordered dispatch — `tasks_to_execute` sorted by `priority` DESC before thread launch
+- [ ] Full lock-free priority queue to replace the pre-sort approach
+- [ ] CRITICAL tasks preempt BATCH tasks (configurable)
+- [ ] Starvation prevention via aging (boost priority after N idle ticks)
+- [ ] Dynamic priority adjustment based on wait time
 
 **Resource Allocation:**
 ```cpp

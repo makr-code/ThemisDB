@@ -76,7 +76,9 @@
       "severity": "low",
       "roadmap_marker": "[ ]",
       "issue_title_suggestion": "feat(scheduler): add Grafana dashboard JSON for scheduler metrics",
-      "label_suggestions": ["type:feature", "priority:low", "scheduler", "observability", "status:open"]
+      "label_suggestions": ["type:feature", "priority:low", "scheduler", "observability", "status:open"],
+      "resolution": "FIXED: config/grafana/dashboards/themisdb-scheduler-dashboard.json created; covers all themis_scheduler_* metrics (stat overview, concurrency/queue-depth timeseries, success/failure rates, per-task duration and last-run, enabled-status table, $task_name filter variable)",
+      "status": "resolved"
     },
     {
       "id": "SCHED-MISSING-005",

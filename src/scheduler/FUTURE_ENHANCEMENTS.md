@@ -63,10 +63,11 @@ Implementation tasks:
 **Target:** v1.7.0
 
 Implementation tasks:
-- [ ] Replace FIFO queue with priority queue
-- [ ] Priority-based resource allocation
-- [ ] Starvation prevention via aging
-- [ ] Dynamic priority adjustment
+- [x] Priority-ordered dispatch – `schedulerLoop()` sorts `tasks_to_execute` by `ScheduledTask::priority` (HIGH → NORMAL → LOW) before launching threads (`std::sort` descending, added v1.7.0)
+- [ ] Full lock-free priority queue to replace the pre-sort approach
+- [ ] Priority-based resource allocation (CPU/memory slot reservations per priority tier)
+- [ ] Starvation prevention via aging (dynamically boost low-priority task priority after N idle ticks)
+- [ ] Dynamic priority adjustment at runtime
 - [ ] Per-priority slot reservation
 
 ### Task Dependencies and DAG Execution
@@ -147,7 +148,7 @@ Implementation tasks:
 
 Implementation tasks:
 - [x] Prometheus metrics export (`TaskScheduler::exportMetrics()` — emits `themis_scheduler_*` gauges/counters in Prometheus text format, including `themis_scheduler_concurrency_limit` and `themis_scheduler_queue_depth`)
-- [ ] Grafana dashboard
+- [x] Grafana dashboard (`config/grafana/dashboards/themisdb-scheduler-dashboard.json` — covers all `themis_scheduler_*` metrics: stat overview, concurrency/queue-depth timeseries, success/failure rate, per-task duration, last-run timestamps, enabled-status table, `$task_name` filter variable)
 - [ ] Real-time event streaming (WebSocket)
 - [ ] Task execution timeline visualization
 - [ ] Dependency graph visualization

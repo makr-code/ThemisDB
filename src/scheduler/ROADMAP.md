@@ -110,8 +110,9 @@ v1.5.0 – All four implementation phases complete and production-ready:
 - [x] Documentation complete — `include/scheduler/README.md`, `src/scheduler/ARCHITECTURE.md`, `src/scheduler/README.md`, `src/scheduler/FUTURE_ENHANCEMENTS.md`
 - [x] API stability guaranteed — `TaskScheduler` public API stable from v1.x; backward-compatible constructor overloads
 - [x] Build system audit complete — all 9 `src/scheduler/*.cpp` + `src/server/task_scheduler_api_handler.cpp` registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake` under `THEMIS_ENABLE_HTTP_SERVER`
-- [x] Focused test targets registered — 6 standalone test targets (`TaskSchedulerFocusedTests`, `TaskSchedulerDynamicScalingFocusedTests`, `TaskSchedulerTriggersFocusedTests`, `TaskSchedulerSIEMIntegrationFocusedTests`, `TaskSchedulerApiHandlerFocusedTests`, `SchedulerIntegrationFocusedTests`) in `tests/CMakeLists.txt`
+- [x] Focused test targets registered — 6 standalone test targets (`TaskSchedulerFocusedTests`, `TaskSchedulerDynamicScalingFocusedTests`, `TaskSchedulerTriggersFocusedTests`, `TaskSchedulerSIEMIntegrationFocusedTests`, `TaskSchedulerApiHandlerFocusedTests`, `SchedulerIntegrationFocusedTests`) in `tests/CMakeLists.txt`; scheduler tests excluded from monolithic binary when `THEMIS_ENABLE_HTTP_SERVER=OFF`
 - [x] Priority-based dispatch ordering — `schedulerLoop()` sorts `tasks_to_execute` by `priority` (HIGH → NORMAL → LOW) before dispatch
+- [x] Grafana dashboard — `config/grafana/dashboards/themisdb-scheduler-dashboard.json` covering all `themis_scheduler_*` Prometheus metrics
 
 ## Known Issues & Limitations
 - Distributed coordination is implemented via `DistributedTaskCoordinator`; requires `DistributedCoordinator` (sharding module) for leader election.
