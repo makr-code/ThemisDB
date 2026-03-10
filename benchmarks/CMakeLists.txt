@@ -1281,6 +1281,51 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
 endif()
 
+# LLM Model Loading from ThemisDB Benchmarks
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loading_from_themisdb.cpp")
+    message(STATUS "Adding LLM Model Loading from ThemisDB benchmarks")
+
+    add_executable(bench_llm_model_loading_from_themisdb
+        ${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loading_from_themisdb.cpp
+    )
+
+    target_include_directories(bench_llm_model_loading_from_themisdb PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_llm_model_loading_from_themisdb PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_llm_model_loading_from_themisdb PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_llm_model_loading_from_themisdb PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_llm_model_loading_from_themisdb
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LLM: Model store/load latency (1KB/1MB/10MB), SHA256 verification, temp-file cleanup")
+endif()
+
 # ============================================================================
 # Rotary Embeddings Benchmarks (NEW)
 # ============================================================================
@@ -2045,6 +2090,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
     )
 
     target_compile_definitions(bench_prompt_engineering PRIVATE
+# Exporters Throughput Benchmarks (Issue #1730)
+# JSONLLLMExporter: batch throughput (INSTRUCTION_TUNING, Alpaca, ChatML),
+# StreamingExporter: streaming throughput with progress callbacks,
+# IncrementalExporter: full export vs delta export speedup.
+# Targets (src/exporters/FUTURE_ENHANCEMENTS.md):
+#   - JSONL throughput: >= 200 000 docs/sec
+#   - Delta export speedup (0.1% change): >= 10x vs full export
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
+    message(STATUS "Adding Exporters throughput benchmarks")
+
+    add_executable(bench_exporters
+        bench_exporters.cpp
+    )
+
+    target_link_libraries(bench_exporters PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_exporters PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
 
@@ -2055,11 +2127,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
         target_compile_options(bench_prompt_engineering PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
+        target_compile_options(bench_exporters PRIVATE
+            -O3
+            -march=native
             -DNDEBUG
         )
     endif()
 
     install(TARGETS bench_prompt_engineering
+    install(TARGETS bench_exporters
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
@@ -2071,4 +2147,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
     message(STATUS "  PromptEvaluator: evaluateSingle (structural similarity)")
     message(STATUS "  PromptEngineeringMetrics: recordOptimizationAttempt, recordPromptExecution")
     message(STATUS "  Concurrent: PromptManager 4-thread insert, PromptVersionControl 4-thread commit")
+    message(STATUS "  JSONL export: batch throughput (100/1000/10000 entities), Alpaca/ChatML templates, GZIP compression")
+    message(STATUS "  StreamingExporter: throughput with progress callbacks (1000/5000 entities)")
+    message(STATUS "  IncrementalExporter: full export vs delta export speedup (0.1% change scenario)")
 endif()

@@ -297,6 +297,63 @@ public:
      */
     http::response<http::string_body> handleCostModelImport(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle POST /api/v1/graph/query/explain request (Issue: #1816)
+     *
+     * Performs a dry-run optimization for a graph query and returns the
+     * selected algorithm, cost estimates, and a human-readable explanation
+     * without actually executing the traversal.
+     *
+     * Supported query types: `shortest_path`, `k_hop`, `reachability`,
+     * `pattern_match`, `constrained_path`.
+     *
+     * Request body:
+     * ```json
+     * {
+     *   "query_type": "shortest_path",
+     *   "start_vertex": "A",
+     *   "end_vertex": "D",
+     *   "constraints": {
+     *     "max_depth": 5,
+     *     "edge_type": "knows",
+     *     "unique_vertices": false,
+     *     "unique_edges": false,
+     *     "enable_parallel": false
+     *   }
+     * }
+     * ```
+     *
+     * For `k_hop` and `reachability`, use `"max_depth"` in the top-level
+     * body (or inside `"constraints"`).  For `pattern_match`, supply
+     * `"pattern_vertices"` (array of strings) and `"pattern_edges"`
+     * (array of `[from, to]` pairs).  For `constrained_path`, the optional
+     * `"path_constraints"` object supports `min_length`, `max_length`,
+     * `forbidden_vertices`, `required_vertices`, `unique_nodes`, and
+     * `acyclic` fields.
+     *
+     * Response:
+     * ```json
+     * {
+     *   "algorithm": "BFS",
+     *   "pattern": "Shortest Path",
+     *   "estimated_cost": 42.5,
+     *   "estimated_time_ms": 8.3,
+     *   "estimated_nodes_explored": 150,
+     *   "use_index": true,
+     *   "use_cache": false,
+     *   "early_termination": true,
+     *   "parallel_execution": false,
+     *   "is_distributed": false,
+     *   "alternatives": [{"algorithm": "DFS", "estimated_cost": 65.2}],
+     *   "explanation": "Query Pattern: Shortest Path\n..."
+     * }
+     * ```
+     *
+     * @param req HTTP POST request with query specification
+     * @return HTTP 200 with plan JSON, 400 on invalid input, 503 if optimizer unavailable
+     */
+    http::response<http::string_body> handleQueryExplain(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<GraphIndexManager> graph_index_;

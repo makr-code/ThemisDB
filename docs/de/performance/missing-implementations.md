@@ -1,11 +1,11 @@
 # Performance Module — Missing Implementations Report
 
-<!-- status: current | validated: 2026-03-09 -->
+<!-- status: current | validated: 2026-03-10 -->
 <!-- Links: Primary → ../../../../src/performance/README.md | Roadmap → ../../../../src/performance/ROADMAP.md -->
 
-**Stand:** 9. März 2026  
-**Erstellt durch:** Reality-Check gegen Sourcecode (Issue #3525)  
-**Ergebnis:** 3 dokumentarische Lücken, 2 technische Einschränkungen (bekannt), 0 kritische fehlende Implementierungen
+**Stand:** 10. März 2026  
+**Erstellt durch:** Reality-Check gegen Sourcecode (Issue #3525); Build-System-Audit (Folgeaudit)  
+**Ergebnis:** 4 dokumentarische/Build-Lücken (alle behoben), 2 technische Einschränkungen (bekannt), 0 kritische fehlende Implementierungen
 
 ---
 
@@ -14,6 +14,7 @@
 | Kategorie | Anzahl | Schwere |
 |-----------|--------|---------|
 | Dokumentarische Diskrepanzen (behoben) | 3 | 🟡 Minor |
+| Build-System-Lücken (behoben) | 1 | 🟡 Minor |
 | Technische Einschränkungen (bekannt, dokumentiert) | 2 | 🔵 Info |
 | Kritische fehlende Implementierungen | 0 | — |
 
@@ -50,9 +51,28 @@
 
 ---
 
-## 2. Bekannte technische Einschränkungen
+## 2. Behobene Build-System-Lücken
 
-### 2.1 Bw-Tree Insert — vereinfachte Traversierung
+### 2.1 Fehlende Quelldateien im cmake Build-System (PERF-BUILD-001)
+
+**Claim-Quelle:** Build-System-Audit (10. März 2026)  
+**Erwartetes Verhalten:** Alle 25 `.cpp`-Dateien in `src/performance/` sind in `cmake/CMakeLists.txt` **und** `cmake/ModularBuild.cmake` registriert  
+**Beobachtetes Verhalten:** Folgende Dateien wurden zwar kompiliert (via `src/`) aber nie im Build-System registriert:
+- `prometheus_exporter.cpp`, `chimera_exporter.cpp`, `async_metrics_exporter.cpp` (Phase 1/2 Exporter)
+- `phase3/adaptive_batch_tuner.cpp` (nur via direktem `target_sources(themis_tests)` erreichbar — fehlte in Produktions-Library)
+- `phase4/io_uring_zero_copy.cpp` (kein cmake-Option, kein Conditional-Block)
+
+**Evidence:** `grep "src/performance" cmake/CMakeLists.txt` — fehlende Einträge bestätigt  
+**Fehlende Optionen:** `THEMIS_ENABLE_PMU_COUNTERS` und `THEMIS_ENABLE_IO_URING` waren undeclared (nur als variable genutzt, nie `option()` definiert)  
+**Fehlende Test-Targets:** 5 Standalone-Test-Executables hatten keine cmake-Registrierung:
+`test_cycle_metrics`, `test_numa_topology`, `test_wire_perf_benchmark`, `test_adaptive_batch_tuner`, `test_io_uring_zero_copy`  
+**Status:** ✅ **Behoben** — Alle 25 Quelldateien in `cmake/CMakeLists.txt` und `cmake/ModularBuild.cmake` registriert; 5 fehlende Test-Targets hinzugefügt; `option()` Deklarationen ergänzt
+
+---
+
+## 3. Bekannte technische Einschränkungen
+
+### 3.1 Bw-Tree Insert — vereinfachte Traversierung
 
 **Claim-Quelle:** `src/performance/phase3/bwtree.cpp`, Zeile 82  
 **Kommentar im Code:**
@@ -71,7 +91,7 @@
 
 ---
 
-### 2.2 Ligra — externe Bibliothek erforderlich
+### 3.2 Ligra — externe Bibliothek erforderlich
 
 **Claim-Quelle:** `src/performance/ARCHITECTURE.md`, Zeile ~191  
 **Kommentar in Doku:** „Ligra parallel graph processing requires the Ligra library to be linked."  
@@ -81,7 +101,7 @@
 
 ---
 
-## 3. Nicht-Scope-Items (bewusst außerhalb des Performance-Moduls)
+## 4. Nicht-Scope-Items (bewusst außerhalb des Performance-Moduls)
 
 | Item | Begründung |
 |------|------------|

@@ -29,6 +29,7 @@
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
 #include "index/graph_index.h"
+#include "graph/path_constraints.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -758,6 +759,314 @@ http::response<http::string_body> GraphApiHandler::handleCostModelImport(
     span.setStatus(true);
     json response = {{"imported", true}};
     return makeResponse(http::status::ok, response.dump(), req);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EXPLAIN endpoint (Issue #1816): dry-run plan inspection for graph queries
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Helper: build a QueryConstraints object from an optional JSON sub-object.
+static themis::graph::GraphQueryOptimizer::QueryConstraints
+parseQueryConstraints(const json& body, const std::string& key = "constraints") {
+    themis::graph::GraphQueryOptimizer::QueryConstraints qc;
+    if (!body.contains(key) || !body[key].is_object()) {
+        return qc;
+    }
+    const auto& c = body[key];
+    if (c.contains("max_depth") && c["max_depth"].is_number_integer()) {
+        qc.max_depth = c["max_depth"].get<int>();
+    }
+    if (c.contains("max_results") && c["max_results"].is_number_unsigned()) {
+        qc.max_results = c["max_results"].get<size_t>();
+    }
+    if (c.contains("edge_type") && c["edge_type"].is_string()) {
+        qc.edge_type = c["edge_type"].get<std::string>();
+    }
+    if (c.contains("unique_vertices") && c["unique_vertices"].is_boolean()) {
+        qc.unique_vertices = c["unique_vertices"].get<bool>();
+    }
+    if (c.contains("unique_edges") && c["unique_edges"].is_boolean()) {
+        qc.unique_edges = c["unique_edges"].get<bool>();
+    }
+    if (c.contains("enable_parallel") && c["enable_parallel"].is_boolean()) {
+        qc.enable_parallel = c["enable_parallel"].get<bool>();
+    }
+    if (c.contains("num_threads") && c["num_threads"].is_number_unsigned()) {
+        qc.num_threads = c["num_threads"].get<uint32_t>();
+    }
+    if (c.contains("forbidden_vertices") && c["forbidden_vertices"].is_array()) {
+        for (const auto& v : c["forbidden_vertices"]) {
+            if (v.is_string()) qc.forbidden_vertices.push_back(v.get<std::string>());
+        }
+    }
+    if (c.contains("required_vertices") && c["required_vertices"].is_array()) {
+        for (const auto& v : c["required_vertices"]) {
+            if (v.is_string()) qc.required_vertices.push_back(v.get<std::string>());
+        }
+    }
+    if (c.contains("node_labels") && c["node_labels"].is_array()) {
+        for (const auto& v : c["node_labels"]) {
+            if (v.is_string()) qc.node_labels.push_back(v.get<std::string>());
+        }
+    }
+    return qc;
+}
+
+// Helper: serialise an OptimizationPlan as a JSON object.
+static json planToJson(
+    const themis::graph::GraphQueryOptimizer::OptimizationPlan& plan,
+    const std::string& explanation)
+{
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    using Pat  = themis::graph::GraphQueryOptimizer::QueryPattern;
+
+    auto algo_name = [](Algo a) -> std::string {
+        switch (a) {
+            case Algo::BFS:           return "BFS";
+            case Algo::DFS:           return "DFS";
+            case Algo::BIDIRECTIONAL: return "BIDIRECTIONAL";
+            case Algo::ASTAR:         return "ASTAR";
+            case Algo::DIJKSTRA:      return "DIJKSTRA";
+            default:                  return "UNKNOWN";
+        }
+    };
+
+    auto pat_name = [](Pat p) -> std::string {
+        switch (p) {
+            case Pat::SHORTEST_PATH:       return "Shortest Path";
+            case Pat::ALL_PATHS:           return "All Paths";
+            case Pat::K_HOP_NEIGHBORS:     return "K-Hop Neighborhood";
+            case Pat::PATTERN_MATCH:       return "Pattern Match";
+            case Pat::REACHABILITY:        return "Reachability";
+            case Pat::CONNECTED_COMPONENT: return "Connected Component";
+            default:                       return "Unknown";
+        }
+    };
+
+    json alt_arr = json::array();
+    for (const auto& [alt_algo, alt_cost] : plan.alternatives) {
+        alt_arr.push_back({{"algorithm", algo_name(alt_algo)}, {"estimated_cost", alt_cost}});
+    }
+
+    json shard_arr = json::array();
+    for (const auto& sid : plan.shard_ids) {
+        shard_arr.push_back(sid);
+    }
+
+    return json{
+        {"algorithm",                algo_name(plan.algorithm)},
+        {"pattern",                  pat_name(plan.pattern)},
+        {"estimated_cost",           plan.estimated_cost},
+        {"estimated_time_ms",        plan.estimated_time_ms},
+        {"estimated_nodes_explored", plan.estimated_nodes_explored},
+        {"use_index",                plan.use_index},
+        {"use_cache",                plan.use_cache},
+        {"early_termination",        plan.enable_early_termination},
+        {"parallel_execution",       plan.enable_parallel},
+        {"is_distributed",           plan.is_distributed},
+        {"recommended_parallelism",  plan.recommended_parallelism},
+        {"shard_ids",                shard_arr},
+        {"alternatives",             alt_arr},
+        {"explanation",              explanation}
+    };
+}
+
+http::response<http::string_body> GraphApiHandler::handleQueryExplain(
+    const http::request<http::string_body>& req)
+{
+    auto span = Tracer::startSpan("handleGraphQueryExplain");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/api/v1/graph/query/explain");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    json body_json;
+    try {
+        body_json = json::parse(req.body());
+    } catch (const json::exception& e) {
+        span.setStatus(false, "invalid JSON");
+        return makeErrorResponse(http::status::bad_request,
+            "Invalid JSON: " + std::string(e.what()), req);
+    }
+
+    if (!body_json.contains("query_type") || !body_json["query_type"].is_string()) {
+        span.setStatus(false, "missing query_type");
+        return makeErrorResponse(http::status::bad_request,
+            "Missing required field 'query_type'", req);
+    }
+
+    const std::string query_type = body_json["query_type"].get<std::string>();
+    span.setAttribute("graph.query_type", query_type);
+
+    auto qc = parseQueryConstraints(body_json);
+
+    try {
+        if (query_type == "shortest_path" || query_type == "reachability") {
+            if (!body_json.contains("start_vertex") || !body_json.contains("end_vertex")) {
+                span.setStatus(false, "missing vertex fields");
+                return makeErrorResponse(http::status::bad_request,
+                    "Fields 'start_vertex' and 'end_vertex' are required for " + query_type, req);
+            }
+            const std::string sv = body_json["start_vertex"].get<std::string>();
+            const std::string ev = body_json["end_vertex"].get<std::string>();
+            span.setAttribute("graph.start_vertex", sv);
+            span.setAttribute("graph.end_vertex", ev);
+
+            Result<themis::graph::GraphQueryOptimizer::OptimizationPlan> result;
+            if (query_type == "shortest_path") {
+                result = optimizer_->optimizeShortestPath(sv, ev, qc);
+            } else {
+                result = optimizer_->optimizeReachability(sv, ev, qc);
+            }
+
+            if (!result.has_value()) {
+                span.setStatus(false, result.error().message);
+                return makeErrorResponse(http::status::internal_server_error,
+                    result.error().message, req);
+            }
+            const auto& plan = result.value();
+            span.setStatus(true);
+            return makeResponse(http::status::ok,
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
+        }
+
+        if (query_type == "k_hop") {
+            if (!body_json.contains("start_vertex")) {
+                span.setStatus(false, "missing start_vertex");
+                return makeErrorResponse(http::status::bad_request,
+                    "Field 'start_vertex' is required for k_hop", req);
+            }
+            // max_depth may appear at top-level or inside constraints
+            int k = 2;
+            if (body_json.contains("max_depth") && body_json["max_depth"].is_number_integer()) {
+                k = body_json["max_depth"].get<int>();
+            } else if (qc.max_depth.has_value()) {
+                k = *qc.max_depth;
+            }
+            const std::string sv = body_json["start_vertex"].get<std::string>();
+            span.setAttribute("graph.start_vertex", sv);
+            span.setAttribute("graph.k", static_cast<int64_t>(k));
+
+            auto result = optimizer_->optimizeKHopNeighborhood(sv, k, qc);
+            if (!result.has_value()) {
+                span.setStatus(false, result.error().message);
+                return makeErrorResponse(http::status::internal_server_error,
+                    result.error().message, req);
+            }
+            const auto& plan = result.value();
+            span.setStatus(true);
+            return makeResponse(http::status::ok,
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
+        }
+
+        if (query_type == "pattern_match") {
+            if (!body_json.contains("pattern_vertices") || !body_json["pattern_vertices"].is_array()) {
+                span.setStatus(false, "missing pattern_vertices");
+                return makeErrorResponse(http::status::bad_request,
+                    "Field 'pattern_vertices' (array) is required for pattern_match", req);
+            }
+            std::vector<std::string> pverts;
+            for (const auto& pv : body_json["pattern_vertices"]) {
+                if (pv.is_string()) pverts.push_back(pv.get<std::string>());
+            }
+            std::vector<std::pair<std::string, std::string>> pedges;
+            if (body_json.contains("pattern_edges") && body_json["pattern_edges"].is_array()) {
+                for (const auto& pe : body_json["pattern_edges"]) {
+                    if (pe.is_array() && pe.size() == 2 &&
+                        pe[0].is_string() && pe[1].is_string())
+                    {
+                        pedges.emplace_back(pe[0].get<std::string>(), pe[1].get<std::string>());
+                    }
+                }
+            }
+            span.setAttribute("graph.pattern_vertices",
+                static_cast<int64_t>(pverts.size()));
+
+            auto result = optimizer_->optimizePatternMatch(pverts, pedges, qc);
+            if (!result.has_value()) {
+                span.setStatus(false, result.error().message);
+                return makeErrorResponse(http::status::internal_server_error,
+                    result.error().message, req);
+            }
+            const auto& plan = result.value();
+            span.setStatus(true);
+            return makeResponse(http::status::ok,
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
+        }
+
+        if (query_type == "constrained_path") {
+            if (!body_json.contains("start_vertex") || !body_json.contains("end_vertex")) {
+                span.setStatus(false, "missing vertex fields");
+                return makeErrorResponse(http::status::bad_request,
+                    "Fields 'start_vertex' and 'end_vertex' are required for constrained_path", req);
+            }
+            const std::string sv = body_json["start_vertex"].get<std::string>();
+            const std::string ev = body_json["end_vertex"].get<std::string>();
+            span.setAttribute("graph.start_vertex", sv);
+            span.setAttribute("graph.end_vertex", ev);
+
+            if (!graph_index_) {
+                span.setStatus(false, "graph index not available");
+                return makeErrorResponse(http::status::service_unavailable,
+                    "Graph index not available", req);
+            }
+            themis::graph::PathConstraints pc(graph_index_.get());
+            if (body_json.contains("path_constraints") && body_json["path_constraints"].is_object()) {
+                const auto& pco = body_json["path_constraints"];
+                if (pco.contains("min_length") && pco["min_length"].is_number_integer()) {
+                    pc.addMinLength(pco["min_length"].get<int>());
+                }
+                if (pco.contains("max_length") && pco["max_length"].is_number_integer()) {
+                    pc.addMaxLength(pco["max_length"].get<int>());
+                }
+                if (pco.contains("forbidden_vertices") && pco["forbidden_vertices"].is_array()) {
+                    for (const auto& fv : pco["forbidden_vertices"]) {
+                        if (fv.is_string()) pc.addForbiddenNode(fv.get<std::string>());
+                    }
+                }
+                if (pco.contains("required_vertices") && pco["required_vertices"].is_array()) {
+                    for (const auto& rv : pco["required_vertices"]) {
+                        if (rv.is_string()) pc.addRequiredNode(rv.get<std::string>());
+                    }
+                }
+                if (pco.contains("unique_nodes") && pco["unique_nodes"].is_boolean() &&
+                    pco["unique_nodes"].get<bool>()) {
+                    pc.requireUniqueNodes();
+                }
+                if (pco.contains("acyclic") && pco["acyclic"].is_boolean() &&
+                    pco["acyclic"].get<bool>()) {
+                    pc.requireAcyclic();
+                }
+            }
+
+            auto result = optimizer_->explainConstrainedPath(sv, ev, pc);
+            if (!result.has_value()) {
+                span.setStatus(false, result.error().message);
+                return makeErrorResponse(http::status::internal_server_error,
+                    result.error().message, req);
+            }
+            const auto& plan = result.value();
+            span.setStatus(true);
+            return makeResponse(http::status::ok,
+                planToJson(plan, optimizer_->explainPlan(plan)).dump(), req);
+        }
+
+        span.setStatus(false, "unknown query_type");
+        return makeErrorResponse(http::status::bad_request,
+            "Unknown query_type '" + query_type +
+            "'. Supported: shortest_path, k_hop, reachability, pattern_match, constrained_path",
+            req);
+
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false);
+        THEMIS_ERROR("Graph query explain error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
 }
 
 http::response<http::string_body> GraphApiHandler::makeErrorResponse(

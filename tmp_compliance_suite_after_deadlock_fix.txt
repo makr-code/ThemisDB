@@ -1,8 +1,0 @@
-Registered backend: CPU (Type: 0)
-Registered backend: CPU (Type: 0)
-Registered backend: CPU (Type: 0)
-Registered backend: CPU (Type: 0)
-Registered backend: GeoAccelerationBridge (Type: 0)
-Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
-C:\VCC\themis\tests\test_compliance_reporting.cpp(820): error: Expected: (result.covered_resources) > (0), actual: 0 vs 0
-

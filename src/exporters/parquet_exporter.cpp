@@ -26,6 +26,7 @@
 #include "exporters/parquet_exporter.h"
 #include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
+#include "exporters/exporter_interface.h"
 #include "exporters/exporter_metrics.h"
 #include "exporters/pii_detector.h"
 #include "utils/logger.h"
@@ -498,6 +499,9 @@ ExportStats ParquetExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
+    // Policy check before any cursor or file is opened (EXP-001).
+    enforceExportPolicy(options);
+
     ExportStats stats;
     stats.metrics = metrics_;
     auto start_time = std::chrono::steady_clock::now();

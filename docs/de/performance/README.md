@@ -1,6 +1,6 @@
 # Performance Documentation
 
-<!-- status: current | validated: 2026-03-09 -->
+<!-- status: current | validated: 2026-03-10 -->
 <!-- Links: Primary → ../../../../src/performance/README.md | Architektur → ../../../../src/performance/ARCHITECTURE.md | Roadmap → ../../../../src/performance/ROADMAP.md -->
 
 **Stand:** 9. März 2026  

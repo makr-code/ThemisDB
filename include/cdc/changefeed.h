@@ -38,6 +38,8 @@
 #include <atomic>
 #include <chrono>
 #include <set>
+#include <functional>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 
 // Forward declarations for RocksDB types
@@ -288,6 +290,109 @@ public:
      */
     void stopRetentionCleanup();
 
+    // -----------------------------------------------------------------------
+    // Push-based subscription API
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Filter for push-based change subscriptions.
+     *
+     * All fields are optional; an empty filter matches every event.
+     */
+    struct SubscriptionFilter {
+        /// If non-empty, only events whose key starts with this prefix are delivered.
+        std::string key_prefix;
+        /// If non-empty, only events matching one of these types are delivered.
+        std::set<ChangeEventType> event_types;
+
+        bool matches(const ChangeEvent& ev) const noexcept;
+    };
+
+    /**
+     * @brief Opaque subscription handle.
+     *
+     * Cancels the subscription on destruction (RAII).  Copy/assign are deleted;
+     * move is supported.
+     *
+     * Usage:
+     * ```cpp
+     * auto h = feed.subscribe(filter, [](const ChangeEvent& ev) {
+     *     // deliver ev to the client
+     * });
+     * // Subscription active while h is in scope.
+     * ```
+     */
+    class SubscriptionHandle {
+    public:
+        SubscriptionHandle() = default;
+        ~SubscriptionHandle() noexcept { cancel(); }
+
+        SubscriptionHandle(const SubscriptionHandle&) = delete;
+        SubscriptionHandle& operator=(const SubscriptionHandle&) = delete;
+
+        SubscriptionHandle(SubscriptionHandle&& other) noexcept
+            : feed_(other.feed_), id_(other.id_)
+        {
+            other.feed_ = nullptr;
+            other.id_   = 0;
+        }
+        SubscriptionHandle& operator=(SubscriptionHandle&& other) noexcept {
+            if (this != &other) {
+                cancel();
+                feed_ = other.feed_;
+                id_   = other.id_;
+                other.feed_ = nullptr;
+                other.id_   = 0;
+            }
+            return *this;
+        }
+
+        /// Explicitly cancel the subscription before the handle goes out of scope.
+        void cancel() noexcept;
+
+        /// Return true if the subscription is still active.
+        bool active() const noexcept { return feed_ != nullptr; }
+
+        /// Return the subscription ID (debug / logging).
+        uint64_t id() const noexcept { return id_; }
+
+    private:
+        friend class Changefeed;
+        SubscriptionHandle(Changefeed* feed, uint64_t id) noexcept
+            : feed_(feed), id_(id) {}
+
+        Changefeed* feed_ = nullptr;
+        uint64_t    id_   = 0;
+    };
+
+    /// Callback type invoked for every matching event.  Must be noexcept.
+    using SubscriptionCallback = std::function<void(const ChangeEvent&)>;
+
+    /**
+     * @brief Register a push callback for CDC events matching @p filter.
+     *
+     * The @p callback is invoked synchronously during `recordEvent()` on the
+     * thread that records the event.  Keep the callback lightweight (e.g. enqueue
+     * the event into a per-connection queue and signal a worker thread).
+     *
+     * The subscription remains active until the returned @c SubscriptionHandle
+     * is destroyed or `SubscriptionHandle::cancel()` is called.
+     *
+     * Thread-safe: may be called concurrently with `recordEvent()` and other
+     * `subscribe()` calls.
+     *
+     * @param filter    Optional event filter (empty = all events).
+     * @param callback  Callable invoked with each matching event.
+     * @return RAII handle that cancels the subscription on destruction.
+     */
+    SubscriptionHandle subscribe(SubscriptionFilter filter,
+                                 SubscriptionCallback callback);
+
+    /**
+     * @brief Unsubscribe by ID (called internally by SubscriptionHandle::cancel()).
+     */
+    void unsubscribe(uint64_t subscription_id) noexcept;
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
@@ -312,6 +417,18 @@ private:
     mutable std::mutex retention_mutex_;  // also protects retention_policy_ reads
     
     void retentionCleanupThread();
+
+    // Push-based subscriptions
+    struct SubscriptionEntry {
+        SubscriptionFilter   filter;
+        SubscriptionCallback callback;
+    };
+    std::unordered_map<uint64_t, SubscriptionEntry> subscriptions_;
+    mutable std::mutex subscriptions_mutex_;
+    std::atomic<uint64_t> next_subscription_id_{1};
+
+    /// Notify all registered subscribers whose filter matches @p event.
+    void notifySubscribers(const ChangeEvent& event);
 };
 
 } // namespace themis
