@@ -1888,10 +1888,8 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/policy_coordinator.cpp
     ../src/governance/compliance_reporting.cpp
     ../src/governance/policy_validation.cpp
-    ../src/governance/policy_coordinator.cpp
     ../src/governance/policy_version_history.cpp
     ../src/governance/policy_manager_versioned.cpp
-    ../src/governance/policy_template.cpp
     ../src/governance/compliance_reporter.cpp
     ../src/governance/policy_validator.cpp
     ../src/governance/review_scheduler.cpp

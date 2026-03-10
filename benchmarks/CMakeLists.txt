@@ -1670,6 +1670,37 @@ else()
     message(STATUS "Governance Policy Latency benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
 endif()
 
+# Compliance / Security / Governance Performance Benchmarks
+# Measures evaluation latency for GDPR, HIPAA, SOC 2, PCI-DSS, and CCPA/CPRA
+# compliance rule paths, data masking throughput, and cross-regulation conflict
+# detection overhead.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_compliance_security_governance.cpp")
+    message(STATUS "Adding compliance/security/governance benchmarks")
+
+    add_executable(bench_compliance_security_governance
+        bench_compliance_security_governance.cpp
+    )
+
+    target_link_libraries(bench_compliance_security_governance PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        yaml-cpp::yaml-cpp
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_compliance_security_governance PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    message(STATUS "  Compliance/Security/Governance: GDPR/HIPAA/SOC2/PCI-DSS/CCPA rule evaluation, data masking throughput")
+else()
+    message(STATUS "Compliance/Security/Governance benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_compliance_security_governance.cpp")
+endif()
+
 # ConfigPathResolver Performance Benchmarks (Issue #1675)
 # Measures cache hit rate and resolution latency for config path resolution.
 #
