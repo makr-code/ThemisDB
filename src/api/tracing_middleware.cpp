@@ -83,6 +83,7 @@ void TracingMiddleware::finishSpan(std::string_view span_name, int http_status) 
 {
     if (!exporter_) return;
     if (tl_correlation_id.empty()) return;
+    if (tl_span_start_ns == 0) return;  // processRequest() was not called with this exporter
 
     const auto now = std::chrono::system_clock::now().time_since_epoch();
     const int64_t end_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now).count();

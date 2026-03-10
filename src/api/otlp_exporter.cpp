@@ -51,11 +51,6 @@ static std::string deriveSpanId(const std::string& trace_id_32)
     return trace_id_32 + std::string(16 - trace_id_32.size(), '0');
 }
 
-/// Encode a byte string as base64 (minimal implementation, OTLP JSON format
-/// uses base64 for trace_id / span_id when transmitted as bytes, but the JSON
-/// format we use transmits them as hex strings directly via `traceId` /
-/// `spanId` string fields — no base64 needed).
-///
 /// StatusCode constants (OTLP spec):
 static constexpr int kStatusUnset = 0;
 static constexpr int kStatusOk    = 1;
@@ -160,9 +155,10 @@ void OtlpExporter::flushLoop()
 
             const size_t take = std::min(queue_.size(), config_.batch_size);
             if (take > 0) {
+                const auto take_offset = static_cast<std::ptrdiff_t>(take);
                 batch.assign(std::make_move_iterator(queue_.begin()),
-                             std::make_move_iterator(queue_.begin() + static_cast<std::ptrdiff_t>(take)));
-                queue_.erase(queue_.begin(), queue_.begin() + static_cast<std::ptrdiff_t>(take));
+                             std::make_move_iterator(queue_.begin() + take_offset));
+                queue_.erase(queue_.begin(), queue_.begin() + take_offset);
             }
         }
 

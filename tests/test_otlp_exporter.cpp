@@ -46,21 +46,13 @@ TEST(OtlpExporterTest, DisabledByDefault)
 
 TEST(OtlpExporterTest, QueueDropsWhenFull)
 {
+    // Use enabled=true but never start → background thread absent, queue fills up.
     OtlpExporterConfig cfg;
-    cfg.enabled        = false; // no real export
+    cfg.enabled        = true;
     cfg.max_queue_size = 3;
 
-    OtlpExporter exp(cfg);
-    // Don't start the background thread; just test the queue drop logic
-    // by enabling direct enqueue (enabled=false → enqueue is no-op, so
-    // we enable it then verify with a separate enabled instance).
-
-    // Use enabled=true but never start → background thread not running,
-    // queue accumulates up to max_queue_size, then drops.
-    OtlpExporterConfig cfg2 = cfg;
-    cfg2.enabled = true;
-    OtlpExporter exp2(cfg2);
-    // Do NOT call start() — background thread absent, queue fills up.
+    OtlpExporter exp2(cfg);
+    // Do NOT call start() — background thread absent, queue accumulates.
 
     SpanData s;
     s.trace_id = "00000000000000000000000000000001";
@@ -76,7 +68,7 @@ TEST(OtlpExporterTest, QueueDropsWhenFull)
     exp2.enqueue(s);
     EXPECT_EQ(exp2.droppedSpanCount(), 1u);
 
-    exp2.stop(); // drains queue without sending (no curl available)
+    exp2.stop(); // drains queue without sending (no background thread)
 }
 
 TEST(OtlpExporterTest, ConfigAccessors)
