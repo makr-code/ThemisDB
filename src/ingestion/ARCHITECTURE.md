@@ -198,13 +198,9 @@ FileSystemIngester: encounter file "report.pdf"
 
 ## 11. Known Limitations & Future Work
 
-- `HuggingFaceConnector`: HTTP client uses a simulated implementation (stub); replace with real `libcurl` calls for production use.
-- `CdcConnector`: `ingestFromStream()` is a compile-time gated stub; full replication driver integration (PostgreSQL libpq-fe.h or MySQL Connector/C) requires `THEMIS_ENABLE_CDC_STREAM`.
-- `IngestionAdminApi::retryQuarantineItem()`: write-success is always `true`; wire to real storage-write return value.
 - PDF/DOCX ingestion requires external converters (pdftotext, pandoc) to be installed; native parsing not supported.
 - WebSocket/real-time source connectors are planned.
 - OCR for scanned PDF pages (Tesseract integration) is planned.
-- End-to-end ingestion lineage tracking not yet implemented (Issue: #1901).
 
 ---
 

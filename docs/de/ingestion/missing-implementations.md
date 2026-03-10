@@ -1,6 +1,6 @@
 # Ingestion-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: updated | validated: 2026-03-09 | updated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-10 | updated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/ingestion/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/ingestion/ROADMAP.md`, `src/ingestion/README.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt** oder **als Stub** befunden wurden.
@@ -44,17 +44,14 @@ Prüfstand: 2026-03-09 | Branch: `develop` | Aktualisiert: 2026-03-10
 
 ---
 
-## 4. End-to-End Ingestion Lineage Tracking — Nicht implementiert
+## 4. End-to-End Ingestion Lineage Tracking — ✅ Gelöst
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/ingestion/ROADMAP.md` §"Planned Features / Remaining — End-to-end ingestion lineage tracking (Issue: #1901)" |
 | **Erwartet** | Jedes ingested Dokument wird mit einem Lineage-Record verknüpft: Quelle, Zeitstempel, Konnektor-Version, Transformationsschritte |
-| **Beobachtet** | Kein Treffer für `IngestionLineage`, `LineageRecord`, `lineage_tracking` in `src/ingestion/`. Die `IngestionReport`-Struktur enthält Statistiken aber keine Lineage-Daten |
-| **Evidence** | Kein Code-Treffer; nur ROADMAP-Referenz `[I] Issue: #1901` |
-| **ROADMAP-Status** | `[I]` Issue offen (Issue: #1901) |
-| **Issue-Titelvorschlag** | `[ingestion] Implement end-to-end ingestion lineage tracking` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `ingestion`, `observability`, `status:open` |
+| **Beobachtet (alt)** | Kein Treffer für `IngestionLineage`, `LineageRecord`, `lineage_tracking` in `src/ingestion/`. Die `IngestionReport`-Struktur enthielt Statistiken aber keine Lineage-Daten |
+| **Lösung (2026-03-10)** | `IngestionLineageRecord` + `IngestionLineageStore` in `include/ingestion/ingestion_manager.h` implementiert. `IngestionManager::enableLineageTracking()`, `getLineageRecords()`, `getLineageRecordsByRun()`, `getAllLineageRecords()`, `clearLineageRecords()` als öffentliche API. Lineage-Records enthalten: `run_correlation_id`, `source_id`, `connector_type`, `connector_version`, `doc_id`, `ingested_at`, `bytes`, `doc_count`, `transformation_steps`, `status`. 19 Unit-Tests in `tests/test_ingestion_lineage.cpp` → `IngestionLineageFocusedTests`. |
 
 ---
 
@@ -65,6 +62,6 @@ Prüfstand: 2026-03-09 | Branch: `develop` | Aktualisiert: 2026-03-10
 | 1 | HuggingFaceConnector HTTP-Client | `huggingface_connector.cpp` | **Hoch** | ✅ Gelöst (2026-03-10) |
 | 2 | CdcConnector Stream-Backend | `cdc_connector.cpp` | Mittel | ✅ Gelöst (2026-03-10) |
 | 3 | retryQuarantineItem() Storage-Write | `ingestion_manager.cpp` | Mittel | ✅ Gelöst (2026-03-10) |
-| 4 | Lineage Tracking | ROADMAP Issue #1901 | Niedrig | 🔴 Offen |
+| 4 | Lineage Tracking | ROADMAP Issue #1901 | Niedrig | ✅ Gelöst (2026-03-10) |
 
-*Alle anderen ROADMAP-Einträge sind durch vorhandene Implementierungsdateien auf `develop` belegt. Kein kritischer Ingestion-Pfad (GenericApiConnector, FileSystemIngester, KafkaConnector, ObjectStorageConnector, DatabaseConnector, WebCrawlerConnector, IngestionCoordinator) enthält Stubs.*
+*Alle ROADMAP-Einträge sind durch vorhandene Implementierungsdateien auf `develop` belegt. Kein kritischer Ingestion-Pfad enthält Stubs. Lineage-Tracking (Issue #1901) vollständig implementiert.*

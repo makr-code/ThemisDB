@@ -54,6 +54,14 @@ namespace ingestion {
 // Correlation ID generator (thread-safe, no external UUID lib)
 // ============================================================================
 namespace {
+
+/// Connector API version reported in lineage records (bump on interface change)
+static constexpr const char* kConnectorVersion = "1.0.0";
+/// Prefix for doc_id in batch-level success/dry-run lineage records
+static constexpr const char* kBatchDocIdPrefix  = "batch:";
+/// Prefix for doc_id in failed-batch lineage records
+static constexpr const char* kFailedDocIdPrefix = "failed:";
+
 static std::string generateCorrelationId() {
     static std::atomic<uint64_t> counter{0};
     auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
@@ -781,7 +789,86 @@ public:
                 stats.metrics.throughput_docs_per_sec =
                     static_cast<double>(stats.documents_processed) / stats.elapsed_seconds;
             }
-            
+
+            // ── Lineage tracking ─────────────────────────────────────────────
+            if (lineage_enabled_) {
+                // Collect transformation steps that were applied
+                std::vector<std::string> steps;
+                {
+                    std::lock_guard<std::mutex> lock(mutex_);
+                    if (schema_configs_.count(source_id) &&
+                        schema_configs_.at(source_id).isEnabled()) {
+                        steps.push_back("schema_validation");
+                    }
+                }
+                if (config.type == SourceType::FILESYSTEM) {
+                    steps.push_back("mime_detection");
+                }
+                if (rate_limit_config_.enabled) {
+                    steps.push_back("rate_limiting");
+                }
+                if (incremental_mode_) {
+                    steps.push_back("incremental_checkpoint");
+                }
+                if (dry_run_) {
+                    steps.push_back("dry_run");
+                }
+
+                const std::string ts = formatTimestamp(std::chrono::system_clock::now());
+
+                // One batch-level record for successfully processed documents
+                if (stats.documents_processed > 0 || dry_run_) {
+                    IngestionLineageRecord r;
+                    r.run_correlation_id  = stats.correlation_id;
+                    r.source_id           = source_id;
+                    r.connector_type      = sourceTypeLabel(config.type);
+                    r.connector_version   = kConnectorVersion;
+                    r.doc_id              = kBatchDocIdPrefix + std::to_string(stats.documents_processed);
+                    r.ingested_at         = ts;
+                    r.bytes               = stats.bytes_processed;
+                    r.doc_count           = stats.documents_processed;
+                    r.transformation_steps = steps;
+                    r.status = dry_run_ ? LineageStatus::DRY_RUN : LineageStatus::SUCCESS;
+                    lineage_store_.record(std::move(r));
+                }
+
+                // Per-quarantine-entry records for failed documents
+                {
+                    std::lock_guard<std::mutex> lock(mutex_);
+                    for (const auto& q : quarantine_) {
+                        if (q.source_id != source_id) continue;
+                        IngestionLineageRecord rq;
+                        rq.run_correlation_id  = stats.correlation_id;
+                        rq.source_id           = source_id;
+                        rq.connector_type      = sourceTypeLabel(config.type);
+                        rq.connector_version   = kConnectorVersion;
+                        rq.doc_id              = q.item_path;
+                        rq.ingested_at         = ts;
+                        rq.bytes               = q.raw_payload.size();
+                        rq.doc_count           = 1;
+                        rq.transformation_steps = steps;
+                        rq.status = LineageStatus::QUARANTINED;
+                        lineage_store_.record(std::move(rq));
+                    }
+                }
+
+                // Record for failed (non-quarantined) documents
+                if (stats.documents_failed > 0) {
+                    IngestionLineageRecord rf;
+                    rf.run_correlation_id  = stats.correlation_id;
+                    rf.source_id           = source_id;
+                    rf.connector_type      = sourceTypeLabel(config.type);
+                    rf.connector_version   = kConnectorVersion;
+                    rf.doc_id              = kFailedDocIdPrefix + std::to_string(stats.documents_failed);
+                    rf.ingested_at         = ts;
+                    rf.bytes               = 0;
+                    rf.doc_count           = stats.documents_failed;
+                    rf.transformation_steps = steps;
+                    rf.status = LineageStatus::FAILED;
+                    lineage_store_.record(std::move(rf));
+                }
+            }
+
         } catch (const std::exception& e) {
             stats.addError(IngestionErrorCode::INTERNAL_ERROR,
                            IngestionErrorSeverity::FATAL,
@@ -1219,6 +1306,8 @@ private:
     ApiHttpGetFn api_http_get_fn_;  ///< testing hook for API connectors; empty = real curl
     DocumentWriteFn doc_write_fn_;  ///< testing hook for quarantine retry writes; empty = always succeed
     ConnectorPluginRegistry plugin_registry_; ///< Registry for third-party plugin connectors
+    IngestionLineageStore lineage_store_;     ///< In-memory lineage record store
+    bool lineage_enabled_ = false;            ///< Lineage tracking on/off
     mutable std::mutex mutex_;
 };
 
@@ -1406,6 +1495,32 @@ bool IngestionManager::unregisterConnectorPlugin(const std::string& plugin_name)
 
 std::vector<std::string> IngestionManager::listConnectorPlugins() const {
     return impl_->listConnectorPlugins();
+}
+
+void IngestionManager::enableLineageTracking(bool enabled) {
+    impl_->lineage_enabled_ = enabled;
+}
+
+bool IngestionManager::isLineageTrackingEnabled() const {
+    return impl_->lineage_enabled_;
+}
+
+std::vector<IngestionLineageRecord> IngestionManager::getLineageRecords(
+        const std::string& source_id) const {
+    return impl_->lineage_store_.getBySource(source_id);
+}
+
+std::vector<IngestionLineageRecord> IngestionManager::getLineageRecordsByRun(
+        const std::string& run_correlation_id) const {
+    return impl_->lineage_store_.getByCorrelationId(run_correlation_id);
+}
+
+std::vector<IngestionLineageRecord> IngestionManager::getAllLineageRecords() const {
+    return impl_->lineage_store_.getAll();
+}
+
+void IngestionManager::clearLineageRecords() {
+    impl_->lineage_store_.clear();
 }
 
 // ============================================================================

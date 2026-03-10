@@ -95,4 +95,4 @@
 - Benchmark: `bench_ingestion_kv` in `cmake/CMakeLists.txt` registriert
 
 ### ⚠️ Bekannte Einschränkungen (dokumentiert in `missing-implementations.md`)
-- Lineage-Tracking nicht implementiert (Issue: #1901) — einzige noch offene ROADMAP-Aufgabe
+- ✅ Alle ROADMAP-Aufgaben implementiert. Keine offenen Items.

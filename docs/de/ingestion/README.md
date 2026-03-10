@@ -94,5 +94,5 @@ Vollständiges Inventar aller Quelldateien: **[inventory.md](./inventory.md)**
 
 Detaillierter Report: **[missing-implementations.md](./missing-implementations.md)**
 
-Kurzfassung:
-- Lineage-Tracking fehlt (Issue: #1901) — einzige noch offene ROADMAP-Aufgabe
+Kurzfassung (Stand 2026-03-10 — alle Items gelöst):
+- Alle ROADMAP-Aufgaben implementiert. Keine offenen Items.

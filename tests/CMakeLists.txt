@@ -7618,6 +7618,14 @@ add_ingestion_focused_test(
     "IngestionPipeline: key-value ingestion pipeline, RocksDB write path, batch throughput"
 )
 
+add_ingestion_focused_test(
+    test_ingestion_lineage_focused
+    test_ingestion_lineage.cpp
+    IngestionLineageFocusedTests
+    "ingestion;lineage;provenance;tracking;focused;unit"
+    "IngestionLineage: IngestionLineageRecord struct, IngestionLineageStore, IngestionManager lineage API (Issue #1901)"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================
