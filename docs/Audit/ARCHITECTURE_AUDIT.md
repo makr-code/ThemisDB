@@ -1,26 +1,27 @@
 # ThemisDB Architecture Audit
 
-**Version:** 1.0  
-**Audit Date:** 2026-02-07  
+**Version:** 1.1  
+**Audit Date:** 2026-03-10  
 **Repository:** makr-code/ThemisDB  
-**Scope:** Core Modules in `/src` Directory  
+**Scope:** Core Modules in `/src` Directory (develop @ 32369f28107f228bd572c91e0c13c54b3c622bbb)  
 **Reference:** ARCHITECTURE.md
 
 ---
 
 ## Executive Summary
 
-This audit evaluates the architecture of ThemisDB's 41 core modules located in the `/src` directory against the architectural guidelines defined in `ARCHITECTURE.md`. The audit focuses on module organization, layer assignment, interface design, and identifies potential risks and improvement opportunities.
+This audit evaluates the architecture of ThemisDB's core modules located in the `/src` directory against the architectural guidelines defined in `ARCHITECTURE.md`. The audit focuses on module organization, layer assignment, namespace strategy, interface design, and identifies potential risks and improvement opportunities. This version (v1.1) updates the baseline audit (v1.0, 2026-02-07) to reflect the current state of the `develop` branch as of 2026-03-10.
 
 **Key Findings:**
-- ✅ **Strong modular organization** with 41 well-defined components
-- ✅ **Clear layered architecture** with 10 distinct layers
-- ✅ **Namespace organization** follows documented patterns (themis::*)
-- ⚠️ **Limited explicit interface definitions** found in include directory
-- ⚠️ **Namespace consistency** - mixed usage of themis:: and themisdb:: namespaces
-- ⚠️ **Documentation gaps** in some architectural patterns and guidelines
+- ✅ **Strong modular organization** with a growing set of well-defined components
+- ✅ **Clear layered architecture** with 10 distinct layers remains intact
+- ✅ **Dual-namespace strategy is intentional and documented** (`themis::` for core, `themisdb::` for extended subsystems); the prior finding of "inconsistency" is superseded - see Section 3
+- ✅ **New platform capabilities visible**: configuration subsystem (`config/`), internal shared API surface (`themis/`), GPU feature flags, distributed health checks with mTLS signals
+- ⚠️ **Module inventory has expanded**: new top-level directories observed under `src/` (`config/`, `ingestion/`, `prompt_engineering/`, `training/`, `themis/`) are not reflected in the prior audit baseline
+- ⚠️ **Limited explicit interface definitions** - interface abstractions exist in places (e.g., `IMLServingBackend` in analytics/ML serving), but no centralized interface catalog exists
+- ⚠️ **Documentation gaps** persist for several new and existing modules (see DOCS-009)
 
-**Overall Assessment:** The architecture demonstrates strong modularity and separation of concerns. The codebase follows most documented architectural principles, though some areas would benefit from enhanced interface abstractions and more explicit dependency management.
+**Overall Assessment:** The architecture remains modular and layered, with visible maturation in configuration management, GPU/platform internals, and namespace documentation. The main action items are documentation and governance alignment: the architecture docs and this audit must reflect the current module inventory, document the intentional `themis` vs `themisdb` namespace split, and establish enforceable dependency rules to prevent architectural erosion.
 
 ---
 
@@ -28,64 +29,86 @@ This audit evaluates the architecture of ThemisDB's 41 core modules located in t
 
 ### 1.1 Module Inventory
 
-ThemisDB contains **41 core modules** in the `/src` directory with **575 implementation files** (`.cpp`, `.cc`) and **1 header file** (`.h`, `.hpp`). The modules range from small focused components to large complex systems.
+ThemisDB's `/src` directory contains a growing set of modules. The prior audit baseline cited 41 core modules and 575 implementation files; file counts have not been recomputed in this audit pass (exact counts require a complete recursive enumeration and are not fabricated here). The module list below reflects the top-level directories observed under `src/` as of develop @ 32369f28107f228bd572c91e0c13c54b3c622bbb.
 
-| Module | File Count | Primary Purpose | Layer |
-|--------|-----------|-----------------|-------|
-| **llm/** | 124 | LLM integration, inference, LoRA framework | LLM Integration Layer |
-| **server/** | 77 | API handlers, protocols, HTTP/gRPC servers | API & Protocol Layer |
-| **sharding/** | 61 | Distributed coordination, consensus algorithms | Distributed & Sharding Layer |
-| **utils/** | 33 | Logging, utilities, compression, PII detection | Cross-cutting |
-| **index/** | 32 | Vector, graph, spatial indexing | Index & Vector Layer |
-| **security/** | 28 | Encryption, RBAC, audit logging | Cross-cutting |
-| **content/** | 25 | Multimodal data ingestion and processing | Content & Data Processing Layer |
-| **query/** | 24 | AQL parser, optimizer, execution engine | Query Processing Layer |
-| **storage/** | 23 | RocksDB wrapper, blob storage, transactions | Storage Layer |
-| **rag/** | 19 | RAG evaluation, faithfulness, bias detection | LLM Integration Layer |
-| **acceleration/** | 18 | GPU & hardware backends (CUDA, HIP, Vulkan) | Cross-cutting |
-| **performance/** | 16 | Advanced data structures, optimizations | Cross-cutting |
-| **timeseries/** | 12 | Time series compression, aggregates | Specialized Processing |
-| **governance/** | 12 | Policy engine, compliance, versioning | Governance & Compliance Layer |
-| **analytics/** | 8 | OLAP, process mining, diff engine | Analytics & Observability Layer |
-| **plugins/** | 6 | Plugin system, hot-plugging, RPC | Cross-cutting |
-| **transaction/** | 5 | ACID transactions, SAGA pattern | Transaction Layer |
-| **observability/** | 5 | Metrics, profiling, alerting | Analytics & Observability Layer |
-| **updates/** | 4 | Hot reload, manifest management | Cross-cutting |
-| **cache/** | 4 | Semantic caching, query caching | Cross-cutting |
-| **network/** | 3 | Wire protocol, socket management | API & Protocol Layer |
-| **geo/** | 3 | Geospatial query processing | Specialized Processing |
-| **core/** | 3 | Security init, concerns context | Core Infrastructure |
-| **auth/** | 3 | JWT, GSSAPI, MFA authentication | API & Protocol Layer |
-| **api/** | 3 | GraphQL API, HTTP server setup | API & Protocol Layer |
-| **voice/** | 2 | Voice assistant integration | Specialized Processing |
-| **scheduler/** | 2 | Task scheduling, retention | Specialized Processing |
-| **graph/** | 2 | Property graphs, path constraints | Index & Vector Layer |
-| **chimera/** | 2 | Database adapter factory | Cross-cutting |
-| **cdc/** | 2 | Change Data Capture, changefeeds | Distributed & Sharding Layer |
-| **aql/** | 2 | AQL-specific handlers | Query Processing Layer |
-| **temporal/** | 1 | Temporal conflict resolution | Specialized Processing |
-| **search/** | 1 | Hybrid search (vector + full-text) | Index & Vector Layer |
-| **replication/** | 1 | Multi-master replication | Distributed & Sharding Layer |
-| **metadata/** | 1 | Schema management | Storage Layer |
-| **importers/** | 1 | Data import (PostgreSQL) | Content & Data Processing Layer |
-| **gpu/** | 1 | GPU-specific memory management | Cross-cutting |
-| **exporters/** | 1 | Data export formats | Content & Data Processing Layer |
-| **base/** | 1 | Core module loader | Core Infrastructure |
+**Modules present in v1.0 baseline (unchanged):**
+
+| Module | Primary Purpose | Layer |
+|--------|-----------------|-------|
+| **llm/** | LLM integration, inference, LoRA framework | LLM Integration Layer |
+| **server/** | API handlers, protocols, HTTP/gRPC servers | API & Protocol Layer |
+| **sharding/** | Distributed coordination, consensus algorithms | Distributed & Sharding Layer |
+| **utils/** | Logging, utilities, compression, PII detection | Cross-cutting |
+| **index/** | Vector, graph, spatial indexing | Index & Vector Layer |
+| **security/** | Encryption, RBAC, audit logging | Cross-cutting |
+| **content/** | Multimodal data ingestion and processing | Content & Data Processing Layer |
+| **query/** | AQL parser, optimizer, execution engine | Query Processing Layer |
+| **storage/** | RocksDB wrapper, blob storage, transactions | Storage Layer |
+| **rag/** | RAG evaluation, faithfulness, bias detection | LLM Integration Layer |
+| **acceleration/** | GPU & hardware backends (CUDA, HIP, Vulkan) | Cross-cutting |
+| **performance/** | Advanced data structures, optimizations | Cross-cutting |
+| **timeseries/** | Time series compression, aggregates | Specialized Processing |
+| **governance/** | Policy engine, compliance, versioning | Governance & Compliance Layer |
+| **analytics/** | OLAP, process mining, diff engine | Analytics & Observability Layer |
+| **plugins/** | Plugin system, hot-plugging, RPC | Cross-cutting |
+| **transaction/** | ACID transactions, SAGA pattern | Transaction Layer |
+| **observability/** | Metrics, profiling, alerting | Analytics & Observability Layer |
+| **updates/** | Hot reload, manifest management | Cross-cutting |
+| **cache/** | Semantic caching, query caching | Cross-cutting |
+| **network/** | Wire protocol, socket management | API & Protocol Layer |
+| **geo/** | Geospatial query processing | Specialized Processing |
+| **core/** | Security init, concerns context | Core Infrastructure |
+| **auth/** | JWT, GSSAPI, MFA authentication | API & Protocol Layer |
+| **api/** | GraphQL API, HTTP server setup | API & Protocol Layer |
+| **voice/** | Voice assistant integration | Specialized Processing |
+| **scheduler/** | Task scheduling, retention | Specialized Processing |
+| **graph/** | Property graphs, path constraints | Index & Vector Layer |
+| **chimera/** | Database adapter factory | Cross-cutting |
+| **cdc/** | Change Data Capture, changefeeds | Distributed & Sharding Layer |
+| **aql/** | AQL-specific handlers | Query Processing Layer |
+| **temporal/** | Temporal conflict resolution | Specialized Processing |
+| **search/** | Hybrid search (vector + full-text) | Index & Vector Layer |
+| **replication/** | Multi-master replication | Distributed & Sharding Layer |
+| **metadata/** | Schema management | Storage Layer |
+| **importers/** | Data import (PostgreSQL) | Content & Data Processing Layer |
+| **gpu/** | GPU-specific memory management | Cross-cutting |
+| **exporters/** | Data export formats | Content & Data Processing Layer |
+| **base/** | Core module loader | Core Infrastructure |
+
+**Modules newly observed in this audit pass (not in v1.0 baseline):**
+
+| Module | Primary Purpose | Preliminary Layer |
+|--------|-----------------|-------------------|
+| **config/** | Configuration resolution, schema validation, metrics exporter | Platform / Cross-cutting |
+| **ingestion/** | Data ingestion pipeline | Content & Data Processing Layer |
+| **prompt_engineering/** | Prompt construction, optimization | LLM Integration Layer (see note below) |
+| **training/** | ML model training pipeline, LoRA, calibration | LLM Integration Layer (see note below) |
+| **themis/** | Internal shared API surface, GPU sub-headers | Platform / Core Infrastructure |
+
+**Note on `prompt_engineering/` and `training/`:** These modules may warrant classification as a separate "ML Ops / Training" layer rather than being subsumed into the LLM Integration Layer. See Section 2.2 for the recommendation.
+
+**Top-level non-module files in `src/`:** `main.cpp`, `main_server.cpp`, `demo_encryption.cpp`, `stubs.cpp`, `version.h`, `README.md`
+
+**Assessment:** The module inventory has expanded since v1.0. The architecture reference (`ARCHITECTURE.md`) and this audit should be kept in sync with the current module set. The newly present modules (`config/`, `themis/`) are foundational platform modules and require explicit governance rules (see Section 5 and Section 10).
 
 ### 1.2 Module Size Distribution
 
-**Large Modules (>50 files):**
-- `llm/` (124 files) - Extensive LLM capabilities with LoRA, vision, inference
-- `server/` (77 files) - 40+ API handlers for different domains
-- `sharding/` (61 files) - Complex distributed coordination logic
+Per-module file counts have not been recomputed in this audit pass. A full recursive enumeration is required to produce accurate numbers; spot-checks confirm substantial implementation footprint across the codebase. The distribution categories from v1.0 remain broadly applicable, with `config/` introducing multiple header-heavy components and `themis/` serving as a shared include-style namespace root.
 
-**Medium Modules (10-50 files):**
+**Recommendation:** Regenerate the file count table using a script or CI job that walks `src/` recursively and outputs per-module `.cpp`/`.h` counts, and delta vs. prior audit. This is consistent with DOCS-009 (document undocumented `src/` subdirectories) in `docs/Audit/DOCS_AUDIT_ISSUE_BACKLOG.md`.
+
+**Large Modules (>50 files, based on v1.0 baseline):**
+- `llm/` - Extensive LLM capabilities with LoRA, vision, inference
+- `server/` - 40+ API handlers for different domains
+- `sharding/` - Complex distributed coordination logic
+
+**Medium Modules (10-50 files, based on v1.0 baseline):**
 - `utils/`, `index/`, `security/`, `content/`, `query/`, `storage/`, `rag/`, `acceleration/`, `performance/`, `timeseries/`, `governance/`
 
-**Small Modules (1-9 files):**
-- 28 focused modules with specific, well-defined responsibilities
+**Small Modules (1-9 files, based on v1.0 baseline):**
+- Remaining focused modules with specific, well-defined responsibilities
 
-**Assessment:** The distribution shows a healthy balance with most modules being focused and maintainable, while larger modules are appropriately scoped for their complex responsibilities (LLM integration, server API handlers, distributed coordination).
+**Assessment:** The distribution remains healthy. The newly identified modules require enumeration in the next audit pass to establish their size baseline.
 
 ---
 
@@ -117,11 +140,11 @@ According to `ARCHITECTURE.md`, ThemisDB defines 10 architectural layers:
 | **5. Storage** | storage/, metadata/ | ✅ Complete - Well-defined |
 | **6. Distributed & Sharding** | sharding/, replication/, cdc/ | ✅ Complete - Well-defined |
 | **7. Transaction** | transaction/ | ✅ Complete - Single focused module |
-| **8. Content & Data Processing** | content/, importers/, exporters/ | ✅ Complete - Well-defined |
+| **8. Content & Data Processing** | content/, importers/, exporters/, ingestion/ | ✅ ingestion/ added (see note) |
 | **9. Analytics & Observability** | analytics/, observability/ | ✅ Complete - Well-defined |
 | **10. Governance & Compliance** | governance/ | ✅ Complete - Single focused module |
 
-**Cross-Cutting Concerns (Not in layered architecture):**
+**Cross-Cutting Concerns (span multiple layers):**
 - acceleration/ - GPU backends used across layers
 - cache/ - Caching used across layers
 - security/ - Security used across layers
@@ -134,8 +157,24 @@ According to `ARCHITECTURE.md`, ThemisDB defines 10 architectural layers:
 - gpu/ - GPU memory management
 - chimera/ - Database adapters
 
+**Platform / Infrastructure modules (newly categorized; require explicit governance):**
+- config/ - Configuration resolution, schema validation, metrics exporter; foundational for all modules
+- themis/ - Internal shared API surface used by GPU components and other subsystems
+
 **Specialized Processing Modules:**
 - timeseries/, temporal/, scheduler/, geo/, voice/
+
+**Newly observed modules - pending formal layer assignment:**
+- prompt_engineering/, training/ - See Recommendation 2 below
+
+**Recommendation 1 (updated):** Add a "Cross-Cutting Concerns" and "Platform / Infrastructure" section to `ARCHITECTURE.md` to explicitly document modules that span multiple layers, with special attention to `config/` and `themis/` as foundational platform elements with strict downward-dependency requirements.
+
+**Recommendation 2 (new):** Clarify the layer classification for `prompt_engineering/` and `training/`. These may be:
+- part of the LLM Integration Layer (if tightly coupled to inference),
+- part of Content & Data Processing (if viewed as data transformation pipelines), or
+- a dedicated "ML Ops / Training" layer.
+
+A documented decision should be added to `ARCHITECTURE.md`.
 
 ### 2.3 Layer Compliance Assessment
 
@@ -147,12 +186,10 @@ According to `ARCHITECTURE.md`, ThemisDB defines 10 architectural layers:
 
 ⚠️ **Observations:**
 - Cross-cutting concerns (12 modules) are not explicitly addressed in the layer architecture documentation
+- Platform modules (`config/`, `themis/`) are now present but not yet described in `ARCHITECTURE.md`
 - Specialized processing modules (5 modules) could benefit from clearer layer classification
 - The relationship between layers is documented in flow diagrams but not in explicit dependency rules
-
-**Recommendation 1:** Add a "Cross-Cutting Concerns" section to `ARCHITECTURE.md` to document modules that span multiple layers (acceleration, cache, security, utils, performance, plugins, updates, gpu, chimera, base, core).
-
-**Recommendation 2:** Create a "Specialized Processing" layer category for domain-specific modules (timeseries, temporal, scheduler, geo, voice) or assign them to existing layers with clear justification.
+- `prompt_engineering/` and `training/` require a formal layer assignment decision
 
 ---
 
@@ -161,12 +198,18 @@ According to `ARCHITECTURE.md`, ThemisDB defines 10 architectural layers:
 ### 3.1 Documented Namespace Hierarchy
 
 `ARCHITECTURE.md` documents two primary root namespaces:
-- `themis::` - Primary root namespace (most components)
-- `themisdb::` - Secondary root namespace (sharding, replication, some query functions)
+- `themis::` - Primary root namespace (core database functionality, ~90% of codebase)
+- `themisdb::` - Secondary root namespace (specialized/extended subsystems: RAFT consensus, replication orchestration, temporal, analytics serving)
+
+The dual-root approach is intentional and documented in detail in:
+- [`docs/implementation-history/DUAL_NAMESPACE_EXPLAINED.md`](../../implementation-history/DUAL_NAMESPACE_EXPLAINED.md)
+- [`docs/de/architecture/namespace-architektur.md`](../../de/architecture/namespace-architektur.md)
+
+The prior finding of "mixed namespace usage = inconsistency" in v1.0 is superseded. The correct characterization is: **documented dual-root model with clear allocation criteria**.
 
 ### 3.2 Actual Namespace Usage
 
-**Found Namespaces in Source Code:**
+**`themis::` namespace (primary) - found in source:**
 - `themis::acceleration`
 - `themis::content`
 - `themis::errors`
@@ -178,28 +221,33 @@ According to `ARCHITECTURE.md`, ThemisDB defines 10 architectural layers:
 - `themis::rag`
 - `themis::security`
 - `themis::server`
-- `themis::sharding`
+- `themis::sharding` (standard sharding)
 - `themis::utils`
+- `themis::auth`
 
-### 3.3 Namespace Compliance Assessment
+**`themisdb::` namespace (extended) - found in headers:**
+- `themisdb::sharding` - RAFT consensus system
+- `themisdb::temporal` - Temporal conflict resolution
+- `themisdb::analytics` - ML serving and model backends (e.g., `IMLServingBackend`)
+- `themisdb::replication` - Replication orchestration
+
+### 3.3 Namespace Compliance Assessment (Updated)
 
 ✅ **Strengths:**
-- Consistent use of `themis::` namespace prefix
-- Namespaces align with module directory names
-- Clear organizational structure
+- Dual-namespace strategy has explicit rationale documented in implementation history and German architecture docs
+- The `themis` / `themisdb` split serves as a natural API surface indicator (core vs. extended subsystems)
+- Namespace allocation criteria are described and can be enforced via code review
 
-⚠️ **Inconsistencies:**
-- `ARCHITECTURE.md` mentions `themisdb::` as secondary namespace for sharding and replication, but `themis::sharding` is found in source
-- Not all 41 modules have explicitly documented namespace usage in the grep results (limited to source files checked)
-- Unclear when to use `themis::` vs `themisdb::` root namespace
+⚠️ **Remaining risks:**
+- Without automated enforcement, individual contributors may still choose roots inconsistently
+- `ARCHITECTURE.md` does not yet reference the dual-namespace decision docs; readers may encounter the split without context
 
-**Recommendation 3:** Clarify the namespace naming convention in `ARCHITECTURE.md`:
-- When should `themis::` vs `themisdb::` be used?
-- Document all 41 module namespaces explicitly
-- Provide decision criteria for namespace selection
-- Consider consolidating to single root namespace (`themis::`) for consistency
+**Recommendation 3 (updated):** Replace the prior "namespace inconsistency" finding with the following action:
+- Ensure `ARCHITECTURE.md` links to the namespace decision tree in `docs/implementation-history/DUAL_NAMESPACE_EXPLAINED.md` and `docs/de/architecture/namespace-architektur.md`
+- Define which subsystems belong under `themisdb::` in the main architecture reference
+- Consider a linting rule or CI check to flag new files that do not match the documented allocation
 
-**Recommendation 4:** Add namespace declaration examples for each layer in the architectural documentation.
+**Recommendation 4 (retained):** Add namespace declaration examples for each layer in the architectural documentation.
 
 ---
 
@@ -215,18 +263,17 @@ According to `ARCHITECTURE.md`, ThemisDB defines 10 architectural layers:
 
 ### 4.2 Actual Interface Implementation
 
-**Interfaces Found in Include Directory:**
-- `BulkUploadInterface` (content/pipeline)
-- `AsyncBulkUploader : public BulkUploadInterface`
+**Interfaces found in codebase (examples):**
+- `BulkUploadInterface` - content/pipeline (base class for bulk upload strategies)
+- `AsyncBulkUploader : public BulkUploadInterface` - async bulk upload implementation
+- `IMLServingBackend` - analytics/ML serving (`include/analytics/ml_serving.h`), with factory methods creating ONNX/TF backends; `MLServingClient` is a concrete consumer
+- Plugin-like registration patterns in LLM/LoRA and other subsystems
+- `config/` subsystem components (resolver, schema validator, metrics exporter) present separable contracts
 
 **Assessment:**
-⚠️ **Limited explicit interface abstractions found**
+⚠️ **Interface abstractions exist but are not consolidated**
 
-The grep search for interface definitions in the include directory yielded minimal results. This could indicate:
-1. Interfaces may be defined in source files rather than headers
-2. Interfaces may use different naming conventions (e.g., Base classes, Abstract classes)
-3. Some interface patterns may be implemented implicitly rather than through explicit interfaces
-4. The documented interfaces (QueryInterface, IndexInterface, etc.) may not be explicitly present in the codebase yet
+Interface-style abstractions are present and growing (e.g., `IMLServingBackend`), but they are defined locally in module headers without a centralized catalog. This makes it difficult to discover which stable contracts exist, and which are internal implementation details.
 
 ### 4.3 Dependency Management
 
@@ -248,12 +295,14 @@ The documentation describes sophisticated patterns (ConsensusFactory, PluginMana
 - Pluggability may be limited without interface abstractions
 - Unclear boundaries between modules
 
-**Recommendation 5:** Enhance interface abstractions:
-- Define explicit interfaces in `include/` directory for all major components
-- Follow naming convention (e.g., `IQueryEngine`, `IStorageBackend`, `IIndexProvider`)
-- Document interface contracts and lifecycle methods
-- Provide factory patterns for interface instantiation
-- Add interface documentation to `ARCHITECTURE.md`
+**Recommendation 5 (updated):** Create `docs/architecture/interface-catalog.md` enumerating all interfaces and stable contracts:
+- Storage backend interfaces
+- Index provider interfaces
+- Query function interfaces / registries
+- Consensus / sharding abstractions
+- ML serving backend interface(s) (e.g., `IMLServingBackend`)
+- Plugin points and lifecycle hooks
+- Follow naming convention (e.g., `IQueryEngine`, `IStorageBackend`, `IIndexProvider`) consistently across all new interfaces
 
 **Recommendation 6:** Add architecture decision records (ADRs) to document:
 - Why certain components use interfaces vs concrete classes
@@ -284,11 +333,14 @@ LLM and other advanced features depend on Storage and may integrate at the Query
 - `core/` - Core initialization, security, concerns context
 - `storage/` - Used by index, query, transaction, sharding
 - `security/` - Used by server, auth, storage, governance
+- `config/` (new) - Foundational configuration resolution; must not depend on upper layers
+- `themis/` (new) - Shared internal API surface; risk of becoming a dependency hub if ungoverned
 
 **Potential Circular Dependencies:**
 - Server layer may depend on Query, Storage, LLM, and other layers
 - Query layer may call back to Server for distributed query execution
 - Sharding may depend on Storage, which may depend on Sharding for distributed operations
+- `config/` and `themis/` must be kept as "bottom" layers with no upward dependencies
 
 ### 5.3 Coupling Assessment
 
@@ -296,12 +348,13 @@ LLM and other advanced features depend on Storage and may integrate at the Query
 - Large modules (llm/, server/, sharding/) may have high coupling
 - Cross-cutting concerns (security, utils, acceleration) may create implicit dependencies
 - Lack of explicit interfaces may hide coupling
+- `config/` and `themis/` becoming dependency hubs if not governed
 
-**Recommendation 7:** Create a dependency map:
-- Use tools to analyze #include dependencies between modules
+**Recommendation 7 (updated):** Create a dependency map and define explicit dependency rules:
+- Use tools to analyze `#include` dependencies between modules
 - Document allowed and disallowed dependencies between layers
-- Establish dependency rules (e.g., lower layers cannot depend on higher layers)
-- Add dependency validation to build system (e.g., CMake module dependency checks)
+- Establish dependency rules: `config/`, `utils/`, `core/`, `themis/`, `base/` are "bottom" layers; they must not depend on `server/`, `query/`, or other upper layers
+- Add dependency validation to build system (e.g., CMake module dependency checks or include-graph CI checks)
 
 **Recommendation 8:** Refactor large modules:
 - Consider splitting `llm/` (124 files) into sub-modules (inference, lora, vision, etc.)
@@ -322,11 +375,11 @@ LLM and other advanced features depend on Storage and may integrate at the Query
 
 ### 6.2 Module-to-Edition Mapping
 
-Based on `ARCHITECTURE.md` documentation:
+Based on `ARCHITECTURE.md` documentation and current module inventory:
 
 | Module | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
 |--------|---------|-----------|------------|-------------|
-| core, base, utils | ✓ | ✓ | ✓ | ✓ |
+| core, base, utils, config | ✓ | ✓ | ✓ | ✓ |
 | query, storage, metadata | ✓ | ✓ | ✓ | ✓ |
 | server, api, network, auth | ✓ | ✓ | ✓ | ✓ |
 | index (basic) | ✓ | ✓ | ✓ | ✓ |
@@ -339,7 +392,12 @@ Based on `ARCHITECTURE.md` documentation:
 | content (all formats) | | | ✓ | ✓ |
 | observability (advanced) | | | ✓ | ✓ |
 | sharding (Paxos, Gossip) | | | ✓ | ✓ |
+| ingestion/ | | ✓ | ✓ | ✓ |
+| training/, prompt_engineering/ | | | ✓ | ✓ |
+| themis/ (internal API surface) | ✓ | ✓ | ✓ | ✓ |
 | Advanced scaling features | | | | ✓ |
+
+Note: Edition assignments for `ingestion/`, `training/`, `prompt_engineering/`, and `themis/` are preliminary; they should be confirmed and documented in `ARCHITECTURE.md` and the relevant module CMake configurations.
 
 ### 6.3 Edition Configuration Assessment
 
@@ -391,6 +449,7 @@ Security concerns span multiple layers:
 - Query layer (RBAC enforcement in query/)
 - API layer (authentication in server/)
 - LLM layer (ethical guidelines in llm/)
+- Distributed layer: `src/sharding/health_check.cpp` references mTLS certificate validity checks, indicating security enforcement inside distributed health checks
 
 ### 7.3 Security Architecture Assessment
 
@@ -430,6 +489,14 @@ Security concerns span multiple layers:
 - `benchmarks/` - Performance tests
 - `fuzz/` - Fuzz tests
 
+**Notable observation:** `src/stubs.cpp` exists for link-time stub purposes. This is an architectural smell if it grows, as stubs can mask missing interface implementations. The policy for this file should be documented and tracked.
+
+**Recommendation 13a:** Document the stub policy explicitly:
+- `src/stubs.cpp` is allowed only for test harness linkage where real implementations are not yet available
+- Track stub count (number of stub functions / lines) as a metric; any increase requires justification
+- Create an Architecture Decision Record (ADR) for the stub file lifecycle
+- Add policy to `ARCHITECTURE.md` under the testing section
+
 ### 8.2 Testing Gaps
 
 ⚠️ **Observations:**
@@ -438,12 +505,13 @@ Security concerns span multiple layers:
 - Unclear how to test cross-cutting concerns (security, caching, acceleration)
 - No documented mocking/stubbing strategy for interface testing
 
-**Recommendation 13:** Enhance testing architecture:
+**Recommendation 13 (updated):** Enhance testing architecture:
 - Document test coverage goals per module (e.g., 80% for core modules)
 - Define testing strategy for each layer (unit, integration, end-to-end)
-- Create test doubles/mocks for major interfaces
+- Create test doubles/mocks for major interfaces (enabled by Recommendation 5 interface catalog)
 - Add test architecture documentation to `ARCHITECTURE.md`
 - Document how to test distributed scenarios (sharding, replication)
+- Document the policy for `src/stubs.cpp`: allowed only for test harness linkage; must be tracked and reduced over time
 
 **Recommendation 14:** Add test infrastructure:
 - Create test utilities for common scenarios (e.g., database setup, LLM mocking)
@@ -458,30 +526,35 @@ Security concerns span multiple layers:
 ### 9.1 Current Documentation
 
 **Architecture Documentation:**
-- `ARCHITECTURE.md` (1224 lines) - Comprehensive main document
+- `ARCHITECTURE.md` - Comprehensive main document
 - Module READMEs in several modules (acceleration/, analytics/, auth/, etc.)
+- `docs/implementation-history/DUAL_NAMESPACE_EXPLAINED.md` - Namespace decision rationale
+- `docs/de/architecture/namespace-architektur.md` - German-language namespace architecture
+- `docs/de/architecture/` - Extensive German-language architecture docs covering caching patterns, content pipeline, multi-model, security architecture, and more
 
 **Strengths:**
 - Detailed architectural overview
 - Clear layer definitions
 - Good visual diagrams (Mermaid)
 - Request flow documentation
+- Namespace decision documented in implementation history
 
 ### 9.2 Documentation Gaps
 
 ⚠️ **Missing Documentation:**
-- Not all 41 modules have README files
+- Not all modules have README files (directly tracked by DOCS-009 in `docs/Audit/DOCS_AUDIT_ISSUE_BACKLOG.md`)
+- Newly present modules (`config/`, `ingestion/`, `prompt_engineering/`, `training/`, `themis/`) are not yet documented in `ARCHITECTURE.md` or with in-tree READMEs
 - Interface contracts and API documentation
 - Dependency rules between layers
-- Security architecture deep-dive
+- Security architecture deep-dive for distributed mTLS
 - Testing architecture
 - Module-specific architecture decisions
 - Migration guides between editions
 - Performance characteristics per module
 - Troubleshooting per module
 
-**Recommendation 15:** Enhance module documentation:
-- Add README.md to all modules in `src/`
+**Recommendation 15 (updated):** Enhance module documentation as tracked in DOCS-009:
+- Add README.md to all `src/` modules that still lack one, starting with newly added modules (`config/`, `ingestion/`, `prompt_engineering/`, `training/`, `themis/`)
 - Include in each README:
   - Module purpose and responsibilities
   - Public API/interfaces
@@ -491,14 +564,17 @@ Security concerns span multiple layers:
   - Performance characteristics
   - Known limitations
 
-**Recommendation 16:** Add supplementary architecture documents:
-- Security Architecture Document
+This recommendation aligns directly with DOCS-009 ("Document all undocumented `src/` subdirectories") in `docs/Audit/DOCS_AUDIT_ISSUE_BACKLOG.md`.
+
+**Recommendation 16 (updated):** Add supplementary architecture documents:
+- Security Architecture Document (including distributed/mTLS section)
 - Testing Architecture Document
 - Performance Architecture Document
 - Deployment Architecture Document
-- Interface Catalog
+- Interface Catalog (see Recommendation 5)
 - Dependency Map
-- Edition Feature Matrix
+- Edition Feature Matrix (updated with new modules)
+- Ensure `ARCHITECTURE.md` references `docs/implementation-history/DUAL_NAMESPACE_EXPLAINED.md` and `docs/de/architecture/namespace-architektur.md`
 
 ---
 
@@ -508,33 +584,35 @@ Security concerns span multiple layers:
 
 | Risk ID | Risk | Impact | Likelihood | Mitigation Priority |
 |---------|------|--------|-----------|-------------------|
-| **R01** | Lack of explicit interface definitions may lead to tight coupling | High | Medium | High |
-| **R02** | Large modules (llm/, server/) may be difficult to maintain | Medium | High | High |
-| **R03** | Mixed namespace usage (themis:: vs themisdb::) creates confusion | Low | High | Medium |
-| **R04** | Cross-cutting concerns create hidden dependencies | High | Medium | High |
+| **R01** | Lack of centralized interface catalog - tight coupling and difficult mocking | High | Medium | High |
+| **R02** | Module inventory drift - new modules not reflected in audit/ARCHITECTURE.md | Medium | High | High |
+| **R03** | Dual-namespace strategy not consistently reflected in `ARCHITECTURE.md` | Low | Medium | Medium |
+| **R04** | `config/` and `themis/` becoming ungoverned dependency hubs | High | Medium | High |
 | **R05** | No documented dependency rules may lead to circular dependencies | High | Low | Medium |
-| **R06** | Security architecture not fully documented | High | Low | High |
+| **R06** | Security architecture not fully documented (esp. distributed/mTLS) | High | Low | High |
 | **R07** | Testing strategy not documented per layer | Medium | Medium | Medium |
+| **R08** | Documentation drift - new modules undocumented (DOCS-009) | Medium | High | Medium |
+| **R09** | Link-time stub file (`src/stubs.cpp`) may mask missing interfaces | Medium | Medium | Medium |
 
 ### 10.2 Technical Debt
 
 | Item | Description | Recommended Action |
 |------|-------------|-------------------|
-| **TD01** | Interface abstractions | Define explicit interfaces for all major components |
-| **TD02** | Namespace consolidation | Standardize on single root namespace strategy |
-| **TD03** | Module splitting | Refactor large modules (llm/, server/) into sub-modules |
-| **TD04** | Dependency mapping | Create and maintain module dependency map |
-| **TD05** | Documentation gaps | Add READMEs to all modules |
-| **TD06** | Edition configuration | Add explicit edition markers in code and documentation |
+| **TD01** | Interface abstractions not consolidated | Create interface catalog (Recommendation 5) |
+| **TD02** | Namespace strategy documentation gap | Link to existing namespace docs from `ARCHITECTURE.md` |
+| **TD03** | Module splitting (large modules) | Refactor large modules (llm/, server/) into sub-modules |
+| **TD04** | Dependency mapping absent | Create and maintain module dependency map (Recommendation 7) |
+| **TD05** | Module documentation gaps | Add READMEs to all modules, esp. new ones (DOCS-009) |
+| **TD06** | Edition configuration for new modules | Add `config/`, `themis/`, `ingestion/`, `training/`, `prompt_engineering/` to edition matrix |
 
-### 10.3 Architectural Inconsistencies
+### 10.3 Architectural Inconsistencies (Updated)
 
 | Inconsistency | Current State | Expected State | Action |
 |--------------|---------------|----------------|--------|
-| **I01** | Limited interfaces found | Interface-based design documented | Implement or document actual pattern |
-| **I02** | Mixed namespaces | Single documented pattern | Clarify usage or consolidate |
-| **I03** | Cross-cutting concerns | Not in layer architecture | Document as separate concern |
-| **I04** | Specialized modules | Not clearly categorized | Assign to layers or create new category |
+| **I01** | Limited centralized interface catalog | Interface-based design documented | Create interface catalog doc |
+| **I02** | Dual namespaces not cross-referenced in ARCHITECTURE.md | Dual-root model documented in implementation history | Add cross-reference links in ARCHITECTURE.md |
+| **I03** | Cross-cutting and platform concerns not in layer architecture | Documented as separate concern | Add Platform/Infrastructure section in ARCHITECTURE.md |
+| **I04** | `prompt_engineering/` and `training/` layer assignment TBD | Formal layer assignment | Document layer decision in ARCHITECTURE.md |
 
 ---
 
@@ -542,19 +620,21 @@ Security concerns span multiple layers:
 
 ### 11.1 Immediate Actions (Next Sprint)
 
-1. **Document cross-cutting concerns** in `ARCHITECTURE.md` [R: 1-2 hours]
-2. **Clarify namespace strategy** (themis:: vs themisdb::) [R: 1 hour]
-3. **Add module READMEs** to modules missing them [R: 1 day]
-4. **Create interface catalog** documenting existing and planned interfaces [R: 4 hours]
+1. **Update module inventory in `ARCHITECTURE.md`** to include `config/`, `themis/`, `ingestion/`, `training/`, `prompt_engineering/` [R: 2 hours]
+2. **Align namespace documentation**: ensure `ARCHITECTURE.md` references `docs/implementation-history/DUAL_NAMESPACE_EXPLAINED.md` and `docs/de/architecture/namespace-architektur.md` [R: 1 hour]
+3. **Add Platform modules section** in `ARCHITECTURE.md` covering `config/` and `themis/` as foundational infrastructure with explicit dependency constraints [R: 2 hours]
+4. **Begin module READMEs for new modules** (DOCS-009): `config/`, `themis/`, `ingestion/`, `training/`, `prompt_engineering/` [R: 1-2 days]
 
 ### 11.2 Short-Term Improvements (Next Quarter)
 
-5. **Define explicit interfaces** for major components (QueryInterface, StorageInterface, etc.) [R: 2 weeks]
-6. **Create dependency map** using automated tools [R: 1 week]
-7. **Document security architecture** in detail [R: 1 week]
-8. **Add edition-to-module mapping matrix** [R: 2 days]
-9. **Implement Architecture Decision Records (ADRs)** [R: ongoing]
-10. **Add test architecture documentation** [R: 1 week]
+5. **Create an Interface Catalog** document (`docs/architecture/interface-catalog.md`) [R: 1 week]
+6. **Define and enforce dependency rules** between layers; add CI validation [R: 1 week]
+7. **Document security architecture** in detail, including distributed/mTLS section [R: 1 week]
+8. **Update edition-to-module mapping matrix** with new modules [R: 2 days]
+9. **Document `prompt_engineering/` and `training/` layer assignment** in `ARCHITECTURE.md` [R: 2 hours]
+10. **Implement Architecture Decision Records (ADRs)** [R: ongoing]
+11. **Add test architecture documentation** [R: 1 week]
+12. **Regenerate module file count table** using a script or CI job that walks `src/` recursively and outputs per-module `.cpp`/`.h` counts plus delta vs. prior audit; include output in next audit pass [R: 2 hours]
 
 ### 11.3 Long-Term Improvements (Next 6-12 Months)
 
@@ -609,13 +689,13 @@ From `ARCHITECTURE.md`:
 
 | Principle | Compliance | Evidence | Score |
 |-----------|-----------|----------|-------|
-| **Modularity** | ✅ Good | 41 well-defined modules, edition system | 8/10 |
-| **Layered Architecture** | ✅ Good | 10 clear layers, most modules assigned | 8/10 |
-| **Namespace Organization** | ⚠️ Partial | Namespace usage found, some inconsistencies | 7/10 |
-| **High Performance** | ✅ Good | Dedicated acceleration/, performance/ modules | 8/10 |
-| **Enterprise Ready** | ✅ Good | Security, governance, observability modules present | 8/10 |
+| **Modularity** | ✅ Good | Well-defined modules, edition system, growing module set | 8/10 |
+| **Layered Architecture** | ✅ Good | 10 clear layers, most modules assigned; new modules need formal assignment | 8/10 |
+| **Namespace Organization** | ✅ Good | Dual-root approach documented; ARCHITECTURE.md should link to decision docs | 8/10 |
+| **High Performance** | ✅ Good | Dedicated acceleration/, performance/ modules, GPU feature flags maturing | 8/10 |
+| **Enterprise Ready** | ✅ Good | Security, governance, observability modules present; distributed mTLS signals | 8/10 |
 
-**Overall Compliance Score: 7.8/10**
+**Overall Compliance Score: 8.0/10**
 
 ### 12.3 Additional Architectural Qualities
 
@@ -634,7 +714,7 @@ From `ARCHITECTURE.md`:
 
 ### 13.1 Overall Assessment
 
-ThemisDB demonstrates a **well-architected, modular database system** with clear separation of concerns and comprehensive feature coverage. The 41 core modules are thoughtfully organized into 10 architectural layers, supporting multiple data models, native AI/LLM capabilities, and enterprise-grade features.
+ThemisDB demonstrates a **well-architected, modular database system** with clear separation of concerns and comprehensive feature coverage. The modules are thoughtfully organized into 10 architectural layers, supporting multiple data models, native AI/LLM capabilities, and enterprise-grade features.
 
 **Strengths:**
 - Excellent modular organization with focused responsibilities
@@ -642,11 +722,12 @@ ThemisDB demonstrates a **well-architected, modular database system** with clear
 - Comprehensive feature set across all layers
 - Strong support for distributed operations and AI integration
 - Good documentation foundation in `ARCHITECTURE.md`
+- Dual-namespace strategy is intentional and documented
 
 **Areas for Improvement:**
-- Interface abstractions need to be more explicit and consistent
-- Large modules (llm/, server/, sharding/) could benefit from sub-module organization
-- Cross-cutting concerns need explicit architectural documentation
+- Interface abstractions need to be consolidated into a catalog
+- Newly present modules (`config/`, `themis/`, `ingestion/`, `training/`, `prompt_engineering/`) need formal layer assignment and documentation
+- Cross-cutting and platform concerns need explicit architectural documentation in `ARCHITECTURE.md`
 - Testing and security architectures need detailed documentation
 - Dependency management and validation need enhancement
 
@@ -654,13 +735,14 @@ ThemisDB demonstrates a **well-architected, modular database system** with clear
 
 **Current Maturity Level: 3/5 (Defined)**
 
-The architecture is well-defined with documented principles and patterns, but not yet standardized with enforced governance and continuous validation.
+The architecture is well-defined with documented principles and patterns, but not yet standardized with enforced governance and continuous validation. The addition of `config/` and `themis/` platform modules represents a step toward a more structured infrastructure layer, but governance rules for these modules are not yet in place.
 
 **Path to Level 4 (Managed):**
-- Implement explicit interfaces
+- Implement explicit interfaces and interface catalog
 - Add architecture fitness functions
 - Establish continuous architecture governance
-- Enhance automated validation
+- Enforce dependency rules in CI
+- Document platform module constraints (`config/`, `themis/`)
 
 **Path to Level 5 (Optimizing):**
 - Continuous architecture monitoring
@@ -671,29 +753,30 @@ The architecture is well-defined with documented principles and patterns, but no
 ### 13.3 Risk Summary
 
 - **Critical Risks:** 0
-- **High Risks:** 3 (interface abstractions, cross-cutting concerns, security documentation)
-- **Medium Risks:** 4 (large modules, testing strategy, dependency rules, namespace consistency)
+- **High Risks:** 3 (interface catalog absent, platform module governance, security documentation)
+- **Medium Risks:** 6 (module inventory drift, dependency rules, testing strategy, documentation drift/DOCS-009, stub file, namespace cross-reference)
 - **Low Risks:** 0
 
 All identified risks are manageable with the recommended improvements.
 
 ### 13.4 Recommended Next Steps
 
-1. ✅ **Accept this audit** as baseline architecture assessment
-2. 📋 **Prioritize recommendations** based on team capacity and project goals
-3. 🔄 **Implement immediate actions** (recommendations 1-4) in next sprint
-4. 📅 **Plan short-term improvements** (recommendations 5-10) for next quarter
-5. 🎯 **Schedule quarterly architecture reviews** to track progress
-6. 📊 **Track technical debt** items in project management system
-7. 🔍 **Conduct deep-dive audits** for critical modules (llm/, server/, sharding/, security/)
+1. **Accept this audit** as updated architecture assessment (v1.1)
+2. **Prioritize recommendations** based on team capacity and project goals
+3. **Implement immediate actions** (recommendations 1-4) in next sprint
+4. **Plan short-term improvements** (recommendations 5-11) for next quarter
+5. **Schedule quarterly architecture reviews** to track progress
+6. **Track technical debt** items in project management system
+7. **Conduct deep-dive audits** for critical modules (llm/, server/, sharding/, security/, config/)
+8. **Address DOCS-009** by adding READMEs to all undocumented `src/` subdirectories
 
 ### 13.5 Sign-Off
 
 This architecture audit provides a comprehensive assessment of ThemisDB's core modules against documented architectural guidelines. The findings and recommendations serve as a roadmap for continuous architectural improvement and should be reviewed and updated quarterly.
 
-**Audit Prepared By:** Architecture Audit Tool  
-**Review Status:** Initial Draft  
-**Next Review Date:** 2026-05-07 (3 months)
+**Audit Prepared By:** GitHub Copilot Coding Agent  
+**Review Status:** Draft  
+**Next Review Date:** 2026-06-10 (3 months)
 
 ---
 
