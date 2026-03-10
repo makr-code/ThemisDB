@@ -10098,9 +10098,241 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
+# ============================================================================
+# Utils Module – Focused Standalone Test Targets (Issue: #1573 / #1574)
+# Covers Phase 3 utilities: HashChainAuditWriter, PIIStreamScanner,
+# SampledLogger, and SAGALogCompactor / Replayer.
+# These tests are CPU-only and have no external library dependencies beyond
+# the themis_core build artifact.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hash_chain_audit.cpp")
+    message(STATUS "Adding Hash Chain Audit focused tests")
+
+    add_executable(test_hash_chain_audit_focused
+        test_hash_chain_audit.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/audit_logger.cpp
+    )
+
+    target_include_directories(test_hash_chain_audit_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_hash_chain_audit_focused PRIVATE
+        ${TEST_LIBS}
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hash_chain_audit_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HashChainAuditFocusedTests COMMAND test_hash_chain_audit_focused)
+
+    set_tests_properties(HashChainAuditFocusedTests PROPERTIES
+        LABELS "utils;audit;hash-chain;tamper-evident;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  HashChainAudit: write, headHash, sequenceNumber, chain integrity, seed init, fsync toggle")
+else()
+    message(STATUS "Hash Chain Audit focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_hash_chain_audit.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pii_stream_scanner.cpp")
+    message(STATUS "Adding PII Stream Scanner focused tests")
+
+    add_executable(test_pii_stream_scanner_focused
+        test_pii_stream_scanner.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/pii_stream_scanner.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/pii_detection_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/regex_detection_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/ner_detection_engine.cpp
+    )
+
+    target_include_directories(test_pii_stream_scanner_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_pii_stream_scanner_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_pii_stream_scanner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PIIStreamScannerFocusedTests COMMAND test_pii_stream_scanner_focused)
+
+    set_tests_properties(PIIStreamScannerFocusedTests PROPERTIES
+        LABELS "utils;pii;scanner;redaction;streaming;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PIIStreamScanner: scan, redact, batch mode, callback, PII type classification")
+else()
+    message(STATUS "PII Stream Scanner focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pii_stream_scanner.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampled_logger.cpp")
+    message(STATUS "Adding Sampled Logger focused tests")
+
+    add_executable(test_sampled_logger_focused
+        test_sampled_logger.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/sampled_logger.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_sampled_logger_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_sampled_logger_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sampled_logger_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SampledLoggerFocusedTests COMMAND test_sampled_logger_focused)
+
+    set_tests_properties(SampledLoggerFocusedTests PROPERTIES
+        LABELS "utils;logger;sampling;rate-limiter;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SampledLogger: rate sampling, always/never policies, burst mode, thread safety")
+else()
+    message(STATUS "Sampled Logger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sampled_logger.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_compactor.cpp")
+    message(STATUS "Adding SAGA Log Compactor focused tests")
+
+    add_executable(test_saga_compactor_focused
+        test_saga_compactor.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/saga_logger.cpp
+    )
+
+    target_include_directories(test_saga_compactor_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_saga_compactor_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_compactor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAGALogCompactorFocusedTests COMMAND test_saga_compactor_focused)
+
+    set_tests_properties(SAGALogCompactorFocusedTests PROPERTIES
+        LABELS "utils;saga;compactor;replayer;log;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SAGALogCompactor: compact, replay, idempotency, out-of-order tolerance, corrupt-entry skip")
+else()
+    message(STATUS "SAGA Log Compactor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_compactor.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
+
+# ============================================================================
+# Base Module – Focused Standalone Test Targets (Issue: #1573)
+# Covers BaseEntity and the core interface hierarchy used by all storage /
+# query / security / index components.  Both test files compile against
+# themis_core so no extra source file list is needed.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_entity.cpp")
+    message(STATUS "Adding Base Entity focused tests (Issue #1573)")
+
+    add_executable(test_base_entity_focused
+        test_base_entity.cpp
+    )
+
+    target_include_directories(test_base_entity_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_base_entity_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_base_entity_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BaseEntityFocusedTests COMMAND test_base_entity_focused)
+
+    set_tests_properties(BaseEntityFocusedTests PROPERTIES
+        LABELS "base;entity;key-schema;serialization;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BaseEntity: PK construction, get/set, isEmpty, KeySchema, serialization round-trip")
+else()
+    message(STATUS "Base Entity focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_entity.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+    message(STATUS "Adding Base Interfaces focused tests (Issue #1573)")
+
+    add_executable(test_base_interfaces_focused
+        test_base_interfaces.cpp
+    )
+
+    target_include_directories(test_base_interfaces_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_base_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_base_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BaseInterfacesFocusedTests COMMAND test_base_interfaces_focused)
+
+    set_tests_properties(BaseInterfacesFocusedTests PROPERTIES
+        LABELS "base;interfaces;storage;query;index;security;polymorphism;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BaseInterfaces: storage/query/index/security interface compile-time and polymorphism checks")
+else()
+    message(STATUS "Base Interfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_base_interfaces.cpp")
+endif()
 
 message(STATUS "Tests configured successfully")
