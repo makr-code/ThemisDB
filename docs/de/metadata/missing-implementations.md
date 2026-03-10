@@ -1,8 +1,8 @@
 # Metadata-Modul – Fehlende / Unvollständige Implementierungen
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/metadata/README.md -->
 
-**Stand:** 2026-03-09  
+**Stand:** 2026-03-10  
 **Modul:** `metadata`  
 **Quelle:** Reality-Check gegen Sourcecode (Commit: `ab36d18bd`)
 
@@ -88,6 +88,22 @@
 | **Severity** | Low – bewusst zurückgestellt; Zielversion v1.9 / Q1 2027 |
 | **Issue-Titelvorschlag** | `feat(metadata): implement explicit forward/backward compat-mode policy enforcement` |
 | **Label-Vorschläge** | `enhancement`, `metadata`, `schema-evolution` |
+
+---
+
+## Befund 6 – ROADMAP referenziert `system_catalog.cpp` (existiert nicht)
+
+| Feld | Inhalt |
+|------|--------|
+| **Claim-Quelle** | `src/metadata/ROADMAP.md`, Phase 1, Zeile: „`metadata/system_catalog.cpp`" |
+| **Claim** | `[x] SystemCatalog: table, column, index, and statistics metadata persistence (metadata/system_catalog.cpp)` |
+| **Erwartet** | Datei `src/metadata/system_catalog.cpp` mit einer eigenständigen `SystemCatalog`-Klasse |
+| **Beobachtet** | `src/metadata/system_catalog.cpp` existiert nicht. Die SystemCatalog-Funktionalität (Catalog-Persistenz via RocksDB) ist in `schema_manager.cpp` implementiert. Kein `class SystemCatalog` in `include/metadata/` gefunden. |
+| **Geprüfte Pfade** | `src/metadata/*.cpp`, `include/metadata/*.h` |
+| **Evidence** | `ls src/metadata/*.cpp` zeigt keine `system_catalog.cpp`; `grep -r "class SystemCatalog" include/metadata/` liefert keine Treffer |
+| **Severity** | Low – Funktionalität ist vorhanden (in `schema_manager.cpp`); nur die ROADMAP-Referenz war irreführend. Wurde in ROADMAP und FUTURE_ENHANCEMENTS.md korrigiert. |
+| **Status** | ✅ **Behoben** – ROADMAP und FUTURE_ENHANCEMENTS.md aktualisiert (Commit: `3c9b336dc`) |
+| **Issue-Titelvorschlag** | _(behoben, kein Issue nötig)_ |
 
 ---
 

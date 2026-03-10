@@ -8290,6 +8290,170 @@ else()
 endif()
 
 # ============================================================================
+# Metadata Module – Focused Test Targets
+# ============================================================================
+
+# Metadata – SchemaManager focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
+    message(STATUS "Adding Metadata SchemaManager focused tests")
+    add_executable(test_schema_manager_focused test_schema_manager.cpp)
+    target_include_directories(test_schema_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaManagerFocusedTests COMMAND test_schema_manager_focused)
+    set_tests_properties(SchemaManagerFocusedTests PROPERTIES
+        LABELS "metadata;schema;discovery;ttl;changefeed;adaptive-ttl;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  SchemaManager: automatic table discovery, property type detection, adaptive TTL, changefeeds")
+endif()
+
+# Metadata – StatisticsCollector focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
+    message(STATUS "Adding Metadata StatisticsCollector focused tests")
+    add_executable(test_statistics_collector_focused test_statistics_collector.cpp)
+    target_include_directories(test_statistics_collector_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_statistics_collector_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_statistics_collector_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME StatisticsCollectorFocusedTests COMMAND test_statistics_collector_focused)
+    set_tests_properties(StatisticsCollectorFocusedTests PROPERTIES
+        LABELS "metadata;statistics;histograms;cardinality;selectivity;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh")
+endif()
+
+# Metadata – ColumnLineageTracker focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_column_lineage.cpp")
+    message(STATUS "Adding Metadata ColumnLineage focused tests")
+    add_executable(test_column_lineage_focused test_column_lineage.cpp)
+    target_include_directories(test_column_lineage_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_column_lineage_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_column_lineage_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ColumnLineageFocusedTests COMMAND test_column_lineage_focused)
+    set_tests_properties(ColumnLineageFocusedTests PROPERTIES
+        LABELS "metadata;lineage;provenance;dag;column-derivation;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ColumnLineage: derivation DAG, transitive upstream/downstream traversal, provenance JSON export")
+endif()
+
+# Metadata – CatalogExporter focused tests (Atlas + DataHub)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_catalog_exporter.cpp")
+    message(STATUS "Adding Metadata CatalogExporter focused tests")
+    add_executable(test_catalog_exporter_focused test_catalog_exporter.cpp)
+    target_include_directories(test_catalog_exporter_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_catalog_exporter_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_catalog_exporter_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME CatalogExporterFocusedTests COMMAND test_catalog_exporter_focused)
+    set_tests_properties(CatalogExporterFocusedTests PROPERTIES
+        LABELS "metadata;catalog;atlas;datahub;external-catalog;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  CatalogExporter: Apache Atlas entity bulk API, DataHub MCP emission, injected HTTP (no network)")
+endif()
+
+# Metadata – SchemaAuditLog focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_audit_log.cpp")
+    message(STATUS "Adding Metadata SchemaAuditLog focused tests")
+    add_executable(test_schema_audit_log_focused test_schema_audit_log.cpp)
+    target_include_directories(test_schema_audit_log_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_audit_log_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_audit_log_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaAuditLogFocusedTests COMMAND test_schema_audit_log_focused)
+    set_tests_properties(SchemaAuditLogFocusedTests PROPERTIES
+        LABELS "metadata;audit;schema-changes;ddl;rocksdb;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaAuditLog: durable per-table audit trail, JSON export, round-trip persistence")
+endif()
+
+# Metadata – SchemaConsistencyChecker focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_consistency_checker.cpp")
+    message(STATUS "Adding Metadata SchemaConsistencyChecker focused tests")
+    add_executable(test_schema_consistency_checker_focused test_schema_consistency_checker.cpp)
+    target_include_directories(test_schema_consistency_checker_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_schema_consistency_checker_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_schema_consistency_checker_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SchemaConsistencyCheckerFocusedTests COMMAND test_schema_consistency_checker_focused)
+    set_tests_properties(SchemaConsistencyCheckerFocusedTests PROPERTIES
+        LABELS "metadata;consistency;background-scan;schema-health;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SchemaConsistencyChecker: background health scan, inconsistency detection and reporting")
+endif()
+
+# Metadata – IndexRecommender focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
+    message(STATUS "Adding Metadata IndexRecommender focused tests")
+    add_executable(test_index_recommender_focused test_index_recommender.cpp)
+    target_include_directories(test_index_recommender_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_index_recommender_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_index_recommender_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME IndexRecommenderFocusedTests COMMAND test_index_recommender_focused)
+    set_tests_properties(IndexRecommenderFocusedTests PROPERTIES
+        LABELS "metadata;index;recommendation;query-patterns;advisor;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit")
+endif()
+
+# Metadata – DistributedMetadataCatalog focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
+    message(STATUS "Adding Metadata DistributedMetadataCatalog focused tests")
+    add_executable(test_distributed_catalog_focused test_distributed_catalog.cpp)
+    target_include_directories(test_distributed_catalog_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_distributed_catalog_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_distributed_catalog_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME DistributedMetadataCatalogFocusedTests COMMAND test_distributed_catalog_focused)
+    set_tests_properties(DistributedMetadataCatalogFocusedTests PROPERTIES
+        LABELS "metadata;distributed;catalog;shards;replication;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 
