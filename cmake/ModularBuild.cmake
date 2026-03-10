@@ -243,8 +243,11 @@ set(THEMIS_STORAGE_SOURCES
     # Indexes
     ../src/index/secondary_index.cpp
     ../src/index/ann_index.cpp
+    ../src/index/approximate_radius_search.cpp
     ../src/index/rotary_embeddings.cpp
+    ../src/index/rotary_embeddings_gpu_cpu.cpp
     ../src/index/learnable_rope.cpp
+    ../src/index/lora_rope.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
@@ -252,11 +255,22 @@ set(THEMIS_STORAGE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/index/rotary_embeddings_cuda.cu>
+    $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/index/rotary_embeddings_hip.cpp>
     ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
+    ../src/index/binary_quantizer.cpp
+    ../src/index/learned_quantizer.cpp
+    ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
     ../src/index/distributed_vector_index.cpp
+    ../src/index/inverted_index.cpp
+    ../src/index/multi_vector_search.cpp
     ../src/index/workload_replay.cpp
+    ../src/index/graph_auto_buffer.cpp
+    ../src/index/index_manager.cpp
+    ../src/index/tiered_index_manager.cpp
+    ../src/index/vector_auto_buffer.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp

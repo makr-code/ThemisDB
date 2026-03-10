@@ -886,6 +886,10 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/prometheus_remote_write.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/downsampling.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/index/approximate_radius_search.cpp
+            ${THEMIS_ROOT_DIR}/src/index/graph_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/index/index_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/index/rotary_embeddings_gpu_cpu.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/changefeed_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/cdc/tenant_buffer_manager.cpp
@@ -7378,6 +7382,67 @@ add_chimera_focused_test(
     ChimeraCapabilityMatrixTests
     "chimera;adapter;capability;matrix;unit"
     "AdapterCapabilityMatrix: cross-system capability comparison for all 9 adapters"
+)
+
+# ============================================================================
+# Index Module Focused Tests (Issue: #1882 — unit test coverage >80%)
+# Each test is a standalone executable covering a specific index subsystem.
+# ============================================================================
+
+function(add_index_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding Index focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_storage)
+            target_link_libraries(${target_name} PRIVATE themis_storage)
+        endif()
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "Index focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_index_focused_test(
+    test_ann_index_focused
+    index/test_ann_index.cpp
+    AnnIndexFocusedTests
+    "index;ann;diskann;scann;focused;unit"
+    "AnnIndex: DiskANN and ScaNN alternative ANN algorithms, on-disk vector search"
+)
+
+add_index_focused_test(
+    test_distributed_vector_index_focused
+    index/test_distributed_vector_index.cpp
+    DistributedVectorIndexFocusedTests
+    "index;distributed;vector;shards;focused;unit"
+    "DistributedVectorIndex: vector search across shards, fan-out/merge, partition correctness"
 )
 
 # ============================================================================
