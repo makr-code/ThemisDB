@@ -7703,6 +7703,73 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/te
     message(STATUS "  AuthenticationAttackVectors: privilege escalation, permission boundary, lateral movement, role injection")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_negative_integration.cpp")
+    message(STATUS "Adding Security Negative Integration focused tests")
+
+    add_executable(test_security_negative_integration_focused
+        security/test_security_negative_integration.cpp
+    )
+
+    target_include_directories(test_security_negative_integration_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_security_negative_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_security_negative_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SecurityNegativeIntegrationFocusedTests
+             COMMAND test_security_negative_integration_focused)
+
+    set_tests_properties(SecurityNegativeIntegrationFocusedTests PROPERTIES
+        LABELS "security;negative;jwt;rbac;vault;integration;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SecurityNegativeIntegration: JWT (expired/tampered/alg-confusion/revoked-kid), RBAC (deny/cycle/wildcard), Vault (HTTP 403/404/malformed)")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.cpp")
+    message(STATUS "Adding Input Validation Security focused tests")
+
+    add_executable(test_input_validation_security_focused
+        security/test_input_validation_security.cpp
+    )
+
+    target_include_directories(test_input_validation_security_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_input_validation_security_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_input_validation_security_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME InputValidationSecurityFocusedTests
+             COMMAND test_input_validation_security_focused)
+
+    set_tests_properties(InputValidationSecurityFocusedTests PROPERTIES
+        LABELS "security;input-validation;injection;xss;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  InputValidationSecurity: AQL/path-traversal/XSS/command-injection prevention (legacy API disabled; DISABLED placeholder)")
+endif()
+
 # ============================================================================
 # Geo Module – Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently
