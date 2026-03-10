@@ -32,7 +32,8 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] ReActAgent multi-step reasoning framework with tool calling (`src/aql/aql_agent.cpp`) (Phase 4)
 
 ## In Progress 🚧
-- [~] Phase 4 testing and hardening (token stream + agent framework)
+*(no items currently in progress)*
+
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
@@ -76,7 +77,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
 - [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
 
-### Phase 4: Streaming & Agent Framework (Status: In Progress 🚧)
+### Phase 4: Streaming & Agent Framework (Status: Completed ✅)
 - [x] Generic `TokenStream` iterator API for all LLM inference calls (Target: v1.7.0)
   - `include/aql/aql_token_stream.h` – header-only, thread-safe push/pop/cancel/range-for
   - `tests/test_aql_token_stream.cpp` – 14 unit tests covering single-threaded, concurrent, cancel, and range-for scenarios

@@ -337,33 +337,30 @@ class OpenAIBackend : public ILLMBackend { /* ... */ };
 
 ---
 
-### Streaming Response API
+### Streaming Response API ✅ SHIPPED (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0 — **Implemented**
 
-SSE streaming for AQL explanations is already shipped via `streamExplainAQLAsSSE()`.
-The remaining work is a generic `TokenStream` API covering all inference calls.
+SSE streaming for AQL explanations is shipped via `streamExplainAQLAsSSE()`.
+The generic `AQLTokenStream` API is now also shipped (`include/aql/aql_token_stream.h`).
 
-**Already Shipped (SSE explanation streaming):**
+**Shipped: SSE explanation streaming**
 ```cpp
 // Streams explanation tokens as Server-Sent Events
 std::string streamExplainAQLAsSSE(const std::string& aql, SseResponseWriter& writer);
 ```
 
-**Proposed Generic API:**
+**Shipped: Generic `AQLTokenStream` (v1.7.0)**
 ```cpp
-Result<TokenStream> inferStreaming(const std::string& prompt);
-// Returns immediately with iterator
-
-for (auto token : stream) {
-    std::cout << token;  // Print as generated
-}
+auto stream = std::make_shared<AQLTokenStream>();
+for (const auto& token : *stream) { std::cout << token; }
+stream->cancel();  // cooperative cancellation
 ```
 
-**Benefits:**
+**Benefits delivered:**
 - Better user experience (progressive output for all commands)
 - Lower time-to-first-token
-- Cancel long-running inferences
+- Cancel long-running inferences via `cancel()` / `isCancelled()`
 
 ---
 
@@ -582,42 +579,32 @@ auto result = backend->infer(prompt);
 
 ---
 
-### v1.6.x → v1.7.x: Streaming API
-**Breaking Changes:** Inference API signature change
+### v1.6.x → v1.7.x: Streaming API ✅ Done
+**Breaking Changes:** None (additive)
 
-**Old API:**
-```cpp
-Result<std::string> infer(const std::string& prompt);
-```
-
-**New API (backward compatible):**
-```cpp
-Result<std::string> infer(const std::string& prompt);  // Still works
-Result<TokenStream> inferStreaming(const std::string& prompt);  // New
-```
+**Shipped (v1.7.0):**
+- `AQLTokenStream` (`include/aql/aql_token_stream.h`) – header-only thread-safe token streaming
+- `IAgent` / `ReActAgent` (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`) – ReAct agent with tool calling
 
 **Migration Steps:**
 1. Update to v1.7.0
-2. Optionally adopt streaming API for better UX
-3. No breaking changes (additive only)
-
-**Timeline:** N/A (backward compatible)
+2. Use `AQLTokenStream` for token-by-token streaming in your consumer loop
+3. Use `ReActAgent` for multi-step reasoning workflows
+4. No breaking changes (additive only)
 
 ---
 
 ### v1.7.x → v1.8.x: Agent Framework
 **Breaking Changes:** None (new features)
 
-**New Features:**
-```aql
-LLM AGENT CREATE ...
-LLM AGENT EXECUTE ...
-```
+**Planned Features (v1.8.0):**
+- Multi-modal agent inputs (image/audio via `MultiModalInferRequest`)
+- `IAsyncLLMBackend` non-blocking async interface
 
 **Migration Steps:**
 1. Update to v1.8.0
-2. Explore agent capabilities
-3. No code changes required
+2. Optionally extend agents with multi-modal tool inputs
+3. No code changes required for existing agents
 
 **Timeline:** N/A (additive)
 
@@ -635,13 +622,13 @@ We welcome contributions in the following areas:
 
 ### Medium Complexity
 - [ ] Additional LLM backend implementations (VLLM, Ollama, OpenAI)
-- [ ] Streaming response API
+- [x] Streaming response API (`include/aql/aql_token_stream.h`, v1.7.0)
 - [ ] HyDE RAG implementation
 - [ ] Cross-encoder re-ranking
 
 ### Advanced Topics
 - [ ] Fine-tuning pipeline integration
-- [ ] Agent framework with tool calling
+- [x] Agent framework with tool calling (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, v1.7.0)
 - [ ] Speculative decoding
 - [ ] Multi-modal LLM support
 - [ ] Distributed model sharding

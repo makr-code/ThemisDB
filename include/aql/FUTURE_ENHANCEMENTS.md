@@ -31,17 +31,13 @@
 
 ## Planned Features
 
-### Streaming Interface
+### Streaming Interface ✅ SHIPPED (v1.7.0)
 **Priority:** High  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0 — **Implemented**
 
-Basic SSE token streaming for AQL explanations is **already implemented** via
-`LlmAqlHandler::streamExplainAQLAsSSE()` (see `include/aql/llm_aql_handler.h`).
+Both the SSE explanation streaming and the generic `AQLTokenStream` iterator API are now shipped.
 
-The remaining planned work is a generic `TokenStream` iterator API that covers
-*arbitrary* inference calls, not just explanations.
-
-**Current Interface (SSE explanations — ✅ done):**
+**Shipped interfaces:**
 ```cpp
 // Streams explanation tokens as Server-Sent Events (already shipped)
 std::string streamExplainAQLAsSSE(const std::string& aql_query,
@@ -122,13 +118,13 @@ public:
 
 ---
 
-### Agent Framework Interface
+### Agent Framework Interface ✅ SHIPPED (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** v1.7.0 — **Implemented** (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`)
 
-Define interfaces for multi-step reasoning and tool calling.
+Interfaces for multi-step reasoning and tool calling are now shipped via `IAgent` / `ReActAgent`.
 
-**Proposed Structures:**
+**Shipped Structures:**
 ```cpp
 struct Tool {
     std::string name;
@@ -567,23 +563,24 @@ LlmAqlHandler handler(backend);
 
 ---
 
-### v1.6.x → v1.7.x: Streaming Interface
+### v1.6.x → v1.7.x: Streaming Interface ✅ Done
 **Breaking Changes:** None (additive)
 
-**New APIs:**
-```cpp
-Result<TokenStream> inferStreaming(const InferRequest&);
-std::future<Result<std::string>> inferAsync(const InferRequest&);
-```
+**Shipped APIs (v1.7.0):**
+- `AQLTokenStream` (`include/aql/aql_token_stream.h`) – header-only, thread-safe token iterator
+- `IAgent` / `ReActAgent` (`include/aql/aql_agent.h`) – ReAct reasoning + tool calling framework
 
 ---
 
 ### v1.7.x → v1.8.x: Agent Framework
 **Breaking Changes:** None (new interfaces)
 
-**New Interfaces:**
+**Planned APIs:**
 ```cpp
-class IAgent { /* ... */ };
+// Async inference backend (target v1.8.0)
+class IAsyncLLMBackend { /* ... */ };
+// Multi-modal inference (target v1.8.0)
+struct MultiModalInferRequest { /* ... */ };
 ```
 
 ---
@@ -597,14 +594,14 @@ class IAgent { /* ... */ };
 - [ ] Add type aliases for common patterns
 
 ### Medium Complexity
-- [ ] Implement streaming interface
+- [x] Implement streaming interface (`include/aql/aql_token_stream.h`, v1.7.0)
 - [ ] Add batch inference support
 - [ ] Create request builder pattern
 - [ ] Implement async interface
 
 ### Advanced Topics
 - [ ] Design multi-modal interface
-- [ ] Implement agent framework
+- [x] Implement agent framework (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, v1.7.0)
 - [ ] Create fine-tuning interface
 - [ ] Add coroutine support
 

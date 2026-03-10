@@ -2076,8 +2076,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/gui_import_wizard.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
-    ../src/aql/aql_migration_assistant.cpp
-    
+
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
