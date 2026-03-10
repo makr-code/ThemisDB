@@ -121,6 +121,13 @@ bool Parser::checkASTNodeLimit() {
     return true;
 }
 
+/*static*/
+bool Parser::isIntrospectionFieldName(std::string_view field_name) noexcept {
+    return field_name == "__schema"
+        || field_name == "__type"
+        || field_name == "__typename";
+}
+
 Parser::Result Parser::parseDocument() {
     Result result;
     result.success = true;
@@ -276,6 +283,12 @@ themis::Result<Field> Parser::parseField(size_t depth) {
         field.name = *fieldNameResult;
     } else {
         field.name = *nameOrAliasResult;
+    }
+
+    // Reject introspection fields when allow_introspection is false.
+    if (!limits_.allow_introspection && isIntrospectionFieldName(field.name)) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+            "GraphQL introspection is disabled: field '" + field.name + "' is not allowed");
     }
     
     skipWhitespace();

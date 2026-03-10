@@ -1,9 +1,9 @@
 # Metadata-Modul
 
-**Stand:** 9. März 2026
+**Stand:** 10. März 2026
 **Version:** v1.5.x
 **Kategorie:** Schema & Metadaten
-<!-- status: current | validated: 2026-03-09 | commit: ab36d18bd -->
+<!-- status: current | validated: 2026-03-10 | commit: 3c9b336dc -->
 
 ---
 
@@ -172,6 +172,11 @@ if (!r.success) spdlog::error("Atlas-Fehler: {}", r.error);
 | `tests/test_schema_api_lineage.cpp` | REST-API-Endpunkte (Integration) |
 | `tests/test_schema_migration_script.cpp` | DDL-Migrationsskriptgenerierung |
 | `tests/test_schema_version_dryrun.cpp` | Dry-run-Validierung |
+| `tests/test_schema_migration_regression.cpp` | Regressionstests für Schema-Migrationen |
+| `tests/test_schema_migration_tester.cpp` | Schema-Migrations-Testsuite |
+| `tests/test_schema_manager_fuzz.cpp` | Fuzz-Tests für SchemaManager |
+| `tests/test_schema_validator.cpp` | Schema-Validierung |
+| `tests/test_schema_encryption.cpp` | Verschlüsselung von Schema-Metadaten |
 
 ---
 

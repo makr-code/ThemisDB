@@ -29,6 +29,7 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
+    option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
 endif()
 
 # Helper function to create a modular library target
@@ -176,8 +177,11 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
+    ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
+    ../src/plugins/rpc_service_registry.cpp
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
@@ -260,11 +264,23 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
     
     # Performance enhancements
     ../src/performance/phase2_feature_flags.cpp
     ../src/performance/phase3/feature_flags.cpp
+    ../src/performance/numa_topology.cpp
+    ../src/performance/prometheus_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/async_metrics_exporter.cpp
+    ../src/performance/phase3/memory_pressure.cpp
+    ../src/performance/phase3/adaptive_batch_tuner.cpp
+    ../src/performance/phase4/feature_flags.cpp
+    # pmu_counters.cpp is always compiled: it provides stub fallbacks when
+    # perf_event_open is unavailable (containers, non-Linux).  The actual PMU
+    # paths are gated by the THEMIS_ENABLE_PMU_COUNTERS compile definition.
+    ../src/performance/phase4/pmu_counters.cpp
     
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
@@ -299,6 +315,44 @@ set(THEMIS_STORAGE_SOURCES
     ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
+
+# Optional performance-optimization sources for the storage module
+if(THEMIS_ENABLE_WISCKEY)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/wisckey.cpp)
+endif()
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/dostoevsky.cpp)
+endif()
+if(THEMIS_ENABLE_CICADA)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/cicada.cpp)
+endif()
+if(THEMIS_ENABLE_LIGRA)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/ligra.cpp)
+endif()
+if(THEMIS_ENABLE_RABITQ)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/rabitq.cpp)
+endif()
+if(THEMIS_ENABLE_DISKANN)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/diskann.cpp)
+endif()
+if(THEMIS_ENABLE_BWTREE)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/bwtree.cpp)
+endif()
+if(THEMIS_ENABLE_SPLINTERDB)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/splinterdb.cpp)
+endif()
+if(THEMIS_ENABLE_GUNROCK)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/gunrock.cpp)
+endif()
+if(THEMIS_ENABLE_BAO)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/bao.cpp)
+endif()
+if(THEMIS_ENABLE_PMEM)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
+endif()
+if(THEMIS_ENABLE_IO_URING)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase4/io_uring_zero_copy.cpp)
+endif()
 
 set(THEMIS_QUERY_SOURCES
     # Query engine
@@ -391,6 +445,10 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
     ../src/exporters/export_encryption.cpp
+    ../src/exporters/huggingface_exporter.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/export_format_registry.cpp
+    ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
@@ -898,6 +956,21 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
     ../src/timeseries/ts_auto_buffer_adaptive.cpp
+)
+
+set(THEMIS_INGESTION_SOURCES
+    # Ingestion module – unified data intake layer
+    ../src/ingestion/ingestion_manager.cpp
+    ../src/ingestion/filesystem_ingester.cpp
+    ../src/ingestion/api_connector.cpp
+    ../src/ingestion/huggingface_connector.cpp
+    ../src/ingestion/kafka_connector.cpp
+    ../src/ingestion/object_storage_connector.cpp
+    ../src/ingestion/database_connector.cpp
+    ../src/ingestion/web_crawler_connector.cpp
+    ../src/ingestion/ingestion_coordinator.cpp
+    # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; always compile.
+    ../src/ingestion/cdc_connector.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
@@ -1476,6 +1549,12 @@ function(themis_build_modular)
         )
     endif()
 
+    # Ingestion module (always included – covers all connector types)
+    themis_add_module(ingestion
+        SOURCES ${THEMIS_INGESTION_SOURCES}
+        DEPENDENCIES themis_base themis_storage
+    )
+
     # Cross-module fixups for modular build
     # Removed: storage -> security link to avoid cycle
     # if(TARGET themis_storage AND TARGET themis_security)
@@ -1524,6 +1603,8 @@ function(themis_build_modular)
     if(THEMIS_MODULE_CONTENT)
         list(APPEND THEMIS_ALL_MODULES themis_content)
     endif()
+
+    list(APPEND THEMIS_ALL_MODULES themis_ingestion)
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()

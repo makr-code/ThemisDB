@@ -2,7 +2,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support.
+Core HTTP API server implemented with RESTful endpoints, AQL query execution, authentication, and TLS support. GraphQL WebSocket handler (graphql-transport-ws protocol) added with subscription management and `QueryLimits::max_subscriptions` enforcement.
 
 ## Completed ✅
 - [x] HTTP server integration (Crow/Beast)
@@ -24,6 +24,8 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1501)
 - [x] Multi-tenant namespace routing (Issue: #1503)
 - [x] Async job API for long-running queries (Issue: #1504)
+- [x] GraphQL over WebSocket subscription transport (`graphql-transport-ws` protocol) — `api/graphql_ws_handler.cpp`
+- [x] `QueryLimits::max_subscriptions` per-connection cap to prevent fan-out DoS
 
 ## In Progress 🚧
 - [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
@@ -41,17 +43,18 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ### Phase 1: Core HTTP API (Status: Completed)
 - [x] Integrated Crow/Beast HTTP server with request routing
 - [x] Implemented RESTful CRUD endpoints for documents, graphs, and collections
-- [x] Implemented AQL query execution endpoint (`api/aql_handler.cpp`)
+- [x] Implemented AQL query execution endpoint (handled in `src/server/http_server.cpp`)
 - [x] Implemented authentication and authorization middleware (`api/auth_middleware.cpp`)
 - [x] Added TLS/SSL support with certificate configuration
 - [x] Built request/response handling pipeline with error serialization
 
-### Phase 2: GraphQL, WebSocket, and API Hardening (Status: In Progress)
-- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql_handler.cpp`) (Issue: #1515)
+### Phase 2: GraphQL, WebSocket, and API Hardening (Status: Completed)
+- [x] Implement GraphQL schema and resolver for multi-model queries (`api/graphql.cpp` + `server/graphql_api_handler.cpp`) (Issue: #1515)
 - [x] Implement WebSocket upgrade handler for real-time change subscriptions (`api/ws_handler.cpp`) (Issue: #1516)
 - [I] Complete OpenAPI 3.x spec for all existing endpoints (Issue: #1517)
 - [x] Add rate limiting middleware with configurable per-client token bucket (Issue: #1518)
 - [x] Add request correlation IDs propagated through all log lines — `TracingMiddleware` in `tracing_middleware.cpp` (Issue: #1519)
+- [x] Implement GraphQL over WebSocket subscription handler (`api/graphql_ws_handler.cpp`) with `graphql-transport-ws` protocol and `QueryLimits::max_subscriptions` enforcement
 
 ### Phase 3: gRPC, Versioning, and SDK Generation (Status: In Progress 🚧)
 - [x] Implement gRPC surface with proto definitions mirroring REST API (`api/grpc_server.cpp`, `proto/themisdb.proto`) (Issue: #1505)

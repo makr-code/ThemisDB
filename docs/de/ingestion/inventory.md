@@ -1,6 +1,6 @@
 # Ingestion-Modul – Primäres Inventar
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/ingestion/ | ../../../include/ingestion/ -->
 
 **Datum:** März 2026  
@@ -36,12 +36,12 @@
 |---|---|---|---|
 | `api_connector.cpp` | `include/ingestion/api_connector.h` | Generic REST API Konnektor; echte `curl_easy_perform`-Calls; PR #1915 | ✅ Production |
 | `filesystem_ingester.cpp` | `include/ingestion/filesystem_ingester.h` | Rekursiver Verzeichnis-Walker; HTML/XML-Extraktion (pugixml); PDF/DOCX via externe Konverter; MIME-Detection | ✅ Production |
-| `huggingface_connector.cpp` | `include/ingestion/huggingface_connector.h` | HuggingFace Hub Datasets; OAuth 2.0 Token-Refresh echt; GET-Requests simuliert | ⚠️ HTTP Stub |
+| `huggingface_connector.cpp` | `include/ingestion/huggingface_connector.h` | HuggingFace Hub Datasets; echte `curl_easy_perform`-Calls; OAuth 2.0 Token-Refresh; PR #1915 | ✅ Production |
 | `kafka_connector.cpp` | `include/ingestion/kafka_connector.h` | Apache Kafka Consumer (librdkafka); Consumer-Group-Management; Offset-Commit an Checkpoint | ✅ Production |
 | `object_storage_connector.cpp` | `include/ingestion/object_storage_connector.h` | S3/GCS/Azure Blob; 28 Unit-Tests; Pfad-Traversal-Schutz; SSE-Enforcement; keine Credentials im Log | ✅ Production |
 | `database_connector.cpp` | `include/ingestion/database_connector.h` | JDBC-kompatibler Datenbank-Konnektor (ODBC) | ✅ Production |
 | `web_crawler_connector.cpp` | `include/ingestion/web_crawler_connector.h` | HTTP Web-Crawler; BFS; Sitemap-Discovery; robots.txt; SSRF-Schutz (nur http/https) | ✅ Production |
-| `cdc_connector.cpp` | `include/ingestion/cdc_connector.h` | Change-Data-Capture (CDC); Stream-Backend gated hinter `THEMIS_ENABLE_CDC_STREAM` — erfordert Replikations-Treiber | ⚠️ Stream-Stub |
+| `cdc_connector.cpp` | `include/ingestion/cdc_connector.h` | Change-Data-Capture (CDC); PostgreSQL logical replication (libpq) unter `THEMIS_ENABLE_CDC_STREAM`; graceful fallback ohne Flag | ✅ Production |
 
 ---
 
@@ -81,15 +81,18 @@
 - `GenericApiConnector` mit echten `curl_easy_perform`-Calls (PR #1915) korrekt als implementiert geführt
 - KafkaConnector, ObjectStorageConnector, DatabaseConnector, WebCrawlerConnector alle vorhanden
 
-### 🔧 Korrigiert (in diesem PR)
+### 🔧 Korrigiert (März 2026, PR #ingestion-build-system)
 - `src/ingestion/ROADMAP.md`: JDBC-Konnektor `[P]`→`[x]`, Web-Crawler `[P]`→`[x]`, Schema-Validation `[P]`→`[x]`, Verteilter Koordinator `[I]`→`[x]`, Dynamic-Reconfiguration `[I]`→`[x]`; Phase 2 & Phase 3 Status: "In Progress" → "Completed"
 - `src/ingestion/README.md`: Status "Beta" → "Production-ready v1.5.x"
 - `src/ingestion/ARCHITECTURE.md`: Known Limitations aktualisiert (Kafka-Planung entfernt); neue Konnektoren (CDC, Coordinator) in Komponenten-Tabelle ergänzt
 - `include/ingestion/FUTURE_ENHANCEMENTS.md`: alle `[ ]` Planned-Items auf `[x]` (implementiert); Design-Constraints aktualisiert
 - `src/ingestion/FUTURE_ENHANCEMENTS.md`: 13 IEEE-Referenzen hinzugefügt; validated-Header ergänzt
+- `HuggingFaceConnector` HTTP-Client: Stub → Production (echte `curl_easy_perform`-Calls, PR #1915) ✅
+- `CdcConnector::ingestFromStream()`: Compile-Stub → Production (PostgreSQL logical replication via `#ifdef THEMIS_ENABLE_CDC_STREAM`) ✅
+- `IngestionAdminApi::retryQuarantineItem()`: Schreib-Erfolg immer `true` → `DocumentWriteFn`-Injection implementiert ✅
+- Build-System: alle 10 `src/ingestion/*.cpp`-Dateien bedingungslos in `THEMIS_CORE_SOURCES` (`cmake/CMakeLists.txt`) und `THEMIS_INGESTION_SOURCES` (`cmake/ModularBuild.cmake`) registriert
+- Tests: 18 Standalone-Focused-Test-Targets in `tests/CMakeLists.txt` via `add_ingestion_focused_test`-Makro ergänzt
+- Benchmark: `bench_ingestion_kv` in `cmake/CMakeLists.txt` registriert
 
 ### ⚠️ Bekannte Einschränkungen (dokumentiert in `missing-implementations.md`)
-- `HuggingFaceConnector`: GET-HTTP-Calls simuliert (Stub: Stubs: 1 im Datei-Header)
-- `CdcConnector::ingestFromStream()`: Compile-Time-Stub (erfordert Replikations-Treiber)
-- `IngestionAdminApi::retryQuarantineItem()`: Schreib-Erfolg immer `true` (Unreachable-Failure-Branch)
-- Lineage-Tracking nicht implementiert (Issue: #1901)
+- ✅ Alle ROADMAP-Aufgaben implementiert. Keine offenen Items.

@@ -1,9 +1,0 @@
-Registered backend: CPU (Type: 0)
-Registered backend: CPU (Type: 0)
-Registered backend: CPU (Type: 0)
-Registered backend: CPU (Type: 0)
-Registered backend: GeoAccelerationBridge (Type: 0)
-Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
-[==========] 17 tests from 1 test suite ran. (1333 ms total)
-[  PASSED  ] 17 tests.
-Shutting down all acceleration backends...

@@ -25,13 +25,19 @@
 
 #include <string>
 #include <string_view>
+#include <cstdint>
 
 namespace themis {
 namespace api {
 
+// Forward declaration — avoids pulling <otlp_exporter.h> into every TU that
+// includes tracing_middleware.h.
+class OtlpExporter;
+
 /**
- * @brief Middleware that extracts or generates a request correlation ID and
- *        propagates it through all log lines via utils::Logger::setTraceContext().
+ * @brief Middleware that extracts or generates a request correlation ID,
+ *        propagates it through all log lines, and optionally exports finished
+ *        request spans to an OpenTelemetry collector via OTLP/HTTP.
  *
  * For every inbound HTTP request the middleware:
  *  1. Reads the `X-Correlation-ID` request header; generates a UUID v4 if absent.
@@ -39,6 +45,8 @@ namespace api {
  *     log line emitted on the current thread for the duration of the request.
  *  3. Stores the ID in a thread-local variable so applyToResponse() can inject it
  *     into the response header without needing the original request.
+ *  4. If an OtlpExporter is attached, records the request start time and enqueues
+ *     a finished span when `finishSpan()` is called at the end of the request.
  *
  * Thread safety: all methods are safe to call concurrently from different threads;
  * the correlation ID context is per-thread (thread_local storage).
@@ -52,6 +60,9 @@ namespace api {
  *     ~CorrelationIdGuard() { TracingMiddleware::clearContext(); }
  * } _guard;
  *
+ * // After dispatching the request and building the response:
+ * tracing_middleware_->finishSpan("HTTP GET /v1/entity/{id}", http_status);
+ *
  * // In applyGovernanceHeaders():
  * const auto& id = TracingMiddleware::currentCorrelationId();
  * if (!id.empty()) res.set("X-Correlation-ID", id);
@@ -59,7 +70,20 @@ namespace api {
  */
 class TracingMiddleware {
 public:
+    /**
+     * @brief Construct without OTLP export (correlation-ID propagation only).
+     */
     TracingMiddleware() = default;
+
+    /**
+     * @brief Construct with an optional OTLP exporter.
+     *
+     * @param exporter  Non-owning pointer to an OtlpExporter that has been
+     *                  started by the caller.  May be nullptr to disable span
+     *                  export while keeping correlation-ID propagation.
+     */
+    explicit TracingMiddleware(OtlpExporter* exporter);
+
     ~TracingMiddleware() = default;
 
     // Non-copyable, movable (for use in unique_ptr / direct members)
@@ -79,11 +103,25 @@ public:
      *  - stored in thread-local storage (readable via currentCorrelationId()),
      *  - passed to utils::Logger::setTraceContext() so that all subsequent log
      *    lines on this thread carry the ID until clearContext() is called.
+     * If an OtlpExporter is attached, the current wall-clock time is stored as
+     * the span start time for this thread.
      *
      * @param incoming_id  Value of the incoming X-Correlation-ID header, or empty.
      * @return The correlation ID that will be echoed to the client.
      */
     std::string processRequest(std::string_view incoming_id) const;
+
+    /**
+     * @brief Record the end of the current request as a finished span and
+     *        enqueue it for OTLP export.
+     *
+     * Must be called after the response status is known, before clearContext().
+     * No-op if no OtlpExporter is attached.
+     *
+     * @param span_name    Human-readable operation name, e.g. "HTTP GET /v1/entity".
+     * @param http_status  HTTP response status code (200, 404, 500, …).
+     */
+    void finishSpan(std::string_view span_name, int http_status = 0) const;
 
     /**
      * @brief Return the correlation ID stored in the current thread's context.
@@ -109,6 +147,9 @@ public:
      * Thread-safe; each call returns a unique 36-character hex string.
      */
     static std::string generateUuidV4();
+
+private:
+    OtlpExporter* exporter_ = nullptr;  ///< Non-owning; may be null.
 };
 
 } // namespace api
