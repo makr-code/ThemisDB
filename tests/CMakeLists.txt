@@ -3470,6 +3470,25 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_c
     message(STATUS "  HTTP Changefeed Governance: changefeed governance enforcement, policy gating on CDC streams")
 endif()
 
+# Governance – compliance reporting focused tests (Issue: #1781 / #1778)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
+    message(STATUS "Adding Compliance Reporting focused tests (Issue #1781 / #1778)")
+    add_executable(test_compliance_reporting_focused test_compliance_reporting.cpp)
+    target_link_libraries(test_compliance_reporting_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    target_compile_definitions(test_compliance_reporting_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ComplianceReportingFocusedTests COMMAND test_compliance_reporting_focused)
+    set_tests_properties(ComplianceReportingFocusedTests PROPERTIES
+        LABELS "governance;compliance;reporting;coverage;gap-detection;pdf;json;html;unit"
+        TIMEOUT 90
+    )
+    message(STATUS "  Compliance Reporting: CoverageAnalyzer, ComplianceGapDetector, ComplianceReporter (JSON/CSV/HTML/PDF)")
+endif()
+
 # Phase 5 – LEK Manager lifecycle tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
     message(STATUS "Adding LEK Manager lifecycle tests (Phase 5)")
