@@ -176,8 +176,11 @@ set(THEMIS_BASE_SOURCES
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
+    ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
+    ../src/plugins/rpc_service_registry.cpp
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
