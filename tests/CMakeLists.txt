@@ -384,6 +384,18 @@ if(_themis_tests_sources)
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources})
 endif()
 
+# Re-include test_context_propagation.cpp excluded by the catch-all pattern above.
+# This test validates ContextPropagation (thread-local current context, ContextScope
+# RAII install/restore, propagate() across async tasks, nested scopes, exception
+# safety, and multi-thread isolation).  It has no GPU or LLM dependencies; the
+# previous exclusion was due to context_propagation.cpp being absent from the build
+# graph (the thread_local definition was not compiled in).  Now that the source file
+# is registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake it is safe to
+# re-include unconditionally.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_context_propagation.cpp
+)
+
 # Re-include prompt_engineering production-readiness tests that were excluded
 # by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
 # These tests are fully functional and cover the validation / scaling / LLM /
