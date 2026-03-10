@@ -182,7 +182,7 @@ Analyze query patterns and recommend indexes.
 
 ## Test Strategy
 
-- Unit test coverage ≥ 80% across `schema_manager.cpp`, `system_catalog.cpp`, `statistics_collector.cpp`
+- Unit test coverage ≥ 80% across `schema_manager.cpp` (including SystemCatalog functionality), `statistics_collector.cpp`
 - Integration tests: schema discovery after bulk insert, INFORMATION_SCHEMA queries matching expected column names, changefeed notification delivery latency < 500 ms
 - Property-based tests: schema version counter must be strictly monotonically increasing under concurrent schema mutations (100 concurrent writers)
 - Statistics accuracy test: estimated cardinality must be within 20% of true cardinality for uniform and skewed distributions

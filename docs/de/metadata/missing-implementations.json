@@ -1,7 +1,7 @@
 {
   "module": "metadata",
-  "validated": "2026-03-09",
-  "source_commit": "ab36d18bd",
+  "validated": "2026-03-10",
+  "source_commit": "3c9b336dc",
   "primary_doc": "src/metadata/README.md",
   "findings": [
     {
@@ -101,6 +101,26 @@
       "target_date": "Q1 2027",
       "issue_title_suggestion": "feat(metadata): implement explicit forward/backward compat-mode policy enforcement",
       "label_suggestions": ["enhancement", "metadata", "schema-evolution"]
+    },
+    {
+      "id": "META-MISSING-006",
+      "title": "ROADMAP referenced system_catalog.cpp which does not exist",
+      "claim_source": "src/metadata/ROADMAP.md",
+      "claim_section": "Phase 1: Schema Introspection & Catalog",
+      "claim_text": "[x] SystemCatalog: table, column, index, and statistics metadata persistence (metadata/system_catalog.cpp)",
+      "expected": "File src/metadata/system_catalog.cpp with a standalone SystemCatalog class",
+      "observed": "src/metadata/system_catalog.cpp does not exist. No class SystemCatalog found in include/metadata/. SystemCatalog functionality (catalog persistence via RocksDB) is implemented within schema_manager.cpp.",
+      "checked_paths": [
+        "src/metadata/*.cpp",
+        "include/metadata/*.h"
+      ],
+      "evidence": "ls src/metadata/*.cpp — no system_catalog.cpp; grep -r 'class SystemCatalog' include/metadata/ — no matches",
+      "severity": "low",
+      "status": "fixed",
+      "fix_commit": "3c9b336dc",
+      "notes": "Functionality is present in schema_manager.cpp. ROADMAP and FUTURE_ENHANCEMENTS.md corrected to remove the non-existent file reference.",
+      "issue_title_suggestion": null,
+      "label_suggestions": []
     }
   ]
 }
