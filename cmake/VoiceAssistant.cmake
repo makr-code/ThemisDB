@@ -24,5 +24,6 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_authenticator.cpp
         ../src/voice/voice_macro_manager.cpp
         ../src/voice/voice_browser_streaming.cpp
+        ../src/voice/voice_telephony.cpp
     )
 endif()

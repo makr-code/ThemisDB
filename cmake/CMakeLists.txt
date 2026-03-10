@@ -3878,6 +3878,19 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
+
+        add_executable(test_voice_telephony
+            ${THEMIS_ROOT_DIR}/tests/test_voice_telephony.cpp
+        )
+        target_link_libraries(test_voice_telephony
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_voice_telephony
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_telephony>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
     endif()
 
     # ── End new feature tests ─────────────────────────────────────────────────
