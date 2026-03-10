@@ -2217,6 +2217,178 @@ else()
     message(STATUS "Multi-Region Active-Active tests not found")
 endif()
 
+# ============================================================================
+# Replication HA Tests (Phase 1-3 – leader election, witness nodes, WAL)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
+    message(STATUS "Adding Replication HA tests")
+
+    add_executable(test_replication_ha
+        test_replication_ha.cpp
+    )
+
+    target_link_libraries(test_replication_ha PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+        zstd::zstd
+    )
+
+    target_compile_definitions(test_replication_ha PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationHATests COMMAND test_replication_ha)
+
+    set_tests_properties(ReplicationHATests PROPERTIES
+        LABELS "replication;ha;leader-election;witness;wal;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Replication HA: config validation, WAL checksum, LWW/CRDT resolvers, quorum, witness nodes")
+else()
+    message(STATUS "Replication HA tests not found")
+endif()
+
+# ============================================================================
+# Replication New Features Tests (v1.7.0 – observer, slots, policy, events)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
+    message(STATUS "Adding Replication New Features tests")
+
+    add_executable(test_replication_new_features
+        test_replication_new_features.cpp
+    )
+
+    target_link_libraries(test_replication_new_features PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_new_features PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationNewFeaturesTests COMMAND test_replication_new_features)
+
+    set_tests_properties(ReplicationNewFeaturesTests PROPERTIES
+        LABELS "replication;observer;slots;policy;event-stream;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Replication New Features: observer lag/topology, ThreeWayMerge, FieldLevelMerge, EventStream, slots")
+else()
+    message(STATUS "Replication New Features tests not found")
+endif()
+
+# ============================================================================
+# Replication Topology API Handler Tests (web UI / REST endpoint)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_topology_api_handler.cpp" AND
+   EXISTS "${CMAKE_SOURCE_DIR}/src/server/replication_topology_api_handler.cpp")
+    message(STATUS "Adding Replication Topology API Handler tests")
+
+    add_executable(test_replication_topology_api_handler
+        test_replication_topology_api_handler.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/replication_topology_api_handler.cpp
+    )
+
+    target_link_libraries(test_replication_topology_api_handler PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_topology_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_HTTP_SERVER=1
+    )
+
+    add_test(NAME ReplicationTopologyAPITests COMMAND test_replication_topology_api_handler)
+
+    set_tests_properties(ReplicationTopologyAPITests PROPERTIES
+        LABELS "replication;topology;rest;web-ui;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  Replication Topology API: 503 on no coordinator, JSON topology, health summary, HTML visualizer")
+else()
+    message(STATUS "Replication Topology API Handler tests not found")
+endif()
+
+# ============================================================================
+# Replication Raft v2 Tests (Phase 4 – joint consensus membership changes)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_raft_v2.cpp")
+    message(STATUS "Adding Replication Raft v2 tests")
+
+    add_executable(test_replication_raft_v2
+        test_replication_raft_v2.cpp
+    )
+
+    target_link_libraries(test_replication_raft_v2 PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_raft_v2 PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationRaftV2Tests COMMAND test_replication_raft_v2)
+
+    set_tests_properties(ReplicationRaftV2Tests PROPERTIES
+        LABELS "replication;raft;v2;joint-consensus;membership;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  Replication Raft v2: joint consensus, quorum, add/remove member, MCManager lifecycle")
+else()
+    message(STATUS "Replication Raft v2 tests not found")
+endif()
+
+# ============================================================================
+# Replication CRDT Types Tests (Phase 4 – expanded CRDT library)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_crdt_types.cpp")
+    message(STATUS "Adding Replication CRDT Types tests")
+
+    add_executable(test_replication_crdt_types
+        test_replication_crdt_types.cpp
+    )
+
+    target_link_libraries(test_replication_crdt_types PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replication_crdt_types PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicationCRDTTypesTests COMMAND test_replication_crdt_types)
+
+    set_tests_properties(ReplicationCRDTTypesTests PROPERTIES
+        LABELS "replication;crdt;counter;register;set;map;sequence;flag;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  Replication CRDT Types: GCounter, PNCounter, LWWRegister, MVRegister, GSet, 2PSet, ORSet, LWWMap, RGA, EW/DW-Flag")
+else()
+    message(STATUS "Replication CRDT Types tests not found")
+endif()
+
 # RPC Geospatial Query Tests
 # ============================================================================
 

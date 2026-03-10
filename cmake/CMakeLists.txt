@@ -1760,6 +1760,8 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/event_stream.cpp
     ../src/replication/policy.cpp
     ../src/replication/replication_slot.cpp
+    ../src/replication/raft_v2.cpp
+    ../src/replication/schema_cdc.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
