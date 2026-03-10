@@ -269,6 +269,17 @@ set(THEMIS_STORAGE_SOURCES
     # Performance enhancements
     ../src/performance/phase2_feature_flags.cpp
     ../src/performance/phase3/feature_flags.cpp
+    ../src/performance/numa_topology.cpp
+    ../src/performance/prometheus_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/async_metrics_exporter.cpp
+    ../src/performance/phase3/memory_pressure.cpp
+    ../src/performance/phase3/adaptive_batch_tuner.cpp
+    ../src/performance/phase4/feature_flags.cpp
+    # pmu_counters.cpp is always compiled: it provides stub fallbacks when
+    # perf_event_open is unavailable (containers, non-Linux).  The actual PMU
+    # paths are gated by the THEMIS_ENABLE_PMU_COUNTERS compile definition.
+    ../src/performance/phase4/pmu_counters.cpp
     
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
@@ -303,6 +314,44 @@ set(THEMIS_STORAGE_SOURCES
     ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
+
+# Optional performance-optimization sources for the storage module
+if(THEMIS_ENABLE_WISCKEY)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/wisckey.cpp)
+endif()
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/dostoevsky.cpp)
+endif()
+if(THEMIS_ENABLE_CICADA)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/cicada.cpp)
+endif()
+if(THEMIS_ENABLE_LIGRA)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/ligra.cpp)
+endif()
+if(THEMIS_ENABLE_RABITQ)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/rabitq.cpp)
+endif()
+if(THEMIS_ENABLE_DISKANN)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/diskann.cpp)
+endif()
+if(THEMIS_ENABLE_BWTREE)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/bwtree.cpp)
+endif()
+if(THEMIS_ENABLE_SPLINTERDB)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/splinterdb.cpp)
+endif()
+if(THEMIS_ENABLE_GUNROCK)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/gunrock.cpp)
+endif()
+if(THEMIS_ENABLE_BAO)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase3/bao.cpp)
+endif()
+if(THEMIS_ENABLE_PMEM)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
+endif()
+if(THEMIS_ENABLE_IO_URING)
+    list(APPEND THEMIS_STORAGE_SOURCES ../src/performance/phase4/io_uring_zero_copy.cpp)
+endif()
 
 set(THEMIS_QUERY_SOURCES
     # Query engine
