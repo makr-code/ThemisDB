@@ -3,6 +3,7 @@
 #ifdef THEMIS_ENABLE_WEBSOCKET
 
 #include "api/graphql.h"
+#include "cdc/changefeed.h"
 #include <boost/beast/http.hpp>
 #include <memory>
 #include <string>
@@ -64,9 +65,13 @@ public:
      *
      * @param schema   GraphQL schema to validate and execute subscriptions against.
      * @param limits   Query limits (including max_subscriptions).
+     * @param changefeed Optional Changefeed instance for `onChange` subscriptions.
+     *                   When non-null, GraphQL `subscription { onChange(...) }` queries
+     *                   are wired to the CDC event source via `Changefeed::subscribe()`.
      */
     GraphQLWsHandler(graphql::Schema schema,
-                     graphql::QueryLimits limits = graphql::QueryLimits::defaults());
+                     graphql::QueryLimits limits = graphql::QueryLimits::defaults(),
+                     themis::Changefeed* changefeed = nullptr);
 
     ~GraphQLWsHandler();
 
@@ -168,13 +173,26 @@ private:
 
     graphql::Schema        schema_;
     graphql::QueryLimits   limits_;
+    themis::Changefeed*    changefeed_ = nullptr;  ///< Non-owning; may be null.
 
     /// True after connection_ack has been sent.
     std::atomic<bool> connected_{false};
 
+    /// Per-subscription entry: tracks the CDC subscription handle.
+    struct SubscriptionEntry {
+        bool                                active = true;
+        themis::Changefeed::SubscriptionHandle cdc_handle;
+    };
+
     /// Active subscription IDs.  Guarded by mutex_.
-    std::unordered_map<std::string, bool> subscriptions_;
+    std::unordered_map<std::string, SubscriptionEntry> subscriptions_;
     mutable std::mutex mutex_;
+
+    // Frames queued by CDC callbacks for delivery.  Guarded by mutex_.
+    std::vector<std::string> pending_frames_;
+
+    /// Extract the `onChange` collection argument from a parsed subscription document.
+    static std::string extractOnChangeCollection(const graphql::Document& doc);
 };
 
 } // namespace api

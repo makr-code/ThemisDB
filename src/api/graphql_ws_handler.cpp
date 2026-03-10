@@ -16,9 +16,11 @@ using json = nlohmann::json;
 // ---------------------------------------------------------------------------
 
 GraphQLWsHandler::GraphQLWsHandler(graphql::Schema schema,
-                                   graphql::QueryLimits limits)
+                                   graphql::QueryLimits limits,
+                                   themis::Changefeed* changefeed)
     : schema_(std::move(schema))
     , limits_(limits)
+    , changefeed_(changefeed)
 {}
 
 GraphQLWsHandler::~GraphQLWsHandler() {
@@ -80,25 +82,33 @@ GraphQLWsHandler::handleFrame(std::string_view frame_text)
         return {};
     }
 
+    std::vector<std::string> frames;
+
     if (type == "subscribe") {
         if (id.empty()) {
             THEMIS_WARN("GraphQLWsHandler: subscribe message missing 'id'");
             return {};
         }
-        return handleSubscribe(id, payload_json);
-    }
-
-    if (type == "complete") {
-        return handleComplete(id);
-    }
-
-    if (type == "pong") {
+        frames = handleSubscribe(id, payload_json);
+    } else if (type == "complete") {
+        frames = handleComplete(id);
+    } else if (type == "pong") {
         // pong is a no-op on the server side.
-        return {};
+    } else {
+        THEMIS_WARN("GraphQLWsHandler: unknown message type '{}'", type);
     }
 
-    THEMIS_WARN("GraphQLWsHandler: unknown message type '{}'", type);
-    return {};
+    // Flush CDC-queued next frames accumulated since the last handleFrame call.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!pending_frames_.empty()) {
+            frames.insert(frames.end(),
+                          std::make_move_iterator(pending_frames_.begin()),
+                          std::make_move_iterator(pending_frames_.end()));
+            pending_frames_.clear();
+        }
+    }
+    return frames;
 }
 
 // ---------------------------------------------------------------------------
@@ -180,18 +190,66 @@ GraphQLWsHandler::handleSubscribe(const std::string& id,
     }
 
     // ── 6. Register the subscription ─────────────────────────────────────────
+    // If a Changefeed is available and the operation targets the `onChange` field,
+    // wire a push callback so CDC events are delivered as `next` frames.
+    themis::Changefeed::SubscriptionHandle cdc_handle;
+    if (changefeed_) {
+        const std::string collection = extractOnChangeCollection(parse_result.document);
+        if (!collection.empty()) {
+            themis::Changefeed::SubscriptionFilter f;
+            f.key_prefix = collection + ":";  // keys are "collection:pk"
+
+            // Capture shared state by value: the subscription ID and a raw
+            // pointer to this handler so the callback can queue next frames.
+            // The callback must not outlive this handler; the SubscriptionHandle
+            // (stored in subscriptions_) is cancelled in handleComplete() and reset().
+            const std::string sub_id = id;
+            GraphQLWsHandler* self = this;
+
+            cdc_handle = changefeed_->subscribe(std::move(f),
+                [self, sub_id](const themis::Changefeed::ChangeEvent& ev) {
+                    // Build a minimal GraphQL `next` data payload from the CDC event.
+                    json data = {
+                        {"onChange", {
+                            {"sequence",    static_cast<int64_t>(ev.sequence)},
+                            {"type",        ev.type == themis::Changefeed::ChangeEventType::EVENT_PUT
+                                                ? "PUT" : "DELETE"},
+                            {"key",         ev.key},
+                            {"document",    ev.value.has_value()
+                                                ? json::parse(ev.value.value(), nullptr, false)
+                                                : json(nullptr)},
+                            {"timestampMs", ev.timestamp_ms}
+                        }}
+                    };
+                    const std::string frame = buildNext(sub_id, data.dump());
+                    std::lock_guard<std::mutex> lk(self->mutex_);
+                    self->pending_frames_.push_back(frame);
+                });
+
+            THEMIS_INFO("GraphQLWsHandler: subscription '{}' wired to CDC collection '{}'",
+                        id, collection);
+        }
+    }
+
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        subscriptions_[id] = true;
+        SubscriptionEntry entry;
+        entry.active     = true;
+        entry.cdc_handle = std::move(cdc_handle);
+        subscriptions_.emplace(id, std::move(entry));
     }
 
     THEMIS_INFO("GraphQLWsHandler: subscription '{}' registered (query: {} chars)",
                 id, query.size());
 
-    // ── 7. Real event delivery is done externally by the transport layer,
-    //       which calls buildNext() / buildComplete() as CDC events arrive.
-    // Return nothing here – the subscription is now registered and active.
-    return {};
+    // Flush any frames that may have been queued by the CDC callback between
+    // wiring and registering (timing edge case – normally empty).
+    std::vector<std::string> frames;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        frames.swap(pending_frames_);
+    }
+    return frames;
 }
 
 // ---------------------------------------------------------------------------
@@ -294,6 +352,31 @@ std::string GraphQLWsHandler::buildComplete(const std::string& id) {
 /*static*/
 bool GraphQLWsHandler::isGraphQLWsPath(std::string_view path) {
     return path == "/graphql" || path == "/v2/graphql/subscriptions";
+}
+
+// ---------------------------------------------------------------------------
+// extractOnChangeCollection()
+// ---------------------------------------------------------------------------
+
+/*static*/
+std::string GraphQLWsHandler::extractOnChangeCollection(const graphql::Document& doc)
+{
+    // Walk the first subscription operation looking for:
+    //   subscription { onChange(collection: "orders") { ... } }
+    //
+    // Returns the string value of the "collection" argument on the `onChange`
+    // field, or an empty string if not found.
+    for (const auto& op : doc.operations) {
+        if (op.type != graphql::OperationType::Subscription) continue;
+        for (const auto& field : op.selections) {
+            if (field.name != "onChange") continue;
+            const auto it = field.arguments.find("collection");
+            if (it != field.arguments.end() && it->second && it->second->isString()) {
+                return it->second->asString();
+            }
+        }
+    }
+    return {};
 }
 
 } // namespace api

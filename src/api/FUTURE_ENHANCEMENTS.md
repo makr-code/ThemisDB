@@ -33,8 +33,7 @@ This document covers implementation-specific future enhancements for the API mod
 - `[x]` Add `SchemaRegistry` class to `graphql.cpp`; auto-build from registered `TypeDefinition` objects at server start.
 - `[x]` Implement `__schema` and `__type` introspection resolvers; required by all major GraphQL clients (Apollo, Relay).
 - `[x]` Subscription transport: use Boost.Beast WebSocket upgrades; create `graphql_ws_handler.cpp` implementing the `graphql-transport-ws` protocol (not the legacy `subscriptions-transport-ws`).
-- `[ ]` Wire `cdc::Changefeed::subscribe(filter)` as the event source for `subscription { onChange(collection: "...") { ... } }`.
-- `[x]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
+- `[x]` Wire `cdc::Changefeed::subscribe(filter)` as the event source for `subscription { onChange(collection: "...") { ... } }`. Implemented: `Changefeed::subscribe(SubscriptionFilter, SubscriptionCallback)` + `SubscriptionHandle` RAII type in `changefeed.h/cpp`; wired in `GraphQLWsHandler::handleSubscribe()` via `extractOnChangeCollection()`.- `[x]` Enforce `QueryLimits::maxSubscriptions` per connection to prevent fan-out DoS.
 
 **Performance Targets:**
 - GraphQL parse + validate + execute for a 10-field document query in < 2 ms (p99) under 500 concurrent HTTP/2 connections.
@@ -153,4 +152,4 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 
 - `[x]` All WebSocket upgrade requests must be validated by `auth::JWTValidator` before the upgrade handshake completes; reject with HTTP 401 before protocol switch. (`WsChangeHandler::validate()` checks Bearer token / JWT using `AuthMiddleware::authorize` with `cdc:subscribe` scope before any handshake)
 - `[x]` GraphQL `__schema` introspection disabled via `QueryLimits::allow_introspection = false`; `QueryLimits::production()` factory sets this to `false`; enforced in `Parser::parseField()`. Expose a config flag in `config/networking/` when a configuration layer is added.
-- `[ ]` Rate limiting middleware (`auth::AuthRateLimiter`) must be applied to `/v2/` routes from first release to prevent bulk-insert abuse; default limit 100 req/s per tenant.
+- `[x]` Rate limiting middleware (`RateLimitingMiddleware`) is applied to all `/v2/` routes via `HttpServer::checkRateLimit()`; `/v2/documents` has a tighter per-endpoint override (50% of default capacity) to prevent bulk-insert abuse.
