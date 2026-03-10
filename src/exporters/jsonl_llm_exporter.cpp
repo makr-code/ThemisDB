@@ -32,6 +32,8 @@
 #include "exporters/format_template.h"
 #include "exporters/pii_detector.h"
 #include "exporters/stream_writer.h"
+#include "governance/policy_engine.h"
+#include "governance/model_governance.h"
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
@@ -65,6 +67,35 @@ std::string ExportStats::toJson() const {
     return j.dump(2);
 }
 
+void enforceExportPolicy(const ExportOptions& options) {
+    if (!options.policy_engine) {
+        return;  // No policy engine attached — backward-compatible no-op.
+    }
+
+    themis::governance::ModelTrainingExportRequest req;
+    req.export_job_id    = "export-" + options.output_path;
+    req.collection_ids   = options.collection_name.empty()
+                               ? std::vector<std::string>{}
+                               : std::vector<std::string>{options.collection_name};
+    req.requesting_user  = options.requesting_user.empty()
+                               ? (options.tenant_context
+                                      ? options.tenant_context->user_id
+                                      : std::string{})
+                               : options.requesting_user;
+    req.field_selectors  = options.include_fields;
+    req.purpose          = "MODEL_TRAINING";
+
+    const auto decision = options.policy_engine->checkExportPermission(req);
+    if (!decision.is_permitted) {
+        throw ExporterException(
+            themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED,
+            "Export denied by PolicyEngine: " + decision.denial_reason,
+            "collection=" + options.collection_name
+                + ", user=" + req.requesting_user
+        );
+    }
+}
+
 JSONLLLMExporter::JSONLLLMExporter(const JSONLLLMConfig& config)
     : config_(config),
       metrics_(std::make_shared<ExporterMetrics>()),
@@ -74,6 +105,9 @@ ExportStats JSONLLLMExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
+    // Policy check before any cursor or file is opened (EXP-001).
+    enforceExportPolicy(options);
+
     ExportStats stats;
     stats.metrics = metrics_;  // Attach metrics to stats
     auto start_time = std::chrono::steady_clock::now();

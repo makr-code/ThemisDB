@@ -39,6 +39,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         # CDC source connector for live database streams (Issue: #2199; stream backend
         # gated behind THEMIS_ENABLE_CDC_STREAM — compiles without it via graceful fallback)
         ../src/ingestion/cdc_connector.cpp
+        # NOTE: All ingestion sources are now unconditionally registered in
+        # cmake/CMakeLists.txt (THEMIS_CORE_SOURCES).  Do NOT add them here
+        # again to avoid duplicate-symbol linker errors.
         
         # =====================================================================
         # Training Framework

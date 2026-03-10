@@ -117,6 +117,11 @@ public:
         // Authentication
         bool require_auth = true;
         std::string auth_mechanism = "SCRAM-SHA-256";
+        // Optional pre-shared token for simple token-based authentication.
+        // When non-empty and require_auth=true the AUTH_REQUEST payload must
+        // contain {"token":"<value>"} matching this string exactly.
+        // When empty any non-empty token is accepted (development mode only).
+        std::string auth_token;
 
         // WebSocket upgrade on wire protocol port (requires THEMIS_ENABLE_WEBSOCKET)
         // When true, incoming HTTP Upgrade: websocket requests on this port are

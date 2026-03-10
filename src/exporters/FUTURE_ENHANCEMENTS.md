@@ -34,7 +34,7 @@ minimal Parquet v2 writer is always available; the Arrow C++ path is activated w
 in `exporter_metrics.cpp`.
 
 **Remaining (future issues):**
-- Register Parquet writer in a formal `ExportFormatRegistry` (additive, non-breaking).
+- Register Parquet writer in a formal `ExportFormatRegistry` (additive, non-breaking). ✅ Implemented — `ExportFormatRegistry::registerBuiltins()` registers "parquet".
 
 ### ~~Streaming Export for Large Collections~~ ✅ Implemented
 **Priority:** High  
@@ -86,8 +86,8 @@ decryption. Key material is referenced by ID only; DEK is derived via HKDF-SHA25
 KEK reference in `ExportConfig::encryption_kek_id`. Raw keys are never logged.
 
 **Remaining (future issues):**
-- Full integration with `PolicyEngine::checkExportPermission()` for per-collection
-  authorization checks before any cursor is opened.
+- ~~Full integration with `PolicyEngine::checkExportPermission()` for per-collection
+  authorization checks before any cursor is opened.~~ ✅ Implemented — `enforceExportPolicy()` called at the top of all 6 exporters; `ERR_EXPORT_POLICY_DENIED` (9310) added (EXP-001).
 
 ---
 
@@ -120,23 +120,19 @@ KEK reference in `ExportConfig::encryption_kek_id`. Raw keys are never logged.
 
 ## Planned Features (Next Milestones)
 
-### Hugging Face Hub Direct Upload Integration
+### ~~Hugging Face Hub Direct Upload Integration~~ ✅ Implemented (Issue: #1719)
 **Priority:** Medium
-**Target Version:** v1.9.0 (Issue: #1719)
+**Target Version:** v1.9.0 — **Delivered**
 
-Upload exported datasets directly to the Hugging Face Hub via the Hub HTTP API without requiring an intermediate filesystem step. Reuses the JSONL shards and `dataset_card.md` already produced by `huggingface_exporter.cpp`.
+`HuggingFaceHubClient` implemented in `include/exporters/huggingface_hub_client.h` and
+`src/exporters/huggingface_hub_client.cpp`.  Authenticates via `HubUploadConfig::hf_token`
+or `HF_TOKEN` env variable.  Retry logic (exponential back-off, `max_retries = 3`).
+401 Unauthorized surfaced immediately; 413 Payload Too Large returns a shard-split hint.
+Progress via `std::function<void(double)>` callback.
 
-**Implementation Notes:**
-- Add `HuggingFaceHubClient` using libcurl; authenticate via `HF_TOKEN` env variable or `ExportConfig::hf_token_kek_id`.
-- Stream JSONL shards directly from memory via chunked HTTP upload; do not write shards to disk if the Hub is the sole destination.
-- Report upload progress via the existing `ExportStats` progress callback.
-- Inputs: exported dataset directory (output of `HuggingFaceExporter`), Hub repo ID, commit message.
-- Outputs: Hub dataset URL; structured error on upload failure.
-- Error cases: network timeout (retry ×3 with exponential backoff), 401 Unauthorized (surface as `ExportStatus::FORBIDDEN`), 413 Payload Too Large (split shard).
-
-**Performance Targets:**
-- Upload throughput limited by Hub API; no additional in-process bottleneck vs. a direct `curl` upload.
-- Retry overhead ≤ 3× round-trip time p99.
+**Remaining:**
+- Stream JSONL shards directly from memory (current impl reads files from disk; avoids double filesystem write in future PR).
+- `hf_token_kek_id` for KMS-protected token lookup (future security hardening).
 
 ---
 

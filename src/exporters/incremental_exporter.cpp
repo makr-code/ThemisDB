@@ -25,6 +25,7 @@
 
 #include "exporters/incremental_exporter.h"
 #include "exporters/exporter_errors.h"
+#include "exporters/exporter_interface.h"
 #include "exporters/export_encryption.h"
 #include "exporters/stream_writer.h"
 #include "utils/logger.h"
@@ -57,6 +58,9 @@ ExportStats IncrementalExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
+    // Policy check before any cursor or file is opened (EXP-001).
+    enforceExportPolicy(options);
+
     ExportStats stats;
     stats.metrics = metrics_;
     const auto start_time = std::chrono::steady_clock::now();

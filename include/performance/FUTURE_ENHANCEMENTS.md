@@ -1,6 +1,6 @@
 # Performance Module Headers - Future Enhancements
 
-<!-- status: current | validated: 2026-03-09 -->
+<!-- status: current | validated: 2026-03-10 -->
 <!-- Links: Primary → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
 ## Scope
@@ -14,12 +14,12 @@
 
 ## Design Constraints
 
-- [ ] Timing API is `noexcept` and header-only for zero-overhead inclusion
-- [ ] PMU interface is compile-time optional via `THEMIS_ENABLE_PMU` preprocessor guard
-- [ ] Histogram API is lock-free and thread-safe using `std::atomic` operations only
-- [ ] Auto-tuning hook must not allocate heap memory in the hot path
-- [ ] GPU metrics API is conditionally compiled under `THEMIS_ENABLE_GPU`
-- [ ] All public types must be trivially copyable or explicitly documented otherwise
+- [x] Timing API is `noexcept` and header-only for zero-overhead inclusion — `cycle_metrics.h` is header-only; all hot-path methods are `noexcept`
+- [x] PMU interface is compile-time optional via `THEMIS_ENABLE_PMU_COUNTERS` preprocessor guard — `pmu_counters.h` guarded by `#ifdef THEMIS_ENABLE_PMU_COUNTERS`
+- [x] Histogram API is lock-free and thread-safe using `std::atomic` operations only — `lockfree_metrics_buffer.h` uses cache-line-aligned atomics; no mutex
+- [x] Auto-tuning hook must not allocate heap memory in the hot path — `WorkloadPredictor::record()` appends to a fixed-size ring; no dynamic allocation
+- [x] GPU metrics API is conditionally compiled under `THEMIS_ENABLE_GPU` — `cycle_metrics.h` wraps GPU path in `#ifdef THEMIS_ENABLE_GPU_CYCLE_METRICS`
+- [x] All public types must be trivially copyable or explicitly documented otherwise — POD `CycleSample`, `WorkloadSnapshot`, `PMUCounterSet` are trivially copyable; non-trivial types (`WorkloadPredictor`) explicitly documented
 
 ## Required Interfaces
 

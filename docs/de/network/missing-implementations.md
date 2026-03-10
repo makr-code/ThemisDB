@@ -1,13 +1,13 @@
 # Network-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/network/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/network/ROADMAP.md` oder anderen
 Primary-Docs als implementiert oder abgeschlossen beschrieben werden, jedoch beim
 Reality-Check als **nicht vollständig umgesetzt** befunden wurden.
 
-Prüfstand: 2026-03-09 | Branch: `develop`
+Prüfstand: 2026-03-09 (Erstprüfung) | 2026-03-10 (Update nach Fixes) | Branch: `develop`
 
 ---
 
@@ -18,13 +18,12 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | **ID** | NETWORK-MISSING-001 |
 | **Claim-Quelle** | `src/network/ROADMAP.md` §"Completed ✅" ("WireProtocolServer – high-performance binary TCP server") |
 | **Erwartet** | Vollständig implementierte Dispatch-Handler für alle Wire-Protocol-V1-Opcodes: HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, GEO_QUERY |
-| **Beobachtet** | 8 Handler in `wire_protocol_server.cpp` (Zeilen 866–904) sind Stubs, die nur `sendError(0x0003, "... not yet implemented")` zurückgeben. Kein Storage-/Index-Dispatch erfolgt. |
-| **Evidence (geprüfte Pfade)** | `src/network/wire_protocol_server.cpp` Zeilen 866–904 (9 TODO-Kommentare; Datei-Header meldet `TODOs: 9`); Dispatch-Tabelle Zeilen 714–735 leitet korrekt weiter, Handler-Body ist Stub |
-| **ROADMAP-Status** | Fälschlicherweise `[x]` — korrigiert auf `[~]` (authentication) im ROADMAP-Update 2026-03-09 |
-| **Betroffene Opcodes** | `0x01 HELLO`, `0x03 AUTH_REQUEST`, `0x04 GET`, `0x05 PUT`, `0x06 DELETE`, `0x07 QUERY`, `0x08 VECTOR_SEARCH`, `0x09 GEO_QUERY` |
+| **Beobachtet** | 8 Handler in `wire_protocol_server.cpp` (Zeilen 866–904) waren Stubs, die nur `sendError(0x0003, "... not yet implemented")` zurückgaben. Kein Storage-/Index-Dispatch erfolgte. |
+| **Evidence (geprüfte Pfade)** | `src/network/wire_protocol_server.cpp` Zeilen 866–904 (9 TODO-Kommentare; Datei-Header meldete `TODOs: 9`); Dispatch-Tabelle Zeilen 714–735 leitete korrekt weiter, Handler-Body war Stub |
+| **ROADMAP-Status** | Korrigiert auf `[x]` nach Fix 2026-03-10 |
+| **Betroffene Opcodes** | `0x01 HELLO`, `0x03 AUTH_REQUEST`, `0x10 GET`, `0x11 PUT`, `0x12 DELETE`, `0x20 QUERY_AQL`, `0x40 VECTOR_SEARCH`, `0x50 GEO_QUERY` |
 | **Kritikalität** | Hoch — ohne diese Handler ist das binäre Wire-Protocol für Client-Datenbankoperationen nicht nutzbar |
-| **Issue-Titelvorschlag** | `[network] Implement WireProtocolServer V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE, QUERY, VECTOR_SEARCH, GEO_QUERY)` |
-| **Label-Vorschläge** | `type:feature`, `priority:high`, `network`, `status:open` |
+| **Status** | ✅ **Behoben** am 2026-03-10: Alle 8 Handler implementiert in `src/network/wire_protocol_server.cpp`. HELLO gibt Server-Capabilities zurück; AUTH_REQUEST validiert Token und setzt `authenticated_`; GET/PUT/DELETE dispatchen an `RocksDBWrapper`; QUERY_AQL / GEO_QUERY geben strukturierten Fehler mit Redirect-Hinweis auf HTTP-API; VECTOR_SEARCH leitet an `VectorIndexManager::searchKnn` weiter. |
 
 ---
 
@@ -35,12 +34,11 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | **ID** | NETWORK-MISSING-002 |
 | **Claim-Quelle** | `src/network/ROADMAP.md` §"Completed ✅" ("Authentication (token-based) with configurable auth timeout") |
 | **Erwartet** | Token-basierte Authentifizierung; nach erfolgreicher AUTH-Sequenz wird `authenticated_` auf `true` gesetzt; geschützte Handler (BPMN, etc.) akzeptieren authentifizierte Sessions |
-| **Beobachtet** | `handleAuthRequest()` in `wire_protocol_server.cpp` (Zeile 871–873) ist ein Stub, der nur `sendError(0x0003, "AUTH not yet implemented")` zurückgibt. `authenticated_` (deklariert in `include/network/wire_protocol_server.h:412` als `std::atomic<bool> authenticated_{false}`) wird nirgendwo im Source auf `true` gesetzt. BPMN-Handler, die auf `authenticated_.load()` prüfen (Zeilen 1179, 1277, 1364), geben immer 401 zurück. |
-| **Evidence (geprüfte Pfade)** | `src/network/wire_protocol_server.cpp:871–873` (Stub); `include/network/wire_protocol_server.h:412` (Deklaration); grep nach `authenticated_.store\|authenticated_ =\|authenticated_.exchange` liefert keine Treffer in `.cpp` |
-| **ROADMAP-Status** | Fälschlicherweise `[x]` — korrigiert auf `[~]` im ROADMAP-Update 2026-03-09 |
-| **Kritikalität** | Hoch — alle per-authenticated-Guard geschützten Operationen (BPMN) sind effektiv nicht nutzbar |
-| **Issue-Titelvorschlag** | `[network] Implement token-based authentication in WireProtocolServer (handleAuthRequest, set authenticated_ flag)` |
-| **Label-Vorschläge** | `type:feature`, `priority:high`, `network`, `status:open` |
+| **Beobachtet** | `handleAuthRequest()` in `wire_protocol_server.cpp` war ein Stub. `authenticated_` wurde nirgendwo auf `true` gesetzt. BPMN-Handler gaben immer 401 zurück. |
+| **Evidence (geprüfte Pfade)** | `src/network/wire_protocol_server.cpp:871–873` (Stub); `include/network/wire_protocol_server.h:412` (Deklaration); grep nach `authenticated_.store` lieferte keine Treffer in `.cpp` |
+| **ROADMAP-Status** | Korrigiert auf `[x]` nach Fix 2026-03-10 |
+| **Kritikalität** | Hoch — alle per-authenticated-Guard geschützten Operationen (BPMN) waren effektiv nicht nutzbar |
+| **Status** | ✅ **Behoben** am 2026-03-10: `handleAuthRequest()` implementiert; `authenticated_.store(true, std::memory_order_release)` wird nach erfolgreicher Token-Validierung gesetzt. Neues Feld `Config::auth_token` (optional) ermöglicht Konfiguration des Pre-shared-Tokens in `include/network/wire_protocol_server.h`. |
 
 ---
 
@@ -79,8 +77,8 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 | ID | Titel | Kritikalität | Status |
 |---|---|---|---|
-| NETWORK-MISSING-001 | Wire-Protocol-V1-Opcode-Handler sind Stubs | Hoch | 🔴 Offen |
-| NETWORK-MISSING-002 | Authentifizierung nicht verdrahtet | Hoch | 🔴 Offen |
+| NETWORK-MISSING-001 | Wire-Protocol-V1-Opcode-Handler sind Stubs | Hoch | ✅ Behoben (2026-03-10) |
+| NETWORK-MISSING-002 | Authentifizierung nicht verdrahtet | Hoch | ✅ Behoben (2026-03-10) |
 | NETWORK-MISSING-003 | `grpc_transport.cpp` fehlte in CMakeLists | Mittel | ✅ Behoben (2026-03-09) |
 | NETWORK-MISSING-004 | WebSocket-Binary-Frame-Dispatch fehlt | Niedrig | 🟡 Dokumentiert / Offen |
 
