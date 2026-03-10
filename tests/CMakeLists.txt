@@ -446,6 +446,17 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration_dispatch.cpp
 )
 
+# Re-include shader integrity test excluded by ".*test_shader_integrity\\.cpp$".
+# shader_integrity.cpp uses only OpenSSL SHA-256 (no GPU dependency) and is
+# now compiled unconditionally as a core acceleration source.  The test covers:
+#  - SHA-256 hash computation (13 test cases)
+#  - Hash registration, strict/non-strict verification modes
+#  - Manifest file parsing
+# No GPU hardware is required.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp
+)
+
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates the slab-based pre-allocator and the
 # defragmentation routine (GPUMemoryPool::defragment()).  It uses only the CPU

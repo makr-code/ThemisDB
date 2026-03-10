@@ -1997,6 +1997,9 @@ set(THEMIS_CORE_SOURCES
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/device_manager.cpp
     ../src/acceleration/vllm_resource_manager.cpp
+    # shader_integrity.cpp uses only OpenSSL (SHA-256) — no GPU/graphics dependency.
+    # Compiled unconditionally so ShaderIntegrityVerifier is always available.
+    ../src/acceleration/shader_integrity.cpp
     # Plugin manager (core plugin orchestration)
     ../src/plugins/plugin_manager.cpp
     ../src/plugins/plugin_hot_plug_monitor.cpp
@@ -2621,7 +2624,6 @@ endif()
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     list(APPEND THEMIS_ACCELERATION_SOURCES
         ../src/acceleration/graphics_backends.cpp
-        ../src/acceleration/shader_integrity.cpp
     )
     
     if(THEMIS_ENABLE_DIRECTX)
