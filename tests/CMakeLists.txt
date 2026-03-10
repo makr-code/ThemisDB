@@ -2192,6 +2192,39 @@ else()
     message(STATUS "OTLP exporter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_otlp_exporter.cpp")
 endif()
 
+# ============================================================================
+# API Interfaces Tests (header-only types: IHttpHandler, CorrelationId, etc.)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+    message(STATUS "Adding API interface header tests")
+
+    add_executable(test_api_interfaces
+        test_api_interfaces.cpp
+    )
+
+    target_link_libraries(test_api_interfaces PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_api_interfaces PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ApiInterfacesTests COMMAND test_api_interfaces)
+
+    set_tests_properties(ApiInterfacesTests PROPERTIES
+        LABELS "api;interfaces;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  API Interfaces: IHttpHandler, CorrelationId, WebSocketCloseCode, VersionDescriptor, GRPCMetadata")
+else()
+    message(STATUS "API interface tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_interfaces.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graphql_error_masking.cpp")
     message(STATUS "Adding GraphQL error masking tests")
 
