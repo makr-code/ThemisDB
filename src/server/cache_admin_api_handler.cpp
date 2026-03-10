@@ -610,5 +610,45 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     }
 }
 
+// ---------------------------------------------------------------------------
+// DELETE /v1/admin/cache/pii/{pii_uuid}
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
+    const http::request<http::string_body>& req)
+{
+    http::response<http::string_body> auth_resp;
+    if (!checkAuth(req, "admin:cache:write", auth_resp)) {
+        return auth_resp;
+    }
+
+    if (!cache_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Cache not available", req);
+    }
+
+    std::string pii_uuid = extractPathParam(std::string(req.target()),
+                                            "/v1/admin/cache/pii/");
+    if (pii_uuid.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Missing pii_uuid path parameter", req);
+    }
+
+    try {
+        size_t evicted = cache_->invalidatePII(pii_uuid);
+        THEMIS_INFO("Cache admin PII evict: pii_uuid={} evicted={}", pii_uuid, evicted);
+
+        nlohmann::json body = {
+            {"evicted",  evicted},
+            {"pii_uuid", pii_uuid}
+        };
+        return makeResponse(http::status::ok, body.dump(), req);
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Cache admin pii-evict error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 } // namespace server
 } // namespace themis
+

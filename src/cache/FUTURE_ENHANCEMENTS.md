@@ -148,9 +148,11 @@ that contains that subject's data must also be purged immediately from all three
 - `[x]` 7 unit tests added in `tests/test_adaptive_query_cache.cpp`.
 
 **Remaining follow-up items:**
-- `[ ]` Integrate `invalidatePII()` call into `PIIPseudonymizer::erasePII()` so cache purge
+- [x] Integrate `invalidatePII()` call into `PIIPseudonymizer::erasePII()` so cache purge
   happens automatically on every erasure without requiring caller coordination.
-- `[ ]` Expose `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint.
+  (Implemented via `PIIPseudonymizer::registerCacheInvalidator()` callback — `include/utils/pii_pseudonymizer.h`)
+- [x] Expose `DELETE /v1/admin/cache/pii/{pii_uuid}` admin endpoint.
+  (Implemented in `src/server/cache_admin_api_handler.cpp`)
 
 ---
 
@@ -218,7 +220,8 @@ For multi-node deployments, L1/L2 caches are node-local, causing inconsistent re
 ## Security / Reliability
 
 - `[x]` Admin API write endpoints (`DELETE`, `POST`) must require `admin:cache:write` JWT scope; read endpoints require `admin:cache:read`; scope checks enforced at handler entry before any cache mutation.
-- `[ ]` Distributed coordinator must validate that invalidation messages carry the originating node's signed token to prevent cache-flush attacks from unauthenticated nodes.
+- `[x]` Distributed coordinator must validate that invalidation messages carry the originating node's signed token to prevent cache-flush attacks from unauthenticated nodes.
+  (Implemented via `RedisCacheCoordinator::Config::hmac_secret` + HMAC-SHA256 in `src/cache/redis_cache_coordinator.cpp`)
 - `[x]` `AdaptiveQueryCache::warmupFromLog()` must validate each entry's key is a valid SHA-256 hex string and value size does not exceed `config_.l1_max_entry_bytes` (currently 1 KB) before insertion.
 
 ---
