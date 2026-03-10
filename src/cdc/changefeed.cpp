@@ -212,6 +212,8 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", 
                  event.sequence, static_cast<int>(event.type), event.key);
     
+    notifySubscribers(event);
+
     return event;
 }
 
@@ -897,6 +899,69 @@ void Changefeed::retentionCleanupThread() {
     }
     
     THEMIS_DEBUG("Retention cleanup thread exiting");
+}
+
+// ---------------------------------------------------------------------------
+// Push-based subscription API
+// ---------------------------------------------------------------------------
+
+bool Changefeed::SubscriptionFilter::matches(const ChangeEvent& ev) const noexcept {
+    if (!key_prefix.empty() && ev.key.rfind(key_prefix, 0) != 0) return false;
+    if (!event_types.empty() && event_types.find(ev.type) == event_types.end()) return false;
+    return true;
+}
+
+Changefeed::SubscriptionHandle
+Changefeed::subscribe(SubscriptionFilter filter, SubscriptionCallback callback)
+{
+    const uint64_t id = next_subscription_id_.fetch_add(1, std::memory_order_relaxed);
+    {
+        std::lock_guard<std::mutex> lk(subscriptions_mutex_);
+        subscriptions_.emplace(id, SubscriptionEntry{std::move(filter), std::move(callback)});
+    }
+    THEMIS_DEBUG("Changefeed: subscription {} registered", id);
+    return SubscriptionHandle{this, id};
+}
+
+void Changefeed::unsubscribe(uint64_t subscription_id) noexcept
+{
+    std::lock_guard<std::mutex> lk(subscriptions_mutex_);
+    subscriptions_.erase(subscription_id);
+    THEMIS_DEBUG("Changefeed: subscription {} cancelled", subscription_id);
+}
+
+void Changefeed::notifySubscribers(const ChangeEvent& event)
+{
+    // Take a snapshot of the current subscriber map under the lock so that
+    // callbacks can themselves call subscribe/unsubscribe without deadlocking.
+    std::vector<SubscriptionEntry> snapshot;
+    {
+        std::lock_guard<std::mutex> lk(subscriptions_mutex_);
+        snapshot.reserve(subscriptions_.size());
+        for (const auto& [id, entry] : subscriptions_) {
+            snapshot.push_back(entry);
+        }
+    }
+
+    for (const auto& entry : snapshot) {
+        if (entry.filter.matches(event)) {
+            try {
+                entry.callback(event);
+            } catch (...) {
+                // Callbacks must not throw; log and continue.
+                THEMIS_WARN("Changefeed: subscriber callback threw an exception — ignored");
+            }
+        }
+    }
+}
+
+void Changefeed::SubscriptionHandle::cancel() noexcept
+{
+    if (feed_) {
+        feed_->unsubscribe(id_);
+        feed_ = nullptr;
+        id_   = 0;
+    }
 }
 
 } // namespace themis

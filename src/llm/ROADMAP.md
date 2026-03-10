@@ -94,6 +94,8 @@ v1.16.0 – Full-featured production LLM module. All short-term and long-term pl
 - [x] Security audit (prompt injection mitigation, API key handling) (Issue: #1941)
 - [x] Documentation complete (Issue: #1942)
 - [x] API stability guaranteed (Issue: #1943)
+- [x] Build system audit: 16 previously-unregistered source files added to cmake/CMakeLists.txt and cmake/ModularBuild.cmake; all 151 src/llm/ files now registered (March 2026)
+- [x] Test registration: all 28 tests/llm/ focused test targets added to tests/CMakeLists.txt via add_llm_focused_test macro (March 2026)
 
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.

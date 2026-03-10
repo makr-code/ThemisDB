@@ -666,6 +666,89 @@ public:
 };
 ```
 
+## HTTP API Reference
+
+The graph module exposes its functionality through a set of HTTP REST endpoints
+via `server::GraphApiHandler`.  All endpoints require authentication unless
+configured otherwise.
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST`   | `/graph/traverse`                           | BFS traversal from a start vertex |
+| `POST`   | `/graph/edge`                               | Create a directed graph edge |
+| `DELETE` | `/graph/edge/:id`                           | Delete a graph edge by ID |
+| `POST`   | `/api/v1/graph/query/explain`               | **Dry-run** — returns the selected algorithm and cost plan without executing (Issue: #1816) |
+| `GET`    | `/api/v1/graph/metrics`                     | JSON snapshot of cumulative query metrics |
+| `GET`    | `/api/v1/graph/metrics/prometheus`          | Prometheus text exposition of metrics |
+| `POST`   | `/graph/query/incremental`                  | Register a BFS query for incremental re-execution |
+| `DELETE` | `/graph/query/incremental/:handle`          | Unregister an incremental query |
+| `POST`   | `/graph/changes`                            | Notify the optimizer of graph mutations |
+| `POST`   | `/api/v1/graph/cost-model/calibrate`        | Recalibrate the cost model from execution history |
+| `GET`    | `/api/v1/graph/cost-model`                  | Export the current learned cost model as JSON |
+| `POST`   | `/api/v1/graph/cost-model`                  | Import a previously exported cost model |
+
+### EXPLAIN Endpoint (`POST /api/v1/graph/query/explain`)
+
+Performs a dry-run optimization and returns the selected algorithm, cost
+estimates, and a human-readable explanation without executing the traversal.
+
+**Supported `query_type` values:** `shortest_path`, `k_hop`, `reachability`,
+`pattern_match`, `constrained_path`.
+
+```json
+// Request
+{
+  "query_type": "shortest_path",
+  "start_vertex": "A",
+  "end_vertex": "D",
+  "constraints": {
+    "max_depth": 10,
+    "edge_type": "knows",
+    "enable_parallel": false
+  }
+}
+
+// Response
+{
+  "algorithm": "BFS",
+  "pattern": "Shortest Path",
+  "estimated_cost": 42.5,
+  "estimated_time_ms": 8.3,
+  "estimated_nodes_explored": 150,
+  "use_index": true,
+  "use_cache": false,
+  "early_termination": true,
+  "parallel_execution": false,
+  "is_distributed": false,
+  "recommended_parallelism": 1,
+  "shard_ids": [],
+  "alternatives": [
+    {"algorithm": "DFS", "estimated_cost": 65.2}
+  ],
+  "explanation": "Query Pattern: Shortest Path\nSelected Algorithm: BFS\n..."
+}
+```
+
+For `k_hop`, provide `"start_vertex"` and optionally `"max_depth"` (top-level
+or inside `"constraints"`).  For `pattern_match`, provide
+`"pattern_vertices"` (array of strings) and `"pattern_edges"` (array of
+`[from, to]` pairs).  For `constrained_path`, provide `"path_constraints"`:
+
+```json
+{
+  "query_type": "constrained_path",
+  "start_vertex": "A",
+  "end_vertex": "D",
+  "path_constraints": {
+    "min_length": 2,
+    "max_length": 6,
+    "forbidden_vertices": ["B"],
+    "unique_nodes": true,
+    "acyclic": true
+  }
+}
+```
+
 ## AQL Integration
 
 ### Graph Traversal Queries
@@ -862,24 +945,30 @@ target_include_directories(themisdb_graph
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (as of v1.8.0)
 
 ✅ **Stable Features:**
 - Graph query optimization with cost-based algorithm selection
-- Path constraints with 12 constraint types
+- Path constraints with 14+ constraint types (including edge/node property, weight)
 - BFS/DFS/Dijkstra/A*/Bidirectional algorithm execution
-- Query plan generation and caching
-- Execution statistics tracking
+- Query plan generation, caching (LRU + TTL eviction), and structural reuse
+- Execution statistics tracking and adaptive cost model (EMA-based)
 - GraphIndexManager integration
+- Parallel multi-source BFS/DFS (fan-out threshold, configurable thread count)
+- Incremental graph query execution on live mutations (BFS)
+- Distributed graph query execution across shards
+- GPU-accelerated BFS/DFS with automatic CPU fallback
+- Subgraph isomorphism (VF2-style pattern matching)
+- HTTP REST API with EXPLAIN endpoint (`POST /api/v1/graph/query/explain`)
+- Prometheus metrics export
 
 ⚠️ **Beta Features:**
 - Custom predicate constraints (v1.5.0+)
-- Adaptive cost estimation based on execution history (v1.5.0+)
 - Multi-graph query optimization (v1.5.0+)
 
-🔬 **Experimental:**
-- Parallel execution hints (not implemented)
-- Query rewriting for performance (not implemented)
+🔬 **Planned:**
+- Cypher query language support (community request)
+- Cross-shard edge following (caller-coordinated today)
 
 ## Related Documentation
 
@@ -889,9 +978,9 @@ target_include_directories(themisdb_graph
 - [Graph Advanced Features](ADVANCED_FEATURES_README.md) - PathConstraints detailed documentation
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Overall ThemisDB architecture
 
-*Last Updated: February 2026*  
-*Module Version: v1.5.0*  
-*Next Review: v1.6.0 Release*
+*Last Updated: March 2026*  
+*Module Version: v1.8.0*  
+*Next Review: v1.9.0 Release*
 
 ## Scientific References
 

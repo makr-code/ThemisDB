@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph query execution across shards is now implemented.
+**Production-Ready** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization, parallel traversal, structural plan reuse) is functional. Distributed graph query execution across shards is implemented. EXPLAIN endpoint (`POST /api/v1/graph/query/explain`) for dry-run plan inspection is now available (Issue: #1816).
 
 ## Completed ✅
 - [x] Graph query optimizer with cost-based algorithm selection
@@ -29,6 +29,7 @@
 - [x] Integration with analytics module for graph algorithm reuse (Issue: #1821)
 - [x] Parallel multi-source traversal for large fan-out queries — fan_out_threshold + intra-frontier parallelism (Issue: #1811)
 - [x] Subgraph isomorphism queries (pattern matching) (Issue: #2390)
+- [x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -36,7 +37,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
+- [x] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)

@@ -184,6 +184,18 @@ public:
      */
     http::response<http::string_body> handleBatch(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Bulk document insert from newline-delimited JSON (NDJSON).
+     *
+     * Endpoint: POST /v2/documents
+     * Content-Type: application/x-ndjson
+     *
+     * Each line in the body is a JSON object representing a document to insert.
+     * Accepts up to 10,000 documents per request.  Returns a summary of
+     * successful inserts and any per-line errors.
+     */
+    http::response<http::string_body> handleBulkNdjson(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;

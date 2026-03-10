@@ -337,6 +337,8 @@ option(THEMIS_ENABLE_PER_QUERY_COST_MODEL "Enable per-query cost model integrati
 # Phase 4: ML & CI Integration - Very high impact, very high effort (Issue #2424)
 # Long-term optimizations (6-12 months effort, +50-200% PMem-heavy workloads)
 option(THEMIS_ENABLE_PMEM "Enable Persistent Memory (Optane) aware storage layout (+50-200%)" OFF)
+option(THEMIS_ENABLE_PMU_COUNTERS "Enable hardware performance counter (PMU) integration for cache-miss analysis" OFF)
+option(THEMIS_ENABLE_IO_URING "Enable io_uring zero-copy I/O path for network performance (Linux kernel ≥ 5.1)" OFF)
 
 # Build options
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
@@ -1500,6 +1502,9 @@ set(THEMIS_CORE_SOURCES
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
     ../src/performance/workload_predictor.cpp
+    ../src/performance/prometheus_exporter.cpp
+    ../src/performance/chimera_exporter.cpp
+    ../src/performance/async_metrics_exporter.cpp
     
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -1696,6 +1701,21 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     
+    # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
+    # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)
+    ../src/ingestion/ingestion_manager.cpp
+    ../src/ingestion/filesystem_ingester.cpp
+    ../src/ingestion/api_connector.cpp
+    ../src/ingestion/huggingface_connector.cpp
+    ../src/ingestion/kafka_connector.cpp
+    ../src/ingestion/object_storage_connector.cpp
+    ../src/ingestion/database_connector.cpp
+    ../src/ingestion/web_crawler_connector.cpp
+    ../src/ingestion/ingestion_coordinator.cpp
+    # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; the file
+    # always compiles and returns CONNECTOR_NOT_SUPPORTED when the flag is OFF.
+    ../src/ingestion/cdc_connector.cpp
+
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     ../src/cdc/changefeed_buffer.cpp
@@ -1915,6 +1935,7 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/gpu_backend_production.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
+    ../src/api/otlp_exporter.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp
@@ -2019,9 +2040,11 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
+    ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
+    ../src/plugins/rpc_service_registry.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
@@ -2064,6 +2087,8 @@ set(THEMIS_CORE_SOURCES
 
     # WebSocket change-stream handler (conditional)
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/ws_handler.cpp>
+    # GraphQL over WebSocket (graphql-transport-ws) handler (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/api/graphql_ws_handler.cpp>
 
     # gRPC API server alongside REST (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/api/grpc_server.cpp>
@@ -2081,6 +2106,10 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/arrow_ipc_exporter.cpp
     ../src/exporters/incremental_exporter.cpp
     ../src/exporters/export_encryption.cpp
+    ../src/exporters/huggingface_exporter.cpp
+    ../src/exporters/data_augmentation.cpp
+    ../src/exporters/export_format_registry.cpp
+    ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/postgres_importer.cpp
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
@@ -2209,6 +2238,8 @@ list(APPEND THEMIS_CORE_SOURCES
     # memory_pressure is always compiled: uses only platform OS memory APIs
     # (Linux: /proc/meminfo, macOS: sysctl/host_statistics64, Windows: GlobalMemoryStatusEx).
     ../src/performance/phase3/memory_pressure.cpp
+    # adaptive_batch_tuner is always compiled: pure CPU, no GPU required
+    ../src/performance/phase3/adaptive_batch_tuner.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
@@ -2250,6 +2281,20 @@ list(APPEND THEMIS_CORE_SOURCES
 if(THEMIS_ENABLE_PMEM)
     message(STATUS "Including Persistent Memory aware storage layout (THEMIS_ENABLE_PMEM=ON)")
     list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase4/pmem_storage.cpp)
+endif()
+
+if(THEMIS_ENABLE_PMU_COUNTERS)
+    message(STATUS "Hardware PMU counter integration enabled (THEMIS_ENABLE_PMU_COUNTERS=ON)")
+    # pmu_counters.cpp is already compiled unconditionally above (provides graceful stub
+    # fallbacks when perf_event_open is unavailable).  This flag only adds the compile
+    # definition that activates the real PMU paths inside pmu_counters.cpp.
+    add_compile_definitions(THEMIS_ENABLE_PMU_COUNTERS)
+endif()
+
+if(THEMIS_ENABLE_IO_URING)
+    message(STATUS "Including io_uring zero-copy I/O path (THEMIS_ENABLE_IO_URING=ON)")
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase4/io_uring_zero_copy.cpp)
+    add_compile_definitions(THEMIS_ENABLE_IO_URING)
 endif()
 
 # ============================================================================
@@ -3505,6 +3550,28 @@ if(THEMIS_ENABLE_LLM)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
         ../src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
+
+        # Inference & Sampling core (Phase 2 refactor)
+        ../src/llm/inference_handle.cpp           # InferenceHandle implementation
+        ../src/llm/sampling_strategy.cpp          # Token sampling strategies (top-p, top-k, mirostat)
+
+        # Ethics, AI Safety & Multi-Perspective Generation
+        ../src/llm/constitutional_reasoning_engine.cpp   # Constitutional AI reasoning
+        ../src/llm/ethics_aware_confidence_detector.cpp  # Ethics-aware confidence scoring
+        ../src/llm/moral_analyzer.cpp                    # Moral reasoning analysis
+        ../src/llm/multi_perspective_generator.cpp       # Multi-perspective response generation
+
+        # Feedback & Security
+        ../src/llm/feedback_plugin_basic.cpp      # Basic feedback plugin implementation
+        ../src/llm/llm_security_utils.cpp         # LLM security utilities (prompt sanitization)
+
+        # Vision resource monitoring
+        ../src/llm/vision_resource_monitor.cpp    # Vision model resource monitoring
+
+        # LoRA framework additions (unconditional)
+        ../src/llm/lora_framework/distributed_dataloader.cpp     # Distributed data loading for training
+        ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp  # CPU fused LoRA kernels (non-GPU fallback)
+        ../src/llm/lora_framework/paged_optimizer.cpp            # Paged AdamW optimizer for memory-efficient training
     )
 
     if(THEMIS_ENABLE_GPU)
@@ -3554,7 +3621,8 @@ if(THEMIS_ENABLE_LLM)
     # Add HIP kernel sources when HIP is enabled
     if(THEMIS_ENABLE_HIP)
         list(APPEND THEMIS_CORE_SOURCES
-            ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels (AMD)
+            ../src/llm/lora_framework/kernels/hip_kernels.cpp       # LoRA HIP kernels (AMD)
+            ../src/llm/lora_framework/kernels/hip_fused_kernels.cpp # LoRA HIP fused kernels (AMD)
         )
         
         # Link RCCL if available
@@ -3571,6 +3639,9 @@ if(THEMIS_ENABLE_LLM)
     if(THEMIS_ENABLE_VULKAN)
         list(APPEND THEMIS_CORE_SOURCES
             ../src/llm/lora_framework/kernels/vulkan_kernels.cpp  # LoRA Vulkan compute
+            ../src/llm/lora_framework/vulkan_buffer.cpp           # Vulkan buffer management for LoRA
+            ../src/llm/lora_framework/vulkan_context.cpp          # Vulkan context initialization
+            ../src/llm/lora_framework/vulkan_pipeline.cpp         # Vulkan compute pipeline for LoRA
         )
         message(STATUS "LoRA: Vulkan compute kernels enabled (cross-platform)")
     endif()
@@ -4169,6 +4240,86 @@ if(THEMIS_BUILD_TESTS)
         )
     endif()
 
+    # Cycle metrics tests (Phase 1 – hardware cycle counter accuracy, Issue #2425)
+    add_executable(test_cycle_metrics
+        ${THEMIS_ROOT_DIR}/tests/performance/test_cycle_metrics.cpp
+    )
+    target_link_libraries(test_cycle_metrics
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_cycle_metrics
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cycle_metrics>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # NUMA topology tests (Phase 2 – topology detection and thread pinning, Issue #2426)
+    add_executable(test_numa_topology
+        ${THEMIS_ROOT_DIR}/tests/performance/test_numa_topology.cpp
+    )
+    target_link_libraries(test_numa_topology
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_numa_topology
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_topology>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Wire protocol performance benchmark tests
+    add_executable(test_wire_perf_benchmark
+        ${THEMIS_ROOT_DIR}/tests/performance/test_wire_perf_benchmark.cpp
+    )
+    target_link_libraries(test_wire_perf_benchmark
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_wire_perf_benchmark
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wire_perf_benchmark>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Adaptive batch size tuner tests (Phase 3 – LLM inference batch tuning, Issue #1996)
+    add_executable(test_adaptive_batch_tuner
+        ${THEMIS_ROOT_DIR}/tests/performance/phase3/test_adaptive_batch_tuner.cpp
+    )
+    target_link_libraries(test_adaptive_batch_tuner
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_batch_tuner
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_batch_tuner>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # io_uring zero-copy I/O tests (Phase 4 – DPDK/io_uring network path, Issue #2217)
+    add_executable(test_io_uring_zero_copy
+        ${THEMIS_ROOT_DIR}/tests/performance/phase4/test_io_uring_zero_copy.cpp
+    )
+    target_link_libraries(test_io_uring_zero_copy
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_io_uring_zero_copy
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_io_uring_zero_copy>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # GPU Graph Cache, Query Accelerator, and Stream Manager Tests
     # (Issue: #1801 — CUDA graph capture for recurring query execution patterns)
     if(THEMIS_ENABLE_GPU)
@@ -4589,6 +4740,18 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
     )
     
     target_link_libraries(bench_timeseries_ingestion
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Ingestion Key-Value throughput benchmark (Issue #1911 – docs/sec, MB/sec)
+    add_executable(bench_ingestion_kv
+        ${THEMIS_ROOT_DIR}/benchmarks/bench_ingestion_kv.cpp
+    )
+
+    target_link_libraries(bench_ingestion_kv
         PRIVATE
             themis_core
             benchmark::benchmark
@@ -5086,6 +5249,28 @@ endif()
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
     add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
+endif()
+
+# Export CLI Tool (themis-export)
+if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
+    add_executable(themis-export
+        ${THEMIS_ROOT_DIR}/tools/export_cli.cpp
+    )
+    target_link_libraries(themis-export PRIVATE
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+    if(TARGET CURL::libcurl)
+        target_link_libraries(themis-export PRIVATE CURL::libcurl)
+        target_compile_definitions(themis-export PRIVATE CURL_ENABLED=1)
+    endif()
+    target_include_directories(themis-export PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+    message(STATUS "Export CLI Tool: Enabled (themis-export)")
+
+    install(TARGETS themis-export
+        RUNTIME DESTINATION bin
+    )
 endif()
 
 # LLM Model Management CLI Tool (themis-model)

@@ -1,4 +1,5 @@
 # Metadata Module - Public API
+<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
 
 Public interface definitions for ThemisDB metadata functionality.
 
