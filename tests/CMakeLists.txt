@@ -944,6 +944,16 @@ if(THEMIS_BUILD_MODULAR)
             $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:${THEMIS_ROOT_DIR}/src/cdc/kafka_cdc_producer.cpp>
             ${THEMIS_ROOT_DIR}/src/cdc/outbox.cpp
             $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${THEMIS_ROOT_DIR}/src/cdc/ws_transport.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/server/task_scheduler_api_handler.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_scheduler.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_audit_event.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_audit_manager.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_result_store.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/task_anomaly_detector.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/hybrid_retention_manager.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/event_trigger.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/external_scheduler_adapter.cpp>
+            $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:${THEMIS_ROOT_DIR}/src/scheduler/distributed_task_coordinator.cpp>
         )
 
         if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
@@ -9713,6 +9723,261 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
     message(STATUS "  DataAugmentation: synonym substitution, paraphrase variants, back-translation, dedup-safe augmentation")
 else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+endif()
+
+# ============================================================================
+# Scheduler Module – Focused Standalone Test Targets
+# (Issues: #2265 SLA alerts, #2269 dynamic scaling, #2272 distributed coord,
+#          #2445 web UI, #2447 result persistence, #2448 audit history,
+#          #2449 workflow, #2453 DAG)
+# ============================================================================
+
+# Shared scheduler source list (all scheduler cpp files gated on HTTP_SERVER)
+set(SCHEDULER_MODULE_SOURCES
+    ${THEMIS_ROOT_DIR}/src/scheduler/task_scheduler.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/task_audit_event.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/task_audit_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/task_result_store.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/task_anomaly_detector.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/hybrid_retention_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/event_trigger.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/external_scheduler_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/scheduler/distributed_task_coordinator.cpp
+    ${THEMIS_ROOT_DIR}/src/server/task_scheduler_api_handler.cpp
+)
+
+# Helper macro: when THEMIS_ENABLE_HTTP_SERVER is OFF, the scheduler sources
+# are not compiled into themis_core; add them directly to the test target.
+macro(themis_scheduler_sources_if_needed _target)
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        foreach(_sched_src IN LISTS SCHEDULER_MODULE_SOURCES)
+            if(EXISTS "${_sched_src}")
+                target_sources(${_target} PRIVATE "${_sched_src}")
+            endif()
+        endforeach()
+    endif()
+endmacro()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler.cpp")
+    message(STATUS "Adding TaskScheduler focused tests (Issues #2448, #2265)")
+
+    add_executable(test_task_scheduler_focused
+        test_task_scheduler.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_scheduler_focused)
+
+    target_include_directories(test_task_scheduler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_scheduler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_scheduler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskSchedulerFocusedTests COMMAND test_task_scheduler_focused)
+
+    set_tests_properties(TaskSchedulerFocusedTests PROPERTIES
+        LABELS "scheduler;task-scheduler;audit;sla;alerts;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskScheduler: register/enable/disable/unregister tasks, execution stats, audit history, SLA alerts, retry policies")
+else()
+    message(STATUS "TaskScheduler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_dynamic_scaling.cpp")
+    message(STATUS "Adding TaskScheduler dynamic scaling focused tests (Issue #2269)")
+
+    add_executable(test_task_scheduler_dynamic_scaling_focused
+        test_task_scheduler_dynamic_scaling.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_scheduler_dynamic_scaling_focused)
+
+    target_include_directories(test_task_scheduler_dynamic_scaling_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_scheduler_dynamic_scaling_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_scheduler_dynamic_scaling_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskSchedulerDynamicScalingFocusedTests COMMAND test_task_scheduler_dynamic_scaling_focused)
+
+    set_tests_properties(TaskSchedulerDynamicScalingFocusedTests PROPERTIES
+        LABELS "scheduler;dynamic-scaling;concurrency;queue-depth;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskSchedulerDynamicScaling: scale-up/down, concurrency limit, queue depth tracking")
+else()
+    message(STATUS "TaskScheduler dynamic scaling focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_dynamic_scaling.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_triggers.cpp")
+    message(STATUS "Adding TaskScheduler trigger focused tests (Issues #2272, #2453)")
+
+    add_executable(test_task_scheduler_triggers_focused
+        test_task_scheduler_triggers.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_scheduler_triggers_focused)
+
+    target_include_directories(test_task_scheduler_triggers_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_scheduler_triggers_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_scheduler_triggers_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskSchedulerTriggersFocusedTests COMMAND test_task_scheduler_triggers_focused)
+
+    set_tests_properties(TaskSchedulerTriggersFocusedTests PROPERTIES
+        LABELS "scheduler;triggers;cron;cdc;dag;workflow;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskSchedulerTriggers: cron/interval/CDC/manual/webhook triggers, DAG dependency execution, workflow branching")
+else()
+    message(STATUS "TaskScheduler triggers focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_triggers.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_siem_integration.cpp")
+    message(STATUS "Adding TaskScheduler SIEM integration focused tests")
+
+    add_executable(test_task_scheduler_siem_integration_focused
+        test_task_scheduler_siem_integration.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_scheduler_siem_integration_focused)
+
+    target_include_directories(test_task_scheduler_siem_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_scheduler_siem_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_scheduler_siem_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskSchedulerSIEMIntegrationFocusedTests COMMAND test_task_scheduler_siem_integration_focused)
+
+    set_tests_properties(TaskSchedulerSIEMIntegrationFocusedTests PROPERTIES
+        LABELS "scheduler;siem;audit-log;security;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskSchedulerSIEMIntegration: audit event forwarding, SIEM export, encrypted audit log")
+else()
+    message(STATUS "TaskScheduler SIEM integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_siem_integration.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_api_handler.cpp")
+    message(STATUS "Adding TaskSchedulerApiHandler focused tests (Issues #2445, #2447)")
+
+    add_executable(test_task_scheduler_api_handler_focused
+        test_task_scheduler_api_handler.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_scheduler_api_handler_focused)
+
+    target_include_directories(test_task_scheduler_api_handler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_scheduler_api_handler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_scheduler_api_handler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskSchedulerApiHandlerFocusedTests COMMAND test_task_scheduler_api_handler_focused)
+
+    set_tests_properties(TaskSchedulerApiHandlerFocusedTests PROPERTIES
+        LABELS "scheduler;api-handler;http;rest;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskSchedulerApiHandler: REST CRUD, DAG execution, external adapter endpoints, pagination")
+else()
+    message(STATUS "TaskScheduler API handler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_api_handler.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scheduler_integration.cpp")
+    message(STATUS "Adding Scheduler integration focused tests (Issue #2447)")
+
+    add_executable(test_scheduler_integration_focused
+        test_scheduler_integration.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_scheduler_integration_focused)
+
+    target_include_directories(test_scheduler_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_scheduler_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_scheduler_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SchedulerIntegrationFocusedTests COMMAND test_scheduler_integration_focused)
+
+    set_tests_properties(SchedulerIntegrationFocusedTests PROPERTIES
+        LABELS "scheduler;integration;persistence;lifecycle;retention"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  SchedulerIntegration: task lifecycle, persistence, retention lifecycle, statistics accumulation")
+else()
+    message(STATUS "Scheduler integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_scheduler_integration.cpp")
 endif()
 
 add_custom_target(run_tests
