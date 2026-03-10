@@ -2099,6 +2099,9 @@ set(THEMIS_CORE_SOURCES
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
     ../src/themis/wire_protocol_server.cpp
     ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/edition_manager.cpp
+    ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     
     # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp

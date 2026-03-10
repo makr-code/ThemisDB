@@ -200,8 +200,9 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_runtime_injector.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
-        ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/module_dependency_resolver.cpp
     ../src/themis/module_signature_verifier.cpp
+    ../src/themis/edition_manager.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp

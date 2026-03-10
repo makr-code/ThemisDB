@@ -65,6 +65,9 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] Unit tests for edition_manager (tests/test_edition_manager.cpp; CTest: EditionManagerTests)
 - [x] Unit tests for dynamic feature-flag overrides (tests/test_dynamic_feature_flags.cpp; CTest: DynamicFeatureFlagTests)
 - [x] Unit tests for runtime license gate (tests/test_runtime_license_gate.cpp; CTest: RuntimeLicenseGateTests)
+- [x] Unit tests for module hash verifier (tests/test_module_hash_verifier.cpp; CTest: ModuleHashVerifierFocusedTests)
+- [x] Unit tests for module signature verifier (tests/test_module_signature_verifier.cpp; CTest: ModuleSignatureVerifierFocusedTests)
+- [x] Build system: edition_manager.cpp, module_hash_verifier.cpp, module_signature_verifier.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
