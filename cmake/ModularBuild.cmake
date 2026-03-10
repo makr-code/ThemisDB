@@ -138,6 +138,7 @@ set(THEMIS_BASE_SOURCES
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
+    ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
@@ -151,6 +152,7 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/concerns/context_propagation.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/sharding/circuit_breaker.cpp
     
@@ -163,6 +165,9 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/plugin_loader.cpp
     ../src/acceleration/plugin_security.cpp
     ../src/acceleration/device_manager.cpp
+    ../src/acceleration/vllm_resource_manager.cpp
+    ../src/acceleration/geo_acceleration_bridge.cpp
+    ../src/acceleration/shader_integrity.cpp
     ../src/gpu/device_discovery.cpp
     
     # Plugin manager (core plugin orchestration)
@@ -282,10 +287,16 @@ set(THEMIS_STORAGE_SOURCES
 
     # Change data capture (used by metadata/schema manager)
     ../src/cdc/changefeed.cpp
+    ../src/cdc/changefeed_buffer.cpp
+    ../src/cdc/consumer_group.cpp
+    ../src/cdc/delivery_tracker.cpp
     ../src/cdc/dead_letter_queue.cpp
+    ../src/cdc/outbox.cpp
     ../src/cdc/cdc_ws_handler.cpp
     ../src/cdc/cross_collection_stream.cpp
     ../src/cdc/cdc_materialized_view.cpp
+    ../src/cdc/tenant_buffer_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/cdc/ws_transport.cpp>
     ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
@@ -331,12 +342,17 @@ set(THEMIS_QUERY_SOURCES
     
     # Analytics
     ../src/analytics/olap.cpp
+    # Data export: JSON/CSV always available; Arrow/Parquet/Feather when THEMIS_HAS_ARROW
+    ../src/analytics/analytics_export.cpp
+    ../src/analytics/arrow_export.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/cep_engine.cpp
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
+    ../src/analytics/columnar_execution.cpp
+    ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
@@ -347,7 +363,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/distributed_analytics.cpp
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
-    ../src/analytics/arrow_export.cpp
     ../src/analytics/arrow_flight.cpp
     
     # AQL handlers (non-LLM)
@@ -402,7 +417,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/access_control.cpp
     ../src/security/zero_trust_policy_enforcer.cpp
     ../src/auth/auth_audit_logger.cpp
-    ../src/auth/principal_validator.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
     ../src/security/webdav_user_registration_plugin.cpp
@@ -796,10 +810,25 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/language_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager_embedding.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ocr_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/geo_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/stt_processor.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/content_chunker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
 )
 
 set(THEMIS_TIMESERIES_SOURCES
