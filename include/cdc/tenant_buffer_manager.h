@@ -50,6 +50,7 @@
 #include <mutex>
 #include <string>
 #include <optional>
+#include <functional>
 
 namespace themis {
 namespace cdc {
@@ -189,13 +190,13 @@ public:
      * @param tenant_id Tenant identifier
      * @return Tenant metrics if exists
      */
-    std::optional<CDCMetrics> getTenantMetrics(const std::string& tenant_id) const;
+    std::optional<std::reference_wrapper<const CDCMetrics>> getTenantMetrics(const std::string& tenant_id) const;
     
     /**
      * @brief Get aggregated metrics across all tenants
-     * @return Aggregated metrics
+        * @return Aggregated metrics snapshot
      */
-    CDCMetrics getGlobalMetrics() const;
+        nlohmann::json getGlobalMetrics() const;
     
     /**
      * @brief Get all tenant statistics

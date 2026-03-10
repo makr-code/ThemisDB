@@ -106,7 +106,7 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 25 implementati
 - [x] Unit tests for DistributedRAGEvaluator (test_rag_distributed_evaluator.cpp: construction validation, aggregation strategies, meta fields, factory helpers, batch evaluate)
 - [x] Unit tests for PromptInjectionDetector and Sanitizer (test_rag_prompt_injection.cpp: benign pass-through, instruction override, system-prompt leak, delimiter escape, role injection, markup injection, Unicode bidi, sanitizer truncation/replacement)
 - [x] Performance benchmarks (benchmarks/bench_rag_evaluation.cpp: recall@K harness, FAST/BALANCED/THOROUGH latency, distributed evaluator, injection scan throughput, end-to-end pipeline)
-- [?] Integration tests (full pipeline: retrieve → generate → evaluate)
+- [x] Integration tests (full pipeline: retrieve → generate → evaluate) — `test_rag_pipeline_integration.cpp` (heuristic/FAST mode, no live LLM required)
 - [x] Performance benchmarks (recall@10, latency per mode)
 - [x] Security audit (prompt injection in retrieved context)
 - [x] Documentation complete (streaming_retriever.h, reranker.h, hybrid_retriever.h: full Doxygen API docs)

@@ -28,9 +28,13 @@ inputs:
     required: false
     default: 'ON'
   edition:
-    description: 'Value for THEMIS_EDITION (MINIMAL / COMMUNITY / ENTERPRISE). Empty = not set.'
+    description: 'Value for THEMIS_EDITION (MINIMAL / COMMUNITY / ENTERPRISE / HYPERSCALER / MILITARY). Empty = not set.'
     required: false
     default: ''
+  ci-mode:
+    description: 'When true, passes -DTHEMIS_CI_MODE=ON so REQUIRED edition features are not force-enabled (safe for CI runners without heavyweight deps)'
+    required: false
+    default: 'false'
   enable-coverage:
     description: 'When true, adds --coverage -O0 to C and CXX compiler flags'
     required: false
@@ -67,6 +71,7 @@ runs:
         BUILD_TYPE:        ${{ inputs.build-type }}
         BUILD_TESTS:       ${{ inputs.build-tests }}
         EDITION:           ${{ inputs.edition }}
+        CI_MODE:           ${{ inputs.ci-mode }}
         ENABLE_COVERAGE:   ${{ inputs.enable-coverage }}
         ENABLE_SANITIZERS: ${{ inputs.enable-sanitizers }}
         EXTRA_FLAGS:       ${{ inputs.extra-cmake-flags }}
@@ -86,6 +91,9 @@ runs:
 
         # THEMIS_EDITION (optional)
         [ -n "$EDITION" ] && CMAKE_ARGS+=("-DTHEMIS_EDITION=$EDITION")
+
+        # CI mode: relax REQUIRED feature enforcement for edition builds
+        [ "$CI_MODE" = "true" ] && CMAKE_ARGS+=("-DTHEMIS_CI_MODE=ON")
 
         # Always-disabled features common to every CI job
         CMAKE_ARGS+=(-DTHEMIS_ENABLE_LLM=OFF)

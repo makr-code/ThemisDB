@@ -1,7 +1,7 @@
 # Temporal Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-10  
 **Module Path:** `src/temporal/`
 
 ---
@@ -36,11 +36,12 @@ streams) by providing ISO SQL:2011-compatible temporal tables for structured rec
 
 | File | Role |
 |---|---|
-| `temporal_query_engine.cpp` | AS OF, FROM...TO, BETWEEN...AND query execution |
+| `temporal_query_engine.cpp` | AS OF, FROM...TO, BETWEEN...AND query execution; bitemporal joins; SEQUENCED/NON-SEQUENCED semantics |
 | `bi_temporal.cpp` | Bitemporal record management (system + valid time axes) |
+| `bitemporal_join.cpp` | Bitemporal join operator (combined transaction-time + valid-time predicates) |
 | `system_versioned_table.cpp` | Automatic system-time versioning of all table rows |
 | `temporal_index.cpp` | Period-based index for efficient time range queries |
-| `temporal_aggregator.cpp` | Temporal aggregations (group by time window) |
+| `temporal_aggregator.cpp` | Temporal aggregations (tumbling and sliding window) |
 | `temporal_conflict_resolver.cpp` | HLC-based conflict resolution for concurrent edits |
 | `snapshot_manager.cpp` | Temporal snapshot creation and restoration |
 | `retention_manager.cpp` | Automated expiry of old versions based on retention policy |
@@ -176,10 +177,11 @@ Two concurrent updates to same record (distributed nodes):
 
 ## 11. Known Limitations & Future Work
 
-- Bitemporal joins and bitemporal aggregations are partial.
-- Application-time versioning (user-controlled `valid_from`/`valid_to`) is fully
-  supported; SQL `PERIOD FOR` DDL syntax is not yet supported.
-- SEQUENCED vs. NON-SEQUENCED temporal queries are partially implemented.
+- SQL `PERIOD FOR` DDL syntax is not yet supported; application-time periods must be managed via the C++ API (`BiTemporalTable`).
+- No automatic SQL-level retention syntax (`ALTER TABLE … SET RETENTION_PERIOD`); retention policies must be set programmatically via `RetentionManager::setPolicy()`.
+- History table compression is not yet implemented; historical data storage overhead is proportional to version count.
+- Temporal CDC (streaming change events) is not yet available.
+- Temporal foreign keys with period-aware referential integrity are not yet implemented.
 
 ---
 
