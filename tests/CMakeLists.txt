@@ -643,6 +643,50 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
+# Re-include GPU module tests that were excluded by the broad ".*test_gpu_.*\\.cpp$"
+# and related specific-pattern exclusions.  All of these tests exercise only
+# CPU-side bookkeeping paths and require no GPU hardware.
+if(THEMIS_ENABLE_GPU)
+    target_sources(themis_tests PRIVATE
+        # GPUAdminAPI: JSON stats serialisation, tenant breakdown, dry-run simulation
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_admin_api.cpp
+        # GPUAlertManager: threshold evaluation, callback firing, hysteresis, stats
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_alerts.cpp
+        # GPUAuditLog: ring-buffer event recording, overflow, structured fields
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_audit_log.cpp
+        # GPUConfig: validation, dry-run simulation, VRAM cap enforcement
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_config.cpp
+        # DeviceDiscovery: CPU-fallback sentinel, healthy-device filter, best-device
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_device_discovery.cpp
+        # GPUFeatureFlags: per-edition gates, runtime overrides, serialisation
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_feature_flags.cpp
+        # GPUKernelValidator: FNV-1a whitelist, validate-before-launch enforcement
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_kernel_validator.cpp
+        # GPULauncher: typed work-item submission, timeout enforcement, batch launch
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_launcher.cpp
+        # GPUMemoryManagerEdition: tenant quotas, VRAM cap, pre-allocation hints
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_memory_management.cpp
+        # GPUModule facade: policy → circuit-breaker → alloc → launch pipeline
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_module.cpp
+        # GPUOLAPAccelerator: parallel aggregation, sort, hash-join CPU paths
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_olap_accelerator.cpp
+        # GPUPolicy: default-deny gate, per-edition capability overrides
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_policy.cpp
+        # GPUSafeFail (circuit-breaker): trip/reset, fallback counter, callbacks
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_safe_fail.cpp
+        # GPUSafeFail integration through GPUModule facade
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_safe_fail_module.cpp
+        # Comprehensive stub coverage for GPU module public API surface
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_stubs_comprehensive.cpp
+        # GPUTensorBuffer: shape/dtype, views, checkpointing, CPU bookkeeping
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_tensor.cpp
+        # GPUTrainingLoop: batch iteration, loss tracking, early stopping
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_training_loop.cpp
+        # GPUMemoryManagerEdition VRAM allocation: tenant quotas, eviction
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_vram_allocation.cpp
+    )
+endif()
+
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual

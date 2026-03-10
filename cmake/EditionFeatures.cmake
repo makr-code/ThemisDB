@@ -13,18 +13,14 @@ if(THEMIS_EDITION STREQUAL "ENTERPRISE" OR THEMIS_EDITION STREQUAL "HYPERSCALER"
     )
 endif()
 
-# GPU memory management for enterprise (edition-specific VRAM limits)
-if(THEMIS_ENABLE_GPU AND (THEMIS_EDITION STREQUAL "ENTERPRISE" OR THEMIS_EDITION STREQUAL "HYPERSCALER"))
-    list(APPEND THEMIS_CORE_SOURCES
-        ../src/gpu/gpu_memory_manager_edition.cpp
-    )
-endif()
-
 # GPU module infrastructure (pure C++ bookkeeping, no hardware required)
 # Provides: device discovery, safe-fail circuit breaker, audit log, policy gate,
 # memory pool, metrics registry, config validation, kernel validator, alert manager,
 # async launcher, multi-GPU load balancer, feature flags, admin API, integration
 # facade, stream manager, query accelerator, tensor buffer, training loop.
+# gpu_memory_manager_edition.cpp implements edition-aware VRAM allocation; it
+# uses edition::GPU_MAX_VRAM_GB at runtime so it compiles correctly for every
+# GPU-enabled edition (Community, Enterprise, Hyperscaler).
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/gpu/device_discovery.cpp
@@ -32,6 +28,7 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/audit_log.cpp
         ../src/gpu/policy.cpp
         ../src/gpu/memory_pool.cpp
+        ../src/gpu/gpu_memory_manager_edition.cpp
         ../src/gpu/metrics.cpp
         ../src/gpu/config.cpp
         ../src/gpu/kernel_validator.cpp
