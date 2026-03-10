@@ -2003,3 +2003,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
 
     message(STATUS "  Updates: state machine transitions, rollback path, manifest JSON round-trip, generatePatch, applyPatch")
 endif()
+
+# ============================================================================
+# Observability: MetricsCollector Performance Benchmarks
+# Measures metrics recording, aggregation, Prometheus text export,
+# and concurrent access performance.
+# Performance target: < 1% CPU overhead at steady-state 1,000 req/s workload.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
+    message(STATUS "Adding Observability: MetricsCollector performance benchmarks")
+
+    add_executable(bench_metrics_collector
+        bench_metrics_collector.cpp
+    )
+
+    target_include_directories(bench_metrics_collector PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_metrics_collector PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_metrics_collector PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_metrics_collector PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_metrics_collector
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  MetricsCollector: recordQuery, recordCacheHit, exportPrometheus, concurrent access, cardinality scaling")
+endif()
