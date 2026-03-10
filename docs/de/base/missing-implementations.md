@@ -1,21 +1,21 @@
 # Base-Modul — Fehlende / Unvollständige Implementierungen
 
-**Geprüft:** 2026-03-09  
-**Geprüft von:** Source-Code-Audit (commit 0091524)  
+**Geprüft:** 2026-03-09 (aktualisiert: 2026-03-10)  
+**Geprüft von:** Source-Code-Audit (commit 0091524); Follow-up-Audit (PR copilot/sync-developer-docs-module)  
 **Modul:** `src/base/` + `include/themis/base/`
 
 ---
 
 ## Übersicht
 
-Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepanzen zwischen dokumentierten Ansprüchen und tatsächlicher Implementierung gefunden:
+Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepanzen zwischen dokumentierten Ansprüchen und tatsächlicher Implementierung gefunden. Einträge 3 und 4 wurden inzwischen implementiert und als ✅ geschlossen.
 
-| # | Feature | ROADMAP-Status (alt) | Beobachteter Stand | Schwere |
-|---|---------|---------------------|-------------------|---------|
-| 1 | Plugin health monitoring & automatic restart | `[x]` erledigt | Nur Health-Checks beim Laden; kein Auto-Restart | Medium |
-| 2 | WASM-based plugin isolation | `[x]` erledigt | Infrastruktur vollständig; Runtime-Injection fehlt | Medium |
-| 3 | Signed plugin repository with key pinning | `[x]` erledigt | TLS-Zertifikat-Verifikation vorhanden; Public-Key-Pinning fehlt | Low |
-| 4 | Runtime plugin capability negotiation (version ranges) | `[x]` erledigt | Version-Ranges in Dependency-Graph gespeichert; kein aktives Negotiation-Protokoll | Low |
+| # | Feature | ROADMAP-Status (alt) | Beobachteter Stand | Schwere | Aktueller Status |
+|---|---------|---------------------|-------------------|---------|-----------------|
+| 1 | Plugin health monitoring & automatic restart | `[x]` erledigt | Nur Health-Checks beim Laden; kein Auto-Restart | Medium | 🔴 Offen (Issue #2373) |
+| 2 | WASM-based plugin isolation | `[x]` erledigt | Infrastruktur vollständig; Runtime-Injection fehlt | Medium | 🔴 Offen (Issue #1572) |
+| 3 | Signed plugin repository with key pinning | `[x]` erledigt | TLS-Zertifikat-Verifikation vorhanden; Public-Key-Pinning fehlt | Low | ✅ Gelöst (2026-03-10) |
+| 4 | Runtime plugin capability negotiation (version ranges) | `[x]` erledigt | Version-Ranges in Dependency-Graph gespeichert; kein aktives Negotiation-Protokoll | Low | ✅ Gelöst (2026-03-10) |
 
 ---
 
@@ -65,59 +65,47 @@ Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepa
 
 ---
 
-## Eintrag 3: Signed Plugin Repository with Key Pinning
+## Eintrag 3: Signed Plugin Repository with Key Pinning — ✅ Gelöst
 
-**Claim-Quelle:** `src/base/ROADMAP.md`, Phase 3  
-> `[x] Signed plugin repository with key pinning`
+**Lösung (2026-03-10):** `RegistryConfig::pinned_public_key` (Format: `sha256//base64`) wurde in
+`include/themis/base/remote_registry_client.h` (Zeile 93) ergänzt. `CURLOPT_PINNEDPUBLICKEY`
+wird in beiden HTTP-Pfaden (`httpGet` und `httpGetBinary`) in
+`src/base/remote_registry_client.cpp` (Zeilen 336–338, 428–430) gesetzt.
 
-**Erwartet:** Öffentlicher Schlüssel des Plugin-Repositories ist im Server gepinnt; Downloads werden gegen diesen festen Schlüssel verifiziert.
-
-**Beobachtet:**
-- `RemoteRegistryClient` in `include/themis/base/remote_registry_client.h` bietet `RegistryConfig::verify_ssl = true` für TLS-Zertifikatsvalidierung (Zeile 70–71).
+**Ursprüngliche Beobachtung:**
+- `RemoteRegistryClient` in `include/themis/base/remote_registry_client.h` bot `RegistryConfig::verify_ssl = true` für TLS-Zertifikatsvalidierung (Zeile 70–71).
 - **Kein Public-Key-Pinning**: Kein `pinned_pubkey`-, `cert_pin`- oder `pubkey_fingerprint`-Feld in `remote_registry_client.h` oder `remote_registry_client.cpp`.
-- TLS-Zertifikat-Verifikation (CA-basiert) ist implementiert; echtes Key-Pinning (unabhängig von CA-Vertrauen) fehlt.
-
-**Evidence (geprüfte Pfade):**
-- `include/themis/base/remote_registry_client.h` — `RegistryConfig::verify_ssl` (Zeile 71), kein `pin_*` Feld
-- `src/base/remote_registry_client.cpp` — kein `pin`-Symbol
-
-**Issue-Titelvorschlag:** `feat(base): implement public-key pinning for remote plugin registry`  
-**Label-Vorschläge:** `enhancement`, `module:base`, `security`, `priority:low`
+- TLS-Zertifikat-Verifikation (CA-basiert) war implementiert; echtes Key-Pinning (unabhängig von CA-Vertrauen) fehlte.
 
 ---
 
-## Eintrag 4: Runtime Plugin Capability Negotiation (Version Ranges)
+## Eintrag 4: Runtime Plugin Capability Negotiation (Version Ranges) — ✅ Gelöst
 
-**Claim-Quelle:** `src/base/ROADMAP.md`, Phase 3  
-> `[x] Runtime plugin capability negotiation (version ranges)`
+**Lösung (2026-03-10):** `ModuleDependencyResolver::isVersionCompatible()` und
+`topologicalSort()` erzwingen Versionsbeschränkungen beim Auflösen der Ladereihenfolge in
+`src/base/module_loader.cpp` (Zeilen 1277–1414). Runtime-Capability-Negotiation auf
+höherer Ebene übernimmt `PluginCapabilityNegotiator` im Plugins-Modul (Issue: #1984). Zwei
+Bugs in `isVersionCompatible()` (blanket-catch reset) und `resolveFor()` (unregistrierte
+transitive Deps bypassten die Pflicht-Abhängigkeitsvalidierung) wurden behoben und durch
+Regressionstests in `tests/test_module_loader.cpp` abgedeckt.
 
-**Erwartet:** Plugins verhandeln aktiv ihre Version-Kompatibilität zur Laufzeit.
-
-**Beobachtet:**
-- `PluginDependencyGraph` in `include/themis/base/plugin_dependency_graph.h` speichert `minVersion`/`maxVersion` pro Abhängigkeits-Kante (Zeilen 109–110).
-- **Kein aktives Negotiation-Protokoll**: Keine `negotiate()`-, `checkCompatibility()`- oder ähnliche Methode in `plugin_dependency_graph.h/.cpp` oder `module_loader.h/.cpp`.
-- Version-Ranges werden deklariert und in DOT-Visualisierung angezeigt, aber nicht zur Laufzeit durchgesetzt.
-- Tatsächliche Durchsetzung ist Teil von Issue #1566 (Plugin dependency resolution).
-
-**Evidence (geprüfte Pfade):**
-- `include/themis/base/plugin_dependency_graph.h` — `Edge::minVersion`/`maxVersion` (Zeilen 109–110)
-- `src/base/plugin_dependency_graph.cpp` — `topologicalOrder()`, keine Versionsverhandlung
-- `include/themis/base/module_loader.h` — kein `negotiate`-Symbol
-
-**Issue-Titelvorschlag:** `feat(base): implement runtime version compatibility enforcement in PluginDependencyGraph` (Teil von Issue #1566)  
-**Label-Vorschläge:** `enhancement`, `module:base`, `priority:medium`
+**Ursprüngliche Beobachtung:**
+- `PluginDependencyGraph` speicherte `minVersion`/`maxVersion` pro Abhängigkeits-Kante (Zeilen 109–110).
+- Kein aktives Negotiation-Protokoll: Keine `negotiate()`-, `checkCompatibility()`- oder ähnliche Methode.
+- Version-Ranges wurden deklariert und in DOT-Visualisierung angezeigt, aber nicht zur Laufzeit durchgesetzt.
+- Tatsächliche Durchsetzung war Teil von Issue #1566 (Plugin dependency resolution).
 
 ---
 
 ## Zusammenfassung
 
-| # | Issue-Titelvorschlag | Priorität | Labels |
-|---|---------------------|-----------|--------|
-| 1 | `feat(base): implement automatic plugin restart on health-check failure` | Medium | `enhancement`, `module:base`, `priority:medium` |
-| 2 | `feat(base): integrate concrete WasmRuntime (Wasmtime or WasmEdge) into WasmPluginSandbox` | Medium | `enhancement`, `module:base`, `priority:medium` |
-| 3 | `feat(base): implement public-key pinning for remote plugin registry` | Low | `enhancement`, `module:base`, `security`, `priority:low` |
-| 4 | Teil von Issue #1566: Runtime version compatibility enforcement | Medium | `enhancement`, `module:base`, `priority:medium` |
+| # | Issue-Titelvorschlag | Priorität | Labels | Status |
+|---|---------------------|-----------|--------|--------|
+| 1 | `feat(base): implement automatic plugin restart on health-check failure` | Medium | `enhancement`, `module:base`, `priority:medium` | 🔴 Offen |
+| 2 | `feat(base): integrate concrete WasmRuntime (Wasmtime or WasmEdge) into WasmPluginSandbox` | Medium | `enhancement`, `module:base`, `priority:medium` | 🔴 Offen |
+| 3 | `feat(base): implement public-key pinning for remote plugin registry` | Low | `enhancement`, `module:base`, `security`, `priority:low` | ✅ Gelöst (2026-03-10) |
+| 4 | Teil von Issue #1566: Runtime version compatibility enforcement | Medium | `enhancement`, `module:base`, `priority:medium` | ✅ Gelöst (2026-03-10) |
 
 ---
 
-*Generiert: 2026-03-09 | Modul: base | Validierung: Source-Code-Audit commit 0091524*
+*Generiert: 2026-03-09 | Aktualisiert: 2026-03-10 | Modul: base | Validierung: Source-Code-Audit commit 0091524 + PR copilot/sync-developer-docs-module*

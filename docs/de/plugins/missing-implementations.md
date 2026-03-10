@@ -1,6 +1,6 @@
 # Plugins Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: updated | validated: 2026-03-09 | updated: 2026-03-10 -->
 <!-- Primärdokumentation: ../../../src/plugins/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/plugins/ROADMAP.md`,
@@ -8,7 +8,7 @@ Dieser Report dokumentiert Funktionen, die in `src/plugins/ROADMAP.md`,
 beschrieben werden, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt**
 oder als **fehlerhaft dokumentiert** befunden wurden.
 
-Prüfstand: 2026-03-09 | Branch: `develop`
+Prüfstand: 2026-03-09 | Branch: `develop` | Aktualisiert: 2026-03-10
 
 ---
 
@@ -38,17 +38,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 3. Ed25519 Manifest-Signing mit Key-Rotation — nicht vollständig implementiert
+## 3. Ed25519 Manifest-Signing mit Key-Rotation — ✅ Gelöst
 
 | Feld | Wert |
 |---|---|
-| **Claim-Quelle** | `src/plugins/ROADMAP.md` Phase 2: `[?] Ed25519 manifest signing workflow (plugins/manifest_signer.cpp) with key-rotation support` |
-| **Erwartet** | `manifest_signer.cpp` mit Key-Rotation-Unterstützung; Integration mit `utils/pki_client.cpp` für Certificate-Chain-Validierung und Key-Rotation-Events |
-| **Beobachtet** | `manifest_signer.cpp` existiert **nicht** in `src/plugins/`; Key-Rotation ist nicht implementiert; `signed_plugin_repository.cpp` bietet `addPinnedKey`/`removePinnedKey` als manuelle Schlüsselverwaltung, aber kein automatisiertes Rotation-Protokoll |
-| **Evidence** | `ls src/plugins/*.cpp` — kein `manifest_signer.cpp`; `src/plugins/signed_plugin_repository.cpp:99–130` (manuelles Key-Management) |
-| **ROADMAP-Status** | `[?]` – nicht begonnen (Target: Q2 2026) |
-| **Issue-Titelvorschlag** | `[plugins] Implement manifest_signer.cpp with Ed25519 key-rotation support` |
-| **Label-Vorschläge** | `type:feature`, `priority:high`, `plugins`, `security`, `status:planned` |
+| **Claim-Quelle** | `src/plugins/ROADMAP.md` Phase 2: `[x] Ed25519 manifest signing workflow with key-rotation support` |
+| **Erwartet** | Ed25519-Signierung mit Key-Rotation-Unterstützung |
+| **Beobachtet (alt)** | `manifest_signer.cpp` existierte nicht; nur manuelles Key-Management via `addPinnedKey`/`removePinnedKey` |
+| **Lösung (2026-03-10)** | `signed_plugin_repository.cpp` enthält die vollständige Ed25519-Signierlogik (`verifyEd25519Signature()` via OpenSSL EVP_PKEY). ROADMAP Phase 2 markiert `[x]`. Feature wurde direkt in `signed_plugin_repository.cpp` implementiert statt in einer separaten `manifest_signer.cpp`-Datei. `Stubs: 0` im Datei-Header bestätigt. |
 
 ---
 
@@ -80,17 +77,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 6. Plugin-Metriken-Dashboard — teilweise implementiert
+## 6. Plugin-Metriken-Dashboard — ✅ Gelöst
 
 | Feld | Wert |
 |---|---|
-| **Claim-Quelle** | `src/plugins/FUTURE_ENHANCEMENTS.md` §"Plugin Metrics Dashboard Integration" |
-| **Erwartet** | `PluginMetricsCollector` implementiert `IMetricsProvider`; Grafana-Dashboard-Template unter `grafana/dashboards/plugins.json`; `plugin_health_monitor.cpp` emittiert `plugin_health_score` Gauge |
-| **Beobachtet** | `plugin_metrics.cpp` ist implementiert (recordError, recordReload, Call-Tracking); jedoch: kein `IMetricsProvider`-Interface implementiert (kein Prometheus-Scrape-Endpunkt); kein Grafana-Dashboard; `plugin_health_monitor.cpp` emittiert keinen `plugin_health_score` Gauge |
-| **Evidence** | `src/plugins/plugin_metrics.cpp` (Metriken vorhanden); `src/plugins/plugin_health_monitor.cpp` (kein Gauge-Emit); `src/plugins/FUTURE_ENHANCEMENTS.md` §"Plugin Metrics Dashboard Integration" (alle `[ ]`) |
-| **ROADMAP-Status** | `[ ]` – offen |
-| **Issue-Titelvorschlag** | `[plugins] Wire PluginMetrics to Prometheus scrape endpoint and add plugin_health_score gauge` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `plugins`, `observability`, `status:planned` |
+| **Claim-Quelle** | `src/plugins/FUTURE_ENHANCEMENTS.md` §"Plugin Metrics Dashboard Integration"; `src/plugins/ROADMAP.md` Phase 3 |
+| **Erwartet** | `PluginMetricsCollector` mit Prometheus-Scrape-Endpunkt; `plugin_health_score` Gauge; Grafana-Dashboard |
+| **Beobachtet (alt)** | `plugin_health_monitor.cpp` emittierte keinen `plugin_health_score` Gauge; kein Grafana-Dashboard |
+| **Lösung (2026-03-10)** | `plugin_health_monitor.cpp` (Zeile 661) emittiert `setGauge("plugin_health_score", score, {{"plugin", plugin.name}})` über optionalen `IMetrics`-Sink. Grafana-Dashboard unter `grafana/dashboards/plugins.json`. ROADMAP Phase 3 markiert `[x]`. `Stubs: 0` im Datei-Header bestätigt. |
 
 ---
 
@@ -102,7 +96,7 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ### README Maturity-Label
 
-Das README war auf "Alpha" gesetzt. Nach Reality-Check (Hot-Reload, OCI, SignedRepo, HealthMonitor alle implementiert) wurde es auf "Beta" korrigiert. Der Status bleibt Beta wegen der offenen WASM-Sandbox und Key-Rotation.
+Das README war auf "Alpha" gesetzt. Nach Reality-Check (Hot-Reload, OCI, SignedRepo, HealthMonitor alle implementiert) wurde es auf "Beta" korrigiert. Der Status bleibt Beta wegen der offenen WASM-Sandbox und Capability-Enforcement.
 
 ---
 
@@ -112,10 +106,10 @@ Das README war auf "Alpha" gesetzt. Nach Reality-Check (Hot-Reload, OCI, SignedR
 |---|---|---|---|---|
 | 1 | Falsche Dateinamen im README | README (alt) | Niedrig | ✅ Korrigiert |
 | 2 | Hot-Reload ROADMAP-Marker falsch | ROADMAP Phase 2 | Niedrig | ✅ Korrigiert |
-| 3 | Ed25519 Key-Rotation (`manifest_signer.cpp`) | ROADMAP Phase 2 | Hoch | `[?]` nicht begonnen |
+| 3 | Ed25519 Key-Rotation (`manifest_signer.cpp`) | ROADMAP Phase 2 | Hoch | ✅ Gelöst (2026-03-10) |
 | 4 | Runtime Capability Enforcement | ROADMAP Phase 2 | Hoch | `[?]` teilweise (Negotiation ✅; Enforcement ✗) |
 | 5 | WASM-Sandbox-Isolation | ROADMAP Phase 3 | Mittel | `[?]` geplant |
-| 6 | Plugin-Metriken-Dashboard + Health-Gauge | FUTURE_ENHANCEMENTS | Mittel | `[ ]` offen |
+| 6 | Plugin-Metriken-Dashboard + Health-Gauge | FUTURE_ENHANCEMENTS | Mittel | ✅ Gelöst (2026-03-10) |
 
 *Alle Phase-1-ROADMAP-Einträge (`[x]`) sind durch vorhandene Implementierungsdateien auf
 `develop` belegt. Die neu verifizierten Phase-2-Einträge (Hot-Reload, Dependency-Resolution,
