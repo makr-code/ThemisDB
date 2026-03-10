@@ -396,6 +396,18 @@ if(_themis_tests_sources)
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources})
 endif()
 
+# Re-include test_context_propagation.cpp excluded by the catch-all pattern above.
+# This test validates ContextPropagation (thread-local current context, ContextScope
+# RAII install/restore, propagate() across async tasks, nested scopes, exception
+# safety, and multi-thread isolation).  It has no GPU or LLM dependencies; the
+# previous exclusion was due to context_propagation.cpp being absent from the build
+# graph (the thread_local definition was not compiled in).  Now that the source file
+# is registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake it is safe to
+# re-include unconditionally.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_context_propagation.cpp
+)
+
 # Re-include prompt_engineering production-readiness tests that were excluded
 # by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
 # These tests are fully functional and cover the validation / scaling / LLM /
@@ -5925,6 +5937,88 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_policy_enforcer.cpp")
     message(STATUS "  Zero-Trust Policy Enforcer: RBAC/ABAC policy evaluation, principal mapping, deny-by-default")
 else()
     message(STATUS "Zero-Trust Policy Enforcer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_zero_trust_policy_enforcer.cpp")
+endif()
+
+# ============================================================================
+# Core Module – ConcernsContext Focused Tests (Issue #1419)
+# Standalone target so the DI/observability layer can be validated in isolation
+# without requiring the full themis_tests binary.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concerns_context.cpp")
+    message(STATUS "Adding ConcernsContext focused tests (core module, Issue #1419)")
+
+    add_executable(test_concerns_context_focused
+        test_concerns_context.cpp
+    )
+
+    target_include_directories(test_concerns_context_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_concerns_context_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_concerns_context_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConcernsContextFocusedTests COMMAND test_concerns_context_focused)
+
+    set_tests_properties(ConcernsContextFocusedTests PROPERTIES
+        LABELS "core;di;concerns;logger;tracer;metrics;cache;health;phase1;phase3;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConcernsContextFocused: DI hub, ILogger/ITracer/IMetrics/ICache, factory methods, health checks, config-driven adapter selection")
+else()
+    message(STATUS "ConcernsContext focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_concerns_context.cpp")
+endif()
+
+# ============================================================================
+# Core Module – Fuzz / Robustness Tests (Issue #1419)
+# Exercises wire-protocol frame parser, CompressionAdvisor, PayloadBufferPool,
+# WireProtocolMetrics, AbiChecker, LicenseData, and BuildInfo with adversarial
+# and boundary-value inputs.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fuzz_core.cpp")
+    message(STATUS "Adding Core Fuzz/Robustness tests (core module, Issue #1419)")
+
+    add_executable(test_fuzz_core_focused
+        test_fuzz_core.cpp
+    )
+
+    target_include_directories(test_fuzz_core_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_fuzz_core_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_fuzz_core_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME FuzzCoreFocusedTests COMMAND test_fuzz_core_focused)
+
+    set_tests_properties(FuzzCoreFocusedTests PROPERTIES
+        LABELS "core;fuzz;robustness;wire-protocol;license;build-info;security;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  FuzzCoreFocused: WireV2 frame header, CompressionAdvisor, PayloadBufferPool, WireProtocolMetrics, AbiChecker, LicenseData, BuildInfo")
+else()
+    message(STATUS "Core Fuzz tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_fuzz_core.cpp")
 endif()
 
 # ============================================================================

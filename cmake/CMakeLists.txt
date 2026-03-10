@@ -1753,6 +1753,7 @@ set(THEMIS_CORE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/core/concerns/context_propagation.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/core/concerns/prometheus_metrics.cpp
     ../src/utils/zstd_codec.cpp
