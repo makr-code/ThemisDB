@@ -134,6 +134,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_openai_compat_adapter\\.cpp$"
         ".*test_model_quantization_pipeline\\.cpp$"
         ".*test_model_router\\.cpp$"
+        # LLM feedback store – depends on llm/feedback_store.h / llm/i_feedback_plugin.h
+        ".*test_feedback_store\\.cpp$"
     )
 endif()
 
@@ -7584,6 +7586,22 @@ add_prompt_focused_test(
     SystemPromptManagerFocusedTests
     "prompt_engineering;system_prompt;roles;context_variables;json;unit"
     "SystemPromptManager: built-in and custom roles, context-variable rendering, JSON serialisation"
+)
+
+add_prompt_focused_test(
+    test_prompt_evaluator_focused
+    test_prompt_evaluator_ttest.cpp
+    PromptEvaluatorFocusedTests
+    "prompt_engineering;evaluator;welch_ttest;statistical_significance;unit"
+    "PromptEvaluator: Welch's two-sample t-test, semantic similarity, IEmbeddingProvider interface"
+)
+
+add_prompt_focused_test(
+    test_prompt_engineering_integration_focused
+    test_prompt_engineering_integration.cpp
+    PromptEngineeringIntegrationFocusedTests
+    "prompt_engineering;integration;facade;lifecycle;unit"
+    "PromptEngineeringIntegration: facade combining all subsystems, before/after execution hooks"
 )
 
 # ============================================================================

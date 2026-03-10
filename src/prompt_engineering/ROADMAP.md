@@ -99,7 +99,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Integration tests (version control round-trip, A/B statistical significance)
 - [?] Performance benchmarks (optimization loop latency, concurrent access)
 - [x] Security audit (prompt injection risk addressed via PromptInjectionDetector)
-- [?] Documentation complete
+- [x] Documentation complete
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
