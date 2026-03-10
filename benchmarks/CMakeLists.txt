@@ -2012,8 +2012,8 @@ endif()
 #      validateTemplate (valid+invalid)
 #   2. PromptVersionControl commit / getHistory
 #   3. FeedbackCollector recordFeedback / getStats (100 entries)
-#   4. PromptOptimizer optimizePrompt (1 iteration, deterministic eval_fn)
-#   5. PromptEvaluator evaluatePrompt (structural similarity)
+#   4. PromptOptimizer optimize (1 iteration, deterministic eval_fn)
+#   5. PromptEvaluator evaluateSingle (structural similarity)
 #   6. PromptEngineeringMetrics recordOptimizationAttempt / recordPromptExecution
 #   7. Concurrent writes: PromptManager 4-thread TBB concurrent_hash_map insert
 #   8. Concurrent commits: PromptVersionControl 4-thread commit throughput
@@ -2025,8 +2025,8 @@ endif()
 #   - validateTemplate (valid):     < 5 µs
 #   - commit (in-memory):           < 20 µs
 #   - recordFeedback (in-memory):   < 10 µs
-#   - optimizePrompt (1 iter):      < 500 µs
-#   - evaluatePrompt (structural):  < 50 µs
+#   - optimize (1 iter):            < 500 µs
+#   - evaluateSingle (structural):  < 50 µs
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
@@ -2067,8 +2067,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
     message(STATUS "  PromptManager: createTemplate, getTemplate (hit/miss), injectContext, validateTemplate")
     message(STATUS "  PromptVersionControl: commit, getHistory (10 versions)")
     message(STATUS "  FeedbackCollector: recordFeedback, getStats (100 entries)")
-    message(STATUS "  PromptOptimizer: optimizePrompt (1 iter, deterministic eval_fn)")
-    message(STATUS "  PromptEvaluator: evaluatePrompt (structural similarity)")
+    message(STATUS "  PromptOptimizer: optimize (1 iter, deterministic eval_fn)")
+    message(STATUS "  PromptEvaluator: evaluateSingle (structural similarity)")
     message(STATUS "  PromptEngineeringMetrics: recordOptimizationAttempt, recordPromptExecution")
     message(STATUS "  Concurrent: PromptManager 4-thread insert, PromptVersionControl 4-thread commit")
 endif()

@@ -28,8 +28,8 @@
  *   6. PromptVersionControl::getHistory     – history retrieval (10 versions)
  *   7. FeedbackCollector::recordFeedback    – recording throughput
  *   8. FeedbackCollector::getStats          – aggregate stats latency
- *   9. PromptOptimizer::optimizePrompt      – single-iteration loop latency
- *  10. PromptEvaluator::evaluatePrompt      – structural evaluation latency
+ *   9. PromptOptimizer::optimize            – single-iteration loop latency
+ *  10. PromptEvaluator::evaluateSingle      – structural evaluation latency
  *  11. PromptEngineeringMetrics (record*)   – metrics recording throughput
  *  12. PromptManager concurrent writes      – 4-thread TBB concurrent_hash_map insert
  *  13. PromptVersionControl concurrent commits – 4-thread concurrent commit throughput
@@ -41,7 +41,7 @@
  *   - validateTemplate (valid):     < 5 µs
  *   - commit (in-memory):           < 20 µs
  *   - recordFeedback (in-memory):   < 10 µs
- *   - optimizePrompt (1 iter):      < 500 µs
+ *   - optimize (1 iter):            < 500 µs
  *   - evaluatePrompt (structural):  < 50 µs
  *
  * Build:
@@ -255,7 +255,7 @@ static void BM_FeedbackCollector_GetStats(benchmark::State& state) {
 BENCHMARK(BM_FeedbackCollector_GetStats);
 
 // ============================================================================
-// 9. PromptOptimizer::optimizePrompt – 1-iteration loop latency
+// 9. PromptOptimizer::optimize – 1-iteration loop latency
 // ============================================================================
 
 static void BM_PromptOptimizer_Optimize_OneIter(benchmark::State& state) {
@@ -333,13 +333,13 @@ BENCHMARK(BM_Metrics_RecordPromptExecution);
 // ============================================================================
 
 static void BM_PromptManager_ConcurrentCreate(benchmark::State& state) {
-    // Each benchmark thread inserts independently; PromptManager is thread-safe.
-    PromptManager mgr;
-    std::atomic<int> counter{0};
+    // shared across all 4 threads — exercises TBB concurrent_hash_map under contention.
+    static PromptManager shared_mgr;
+    static std::atomic<int> shared_counter{0};
     for (auto _ : state) {
-        int idx     = counter.fetch_add(1, std::memory_order_relaxed);
+        int idx     = shared_counter.fetch_add(1, std::memory_order_relaxed);
         auto t      = MakeTemplate(idx);
-        auto result = mgr.createTemplate(std::move(t));
+        auto result = shared_mgr.createTemplate(std::move(t));
         benchmark::DoNotOptimize(result);
     }
 }
@@ -350,12 +350,14 @@ BENCHMARK(BM_PromptManager_ConcurrentCreate)->Threads(4);
 // ============================================================================
 
 static void BM_VersionControl_ConcurrentCommit(benchmark::State& state) {
-    PromptVersionControl vc;
-    std::atomic<int> counter{0};
+    // shared VersionControl — each thread commits to its own prompt-id branch
+    // so HEAD-update contention is per-thread while the internal map is shared.
+    static PromptVersionControl shared_vc;
+    static std::atomic<int> shared_counter{0};
     for (auto _ : state) {
-        int idx = counter.fetch_add(1, std::memory_order_relaxed);
+        int idx = shared_counter.fetch_add(1, std::memory_order_relaxed);
         // Use a per-thread prompt id to avoid contention on the same branch HEAD.
-        auto vid = vc.commit(
+        auto vid = shared_vc.commit(
             "prompt-thread-" + std::to_string(state.thread_index()),
             "content rev " + std::to_string(idx),
             "concurrent bench commit"
