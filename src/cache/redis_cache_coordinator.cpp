@@ -536,6 +536,13 @@ std::string RedisCacheCoordinator::computeHmac(const std::string& payload) const
         return {};
     }
 
+    // Guard against pathological sizes that would truncate in the cast to int.
+    if (config_.hmac_secret.size() > static_cast<size_t>(INT_MAX) ||
+        payload.size() > static_cast<size_t>(INT_MAX)) {
+        THEMIS_WARN("RedisCacheCoordinator: HMAC input exceeds INT_MAX – aborting");
+        return {};
+    }
+
     unsigned char md[EVP_MAX_MD_SIZE];
     unsigned int  md_len = 0;
 

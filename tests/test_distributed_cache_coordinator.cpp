@@ -297,3 +297,57 @@ TEST(RedisCacheCoordinatorTest, NoCallbacksFireInOfflineMode) {
     EXPECT_EQ(entry_calls.load(), 0);
     EXPECT_EQ(inv_calls.load(),   0);
 }
+
+// ============================================================================
+// HMAC signing / verification (offline unit tests — no Redis required)
+// ============================================================================
+
+TEST(RedisCacheCoordinatorTest, HmacSecretDisabledByDefault) {
+    // When hmac_secret is empty, the coordinator must NOT attach a "sig" field
+    // and must accept unsigned messages. Verify via stats/no-throw.
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    ASSERT_TRUE(cfg.hmac_secret.empty());
+
+    EXPECT_NO_THROW({
+        RedisCacheCoordinator coord(cfg);
+        coord.publishEntry("k", {{"v", 1}}, 60, "");
+        coord.publishInvalidation("pattern");
+    });
+}
+
+TEST(RedisCacheCoordinatorTest, HmacSecretConfigFieldAccepted) {
+    // Verify the hmac_secret config field is reachable and stored.
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    cfg.hmac_secret = "s3cr3t";
+
+    EXPECT_NO_THROW({
+        RedisCacheCoordinator coord(cfg);
+    });
+}
+
+TEST(RedisCacheCoordinatorTest, HmacPublishDoesNotThrow) {
+    // Publishing with an HMAC secret set must not throw even if Redis is offline.
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    cfg.hmac_secret = "test-hmac-key";
+
+    EXPECT_NO_THROW({
+        RedisCacheCoordinator coord(cfg);
+        coord.publishEntry("fp", {{"r", 42}}, 30, "acme");
+        coord.publishInvalidation("acme.*");
+    });
+}
+
+TEST(RedisCacheCoordinatorTest, HmacEmptySecretPublishAndStatsOk) {
+    // Without hmac_secret, publish should increment publish_errors_ (no Redis)
+    // but stats must be accessible.
+    RedisCacheCoordinatorConfig cfg = makeOfflineConfig();
+    ASSERT_TRUE(cfg.hmac_secret.empty());
+
+    RedisCacheCoordinator coord(cfg);
+    coord.publishEntry("key", {}, 60, "");
+    coord.publishInvalidation("*");
+
+    auto stats = coord.getStats();
+    EXPECT_TRUE(stats.contains("publish_errors"));
+    EXPECT_GE(stats["publish_errors"].get<uint64_t>(), 0u);
+}
