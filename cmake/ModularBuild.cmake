@@ -286,7 +286,6 @@ set(THEMIS_STORAGE_SOURCES
     ../src/cdc/cdc_ws_handler.cpp
     ../src/cdc/cross_collection_stream.cpp
     ../src/cdc/cdc_materialized_view.cpp
-    ../src/analytics/incremental_view.cpp
     $<$<BOOL:${THEMIS_ENABLE_KAFKA}>:../src/cdc/kafka_cdc_producer.cpp>
 )
 
@@ -331,12 +330,17 @@ set(THEMIS_QUERY_SOURCES
     
     # Analytics
     ../src/analytics/olap.cpp
+    # Data export: JSON/CSV always available; Arrow/Parquet/Feather when THEMIS_HAS_ARROW
+    ../src/analytics/analytics_export.cpp
+    ../src/analytics/arrow_export.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/cep_engine.cpp
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
+    ../src/analytics/columnar_execution.cpp
+    ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
     ../src/analytics/automl.cpp
@@ -347,7 +351,6 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/distributed_analytics.cpp
 
     # Arrow Flight RPC support for remote analytics (Issue #1472)
-    ../src/analytics/arrow_export.cpp
     ../src/analytics/arrow_flight.cpp
     
     # AQL handlers (non-LLM)

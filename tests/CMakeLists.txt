@@ -4001,6 +4001,87 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
     message(STATUS "  CEPEngine: NFA patterns, EPL parser, window+aggregation, alerts, checkpoint I/O")
 endif()
 
+# Arrow Export focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
+    message(STATUS "Adding focused Arrow export tests")
+
+    add_executable(test_arrow_export_focused
+        analytics/test_arrow_export.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_export.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/analytics_export.cpp
+    )
+
+    target_include_directories(test_arrow_export_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_arrow_export_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(THEMIS_HAS_ARROW)
+        target_link_libraries(test_arrow_export_focused PRIVATE ${THEMIS_ARROW_TARGET})
+        target_compile_definitions(test_arrow_export_focused PRIVATE THEMIS_HAS_ARROW=1)
+    endif()
+
+    if(THEMIS_HAS_PARQUET)
+        target_compile_definitions(test_arrow_export_focused PRIVATE THEMIS_HAS_PARQUET=1)
+    endif()
+
+    target_compile_definitions(test_arrow_export_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArrowExportFocusedTests COMMAND test_arrow_export_focused)
+
+    set_tests_properties(ArrowExportFocusedTests PROPERTIES
+        LABELS "analytics;arrow;export;parquet;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ArrowExport: RecordBatch, JSON/CSV export, optional Parquet/Feather/IPC, sanitization")
+endif()
+
+# Process Mining pattern-focused tests (file is test_process_mining_llm.cpp but exercises
+# process_pattern_matcher + process_mining only; has no actual LLM library dependency)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
+    message(STATUS "Adding focused process mining pattern tests")
+
+    add_executable(test_process_mining_pattern_focused
+        analytics/test_process_mining_llm.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_pattern_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
+    )
+
+    target_include_directories(test_process_mining_pattern_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_mining_pattern_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_mining_pattern_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessMiningPatternFocusedTests COMMAND test_process_mining_pattern_focused)
+
+    set_tests_properties(ProcessMiningPatternFocusedTests PROPERTIES
+        LABELS "analytics;process-mining;pattern;conformance;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProcessMiningPattern: conformance, compliance, fraud detection, activity prediction")
+endif()
+
 # ============================================================================
 # Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)

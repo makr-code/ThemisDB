@@ -53,7 +53,6 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 ### Short-term (Next 3-6 months)
 - [P] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
 - [P] Zero-copy Arrow data transfer optimizations (Issue: #1471)
-- [x] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
 
@@ -123,8 +122,10 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] AutoML unit tests (`tests/analytics/test_automl.cpp`) — classification, regression, feature engineering, ensemble, SHAP, serialize
 - [x] Distributed analytics unit tests (`tests/analytics/test_distributed_analytics.cpp`) — shard management, scatter-gather, partial failure
 - [x] Process pattern matcher unit tests (`tests/analytics/test_process_pattern_matcher.cpp`) — graph/vector/behavioral/hybrid similarity, conformance
-- [x] Standalone focused test targets registered in `tests/CMakeLists.txt` for all analytics components
-- [x] Missing analytics sources (anomaly_detection, automl, distributed_analytics, process_pattern_matcher) added to `cmake/CMakeLists.txt`
+- [x] Arrow export + analytics_export unit tests (`tests/analytics/test_arrow_export.cpp`) — RecordBatch, JSON/CSV, optional Parquet/Feather/IPC, sanitization
+- [x] Process mining LLM integration tests (`tests/analytics/test_process_mining_llm.cpp`) — conformance, compliance rules, fraud detection, activity prediction
+- [x] Standalone focused test targets registered in `tests/CMakeLists.txt` for all 14 analytics test files
+- [x] All analytics sources registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`
 - [x] Arrow Flight RPC (`analytics/arrow_flight.cpp`) — in-process + optional native gRPC transport (Issue: #1472)
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
 - [x] Security audit (LLM API key handling, data export sanitization)
