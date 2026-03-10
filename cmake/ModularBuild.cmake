@@ -258,7 +258,6 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/workload_replay.cpp
     ../src/index/spatial_index.cpp
-    ../src/geo/geo_rtree.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     ../src/utils/geo/ewkb.cpp
@@ -1000,8 +999,12 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
     ../src/geo/geo_rtree.cpp
-    ../src/geo/spatial_join.cpp
     ../src/geo/geo_clustering.cpp
+    ../src/geo/spatial_join.cpp
+    ../src/geo/raster.cpp
+    ../src/geo/temporal_spatial_query.cpp
+    ../src/geo/tile_server.cpp
+    ../src/geo/gpu_backend_production.cpp
     # GPU module sources unconditionally required by the geo backend
     ../src/gpu/device_discovery.cpp
     ../src/gpu/safe_fail.cpp
@@ -1044,6 +1047,8 @@ endif()
 # CUDA kernel dispatch for geo GPU backend (THEMIS_GEO_CUDA=ON)
 if(THEMIS_GEO_CUDA)
     list(APPEND THEMIS_GEO_SOURCES ../src/geo/gpu_backend_cuda.cu)
+elseif(THEMIS_GEO_HIP)
+    list(APPEND THEMIS_GEO_SOURCES ../src/geo/gpu_backend_hip.cpp)
 else()
     list(APPEND THEMIS_GEO_SOURCES ../src/geo/gpu_kernel_dispatcher_cpu.cpp)
 endif()

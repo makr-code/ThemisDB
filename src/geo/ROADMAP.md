@@ -38,7 +38,7 @@
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
+- [x] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
 - [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
@@ -73,8 +73,8 @@
 - [x] Implement runtime GPU device discovery and capability reporting (`device_detector.cpp`, `device_detector.h`) (Issue: #1758)
 
 ### Phase 5: Performance & Hardening (Status: In Progress)
-- [I] Unit test coverage > 80% across geo module (Issue: #1754)
-- [I] Configurable precision mode: expose `GeoPrecisionMode` enum and `getBackendForPrecision()` factory to AQL callers (Issue: #1742)
+- [x] Unit test coverage > 80% across geo module — 20 focused test targets added (Issue: #1754)
+- [x] Configurable precision mode: expose `GeoPrecisionMode` enum and `getBackendForPrecision()` factory to AQL callers (Issue: #1742)
 - [ ] GPU-accelerated DBSCAN / k-means clustering (Target: v2.3.0)
 - [ ] CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU (Target: v2.2.0)
 - [I] Spherical WGS-84 ellipsoid geometry support (Issue: #1744, Target: v2.5.0)
@@ -87,7 +87,7 @@
 - [ ] English documentation in `docs/en/geo/` (Target: v2.2.0)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1754)
+- [x] Unit tests coverage > 80% — 20 focused test targets in `tests/geo/` (Issue: #1754)
 - [x] Integration tests (CPU backend, GPU fallback, S2/H3 indexing)
 - [x] Performance benchmarks (CPU vs GPU throughput) (Issue: #1755) (PR: #3049, v1.5.0)
 - [x] Security audit (no code execution from geometry inputs)

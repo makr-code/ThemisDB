@@ -149,6 +149,18 @@ if(NOT THEMIS_ENABLE_GPU)
     )
 endif()
 
+if(NOT THEMIS_GEO_CUDA)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_cuda_geo_kernels\\.cpp$"
+    )
+endif()
+
+if(NOT THEMIS_GEO_HIP)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_hip_geo_kernels\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_VULKAN)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_vulkan_compute_equivalents\\.cpp$"
@@ -6768,6 +6780,296 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/te
     )
 
     message(STATUS "  AuthenticationAttackVectors: privilege escalation, permission boundary, lateral movement, role injection")
+endif()
+
+# ============================================================================
+# Geo Module – Focused Standalone Test Targets
+# Each geo test is a standalone executable so it can be run independently
+# without requiring a full themis_tests build.  All tests run in CPU-only
+# simulation mode by default; CUDA/HIP variants are gated on THEMIS_GEO_CUDA
+# and THEMIS_GEO_HIP respectively.
+# ============================================================================
+
+function(add_geo_focused_test target_name test_src test_name labels description)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+        message(STATUS "Adding Geo focused test: ${target_name}")
+
+        add_executable(${target_name}
+            ${test_src}
+        )
+
+        target_include_directories(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(${target_name} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_geo)
+            target_link_libraries(${target_name} PRIVATE themis_geo)
+        endif()
+
+        target_compile_definitions(${target_name} PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        if(THEMIS_GEO_CUDA)
+            target_compile_definitions(${target_name} PRIVATE THEMIS_GEO_CUDA)
+        endif()
+
+        if(THEMIS_GEO_HIP)
+            target_compile_definitions(${target_name} PRIVATE THEMIS_GEO_HIP)
+        endif()
+
+        add_test(NAME ${test_name} COMMAND ${target_name})
+
+        set_tests_properties(${test_name} PROPERTIES
+            LABELS "${labels}"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ${description}")
+    else()
+        message(STATUS "Geo focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
+    endif()
+endfunction()
+
+add_geo_focused_test(
+    test_geo_rtree_focused
+    geo/test_geo_rtree.cpp
+    GeoRtreeFocusedTests
+    "geo;rtree;spatial-index;focused;unit"
+    "GeoRTree: insert, nearest-neighbor, range query, bulk insert, memory footprint"
+)
+
+add_geo_focused_test(
+    test_geo_clustering_focused
+    geo/test_geo_clustering.cpp
+    GeoClusteringFocusedTests
+    "geo;clustering;dbscan;kmeans;focused;unit"
+    "GeoClustering: DBSCAN cluster detection, k-means convergence, noise point handling"
+)
+
+add_geo_focused_test(
+    test_geo_raster_focused
+    geo/test_geo_raster.cpp
+    GeoRasterFocusedTests
+    "geo;raster;elevation;heatmap;focused;unit"
+    "GeoRaster: elevation sampling, bbox extraction, Gaussian KDE heatmap generation"
+)
+
+add_geo_focused_test(
+    test_temporal_spatial_query_focused
+    geo/test_temporal_spatial_query.cpp
+    TemporalSpatialQueryFocusedTests
+    "geo;temporal;spatial;query;focused;unit"
+    "TemporalSpatialQuery: location at time T, entities within distance at time T"
+)
+
+add_geo_focused_test(
+    test_geo_tile_server_focused
+    geo/test_geo_tile_server.cpp
+    GeoTileServerFocusedTests
+    "geo;tile-server;mvt;focused;unit"
+    "GeoTileServer: tile request handling, MVT encoding, zoom level routing"
+)
+
+add_geo_focused_test(
+    test_geo_spatial_join_focused
+    geo/test_geo_spatial_join.cpp
+    GeoSpatialJoinFocusedTests
+    "geo;spatial-join;distance;focused;unit"
+    "GeoSpatialJoin: point-pair distance threshold, join result correctness"
+)
+
+add_geo_focused_test(
+    test_geo_device_detector_focused
+    geo/test_geo_device_detector.cpp
+    GeoDeviceDetectorFocusedTests
+    "geo;device-detector;gpu;capability;focused;unit"
+    "GeoDeviceDetector: GPU discovery, compute-capability check, VRAM threshold"
+)
+
+add_geo_focused_test(
+    test_geo_ewkb_focused
+    geo/test_geo_ewkb.cpp
+    GeoEwkbFocusedTests
+    "geo;ewkb;serialization;focused;unit"
+    "GeoEWKB: WKB/EWKB encode and decode round-trips for all geometry types"
+)
+
+add_geo_focused_test(
+    test_geo_precision_mode_focused
+    geo/test_geo_precision_mode.cpp
+    GeoPrecisionModeFocusedTests
+    "geo;precision;mode;backend;focused;unit"
+    "GeoPrecisionMode: GeoPrecisionMode enum, getBackendForPrecision factory"
+)
+
+add_geo_focused_test(
+    test_geo_st_buffer_focused
+    geo/test_geo_st_buffer.cpp
+    GeoStBufferFocusedTests
+    "geo;st-buffer;geometry;focused;unit"
+    "GeoSTBuffer: ST_BUFFER expand by fixed distance on CPU-exact and Boost backends"
+)
+
+add_geo_focused_test(
+    test_geo_st_union_difference_focused
+    geo/test_geo_st_union_difference.cpp
+    GeoStUnionDifferenceFocusedTests
+    "geo;st-union;st-difference;geometry;focused;unit"
+    "GeoSTUnionDifference: ST_UNION and ST_DIFFERENCE operations, degenerate inputs"
+)
+
+add_geo_focused_test(
+    test_rtree_cpu_integration_focused
+    geo/test_rtree_cpu_integration.cpp
+    RtreeCpuIntegrationFocusedTests
+    "geo;rtree;cpu;integration;focused;unit"
+    "RtreeCpuIntegration: R-tree backed CPU backend end-to-end spatial queries"
+)
+
+add_geo_focused_test(
+    test_spatial_index_focused
+    geo/test_spatial_index.cpp
+    SpatialIndexFocusedTests
+    "geo;spatial-index;s2;h3;focused;unit"
+    "SpatialIndex: S2 cell lookup, H3 hexagonal grid binning, index consistency"
+)
+
+add_geo_focused_test(
+    test_aql_st_functions_focused
+    geo/test_aql_st_functions.cpp
+    AqlStFunctionsFocusedTests
+    "geo;aql;st-functions;focused;unit"
+    "AqlStFunctions: ST_DISTANCE, ST_CONTAINS, ST_INTERSECTS, ST_BUFFER AQL integration"
+)
+
+add_geo_focused_test(
+    test_aql_st_queryengine_focused
+    geo/test_aql_st_queryengine.cpp
+    AqlStQueryengineFocusedTests
+    "geo;aql;query-engine;st-functions;focused;unit"
+    "AqlStQueryengine: full AQL query execution with spatial predicates and geo index"
+)
+
+add_geo_focused_test(
+    test_geo_3d_functions_focused
+    geo/test_geo_3d_functions.cpp
+    Geo3dFunctionsFocusedTests
+    "geo;3d;spatial;focused;unit"
+    "Geo3dFunctions: 3D containment, distance, intersection for point/polygon/polyhedron"
+)
+
+add_geo_focused_test(
+    test_geo_wgs84_spherical_focused
+    geo/test_geo_wgs84_spherical.cpp
+    GeoWgs84SphericalFocusedTests
+    "geo;wgs84;spherical;ellipsoid;focused;unit"
+    "GeoWgs84Spherical: spherical WGS-84 distance calculations, ellipsoid approximation"
+)
+
+add_geo_focused_test(
+    test_gpu_backend_production_focused
+    geo/test_gpu_backend_production.cpp
+    GpuBackendProductionFocusedTests
+    "geo;gpu-backend;production;focused;unit"
+    "GpuBackendProduction: production GPU backend dispatch, CPU fallback, circuit breaker"
+)
+
+add_geo_focused_test(
+    test_gpu_kernel_dispatcher_focused
+    geo/test_gpu_kernel_dispatcher.cpp
+    GpuKernelDispatcherFocusedTests
+    "geo;gpu-kernel;dispatcher;focused;unit"
+    "GpuKernelDispatcher: kernel dispatch table, CPU fallback path, dispatch correctness"
+)
+
+if(THEMIS_GEO_CUDA)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_cuda_geo_kernels.cpp")
+        message(STATUS "Adding CUDA Geo Kernels focused tests (THEMIS_GEO_CUDA=ON)")
+
+        add_executable(test_cuda_geo_kernels_focused
+            geo/test_cuda_geo_kernels.cpp
+        )
+
+        target_include_directories(test_cuda_geo_kernels_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_cuda_geo_kernels_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_geo)
+            target_link_libraries(test_cuda_geo_kernels_focused PRIVATE themis_geo)
+        endif()
+
+        if(TARGET CUDA::cudart)
+            target_link_libraries(test_cuda_geo_kernels_focused PRIVATE CUDA::cudart)
+        endif()
+
+        target_compile_definitions(test_cuda_geo_kernels_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_GEO_CUDA
+        )
+
+        add_test(NAME CudaGeoKernelsFocusedTests COMMAND test_cuda_geo_kernels_focused)
+
+        set_tests_properties(CudaGeoKernelsFocusedTests PROPERTIES
+            LABELS "geo;cuda;kernels;focused;unit"
+            TIMEOUT 180  # GPU kernel init + device warm-up requires extra time
+        )
+
+        message(STATUS "  CudaGeoKernels: CUDA distance and containment kernel correctness vs CPU baseline")
+    endif()
+endif()
+
+if(THEMIS_GEO_HIP)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_hip_geo_kernels.cpp")
+        message(STATUS "Adding HIP Geo Kernels focused tests (THEMIS_GEO_HIP=ON)")
+
+        add_executable(test_hip_geo_kernels_focused
+            geo/test_hip_geo_kernels.cpp
+        )
+
+        target_include_directories(test_hip_geo_kernels_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_hip_geo_kernels_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
+        if(TARGET themis_geo)
+            target_link_libraries(test_hip_geo_kernels_focused PRIVATE themis_geo)
+        endif()
+
+        target_compile_definitions(test_hip_geo_kernels_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_GEO_HIP
+        )
+
+        add_test(NAME HipGeoKernelsFocusedTests COMMAND test_hip_geo_kernels_focused)
+
+        set_tests_properties(HipGeoKernelsFocusedTests PROPERTIES
+            LABELS "geo;hip;rocm;kernels;focused;unit"
+            TIMEOUT 180  # GPU kernel init + device warm-up requires extra time
+        )
+
+        message(STATUS "  HipGeoKernels: ROCm/HIP distance and containment kernel correctness vs CPU baseline")
+    endif()
 endif()
 
 # ============================================================================

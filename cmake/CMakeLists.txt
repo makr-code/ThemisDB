@@ -1908,11 +1908,13 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
     ../src/geo/geo_rtree.cpp
+    ../src/geo/geo_clustering.cpp
     ../src/geo/spatial_join.cpp
     ../src/geo/raster.cpp
     ../src/geo/temporal_spatial_query.cpp
     ../src/geo/tile_server.cpp
     ../src/geo/device_detector.cpp
+    ../src/geo/gpu_backend_production.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     
