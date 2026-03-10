@@ -1603,3 +1603,64 @@ TEST(ModuleDependencyResolver, ResolveForUnregisteredModuleFails) {
     EXPECT_FALSE(result.missingRequired.empty());
 }
 
+// --- resolveFor() – regression: unregistered transitive dep must fail --------
+
+// Regression test for bug where resolveFor() silently accepted an unregistered
+// transitive required dependency by adding it to the `needed` set, which caused
+// topologicalSort() to treat it as present in nodeSet and skip the missing-dep
+// check. The fix ensures that only registered modules are BFS-visited.
+TEST(ModuleDependencyResolver, ResolveForRejectsMissingTransitiveDep) {
+    ModuleDependencyResolver resolver;
+    // "A" depends on "B"; "B" depends on "C" (required); "C" is NOT registered.
+    resolver.registerModule("A", "1.0.0", {{"B", "", "", true}});
+    resolver.registerModule("B", "1.0.0", {{"C", "", "", true}});
+    // "C" is intentionally not registered.
+
+    auto result = resolver.resolveFor({"A"});
+    EXPECT_FALSE(result.success);
+    // "C" must be reported as a missing required dependency.
+    EXPECT_FALSE(result.missingRequired.empty());
+    EXPECT_NE(std::find(result.missingRequired.begin(),
+                        result.missingRequired.end(), "C"),
+              result.missingRequired.end());
+}
+
+TEST(ModuleDependencyResolver, ResolveForAcceptsMissingTransitiveOptionalDep) {
+    ModuleDependencyResolver resolver;
+    // "A" depends on "B" (required); "B" depends on "C" (optional, unregistered).
+    // Since "C" is optional, the resolution should succeed.
+    resolver.registerModule("A", "1.0.0", {{"B", "", "", true}});
+    resolver.registerModule("B", "1.0.0", {{"C", "", "", false}});
+    // "C" is intentionally not registered.
+
+    auto result = resolver.resolveFor({"A"});
+    EXPECT_TRUE(result.success);
+    ASSERT_EQ(result.loadOrder.size(), 2u);
+    EXPECT_EQ(std::find(result.loadOrder.begin(), result.loadOrder.end(), "C"),
+              result.loadOrder.end());
+}
+
+// --- isVersionCompatible() – regression: partial version recovery -----------
+
+// Regression test for bug where a blanket catch block reset maj/min to 0 even
+// when they had been successfully parsed (e.g. "1.2.abc" → {0,0,0} instead of
+// {1,2,0}).  The fix uses individual try-catches for each component.
+TEST(ModuleDependencyResolver, IsVersionCompatible_PartialMalformed_MajMin) {
+    // "1.2.abc" should parse as {1, 2, 0}, not {0, 0, 0}.
+    // With min="1.2.0" and max="1.3.0", version "1.2.abc" ({1,2,0}) is within
+    // range; {0,0,0} would be out of range.
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("1.2.abc", "1.0.0", "1.3.0"));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_MajOnly) {
+    // "1" should parse as {1, 0, 0}.
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("1", "1.0.0", "1.99.0"));
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("1", "2.0.0", ""));
+}
+
+TEST(ModuleDependencyResolver, IsVersionCompatible_TotallyMalformed) {
+    // "abc" should parse as {0, 0, 0}.
+    EXPECT_TRUE(ModuleDependencyResolver::isVersionCompatible("abc", "", ""));
+    EXPECT_FALSE(ModuleDependencyResolver::isVersionCompatible("abc", "1.0.0", ""));
+}
+

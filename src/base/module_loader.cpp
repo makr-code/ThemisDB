@@ -1282,22 +1282,28 @@ bool ModuleDependencyResolver::isVersionCompatible(const std::string& version,
     // default to 0.  An empty version string returns {0,0,0}.
     auto parse = [](const std::string& v) -> std::tuple<int, int, int> {
         int maj = 0, min = 0, pat = 0;
-        if (!v.empty()) {
-            try {
-                std::size_t pos1 = 0;
-                maj = std::stoi(v, &pos1);
-                if (pos1 < v.size() && v[pos1] == '.') {
+        if (v.empty()) return {0, 0, 0};
+        try {
+            std::size_t pos1 = 0;
+            maj = std::stoi(v, &pos1);
+            if (pos1 < v.size() && v[pos1] == '.') {
+                try {
                     std::size_t pos2 = 0;
                     min = std::stoi(v.substr(pos1 + 1), &pos2);
                     std::size_t dot2 = pos1 + 1 + pos2;
                     if (dot2 < v.size() && v[dot2] == '.') {
-                        pat = std::stoi(v.substr(dot2 + 1));
+                        try {
+                            pat = std::stoi(v.substr(dot2 + 1));
+                        } catch (...) {
+                            pat = 0;
+                        }
                     }
+                } catch (...) {
+                    min = pat = 0;
                 }
-            } catch (...) {
-                // Malformed version string; treat as {0, 0, 0}.
-                maj = min = pat = 0;
             }
+        } catch (...) {
+            maj = min = pat = 0;
         }
         return {maj, min, pat};
     };
@@ -1362,7 +1368,10 @@ DependencyResolutionResult ModuleDependencyResolver::resolveFor(
         auto it = modules_.find(cur);
         if (it != modules_.end()) {
             for (const auto& dep : it->second.deps) {
-                if (!needed.count(dep.name)) {
+                // Only follow registered deps; unregistered ones are left out of
+                // `needed` so that topologicalSort() correctly detects them as
+                // missing required dependencies.
+                if (!needed.count(dep.name) && modules_.count(dep.name)) {
                     toVisit.push(dep.name);
                 }
             }
