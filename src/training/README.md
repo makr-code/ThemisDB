@@ -12,6 +12,7 @@ The Training module provides tools for building and maintaining domain-specific 
 | `lora_trainer.cpp` | Incremental LoRA adapter fine-tuning with checkpoint/resume |
 | `knowledge_graph_enricher.cpp` | AQL-based context enrichment via graph traversal |
 | `adapter_version_manager.cpp` | Adapter version management (deploy, rollback, list versions) |
+| `modality_parser.cpp` | ModalityDetector, TextClauseExtractor, TableExtractor, CitationExtractor, OCRExtractor |
 
 ## Scope
 

@@ -75,7 +75,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] `ProvenanceTracker` – ProvenanceRecord, write(), recordFilteredSample(), queryLineage(), getRecord() (`provenance_tracker.h/.cpp`)
 - [x] `EnrichmentLRUCache` – thread-safe LRU map inside `KnowledgeGraphEnricher`, enableCache/disableCache/getCacheStats API
 - [x] `ConfidenceCalibrator` – isotonic regression (PAV algorithm) per-category threshold selection in `training_pipeline.h/.cpp`
-- [?] Multi-modality full parser for code snippets and tabular data (`training/modality_parser.cpp`)
+- [x] Multi-modality full parser for code snippets and tabular data (`training/modality_parser.h/.cpp`): `ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`
 - [?] Active learning loop (auto-select most informative unlabelled samples)
 
 ## Production Readiness Checklist

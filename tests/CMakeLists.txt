@@ -810,6 +810,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/lora_data_selection.cpp
         ../src/training/lora_checkpoint_manager.cpp
         ../src/training/provenance_tracker.cpp
+        ../src/training/modality_parser.cpp
     )
 endif()
 
