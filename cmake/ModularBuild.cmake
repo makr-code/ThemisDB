@@ -136,6 +136,14 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
     ../src/utils/cron_parser.cpp
+    ../src/utils/bloom_filter.cpp
+    ../src/utils/capability_auto_generator.cpp
+    ../src/utils/checksum_utils.cpp
+    ../src/utils/compression_metrics.cpp
+    ../src/utils/pii_stream_scanner.cpp
+    ../src/utils/sampled_logger.cpp
+    ../src/utils/self_awareness.cpp
+    ../src/utils/timestamp_utils.cpp
     ../src/observability/metrics_collector.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -176,6 +184,22 @@ set(THEMIS_BASE_SOURCES
     ../src/acceleration/vllm_resource_manager.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/acceleration/shader_integrity.cpp
+    # CPU multi-threaded backends (requires THEMIS_ENABLE_GPU)
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/graphics_backends.cpp>
+    # GPU-specific backends
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda_backend.cpp>
+    $<$<OR:$<BOOL:${THEMIS_ENABLE_CUDA}>,$<BOOL:${THEMIS_ENABLE_HIP}>>:../src/acceleration/faiss_gpu_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_ONEAPI}>:../src/acceleration/oneapi_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/acceleration/opencl_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/acceleration/vulkan_backend_full.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_ZLUDA}>:../src/acceleration/zluda_backend.cpp>
+    # NCCL/RCCL vector backends (always compile for stub availability)
+    ../src/acceleration/nccl_vector_backend.cpp
+    ../src/acceleration/rccl_vector_backend.cpp
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/acceleration/vulkan_backend_full.cpp>
     ../src/gpu/device_discovery.cpp
     
@@ -236,6 +260,21 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # Merge operators (counter, list-append RocksDB custom operators)
+    ../src/storage/merge_operators.cpp
+    # Storage engine high-level abstraction
+    ../src/storage/storage_engine.cpp
+    # Compression and columnar support
+    ../src/storage/compression_strategy.cpp
+    ../src/storage/compressed_storage.cpp
+    # Index maintenance (background rebuild/optimize/consistency)
+    ../src/storage/index_maintenance.cpp
+    # Blob storage backends
+    $<$<BOOL:${THEMIS_ENABLE_BLOB_FILESYSTEM}>:../src/storage/blob_backend_filesystem.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_BLOB_S3}>:../src/storage/blob_backend_s3.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_BLOB_AZURE}>:../src/storage/blob_backend_azure.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_BLOB_GCS}>:../src/storage/blob_backend_gcs.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_BLOB_WEBDAV}>:../src/storage/blob_backend_webdav.cpp>
     ../src/sharding/distributed_time_coordinator.cpp
     
     # Metadata management
@@ -401,6 +440,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/query/cross_cluster_federation.cpp
+    ../src/query/materialized_cte.cpp
+    ../src/query/sparql_parser.cpp
+    ../src/query/vectorized_execution.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
     ../src/performance/cycle_metrics.cpp
@@ -749,6 +791,12 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
     ../src/sharding/slo_monitor.cpp
+    ../src/sharding/cloud_backup.cpp
+    ../src/sharding/hardware_migration_manager.cpp
+    ../src/sharding/orphan_detector.cpp
+    ../src/sharding/sharding_manager_edition.cpp
+    ../src/sharding/two_phase_commit_coordinator.cpp
+    ../src/sharding/two_phase_commit_participant.cpp
 )
 
 set(THEMIS_LLM_SOURCES
@@ -1146,6 +1194,24 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>:../src/server/voice_api_handler.cpp>
+    ../src/server/cdn_cache_middleware.cpp
+    ../src/server/ethics_api_handler.cpp
+    ../src/server/import_api_handler.cpp
+    ../src/server/import_wizard_builder.cpp
+    ../src/server/profiling_api_handler.cpp
+    ../src/server/buffer_api_handler.cpp
+    ../src/server/buffer_binary_protocol.cpp
+    ../src/server/compliance_reporting_api_handler.cpp
+    ../src/server/policy_manager_api_handler.cpp
+    ../src/server/policy_template_api_handler.cpp
+    ../src/server/policy_validation_api_handler.cpp
+    ../src/server/policy_versioning_api_handler.cpp
+    ../src/server/prompt_engineering_api_handler.cpp
+    ../src/server/review_scheduling_api_handler.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1170,14 +1236,31 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
     ../src/network/geo_topology_router.cpp
+    ../src/network/socket_timeout_manager.cpp
+    ../src/network/udp_fast_path.cpp
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 
     # Modular globals shared across handlers
     ../src/server/hsm_provider_global.cpp
     
-    # Observability (GAP-008: Alertmanager integration)
+    # Observability (GAP-008: Alertmanager integration + full stack)
     ../src/observability/alertmanager.cpp
     # Observability: continuous profiling (pprof / async-profiler compatible)
     ../src/observability/continuous_profiler.cpp
+    # Observability: eBPF-based kernel-level tracing (Issue #2055)
+    ../src/observability/ebpf_tracer.cpp
+    # Observability: distributed flame graph generation (Issue #2108)
+    ../src/observability/distributed_flame_graph.cpp
+    # Observability: SLO/SLA compliance reporting with burn-rate alerts (Issue #2148)
+    ../src/observability/slo_reporter.cpp
+    # Observability: ML-based anomaly detection on metric time-series (Issue #2097)
+    ../src/observability/metric_anomaly_detector.cpp
+    # Observability: query, storage, and performance profiling
+    ../src/observability/query_profiler.cpp
+    ../src/observability/storage_profiler.cpp
+    ../src/observability/performance_analyzer.cpp
 )
 
 set(THEMIS_GEO_SOURCES
