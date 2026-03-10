@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for LLM-assisted AQL query generation, natural language to AQL translation, and documentation assistance. Core AQL parsing and execution are handled by the query module.
+Production-ready for LLM-assisted AQL query generation, natural language to AQL translation, and documentation assistance. Core AQL parsing and execution are handled by the query module. Phase 4 adds a generic `AQLTokenStream` streaming interface and a `ReActAgent` multi-step reasoning framework with tool calling.
 
 ## Completed ✅
 - [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing
@@ -28,14 +28,33 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
 - [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
 - [x] LLM inference metrics collection (`src/aql/llm_metrics_collector.cpp`)
+- [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (`include/aql/aql_token_stream.h`) (Phase 4)
+- [x] ReActAgent multi-step reasoning framework with tool calling (`src/aql/aql_agent.cpp`) (Phase 4)
 
 ## In Progress 🚧
-*(no items currently in progress)*
-
+- [~] Phase 4 testing and hardening (token stream + agent framework)
 ## Planned Features 📋
 
+### Short-term (Next 3-6 months)
+- [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (Target: v1.7.0)
+  - Files: `include/aql/aql_token_stream.h` (header-only), `tests/test_aql_token_stream.cpp`
+  - Behavior: thread-safe queue with `push(token)` / `close()` from producer thread; `nextToken()` blocking pop and range-based for-loop from consumer thread; `cancel()` with cooperative cancellation flag (`isCancelled()`)
+  - Errors: push after cancel is silently discarded; `nextToken()` after cancel/close returns `std::nullopt`; destructor calls `close()` to unblock any waiting consumer
+  - Tests: unit (single-threaded push+drain, ordering, empty stream, cancel, idempotent close, concurrent producer/consumer 100 tokens, range-based for loop, cancel-mid-stream)
+  - Perf: `push()` and `nextToken()` overhead ≤ 500 ns excluding model generation time; no busy-wait (condition variable)
+  - Compat: header-only, C++17; no external dependencies beyond STL
+
+- [x] AQL Agent Framework – ReAct (Reasoning + Acting) multi-step agent with tool calling (Target: v1.7.0)
+  - Files: `include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`, `tests/test_aql_agent.cpp`
+  - Types: `AgentTool` (name, description, JSON Schema, executor), `AgentConfig` (model, max_iterations, temperature), `ReasoningStep` (thought, tool_name, tool_input, tool_output, observation), `AgentResult` (final_answer, reasoning_trace, iterations_used, succeeded), `IAgent` (abstract), `ReActAgent` (Pimpl concrete implementation)
+  - Behavior: iterates Thought→Action→Observation cycles up to `max_iterations`; stops when LLM emits "Final Answer:" prefix; tool executor errors are captured as JSON and fed back as observations (never propagate to caller)
+  - Errors: duplicate tool registration → `std::invalid_argument`; unknown tool removal → `std::invalid_argument`; LLM failure → `LLMException(INFERENCE_FAILED)`; max iterations reached → `AgentResult.succeeded = false` with descriptive message
+  - Tests: unit (register/remove/duplicate tools, config, execute with no model, execute with max iterations, execute with tool invocation, move semantics)
+  - Perf: tool dispatch overhead ≤ 1 ms per step excluding tool execution; no heap allocation in reasoning-step parsing hot path
+
 ### Long-term (6-12 months)
-- [ ] (reserved)
+- [ ] Multi-modal AQL agent inputs (image/audio/video via `MultiModalInferRequest`) (Target: v1.8.0)
+- [ ] `IAsyncLLMBackend` – non-blocking `std::future<Result<T>>` inference interface (Target: v1.8.0)
 
 ## Implementation Phases
 ### Phase 1: LLM-Assisted AQL Foundation (Status: Completed ✅)
@@ -57,12 +76,23 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ### Phase 3: Advanced Tooling & Intelligence (Status: Mostly Completed ✅)
 - [x] Batch NL-to-AQL translation for offline workloads (Issue: #1356)
 
+### Phase 4: Streaming & Agent Framework (Status: In Progress 🚧)
+- [x] Generic `TokenStream` iterator API for all LLM inference calls (Target: v1.7.0)
+  - `include/aql/aql_token_stream.h` – header-only, thread-safe push/pop/cancel/range-for
+  - `tests/test_aql_token_stream.cpp` – 16 unit tests covering single-threaded, concurrent, cancel, and range-for scenarios
+- [x] AQL Agent Framework – ReAct multi-step agent with tool calling (Target: v1.7.0)
+  - `include/aql/aql_agent.h` – `AgentTool`, `AgentConfig`, `ReasoningStep`, `AgentResult`, `IAgent`, `ReActAgent`
+  - `src/aql/aql_agent.cpp` – Pimpl ReActAgent implementation
+  - `tests/test_aql_agent.cpp` – 17 unit tests covering registration, config, execute, move semantics
+- [ ] Multi-modal agent inputs (image/audio/video) (Target: v1.8.0)
+- [ ] `IAsyncLLMBackend` async interface (Target: v1.8.0)
+
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler)
+- [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 16 token-stream tests + 17 agent tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`)  
-- [x] Documentation complete (README.md and ROADMAP.md updated)
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)  
+- [x] Documentation complete (README.md and ROADMAP.md updated; FUTURE_ENHANCEMENTS.md Implementation Notes added)
 - [x] API stability guaranteed (Issue: #1524)
 
 ## Known Issues & Limitations

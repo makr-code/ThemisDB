@@ -667,7 +667,27 @@ Have ideas for AQL and LLM improvements? We'd love to hear from you:
 
 ---
 
-## Test Strategy
+## Implementation Notes
+
+### AQLTokenStream (v1.7.0)
+- **Header-only** (`include/aql/aql_token_stream.h`); no `.cpp` file required.
+- Uses `std::queue<std::string>` protected by `std::mutex` + `std::condition_variable` for blocking consumer.
+- `cancelled_` is `std::atomic<bool>` so producers can check `isCancelled()` without holding the mutex.
+- `push()` after `cancel()` or `close()` is silently discarded (no exception, no undefined behaviour).
+- Destructor calls `close()` to unblock any waiting consumer thread – prevents deadlocks on early destruction.
+- Iterator satisfies the minimum input-iterator contract needed for range-based for-loops; it is not a full LegacyInputIterator.
+- No heap allocation per token (queue node is small-string-optimised by the STL implementation).
+
+### ReActAgent (v1.7.0)
+- **Pimpl pattern** keeps `ReActAgent.h` free of internal implementation details and provides ABI stability.
+- Tool registry is `std::unordered_map<std::string, AgentTool>` for O(1) lookup.
+- LLM prompt format follows the standard ReAct template: `Thought:` / `Action:` / `Action Input:` / `Observation:` / `Final Answer:`.
+- Tool executor exceptions are caught inside `invokeTool()` and returned as a JSON error object – they never propagate to `execute()` callers.
+- `Action Input:` is parsed as JSON; if parsing fails the raw string is wrapped as `{"input": "<raw>"}`.
+- `verbose = true` logs each reasoning step at `spdlog::debug` level.
+- The `context` JSON object is injected into the system prompt verbatim (2-space indented) to give the LLM per-invocation metadata.
+
+---
 
 - **Unit tests** (≥ 90 % line coverage): lexer tokenisation for all token types including edge cases (empty input, max-length identifiers, Unicode identifiers); parser round-trip for every grammar production rule
 - **Integration tests**: execute a suite of ≥ 500 canonical AQL queries (SELECT, INSERT, UPDATE, LLM INFER, LLM RAG, sub-queries, CTEs) against an in-memory dataset; verify result correctness and row counts
