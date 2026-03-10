@@ -9715,6 +9715,583 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
+# ============================================================================
+# Sharding Module – Focused Standalone Test Targets
+# ============================================================================
+
+# test_shard_durability is excluded from themis_tests (missing RocksDB
+# transaction-DB symbols in minimal builds). Build it as a standalone target.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_durability.cpp")
+    message(STATUS "Adding ShardDurability focused tests")
+
+    add_executable(test_shard_durability_focused
+        test_shard_durability.cpp
+    )
+
+    target_include_directories(test_shard_durability_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_shard_durability_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_durability_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardDurabilityFocusedTests COMMAND test_shard_durability_focused)
+
+    set_tests_properties(ShardDurabilityFocusedTests PROPERTIES
+        LABELS "sharding;durability;rocksdb;write-concern;replication-factor;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ShardDurability: ShardDurabilityManager lifecycle, write-concern enforcement, replication factor")
+else()
+    message(STATUS "ShardDurability focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_durability.cpp")
+endif()
+
+# test_slo_monitor is excluded from themis_tests (SLO monitor depends on
+# operational_metrics which is gated). Build it as a standalone target.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_slo_monitor.cpp")
+    message(STATUS "Adding SloMonitor focused tests")
+
+    add_executable(test_slo_monitor_focused
+        test_slo_monitor.cpp
+    )
+
+    target_include_directories(test_slo_monitor_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_slo_monitor_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_slo_monitor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SloMonitorFocusedTests COMMAND test_slo_monitor_focused)
+
+    set_tests_properties(SloMonitorFocusedTests PROPERTIES
+        LABELS "sharding;slo;monitor;latency;availability;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SloMonitor: SloMonitor construction, config defaults, breach detection, metrics aggregation")
+else()
+    message(STATUS "SloMonitor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_slo_monitor.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_interfaces.cpp")
+    message(STATUS "Adding ShardingInterfaces focused tests")
+
+    add_executable(test_sharding_interfaces_focused
+        test_sharding_interfaces.cpp
+    )
+
+    target_include_directories(test_sharding_interfaces_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_interfaces_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_interfaces_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingInterfacesFocusedTests COMMAND test_sharding_interfaces_focused)
+
+    set_tests_properties(ShardingInterfacesFocusedTests PROPERTIES
+        LABELS "sharding;interfaces;router;mock;contract;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingInterfaces: IShardRouter/IShardManager mock contracts, route(), routeAll(), scatter-gather")
+else()
+    message(STATUS "ShardingInterfaces focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_interfaces.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
+    message(STATUS "Adding ShardingCore focused tests")
+
+    add_executable(test_sharding_core_focused
+        test_sharding_core.cpp
+    )
+
+    target_include_directories(test_sharding_core_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_core_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_core_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingCoreFocusedTests COMMAND test_sharding_core_focused)
+
+    set_tests_properties(ShardingCoreFocusedTests PROPERTIES
+        LABELS "sharding;core;urn;consistent-hash;topology;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingCore: URN parsing, ConsistentHashRing vnode placement, ShardTopology lookup")
+else()
+    message(STATUS "ShardingCore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_core.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
+    message(STATUS "Adding ShardingRepair focused tests")
+
+    add_executable(test_sharding_repair_focused
+        test_sharding_repair.cpp
+    )
+
+    target_include_directories(test_sharding_repair_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_repair_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_repair_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingRepairFocusedTests COMMAND test_sharding_repair_focused)
+
+    set_tests_properties(ShardingRepairFocusedTests PROPERTIES
+        LABELS "sharding;repair;reed-solomon;erasure;anti-entropy;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ShardingRepair: ReedSolomonCoder erasure decode, ShardRepairEngine lifecycle, AdminAPI repair endpoint")
+else()
+    message(STATUS "ShardingRepair focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_repair.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_gossip.cpp")
+    message(STATUS "Adding ShardingGossip focused tests")
+
+    add_executable(test_sharding_gossip_focused
+        test_sharding_gossip.cpp
+    )
+
+    target_include_directories(test_sharding_gossip_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_gossip_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_gossip_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingGossipFocusedTests COMMAND test_sharding_gossip_focused)
+
+    set_tests_properties(ShardingGossipFocusedTests PROPERTIES
+        LABELS "sharding;gossip;consensus;p2p;discovery;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingGossip: GossipProtocol config defaults, GossipConsensusAdapter start/stop, state machine")
+else()
+    message(STATUS "ShardingGossip focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_gossip.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_operational_metrics.cpp")
+    message(STATUS "Adding ShardingOperationalMetrics focused tests")
+
+    add_executable(test_sharding_operational_metrics_focused
+        test_sharding_operational_metrics.cpp
+    )
+
+    target_include_directories(test_sharding_operational_metrics_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_operational_metrics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_operational_metrics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingOperationalMetricsFocusedTests COMMAND test_sharding_operational_metrics_focused)
+
+    set_tests_properties(ShardingOperationalMetricsFocusedTests PROPERTIES
+        LABELS "sharding;metrics;operational;per-shard;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingOperationalMetrics: OperationalMetrics construction, per-shard metrics creation, counters")
+else()
+    message(STATUS "ShardingOperationalMetrics focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_operational_metrics.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
+    message(STATUS "Adding ShardingTransactionWal focused tests")
+
+    add_executable(test_sharding_transaction_wal_focused
+        test_sharding_transaction_wal.cpp
+    )
+
+    target_include_directories(test_sharding_transaction_wal_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_transaction_wal_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_transaction_wal_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingTransactionWalFocusedTests COMMAND test_sharding_transaction_wal_focused)
+
+    set_tests_properties(ShardingTransactionWalFocusedTests PROPERTIES
+        LABELS "sharding;transaction;wal;lsn;recovery;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingTransactionWal: TransactionWAL initialize, logBegin, logCommit, logRollback, LSN sequencing")
+else()
+    message(STATUS "ShardingTransactionWal focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_uncovered.cpp")
+    message(STATUS "Adding ShardingUncovered focused tests")
+
+    add_executable(test_sharding_uncovered_focused
+        test_sharding_uncovered.cpp
+    )
+
+    target_include_directories(test_sharding_uncovered_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_uncovered_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_uncovered_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingUncoveredFocusedTests COMMAND test_sharding_uncovered_focused)
+
+    set_tests_properties(ShardingUncoveredFocusedTests PROPERTIES
+        LABELS "sharding;orphan;load-detector;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardingUncovered: OrphanDetector config defaults, ShardLoadDetector construction and state")
+else()
+    message(STATUS "ShardingUncovered focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_uncovered.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_communication.cpp")
+    message(STATUS "Adding ShardCommunication focused tests")
+
+    add_executable(test_shard_communication_focused
+        test_shard_communication.cpp
+    )
+
+    target_include_directories(test_shard_communication_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_shard_communication_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_communication_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardCommunicationFocusedTests COMMAND test_shard_communication_focused)
+
+    set_tests_properties(ShardCommunicationFocusedTests PROPERTIES
+        LABELS "sharding;communication;remote-executor;rpc;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardCommunication: RemoteExecutor construction, ShardRouter routing, mTLS config")
+else()
+    message(STATUS "ShardCommunication focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_communication.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resilience.cpp")
+    message(STATUS "Adding ShardResilience focused tests")
+
+    add_executable(test_shard_resilience_focused
+        test_shard_resilience.cpp
+    )
+
+    target_include_directories(test_shard_resilience_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_shard_resilience_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_resilience_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardResilienceFocusedTests COMMAND test_shard_resilience_focused)
+
+    set_tests_properties(ShardResilienceFocusedTests PROPERTIES
+        LABELS "sharding;resilience;partition-detector;quorum;durability;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ShardResilience: PartitionDetector, QuorumManager, ShardDurabilityManager recovery flows")
+else()
+    message(STATUS "ShardResilience focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resilience.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resource_manager.cpp")
+    message(STATUS "Adding ShardResourceManager focused tests")
+
+    add_executable(test_shard_resource_manager_focused
+        test_shard_resource_manager.cpp
+    )
+
+    target_include_directories(test_shard_resource_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_shard_resource_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_resource_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardResourceManagerFocusedTests COMMAND test_shard_resource_manager_focused)
+
+    set_tests_properties(ShardResourceManagerFocusedTests PROPERTIES
+        LABELS "sharding;resource-manager;cpu;memory;limits;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardResourceManager: ShardResourceManager construction, CPU/memory limits, quota enforcement")
+else()
+    message(STATUS "ShardResourceManager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_resource_manager.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_grpc.cpp")
+    message(STATUS "Adding ShardRpcGrpc focused tests")
+
+    add_executable(test_shard_rpc_grpc_focused
+        test_shard_rpc_grpc.cpp
+    )
+
+    target_include_directories(test_shard_rpc_grpc_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_shard_rpc_grpc_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_rpc_grpc_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardRpcGrpcFocusedTests COMMAND test_shard_rpc_grpc_focused)
+
+    set_tests_properties(ShardRpcGrpcFocusedTests PROPERTIES
+        LABELS "sharding;rpc;grpc;circuit-breaker;retry;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ShardRpcGrpc: ShardRPCClient construction, circuit-breaker integration, retry policy")
+else()
+    message(STATUS "ShardRpcGrpc focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_grpc.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_mtls_config.cpp")
+    message(STATUS "Adding ShardRpcMtlsConfig focused tests")
+
+    add_executable(test_shard_rpc_mtls_config_focused
+        test_shard_rpc_mtls_config.cpp
+    )
+
+    target_include_directories(test_shard_rpc_mtls_config_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_shard_rpc_mtls_config_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_rpc_mtls_config_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardRpcMtlsConfigFocusedTests COMMAND test_shard_rpc_mtls_config_focused)
+
+    set_tests_properties(ShardRpcMtlsConfigFocusedTests PROPERTIES
+        LABELS "sharding;rpc;mtls;tls;certificate;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ShardRpcMtlsConfig: ShardRPCClient/Server mTLS config, certificate paths, TLS enforcement")
+else()
+    message(STATUS "ShardRpcMtlsConfig focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_mtls_config.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_chaos.cpp")
+    message(STATUS "Adding ShardingChaos focused tests")
+
+    add_executable(test_sharding_chaos_focused
+        test_sharding_chaos.cpp
+    )
+
+    target_include_directories(test_sharding_chaos_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_chaos_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_chaos_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingChaosFocusedTests COMMAND test_sharding_chaos_focused)
+
+    set_tests_properties(ShardingChaosFocusedTests PROPERTIES
+        LABELS "sharding;chaos;partition;failure-injection;split-brain;focused;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  ShardingChaos: network partition simulation, cascading failures, split-brain detection")
+else()
+    message(STATUS "ShardingChaos focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_chaos.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_e2e.cpp")
+    message(STATUS "Adding ShardingE2E focused tests")
+
+    add_executable(test_sharding_e2e_focused
+        test_sharding_e2e.cpp
+    )
+
+    target_include_directories(test_sharding_e2e_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_e2e_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_e2e_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingE2EFocusedTests COMMAND test_sharding_e2e_focused)
+
+    set_tests_properties(ShardingE2EFocusedTests PROPERTIES
+        LABELS "sharding;e2e;crud;cross-shard;workflow;focused;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  ShardingE2E: full CRUD workflow across shards, cross-shard join, rebalance simulation")
+else()
+    message(STATUS "ShardingE2E focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_e2e.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_integration.cpp")
+    message(STATUS "Adding ShardingIntegration focused tests")
+
+    add_executable(test_sharding_integration_focused
+        test_sharding_integration.cpp
+    )
+
+    target_include_directories(test_sharding_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_sharding_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sharding_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardingIntegrationFocusedTests COMMAND test_sharding_integration_focused)
+
+    set_tests_properties(ShardingIntegrationFocusedTests PROPERTIES
+        LABELS "sharding;integration;urn-resolver;shard-router;topology;focused;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ShardingIntegration: URNResolver+ShardRouter, ShardTopology+ConsistentHash, RemoteExecutor+mTLS, cross-shard join")
+else()
+    message(STATUS "ShardingIntegration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_integration.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

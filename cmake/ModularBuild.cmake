@@ -720,6 +720,8 @@ set(THEMIS_SHARDING_SOURCES
     
     # Distributed transactions
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/two_phase_commit_participant.cpp
+    ../src/sharding/two_phase_commit_coordinator.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
@@ -730,24 +732,26 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
-    
+
     # Redundancy and reliability
+    ../src/sharding/hardware_migration_manager.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
     ../src/sharding/shard_rpc_server.cpp
     ../src/sharding/cloud_backup.cpp
     ../src/sharding/orphan_detector.cpp
-    
+
     # GPU erasure coding (conditional)
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
-    
+
     # Enhanced sharding features
     ../src/sharding/shard_durability.cpp
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
+    ../src/sharding/sharding_manager_edition.cpp
     ../src/sharding/slo_monitor.cpp
 )
 

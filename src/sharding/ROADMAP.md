@@ -13,6 +13,8 @@
 | Distributed deadlock detection | ✅ Production-ready |
 | ShardRepairEngine (Reed-Solomon, anti-entropy) | ✅ Production-ready |
 | Prometheus metrics + Admin API | ✅ Production-ready |
+| Build system audit (all .cpp registered in CMake) | ✅ Complete (March 2026) |
+| Focused standalone test targets (15 targets) | ✅ Complete (March 2026) |
 | RPC integration (cross-shard read/write) | 🚧 In Progress |
 | Persistent Paxos acceptor state | 🚧 In Progress |
 | Consistent-hashing metadata shards | 🔲 Planned |
@@ -52,6 +54,12 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] Reed-Solomon erasure decoder via Vandermonde matrix construction
 - [x] Prometheus metrics for shard health, repair ops, and consensus latency
 - [x] Admin API endpoints (shard status, force-repair, rebalance trigger)
+
+### Phase 2.5: Build System Audit (Status: Completed ✅ — March 2026)
+- [x] All `src/sharding/*.cpp` files registered in `cmake/CMakeLists.txt` (added `admin_operations.cpp`, `operational_metrics.cpp`, `sharding_manager_edition.cpp`, `slo_monitor.cpp`)
+- [x] All `src/sharding/*.cpp` files registered in `cmake/ModularBuild.cmake` THEMIS_SHARDING_SOURCES (added `hardware_migration_manager.cpp`, `sharding_manager_edition.cpp`, `two_phase_commit_coordinator.cpp`, `two_phase_commit_participant.cpp`)
+- [x] 15 focused standalone test targets added in `tests/CMakeLists.txt` for sharding test suite
+- [x] `test_shard_durability` and `test_slo_monitor` promoted from excluded to focused standalone targets
 
 ### Phase 3: RPC Integration & Persistent State (Status: In Progress 🚧)
 - [?] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
