@@ -1,7 +1,7 @@
 name: 'Setup C++ Build Environment'
 description: |
   Installs standard C++ build dependencies (cmake, ninja-build, libgtest-dev,
-  pkg-config, git) plus the requested compiler and any optional extra packages,
+  libfmt-dev, pkg-config, git) plus the requested compiler and any optional extra packages,
   then builds Google Test from source when the pre-built library files are
   absent (required on Ubuntu runners where libgtest-dev ships source-only).
 
@@ -25,7 +25,7 @@ runs:
       run: |
         sudo apt-get update -qq
         # Base packages required by every C++ CI job
-        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git"
+        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev"
         # Append optional extra packages (guard against empty string)
         EXTRA="${{ inputs.extra-packages }}"
         # shellcheck disable=SC2086

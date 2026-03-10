@@ -1,0 +1,70 @@
+// ============================================================================
+// lineage_query.aql
+// Training Sample Lineage Query — ThemisDB Legal LoRA Training Module
+// ============================================================================
+//
+// PURPOSE:
+//   Traces a LoRA model prediction back through its contributing training
+//   samples to the originating source legal documents.  This query is the
+//   companion to `ProvenanceTracker::queryLineage()` and satisfies the
+//   compliance/audit requirement from FUTURE_ENHANCEMENTS.md.
+//
+// COLLECTIONS REQUIRED:
+//   - TrainingSamples  (vertex collection, written by ProvenanceTracker)
+//   - ModelVersions    (vertex collection, one doc per deployed adapter)
+//   - DerivedFrom      (edge collection: TrainingSample → SourceDocument,
+//                                        ModelVersion → TrainingSample)
+//   - SourceDocuments  (vertex collection, one doc per ingested legal doc)
+//
+// BIND PARAMETERS:
+//   @model_id    (string)  –  The adapter version key, e.g. "legal_v1.2"
+//   @max_hops    (number)  –  Maximum edge hops (recommended: 10)
+//
+// USAGE:
+//   arangosh --server.database legal_rag \
+//            --file lineage_query.aql \
+//            --query.bind-vars '{"model_id": "legal_v1.2", "max_hops": 10}'
+//
+// EXAMPLE OUTPUT (one object per lineage path):
+//   {
+//     "path_length": 2,
+//     "model_id":    "legal_v1.2",
+//     "sample_id":   "legal_training_samples/sample_00042",
+//     "source_urn":  "urn:document:BGBl-I-2024-12345",
+//     "modality":    "text",
+//     "confidence":  0.87,
+//     "extracted_at": 1700000000
+//   }
+//
+// ============================================================================
+
+FOR model IN ModelVersions
+    FILTER model._key == @model_id
+
+    // Follow DerivedFrom edges: ModelVersion → TrainingSample → SourceDocument
+    FOR sample, edge1, path IN 1..@max_hops
+        OUTBOUND model
+        DerivedFrom
+        OPTIONS { bfs: true, uniqueVertices: "global" }
+
+        // Only consider TrainingSample nodes at hop 1
+        FILTER IS_SAME_COLLECTION("TrainingSamples", sample)
+
+        // Follow one more hop to the SourceDocument
+        FOR source, edge2 IN 1..1
+            OUTBOUND sample
+            DerivedFrom
+            OPTIONS { bfs: true, uniqueVertices: "global" }
+
+            FILTER IS_SAME_COLLECTION("SourceDocuments", source)
+
+            RETURN {
+                path_length:   LENGTH(path.edges) + 1,
+                model_id:      model._key,
+                sample_id:     sample._id,
+                source_urn:    source.urn,
+                modality:      sample.modality,
+                confidence:    sample.confidence,
+                extracted_at:  sample.extraction_timestamp,
+                labeler_ver:   sample.labeler_version
+            }

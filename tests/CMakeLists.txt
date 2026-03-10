@@ -168,6 +168,8 @@ if(NOT THEMIS_ENABLE_LLM AND THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND ALL_TEST_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_data_selection.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_e2e.cpp"
+        # Phase 3 training tests – not LLM-dependent
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_checkpoint_manager.cpp"
     )
     list(REMOVE_DUPLICATES ALL_TEST_SOURCES)
 endif()
@@ -176,6 +178,8 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_lora_data_selection\\.cpp$"
         ".*test_training_pipeline_e2e\\.cpp$"
+        ".*test_lora_checkpoint_manager\\.cpp$"
+        ".*test_provenance_tracker\\.cpp$"
     )
 endif()
 
@@ -656,6 +660,8 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/incremental_lora_trainer.cpp
         ../src/training/training_pipeline.cpp
         ../src/training/lora_data_selection.cpp
+        ../src/training/lora_checkpoint_manager.cpp
+        ../src/training/provenance_tracker.cpp
     )
 endif()
 
@@ -679,6 +685,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_authenticator.cpp
         ../src/voice/voice_macro_manager.cpp
         ../src/voice/emotion_analyzer.cpp
+        ../src/voice/voice_browser_streaming.cpp
     )
 endif()
 
@@ -1024,6 +1031,43 @@ add_test(NAME BuildInfoTests
     COMMAND themis_tests --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*)
 set_tests_properties(BuildInfoTests PROPERTIES
     LABELS "build;info;module;availability;themis;unit"
+    TIMEOUT 60
+)
+
+# Edition manager tests (subset of AllTests)
+# Covers: singleton identity, edition information (type/name/limits),
+#         feature availability (compile-time gate + runtime license gate),
+#         resource-limit checks (node count, VRAM), feature enumeration,
+#         upgrade messages, RuntimeLicenseGate integration
+#         (from test_edition_manager.cpp, Issue #2469)
+add_test(NAME EditionManagerTests
+    COMMAND themis_tests --gtest_filter=EditionManager.*)
+set_tests_properties(EditionManagerTests PROPERTIES
+    LABELS "edition;feature;gating;themis;unit"
+    TIMEOUT 60
+)
+
+# Dynamic feature-flag override tests (subset of AllTests)
+# Covers: setFeatureOverride / clearFeatureOverride / clearAllFeatureOverrides /
+#         hasFeatureOverride / getFeatureOverride, interaction with compile-time
+#         edition gate and RuntimeLicenseGate, feature enumeration, thread-safety
+#         (from test_dynamic_feature_flags.cpp, Issue #2469)
+add_test(NAME DynamicFeatureFlagTests
+    COMMAND themis_tests --gtest_filter=DynamicFeatureFlagTest.*)
+set_tests_properties(DynamicFeatureFlagTests PROPERTIES
+    LABELS "edition;feature;override;themis;unit"
+    TIMEOUT 60
+)
+
+# Runtime license gate tests (subset of AllTests)
+# Covers: uninitialized gate, active/expired/grace/invalid/offline license states,
+#         compile-time OFF features, unknown features, initialize()/update()
+#         idempotency, diagnostics (licenseStatus, graceDaysRemaining, currentLicense)
+#         (from test_runtime_license_gate.cpp)
+add_test(NAME RuntimeLicenseGateTests
+    COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+set_tests_properties(RuntimeLicenseGateTests PROPERTIES
+    LABELS "license;runtime;gate;themis;unit"
     TIMEOUT 60
 )
 
@@ -2331,6 +2375,53 @@ else()
     message(STATUS "gRPC-Web Proxy Handler tests not found")
 endif()
 
+# ============================================================================
+# Service Mesh API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_service_mesh_api_handler.cpp")
+    message(STATUS "Adding Service Mesh API Handler tests")
+
+    add_executable(test_service_mesh_api_handler
+        test_service_mesh_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/service_mesh_api_handler.cpp
+    )
+
+    if(THEMIS_ENABLE_SERVICE_MESH)
+        target_sources(test_service_mesh_api_handler PRIVATE
+            ${THEMIS_ROOT_DIR}/src/network/service_mesh.cpp
+        )
+        target_compile_definitions(test_service_mesh_api_handler PRIVATE
+            THEMIS_ENABLE_SERVICE_MESH=1
+        )
+    endif()
+
+    target_include_directories(test_service_mesh_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_service_mesh_api_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_service_mesh_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ServiceMeshApiHandlerTests
+             COMMAND test_service_mesh_api_handler)
+
+    set_tests_properties(ServiceMeshApiHandlerTests PROPERTIES
+        LABELS "server;service-mesh;network;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Service Mesh API Handler: status, config, annotations endpoints")
+else()
+    message(STATUS "Service Mesh API Handler tests not found")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")
 
@@ -2769,6 +2860,167 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
     message(STATUS "  Tenant Transaction Namespace: per-tenant isolation, namespace resolution")
 else()
     message(STATUS "Tenant Transaction Namespace tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_transaction_namespace.cpp")
+endif()
+
+# Transaction Timeout Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_timeout.cpp")
+    message(STATUS "Adding Transaction Timeout tests")
+
+    add_executable(test_transaction_timeout
+        test_transaction_timeout.cpp
+    )
+
+    target_link_libraries(test_transaction_timeout PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_timeout PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionTimeoutTests COMMAND test_transaction_timeout)
+
+    set_tests_properties(TransactionTimeoutTests PROPERTIES
+        LABELS "transaction;timeout;auto-rollback;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Timeout: setTimeout, isTimedOut, auto-rollback, setDefaultTransactionTimeout")
+else()
+    message(STATUS "Transaction Timeout tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_timeout.cpp")
+endif()
+
+# Transaction Isolation Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation.cpp")
+    message(STATUS "Adding Transaction Isolation tests")
+
+    add_executable(test_transaction_isolation
+        test_transaction_isolation.cpp
+    )
+
+    target_link_libraries(test_transaction_isolation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_isolation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TransactionIsolationTests COMMAND test_transaction_isolation)
+
+    set_tests_properties(TransactionIsolationTests PROPERTIES
+        LABELS "transaction;isolation;mvcc;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Transaction Isolation: ReadCommitted, Snapshot, Serializable isolation levels")
+else()
+    message(STATUS "Transaction Isolation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_isolation.cpp")
+endif()
+
+# SAGA Concurrent Execution Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_concurrent_execution.cpp")
+    message(STATUS "Adding SAGA Concurrent Execution tests")
+
+    add_executable(test_saga_concurrent_execution
+        test_saga_concurrent_execution.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga.cpp
+    )
+
+    target_link_libraries(test_saga_concurrent_execution PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_concurrent_execution PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SagaConcurrentExecutionTests COMMAND test_saga_concurrent_execution)
+
+    set_tests_properties(SagaConcurrentExecutionTests PROPERTIES
+        LABELS "transaction;saga;concurrent;compensation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAGA Concurrent Execution: parallel compensations, retry, metrics")
+else()
+    message(STATUS "SAGA Concurrent Execution tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_concurrent_execution.cpp")
+endif()
+
+# Distributed SAGA Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga.cpp")
+    message(STATUS "Adding Distributed SAGA tests")
+
+    add_executable(test_distributed_saga
+        test_distributed_saga.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
+    )
+
+    target_link_libraries(test_distributed_saga PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_saga PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedSagaTests COMMAND test_distributed_saga)
+
+    set_tests_properties(DistributedSagaTests PROPERTIES
+        LABELS "transaction;saga;distributed;compensation;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Distributed SAGA: DAG execution, compensation ordering, retry, step timeouts, metrics")
+else()
+    message(STATUS "Distributed SAGA tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga.cpp")
+endif()
+
+# SagaOperation Tests (indexPutWithCompensation, graphAddWithCompensation, etc.)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
+    message(STATUS "Adding SagaOperation tests")
+
+    add_executable(test_saga_operation
+        test_saga_operation.cpp
+        ${CMAKE_SOURCE_DIR}/src/transaction/saga.cpp
+    )
+
+    target_link_libraries(test_saga_operation PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_saga_operation PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SagaOperationTests COMMAND test_saga_operation)
+
+    set_tests_properties(SagaOperationTests PROPERTIES
+        LABELS "transaction;saga;compensation;secondary-index;graph;vector;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SagaOperation: indexPutWithCompensation, graphAddWithCompensation, putEntityWithCompensation, deleteEntityWithCompensation, vectorAddWithCompensation")
+else()
+    message(STATUS "SagaOperation tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
 endif()
 
 # Utilities Comprehensive Tests

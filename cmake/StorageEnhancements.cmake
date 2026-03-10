@@ -64,4 +64,7 @@ list(APPEND THEMIS_CORE_SOURCES
 
     # Atomic history and conflict layer
     ../src/storage/history_manager.cpp
+
+    # Tiered storage (hot/warm/cold) with access-based and age-based migration
+    ../src/storage/tiered_storage.cpp
 )

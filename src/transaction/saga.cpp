@@ -9,9 +9,9 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
+    • Quality Score:   100.0/100                                      ║
     • Total Lines:     292                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 0                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
@@ -248,10 +248,12 @@ void SagaOperation::indexPutWithCompensation(
     // Compensating action: remove from secondary index
     // Note: We don't need old values since we're just removing index entries
     saga.addStep("indexPut:" + table + ":" + pk, [&idx, table, pk]() {
-        // Create a temporary batch for compensation
-        // This is executed outside the main transaction batch
-        THEMIS_WARN("SAGA: Index compensation requires direct DB access - not fully implemented yet");
-        // TODO: Need access to RocksDB for creating compensation batch
+        auto st = idx.erase(table, pk);
+        if (!st.ok) {
+            THEMIS_WARN("SAGA: Index compensation failed for '{}'::'{}': {}", table, pk, st.message);
+        } else {
+            THEMIS_DEBUG("SAGA: Removed secondary index entries for '{}'::'{}' (compensating indexPut)", table, pk);
+        }
     });
 }
 void SagaOperation::graphAddWithCompensation(
@@ -264,10 +266,13 @@ void SagaOperation::graphAddWithCompensation(
     std::string edge_id = edge.getPrimaryKey();
     
     // Compensating action: delete graph edge
-    // This is tricky because we're in a batch context
     saga.addStep("graphAdd:" + edge_id, [&graph, edge_id]() {
-        THEMIS_WARN("SAGA: Graph compensation requires batch context - simplified implementation");
-        // TODO: Store edge details for proper compensation
+        auto st = graph.deleteEdge(edge_id);
+        if (!st.ok) {
+            THEMIS_WARN("SAGA: Graph compensation failed for edge '{}': {}", edge_id, st.message);
+        } else {
+            THEMIS_DEBUG("SAGA: Deleted graph edge '{}' (compensating graphAdd)", edge_id);
+        }
     });
 }
 

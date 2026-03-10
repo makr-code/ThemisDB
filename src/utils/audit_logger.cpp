@@ -1434,5 +1434,210 @@ AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
     return report;
 }
 
+// ===========================================================================
+// HashChainAuditWriter
+// ===========================================================================
+
+/* static */
+std::vector<uint8_t> HashChainAuditWriter::sha256(const std::vector<uint8_t>& data) {
+    std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
+    SHA256(data.data(), data.size(), digest.data());
+    return digest;
+}
+
+/* static */
+std::string HashChainAuditWriter::bytesToHex(const std::vector<uint8_t>& data) {
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (auto b : data) oss << std::setw(2) << static_cast<int>(b);
+    return oss.str();
+}
+
+void HashChainAuditWriter::loadOrInitChainHead(const std::string& chain_seed) {
+    namespace fs = std::filesystem;
+
+    if (fs::exists(cfg_.chain_head_path)) {
+        try {
+            std::ifstream ifs(cfg_.chain_head_path);
+            nlohmann::json j;
+            ifs >> j;
+            last_hash_ = j.value("last_hash", std::string(64, '0'));
+            seq_       = j.value("seq", uint64_t{0});
+            return;
+        } catch (...) {
+            // Fall through to re-initialise on corrupted file.
+        }
+    }
+
+    // Initialise: genesis hash = SHA-256(chain_seed) or 64 zeros.
+    if (!chain_seed.empty()) {
+        std::vector<uint8_t> seed_bytes(chain_seed.begin(), chain_seed.end());
+        last_hash_ = bytesToHex(sha256(seed_bytes));
+    } else {
+        last_hash_ = std::string(64, '0');
+    }
+    seq_ = 0;
+    saveChainHead();
+}
+
+void HashChainAuditWriter::saveChainHead() {
+    namespace fs = std::filesystem;
+    try {
+        auto path = fs::path(cfg_.chain_head_path);
+        fs::create_directories(path.parent_path());
+
+        nlohmann::json j = {{"last_hash", last_hash_}, {"seq", seq_}};
+        std::ofstream ofs(cfg_.chain_head_path, std::ios::trunc);
+        ofs << j.dump();
+        ofs.close();
+
+#ifndef _WIN32
+        if (cfg_.fsync_on_write) {
+            int fd = ::open(cfg_.chain_head_path.c_str(), O_RDONLY);
+            if (fd >= 0) {
+                ::fdatasync(fd);
+                ::close(fd);
+            }
+        }
+#endif
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to save chain head to {}: {}",
+                     cfg_.chain_head_path, e.what());
+    }
+}
+
+HashChainAuditWriter::HashChainAuditWriter(HashChainAuditWriterConfig cfg,
+                                           const std::string& chain_seed)
+    : cfg_(std::move(cfg))
+{
+    loadOrInitChainHead(chain_seed);
+    // Ensure log directory exists.
+    namespace fs = std::filesystem;
+    try {
+        fs::create_directories(fs::path(cfg_.log_path).parent_path());
+    } catch (...) {}
+}
+
+HashChainAuditWriter::~HashChainAuditWriter() = default;
+
+void HashChainAuditWriter::write(nlohmann::json record) {
+    std::lock_guard<std::mutex> lk(mu_);
+
+    // Inject chain fields.
+    record["chain_seq"]  = seq_;
+    record["prev_hash"]  = last_hash_;
+
+    // Compute new chain head: SHA-256(prev_hash || record_json)
+    std::string record_json = record.dump();
+    std::string hash_input  = last_hash_ + record_json;
+    std::vector<uint8_t> hash_bytes(hash_input.begin(), hash_input.end());
+    last_hash_ = bytesToHex(sha256(hash_bytes));
+    ++seq_;
+
+    // Append record to log file.
+    try {
+        std::ofstream ofs(cfg_.log_path, std::ios::app | std::ios::binary);
+        ofs << record_json << '\n';
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("HashChainAuditWriter: failed to append log to {}: {}",
+                     cfg_.log_path, e.what());
+    }
+
+    // Persist chain head (fsync if configured).
+    saveChainHead();
+}
+
+std::string HashChainAuditWriter::headHash() const {
+    std::lock_guard<std::mutex> lk(mu_);
+    return last_hash_;
+}
+
+uint64_t HashChainAuditWriter::sequenceNumber() const {
+    std::lock_guard<std::mutex> lk(mu_);
+    return seq_;
+}
+
+// ===========================================================================
+// AuditLogVerifier
+// ===========================================================================
+
+/* static */
+std::string AuditLogVerifier::computeEntryHash(const std::string& prev_hash,
+                                                const nlohmann::json& entry) {
+    std::string record_json = entry.dump();
+    std::string hash_input  = prev_hash + record_json;
+
+    std::vector<uint8_t> bytes(hash_input.begin(), hash_input.end());
+    std::vector<uint8_t> digest(SHA256_DIGEST_LENGTH);
+    SHA256(bytes.data(), bytes.size(), digest.data());
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (auto b : digest) oss << std::setw(2) << static_cast<int>(b);
+    return oss.str();
+}
+
+AuditVerifyResult AuditLogVerifier::verify_chain(const std::string& log_path,
+                                                  const std::string& genesis_hash) const {
+    AuditVerifyResult result;
+
+    if (!std::filesystem::exists(log_path)) {
+        result.ok            = true;
+        result.entries_total = 0;
+        return result;
+    }
+
+    std::ifstream ifs(log_path);
+    if (!ifs) {
+        result.ok            = false;
+        result.error_message = "Cannot open log file: " + log_path;
+        return result;
+    }
+
+    std::string expected_prev_hash = genesis_hash;
+
+    std::string line;
+    while (std::getline(ifs, line)) {
+        if (line.empty()) continue;
+        ++result.entries_total;
+
+        nlohmann::json entry = nlohmann::json::parse(line, nullptr, /*allow_exceptions=*/false);
+        if (entry.is_discarded()) {
+            result.ok            = false;
+            result.first_bad_seq = result.entries_total - 1;
+            result.error_message = "Malformed JSON at line " +
+                                   std::to_string(result.entries_total);
+            return result;
+        }
+
+        if (!entry.contains("prev_hash") || !entry["prev_hash"].is_string()) {
+            // Entry predates hash chain — skip silently.
+            ++result.entries_ok;
+            continue;
+        }
+
+        const std::string& stored_prev = entry["prev_hash"].get_ref<const std::string&>();
+        if (stored_prev != expected_prev_hash) {
+            result.ok = false;
+            // Use chain_seq field if present; otherwise fall back to 1-based line index.
+            if (entry.contains("chain_seq") && entry["chain_seq"].is_number_unsigned()) {
+                result.first_bad_seq = entry["chain_seq"].get<uint64_t>();
+            } else {
+                result.first_bad_seq = result.entries_total - 1;
+            }
+            result.error_message = "Hash chain broken at seq " +
+                                   std::to_string(result.first_bad_seq) +
+                                   ": expected prev_hash " + expected_prev_hash.substr(0, 16) +
+                                   "... got " + stored_prev.substr(0, 16) + "...";
+            return result;
+        }
+
+        expected_prev_hash = computeEntryHash(expected_prev_hash, entry);
+        ++result.entries_ok;
+    }
+
+    return result;
+}
+
 } // namespace utils
 } // namespace themis

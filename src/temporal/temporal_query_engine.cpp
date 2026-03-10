@@ -144,6 +144,65 @@ TemporalQueryEngine::joinAsOf(
 }
 
 // ============================================================================
+// Bi-temporal join
+// ============================================================================
+
+std::vector<std::pair<VersionedDocument, VersionedDocument>>
+TemporalQueryEngine::joinBiTemporal(
+    const BiTemporalTable& left,
+    const BiTemporalTable& right,
+    Timestamp sys_as_of,
+    Timestamp valid_at,
+    const std::function<bool(const VersionedDocument&,
+                             const VersionedDocument&)>& predicate) {
+
+    auto left_rows  = left.scanBiTemporal(sys_as_of, valid_at);
+    auto right_rows = right.scanBiTemporal(sys_as_of, valid_at);
+
+    std::vector<std::pair<VersionedDocument, VersionedDocument>> result;
+    result.reserve(left_rows.size());
+
+    for (const auto& l : left_rows) {
+        for (const auto& r : right_rows) {
+            if (predicate(l, r)) {
+                result.emplace_back(l, r);
+            }
+        }
+    }
+    return result;
+}
+
+// ============================================================================
+// Sequenced / Non-Sequenced query semantics
+// ============================================================================
+
+std::vector<VersionedDocument> TemporalQueryEngine::queryWithSemantics(
+    const SystemVersionedTable& table,
+    TemporalSemantics semantics,
+    const TimeRange& period,
+    const std::vector<RowFilter>& filters) {
+
+    if (semantics == TemporalSemantics::NON_SEQUENCED) {
+        // Return every version across all time (atemporal view).
+        auto keys = table.getAllKeys();
+        std::vector<VersionedDocument> result;
+        for (const auto& key : keys) {
+            auto versions =
+                table.getHistoryInRange(key, {kMinTimestamp, kMaxTimestamp});
+            for (auto& v : versions) {
+                if (filters.empty() || matchesFilters(v, filters)) {
+                    result.push_back(std::move(v));
+                }
+            }
+        }
+        return result;
+    }
+
+    // SEQUENCED: return versions whose sys_time overlaps the reference period.
+    return queryFromTo(table, period.start, period.end, filters);
+}
+
+// ============================================================================
 // Private helpers
 // ============================================================================
 

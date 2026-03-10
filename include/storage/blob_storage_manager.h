@@ -67,6 +67,9 @@ private:
         if (config_.enable_azure) {
             return BlobStorageType::AZURE_BLOB;
         }
+        if (config_.enable_gcs) {
+            return BlobStorageType::GCS;
+        }
         if (config_.enable_filesystem) {
             return BlobStorageType::FILESYSTEM;
         }

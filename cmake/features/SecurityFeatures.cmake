@@ -29,6 +29,10 @@ if(NOT DEFINED THEMIS_ENABLE_WEBDAV)
     option(THEMIS_ENABLE_WEBDAV "Enable WebDAV blob storage backend" OFF)
 endif()
 
+if(NOT DEFINED THEMIS_ENABLE_GCS)
+    option(THEMIS_ENABLE_GCS "Enable Google Cloud Storage blob backend" OFF)
+endif()
+
 # Display security features
 message(STATUS "  Security & Enterprise:")
 if(THEMIS_ENABLE_TRACING)
@@ -50,4 +54,7 @@ if(THEMIS_ENABLE_AZURE)
 endif()
 if(THEMIS_ENABLE_WEBDAV)
     message(STATUS "    WebDAV storage: Enabled")
+endif()
+if(THEMIS_ENABLE_GCS)
+    message(STATUS "    GCS storage: Enabled")
 endif()

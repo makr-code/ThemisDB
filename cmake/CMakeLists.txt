@@ -1467,6 +1467,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
+    ../src/index/cuda_hnsw_graph_traversal.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/binary_quantizer.cpp
     ../src/index/learned_quantizer.cpp
@@ -1639,6 +1640,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
     
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
@@ -1715,6 +1718,7 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/temporal_aggregator.cpp
     ../src/temporal/snapshot_manager.cpp
     ../src/temporal/retention_manager.cpp
+    ../src/temporal/bitemporal_join.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -1730,6 +1734,7 @@ set(THEMIS_CORE_SOURCES
     ../src/timeseries/hypertable.cpp
     ../src/timeseries/aggregates.cpp
     ../src/timeseries/downsampling.cpp
+    ../src/timeseries/ts_auto_buffer_adaptive.cpp
     
     ../src/utils/serialization.cpp
     ../src/utils/logger.cpp
@@ -1784,6 +1789,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
+    ../src/updates/preflight_health_check.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1965,6 +1971,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/paxos_consensus.cpp
     ../src/sharding/paxos_wal.cpp
     ../src/sharding/paxos_snapshot.cpp
+    ../src/sharding/paxos_state_persistence.cpp
     ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
@@ -2066,6 +2073,7 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/conflict_resolver.cpp
     ../src/importers/kafka_importer.cpp
     ../src/importers/oracle_importer.cpp
+    ../src/importers/gui_import_wizard.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
     ../src/aql/aql_migration_assistant.cpp
@@ -3351,6 +3359,7 @@ if(THEMIS_ENABLE_LLM)
         # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
+        ../src/llm/lora_framework/lora_checkpoint_manager.cpp  # Checkpoint lifecycle management
         ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline (re-enabled for distributed training integration)
         ../src/llm/lora_framework/training_service_registry.cpp  # Service registry for dependency injection
         ../src/llm/lora_framework/lora_layers.cpp             # LoRA layer implementations
@@ -3791,6 +3800,103 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
+
+    # ── New feature tests ────────────────────────────────────────────────────
+
+    add_executable(test_search_highlighter
+        ${THEMIS_ROOT_DIR}/tests/test_search_highlighter.cpp
+    )
+    target_link_libraries(test_search_highlighter
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_search_highlighter
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_highlighter>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_bitemporal_join
+        ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
+    )
+    target_link_libraries(test_bitemporal_join
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_bitemporal_join
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_ts_auto_buffer_adaptive
+        ${THEMIS_ROOT_DIR}/tests/test_ts_auto_buffer_adaptive.cpp
+    )
+    target_link_libraries(test_ts_auto_buffer_adaptive
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_ts_auto_buffer_adaptive
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_cuda_hnsw_graph_traversal
+        ${THEMIS_ROOT_DIR}/tests/test_cuda_hnsw_graph_traversal.cpp
+    )
+    target_link_libraries(test_cuda_hnsw_graph_traversal
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_cuda_hnsw_graph_traversal
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_wasm_runtime_injector
+        ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
+    )
+    target_link_libraries(test_wasm_runtime_injector
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_wasm_runtime_injector
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    if(THEMIS_ENABLE_VOICE_ASSISTANT)
+        add_executable(test_voice_browser_streaming
+            ${THEMIS_ROOT_DIR}/tests/test_voice_browser_streaming.cpp
+        )
+        target_link_libraries(test_voice_browser_streaming
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_voice_browser_streaming
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_browser_streaming>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+
+        add_executable(test_voice_telephony
+            ${THEMIS_ROOT_DIR}/tests/test_voice_telephony.cpp
+        )
+        target_link_libraries(test_voice_telephony
+            PRIVATE themis_core GTest::gtest GTest::gtest_main
+        )
+        gtest_discover_tests(test_voice_telephony
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_voice_telephony>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
+
+    # ── End new feature tests ─────────────────────────────────────────────────
 
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)

@@ -220,3 +220,132 @@ TEST_F(TemporalQueryEngineTest, JoinAsOf_EmptyTable_ReturnsEmpty) {
 
     EXPECT_TRUE(pairs.empty());
 }
+
+// ── joinBiTemporal ────────────────────────────────────────────────────────────
+
+TEST_F(TemporalQueryEngineTest, JoinBiTemporal_MatchingRows_ReturnsPairs) {
+    BiTemporalTable employees{"employees", "n"};
+    BiTemporalTable departments{"departments", "n"};
+
+    employees.insertWithValidTime("emp1", {{"name", "Alice"}, {"dept_id", "d1"}}, {1000, 9000});
+    employees.insertWithValidTime("emp2", {{"name", "Bob"},   {"dept_id", "d2"}}, {1000, 9000});
+    departments.insertWithValidTime("d1", {{"id", "d1"}, {"name", "Engineering"}}, {1000, 9000});
+    departments.insertWithValidTime("d2", {{"id", "d2"}, {"name", "Sales"}},       {1000, 9000});
+
+    auto pairs = TemporalQueryEngine::joinBiTemporal(
+        employees, departments, now(), 5000,
+        [](const VersionedDocument& emp, const VersionedDocument& dept) {
+            return emp.data.value("dept_id", "") == dept.data.value("id", "");
+        });
+
+    ASSERT_EQ(pairs.size(), 2u);
+    bool alice_matched = false, bob_matched = false;
+    for (const auto& [emp, dept] : pairs) {
+        if (emp.data["name"] == "Alice" && dept.data["name"] == "Engineering")
+            alice_matched = true;
+        if (emp.data["name"] == "Bob" && dept.data["name"] == "Sales")
+            bob_matched = true;
+    }
+    EXPECT_TRUE(alice_matched);
+    EXPECT_TRUE(bob_matched);
+}
+
+TEST_F(TemporalQueryEngineTest, JoinBiTemporal_ValidTimeOutOfRange_ReturnsEmpty) {
+    BiTemporalTable left{"left", "n"};
+    BiTemporalTable right{"right", "n"};
+
+    left.insertWithValidTime("k1",  {{"x", 1}}, {1000, 2000});
+    right.insertWithValidTime("k2", {{"y", 1}}, {1000, 2000});
+
+    // valid_at=5000 falls outside [1000,2000) for both tables
+    auto pairs = TemporalQueryEngine::joinBiTemporal(
+        left, right, now(), 5000,
+        [](const VersionedDocument&, const VersionedDocument&) { return true; });
+
+    EXPECT_TRUE(pairs.empty());
+}
+
+TEST_F(TemporalQueryEngineTest, JoinBiTemporal_DifferentValidTimes_PartialMatch) {
+    BiTemporalTable left{"left", "n"};
+    BiTemporalTable right{"right", "n"};
+
+    // left row valid in [1000, 3000), right row valid in [2000, 5000)
+    // At valid_at=2500 both are valid; at valid_at=1500 only left is valid
+    left.insertWithValidTime("k1",  {{"id", "k1"}}, {1000, 3000});
+    right.insertWithValidTime("k1", {{"id", "k1"}}, {2000, 5000});
+
+    auto at_2500 = TemporalQueryEngine::joinBiTemporal(
+        left, right, now(), 2500,
+        [](const VersionedDocument& l, const VersionedDocument& r) {
+            return l.data.value("id", "") == r.data.value("id", "");
+        });
+    EXPECT_EQ(at_2500.size(), 1u);
+
+    auto at_1500 = TemporalQueryEngine::joinBiTemporal(
+        left, right, now(), 1500,
+        [](const VersionedDocument& l, const VersionedDocument& r) {
+            return l.data.value("id", "") == r.data.value("id", "");
+        });
+    EXPECT_TRUE(at_1500.empty());
+}
+
+TEST_F(TemporalQueryEngineTest, JoinBiTemporal_EmptyTables_ReturnsEmpty) {
+    BiTemporalTable left{"left", "n"};
+    BiTemporalTable right{"right", "n"};
+
+    auto pairs = TemporalQueryEngine::joinBiTemporal(
+        left, right, now(), 1000,
+        [](const VersionedDocument&, const VersionedDocument&) { return true; });
+
+    EXPECT_TRUE(pairs.empty());
+}
+
+// ── queryWithSemantics ────────────────────────────────────────────────────────
+
+TEST_F(TemporalQueryEngineTest, QuerySequenced_PeriodOverlap_ReturnsVersionsInRange) {
+    // A period from t_after_emp1_insert to kMaxTimestamp should include:
+    //   emp1 current version (opened after the update, sys_start > t_after_emp1_insert)
+    //   emp2 only version (inserted after emp1 insert, so sys_start > t_after_emp1_insert)
+    // emp1's original version was closed at t_after_emp1_insert, so its sys_end
+    // is approximately t_after_emp1_insert; that closed version may or may not
+    // overlap depending on exact timestamps.  We verify at least 2 rows are
+    // returned (emp1 current + emp2) and that the result contains emp2.
+    auto rows = TemporalQueryEngine::queryWithSemantics(
+        table,
+        TemporalSemantics::SEQUENCED,
+        {t_after_emp1_insert, kMaxTimestamp});
+    EXPECT_GE(rows.size(), 2u);
+    bool emp2_found = false;
+    for (const auto& r : rows) {
+        if (r.data.value("name", "") == "Bob") emp2_found = true;
+    }
+    EXPECT_TRUE(emp2_found);
+}
+
+TEST_F(TemporalQueryEngineTest, QueryNonSequenced_ReturnsAllVersions) {
+    // NON_SEQUENCED should return every stored version (emp1 has 2, emp2 has 1)
+    auto rows = TemporalQueryEngine::queryWithSemantics(
+        table,
+        TemporalSemantics::NON_SEQUENCED,
+        {kMinTimestamp, kMaxTimestamp});
+    EXPECT_EQ(rows.size(), 3u); // emp1 × 2 + emp2 × 1
+}
+
+TEST_F(TemporalQueryEngineTest, QueryNonSequenced_WithFilter_FiltersAcrossAllVersions) {
+    auto rows = TemporalQueryEngine::queryWithSemantics(
+        table,
+        TemporalSemantics::NON_SEQUENCED,
+        {kMinTimestamp, kMaxTimestamp},
+        {RowFilter{"dept", "Engineering"}});
+    // Both emp1 versions have dept=Engineering; emp2 has dept=Sales
+    EXPECT_EQ(rows.size(), 2u);
+}
+
+TEST_F(TemporalQueryEngineTest, QuerySequenced_EmptyPeriod_ReturnsEmpty) {
+    // A period wholly before any data was inserted returns nothing
+    auto rows = TemporalQueryEngine::queryWithSemantics(
+        table,
+        TemporalSemantics::SEQUENCED,
+        {kMinTimestamp, 0}); // time 0 is before any realistic wall-clock insert
+    EXPECT_TRUE(rows.empty());
+}

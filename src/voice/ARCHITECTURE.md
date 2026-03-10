@@ -1,7 +1,7 @@
 # Voice Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-09  
 **Module Path:** `src/voice/`
 
 ---
@@ -11,10 +11,11 @@
 The Voice module provides ThemisDB's voice and audio interface: speech-to-text
 transcription (OpenAI Whisper via `src/content/`), voice-to-AQL query generation, voice
 assistant with conversational AI, voice authentication, wake word detection, batch audio
-processing, meeting support (phone call transcription, protocol generation), and
-accessibility features.
+processing, meeting support (phone call transcription, protocol generation), real-time
+WebSocket audio streaming for browser clients, emotion/sentiment analysis from voice
+tone, user-defined voice macros, and accessibility features.
 
-The module is currently Alpha; voice-to-AQL and Whisper integration are experimental.
+The module is production-ready (v1.1.0); Whisper integration requires `THEMIS_ENABLE_WHISPER` for full accuracy.
 
 ---
 
@@ -52,6 +53,9 @@ The module is currently Alpha; voice-to-AQL and Whisper integration are experime
 | `voice_accessibility.cpp` | Accessibility: slower speech, simplified output |
 | `voice_tts_customizer.cpp` | TTS voice customization settings |
 | `wake_word_detector.cpp` | Wake word detection ("Hey Themis") |
+| `emotion_analyzer.cpp` | Emotion and sentiment detection from voice tone |
+| `voice_browser_streaming.cpp` | WebSocket bidirectional audio streaming for browser clients (Issue #2350) |
+| `voice_macro_manager.cpp` | User-defined voice command macros mapped to AQL queries |
 
 ### 3.2 Component Diagram
 

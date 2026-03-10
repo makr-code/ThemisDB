@@ -397,6 +397,10 @@ private:
         sample.category = modality.category;
         sample.confidence = modality.strength;
 
+        // Phase 3: Assign content modality – all samples produced by NLP modality
+        // extraction on text are TEXT_CLAUSE by definition.
+        sample.modality = ContentModality::TEXT_CLAUSE;
+
         // Structured input/output pair for LoRA fine-tuning
         sample.input  = "Analyze the legal modality in: \"" + text + "\"";
         sample.output = "Category: " + modality.category

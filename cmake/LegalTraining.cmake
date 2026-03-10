@@ -45,6 +45,12 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
 
         # Automated Quality & Diversity data selection pipeline
         ../src/training/lora_data_selection.cpp
+
+        # LoRA checkpoint manager with SHA-256 integrity validation (Phase 3)
+        ../src/training/lora_checkpoint_manager.cpp
+
+        # Training sample provenance and lineage tracker (Phase 3)
+        ../src/training/provenance_tracker.cpp
     )
     
     # =========================================================================

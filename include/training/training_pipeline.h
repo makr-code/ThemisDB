@@ -29,6 +29,8 @@
 #include "training/knowledge_graph_enricher.h"
 #include "training/incremental_lora_trainer.h"
 #include "training/lora_data_selection.h"
+#include "training/provenance_tracker.h"
+#include "training/lora_checkpoint_manager.h"
 
 #include <string>
 #include <vector>
@@ -71,6 +73,10 @@ struct PipelineStats {
     size_t quality_issues_found  = 0;
     bool   drift_detected        = false;
 
+    // Provenance tracking (Phase 3)
+    size_t provenance_records_written  = 0;  ///< Records written to provenance graph
+    size_t provenance_records_rejected = 0;  ///< Records rejected (missing URN, etc.)
+
     PipelineStats() = default;
 };
 
@@ -102,6 +108,88 @@ struct DriftReport {
 };
 
 /**
+ * @brief Per-category calibrated confidence threshold result.
+ */
+struct CalibratedThreshold {
+    std::string category;          ///< Legal category (e.g., "obligation", "permission")
+    float       threshold = 0.5f;  ///< Calibrated threshold in [0, 1]
+    size_t      sample_count = 0;  ///< Number of samples used for calibration
+    double      f1_improvement = 0.0; ///< Estimated F1 improvement vs. static baseline
+
+    CalibratedThreshold() = default;
+};
+
+/**
+ * @brief Result of a confidence calibration run.
+ */
+struct CalibrationResult {
+    std::vector<CalibratedThreshold> thresholds; ///< Per-category calibrated thresholds
+    double elapsed_seconds = 0.0;                ///< Calibration wall-clock time
+    bool   success         = false;
+    std::string summary;
+
+    CalibrationResult() = default;
+};
+
+/**
+ * @brief Isotonic-regression-based per-category confidence calibrator.
+ *
+ * Consumes per-sample (confidence, model_correct) pairs produced by the
+ * validation loop in IncrementalLoRATrainer and computes optimal per-category
+ * thresholds using the Pool Adjacent Violators (PAV) algorithm.
+ *
+ * Calibrated thresholds are stored alongside the LoRA checkpoint in
+ * `calibration_manifest.json`.
+ *
+ * Example usage:
+ * @code
+ * ConfidenceCalibrator calibrator;
+ * calibrator.addSample("obligation", 0.82f, true);
+ * calibrator.addSample("obligation", 0.41f, false);
+ * // ... add more samples
+ * auto result = calibrator.calibrate();
+ * for (auto& t : result.thresholds)
+ *     std::cout << t.category << " -> " << t.threshold << "\n";
+ * @endcode
+ */
+class ConfidenceCalibrator {
+public:
+    ConfidenceCalibrator() = default;
+
+    /**
+     * @brief Record a validation sample for calibration.
+     * @param category      Legal category of the sample.
+     * @param confidence    Model confidence score in [0, 1].
+     * @param model_correct Whether the model produced the correct label.
+     */
+    void addSample(const std::string& category, float confidence, bool model_correct);
+
+    /**
+     * @brief Compute calibrated thresholds using isotonic regression (PAV).
+     *
+     * For each category, fits a monotone non-decreasing step function to the
+     * (confidence → correct) pairs and selects the threshold that maximises F1.
+     *
+     * @return Calibration result with per-category thresholds.
+     */
+    CalibrationResult calibrate() const;
+
+    /**
+     * @brief Reset all accumulated samples.
+     */
+    void reset();
+
+    /**
+     * @brief Number of samples accumulated so far.
+     */
+    size_t sampleCount() const;
+
+private:
+    struct Sample { std::string category; float confidence; bool correct; };
+    std::vector<Sample> samples_;
+};
+
+/**
  * @brief Pipeline progress callback (Phase 7)
  */
 using PipelineCallback = std::function<void(const std::string& stage,
@@ -116,6 +204,14 @@ struct PipelineConfig {
     EnrichmentConfig         enricher_config;
     IncrementalTrainingConfig trainer_config;
     LoRADataSelectionConfig  data_selection_config;  ///< Automated data selection settings
+
+    // Phase 3: Provenance tracking
+    ProvenanceTrackerConfig  provenance_config;      ///< Provenance tracker settings
+    bool enable_provenance      = false;  ///< Write provenance records after labeling (Phase 3)
+
+    // Phase 3: Checkpoint manager + calibration manifest
+    CheckpointManagerConfig  checkpoint_manager_config; ///< Checkpoint manager settings
+    bool enable_checkpoint_manager = false; ///< Enable checkpoint manager for calibration manifest
 
     bool enable_labeling        = true;   ///< Run auto-labeling stage
     bool enable_enrichment      = true;   ///< Run graph enrichment stage
@@ -200,6 +296,32 @@ public:
      * @brief Run only the training stage
      */
     TrainingResult runTraining(TrainingCallback callback = nullptr);
+
+    /**
+     * @brief Run the confidence calibration stage and persist the result.
+     *
+     * Executes `ConfidenceCalibrator::calibrate()` on any accumulated
+     * per-sample (confidence, correct) pairs and, when
+     * `enable_checkpoint_manager` is true, writes a `calibration_manifest.json`
+     * to the checkpoint directory via `LoRACheckpointManager`.
+     *
+     * @return Calibration result with per-category thresholds.
+     */
+    CalibrationResult runCalibration();
+
+    /**
+     * @brief Feed a per-sample validation pair to the internal calibrator.
+     *
+     * Should be called once per sample after the validation loop in
+     * `IncrementalLoRATrainer` to accumulate data for `runCalibration()`.
+     *
+     * @param category      Legal category of the sample.
+     * @param confidence    Model confidence score in [0, 1].
+     * @param model_correct Whether the model produced the correct label.
+     */
+    void addCalibrationSample(const std::string& category,
+                              float confidence,
+                              bool model_correct);
 
     /**
      * @brief Perform data-quality checks on the training collection
