@@ -436,6 +436,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -446,6 +447,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/vectorized_execution.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
+    ../src/query/vectorized_execution.cpp
+    ../src/query/sparql_parser.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/async_metrics_exporter.cpp
@@ -461,6 +465,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
+    ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
     ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
@@ -1376,7 +1381,6 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp
-    ../src/query/result_stream.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
 )

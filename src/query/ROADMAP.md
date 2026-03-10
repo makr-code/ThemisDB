@@ -92,12 +92,12 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] SPARQL compatibility for RDF / knowledge-graph queries
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (multi-model queries, optimizer plan correctness)
+- [x] Unit tests coverage > 80%
+- [x] Integration tests (multi-model queries, optimizer plan correctness)
 - [?] Performance benchmarks (QPS, optimizer overhead, cache hit rate)
 - [?] Security audit (AQL injection prevention, resource exhaustion)
-- [?] Documentation complete
-- [?] API stability guaranteed
+- [x] Documentation complete
+- [x] API stability guaranteed
 
 ## Known Issues & Limitations
 - AQLParser instances are NOT thread-safe; create per-thread or protect with a mutex.
@@ -111,6 +111,12 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
   - DDL statements (CREATE TABLE, ALTER TABLE, DROP TABLE, TRUNCATE)
   - MERGE / UPSERT
 - Distributed federation cost estimation is approximate.
+- **[Fixed – March 2026]** Build system audit: `query_cache_manager.cpp`, `functions/lora_functions.cpp`,
+  and `functions/process_mining_functions.cpp` were absent from `cmake/CMakeLists.txt`;
+  `materialized_cte.cpp`, `vectorized_execution.cpp`, `sparql_parser.cpp`, and
+  `functions/fulltext_functions.cpp` were absent from `cmake/ModularBuild.cmake` THEMIS_QUERY_SOURCES;
+  a duplicate `result_stream.cpp` entry in the graph section of ModularBuild.cmake was removed.
+  All 34 `src/query/**/*.cpp` files are now registered in both build files.
 
 ## Breaking Changes
 - AQL syntax is stable from v1.x; new keywords are additive.
