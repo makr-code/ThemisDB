@@ -2367,6 +2367,53 @@ else()
     message(STATUS "gRPC-Web Proxy Handler tests not found")
 endif()
 
+# ============================================================================
+# Service Mesh API Handler Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_service_mesh_api_handler.cpp")
+    message(STATUS "Adding Service Mesh API Handler tests")
+
+    add_executable(test_service_mesh_api_handler
+        test_service_mesh_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/service_mesh_api_handler.cpp
+    )
+
+    if(THEMIS_ENABLE_SERVICE_MESH)
+        target_sources(test_service_mesh_api_handler PRIVATE
+            ${THEMIS_ROOT_DIR}/src/network/service_mesh.cpp
+        )
+        target_compile_definitions(test_service_mesh_api_handler PRIVATE
+            THEMIS_ENABLE_SERVICE_MESH=1
+        )
+    endif()
+
+    target_include_directories(test_service_mesh_api_handler PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_service_mesh_api_handler PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_service_mesh_api_handler PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ServiceMeshApiHandlerTests
+             COMMAND test_service_mesh_api_handler)
+
+    set_tests_properties(ServiceMeshApiHandlerTests PROPERTIES
+        LABELS "server;service-mesh;network;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Service Mesh API Handler: status, config, annotations endpoints")
+else()
+    message(STATUS "Service Mesh API Handler tests not found")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_udf_api_handler.cpp")
     message(STATUS "Adding UDF API Handler tests")
 
