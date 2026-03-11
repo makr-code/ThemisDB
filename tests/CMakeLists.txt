@@ -400,6 +400,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
     ".*test_serverless_function_api_handler\\.cpp$"
+    ".*test_wasm_handler_registry\\.cpp$"
     ".*test_cdn_cache_middleware\\.cpp$"
     ".*test_mcp_orchestrator_bridge\\.cpp$"
     ".*test_shared_worker_pool\\.cpp$"
@@ -3063,6 +3064,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serverless_function_api_handler.cpp"
     message(STATUS "  Serverless Function Handler: CRUD, invocation DSL, version history")
 else()
     message(STATUS "Serverless Function API Handler tests not found")
+endif()
+
+# ============================================================================
+# WebAssembly Handler Registry Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wasm_handler_registry.cpp")
+    message(STATUS "Adding WebAssembly Handler Registry tests")
+
+    add_executable(test_wasm_handler_registry
+        test_wasm_handler_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/server/wasm_handler_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/base/wasm_plugin_sandbox.cpp
+        ${THEMIS_ROOT_DIR}/src/base/module_sandbox.cpp
+    )
+
+    target_include_directories(test_wasm_handler_registry PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_wasm_handler_registry PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_wasm_handler_registry PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME WasmHandlerRegistryTests
+             COMMAND test_wasm_handler_registry)
+
+    set_tests_properties(WasmHandlerRegistryTests PROPERTIES
+        LABELS "server;wasm;edge;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  WASM Handler Registry: upload, list, get, delete, invoke, error handling")
+else()
+    message(STATUS "WebAssembly Handler Registry tests not found")
 endif()
 
 # ============================================================================

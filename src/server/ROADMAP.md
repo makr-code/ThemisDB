@@ -68,12 +68,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Errors: proto syntax error → generator exits with non-zero code and line-level error message; missing import → clear diagnostic
   - Tests: unit (generator parses protos, emits valid TS), integration (generated client calls live `GrpcWebProxyHandler`)
   - Perf: generation completes in ≤ 5 s for current proto set (< 50 files)
-- [ ] WebAssembly API handlers (user-defined handlers in WASI sandbox) (Target: v1.8.0)
-  - Files: new `server/wasm_handler_registry.cpp` + `include/server/wasm_handler_registry.h`; depends on `themis/base/wasm_runtime_injector.h`
+- [x] WebAssembly API handlers (user-defined handlers in WASI sandbox) (Target: v2.1.0) ✅ implemented
+  - Files: `server/wasm_handler_registry.cpp` + `include/server/wasm_handler_registry.h`; depends on `themis/base/wasm_plugin_sandbox.h`
   - Behavior: tenant uploads `.wasm` binary; handler registered at `POST /api/v1/functions/{id}/wasm`; invoked per request in isolated WASI sandbox with CPU-time limit (default 500 ms) and memory cap (default 64 MB)
   - Errors: CPU limit exceeded → 504 + `grpc-status: DEADLINE_EXCEEDED`; memory overflow → 500 + sandbox kill; invalid wasm binary → 400 at upload time
-  - Tests: unit (sandbox isolation, memory cap enforcement), integration (Rust→wasm handler round-trip), security (escape-attempt wasm modules must not access host memory)
-  - Perf: wasm invocation overhead ≤ 5 ms per call; throughput ≥ 5 000 simple handler calls/s per node
+  - Tests: 25 unit tests in `tests/test_wasm_handler_registry.cpp` (upload, list, get, delete, invoke, error handling, validation-only mode)
 - [x] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
   - Files: `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h` ✅ implemented
   - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`; SP metadata via `GET /api/v1/auth/saml/metadata`

@@ -262,7 +262,7 @@ Zusammenfassung der wichtigsten Befunde:
 | 2 | OAuth2/OIDC-Provider (`server/oauth2_provider.cpp`) | Keine Datei vorhanden | Hoch |
 | 3 | SAML 2.0 SP (`server/saml_auth_provider.cpp`) | ✅ Implementiert (v1.7.0): `saml_auth_provider.cpp`, `saml_auth_provider.h`, 37 Unit-Tests | Gelöst |
 | 4 | Distributed API Gateway (`server/distributed_gateway.cpp`) | Keine Datei vorhanden | Niedrig |
-| 5 | WebAssembly Handler Registry (`server/wasm_handler_registry.cpp`) | Keine Datei vorhanden | Niedrig |
+| 5 | WebAssembly Handler Registry (`server/wasm_handler_registry.cpp`) | ✅ Implementiert (v2.1.0) | Niedrig |
 | 6 | PostgreSQL Wire-Protokoll: erweiterte PG-Features | `postgres_session.cpp` vorhanden (1929 LOC), aber ROADMAP warnt: „partial compatibility" | Info |
 
 ---

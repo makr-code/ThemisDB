@@ -14,8 +14,8 @@
 | 1 | ✅ Gelöst | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | Implementiert: `Backend::REDIS`, EVALSHA-Lua-Skript, lokaler Fallback, 28 Tests |
 | 2 | ✅ Gelöst | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Implementiert (v1.6.0, 30 Unit-Tests) |
 | 3 | ✅ Gelöst | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Implementiert (v1.7.0) |
-| 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert (v2.1.0): `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover, 41 Unit-Tests |
-| 5 | 🟡 Niedrig | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Keine dieser Dateien existiert |
+| 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
+| 5 | ✅ Gelöst | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Implementiert (v2.1.0): Upload, List, Get, Delete, Invoke-Endpoints; WASI-Sandbox via `WasmPluginSandbox`; CPU-Zeitlimit (500 ms), Speicher-Cap (64 MB) |
 | 6 | ℹ️ Info | PostgreSQL Wire: Advanced Features | Vollständige PG-Kompatibilität | `postgres_session.cpp` (1929 LOC) – ROADMAP warnt explizit: „partial compatibility" |
 
 ---
@@ -118,7 +118,7 @@ tests/test_distributed_gateway.cpp      – vorhanden (focused test suite)
 
 ---
 
-### Finding 5 – WebAssembly Handler Registry
+### Finding 5 – WebAssembly Handler Registry ✅ Gelöst
 
 **Claim-Quelle:** `src/server/ROADMAP.md` → „Planned Features / Long-term (Target: v1.8.0)"  
 **Erwartete Implementierung:**  
@@ -127,19 +127,21 @@ tests/test_distributed_gateway.cpp      – vorhanden (focused test suite)
 - WASI-Sandbox, CPU-Zeitlimit (500 ms), Speicher-Cap (64 MB)  
 - Upload: `POST /api/v1/functions/{id}/wasm`  
 
-**Beobachtet:**  
-- Keine dieser Dateien existiert  
-- `serverless_function_api_handler.cpp` (vorhandenes Serverless) arbeitet mit eingebettetem C++ Code, nicht mit WASM  
+**Implementiert (v2.1.0):**  
+- `src/server/wasm_handler_registry.cpp` – vollständige Implementierung (25 Unit-Tests)  
+- `include/server/wasm_handler_registry.h` – Interface mit `WasmHandlerRegistry`, `WasmHandlerEntry`, `WasmHandlerConfig`, `WasmInvokeResult`  
+- WASI-Isolation via `WasmPluginSandbox` aus `themis/base/wasm_plugin_sandbox.h`  
+- CPU-Zeitlimit (Standard 500 ms) via `std::async` + `future::wait_until`  
+- Speicher-Cap (Standard 64 MiB) via `WasmPluginSandbox::Config::max_memory_mb`  
+- HTTP-Endpoints: Upload, List (mit Tenant-Filter), Get, Delete, Invoke  
+- Fehlerbehandlung: `400` (ungültiges Binary), `404` (unbekannte ID), `504` (CPU-Limit), `500` (OOM/Trap)  
 
-**Evidence (geprüfte Pfade):**  
+**Evidence:**  
 ```
-src/server/wasm_handler_registry.cpp    – nicht vorhanden
-include/server/wasm_handler_registry.h  – nicht vorhanden
-src/server/serverless_function_api_handler.cpp – vorhanden (non-WASM Serverless)
+src/server/wasm_handler_registry.cpp    – vorhanden
+include/server/wasm_handler_registry.h  – vorhanden
+tests/test_wasm_handler_registry.cpp    – vorhanden (25 Unit-Tests)
 ```
-
-**Issue-Titelvorschlag:** `feat(server): WebAssembly API handler sandbox via WASI (v1.8.0)`  
-**Label-Vorschläge:** `area/server`, `type/feature`, `priority/p3`, `effort/x-large`
 
 ---
 
