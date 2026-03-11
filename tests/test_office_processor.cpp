@@ -34,6 +34,7 @@
 #include "content/content_metrics.h"
 #include <string>
 #include <vector>
+#include <dirent.h>
 
 using namespace themis::content;
 
@@ -628,5 +629,55 @@ TEST_F(LibreOfficeSecurityTest, LargeOLEBlobHandledGracefully) {
     // Must complete without crashing; ok=false because soffice is absent
     EXPECT_FALSE(result.ok);
     EXPECT_FALSE(result.error_message.empty());
+}
+
+// ============================================================================
+// Permission-violation tests (CON-007)
+//
+// These tests verify that the RAII temp-dir guard correctly removes all
+// temporary files and directories on exit, so that no sensitive document
+// content leaks to subsequent processes or users who share the filesystem.
+// ============================================================================
+
+// After a failed extraction attempt (soffice not found), the implementation's
+// RAII guard must have removed every themisdb_lo_* temp directory from P_tmpdir.
+// This prevents data leakage: a malicious document's raw bytes must not persist
+// on disk after the extraction call returns.
+TEST_F(LibreOfficeSecurityTest, TempDirIsCleanedUpAfterFailure) {
+    // Snapshot the number of themisdb_lo_* entries before extraction
+    const char* tmp_base_env = P_tmpdir;
+    std::string tmp_base = tmp_base_env ? std::string(tmp_base_env) : std::string("/tmp");
+
+    auto count_lo_dirs = [&]() -> int {
+        int n = 0;
+        DIR* d = opendir(tmp_base.c_str());
+        if (!d) return -1;
+        struct dirent* ent;
+        while ((ent = readdir(d)) != nullptr) {
+            std::string name(ent->d_name);
+            if (name.rfind("themisdb_lo_", 0) == 0) ++n;
+        }
+        closedir(d);
+        return n;
+    };
+
+    int before = count_lo_dirs();
+    ASSERT_GE(before, 0) << "Cannot open temp directory: " << tmp_base;
+
+    // Trigger an extraction that must fail (non-existent soffice)
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/soffice_cleanup_test";
+    OfficeProcessor proc(std::move(cfg));
+    auto result = proc.extract(makeDocOLEBlob(), ct);
+
+    EXPECT_FALSE(result.ok);  // sanity: extraction must have failed
+
+    int after = count_lo_dirs();
+    ASSERT_GE(after, 0) << "Cannot open temp directory after extraction: " << tmp_base;
+
+    // No temp dirs should have been left behind
+    EXPECT_EQ(after, before)
+        << "RAII guard leaked " << (after - before)
+        << " themisdb_lo_* temp director(ies) under " << tmp_base;
 }
 

@@ -103,6 +103,8 @@
 
 **Behoben:** Mit CON-001 zusammen implementiert. `extractLegacyViaLibreOffice()` verwendet `posix_spawn` mit `POSIX_SPAWN_RESETIDS` (verhindert SUID/SGID-Privilege-Escalation), `POSIX_SPAWN_SETPGROUP` (isolierte Prozessgruppe), minimaler Sandbox-Umgebung (`PATH`, `HOME=tmpdir`, `TMPDIR`), und Absolut-Pfad-Validierung für das soffice-Binary (verhindert PATH-Hijacking).
 
+**Security-Tests:** `tests/test_office_processor.cpp` — `LibreOfficeSecurityTest` (7 Tests): Relative-Path-Rejection, Dot-Slash-Rejection, Path-Traversal-Rejection, Shell-Metacharacter-Injection (kein Shell-Aufruf via `posix_spawn`), OLE-Blob mit binärem Garbage, Large-Blob (4 MB), RAII-Temp-Dir-Cleanup nach Fehler (keine Datenleckage).
+
 **Auswirkung:** Ein bösartiges Dokument kann das ThemisDB-Datenverzeichnis nicht mehr über den LibreOffice-Subprozess kompromittieren.
 
 ---
