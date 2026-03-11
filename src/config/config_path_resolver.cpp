@@ -1287,9 +1287,9 @@ const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TA
             "config/tesseract_lang",
             "config/ai_ml/tesseract_lang",
             "ai_ml",
-            parseDate("2024-01-01"),
-            parseDate("2026-06-30"),
-            "docs/config_migration_guide.md"
+            parseDate("2026-01-01"),
+            parseDate("2027-06-30"),
+            "config/ai_ml/tesseract_lang/README.md"
         }
     },
 };

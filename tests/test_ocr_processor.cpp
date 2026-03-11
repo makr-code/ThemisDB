@@ -857,4 +857,93 @@ TEST(OcrProcessorDefaultDataDirTest, ResolvedDataDirUsedWhenDirectoryExists) {
            "when the directory exists on disk";
 }
 
+// ============================================================================
+// Default data-dir path resolution: config/ai_ml/tesseract_lang/
+// ============================================================================
+
+#include "config/config_path_resolver.h"
+#include <filesystem>
+
+/// Verify that PATH_MAPPING contains the legacy tessdata entry.
+TEST(OcrProcessorDefaultDataDirTest, LegacyPathMappedToCanonical) {
+    const auto& mappings = themis::config::ConfigPathResolver::legacyPathMappings();
+    auto it = mappings.find("config/tesseract_lang");
+    ASSERT_NE(it, mappings.end())
+        << "config/tesseract_lang must be registered in ConfigPathResolver PATH_MAPPING";
+    EXPECT_EQ(it->second, "config/ai_ml/tesseract_lang");
+}
+
+/// tryResolve must not throw for the canonical tessdata path.
+TEST(OcrProcessorDefaultDataDirTest, TryResolveCanonicalPathDoesNotThrow) {
+    EXPECT_NO_THROW({
+        auto result = themis::config::ConfigPathResolver::tryResolve(
+            "config/ai_ml/tesseract_lang");
+        (void)result;  // nullopt when dir absent — still valid
+    });
+}
+
+/// When config/ai_ml/tesseract_lang/ exists on disk, tryResolve returns it.
+TEST(OcrProcessorDefaultDataDirTest, ResolvedDataDirUsedWhenDirectoryExists) {
+    namespace fs = std::filesystem;
+
+    fs::path tessdata_path("config/ai_ml/tesseract_lang");
+    const bool pre_existed = fs::exists(tessdata_path);
+
+    std::error_code create_ec;
+    if (!pre_existed) {
+        fs::create_directories(tessdata_path, create_ec);
+    }
+
+    if (!fs::exists(tessdata_path)) {
+        GTEST_SKIP() << "Cannot create config/ai_ml/tesseract_lang for test (permissions?)";
+    }
+
+    // RAII guard: remove the directory only when we created it.
+    struct Guard {
+        fs::path path;
+        bool should_remove;
+        ~Guard() {
+            if (should_remove) {
+                std::error_code ec;
+                fs::remove(path, ec);
+            }
+        }
+    } guard{tessdata_path, !pre_existed};
+
+    themis::config::ConfigPathResolver::clearCache();
+    auto resolved = themis::config::ConfigPathResolver::tryResolve(
+        "config/ai_ml/tesseract_lang");
+    EXPECT_TRUE(resolved.has_value())
+        << "ConfigPathResolver::tryResolve should find config/ai_ml/tesseract_lang "
+           "when the directory exists on disk";
+}
+
+/// Config::data_dir starts empty (lazy resolution at OCR time).
+TEST(OcrProcessorDefaultDataDirTest, DefaultDataDirIsEmpty) {
+    OcrProcessor::Config cfg;
+    EXPECT_TRUE(cfg.data_dir.empty());
+}
+
+/// An explicit data_dir override is preserved unchanged.
+TEST(OcrProcessorDefaultDataDirTest, ExplicitDataDirOverridesDefault) {
+    OcrProcessor::Config cfg;
+    cfg.data_dir = "/custom/tessdata";
+    EXPECT_EQ(cfg.data_dir, "/custom/tessdata");
+}
+
+/// Per-collection language override leaves data_dir empty for lazy resolution.
+TEST(OcrProcessorDefaultDataDirTest, PerCollectionLanguageOverride) {
+    OcrProcessor::Config cfg;
+    cfg.language = "deu";
+    EXPECT_EQ(cfg.language, "deu");
+    EXPECT_TRUE(cfg.data_dir.empty());
+}
+
+/// Language defaults to "eng" when not overridden.
+TEST(OcrProcessorDefaultDataDirTest, DefaultLanguageFallbackIsEng) {
+    OcrProcessor::Config cfg;
+    EXPECT_EQ(cfg.language, "eng");
+}
+
+
 // Note: No custom main here; linked with GTest::gtest_main

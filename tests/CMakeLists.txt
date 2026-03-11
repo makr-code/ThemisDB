@@ -7216,6 +7216,46 @@ if(THEMIS_ENABLE_CONTENT)
     endif()
 
     # -------------------------------------------------------------------------
+    # OcrProcessor default data-dir path resolution focused tests (CON-004)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
+        message(STATUS "Adding OcrProcessor default data-dir focused tests (CON-004)")
+
+        add_executable(test_ocr_default_data_dir_focused
+            test_ocr_processor.cpp
+        )
+
+        target_include_directories(test_ocr_default_data_dir_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_ocr_default_data_dir_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_ocr_default_data_dir_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME OcrDefaultDataDirFocusedTests
+            COMMAND test_ocr_default_data_dir_focused
+            --gtest_filter=OcrProcessorDefaultDataDirTest.*)
+
+        set_tests_properties(OcrDefaultDataDirFocusedTests PROPERTIES
+            LABELS "content;ocr;tesseract;tessdata;config;path;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  OcrProcessor: PATH_MAPPING entry, tryResolve, Config defaults, per-collection override (CON-004)")
+    else()
+        message(STATUS "OcrProcessor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
     # AsyncIngestionWorker back-pressure focused tests (CON-005)
     # -------------------------------------------------------------------------
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")

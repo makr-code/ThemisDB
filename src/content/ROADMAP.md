@@ -132,8 +132,7 @@
 
 ## Known Issues & Limitations
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
-- OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); MimeDetector-triggered OCR routing and DPI pre-processing not yet implemented (CON-002, CON-003; see `docs/de/content/missing-implementations.md`)
-- OCR language-pack data directory defaults to `config/ai_ml/tesseract_lang/` via `ConfigPathResolver` (CON-004 resolved); per-collection override via `OcrProcessor::Config::data_dir`; language defaults to `"eng"`
+- OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); DPI pre-processing (rescaling + Sauvola binarisation, CON-003) implemented; tessdata directory defaults to `config/ai_ml/tesseract_lang/` via `ConfigPathResolver` (CON-004 resolved). MimeDetector-triggered OCR routing not yet implemented (CON-002; see `docs/de/content/missing-implementations.md`)
 - Large file streaming ingestion:
   - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size
   - Non-streaming types (image, PDF, binary, etc.): buffered up to `max_buffered_bytes` (default 256 MB) before delegating to `ingestRawBlob`; files exceeding the limit are rejected
