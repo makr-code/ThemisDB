@@ -54,7 +54,7 @@
 - [ ] MimeDetector-triggered OCR activation via ContentPolicy::ocrEnabled() (CON-002) (Target: Q3 2026)
 - [ ] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
 - [ ] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005) (Target: Q4 2026)
-- [ ] Zip-bomb protection in content_security.cpp — max 100× decompression ratio, max 1 000 entries (CON-006) (Target: Q3 2026)
+- [x] Zip-bomb protection in content_security.cpp — max 100× decompression ratio, max 1 000 entries (CON-006)
 
 ## Implementation Phases
 
@@ -108,7 +108,7 @@
   - pHash computation for a 4 MP JPEG in < 5 ms
   - OCR (A4 page, 300 DPI): < 3 s per page
   - Embedding batch (32 docs, 384-dim, CPU): < 50 ms
-- [ ] Zip-bomb protection in `archive_processor.cpp` — max 100× decompression ratio, max 1 000 extracted files (CON-006) (Target: Q3 2026)
+- [x] Zip-bomb protection in `archive_processor.cpp` — max 100× decompression ratio, max 1 000 extracted files (CON-006)
 - [ ] Back-pressure for `ingestStream()` when `max_queue_depth` is exceeded (CON-005) (Target: Q4 2026)
 - [ ] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` via `posix_spawn` (CON-001) (Target: Q3 2026)
 - [ ] OCR DPI pre-processing: rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
@@ -139,7 +139,7 @@
   - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size
   - Non-streaming types (image, PDF, binary, etc.): buffered up to `max_buffered_bytes` (default 256 MB) before delegating to `ingestRawBlob`; files exceeding the limit are rejected
   - Back-pressure (blocking on `max_queue_depth`) not yet implemented (CON-005)
-- Zip-bomb protection in `content_security.cpp` decompression-ratio check not yet enforced (CON-006)
+- Zip-bomb protection (`ContentSecurityManager::checkZipBomb()`) is enforced: ratio threshold 100×, max 1 000 archive entries; called in `ArchiveProcessor::process()` before extraction (CON-006)
 
 ## Breaking Changes
 - Processor plugin API may be refined when the plugin-based pipeline (Issue: #1686) is introduced
