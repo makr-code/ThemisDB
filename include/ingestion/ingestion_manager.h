@@ -35,6 +35,7 @@
 #include <chrono>
 #include <atomic>
 #include <mutex>
+#include "ingestion/semantic_validator.h"
 
 namespace themis {
 namespace ingestion {
@@ -751,6 +752,40 @@ class ISourceConnector;
  */
 using ConnectorFactory = std::function<std::unique_ptr<ISourceConnector>()>;
 
+// ============================================================================
+// Legal ingestion pipeline configuration
+// ============================================================================
+
+/**
+ * @brief Configuration for the LLM-driven legal text ingestion pipeline.
+ *
+ * When registered for a source via `IngestionManager::setLegalIngestionConfig()`,
+ * each document ingested from that source is run through the semantic extraction
+ * pipeline (deontic extraction + semantic validation + reference validation).
+ * The results are accessible via `IngestionManager::getLastLegalExtractionResult()`.
+ *
+ * Example:
+ * @code
+ * LegalIngestionConfig cfg;
+ * cfg.enabled                = true;
+ * cfg.confidence_threshold   = 0.75;
+ * cfg.validate_references    = true;
+ * mgr.setLegalIngestionConfig("bimschg_source", cfg);
+ * @endcode
+ */
+struct LegalIngestionConfig {
+    bool   enabled                = false; ///< Enable semantic extraction pipeline
+    double confidence_threshold   = 0.75;  ///< Minimum deontic extraction confidence
+    bool   validate_references    = true;  ///< Run AgenticReferenceValidator on each doc
+    bool   require_section_struct = false; ///< Reject docs without § section structure
+    bool   flag_low_confidence    = true;  ///< Add warning step to lineage when confidence low
+
+    LegalIngestionConfig() = default;
+
+    /** @brief Returns true when the pipeline is active */
+    bool isEnabled() const { return enabled; }
+};
+
 /**
  * @brief Unified multi-source ingestion manager
  * 
@@ -1163,6 +1198,53 @@ public:
      * @brief Remove all stored lineage records.
      */
     void clearLineageRecords();
+
+    // ── Legal ingestion pipeline (LLM-driven semantic extraction) ───────────
+
+    /**
+     * @brief Register a legal ingestion configuration for a source.
+     *
+     * When enabled, documents ingested from @p source_id are run through the
+     * semantic extraction pipeline (deontic extraction + semantic validation +
+     * optional reference validation).  The pipeline results are recorded in
+     * the ingestion lineage as transformation steps.
+     *
+     * @param source_id  Source to configure
+     * @param config     Legal ingestion configuration
+     */
+    void setLegalIngestionConfig(const std::string& source_id,
+                                  const LegalIngestionConfig& config);
+
+    /**
+     * @brief Retrieve the legal ingestion configuration for a source.
+     *
+     * @param source_id  Source identifier
+     * @param out        Populated with the stored config on success
+     * @return true if a legal ingestion config exists for @p source_id
+     */
+    bool getLegalIngestionConfig(const std::string& source_id,
+                                  LegalIngestionConfig& out) const;
+
+    /**
+     * @brief Run the legal extraction pipeline on a single document text.
+     *
+     * Applies deontic extraction, semantic validation, and (when
+     * `LegalIngestionConfig::validate_references` is true) reference
+     * validation to the supplied text.  The result is independent of any
+     * registered source.
+     *
+     * Useful for ad-hoc extraction or testing the pipeline without
+     * triggering a full ingestion run.
+     *
+     * @param document_id  Identifier for the document (used in result)
+     * @param text         Raw legal document text
+     * @param config       Pipeline configuration to apply
+     * @return             LegalExtractionResult with provisions and quality scores
+     */
+    LegalExtractionResult runLegalExtraction(
+        const std::string& document_id,
+        const std::string& text,
+        const LegalIngestionConfig& config) const;
 
 private:
     class Impl;
@@ -1674,6 +1756,19 @@ public:
                                            const SchemaConfig& config);
 
     /**
+     * @brief Register a legal ingestion pipeline configuration for a source.
+     *
+     * Equivalent to calling `IngestionManager::setLegalIngestionConfig(source_id, config)`
+     * after `build()`.
+     *
+     * @param source_id Source whose documents the legal pipeline should process
+     * @param config    Legal ingestion configuration
+     * @return *this for chaining
+     */
+    IngestionBuilder& withLegalIngestionConfig(const std::string& source_id,
+                                                const LegalIngestionConfig& config);
+
+    /**
      * @brief Build and return the configured IngestionManager
      * @return Unique pointer to the fully configured manager
      */
@@ -1691,6 +1786,7 @@ private:
         bool dry_run = false;
         std::unordered_map<std::string, SchemaConfig> schema_configs;
         std::unordered_map<std::string, ConnectorFactory> plugin_factories;
+        std::unordered_map<std::string, LegalIngestionConfig> legal_ingestion_configs;
     };
     std::unique_ptr<Opts> opts_;
 };

@@ -10153,6 +10153,9 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/web_crawler_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/cdc_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/deontic_extractor.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/semantic_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/agentic_reference_validator.cpp
 )
 
 # Helper macro for ingestion focused tests
@@ -10348,6 +10351,14 @@ add_ingestion_focused_test(
     IngestionLineageFocusedTests
     "ingestion;lineage;provenance;tracking;focused;unit"
     "IngestionLineage: IngestionLineageRecord struct, IngestionLineageStore, IngestionManager lineage API (Issue #1901)"
+)
+
+add_ingestion_focused_test(
+    test_legal_extraction_focused
+    test_legal_extraction.cpp
+    LegalExtractionFocusedTests
+    "ingestion;legal;deontic;semantic;extraction;focused;unit"
+    "LegalExtraction: DeonticExtractor, SemanticValidator, AgenticReferenceValidator, LegalIngestionConfig, IngestionManager legal pipeline"
 )
 # Metadata Module – Focused Test Targets
 # ============================================================================
