@@ -111,6 +111,10 @@ TEST(OcrProcessorConfigTest, DefaultValues) {
     EXPECT_TRUE(cfg.char_whitelist.empty());
     EXPECT_EQ(cfg.max_text_size, 1024u * 1024u);
     EXPECT_EQ(cfg.metrics, nullptr);
+    // DPI rescaling defaults
+    EXPECT_EQ(cfg.target_dpi, 300);
+    EXPECT_TRUE(cfg.enable_dpi_rescaling);
+    EXPECT_TRUE(cfg.enable_adaptive_binarization);
 }
 
 TEST(OcrProcessorConfigTest, CustomLanguage) {
@@ -483,6 +487,143 @@ TEST(OcrProcessorFactoryTest, CreateOcrProcessorWithConfig) {
     ASSERT_NE(proc, nullptr);
     EXPECT_EQ(proc->getName(), "OcrProcessor");
 }
+
+// ============================================================================
+// DPI rescaling and adaptive binarisation – config flags
+// ============================================================================
+
+TEST(OcrProcessorConfigTest, DpiRescalingConfigFields) {
+    OcrProcessor::Config cfg;
+    // target_dpi default is 300
+    EXPECT_EQ(cfg.target_dpi, 300);
+
+    // Can be overridden
+    cfg.target_dpi = 200;
+    EXPECT_EQ(cfg.target_dpi, 200);
+
+    // Rescaling can be disabled
+    cfg.enable_dpi_rescaling = false;
+    EXPECT_FALSE(cfg.enable_dpi_rescaling);
+}
+
+TEST(OcrProcessorConfigTest, AdaptiveBinarizationConfigField) {
+    OcrProcessor::Config cfg;
+    EXPECT_TRUE(cfg.enable_adaptive_binarization);
+
+    // Can be disabled
+    cfg.enable_adaptive_binarization = false;
+    EXPECT_FALSE(cfg.enable_adaptive_binarization);
+}
+
+// ============================================================================
+// DPI rescaling and adaptive binarisation – extract() metadata
+// ============================================================================
+
+TEST(OcrProcessorTest, ExtractPopulatesPreprocessingMetadata) {
+    // Verify that the three new preprocessing metadata fields are always present
+    // when extract_metadata=true, regardless of whether OCR is available.
+    // (When OCR is unavailable, extract() returns ok=false before populating
+    //  metadata; so we can only assert their presence when OCR is available.)
+#ifdef THEMIS_ENABLE_OCR
+    OcrProcessor proc;
+    ContentType ct = makeImageContentType("image/jpeg");
+    auto result = proc.extract(makeMinimalJpeg(), ct);
+    if (result.ok) {
+        EXPECT_TRUE(result.metadata.contains("ocr_input_dpi"));
+        EXPECT_TRUE(result.metadata.contains("ocr_rescaled"));
+        EXPECT_TRUE(result.metadata.contains("ocr_binarized"));
+    }
+#else
+    GTEST_SKIP() << "Tesseract not available – metadata fields not populated on failure path";
+#endif
+}
+
+TEST(OcrProcessorTest, ExtractMetadataSuppressedWhenExtractMetadataFalse) {
+    OcrProcessor::Config cfg;
+    cfg.extract_metadata = false;
+    OcrProcessor proc(std::move(cfg));
+    ContentType ct = makeImageContentType("image/jpeg");
+    auto result = proc.extract(makeMinimalJpeg(), ct);
+    // Regardless of ok, no preprocessing metadata keys must be set
+    EXPECT_FALSE(result.metadata.contains("ocr_input_dpi"));
+    EXPECT_FALSE(result.metadata.contains("ocr_rescaled"));
+    EXPECT_FALSE(result.metadata.contains("ocr_binarized"));
+}
+
+TEST(OcrProcessorTest, ExtractPreprocessingFlagsAreFalseWhenFeaturesDisabled) {
+    // When both pre-processing features are disabled, the corresponding flags
+    // in result.metadata must be false.
+#ifdef THEMIS_ENABLE_OCR
+    OcrProcessor::Config cfg;
+    cfg.enable_dpi_rescaling       = false;
+    cfg.enable_adaptive_binarization = false;
+    OcrProcessor proc(std::move(cfg));
+
+    ContentType ct = makeImageContentType("image/jpeg");
+    auto result = proc.extract(makeMinimalJpeg(), ct);
+    if (result.ok) {
+        EXPECT_FALSE(result.metadata.value("ocr_rescaled",  true));
+        EXPECT_FALSE(result.metadata.value("ocr_binarized", true));
+    }
+#else
+    GTEST_SKIP() << "Tesseract not available";
+#endif
+}
+
+// ============================================================================
+// DPI rescaling and adaptive binarisation – low-res simulated inputs
+// ============================================================================
+
+// Low-resolution simulation: disabling rescaling/binarisation should not
+// change the OCR availability result (regression guard).
+TEST(OcrProcessorTest, LowResSampleDpiRescalingDisabledNoRegression) {
+    OcrProcessor::Config cfg;
+    cfg.enable_dpi_rescaling = false;
+    cfg.enable_adaptive_binarization = false;
+    OcrProcessor proc(std::move(cfg));
+
+    ContentType ct = makeImageContentType("image/jpeg");
+    auto result_off = proc.extract(makeMinimalJpeg(), ct);
+
+    // Compare against a processor with defaults (rescaling+binarisation on)
+    OcrProcessor proc_default;
+    auto result_on = proc_default.extract(makeMinimalJpeg(), ct);
+
+    // Both should agree on whether OCR is available
+    bool off_unavailable = (result_off.error_message.find("OCR not available") != std::string::npos);
+    bool on_unavailable  = (result_on.error_message.find("OCR not available")  != std::string::npos);
+    EXPECT_EQ(off_unavailable, on_unavailable);
+}
+
+// Verify that a non-300 target DPI can be configured and the processor still
+// runs without crashing.
+TEST(OcrProcessorTest, LowResSampleCustomTargetDpi) {
+    OcrProcessor::Config cfg;
+    cfg.target_dpi = 150;  // non-standard target
+    OcrProcessor proc(std::move(cfg));
+
+    ContentType ct = makeImageContentType("image/jpeg");
+    // Must not throw; result content depends on OCR availability
+    EXPECT_NO_THROW({
+        auto result = proc.extract(makeMinimalJpeg(), ct);
+        (void)result;
+    });
+}
+
+// Verify that binarisation-only mode (rescaling disabled) also runs cleanly.
+TEST(OcrProcessorTest, LowResSampleBinarisationOnlyMode) {
+    OcrProcessor::Config cfg;
+    cfg.enable_dpi_rescaling = false;
+    cfg.enable_adaptive_binarization = true;
+    OcrProcessor proc(std::move(cfg));
+
+    ContentType ct = makeImageContentType("image/png");
+    EXPECT_NO_THROW({
+        auto result = proc.extract(makeMinimalPng(), ct);
+        (void)result;
+    });
+}
+
 
 // ============================================================================
 // Integration: MimeDetector OCR routing → OcrProcessor

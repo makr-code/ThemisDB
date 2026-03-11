@@ -75,6 +75,9 @@ public:
         std::string char_whitelist;              ///< Whitelist string (used when enabled)
         size_t max_text_size = 1024 * 1024;      ///< Maximum OCR output bytes (1 MB)
         ContentMetrics* metrics = nullptr;       ///< Optional metrics sink
+        int target_dpi = 300;                    ///< Target resolution for DPI rescaling
+        bool enable_dpi_rescaling = true;        ///< Rescale to target_dpi when image DPI is lower
+        bool enable_adaptive_binarization = true; ///< Apply adaptive binarisation (Sauvola) before OCR
     };
 
     OcrProcessor();
@@ -154,8 +157,22 @@ public:
 private:
     Config config_;
 
+    /**
+     * @brief Preprocessing metadata populated inside runTesseract().
+     *
+     * Carries per-call information about DPI detection, rescaling, and
+     * binarisation so that extract() can surface it in result.metadata.
+     */
+    struct PreprocessInfo {
+        int  original_dpi = 0;    ///< DPI read from image metadata (0 = unknown)
+        bool rescaled     = false; ///< Image was rescaled to Config::target_dpi
+        bool binarized    = false; ///< Adaptive (Sauvola) binarisation was applied
+    };
+
     /// Run Tesseract on the image bytes; returns "" when OCR is unavailable.
-    std::string runTesseract(const std::string& blob);
+    /// When preprocess_info is non-null it is filled with rescaling/binarisation details.
+    std::string runTesseract(const std::string& blob,
+                             PreprocessInfo* preprocess_info = nullptr);
 
     /// Return true when the blob has a magic-byte signature supported by Leptonica.
     static bool isSupportedImageFormat(const std::string& blob);
