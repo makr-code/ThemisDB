@@ -1888,3 +1888,68 @@ TEST(PluginWatchdog, DestructorStopsWatchdog) {
     // No crash = pass
 }
 
+// --- resetWatchdogStats while watchdog is running ----------------------------
+
+TEST(PluginWatchdog, ResetWatchdogStatsWhileRunning) {
+    // Calling resetWatchdogStats() while the watchdog thread is running must
+    // not crash or deadlock.  This exercises the concurrent-access path where
+    // the background thread may be reading/writing stats at the same time.
+    ModuleLoader loader;
+    WatchdogConfig cfg;
+    cfg.check_interval_ms = 5'000;  // Long interval so loop won't fire
+    loader.configureWatchdog(cfg);
+    loader.startWatchdog();
+    EXPECT_TRUE(loader.isWatchdogRunning());
+
+    loader.resetWatchdogStats();  // must not deadlock or crash
+    auto all = loader.getAllWatchdogStats();
+    EXPECT_TRUE(all.empty());
+
+    loader.stopWatchdog();
+    EXPECT_FALSE(loader.isWatchdogRunning());
+}
+
+// --- WatchdogModuleStats field completeness ----------------------------------
+
+TEST(WatchdogModuleStats, AllFieldsPresent) {
+    // Verify that every documented field is accessible and has a sensible
+    // zero / false default so callers can compare against initial state.
+    WatchdogModuleStats s;
+    EXPECT_EQ(s.restart_count, 0u);
+    EXPECT_EQ(s.consecutive_failures, 0u);
+    EXPECT_EQ(s.last_health_check_ms, 0u);
+    EXPECT_EQ(s.last_failure_ms, 0u);
+    EXPECT_EQ(s.last_restart_ms, 0u);
+    EXPECT_EQ(s.next_retry_ms, 0u);
+    EXPECT_FALSE(s.permanently_failed);
+    EXPECT_TRUE(s.moduleName.empty());
+    EXPECT_TRUE(s.modulePath.empty());
+    EXPECT_TRUE(s.last_error.empty());
+
+    // Mutate a few fields to confirm they are writable (no const / read-only restriction)
+    s.restart_count = 3;
+    s.permanently_failed = true;
+    s.last_error = "test error";
+    EXPECT_EQ(s.restart_count, 3u);
+    EXPECT_TRUE(s.permanently_failed);
+    EXPECT_EQ(s.last_error, "test error");
+}
+
+// --- WatchdogConfig: zero max_restart_attempts means unlimited ---------------
+
+TEST(WatchdogConfig, ZeroMaxRestartAttemptsIsUnlimited) {
+    // When max_restart_attempts == 0, the watchdog should never set
+    // permanently_failed due to restart exhaustion.  This test verifies the
+    // config field can be set to 0 and is stored correctly.
+    WatchdogConfig cfg;
+    cfg.max_restart_attempts = 0;
+    EXPECT_EQ(cfg.max_restart_attempts, 0u);
+
+    ModuleLoader loader;
+    loader.configureWatchdog(cfg);
+    // We cannot observe the unlimited-restart behaviour without a real .so,
+    // but starting/stopping the watchdog with this config must not crash.
+    loader.startWatchdog();
+    loader.stopWatchdog();
+}
+

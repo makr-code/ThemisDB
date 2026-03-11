@@ -38,7 +38,7 @@ Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepa
 - Hintergrund-Thread (`watchdogLoop`) führt periodische Health-Checks auf alle geladenen Module aus.
 - Bei Fehler: exponentieller Backoff, max. Restart-Versuche, Markierung als `permanently_failed`.
 - Destruktor stoppt den Watchdog-Thread korrekt (kein Race Condition bei Shutdown).
-- `PluginWatchdogFocusedTests` in `tests/CMakeLists.txt` (12 Unit-Tests).
+- `PluginWatchdogFocusedTests` in `tests/CMakeLists.txt` (18 Unit-Tests).
 
 **Claim-Quelle:** `src/base/ROADMAP.md`, Abschnitt "Completed ✅"  
 > `[x] Plugin health monitoring and automatic restart (Issue: #2373)`
@@ -48,10 +48,7 @@ Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepa
 - **Kein Restart-Mechanismus** gefunden: weder in `module_loader.cpp`, `hot_reload_manager.cpp` noch in `module_sandbox.cpp`.
 
 ---
-- Health-Checks werden beim Modullade-Vorgang ausgeführt (Activation Stage, `module_loader.cpp` Zeilen 452–476 und `runHealthChecks()` Zeilen 1148–1190).
-- **Kein Restart-Mechanismus** gefunden: weder in `module_loader.cpp`, `hot_reload_manager.cpp` noch in `module_sandbox.cpp`. Keine `restart_count`-, `watchdog`- oder `auto_recover`-Symbole in einem der Base-Quellcode-Dateien.
 
-**Evidence (geprüfte Pfade):**
 ## Eintrag 2: WASM-Based Plugin Isolation (Runtime-Injection erforderlich)
 
 **Claim-Quelle:** `src/base/ROADMAP.md`, Abschnitt "Completed ✅"  

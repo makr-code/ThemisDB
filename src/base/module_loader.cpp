@@ -1786,6 +1786,7 @@ void ModuleLoader::watchdogCheckAllModules() {
         // after the lock is released to avoid a potential deadlock with
         // loadModule()/unloadModule() (which may acquire their own resources).
         bool shouldRestart = false;
+        WatchdogModuleStats statsCopy;
         {
             std::lock_guard<std::mutex> lk(watchdogMutex_);
             auto& stats = watchdogStats_[name];
@@ -1826,6 +1827,7 @@ void ModuleLoader::watchdogCheckAllModules() {
                                       name, wait);
                     } else {
                         shouldRestart = true;
+                        statsCopy = stats;  // take a safe copy while holding the lock
                     }
                 }
             }
@@ -1834,8 +1836,17 @@ void ModuleLoader::watchdogCheckAllModules() {
         if (shouldRestart) {
             // Perform unload/reload without holding watchdogMutex_ to avoid
             // locking ordering issues with the auditor and OS loader.
-            // Stats are updated inside watchdogRestartModule() under a fresh lock.
-            watchdogRestartModule(watchdogStats_[name], path);
+            // statsCopy is a local snapshot; the map entry is not touched until
+            // we write the results back under a fresh lock below.
+            watchdogRestartModule(statsCopy, path);
+
+            // Write the updated stats back to the map (if it still exists — it
+            // may have been removed by a concurrent resetWatchdogStats() call).
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            auto it = watchdogStats_.find(name);
+            if (it != watchdogStats_.end()) {
+                it->second = statsCopy;
+            }
         }
     }
 }

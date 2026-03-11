@@ -1319,10 +1319,12 @@ set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
 )
 
 # Plugin Watchdog tests (subset of AllTests)
-# Covers: WatchdogConfig defaults, WatchdogModuleStats defaults, lifecycle
+# Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
+#         WatchdogModuleStats defaults/field completeness, lifecycle
 #         (start/stop/isRunning), idempotent start/stop, configureWatchdog,
-#         getWatchdogStats/getAllWatchdogStats, resetWatchdogStats, disabled
-#         watchdog, destructor cleanup  (from test_module_loader.cpp, Issue #2373)
+#         getWatchdogStats/getAllWatchdogStats, resetWatchdogStats (incl.
+#         while running), disabled watchdog, destructor cleanup
+#         (from test_module_loader.cpp, Issue #2373)
 add_test(NAME PluginWatchdogFocusedTests
     COMMAND themis_tests --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
 set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
