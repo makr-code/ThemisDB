@@ -1645,6 +1645,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/api_key_mgmt_handler.cpp
     ../src/server/session_api_handler.cpp
     ../src/server/saml_auth_provider.cpp
+    ../src/server/oauth2_provider.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
