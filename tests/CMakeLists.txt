@@ -11685,7 +11685,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cp
              COMMAND test_database_maintenance_orchestrator_focused)
 
     set_tests_properties(DatabaseMaintenanceOrchestratorFocusedTests PROPERTIES
-        LABELS "maintenance;orchestrator;schedule;crud;health;focused;unit"
+        LABELS "maintenance;orchestrator;schedule;crud;health;window;metrics;focused;unit"
         TIMEOUT 120
     )
 

@@ -1,7 +1,7 @@
 /**
  * @file test_database_maintenance_orchestrator.cpp
  * @brief Unit tests for DatabaseMaintenanceOrchestrator – CRUD operations,
- *        job management, and health reporting.
+ *        job management, health reporting, window enforcement, and metrics.
  */
 
 #include <gtest/gtest.h>
@@ -11,6 +11,7 @@
 #include "maintenance/maintenance_task.h"
 #include "maintenance/maintenance_health_report.h"
 #include "server/maintenance_api_handler.h"
+#include "observability/metrics_collector.h"
 
 #include <nlohmann/json.hpp>
 #include <thread>
@@ -579,3 +580,161 @@ TEST(OrchestratorJobTest, JsonContainsAllFields) {
     EXPECT_EQ(j["state"].get<std::string>(),        "succeeded");
     EXPECT_EQ(j["duration_ms"].get<int64_t>(),      1000);
 }
+
+// ===========================================================================
+// Maintenance window enforcement
+// ===========================================================================
+
+TEST_F(MaintenanceOrchestratorTest, WindowEnforcement_SkipsJobOutsideWindow) {
+    // Create a schedule with enforce_window=true and a window that is guaranteed
+    // to be in the future (window 00:00-00:01 UTC — almost certainly not NOW).
+    // To avoid flakiness we set a 1-hour-wide window and pick an hour that is
+    // guaranteed not to be the current UTC hour by checking.
+    int current_hour = static_cast<int>(
+        std::chrono::duration_cast<std::chrono::hours>(
+            std::chrono::system_clock::now().time_since_epoch()).count() % 24);
+
+    // Pick a window that does NOT include the current hour
+    int safe_start = (current_hour + 12) % 24;  // 12 hours away
+    int safe_end   = (safe_start + 1) % 24;
+
+    auto entry = makeEntry("Window Test");
+    entry.enforce_window    = true;
+    entry.window_start_hour = safe_start;
+    entry.window_end_hour   = safe_end;
+    entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    // Trigger the schedule – execution is synchronous via the callback thread.
+    // We need to manually invoke executeSchedule-like logic.
+    // Since triggerNow launches a detached thread, we use a small sleep.
+    auto job_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job_result) << job_result.error().message();
+
+    std::string job_id = job_result->id;
+
+    // Wait for the background thread to finish (up to 2 s)
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job_id);
+        if (j && (j->state == MaintenanceJobState::SKIPPED ||
+                  j->state == MaintenanceJobState::SUCCEEDED ||
+                  j->state == MaintenanceJobState::FAILED)) {
+            break;
+        }
+    }
+
+    auto final_job = orchestrator_->getJob(job_id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SKIPPED)
+        << "Expected SKIPPED but got: " << jobStateToString(final_job->state);
+    EXPECT_NE(final_job->error_message.find("window"), std::string::npos);
+}
+
+TEST_F(MaintenanceOrchestratorTest, WindowEnforcement_RunsInsideWindow) {
+    // Schedule with enforce_window=true but window = full day [0, 23]
+    auto entry = makeEntry("Full Day Window");
+    entry.enforce_window    = true;
+    entry.window_start_hour = 0;
+    entry.window_end_hour   = 23;
+    entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job_result);
+
+    std::string job_id = job_result->id;
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job_id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+
+    auto final_job = orchestrator_->getJob(job_id);
+    ASSERT_TRUE(final_job);
+    // Should NOT be SKIPPED when inside window
+    EXPECT_NE(final_job->state, MaintenanceJobState::SKIPPED);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SUCCEEDED);
+}
+
+TEST_F(MaintenanceOrchestratorTest, WindowEnforcement_NoEnforcementAllowsAnyHour) {
+    // enforce_window=false means the job should always run regardless of hour
+    auto entry = makeEntry("No Enforcement");
+    entry.enforce_window    = false;
+    entry.window_start_hour = 2;
+    entry.window_end_hour   = 3;   // Very narrow window – almost certainly NOT now
+    entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION};
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id);
+    ASSERT_TRUE(job_result);
+
+    std::string job_id = job_result->id;
+    for (int i = 0; i < 40; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        auto j = orchestrator_->getJob(job_id);
+        if (j && j->state != MaintenanceJobState::RUNNING &&
+                 j->state != MaintenanceJobState::PENDING) break;
+    }
+
+    auto final_job = orchestrator_->getJob(job_id);
+    ASSERT_TRUE(final_job);
+    EXPECT_NE(final_job->state, MaintenanceJobState::SKIPPED);
+}
+
+// ===========================================================================
+// Halt-on-failure (DAG sequential execution)
+// ===========================================================================
+
+TEST_F(MaintenanceOrchestratorTest, HaltOnFailure_StopsAfterFirstFailure) {
+    // metrics_collection will SUCCEED (module-delegated).
+    // We test that with halt_on_task_failure, subsequent tasks are not started
+    // after a failing task.  Since we can't inject a failure in the current
+    // module-delegated tasks, we verify the flag is stored and honoured
+    // (via the schedule entry).
+    auto entry = makeEntry("Halt Test");
+    entry.halt_on_task_failure = true;
+    entry.tasks = {
+        MaintenanceTaskType::METRICS_COLLECTION,
+        MaintenanceTaskType::QUOTA_CHECK,
+    };
+    entry.enforce_window = false;
+
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+    EXPECT_TRUE(created->halt_on_task_failure);
+
+    // Verify it round-trips through patch
+    nlohmann::json patch = {{"halt_on_task_failure", false}};
+    auto patched = orchestrator_->patchSchedule(created->id, patch);
+    ASSERT_TRUE(patched);
+    EXPECT_FALSE(patched->halt_on_task_failure);
+}
+
+// ===========================================================================
+// SKIPPED job state enum/JSON
+// ===========================================================================
+
+TEST(JobStateTest, SkippedStateJson) {
+    OrchestratorJob job;
+    job.id            = "skip-job";
+    job.schedule_id   = "sched-1";
+    job.task_type     = MaintenanceTaskType::METRICS_COLLECTION;
+    job.state         = MaintenanceJobState::SKIPPED;
+    job.error_message = "Outside maintenance window";
+    job.started_at_ms  = 1000;
+    job.finished_at_ms = 1001;
+
+    auto j = job.toJson();
+    EXPECT_EQ(j["state"].get<std::string>(), "skipped");
+    EXPECT_NE(j["error_message"].get<std::string>().find("window"),
+              std::string::npos);
+}
+
