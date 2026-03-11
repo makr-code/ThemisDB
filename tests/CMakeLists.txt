@@ -6051,6 +6051,108 @@ else()
 endif()
 
 # ============================================================================
+# MDM Entity Matching Focused Tests (standalone binary)
+# ============================================================================
+
+set(_mdm_matching_test_sources "")
+foreach(_mdm_test
+        test_entity_matching.cpp
+        test_entity_linking.cpp
+        test_canonical_resolver.cpp)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_mdm_test}")
+        list(APPEND _mdm_matching_test_sources "${_mdm_test}")
+    endif()
+endforeach()
+
+if(_mdm_matching_test_sources)
+    message(STATUS "Adding MDM EntityMatching focused tests (${_mdm_matching_test_sources})")
+
+    add_executable(test_mdm_entity_matching_focused
+        ${_mdm_matching_test_sources}
+        ${CMAKE_SOURCE_DIR}/src/importers/deterministic_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/entity_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/canonical_resolver.cpp
+    )
+
+    target_include_directories(test_mdm_entity_matching_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mdm_entity_matching_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mdm_entity_matching_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MDMEntityMatchingFocusedTests COMMAND test_mdm_entity_matching_focused)
+
+    set_tests_properties(MDMEntityMatchingFocusedTests PROPERTIES
+        LABELS "importers;mdm;entity-matching;deduplication;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MDMEntityMatching: DeterministicMatcher, SemanticMatcher, HybridMatcher, EntityLinker, CanonicalResolver")
+else()
+    message(STATUS "MDM entity matching focused test sources not found")
+endif()
+
+# ============================================================================
+# MDM Engine & Integration Focused Tests (standalone binary)
+# ============================================================================
+
+set(_mdm_engine_test_sources "")
+foreach(_mdm_test
+        test_mdm_engine.cpp
+        test_mdm_integration.cpp)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_mdm_test}")
+        list(APPEND _mdm_engine_test_sources "${_mdm_test}")
+    endif()
+endforeach()
+
+if(_mdm_engine_test_sources)
+    message(STATUS "Adding MDM Engine focused tests (${_mdm_engine_test_sources})")
+
+    add_executable(test_mdm_engine_focused
+        ${_mdm_engine_test_sources}
+        ${CMAKE_SOURCE_DIR}/src/importers/deterministic_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/entity_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/canonical_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mdm_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mdm_audit_trail.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mdm_metrics.cpp
+    )
+
+    target_include_directories(test_mdm_engine_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_mdm_engine_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_mdm_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MDMEngineFocusedTests COMMAND test_mdm_engine_focused)
+
+    set_tests_properties(MDMEngineFocusedTests PROPERTIES
+        LABELS "importers;mdm;engine;audit-trail;metrics;unit;integration"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  MDMEngine: workflow execution, audit trail, metrics, integration tests")
+else()
+    message(STATUS "MDM engine focused test sources not found")
+endif()
+
+# ============================================================================
 # Plugin Capability Negotiation Tests (standalone target for Issue #1984)
 # ============================================================================
 

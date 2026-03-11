@@ -90,6 +90,53 @@ v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaD
 - [x] All 11 `src/importers/*.cpp` files registered in `cmake/ModularBuild.cmake` (`THEMIS_QUERY_SOURCES`; `s3_importer.cpp` gated by `THEMIS_ENABLE_S3`)
 - [x] Focused standalone test targets added in `tests/CMakeLists.txt`: FlatfileImporterFocusedTests, SchemaValidatorImporterFocusedTests, ImporterConflictResolverFocusedTests, ImporterAsyncApiFocusedTests, MySQLImporterFocusedTests, MongoImporterFocusedTests, SQLiteImporterFocusedTests, KafkaImporterFocusedTests, OracleImporterFocusedTests, S3ImporterFocusedTests, PostgresImporterFocusedTests, ImportWizardFocusedTests
 
+### Phase 6: MDM & Entity Deduplication (Status: Completed ✅)
+
+**Master Data Management** – automated entity matching, linking, and golden
+record creation for imported PostgreSQL data.
+
+**Files added:**
+- `include/importers/entity_matcher.h` – DeterministicMatcher, SemanticMatcher, HybridEntityMatcher
+- `include/importers/entity_linker.h` – EntityLinker, EntityLink, LinkAuditEntry
+- `include/importers/canonical_resolver.h` – CanonicalEntityResolver, GoldenRecord
+- `include/importers/mdm_engine.h` – MDMEngine, MDMConfig, MDMWorkflowResult
+- `include/importers/mdm_audit_trail.h` – MDMAuditTrail, AuditEvent (chain-linked)
+- `include/importers/mdm_metrics.h` – MDMMetrics, MDMMetricSnapshot
+- `src/importers/deterministic_matcher.cpp`
+- `src/importers/semantic_matcher.cpp`
+- `src/importers/entity_linker.cpp`
+- `src/importers/canonical_resolver.cpp`
+- `src/importers/mdm_engine.cpp`
+- `src/importers/mdm_audit_trail.cpp`
+- `src/importers/mdm_metrics.cpp`
+
+**Tests (132 tests across 5 files, 100% pass):**
+- `tests/test_entity_matching.cpp` (40 tests)
+- `tests/test_entity_linking.cpp` (20 tests)
+- `tests/test_canonical_resolver.cpp` (35 tests)
+- `tests/test_mdm_engine.cpp` (12 tests)
+- `tests/test_mdm_integration.cpp` (9 tests)
+
+**Focused test targets:** MDMDeterministicMatcherFocusedTests, MDMSemanticMatcherFocusedTests, MDMEntityLinkerFocusedTests, MDMCanonicalResolverFocusedTests, MDMEngineFocusedTests, MDMIntegrationFocusedTests
+
+**Documentation:**
+- `docs/importers/MDM_USER_GUIDE.md`
+- `docs/importers/MDM_ARCHITECTURE.md`
+- `docs/importers/MDM_API_REFERENCE.md`
+
+**Key capabilities:**
+- [x] Deterministic matching (PK, unique fields, custom identifier mappings)
+- [x] Semantic matching (Jaro-Winkler, Levenshtein, Soundex, email, phone, cosine)
+- [x] Hybrid ensemble strategy (configurable weights)
+- [x] Bidirectional entity linking with 8 typed link types
+- [x] Golden record creation with 6 resolution policies
+- [x] Field-level conflict resolution with per-field rules
+- [x] Protected fields (entity[0]'s original values always preserved)
+- [x] Immutable audit trail with FNV-1a chain hash
+- [x] Dry-run mode (no persistent storage, zero links_created)
+- [x] Prometheus-style metrics + JSON dashboard export
+- [x] All 18 new source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
+
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1857)
 - [x] Integration tests against live PostgreSQL (Issue: #1858)

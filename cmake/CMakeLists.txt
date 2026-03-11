@@ -2202,6 +2202,12 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
     $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    ../src/importers/deterministic_matcher.cpp
+    ../src/importers/entity_linker.cpp
+    ../src/importers/canonical_resolver.cpp
+    ../src/importers/mdm_engine.cpp
+    ../src/importers/mdm_audit_trail.cpp
+    ../src/importers/mdm_metrics.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
