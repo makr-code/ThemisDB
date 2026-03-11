@@ -478,6 +478,10 @@ private:
     // Accumulated training metrics (reset at the start of each train() call)
     TrainingMetrics metrics_;
 
+    // Lazily-initialized LoRACheckpointManager (shared across all saveCheckpoint()
+    // calls to avoid redundant directory-scanning and manifest-loading per step).
+    mutable std::unique_ptr<LoRACheckpointManager> checkpoint_manager_;
+
 #ifdef THEMIS_ENABLE_LLM
     // Real LoRA weight matrices and Adam optimizer (CPU path)
     std::unique_ptr<llm::lora::LoRALayer> lora_layer_;
@@ -798,12 +802,9 @@ private:
 
             llm::lora::GPUTensor in_t ({rows, feature_dim}, dev);
             llm::lora::GPUTensor tg_t ({rows, feature_dim}, dev);
-            std::vector<float> in_shard (full_input.begin()  + static_cast<std::ptrdiff_t>(offset * feature_dim),
-                                         full_input.begin()  + static_cast<std::ptrdiff_t>((offset + rows) * feature_dim));
-            std::vector<float> tg_shard (full_target.begin() + static_cast<std::ptrdiff_t>(offset * feature_dim),
-                                         full_target.begin() + static_cast<std::ptrdiff_t>((offset + rows) * feature_dim));
-            in_t.upload(in_shard);
-            tg_t.upload(tg_shard);
+            // Use pointer-based upload to avoid intermediate vector copies.
+            in_t.upload(full_input.data()  + offset * feature_dim, rows * feature_dim);
+            tg_t.upload(full_target.data() + offset * feature_dim, rows * feature_dim);
             gpu_inputs.push_back(std::move(in_t));
             gpu_targets.push_back(std::move(tg_t));
         }
@@ -1009,16 +1010,20 @@ private:
             // LoRACheckpointManager integration: when checkpoint_dir is set,
             // register the checkpoint so it participates in rolling-window
             // rotation and SHA-256 integrity management.
+            // The manager is lazily created on first use and reused to avoid
+            // redundant directory-scanning and manifest-loading per step.
             if (!config_.checkpoint_dir.empty()) {
-                CheckpointManagerConfig mgr_cfg;
-                mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
-                LoRACheckpointManager mgr(mgr_cfg);
+                if (!checkpoint_manager_) {
+                    CheckpointManagerConfig mgr_cfg;
+                    mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
+                    checkpoint_manager_ = std::make_unique<LoRACheckpointManager>(mgr_cfg);
+                }
                 CheckpointManifestEntry meta;
                 meta.adapter_version = version;
                 meta.epoch           = epoch;
                 meta.step            = step;
                 meta.loss            = loss;
-                mgr.save(prefix + "_weights.bin", meta);
+                checkpoint_manager_->save(prefix + "_weights.bin", meta);
             }
         }
 #endif
