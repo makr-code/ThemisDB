@@ -104,7 +104,7 @@ Exact duplicate detection (SHA-256 of raw bytes) is already performed in `conten
 **Implementation Notes:**
 - `[x]` `ocr_processor.cpp` implementing `IIngestionPlugin` created; wraps `tesseract::TessBaseAPI` (enabled via `THEMIS_ENABLE_OCR=ON`).
 - `[ ]` `MimeDetector` triggers OCR for `image/png`, `image/jpeg`, `image/tiff` when `ContentPolicy::ocrEnabled() == true` for the collection.
-- `[ ]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (Leptonica used for image loading; explicit DPI rescaling not yet implemented).
+- `[x]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (`pixSauvolaBinarize`). Controlled by `Config::enable_dpi_rescaling` / `Config::enable_adaptive_binarization`; results surfaced in `ocr_input_dpi`, `ocr_rescaled`, `ocr_binarized` metadata fields.
 - `[ ]` Language packs loaded from `config/ai_ml/tesseract_lang/`; default `eng`; configurable per-collection (language is configurable via `config_.language`; data directory path not yet constrained to `config/ai_ml/tesseract_lang/`).
 - `[x]` OCR output stored as `content_ocr_text` metadata field alongside image (`result.metadata["content_ocr_text"] = result.text` in `ocr_processor.cpp:220`).
 - `[x]` If `libtesseract.so` is absent at runtime, `ocr_processor.cpp` returns a skipped/unavailable `ContentProcessResult` and logs the absence.
