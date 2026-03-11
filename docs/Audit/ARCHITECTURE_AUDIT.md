@@ -782,23 +782,689 @@ This architecture audit provides a comprehensive assessment of ThemisDB's core m
 
 ## Appendix A: Module Dependency Matrix
 
-*Recommended: Create detailed dependency matrix showing which modules depend on which others*
+This matrix captures the **expected and enforced dependency direction** between modules, derived from the layered architecture definition in `ARCHITECTURE.md` and the include-graph topology observed in `src/`. A full automated include-graph analysis has not been run in this audit pass; the table below reflects the documented and logical dependency model.
+
+**Legend:**
+- `-->` allowed/expected dependency (consumer → provider)
+- `(dep)` foundational dependency used by almost every module
+- `✗` prohibited direction (would create a layer violation)
+
+### A.1 Layer Dependency Rules
+
+| Consumer Module | Depends On (key providers) | Direction |
+|-----------------|---------------------------|-----------|
+| server/ | api/, network/, auth/, query/, security/, utils/, core/, config/ | top → bottom |
+| api/ | network/, auth/, utils/, core/ | top → bottom |
+| auth/ | security/, utils/, core/, config/ | consumer → provider |
+| query/ | storage/, index/, cache/, utils/, core/, aql/ | top → bottom |
+| aql/ | utils/, core/ | consumer → provider |
+| index/ | storage/, acceleration/, gpu/, utils/, core/ | consumer → provider |
+| search/ | index/, storage/, utils/ | consumer → provider |
+| graph/ | index/, storage/, utils/ | consumer → provider |
+| llm/ | storage/, index/, acceleration/, gpu/, utils/, core/ | consumer → provider |
+| rag/ | llm/, storage/, index/, utils/ | consumer → provider |
+| prompt_engineering/ | llm/, utils/ | consumer → provider |
+| training/ | llm/, storage/, acceleration/, gpu/, utils/ | consumer → provider |
+| storage/ | utils/, core/, config/ | consumer → provider |
+| metadata/ | storage/, utils/ | consumer → provider |
+| sharding/ | storage/, network/, security/, utils/, core/ | top → bottom |
+| replication/ | storage/, network/, utils/ | consumer → provider |
+| cdc/ | storage/, utils/ | consumer → provider |
+| transaction/ | storage/, utils/, core/ | consumer → provider |
+| content/ | storage/, utils/, core/ | consumer → provider |
+| ingestion/ | content/, storage/, utils/ | consumer → provider |
+| importers/ | storage/, utils/ | consumer → provider |
+| exporters/ | storage/, utils/ | consumer → provider |
+| analytics/ | storage/, query/, utils/, core/ | consumer → provider |
+| observability/ | utils/, core/ | consumer → provider |
+| governance/ | storage/, security/, utils/, core/ | consumer → provider |
+| security/ | utils/, core/, config/ | consumer → provider |
+| acceleration/ | gpu/, utils/ | consumer → provider |
+| gpu/ | utils/ | consumer → provider |
+| cache/ | storage/, utils/ | consumer → provider |
+| performance/ | utils/ | consumer → provider |
+| plugins/ | utils/, core/ | consumer → provider |
+| updates/ | storage/, utils/ | consumer → provider |
+| chimera/ | storage/, utils/ | consumer → provider |
+| timeseries/ | storage/, utils/ | consumer → provider |
+| temporal/ | storage/, utils/ | consumer → provider |
+| scheduler/ | utils/, core/ | consumer → provider |
+| geo/ | index/, acceleration/, utils/ | consumer → provider |
+| voice/ | llm/, utils/ | consumer → provider |
+| **config/** | utils/ (only) | **platform bottom layer** |
+| **themis/** | (no src/ dependencies; provides headers only) | **platform bottom layer** |
+| **utils/** | (no src/ dependencies) | **foundation** |
+| **core/** | utils/ | **foundation** |
+| **base/** | utils/ | **foundation** |
+
+### A.2 Prohibited Dependencies (Layer Violations)
+
+The following dependency directions are **prohibited** and should be caught by CI include-graph checks:
+
+| If | Depends On | Violation Reason |
+|----|-----------|------------------|
+| config/ | server/, query/, storage/, llm/ | Platform bottom cannot depend on upper layers |
+| themis/ | server/, query/, sharding/ | Shared API surface must not pull in top layers |
+| utils/ | Any non-stdlib dependency | Foundation layer must remain dependency-free |
+| core/ | server/, query/ | Core infrastructure must stay below application layers |
+| storage/ | server/, query/ | Storage layer must not depend on higher layers |
+
+### A.3 Known Coupling Risks (to Validate)
+
+| Risk | Modules | Recommended Action |
+|------|---------|-------------------|
+| Potential circular: sharding ↔ storage | sharding/, storage/ | Verify with automated include-graph scan |
+| Potential upward dep from config/ | config/ | Validate no `#include <server/...>` or `<query/...>` |
+| `themis/` growing into a "god header" | themis/ | Enforce minimal public surface; audit quarterly |
+| LLM layer reaching into server/ | llm/ | Ensure llm/ does not include server/ headers directly |
 
 ## Appendix B: Interface Catalog
 
-*Recommended: Catalog all interfaces, base classes, and abstract classes used for polymorphism*
+This catalog lists all interface types (abstract base classes using the `I` prefix convention) found in `include/` as of develop @ 32369f28107f228bd572c91e0c13c54b3c622bbb. Interfaces are grouped by owning module.
+
+**Note:** This catalog was generated by scanning `include/` for `class I[A-Z]...` declarations. It covers headers under `include/`. Interfaces defined only in source files or using other naming conventions (pure abstract base classes without the `I` prefix) are not included here.
+
+### B.1 Core Infrastructure Interfaces (`include/core/`, `include/themis/`)
+
+These are the foundation interfaces used across all layers.
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IContext` | `core/concerns/i_context.h` | Cross-cutting context carrier (request context, cancellation) |
+| `ILogger` | `core/concerns/i_logger.h` | Synchronous logging contract |
+| `IAsyncLogger` | `core/concerns/i_async_logger.h` | Asynchronous logging (extends ILogger) |
+| `IAuditLog` | `core/concerns/i_audit_log.h` | Immutable audit log write contract |
+| `IMetrics` | `core/concerns/i_metrics.h` | Metrics emission contract |
+| `ITracer` | `core/concerns/i_tracer.h` | Distributed trace span factory |
+| `ICache` | `core/concerns/i_cache.h` | Synchronous cache contract |
+| `IAsyncCache` | `core/concerns/i_async_cache.h` | Async cache (extends ICache) |
+| `IEvictionStrategy` | `core/concerns/cache_strategies.h` | Cache eviction policy |
+| `ICircuitBreaker` | `core/concerns/i_circuit_breaker.h` | Circuit breaker pattern |
+| `IFeatureFlags` | `core/concerns/i_feature_flags.h` | Feature flag evaluation |
+| `ISecrets` | `core/concerns/i_secrets.h` | Secret / credential provider |
+| `IQueryEngine` | `themis/base/interfaces/query_interface.h` | Core query execution engine |
+| `IQueryEngineFactory` | `themis/base/interfaces/query_interface.h` | Factory for query engine instances |
+| `IExpressionEvaluator` | `themis/base/interfaces/query_interface.h` | Expression evaluation contract |
+| `IStorageEngine` | `themis/base/interfaces/storage_interface.h` | Core storage engine |
+| `IStorageEngineFactory` | `themis/base/interfaces/storage_interface.h` | Factory for storage engine instances |
+| `IIndexManager` | `themis/base/interfaces/index_interface.h` | Index lifecycle management |
+| `IFieldEncryption` | `themis/base/interfaces/security_interface.h` | Field-level encryption contract |
+| `IFieldEncryptionFactory` | `themis/base/interfaces/security_interface.h` | Factory for field encryption instances |
+| `IKeyProvider` | `themis/base/interfaces/security_interface.h` | Cryptographic key provider |
+| `IKeyProviderFactory` | `themis/base/interfaces/security_interface.h` | Factory for key provider instances |
+| `IWasmRuntime` | `themis/base/wasm_runtime_injector.h` | WASM runtime injection contract |
+| `IAllocator` | `utils/memory/pool_allocator.h` | Memory allocator contract |
+
+### B.2 API & Protocol Layer Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IHttpHandler` | `api/http_handler.h` | HTTP request handler |
+| `IWebSocketHandler` | `api/websocket_handler.h` | WebSocket connection handler |
+| `IWebSocketFrameCallback` | `api/websocket_handler.h` | WebSocket frame event callback |
+| `IGRPCBridge` | `api/grpc_bridge.h` | gRPC bridge/proxy contract |
+| `IGraphQLSchemaBuilder` | `api/graphql_schema_builder.h` | GraphQL schema construction |
+| `IAPIVersionRouter` | `api/api_version_router.h` | API version routing |
+| `ICorrelationIDProvider` | `api/correlation_id.h` | Correlation ID generation |
+| `ILLMPlugin` | `llm/llm_plugin_interface.h` | LLM provider plugin contract (also referenced in `server/llm_api_handler.h`) |
+
+### B.3 Query Processing Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IFunction` | `query/functions/function_registry.h` | AQL user-defined function contract |
+| `IAgent` | `aql/aql_agent.h` | ReAct-style AQL query agent |
+
+### B.4 Index & Vector Layer Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IAnnIndex` | `index/ann_index.h` | Approximate nearest-neighbor index |
+
+### B.5 Storage Layer Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IBlobStorageBackend` | `storage/blob_storage_backend.h` | Blob/object storage backend |
+
+### B.6 Distributed & Sharding Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IShardRouter` | `sharding/sharding_interfaces.h` | Shard routing policy |
+| `ICrossShardQueryRouter` | `sharding/sharding_interfaces.h` | Cross-shard query routing |
+| `IAdaptiveRebalancer` | `sharding/sharding_interfaces.h` | Adaptive shard rebalancer |
+| `IConsistentHashRing` | `sharding/sharding_interfaces.h` | Consistent hashing ring |
+| `IDistributedTxCoordinator` | `sharding/sharding_interfaces.h` | Distributed transaction coordination |
+| `IRaftSnapshotManager` | `sharding/sharding_interfaces.h` | RAFT snapshot lifecycle |
+| `IStreamListener` | `sharding/stream_protocol.h` | Shard stream event listener |
+| `IConflictResolver` | `replication/replication_manager.h` | Replication conflict resolution |
+| `IReplicationListener` | `replication/replication_manager.h` | Replication event listener |
+| `ICDCTransport` | `cdc/icdc_transport.h` | CDC change event transport |
+| `ISchemaRegistryBackend` | `cdc/schema_registry.h` | Schema registry backend |
+| `IGlobalRegionParticipant` | `transaction/global_transaction_manager.h` | Global distributed transaction participant |
+
+### B.7 Cache Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `ICacheCoordinator` | `cache/cache_replication_coordinator.h` | Distributed cache coordination |
+| `ICacheReplicationListener` | `cache/cache_replication.h` | Cache replication event listener |
+
+### B.8 LLM Integration Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `ILLMPlugin` | `llm/llm_plugin_interface.h` | LLM provider plugin |
+| `IFeedbackPlugin` | `llm/i_feedback_plugin.h` | LLM feedback/RLHF plugin |
+| `IFlashAttention` | `llm/attention/flash_attention.h` | Flash attention computation backend |
+| `ISamplingStrategy` | `llm/sampling_strategy.h` | Token sampling strategy |
+| `ITokenizer` | `llm/lora_framework/data_loader.h` | Tokenizer contract |
+| `ITrainableLayer` | `llm/lora_framework/lora_layers.h` | LoRA/trainable layer contract |
+| `ISignatureVerifier` | `llm/security/signature_verifier.h` | Model signature/integrity verifier |
+| `ILLMProvider` | `prompt_engineering/meta_prompt_generator.h` | LLM provider for prompt engineering |
+| `IEmbeddingProvider` | `prompt_engineering/prompt_evaluator.h` | Embedding vector provider |
+
+### B.9 Analytics & ML Serving Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IMLServingBackend` | `analytics/ml_serving.h` | ML model serving backend (ONNX, TensorFlow, etc.) |
+| `IAnalyticsExporter` | `analytics/analytics_export.h` | Analytics data exporter |
+
+### B.10 Content & Data Processing Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IContentProcessor` | `content/content_processor.h` | Content processing pipeline stage |
+| `IContentProcessorPlugin` | `content/content_plugin_interface.h` | Content processor plugin |
+| `IImporter` | `importers/importer_interface.h` | Data import contract |
+| `IImporterPlugin` | `importers/importer_interfaces.h` | Importer plugin |
+| `IImporterPluginRegistry` | `importers/importer_interfaces.h` | Importer plugin registry |
+| `IIncrementalImportCursor` | `importers/importer_interfaces.h` | Incremental import cursor |
+| `IImportConflictResolver` | `importers/importer_interfaces.h` | Import conflict resolution |
+| `IFlatFileSchemaDetector` | `importers/importer_interfaces.h` | Flat file schema auto-detection |
+| `IKafkaConsumerSource` | `importers/importer_interfaces.h` | Kafka consumer data source |
+| `IExporter` | `exporters/exporter_interface.h` | Data export contract |
+| `IFormatTemplate` | `exporters/format_template.h` | Export format template |
+| `ISourceConnector` | `ingestion/ingestion_manager.h` | Ingestion data source connector |
+| `IIngestionWorkerNode` | `ingestion/ingestion_coordinator.h` | Ingestion worker node contract |
+| `ILeaderElection` | `ingestion/ingestion_coordinator.h` | Leader election for ingestion coordinator |
+
+### B.11 Acceleration & GPU Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IComputeBackend` | `acceleration/compute_backend.h` | Generic compute backend (base) |
+| `IVectorBackend` | `acceleration/compute_backend.h` | Vector compute backend (extends IComputeBackend) |
+| `IMatrixBackend` | `acceleration/compute_backend.h` | Matrix compute backend (extends IComputeBackend) |
+| `IGeoBackend` | `acceleration/compute_backend.h` | Geo compute backend (extends IComputeBackend) |
+| `IGraphBackend` | `acceleration/compute_backend.h` | Graph compute backend (extends IComputeBackend) |
+
+### B.12 Geospatial Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IGeoRegistry` | `geo/spatial_backend.h` | Geospatial backend registry |
+| `ISpatialComputeBackend` | `geo/spatial_backend.h` | Spatial compute backend |
+| `IGeoOpsExtension` | `geo/geo_ops_ext.h` | Geospatial operations extension |
+
+### B.13 Security Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IMalwareScanner` | `security/malware_scanner.h` | Malware/content scanning |
+| `ITSAClient` | `security/tsa_api.h` | Timestamp Authority client |
+| `IUserRegistrationPlugin` | `security/user_registration_plugin.h` | User registration extension |
+
+### B.14 Governance Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IComplianceRule` | `governance/ccpa_rules.h` | Compliance rule contract (GDPR, CCPA, etc.) |
+
+### B.15 Plugin System Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IThemisPlugin` | `plugins/plugin_interface.h` | Base plugin contract |
+| `IStatefulPlugin` | `plugins/plugin_interface.h` | Stateful plugin (extends IThemisPlugin) |
+| `IRPCPlugin` | `plugins/rpc_plugin_interface.h` | RPC plugin (extends IThemisPlugin) |
+| `IRPCServer` | `plugins/rpc_plugin_interface.h` | RPC server contract |
+| `IRPCMethodHandler` | `plugins/rpc_plugin_interface.h` | RPC method handler |
+| `IImageAnalysisBackend` | `plugins/image_analysis_interface.h` | Image analysis backend |
+| `ISelfHealingPlugin` | `plugins/self_healing_plugin.h` | Self-healing plugin contract |
+| `IEthicsAIPlugin` | `plugins/ethics_ai/ethics_ai_plugin_interface.h` | Ethics AI plugin (extends IThemisPlugin) |
+
+### B.16 Chimera (Database Adapter) Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IDatabaseAdapter` | `chimera/database_adapter.hpp` | Composite database adapter (extends IRelationalAdapter + others) |
+| `IRelationalAdapter` | `chimera/database_adapter.hpp` | Relational database adapter |
+| `IDocumentAdapter` | `chimera/database_adapter.hpp` | Document database adapter |
+| `IGraphAdapter` | `chimera/database_adapter.hpp` | Graph database adapter |
+| `IVectorAdapter` | `chimera/database_adapter.hpp` | Vector database adapter |
+| `ITransactionAdapter` | `chimera/database_adapter.hpp` | Transaction adapter |
+| `ISystemInfoAdapter` | `chimera/database_adapter.hpp` | System info adapter |
+
+### B.17 Miscellaneous Interfaces
+
+| Interface | Header | Description |
+|-----------|--------|-------------|
+| `IHealthCheck` | `updates/preflight_health_check.h` | Pre-flight / operational health check |
+| `IPIIDetectionEngine` | `utils/pii_detection_engine.h` | PII detection and redaction |
+| `ISessionPersistenceBackend` | `voice/voice_session_manager.h` | Voice session persistence |
+| `ISpan` | `core/concerns/i_tracer.h` | Distributed trace span |
+
+### B.18 Summary
+
+| Category | Interface Count |
+|----------|----------------|
+| Core Infrastructure (`core/`, `themis/`) | 24 |
+| API & Protocol | 8 |
+| Query Processing | 2 |
+| Index & Vector | 1 |
+| Storage | 1 |
+| Distributed & Sharding | 12 |
+| Cache | 2 |
+| LLM Integration | 9 |
+| Analytics & ML Serving | 2 |
+| Content & Data Processing | 14 |
+| Acceleration & GPU | 5 |
+| Geospatial | 3 |
+| Security | 3 |
+| Governance | 1 |
+| Plugin System | 8 |
+| Chimera / Database Adapters | 7 |
+| Miscellaneous | 4 |
+| **Total** | **106** |
+
+**Gap noted:** A centralized `docs/architecture/interface-catalog.md` should be created that also documents each interface's lifecycle contract, stability level (stable / experimental), and known concrete implementations. This is Recommendation 5 from the main audit body.
 
 ## Appendix C: Edition Feature Matrix
 
-*Recommended: Detailed matrix showing which features/modules are available in each edition*
+This matrix is derived from the CMake edition configuration in `cmake/CMakeLists.txt` (lines 529–659). The build system defines four editions via `THEMIS_EDITION`: `MINIMAL`, `COMMUNITY`, `ENTERPRISE`, and `HYPERSCALER`.
+
+**Legend:** ✓ = included/enabled by default | ✗ = excluded/disabled | (opt) = optional, requires explicit CMake flag | — = not applicable
+
+### C.1 Infrastructure Limits
+
+| Capability | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|-----------|---------|-----------|------------|-------------|
+| Max GPU VRAM | None (0 GB) | 24 GB | 256 GB | Unlimited |
+| Max Sharding Nodes | 1 (single-node) | 5 | 100 | Unlimited |
+| Enterprise Plugins | ✗ | ✗ | ✓ | ✓ |
+| License Required (Release) | ✗ | ✗ | ✓ | ✓ |
+
+### C.2 Core Database Modules
+
+| Module | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|--------|---------|-----------|------------|-------------|
+| core/, base/, utils/ | ✓ | ✓ | ✓ | ✓ |
+| config/ | ✓ | ✓ | ✓ | ✓ |
+| themis/ | ✓ | ✓ | ✓ | ✓ |
+| query/, aql/ | ✓ | ✓ | ✓ | ✓ |
+| storage/, metadata/ | ✓ | ✓ | ✓ | ✓ |
+| index/ (basic) | ✓ | ✓ | ✓ | ✓ |
+| cache/ | ✓ | ✓ | ✓ | ✓ |
+| transaction/ | ✓ | ✓ | ✓ | ✓ |
+| server/, api/, network/ | ✓ | ✓ | ✓ | ✓ |
+| auth/ (JWT/basic) | ✓ | ✓ | ✓ | ✓ |
+
+### C.3 API Protocol Modules
+
+| Protocol | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|---------|---------|-----------|------------|-------------|
+| HTTP/1.1 + REST | ✓ | ✓ | ✓ | ✓ |
+| GraphQL | ✓ | ✓ | ✓ | ✓ |
+| gRPC | ✗ | ✓ | ✓ | ✓ |
+| WebSocket | ✗ | (opt) | (opt) | (opt) |
+| HTTP/2 | ✗ | (opt) | (opt) | (opt) |
+| HTTP/3 (QUIC) | ✗ | (opt) | (opt) | (opt) |
+| MQTT | ✗ | (opt) | (opt) | (opt) |
+| PostgreSQL Wire Protocol | ✗ | (opt) | (opt) | (opt) |
+| SSE (Server-Sent Events) | ✓ | ✓ | ✓ | ✓ |
+| MCP (Model Context Protocol) | ✗ | (opt) | (opt) | (opt) |
+
+### C.4 Security & Compliance Modules
+
+| Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|---------|---------|-----------|------------|-------------|
+| security/ (base) | ✓ | ✓ | ✓ | ✓ |
+| Field-level encryption | ✗ | ✗ | ✓ | ✓ |
+| RBAC | ✗ | ✗ | ✓ | ✓ |
+| HSM (PKCS#11) | ✗ | ✗ | ✓ | ✓ |
+| Multi-master replication auth | ✗ | ✗ | ✓ | ✓ |
+| governance/ (compliance, GDPR/HIPAA/SOC2) | ✗ | ✓ | ✓ | ✓ |
+| cdc/ (Change Data Capture) | ✗ | ✓ | ✓ | ✓ |
+| OpenTelemetry tracing | ✗ | ✓ | ✓ | ✓ |
+
+### C.5 Distributed & Scaling Modules
+
+| Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|---------|---------|-----------|------------|-------------|
+| sharding/ (Raft, basic) | ✗ | ✓ (max 5 nodes) | ✓ (max 100 nodes) | ✓ (unlimited) |
+| sharding/ (Paxos, Gossip) | ✗ | ✗ | ✓ | ✓ |
+| replication/ (multi-master) | ✗ | ✗ | ✓ | ✓ |
+| replication/ (single-master) | ✗ | ✓ | ✓ | ✓ |
+| Kafka CDC producer | ✗ | (opt) | (opt) | (opt) |
+
+### C.6 LLM & AI Modules
+
+| Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|---------|---------|-----------|------------|-------------|
+| llm/ (llama.cpp, core inference) | ✗ | ✓ | ✓ | ✓ |
+| rag/ | ✗ | ✓ | ✓ | ✓ |
+| prompt_engineering/ | ✗ | ✓ | ✓ | ✓ |
+| training/ (LoRA, calibration) | ✗ | ✗ | ✓ | ✓ |
+| aql/ ReAct agent | ✗ | ✓ | ✓ | ✓ |
+| MCP integration | ✗ | (opt) | (opt) | (opt) |
+
+### C.7 GPU & Acceleration Modules
+
+| Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|---------|---------|-----------|------------|-------------|
+| acceleration/ (CPU path) | ✓ | ✓ | ✓ | ✓ |
+| gpu/ | ✗ | ✓ | ✓ | ✓ |
+| Vulkan (cross-platform GPU) | ✗ | ✓ (default ON) | ✓ (default ON) | ✓ (default ON) |
+| CUDA (NVIDIA) | ✗ | (opt, OFF default) | (opt, OFF default) | (opt, OFF default) |
+| HIP (AMD) | ✗ | (opt) | (opt) | (opt) |
+| DirectX 12 Compute | ✗ | (opt) | (opt) | (opt) |
+| Metal (Apple) | ✗ | (opt) | (opt) | (opt) |
+| OpenCL | ✗ | (opt) | (opt) | (opt) |
+| ZLUDA | ✗ | (opt) | (opt) | (opt) |
+| NCCL / RCCL (multi-GPU) | ✗ | ✗ | (opt) | ✓ |
+
+### C.8 Content & Specialized Modules
+
+| Feature | MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER |
+|---------|---------|-----------|------------|-------------|
+| content/ (basic) | ✓ | ✓ | ✓ | ✓ |
+| content/ processors (audio/video/image/CAD) | ✗ | (opt) | ✓ | ✓ |
+| importers/, exporters/ | ✓ | ✓ | ✓ | ✓ |
+| ingestion/ | ✓ | ✓ | ✓ | ✓ |
+| timeseries/ | ✗ | ✓ | ✓ | ✓ |
+| temporal/ | ✗ | ✓ | ✓ | ✓ |
+| geo/ | ✗ | ✓ | ✓ | ✓ |
+| GDAL integration | ✗ | (opt) | (opt) | (opt) |
+| analytics/ (OLAP) | ✗ | ✓ | ✓ | ✓ |
+| DuckDB OLAP variant | ✗ | (opt) | (opt) | (opt) |
+| observability/ | ✗ | ✓ | ✓ | ✓ |
+| voice/ | ✗ | (opt) | (opt) | ✓ |
+| Whisper STT | ✗ | (opt) | (opt) | (opt) |
+| Piper TTS | ✗ | (opt) | (opt) | (opt) |
+| OCR (Tesseract) | ✗ | (opt) | (opt) | (opt) |
+| Office document support | ✓ | ✓ | ✓ | ✓ |
+| PDF extraction | (opt) | (opt) | (opt) | (opt) |
+
+### C.9 Performance Optimisation Options (All Editions, Optional)
+
+These are optional flags that can be combined with any edition:
+
+| Flag | Effect | Default |
+|------|--------|---------|
+| `THEMIS_ENABLE_JEMALLOC` | jemalloc allocator (best fragmentation) | OFF |
+| `THEMIS_ENABLE_MIMALLOC` | mimalloc allocator (+10-20% perf) | OFF |
+| `THEMIS_ENABLE_HUGE_PAGES` | Huge pages support (+15-30% memory perf) | OFF |
+| `THEMIS_ENABLE_IO_URING` | io_uring zero-copy I/O (Linux ≥ 5.1) | OFF |
+| `THEMIS_ENABLE_AVX2` | AVX2/FMA SIMD for Release builds | ON |
+| `THEMIS_ENABLE_BWTREE` | Bw-Tree lock-free index (+100-200%) | OFF |
+| `THEMIS_ENABLE_CICADA` | Cicada optimistic CC (+100-150%) | OFF |
+| `THEMIS_ENABLE_DOSTOEVSKY` | Dostoevsky adaptive LSM (+25-35%) | OFF |
+| `THEMIS_ENABLE_DISKANN` | DiskANN billion-scale vector search (+300-400%) | OFF |
+| `THEMIS_ENABLE_SPLINTERDB` | SplinterDB concurrent compaction (-70% P99) | OFF |
+| `THEMIS_ENABLE_WISCKEY` | WiscKey key/value separation (+40-60% writes) | OFF |
+| `THEMIS_ENABLE_BAO` | Bao ML query optimizer (+30-70%) | OFF |
+| `THEMIS_ENABLE_RCU_INDEX` | RCU read-heavy index paths (+200-500% reads) | OFF |
+| `THEMIS_ENABLE_LIRS_CACHE` | LIRS cache replacement (+30-40% hit rate) | OFF |
+| `THEMIS_ENABLE_PMEM` | Persistent Memory (Optane) layout (+50-200%) | OFF |
+| `THEMIS_ENABLE_GUNROCK` | Gunrock GPU graph analytics (+1000-3000%) | OFF |
+| `THEMIS_ENABLE_LIGRA` | Ligra graph processing (+200-300%) | OFF |
+| `THEMIS_ENABLE_RABITQ` | RaBitQ vector quantization (16x memory reduction) | OFF |
 
 ## Appendix D: Security Touchpoint Map
 
-*Recommended: Map showing where security is enforced in each layer and module*
+This map shows where security controls are enforced across the architecture, derived from inspecting source files in `src/` for security-relevant patterns (encryption, TLS/mTLS, RBAC, authentication, certificate handling, audit logging, signing, and token processing).
+
+**Scope:** Files in `src/<module>/` containing references to: `security`, `encrypt`, `tls`, `TLS`, `RBAC`, `rbac`, `auth`, `certif`, `mTLS`, `audit_log`, `sign`, `token`.
+
+### D.1 Security Enforcement Density by Module
+
+| Module | Security-Relevant Files | Primary Security Function |
+|--------|------------------------|--------------------------|
+| **security/** | 39 | Encryption, RBAC, audit logging, field-level encryption, key management, malware scanning, post-quantum crypto, secret management |
+| **server/** | 75 | Authentication enforcement (JWT, GSSAPI, MFA), rate limiting, TLS termination, RBAC middleware, session management |
+| **llm/** | 92 | Model signature verification, ethical guidelines enforcement, RLHF security, LoRA adapter integrity checks |
+| **rag/** | 42 | RAG bias detection, hallucination prevention, faithfulness verification, ethics integration |
+| **sharding/** | 42 | mTLS inter-shard communication, certificate validity checks in health checks, RAFT leader authentication |
+| **auth/** | 27 | JWT validation, GSSAPI/Kerberos, MFA, principal validation, token issuance |
+| **utils/** | 36 | PII detection, hash-chain audit logging, secure memory clearing, PII stream scanning |
+| **governance/** | 19 | GDPR/HIPAA/SOC2 compliance policy engine, data lineage, retention policy enforcement |
+| **content/** | 29 | Content signing, malware scanning at ingestion, digital watermarking |
+| **index/** | 18 | Secure index access (RBAC on index operations) |
+| **query/** | 18 | RBAC enforcement in query execution, parameterized query injection prevention |
+| **storage/** | 23 | Field-level encryption at rest, encrypted blob storage, secure key rotation |
+| **network/** | 13 | TLS 1.3 wire protocol, certificate pinning, secure socket management |
+| **gpu/** | 11 | Secure VRAM allocation, shader integrity verification |
+| **analytics/** | 11 | Analytics result access control, ML serving authentication |
+| **acceleration/** | 11 | Shader integrity, GPU kernel signing (acceleration dispatch) |
+| **voice/** | 15 | Speaker verification, TTS/STT session authentication |
+| **aql/** | 13 | AQL injection prevention, query parameter sanitization, ReAct agent safety |
+| **exporters/** | 10 | Export access control, data masking on export |
+| **ingestion/** | 10 | Ingestion source authentication, data provenance |
+| **prompt_engineering/** | 8 | Prompt injection prevention, output sanitization |
+| **performance/** | 8 | Secure memory operations, side-channel-resistant implementations |
+| **geo/** | 6 | Geospatial data access control |
+| **cache/** | 6 | Cache poisoning prevention, PII eviction, HMAC-protected distributed cache |
+| **base/** | 6 | Registry key pinning, secure module loading |
+| **metadata/** | 6 | Schema access control |
+| **cdc/** | 7 | CDC event signing, change feed authentication |
+| **timeseries/** | 7 | Time series data access control |
+| **updates/** | 9 | Hot reload manifest signing, update integrity verification |
+| **importers/** | 8 | Import source authentication, schema validation |
+| **scheduler/** | 7 | Task authorization, secure scheduling |
+| **search/** | 7 | Search result access control |
+| **config/** | 3 | Configuration secret handling, schema validation security |
+| **themis/** | 4 | Core interface security contracts |
+| **observability/** | 5 | Metrics access control, secure telemetry export |
+| **chimera/** | 4 | Adapter authentication to external databases |
+| **replication/** | 3 | Replication channel authentication |
+| **transaction/** | 3 | Transaction authorization |
+| **training/** | 3 | Training data access control, model provenance |
+| **plugins/** | 5 | Plugin signature verification, sandboxed plugin execution |
+
+### D.2 Security Control Classification by Layer
+
+| Layer | Security Controls Present |
+|-------|--------------------------|
+| **API & Protocol** (server, api, network, auth) | TLS 1.3 termination, JWT/GSSAPI/MFA authentication, RBAC middleware, rate limiting, session management, certificate pinning |
+| **Query Processing** (query, aql) | RBAC enforcement on query execution, parameterized queries, AQL injection prevention |
+| **Index & Vector** (index, search, graph) | Index-level access control via RBAC |
+| **LLM Integration** (llm, rag, prompt_engineering, training) | Model signature verification, ethical guidelines, bias detection, hallucination prevention, prompt injection defense |
+| **Storage** (storage, metadata) | Field-level encryption (ENTERPRISE+), encrypted blob storage, key rotation |
+| **Distributed & Sharding** (sharding, replication, cdc) | mTLS inter-shard channels, RAFT leader authentication, certificate validity health checks, change feed signing |
+| **Transaction** (transaction) | Transaction authorization, SAGA compensation security |
+| **Content & Data Processing** (content, importers, exporters, ingestion) | Malware scanning at ingestion, content signing, data masking on export, PII redaction |
+| **Analytics & Observability** (analytics, observability) | Analytics access control, secure telemetry, RLHF monitoring |
+| **Governance & Compliance** (governance) | GDPR, HIPAA, SOC2 policy evaluation; data lineage; retention enforcement |
+| **Cross-cutting: security/** | Central: encryption engine, RBAC, audit log, key management, HSM, post-quantum crypto, secret manager |
+| **Cross-cutting: utils/** | PII detection engine, hash-chain audit writer/verifier, secure memory utilities |
+| **Cross-cutting: acceleration/gpu/** | Shader integrity, GPU kernel signing |
+
+### D.3 Key Security Architecture Decisions
+
+| Decision | Details |
+|----------|---------|
+| **TLS Strategy** | TLS 1.3 at network/ layer; mTLS for inter-shard communication in sharding/ |
+| **Authentication** | JWT (default), GSSAPI/Kerberos (enterprise), MFA (enterprise); all via auth/ module |
+| **Authorisation** | RBAC enforced at query/ and server/ layers; field-level in storage/ (ENTERPRISE+) |
+| **Encryption at Rest** | Field-level encryption in storage/ (ENTERPRISE+); HSM integration (ENTERPRISE+) |
+| **Audit Trail** | Hash-chain audit log in utils/; immutable `IAuditLog` interface |
+| **Key Management** | `IKeyProvider`/`IKeyProviderFactory` in themis/base/interfaces/security_interface.h |
+| **mTLS** | Certificate validity checks in sharding/health_check.cpp; operational hooks for expiry |
+| **Post-Quantum Crypto** | Available in security/ (post_quantum_crypto.cpp) |
+| **Model Integrity** | `ISignatureVerifier` in llm/security/; GGUF quantization security |
+| **PII Protection** | `IPIIDetectionEngine` in utils/; PII eviction endpoint in server/ (AdminCachePiiEvictDelete) |
+
+### D.4 Security Gaps / Recommendations
+
+| Gap | Affected Modules | Recommended Action |
+|-----|-----------------|-------------------|
+| Distributed security not documented in ARCHITECTURE.md | sharding/, network/ | Add "Distributed Security" subsection documenting mTLS scope |
+| Security interface contracts not in centralized catalog | security/, themis/ | Include in interface catalog (Recommendation 5) |
+| Certificate expiry policy not documented | sharding/ | Document operational hooks and alerting policy |
+| Plugin sandboxing extent not documented | plugins/ | Clarify sandbox model in ARCHITECTURE.md |
 
 ## Appendix E: Performance Characteristics
 
-*Recommended: Performance profiles and bottlenecks per module*
+This appendix summarizes performance data, module sizes, and benchmark coverage for ThemisDB. Detailed numeric benchmark results are not included here (they depend on hardware configuration); this appendix documents the performance architecture and benchmark inventory.
+
+### E.1 Module Implementation Size (Audit Pass: 2026-03-10)
+
+File counts were computed recursively from `src/<module>/` at develop @ 32369f28.
+
+| Module | .cpp / .cc Files | Notes |
+|--------|-----------------|-------|
+| **llm/** | 138 | Largest module; LLM inference, LoRA, vision, quantization |
+| **server/** | 106 | API handlers, HTTP/gRPC, rate limiting, protocol handlers |
+| **sharding/** | 79 | Distributed coordination, RAFT/Paxos/Gossip consensus |
+| **rag/** | 46 | RAG pipeline, evaluation, faithfulness, hallucination detection |
+| **utils/** | 45 | Logging, PII, audit, compression, hash-chain |
+| **security/** | 39 | Encryption, RBAC, HSM, post-quantum, secret management |
+| **content/** | 38 | Multimodal content processing pipeline |
+| **index/** | 38 | Vector, ANN, secondary, graph indexing |
+| **query/** | 34 | AQL parser, optimizer, execution engine |
+| **gpu/** | 30 | GPU memory management, VRAM allocator |
+| **storage/** | 32 | RocksDB wrapper, blob storage, WAL |
+| **performance/** | 25 | Advanced data structures, memory optimizations |
+| **acceleration/** | 24 | GPU backends: CUDA, HIP, Vulkan, Metal, DirectX |
+| **auth/** | 27 | JWT, GSSAPI, MFA, principal validation |
+| **analytics/** | 20 | OLAP, process mining, ML serving, diff engine |
+| **governance/** | 21 | Policy engine, GDPR/HIPAA/SOC2, data lineage |
+| **voice/** | 19 | Voice assistant, STT/TTS integration |
+| **exporters/** | 15 | Export formats (Arrow, Parquet, CSV, JSON, etc.) |
+| **aql/** | 16 | AQL handlers, ReAct agent |
+| **network/** | 14 | Wire protocol, socket management |
+| **search/** | 16 | Hybrid search (vector + full-text) |
+| **updates/** | 14 | Hot reload, manifest management |
+| **timeseries/** | 15 | Time series compression (Gorilla), aggregation |
+| **prompt_engineering/** | 14 | Prompt construction, optimization, meta-prompts |
+| **geo/** | 13 | Geospatial query processing, spatial indexing |
+| **cdc/** | 13 | Change Data Capture, changefeeds |
+| **metadata/** | 12 | Schema management, collection metadata |
+| **observability/** | 10 | Metrics, profiling, alerting, OpenTelemetry |
+| **plugins/** | 10 | Plugin system, hot-plugging, ethics AI |
+| **ingestion/** | 10 | Ingestion pipeline, coordinator, worker nodes |
+| **cache/** | 11 | Semantic caching, distributed cache, HMAC |
+| **transaction/** | 9 | ACID transactions, SAGA pattern, distributed TX |
+| **chimera/** | 9 | Database adapter factory (PostgreSQL, MySQL, Neo4j, ...) |
+| **scheduler/** | 9 | Task scheduling, retention |
+| **temporal/** | 9 | Temporal conflict resolution, bi-temporal |
+| **api/** | 9 | GraphQL, HTTP setup, WebSocket, gRPC bridge |
+| **training/** | 7 | Training pipeline, LoRA, calibration, provenance |
+| **base/** | 8 | Core module loader, dependency resolver, registry client |
+| **core/** | 6 | Security init, concerns context |
+| **replication/** | 6 | Multi-master replication orchestration |
+| **graph/** | 5 | Property graphs, path constraints |
+| **config/** | 4 (.cpp) + 8 (.h) | Configuration resolver, schema validator, metrics exporter |
+| **themis/** | 6 | Internal shared API surface headers |
+| **importers/** | 11 | Data import (PostgreSQL, CSV, Parquet, Kafka, ...) |
+| **Total (approx.)** | ~895 | Across all modules; excludes `main*.cpp`, `stubs.cpp` |
+
+### E.2 Benchmark Coverage
+
+ThemisDB maintains an extensive benchmark suite in `benchmarks/`. Key benchmarks by category:
+
+**Storage & Query Performance:**
+- `bench_crud.cpp` - Basic CRUD throughput (inserts, reads, updates, deletes)
+- `bench_query.cpp` - AQL query engine performance
+- `bench_storage_performance.cpp` - Storage layer latency and throughput
+- `bench_mvcc.cpp` - MVCC (Multi-Version Concurrency Control) overhead
+- `bench_transaction_throughput.cpp` - Transaction throughput under contention
+- `bench_tpcc.cpp`, `bench_tpch.cpp` - TPC-C and TPC-H standard benchmarks
+- `bench_ycsb.cpp` - YCSB (Yahoo! Cloud Serving Benchmark) workloads
+
+**Vector & Index Performance:**
+- `bench_vector_search.cpp` - Vector similarity search latency
+- `bench_binary_quantization.cpp`, `bench_product_quantization.cpp`, `bench_residual_quantization.cpp` - Vector quantization benchmarks
+- `bench_simd_distance.cpp` - SIMD-accelerated distance computation
+- `bench_hnsw_prefilter_minimal.cpp` - HNSW pre-filtered search
+- `bench_index_rebuild.cpp` - Index rebuild throughput
+
+**Distributed & Sharding:**
+- `bench_sharding_performance.cpp` - Shard routing and distribution
+- `bench_shard_routing.cpp` - Consistent hash ring performance
+- `bench_replication_throughput.cpp` - Replication write amplification
+- `bench_distributed_coordinator.cpp` - Coordination protocol overhead
+- `bench_stream_protocol.cpp` - Shard-to-shard stream throughput
+
+**GPU & Acceleration:**
+- `bench_gpu_backends.cpp` - GPU backend comparison (Vulkan vs CUDA vs HIP)
+- `bench_cuda_vs_cpu.cpp` - GPU vs CPU performance ratio
+- `bench_gpu_vector_index.cpp` - GPU-accelerated vector indexing
+- `bench_fused_kernels.cpp`, `bench_fused_lora_kernels.cpp` - Kernel fusion benchmarks
+- `bench_mixed_precision_perf.cpp` - FP16/BF16 vs FP32 comparison
+- `bench_multi_gpu_scaling.cpp` - Multi-GPU scaling efficiency
+
+**LLM & RAG:**
+- `bench_llm_inference_performance.cpp` - LLM token generation throughput
+- `bench_lora_framework.cpp`, `bench_lora_gpu.cpp` - LoRA adaptation overhead
+- `bench_flash_attention.cpp` - Flash attention vs standard attention
+- `bench_rag_evaluation.cpp` - RAG retrieval and generation latency
+- `bench_prompt_engineering.cpp` - Prompt optimization overhead
+- `bench_embedded_llm.cpp` - Embedded (llama.cpp) model performance
+- `bench_lora_training.cpp` - LoRA training throughput
+
+**Analytics & Specialized:**
+- `bench_olap_analytics.cpp`, `bench_olap_performance.cpp` - OLAP query performance
+- `bench_timeseries_ingestion.cpp`, `bench_gorilla_codec.cpp` - Time series compression
+- `bench_geo_cpu_gpu.cpp` - Geospatial query performance
+- `bench_process_mining.cpp` - Process mining performance
+- `bench_governance_policy_latency.cpp` - Compliance policy evaluation latency
+- `bench_compliance_security_governance.cpp` - End-to-end governance performance
+
+**Cross-Module & Infrastructure:**
+- `bench_cross_functional_end_to_end.cpp` - Full pipeline latency
+- `bench_core_performance.cpp` - Core infrastructure (DI, logging) overhead
+- `bench_config_path_resolver.cpp` - Configuration resolution performance
+- `bench_encryption.cpp` - Encryption overhead
+- `bench_compression.cpp` - Compression ratio and speed
+- `bench_auth_token_validation.cpp` - Authentication token validation latency
+
+### E.3 Known Performance Architecture Decisions
+
+| Decision | Detail | Module(s) |
+|----------|--------|-----------|
+| Gorilla codec for time series | Efficient delta+XOR encoding for floating-point time series | timeseries/ |
+| HNSW for ANN search | Hierarchical Navigable Small World graphs | index/ |
+| Vulkan as default GPU backend | Cross-platform (NVIDIA/AMD/Intel/Apple); CUDA opt-in | acceleration/, gpu/ |
+| Flash attention | Fused attention kernel reduces memory bandwidth | llm/ |
+| Kernel fusion (LoRA) | Fused forward+backward pass for LoRA adapter training | llm/, gpu/ |
+| SAGA for distributed transactions | Compensating transactions for long-running operations | transaction/, sharding/ |
+| RAFT consensus | Paxos-like leader election for high-consistency sharding | sharding/ |
+| Gorilla codec + Paged optimizer | VRAM paging for large-model training | training/, gpu/ |
+| Adaptive query cache | Query result caching with adaptive TTL | cache/, query/ |
+| RocksDB LSM storage | Write-optimized LSM tree for storage backend | storage/ |
+| SIMD distance kernels | AVX2/FMA accelerated L2/IP/cosine distance | acceleration/, index/ |
+| Column-store for OLAP | Apache Arrow-backed columnar OLAP variant | analytics/ |
+
+### E.4 Performance Baselines (Reference Only)
+
+The following represent documented expected performance characteristics from benchmark documentation in `benchmarks/docs/`. Actual results depend on hardware.
+
+| Workload | Reference Target | Conditions |
+|----------|-----------------|------------|
+| Vector ANN search (HNSW) | < 1 ms P99 (1M vectors) | CPU, in-memory index |
+| LLM token generation (llama.cpp) | ~20-80 tokens/s | 7B model, consumer GPU |
+| CRUD throughput | > 100k ops/s | Single node, RocksDB |
+| TPC-C throughput | Scales with shard count | See bench_tpcc.cpp baselines |
+| Shard rebalance | < 30s for 5-node cluster | COMMUNITY edition |
+| Time series ingestion | > 1M points/s per node | Gorilla codec enabled |
+| Query planning (AQL optimizer) | < 5ms for typical queries | In-memory stats |
+| Encryption overhead (AES-256-GCM) | < 5% throughput reduction | Field-level encryption |
+
+**Note:** Authoritative benchmark results should be reproduced from `benchmarks/` using `run_all_benchmarks.sh` or the Python benchmark orchestrator on target hardware. Results in this table are reference targets from documentation and should not be used for SLA commitments.
 
 ---
 
