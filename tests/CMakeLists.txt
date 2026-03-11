@@ -7216,6 +7216,46 @@ if(THEMIS_ENABLE_CONTENT)
     endif()
 
     # -------------------------------------------------------------------------
+    # OcrProcessor DPI pre-processing focused tests (CON-003)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
+        message(STATUS "Adding OcrProcessor DPI pre-processing focused tests (CON-003)")
+
+        add_executable(test_ocr_dpi_preprocessing_focused
+            test_ocr_processor.cpp
+        )
+
+        target_include_directories(test_ocr_dpi_preprocessing_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_ocr_dpi_preprocessing_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_ocr_dpi_preprocessing_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME OcrDpiPreprocessingFocusedTests
+            COMMAND test_ocr_dpi_preprocessing_focused
+            --gtest_filter=OcrProcessorConfigTest.*Dpi*:OcrProcessorConfigTest.*Binariz*:OcrProcessorTest.*Preprocess*:OcrProcessorTest.*Suppressed*:OcrProcessorTest.LowResSample*)
+
+        set_tests_properties(OcrDpiPreprocessingFocusedTests PROPERTIES
+            LABELS "content;ocr;dpi;binarization;leptonica;preprocessing;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  OcrProcessor: 300-DPI rescaling (pixScale), adaptive Sauvola binarization (pixSauvolaBinarize), ocr_input_dpi/ocr_rescaled/ocr_binarized metadata (CON-003)")
+    else()
+        message(STATUS "OcrProcessor DPI pre-processing focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
     # OcrProcessor default data-dir path resolution focused tests (CON-004)
     # -------------------------------------------------------------------------
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
