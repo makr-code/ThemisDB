@@ -64,7 +64,7 @@ static std::string readFile(const std::string& path) {
 }
 
 // ---------------------------------------------------------------------------
-// FK fixture fixture test class
+// FK fixture test class
 // ---------------------------------------------------------------------------
 class FKFixtureFileTest : public ::testing::Test {
 protected:
