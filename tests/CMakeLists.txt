@@ -843,6 +843,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/lora_checkpoint_manager.cpp
         ../src/training/provenance_tracker.cpp
         ../src/training/modality_parser.cpp
+        ../src/training/lora_adapter.cpp
     )
 endif()
 
@@ -6973,6 +6974,46 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "Content Policy OCR focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_policy.cpp")
     endif()
 
+    # -------------------------------------------------------------------------
+    # AsyncIngestionWorker back-pressure focused tests (CON-005)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
+        message(STATUS "Adding AsyncIngestionWorker back-pressure focused tests (CON-005)")
+
+        add_executable(test_async_ingestion_backpressure_focused
+            test_async_ingestion_backpressure.cpp
+        )
+
+        target_include_directories(test_async_ingestion_backpressure_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_async_ingestion_backpressure_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_async_ingestion_backpressure_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME AsyncIngestionBackpressureFocusedTests
+            COMMAND test_async_ingestion_backpressure_focused)
+
+        set_tests_properties(AsyncIngestionBackpressureFocusedTests PROPERTIES
+            LABELS "content;ingestion;backpressure;async;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  AsyncIngestionWorker: submitStream() blocking, ingestStream() future, shutdown unblocking")
+    else()
+        message(STATUS "AsyncIngestionWorker back-pressure focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
+    endif()
+
 endif() # THEMIS_ENABLE_CONTENT
 # CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
@@ -10983,6 +11024,39 @@ if(TARGET themis_tests)
 
     message(STATUS "Adding AutoLabelerDbFetch focused tests")
     message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
+# LoRAAdapter focused tests – real weight manipulation (no simulation)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
+    message(STATUS "Adding LoRAAdapter focused tests (lora_adapter.cpp)")
+
+    add_executable(test_lora_adapter_focused
+        test_training_lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+    )
+
+    target_include_directories(test_lora_adapter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_adapter_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_adapter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRAAdapterFocusedTests COMMAND test_lora_adapter_focused)
+
+    set_tests_properties(LoRAAdapterFocusedTests PROPERTIES
+        LABELS "training;lora;weight-manipulation;real;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LoRAAdapter: addLayer/removeLayer, Kaiming init, setWeights, applyUpdate, applyBatchUpdate, forward pass, export/import")
+else()
+    message(STATUS "LoRAAdapter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────

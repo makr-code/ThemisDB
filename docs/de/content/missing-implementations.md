@@ -1,7 +1,7 @@
 # Content Module — Fehlende / Unvollständige Implementierungen
 
-**Stand:** 2026-03-09 (Reality-Check-Pass 1)  
-**Revision:** HEAD (copilot/check-documentation-against-sourcecode)  
+**Stand:** 2026-03-11 (Reality-Check-Pass 2)  
+**Revision:** HEAD (copilot/enhance-office-processor-legacy-support)  
 **Geprüfte Pfade:** `src/content/`, `include/content/`
 
 ---
@@ -11,23 +11,21 @@
 | Schweregrad | Anzahl |
 |-------------|--------|
 | Critical    | 0 |
-| Medium      | 3 |
-| Low         | 4 |
-| **Gesamt**  | **7** |
+| Medium      | 1 |
+| Low         | 3 |
+| **Gesamt**  | **4** |
 
 ---
 
-## CON-001 — LibreOffice Headless Fallback für Legacy-Office-Formate *(Medium)*
+## CON-001 — LibreOffice Headless Fallback für Legacy-Office-Formate ✅ BEHOBEN
 
 **Datei:** `src/content/office_processor.cpp`
 
 **Erwartet:** `soffice --headless` wird via `posix_spawn` in einem Sandkasten-Subprozess (eingeschränkter OS-User, 30 s Timeout) gestartet, um `.doc`/`.xls`/`.ppt` nach Text zu konvertieren.
 
-**Beobachtet:** Keine Implementierung. Kein `soffice`-, `posix_spawn`- oder `LibreOffice`-Aufruf in `office_processor.cpp`.
+**Behoben:** `OfficeProcessor::extractLegacyViaLibreOffice()` implementiert in `office_processor.cpp`. Verwendet `posix_spawn` (kein `system()`); 30-Sekunden-Timeout mit SIGTERM→SIGKILL-Eskalation; `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`+`POSIX_SPAWN_SETSIGDEF`; vollständige 8-Byte-OLE-Header-Validierung; RAII-Temp-File-Bereinigung; minimale Sandbox-Umgebung (`HOME=tmpdir`). 13 Unit-Tests in `tests/test_office_processor.cpp` (`LegacyOfficeExtractionTest`).
 
-**Auswirkung:** Legacy `.doc`/`.xls`/`.ppt`-Dateien können nicht extrahiert werden; nur OOXML (DOCX/XLSX/PPTX) und ODF werden verarbeitet.
-
-**Empfohlener Issue-Titel:** `feat(content): implement LibreOffice headless fallback in office_processor.cpp for legacy .doc/.xls/.ppt`
+**Auswirkung:** Legacy `.doc`/`.xls`/`.ppt`-Dateien werden jetzt via LibreOffice nach Plaintext konvertiert.
 
 ---
 
@@ -73,17 +71,15 @@
 
 ---
 
-## CON-005 — Backpressure bei Streaming-Ingestion nicht implementiert *(Low)*
+## CON-005 — Back-pressure bei Streaming-Ingestion ✅ BEHOBEN
 
 **Datei:** `src/content/async_ingestion_worker.cpp`
 
 **Erwartet:** `ingestStream()` blockiert den Aufrufer, wenn die Worker-Queue-Tiefe `config_.max_queue_depth` überschreitet; gibt `std::future<ContentId>` für async-Aufrufer zurück.
 
-**Beobachtet:** Item in `FUTURE_ENHANCEMENTS.md` noch `[ ]` offen.
+**Behoben:** `AsyncIngestionConfig` um Feld `max_queue_depth` (Standard: 1000) erweitert. `submitStream()` blockiert per `std::condition_variable::wait` statt eine Ausnahme zu werfen, wenn `queue.size() >= max_queue_depth`. Neue Methode `ingestStream()` gibt `std::future<std::string>` zurück, das bei Erfolg mit der primären ContentId aufgelöst wird; bei Fehlern und Worker-Shutdown wird die Ausnahme über das Future weitergeleitet. Worker-Loop benachrichtigt `backpressure_cv_` nach jedem Dequeue-Vorgang; `stop()` benachrichtigt `backpressure_cv_` beim Shutdown und bricht pending Promises ab.
 
-**Auswirkung:** Unter hoher Ingestion-Last kann die Worker-Queue unbegrenzt wachsen; Aufrufer werden nicht gedrosselt.
-
-**Empfohlener Issue-Titel:** `feat(content): implement back-pressure in async_ingestion_worker.cpp for ingestStream()`
+**Auswirkung:** Queue-Tiefe wird respektiert; kein unbegrenztes Wachstum unter Last. Sowohl synchrone als auch async-Aufrufer werden korrekt gedrosselt.
 
 ---
 
@@ -99,17 +95,15 @@
 
 ---
 
-## CON-007 — LibreOffice-Subprozess muss `posix_spawn` mit eingeschränktem User nutzen *(Low / Security)*
+## CON-007 — LibreOffice-Subprozess muss `posix_spawn` mit eingeschränktem User nutzen ✅ BEHOBEN
 
 **Datei:** `src/content/office_processor.cpp`
 
 **Erwartet:** LibreOffice-Subprozess läuft unter eingeschränktem OS-User ohne Schreibzugriff auf das ThemisDB-Datenverzeichnis; nutzt `posix_spawn` statt `system()`.
 
-**Beobachtet:** LibreOffice-Fallback noch nicht implementiert (CON-001); Sicherheitsanforderung muss bei der Implementierung von CON-001 eingehalten werden.
+**Behoben:** Mit CON-001 zusammen implementiert. `extractLegacyViaLibreOffice()` verwendet `posix_spawn` mit `POSIX_SPAWN_RESETIDS` (verhindert SUID/SGID-Privilege-Escalation), `POSIX_SPAWN_SETPGROUP` (isolierte Prozessgruppe), minimaler Sandbox-Umgebung (`PATH`, `HOME=tmpdir`, `TMPDIR`), und Absolut-Pfad-Validierung für das soffice-Binary (verhindert PATH-Hijacking).
 
-**Auswirkung:** Wenn der LibreOffice-Fallback ohne Sandboxing hinzugefügt wird, könnte ein bösartiges Dokument das ThemisDB-Datenverzeichnis kompromittieren.
-
-**Empfohlener Issue-Titel:** `fix(content/security): ensure LibreOffice subprocess in office_processor.cpp uses posix_spawn with restricted user`
+**Auswirkung:** Ein bösartiges Dokument kann das ThemisDB-Datenverzeichnis nicht mehr über den LibreOffice-Subprozess kompromittieren.
 
 ---
 
@@ -130,3 +124,16 @@
 | `src/content/FUTURE_ENHANCEMENTS.md` — OCR section | `[ ]` graceful degradation without libtesseract | `[x]` returns skipped result |
 | `src/content/README.md` | Out of scope: "PDF/binary format parsing (planned)" | PDF parsing implemented; legacy Office headless still planned |
 | `src/content/README.md` | Maturity: 🟡 Beta | Maturity: 🟢 Production-Ready |
+
+## Behobene Falschangaben (Pass 2 — 2026-03-11)
+
+| Datei | Vorher | Nachher |
+|-------|--------|---------|
+| `src/content/office_processor.cpp` — DOC/XLS/PPT switch | Static "not supported" error | `extractLegacyViaLibreOffice()` — posix_spawn, 30s timeout, RAII cleanup (CON-001 ✅) |
+| `src/content/ROADMAP.md` — Planned Features (long-term) | `[ ] LibreOffice headless fallback (CON-001)` | `[x]` implemented |
+| `src/content/ROADMAP.md` — Phase 5 | `[ ] LibreOffice headless fallback (CON-001)` | `[x]` implemented |
+| `src/content/ROADMAP.md` — Known Issues | `Legacy Office formats not fully supported (CON-001)` | Removed (resolved) |
+| `src/content/ROADMAP.md` — Completed section | Only OOXML/ODF listed | Added legacy fallback entry |
+| `src/content/FUTURE_ENHANCEMENTS.md` — PDF section preamble | "Legacy .doc/.xls via LibreOffice headless not yet implemented" | Updated to ✅ implemented |
+| `src/content/FUTURE_ENHANCEMENTS.md` — PDF section notes | `[ ]` LibreOffice headless fallback | `[x]` extractLegacyViaLibreOffice() (CON-001 ✅) |
+| `src/content/FUTURE_ENHANCEMENTS.md` — Security section | `[ ]` LibreOffice subprocess security requirement | `[x]` posix_spawn + POSIX_SPAWN_RESETIDS + minimal env (CON-007 ✅) |

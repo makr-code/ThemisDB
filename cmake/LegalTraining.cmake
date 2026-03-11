@@ -70,6 +70,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
 
         # Multi-modality legal document parser (Phase 3)
         ../src/training/modality_parser.cpp
+
+        # LoRA adapter weight manipulation (real forward pass + batch updates, no simulation)
+        ../src/training/lora_adapter.cpp
     )
     
     # =========================================================================
