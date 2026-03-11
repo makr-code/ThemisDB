@@ -10359,6 +10359,15 @@ add_network_focused_test(
     "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
 )
 
+# --- Wire Protocol IPv6 Support ---
+add_network_focused_test(
+    test_wire_protocol_ipv6_focused
+    test_wire_protocol_ipv6.cpp
+    WireProtocolIPv6FocusedTests
+    "network;wire-protocol;ipv6;dual-stack;bind-address;focused;unit"
+    "WireProtocolIPv6: Config defaults (enable_ipv6, ipv6_dual_stack), address promotion logic, IPv6 address parsing/string, dual-stack semantics, connection-tracking keys"
+)
+
 # --- QoS Manager ---
 add_network_focused_test(
     test_qos_manager_focused
