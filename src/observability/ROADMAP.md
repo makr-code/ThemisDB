@@ -1,11 +1,11 @@
 # Observability Module Roadmap
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/README.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Enterprise-grade observability stack. Prometheus metrics, query profiling, storage profiling, automated performance analysis, Alertmanager integration, and distributed tracing are all implemented.
+v1.x – Enterprise-grade observability stack. Prometheus metrics, query profiling, storage profiling, automated performance analysis, Alertmanager integration, distributed tracing, and structured log aggregation are all implemented.
 
 ## Completed ✅
 - [x] MetricsCollector singleton with Prometheus text-format export (`/metrics`)
@@ -21,6 +21,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] PagerDuty/Slack notification routing
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Issue: #2418)
 - [x] Adaptive sampling rate for high-frequency spans (Issue: #1963)
+- [x] Standalone `tracer.cpp` (ObservabilityTracer) — W3C Trace Context propagation, span ring buffer, MetricsCollector integration (OBS-MISSING-001)
+- [x] Standalone `log_aggregator.cpp` (LogAggregator) — structured JSON log collection, trace-context correlation, ring buffer, file sink (OBS-MISSING-001)
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
@@ -107,7 +109,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - OTLP export is not yet implemented (`otlp_exporter.cpp` does not exist); traces use internal span propagation only.
 - Telemetry aggregation across shards is eventually consistent.
 - `query_profiler.cpp`, `storage_profiler.cpp`, and `performance_analyzer.cpp` were missing from `cmake/CMakeLists.txt` — fixed 2026-03-09; `test_observability_profilers.cpp` would fail to link without this fix.
-- `tracer.cpp` and `log_aggregator.cpp` are referenced in older docs but do not exist; distributed tracing is in `continuous_profiler.cpp`; logging is via Core `ILogger`; see `docs/de/observability/missing-implementations.md`.
+- `tracer.cpp` and `log_aggregator.cpp` were absent — implemented 2026-03-11 (OBS-MISSING-001); see `include/observability/tracer.h`, `include/observability/log_aggregator.h`.
 
 ## Breaking Changes
 - Prometheus metric names follow `themis_*` namespace; stable from v1.x.

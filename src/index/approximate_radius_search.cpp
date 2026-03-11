@@ -30,6 +30,10 @@
 namespace themis {
 namespace vector {
 
+inline tl::unexpected<Error> makeError(errors::ErrorCode code, std::string message) {
+    return tl::unexpected(Error(code, std::move(message)));
+}
+
 ApproximateRadiusSearch::ApproximateRadiusSearch(VectorIndexManager& vector_manager)
     : vector_manager_(vector_manager) {
 }
@@ -56,24 +60,24 @@ ApproximateRadiusSearch::search(
     
     // Validate inputs
     if (query_vector.empty()) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Query vector cannot be empty");
     }
     
     if (static_cast<int>(query_vector.size()) != vector_manager_.getDimension()) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Query vector dimension mismatch. Expected " + 
                         std::to_string(vector_manager_.getDimension()) + 
                         ", got " + std::to_string(query_vector.size()));
     }
     
     if (config.radius <= 0.0f) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Radius must be positive");
     }
     
     if (config.max_results <= 0) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Max results must be positive");
     }
     
@@ -82,7 +86,7 @@ ApproximateRadiusSearch::search(
     VectorIndexManager::Metric requested_metric = convertMetric(config.metric);
     
     if (current_metric != requested_metric) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Metric mismatch. Index is configured for different metric");
     }
     
@@ -91,7 +95,7 @@ ApproximateRadiusSearch::search(
     auto [status, results] = vector_manager_.searchKnnRadius(query_vector, config.radius, max_results, nullptr);
     
     if (!status.ok) {
-        return makeError(ErrorRegistry::ErrorCode::INTERNAL_ERROR,
+        return makeError(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                         "Radius search failed: " + status.message);
     }
     
@@ -142,7 +146,7 @@ ApproximateRadiusSearch::searchById(
     // Lookup vector from VectorIndexManager
     auto vectorOpt = vector_manager_.getVectorByPk(query_id);
     if (!vectorOpt) {
-        return makeError(ErrorRegistry::ErrorCode::NOT_FOUND,
+        return makeError(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
                         "Vector with ID '" + std::string(query_id) + "' not found");
     }
     
@@ -156,7 +160,7 @@ ApproximateRadiusSearch::batchSearch(
     const SearchConfig& config) {
     
     if (query_vectors.empty()) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Query vectors cannot be empty");
     }
     
@@ -167,8 +171,8 @@ ApproximateRadiusSearch::batchSearch(
     for (const auto& query : query_vectors) {
         auto result = search(query, config);
         if (!result.has_value()) {
-            return makeError(result.error().code, 
-                           "Batch search failed on query: " + result.error().message);
+            return makeError(result.error().code(), 
+                           "Batch search failed on query: " + result.error().message());
         }
         batch_results.push_back(std::move(result.value()));
     }
@@ -183,7 +187,7 @@ ApproximateRadiusSearch::searchWithTargetCount(
     const SearchConfig& config) {
     
     if (target_count <= 0) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Target count must be positive");
     }
     
@@ -269,12 +273,12 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     
     // Validate inputs
     if (query_vector.empty()) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Query vector cannot be empty");
     }
     
     if (radius <= 0.0f) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Radius must be positive");
     }
     
@@ -283,7 +287,7 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     VectorIndexManager::Metric requested_metric = convertMetric(metric);
     
     if (current_metric != requested_metric) {
-        return makeError(ErrorRegistry::ErrorCode::INVALID_INPUT,
+        return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Metric mismatch. Index is configured for different metric");
     }
     

@@ -33,7 +33,7 @@
   - PolicyEngine authorization + audit logging on all return paths
   - (Issue: #1719, EXP-002)
 - [x] `--incremental` CLI flag — `tools/export_cli.cpp` (themis-export binary) supports `--format incremental` and `--incremental` shorthand (EXP-004)
-- [x] ExportFormatRegistry singleton — `include/exporters/export_format_registry.h` and `src/exporters/export_format_registry.cpp`; 9 built-in formats registered (EXP-005)
+- [x] ExportFormatRegistry singleton — `include/exporters/export_format_registry.h` and `src/exporters/export_format_registry.cpp`; 13 built-in formats registered (9 plain + 4 instruction-tuning template shortcuts: `jsonl_alpaca`, `jsonl_sharegpt`, `jsonl_chatml`, `jsonl_openai_ft`); user-defined templates loadable via `loadTemplatesFromConfig()` / `loadTemplatesFromJson()` (EXP-005)
 
 ## Planned Features 📋
 
@@ -70,7 +70,7 @@
 - [x] PolicyEngine authorization check (`enforceExportPolicy()`) in all 6 exporters; `ERR_EXPORT_POLICY_DENIED` (9310) (EXP-001)
 - [x] HuggingFace Hub direct upload client (`HuggingFaceHubClient`) using libcurl; PolicyEngine authorization (`HubUploadConfig::policy_engine`); audit logging (`HubUploadConfig::audit_log`) on all return paths (Issue: #1719, EXP-002)
 - [x] `--incremental` CLI flag in `tools/export_cli.cpp` (EXP-004)
-- [x] ExportFormatRegistry singleton with 9 built-in format factories (EXP-005)
+- [x] ExportFormatRegistry singleton with 13 built-in format factories (9 plain + 4 instruction-tuning template shortcuts); `loadTemplatesFromConfig()` / `loadTemplatesFromJson()` for user-defined templates (EXP-005)
 
 ## Production Readiness Checklist
 - [P] Unit tests coverage > 80% (Issue: #1729)
