@@ -27,6 +27,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <regex>
 #include <algorithm>
 #include <sstream>
 

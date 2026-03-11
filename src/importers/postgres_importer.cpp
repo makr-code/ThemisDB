@@ -427,8 +427,13 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
     std::string current_sql;
     
     while (std::getline(file, line)) {
-        // Skip comments and blank lines
-        if (line.empty() || line[0] == '-') continue;
+        // Skip blank lines and SQL line comments (-- ...)
+        // Block comments (/* ... */) are handled by the statement assembler
+        if (line.empty()) continue;
+        // Trim leading whitespace before comment check
+        size_t first = line.find_first_not_of(" \t\r\n");
+        if (first != std::string::npos && line.size() >= first + 2 &&
+            line[first] == '-' && line[first + 1] == '-') continue;
         
         current_sql += line + " ";
         
@@ -660,6 +665,11 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                     if (shouldImportTable(schema.name, options)) {
                         schemas_[schema.name] = schema;
                         stats.tables_processed++;
+                        // v2.0: count inline FKs (REFERENCES) extracted during DDL parsing
+                        if (options.preserve_relationships) {
+                            stats.relationships_processed +=
+                                schema.foreign_keys.size();
+                        }
                         THEMIS_DEBUG("Parsed table schema: {}", schema.name);
                         reportProgress(callback, "schema", stats.tables_processed, 0);
                         double dur = std::chrono::duration<double>(
@@ -844,20 +854,6 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     // v2.0: Validate FK references if requested
     if (options.validate_references && !cancelled_) {
         validateForeignKeyReferences(options, stats);
-    }
-
-    // v2.0: Count inline FKs (from CREATE TABLE) that were not already counted
-    // via ALTER TABLE.  relationships_processed already counts ALTER TABLE FKs;
-    // add the inline ones here.
-    if (options.preserve_relationships) {
-        for (const auto& kv : schemas_) {
-            for (const auto& fk : kv.second.foreign_keys) {
-                if (fk.name.empty()) {
-                    // Inline REFERENCES FK – not yet counted
-                    stats.relationships_processed++;
-                }
-            }
-        }
     }
     
     return !cancelled_;

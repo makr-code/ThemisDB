@@ -32,8 +32,9 @@ namespace {
 static std::string writeTempFile(const std::string& content,
                                   const std::string& suffix = ".sql") {
     static std::atomic<int> counter{0};
-    std::string path = "/tmp/themis_pg_integ_v2_" +
-                       std::to_string(counter.fetch_add(1)) + suffix;
+    std::string path = (fs::temp_directory_path() /
+                        ("themis_pg_integ_v2_" +
+                         std::to_string(counter.fetch_add(1)) + suffix)).string();
     std::ofstream f(path, std::ios::trunc);
     f << content;
     return path;

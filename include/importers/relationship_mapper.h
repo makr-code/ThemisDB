@@ -320,11 +320,11 @@ private:
                     for (const auto& n : path) {
                         if (n == neighbour) in_cycle = true;
                         if (in_cycle) {
-                            if (!chain.empty()) chain += " \xe2\x86\x92 ";
+                            if (!chain.empty()) chain += " -> ";
                             chain += n;
                         }
                     }
-                    chain += " \xe2\x86\x92 " + neighbour;
+                    chain += " -> " + neighbour;
                     cycles.push_back(chain);
                 }
             }
