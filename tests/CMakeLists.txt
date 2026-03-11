@@ -4032,6 +4032,45 @@ else()
     message(STATUS "UtilsRateLimiter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_rate_limiter.cpp")
 endif()
 
+# RateLimiterV2 Focused Tests (TokenBucketRateLimiter + PerClientRateLimiter + Redis fallback)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter_v2.cpp")
+    message(STATUS "Adding RateLimiterV2 focused tests")
+
+    add_executable(test_rate_limiter_v2_focused
+        test_rate_limiter_v2.cpp
+    )
+
+    target_link_libraries(test_rate_limiter_v2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_rate_limiter_v2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_REDIS AND hiredis_FOUND)
+        if(TARGET hiredis::hiredis)
+            target_link_libraries(test_rate_limiter_v2_focused PRIVATE hiredis::hiredis)
+        elseif(TARGET hiredis)
+            target_link_libraries(test_rate_limiter_v2_focused PRIVATE hiredis)
+        endif()
+        target_compile_definitions(test_rate_limiter_v2_focused PRIVATE THEMIS_ENABLE_REDIS=1)
+    endif()
+
+    add_test(NAME RateLimiterV2FocusedTests COMMAND test_rate_limiter_v2_focused)
+
+    set_tests_properties(RateLimiterV2FocusedTests PROPERTIES
+        LABELS "server;rate-limiter;token-bucket;redis;fallback;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  RateLimiterV2: local bucket, Redis fallback, per-client, priority lanes")
+else()
+    message(STATUS "RateLimiterV2 focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rate_limiter_v2.cpp")
+endif()
+
 # UtilsStandalone Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_standalone.cpp")
     message(STATUS "Adding UtilsStandalone focused tests")
