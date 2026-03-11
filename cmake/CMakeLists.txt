@@ -1441,6 +1441,15 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/merge_operators.cpp
+    ../src/storage/compressed_storage.cpp
+    ../src/storage/compression_strategy.cpp
+    ../src/storage/index_maintenance.cpp
+    ../src/storage/storage_engine.cpp
+    ../src/storage/blob_backend_filesystem.cpp
+    ../src/storage/blob_backend_s3.cpp
+    ../src/storage/blob_backend_azure.cpp
+    ../src/storage/blob_backend_webdav.cpp
+    ../src/storage/blob_backend_gcs.cpp
     
 
     ../src/metadata/schema_manager.cpp

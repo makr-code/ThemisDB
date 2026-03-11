@@ -259,6 +259,19 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # Storage engine abstraction (DI-based)
+    ../src/storage/storage_engine.cpp
+    # Compression strategies (pluggable per-column-family)
+    ../src/storage/compressed_storage.cpp
+    ../src/storage/compression_strategy.cpp
+    # Index maintenance (background rebuild and consistency checks)
+    ../src/storage/index_maintenance.cpp
+    # Blob storage backends (self-contained; SDK guards handled inside each file)
+    ../src/storage/blob_backend_filesystem.cpp
+    ../src/storage/blob_backend_s3.cpp
+    ../src/storage/blob_backend_azure.cpp
+    ../src/storage/blob_backend_webdav.cpp
+    ../src/storage/blob_backend_gcs.cpp
     # Merge operators (counter, list-append RocksDB custom operators)
     ../src/storage/merge_operators.cpp
     # Storage engine high-level abstraction
