@@ -232,7 +232,7 @@ Benchmarks: [`benchmarks/bench_api_endpoints.cpp`](../../../benchmarks/bench_api
 | Verteiltes Rate Limiting via Redis | v1.6.0 | ⏳ Geplant (`rate_limiter_v2.h` vorhanden, Redis-Backend fehlt) |
 | Verteiltes API Gateway (Raft) | v1.7.0 | ⏳ Geplant (kein Code vorhanden) |
 | gRPC-Web TypeScript Client-Generierung | v1.7.0 | ⏳ Geplant |
-| SAML 2.0 SP-Support | v1.7.0 | ⏳ Geplant (kein Code vorhanden) |
+| SAML 2.0 SP-Support | v1.7.0 | ✅ Implementiert (`saml_auth_provider.cpp`, 37 Unit-Tests) |
 | WebAssembly API Handler (WASI) | v1.8.0 | ⏳ Geplant (kein Code vorhanden) |
 
 Details: [`src/server/FUTURE_ENHANCEMENTS.md`](../../../src/server/FUTURE_ENHANCEMENTS.md)
@@ -249,7 +249,7 @@ Zusammenfassung der wichtigsten Befunde:
 |---|-------|-------------|---------|
 | 1 | `rate_limiter_v2` Redis-Backend (ROADMAP § Distributed Rate Limiting) | `rate_limiter_v2.cpp` vorhanden, aber kein `Backend::REDIS`; nur lokales Token-Bucket | Mittel |
 | 2 | OAuth2/OIDC-Provider (`server/oauth2_provider.cpp`) | Keine Datei vorhanden | Hoch |
-| 3 | SAML 2.0 SP (`server/saml_auth_provider.cpp`) | Keine Datei vorhanden | Mittel |
+| 3 | SAML 2.0 SP (`server/saml_auth_provider.cpp`) | ✅ Implementiert (v1.7.0): `saml_auth_provider.cpp`, `saml_auth_provider.h`, 37 Unit-Tests | Gelöst |
 | 4 | Distributed API Gateway (`server/distributed_gateway.cpp`) | Keine Datei vorhanden | Niedrig |
 | 5 | WebAssembly Handler Registry (`server/wasm_handler_registry.cpp`) | Keine Datei vorhanden | Niedrig |
 | 6 | PostgreSQL Wire-Protokoll: erweiterte PG-Features | `postgres_session.cpp` vorhanden (1929 LOC), aber ROADMAP warnt: „partial compatibility" | Info |
