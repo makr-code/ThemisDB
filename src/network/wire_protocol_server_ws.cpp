@@ -970,12 +970,31 @@ void WireProtocolWebSocketSession::close() {
 
     // Decrement the per-IP connection count and remove the session atomically
     // under connections_mutex_ (same lock used by checkConnectionLimit).
+    bool was_registered = false;
     {
         std::lock_guard<std::mutex> lock(server_->connections_mutex_);
         auto it = server_->connections_per_ip_.find(client_ip_);
-        if (it != server_->connections_per_ip_.end() && it->second > 0)
+        if (it != server_->connections_per_ip_.end() && it->second > 0) {
             it->second--;
+            was_registered = true;
+        }
         server_->active_ws_sessions_.erase(session_id_);
+    }
+
+    // Mirror the logic in WireProtocolServer::unregisterConnection: only
+    // adjust the global atomic when the entry was actually registered.
+    // This keeps active_connection_count_ accurate for the backpressure check.
+    if (was_registered) {
+        const uint32_t prev =
+            server_->active_connection_count_.fetch_sub(1, std::memory_order_relaxed);
+        if (server_->overloaded_.load(std::memory_order_relaxed) &&
+            server_->config_.max_connections > 0 &&
+            prev - 1 < server_->config_.max_connections) {
+            server_->overloaded_.store(false, std::memory_order_relaxed);
+            std::cerr << "[WireProtocol] Backpressure recovery: active connections dropped to "
+                      << (prev - 1) << " (limit=" << server_->config_.max_connections
+                      << "). Accepting new connections again.\n";
+        }
     }
 }
 
