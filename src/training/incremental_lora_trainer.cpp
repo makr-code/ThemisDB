@@ -403,6 +403,19 @@ public:
         config_.rank          = rank;
         config_.alpha         = alpha;
         config_.learning_rate = learning_rate;
+
+        // Reset LoRA components so the next train() call re-creates them with
+        // the new rank, scaling (alpha/rank), and learning rate.
+#ifdef THEMIS_ENABLE_LLM
+        lora_layer_.reset();
+        optimizer_.reset();
+        lora_initialized_ = false;
+#endif
+#if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
+        gpu_lora_layer_.reset();
+        gpu_optimizer_.reset();
+        gpu_training_ = false;
+#endif
     }
 
     void setCheckpointing(bool enabled, size_t checkpoint_steps) {

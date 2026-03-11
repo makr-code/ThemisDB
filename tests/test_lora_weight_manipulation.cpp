@@ -332,9 +332,46 @@ TEST_F(LoRATrainerWeightTest, SetHyperparameters_ThenTrain_Succeeds) {
     EXPECT_TRUE(result.success);
 }
 
-// ============================================================================
-// GPU paths – skip if hardware not available
-// ============================================================================
+TEST_F(LoRATrainerWeightTest, SetHyperparameters_AfterTrain_ReinitializesLayer) {
+    // Regression test: verifies that changing hyperparameters after an initial
+    // train() call causes the LoRA layer to be re-created on the next train()
+    // with the new rank/alpha/learning_rate rather than silently reusing the old one.
+    config_.rank = 4;
+    config_.alpha = 8.0f;
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+
+    // First training run with rank=4
+    auto r1 = trainer.train(TrainingMode::INITIAL);
+    EXPECT_TRUE(r1.success);
+
+    // Change to rank=8; this must reset the internal LoRA layer
+    EXPECT_NO_THROW(trainer.setHyperparameters(8, 16.0f, 0.001f));
+
+    // Second training run must succeed and not crash (would segfault / assert
+    // inside LoRALayer if the old rank-4 layer were reused with rank-8 config)
+    auto r2 = trainer.train(TrainingMode::INCREMENTAL);
+    EXPECT_TRUE(r2.success);
+    EXPECT_GE(r2.training_loss, 0.0);
+}
+
+TEST_F(LoRATrainerWeightTest, SetHyperparameters_AfterTrain_GPU_ResetsState) {
+    // Same regression check as above but with a GPU device; on machines without
+    // CUDA/HIP the trainer falls back to CPU automatically.
+    config_.device = "cuda";
+    config_.rank   = 4;
+    config_.alpha  = 8.0f;
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+
+    auto r1 = trainer.train(TrainingMode::INITIAL);
+    EXPECT_TRUE(r1.success);
+
+    // Changing hyperparameters must also clear the GPU layer/optimizer
+    EXPECT_NO_THROW(trainer.setHyperparameters(8, 16.0f, 0.001f));
+
+    auto r2 = trainer.train(TrainingMode::INCREMENTAL);
+    EXPECT_TRUE(r2.success);
+    EXPECT_GE(r2.training_loss, 0.0);
+}
 
 TEST_F(LoRATrainerWeightTest, Train_CUDADevice_FallsBackOrSucceeds) {
     config_.device = "cuda";
