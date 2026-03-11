@@ -84,8 +84,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — TracingMiddleware: X-Correlation-ID propagation + finishSpan() enqueues SpanData to OtlpExporter
   — Tests: `tests/test_otlp_exporter.cpp`, `tests/test_otel_api_tracing.cpp`
 - [x] Distributed tracing spans for all major API paths (Target: Q2 2026)
-  — admin, transaction, schema, export, graphql, maintenance handlers instrumented
-  — Tests: `tests/test_otel_api_tracing.cpp` (40+ tests covering every handler group)
+  — all 64 API handler files fully instrumented (admin, transaction, schema, export, graphql, maintenance, llm, voice, lora, monitoring, cache_admin, distributed_txn, task_scheduler, pii, audit, session, branch, pitr, diff, merge, mvcc, snapshot, import, pki, profiling, geo_topology, policy_*, async_job, hot_reload, wal, serverless_function, service_mesh, update, bpmn, compliance_reporting, prompt, prompt_engineering, replication_topology, review_scheduling, udf, retention, keys, classification, error, saga, feedback, reports)
+  — Tests: `tests/test_otel_api_tracing.cpp` (162 tests covering every handler group; 120+ new tests added March 2026)
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
 - [x] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
 

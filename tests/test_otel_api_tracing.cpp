@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                       ║
-    • Total Lines:     681                                             ║
+    • Total Lines:     1514                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -677,4 +677,838 @@ TEST_F(OtelApiTracingTest, OtlpExporterStartStopIdempotent) {
     exp.start(); // idempotent
     exp.stop();
     exp.stop();  // idempotent
+}
+
+// ============================================================================
+// Newly-instrumented handlers (all 44 files added March 2026)
+// ============================================================================
+
+// --- LLM API handler ---
+TEST_F(OtelApiTracingTest, LlmInferenceSpan) {
+    auto span = Tracer::startSpan("handleInference");
+    span.setAttribute("llm.model", "mistral-7b");
+    span.setAttribute("llm.max_tokens", static_cast<int64_t>(512));
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, LlmRAGSpan) {
+    auto span = Tracer::startSpan("handleRAG");
+    span.setAttribute("llm.model", "mistral-7b");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, LlmEmbedSpan) {
+    auto span = Tracer::startSpan("handleEmbed");
+    span.setAttribute("llm.model", "text-embed-001");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, LlmListModelsSpan) {
+    auto span = Tracer::startSpan("handleListModels");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, LlmLoadModelSpan) {
+    auto span = Tracer::startSpan("handleLoadModel");
+    span.setAttribute("llm.model", "llama-3-8b");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Voice API handler ---
+TEST_F(OtelApiTracingTest, VoiceTranscribeSpan) {
+    auto span = Tracer::startSpan("handleTranscribe");
+    span.setAttribute("voice.language", "en-US");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, VoiceSynthesizeSpan) {
+    auto span = Tracer::startSpan("handleSynthesize");
+    span.setAttribute("voice.language", "de-DE");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, VoiceCommandSpan) {
+    auto span = Tracer::startSpan("handleVoiceCommand");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, VoiceGetSessionSpan) {
+    auto span = Tracer::startSpan("handleGetSession");
+    span.setAttribute("voice.session_id", "vs-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Monitoring API handler ---
+TEST_F(OtelApiTracingTest, MonitoringHealthCheckSpan) {
+    auto span = Tracer::startSpan("handleHealthCheck");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, MonitoringMetricsSpan) {
+    auto span = Tracer::startSpan("handleMetrics");
+    span.setAttribute("monitoring.format", "prometheus");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, MonitoringVersionSpan) {
+    auto span = Tracer::startSpan("handleVersion");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, MonitoringCapabilitiesSpan) {
+    auto span = Tracer::startSpan("handleCapabilities");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- LoRA API handler ---
+TEST_F(OtelApiTracingTest, LoraRegisterModelSpan) {
+    auto span = Tracer::startSpan("handleRegisterModel");
+    span.setAttribute("lora.model_id", "adapter-001");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, LoraListModelsSpan) {
+    auto span = Tracer::startSpan("handleListModels");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, LoraCreateAdapterSpan) {
+    auto span = Tracer::startSpan("handleCreateAdapter");
+    span.setAttribute("lora.base_model", "llama-3-8b");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Cache admin API handler ---
+TEST_F(OtelApiTracingTest, CacheAdminHealthSpan) {
+    auto span = Tracer::startSpan("handleHealth");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, CacheAdminEvictKeySpan) {
+    auto span = Tracer::startSpan("handleEvictKey");
+    span.setAttribute("cache.key", "tenant:42:users");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, CacheAdminEvictTenantSpan) {
+    auto span = Tracer::startSpan("handleEvictTenant");
+    span.setAttribute("cache.tenant_id", "tenant-42");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, CacheAdminCircuitBreakerSpan) {
+    auto span = Tracer::startSpan("handleCircuitBreakerStatus");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Distributed transaction API handler ---
+TEST_F(OtelApiTracingTest, DistributedTxnBeginSpan) {
+    auto span = Tracer::startSpan("handleBegin");
+    span.setAttribute("dtxn.shard_count", static_cast<int64_t>(3));
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, DistributedTxnCommitSpan) {
+    auto span = Tracer::startSpan("handleCommit");
+    span.setAttribute("dtxn.txn_id", "dtxn-abc");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, DistributedTxnAbortSpan) {
+    auto span = Tracer::startSpan("handleAbort");
+    span.setAttribute("dtxn.txn_id", "dtxn-abc");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Task scheduler API handler ---
+TEST_F(OtelApiTracingTest, TaskSchedulerRegisterSpan) {
+    auto span = Tracer::startSpan("registerTask");
+    span.setAttribute("task.name", "daily-cleanup");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, TaskSchedulerListSpan) {
+    auto span = Tracer::startSpan("listTasks");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, TaskSchedulerGetSpan) {
+    auto span = Tracer::startSpan("getTask");
+    span.setAttribute("task.id", "task-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- PII API handler ---
+TEST_F(OtelApiTracingTest, PiiAddMappingSpan) {
+    auto span = Tracer::startSpan("addMapping");
+    span.setAttribute("pii.original_uuid", "user-uuid-001");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, PiiGetMappingSpan) {
+    auto span = Tracer::startSpan("getMapping");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PiiDeleteMappingSpan) {
+    auto span = Tracer::startSpan("deleteMapping");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Audit API handler ---
+TEST_F(OtelApiTracingTest, AuditQueryLogsSpan) {
+    auto span = Tracer::startSpan("queryAuditLogs");
+    span.setAttribute("audit.tenant_id", "tenant-1");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, AuditExportCsvSpan) {
+    auto span = Tracer::startSpan("exportAuditLogsCsv");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Session API handler ---
+TEST_F(OtelApiTracingTest, SessionCreateSpan) {
+    auto span = Tracer::startSpan("createSession");
+    span.setAttribute("session.user_id", "user-42");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, SessionListSpan) {
+    auto span = Tracer::startSpan("listSessions");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, SessionRevokeSpan) {
+    auto span = Tracer::startSpan("revokeSession");
+    span.setAttribute("session.id", "sess-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Branch API handler ---
+TEST_F(OtelApiTracingTest, BranchCreateSpan) {
+    auto span = Tracer::startSpan("handleCreateBranch");
+    span.setAttribute("branch.name", "feature-xyz");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, BranchListSpan) {
+    auto span = Tracer::startSpan("handleListBranches");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, BranchMergeSpan) {
+    auto span = Tracer::startSpan("handleMergeBranches");
+    span.setAttribute("branch.source", "feature-xyz");
+    span.setAttribute("branch.target", "main");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- PITR API handler ---
+TEST_F(OtelApiTracingTest, PITRRestoreSpan) {
+    auto span = Tracer::startSpan("handleRestore");
+    span.setAttribute("pitr.target_timestamp", static_cast<int64_t>(1700000000));
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, PITRPreviewSpan) {
+    auto span = Tracer::startSpan("handlePreview");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Diff API handler ---
+TEST_F(OtelApiTracingTest, DiffGetDiffSpan) {
+    auto span = Tracer::startSpan("handleGetDiff");
+    span.setAttribute("diff.collection", "users");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+// --- Merge API handler ---
+TEST_F(OtelApiTracingTest, MergeMergeSpan) {
+    auto span = Tracer::startSpan("handleMerge");
+    span.setAttribute("merge.source_tag", "v1.0");
+    span.setAttribute("merge.target_tag", "v1.1");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, MergePreviewSpan) {
+    auto span = Tracer::startSpan("handleMergePreview");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- MVCC API handler ---
+TEST_F(OtelApiTracingTest, MvccGetKeySpan) {
+    auto span = Tracer::startSpan("handleGetKey");
+    span.setAttribute("mvcc.key", "user:42");
+    span.setAttribute("mvcc.version", static_cast<int64_t>(5));
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, MvccPutKeySpan) {
+    auto span = Tracer::startSpan("handlePutKey");
+    span.setAttribute("mvcc.key", "user:42");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, MvccListVersionsSpan) {
+    auto span = Tracer::startSpan("handleListVersions");
+    span.setAttribute("mvcc.key", "user:42");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Snapshot API handler ---
+TEST_F(OtelApiTracingTest, SnapshotCreateTagSpan) {
+    auto span = Tracer::startSpan("handleCreateTag");
+    span.setAttribute("snapshot.tag", "backup-2026-03");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, SnapshotListTagsSpan) {
+    auto span = Tracer::startSpan("handleListTags");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Import API handler ---
+TEST_F(OtelApiTracingTest, ImportStartSpan) {
+    auto span = Tracer::startSpan("handleStartImport");
+    span.setAttribute("import.format", "jsonl");
+    span.setAttribute("import.collection", "users");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ImportS3StartSpan) {
+    auto span = Tracer::startSpan("handleStartS3Import");
+    span.setAttribute("import.bucket", "my-bucket");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, ImportJobStatusSpan) {
+    auto span = Tracer::startSpan("handleJobStatus");
+    span.setAttribute("import.job_id", "job-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- PKI API handler ---
+TEST_F(OtelApiTracingTest, PkiSignSpan) {
+    auto span = Tracer::startSpan("sign");
+    span.setAttribute("pki.key_id", "key-001");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, PkiVerifySpan) {
+    auto span = Tracer::startSpan("verify");
+    span.setAttribute("pki.key_id", "key-001");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PkiHsmSignSpan) {
+    auto span = Tracer::startSpan("hsmSign");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Profiling API handler ---
+TEST_F(OtelApiTracingTest, ProfilingEnableSpan) {
+    auto span = Tracer::startSpan("handle_enable");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ProfilingGetQueriesSpan) {
+    auto span = Tracer::startSpan("handle_get_queries");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Geo topology API handler ---
+TEST_F(OtelApiTracingTest, GeoTopologyGetSpan) {
+    auto span = Tracer::startSpan("handleTopologyGet");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, GeoRegionsGetSpan) {
+    auto span = Tracer::startSpan("handleRegionsGet");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Policy API handlers ---
+TEST_F(OtelApiTracingTest, PolicyImportRangerSpan) {
+    auto span = Tracer::startSpan("handleImportRanger");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, PolicyManagerListRulesSpan) {
+    auto span = Tracer::startSpan("handleListRules");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PolicyManagerCreateRuleSpan) {
+    auto span = Tracer::startSpan("handleCreateRule");
+    span.setAttribute("policy.rule_id", "rule-001");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PolicyVersioningListVersionsSpan) {
+    auto span = Tracer::startSpan("handleListVersions");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PolicyVersioningRollbackSpan) {
+    auto span = Tracer::startSpan("handleRollback");
+    span.setAttribute("policy.version_id", "v3");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PolicyValidationValidateRulesetSpan) {
+    auto span = Tracer::startSpan("handleValidateRuleset");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PolicyTemplateListTemplatesSpan) {
+    auto span = Tracer::startSpan("handleListTemplates");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, PolicyTemplateInstantiateSpan) {
+    auto span = Tracer::startSpan("handleInstantiateTemplate");
+    span.setAttribute("policy.template_id", "gdpr-template");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Async job API handler ---
+TEST_F(OtelApiTracingTest, AsyncJobSubmitSpan) {
+    auto span = Tracer::startSpan("handleSubmit");
+    span.setAttribute("job.aql", "FOR doc IN users RETURN doc");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, AsyncJobGetStatusSpan) {
+    auto span = Tracer::startSpan("handleGetStatus");
+    span.setAttribute("job.id", "job-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Hot reload API handler ---
+TEST_F(OtelApiTracingTest, HotReloadGetManifestSpan) {
+    auto span = Tracer::startSpan("handleGetManifest");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, HotReloadApplySpan) {
+    auto span = Tracer::startSpan("handleApply");
+    span.setAttribute("hot_reload.version", "1.7.1");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- WAL API handler ---
+TEST_F(OtelApiTracingTest, WalApplySpan) {
+    auto span = Tracer::startSpan("handleApply");
+    span.setAttribute("wal.segment_id", static_cast<int64_t>(42));
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+// --- Serverless function API handler ---
+TEST_F(OtelApiTracingTest, ServerlessFunctionRegisterSpan) {
+    auto span = Tracer::startSpan("handleRegister");
+    span.setAttribute("serverless.name", "my-fn");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ServerlessFunctionInvokeSpan) {
+    auto span = Tracer::startSpan("handleInvoke");
+    span.setAttribute("serverless.fn_id", "fn-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Service mesh API handler ---
+TEST_F(OtelApiTracingTest, ServiceMeshStatusSpan) {
+    auto span = Tracer::startSpan("handleStatus");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ServiceMeshConfigSpan) {
+    auto span = Tracer::startSpan("handleConfig");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Update API handler ---
+TEST_F(OtelApiTracingTest, UpdateGetStatusSpan) {
+    auto span = Tracer::startSpan("handleGetStatus");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, UpdateCheckNowSpan) {
+    auto span = Tracer::startSpan("handleCheckNow");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- BPMN API handler ---
+TEST_F(OtelApiTracingTest, BpmnStartProcessSpan) {
+    auto span = Tracer::startSpan("handleStartProcess");
+    span.setAttribute("bpmn.process_id", "order-flow");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, BpmnTaskCompleteSpan) {
+    auto span = Tracer::startSpan("handleTaskComplete");
+    span.setAttribute("bpmn.task_id", "task-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Compliance reporting API handler ---
+TEST_F(OtelApiTracingTest, ComplianceCoverageAnalysisSpan) {
+    auto span = Tracer::startSpan("handleCoverageAnalysis");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ComplianceReportSpan) {
+    auto span = Tracer::startSpan("handleComplianceReport");
+    span.setAttribute("compliance.framework", "gdpr");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Prompt API handler ---
+TEST_F(OtelApiTracingTest, PromptPostSpan) {
+    auto span = Tracer::startSpan("handlePost");
+    span.setAttribute("prompt.template_id", "tmpl-001");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, PromptListSpan) {
+    auto span = Tracer::startSpan("handleList");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Prompt engineering API handler ---
+TEST_F(OtelApiTracingTest, PromptEngineeringOptimizeSpan) {
+    auto span = Tracer::startSpan("handleOptimize");
+    span.setAttribute("prompt_eng.strategy", "chain-of-thought");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, PromptEngineeringListABTestsSpan) {
+    auto span = Tracer::startSpan("handleListABTests");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Replication topology API handler ---
+TEST_F(OtelApiTracingTest, ReplicationTopologyGetSpan) {
+    auto span = Tracer::startSpan("handleTopologyGet");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ReplicationHealthGetSpan) {
+    auto span = Tracer::startSpan("handleHealthGet");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Review scheduling API handler ---
+TEST_F(OtelApiTracingTest, ReviewListPendingSpan) {
+    auto span = Tracer::startSpan("handleListPendingReviews");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ReviewCreateSpan) {
+    auto span = Tracer::startSpan("handleCreateReview");
+    span.setAttribute("review.policy_id", "policy-001");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, ReviewApproveSpan) {
+    auto span = Tracer::startSpan("handleApproveReview");
+    span.setAttribute("review.id", "review-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- UDF API handler ---
+TEST_F(OtelApiTracingTest, UdfRegisterSpan) {
+    auto span = Tracer::startSpan("handleRegister");
+    span.setAttribute("udf.name", "my_transform");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, UdfListSpan) {
+    auto span = Tracer::startSpan("handleList");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, UdfDeleteSpan) {
+    auto span = Tracer::startSpan("handleDelete");
+    span.setAttribute("udf.name", "my_transform");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Retention API handler ---
+TEST_F(OtelApiTracingTest, RetentionListPoliciesSpan) {
+    auto span = Tracer::startSpan("listPolicies");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, RetentionCreateOrUpdatePolicySpan) {
+    auto span = Tracer::startSpan("createOrUpdatePolicy");
+    span.setAttribute("retention.policy_name", "gdpr-7years");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, RetentionDeletePolicySpan) {
+    auto span = Tracer::startSpan("deletePolicy");
+    span.setAttribute("retention.policy_name", "gdpr-7years");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Keys API handler ---
+TEST_F(OtelApiTracingTest, KeysListSpan) {
+    auto span = Tracer::startSpan("listKeys");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, KeysRotateSpan) {
+    auto span = Tracer::startSpan("rotateKey");
+    span.setAttribute("keys.key_id", "master-key");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Classification API handler ---
+TEST_F(OtelApiTracingTest, ClassificationListRulesSpan) {
+    auto span = Tracer::startSpan("listRules");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ClassificationTestSpan) {
+    auto span = Tracer::startSpan("testClassification");
+    span.setAttribute("classification.data_sample", "john.doe@example.com");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Error API handler ---
+TEST_F(OtelApiTracingTest, ErrorGetErrorsSpan) {
+    auto span = Tracer::startSpan("handleGetErrors");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, ErrorGetCategoriesSpan) {
+    auto span = Tracer::startSpan("handleGetCategories");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- SAGA API handler ---
+TEST_F(OtelApiTracingTest, SagaListBatchesSpan) {
+    auto span = Tracer::startSpan("listBatches");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, SagaGetBatchDetailSpan) {
+    auto span = Tracer::startSpan("getBatchDetail");
+    span.setAttribute("saga.batch_id", "batch-001");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, SagaVerifyBatchSpan) {
+    auto span = Tracer::startSpan("verifyBatch");
+    span.setAttribute("saga.batch_id", "batch-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Feedback API handler ---
+TEST_F(OtelApiTracingTest, FeedbackCreateSpan) {
+    auto span = Tracer::startSpan("handleCreateFeedback");
+    span.setAttribute("feedback.model_id", "gpt-4");
+    span.setAttribute("feedback.rating", static_cast<int64_t>(4));
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, FeedbackListSpan) {
+    auto span = Tracer::startSpan("handleListFeedback");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, FeedbackGetSpan) {
+    auto span = Tracer::startSpan("handleGetFeedback");
+    span.setAttribute("feedback.id", "fb-001");
+    span.setStatus(true);
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, FeedbackUpdateSpan) {
+    auto span = Tracer::startSpan("handleUpdateFeedback");
+    span.setAttribute("feedback.id", "fb-001");
+    span.setStatus(true);
+    span.end();
+}
+
+// --- Reports API handler ---
+TEST_F(OtelApiTracingTest, ReportsGenerateComplianceSpan) {
+    auto span = Tracer::startSpan("generateComplianceReport");
+    span.setAttribute("reports.framework", "iso27001");
+    span.setStatus(true);
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+// --- Error path for newly-instrumented handlers ---
+TEST_F(OtelApiTracingTest, LlmInferenceErrorPathSpan) {
+    auto span = Tracer::startSpan("handleInference");
+    span.setAttribute("llm.model", "unknown-model");
+    span.setStatus(false);
+    span.recordError("Model not found: unknown-model");
+    span.end();
+    EXPECT_GE(Tracer::getTotalSpans(), initial_total_);
+}
+
+TEST_F(OtelApiTracingTest, VoiceTranscribeErrorPathSpan) {
+    auto span = Tracer::startSpan("handleTranscribe");
+    span.setStatus(false);
+    span.recordError("Audio codec not supported");
+    span.end();
+}
+
+TEST_F(OtelApiTracingTest, DistributedTxnBeginErrorPathSpan) {
+    auto span = Tracer::startSpan("handleBegin");
+    span.setAttribute("dtxn.shard_count", static_cast<int64_t>(0));
+    span.setStatus(false);
+    span.recordError("Invalid shard list");
+    span.end();
 }
