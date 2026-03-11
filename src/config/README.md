@@ -152,7 +152,17 @@ Holds deprecation and removal timestamps, category, and a link to the migration 
 ### ConfigSchemaValidator
 **Location:** `config_schema_validator.h`, `config_schema_validator.cpp`
 
-Static utility that validates YAML and JSON config files against JSON Schema (Draft 7 subset) definitions. YAML files are loaded via `yaml-cpp` and converted to an internal JSON representation before validation. JSON files are parsed directly with `nlohmann::json`. Schema file lookups use `ConfigPathResolver::tryResolve()` so that legacy-to-new path mapping applies automatically.
+Static utility that validates YAML and JSON config files — or in-memory strings — against JSON Schema (Draft 7 subset) definitions. YAML content is parsed via `yaml-cpp` and converted to an internal JSON representation before validation. JSON content is parsed directly with `nlohmann::json`. Schema file lookups use `ConfigPathResolver::tryResolve()` so that legacy-to-new path mapping applies automatically.
+
+**Public API summary:**
+
+| Method | Input | Description |
+|--------|-------|-------------|
+| `validate(path, schema)` | file path + schema object | Validate a YAML/JSON file against an inline schema |
+| `validateWithSchemaFile(config_path, schema_path)` | two file paths | Validate a YAML/JSON file against a schema file |
+| `validateFromString(content, is_yaml, schema)` | in-memory string + schema object | Validate a YAML or JSON string without touching the filesystem |
+| `loadAsJson(file_path)` | file path | Parse a YAML/JSON file to `nlohmann::json` |
+| `loadAsJson(content, is_yaml)` | in-memory string | Parse a YAML or JSON string to `nlohmann::json` |
 
 **Supported JSON Schema keywords:**
 - `type`, `properties`, `required`, `additionalProperties`
@@ -437,6 +447,44 @@ auto result2 = ConfigSchemaValidator::validateWithSchemaFile(
 
 // Load any YAML or JSON file as nlohmann::json (e.g., for custom processing)
 nlohmann::json data = ConfigSchemaValidator::loadAsJson("config/server.yaml");
+
+// --- In-memory YAML/JSON validation (no file required) ---
+// Parse and validate a YAML or JSON string without writing it to disk.
+// Useful for dynamic config editing, unit tests, and server-side hot-checks.
+
+// Parse an in-memory YAML string to nlohmann::json
+const std::string yaml_content = "port: 8080\nhost: localhost\n";
+nlohmann::json parsed = ConfigSchemaValidator::loadAsJson(yaml_content, true /*is_yaml*/);
+
+// Parse an in-memory JSON string to nlohmann::json
+const std::string json_content = R"({"port": 8080, "host": "localhost"})";
+nlohmann::json parsed_json = ConfigSchemaValidator::loadAsJson(json_content, false /*is_yaml*/);
+
+// Validate an in-memory YAML string directly against a schema
+nlohmann::json inmem_schema = R"({
+    "type": "object",
+    "required": ["host", "port"],
+    "properties": {
+        "host": { "type": "string" },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+    }
+})"_json;
+
+auto inmem_result = ConfigSchemaValidator::validateFromString(yaml_content, true, inmem_schema);
+if (!inmem_result.valid) {
+    spdlog::error("In-memory config validation failed:\n{}", inmem_result.formatErrors());
+}
+
+// Same API works for JSON strings — set is_yaml=false
+auto inmem_json_result = ConfigSchemaValidator::validateFromString(json_content, false, inmem_schema);
+
+// Edge cases for in-memory validation:
+//  - Invalid YAML (e.g. tab-indented block) is reported as a validation error,
+//    not thrown, so callers can inspect result.errors without try/catch.
+//  - Invalid JSON string is similarly reported as a validation error.
+//  - result.config_path is set to "<string>" for in-memory calls (no file path).
+//  - $ref / $defs, allOf / anyOf / oneOf, format and all other schema keywords
+//    work identically in validateFromString and validate.
 
 // --- $ref and $defs: reusable schema fragments ---
 // Define shared type definitions in "$defs" and reference them via "$ref".

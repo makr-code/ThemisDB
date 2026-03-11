@@ -37,6 +37,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Integration with config validation (JSON Schema / YAML schema) via `ConfigSchemaValidator` — validates YAML/JSON config files against JSON Schema Draft 7 subset (Issue: #1666)
 - [x] `$ref` and `$defs` resolution in `ConfigSchemaValidator` — document-internal `$ref` with JSON Pointer (RFC 6901) walk; supports `$defs` (Draft 2019-09) and `definitions` (Draft 4/6/7); cycle detection; SSRF guard rejects external URI refs (Issue: #3742)
 - [x] `format` and `uniqueItems` validators in `ConfigSchemaValidator` — `format` enforces `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6` patterns; `uniqueItems` rejects arrays with duplicate elements; 20 dedicated tests; usage examples in `src/config/README.md` (Milestone: v2.0.0)
+- [x] In-memory YAML/JSON validation via `ConfigSchemaValidator::validateFromString(content, is_yaml, schema)` — validates an in-memory YAML or JSON string against a JSON Schema without requiring a file; `loadAsJson(content, is_yaml)` string overload for inline parsing; parse errors reported as `ValidationResult` errors; 10 dedicated tests (Milestone: v2.0.0)
 
 ## Implementation Phases
 

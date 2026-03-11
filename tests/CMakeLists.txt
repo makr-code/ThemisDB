@@ -11962,15 +11962,6 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp")
     message(STATUS "Adding Blue/Green Deployment focused tests")
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" AND NOT TARGET test_huggingface_exporter_focused)
-    message(STATUS "Adding HuggingFace Exporter focused tests (Issue #1729)")
-
-    add_executable(test_huggingface_exporter_focused
-        exporters/test_huggingface_exporter.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
-        ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
     add_executable(test_blue_green_deployment_focused
         test_blue_green_deployment.cpp
     )
@@ -11987,20 +11978,59 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" 
         Threads::Threads
     )
 
-    target_compile_definitions(test_voice_production_focused PRIVATE
+    target_compile_definitions(test_blue_green_deployment_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceProductionFocusedTests COMMAND test_voice_production_focused)
+    add_test(NAME BlueGreenDeploymentFocusedTests COMMAND test_blue_green_deployment_focused)
 
-    set_tests_properties(VoiceProductionFocusedTests PROPERTIES
-        LABELS "voice;production;stt;tts;session;security;preprocessing;biometric;focused;unit"
+    set_tests_properties(BlueGreenDeploymentFocusedTests PROPERTIES
+        LABELS "deployment;blue-green;focused;unit"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  BlueGreenDeployment: Blue/Green deployment support")
+else()
+    message(STATUS "Blue/Green Deployment focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" AND NOT TARGET test_huggingface_exporter_focused)
+    message(STATUS "Adding HuggingFace Exporter focused tests (Issue #1729)")
+
+    add_executable(test_huggingface_exporter_focused
+        exporters/test_huggingface_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
+    )
+
+    target_include_directories(test_huggingface_exporter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_huggingface_exporter_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_huggingface_exporter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HuggingFaceExporterFocusedTests COMMAND test_huggingface_exporter_focused)
+
+    set_tests_properties(HuggingFaceExporterFocusedTests PROPERTIES
+        LABELS "exporter;huggingface;ml;focused;unit"
         TIMEOUT 120
     )
 
-    message(STATUS "  VoiceProduction: AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager, VoiceSecurityManager, VoiceErrorHandler, VoiceTTSCustomizer, VoiceBiometricAuthenticator, EmotionAnalyzer")
+    message(STATUS "  HuggingFaceExporter: Model export to HuggingFace Hub")
 else()
-    message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+    message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
 endif()
 
 # VoiceCoverage focused tests – pushes coverage above 80% for previously

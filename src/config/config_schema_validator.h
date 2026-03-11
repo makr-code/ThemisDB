@@ -146,6 +146,25 @@ public:
      */
     static nlohmann::json loadAsJson(const std::string& content, bool is_yaml);
 
+    /**
+     * Validate an in-memory YAML or JSON string against an inline JSON Schema
+     * object.
+     *
+     * This overload eliminates the need to write a config string to disk before
+     * validating it, supporting dynamic config editing and runtime adaptation.
+     *
+     * Parse errors are reported as `ValidationResult` errors rather than thrown.
+     *
+     * @param content  The raw YAML or JSON config string to validate.
+     * @param is_yaml  When true the content is parsed with yaml-cpp;
+     *                 when false it is parsed as JSON with nlohmann::json.
+     * @param schema   JSON Schema as a nlohmann::json object.
+     * @return ValidationResult describing any schema violations.
+     */
+    static ValidationResult validateFromString(const std::string& content,
+                                               bool is_yaml,
+                                               const nlohmann::json& schema);
+
 private:
     // Entry-point wrapper: uses schema itself as the root schema and an empty
     // visited-refs set.  Called by validate() and validateWithSchemaFile().

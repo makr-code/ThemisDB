@@ -151,6 +151,32 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string& content, boo
 }
 
 // ═══════════════════════════════════════════════════════════
+// validateFromString
+// ═══════════════════════════════════════════════════════════
+
+ConfigSchemaValidator::ValidationResult
+ConfigSchemaValidator::validateFromString(const std::string& content,
+                                          bool is_yaml,
+                                          const nlohmann::json& schema) {
+    ValidationResult result;
+    result.config_path = "<string>";
+
+    nlohmann::json data;
+    try {
+        data = loadAsJson(content, is_yaml);
+    } catch (const SchemaValidationException& e) {
+        result.addError(e.what());
+        return result;
+    } catch (const std::exception& e) {
+        result.addError(std::string("Unexpected error parsing config string: ") + e.what());
+        return result;
+    }
+
+    validateValue(data, schema, "#", result);
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════
 // validate
 // ═══════════════════════════════════════════════════════════
 
