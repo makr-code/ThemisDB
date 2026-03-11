@@ -247,6 +247,8 @@ struct ImportStats {
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
     size_t custom_types_processed = 0;  ///< CREATE TYPE statements parsed (enum / composite)
+    size_t relationships_processed = 0; ///< Foreign key constraints mapped to graph relationships
+    size_t indexes_processed = 0;       ///< CREATE INDEX statements parsed
     
     double elapsed_seconds = 0.0;
 
@@ -285,6 +287,8 @@ struct ImportStats {
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
             {"custom_types_processed", custom_types_processed},
+            {"relationships_processed", relationships_processed},
+            {"indexes_processed", indexes_processed},
             {"elapsed_seconds", elapsed_seconds},
             {"is_schema_only", is_schema_only},
             {"is_data_only", is_data_only},
@@ -535,6 +539,22 @@ struct ImportOptions {
     size_t schema_sample_rows = 100;
 
     // -------------------------------------------------------------------------
+    // Foreign Key / Relationship preservation (v2.0)
+    // -------------------------------------------------------------------------
+
+    /// When true, Foreign Key constraints are extracted and preserved as
+    /// ThemisDB graph relationships during import.  Default: true.
+    bool preserve_relationships = true;
+
+    /// When true, all FK references are validated before data import starts.
+    /// Missing target tables produce structured UNKNOWN_TABLE errors.  Default: false.
+    bool validate_references = false;
+
+    /// How FK constraints are mapped to graph edges.
+    ///   "auto"   – detect cardinality automatically (default)
+    ///   "manual" – no automatic mapping; user configures via API
+    ///   "skip"   – do not create graph edges for FKs
+    std::string relationship_mapping_mode = "auto";
     // Entity linking / Master Data Management (MDM)
     // -------------------------------------------------------------------------
 
@@ -569,6 +589,9 @@ struct ImportOptions {
             {"merge_depth", merge_depth},
             {"validate_schema", validate_schema},
             {"schema_sample_rows", schema_sample_rows},
+            {"preserve_relationships", preserve_relationships},
+            {"validate_references", validate_references},
+            {"relationship_mapping_mode", relationship_mapping_mode}
             {"entity_linking", entity_linking.toJson()}
         };
     }
@@ -598,6 +621,7 @@ enum class ImportStatus {
  */
 struct ImportHandle {
     std::string id;           ///< Unique job ID (UUID-like string)
+    std::string source_path;  ///< Source file path used for this job (v2.0)
 
     // Live progress – updated by the worker thread
     std::atomic<size_t> current_records{0};    ///< Records processed so far

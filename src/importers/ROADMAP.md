@@ -3,6 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
+v2.1 – PostgreSQL Importer enhanced with FK preservation (v2.0), relationship mapping, extended constraints (CHECK/EXCLUDE/GENERATED), and performance optimizations. All other importers (MySQL/MariaDB, MongoDB, Oracle, SQLite, Kafka, S3/flat-file) remain at v1.x production-ready state.
 v2.1+ – ML-assisted schema intelligence, enterprise-grade data quality/audit, and
 emerging-tech integrations (federated learning, blockchain integrity, GraphQL federation)
 implemented on top of the production-ready v1.x multi-source import pipeline.
@@ -24,6 +25,10 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
 - [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
 - [x] S3-compatible object-storage source connector (`importers/s3_importer.cpp`) (Issue: #1855)
+- [x] PostgreSQL FK preservation v2.0 (`ForeignKeyConstraint`, inline `REFERENCES`, `ALTER TABLE…FK`, DEFERRABLE)
+- [x] PostgreSQL relationship mapping v2.1: bidirectional edges (`generateInverseEdges`), `on_delete/update` propagation, self-referential edge naming
+- [x] PostgreSQL additional constraint types v2.1: `CheckConstraint`, `ExcludeConstraint`, `GeneratedColumnInfo`
+- [x] PostgreSQL parse performance v2.1: static `std::regex`, `unordered_map` lookups, `append`-based string building, `thread_local` `streamReadLine`, pre-reserved buffers
 <!-- v2.1+ modules -->
 - [x] Schema Inference Engine – implicit FK discovery, semantic type detection, cardinality estimation (`importers/schema_inference.cpp`)
 - [x] Column Importance Analyzer – Shannon entropy, Gini impurity, information gain (`importers/column_importance.cpp`)

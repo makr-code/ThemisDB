@@ -78,6 +78,25 @@ namespace server {
  *   Serves the interactive web-based import wizard (single-page HTML application).
  *   No authentication required for the page itself; all data operations are
  *   delegated to the existing /api/v1/import/* REST endpoints.
+ *
+ * --- v2.0 endpoints ---
+ *
+ * GET    /api/v1/import/schema/{job_id}
+ *   Returns the detected schema (tables, FKs, indexes, graph relationships)
+ *   for the dump file associated with a completed or in-progress job.
+ *   Response: { "tables": [...], "relationships": [...], "circular_references": [...] }
+ *
+ * POST   /api/v1/import/schema/validate
+ *   Body (JSON): { "source_path": "...", "options": { ... } }
+ *   Validates FK mappings without starting a full data import.
+ *   Response: { "valid": true|false, "tables": N, "relationships": N,
+ *               "warnings": [...], "errors": [...] }
+ *
+ * PUT    /api/v1/import/{job_id}/relationships
+ *   Body (JSON): array of { "edge_type", "source_table", "source_column",
+ *                            "target_table", "target_column", "cardinality" }
+ *   Stores custom relationship mappings for a job (overrides auto-detection).
+ *   Response: { "job_id": "...", "relationships_configured": N }
  */
 class ImportApiHandler {
 public:
@@ -105,13 +124,18 @@ public:
 
 private:
     // Route handlers
-    void handleStartImport   (const httplib::Request& req, httplib::Response& res);
-    void handleStartS3Import (const httplib::Request& req, httplib::Response& res);
-    void handleJobStatus     (const httplib::Request& req, httplib::Response& res);
-    void handleCancelJob     (const httplib::Request& req, httplib::Response& res);
-    void handleListJobs      (const httplib::Request& req, httplib::Response& res);
-    void handleMetrics       (const httplib::Request& req, httplib::Response& res);
-    void handleImportWizard  (const httplib::Request& req, httplib::Response& res);
+    void handleStartImport      (const httplib::Request& req, httplib::Response& res);
+    void handleStartS3Import    (const httplib::Request& req, httplib::Response& res);
+    void handleJobStatus        (const httplib::Request& req, httplib::Response& res);
+    void handleCancelJob        (const httplib::Request& req, httplib::Response& res);
+    void handleListJobs         (const httplib::Request& req, httplib::Response& res);
+    void handleMetrics          (const httplib::Request& req, httplib::Response& res);
+    void handleImportWizard     (const httplib::Request& req, httplib::Response& res);
+
+    // v2.0 Route handlers
+    void handleGetSchema        (const httplib::Request& req, httplib::Response& res);
+    void handleValidateSchema   (const httplib::Request& req, httplib::Response& res);
+    void handleUpdateRelationships(const httplib::Request& req, httplib::Response& res);
 
     // Helpers
     static nlohmann::json parseRequestBody(const std::string& body);
@@ -123,6 +147,11 @@ private:
     std::shared_ptr<importers::ImportJobRegistry> registry_;
     std::shared_ptr<importers::IImporter>         importer_;
     std::shared_ptr<importers::IImporter>         s3_importer_;
+
+    // v2.0: per-job custom relationship override storage
+    // key = job_id, value = JSON array of RelationshipMapping objects
+    std::mutex                                    rel_mutex_;
+    std::map<std::string, nlohmann::json>         relationship_overrides_;
 };
 
 } // namespace server
