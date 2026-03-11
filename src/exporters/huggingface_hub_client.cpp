@@ -236,6 +236,8 @@ HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string& bearer_token
 // ── Main upload ──────────────────────────────────────────────────────────────
 
 /// Write a structured audit entry for a Hub upload attempt.
+/// @note Internal helper; intentionally not exposed in the header since callers
+///       access audit logging exclusively via HubUploadConfig::audit_log.
 static void writeHubUploadAuditEntry(
     themis::utils::AuditLogger& audit_log,
     const HubUploadConfig& config,

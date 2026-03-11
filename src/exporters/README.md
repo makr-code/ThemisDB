@@ -29,7 +29,8 @@ Provides data export functionality for ThemisDB. Supported formats:
 - `jsonl_llm_exporter.cpp` — primary JSONL export with LLM training format
 - `parquet_exporter.cpp` — Apache Parquet columnar export
 - `arrow_ipc_exporter.cpp` — Apache Arrow IPC file and stream export (zero-copy pipelines)
-- `huggingface_exporter.cpp` — Hugging Face Datasets-compatible export
+- `huggingface_exporter.cpp` — Hugging Face Datasets-compatible export (local filesystem)
+- `huggingface_hub_client.cpp` — **HuggingFace Hub direct upload** with PolicyEngine + audit
 - `streaming_exporter.cpp` — streaming export for large collections
 - `stream_writer.cpp` — low-level streaming output writer
 - `incremental_exporter.cpp` — delta/incremental export with watermark-based change tracking
@@ -65,6 +66,7 @@ Provides data export functionality for ThemisDB. Supported formats:
 - Export to Apache Parquet columnar format
 - Export to Apache Arrow IPC file (`.arrow`) or stream (`.arrows`) format for zero-copy pipelines
 - Hugging Face Datasets-compatible export (JSONL shards + `dataset_card.md` + `dataset_info.json`)
+- **HuggingFace Hub direct upload** — push exported datasets to the Hub without manual steps
 - Configurable field selection (include/exclude)
 - Batch export operations
 - Streaming export without full in-memory load
@@ -77,6 +79,124 @@ Provides data export functionality for ThemisDB. Supported formats:
 - PII detection and redaction (mask, hash, remove, partial)
 - Multi-tenant isolation with scope-based authorization
 - Progress callbacks with records exported, bytes written, and estimated ETA
+
+## Hugging Face Hub Direct Upload
+
+`HuggingFaceHubClient` (`include/exporters/huggingface_hub_client.h`) uploads a
+Hugging Face Datasets-compatible directory — produced by `HuggingFaceExporter` — directly
+to the Hub using libcurl.  Authentication, PolicyEngine authorization, and audit logging
+are fully integrated.
+
+### Basic upload
+
+```cpp
+#include "exporters/huggingface_hub_client.h"
+using namespace themis::exporters;
+
+HubUploadConfig cfg;
+cfg.repo_id         = "my-org/my-dataset";      // Hub repo in owner/name form
+cfg.hf_token        = "";                        // empty → read HF_TOKEN env var
+cfg.commit_message  = "Add training data v2";
+cfg.create_repo     = true;    // create if it doesn't exist
+cfg.private_repo    = false;
+
+HuggingFaceHubClient client(cfg);
+HubUploadResult result = client.uploadDataset("/path/to/exported/dataset");
+
+if (result.success) {
+    // Dataset is available at result.dataset_url
+} else {
+    // result.error_message describes the failure
+    // result.http_status is the last Hub API HTTP status (0 if no response)
+}
+```
+
+### Upload with progress callback
+
+```cpp
+HubUploadResult result = client.uploadDataset(
+    "/path/to/exported/dataset",
+    [](double fraction) {
+        std::cout << "Upload progress: " << (fraction * 100.0) << "%\n";
+    });
+```
+
+### Upload with PolicyEngine authorization
+
+```cpp
+#include "exporters/huggingface_hub_client.h"
+#include "governance/policy_engine.h"
+using namespace themis::exporters;
+
+// Obtain a pre-configured PolicyEngine instance (lifetime must exceed upload).
+themis::governance::PolicyEngine& engine = getMyPolicyEngine();
+
+HubUploadConfig cfg;
+cfg.repo_id          = "my-org/sensitive-dataset";
+cfg.hf_token         = "hf_...";
+cfg.requesting_user  = "alice";      // forwarded to PolicyEngine + audit log
+cfg.policy_engine    = &engine;      // null = no check (backward compat)
+
+HuggingFaceHubClient client(cfg);
+HubUploadResult result = client.uploadDataset(export_dir);
+
+if (!result.success) {
+    if (result.error_message.find("PolicyEngine") != std::string::npos) {
+        // Upload was blocked by PolicyEngine::checkExportPermission()
+    }
+}
+```
+
+`PolicyEngine::checkExportPermission()` is called **before any HTTP activity**.  A
+denied decision returns `success=false` immediately; no files are uploaded.
+
+### Upload with audit logging
+
+```cpp
+#include "exporters/huggingface_hub_client.h"
+#include "utils/audit_logger.h"
+using namespace themis::exporters;
+
+// Build a minimal AuditLogger (encryption + PKI can be null for basic use).
+themis::utils::AuditLoggerConfig audit_cfg;
+audit_cfg.log_path = "/var/log/themis/hub_upload.jsonl";
+audit_cfg.enabled  = true;
+auto audit_log = std::make_shared<themis::utils::AuditLogger>(
+    nullptr, nullptr, audit_cfg);
+
+HubUploadConfig cfg;
+cfg.repo_id         = "my-org/my-dataset";
+cfg.hf_token        = "hf_...";
+cfg.requesting_user = "alice";
+cfg.audit_log       = audit_log;    // null = no audit trail (backward compat)
+
+HuggingFaceHubClient client(cfg);
+client.uploadDataset(export_dir);
+
+// The audit log will contain a JSON line like:
+// {"event_type":"hub_upload","repo_id":"my-org/my-dataset",
+//  "requesting_user":"alice","outcome":"success","http_status":200,...}
+```
+
+Every call to `uploadDataset()` appends one audit entry regardless of outcome
+(success, policy denial, or network/HTTP error).
+
+### Retry and timeout configuration
+
+```cpp
+HubUploadConfig cfg;
+cfg.repo_id         = "my-org/my-dataset";
+cfg.max_retries     = 5;        // default: 3
+cfg.retry_delay_ms  = 500;      // initial delay, doubles each retry; default: 1000 ms
+cfg.timeout_seconds = 60;       // curl connect+operation timeout; default: 120 s
+```
+
+### Compile-time dependency
+
+`HuggingFaceHubClient` requires libcurl.  When `CURL_ENABLED` is not defined at
+compile time, `uploadDataset()` returns immediately with `success=false` and an
+explanatory `error_message`.  All other `HubUploadConfig` fields remain available for
+configuration in both modes.
 
 ## Documentation
 
