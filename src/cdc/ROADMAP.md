@@ -18,7 +18,7 @@
 - [x] WebSocket-based change streaming as alternative to SSE (Target: Q2 2026) (Issue: #1604) — `ws_transport.cpp` (`WsTransport`, implements `ICDCTransport`), `cdc_ws_handler.cpp` (`/v2/cdc/stream`)
 - [x] Change log compaction and archival policies (Target: Q2 2026) (Issue: #1605) — `changefeed.cpp`
 - [x] At-least-once delivery guarantees with consumer acknowledgement (Target: Q3 2026) (Issue: #1606) — `delivery_tracker.cpp`, `include/cdc/delivery_tracker.h`; `trackDelivery()`, `acknowledge()`, `acknowledgeUpTo()`, `getPendingRedelivery()`; 18 unit tests in `tests/test_cdc_delivery_tracker.cpp` (see Known Issues: SSE not yet covered)
-- [x] Change log TTL and size-based retention policies (Issue: #1608) — `changefeed.cpp`; manual admin trim via `CDCAdmin::purgeOlderThan()` (see Known Issues: runtime config not yet available)
+- [x] Change log TTL and size-based retention policies (Issue: #1608) — `changefeed.cpp`; `Changefeed::updateRetentionPolicy()` automatically starts/stops the background cleanup thread; `PUT /changefeed/retention` and `POST /config` (hot-reload `cdc_retention_hours`) apply the new policy without server restart
 - [x] Consumer group semantics (multiple consumers, offset tracking) (Issue: #1609) — `consumer_group.cpp`, `include/cdc/consumer_group.h`; `ConsumerGroupManager`, `fetchEventsAtLeastOnce()`
 - [x] Change event enrichment (before/after document snapshots) (Issue: #1611) — `changefeed.cpp`; `ChangeEvent::before_snapshot`, `after_snapshot`
 - [x] Kafka-compatible producer interface for enterprise integration (Issue: #1613) — `kafka_cdc_producer.cpp`, `include/cdc/kafka_cdc_producer.h`; `KafkaCDCProducer` (opt-in: `THEMIS_ENABLE_KAFKA`)
@@ -80,7 +80,6 @@
 
 ## Known Issues & Limitations
 - Consumer offset tracking is available via `ConsumerGroupManager`; full log scan is no longer required for existing groups
-- **Change log retention not runtime-configurable:** `[x] Change log TTL and size-based retention (Issue: #1608)` is implemented for manual admin trim (`CDCAdmin::purgeOlderThan()`), but policies are not yet configurable at runtime without a server restart. See [missing-implementations](../../docs/de/cdc/missing-implementations.md).
 - At-least-once delivery is implemented via `ConsumerGroupManager::fetchEventsAtLeastOnce`; in-flight state is in-memory and resets on server restart (consumers resume from the last durably committed offset)
 - **At-least-once not guaranteed for SSE:** plain SSE connections (`GET /changefeed/stream`) do not have the acknowledgement loop; use Consumer Groups (`/v2/cdc/stream`) for at-least-once guarantees. See [missing-implementations](../../docs/de/cdc/missing-implementations.md).
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)

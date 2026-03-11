@@ -45,16 +45,15 @@
 
 ---
 
-## Befund 3 – Change-Log-Retention nicht zur Laufzeit konfigurierbar
+## Befund 3 – Change-Log-Retention nicht zur Laufzeit konfigurierbar ✅ Behoben
 
 | Feld | Inhalt |
 |------|--------|
 | **Claim-Quelle** | `src/cdc/ROADMAP.md`, Completed-Liste |
 | **Claim** | `[x] Change log TTL and size-based retention policies (Issue: #1608)` |
 | **Erwartet** | Automatische TTL- und größenbasierte Retention, zur Laufzeit konfigurierbar |
-| **Beobachtet** | Manuelles Admin-Trimming via `CDCAdmin::purgeOlderThan()` (REST: `POST /changefeed/retention`) ist implementiert; automatische zeitgesteuerte oder größenbasierte Retention **ohne Server-Neustart** ist **nicht verfügbar** |
-| **Geprüfte Pfade** | `src/cdc/cdc_admin.cpp`, `include/cdc/cdc_admin.h`; ROADMAP Known Issues: *"Change log retention policies are not configurable at runtime"* |
-| **Evidence** | `cdc_admin.cpp` stellt `purgeOlderThan()` bereit; kein Background-Retention-Thread oder Runtime-Config-Hook gefunden |
+| **Status** | **Behoben** – `Changefeed::updateRetentionPolicy()` startet/stoppt den Background-Cleanup-Thread jetzt automatisch wenn `enabled` wechselt. `PUT /changefeed/retention` und `POST /config` (`cdc_retention_hours`) wenden Änderungen ohne Neustart an. |
+| **Geprüfte Pfade** | `src/cdc/changefeed.cpp` (`updateRetentionPolicy()`), `src/server/changefeed_api_handler.cpp` (`handleRetentionPut()`), `src/server/http_server.cpp` (Hot-Reload), `tests/test_cdc_retention.cpp` |
 | **Issue-Titelvorschlag** | `feat(cdc): runtime-configurable change log retention policies (TTL + size-based)` |
 | **Label-Vorschläge** | `enhancement`, `cdc`, `operations` |
 
