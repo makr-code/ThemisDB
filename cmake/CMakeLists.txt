@@ -2745,6 +2745,7 @@ if(THEMIS_ENABLE_CUDA)
     ../src/acceleration/cuda/vector_kernels.cu
     ../src/acceleration/cuda/tensor_core_matmul.cu
     ../src/acceleration/cuda/geo_kernels.cu
+    ../src/acceleration/cuda/graph_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
