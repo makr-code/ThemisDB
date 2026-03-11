@@ -87,17 +87,15 @@
 
 ---
 
-## CON-006 — Zip-Bomb-Schutz in `archive_processor.cpp` fehlt *(Low / Security)*
+## CON-006 — Zip-Bomb-Schutz in `archive_processor.cpp` ✅ BEHOBEN
 
 **Datei:** `src/content/archive_processor.cpp`
 
 **Erwartet:** `content_security.cpp` scannt alle hochgeladenen Archive auf Zip-Bomb-Muster; max. Dekomprimierungs-zu-Komprimierungs-Verhältnis 100×, max. 1.000 extrahierte Dateien.
 
-**Beobachtet:** Item in `FUTURE_ENHANCEMENTS.md` noch `[ ]` offen.
+**Behoben:** `ContentSecurityManager::checkZipBomb()` in `content_security.h/.cpp` implementiert (Verhältnis-Schwellenwert 100×, max. 1.000 Dateien). `ArchiveProcessor::process()` ruft diese Methode nach `extractMetadata()` und vor der Entpackung auf. Konfigurierbar über `ContentSecurityConfig::max_zip_bomb_ratio` und `max_zip_file_count`.
 
-**Auswirkung:** Böswillig erstellte ZIP/tar-Archive könnten Speicher oder Disk erschöpfen.
-
-**Empfohlener Issue-Titel:** `fix(content/security): add zip-bomb protection in archive_processor.cpp via content_security.cpp`
+**Auswirkung:** Böswillig erstellte ZIP/tar-Archive werden blockiert, bevor Speicher oder Disk erschöpft werden können.
 
 ---
 
