@@ -18,6 +18,9 @@
  */
 
 #include "exporters/huggingface_hub_client.h"
+#include "governance/policy_engine.h"
+#include "governance/model_governance.h"
+#include "utils/audit_logger.h"
 #include "utils/logger.h"
 
 #include <nlohmann/json.hpp>
@@ -232,21 +235,86 @@ HubUploadResult HuggingFaceHubClient::ensureRepo(const std::string& bearer_token
 
 // ── Main upload ──────────────────────────────────────────────────────────────
 
+/// Write a structured audit entry for a Hub upload attempt.
+static void writeHubUploadAuditEntry(
+    themis::utils::AuditLogger& audit_log,
+    const HubUploadConfig& config,
+    const std::string& dataset_dir,
+    const HubUploadResult& result,
+    const std::string& outcome)
+{
+    using nlohmann::json;
+    json entry = {
+        {"event_type",       "hub_upload"},
+        {"repo_id",          config.repo_id},
+        {"requesting_user",  config.requesting_user},
+        {"dataset_dir",      dataset_dir},
+        {"outcome",          outcome},
+        {"success",          result.success},
+        {"http_status",      result.http_status},
+        {"dataset_url",      result.dataset_url},
+        {"error_message",    result.error_message},
+        {"timestamp",        std::chrono::duration_cast<std::chrono::milliseconds>(
+                                 std::chrono::system_clock::now().time_since_epoch()).count()}
+    };
+    audit_log.logEvent(entry);
+}
+
 HubUploadResult HuggingFaceHubClient::uploadDataset(
     const std::string& dataset_dir,
     std::function<void(double)> progress_cb) const
 {
+    // ── 0. PolicyEngine authorization check ─────────────────────────────────
+    if (config_.policy_engine) {
+        themis::governance::ModelTrainingExportRequest req;
+        req.export_job_id   = "hub-upload-" + config_.repo_id;
+        req.collection_ids  = {config_.repo_id};
+        req.requesting_user = config_.requesting_user;
+        req.purpose         = "HUB_UPLOAD";
+
+        const auto decision = config_.policy_engine->checkExportPermission(req);
+        if (!decision.is_permitted) {
+            const HubUploadResult denied{
+                false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
+            if (config_.audit_log) {
+                writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                         denied, "denied");
+            }
+            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}",
+                        config_.repo_id, decision.denial_reason);
+            return denied;
+        }
+    }
+
     const std::string token = resolveToken();
     if (token.empty()) {
-        return {false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
+        const HubUploadResult no_token{
+            false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                     no_token, "error");
+        }
+        return no_token;
     }
     if (config_.repo_id.empty()) {
-        return {false, {}, "HubUploadConfig::repo_id must not be empty", 0};
+        const HubUploadResult no_repo{
+            false, {}, "HubUploadConfig::repo_id must not be empty", 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                     no_repo, "error");
+        }
+        return no_repo;
     }
 
     // 1. Ensure repo exists
     auto repo_res = ensureRepo(token);
-    if (!repo_res.success) return repo_res;
+    if (!repo_res.success) {
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                     repo_res, "error");
+        }
+        return repo_res;
+    }
 
     // 2. Collect all files to upload
     std::vector<std::string> files;
@@ -256,7 +324,13 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         }
     }
     if (files.empty()) {
-        return {false, {}, "Dataset directory '" + dataset_dir + "' contains no files", 0};
+        const HubUploadResult empty_dir{
+            false, {}, "Dataset directory '" + dataset_dir + "' contains no files", 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                     empty_dir, "error");
+        }
+        return empty_dir;
     }
     std::sort(files.begin(), files.end());
 
@@ -298,17 +372,39 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
                 break;
             }
             if (http_status == 401) {
-                return {false, {}, "Hub upload authentication failed (HTTP 401)", 401};
+                const HubUploadResult auth_fail{
+                    false, {}, "Hub upload authentication failed (HTTP 401)", 401};
+                if (config_.audit_log) {
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                             auth_fail, "error");
+                }
+                return auth_fail;
             }
             if (http_status == 413) {
                 THEMIS_WARN("HuggingFaceHubClient: HTTP 413 for {}; file too large for a single PUT", rel);
-                return {false, {}, "File '" + rel + "' too large for Hub API (HTTP 413); split shard and retry", 413};
+                const HubUploadResult too_large{
+                    false, {},
+                    "File '" + rel + "' too large for Hub API (HTTP 413); split shard and retry",
+                    413};
+                if (config_.audit_log) {
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                             too_large, "error");
+                }
+                return too_large;
             }
             // Transient error → retry
         }
 
         if (!file_ok) {
-            return {false, {}, "Failed to upload file '" + rel + "' after " + std::to_string(config_.max_retries) + " retries", 0};
+            const HubUploadResult retry_fail{
+                false, {},
+                "Failed to upload file '" + rel + "' after " + std::to_string(config_.max_retries) + " retries",
+                0};
+            if (config_.audit_log) {
+                writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                         retry_fail, "error");
+            }
+            return retry_fail;
         }
 
         ++uploaded;
@@ -317,8 +413,13 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         }
     }
 
-    THEMIS_INFO("HuggingFaceHubClient: all {} files uploaded successfully to {}", total_files, repo_res.dataset_url);
-    return {true, repo_res.dataset_url, {}, 200};
+    THEMIS_INFO("HuggingFaceHubClient: all {} files uploaded successfully to {}",
+                total_files, repo_res.dataset_url);
+    const HubUploadResult success{true, repo_res.dataset_url, {}, 200};
+    if (config_.audit_log) {
+        writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, success, "success");
+    }
+    return success;
 }
 
 } // namespace themis::exporters

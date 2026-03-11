@@ -12,9 +12,9 @@
 | Schwere | Anzahl |
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 0 |
-| 🟡 Mittel (Funktional eingeschränkt) | 2 |
+| 🟡 Mittel (Funktional eingeschränkt) | 1 |
 | 🟢 Gering (Hardening / Optimierung) | 2 |
-| ✅ Behoben | 3 |
+| ✅ Behoben | 4 |
 
 Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`, `streaming_exporter`, `incremental_exporter`, `aql_predicate_filter`, `format_template`, `export_encryption`, `data_augmentation`, `pii_detector`, `exporter_metrics`, `stream_writer`) haben `Open Issues: TODOs: 0, Stubs: 0` und `Maturity Level: 🟢 PRODUCTION-READY`.
 
@@ -42,25 +42,20 @@ Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporte
 
 ---
 
-### 2. Hub Direct Upload Integration (🟡 Mittel)
+### ~~2. Hub Direct Upload Integration~~ ✅ Behoben (Issue: #1719)
 
-**Claim-Quelle:** `src/exporters/ROADMAP.md` → Planned Features (Issue: #1719)  
-**Datei:** — (kein `huggingface_hub_client.cpp` vorhanden)
+`HuggingFaceHubClient` vollständig implementiert in `src/exporters/huggingface_hub_client.cpp` und
+`include/exporters/huggingface_hub_client.h`. Die Implementierung umfasst:
 
-**Erwartet:** `HuggingFaceHubClient` mit libcurl für direktes Hochladen von JSONL-Shards und `dataset_card.md` via Hugging Face Hub HTTP API, ohne Zwischenspeicherung auf dem Dateisystem.
-
-**Beobachtet:** `huggingface_exporter.cpp` exportiert vollständig ins lokale Dateisystem. Kein `HuggingFaceHubClient` oder HTTP-Upload-Pfad implementiert.
-
-**Evidence:**
-- `src/exporters/FUTURE_ENHANCEMENTS.md`, Abschnitt „Hugging Face Hub Direct Upload Integration" (Target: v1.9.0, Issue: #1719)
-- `src/exporters/ROADMAP.md` → `[I] Hugging Face Hub direct upload integration (Issue: #1719)`
-- Kein `huggingface_hub_client.cpp` oder `hf_upload*.cpp` in `src/exporters/`
-
-**Impact:** Benutzer müssen Datasets manuell von exportierten Dateien hochladen; kein integrierter Hub-Upload-Workflow.
-
-**Issue-Titelvorschlag:** `feat(exporters): implement HuggingFaceHubClient for direct Hub upload`  
-**Label-Vorschläge:** `module:exporters`, `kind:implementation`, `priority:medium`  
-**Bestehender Issue:** #1719
+- libcurl-basierter HTTP-Upload mit Retry-Logik und Exponential Backoff
+- Bearer-Token-Authentifizierung via `HubUploadConfig::hf_token` oder `HF_TOKEN`-Umgebungsvariable
+- Automatische Repository-Erstellung bei `create_repo=true`
+- **PolicyEngine-Integration**: `HubUploadConfig::policy_engine` — `uploadDataset()` ruft
+  `PolicyEngine::checkExportPermission()` auf; abgelehnte Uploads geben sofort `success=false` zurück
+- **Audit-Log-Integration**: `HubUploadConfig::audit_log` — jeder Upload-Versuch (erlaubt,
+  abgelehnt, Fehler) wird als `hub_upload`-JSON-Eintrag ins Audit-Log geschrieben
+- Unit-Tests in `tests/exporters/test_huggingface_hub_client.cpp` decken Denial, Permit,
+  Audit-Log-Writes und Backward-Compatibility ab
 
 ---
 
