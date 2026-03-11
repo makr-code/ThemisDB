@@ -2514,6 +2514,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     )
+endif()  # Close if(THEMIS_ENABLE_LLM)
 
 # Ensure minimal LLM components are available when referenced from http_server.
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.
