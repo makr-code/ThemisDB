@@ -163,12 +163,7 @@ TEST_F(AutoLabelerDbFetchTest, LabelAll_WithEngine_StatsConsistent) {
     LegalAutoLabeler labeler(cfg, "", engine_.get());
     auto stats = labeler.labelAll();
 
-    // samples_created must equal high_confidence + non-high samples
-    EXPECT_EQ(stats.samples_created,
-              stats.high_confidence_samples + stats.low_confidence_samples
-              + (stats.samples_created - stats.high_confidence_samples
-                 - stats.low_confidence_samples));
-    // More concisely: high + low <= total
+    // high_confidence + low_confidence must not exceed total samples_created.
     EXPECT_LE(stats.high_confidence_samples + stats.low_confidence_samples,
               stats.samples_created);
 }
@@ -294,4 +289,74 @@ TEST_F(AutoLabelerDbFetchTest, DualMode_SameConfigDifferentEngines) {
     EXPECT_GT(stats_db.documents_processed, stats_offline.documents_processed)
         << "DB mode must process more documents than offline mode";
     EXPECT_EQ(stats_offline.documents_processed, 0u);
+}
+
+// ============================================================================
+// fetchDocumentText DB fetch path – text is read from the database
+// ============================================================================
+
+TEST_F(AutoLabelerDbFetchTest, LabelDocument_WithEngine_FetchesTextFromDb) {
+    // Insert a document whose text contains ONLY "kann" (permission modal).
+    // The hardcoded offline fallback text contains "muss" AND "soll" AND "kann",
+    // so if DB fetch is wired correctly we get fewer/different samples than the
+    // fallback would produce.
+    {
+        BaseEntity e("doc_kann_only");
+        e.setField("text", std::string("Die Behörde kann eine Ausnahme genehmigen."));
+        ASSERT_TRUE(idx_->put("legal_documents", e).ok);
+    }
+
+    auto cfg = makeConfig("legal_documents");
+    cfg.min_confidence = 0.0f; // accept all samples regardless of confidence
+    cfg.flag_low_confidence = true;
+    LegalAutoLabeler labeler(cfg, "", engine_.get());
+
+    auto samples = labeler.labelDocument("doc_kann_only");
+
+    // With DB fetch the text only contains "kann", so every sample should be
+    // in the "permission" category.  If the hardcoded fallback were returned
+    // instead, "obligation" and "default_obligation" samples would also appear.
+    ASSERT_FALSE(samples.empty())
+        << "At least one sample must be produced from the 'kann' document";
+    for (const auto& s : samples) {
+        EXPECT_EQ(s.category, "permission")
+            << "Only 'permission' samples expected when text contains only 'kann'";
+        EXPECT_EQ(s.source_id, "doc_kann_only");
+    }
+}
+
+TEST_F(AutoLabelerDbFetchTest, LabelDocument_WithEngine_NoTextField_ReturnsEmpty) {
+    // Insert a document WITHOUT a text field – fetchDocumentText should return ""
+    // and labelDocument should produce no samples.
+    {
+        BaseEntity e("doc_no_text");
+        e.setField("title", std::string("Untitled"));
+        ASSERT_TRUE(idx_->put("legal_documents", e).ok);
+    }
+
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", engine_.get());
+
+    auto samples = labeler.labelDocument("doc_no_text");
+    EXPECT_TRUE(samples.empty())
+        << "A document without a text field must produce no training samples";
+}
+
+TEST_F(AutoLabelerDbFetchTest, LabelAll_WithEngine_SkipsDocsWithoutText) {
+    // Insert a document without text. FETCH_ALL_DOCUMENTS filters
+    // doc.text != null AND doc.text != '', so this doc should not be returned
+    // by the AQL query and therefore not be processed.
+    {
+        BaseEntity e("doc_no_text_in_all");
+        e.setField("category", std::string("misc"));
+        ASSERT_TRUE(idx_->put("legal_documents", e).ok);
+    }
+
+    auto cfg = makeConfig("legal_documents");
+    LegalAutoLabeler labeler(cfg, "", engine_.get());
+    auto stats = labeler.labelAll();
+
+    // Only the original 3 documents (with text fields) should be processed.
+    EXPECT_EQ(stats.documents_processed, 3u)
+        << "Documents without a text field must be excluded by FETCH_ALL_DOCUMENTS";
 }

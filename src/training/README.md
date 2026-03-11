@@ -144,7 +144,7 @@ IncrementalLoRATrainer
 ### External Dependencies
 - `<chrono>` — elapsed time tracking in training/enrichment stats
 - `<stdexcept>` — exception propagation
-- AQL query executor (ThemisDB internal) — database reads and graph traversal (production integration; currently stubbed with `// TODO` comments)
+- AQL query executor (`QueryEngine` / `executeAql()` from `query/aql_runner.h`) — document ID fetch in `labelAll()`, document text fetch in `labelDocument()`, user-supplied queries in `labelQuery()`. Pass a `QueryEngine*` to `LegalAutoLabeler` at construction time. Pass `nullptr` to run in offline/test mode (no DB access).
 - Vector index / embedding store — cosine similarity for `findSimilarDocuments` (production integration; currently stubbed)
 
 ## Usage Examples
@@ -153,21 +153,40 @@ IncrementalLoRATrainer
 #include "training/auto_labeler.h"
 #include "training/incremental_lora_trainer.h"
 #include "training/knowledge_graph_enricher.h"
+#include "query/query_engine.h"
+#include "query/aql_runner.h"
 
 using namespace themis::training;
 
-// --- 1. Auto-label legal documents ---
+// --- 0. Obtain a QueryEngine (wired to your RocksDB instance) ---
+// RocksDBWrapper db(...);  db.open();
+// SecondaryIndexManager idx(db);
+// QueryEngine engine(db, idx);
+//
+// Pass &engine to components that need DB access, or nullptr for offline mode.
+
+// --- 1. Auto-label legal documents (DB-connected mode) ---
 AutoLabelConfig label_config;
-label_config.language_code = "de";
-label_config.min_confidence = 0.6f;
+label_config.source_collection  = "legal_documents";
+label_config.target_collection  = "legal_training_samples";
+label_config.language_code      = "de";
+label_config.min_confidence     = 0.6f;
 label_config.flag_low_confidence = true;
 
-LegalAutoLabeler labeler(label_config, "rocksdb://./data");
+// Pass &engine to enable AQL-based document fetch.
+// Omit the third argument (or pass nullptr) for offline/test mode.
+LegalAutoLabeler labeler(label_config, "rocksdb://./data", &engine);
 LabelingStats stats = labeler.labelAll(
     [](size_t done, size_t total, const std::string& msg) {
         // progress
     }
 );
+// stats.documents_processed — number of documents fetched and labeled
+// stats.samples_created     — total training samples generated
+
+// Label only documents matching an arbitrary AQL query:
+auto custom_stats = labeler.labelQuery(
+    "FOR doc IN legal_documents FILTER doc.jurisdiction == 'DE' RETURN doc._key");
 
 // --- 2. Enrich samples with graph context ---
 EnrichmentConfig enrich_config;
@@ -213,12 +232,58 @@ if (result.success) {
 trainer.rollbackVersion("v0.9");
 ```
 
+## Integration Steps (AQL Executor)
+
+Follow these steps to wire `LegalAutoLabeler` to a live ThemisDB instance:
+
+1. **Open a RocksDB instance** and create the required secondary index manager:
+   ```cpp
+   RocksDBWrapper::Config db_cfg;
+   db_cfg.db_path = "data/themis";
+   RocksDBWrapper db(db_cfg);
+   db.open();
+   SecondaryIndexManager idx(db);
+   QueryEngine engine(db, idx);
+   ```
+
+2. **Construct `LegalAutoLabeler` with the engine pointer:**
+   ```cpp
+   AutoLabelConfig cfg;
+   cfg.source_collection = "legal_documents";  // collection to read from
+   cfg.target_collection = "legal_training_samples";
+   LegalAutoLabeler labeler(cfg, "", &engine);
+   ```
+
+3. **Populate the source collection.** Each document must have a non-null, non-empty `text` field:
+   ```cpp
+   BaseEntity doc("doc_001");
+   doc.setField("text", std::string("Die Behörde muss die Genehmigung erteilen ..."));
+   idx.put("legal_documents", doc);
+   ```
+
+4. **Run labeling** — `labelAll()` fetches all document IDs via AQL, then fetches each document's `text` field via a secondary AQL query and produces `TrainingSample` records:
+   ```cpp
+   auto stats = labeler.labelAll();
+   // stats.documents_processed == number of documents found in DB
+   // stats.samples_created     == number of training samples generated
+   ```
+
+5. **Offline / test mode** — pass `nullptr` (or omit the third argument) to skip all DB access; the labeler will process zero documents from the collection while still allowing `labelDocument(id)` calls:
+   ```cpp
+   LegalAutoLabeler offline_labeler(cfg, "");  // engine defaults to nullptr
+   ```
+
 ## Production Readiness
 
 **Current Status: Alpha**
 
-The module provides the correct structural scaffolding and integration points but contains several production stubs awaiting integration with the database query executor:
-- `LegalAutoLabeler`: document fetching (`labelAll`, `labelQuery`) and DB sample writes are `// TODO` stubs; the document-labeling logic (`labelDocument`) is fully implemented
+The module provides production-ready AQL-executor integration for document labeling and contains scaffolding for remaining stubs:
+
+- `LegalAutoLabeler`:
+  - ✅ `labelAll()` — fetches document IDs from `source_collection` via AQL (`FETCH_ALL_DOCUMENTS`), then fetches each document's `text` field via `FETCH_DOCUMENT_BY_ID` (wired in v1.6.0)
+  - ✅ `labelQuery(aql)` — executes the caller-supplied AQL query to obtain document IDs, then labels each document as above (wired in v1.6.0)
+  - ✅ `labelDocument(id)` — uses `FETCH_DOCUMENT_BY_ID` AQL when engine is wired; falls back to hardcoded text in offline/test mode
+  - ⏳ DB sample writes (`persistSampleBatch`) — placeholder pending batch-insert wiring (Phase 2)
 - `IncrementalLoRATrainer`: actual model weight manipulation, optimizer state, and checkpoint serialization are simulated with placeholder values; integrate with your chosen ML framework (e.g., llama.cpp LoRA APIs, libtorch)
 - `KnowledgeGraphEnricher`: AQL graph traversal queries and vector similarity search are defined as commented AQL templates but return empty lists until the query executor is wired in
 - Known limitations:
