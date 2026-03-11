@@ -39,6 +39,7 @@
 #include <boost/asio.hpp>
 #include <cstring>
 #include <functional>
+#include <sstream>
 #include <vector>
 
 using namespace themis::wire;
@@ -442,7 +443,7 @@ TEST(WireProtocolConstants, ChecksumSizeIsCrc32Width) {
 
 // --- Auth decision (handleAuthResponse logic) --------------------------------
 
-TEST(WireProtocolV1ThemisAuth, UnauthenticatedSessionDefaultFalse) {
+TEST(WireProtocolV1ThemisAuth, NewSessionIsNotAuthenticated) {
     boost::asio::io_context ioc;
     auto client = make_client_socket(ioc);
     auto session = std::make_shared<WireProtocolSession>(std::move(client));
@@ -766,4 +767,61 @@ TEST(WireProtocolV1ThemisErrorCodes, StorageUnavailableUses503) {
     // handle_get/put/delete/vector_search return 503 (service unavailable).
     constexpr uint32_t kServiceUnavailable = 503u;
     EXPECT_EQ(kServiceUnavailable, 503u);
+}
+
+// --- sanitizeForMessage logic mirror (security: log injection prevention) ----
+
+namespace {
+
+/// Local mirror of the sanitizeForMessage function from wire_protocol_server.cpp.
+/// Replaces control characters (< 0x20) and DEL (0x7F) with '?'.
+std::string sanitizeForMessageMirror(const std::string& s) {
+    std::string out;
+    out.reserve(s.size());
+    for (unsigned char c : s) {
+        if (c < 0x20u || c == 0x7Fu) {
+            out += '?';
+        } else {
+            out += static_cast<char>(c);
+        }
+    }
+    return out;
+}
+
+} // anonymous namespace
+
+TEST(WireProtocolV1ThemisSanitize, PrintableStringUnchanged) {
+    EXPECT_EQ(sanitizeForMessageMirror("users"), "users");
+    EXPECT_EQ(sanitizeForMessageMirror("my-collection_v2"), "my-collection_v2");
+    EXPECT_EQ(sanitizeForMessageMirror("doc-123"), "doc-123");
+}
+
+TEST(WireProtocolV1ThemisSanitize, NewlineReplacedWithQuestionMark) {
+    // Embedded newlines must not pass through to prevent log injection.
+    EXPECT_EQ(sanitizeForMessageMirror("a\nb"), "a?b");
+    EXPECT_EQ(sanitizeForMessageMirror("a\r\nb"), "a??b");
+}
+
+TEST(WireProtocolV1ThemisSanitize, TabReplacedWithQuestionMark) {
+    EXPECT_EQ(sanitizeForMessageMirror("col\tlection"), "col?lection");
+}
+
+TEST(WireProtocolV1ThemisSanitize, DelCharReplacedWithQuestionMark) {
+    std::string s = "abc";
+    s += '\x7F';
+    s += "def";
+    EXPECT_EQ(sanitizeForMessageMirror(s), "abc?def");
+}
+
+TEST(WireProtocolV1ThemisSanitize, EmptyStringUnchanged) {
+    EXPECT_EQ(sanitizeForMessageMirror(""), "");
+}
+
+TEST(WireProtocolV1ThemisSanitize, AllControlCharsReplaced) {
+    // Control characters 0x00–0x1F must all be replaced.
+    for (int i = 0; i < 0x20; ++i) {
+        std::string s(1, static_cast<char>(i));
+        EXPECT_EQ(sanitizeForMessageMirror(s), "?")
+            << "Expected '?' for control char 0x" << std::hex << i;
+    }
 }

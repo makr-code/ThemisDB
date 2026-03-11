@@ -206,6 +206,22 @@ static std::string makeSessionId(const tcp::socket& socket) {
     return ss.str();
 }
 
+/// Sanitize a user-supplied string for safe inclusion in error messages.
+/// Replaces control characters (< 0x20) and DEL (0x7F) with '?' to prevent
+/// log injection and client confusion via embedded newlines or escape sequences.
+static std::string sanitizeForMessage(const std::string& s) {
+    std::string out;
+    out.reserve(s.size());
+    for (unsigned char c : s) {
+        if (c < 0x20u || c == 0x7Fu) {
+            out += '?';
+        } else {
+            out += static_cast<char>(c);
+        }
+    }
+    return out;
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -642,7 +658,8 @@ void WireProtocolSession::handle_get(const v1::GetRequest& req) {
     send_error(503,
         "Storage not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "GET /api/v1/collection/" + req.collection() + "/" + req.uuid());
+        "GET /api/v1/collection/" + sanitizeForMessage(req.collection()) +
+        "/" + sanitizeForMessage(req.uuid()));
 }
 
 void WireProtocolSession::handle_put(const v1::PutRequest& req) {
@@ -667,7 +684,8 @@ void WireProtocolSession::handle_put(const v1::PutRequest& req) {
     send_error(503,
         "Storage not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "PUT /api/v1/collection/" + req.collection() + "/" + req.uuid());
+        "PUT /api/v1/collection/" + sanitizeForMessage(req.collection()) +
+        "/" + sanitizeForMessage(req.uuid()));
 }
 
 void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
@@ -688,7 +706,8 @@ void WireProtocolSession::handle_delete(const v1::DeleteRequest& req) {
     send_error(503,
         "Storage not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "DELETE /api/v1/collection/" + req.collection() + "/" + req.uuid());
+        "DELETE /api/v1/collection/" + sanitizeForMessage(req.collection()) +
+        "/" + sanitizeForMessage(req.uuid()));
 }
 
 void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
@@ -730,7 +749,7 @@ void WireProtocolSession::handle_vector_search(
     send_error(503,
         "Vector index not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "POST /api/v1/vector/" + req.collection() + "/search");
+        "POST /api/v1/vector/" + sanitizeForMessage(req.collection()) + "/search");
 }
 
 void WireProtocolSession::handle_geo_query(
@@ -775,7 +794,7 @@ void WireProtocolSession::handle_timeseries_query(
     send_error(503,
         "Time-series storage not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "GET /api/v1/timeseries/" + req.collection());
+        "GET /api/v1/timeseries/" + sanitizeForMessage(req.collection()));
 }
 
 void WireProtocolSession::handle_bpmn_start(
@@ -796,7 +815,8 @@ void WireProtocolSession::handle_bpmn_start(
     send_error(503,
         "Process graph manager not connected to protobuf wire session. "
         "Use the JSON wire protocol port (8766) or HTTP REST API "
-        "POST /api/v1/bpmn/process/" + req.process_definition_key() + "/start");
+        "POST /api/v1/bpmn/process/" +
+        sanitizeForMessage(req.process_definition_key()) + "/start");
 }
 
 void WireProtocolSession::handle_ping(const v1::PingRequest& /*req*/) {
