@@ -43,6 +43,10 @@ namespace themis::governance {
 class PolicyEngine;
 } // namespace themis::governance
 
+namespace themis::utils {
+class AuditLogger;
+} // namespace themis::utils
+
 namespace themis::exporters {
 
 // Forward declaration
@@ -140,6 +144,11 @@ struct ExportOptions {
     /// Raw non-owning pointer; the caller must ensure it outlives all
     /// export calls.  Null = no policy check (backward compatible default).
     themis::governance::PolicyEngine* policy_engine = nullptr;
+
+    /// Optional AuditLogger for recording export authorization decisions.
+    /// When non-null, enforceExportPolicy() logs BULK_EXPORT on approval and
+    /// EXPORT_DENIED on denial.  Null = no audit logging (backward compatible).
+    themis::utils::AuditLogger* audit_logger = nullptr;
 };
 
 /// @brief Enforce export policy before any cursor or output file is opened.
@@ -147,6 +156,10 @@ struct ExportOptions {
 /// Builds a `ModelTrainingExportRequest` from `options` and calls
 /// `PolicyEngine::checkExportPermission()`.  If the engine denies the
 /// request an `ExporterException(ERR_EXPORT_POLICY_DENIED, ...)` is thrown.
+/// On denial, if `options.audit_logger` is non-null, an EXPORT_DENIED event
+/// is written with requester, collection, and denial reason.
+/// On approval, if `options.audit_logger` is non-null, a BULK_EXPORT event
+/// is written.
 ///
 /// This is a no-op when `options.policy_engine == nullptr`.
 ///

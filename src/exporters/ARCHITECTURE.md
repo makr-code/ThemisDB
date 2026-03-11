@@ -59,6 +59,15 @@ Parquet and HuggingFace dataset formats are also supported.
 └──────────────────────────┬──────────────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────────────┐
+│         Authorization Check (Before Pipeline — EXP-001)         │
+│   enforceExportPolicy(options)                                   │
+│     ├─ policy_engine != nullptr → PolicyEngine.checkExport()    │
+│     │     ├─ denied  → EXPORT_DENIED audit event + 403 throw    │
+│     │     └─ allowed → BULK_EXPORT audit event + continue       │
+│     └─ policy_engine == nullptr → no-op (backward compat)       │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+┌──────────────────────────▼──────────────────────────────────────┐
 │                     Export Pipeline                              │
 │                                                                  │
 │  Query storage → batch records → PII scan → format → write      │
@@ -122,7 +131,8 @@ HuggingFaceExporter: generate dataset_card.md + dataset_info.json
 | Direction | Module | Interface |
 |---|---|---|
 | **Reads from** | `src/storage/` | Collection iteration and range scans |
-| **Uses** | `src/utils/` | PII detection, compression utilities |
+| **Uses** | `src/utils/` | PII detection, compression utilities, `AuditLogger` |
+| **Uses** | `src/governance/` | `PolicyEngine::checkExportPermission()` via `enforceExportPolicy()` |
 | **Consumed by** | `src/server/` | Export API endpoints |
 | **Consumed by** | `src/training/` | Training data pipeline |
 | **Outputs to** | Filesystem / S3 | Export destination |
@@ -155,6 +165,73 @@ HuggingFaceExporter: generate dataset_card.md + dataset_info.json
 - PII policy is configurable per export: `mask`, `exclude`, or `allow` (with audit log).
 - Export destinations are validated to prevent path traversal and SSRF.
 - Exported files inherit the requesting tenant's data access scope.
+- **Export Authorization** — `enforceExportPolicy()` (in `jsonl_llm_exporter.cpp`) is called
+  at the very start of every exporter's `exportEntities()`, before any file or cursor is
+  opened.  It delegates to `PolicyEngine::checkExportPermission()`.  On denial an
+  `ExporterException(ERR_EXPORT_POLICY_DENIED)` is thrown and nothing is written.
+
+### 8.1 Authorization Policy Configuration
+
+Attach a `PolicyEngine` (and optionally an `AuditLogger`) to `ExportOptions` before calling
+any exporter:
+
+```cpp
+#include "exporters/exporter_interface.h"
+#include "governance/policy_engine.h"
+#include "governance/model_governance.h"
+#include "utils/audit_logger.h"
+
+// 1. Build / obtain a PolicyEngine with a ModelGovernancePolicy
+auto mgp = std::make_shared<themis::governance::ModelGovernancePolicy>();
+mgp->addRestrictedCollection("pii_raw");          // deny exports from this collection
+mgp->setLineageTracker(my_lineage_tracker);        // optional lineage recording
+
+themis::governance::PolicyEngine engine;
+engine.setModelGovernancePolicy(mgp);
+
+// 2. Create an AuditLogger for event recording
+themis::utils::AuditLoggerConfig audit_cfg;
+audit_cfg.log_path      = "/var/log/themis/export_audit.jsonl";
+audit_cfg.enable_siem   = false;                  // set true to forward to Splunk/Elastic
+audit_cfg.enable_hash_chain = true;               // tamper-evident chain
+themis::utils::AuditLogger audit_logger(enc, pki, audit_cfg);
+
+// 3. Attach to ExportOptions
+themis::exporters::ExportOptions opts;
+opts.output_path     = "/data/exports/training.jsonl";
+opts.collection_name = "qa_pairs";                // collection being exported
+opts.requesting_user = "ml-service@example.com";  // identity for audit
+opts.policy_engine   = &engine;                   // null = no check (backward compat)
+opts.audit_logger    = &audit_logger;             // null = no audit (backward compat)
+
+// 4. Run the export — throws ExporterException(ERR_EXPORT_POLICY_DENIED) if denied
+try {
+    themis::exporters::JSONLLLMExporter exporter;
+    auto stats = exporter.exportEntities(entities, opts);
+} catch (const themis::exporters::ExporterException& ex) {
+    if (ex.getErrorCode() == themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED) {
+        // HTTP callers should map this to 403 Forbidden
+        respond_forbidden(ex.what());
+    }
+}
+```
+
+**Audit events written by `enforceExportPolicy()`:**
+
+| Scenario | `SecurityEventType` | Severity | Details |
+|---|---|---|---|
+| Export permitted | `BULK_EXPORT` | LOW | `export_job_id`, `collection` |
+| Export denied | `EXPORT_DENIED` | MEDIUM | `denial_reason`, `export_job_id`, `collection` |
+
+### 8.2 Built-in Policy Predicates
+
+`PolicyEngine` supports the following predicates out of the box:
+
+| Predicate | How to configure | Behaviour |
+|---|---|---|
+| Collection ACL | `mgp->addRestrictedCollection("col")` | Any export touching that collection is denied |
+| Classification restriction | Data classification `"geheim"` / `"streng-geheim"` | Always denied regardless of `ModelGovernancePolicy` |
+| Custom predicate | Implement `ModelGovernancePolicy::checkExportPermission()` | Full control |
 
 ---
 
@@ -168,6 +245,15 @@ HuggingFaceExporter: generate dataset_card.md + dataset_info.json
 | `exporters.pii.policy` | "mask" | PII policy: mask / exclude / allow |
 | `exporters.parquet.row_group_size` | 10000 | Parquet row group size |
 
+**Per-export runtime options** (set on `ExportOptions` before calling `exportEntities()`):
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `collection_name` | `std::string` | `""` | Name of the collection being exported; required when `policy_engine` is set |
+| `requesting_user` | `std::string` | `""` | Identity of the requesting user/service; falls back to `tenant_context.user_id` |
+| `policy_engine` | `PolicyEngine*` | `nullptr` | Non-owning pointer; `nullptr` disables authorization check (backward compat) |
+| `audit_logger` | `AuditLogger*` | `nullptr` | Non-owning pointer; `nullptr` disables audit logging (backward compat) |
+
 ---
 
 ## 10. Error Handling
@@ -178,6 +264,7 @@ HuggingFaceExporter: generate dataset_card.md + dataset_info.json
 | PII detection failure | Fail export (safe default); configurable to warn and continue |
 | Output write failure | Abort export; log error; clean up partial file |
 | Out of disk space | Abort export; return structured error |
+| **Policy denied** (`ERR_EXPORT_POLICY_DENIED`, code 9310) | **Throw `ExporterException` before any file is opened; log `EXPORT_DENIED` to audit; HTTP callers should map to 403 Forbidden** |
 
 ---
 

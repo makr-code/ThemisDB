@@ -373,6 +373,7 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::DATA_WRITE: return "DATA_WRITE";
         case SecurityEventType::DATA_DELETE: return "DATA_DELETE";
         case SecurityEventType::BULK_EXPORT: return "BULK_EXPORT";
+        case SecurityEventType::EXPORT_DENIED: return "EXPORT_DENIED";
         case SecurityEventType::BULK_IMPORT: return "BULK_IMPORT";
         case SecurityEventType::BULK_IMPORT_COMPLETED: return "BULK_IMPORT_COMPLETED";
         // Graph & Vector Operations (Phase 1)
@@ -459,6 +460,7 @@ void AuditLogger::logSecurityEvent(
             securityEventTypeToString(event_type), user_id, resource);
     } else if (event_type == SecurityEventType::RATE_LIMIT_EXCEEDED ||
                event_type == SecurityEventType::PERMISSION_DENIED ||
+               event_type == SecurityEventType::EXPORT_DENIED ||
                event_type == SecurityEventType::SUSPICIOUS_ACTIVITY) {
         event["severity"] = "MEDIUM";
     } else {
