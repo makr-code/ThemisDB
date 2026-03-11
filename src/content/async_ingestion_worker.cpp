@@ -525,6 +525,7 @@ json AsyncIngestionWorker::getStatistics() {
         {"worker_count", config_.worker_thread_count},
         {"queue_size", job_queue_.size()},
         {"max_queue_size", config_.max_queue_size},
+        {"max_queue_depth", config_.max_queue_depth},
         {"jobs", {
             {"queued", queued},
             {"processing", processing},
@@ -595,7 +596,7 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
         THEMIS_INFO("Worker {} started", worker_id);
     }
     
-    while (!shutdown_requested_.load()) {
+    while (true) {
         IngestionJob job;
         
         // Wait for a job

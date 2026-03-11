@@ -73,7 +73,7 @@
 
 ---
 
-## CON-005 — Backpressure bei Streaming-Ingestion ✅ BEHOBEN
+## CON-005 — Back-pressure bei Streaming-Ingestion ✅ BEHOBEN
 
 **Datei:** `src/content/async_ingestion_worker.cpp`
 

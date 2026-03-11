@@ -357,3 +357,58 @@ TEST(AsyncIngestionBackpressureConfigTest, Config_DefaultMaxQueueDepthMatchesMax
     EXPECT_EQ(default_cfg.max_queue_depth, 1000u);
     EXPECT_EQ(default_cfg.max_queue_size,  1000u);
 }
+
+// ============================================================================
+// Test 7 – getStatistics() exposes max_queue_depth
+// ============================================================================
+
+TEST_F(AsyncIngestionBackpressureTest, Statistics_ExposesMaxQueueDepth) {
+    auto worker = makeWorker(/*max_queue_depth=*/37, /*threads=*/1);
+    worker->start();
+
+    auto stats = worker->getStatistics();
+    EXPECT_EQ(stats["max_queue_depth"].get<size_t>(), 37u);
+    EXPECT_TRUE(stats.contains("max_queue_size"));
+
+    worker->stop(true);
+}
+
+// ============================================================================
+// Test 8 – stop(true) drains all queued ingestStream() futures before exit
+// ============================================================================
+
+TEST_F(AsyncIngestionBackpressureTest, StopGraceful_DrainsPendingFutures) {
+    // Single slow worker; we enqueue 3 jobs but worker starts slowly.
+    // stop(true) must not exit until all queued jobs complete.
+    auto worker = makeWorker(/*max_queue_depth=*/10, /*threads=*/1);
+
+    std::atomic<int> processed{0};
+    worker->registerJobHandler(IngestionJobType::STREAM_FILE, [&](IngestionJob& job) {
+        std::this_thread::sleep_for(20ms);
+        ++processed;
+        job.content_ids.push_back("id_" + std::to_string(processed.load()));
+        job.processed_items = 1;
+        job.progress = 1.0f;
+    });
+
+    worker->start();
+
+    std::istringstream s1("a"), s2("b"), s3("c");
+    auto fut1 = worker->ingestStream(s1, "a.txt");
+    auto fut2 = worker->ingestStream(s2, "b.txt");
+    auto fut3 = worker->ingestStream(s3, "c.txt");
+
+    // Graceful stop – must process all 3 jobs
+    worker->stop(true);
+
+    // All futures must be ready now (not hanging)
+    ASSERT_EQ(fut1.wait_for(0s), std::future_status::ready);
+    ASSERT_EQ(fut2.wait_for(0s), std::future_status::ready);
+    ASSERT_EQ(fut3.wait_for(0s), std::future_status::ready);
+
+    EXPECT_NO_THROW(fut1.get());
+    EXPECT_NO_THROW(fut2.get());
+    EXPECT_NO_THROW(fut3.get());
+
+    EXPECT_EQ(processed.load(), 3);
+}
