@@ -18,8 +18,9 @@ namespace server {
 namespace {
 
 // libcurl write callback – appends received data to a std::string.
+// size is always 1 per the libcurl contract; nmemb is the byte count.
 size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
-    const auto total = size * nmemb;
+    const size_t total = size * nmemb;  // safe: size==1 per libcurl contract
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
 }

@@ -502,9 +502,10 @@ TEST(OAuth2ProviderTtlTest, ExpiredStateIsRejected) {
 
 TEST(OAuth2ProviderFactoryTest, CustomTokenFactoryInvoked) {
     auto cfg = makeConfig();
-    bool factory_called = false;
-    cfg.token_factory = [&factory_called](const std::string& at) -> std::string {
-        factory_called = true;
+    // Use shared_ptr to avoid a by-reference capture that could outlive the test.
+    auto factory_called = std::make_shared<bool>(false);
+    cfg.token_factory = [factory_called](const std::string& at) -> std::string {
+        *factory_called = true;
         return "custom_" + at;
     };
 
@@ -526,7 +527,7 @@ TEST(OAuth2ProviderFactoryTest, CustomTokenFactoryInvoked) {
 
     auto result = provider.handleCallback("code", state);
     ASSERT_FALSE(result.contains("status_code")) << result.dump();
-    EXPECT_TRUE(factory_called);
+    EXPECT_TRUE(*factory_called);
     EXPECT_EQ(result["access_token"].get<std::string>(), "custom_raw-access");
 }
 

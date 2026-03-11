@@ -92,6 +92,11 @@ public:
 
         /// Token factory: given a validated access token string, produce an
         /// internal session token.  If not set, the raw access_token is returned.
+        ///
+        /// @note Thread-safety: the factory may be called from multiple threads
+        /// concurrently (each handleCallback / handleTokenExchange call may invoke
+        /// it).  Implementations must either be stateless or protect shared state
+        /// with their own synchronization.
         std::function<std::string(const std::string& access_token)> token_factory;
     };
 

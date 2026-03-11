@@ -181,8 +181,6 @@ Time 5ms:  Both clients receive same response
 
 ### Authentication Enhancements
 
-### Authentication Enhancements
-
 #### OAuth2/OIDC Native Support ✅ Implemented (v1.6.0)
 **Status:** Implemented in `src/server/oauth2_provider.cpp` +
 `include/server/oauth2_provider.h`
