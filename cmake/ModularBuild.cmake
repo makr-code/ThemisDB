@@ -367,8 +367,13 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/update_history_logger.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
+    ../src/updates/schema_migration_tester.cpp
+    ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
+    ../src/updates/coordinated_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
 
     # Storage security
