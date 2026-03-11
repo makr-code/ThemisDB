@@ -475,6 +475,9 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
     
     std::string line;
     std::string current_sql;
+    // Performance: pre-reserve to avoid reallocations for typical DDL lines
+    line.reserve(4096);
+    current_sql.reserve(8192);
     
     while (std::getline(file, line)) {
         // Skip blank lines and SQL line comments (-- ...)
@@ -485,7 +488,8 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
         if (first != std::string::npos && line.size() >= first + 2 &&
             line[first] == '-' && line[first + 1] == '-') continue;
         
-        current_sql += line + " ";
+        // Performance: avoid temporary string from `+= line + " "`
+        current_sql.append(line).append(1, ' ');
         
         // Complete statement?
         if (line.find(';') != std::string::npos) {

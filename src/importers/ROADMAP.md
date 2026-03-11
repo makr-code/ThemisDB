@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaDB, MongoDB, Oracle, SQLite, Kafka, S3/flat-file importers implemented. Plugin API, streaming, conflict resolution, and schema auto-detection complete.
+v2.1 – PostgreSQL Importer enhanced with FK preservation (v2.0), relationship mapping, extended constraints (CHECK/EXCLUDE/GENERATED), and performance optimizations. All other importers (MySQL/MariaDB, MongoDB, Oracle, SQLite, Kafka, S3/flat-file) remain at v1.x production-ready state.
 
 ## Completed ✅
 - [x] PostgreSQL importer
@@ -22,6 +22,10 @@ v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaD
 - [x] Oracle Database importer (`importers/oracle_importer.cpp`) (Issue: #1844)
 - [x] Plugin API for third-party importer extensions (`importers/importer_plugin_api.h`) (Issue: #1854)
 - [x] S3-compatible object-storage source connector (`importers/s3_importer.cpp`) (Issue: #1855)
+- [x] PostgreSQL FK preservation v2.0 (`ForeignKeyConstraint`, inline `REFERENCES`, `ALTER TABLE…FK`, DEFERRABLE)
+- [x] PostgreSQL relationship mapping v2.1: bidirectional edges (`generateInverseEdges`), `on_delete/update` propagation, self-referential edge naming
+- [x] PostgreSQL additional constraint types v2.1: `CheckConstraint`, `ExcludeConstraint`, `GeneratedColumnInfo`
+- [x] PostgreSQL parse performance v2.1: static `std::regex`, `unordered_map` lookups, `append`-based string building, `thread_local` `streamReadLine`, pre-reserved buffers
 
 ## In Progress 🚧
 *(none currently in progress)*
