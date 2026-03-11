@@ -495,3 +495,138 @@ TEST_F(LegacyOfficeExtractionTest, ConfigDefaultPathIsEmpty) {
     EXPECT_TRUE(cfg.libreoffice_path.empty());
 }
 
+// ============================================================================
+// LibreOffice Subprocess Security Tests (CON-007)
+//
+// These tests verify that the posix_spawn-based sandboxing enforces the
+// following security invariants:
+//   1. Only absolute paths are accepted for the soffice binary (prevents
+//      PATH-hijacking / relative-path substitution attacks).
+//   2. Malformed or malicious document content is handled without crashing
+//      and without executing arbitrary commands (no shell, no system()).
+// ============================================================================
+
+class LibreOfficeSecurityTest : public ::testing::Test {
+protected:
+    ContentType ct;
+
+    // Build a minimal 512-byte OLE blob whose embedded stream marker triggers
+    // DOC document-type detection.
+    static std::string makeDocOLEBlob() {
+        std::string blob(512, '\x00');
+        blob[0] = '\xD0'; blob[1] = '\xCF'; blob[2] = '\x11'; blob[3] = '\xE0';
+        blob[4] = '\xA1'; blob[5] = '\xB1'; blob[6] = '\x1A'; blob[7] = '\xE1';
+        const char* marker = "WordDocument";
+        for (size_t i = 0; i < strlen(marker); ++i) blob[8 + i] = marker[i];
+        return blob;
+    }
+};
+
+// A bare filename (no leading slash) must be rejected immediately to prevent
+// PATH-based binary substitution attacks.
+TEST_F(LibreOfficeSecurityTest, RelativePathInConfigIsRejected) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "soffice";   // relative — must be rejected
+    OfficeProcessor proc(std::move(cfg));
+
+    auto result = proc.extract(makeDocOLEBlob(), ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_NE(result.error_message.find("absolute"), std::string::npos)
+        << "Expected 'absolute path' error for relative soffice path, got: "
+        << result.error_message;
+}
+
+// A dot-slash prefix is still a relative path and must be rejected.
+TEST_F(LibreOfficeSecurityTest, DotSlashPathInConfigIsRejected) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "./soffice";  // relative (dot-slash) — must be rejected
+    OfficeProcessor proc(std::move(cfg));
+
+    auto result = proc.extract(makeDocOLEBlob(), ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_NE(result.error_message.find("absolute"), std::string::npos)
+        << "Expected 'absolute path' error for dot-slash soffice path, got: "
+        << result.error_message;
+}
+
+// A path traversal prefix (../) is also relative and must be rejected.
+TEST_F(LibreOfficeSecurityTest, PathTraversalInConfigIsRejected) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "../usr/bin/soffice";  // traversal — must be rejected
+    OfficeProcessor proc(std::move(cfg));
+
+    auto result = proc.extract(makeDocOLEBlob(), ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_NE(result.error_message.find("absolute"), std::string::npos)
+        << "Expected 'absolute path' error for path-traversal soffice path, got: "
+        << result.error_message;
+}
+
+// Shell metacharacters in the configured path must not be interpreted — the
+// implementation uses posix_spawn (not system()), so the path is passed
+// directly to execve.  posix_spawn will simply fail to locate the binary.
+TEST_F(LibreOfficeSecurityTest, ShellMetacharactersInPathAreNotInterpreted) {
+    OfficeProcessor::Config cfg;
+    // This path starts with '/' so it passes the absolute-path check, but it
+    // contains shell metacharacters that would be dangerous under system().
+    // Under posix_spawn the metacharacters are part of the literal filename;
+    // the binary will not be found and spawn/exec must fail cleanly.
+    cfg.libreoffice_path = "/bin/soffice; rm -rf /";
+    OfficeProcessor proc(std::move(cfg));
+
+    auto result = proc.extract(makeDocOLEBlob(), ct);
+
+    // Must fail gracefully — no crash, no shell execution side-effects.
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// An OLE blob padded with embedded null and high bytes must not crash the
+// processor.  The "WordDocument" stream marker is embedded after the header so
+// that detection routes the blob through extractLegacyViaLibreOffice(), which
+// is the actual code-path being stress-tested.
+TEST_F(LibreOfficeSecurityTest, OLEBlobWithEmbeddedNullBytesHandledSafely) {
+    // Start with the DOC blob that already contains the stream marker
+    std::string blob = makeDocOLEBlob();
+    // Overwrite the bytes after the marker with alternating 0x00/0xFF garbage
+    // to simulate a malformed/malicious document body
+    const size_t marker_end = 8 + strlen("WordDocument");
+    for (size_t i = marker_end; i < blob.size(); i += 2) blob[i] = '\xFF';
+
+    // Use a non-existent soffice so the test does not depend on the environment
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/soffice_security_test";
+    OfficeProcessor proc(std::move(cfg));
+
+    auto result = proc.extract(blob, ct);
+
+    // Must not crash; ok must be false; error message must be set
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// A very large OLE blob must be handled gracefully — written to a temp file
+// and passed to soffice (or rejected with a clean error when soffice is absent).
+TEST_F(LibreOfficeSecurityTest, LargeOLEBlobHandledGracefully) {
+    // 4 MB blob — larger than typical documents; should not cause OOM or hang
+    constexpr size_t kSize = 4u * 1024u * 1024u;
+    std::string blob(kSize, '\x42');
+    blob[0] = '\xD0'; blob[1] = '\xCF'; blob[2] = '\x11'; blob[3] = '\xE0';
+    blob[4] = '\xA1'; blob[5] = '\xB1'; blob[6] = '\x1A'; blob[7] = '\xE1';
+    const char* marker = "WordDocument";
+    for (size_t i = 0; i < strlen(marker); ++i) blob[8 + i] = marker[i];
+
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/soffice_security_test";
+    OfficeProcessor proc(std::move(cfg));
+
+    auto result = proc.extract(blob, ct);
+
+    // Must complete without crashing; ok=false because soffice is absent
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
