@@ -244,6 +244,7 @@ public:
 
                 stats.documents_processed++;
                 processed++;
+                total_processed_++;
 
                 if (callback && processed % 10 == 0) {
                     callback(processed, document_ids.size(),

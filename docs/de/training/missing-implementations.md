@@ -85,5 +85,6 @@ bevor der Status auf **Beta** angehoben werden kann.
 - ✅ `ModalityParser` — ModalityDetector, TextClauseExtractor, TableExtractor, CitationExtractor, OCRExtractor
 - ✅ `ConfidenceCalibrator` — isotonische Regression (PAV-Algorithmus), kategoriespezifische Schwellenwerte
 - ✅ `LoraDataSelection` — Deduplizierung, Balancierung, Stratifizierung
-- ✅ `LegalAutoLabeler::labelDocument()` — vollständig implementiert; Batch-Operationen warten auf DB-Verdrahtung
+- ✅ `LegalAutoLabeler::labelDocument()` — vollständig implementiert
+- ✅ `LegalAutoLabeler::labelAll()` und `labelQuery()` — DB-Verdrahtung via AQL-Executor implementiert (FINDING-T-001)
 - ✅ Alle ROADMAP `[x]`-Einträge haben korrespondierende Quelldateien (b2342851)
