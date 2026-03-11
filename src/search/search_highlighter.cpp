@@ -106,8 +106,9 @@ size_t SearchHighlighter::bestWindowOffset(const std::string& text,
     matches.reserve(terms.size() * 4);
 
     std::string lower_text = text;
-    for (unsigned char& ch : lower_text) {
-        if (ch <= 0x7F) ch = static_cast<unsigned char>(std::tolower(ch));
+    for (char& ch : lower_text) {
+        unsigned char uch = static_cast<unsigned char>(ch);
+        if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
     }
 
     for (size_t ti = 0; ti < terms.size(); ++ti) {
@@ -166,8 +167,9 @@ SearchHighlighter::findMatchRanges(const std::string& text,
     // Build a lowercase working copy if needed
     std::string search_text = text;
     if (config_.case_insensitive) {
-        for (unsigned char& ch : search_text) {
-            if (ch <= 0x7F) ch = static_cast<unsigned char>(std::tolower(ch));
+        for (char& ch : search_text) {
+            unsigned char uch = static_cast<unsigned char>(ch);
+            if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
         }
     }
 
@@ -178,8 +180,9 @@ SearchHighlighter::findMatchRanges(const std::string& text,
 
         std::string term = raw_term;
         if (config_.case_insensitive) {
-            for (unsigned char& ch : term) {
-                if (ch <= 0x7F) ch = static_cast<unsigned char>(std::tolower(ch));
+            for (char& ch : term) {
+                unsigned char uch = static_cast<unsigned char>(ch);
+                if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
             }
         }
 
@@ -249,8 +252,9 @@ std::string SearchHighlighter::snippet(const std::string& text,
         for (const auto& t : terms) {
             std::string lt = t;
             if (config_.case_insensitive) {
-                for (unsigned char& ch : lt) {
-                    if (ch <= 0x7F) ch = static_cast<unsigned char>(std::tolower(ch));
+                for (char& ch : lt) {
+                    unsigned char uch = static_cast<unsigned char>(ch);
+                    if (uch <= 0x7F) ch = static_cast<char>(std::tolower(uch));
                 }
             }
             lower_terms.push_back(std::move(lt));
