@@ -26,6 +26,8 @@
 #include <cstring>
 #include <iostream>
 
+#if THEMIS_HAS_VULKAN_HEADER
+
 namespace themis {
 namespace lora {
 namespace vulkan {
@@ -473,3 +475,5 @@ void VulkanComputePipeline::wait() {
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_HEADER

@@ -167,8 +167,13 @@ public:
      * @return `true` on success, `false` on invalid/unsupported configuration.
      */
     bool initialize(const char* config_json) override {
-        return initialize(config_json ? std::string(config_json) : std::string{});
+        // Dispatch via vtable to the derived IImporter::initialize(const std::string&)
+        return static_cast<IImporter*>(this)->initialize(
+            config_json ? std::string(config_json) : std::string{});
     }
+
+    // Prevent name-hiding of IImporter::initialize(const std::string&)
+    using IImporter::initialize;
 
     /**
      * @brief Default no-op shutdown.  Override to release resources.
@@ -240,7 +245,7 @@ struct ImporterPluginDescriptor {
  */
 class ImporterPluginRegistry {
 public:
-    using Factory = std::function<std::unique_ptr<IImporter>()>;
+    using Factory = std::function<std::shared_ptr<IImporter>()>;
 
     /// Returns the process-wide singleton.
     static ImporterPluginRegistry& instance() {
@@ -268,7 +273,7 @@ public:
      * @param name  Plugin identifier passed to `registerFactory()`.
      * @return      New instance, or `nullptr` if the name is not registered.
      */
-    std::unique_ptr<IImporter> create(const std::string& name) const {
+    std::shared_ptr<IImporter> create(const std::string& name) const {
         std::lock_guard<std::mutex> lk(mutex_);
         auto it = factories_.find(name);
         if (it == factories_.end()) {
@@ -489,7 +494,7 @@ public:
 
         ImporterPluginRegistry::instance().registerFactory(
             loaded_name_,
-            [captured_create, captured_destroy]() -> std::unique_ptr<IImporter> {
+            [captured_create, captured_destroy]() -> std::shared_ptr<IImporter> {
                 auto* plugin_ptr = captured_create();
                 if (!plugin_ptr) return nullptr;
                 auto* importer_ptr = static_cast<IImporter*>(plugin_ptr->getInstance());
@@ -498,7 +503,7 @@ public:
                     return nullptr;
                 }
                 // Wrap with a deleter that also destroys the plugin wrapper.
-                return std::unique_ptr<IImporter>(
+                return std::shared_ptr<IImporter>(
                     importer_ptr,
                     [captured_destroy, plugin_ptr](IImporter* /*p*/) {
                         captured_destroy(plugin_ptr);

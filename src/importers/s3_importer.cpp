@@ -444,29 +444,6 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
 // Static URL helpers
 // ============================================================================
 
-bool S3Importer::parseS3Url(const std::string& url,
-                              std::string& bucket,
-                              std::string& key) {
-    static const std::string prefix = "s3://";
-    if (url.size() < prefix.size() ||
-        url.substr(0, prefix.size()) != prefix) {
-        return false;
-    }
-
-    std::string rest = url.substr(prefix.size());
-    auto slash = rest.find('/');
-    if (slash == std::string::npos) {
-        // s3://bucket  (no key)
-        bucket = rest;
-        key.clear();
-    } else {
-        bucket = rest.substr(0, slash);
-        key    = rest.substr(slash + 1);
-    }
-
-    return !bucket.empty();
-}
-
 std::string S3Importer::sanitisedConnectionId(const S3SourceConfig& cfg,
                                                const std::string& bucket) {
     std::string endpoint =

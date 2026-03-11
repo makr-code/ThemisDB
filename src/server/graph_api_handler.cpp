@@ -924,9 +924,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
             }
 
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -953,9 +953,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             auto result = optimizer_->optimizeKHopNeighborhood(sv, k, qc);
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -988,9 +988,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             auto result = optimizer_->optimizePatternMatch(pverts, pedges, qc);
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);
@@ -1045,9 +1045,9 @@ http::response<http::string_body> GraphApiHandler::handleQueryExplain(
 
             auto result = optimizer_->explainConstrainedPath(sv, ev, pc);
             if (!result.has_value()) {
-                span.setStatus(false, result.error().message);
+                span.setStatus(false, result.error().message());
                 return makeErrorResponse(http::status::internal_server_error,
-                    result.error().message, req);
+                    result.error().message(), req);
             }
             const auto& plan = result.value();
             span.setStatus(true);

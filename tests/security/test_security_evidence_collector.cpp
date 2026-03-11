@@ -83,23 +83,23 @@ static std::shared_ptr<MockKeyProvider> make_provider() {
     return p;
 }
 
-static RBAC make_rbac() {
+static std::unique_ptr<RBAC> make_rbac() {
     RBACConfig cfg;
     cfg.use_builtin_roles = false;
 
-    RBAC rbac(cfg);
+    auto rbac = std::make_unique<RBAC>(cfg);
 
     Role reader;
     reader.name        = "reader";
     reader.description = "Read-only role";
     reader.permissions = {{"data", "read"}};
-    rbac.addRole(reader);
+    rbac->addRole(reader);
 
     Role admin;
     admin.name        = "admin";
     admin.description = "Administrator";
     admin.permissions = {{"*", "*"}};
-    rbac.addRole(admin);
+    rbac->addRole(admin);
 
     return rbac;
 }
@@ -119,7 +119,7 @@ class SecurityEvidenceCollectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
         provider_ = make_provider();
-        rbac_     = std::make_unique<RBAC>(make_rbac());
+        rbac_     = make_rbac();
         collector_ = std::make_unique<SecurityEvidenceCollector>(
             make_config(), provider_, rbac_.get(), nullptr);
 

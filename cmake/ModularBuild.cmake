@@ -156,12 +156,6 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
     ../src/utils/consistent_hash.cpp
-<<<<<<< HEAD
-    ../src/utils/checksum_utils.cpp
-    ../src/utils/sampled_logger.cpp
-    ../src/utils/timestamp_utils.cpp
-=======
->>>>>>> 30fc87177b4a4d2b5f54f6d1d596b5359f33a06c
     ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer
@@ -271,28 +265,15 @@ set(THEMIS_STORAGE_SOURCES
     # Compression strategies (pluggable per-column-family)
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp
-    # Index maintenance (background rebuild and consistency checks)
-    ../src/storage/index_maintenance.cpp
-    # Blob storage backends (self-contained; SDK guards handled inside each file)
+    # Index maintenance moved to THEMIS_SECURITY_SOURCES (depends on vector index internals)
+    # Blob storage backends
     ../src/storage/blob_backend_filesystem.cpp
-    ../src/storage/blob_backend_s3.cpp
-    ../src/storage/blob_backend_azure.cpp
-    ../src/storage/blob_backend_webdav.cpp
-    ../src/storage/blob_backend_gcs.cpp
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_S3}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_AWS_SDK}>>:../src/storage/blob_backend_s3.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_AZURE}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_AZURE_STORAGE}>>:../src/storage/blob_backend_azure.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_WEBDAV}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>>:../src/storage/blob_backend_webdav.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_GCS}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_GCS_SDK}>>:../src/storage/blob_backend_gcs.cpp>
     # Merge operators (counter, list-append RocksDB custom operators)
     ../src/storage/merge_operators.cpp
-    # Storage engine high-level abstraction
-    ../src/storage/storage_engine.cpp
-    # Compression and columnar support
-    ../src/storage/compression_strategy.cpp
-    ../src/storage/compressed_storage.cpp
-    # (index_maintenance.cpp moved to THEMIS_SECURITY_SOURCES: needs VectorIndexManager)
-    # Blob storage backends
-    $<$<BOOL:${THEMIS_ENABLE_BLOB_FILESYSTEM}>:../src/storage/blob_backend_filesystem.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_BLOB_S3}>:../src/storage/blob_backend_s3.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_BLOB_AZURE}>:../src/storage/blob_backend_azure.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_BLOB_GCS}>:../src/storage/blob_backend_gcs.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_BLOB_WEBDAV}>:../src/storage/blob_backend_webdav.cpp>
     ../src/sharding/distributed_time_coordinator.cpp
     
     # Metadata management
@@ -336,16 +317,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/inverted_index.cpp
     ../src/index/workload_replay.cpp
-<<<<<<< HEAD
     ../src/index/tiered_index_manager.cpp
-=======
-    ../src/index/graph_auto_buffer.cpp
-    ../src/index/index_manager.cpp
-    ../src/index/tiered_index_manager.cpp
-    ../src/index/vector_auto_buffer.cpp
-    ../src/index/spatial_index.cpp
-    ../src/api/geo_index_hooks.cpp
->>>>>>> 30fc87177b4a4d2b5f54f6d1d596b5359f33a06c
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -725,7 +697,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/negative_keyword_filter.cpp
-    ../src/search/distributed_hybrid_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -738,7 +709,6 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp
-    ../src/transaction/global_transaction_manager.cpp
     ../src/analytics/diff_engine.cpp
     
     # Temporal conflict resolution and production-readiness modules
@@ -791,6 +761,8 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/gossip_protocol.cpp
     ../src/sharding/gossip_config_manager.cpp
     ../src/sharding/distributed_coordinator.cpp
+    ../src/transaction/global_transaction_manager.cpp
+    ../src/search/distributed_hybrid_search.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
     ../src/sharding/adaptive_shard_router.cpp
@@ -913,6 +885,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/ethical_guidelines_manager.cpp
     ../src/llm/constitutional_reasoning_engine.cpp
     ../src/llm/ethics_aware_confidence_detector.cpp
+    ../src/llm/ai_decision_auditor.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
     ../src/llm/meta_prompt_generator.cpp
@@ -955,9 +928,9 @@ set(THEMIS_LLM_SOURCES
     # Vision resource monitoring
     ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)
-    ../src/llm/lora_framework/distributed_dataloader.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/distributed_dataloader.cpp>
     ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp
-    ../src/llm/lora_framework/paged_optimizer.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/paged_optimizer.cpp>
         ../src/cache/embedding_cache.cpp
         ../src/llm/lora_framework/lora_layers.cpp
     
@@ -1016,6 +989,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/quality_control_pipeline.cpp
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
+    ../src/training/lora_data_selection.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp
     ../src/rag/completeness_evaluator.cpp
@@ -1449,6 +1423,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/query/result_stream.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp
     ../src/graph/gpu_traversal.cpp
@@ -1720,6 +1695,9 @@ function(themis_build_modular)
                 themis_security
                 themis_sharding
         )
+        if(THEMIS_MODULE_GRAPH)
+            target_link_libraries(themis_llm PUBLIC themis_graph)
+        endif()
         target_include_directories(themis_llm PRIVATE
             ${CMAKE_SOURCE_DIR}/llama.cpp/include
             ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
@@ -1778,12 +1756,18 @@ function(themis_build_modular)
     endif()
     
     if(THEMIS_MODULE_GRAPH)
+        set(_themis_graph_deps
+            themis_base
+            themis_storage
+            themis_transaction
+        )
+        if(THEMIS_MODULE_GEO)
+            list(APPEND _themis_graph_deps themis_geo)
+        endif()
+
         themis_add_module(graph
             SOURCES ${THEMIS_GRAPH_SOURCES}
-            DEPENDENCIES 
-                themis_base 
-                themis_storage
-                themis_transaction
+            DEPENDENCIES ${_themis_graph_deps}
         )
     endif()
     

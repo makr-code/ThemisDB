@@ -93,7 +93,7 @@ TEST(HardwareCycleCounterTest, CpuCycles_IncreasesOverTime) {
 TEST(CycleTimerTest, MeasuresElapsedCycles) {
     uint64_t elapsed = 0;
     {
-        CycleTimer timer(&elapsed);
+        ScopedCycleTimer timer(&elapsed);
         // Do some work so the counter advances
         volatile uint64_t sum = 0;
         for (int i = 0; i < 10000; ++i) sum += i;
@@ -105,7 +105,7 @@ TEST(CycleTimerTest, MeasuresElapsedCycles) {
 TEST(CycleTimerTest, DestructorWritesOnlyOnce) {
     uint64_t elapsed = 0;
     {
-        CycleTimer t(&elapsed);
+        ScopedCycleTimer t(&elapsed);
         (void)t;
     }
     uint64_t first_value = elapsed;

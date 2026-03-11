@@ -246,6 +246,7 @@ private:
     struct QueuedEvaluation {
         EvaluationInput input;
         std::promise<EvaluationResult> promise;
+        bool has_promise = false;
         std::function<void(const EvaluationResult&)> callback;
     };
     

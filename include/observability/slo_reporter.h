@@ -194,7 +194,7 @@ struct SloStatus {
  * reporter.registerSlo(slo);
  *
  * // For every request:
- * reporter.record("query_availability", /*good=*/!request_failed);
+ * reporter.record("query_availability", !request_failed);
  *
  * // Periodic or on-demand:
  * reporter.publishMetrics();

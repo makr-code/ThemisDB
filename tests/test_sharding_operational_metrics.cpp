@@ -166,8 +166,7 @@ TEST_F(OperationalMetricsTest, UpdateShardHealth_UnhealthyShard_DegradeCluster) 
 TEST_F(OperationalMetricsTest, UpdateResourceUsage_StoresValues) {
     metrics_.updateResourceUsage("rs",
                                  /*memory_bytes=*/1024 * 1024,
-                                 /*disk_bytes=*/512 * 1024 * 1024,
-                                 /*cpu_percent=*/45.0);
+                                 /*disk_bytes=*/512 * 1024 * 1024);
     auto* sm = metrics_.getShardMetrics("rs");
     ASSERT_NE(sm, nullptr);
     EXPECT_EQ(sm->memory_usage_bytes.load(), 1024u * 1024u);

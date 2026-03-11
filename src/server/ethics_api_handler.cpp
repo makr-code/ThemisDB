@@ -22,6 +22,7 @@
 
 #include "server/ethics_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
@@ -472,7 +473,7 @@ nlohmann::json EthicsApiHandler::executeAQL(
     }
 
     // Translate the AST to a QueryEngine query
-    auto translation = query::AQLTranslator::translate(*parse_result);
+    auto translation = AQLTranslator::translate(*parse_result);
     if (!translation.success) {
         throw std::runtime_error("AQL translation error: " + translation.error_message);
     }

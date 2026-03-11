@@ -157,7 +157,25 @@ public:
      */
     static bool parseS3Url(const std::string& url,
                             std::string& bucket,
-                            std::string& key);
+                std::string& key) {
+      static const std::string prefix = "s3://";
+      if (url.size() < prefix.size() ||
+        url.substr(0, prefix.size()) != prefix) {
+        return false;
+      }
+
+      std::string rest = url.substr(prefix.size());
+      auto slash = rest.find('/');
+      if (slash == std::string::npos) {
+        bucket = rest;
+        key.clear();
+      } else {
+        bucket = rest.substr(0, slash);
+        key = rest.substr(slash + 1);
+      }
+
+      return !bucket.empty();
+    }
 
     /**
      * @brief Return a sanitised (credential-free) connection identifier.

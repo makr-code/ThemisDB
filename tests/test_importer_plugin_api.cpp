@@ -35,6 +35,10 @@
 
 #include <gtest/gtest.h>
 
+// Enable plugin export (not import) when defining createPlugin/destroyPlugin in this TU
+#ifndef THEMIS_PLUGIN_EXPORTS
+#define THEMIS_PLUGIN_EXPORTS
+#endif
 #include "importers/importer_plugin_api.h"
 
 #include <atomic>
@@ -55,7 +59,7 @@ using json = nlohmann::json;
 /**
  * @brief Trivial importer that records calls; no real import logic.
  */
-class StubImporter final : public ImporterPluginBase {
+class StubImporter : public ImporterPluginBase {
 public:
     // IThemisPlugin identifiers
     const char* getName()    const override { return "stub_importer"; }
@@ -146,7 +150,7 @@ TEST(ImporterPluginApiVersionTest, VersionMacroIsPositive) {
 
 TEST_F(ImporterPluginApiTest, BaseTypeIsImporter) {
     StubImporter stub;
-    EXPECT_EQ(plugins::PluginType::IMPORTER, stub.getType());
+    EXPECT_EQ(themis::plugins::PluginType::IMPORTER, stub.getType());
 }
 
 TEST_F(ImporterPluginApiTest, BaseGetInstanceReturnsIImporterPtr) {
@@ -199,8 +203,8 @@ TEST_F(ImporterPluginApiTest, GetNameAndVersionDelegateToConcreteClass) {
 TEST_F(ImporterPluginApiTest, RegisterAndCreatePlugin) {
     ImporterPluginRegistry::instance().registerFactory(
         "stub_importer",
-        []() -> std::unique_ptr<IImporter> {
-            return std::make_unique<StubImporter>();
+        []() -> std::shared_ptr<IImporter> {
+            return std::make_shared<StubImporter>();
         });
 
     auto inst = ImporterPluginRegistry::instance().create("stub_importer");
@@ -219,9 +223,9 @@ TEST_F(ImporterPluginApiTest, ListPluginsReflectsRegistrations) {
     EXPECT_TRUE(ImporterPluginRegistry::instance().listPlugins().empty());
 
     ImporterPluginRegistry::instance().registerFactory(
-        "alpha", []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        "alpha", []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
     ImporterPluginRegistry::instance().registerFactory(
-        "beta",  []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        "beta",  []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
 
     auto names = ImporterPluginRegistry::instance().listPlugins();
     EXPECT_EQ(2u, names.size());
@@ -234,7 +238,7 @@ TEST_F(ImporterPluginApiTest, HasPluginReturnsTrueAfterRegistration) {
 
     ImporterPluginRegistry::instance().registerFactory(
         "stub_importer",
-        []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
 
     EXPECT_TRUE(ImporterPluginRegistry::instance().hasPlugin("stub_importer"));
 }
@@ -242,7 +246,7 @@ TEST_F(ImporterPluginApiTest, HasPluginReturnsTrueAfterRegistration) {
 TEST_F(ImporterPluginApiTest, UnregisterRemovesFactory) {
     ImporterPluginRegistry::instance().registerFactory(
         "stub_importer",
-        []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
 
     EXPECT_TRUE(ImporterPluginRegistry::instance().hasPlugin("stub_importer"));
     ImporterPluginRegistry::instance().unregisterFactory("stub_importer");
@@ -270,10 +274,10 @@ TEST_F(ImporterPluginApiTest, RegisterOverwritesPreviousFactory) {
 
     ImporterPluginRegistry::instance().registerFactory(
         "overwrite_test",
-        []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
     ImporterPluginRegistry::instance().registerFactory(
         "overwrite_test",
-        []() -> std::unique_ptr<IImporter> { return std::make_unique<FiveRecordImporter>(); });
+        []() -> std::shared_ptr<IImporter> { return std::make_shared<FiveRecordImporter>(); });
 
     auto inst = ImporterPluginRegistry::instance().create("overwrite_test");
     ASSERT_NE(nullptr, inst);
@@ -283,9 +287,9 @@ TEST_F(ImporterPluginApiTest, RegisterOverwritesPreviousFactory) {
 
 TEST_F(ImporterPluginApiTest, ClearRemovesAllFactories) {
     ImporterPluginRegistry::instance().registerFactory(
-        "a", []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        "a", []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
     ImporterPluginRegistry::instance().registerFactory(
-        "b", []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        "b", []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
 
     ImporterPluginRegistry::instance().clear();
     EXPECT_TRUE(ImporterPluginRegistry::instance().listPlugins().empty());
@@ -294,7 +298,7 @@ TEST_F(ImporterPluginApiTest, ClearRemovesAllFactories) {
 TEST_F(ImporterPluginApiTest, FactoryProducesIndependentInstances) {
     ImporterPluginRegistry::instance().registerFactory(
         "stub_importer",
-        []() -> std::unique_ptr<IImporter> { return std::make_unique<StubImporter>(); });
+        []() -> std::shared_ptr<IImporter> { return std::make_shared<StubImporter>(); });
 
     auto a = ImporterPluginRegistry::instance().create("stub_importer");
     auto b = ImporterPluginRegistry::instance().create("stub_importer");
@@ -317,8 +321,8 @@ TEST_F(ImporterPluginApiTest, ConcurrentRegistrationAndCreation) {
             std::string name = "plugin_" + std::to_string(i);
             ImporterPluginRegistry::instance().registerFactory(
                 name,
-                []() -> std::unique_ptr<IImporter> {
-                    return std::make_unique<StubImporter>();
+                []() -> std::shared_ptr<IImporter> {
+                    return std::make_shared<StubImporter>();
                 });
             auto inst = ImporterPluginRegistry::instance().create(name);
             EXPECT_NE(nullptr, inst);
@@ -412,6 +416,9 @@ public:
 // binary must not link any other translation unit that also defines these
 // two symbols with C linkage (e.g. postgres_importer.cpp's own plugin
 // entry points must not be linked into the same executable).
+#ifndef THEMIS_PLUGIN_EXPORTS
+#define THEMIS_PLUGIN_EXPORTS
+#endif
 THEMIS_IMPORTER_PLUGIN_IMPL(MacroTestImporter)
 
 TEST_F(ImporterPluginApiTest, MacroCreatesCorrectPlugin) {
@@ -419,7 +426,7 @@ TEST_F(ImporterPluginApiTest, MacroCreatesCorrectPlugin) {
     auto* plugin_raw = createPlugin();
     ASSERT_NE(nullptr, plugin_raw);
     EXPECT_STREQ("macro_test_importer", plugin_raw->getName());
-    EXPECT_EQ(plugins::PluginType::IMPORTER, plugin_raw->getType());
+    EXPECT_EQ(themis::plugins::PluginType::IMPORTER, plugin_raw->getType());
 
     void* inst = plugin_raw->getInstance();
     ASSERT_NE(nullptr, inst);

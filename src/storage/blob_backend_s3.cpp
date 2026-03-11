@@ -22,6 +22,7 @@
 
 #include "storage/blob_storage_backend.h"
 #include "utils/logger.h"
+#if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK && __has_include(<aws/core/Aws.h>)
 #include <aws/core/Aws.h>
 #include <aws/s3/S3Client.h>
 #include <aws/s3/model/PutObjectRequest.h>
@@ -240,7 +241,7 @@ public:
         }
         
         THEMIS_DEBUG("Blob deleted from S3: id={}", ref.id);
-        return Ok();
+        return OkVoid();
     }
     
     bool exists(const BlobRef& ref) override {
@@ -282,3 +283,5 @@ std::mutex S3BlobBackend::init_mutex_;
 
 } // namespace storage
 } // namespace themis
+
+#endif

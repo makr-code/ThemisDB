@@ -265,7 +265,7 @@ public:
      * manager, e.g. to adjust thresholds or share metrics with another component.
      */
     void setSecurityConfig(const ContentSecurityConfig& security_config) {
-        security_manager_ = ContentSecurityManager(security_config);
+        security_manager_.setConfig(security_config);
     }
 
 private:

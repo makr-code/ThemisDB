@@ -42,7 +42,13 @@
 
 // ─── ONNX Runtime ─────────────────────────────────────────────────────────
 #ifdef THEMIS_HAS_ONNX
-#include <onnxruntime_cxx_api.h>
+// Try the subdirectory-style path first (vcpkg default), then flat path for
+// toolchains that add the onnxruntime directory directly to the include path.
+#  if __has_include(<onnxruntime/onnxruntime_cxx_api.h>)
+#    include <onnxruntime/onnxruntime_cxx_api.h>
+#  else
+#    include <onnxruntime_cxx_api.h>
+#  endif
 #endif
 
 // ─── TF Serving HTTP client ────────────────────────────────────────────────

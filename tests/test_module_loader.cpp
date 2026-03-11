@@ -1572,10 +1572,10 @@ TEST(ModuleDependencyResolver, ResolveReportsVersionMismatch) {
 
 // --- resolveFor() ------------------------------------------------------------
 
-TEST(ModuleDependencyResolver, ResolveForSubset) {
+TEST(ModuleDependencyResolver, ResolveForSubsetWithVersion) {
     ModuleDependencyResolver resolver;
     resolver.registerModule("themis_base",    "1.0.0", {});
-    resolver.registerModule("themis_storage", "1.0.0", {{"themis_base", "", "", true}});
+    resolver.registerModule("themis_storage", "1.0.0", {{"themis_base",    "", "", true}});
     resolver.registerModule("themis_query",   "1.0.0", {{"themis_storage", "", "", true}});
     // Register an unrelated module that should NOT appear in the result.
     resolver.registerModule("themis_geo",     "1.0.0", {{"themis_storage", "", "", true}});

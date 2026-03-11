@@ -22,6 +22,7 @@
 
 #include "storage/blob_storage_backend.h"
 #include "utils/logger.h"
+#if defined(THEMIS_HAS_AZURE_STORAGE) && THEMIS_HAS_AZURE_STORAGE && __has_include(<azure/storage/blobs.hpp>)
 #include <azure/storage/blobs.hpp>
 #include <openssl/sha.h>
 #include <iomanip>
@@ -213,7 +214,7 @@ public:
             blob_client.Delete();
             
             THEMIS_DEBUG("Blob deleted from Azure: id={}", ref.id);
-            return Ok();
+            return OkVoid();
             
         } catch (const Azure::Core::RequestFailedException& e) {
             THEMIS_ERROR("Azure delete failed: {}", e.what());
@@ -266,3 +267,5 @@ public:
 
 } // namespace storage
 } // namespace themis
+
+#endif

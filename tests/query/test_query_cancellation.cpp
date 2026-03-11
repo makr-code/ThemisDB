@@ -200,10 +200,12 @@ class ExecuteAqlCancellableTest : public ::testing::Test {
 protected:
     void SetUp() override {
         db_path_ = tmpCancelTestPath("cancel");
-        storage_ = std::make_shared<RocksDBWrapper>(db_path_);
-        storage_->open(db_path_);
-        auto sec_idx = std::make_shared<SecondaryIndexManager>(storage_);
-        engine_ = std::make_unique<QueryEngine>(storage_, sec_idx);
+        RocksDBWrapper::Config config;
+        config.db_path = db_path_;
+        storage_ = std::make_shared<RocksDBWrapper>(config);
+        storage_->open();
+        sec_idx_ = std::make_shared<SecondaryIndexManager>(*storage_);
+        engine_ = std::make_unique<QueryEngine>(*storage_, *sec_idx_);
     }
 
     void TearDown() override {
@@ -214,6 +216,7 @@ protected:
 
     std::string db_path_;
     std::shared_ptr<RocksDBWrapper> storage_;
+    std::shared_ptr<SecondaryIndexManager> sec_idx_;
     std::unique_ptr<QueryEngine> engine_;
 };
 

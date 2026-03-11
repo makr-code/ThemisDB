@@ -256,19 +256,18 @@ TEST(IoUringZeroCopyIOTest, RecvZeroCopyFallbackOnBadFd) {
 }
 
 TEST(IoUringZeroCopyIOTest, IoUringRoundTripOrSkip) {
+#ifndef __linux__
+    GTEST_SKIP() << "socketpair/io_uring roundtrip is Linux-only";
+#else
     if (!IoUringZeroCopyIO::io_uring_accessible()) {
         GTEST_SKIP() << "io_uring not accessible on this system";
     }
 
     // Create a socket pair for loopback I/O
     int fds[2] = {-1, -1};
-#ifdef __linux__
     if (::socketpair(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0, fds) != 0) {
         GTEST_SKIP() << "socketpair() failed";
     }
-#else
-    GTEST_SKIP() << "socketpair not available on this platform";
-#endif
 
     IoUringConfig cfg;
     cfg.ring_size   = 64;
@@ -302,4 +301,5 @@ TEST(IoUringZeroCopyIOTest, IoUringRoundTripOrSkip) {
 
     auto stats = io.get_stats();
     EXPECT_GT(stats.bytes_sent, 0u);
+#endif
 }

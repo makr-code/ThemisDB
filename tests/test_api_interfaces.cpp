@@ -121,7 +121,9 @@ struct FixedResponseHandler : public IHttpHandler {
 
 struct RejectingHandler : public IHttpHandler {
     themis::Result<HttpResponse> handle(const HttpRequest&) override {
-        return tl::unexpected(HttpError{403, "Forbidden by test"});
+        return tl::unexpected(themis::Error(
+            themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+            "Forbidden by test"));
     }
     std::string_view handlerName() const noexcept override { return "RejectingHandler"; }
     bool requiresAuthentication() const noexcept override { return true; }
@@ -154,7 +156,7 @@ TEST(MiddlewareChainTest, RejectingFirstHandlerShortCircuits)
     chain.append(std::make_shared<FixedResponseHandler>(HttpResponse::ok("{}")));
     auto result = chain.handle(HttpRequest{});
     EXPECT_FALSE(result.has_value());
-    EXPECT_EQ(result.error().status_code, 403);
+    EXPECT_NE(result.error().message().find("Forbidden by test"), std::string::npos);
 }
 
 TEST(MiddlewareChainTest, PassThroughLeadsToTerminalHandlerResponse)

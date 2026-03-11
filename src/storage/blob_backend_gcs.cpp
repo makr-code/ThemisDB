@@ -59,6 +59,8 @@ struct GCSBlobBackend::Impl {
 GCSBlobBackend::GCSBlobBackend(const std::string& bucket, const std::string& prefix)
     : impl_(std::make_unique<Impl>(bucket, prefix)) {}
 
+GCSBlobBackend::~GCSBlobBackend() = default;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────

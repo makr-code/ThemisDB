@@ -544,6 +544,8 @@ TEST_F(AccelerationTest, CPUGraph_BatchShortestPath_ZeroNumPairsReturnsEmpty) {
     auto result = backend.batchShortestPath(adj, weights, 4, starts, ends, 0);
     EXPECT_TRUE(result.empty());
     EXPECT_FALSE(backend.getLastError().isSuccess());
+}
+
 // ============================================================================
 // Deterministic Tie-Breaking Tests (Issue #1388)
 // ============================================================================

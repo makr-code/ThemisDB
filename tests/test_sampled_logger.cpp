@@ -40,7 +40,10 @@ static std::shared_ptr<Logger> makeLogger() {
 // ============================================================================
 
 TEST(SampledLogger, ConstructionDoesNotThrow) {
-    EXPECT_NO_THROW(SampledLogger(makeLogger()));
+    EXPECT_NO_THROW({
+        auto sampled = SampledLogger(makeLogger());
+        (void)sampled;
+    });
 }
 
 TEST(SampledLogger, InitialSuppressionCountIsZero) {

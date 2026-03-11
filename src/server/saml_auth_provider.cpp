@@ -154,7 +154,8 @@ nlohmann::json SamlAuthProvider::handleAcs(
     } catch (const auth::AuthException& ex) {
         using EC = auth::AuthErrorCode;
         int http_status = 401;
-        switch (ex.code()) {
+        const auto& auth_error = ex.error();
+        switch (auth_error.code()) {
             case EC::AUTH_INSUFFICIENT_PERMISSIONS:
                 http_status = 403;
                 break;
@@ -176,7 +177,7 @@ nlohmann::json SamlAuthProvider::handleAcs(
                 break;
         }
         THEMIS_WARN("SamlAuthProvider::handleAcs – auth failure: {}", ex.what());
-        return makeError(http_status, ex.publicMessage());
+            return makeError(http_status, auth_error.publicMessage());
     } catch (const std::exception& e) {
         THEMIS_ERROR("SamlAuthProvider::handleAcs exception: {}", e.what());
         return makeError(500, "Internal SAML processing error");

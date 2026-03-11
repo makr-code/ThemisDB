@@ -122,7 +122,7 @@ void BatchEvaluator::workerThread() {
         eval_queue_.pop();
         lock.unlock();
 
-        if (!item.promise.valid() && !item.callback) continue;
+        if (!item.has_promise && !item.callback) continue;
 
         try {
             auto result = processEvaluation(item.input);
@@ -130,13 +130,13 @@ void BatchEvaluator::workerThread() {
             if (item.callback) {
                 item.callback(result);
             }
-            if (item.promise.valid()) {
+            if (item.has_promise) {
                 item.promise.set_value(result);
             }
         } catch (const std::exception& e) {
             ++total_failed_;
             THEMIS_WARN("BatchEvaluator worker: evaluation failed: {}", e.what());
-            if (item.promise.valid()) {
+            if (item.has_promise) {
                 try {
                     item.promise.set_exception(std::current_exception());
                 } catch (...) {}
@@ -231,6 +231,7 @@ std::shared_ptr<AsyncEvaluationHandle> BatchEvaluator::evaluateAsync(
         QueuedEvaluation item;
         item.input    = input;
         item.promise  = std::move(promise);
+        item.has_promise = true;
         eval_queue_.push(std::move(item));
     }
     queue_cv_.notify_one();

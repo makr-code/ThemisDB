@@ -25,6 +25,8 @@
 #include <cstring>
 #include <algorithm>
 
+#if THEMIS_HAS_VULKAN_HEADER
+
 namespace themis {
 namespace lora {
 namespace vulkan {
@@ -285,3 +287,5 @@ void VulkanBuffer::copy_from(const VulkanBuffer& src, VkDeviceSize size,
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_HEADER

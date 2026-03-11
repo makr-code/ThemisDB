@@ -1,0 +1,77 @@
+{
+  "issues_scanned": 1645,
+  "suggestions": [
+    {
+      "issue": 1862,
+      "title": "[importers] API stability guaranteed",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1861,
+      "title": "[importers] Documentation is complete",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1860,
+      "title": "[importers] Implement SQL injection and credential handling security audit",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1859,
+      "title": "[importers] Improve performance benchmarking metrics",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1858,
+      "title": "[importers] Integrate with live PostgreSQL for testing",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1857,
+      "title": "[importers] Improve unit test coverage threshold",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1847,
+      "title": "[importers] Implement web-based import wizard",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1845,
+      "title": "[importers] Implement SQL Server importer",
+      "current_milestone": "v3.0.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    }
+  ]
+}

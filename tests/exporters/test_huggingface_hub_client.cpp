@@ -27,6 +27,7 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <cstdlib>
 
 namespace fs = std::filesystem;
 using namespace themis::exporters;
@@ -36,7 +37,8 @@ using themis::governance::PolicyEngine;
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 static std::string makeDatasetDir() {
-    const std::string path = fs::temp_directory_path() / "test_hf_hub_dataset_XXXXXX";
+    const std::string path =
+        (fs::temp_directory_path() / "test_hf_hub_dataset_XXXXXX").string();
     fs::create_directories(path);
     fs::create_directories(path + "/data");
 
@@ -74,15 +76,43 @@ makeTestAuditLogger() {
 /// RAII helper that saves/restores the HF_TOKEN environment variable so tests
 /// that set it do not leak state into subsequent tests, even on failure.
 struct HfTokenGuard {
-    const char* original_;
+    std::string original_;
+    bool had_original_ = false;
+
+    static std::string getEnvValue(const char* name, bool& found) {
+        const char* raw = ::getenv(name);
+        if (!raw) {
+            found = false;
+            return {};
+        }
+        found = true;
+        return std::string(raw);
+    }
+
+    static void setEnvValue(const char* name, const char* value) {
+#ifdef _WIN32
+        _putenv_s(name, value ? value : "");
+#else
+        ::setenv(name, value ? value : "", 1);
+#endif
+    }
+
+    static void unsetEnvValue(const char* name) {
+#ifdef _WIN32
+        _putenv_s(name, "");
+#else
+        ::unsetenv(name);
+#endif
+    }
+
     explicit HfTokenGuard(const char* value) {
-        original_ = ::getenv("HF_TOKEN");
-        if (value) ::setenv("HF_TOKEN", value, 1);
-        else        ::unsetenv("HF_TOKEN");
+        original_ = getEnvValue("HF_TOKEN", had_original_);
+        if (value) setEnvValue("HF_TOKEN", value);
+        else       unsetEnvValue("HF_TOKEN");
     }
     ~HfTokenGuard() {
-        if (original_) ::setenv("HF_TOKEN", original_, 1);
-        else            ::unsetenv("HF_TOKEN");
+        if (had_original_) setEnvValue("HF_TOKEN", original_.c_str());
+        else               unsetEnvValue("HF_TOKEN");
     }
 };
 

@@ -118,6 +118,8 @@ uint32_t crc32Update(uint32_t crc, const uint8_t* data, size_t len) {
     return ~crc;
 }
 
+json parsePayloadJson(const std::vector<uint8_t>& payload_buffer);
+
 } // anonymous namespace
 
 // =============================================================================

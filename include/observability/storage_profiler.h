@@ -35,6 +35,10 @@ namespace observability {
 
 using json = nlohmann::json;
 
+#ifdef DELETE
+#undef DELETE
+#endif
+
 /**
  * @brief Storage operation type
  */

@@ -23,6 +23,7 @@
 #include <gtest/gtest.h>
 #include "utils/pii_detection_engine.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -77,8 +78,11 @@ TEST(PIIStreamScanner, NullEngineThrows) {
 }
 
 TEST(PIIStreamScanner, ValidConstructionDoesNotThrow) {
-    auto engine = std::make_shared<StubEngine>();
-    EXPECT_NO_THROW(PIIStreamScanner(engine));
+    auto detector = std::make_shared<StubEngine>();
+    EXPECT_NO_THROW({
+        auto scanner = std::make_unique<PIIStreamScanner>(detector, PIIStreamScannerConfig{});
+        EXPECT_NE(scanner, nullptr);
+    });
 }
 
 // ============================================================================

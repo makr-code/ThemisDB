@@ -1208,6 +1208,38 @@ public:
         return plugin_registry_.listPlugins();
     }
 
+    void setLineageTrackingEnabled(bool enabled) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        lineage_enabled_ = enabled;
+    }
+
+    bool isLineageTrackingEnabled() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_enabled_;
+    }
+
+    std::vector<IngestionLineageRecord> getLineageRecords(
+            const std::string& source_id) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_store_.getBySource(source_id);
+    }
+
+    std::vector<IngestionLineageRecord> getLineageRecordsByRun(
+            const std::string& run_correlation_id) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_store_.getByCorrelationId(run_correlation_id);
+    }
+
+    std::vector<IngestionLineageRecord> getAllLineageRecords() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return lineage_store_.getAll();
+    }
+
+    void clearLineageRecords() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        lineage_store_.clear();
+    }
+
 private:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
@@ -1498,29 +1530,29 @@ std::vector<std::string> IngestionManager::listConnectorPlugins() const {
 }
 
 void IngestionManager::enableLineageTracking(bool enabled) {
-    impl_->lineage_enabled_ = enabled;
+    impl_->setLineageTrackingEnabled(enabled);
 }
 
 bool IngestionManager::isLineageTrackingEnabled() const {
-    return impl_->lineage_enabled_;
+    return impl_->isLineageTrackingEnabled();
 }
 
 std::vector<IngestionLineageRecord> IngestionManager::getLineageRecords(
         const std::string& source_id) const {
-    return impl_->lineage_store_.getBySource(source_id);
+    return impl_->getLineageRecords(source_id);
 }
 
 std::vector<IngestionLineageRecord> IngestionManager::getLineageRecordsByRun(
         const std::string& run_correlation_id) const {
-    return impl_->lineage_store_.getByCorrelationId(run_correlation_id);
+    return impl_->getLineageRecordsByRun(run_correlation_id);
 }
 
 std::vector<IngestionLineageRecord> IngestionManager::getAllLineageRecords() const {
-    return impl_->lineage_store_.getAll();
+    return impl_->getAllLineageRecords();
 }
 
 void IngestionManager::clearLineageRecords() {
-    impl_->lineage_store_.clear();
+    impl_->clearLineageRecords();
 }
 
 // ============================================================================

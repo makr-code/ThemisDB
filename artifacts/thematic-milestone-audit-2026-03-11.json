@@ -1,0 +1,131 @@
+{
+  "issues_scanned": 1645,
+  "suggestions": [
+    {
+      "issue": 2318,
+      "title": "[themis] Resolve module dependencies",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2316,
+      "title": "[themis] Zone.Identifier quarantine detection on Windows",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2313,
+      "title": "[themis] Load module SHA-256 hash verification",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2310,
+      "title": "[themis] Feature gate community editions",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2128,
+      "title": "[themis] Move wire protocol server to src/server",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 2121,
+      "title": "[themis] Move wire protocol implementation to separate module",
+      "current_milestone": null,
+      "suggested_milestone": "v1.7.0",
+      "confidence": "low",
+      "reason": "single known version target for module themis",
+      "source": "roadmap module aggregate"
+    },
+    {
+      "issue": 1862,
+      "title": "[importers] API stability guaranteed",
+      "current_milestone": "v1.6.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1861,
+      "title": "[importers] Documentation is complete",
+      "current_milestone": "v1.6.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1860,
+      "title": "[importers] Implement SQL injection and credential handling security audit",
+      "current_milestone": null,
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1859,
+      "title": "[importers] Improve performance benchmarking metrics",
+      "current_milestone": "v1.6.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1858,
+      "title": "[importers] Integrate with live PostgreSQL for testing",
+      "current_milestone": "v1.6.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1857,
+      "title": "[importers] Improve unit test coverage threshold",
+      "current_milestone": "v1.6.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1847,
+      "title": "[importers] Implement web-based import wizard",
+      "current_milestone": null,
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    },
+    {
+      "issue": 1845,
+      "title": "[importers] Implement SQL Server importer",
+      "current_milestone": "v2.1.0",
+      "suggested_milestone": "v3.0.0",
+      "confidence": "high",
+      "reason": "explicit roadmap mapping in src\\importers\\ROADMAP.md",
+      "source": "src\\importers\\ROADMAP.md"
+    }
+  ]
+}

@@ -110,8 +110,8 @@ TEST_F(QueryProfilerTest, RecordCacheUsage_TrackedInProfile) {
 
     auto profile = profiler_.get_profile("qcache");
     ASSERT_NE(profile, nullptr);
-    // cache_hits and cache_misses should both be incremented
-    EXPECT_EQ(profile->cache_hits + profile->cache_misses, 2u);
+    // QueryProfile tracks cache usage as a boolean flag.
+    EXPECT_TRUE(profile->used_cache);
 }
 
 TEST_F(QueryProfilerTest, GetSlowQueries_FiltersCorrectly) {
@@ -198,8 +198,8 @@ TEST_F(StorageProfilerTest, GetSlowOperations_FiltersCorrectly) {
     slow_op.duration = 500ms;
     profiler_.record_operation(slow_op);
 
-    // With 100µs threshold only the slow op qualifies
-    auto slow = profiler_.get_slow_operations(100us);
+    // With 1ms threshold only the slow op qualifies
+    auto slow = profiler_.get_slow_operations(1ms);
     EXPECT_GE(slow.size(), 1u);
 
     auto none = profiler_.get_slow_operations(1h);

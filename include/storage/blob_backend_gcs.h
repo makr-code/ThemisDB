@@ -26,7 +26,7 @@ public:
      * @param prefix   Optional object-name prefix (e.g. "blobs/")
      */
     explicit GCSBlobBackend(const std::string& bucket, const std::string& prefix = "");
-    ~GCSBlobBackend() override = default;
+    ~GCSBlobBackend() override;
 
     Result<BlobRef>              put(const std::string& blob_id,
                                     const std::vector<uint8_t>& data) override;

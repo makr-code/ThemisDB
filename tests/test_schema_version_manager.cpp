@@ -421,7 +421,7 @@ TEST_F(SchemaVersionManagerAuditTest, RollbackWritesToAuditLog) {
     schema_->setTableSchema("orders", ts2);
     svm.createSchemaVersion("orders", "bob", "v2");
 
-    auto r = svm.rollbackToVersion("orders", 1, "carol", "revert to v1");
+    auto r = svm.rollbackToVersion("orders", 1, "carol");
     ASSERT_TRUE(r.ok);
 
     // Audit log must now contain entries for both create and rollback

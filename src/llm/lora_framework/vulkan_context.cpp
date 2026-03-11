@@ -26,6 +26,8 @@
 #include <iostream>
 #include <set>
 
+#if THEMIS_HAS_VULKAN_HEADER
+
 namespace themis {
 namespace lora {
 namespace vulkan {
@@ -483,3 +485,5 @@ bool VulkanContext::check_validation_layer_support() const {
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_HEADER

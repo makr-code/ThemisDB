@@ -365,6 +365,39 @@ public:
             );
         }
     }
+
+    Result<std::shared_ptr<Expression>> parseStandaloneExpression() {
+        try {
+            for (const auto& token : tokens_) {
+                if (token.type == TokenType::INVALID) {
+                    return Err<std::shared_ptr<Expression>>(
+                        errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                        fmt::format("Invalid token '{}' at line {}, column {}",
+                                    token.value, token.line, token.column)
+                    );
+                }
+            }
+
+            auto expr = parseExpression();
+            if (!match(TokenType::END_OF_FILE)) {
+                const auto& tok = current();
+                return Err<std::shared_ptr<Expression>>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format("Unexpected token '{}' at line {}, column {}",
+                                tok.value, tok.line, tok.column)
+                );
+            }
+
+            return Ok(expr);
+        } catch (const std::runtime_error& e) {
+            const auto& tok = current();
+            return Err<std::shared_ptr<Expression>>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Parse error at line {}, column {}: {}",
+                            tok.line, tok.column, e.what())
+            );
+        }
+    }
     
 private:
     std::vector<Token> tokens_;
@@ -1120,6 +1153,47 @@ Result<std::shared_ptr<Query>> AQLParser::parse(const std::string& query_string)
             fmt::format("Failed to parse query: {}", e.what())
         );
     }
+}
+
+std::shared_ptr<Expression> AQLParser::parseExpression(const std::string& expr_str) {
+    Tokenizer tokenizer(expr_str);
+    auto tokens = tokenizer.tokenize();
+
+    Parser parser(std::move(tokens));
+    auto result = parser.parseStandaloneExpression();
+    if (!result) {
+        throw std::runtime_error(result.error().message());
+    }
+
+    return *result;
+}
+
+std::shared_ptr<Expression> AQLParser::parsePrimaryExpression(const std::string& expr_str) {
+    return parseExpression(expr_str);
+}
+
+BinaryOperator AQLParser::stringToOperator(const std::string& op_str) {
+    if (op_str == "==") return BinaryOperator::Eq;
+    if (op_str == "!=") return BinaryOperator::Neq;
+    if (op_str == "<") return BinaryOperator::Lt;
+    if (op_str == "<=") return BinaryOperator::Lte;
+    if (op_str == ">") return BinaryOperator::Gt;
+    if (op_str == ">=") return BinaryOperator::Gte;
+    if (op_str == "AND") return BinaryOperator::And;
+    if (op_str == "OR") return BinaryOperator::Or;
+    if (op_str == "XOR") return BinaryOperator::Xor;
+    if (op_str == "+") return BinaryOperator::Add;
+    if (op_str == "-") return BinaryOperator::Sub;
+    if (op_str == "*") return BinaryOperator::Mul;
+    if (op_str == "/") return BinaryOperator::Div;
+    if (op_str == "%") return BinaryOperator::Mod;
+    if (op_str == "IN") return BinaryOperator::In;
+    throw std::runtime_error("Unknown operator: " + op_str);
+}
+
+std::shared_ptr<Expression> AQLParser::parseMembership(std::shared_ptr<Expression> left) {
+    auto nullExpr = std::make_shared<LiteralExpr>(nullptr);
+    return std::make_shared<BinaryOpExpr>(BinaryOperator::In, std::move(left), std::move(nullExpr));
 }
 
 // JSON Serialization moved to src/query/aql_parser_json.cpp to reduce

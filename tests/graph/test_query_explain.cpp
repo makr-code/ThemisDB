@@ -209,7 +209,7 @@ TEST_F(GraphQueryExplainTest, ExplainConstrainedPath_ReturnsPlan) {
 
 TEST_F(GraphQueryExplainTest, ExplainConstrainedPath_NoExecutionSideEffect) {
     // Record query count before
-    const auto metrics_before = optimizer_->getQueryMetrics();
+    const auto& metrics_before = optimizer_->getQueryMetrics();
     const uint64_t queries_before = metrics_before.total_queries.load();
 
     themis::graph::PathConstraints pc(graph_mgr_.get());
@@ -221,7 +221,7 @@ TEST_F(GraphQueryExplainTest, ExplainConstrainedPath_NoExecutionSideEffect) {
     // cost plan without traversing the graph.  Verifying total_queries=0 is the
     // canonical side-effect guard; cache population that may occur as a result
     // of plan caching is intentional and not considered a "execution" side-effect.
-    const auto metrics_after = optimizer_->getQueryMetrics();
+    const auto& metrics_after = optimizer_->getQueryMetrics();
     EXPECT_EQ(metrics_after.total_queries.load(), queries_before)
         << "explainConstrainedPath must not increment total_queries";
 }

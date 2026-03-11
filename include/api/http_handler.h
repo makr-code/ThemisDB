@@ -270,7 +270,9 @@ public:
 private:
     themis::Result<HttpResponse> invokeAt(const HttpRequest& request, std::size_t idx) {
         if (idx >= links_.size()) {
-            return tl::unexpected(HttpError{500, "MiddlewareChain: no terminal handler"});
+            return tl::unexpected(themis::Error(
+                themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+                "MiddlewareChain: no terminal handler"));
         }
         auto result = links_[idx]->handle(request);
         if (!result.has_value()) {
