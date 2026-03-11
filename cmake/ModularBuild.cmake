@@ -1191,6 +1191,11 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/ingestion_coordinator.cpp
     # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; always compile.
     ../src/ingestion/cdc_connector.cpp
+    # Legal ingestion pipeline: deontic extraction, semantic validation, reference validation
+    ../src/ingestion/deontic_extractor.cpp
+    ../src/ingestion/semantic_validator.cpp
+    ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
