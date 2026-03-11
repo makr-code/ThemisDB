@@ -213,6 +213,13 @@ void GPUMemoryManager::initializeGPU() {
                          prop.name, prop.major, prop.minor);
             spdlog::info("  Total VRAM: {:.2f} GB", prop.totalGlobalMem / (1024.0*1024*1024));
             spdlog::info("  Multiprocessors: {}", prop.multiProcessorCount);
+
+            // Auto-detect VRAM limit from device if not configured (0 = auto-detect)
+            if (config_.max_vram_bytes == 0) {
+                config_.max_vram_bytes = prop.totalGlobalMem;
+                spdlog::info("  Auto-detected VRAM limit: {:.2f} GB",
+                             config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+            }
         }
         
         // Initialize multi-GPU support (v1.4.0)
@@ -275,11 +282,25 @@ void GPUMemoryManager::initializeGPU() {
         available_gpus_.push_back(gpu_device_id_);
         per_gpu_vram_used_[gpu_device_id_] = 0;
         gpu_health_status_[gpu_device_id_] = true;
+
+        // Use default VRAM limit for simulation mode when not configured
+        if (config_.max_vram_bytes == 0) {
+            config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
+            spdlog::info("  Simulation VRAM limit set to: {:.2f} GB",
+                         config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+        }
     }
 #else
     // Simulation mode when CUDA is not enabled at build time
     gpu_available_ = false;
     gpu_device_id_ = 0;
+
+    // Use default VRAM limit for simulation mode when not configured (0 = auto-detect)
+    if (config_.max_vram_bytes == 0) {
+        config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
+        spdlog::info("  Simulation VRAM limit set to: {:.2f} GB",
+                     config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+    }
     
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
@@ -579,7 +600,7 @@ size_t GPUMemoryManager::getModelRAM(const std::string& model_id) const {
 
 size_t GPUMemoryManager::getTotalVRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return total_vram_used_;
+    return config_.max_vram_bytes;
 }
 
 size_t GPUMemoryManager::getTotalRAM() const {
@@ -1510,14 +1531,16 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
             continue;
         }
         
-        // Calculate utilization
+        // Calculate utilization (guard against division by zero when max_vram_bytes is 0)
         size_t used_vram = 0;
         auto vram_it = per_gpu_vram_used_.find(gpu_id);
         if (vram_it != per_gpu_vram_used_.end()) {
             used_vram = vram_it->second;
         }
-        
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+
+        float utilization = (config_.max_vram_bytes > 0)
+            ? static_cast<float>(used_vram) / static_cast<float>(config_.max_vram_bytes)
+            : 0.0f;  // treat as 0% utilization when capacity is unknown
         
         if (utilization < min_utilization) {
             min_utilization = utilization;
