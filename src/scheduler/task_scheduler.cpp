@@ -1432,7 +1432,13 @@ void TaskScheduler::schedulerLoop() {
 
         // Adjust concurrency limit based on pending queue depth (no-op when scaling disabled).
         adjustConcurrencyLimit(pending_count);
-        
+
+        // Sort pending tasks by priority (HIGH first) before dispatch.
+        std::sort(tasks_to_execute.begin(), tasks_to_execute.end(),
+            [](const std::shared_ptr<ScheduledTask>& a, const std::shared_ptr<ScheduledTask>& b) {
+                return static_cast<int>(a->priority) > static_cast<int>(b->priority);
+            });
+
         // Execute tasks outside the lock
         for (auto& task : tasks_to_execute) {
             task->running = true;
