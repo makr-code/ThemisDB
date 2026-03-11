@@ -11161,16 +11161,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME UpdatesProductionFocusedTests COMMAND test_voice_production_focused)
+    add_test(NAME VoiceProductionFocusedTests COMMAND test_voice_production_focused)
 
-    set_tests_properties(UpdatesProductionFocusedTests PROPERTIES
-        LABELS "updates;hot-reload;delta;schema-migration;history;production;focused;unit"
+    set_tests_properties(VoiceProductionFocusedTests PROPERTIES
+        LABELS "voice;audio;production;wake-word;intent;session;security;tts;focused;unit"
         TIMEOUT 120
     )
 
-    message(STATUS "  UpdatesProduction: HotReloadEngine, DeltaUpdateEngine, SchemaMigrationTester, UpdateHistoryLogger, dry-run, rollback")
+    message(STATUS "  VoiceProduction: AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager, VoiceSecurityManager, EmotionAnalyzer")
 else()
-    message(STATUS "Updates Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_updates_production.cpp")
+    message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
 endif()
 
 # BlueGreenDeployment – focused tests for blue/green deployment support
