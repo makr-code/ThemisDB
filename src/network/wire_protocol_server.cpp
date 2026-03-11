@@ -713,7 +713,10 @@ void WireProtocolServer::Session::handleMessage() {
         case 0x01: // HELLO
             handleHello();
             break;
-        case 0x03: // AUTH_REQUEST
+        case 0x03: // AUTH legacy opcode: historically used by clients to send credentials
+            // Fall through: both 0x03 and 0x04 use the same credential-validation logic.
+            [[fallthrough]];
+        case 0x04: // AUTH_RESPONSE (Client→Server per wire protocol spec v1.3.0)
             handleAuthRequest();
             break;
         case 0x10: // GET
@@ -725,11 +728,35 @@ void WireProtocolServer::Session::handleMessage() {
         case 0x12: // DELETE
             handleDelete();
             break;
+        case 0x13: // BATCH_GET
+            handleBatchGet();
+            break;
+        case 0x14: // BATCH_PUT
+            handleBatchPut();
+            break;
         case 0x20: // QUERY_AQL
             handleQuery();
             break;
+        case 0x23: // CURSOR_NEXT
+            handleCursorNext();
+            break;
+        case 0x24: // CURSOR_CLOSE
+            handleCursorClose();
+            break;
+        case 0x30: // TRANSACTION_BEGIN
+            handleTransactionBegin();
+            break;
+        case 0x31: // TRANSACTION_COMMIT
+            handleTransactionCommit();
+            break;
+        case 0x32: // TRANSACTION_ABORT
+            handleTransactionAbort();
+            break;
         case 0x40: // VECTOR_SEARCH
             handleVectorSearch();
+            break;
+        case 0x41: // GRAPH_TRAVERSE
+            handleGraphTraverse();
             break;
         case 0x50: // GEO_QUERY
             handleGeoQuery();
@@ -1091,6 +1118,341 @@ void WireProtocolServer::Session::handleDelete() {
     }
 }
 
+void WireProtocolServer::Session::handleBatchGet() {
+    // BATCH_GET: retrieve multiple documents by collection and key list.
+    // Expected payload (JSON): {"collection": "...", "keys": ["key1", "key2", ...]}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->storage_) {
+        sendError(503, "Storage not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string collection = request.value("collection", "");
+
+        if (collection.empty()) {
+            sendError(400, "Missing 'collection' in BATCH_GET request");
+            return;
+        }
+        if (!request.contains("keys") || !request["keys"].is_array()) {
+            sendError(400, "Missing or invalid 'keys' array in BATCH_GET request");
+            return;
+        }
+
+        const auto& keys_arr = request["keys"];
+        if (keys_arr.empty()) {
+            sendError(400, "Empty 'keys' array in BATCH_GET request");
+            return;
+        }
+
+        json results = json::array();
+        uint32_t found_count = 0;
+        uint32_t not_found_count = 0;
+
+        for (const auto& key_val : keys_arr) {
+            std::string key = key_val.get<std::string>();
+            std::string storage_key = collection + ":" + key;
+            auto result = server_->storage_->get(storage_key);
+
+            json item;
+            item["key"] = key;
+            if (result.has_value()) {
+                const auto& value_bytes = result.value();
+                std::string value_str(value_bytes.begin(), value_bytes.end());
+                try {
+                    item["value"] = json::parse(value_str);
+                } catch (...) {
+                    item["value"] = value_str;
+                }
+                item["found"] = true;
+                ++found_count;
+            } else {
+                item["found"] = false;
+                ++not_found_count;
+            }
+            results.push_back(std::move(item));
+        }
+
+        json response;
+        response["results"] = std::move(results);
+        response["found_count"] = found_count;
+        response["not_found_count"] = not_found_count;
+        response["collection"] = collection;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in BATCH_GET payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("BATCH_GET error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleBatchPut() {
+    // BATCH_PUT: store multiple documents by collection.
+    // Expected payload (JSON): {"collection": "...", "items": [{"key": "...", "value": {...}}, ...]}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->storage_) {
+        sendError(503, "Storage not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string collection = request.value("collection", "");
+
+        if (collection.empty()) {
+            sendError(400, "Missing 'collection' in BATCH_PUT request");
+            return;
+        }
+        if (!request.contains("items") || !request["items"].is_array()) {
+            sendError(400, "Missing or invalid 'items' array in BATCH_PUT request");
+            return;
+        }
+
+        const auto& items_arr = request["items"];
+        if (items_arr.empty()) {
+            sendError(400, "Empty 'items' array in BATCH_PUT request");
+            return;
+        }
+
+        json results = json::array();
+        uint32_t success_count = 0;
+        uint32_t failure_count = 0;
+
+        for (const auto& item_val : items_arr) {
+            std::string key = item_val.value("key", "");
+            if (key.empty()) {
+                json item_result;
+                item_result["key"] = key;
+                item_result["success"] = false;
+                item_result["error"] = "Missing 'key' in item";
+                results.push_back(std::move(item_result));
+                ++failure_count;
+                continue;
+            }
+            if (!item_val.contains("value")) {
+                json item_result;
+                item_result["key"] = key;
+                item_result["success"] = false;
+                item_result["error"] = "Missing 'value' in item";
+                results.push_back(std::move(item_result));
+                ++failure_count;
+                continue;
+            }
+
+            std::string value_str = item_val["value"].is_string()
+                ? item_val["value"].get<std::string>()
+                : item_val["value"].dump();
+
+            std::string storage_key = collection + ":" + key;
+            bool ok = server_->storage_->put(storage_key, value_str);
+
+            json item_result;
+            item_result["key"] = key;
+            item_result["success"] = ok;
+            if (!ok) {
+                item_result["error"] = "Storage write failed";
+                ++failure_count;
+            } else {
+                ++success_count;
+            }
+            results.push_back(std::move(item_result));
+        }
+
+        json response;
+        response["results"] = std::move(results);
+        response["success_count"] = success_count;
+        response["failure_count"] = failure_count;
+        response["collection"] = collection;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in BATCH_PUT payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("BATCH_PUT error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleTransactionBegin() {
+    // TRANSACTION_BEGIN: begin a new transaction.
+    // Expected payload (JSON): {"isolation_level": "read_committed|snapshot", "timeout_ms": 5000}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->tx_manager_) {
+        sendError(503, "Transaction manager not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string isolation_str = request.value("isolation_level", "read_committed");
+
+        IsolationLevel isolation = IsolationLevel::ReadCommitted;
+        if (isolation_str == "snapshot" || isolation_str == "repeatable_read") {
+            isolation = IsolationLevel::Snapshot;
+        }
+
+        auto tx_id = server_->tx_manager_->beginTransaction(isolation);
+
+        json response;
+        response["success"] = true;
+        response["transaction_id"] = std::to_string(tx_id);
+        response["timestamp_ns"] = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count());
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in TRANSACTION_BEGIN payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("TRANSACTION_BEGIN error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleTransactionCommit() {
+    // TRANSACTION_COMMIT: commit an open transaction.
+    // Expected payload (JSON): {"transaction_id": "<numeric-string>"}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->tx_manager_) {
+        sendError(503, "Transaction manager not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string tx_id_str = request.value("transaction_id", "");
+
+        if (tx_id_str.empty()) {
+            sendError(400, "Missing 'transaction_id' in TRANSACTION_COMMIT request");
+            return;
+        }
+
+        TransactionManager::TransactionId tx_id = std::stoull(tx_id_str);
+        auto status = server_->tx_manager_->commitTransaction(tx_id);
+
+        json response;
+        response["success"] = status.ok;
+        if (!status.ok) {
+            response["error"] = status.message;
+        } else {
+            response["commit_timestamp_ns"] = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count());
+        }
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in TRANSACTION_COMMIT payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("TRANSACTION_COMMIT error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleTransactionAbort() {
+    // TRANSACTION_ABORT: abort/roll back an open transaction.
+    // Expected payload (JSON): {"transaction_id": "<numeric-string>"}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+    if (!server_->tx_manager_) {
+        sendError(503, "Transaction manager not configured");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string tx_id_str = request.value("transaction_id", "");
+
+        if (tx_id_str.empty()) {
+            sendError(400, "Missing 'transaction_id' in TRANSACTION_ABORT request");
+            return;
+        }
+
+        TransactionManager::TransactionId tx_id = std::stoull(tx_id_str);
+        bool aborted = server_->tx_manager_->rollbackTransaction(tx_id);
+
+        json response;
+        response["success"] = aborted;
+        if (!aborted) {
+            response["error"] = "Transaction rollback failed: transaction not found or already finished";
+        }
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in TRANSACTION_ABORT payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("TRANSACTION_ABORT error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleGraphTraverse() {
+    // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
+    // Expected payload (JSON):
+    //   {"collection": "...", "start_vertex": "...", "direction": "outbound|inbound|any",
+    //    "depth_min": 1, "depth_max": 3, "limit": 100}
+    // NOTE: Full graph traversal integration over the wire protocol is planned for a
+    // future release.  Until then clients should use the HTTP REST API (/api/v1/graph).
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string collection = request.value("collection", "");
+        std::string start_vertex = request.value("start_vertex", "");
+
+        if (collection.empty()) {
+            sendError(400, "Missing 'collection' field in GRAPH_TRAVERSE request");
+            return;
+        }
+        if (start_vertex.empty()) {
+            sendError(400, "Missing 'start_vertex' field in GRAPH_TRAVERSE request");
+            return;
+        }
+
+        // Graph traversal is not yet integrated with the wire protocol transport.
+        json response;
+        response["success"] = false;
+        response["error_code"] = "GRAPH_NOT_INTEGRATED";
+        response["error"] = "Graph traversal is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.";
+        response["collection"] = collection;
+        response["start_vertex"] = start_vertex;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in GRAPH_TRAVERSE payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("GRAPH_TRAVERSE error: ") + e.what());
+    }
+}
+
 void WireProtocolServer::Session::handleQuery() {
     // QUERY_AQL: execute an AQL query string.
     // Expected payload (JSON): {"query": "FOR doc IN collection RETURN doc", "bind_vars": {...}}
@@ -1127,6 +1489,77 @@ void WireProtocolServer::Session::handleQuery() {
         sendError(400, std::string("Invalid JSON in QUERY payload: ") + e.what());
     } catch (const std::exception& e) {
         sendError(0x0007, std::string("QUERY error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleCursorNext() {
+    // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
+    // Expected payload (JSON): {"cursor_id": "...", "batch_size": 100}
+    // NOTE: Cursor-based streaming requires the AQL engine integration, which is
+    // not yet connected to the wire protocol.  Clients should use the HTTP REST
+    // API GET /api/v1/cursor/{cursor_id}.
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string cursor_id = request.value("cursor_id", "");
+
+        if (cursor_id.empty()) {
+            sendError(400, "Missing 'cursor_id' in CURSOR_NEXT request");
+            return;
+        }
+
+        json response;
+        response["success"] = false;
+        response["error_code"] = "CURSOR_NOT_INTEGRATED";
+        response["error"] = "Cursor pagination is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint GET /api/v1/cursor/" + cursor_id + " instead.";
+        response["cursor_id"] = cursor_id;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in CURSOR_NEXT payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("CURSOR_NEXT error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleCursorClose() {
+    // CURSOR_CLOSE: close an open AQL query cursor and free server-side resources.
+    // Expected payload (JSON): {"cursor_id": "..."}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string cursor_id = request.value("cursor_id", "");
+
+        if (cursor_id.empty()) {
+            sendError(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
+            return;
+        }
+
+        json response;
+        response["success"] = false;
+        response["error_code"] = "CURSOR_NOT_INTEGRATED";
+        response["error"] = "Cursor management is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" + cursor_id + " instead.";
+        response["cursor_id"] = cursor_id;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in CURSOR_CLOSE payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("CURSOR_CLOSE error: ") + e.what());
     }
 }
 
