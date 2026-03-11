@@ -2160,6 +2160,9 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp
+    # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
+    ../src/observability/tracer.cpp
+    ../src/observability/log_aggregator.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>

@@ -11268,6 +11268,76 @@ else()
     message(STATUS "ContinuousProfiler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_profiler.cpp")
 endif()
 
+# ObservabilityTracer tests (OBS-MISSING-001)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracer.cpp")
+    message(STATUS "Adding Observability: ObservabilityTracer focused tests (OBS-MISSING-001)")
+
+    add_executable(test_tracer_focused
+        test_tracer.cpp
+    )
+
+    target_include_directories(test_tracer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_tracer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_tracer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ObservabilityTracerFocusedTests COMMAND test_tracer_focused)
+
+    set_tests_properties(ObservabilityTracerFocusedTests PROPERTIES
+        LABELS "observability;tracing;w3c-trace-context;spans;sampling;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ObservabilityTracer: lifecycle, span creation, W3C traceparent, child spans, sampling, ring buffer, thread-safety")
+else()
+    message(STATUS "ObservabilityTracer focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tracer.cpp")
+endif()
+
+# LogAggregator tests (OBS-MISSING-001)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
+    message(STATUS "Adding Observability: LogAggregator focused tests (OBS-MISSING-001)")
+
+    add_executable(test_log_aggregator_focused
+        test_log_aggregator.cpp
+    )
+
+    target_include_directories(test_log_aggregator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_log_aggregator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_log_aggregator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LogAggregatorFocusedTests COMMAND test_log_aggregator_focused)
+
+    set_tests_properties(LogAggregatorFocusedTests PROPERTIES
+        LABELS "observability;logging;structured-log;trace-context;ring-buffer;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LogAggregator: level filtering, structured fields, trace context, ring buffer, callback, shutdown, thread-safety")
+else()
+    message(STATUS "LogAggregator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
+endif()
+
 # ============================================================================
 # Training Module Focused Tests
 # Standalone targets that link only the training sources they exercise,
