@@ -39,6 +39,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Implementation: `AlertRule`, `AlertRuleOperator`, `AlertRuleManager` (CRUD + `evaluateRules()`)
   - Tests: `tests/test_alert_rules.cpp`
 - [?] Per-tenant metric namespacing
+- [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
+  - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
+  - Implementation: `MetricAggregator` (rate calculation, histogram aggregation SUM/AVG/MAX/MIN/P50/P95/P99, rule-based aggregation with drop_labels/group_by_labels, per-metric cardinality limits)
+  - Tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
 - [?] Structured log search API (query logs like data)
 - [?] Real-time query cost estimator dashboard
 
@@ -96,6 +100,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/distributed_flame_graph.h/cpp`, tests: `tests/test_distributed_flame_graph.cpp`
 - [x] SLO/SLA compliance reporting with burn-rate alerts
   — `observability/slo_reporter.h/cpp`, tests: `tests/test_slo_reporter.cpp`
+- [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
+  — `observability/metric_aggregator.h/cpp`, tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`
