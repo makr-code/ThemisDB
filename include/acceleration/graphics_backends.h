@@ -36,7 +36,7 @@ namespace acceleration {
 // DirectX 12 Compute Shaders backend (Windows only)
 class DirectXVectorBackend : public IVectorBackend {
 public:
-    DirectXVectorBackend() = default;
+    DirectXVectorBackend();
     ~DirectXVectorBackend() override;
     
     const char* name() const noexcept override { return "DirectX"; }
@@ -68,8 +68,8 @@ public:
 
 private:
     bool initialized_ = false;
-    void* device_ = nullptr;  // ID3D12Device*
-    void* commandQueue_ = nullptr;  // ID3D12CommandQueue*
+    class DirectXVectorBackendImpl;
+    std::unique_ptr<DirectXVectorBackendImpl> impl_;
 };
 
 // Vulkan Compute backend (cross-platform)
@@ -157,10 +157,10 @@ private:
     bool initialized_ = false;
 };
 
-// OpenGL Compute Shaders backend (legacy support)
+// OpenGL Compute Shaders backend (OpenGL 4.3+ compute shader acceleration)
 class OpenGLVectorBackend : public IVectorBackend {
 public:
-    OpenGLVectorBackend() = default;
+    OpenGLVectorBackend();
     ~OpenGLVectorBackend() override;
     
     const char* name() const noexcept override { return "OpenGL"; }
@@ -192,7 +192,8 @@ public:
 
 private:
     bool initialized_ = false;
-    void* context_ = nullptr;  // OpenGL context
+    class OpenGLVectorBackendImpl;
+    std::unique_ptr<OpenGLVectorBackendImpl> impl_;
 };
 
 } // namespace acceleration

@@ -31,6 +31,7 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; **end-to-end ANN search still falls through to CPU pending HNSW graph traversal wiring** (see Known Issues); issue closed 2026-02-23
 - [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` implemented in `src/acceleration/device_manager.cpp` / `include/acceleration/device_manager.h`; 60-second TTL cache; issue closed 2026-02-23
 - [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` with JSON output; baselines in `benchmarks/baselines/acceleration/baseline.json`; issue closed 2026-02-23
+- [x] OpenGL 4.3+ Compute Shader backend for platform-wide GPU acceleration (Target: Q2 2026) — `OpenGLVectorBackend` fully implemented in `src/acceleration/graphics_backends.cpp`; GLSL L2 and cosine distance compute shaders; headless EGL context via dynamic loading (no compile-time GL headers required); CPU fallback when EGL/GL 4.3+ is not available; tests in `tests/test_opengl_backend.cpp`; issue closed 2026-03-11
 ### Long-term (6-12 months)
 - [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `CUDAMatrixBackend` with FP16/BF16 Tensor Core support in `src/acceleration/cuda/tensor_core_matmul.cu` and `src/acceleration/tensor_core_matmul.cpp`; requires SM 7.0+ (FP16) or SM 8.0+ (BF16); issue closed 2026-02-23
 - [x] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379) — `src/acceleration/opencl_backend.cpp` implemented; issue closed 2026-02-23
@@ -77,6 +78,8 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 ## Known Issues & Limitations
 - CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
 - DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
+- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
+- DirectX (`DirectXVectorBackend`): fully implemented with DX12 compute shaders for L2 and cosine distance in `src/acceleration/directx_backend_full.cpp` (Windows only, `THEMIS_ENABLE_DIRECTX`); `OpenGLVectorBackend` is still a stub; not yet implemented
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
 - HIP top-K selection for k > 1024: heap-based/radix path not yet implemented (TODO in `hip_backend.cpp` line 204)

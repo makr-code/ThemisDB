@@ -1861,10 +1861,6 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
-    ../src/utils/bloom_filter.cpp
-    ../src/utils/pii_stream_scanner.cpp
-    ../src/utils/sampled_logger.cpp
-    ../src/utils/timestamp_utils.cpp
     ../src/utils/bloom_filter.cpp             # Bloom filter for membership testing
     ../src/utils/consistent_hash.cpp          # Consistent hash ring utilities
     ../src/utils/pii_stream_scanner.cpp       # Streaming PII detection and redaction
@@ -2913,7 +2909,11 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     
     if(THEMIS_ENABLE_OPENGL)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
-        message(STATUS "OpenGL acceleration enabled (stub)")
+        # Link dl for dynamic loading of libEGL/libGL at runtime (Linux/Unix)
+        if(UNIX AND NOT APPLE)
+            target_link_libraries(themis_core PRIVATE dl)
+        endif()
+        message(STATUS "OpenGL acceleration enabled (EGL/GL 4.3+ compute shaders with CPU fallback)")
     endif()
 endif()
 

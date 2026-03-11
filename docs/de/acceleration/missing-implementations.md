@@ -50,17 +50,16 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 4. OpenGLVectorBackend — Stub, keine Implementierung
+## 4. OpenGLVectorBackend — ✅ Implementiert (Issue #OPENGL-COMPUTE)
 
 | Feld | Wert |
 |---|---|
-| **Claim-Quelle** | `src/acceleration/graphics_backends.cpp` (registriert als Backend-Option) |
+| **Claim-Quelle** | `src/acceleration/graphics_backends.cpp` |
 | **Erwartet** | OpenGL 4.3+ Compute Shader Backend für breite Plattformkompatibilität |
-| **Beobachtet** | `OpenGLVectorBackend::isAvailable()` gibt immer `false` zurück mit Kommentar `// Stub: not implemented yet`; `batchKnnSearch()` und `computeDistances()` geben leere Vektoren zurück |
-| **Evidence (geprüfte Pfade)** | `src/acceleration/graphics_backends.cpp` Zeilen 1015–1085 |
-| **ROADMAP-Status** | Nicht als separater ROADMAP-Eintrag geführt |
-| **Issue-Titelvorschlag** | `[acceleration] Implement OpenGL Compute Shader backend` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `acceleration`, `status:open` |
+| **Beobachtet** | Vollständig implementiert: `isAvailable()` prüft EGL/GL 4.3+-Verfügbarkeit; `initialize()` erstellt headless EGL-Kontext und kompiliert GLSL-Compute-Shader (L2/Cosine); CPU-Fallback wenn kein EGL-Treiber vorhanden; `batchKnnSearch()` und `computeDistances()` liefern korrekte Ergebnisse via GPU oder CPU-Fallback |
+| **Evidence (geprüfte Pfade)** | `src/acceleration/graphics_backends.cpp` (OpenGLVectorBackendImpl PIMPL), `tests/test_opengl_backend.cpp` |
+| **ROADMAP-Status** | Implementiert und getestet — Issue geschlossen |
+| **Label-Vorschläge** | `type:feature`, `priority:low`, `acceleration`, `status:closed` |
 
 ---
 
@@ -71,7 +70,7 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | 1 | CUDA ANN HNSW-Integration | ROADMAP #1369 | **Hoch** | `[~]` in progress |
 | 2 | CUDAGraphBackend (BFS/Shortest-Path) | cuda_backend.cpp | Mittel | ✅ Implementiert |
 | 3 | DirectXVectorBackend | graphics_backends.cpp | Niedrig | Stub |
-| 4 | OpenGLVectorBackend | graphics_backends.cpp | Niedrig | Stub |
+| 4 | OpenGLVectorBackend | graphics_backends.cpp | Niedrig | ✅ Implementiert |
 
 *Alle anderen ROADMAP-Einträge (#1366–#1403, außer #1369) sind durch vorhandene
 Implementierungsdateien auf `develop` belegt (kein HNSW-spezifischer Pfad ausgenommen).*
