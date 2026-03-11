@@ -28,7 +28,11 @@
       ],
       "impact": "Legacy .doc/.xls/.ppt files cannot be extracted; only OOXML (DOCX/XLSX/PPTX) and ODF are handled",
       "issue_title_suggestion": "feat(content): implement LibreOffice headless fallback in office_processor.cpp for legacy .doc/.xls/.ppt",
-      "label_suggestions": ["module:content", "kind:implementation", "priority:medium"]
+      "label_suggestions": [
+        "module:content",
+        "kind:implementation",
+        "priority:medium"
+      ]
     },
     {
       "id": "CON-002",
@@ -44,7 +48,11 @@
       ],
       "impact": "OCR is not automatically triggered during ingestion; must be invoked manually via ocr_processor.cpp",
       "issue_title_suggestion": "feat(content): add ContentPolicy::ocrEnabled() and wire OCR trigger in MimeDetector",
-      "label_suggestions": ["module:content", "kind:implementation", "priority:medium"]
+      "label_suggestions": [
+        "module:content",
+        "kind:implementation",
+        "priority:medium"
+      ]
     },
     {
       "id": "CON-003",
@@ -59,7 +67,11 @@
       ],
       "impact": "OCR quality on low-resolution scans may be degraded; no pre-processing normalisation",
       "issue_title_suggestion": "feat(content): add 300-DPI rescaling and adaptive binarisation in ocr_processor.cpp",
-      "label_suggestions": ["module:content", "kind:quality", "priority:medium"]
+      "label_suggestions": [
+        "module:content",
+        "kind:quality",
+        "priority:medium"
+      ]
     },
     {
       "id": "CON-004",
@@ -74,7 +86,11 @@
       ],
       "impact": "Inconsistent deployment — operators must know the path; no convention-over-configuration",
       "issue_title_suggestion": "feat(content): default ocr_processor data_dir to config/ai_ml/tesseract_lang/ via ConfigPathResolver",
-      "label_suggestions": ["module:content", "kind:configuration", "priority:low"]
+      "label_suggestions": [
+        "module:content",
+        "kind:configuration",
+        "priority:low"
+      ]
     },
     {
       "id": "CON-005",
@@ -89,22 +105,34 @@
       ],
       "impact": "Under high ingestion load the worker queue can grow unbounded; callers are not throttled",
       "issue_title_suggestion": "feat(content): implement back-pressure in async_ingestion_worker.cpp for ingestStream()",
-      "label_suggestions": ["module:content", "kind:reliability", "priority:low"]
+      "label_suggestions": [
+        "module:content",
+        "kind:reliability",
+        "priority:low"
+      ]
     },
     {
       "id": "CON-006",
       "severity": "low",
-      "title": "Zip-Bomb Protection Missing in archive_processor.cpp",
+      "title": "Zip-Bomb Protection in archive_processor.cpp [RESOLVED]",
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — Security / Reliability section",
       "file": "src/content/archive_processor.cpp",
       "expected": "content_security.cpp scans all uploaded archives for zip-bomb patterns; enforce max decompressed-to-compressed ratio of 100× and max extracted file count of 1,000",
-      "observed": "Item still [ ] open in FUTURE_ENHANCEMENTS.md",
+      "observed": "ContentSecurityManager::checkZipBomb() implemented in content_security.h/.cpp (ratio 100×, max 1 000 entries). ArchiveProcessor::process() calls it after validateArchive() and before extraction. Item marked [x] in FUTURE_ENHANCEMENTS.md and ROADMAP.md.",
       "evidence": [
-        "src/content/FUTURE_ENHANCEMENTS.md: '[ ] content_security.cpp must scan all uploaded archives (ZIP, tar) for zip-bomb patterns'"
+        "src/content/content_security.cpp: ContentSecurityManager::checkZipBomb() enforces ratio>100x => CONTENT_MALWARE_DETECTED, file_count>1000 => CONTENT_SIZE_EXCEEDED",
+        "src/content/archive_processor.cpp: security_manager_.checkZipBomb() called before extraction",
+        "tests/test_content_security.cpp: 20 ZipBombProtectionTest cases cover all enforcement paths",
+        "src/content/FUTURE_ENHANCEMENTS.md: item marked [x]"
       ],
       "impact": "Maliciously crafted ZIP/tar archives could exhaust memory or disk during extraction",
       "issue_title_suggestion": "fix(content/security): add zip-bomb protection in archive_processor.cpp via content_security.cpp",
-      "label_suggestions": ["module:content", "kind:security", "priority:medium"]
+      "label_suggestions": [
+        "module:content",
+        "kind:security",
+        "priority:medium"
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-007",
@@ -119,7 +147,11 @@
       ],
       "impact": "If LibreOffice fallback is added without sandboxing, a malicious document could compromise the ThemisDB data directory",
       "issue_title_suggestion": "fix(content/security): ensure LibreOffice subprocess in office_processor.cpp uses posix_spawn with restricted user",
-      "label_suggestions": ["module:content", "kind:security", "priority:medium"]
+      "label_suggestions": [
+        "module:content",
+        "kind:security",
+        "priority:medium"
+      ]
     }
   ]
 }

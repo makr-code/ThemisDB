@@ -152,7 +152,7 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 
 ## Security / Reliability
 
-- `[ ]` `content_security.cpp` must scan all uploaded archives (ZIP, tar) for zip-bomb patterns before extraction in `archive_processor.cpp`; enforce a maximum decompressed-to-compressed ratio of 100× and a maximum extracted file count of 1,000.
+- `[x]` `content_security.cpp` scans all uploaded archives (ZIP, tar) for zip-bomb patterns before extraction in `archive_processor.cpp`; enforces a maximum decompressed-to-compressed ratio of 100× and a maximum extracted file count of 1,000 via `ContentSecurityManager::checkZipBomb()` (CON-006).
 - `[ ]` LibreOffice headless subprocess spawned by `office_processor.cpp` must run in a separate OS user with no write access to the ThemisDB data directory; use `posix_spawn` with a restricted environment rather than `system()`.
 - `[ ]` OCR output from `ocr_processor.cpp` must pass through `content_validator.cpp` before indexing to prevent injection of control characters or oversized text fields into the document store.
 
