@@ -23,6 +23,7 @@
 #include "server/classification_api_handler.h"
 #include "utils/logger.h"
 #include "utils/pii_detection_engine.h"
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
@@ -32,6 +33,7 @@ ClassificationApiHandler::ClassificationApiHandler(std::shared_ptr<themis::utils
 
 nlohmann::json ClassificationApiHandler::listRules() {
     try {
+    auto span = Tracer::startSpan("listRules");
         if (!pii_detector_) {
             THEMIS_WARN("Classification API: PIIDetector not initialized");
             return {
@@ -85,6 +87,7 @@ nlohmann::json ClassificationApiHandler::listRules() {
 
 nlohmann::json ClassificationApiHandler::testClassification(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("testClassification");
         if (!pii_detector_) {
             THEMIS_ERROR("Classification API: PIIDetector not initialized");
             return {

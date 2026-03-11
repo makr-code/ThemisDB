@@ -23,6 +23,7 @@
 #include "server/profiling_api_handler.h"
 #include <sstream>
 #include <algorithm>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -39,6 +40,7 @@ ProfilingApiHandler::ProfilingApiHandler(
 
 http::response<http::string_body> ProfilingApiHandler::handle_request(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_request");
     
     std::string target(req.target());
     auto method = req.method();
@@ -80,6 +82,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_request(
 
 http::response<http::string_body> ProfilingApiHandler::handle_enable(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_enable");
     
     query_profiler_->enable();
     storage_profiler_->enable();
@@ -94,6 +97,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_enable(
 
 http::response<http::string_body> ProfilingApiHandler::handle_disable(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_disable");
     
     query_profiler_->disable();
     storage_profiler_->disable();
@@ -108,6 +112,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_disable(
 
 http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_get_queries");
     
     int limit = get_query_param_int(std::string(req.target()), "limit", 100);
     
@@ -133,6 +138,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_queries(
 
 http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_get_slow_queries");
     
     int threshold_ms = get_query_param_int(std::string(req.target()), "threshold_ms", 1000);
     
@@ -149,6 +155,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_slow_queries(
 
 http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_get_storage");
     
     json result = {
         {"operation_summary", storage_profiler_->get_operation_summary()},
@@ -166,6 +173,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
 
 http::response<http::string_body> ProfilingApiHandler::handle_analyze(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_analyze");
     
     auto analysis = analyzer_->analyze(*query_profiler_, *storage_profiler_);
     
@@ -174,6 +182,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_analyze(
 
 http::response<http::string_body> ProfilingApiHandler::handle_export(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_export");
     
     auto query_profiles = query_profiler_->get_all_profiles();
     auto storage_stats = storage_profiler_->get_rocksdb_stats_history();
@@ -200,6 +209,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_export(
 
 http::response<http::string_body> ProfilingApiHandler::handle_clear(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_clear");
     
     query_profiler_->clear();
     storage_profiler_->clear();
@@ -214,6 +224,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_clear(
 
 http::response<http::string_body> ProfilingApiHandler::handle_get_config(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_get_config");
     
     auto query_config = query_profiler_->get_config();
     auto storage_config = storage_profiler_->get_config();
@@ -245,6 +256,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_get_config(
 
 http::response<http::string_body> ProfilingApiHandler::handle_set_config(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handle_set_config");
     
     try {
         json body = json::parse(req.body());
@@ -306,6 +318,7 @@ http::response<http::string_body> ProfilingApiHandler::handle_set_config(
 
 http::response<http::string_body> ProfilingApiHandler::make_response(
     http::status status, const json& body) {
+    auto span = Tracer::startSpan("make_response");
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -317,6 +330,7 @@ http::response<http::string_body> ProfilingApiHandler::make_response(
 
 http::response<http::string_body> ProfilingApiHandler::make_error_response(
     http::status status, const std::string& message) {
+    auto span = Tracer::startSpan("make_error_response");
     
     json error = {
         {"error", message}

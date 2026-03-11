@@ -61,8 +61,6 @@
 
 **Erwartet:** Sprachpakete aus `config/ai_ml/tesseract_lang/` laden; Standard `eng`; konfigurierbar pro Collection.
 
-**Beobachtet:** `config_.data_dir` ist benutzergesteuert ohne Default-Konvention; kein Rückfall auf `config/ai_ml/tesseract_lang/`.
-
 **Behoben:** `runTesseract()` in `ocr_processor.cpp` verwendet nun `ConfigPathResolver::tryResolve("config/ai_ml/tesseract_lang")`, wenn `config_.data_dir` leer ist. Existiert das Verzeichnis, wird es als Tessdata-Pfad gesetzt; andernfalls greift der Tesseract-Auto-Detect-Mechanismus (nullptr). Die Sprachpräferenz bleibt `"eng"` als Standard, sofern nicht pro Collection überschrieben. Der Pfad `config/tesseract_lang` wurde als Legacy-Mapping zu `config/ai_ml/tesseract_lang` in `ConfigPathResolver::PATH_MAPPING` und `METADATA_TABLE` eingetragen. Das Verzeichnis `config/ai_ml/tesseract_lang/` wurde mit einer `README.md` angelegt, die Konventionen für die Installation zusätzlicher Sprachpakete dokumentiert.
 
 **Auswirkung:** Konsistentes Deployment; Betreiber müssen den Pfad nicht mehr manuell konfigurieren. Override pro Collection möglich über `OcrProcessor::Config::data_dir`.

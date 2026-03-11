@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <spdlog/spdlog.h>
+#include "utils/tracing.h"
 
 using nlohmann::json;
 
@@ -47,6 +48,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
     filtered.reserve(all_policies.size());
     
     for (const auto& policy : all_policies) {
+    auto span = Tracer::startSpan("listPolicies");
         bool matches = true;
         
         // Name filter (substring match)
@@ -92,6 +94,7 @@ json RetentionApiHandler::listPolicies(const RetentionQueryFilter& filter) {
 
 json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
     try {
+    auto span = Tracer::startSpan("createOrUpdatePolicy");
         auto policy = jsonToPolicy(policy_json);
         
         // Check if policy already exists
@@ -122,6 +125,7 @@ json RetentionApiHandler::createOrUpdatePolicy(const json& policy_json) {
 
 json RetentionApiHandler::deletePolicy(const std::string& policy_name) {
     if (!retention_manager_->removePolicy(policy_name)) {
+    auto span = Tracer::startSpan("deletePolicy");
         return json{
             {"status", "error"},
             {"error", "Policy not found or could not be deleted"}
@@ -141,6 +145,7 @@ json RetentionApiHandler::getHistory(size_t limit) {
     
     json items = json::array();
     for (const auto& action : actions) {
+    auto span = Tracer::startSpan("getHistory");
         items.push_back(actionToJson(action));
     }
     
@@ -155,6 +160,7 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
     auto stats = retention_manager_->getPolicyStats(policy_name);
     
     return json{
+    auto span = Tracer::startSpan("getPolicyStats");
         {"policy_name", policy_name},
         {"total_scanned", stats.total_entities_scanned},
         {"archived", stats.archived_count},
@@ -169,6 +175,7 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
 
 json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPolicy& policy) {
     return json{
+    auto span = Tracer::startSpan("policyToJson");
         {"name", policy.name},
         {"retention_period_days", policy.retention_period.count() / 86400},
         {"archive_after_days", policy.archive_after.count() / 86400},
@@ -222,6 +229,7 @@ json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAct
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S", &tm);
     
     json result = json{
+    auto span = Tracer::startSpan("actionToJson");
         {"entity_id", action.entity_id},
         {"action", action.action},
         {"policy_name", action.policy_name},

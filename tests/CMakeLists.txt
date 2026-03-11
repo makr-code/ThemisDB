@@ -4431,6 +4431,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_tracing.cpp")
     message(STATUS "  Distributed Tracing: span lifecycle, child spans, error recording, W3C propagation")
 endif()
 
+# OpenTelemetry API-path tracing tests (all major API paths)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_api_tracing.cpp")
+    message(STATUS "Adding OpenTelemetry API-path tracing tests")
+    add_executable(test_otel_api_tracing test_otel_api_tracing.cpp)
+    target_link_libraries(test_otel_api_tracing PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        CURL::libcurl
+    )
+    target_compile_definitions(test_otel_api_tracing PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelApiTracingTests COMMAND test_otel_api_tracing)
+    set_tests_properties(OtelApiTracingTests PROPERTIES
+        LABELS "api;tracing;otel;distributed;spans;integration;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OTel API Tracing: span names, attributes, W3C propagation, OtlpExporter, TracingMiddleware")
+endif()
+
 # Phase 2 – Sampling strategy unit tests (replaces stub)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
     message(STATUS "Adding Sampling Strategy tests (Phase 2)")
@@ -10656,6 +10677,15 @@ add_network_focused_test(
     "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
 )
 
+# --- Wire Protocol Backpressure / TCP Backlog Management ---
+add_network_focused_test(
+    test_wire_protocol_backpressure_focused
+    test_wire_protocol_backpressure.cpp
+    WireProtocolBackpressureFocusedTests
+    "network;wire-protocol;backpressure;tcp-backlog;connection-limit;overload;focused;unit"
+    "WireProtocolBackpressure: tcp_backlog default/custom, max_connections enforcement, overloaded_ state transitions, recovery logging, rejected_connections stats"
+)
+
 # --- Wire Protocol IPv6 Support ---
 add_network_focused_test(
     test_wire_protocol_ipv6_focused
@@ -11297,6 +11327,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_exemplar.cpp")
     message(STATUS "  MetricsExemplar: Exemplar struct, observeHistogramWithExemplar, inline p99 exemplar export")
 else()
     message(STATUS "MetricsExemplar focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_exemplar.cpp")
+endif()
+
+# MetricsAggregation focused tests (Prometheus advanced features: rate, histogram, cardinality)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_aggregation.cpp")
+    message(STATUS "Adding Observability: MetricsAggregation focused tests (Prometheus advanced features)")
+
+    add_executable(test_metrics_aggregation_focused
+        test_metrics_aggregation.cpp
+    )
+
+    target_include_directories(test_metrics_aggregation_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metrics_aggregation_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metrics_aggregation_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsAggregationFocusedTests COMMAND test_metrics_aggregation_focused)
+
+    set_tests_properties(MetricsAggregationFocusedTests PROPERTIES
+        LABELS "observability;metrics;aggregation;rate;histogram;cardinality;prometheus;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  MetricsAggregation: rate calculation, histogram aggregation, rule-based aggregation, cardinality limits")
+else()
+    message(STATUS "MetricsAggregation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_aggregation.cpp")
 endif()
 
 # AlertRules tests (Issue #2025)

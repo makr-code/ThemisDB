@@ -23,6 +23,7 @@
 #include "server/snapshot_api_handler.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -62,6 +63,7 @@ void SnapshotApiHandler::registerRoutes(httplib::Server& server) {
 
 void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleCreateTag");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -94,6 +96,7 @@ void SnapshotApiHandler::handleCreateTag(const httplib::Request& req, httplib::R
 
 void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleListTags");
         // Parse query parameters
         size_t limit = 0;
         if (req.has_param("limit")) {
@@ -134,6 +137,7 @@ void SnapshotApiHandler::handleListTags(const httplib::Request& req, httplib::Re
 
 void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetTag");
         // Extract tag name from URL
         std::string tag_name = req.matches[1];
         
@@ -154,6 +158,7 @@ void SnapshotApiHandler::handleGetTag(const httplib::Request& req, httplib::Resp
 
 void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleDeleteTag");
         // Extract tag name from URL
         std::string tag_name = req.matches[1];
         
@@ -177,6 +182,7 @@ void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::R
 
 void SnapshotApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetStats");
         auto stats = snapshot_manager_.getStats();
         sendJson(res, stats.toJson());
     } catch (const std::exception& e) {

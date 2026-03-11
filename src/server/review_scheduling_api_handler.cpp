@@ -23,6 +23,7 @@
 #include "server/review_scheduling_api_handler.h"
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -42,6 +43,7 @@ ReviewSchedulingApiHandler::ReviewSchedulingApiHandler(
 http::response<http::string_body> ReviewSchedulingApiHandler::handleListPendingReviews(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListPendingReviews");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -76,6 +78,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleCreateReview
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleCreateReview");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -117,6 +120,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleApproveRevie
     const http::request<http::string_body>& req,
     const std::string& review_id
 ) {
+    auto span = Tracer::startSpan("handleApproveReview");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 
@@ -154,6 +158,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleRejectReview
     const http::request<http::string_body>& req,
     const std::string& review_id
 ) {
+    auto span = Tracer::startSpan("handleRejectReview");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 
@@ -191,6 +196,7 @@ http::response<http::string_body> ReviewSchedulingApiHandler::handleGetExpiratio
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleGetExpiration");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);

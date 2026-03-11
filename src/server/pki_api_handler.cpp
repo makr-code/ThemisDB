@@ -23,6 +23,7 @@
 #include "server/pki_api_handler.h"
 #include "utils/logger.h"
 #include <openssl/sha.h>
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
@@ -73,6 +74,7 @@ PkiApiHandler::PkiApiHandler(std::shared_ptr<SigningService> signing_service,
 
 nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("sign");
         if (!signing_service_) {
             THEMIS_ERROR("PKI API: Signing service not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["status_code"] = 503; return j;
@@ -100,6 +102,7 @@ nlohmann::json PkiApiHandler::sign(const std::string& key_id, const nlohmann::js
 
 nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("verify");
         if (!signing_service_) {
             THEMIS_ERROR("PKI API: Signing service not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["status_code"] = 503; return j;
@@ -127,6 +130,7 @@ nlohmann::json PkiApiHandler::verify(const std::string& key_id, const nlohmann::
 
 nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("hsmSign");
         if (!hsm_provider_) {
             THEMIS_ERROR("PKI API: HSM provider not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "HSM not configured"; j["status_code"] = 503; return j;
@@ -160,6 +164,7 @@ nlohmann::json PkiApiHandler::hsmSign(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::hsmListKeys() {
     try {
+    auto span = Tracer::startSpan("hsmListKeys");
         if (!hsm_provider_) {
             THEMIS_ERROR("PKI API: HSM provider not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "HSM not configured"; j["status_code"] = 503; return j;
@@ -197,6 +202,7 @@ nlohmann::json PkiApiHandler::hsmListKeys() {
 
 nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("getTimestamp");
         if (!tsa_) {
             THEMIS_ERROR("PKI API: TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "TSA not configured"; j["status_code"] = 503; return j;
@@ -229,6 +235,7 @@ nlohmann::json PkiApiHandler::getTimestamp(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("verifyTimestamp");
         if (!tsa_) {
             THEMIS_ERROR("PKI API: TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "TSA not configured"; j["status_code"] = 503; return j;
@@ -261,6 +268,7 @@ nlohmann::json PkiApiHandler::verifyTimestamp(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("eidasSign");
         if (!hsm_provider_ || !tsa_) {
             THEMIS_ERROR("PKI API: HSM or TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "eIDAS signing requires HSM and TSA"; j["status_code"] = 503; return j;
@@ -310,6 +318,7 @@ nlohmann::json PkiApiHandler::eidasSign(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
     try {
+    auto span = Tracer::startSpan("eidasVerify");
         if (!hsm_provider_ || !tsa_) {
             THEMIS_ERROR("PKI API: HSM or TSA not initialized");
             nlohmann::json j; j["error"] = "Service Unavailable"; j["message"] = "eIDAS verification requires HSM and TSA"; j["status_code"] = 503; return j;
@@ -363,6 +372,7 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::listCertificates() {
     try {
+    auto span = Tracer::startSpan("listCertificates");
         nlohmann::json certs_array = nlohmann::json::array();
 
         if (hsm_provider_) {
@@ -396,6 +406,7 @@ nlohmann::json PkiApiHandler::listCertificates() {
 
 nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
     try {
+    auto span = Tracer::startSpan("getCertificate");
         if (!hsm_provider_) {
             return {{"error","Service Unavailable"},{"message","HSM provider not configured"},{"status_code",503}};
         }
@@ -434,6 +445,7 @@ nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
 
 nlohmann::json PkiApiHandler::getStatus() {
     try {
+    auto span = Tracer::startSpan("getStatus");
         nlohmann::json status = {
             {"signing_service", signing_service_ ? "available" : "unavailable"},
             {"hsm", hsm_provider_ ? "available" : "unavailable"},
