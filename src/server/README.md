@@ -1,5 +1,7 @@
 # ThemisDB Server Module
 
+**Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
+
 ## Module Purpose
 
 The Server module provides ThemisDB's complete API surface, network protocol implementations, and client-facing services. Built on Boost.Beast and Boost.Asio, it handles HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, and gRPC, exposing a comprehensive REST API with 40+ specialized endpoints for multi-model data operations, governance, and observability.
@@ -1328,6 +1330,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned server improvements
 - [Core Module](../core/README.md) - Dependency injection and concerns
 - [Storage Module](../storage/README.md) - Data persistence layer
+- [docs/de/server/README.md](../../docs/de/server/README.md) - German secondary documentation (Übersicht, Komponenten, Protokolle)
+- [docs/de/server/missing-implementations.md](../../docs/de/server/missing-implementations.md) - Reality-check findings (March 2026)
 
 ## Scientific References
 

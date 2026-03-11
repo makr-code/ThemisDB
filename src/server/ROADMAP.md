@@ -15,7 +15,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC services for high-performance RPC
 - [x] API Gateway (routing, versioning, load balancing)
 - [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Rate limiting (token bucket, sliding window) — node-local only; cluster-wide Redis backend planned for v1.6.0 (see Planned Features)
 - [x] Load shedding and circuit breaking
 - [x] Server-Sent Events (SSE) for changefeeds
 - [x] Multi-tenancy with tenant isolation
@@ -94,7 +94,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC services for high-performance RPC
 - [x] API Gateway (routing, versioning, load balancing)
 - [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Rate limiting (token bucket, sliding window) — node-local; Redis distributed backend planned v1.6.0
 - [x] Load shedding and circuit breaking
 - [x] Server-Sent Events (SSE) for changefeeds
 - [x] Multi-tenancy with tenant isolation
@@ -127,7 +127,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Integration tests (all 40+ endpoints, TLS, auth, rate limiting) — unified suite added in `tests/test_server_integration_complete.cpp` (111 tests, 6 sub-suites): live server auth enforcement (401 without/with invalid Bearer, non-401 with valid token), `RateLimitingMiddleware` token-bucket exhaustion + whitelist + endpoint overrides + stats + concurrency, legacy `RateLimiter` blacklist + anomaly-detection + per-user limits, `HttpServer::Config` completeness (HTTP/2, HTTP/3, WebSocket, feature flags, timeouts, connection limits), live server rate-limit enforcement via `X-Forwarded-For` (429 after bucket exhausted, whitelist bypass, `Retry-After` header), and 25+ additional endpoint-breadth tests; existing per-feature suites (`test_api_integration.cpp`, `test_http_audit.cpp`, `test_http_timeseries.cpp`, `test_http_vector.cpp`, `test_http_changefeed*.cpp`, `bench_api_endpoints.cpp`, `stress_test_wire_vs_http.sh`) complement the coverage
 - [x] Performance benchmarks (req/sec, p99 latency, concurrent connections) — `benchmarks/bench_api_endpoints.cpp` (634 lines, 14 micro-benchmarks: GraphQL parse/execute, JSON serialisation, correlation-ID overhead, REST roundtrip latency); `benchmarks/stress_test_wire_vs_http.sh` measures peak throughput under 1–500 concurrent clients; documented targets: 50K–200K req/sec, p50 < 5 ms, p99 < 50 ms
 - [x] Security audit (header injection, CORS misconfiguration, DoS vectors) — CORS fully implemented: `cors_allowed_origins_` / `cors_allow_all_` / `cors_allow_credentials_` / `cors_allowed_methods_` in `http_server.h`; `cors_allow_origin` in `grpc_web_proxy_handler.h`; header injection mitigated via `sanitize_filename_part` in `export_api_handler.cpp`; DoS protection via `RateLimiter` (http_server.h:936, initialised in http_server.cpp:1280) and configurable `max_request_size_mb` body limit
-- [x] Documentation complete — `include/server/README.md` (817 lines), `src/server/README.md` (1 342 lines), `docs/de/server/README.md` (130 lines, German), `src/server/ARCHITECTURE.md`, `src/server/FUTURE_ENHANCEMENTS.md`, `include/server/FUTURE_ENHANCEMENTS.md`, `src/server/rpc/README.md`; all public API handlers and configuration options documented
+- [x] Documentation complete — `include/server/README.md` (817 lines), `src/server/README.md` (1 342 lines), `docs/de/server/README.md` (276 lines, German, validated 2026-03-10), `src/server/ARCHITECTURE.md`, `src/server/FUTURE_ENHANCEMENTS.md` (with IEEE references), `include/server/FUTURE_ENHANCEMENTS.md`, `src/server/rpc/README.md`, `docs/de/server/missing-implementations.md`; all public API handlers and configuration options documented
 - [x] API stability guaranteed — REST `/api/v1/` path versioning enforced; `v2` prefix introduced for breaking changes; deprecation headers and `Sunset` dates emitted by versioning middleware; gRPC `.proto` definitions stable (no breaking field removals planned); MCP server protocol tracks upstream spec; see §Breaking Changes below
 
 ## Known Issues & Limitations
