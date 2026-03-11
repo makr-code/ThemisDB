@@ -34,6 +34,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [x] Integration with config validation (JSON Schema / YAML schema) via `ConfigSchemaValidator` — validates YAML/JSON config files against JSON Schema Draft 7 subset (Issue: #1666)
+- [x] `$ref` and `$defs` resolution in `ConfigSchemaValidator` — document-internal `$ref` with JSON Pointer (RFC 6901) walk; supports `$defs` (Draft 2019-09) and `definitions` (Draft 4/6/7); cycle detection; SSRF guard rejects external URI refs (Issue: #3742)
 
 ## Implementation Phases
 
@@ -61,7 +62,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 160 lines), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate) (Issue: #1674)
+- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 160 lines, including `$ref`/`$defs` tests), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate) (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
 - [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675); migration scanner throughput (10K files < 5 s) — `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K)
 - [x] Security audit (path traversal prevention, symlink escape hardening)
