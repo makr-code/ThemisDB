@@ -1386,6 +1386,8 @@ set(THEMIS_NETWORK_SOURCES
     # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
     ../src/observability/tracer.cpp
     ../src/observability/log_aggregator.cpp
+    # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
+    ../src/observability/metric_aggregator.cpp
 )
 
 set(THEMIS_GEO_SOURCES
