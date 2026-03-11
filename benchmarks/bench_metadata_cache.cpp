@@ -62,6 +62,7 @@
 #include <random>
 #include <atomic>
 #include <chrono>
+#include <mutex>
 
 using namespace themis;
 namespace fs = std::filesystem;
@@ -502,26 +503,26 @@ BENCHMARK(BM_MetadataCache_AdaptiveTTL)
  * a shared_mutex for its cache, so readers run fully in parallel once the cache
  * is warm.
  *
- * state.range(0) = number of threads.
+ * state.range(0) is not used; thread count is controlled via Threads().
  * Target: > 200 K ops/sec at 8 threads.
  */
 static void BM_MetadataCache_ConcurrentReads(benchmark::State& state) {
-    // Use thread count from range; Google Benchmark controls thread count via
-    // Threads() when the benchmark is registered, but we also accept a direct
-    // Arg so the same function can report individual data points.
-    static MetadataBenchFixture* shared_fixture = nullptr;
-    static SchemaManager*        shared_sm      = nullptr;
+    // Shared state: initialised exactly once across all thread variants via
+    // std::call_once, which provides the memory-ordering guarantee required
+    // to avoid the data race that would occur with a plain `if (thread_index == 0)` guard.
+    static std::once_flag                         s_init_flag;
+    static MetadataBenchFixture*                  s_fixture = nullptr;
+    static SchemaManager*                         s_sm      = nullptr;
 
-    // One-time setup (all threads share the same fixture via static storage).
-    if (state.thread_index() == 0) {
+    std::call_once(s_init_flag, []() {
         static MetadataBenchFixture fix(50, /*rows=*/10, "concurrent");
         static auto sm_owner = fix.makeWarmSchemaManager();
-        shared_fixture = &fix;
-        shared_sm      = sm_owner.get();
-    }
+        s_fixture = &fix;
+        s_sm      = sm_owner.get();
+    });
 
     for (auto _ : state) {
-        auto tables = shared_sm->getAllTables();
+        auto tables = s_sm->getAllTables();
         benchmark::DoNotOptimize(tables.size());
         benchmark::ClobberMemory();
     }
