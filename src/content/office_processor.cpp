@@ -1030,6 +1030,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
 
     result.text = extracted_text;
     result.metadata["token_count"] = countTokens(extracted_text);
+    result.metadata["size_bytes"] = blob.size();
     result.ok = true;
     return result;
 

@@ -16,6 +16,7 @@
 - [x] Embedding generation pipeline (text → vector embeddings) (Issue: #1691)
 - [x] PDF text extraction (poppler-cpp, `pdf_processor.cpp`) (Issue: #1681)
 - [x] Office document text extraction — OOXML/ODF via libzip+pugixml (`office_processor.cpp`) (Issue: #1694)
+- [x] Legacy Office text extraction — DOC/XLS/PPT via LibreOffice headless fallback (`office_processor.cpp`) (CON-001)
 - [x] HTML content extraction with boilerplate removal (`html_processor.cpp`) (Issue: #1682)
 - [x] Markdown processing and frontmatter parsing (`markdown_processor.cpp`) (Issue: #1683)
 - [x] Audio metadata extraction (`audio_processor.cpp`) (Issue: #1679)
@@ -46,11 +47,10 @@
   - Outputs: keyframe images + scene boundary timestamps
   - Constraints: FFmpeg optional (`THEMIS_ENABLE_FFMPEG`); graceful stub without FFmpeg
   - Target: Q4 2026
-- [ ] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` (CON-001) (Target: Q3 2026)
+- [x] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` (CON-001)
   - Inputs: `.doc`, `.xls`, `.ppt` via OLE/Compound Document
-  - Constraints: `posix_spawn` with restricted OS user; 30 s timeout; no `system()` call
-  - Security: runs under restricted user with no write access to ThemisDB data directory
-  - Target: Q3 2026
+  - Implementation: `office_processor.cpp::extractLegacyViaLibreOffice()` — `posix_spawn` (no `system()`); 30 s timeout with SIGTERM→SIGKILL escalation; `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`+`POSIX_SPAWN_SETSIGDEF`; RAII temp-file cleanup; full 8-byte OLE header validation; minimal sandboxed environment (`HOME=tmpdir`)
+  - Tests: `tests/test_office_processor.cpp` — `LegacyOfficeExtractionTest` (11 tests), `LegacyOfficeMetricsTest`
 - [ ] MimeDetector-triggered OCR activation via ContentPolicy::ocrEnabled() (CON-002) (Target: Q3 2026)
 - [ ] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
 - [ ] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005) (Target: Q4 2026)
@@ -110,7 +110,7 @@
   - Embedding batch (32 docs, 384-dim, CPU): < 50 ms
 - [x] Zip-bomb protection in `archive_processor.cpp` — max 100× decompression ratio, max 1 000 extracted files (CON-006)
 - [ ] Back-pressure for `ingestStream()` when `max_queue_depth` is exceeded (CON-005) (Target: Q4 2026)
-- [ ] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` via `posix_spawn` (CON-001) (Target: Q3 2026)
+- [x] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` via `posix_spawn` (CON-001)
 - [ ] OCR DPI pre-processing: rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
 - [ ] MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` (CON-002) (Target: Q3 2026)
 
@@ -131,7 +131,6 @@
 - [x] API stability guaranteed for ingestion pipeline
 
 ## Known Issues & Limitations
-- Legacy Office formats (DOC/XLS/PPT via OLE/Compound Document) not fully supported; OOXML (DOCX/XLSX/PPTX) and ODF are handled (CON-001)
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
 - OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); MimeDetector-triggered OCR routing and DPI pre-processing not yet implemented (CON-002, CON-003; see `docs/de/content/missing-implementations.md`)
 - OCR language-pack data directory not defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
