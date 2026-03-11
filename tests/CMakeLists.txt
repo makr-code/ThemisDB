@@ -279,6 +279,8 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_security\\.cpp$"
         # test_ingestion_manager_adapter uses content/async_ingestion_worker.h
         ".*test_ingestion_manager_adapter\\.cpp$"
+        # test_async_ingestion_backpressure uses AsyncIngestionWorker + ContentManager (CON-005)
+        ".*test_async_ingestion_backpressure\\.cpp$"
     )
 endif()
 
