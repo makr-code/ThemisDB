@@ -79,6 +79,8 @@ class DeleteRequest;
 class BatchGetRequest;
 class BatchPutRequest;
 class QueryRequest;
+class CursorNextRequest;
+class CursorCloseRequest;
 class TransactionBeginRequest;
 class TransactionCommitRequest;
 class TransactionAbortRequest;
@@ -220,6 +222,8 @@ private:
     void handle_batch_get(const v1::BatchGetRequest& req);
     void handle_batch_put(const v1::BatchPutRequest& req);
     void handle_query_aql(const v1::QueryRequest& req);
+    void handle_cursor_next(const v1::CursorNextRequest& req);
+    void handle_cursor_close(const v1::CursorCloseRequest& req);
     void handle_transaction_begin(const v1::TransactionBeginRequest& req);
     void handle_transaction_commit(const v1::TransactionCommitRequest& req);
     void handle_transaction_abort(const v1::TransactionAbortRequest& req);

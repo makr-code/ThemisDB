@@ -713,7 +713,10 @@ void WireProtocolServer::Session::handleMessage() {
         case 0x01: // HELLO
             handleHello();
             break;
-        case 0x03: // AUTH_REQUEST
+        case 0x03: // AUTH legacy opcode: historically used by clients to send credentials
+            // Fall through: both 0x03 and 0x04 use the same credential-validation logic.
+            [[fallthrough]];
+        case 0x04: // AUTH_RESPONSE (Client→Server per wire protocol spec v1.3.0)
             handleAuthRequest();
             break;
         case 0x10: // GET
@@ -733,6 +736,12 @@ void WireProtocolServer::Session::handleMessage() {
             break;
         case 0x20: // QUERY_AQL
             handleQuery();
+            break;
+        case 0x23: // CURSOR_NEXT
+            handleCursorNext();
+            break;
+        case 0x24: // CURSOR_CLOSE
+            handleCursorClose();
             break;
         case 0x30: // TRANSACTION_BEGIN
             handleTransactionBegin();
@@ -1480,6 +1489,77 @@ void WireProtocolServer::Session::handleQuery() {
         sendError(400, std::string("Invalid JSON in QUERY payload: ") + e.what());
     } catch (const std::exception& e) {
         sendError(0x0007, std::string("QUERY error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleCursorNext() {
+    // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
+    // Expected payload (JSON): {"cursor_id": "...", "batch_size": 100}
+    // NOTE: Cursor-based streaming requires the AQL engine integration, which is
+    // not yet connected to the wire protocol.  Clients should use the HTTP REST
+    // API GET /api/v1/cursor/{cursor_id}.
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string cursor_id = request.value("cursor_id", "");
+
+        if (cursor_id.empty()) {
+            sendError(400, "Missing 'cursor_id' in CURSOR_NEXT request");
+            return;
+        }
+
+        json response;
+        response["success"] = false;
+        response["error_code"] = "CURSOR_NOT_INTEGRATED";
+        response["error"] = "Cursor pagination is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint GET /api/v1/cursor/" + cursor_id + " instead.";
+        response["cursor_id"] = cursor_id;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in CURSOR_NEXT payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("CURSOR_NEXT error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleCursorClose() {
+    // CURSOR_CLOSE: close an open AQL query cursor and free server-side resources.
+    // Expected payload (JSON): {"cursor_id": "..."}
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    try {
+        json request = parsePayloadJson(payload_buffer_);
+        std::string cursor_id = request.value("cursor_id", "");
+
+        if (cursor_id.empty()) {
+            sendError(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
+            return;
+        }
+
+        json response;
+        response["success"] = false;
+        response["error_code"] = "CURSOR_NOT_INTEGRATED";
+        response["error"] = "Cursor management is not yet integrated in the wire protocol. "
+                            "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" + cursor_id + " instead.";
+        response["cursor_id"] = cursor_id;
+
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON in CURSOR_CLOSE payload: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(0x0007, std::string("CURSOR_CLOSE error: ") + e.what());
     }
 }
 

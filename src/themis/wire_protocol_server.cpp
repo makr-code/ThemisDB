@@ -424,6 +424,22 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("QueryRequest");
                     break;
                 }
+                case OpCode::OP_CURSOR_NEXT: {
+                    v1::CursorNextRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_cursor_next(req);
+                    else
+                        on_parse_fail("CursorNextRequest");
+                    break;
+                }
+                case OpCode::OP_CURSOR_CLOSE: {
+                    v1::CursorCloseRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_cursor_close(req);
+                    else
+                        on_parse_fail("CursorCloseRequest");
+                    break;
+                }
                 case OpCode::OP_TRANSACTION_BEGIN: {
                     v1::TransactionBeginRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
@@ -785,6 +801,41 @@ void WireProtocolSession::handle_query_aql(const v1::QueryRequest& req) {
     send_error(501,
         "AQL query execution is not yet integrated in the protobuf wire protocol. "
         "Use the HTTP REST API endpoint POST /api/v1/query instead.");
+}
+
+void WireProtocolSession::handle_cursor_next(const v1::CursorNextRequest& req) {
+    // CURSOR_NEXT: fetch the next batch of results from an open AQL query cursor.
+    // Requires authentication; validates cursor_id field.
+    // Cursor-based streaming is not yet integrated in the protobuf wire protocol.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.cursor_id().empty()) {
+        send_error(400, "Missing 'cursor_id' in CURSOR_NEXT request");
+        return;
+    }
+    send_error(501,
+        "Cursor pagination is not yet integrated in the protobuf wire protocol. "
+        "Use the HTTP REST API endpoint GET /api/v1/cursor/" +
+        sanitizeForMessage(req.cursor_id()) + " instead.");
+}
+
+void WireProtocolSession::handle_cursor_close(const v1::CursorCloseRequest& req) {
+    // CURSOR_CLOSE: close an open AQL query cursor and release server-side resources.
+    // Requires authentication; validates cursor_id field.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.cursor_id().empty()) {
+        send_error(400, "Missing 'cursor_id' in CURSOR_CLOSE request");
+        return;
+    }
+    send_error(501,
+        "Cursor management is not yet integrated in the protobuf wire protocol. "
+        "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" +
+        sanitizeForMessage(req.cursor_id()) + " instead.");
 }
 
 void WireProtocolSession::handle_vector_search(
