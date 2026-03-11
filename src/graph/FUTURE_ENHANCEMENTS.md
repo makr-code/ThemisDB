@@ -937,6 +937,144 @@ Key properties:
 
 ---
 
+## Scheduled Semantic Graph Edge Refresh
+
+**Status:** 🚧 Beta — Core engine, safety gates, audit trail, anomaly detection, and ChangeFeed integration complete.  ANN/GNN candidate discovery and CEP event emission are planned (Target: Q1 2027).
+
+**Issue:** #FEATURE/ScheduledGraphEdgeRefresh  
+**Files:** `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`  
+**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (45+ tests)  
+**Docs:** `docs/scheduled_edge_refresh.md`, `docs/de/scheduled_edge_refresh.md`
+
+### Background & State of the Art
+
+Keeping a graph semantically current as the underlying data evolves is a well-studied problem. The key research areas that inform this feature are:
+
+| Research Area | Approach | Relevance to ThemisDB |
+|---|---|---|
+| Dynamic Graph Maintenance (Brandes, 2008) | Incremental edge updates based on betweenness centrality | Analytics module already exposes centrality; `centrality_weight` in `EdgeScore` |
+| STGCN (Yu et al., 2017) | Spatio-temporal GNN embeddings for evolving graphs | GNN embeddings available via `graph/gnn_embeddings.cpp`; used as `NodeEmbeddingProvider` |
+| Incremental Materialized Views (Maccioni et al., 2015) | Maintain derived graph state incrementally | `analytics/incremental_view.cpp` follows this pattern |
+| Adaptive Graph Sampling (Leskovec & Faloutsos, 2006) | Smart edge sampling during refresh to reduce cost | Informs `top_k_candidates` and brute-force-vs-ANN threshold |
+| Temporal Graph Evolution (Leskovec et al., 2008) | Exponential decay of edge relevance over time | `temporal_factor = 2^(−age / half_life)` in `computeTemporalDecay()` |
+| Link Prediction via Embeddings (Hamilton et al., 2017) | Cosine/dot-product similarity in embedding space for candidate edges | `SimilarityMetric::COSINE / DOT_PRODUCT / EUCLIDEAN` in `computeSimilarity()` |
+
+### Scope
+
+- **Inputs:** Existing property graph with node embedding vectors (GNN index or user-supplied `NodeEmbeddingProvider` callback); `RefreshPolicy` configuration.
+- **Outputs:**
+  - Low-relevance edges removed (relevance = `similarity × temporal_factor × centrality_weight < relevance_threshold`)
+  - New high-similarity edges added (top-k ANN candidates per node above `add_threshold`)
+  - `RefreshStats` with per-cycle metrics (edges evaluated / removed / added, cycle duration, removal rate, anomaly flag)
+  - Bounded in-memory audit trail (`RefreshAuditEntry`, max 10,000 entries)
+  - Optional `Changefeed` events (`EVENT_PUT` / `EVENT_DELETE` keyed `graph_edge_refresh:<edge_id>`)
+- **Frequency:** Configurable — time-based (`refresh_interval`), event-triggered (`triggerRefresh()`), or adaptive (caller-driven).
+- **Graph size targets:** Brute-force similarity for ≤ 10,000 nodes; ANN (HNSW via `acceleration` module) for larger graphs (planned, Target: Q1 2027).
+
+### Design Constraints
+
+- [ ] `RefreshPolicy` fields validated at construction; out-of-range values throw `std::invalid_argument` (no silent defaults after construction)
+- [ ] `max_removal_fraction` safety gate must abort the entire batch before any storage writes if violated — no partial mutations
+- [ ] All edge mutations (removals + additions) for a single cycle are committed as one `WriteBatchWrapper`; atomic at the RocksDB level
+- [ ] `anomaly_threshold_removal_rate = 0.0` disables anomaly detection (zero = off); enabling requires explicit opt-in
+- [ ] Background scheduler must not start concurrent cycles; `cycle_mutex_` serialises all `runRefreshCycle()` invocations
+- [ ] `setPolicy()` takes effect on the *next* cycle; a currently running cycle completes with the old policy
+- [ ] `NodeEmbeddingProvider` returning an empty vector is treated as "embedding unavailable" → similarity skipped → `similarity = 1.0`
+- [ ] Audit trail bounded at `kMaxAuditEntries = 10,000`; oldest entries evicted FIFO (no unbounded growth)
+- [ ] `Changefeed` attachment is optional; `recordEvent` failures are logged as warnings, never as errors that abort the cycle
+- [ ] ANN integration (planned) must produce identical *ranking order* as brute-force for the same graph and embeddings (deterministic top-k, tolerance ≤ 1e-4 on scores)
+
+### Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `GraphIndexManager::getAllEdges(graph_id)` | `collectEdges()` | Returns all edges scoped to `graph_id` (empty = all) |
+| `GraphIndexManager::getAllVertices(graph_id)` | `discoverCandidates()` | Needed for per-vertex top-k candidate enumeration |
+| `GraphIndexManager::getOutDegree(vertex_id)` | `scoreEdge()` | Used to compute `centrality_weight` |
+| `GraphIndexManager::edgeExists(from, to)` | `discoverCandidates()` | Prevents adding duplicate edges |
+| `GraphIndexManager::createWriteBatch()` | `applyBatch()` | Returns a `WriteBatchWrapper` for atomic multi-edge writes |
+| `GraphIndexManager::addEdge(entity, batch)` | `applyBatch()` | Batched insertion |
+| `GraphIndexManager::deleteEdge(id, batch)` | `applyBatch()` | Batched deletion |
+| `NodeEmbeddingProvider` (`std::function<std::vector<float>(std::string)>`) | `computeSimilarity()` | User-supplied; may be backed by GNN index or HNSW vector store |
+| `Changefeed::recordEvent(ChangeEvent)` | `appendAudit()` | Optional; CDC downstream consumers |
+| `acceleration::ANNIndex::knnSearch(query, k)` *(planned)* | `discoverCandidates()` | Replaces brute-force O(V·D) loop with O(log V·D) for large graphs |
+| `analytics::CEPEngine::emitEvent(pattern, payload)` *(planned)* | `applyBatch()` | Real-time edge mutation events for CEP rule matching |
+
+### Implementation Notes
+
+**Scoring model** (already implemented):
+```
+relevance = similarity × temporal_factor × centrality_weight
+```
+- `similarity`: cosine / dot-product / Euclidean between embedding vectors of edge endpoints.
+- `temporal_factor = 2^(−age_s / half_life_s)` where `age_s` is read from the edge's `_created_at` field. If absent or `half_life_s = 0`, factor = 1.0.
+- `centrality_weight = 1 / (1 + log(1 + out_degree))` — dampens hub nodes.
+
+**Candidate discovery** (brute-force, partially implemented):
+- For each vertex `v`, compute `similarity(embedding(v), embedding(u))` for all `u ≠ v`.
+- Keep the top-k pairs above `add_threshold` that do not already have an edge `v → u`.
+- **Planned upgrade:** replace with `acceleration::ANNIndex::knnSearch(embedding(v), top_k)` for graphs > 10,000 nodes. This reduces O(V²) to O(V · log V) per cycle.
+
+**CEP integration** (planned, Target: Q1 2027):
+- After `applyBatch()` succeeds, emit one `CEPEngine::ChangeEvent` per mutation into the configured CEP stream.
+- Pattern: `EDGE_REMOVED` / `EDGE_ADDED` with payload `{ edge_id, from, to, relevance_score, cycle_number }`.
+- Downstream CEP rules can react (e.g., alert on burst of removals, trigger reindexing on cluster-like additions).
+- This is additive to the existing `Changefeed` integration; both may be active simultaneously.
+
+**Scheduling strategies** (configurable via `RefreshPolicy`):
+| Strategy | How to configure | Best for |
+|---|---|---|
+| Time-based | `refresh_interval = std::chrono::seconds(N)` | Predictable, low-overhead background maintenance |
+| Manual only | `refresh_interval = std::chrono::seconds(0)` | Caller controls timing via `triggerRefresh()` |
+| Event-triggered | Caller calls `triggerRefresh()` after N mutations | Responsive; combine with change-log threshold |
+| Adaptive | External orchestrator observes `getStats().removal_rate` and adjusts interval | Self-optimising; suitable for variable data drift |
+
+### Test Strategy
+
+- **Unit tests** (45+ in `tests/graph/test_scheduled_edge_refresh.cpp`):
+  - `RefreshPolicy` validation (invalid thresholds throw `std::invalid_argument`)
+  - `computeSimilarity()` for COSINE, DOT_PRODUCT, EUCLIDEAN — exact float comparisons
+  - `computeTemporalDecay()` — half-life formula, absent `_created_at`, zero half-life
+  - `scoreEdge()` — combined relevance with all three factors
+  - Safety gate abort: `aborted_safety_gate = true` when removal fraction exceeded
+  - Full refresh cycle with removal and with addition
+  - Audit trail population after removal and addition
+  - `getStats()` after a completed cycle
+  - `start()` / `stop()` lifecycle with zero interval (manual-only mode)
+  - `setPolicy()` runtime update takes effect on next cycle
+  - Empty graph: graceful handling (no edges, no crash)
+  - Multiple cycles: `cycle_number` increments correctly
+  - Anomaly detection: `anomaly_high_removal_rate` flag set and logged
+  - ChangeFeed: `recordEvent()` called for each mutation with correct event type and metadata
+  - Large-graph integration: 100-node graph, cluster embeddings → correct add/remove behaviour
+  - Regression: stable graph (all edges above threshold) → zero mutations over multiple cycles
+- **Planned additional tests** (ANN/CEP integration):
+  - ANN top-k results match brute-force ranking for graphs of 50,000–500,000 nodes (score tolerance ≤ 1e-4)
+  - CEP events emitted in correct order and format; no events emitted when cycle is aborted by safety gate
+  - Concurrent `triggerRefresh()` + background scheduler: second call blocks until first cycle completes
+
+### Performance Targets
+
+- Single refresh cycle on a **10,000-node graph** (brute-force): ≤ 5 s wall time on a single core, ≤ 200 ms with 8 parallel scoring workers.
+- Single refresh cycle on a **1,000,000-node graph** (ANN, planned): ≤ 30 s wall time; top-k candidate discovery O(V · log V · D) where D = embedding dimension.
+- Audit trail `appendAudit()` overhead: < 1 µs per mutation (bounded ring buffer, no heap allocation on steady state).
+- `ChangeFeed::recordEvent()` path: < 5 µs per event (RocksDB single put).
+- Safety gate check: O(1) — computed as a fraction before any storage access.
+- Background scheduler wake-up jitter: < 50 ms from configured `refresh_interval` under normal system load.
+- Memory overhead per engine instance: < 10 MB for audit trail (10,000 entries × ~200 bytes/entry) + policy + stats.
+
+### Security / Reliability
+
+- `max_removal_fraction` safety gate (default 0.10) prevents runaway deletions from a misconfigured or adversarially crafted `NodeEmbeddingProvider`; the gate fires before any write is issued.
+- `NodeEmbeddingProvider` is user-supplied code; it must not be trusted to return well-formed vectors. `computeSimilarity()` defensively returns 0.0 for empty, mismatched-length, or NaN-containing vectors.
+- Audit trail eviction is FIFO and bounded; no unbounded memory growth regardless of cycle count.
+- `Changefeed::recordEvent()` exceptions are caught and logged as warnings; they never abort a refresh cycle or roll back committed mutations.
+- Batch commit failure is logged as an error; the cycle reports failure via `RefreshStats::last_error` without crashing the engine or stopping the background thread.
+- `setPolicy()` is thread-safe (protected by `policy_mutex_`); a concurrent `triggerRefresh()` sees either the old or the new policy consistently, never a partial mix.
+- ANN index integration (planned) must not read raw user data outside the configured `graph_id` scope; query is scoped to the same graph as the refresh cycle.
+
+---
+
 ## Community Requests
 
 Track user-requested features:
@@ -947,7 +1085,7 @@ Track user-requested features:
 
 ---
 
-*Last Updated: February 2026*  
+*Last Updated: March 2026*  
 *Next Review: Q3 2026*
 
 ## Test Strategy
