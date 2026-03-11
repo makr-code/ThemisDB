@@ -232,7 +232,7 @@ TEST_F(CloudStorageBackupTest, RestoreFromCloudInterfaceExists) {
  * 
  * This test validates that the scheduleBackup method:
  * 1. Accepts valid cron expression and backup type
- * 2. Returns a Result<std::string> containing schedule ID
+ * 2. Returns a Result<std::string> containing the schedule ID
  * 3. Validates cron expression format
  */
 TEST_F(CloudStorageBackupTest, ScheduleBackupInterfaceExists) {
@@ -246,9 +246,14 @@ TEST_F(CloudStorageBackupTest, ScheduleBackupInterfaceExists) {
         options
     );
     
-    // Should return a schedule ID or error
-    // This is a stub implementation, so should return error indicating not yet implemented
-    EXPECT_FALSE(result.has_value()) << "Schedule backup is stub, should return not implemented error";
+    // scheduleBackup uses an in-memory registry and should succeed with a valid schedule ID
+    ASSERT_TRUE(result.has_value()) << "scheduleBackup should succeed: " << (result.has_value() ? "" : result.error().message());
+    EXPECT_FALSE(result.value().empty()) << "Schedule ID should not be empty";
+    EXPECT_NE(result.value().find("sched_"), std::string::npos) << "Schedule ID should contain 'sched_' prefix";
+
+    // Cancel the schedule to clean up
+    auto cancel_result = backup_mgr_->cancelScheduledBackup(result.value());
+    EXPECT_TRUE(cancel_result.has_value()) << "cancelScheduledBackup should succeed for a valid schedule ID";
 }
 
 // ============================================================================

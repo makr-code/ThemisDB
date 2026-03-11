@@ -31,6 +31,7 @@
 #include <iomanip>
 #include <sstream>
 #include <algorithm>
+#include <mutex>
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
@@ -1434,30 +1435,75 @@ Result<std::string> BackupManager::scheduleBackup(
     THEMIS_INFO("scheduleBackup: cron={}, type={}, storage={}",
                 schedule_cron, backup_type,
                 static_cast<int>(options.storage));
-    
-    // When THEMIS_ENABLE_K8S_SCHEDULER is defined, create a K8s CronJob.
-    // When THEMIS_ENABLE_INTERNAL_SCHEDULER is defined, register with the
-    // internal scheduler service.
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Backup scheduling not implemented. Use K8s CronJob or systemd timer."
-    ));
+
+    if (schedule_cron.empty()) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "scheduleBackup: cron expression must not be empty"
+        ));
+    }
+    if (backup_type.empty()) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "scheduleBackup: backup type must not be empty"
+        ));
+    }
+
+    // Generate a unique schedule ID: sched_<timestamp>_<monotonic counter>
+    {
+        std::lock_guard<std::mutex> lock(scheduler_mutex_);
+        uint64_t counter = ++schedule_counter_;
+        std::string ts = getTimestamp();
+        std::string schedule_id = "sched_" + ts + "_" + std::to_string(counter);
+
+        ScheduledBackupEntry entry;
+        entry.schedule_id = schedule_id;
+        entry.cron_expression = schedule_cron;
+        entry.backup_type = backup_type;
+        entry.options = options;
+        entry.created_at = ts;
+
+        scheduled_backups_[schedule_id] = std::move(entry);
+
+        THEMIS_INFO("Backup schedule registered: id={}, cron={}, type={}",
+                    schedule_id, schedule_cron, backup_type);
+        return schedule_id;
+    }
 }
 
 Result<void> BackupManager::cancelScheduledBackup(const std::string& schedule_id) {
     THEMIS_INFO("cancelScheduledBackup: schedule_id={}", schedule_id);
-    
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Backup schedule cancellation not implemented"
-    ));
+
+    if (schedule_id.empty()) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_NOT_FOUND,
+            "cancelScheduledBackup: schedule_id must not be empty"
+        ));
+    }
+
+    std::lock_guard<std::mutex> lock(scheduler_mutex_);
+    auto it = scheduled_backups_.find(schedule_id);
+    if (it == scheduled_backups_.end()) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_NOT_FOUND,
+            "cancelScheduledBackup: schedule not found: " + schedule_id
+        ));
+    }
+
+    scheduled_backups_.erase(it);
+    THEMIS_INFO("Backup schedule cancelled: id={}", schedule_id);
+    return OkVoid();
 }
 
 std::vector<std::pair<std::string, std::string>> BackupManager::listScheduledBackups() {
-    THEMIS_INFO("listScheduledBackups: no scheduler backend configured");
-    
-    // When THEMIS_ENABLE_K8S_SCHEDULER is defined, list CronJobs from K8s API.
-    return {};
+    std::lock_guard<std::mutex> lock(scheduler_mutex_);
+
+    std::vector<std::pair<std::string, std::string>> result;
+    result.reserve(scheduled_backups_.size());
+    for (const auto& kv : scheduled_backups_) {
+        result.emplace_back(kv.second.schedule_id, kv.second.cron_expression);
+    }
+    return result;
 }
 
 Result<std::string> BackupManager::uploadBackupToCloud(
@@ -1469,11 +1515,7 @@ Result<std::string> BackupManager::uploadBackupToCloud(
                 local_backup_path, cloud_uri,
                 static_cast<int>(options.storage));
     
-    // Compile-time SDK flags control the active cloud path:
-    //   THEMIS_ENABLE_S3     → AWS S3 SDK
-    //   THEMIS_ENABLE_AZURE  → Azure Storage SDK
-    //   THEMIS_ENABLE_GCS    → Google Cloud Storage SDK
-    
+    // Validate local backup path exists
     namespace fs = std::filesystem;
     std::error_code ec;
     if (!fs::exists(local_backup_path, ec)) {
@@ -1482,12 +1524,50 @@ Result<std::string> BackupManager::uploadBackupToCloud(
             "Local backup path does not exist: " + local_backup_path
         ));
     }
-    
+
+    // Validate cloud URI: must use a supported scheme (s3://, azure://, gs://)
+    // and have a non-empty bucket/container following the scheme.
+    auto isValidCloudUri = [](const std::string& uri) -> bool {
+        static const char* const schemes[] = {"s3://", "azure://", "gs://"};
+        for (const auto* prefix : schemes) {
+            std::string p(prefix);
+            if (uri.size() > p.size() && uri.rfind(p, 0) == 0) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    if (!isValidCloudUri(cloud_uri)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "Invalid cloud URI: '" + cloud_uri +
+            "'. Supported schemes: s3://<bucket>/path, azure://<account>/container/path,"
+            " gs://<bucket>/path"
+        ));
+    }
+
+    // Compile-time SDK flags control the active cloud path:
+    //   THEMIS_ENABLE_S3     → AWS S3 SDK
+    //   THEMIS_ENABLE_AZURE  → Azure Storage SDK
+    //   THEMIS_ENABLE_GCS    → Google Cloud Storage SDK
+#if defined(THEMIS_ENABLE_S3) || defined(THEMIS_ENABLE_AZURE) || defined(THEMIS_ENABLE_GCS)
+    if (!uploadToCloud(local_backup_path, cloud_uri, options.storage,
+                       options.cloud_config, ec)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "Cloud upload failed for '" + cloud_uri + "': " + ec.message()
+        ));
+    }
+    THEMIS_INFO("Backup uploaded to cloud: {}", cloud_uri);
+    return cloud_uri;
+#else
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_UNKNOWN,
-        "Cloud backup upload not implemented. "
+        "Cloud backup upload not available. "
         "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_AZURE, or THEMIS_ENABLE_GCS."
     ));
+#endif
 }
 
 Result<void> BackupManager::restoreFromCloud(
@@ -1498,13 +1578,46 @@ Result<void> BackupManager::restoreFromCloud(
     THEMIS_INFO("restoreFromCloud: cloud={}, local={}, storage={}",
                 cloud_uri, local_restore_path,
                 static_cast<int>(options.storage));
-    
-    // Cloud SDK download path activated by THEMIS_ENABLE_S3 / _AZURE / _GCS.
+
+    if (cloud_uri.empty()) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            "restoreFromCloud: cloud URI must not be empty"
+        ));
+    }
+
+    // Compile-time SDK flags control the active cloud path:
+    //   THEMIS_ENABLE_S3     → AWS S3 SDK
+    //   THEMIS_ENABLE_AZURE  → Azure Storage SDK
+    //   THEMIS_ENABLE_GCS    → Google Cloud Storage SDK
+#if defined(THEMIS_ENABLE_S3) || defined(THEMIS_ENABLE_AZURE) || defined(THEMIS_ENABLE_GCS)
+    namespace fs = std::filesystem;
+    std::error_code ec;
+    fs::create_directories(local_restore_path, ec);
+    if (ec) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+            "Failed to create restore directory '" + local_restore_path +
+            "': " + ec.message()
+        ));
+    }
+
+    if (!downloadFromCloud(cloud_uri, local_restore_path, options.storage,
+                           options.cloud_config, ec)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+            "Cloud download failed for '" + cloud_uri + "': " + ec.message()
+        ));
+    }
+    THEMIS_INFO("Backup restored from cloud: {} → {}", cloud_uri, local_restore_path);
+    return OkVoid();
+#else
     return tl::unexpected(Error(
         errors::ErrorCode::ERR_UNKNOWN,
-        "Cloud backup restore not implemented. "
+        "Cloud backup restore not available. "
         "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_AZURE, or THEMIS_ENABLE_GCS."
     ));
+#endif
 }
 
 Result<std::string> BackupManager::createSnapshot(
