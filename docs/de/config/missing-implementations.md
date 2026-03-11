@@ -123,3 +123,5 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 | CFG-005 | `src/config/config_schema_validator.cpp` | `allOf`/`anyOf`/`oneOf` implementiert; `[x]` in FUTURE_ENHANCEMENTS.md |
 | CFG-006 | `src/config/config_schema_validator.cpp` | `$ref`/`$defs`-Auflösung implementiert (RFC 6901, Zyklus-Schutz, SSRF-Schutz); `[x]` in FUTURE_ENHANCEMENTS.md |
 | CFG-007 | `src/config/config_schema_validator.cpp` | `format` (date, date-time, email, uri, ipv4, ipv6) und `uniqueItems` implementiert; 20 neue Tests; `[x]` in FUTURE_ENHANCEMENTS.md |
+| CFG-008 | `src/config/config_schema_validator.h` / `.cpp` | `loadAsJson(const std::string& content, bool is_yaml)` Überladung nachgewiesen (h:147, cpp:134); Doku-Status von ℹ️ auf ✅ korrigiert |
+| DOC | `src/config/README.md` | Nutzungsbeispiele für `format` und `uniqueItems` ergänzt |

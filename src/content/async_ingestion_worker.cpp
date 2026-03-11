@@ -106,6 +106,8 @@ AsyncIngestionWorker::AsyncIngestionWorker(
     , total_jobs_processed_(0)
     , total_jobs_failed_(0)
     , total_items_processed_(0)
+    , total_backpressure_events_(0)
+    , queue_depth_high_watermark_(0)
 {
     if (!content_manager_) {
         throw std::invalid_argument("ContentManager cannot be null");
@@ -266,6 +268,10 @@ std::string AsyncIngestionWorker::submitStream(
 
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
+        // Count a back-pressure event if the queue is already at capacity
+        if (job_queue_.size() >= config_.max_queue_depth) {
+            total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
+        }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
             return job_queue_.size() < config_.max_queue_depth
@@ -276,6 +282,12 @@ std::string AsyncIngestionWorker::submitStream(
             throw std::runtime_error("Worker shutting down");
         }
         job_queue_.push(job);
+        // Update queue depth high-watermark
+        size_t depth = job_queue_.size();
+        size_t old_hwm = queue_depth_high_watermark_.load(std::memory_order_relaxed);
+        while (depth > old_hwm &&
+               !queue_depth_high_watermark_.compare_exchange_weak(
+                   old_hwm, depth, std::memory_order_relaxed)) {}
         std::lock_guard<std::mutex> hist_lock(history_mutex_);
         job_history_[job.job_id] = job;
     }
@@ -321,6 +333,10 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(
 
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
+        // Count a back-pressure event if the queue is already at capacity
+        if (job_queue_.size() >= config_.max_queue_depth) {
+            total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
+        }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
             return job_queue_.size() < config_.max_queue_depth
@@ -333,6 +349,12 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(
             return future;
         }
         job_queue_.push(job);
+        // Update queue depth high-watermark
+        size_t depth = job_queue_.size();
+        size_t old_hwm = queue_depth_high_watermark_.load(std::memory_order_relaxed);
+        while (depth > old_hwm &&
+               !queue_depth_high_watermark_.compare_exchange_weak(
+                   old_hwm, depth, std::memory_order_relaxed)) {}
         std::lock_guard<std::mutex> hist_lock(history_mutex_);
         job_history_[job.job_id] = job;
     }
@@ -538,6 +560,10 @@ json AsyncIngestionWorker::getStatistics() {
             {"total_processed", total_jobs_processed_.load()},
             {"total_failed", total_jobs_failed_.load()},
             {"total_items", total_items_processed_.load()}
+        }},
+        {"backpressure", {
+            {"events_total", total_backpressure_events_.load()},
+            {"queue_depth_high_watermark", queue_depth_high_watermark_.load()}
         }}
     };
 }

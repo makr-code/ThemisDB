@@ -36,6 +36,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [x] Integration with config validation (JSON Schema / YAML schema) via `ConfigSchemaValidator` — validates YAML/JSON config files against JSON Schema Draft 7 subset (Issue: #1666)
 - [x] `$ref` and `$defs` resolution in `ConfigSchemaValidator` — document-internal `$ref` with JSON Pointer (RFC 6901) walk; supports `$defs` (Draft 2019-09) and `definitions` (Draft 4/6/7); cycle detection; SSRF guard rejects external URI refs (Issue: #3742)
+- [x] `format` and `uniqueItems` validators in `ConfigSchemaValidator` — `format` enforces `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6` patterns; `uniqueItems` rejects arrays with duplicate elements; 20 dedicated tests; usage examples in `src/config/README.md` (Milestone: v2.0.0)
 
 ## Implementation Phases
 

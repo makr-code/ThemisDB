@@ -246,6 +246,7 @@ if(NOT THEMIS_ENABLE_HTTP_SERVER)
         ".*test_task_result_store\\.cpp$"
         ".*test_external_scheduler_adapter\\.cpp$"
         ".*test_chaos_scheduler\\.cpp$"
+        ".*test_export_api_handler\\.cpp$"
     )
 endif()
 
@@ -278,6 +279,8 @@ if(NOT THEMIS_ENABLE_CONTENT)
         ".*test_content_security\\.cpp$"
         # test_ingestion_manager_adapter uses content/async_ingestion_worker.h
         ".*test_ingestion_manager_adapter\\.cpp$"
+        # test_async_ingestion_backpressure uses AsyncIngestionWorker + ContentManager (CON-005)
+        ".*test_async_ingestion_backpressure\\.cpp$"
     )
 endif()
 
@@ -4641,6 +4644,40 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_g
     message(STATUS "  HTTP Governance: policy evaluation via HTTP, governance endpoints, access-control enforcement")
 endif()
 
+# Export API Handler — PolicyEngine authorization enforcement unit tests (EXP-001)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_export_api_handler.cpp")
+    message(STATUS "Adding ExportApiHandler focused tests (EXP-001)")
+    add_executable(test_export_api_handler_focused
+        test_export_api_handler.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/export_api_handler.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/jsonl_llm_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/format_template.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/exporter_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/pii_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/stream_writer.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/aql_predicate_filter.cpp
+    )
+    target_include_directories(test_export_api_handler_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    set(_export_api_test_libs ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
+    if(TARGET themis_core)
+        list(APPEND _export_api_test_libs themis_core)
+    endif()
+    if(TARGET OpenSSL::Crypto)
+        list(APPEND _export_api_test_libs OpenSSL::Crypto)
+    endif()
+    target_link_libraries(test_export_api_handler_focused PRIVATE ${_export_api_test_libs})
+    target_compile_definitions(test_export_api_handler_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ExportApiHandlerFocusedTests COMMAND test_export_api_handler_focused)
+    set_tests_properties(ExportApiHandlerFocusedTests PROPERTIES
+        LABELS "exporters;server;policy-engine;authorization;403;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ExportApiHandler: 403 Forbidden on ERR_EXPORT_POLICY_DENIED, setPolicyEngine/setAuditLogger setters")
+endif()
+
 # Governance – HTTP changefeed + governance integration focused tests (Issue: #1778)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_changefeed_governance.cpp")
     message(STATUS "Adding HTTP Changefeed Governance focused tests (Issue #1778)")
@@ -7216,6 +7253,46 @@ if(THEMIS_ENABLE_CONTENT)
     endif()
 
     # -------------------------------------------------------------------------
+    # OcrProcessor DPI pre-processing focused tests (CON-003)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
+        message(STATUS "Adding OcrProcessor DPI pre-processing focused tests (CON-003)")
+
+        add_executable(test_ocr_dpi_preprocessing_focused
+            test_ocr_processor.cpp
+        )
+
+        target_include_directories(test_ocr_dpi_preprocessing_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_ocr_dpi_preprocessing_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_ocr_dpi_preprocessing_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME OcrDpiPreprocessingFocusedTests
+            COMMAND test_ocr_dpi_preprocessing_focused
+            --gtest_filter=OcrProcessorConfigTest.*Dpi*:OcrProcessorConfigTest.*Binariz*:OcrProcessorTest.*Preprocess*:OcrProcessorTest.*Suppressed*:OcrProcessorTest.LowResSample*)
+
+        set_tests_properties(OcrDpiPreprocessingFocusedTests PROPERTIES
+            LABELS "content;ocr;dpi;binarization;leptonica;preprocessing;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  OcrProcessor: 300-DPI rescaling (pixScale), adaptive Sauvola binarization (pixSauvolaBinarize), ocr_input_dpi/ocr_rescaled/ocr_binarized metadata (CON-003)")
+    else()
+        message(STATUS "OcrProcessor DPI pre-processing focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
     # OcrProcessor default data-dir path resolution focused tests (CON-004)
     # -------------------------------------------------------------------------
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ocr_processor.cpp")
@@ -7293,6 +7370,92 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "  AsyncIngestionWorker: submitStream() blocking, ingestStream() future, shutdown unblocking")
     else()
         message(STATUS "AsyncIngestionWorker back-pressure focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # LegacyOfficeExtraction focused tests (CON-001)
+    # Covers: OLE header validation, DOC/XLS/PPT metadata routing,
+    #         graceful failure when soffice is absent, timeout enforcement,
+    #         and metrics counters (extract_errors_total).
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+        message(STATUS "Adding LegacyOfficeExtraction focused tests (CON-001)")
+
+        add_executable(test_legacy_office_extraction_focused
+            test_office_processor.cpp
+        )
+
+        target_include_directories(test_legacy_office_extraction_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_legacy_office_extraction_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_legacy_office_extraction_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME LegacyOfficeExtractionFocusedTests
+            COMMAND test_legacy_office_extraction_focused
+            --gtest_filter=LegacyOfficeExtractionTest.*:LegacyOfficeMetricsTest.*)
+
+        set_tests_properties(LegacyOfficeExtractionFocusedTests PROPERTIES
+            LABELS "content;office;legacy;doc;xls;ppt;libreoffice;posix-spawn;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  LegacyOffice: OLE header check, DOC/XLS/PPT type routing, graceful soffice-absent failure, timeout, metrics (CON-001)")
+    else()
+        message(STATUS "LegacyOfficeExtraction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # LibreOffice subprocess security focused tests (CON-007)
+    # Covers: relative-path rejection, dot-slash rejection, path-traversal
+    #         rejection, shell-metacharacter injection resistance, malformed
+    #         OLE blob handling, large-blob handling, and RAII temp-dir cleanup.
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+        message(STATUS "Adding LibreOffice subprocess security focused tests (CON-007)")
+
+        add_executable(test_libreoffice_security_focused
+            test_office_processor.cpp
+        )
+
+        target_include_directories(test_libreoffice_security_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_libreoffice_security_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_libreoffice_security_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME LibreOfficeSecurityFocusedTests
+            COMMAND test_libreoffice_security_focused
+            --gtest_filter=LibreOfficeSecurityTest.*)
+
+        set_tests_properties(LibreOfficeSecurityFocusedTests PROPERTIES
+            LABELS "content;office;security;posix-spawn;sandbox;path-hijacking;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  LibreOfficeSecurity: relative-path rejection, shell-metachar injection, malformed OLE, RAII cleanup (CON-007)")
+    else()
+        message(STATUS "LibreOffice security focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
     endif()
 
 endif() # THEMIS_ENABLE_CONTENT
@@ -11690,6 +11853,49 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
     message(STATUS "  LoRAAdapter: addLayer/removeLayer, Kaiming init, setWeights, applyUpdate, applyBatchUpdate, forward pass, export/import")
 else()
     message(STATUS "LoRAAdapter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
+endif()
+
+# AdvancedTrainingFeatures focused tests – quantization config, multi-GPU config,
+# training metrics tracking, checkpoint/resume enhancements (feat/advanced-training-features)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
+    message(STATUS "Adding AdvancedTrainingFeatures focused tests")
+
+    add_executable(test_advanced_training_features
+        test_advanced_training_features.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
+    )
+
+    target_include_directories(test_advanced_training_features PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_advanced_training_features PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_advanced_training_features PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_NO_SPDLOG=1
+    )
+
+    add_test(NAME AdvancedTrainingFeaturesFocusedTests
+             COMMAND test_advanced_training_features)
+
+    set_tests_properties(AdvancedTrainingFeaturesFocusedTests PROPERTIES
+        LABELS "training;quantization;multi-gpu;metrics;checkpoint;advanced;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AdvancedTrainingFeatures: QuantizationConfig, multi-GPU config, TrainingMetrics, EpochMetrics, getMetrics(), checkpoint dir")
+else()
+    message(STATUS "AdvancedTrainingFeatures focused tests not found")
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────
