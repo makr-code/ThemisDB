@@ -781,6 +781,26 @@ TEST(OcrMimeRoutingIntegrationTest, ContentPolicyOcrEnabledGatesDetector) {
     EXPECT_TRUE(detector.shouldTriggerOcr("image/tiff"));
 }
 
+TEST(OcrMimeRoutingIntegrationTest, StatelessOverload_ContentPolicyOcrFlag) {
+    // The two-argument overload used by ContentManager::ingestRawBlob is stateless:
+    // it must agree with the single-argument overload when the flag matches.
+    ContentPolicy policy;
+    MimeDetector detector;
+
+    // OCR disabled: both overloads must return false
+    detector.enableOcr(policy.ocrEnabled());
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/png", policy.ocrEnabled()));
+    EXPECT_EQ(detector.shouldTriggerOcr("image/png"),
+              detector.shouldTriggerOcr("image/png", policy.ocrEnabled()));
+
+    // OCR enabled: both overloads must return true for eligible MIME types
+    policy.ocr_enabled = true;
+    detector.enableOcr(policy.ocrEnabled());
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/png",  policy.ocrEnabled()));
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/jpeg", policy.ocrEnabled()));
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/tiff", policy.ocrEnabled()));
+    EXPECT_EQ(detector.shouldTriggerOcr("image/png"),
+              detector.shouldTriggerOcr("image/png", policy.ocrEnabled()));
 // ============================================================================
 // OcrProcessor default data_dir: ConfigPathResolver integration
 // ============================================================================
