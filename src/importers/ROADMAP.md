@@ -95,7 +95,7 @@ v1.x – Production-ready multi-source import pipeline. PostgreSQL, MySQL/MariaD
 **Master Data Management** – automated entity matching, linking, and golden
 record creation for imported PostgreSQL data.
 
-**Files added:**
+**Files added (Phase 6.0 – core MDM):**
 - `include/importers/entity_matcher.h` – DeterministicMatcher, SemanticMatcher, HybridEntityMatcher
 - `include/importers/entity_linker.h` – EntityLinker, EntityLink, LinkAuditEntry
 - `include/importers/canonical_resolver.h` – CanonicalEntityResolver, GoldenRecord
@@ -110,14 +110,22 @@ record creation for imported PostgreSQL data.
 - `src/importers/mdm_audit_trail.cpp`
 - `src/importers/mdm_metrics.cpp`
 
-**Tests (132 tests across 5 files, 100% pass):**
+**Files added (Phase 6.1 – PART D integration, post-audit):**
+- `include/importers/postgres_importer_mdm.h` – PostgreSQLImporterWithMDM
+- `src/importers/postgres_importer_mdm.cpp` – Phase 1 import + Phase 2 MDM workflow
+- `include/importers/importer_interface.h` – EntityLinkingConfig, CollectionMatchingConfig
+  added to `ImportOptions`; `entities_linked`, `golden_records`, `mdm_reviews_needed`,
+  `sample_entities` added to `ImportStats`
+
+**Tests (150 tests across 6 files, 100% pass):**
 - `tests/test_entity_matching.cpp` (40 tests)
 - `tests/test_entity_linking.cpp` (20 tests)
 - `tests/test_canonical_resolver.cpp` (35 tests)
-- `tests/test_mdm_engine.cpp` (12 tests)
+- `tests/test_mdm_engine.cpp` (28 tests)
 - `tests/test_mdm_integration.cpp` (9 tests)
+- `tests/test_postgres_importer_mdm.cpp` (18 tests – EntityLinkingConfig, ImportStats, PostgreSQLImporterWithMDM)
 
-**Focused test targets:** MDMDeterministicMatcherFocusedTests, MDMSemanticMatcherFocusedTests, MDMEntityLinkerFocusedTests, MDMCanonicalResolverFocusedTests, MDMEngineFocusedTests, MDMIntegrationFocusedTests
+**Focused test targets:** MDMEntityMatchingFocusedTests, MDMEngineFocusedTests, PostgresImporterMDMFocusedTests
 
 **Documentation:**
 - `docs/importers/MDM_USER_GUIDE.md`
@@ -130,12 +138,14 @@ record creation for imported PostgreSQL data.
 - [x] Hybrid ensemble strategy (configurable weights)
 - [x] Bidirectional entity linking with 8 typed link types
 - [x] Golden record creation with 6 resolution policies
-- [x] Field-level conflict resolution with per-field rules
+- [x] Field-level conflict resolution with 8 per-field rules
 - [x] Protected fields (entity[0]'s original values always preserved)
 - [x] Immutable audit trail with FNV-1a chain hash
 - [x] Dry-run mode (no persistent storage, zero links_created)
 - [x] Prometheus-style metrics + JSON dashboard export
-- [x] All 18 new source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
+- [x] `PostgreSQLImporterWithMDM` – drop-in base-class replacement (PART D)
+- [x] `EntityLinkingConfig` in `ImportOptions` – opt-in MDM activation (PART D)
+- [x] All 9 new source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1857)

@@ -6153,6 +6153,51 @@ else()
 endif()
 
 # ============================================================================
+# PostgreSQLImporterWithMDM Focused Tests (PART D integration point)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_mdm.cpp")
+    message(STATUS "Adding PostgreSQLImporterWithMDM focused tests (MDM PART D)")
+
+    add_executable(test_postgres_importer_mdm_focused
+        test_postgres_importer_mdm.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/deterministic_matcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/entity_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/canonical_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mdm_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mdm_audit_trail.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/mdm_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer_mdm.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer.cpp
+    )
+
+    target_include_directories(test_postgres_importer_mdm_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_postgres_importer_mdm_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_postgres_importer_mdm_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PostgresImporterMDMFocusedTests COMMAND test_postgres_importer_mdm_focused)
+
+    set_tests_properties(PostgresImporterMDMFocusedTests PROPERTIES
+        LABELS "importers;mdm;postgres;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  PostgresImporterMDM: EntityLinkingConfig, ImportStats MDM fields, PostgreSQLImporterWithMDM")
+else()
+    message(STATUS "PostgresImporterMDM focused test sources not found")
+endif()
+
+# ============================================================================
 # Plugin Capability Negotiation Tests (standalone target for Issue #1984)
 # ============================================================================
 
