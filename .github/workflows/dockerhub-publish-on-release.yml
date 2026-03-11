@@ -1,0 +1,109 @@
+name: Publish Docker image to Docker Hub (on GitHub Release)
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  dockerhub:
+    name: Build & push multi-arch image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # The release tag is e.g. "v1.4.0" or "v1.4.0-rc1".
+      # Docker tags are created without the leading "v": "1.4.0" / "1.4.0-rc1".
+      # "latest" is only pushed for stable releases (no pre-release suffix).
+      - name: Compute Docker tags
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAG_NAME="${{ github.event.release.tag_name }}"   # e.g. v1.4.0 or v1.4.0-rc1
+          VERSION="${TAG_NAME#v}"                           # strip leading "v" if present
+
+          if [[ -z "$VERSION" ]]; then
+            echo "ERROR: Could not derive VERSION from tag_name='$TAG_NAME'"
+            exit 1
+          fi
+
+          IMAGE="themisdb/themisdb"
+
+          # Pre-release detection: any suffix containing alpha|beta|rc|pre|dev|snapshot
+          # (case-insensitive). Matches patterns like -alpha, -beta.2, -rc1, .dev0, etc.
+          if echo "$VERSION" | grep -Eiq '[-.](alpha|beta|rc|pre|dev|snapshot)'; then
+            STABLE="false"
+          else
+            STABLE="true"
+          fi
+
+          echo "version=$VERSION"   >> "$GITHUB_OUTPUT"
+          echo "stable=$STABLE"     >> "$GITHUB_OUTPUT"
+          echo "image=$IMAGE"       >> "$GITHUB_OUTPUT"
+
+          # Build the newline-delimited tags list consumed by docker/build-push-action.
+          {
+            echo "tags<<EOF"
+            echo "${IMAGE}:${VERSION}"
+            if [[ "$STABLE" == "true" ]]; then
+              echo "${IMAGE}:latest"
+            fi
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Computed:"
+          echo "  TAG_NAME = $TAG_NAME"
+          echo "  VERSION  = $VERSION"
+          echo "  STABLE   = $STABLE"
+          echo "  TAGS:"
+          echo "    ${IMAGE}:${VERSION}"
+          if [[ "$STABLE" == "true" ]]; then
+            echo "    ${IMAGE}:latest"
+          fi
+
+      - name: Set up QEMU (for multi-arch)
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push (multi-arch)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Job summary
+        if: success() || failure()
+        shell: bash
+        run: |
+          echo "## 🐳 DockerHub publish" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Release tag | \`${{ github.event.release.tag_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Version | \`${{ steps.meta.outputs.version }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Stable | \`${{ steps.meta.outputs.stable }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Image | \`${{ steps.meta.outputs.image }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Tags pushed" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "${{ steps.meta.outputs.tags }}" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
