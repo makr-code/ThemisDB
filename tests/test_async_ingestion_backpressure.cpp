@@ -412,3 +412,100 @@ TEST_F(AsyncIngestionBackpressureTest, StopGraceful_DrainsPendingFutures) {
 
     EXPECT_EQ(processed.load(), 3);
 }
+
+// ============================================================================
+// Test 9 – Backpressure metrics: events_total and queue_depth_high_watermark
+// ============================================================================
+
+TEST_F(AsyncIngestionBackpressureTest, Statistics_BackpressureMetricsCountedOnOverload) {
+    // Use max_queue_depth=1 with a gating handler so we can deterministically
+    // fill the queue to max_queue_depth=1 and trigger back-pressure for job3,
+    // without relying on scheduling timing.
+    auto worker = makeWorker(/*max_queue_depth=*/1, /*threads=*/1);
+
+    // Gate that blocks the worker in the handler until we release it.
+    // This ensures job1 is actively being processed (already dequeued) and
+    // job2 is in the queue (at max_queue_depth=1) when we measure metrics.
+    std::mutex       gate_mutex;
+    std::condition_variable gate_cv;
+    bool             gate_open = false;
+    std::atomic<bool> job1_started{false};
+
+    worker->registerJobHandler(IngestionJobType::STREAM_FILE, [&](IngestionJob& job) {
+        job1_started.store(true);
+        gate_cv.notify_all();
+        // Block until test releases the gate
+        std::unique_lock<std::mutex> lock(gate_mutex);
+        gate_cv.wait(lock, [&] { return gate_open; });
+        job.content_ids.push_back("id");
+        job.processed_items = 1;
+        job.progress = 1.0f;
+    });
+
+    worker->start();
+
+    // Verify initial state: no back-pressure events yet
+    {
+        auto stats = worker->getStatistics();
+        ASSERT_TRUE(stats.contains("backpressure"));
+        EXPECT_EQ(stats["backpressure"]["events_total"].get<uint64_t>(), 0u);
+        EXPECT_EQ(stats["backpressure"]["queue_depth_high_watermark"].get<uint64_t>(), 0u);
+    }
+
+    std::istringstream s1("data1");
+    std::istringstream s2("data2");
+
+    // First submitStream: queue is empty → no back-pressure event, enqueues immediately
+    auto id1 = worker->submitStream(s1, "file1.txt");
+    EXPECT_FALSE(id1.empty());
+
+    // Wait until the worker has dequeued job1 and started processing it (holding the gate)
+    {
+        std::unique_lock<std::mutex> lock(gate_mutex);
+        ASSERT_TRUE(gate_cv.wait_for(lock, 5s, [&] { return job1_started.load(); }))
+            << "Worker should have started processing job1 within 5 s";
+    }
+    // Now: job1 is IN FLIGHT (gate blocking worker), queue is EMPTY.
+    // Submit job2 — queue=0 < 1=max_queue_depth → no back-pressure event yet.
+    auto id2 = worker->submitStream(s2, "file2.txt");
+    EXPECT_FALSE(id2.empty());
+
+    // Now queue holds job2 (size=1 == max_queue_depth).
+    // Submit job3 from a thread — this MUST trigger exactly one back-pressure event.
+    std::istringstream s3("data3");
+    std::atomic<bool> submitted3{false};
+    std::atomic<bool> submitter3_done{false};
+    auto submitter3 = std::thread([&] {
+        try {
+            auto id3 = worker->submitStream(s3, "file3.txt");
+            (void)id3;
+            submitted3.store(true);
+        } catch (const std::exception&) {
+            // Possible if worker shuts down while waiting
+        }
+        submitter3_done.store(true);
+    });
+
+    // Give the submitter thread time to reach and enter the back-pressure wait
+    std::this_thread::sleep_for(30ms);
+
+    // While gate is closed the queue stays at depth 1; submitter3 must be blocked
+    {
+        auto stats = worker->getStatistics();
+        EXPECT_GE(stats["backpressure"]["events_total"].get<uint64_t>(), 1u)
+            << "At least one back-pressure event must be recorded when queue reaches max_queue_depth";
+        EXPECT_GE(stats["backpressure"]["queue_depth_high_watermark"].get<uint64_t>(), 1u)
+            << "queue_depth_high_watermark must reflect the peak queue depth observed";
+    }
+
+    // Release the gate so the worker can complete job1 and eventually unblock the submitter
+    {
+        std::lock_guard<std::mutex> lock(gate_mutex);
+        gate_open = true;
+    }
+    gate_cv.notify_all();
+
+    submitter3.join();
+
+    worker->stop(true);
+}
