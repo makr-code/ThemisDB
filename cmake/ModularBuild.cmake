@@ -1465,6 +1465,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/distributed_graph.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
+    ../src/graph/scheduled_edge_refresh.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)
