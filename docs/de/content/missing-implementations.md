@@ -23,7 +23,7 @@
 
 **Erwartet:** `soffice --headless` wird via `posix_spawn` in einem Sandkasten-Subprozess (eingeschränkter OS-User, 30 s Timeout) gestartet, um `.doc`/`.xls`/`.ppt` nach Text zu konvertieren.
 
-**Behoben:** `OfficeProcessor::extractLegacyViaLibreOffice()` implementiert in `office_processor.cpp`. Verwendet `posix_spawn` (kein `system()`); 30-Sekunden-Timeout mit SIGTERM→SIGKILL-Eskalation; `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`+`POSIX_SPAWN_SETSIGDEF`; vollständige 8-Byte-OLE-Header-Validierung; RAII-Temp-File-Bereinigung; minimale Sandbox-Umgebung (`HOME=tmpdir`). 13 Unit-Tests in `tests/test_office_processor.cpp` (`LegacyOfficeExtractionTest`).
+**Behoben:** `OfficeProcessor::extractLegacyViaLibreOffice()` implementiert in `office_processor.cpp`. Verwendet `posix_spawn` (kein `system()`); 30-Sekunden-Timeout mit SIGTERM→SIGKILL-Eskalation; `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`+`POSIX_SPAWN_SETSIGDEF`; vollständige 8-Byte-OLE-Header-Validierung; RAII-Temp-File-Bereinigung; minimale Sandbox-Umgebung (`HOME=tmpdir`). 11 Unit-Tests in `LegacyOfficeExtractionTest` + 2 Tests in `LegacyOfficeMetricsTest` in `tests/test_office_processor.cpp`.
 
 **Auswirkung:** Legacy `.doc`/`.xls`/`.ppt`-Dateien werden jetzt via LibreOffice nach Plaintext konvertiert.
 

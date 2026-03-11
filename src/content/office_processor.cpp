@@ -113,8 +113,9 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string& blob) 
         // Check for legacy Office formats (OLE Compound Document)
         if (blob.size() >= 8) {
             const unsigned char* data = reinterpret_cast<const unsigned char*>(blob.data());
-            // OLE header: D0 CF 11 E0 A1 B1 1A E1
-            if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0) {
+            // Full 8-byte OLE Compound Document header: D0 CF 11 E0 A1 B1 1A E1
+            if (data[0] == 0xD0 && data[1] == 0xCF && data[2] == 0x11 && data[3] == 0xE0 &&
+                data[4] == 0xA1 && data[5] == 0xB1 && data[6] == 0x1A && data[7] == 0xE1) {
                 // Legacy Office format - try to determine type
                 // This is a simplified check
                 if (blob.find("WordDocument") != std::string::npos) {
@@ -839,6 +840,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
     while (remaining > 0) {
         ssize_t written = write(in_fd, bdata, remaining);
         if (written < 0) {
+            if (errno == EINTR) continue;  // retry on signal interrupt
             close(in_fd);
             result.error_message = std::string("Failed to write temp input file: ") + strerror(errno);
             return result;
@@ -1025,6 +1027,11 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
         ssize_t n;
         while ((n = read(out_fd, buf, sizeof(buf))) > 0) {
             extracted_text.append(buf, static_cast<size_t>(n));
+        }
+        if (n < 0) {
+            close(out_fd);
+            result.error_message = std::string("Failed to read LibreOffice output file: ") + strerror(errno);
+            return result;
         }
         close(out_fd);
     }

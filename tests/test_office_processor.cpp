@@ -487,6 +487,24 @@ TEST(LegacyOfficeMetricsTest, DocExtractionFailureIncrementsErrorCounter) {
     EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
 }
 
+// PPT extraction failure must also increment the extract_errors_total counter.
+TEST(LegacyOfficeMetricsTest, PptExtractionFailureIncrementsErrorCounter) {
+    ContentMetrics metrics;
+
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/soffice_test_binary";
+    cfg.metrics = &metrics;
+    OfficeProcessor proc(std::move(cfg));
+    ContentType ct;
+
+    std::string blob = makeFakeOLEBlob("PowerPoint");
+    auto result = proc.extract(blob, ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 1u);
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
+}
+
 TEST_F(LegacyOfficeExtractionTest, ConfigDefaultTimeoutIs30) {
     OfficeProcessor::Config cfg;
     EXPECT_EQ(cfg.libreoffice_timeout_seconds, 30);
@@ -495,6 +513,36 @@ TEST_F(LegacyOfficeExtractionTest, ConfigDefaultTimeoutIs30) {
 TEST_F(LegacyOfficeExtractionTest, ConfigDefaultPathIsEmpty) {
     OfficeProcessor::Config cfg;
     EXPECT_TRUE(cfg.libreoffice_path.empty());
+}
+
+// XLS: same end-to-end path as DOC but routed through the XLS type switch.
+// Verifies that a valid XLS OLE blob fails gracefully when soffice is absent.
+TEST_F(LegacyOfficeExtractionTest, XlsBlobFailsGracefullyWhenLibreOfficeNotFound) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/path/to/soffice_____does_not_exist";
+    OfficeProcessor proc_nolo(std::move(cfg));
+
+    std::string blob = makeFakeOLEBlob("Workbook");
+    auto result = proc_nolo.extract(blob, ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty())
+        << "Expected an error message when soffice binary does not exist (XLS)";
+}
+
+// PPT: same end-to-end path as DOC but routed through the PPT type switch.
+// Verifies that a valid PPT OLE blob fails gracefully when soffice is absent.
+TEST_F(LegacyOfficeExtractionTest, PptBlobFailsGracefullyWhenLibreOfficeNotFound) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/path/to/soffice_____does_not_exist";
+    OfficeProcessor proc_nolo(std::move(cfg));
+
+    std::string blob = makeFakeOLEBlob("PowerPoint");
+    auto result = proc_nolo.extract(blob, ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty())
+        << "Expected an error message when soffice binary does not exist (PPT)";
 }
 
 // ============================================================================
