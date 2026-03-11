@@ -2895,6 +2895,47 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
 endif()
 
 # ============================================================================
+# Metadata Cache Benchmarks (META-MISSING-001 — cache hit rate + scan latency)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metadata_cache.cpp")
+    message(STATUS "Adding Metadata Cache performance benchmarks (META-MISSING-001)")
+
+    add_executable(bench_metadata_cache
+        bench_metadata_cache.cpp
+    )
+
+    target_link_libraries(bench_metadata_cache PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_metadata_cache PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_metadata_cache PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_metadata_cache
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  MetadataCache: cold scan, warm hit, hit/miss comparison, TTL variants, adaptive TTL, concurrent reads, RocksDB direct scan")
+endif()
+
+# ============================================================================
 # Content Module Benchmarks (Issue: #1699 — Performance benchmarks per content type)
 # ============================================================================
 
