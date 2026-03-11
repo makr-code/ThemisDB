@@ -1,15 +1,15 @@
 {
   "meta": {
-    "generated_at": "2026-03-10T10:00:00Z",
+    "generated_at": "2026-03-11T11:43:00Z",
     "module": "search",
     "module_paths": ["src/search/", "include/search/"],
     "repo": "makr-code/ThemisDB",
-    "validated_commit": "a14cdb2",
-    "validated_branch": "develop",
-    "audit_note": "Reality-check performed 2026-03-10 against source code on branch develop. All 16 components are production-ready as of v2.2.0. One open finding: distributed search (Issue #2280).",
+    "validated_commit": "0d5a19ee1",
+    "validated_branch": "copilot/add-distributed-search-feature",
+    "audit_note": "Reality-check performed 2026-03-11 against source code. All 17 components are production-ready as of v2.3.0. Finding 1 (distributed search, Issue #2280) resolved by DistributedHybridSearch implementation.",
     "total_findings": 1,
     "blocking_findings": 0,
-    "non_blocking_findings": 1
+    "non_blocking_findings": 0
   },
   "findings": [
     {
@@ -21,19 +21,23 @@
       "severity": "low",
       "blocking": false,
       "existing_issue": "#2280",
+      "status": "resolved",
+      "resolved_in": "v2.3.0",
+      "resolution": "Implemented DistributedHybridSearch in include/search/distributed_hybrid_search.h and src/search/distributed_hybrid_search.cpp. Uses RemoteExecutor (mTLS) for inter-shard communication and cross-shard RRF for result merging. 30+ unit tests in tests/test_distributed_hybrid_search.cpp.",
       "expected": "Search queries are distributed across multiple shards, partial results are merged using RRF result-merging. Inter-shard communication is authenticated with mTLS.",
-      "observed": "HybridSearch operates exclusively on the local node. No shard router, no result merger, no inter-node communication for search queries exists.",
+      "observed": "DistributedHybridSearch now dispatches hybrid search queries in parallel to all healthy shards via mTLS-secured HTTP POST (RemoteExecutor) and merges results via cross-shard RRF.",
       "evidence": {
         "expected_symbols": ["ShardRouter", "ShardResultMerger", "DistributedHybridSearch"],
         "file_results": {
           "src/search/hybrid_search.cpp": true,
           "include/search/hybrid_search.h": true,
-          "src/search/hybrid_search.cpp#shard_dispatch": false,
-          "include/search/hybrid_search.h#ShardRouter": false
+          "src/search/distributed_hybrid_search.cpp": true,
+          "include/search/distributed_hybrid_search.h": true,
+          "include/search/distributed_hybrid_search.h#DistributedHybridSearch": true,
+          "tests/test_distributed_hybrid_search.cpp": true
         },
-        "all_required_present": false
+        "all_required_present": true
       },
-      "workaround": "Application layer can query multiple local HybridSearch instances in parallel and merge results manually using RRF.",
       "scientific_references": [
         {
           "id": 7,
@@ -44,9 +48,7 @@
           "citation": "M. Shokouhi and L. Si, \"Federated Search,\" Foundations and Trends in Information Retrieval, vol. 5, no. 1, pp. 1-102, 2011.",
           "doi": "https://doi.org/10.1561/1500000010"
         }
-      ],
-      "suggested_issue_title": "[search] Distributed search across shards with mTLS-authenticated result merging",
-      "suggested_labels": ["module:search", "distributed", "enhancement", "priority:low"]
+      ]
     }
   ],
   "production_ready_components": [
@@ -65,6 +67,7 @@
     {"name": "NeuralSparseRetrieval", "version": "v2.0.0", "files": ["neural_sparse_retrieval.h", "neural_sparse_retrieval.cpp"]},
     {"name": "CrossLingualSearch", "version": "v2.0.0", "files": ["cross_lingual_search.h", "cross_lingual_search.cpp"]},
     {"name": "SearchHighlighter", "version": "v2.1.0", "files": ["search_highlighter.h", "search_highlighter.cpp"]},
-    {"name": "NegativeKeywordFilter", "version": "v2.2.0", "files": ["negative_keyword_filter.h", "negative_keyword_filter.cpp"]}
+    {"name": "NegativeKeywordFilter", "version": "v2.2.0", "files": ["negative_keyword_filter.h", "negative_keyword_filter.cpp"]},
+    {"name": "DistributedHybridSearch", "version": "v2.3.0", "files": ["distributed_hybrid_search.h", "distributed_hybrid_search.cpp"]}
   ]
 }

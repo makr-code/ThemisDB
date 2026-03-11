@@ -591,6 +591,81 @@ for (const auto& r : results) {
 
 ---
 
+### distributed_hybrid_search.h
+**Purpose:** Distributed hybrid search across multiple ThemisDB shards with cross-shard
+Reciprocal Rank Fusion (RRF) result merging and mTLS-secured inter-node communication.
+
+**Key Classes:**
+- `DistributedHybridSearch`: Distributes hybrid search to all healthy shards in parallel and
+  merges results via cross-shard RRF
+- `DistributedHybridSearch::Config`: `k`, `rrf_k`, `shard_timeout_ms`, `max_concurrent_shards`,
+  `skip_failed_shards`, `local_shard_id`, `search_endpoint`
+- `DistributedHybridSearch::ShardSearchResult`: Per-shard outcome with results, success flag,
+  error message, and execution time
+- `DistributedHybridSearch::SearchStats`: Diagnostics — `shards_queried`, `shards_succeeded`,
+  `shards_failed`, `partial_result`
+
+**Usage:**
+```cpp
+#include "search/distributed_hybrid_search.h"
+#include "sharding/remote_executor.h"
+#include "sharding/urn_resolver.h"
+
+using namespace themis;
+
+// 1. Configure mTLS-secured remote executor
+sharding::RemoteExecutor::Config exec_cfg;
+exec_cfg.cert_path    = "/etc/themis/tls/shard.crt";
+exec_cfg.key_path     = "/etc/themis/tls/shard.key";
+exec_cfg.ca_cert_path = "/etc/themis/tls/ca.crt";
+auto executor = std::make_shared<sharding::RemoteExecutor>(exec_cfg);
+
+// 2. Create distributed search engine
+DistributedHybridSearch::Config dhs_cfg;
+dhs_cfg.k              = 20;
+dhs_cfg.local_shard_id = "shard_001";
+// search_endpoint defaults to "/search/hybrid" (HTTP server route)
+
+DistributedHybridSearch dhs(
+    &local_hybrid_search,  // local HybridSearch instance (may be nullptr)
+    resolver.get(),        // URNResolver for enumerating healthy shards
+    executor.get(),        // RemoteExecutor (mTLS-configured)
+    dhs_cfg
+);
+
+// 3. Search (never throws)
+DistributedHybridSearch::SearchStats stats;
+auto results = dhs.search("machine learning", query_embedding, &stats);
+
+if (stats.partial_result) {
+    // At least one shard was unavailable; results come from surviving shards only
+    THEMIS_WARN("{} of {} shards failed", stats.shards_failed, stats.shards_queried);
+}
+
+for (const auto& r : results) {
+    std::cout << r.document_id << " score=" << r.hybrid_score << "\n";
+}
+```
+
+**Config Fields:**
+- `k`: Maximum globally merged results to return (default 10)
+- `rrf_k`: RRF smoothing constant for cross-shard fusion (default 60.0)
+- `shard_timeout_ms`: Per-shard HTTP request timeout (default 5000)
+- `max_concurrent_shards`: Maximum shards queried concurrently per batch (default 10)
+- `skip_failed_shards`: When true (default), failed shards are silently skipped
+- `local_shard_id`: This node's shard ID (used to avoid double-querying the local shard)
+- `search_endpoint`: HTTP POST endpoint on each shard (default `"/search/hybrid"`)
+
+**Notes:**
+- `search()` never throws; all network and parsing errors are caught internally.
+- Remote shards receive: `POST /search/hybrid` with `{"query", "k", "vector_query"}`.
+- `mergeShardResults()` is public for direct unit testing without network infrastructure.
+- `SearchStats::partial_result` is true when at least one shard succeeded and at least one failed.
+- When `skip_failed_shards = false`, any shard failure causes `search()` to return `{}`.
+- Requires the remote shards to expose `POST /search/hybrid` (matches `HttpServer::handleHybridSearch`).
+
+---
+
 ## Integration Points
 
 ### With Index Module
@@ -704,5 +779,5 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 ---
 
-*Last Updated: February 2026*
-*API Version: v1.9.0*
+*Last Updated: March 2026*
+*API Version: v2.3.0*

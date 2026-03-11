@@ -1,10 +1,10 @@
 # Search-Modul — Fehlende Implementierungen
 
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../../src/search/ -->
 
 **Erstellt:** 2026-03-10
-**Zuletzt aktualisiert:** 2026-03-10
+**Zuletzt aktualisiert:** 2026-03-11
 **Modul:** `src/search/` / `include/search/`
 **Reality-Check-Basis:** Quellcode-Stand Branch `develop` (Commit `a14cdb2`)
 
@@ -12,39 +12,36 @@
 
 ## Zusammenfassung
 
-Der Reality-Check des Search-Moduls (v2.2.0) ergab, dass alle 16 Komponenten vollständig implementiert und produktionsbereit sind. Es verbleibt genau **ein offenes Finding**: die verteilte Suche über Shards hinweg.
+Alle Findings wurden behoben. Der Reality-Check des Search-Moduls (v2.3.0) ergab, dass alle 17 Komponenten vollständig implementiert und produktionsbereit sind.
 
 | # | Claim-Quelle | Kategorie | Status |
 |---|---|---|---|
-| 1 | `src/search/ROADMAP.md` § Long-term | Fehlende Implementierung | ⚠️ [I]#2280 — Distributed search across shards (offen) |
+| 1 | `src/search/ROADMAP.md` § Long-term | Fehlende Implementierung | ✅ Behoben in v2.3.0 — `DistributedHybridSearch` implementiert (Issue #2280) |
 
 ---
 
 ## Detaillierte Findings
 
-### Finding 1: Distributed Search across Shards nicht implementiert
+### Finding 1: Distributed Search across Shards — ✅ BEHOBEN (v2.3.0)
 
-**Status: ⚠️ OFFEN — Issue [#2280](https://github.com/makr-code/ThemisDB/issues/2280)**
+**Status: ✅ Implementiert — Issue [#2280](https://github.com/makr-code/ThemisDB/issues/2280)**
 
-**Erwartetes Verhalten:** Suchanfragen werden auf mehrere Shards verteilt, Teilergebnisse werden mit Result-Merging zusammengeführt (ähnlich Federated Search). Inter-Shard-Kommunikation ist per mTLS authentifiziert.
+**Lösung:** `DistributedHybridSearch` (`include/search/distributed_hybrid_search.h`,
+`src/search/distributed_hybrid_search.cpp`) implementiert die vollständige verteilte
+Suche:
 
-**Beobachteter Zustand:** `HybridSearch` operiert ausschließlich lokal auf dem aktuellen Knoten. Kein Shard-Router, kein Result-Merger, keine inter-node Kommunikation für Suchanfragen vorhanden.
-
-**Betroffene Dateien:**
-- `src/search/hybrid_search.cpp` — kein Shard-Dispatching vorhanden
-- `include/search/hybrid_search.h` — kein `ShardRouter`-Interface vorhanden
-
-**Workaround:** Applikationsschicht kann mehrere lokale `HybridSearch`-Instanzen parallel abfragen und Ergebnisse manuell mit RRF zusammenführen.
-
-**Wissenschaftliche Referenzen:**
-- [7] N. Craswell et al., "Merging Results from Isolated Search Engines," ADC 1999
-- [8] M. Shokouhi and L. Si, "Federated Search," *Found. Trends Inf. Retr.*, 2011
+- Lokale `HybridSearch`-Instanz für den lokalen Shard
+- Parallele Verteilung von Suchanfragen an alle gesunden Remote-Shards via `RemoteExecutor::post()` (REST + mTLS)
+- Cross-Shard Reciprocal Rank Fusion (RRF) zum Zusammenführen der Teilergebnisse
+- Konfigurierbare Fehlertoleranz (`skip_failed_shards`): ausgefallene Shards werden übersprungen
+- `SearchStats` mit Shard-Level-Diagnostics (queried / succeeded / failed)
+- Tests: `tests/test_distributed_hybrid_search.cpp` (config-Validierung, RRF-Korrektheit, Fehlertoleranz, Deduplizierung)
 
 ---
 
-## Alle anderen Komponenten: Production-Ready ✅
+## Alle Komponenten: Production-Ready ✅
 
-Die folgenden 16 Komponenten sind vollständig implementiert und in v2.2.0 produktionsbereit:
+Die folgenden 17 Komponenten sind vollständig implementiert und in v2.3.0 produktionsbereit:
 
 | Komponente | Version | Status |
 |---|---|---|
@@ -64,9 +61,10 @@ Die folgenden 16 Komponenten sind vollständig implementiert und in v2.2.0 produ
 | `CrossLingualSearch` (Multilingual Embeddings) | v2.0.0 | ✅ |
 | `SearchHighlighter` (Highlight/Snippet-Generierung) | v2.1.0 | ✅ |
 | `NegativeKeywordFilter` (NOT-Operator) | v2.2.0 | ✅ |
+| `DistributedHybridSearch` (Shard-verteilte Suche, RRF-Merge, mTLS) | v2.3.0 | ✅ |
 
 ---
 
 ## Fazit
 
-Das Search-Modul ist **Production-Ready** für alle lokalen Such-Szenarien. Das einzige offene Finding (Distributed Search, Issue #2280) betrifft eine geplante Erweiterung für verteilte Deployments und blockiert keine aktuellen Produktivbetriebe.
+Das Search-Modul ist **Production-Ready** für alle Such-Szenarien, einschließlich verteilter Deployments.
