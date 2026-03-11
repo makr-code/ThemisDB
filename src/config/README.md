@@ -13,6 +13,7 @@ The Config module provides backward-compatible configuration path resolution and
 | `config_schema_validator.h` / `config_schema_validator.cpp` | JSON Schema (Draft 7 subset) validation of YAML/JSON config files |
 | `config_audit_log.h` / `config_audit_log.cpp` | Bounded in-memory audit trail for config path accesses |
 | `config_metrics_exporter.h` / `config_metrics_exporter.cpp` | Prometheus text-format metrics exporter for the `/metrics` endpoint |
+| `config_encrypted_store.h` / `config_encrypted_store.cpp` | AES-256-GCM encrypted key-value store for sensitive config values with key rotation |
 | `lru_cache.h` | LRU cache with TTL for resolved path results |
 | `path_mapping_metadata.h` | Deprecation and removal-date metadata per mapped path |
 | `config_errors.h` | Typed exception hierarchy for config-related errors |
@@ -30,11 +31,12 @@ The Config module provides backward-compatible configuration path resolution and
 - Typed exception hierarchy for config errors
 - JSON Schema (Draft 7 subset) validation of YAML and JSON config files
 - Config path access audit trail (bounded in-memory log with timestamps)
+- **Encrypted config storage** (`ConfigEncryptedStore`): AES-256-GCM encryption, per-value random IV, authentication tag verification, zero-downtime key rotation
 
 **Out of Scope:**
 - Parsing or loading config file contents (YAML/JSON) beyond what is needed for schema validation
 - Runtime configuration hot-reload
-- Secrets management or credential injection
+- Master-key envelope protection for serialised `ConfigEncryptedStore` snapshots (caller responsibility)
 
 ## Key Components
 
@@ -71,6 +73,31 @@ When a variable is absent, empty, or invalid a warning is written to `stderr` an
 - The `PATH_MAPPING` table is `const` and initialized at compile time
 - Metrics use `std::atomic<uint64_t>`; no locks needed for reads
 - `ConfigAuditLog` uses an internal `std::mutex`; audit recording is a separate lock acquisition from path resolution
+
+### ConfigEncryptedStore
+**Location:** `config_encrypted_store.h`, `config_encrypted_store.cpp`
+
+Thread-safe, AES-256-GCM encrypted key-value store for sensitive configuration values (passwords, API tokens, connection strings). Each call to `set()` generates a fresh random 96-bit IV, ensuring that two encryptions of the same plaintext produce distinct ciphertexts. Authentication tags (128 bits) are verified on every `get()` call, so tampered data is detected before it is returned.
+
+**Encryption scheme:**
+
+| Property | Value |
+|----------|-------|
+| Algorithm | AES-256-GCM (NIST SP 800-38D) |
+| Key size | 256 bits (32 bytes) |
+| IV size | 96 bits (12 bytes), randomly generated per encryption |
+| Tag size | 128 bits (16 bytes), verified on every decryption |
+| IV source | `RAND_bytes` (OpenSSL CSPRNG) |
+
+**Key rotation:**
+
+`rotateKey()` atomically re-encrypts every stored value under a new randomly-generated 256-bit key. The operation is serialised under the internal mutex so no concurrent read can observe a partially-rotated store. The old key bytes are zero-filled before the `std::vector` holding them is dropped.
+
+**Persistence:**
+
+`serialize()` returns a JSON string containing the current key material and all encrypted blobs. `deserialize()` restores a store from such a snapshot. The serialised form contains the AES key in plaintext; callers must wrap the snapshot in a master-key envelope before writing it to persistent storage.
+
+**Thread Safety:** All public methods acquire the internal `std::mutex`; safe for concurrent use from multiple threads.
 
 ### ConfigAuditLog
 **Location:** `config_audit_log.h`, `config_audit_log.cpp`
@@ -200,9 +227,52 @@ Caller
 - `spdlog` — structured logging for deprecation warnings and debug traces
 - `<filesystem>` (C++17) — file existence checks and path manipulation
 - `yaml-cpp` — YAML file parsing used by `ConfigSchemaValidator`
-- `nlohmann/json` — JSON file parsing and schema representation used by `ConfigSchemaValidator`
+- `nlohmann/json` — JSON file parsing and schema representation used by `ConfigSchemaValidator` and `ConfigEncryptedStore`
+- `OpenSSL` (`libcrypto`) — AES-256-GCM encryption used by `ConfigEncryptedStore`
 
 ## Usage Examples
+
+### Encrypted Config Storage
+
+```cpp
+#include "config/config_encrypted_store.h"
+
+using namespace themis::config;
+
+// --- Basic usage ---
+
+ConfigEncryptedStore store;
+store.set("db_password", "hunter2");
+store.set("api_token",   "tok_abc123");
+
+// Retrieve (decrypts and verifies authentication tag on every call)
+std::string pw = store.get("db_password");  // "hunter2"
+
+// Non-throwing variant (returns std::nullopt if key absent)
+auto token = store.tryGet("api_token");
+if (token) { /* use *token */ }
+
+// --- Key rotation (zero-downtime, atomic) ---
+
+uint32_t new_version = store.rotateKey();
+// All stored values are now re-encrypted under a fresh AES-256 key.
+// Values remain accessible without any change to callers.
+assert(store.get("db_password") == "hunter2");
+assert(store.currentKeyVersion() == new_version);
+
+// --- Persistence ---
+
+// Serialise to JSON (contains AES key in plaintext — protect before persisting)
+std::string snapshot = store.serialize();
+
+// Restore from snapshot
+ConfigEncryptedStore restored;
+restored.deserialize(snapshot);
+assert(restored.get("db_password") == "hunter2");
+assert(restored.currentKeyVersion() == store.currentKeyVersion());
+```
+
+### Config Path Resolution
 
 ```cpp
 #include "config/config_path_resolver.h"
