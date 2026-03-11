@@ -43,17 +43,15 @@
 
 ---
 
-## CON-003 — OCR-Vorverarbeitung: DPI-Reskalierung auf 300 DPI *(Medium)*
+## CON-003 — OCR-Vorverarbeitung: DPI-Reskalierung auf 300 DPI ✅ **(Behoben)**
 
 **Datei:** `src/content/ocr_processor.cpp`
 
 **Erwartet:** Bilder auf 300 DPI reskalieren, falls Metadaten eine geringere Auflösung anzeigen; adaptive Binarisierung via Leptonica.
 
-**Beobachtet:** Leptonica wird für das Laden des Bildes genutzt (Zeile 145), aber keine DPI-Reskalierungslogik vorhanden.
+**Status:** Implementiert. `OcrProcessor::Config` besitzt jetzt `target_dpi` (Standard: 300), `enable_dpi_rescaling` (Standard: `true`) und `enable_adaptive_binarization` (Standard: `true`). In `runTesseract()` werden `pixGetXRes`/`pixGetYRes` zur DPI-Erkennung genutzt; bei niedrigerer Auflösung wird mit `pixScale` hochskaliert. Adaptive Binarisierung erfolgt via `pixConvertTo8` + `pixSauvolaBinarize` (Fenster 31×31, *k* = 0,35). Die Metadaten-Felder `ocr_input_dpi`, `ocr_rescaled` und `ocr_binarized` werden in `ExtractionResult::metadata` gespeichert.
 
-**Auswirkung:** OCR-Qualität bei niedrig aufgelösten Scans kann beeinträchtigt sein.
-
-**Empfohlener Issue-Titel:** `feat(content): add 300-DPI rescaling and adaptive binarisation in ocr_processor.cpp`
+**Issue-Titel:** `feat(content): add 300-DPI rescaling and adaptive binarisation in ocr_processor.cpp`
 
 ---
 
