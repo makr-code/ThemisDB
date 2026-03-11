@@ -466,11 +466,13 @@ TEST(AdaptiveVRAMAllocatorDelegationTest, AllocateWithFragmentationNoLongerStub)
     void* ptr = nullptr;
     bool ok = ada.allocateWithFragmentation(4096, &ptr);
 
-    // Must not be the old stub (ptr == nullptr with ok == true)
-    // Either ok && ptr != nullptr, or !ok with ptr == nullptr
+    // Must not exhibit the old stub behaviour (ok=true but ptr==nullptr).
+    // The delegation to ActiveVRAMAllocator ensures a real allocation attempt:
+    // if ok==true then ptr must be a valid non-null memory address.
     if (ok) {
         EXPECT_NE(ptr, nullptr)
-            << "allocateWithFragmentation returned true but ptr is still nullptr (stub behaviour)";
+            << "allocateWithFragmentation returned true but ptr is nullptr — "
+               "delegation to ActiveVRAMAllocator is not working correctly";
     }
 }
 

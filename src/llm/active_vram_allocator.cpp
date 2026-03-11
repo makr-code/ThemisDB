@@ -40,6 +40,11 @@
 #include <stdexcept>
 #include <unordered_map>
 
+// Use cudaMemcpy for device↔host transfers when CUDA is available.
+#ifdef THEMIS_ENABLE_CUDA
+#include <cuda_runtime.h>
+#endif
+
 namespace themis {
 namespace llm {
 
@@ -56,6 +61,45 @@ int64_t nowMs() {
 /// Round `n` up to the nearest multiple of `alignment` (must be power-of-two).
 size_t alignUp(size_t n, size_t alignment) {
     return (n + alignment - 1) & ~(alignment - 1);
+}
+
+/**
+ * @brief Copy `bytes` from `src` to `dst`.
+ *
+ * Uses `cudaMemcpy(DeviceToHost)` / `cudaMemcpy(HostToDevice)` when CUDA is
+ * available and the source is a device pointer; falls back to `std::memcpy`
+ * in CPU-simulation or non-CUDA builds.
+ *
+ * @param dst         Destination buffer (CPU or GPU).
+ * @param src         Source buffer (GPU or CPU).
+ * @param bytes       Number of bytes to copy.
+ * @param device_to_host  True for GPU→CPU, false for CPU→GPU.
+ * @param gpu_available   True when a real CUDA device is in use.
+ */
+void copyMemory(void* dst, const void* src, size_t bytes,
+                bool device_to_host, bool gpu_available)
+{
+    if (bytes == 0 || !dst || !src) return;
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available) {
+        cudaMemcpyKind kind = device_to_host
+            ? cudaMemcpyDeviceToHost
+            : cudaMemcpyHostToDevice;
+        cudaError_t err = cudaMemcpy(dst, src, bytes, kind);
+        if (err != cudaSuccess) {
+            spdlog::warn("[ActiveVRAMAllocator] cudaMemcpy failed: {}",
+                         cudaGetErrorString(err));
+            // Fall back to std::memcpy as best-effort
+            std::memcpy(dst, src, bytes);
+        }
+        return;
+    }
+#else
+    (void)device_to_host;
+    (void)gpu_available;
+#endif
+    std::memcpy(dst, src, bytes);
 }
 
 /// Generate a unique internal model key for GPUMemoryManager from owner + id.
@@ -339,8 +383,8 @@ public:
             return false;
         }
 
-        // Copy data from CPU back to GPU
-        std::memcpy(gpu_ptr, handle.cpu_ptr, bytes);
+        // Copy data from CPU back to GPU (uses cudaMemcpy when CUDA is available)
+        copyMemory(gpu_ptr, handle.cpu_ptr, bytes, /*device_to_host=*/false, gpu_available_);
 
         // Free the CPU buffer
         gpu_mgr_->freeCPU(makeModelKey(handle.owner_id, handle.id), handle.cpu_ptr);
@@ -566,9 +610,9 @@ private:
             return 0;
         }
 
-        // Copy GPU→CPU
+        // Copy GPU→CPU (uses cudaMemcpy when CUDA is available)
         if (h.gpu_ptr) {
-            std::memcpy(cpu_ptr, h.gpu_ptr, bytes);
+            copyMemory(cpu_ptr, h.gpu_ptr, bytes, /*device_to_host=*/true, gpu_available_);
         }
 
         // Free GPU memory
