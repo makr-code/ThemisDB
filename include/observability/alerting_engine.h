@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <functional>
 
 namespace themis {
 namespace observability {

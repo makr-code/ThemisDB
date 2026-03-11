@@ -384,8 +384,9 @@ TEST(AlertingEngineSendTest, ResolveAlert_NonexistentId_IsNoOp) {
 
 class MockAlertmanager : public Alertmanager {
 public:
-    int send_count   = 0;
+    int send_count    = 0;
     int resolve_count = 0;
+    int silence_count = 0;
 
     Result<void> sendAlert(const Alert& /*alert*/) override {
         ++send_count;
@@ -393,6 +394,10 @@ public:
     }
     Result<void> resolveAlert(const std::string& /*id*/) override {
         ++resolve_count;
+        return {};
+    }
+    Result<void> silenceAlert(const std::string& /*id*/, int /*minutes*/) override {
+        ++silence_count;
         return {};
     }
 };
@@ -504,6 +509,52 @@ TEST(SlackNotificationChannelTest, EmptyWebhookUrl_ReturnsError) {
     a.status     = AlertStatus::FIRING;
     auto res = ch.send(a);
     EXPECT_FALSE(res.has_value());
+}
+
+// ============================================================================
+// silenceAlert
+// ============================================================================
+
+TEST(AlertingEngineSilenceTest, SilenceAlert_MarksAlertSilenced) {
+    AlertingEngine engine;
+    auto rec = std::make_shared<RecordingChannel>();
+    engine.addChannel(rec);
+
+    Alert a;
+    a.alert_name = "SilenceTest";
+    a.alert_id   = "sl-001";
+    a.severity   = AlertSeverity::WARNING;
+    a.status     = AlertStatus::FIRING;
+    a.message    = "needs silencing";
+    engine.sendAlert(a);
+
+    // Silence the alert — should mark it silenced in active list.
+    auto res = engine.silenceAlert("sl-001", 30);
+    EXPECT_TRUE(res.has_value());
+
+    auto active = engine.getActiveAlerts();
+    ASSERT_EQ(active.size(), 1u);
+    EXPECT_EQ(active[0].status, AlertStatus::SILENCED);
+}
+
+TEST(AlertingEngineSilenceTest, SilenceAlert_NonexistentId_IsNoOp) {
+    AlertingEngine engine;
+    auto res = engine.silenceAlert("ghost", 10);
+    EXPECT_TRUE(res.has_value());
+}
+
+TEST(AlertingEngineSilenceTest, SilenceAlert_ForwardsToBackend) {
+    auto mock = std::make_shared<MockAlertmanager>();
+    AlertingEngine engine(mock);
+
+    Alert a;
+    a.alert_id = "sl-002";
+    a.status   = AlertStatus::FIRING;
+    engine.sendAlert(a);
+
+    auto res = engine.silenceAlert("sl-002", 15);
+    EXPECT_TRUE(res.has_value());
+    EXPECT_EQ(mock->silence_count, 1);
 }
 
 // ============================================================================

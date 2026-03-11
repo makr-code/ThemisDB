@@ -3,6 +3,7 @@
 #include "utils/http_client_pool.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
+#include <ctime>
 #include <sstream>
 #include <iomanip>
 
@@ -385,7 +386,7 @@ void AlertingEngine::loadDefaultRules() {
         auto res = rule_manager_.addRule(rule);
         if (!res.has_value()) {
             THEMIS_WARN("AlertingEngine::loadDefaultRules: failed to add rule '{}': {}",
-                        def.rule_id, res.error().message);
+                        def.rule_id, res.error().message());
         }
     }
 }
@@ -409,7 +410,7 @@ void AlertingEngine::dispatchToChannels(const Alert& alert) {
         auto res = ch->send(alert);
         if (!res.has_value()) {
             THEMIS_WARN("AlertingEngine: channel '{}' failed to send alert '{}': {}",
-                        ch->channelType(), alert.alert_name, res.error().message);
+                        ch->channelType(), alert.alert_name, res.error().message());
         }
     }
 }
@@ -437,7 +438,7 @@ Result<void> AlertingEngine::sendAlert(const Alert& alert) {
         auto res = backend_->sendAlert(alert);
         if (!res.has_value()) {
             THEMIS_WARN("AlertingEngine: backend sendAlert failed for '{}': {}",
-                        alert.alert_name, res.error().message);
+                        alert.alert_name, res.error().message());
         }
     }
 
@@ -463,7 +464,7 @@ Result<void> AlertingEngine::resolveAlert(const std::string& alert_id) {
         auto res = backend_->resolveAlert(alert_id);
         if (!res.has_value()) {
             THEMIS_WARN("AlertingEngine: backend resolveAlert failed for '{}': {}",
-                        alert_id, res.error().message);
+                        alert_id, res.error().message());
         }
     }
 
