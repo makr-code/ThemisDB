@@ -50,6 +50,7 @@ PolicyTemplateApiHandler::PolicyTemplateApiHandler(
 http::response<http::string_body> PolicyTemplateApiHandler::handleListTemplates(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListTemplates");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -84,6 +85,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleGetTemplate(
     const http::request<http::string_body>& req,
     const std::string& template_id
 ) {
+    auto span = Tracer::startSpan("handleGetTemplate");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -112,6 +114,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handleInstantiateTem
     const http::request<http::string_body>& req,
     const std::string& template_id
 ) {
+    auto span = Tracer::startSpan("handleInstantiateTemplate");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 
@@ -167,6 +170,7 @@ http::response<http::string_body> PolicyTemplateApiHandler::handlePreviewTemplat
     const http::request<http::string_body>& req,
     const std::string& template_id
 ) {
+    auto span = Tracer::startSpan("handlePreviewTemplate");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);

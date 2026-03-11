@@ -23,6 +23,7 @@
 #include "server/policy_validation_api_handler.h"
 #include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -42,6 +43,7 @@ PolicyValidationApiHandler::PolicyValidationApiHandler(
 http::response<http::string_body> PolicyValidationApiHandler::handleValidateRuleset(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleValidateRuleset");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -65,6 +67,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateRule
 http::response<http::string_body> PolicyValidationApiHandler::handleValidateSingleRule(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleValidateSingleRule");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -98,6 +101,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleValidateSing
 http::response<http::string_body> PolicyValidationApiHandler::handleGetValidationReport(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetValidationReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -121,6 +125,7 @@ http::response<http::string_body> PolicyValidationApiHandler::handleGetValidatio
 http::response<http::string_body> PolicyValidationApiHandler::handleGetMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetMetrics");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);

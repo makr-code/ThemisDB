@@ -119,7 +119,7 @@
 - [x] FUTURE_ENHANCEMENTS.md with design constraints and required interfaces
 - [x] Missing-implementations audit report (`docs/de/content/missing-implementations.md`)
 - [x] German developer docs (`docs/de/content/`)
-- [ ] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004) (Target: Q3 2026)
+- [x] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - [x] API reference for `ContentManager::ingestStream()` back-pressure behaviour
 
 ## Production Readiness Checklist

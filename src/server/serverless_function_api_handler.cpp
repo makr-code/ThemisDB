@@ -33,6 +33,7 @@
 #include <thread>
 #include <future>
 #include <stdexcept>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -256,6 +257,7 @@ http::response<http::string_body>
 ServerlessFunctionApiHandler::handleRegister(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleRegister");
     json body;
     try {
         body = json::parse(req.body());
@@ -308,6 +310,7 @@ http::response<http::string_body>
 ServerlessFunctionApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleList");
     // Optional ?tenant_id= filter via query string.
     std::string tenant_filter;
     const std::string target{req.target()};
@@ -344,6 +347,7 @@ ServerlessFunctionApiHandler::handleGet(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleGet");
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -362,6 +366,7 @@ ServerlessFunctionApiHandler::handleUpdate(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleUpdate");
     json body;
     try {
         body = json::parse(req.body());
@@ -426,6 +431,7 @@ ServerlessFunctionApiHandler::handleDelete(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleDelete");
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = registry_.find(id);
     if (it == registry_.end()) {
@@ -447,6 +453,7 @@ ServerlessFunctionApiHandler::handleInvoke(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleInvoke");
     // Fetch function under lock, then release before execution to avoid
     // holding the registry mutex during potentially long-running work.
     ServerlessFunction fn;
@@ -510,6 +517,7 @@ ServerlessFunctionApiHandler::handleVersions(
     const http::request<http::string_body>& req,
     const std::string& id)
 {
+    auto span = Tracer::startSpan("handleVersions");
     std::lock_guard<std::mutex> lock(registry_mutex_);
     auto it = version_history_.find(id);
     if (it == version_history_.end()) {

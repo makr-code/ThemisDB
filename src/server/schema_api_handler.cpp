@@ -35,6 +35,7 @@
 #include "metadata/column_lineage.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
+#include "utils/tracing.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 
@@ -68,6 +69,7 @@ SchemaApiHandler::~SchemaApiHandler() {
 http::response<http::string_body> SchemaApiHandler::handleGetSchema(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /schema");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "application/json");
@@ -75,6 +77,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetSchema(
 
     try {
         if (!schema_mgr_) {
+            span.setStatus(false, "Schema manager not available");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Schema manager not available";
@@ -89,10 +92,13 @@ http::response<http::string_body> SchemaApiHandler::handleGetSchema(
         res.body() = schema_json.dump(2);  // Pretty print with 2-space indent
         res.prepare_payload();
         
+        span.setStatus(true);
         spdlog::debug("Schema API: Returned full schema");
         return res;
         
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         spdlog::error("Schema API error: {}", e.what());
         
         json error_resp;
@@ -108,6 +114,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetSchema(
 http::response<http::string_body> SchemaApiHandler::handleGetTables(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /schema/tables");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "application/json");
@@ -115,6 +122,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
 
     try {
         if (!schema_mgr_) {
+            span.setStatus(false, "Schema manager not available");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Schema manager not available";
@@ -126,6 +134,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
 
         // Get all tables from SchemaManager
         auto tables = schema_mgr_->getAllTables();
+        span.setAttribute("schema.table_count", static_cast<int64_t>(tables.size()));
         
         json response;
         response["status"] = "success";
@@ -144,10 +153,13 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
         res.body() = response.dump(2);
         res.prepare_payload();
         
+        span.setStatus(true);
         spdlog::debug("Schema API: Returned {} tables", tables.size());
         return res;
         
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         spdlog::error("Schema API error (get tables): {}", e.what());
         
         json error_resp;
@@ -163,6 +175,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTables(
 http::response<http::string_body> SchemaApiHandler::handleGetTable(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /schema/tables/:name");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "application/json");
@@ -170,6 +183,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
 
     try {
         if (!schema_mgr_) {
+            span.setStatus(false, "Schema manager not available");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Schema manager not available";
@@ -184,6 +198,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
         std::string prefix = "/api/v1/schema/tables/";
         
         if (target.find(prefix) != 0) {
+            span.setStatus(false, "Invalid URL format");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Invalid URL format";
@@ -202,6 +217,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
         }
         
         if (table_name.empty()) {
+            span.setStatus(false, "Table name is required");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Table name is required";
@@ -210,11 +226,14 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
             res.prepare_payload();
             return res;
         }
+
+        span.setAttribute("schema.table_name", table_name);
         
         // Get specific table schema
         auto table_opt = schema_mgr_->getTable(table_name);
         
         if (!table_opt.has_value()) {
+            span.setStatus(false, "Table not found");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Table not found: " + table_name;
@@ -231,10 +250,13 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
         res.body() = response.dump(2);
         res.prepare_payload();
         
+        span.setStatus(true);
         spdlog::debug("Schema API: Returned schema for table '{}'", table_name);
         return res;
         
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         spdlog::error("Schema API error (get table): {}", e.what());
         
         json error_resp;
@@ -250,6 +272,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetTable(
 http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /schema/capabilities");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "application/json");
@@ -257,6 +280,7 @@ http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
 
     try {
         if (!schema_mgr_) {
+            span.setStatus(false, "Schema manager not available");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Schema manager not available";
@@ -271,10 +295,13 @@ http::response<http::string_body> SchemaApiHandler::handleGetCapabilities(
         res.body() = capabilities_json.dump(2);
         res.prepare_payload();
         
+        span.setStatus(true);
         spdlog::debug("Schema API: Returned capabilities");
         return res;
         
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         spdlog::error("Schema API error (capabilities): {}", e.what());
         
         json error_resp;
@@ -319,6 +346,7 @@ std::string SchemaApiHandler::extractAndValidateSchemaTableName(
 http::response<http::string_body> SchemaApiHandler::handlePutSchema(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("PUT /schema/tables/:name");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "application/json");
@@ -326,6 +354,7 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
 
     try {
         if (!schema_mgr_) {
+            span.setStatus(false, "Schema manager not available");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Schema manager not available";
@@ -449,6 +478,7 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
 http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("PATCH /schema/tables/:name");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "application/json");
@@ -456,6 +486,7 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
 
     try {
         if (!schema_mgr_) {
+            span.setStatus(false, "Schema manager not available");
             json error_resp;
             error_resp["status"] = "error";
             error_resp["message"] = "Schema manager not available";

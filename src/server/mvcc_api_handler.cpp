@@ -27,6 +27,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <chrono>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -97,6 +98,7 @@ void MvccApiHandler::registerRoutes(httplib::Server& server) {
 
 void MvccApiHandler::handleGetKey(const httplib::Request& req,
                                    httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetKey");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -168,6 +170,7 @@ void MvccApiHandler::handleGetKey(const httplib::Request& req,
 
 void MvccApiHandler::handlePutKey(const httplib::Request& req,
                                    httplib::Response& res) {
+    auto span = Tracer::startSpan("handlePutKey");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -214,6 +217,7 @@ void MvccApiHandler::handlePutKey(const httplib::Request& req,
 
 void MvccApiHandler::handleListVersions(const httplib::Request& req,
                                          httplib::Response& res) {
+    auto span = Tracer::startSpan("handleListVersions");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -246,6 +250,7 @@ void MvccApiHandler::handleListVersions(const httplib::Request& req,
 
 void MvccApiHandler::handleGcVersions(const httplib::Request& req,
                                        httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGcVersions");
     std::string key = extractKey(req);
     if (key.empty()) {
         sendError(res, 400, "Key must not be empty");
@@ -302,6 +307,7 @@ void MvccApiHandler::handleGcVersions(const httplib::Request& req,
 
 void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,
                                      httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetClock");
     try {
         HLCTimestamp ts = store_->currentTimestamp();
 
@@ -322,6 +328,7 @@ void MvccApiHandler::handleGetClock(const httplib::Request& /*req*/,
 
 void MvccApiHandler::handleGetStats(const httplib::Request& /*req*/,
                                      httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetStats");
     try {
         HLCTimestamp current_ts = store_->currentTimestamp();
 

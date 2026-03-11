@@ -30,6 +30,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <chrono>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -122,6 +123,7 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
 
 void ImportApiHandler::handleStartImport(const httplib::Request& req,
                                           httplib::Response& res) {
+    auto span = Tracer::startSpan("handleStartImport");
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -151,6 +153,7 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
 
 void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
                                             httplib::Response& res) {
+    auto span = Tracer::startSpan("handleStartS3Import");
     if (!s3_importer_) {
         jsonError(res, 501,
                   "S3 importer is not configured on this server instance");
@@ -204,6 +207,7 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
 
 void ImportApiHandler::handleJobStatus(const httplib::Request& req,
                                         httplib::Response& res) {
+    auto span = Tracer::startSpan("handleJobStatus");
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -215,6 +219,7 @@ void ImportApiHandler::handleJobStatus(const httplib::Request& req,
 
 void ImportApiHandler::handleCancelJob(const httplib::Request& req,
                                         httplib::Response& res) {
+    auto span = Tracer::startSpan("handleCancelJob");
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -238,6 +243,7 @@ void ImportApiHandler::handleCancelJob(const httplib::Request& req,
 
 void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
                                        httplib::Response& res) {
+    auto span = Tracer::startSpan("handleListJobs");
     auto jobs = registry_->all();
     json arr = json::array();
     for (auto& h : jobs) arr.push_back(h->toJson());
@@ -246,6 +252,7 @@ void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
 
 void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                                       httplib::Response& res) {
+    auto span = Tracer::startSpan("handleMetrics");
     // Aggregate counters across all known jobs and emit Prometheus text format.
     auto jobs = registry_->all();
 
@@ -295,6 +302,7 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
 
 void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
                                            httplib::Response& res) {
+    auto span = Tracer::startSpan("handleImportWizard");
     res.set_content(buildImportWizardHtml(), "text/html; charset=utf-8");
 }
 
@@ -372,6 +380,7 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 
 void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetSchema");
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -408,6 +417,7 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
 
 void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
+    auto span = Tracer::startSpan("handleValidateSchema");
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -476,6 +486,7 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
 
 void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
                                                   httplib::Response& res) {
+    auto span = Tracer::startSpan("handleUpdateRelationships");
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {

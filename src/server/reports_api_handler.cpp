@@ -25,11 +25,13 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
 nlohmann::json ReportsApiHandler::generateComplianceReport(const std::string& report_type) {
     try {
+    auto span = Tracer::startSpan("generateComplianceReport");
         // Minimal MVP: aggregate basic metrics from audit log JSONL
         const std::string audit_log_path = "data/logs/audit.jsonl";
 

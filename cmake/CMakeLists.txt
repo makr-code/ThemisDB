@@ -2170,7 +2170,11 @@ set(THEMIS_CORE_SOURCES
     # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
     ../src/observability/tracer.cpp
     ../src/observability/log_aggregator.cpp
-    
+    # Observability: rule-based alerting engine with configurable notification channels
+    ../src/observability/alerting_engine.cpp
+    # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
+    ../src/observability/metric_aggregator.cpp
+
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>
@@ -2549,8 +2553,6 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/response_parser.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
-
-endif()
 
 # Ensure minimal LLM components are available when referenced from http_server.
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.

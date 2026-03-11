@@ -4,6 +4,7 @@
  */
 
 #include "server/maintenance_api_handler.h"
+#include "utils/tracing.h"
 
 #include <spdlog/spdlog.h>
 
@@ -33,28 +34,42 @@ json jobToResponse(const maintenance::OrchestratorJob& j) {
 // ---------------------------------------------------------------------------
 
 json MaintenanceApiHandler::createSchedule(const json& body) {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto span = Tracer::startSpan("POST /maintenance/schedules");
+    if (!orchestrator_) {
+        span.setStatus(false, "Orchestrator not initialized");
+        return errorResponse("Orchestrator not initialized");
+    }
 
     maintenance::MaintenanceScheduleEntry entry;
     try {
         entry = maintenance::MaintenanceScheduleEntry::fromJson(body);
     } catch (const std::exception& ex) {
+        span.recordError(ex.what());
+        span.setStatus(false, ex.what());
         return errorResponse(std::string("Invalid request body: ") + ex.what());
     }
 
     auto result = orchestrator_->createSchedule(std::move(entry));
     if (!result) {
+        span.setStatus(false, result.error().message());
         return errorResponse(result.error().message());
     }
+    span.setStatus(true);
     json resp = scheduleToResponse(*result);
     resp["status"] = "created";
     return resp;
 }
 
 json MaintenanceApiHandler::listSchedules() {
-    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+    auto span = Tracer::startSpan("GET /maintenance/schedules");
+    if (!orchestrator_) {
+        span.setStatus(false, "Orchestrator not initialized");
+        return errorResponse("Orchestrator not initialized");
+    }
 
     auto schedules = orchestrator_->listSchedules();
+    span.setAttribute("maintenance.schedule_count", static_cast<int64_t>(schedules.size()));
+    span.setStatus(true);
     json arr = json::array();
     for (auto& e : schedules) arr.push_back(scheduleToResponse(e));
     return {{"schedules", arr}, {"count", static_cast<int>(schedules.size())}};

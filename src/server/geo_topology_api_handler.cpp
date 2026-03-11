@@ -31,6 +31,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -58,6 +59,7 @@ GeoTopologyApiHandler::GeoTopologyApiHandler(
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -104,6 +106,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleRegionsGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -156,6 +159,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleRegionsGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleHealthGet");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -227,6 +231,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleHealthGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyShardPost");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -297,6 +302,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
 http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDelete(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyShardDelete");
     if (!shard_topology_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Shard topology not available", req);
@@ -333,6 +339,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDele
 http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleConfigGet");
     if (!redundancy_manager_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Redundancy manager not available", req);
@@ -411,6 +418,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
 http::response<http::string_body> GeoTopologyApiHandler::handleConfigPut(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleConfigPut");
     if (!redundancy_manager_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Redundancy manager not available", req);

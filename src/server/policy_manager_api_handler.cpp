@@ -46,6 +46,7 @@ PolicyManagerApiHandler::PolicyManagerApiHandler(
 http::response<http::string_body> PolicyManagerApiHandler::handleListRules(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListRules");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -79,6 +80,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleGetRule");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -104,6 +106,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetRule(
 http::response<http::string_body> PolicyManagerApiHandler::handleCreateRule(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCreateRule");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
@@ -158,6 +161,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleUpdateRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleUpdateRule");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
@@ -212,6 +216,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleDeleteRule");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized - admin role required", req);
@@ -247,6 +252,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleDeleteRule(
 http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleEvaluatePolicy");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -308,6 +314,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleEvaluatePolicy(
 http::response<http::string_body> PolicyManagerApiHandler::handleGetStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetStats");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);

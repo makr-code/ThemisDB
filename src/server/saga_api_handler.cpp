@@ -24,6 +24,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -174,6 +175,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
 
 nlohmann::json SAGAApiHandler::listBatches() {
     if (!saga_logger_) {
+    auto span = Tracer::startSpan("listBatches");
         return {{"error", "SAGA logger not initialized"}};
     }
     
@@ -200,6 +202,7 @@ nlohmann::json SAGAApiHandler::listBatches() {
 
 nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
     if (!saga_logger_) {
+    auto span = Tracer::startSpan("getBatchDetail");
         return {{"error", "SAGA logger not initialized"}};
     }
     
@@ -256,6 +259,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
 
 nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
     if (!saga_logger_) {
+    auto span = Tracer::startSpan("verifyBatch");
         return {{"error", "SAGA logger not initialized"}};
     }
     
@@ -288,6 +292,7 @@ nlohmann::json SAGAApiHandler::verifyBatch(const std::string& batch_id) {
 
 nlohmann::json SAGAApiHandler::flushCurrentBatch() {
     if (!saga_logger_) {
+    auto span = Tracer::startSpan("flushCurrentBatch");
         return {{"error", "SAGA logger not initialized"}};
     }
     
