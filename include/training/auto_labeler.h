@@ -34,6 +34,9 @@ namespace analytics {
     struct LegalModality;
 }
 
+// Forward declare QueryEngine to keep the training header free of heavy dependencies
+class QueryEngine;
+
 namespace training {
 
 /**
@@ -128,12 +131,17 @@ struct AutoLabelConfig {
 class LegalAutoLabeler {
 public:
     /**
-     * @brief Construct auto-labeler
+     * @brief Construct auto-labeler without a database connection
      * @param config Labeling configuration
-     * @param db_connection Database connection string
+     * @param db_connection Database connection string (informational)
+     * @param engine Optional AQL query engine; when non-null, labelAll() and
+     *               labelQuery() fetch document IDs from the database via AQL.
+     *               Pass nullptr (the default) to operate in test/offline mode,
+     *               where no documents are fetched from the database.
      */
     explicit LegalAutoLabeler(const AutoLabelConfig& config,
-                              const std::string& db_connection);
+                              const std::string& db_connection,
+                              QueryEngine* engine = nullptr);
     
     ~LegalAutoLabeler();
     

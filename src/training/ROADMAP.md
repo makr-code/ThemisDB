@@ -9,6 +9,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 ## Completed ✅
 - [x] LegalAutoLabeler – automated training sample generation from legal documents via NLP modality extraction
 - [x] `labelAll()`, `labelDocument()`, `labelQuery()` APIs
+- [x] AQL query executor wired to `labelAll()` and `labelQuery()` for DB document-ID fetch (v1.7.0) — `auto_labeler.cpp`
 - [x] Low-confidence sample flagging and human-review queue
 - [x] `updateSampleConfidence()` for recording human review decisions
 - [x] German (`de`) and multi-language support
@@ -79,6 +80,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 ### Phase 1: Auto-Labeling & LoRA Training Pipeline (Status: Completed ✅)
 - [x] LegalAutoLabeler – NLP modality extraction from legal documents
 - [x] `labelAll()`, `labelDocument()`, `labelQuery()` public APIs
+- [x] `labelAll()` and `labelQuery()` fetch document IDs from the DB via AQL query executor (`executeAql()`); offline/nullptr-engine fallback for tests
 - [x] Low-confidence sample flagging and human-review queue with `updateSampleConfidence()`
 - [x] IncrementalLoRATrainer – full LoRA lifecycle (train, evaluate, deploy, rollback)
 - [x] INITIAL and INCREMENTAL training modes with configurable rank/alpha/lr

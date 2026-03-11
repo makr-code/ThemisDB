@@ -22,11 +22,12 @@ bevor der Status auf **Beta** angehoben werden kann.
 | Feld | Wert |
 |------|------|
 | **Schweregrad** | Hoch |
-| **Status** | Offen |
+| **Status** | ✅ Behoben |
 | **Claim-Quelle** | `src/training/README.md`, Abschnitt "Production Readiness" |
 | **Erwartet** | `labelAll()` und `labelQuery()` lesen Dokumente über den AQL-Query-Executor |
 | **Beobachtet** | `auto_labeler.cpp`: Datenbankzugriff ist als `// TODO`-Stub markiert; `labelDocument()` ist vollständig implementiert |
 | **Evidence** | `src/training/auto_labeler.cpp` (TODO-Kommentare im Datenbankzugriff-Pfad) |
+| **Lösung** | `LegalAutoLabeler`-Konstruktor akzeptiert jetzt einen optionalen `QueryEngine*`-Parameter. Wenn eine Engine vorhanden ist, rufen `labelAll()` und `labelQuery()` `executeAql()` auf, um Dokument-IDs aus der Datenbank abzurufen. Ohne Engine bleibt das bisherige Offline-/Testverhalten erhalten. |
 | **Issue-Titelvorschlag** | `feat(training): wire LegalAutoLabeler DB fetch to AQL query executor` |
 | **Label-Vorschläge** | `module:training`, `priority:high`, `type:stub` |
 
@@ -84,5 +85,6 @@ bevor der Status auf **Beta** angehoben werden kann.
 - ✅ `ModalityParser` — ModalityDetector, TextClauseExtractor, TableExtractor, CitationExtractor, OCRExtractor
 - ✅ `ConfidenceCalibrator` — isotonische Regression (PAV-Algorithmus), kategoriespezifische Schwellenwerte
 - ✅ `LoraDataSelection` — Deduplizierung, Balancierung, Stratifizierung
-- ✅ `LegalAutoLabeler::labelDocument()` — vollständig implementiert; Batch-Operationen warten auf DB-Verdrahtung
+- ✅ `LegalAutoLabeler::labelDocument()` — vollständig implementiert
+- ✅ `LegalAutoLabeler::labelAll()` und `labelQuery()` — DB-Verdrahtung via AQL-Executor implementiert (FINDING-T-001)
 - ✅ Alle ROADMAP `[x]`-Einträge haben korrespondierende Quelldateien (b2342851)

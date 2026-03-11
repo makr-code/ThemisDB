@@ -11082,7 +11082,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
         ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
     )
 
-    target_include_directories(test_voice_coverage_focused PRIVATE
     target_compile_definitions(test_blue_green_deployment_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -11204,7 +11203,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
         ${THEMIS_ROOT_DIR}/src/voice/voice_browser_streaming.cpp
     )
 
-    target_include_directories(test_voice_browser_streaming_focused PRIVATE
     target_compile_definitions(test_canary_rollout_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -11365,22 +11363,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp")
     )
 
     message(STATUS "  VoiceTelephony: SipCallSession, WebRtcCallSession, IVREngine, TelephonyBridge")
-else()
-    message(STATUS "Voice Telephony focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp")
-    target_compile_definitions(test_notification_webhook_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME NotificationWebhookFocusedTests COMMAND test_notification_webhook_focused)
-
-    set_tests_properties(NotificationWebhookFocusedTests PROPERTIES
-        LABELS "updates;notification;webhook;slack;pagerduty;focused;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  NotificationWebhook: Slack color-coded attachments, PagerDuty Events API v2, injectable HttpSendFunc, error handling")
-else()
-    message(STATUS "Notification Webhook focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp")
 endif()
 
 # PreflightHealthCheck – focused tests for pre-update health checks
