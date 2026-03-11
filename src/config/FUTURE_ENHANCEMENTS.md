@@ -155,7 +155,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 **Implementation Notes:**
 - `[x]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
 - `[ ]` Add `not` — assert a value does NOT match a sub-schema.
-- `[ ]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
+- `[x]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
 - `[ ]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
 - `[ ]` Add `uniqueItems` for array validation.
 - `[ ]` Extend `ConfigSchemaValidator::loadAsJson()` to accept an in-memory YAML string (not only a file path) to support inline config parsing in tests and server-side config hot-checks.
