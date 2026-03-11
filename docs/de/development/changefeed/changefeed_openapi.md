@@ -49,21 +49,76 @@ paths:
 
   /changefeed/stream:
     get:
-      summary: Server‑Sent Events stream of changes
+      summary: Server‑Sent Events stream of changes (at-least-once delivery supported)
       parameters:
         - name: from_seq
           in: query
           schema:
             type: integer
+        - name: key_prefix
+          in: query
+          schema:
+            type: string
+        - name: consumer_id
+          in: query
+          description: >
+            Opaque consumer identifier for at-least-once delivery tracking.
+            When provided, unacknowledged events from previous requests are
+            redelivered before new events. Max length: 128 characters.
+          schema:
+            type: string
+        - name: ack_timeout_ms
+          in: query
+          description: >
+            Per-request override for the ACK timeout in milliseconds (default: 30000).
+            Events not acknowledged within this window are eligible for redelivery.
+          schema:
+            type: integer
       responses:
         '200':
-          description: text/event-stream (SSE)
+          description: text/event-stream (SSE) with id/data lines per event
           content:
             text/event-stream:
               schema:
                 type: string
 
-3) GET /changefeed/stats
+3) POST /changefeed/stream/ack (SSE at-least-once acknowledgement)
+
+  /changefeed/stream/ack:
+    post:
+      summary: Acknowledge receipt of SSE events for at-least-once delivery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [consumer_id, up_to_sequence]
+              properties:
+                consumer_id:
+                  type: string
+                  description: Same consumer identifier used in GET /changefeed/stream
+                up_to_sequence:
+                  type: integer
+                  format: uint64
+                  description: Highest sequence number to acknowledge (inclusive, cumulative)
+      responses:
+        '200':
+          description: Acknowledgement result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consumer_id:
+                    type: string
+                  up_to_sequence:
+                    type: integer
+                  acknowledged:
+                    type: integer
+                    description: Number of in-flight events removed from tracking
+
+4) GET /changefeed/stats
 
   /changefeed/stats:
     get:
@@ -81,7 +136,7 @@ paths:
                   total_events:
                     type: integer
 
-4) POST /changefeed/retention
+5) POST /changefeed/retention
 
   /changefeed/retention:
     post:

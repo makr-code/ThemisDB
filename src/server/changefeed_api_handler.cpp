@@ -416,6 +416,15 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             // Production mode: Register connection for streaming
             // Note: Current Beast setup limits us to batch-based streaming
             // Full keep-alive requires custom async write loop (see TODO in docs)
+            //
+            // At-least-once delivery note: In this path, SseConnectionManager::pollEvents()
+            // returns pre-formatted SSE strings ("id: N\ndata: {...}\n\n"), not raw
+            // ChangeEvent objects.  Feeding them into delivery_tracker_.trackDelivery()
+            // would require parsing them back, which is fragile.  For full at-least-once
+            // support in the production SSE path, SseConnectionManager should be extended
+            // to return raw ChangeEvent objects alongside formatted lines.  Until then,
+            // use the MVP batch path (keep_alive=false or without sse_manager_) for
+            // guaranteed at-least-once delivery via consumer_id + POST /changefeed/stream/ack.
             
             uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
@@ -429,11 +438,11 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             
             auto last_hb = start;
             while (std::chrono::steady_clock::now() - start < max_duration) {
-                // Poll for new events
-                auto event_lines = sse_manager_->pollEvents(conn_id, max_events_per_poll);
+                // Poll for new events (returns pre-formatted SSE strings: "id: N\ndata: ...\n\n")
+                auto sse_formatted_lines = sse_manager_->pollEvents(conn_id, max_events_per_poll);
                 
-                if (!event_lines.empty()) {
-                    for (const auto& event_line : event_lines) {
+                if (!sse_formatted_lines.empty()) {
+                    for (const auto& event_line : sse_formatted_lines) {
                         body << event_line;
                         total_events++;
                     }

@@ -55,7 +55,7 @@ Implements Change Data Capture for ThemisDB, providing real-time change notifica
 - Filtered change subscriptions (collection, key prefix, operation type)
 - Historical change replay from stored change log
 - Consumer group semantics with durable offset tracking and partition assignment
-- At-least-once delivery guarantees with consumer acknowledgement and redelivery
+- At-least-once delivery guarantees with consumer acknowledgement and redelivery — available for SSE connections (`GET /changefeed/stream?consumer_id=...`) and Consumer Groups (`/v2/cdc/stream`)
 - Dead-letter queue for events that exhaust delivery retries
 - Transactional outbox pattern for atomic CDC + application data publishing
 - Cross-collection merged event streams with per-collection resume cursors

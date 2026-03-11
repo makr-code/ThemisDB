@@ -307,6 +307,8 @@ TEST_F(HttpChangefeedSseTest, SseStream_KeepAlive_ReceivesIncrementalEvents) {
 // ---------------------------------------------------------------------------
 
 // Helper: extract all "data: {...}" lines from an SSE body as parsed JSON events.
+// Note: parse errors are intentionally suppressed – non-data SSE lines (retry, heartbeat, etc.)
+// are not JSON and will fail to parse; the caller verifies results via ASSERT.
 static std::vector<json> parseSseEvents(const std::string& body) {
     std::vector<json> result;
     std::istringstream iss(body);
