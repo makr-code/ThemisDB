@@ -1855,6 +1855,51 @@ else()
 endif()
 
 # ============================================================================
+# Config Migration Scanner Benchmarks
+# Performance target: CLI scanner 10K files < 5 s
+# (ref: src/config/FUTURE_ENHANCEMENTS.md, Performance Targets)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_migration_scanner.cpp")
+    message(STATUS "Adding ConfigMigrationScanner throughput benchmarks")
+
+    add_executable(bench_config_migration_scanner
+        bench_config_migration_scanner.cpp
+    )
+
+    target_link_libraries(bench_config_migration_scanner PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_config_migration_scanner PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_config_migration_scanner PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_config_migration_scanner
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Migration scanner benchmarks: shouldScanFile, scanFile (no/with match), 1K-tree, 10K-tree")
+else()
+    message(STATUS "ConfigMigrationScanner benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_config_migration_scanner.cpp")
+endif()
+
+# ============================================================================
 # Acceleration Dispatch Benchmarks
 # CPUVectorBackend::computeDistances, batchKnnSearch;
 # CPUGeoBackend::haversineDistance, batchHaversineDistances, pointInPolygon
