@@ -21,18 +21,26 @@
  */
 
 #include "training/incremental_lora_trainer.h"
-#include <stdexcept>
 #include <algorithm>
 #include <chrono>
-#include <fstream>
-#include <sstream>
 #include <cmath>
-#include <numeric>
-#include <map>
-#include <random>
 #include <cstdint>
+#include <fstream>
+#include <map>
+#include <numeric>
+#include <random>
+#include <sstream>
+#include <stdexcept>
 
 #ifdef THEMIS_ENABLE_LLM
+#ifndef THEMIS_NO_SPDLOG
+#include <spdlog/spdlog.h>
+#else
+namespace spdlog {
+    template<typename... Args> inline void warn(const char*, ...) {}
+    template<typename... Args> inline void error(const char*, ...) {}
+}
+#endif
 #include "llm/lora_framework/lora_layers.h"
 #endif
 
@@ -138,7 +146,8 @@ public:
             // Phase 3: Validate hyperparameters
             validateHyperparameters();
 
-            // Initialize real LoRA weight matrices and Adam optimizer
+            // Initialize real LoRA weight matrices and Adam optimizer.
+            // Safe even without THEMIS_ENABLE_LLM: the function is a no-op in that case.
             initLoRAComponents();
 
             double running_loss = 0.0;
@@ -501,9 +510,11 @@ private:
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
         if (text.empty()) return vec;
+        // Mix 64-bit hash into a 32-bit seed using FNV-1a folding to preserve entropy
         std::hash<std::string> hasher;
-        size_t seed = hasher(text);
-        std::mt19937 gen(static_cast<uint32_t>(seed));
+        size_t h64 = hasher(text);
+        uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
+        std::mt19937 gen(seed);
         std::normal_distribution<float> dist(0.0f, 0.1f);
         for (auto& v : vec) v = dist(gen);
         return vec;
@@ -650,13 +661,30 @@ private:
                                         const llm::lora::Tensor& B,
                                         const llm::lora::Tensor& A) {
         std::ofstream f(path, std::ios::binary);
-        if (!f.is_open()) return;
+        if (!f.is_open()) {
+#ifndef THEMIS_NO_SPDLOG
+            spdlog::warn("LoRA checkpoint: failed to open weight file for writing: {}", path);
+#endif
+            return;
+        }
 
         auto writeMatrix = [&](const llm::lora::Tensor& t) {
-            uint32_t rows = static_cast<uint32_t>(t.shape()[0]);
-            uint32_t cols = static_cast<uint32_t>(t.shape()[1]);
-            f.write(reinterpret_cast<const char*>(&rows), sizeof(uint32_t));
-            f.write(reinterpret_cast<const char*>(&cols), sizeof(uint32_t));
+            if (t.shape().size() < 2) return;
+            const size_t rows = t.shape()[0];
+            const size_t cols = t.shape()[1];
+            // Validate dimensions fit in uint32 range before truncating
+            if (rows > static_cast<size_t>(UINT32_MAX) ||
+                cols > static_cast<size_t>(UINT32_MAX)) {
+#ifndef THEMIS_NO_SPDLOG
+                spdlog::error("LoRA checkpoint: tensor dimension exceeds uint32 range "
+                              "({}x{})", rows, cols);
+#endif
+                return;
+            }
+            uint32_t r = static_cast<uint32_t>(rows);
+            uint32_t c = static_cast<uint32_t>(cols);
+            f.write(reinterpret_cast<const char*>(&r), sizeof(uint32_t));
+            f.write(reinterpret_cast<const char*>(&c), sizeof(uint32_t));
             f.write(reinterpret_cast<const char*>(t.data().data()),
                     static_cast<std::streamsize>(t.data().size() * sizeof(float)));
         };
@@ -691,7 +719,12 @@ private:
                 lora_layer_->set_weights(B, A);
             }
         } catch (...) {
-            // Weight load failed; start with fresh weights (logged at warn level)
+            // Weight file exists but is corrupt or wrong format;
+            // start with fresh Kaiming/zero initialization.
+#ifndef THEMIS_NO_SPDLOG
+            spdlog::warn("LoRA checkpoint: failed to restore weights from {}; "
+                         "starting with fresh initialization", weights_path);
+#endif
         }
     }
 #endif  // THEMIS_ENABLE_LLM
