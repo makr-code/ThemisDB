@@ -103,6 +103,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/udf_api_handler.h"
 #include "server/task_scheduler_api_handler.h"
 #include "server/async_job_api_handler.h"
+#include "server/maintenance_api_handler.h"
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
@@ -936,6 +937,10 @@ private:
     std::unique_ptr<QueryEngine> task_scheduler_engine_;   // QueryEngine owned by the scheduler subsystem
     std::unique_ptr<themis::TaskScheduler> task_scheduler_;
     std::unique_ptr<themis::server::TaskSchedulerApiHandler> task_scheduler_api_;
+
+    // Database Maintenance Orchestrator – central coordinator for all maintenance
+    std::unique_ptr<themis::maintenance::DatabaseMaintenanceOrchestrator> maintenance_orchestrator_;
+    std::unique_ptr<themis::server::MaintenanceApiHandler> maintenance_api_;
 
     // Async job API – long-running AQL query submission and polling
     std::unique_ptr<themis::server::AsyncJobApiHandler> async_job_api_;

@@ -770,7 +770,7 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 
 1. **Boost.Asio Dependency:** Requires Boost 1.70+ (async I/O library)
 2. **OpenSSL Dependency:** Required for TLS/mTLS (no alternative crypto backend)
-3. **IPv4 Only:** IPv6 support not yet implemented
+3. **IPv6 Support:** `Config::enable_ipv6 = true` enables IPv6 binding; `Config::ipv6_dual_stack = true` (default) accepts both IPv4-mapped and native IPv6 clients on a single socket via `IPV6_V6ONLY=0`.
 4. **Platform-Specific Code:** Some features (TCP keepalive) have platform differences
 5. **No UDP/QUIC:** TCP-only currently
 
@@ -785,6 +785,7 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 - **v1.4.0** - Added rate limiting and security features
 - **v1.5.0** - Added timeseries protocol helpers
 - **v1.6.0** - Added BPMN process orchestration support
+- **v1.9.0** - Added IPv6 dual-stack support (`Config::enable_ipv6`, `Config::ipv6_dual_stack`)
 
 ---
 

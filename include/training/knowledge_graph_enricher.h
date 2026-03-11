@@ -29,6 +29,10 @@
 #include <unordered_map>
 
 namespace themis {
+
+// Forward declaration – keeps the training header free of heavy index dependencies
+class VectorIndexManager;
+
 namespace training {
 
 /**
@@ -198,6 +202,20 @@ public:
         const std::string& document_id,
         size_t max_results = 5);
     
+    /**
+     * @brief Wire a vector index for semantic similarity search.
+     *
+     * When set, `findSimilarDocuments()` uses this index for cosine-similarity
+     * queries instead of returning an empty stub result.  The index must already
+     * be initialised (i.e. `init()` called) and contain document embeddings
+     * stored under the key equal to the document ID.  Ownership is NOT
+     * transferred; the caller must ensure the index outlives the enricher.
+     *
+     * @param vim Pointer to an initialised VectorIndexManager, or nullptr to
+     *            disable vector search and revert to the offline stub.
+     */
+    void setVectorIndex(VectorIndexManager* vim);
+
     /**
      * @brief Set custom graph traversal query
      * @param query_name Query name (e.g., "find_provisions")

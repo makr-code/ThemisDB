@@ -90,13 +90,13 @@ public:
 ### Module Sandboxing ✅ Implemented
 **Priority:** High  
 **Target Version:** v1.1.0  
-**Status:** Implemented in `src/base/module_sandbox.cpp` (`include/themis/base/module_sandbox.h`) and `src/base/wasm_plugin_sandbox.cpp` (`include/themis/base/wasm_plugin_sandbox.h`)
+**Status:** Implemented in `src/base/module_sandbox.cpp` (`include/themis/base/module_sandbox.h`) and `src/base/wasm_plugin_sandbox.cpp` (`include/themis/base/wasm_plugin_sandbox.h`). WASM runtime injection into `ModuleSandbox` is complete as of v1.8.0 (Issue #1572): set `Config::enable_wasm_isolation = true` and register at least one `IWasmRuntime` backend via `WasmRuntimeInjector` before calling `launch()`.
 
 **Features:**
 - Process isolation
 - Resource limits (CPU, memory)
-- Capability-based security
-- IPC between sandbox and host
+- Capability-based security (WASM host-function allowlist)
+- IPC between sandbox and host (via linear memory + WasmHostFunction callbacks)
 - Crash isolation
 
 ---

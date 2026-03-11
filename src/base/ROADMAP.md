@@ -41,7 +41,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Automatic plugin restart after health-check failure (Issue: #2373) — implemented via `ModuleLoader` watchdog: `startWatchdog()`, `stopWatchdog()`, `configureWatchdog(WatchdogConfig)`, `getWatchdogStats()`, `getAllWatchdogStats()`, `resetWatchdogStats()`
 
 ### Long-term (6-12 months)
-- [ ] Concrete WasmRuntime integration (Wasmtime or WasmEdge) (Target: Q3 2026) — prerequisite: WasmPluginSandbox infrastructure complete; runtime injection required
+- [ ] Concrete WasmRuntime integration (Wasmtime or WasmEdge) (Target: Q3 2026) — `ModuleSandbox::Config::enable_wasm_isolation` and `WasmRuntimeInjector` injection path are ready (v1.8.0); register a concrete backend via `THEMIS_REGISTER_WASM_RUNTIME` macro
 - [x] TLS public-key pinning for remote plugin registry — implemented via `RegistryConfig::pinned_public_key` + `CURLOPT_PINNEDPUBLICKEY`; Ed25519 application-layer key pinning is handled separately by `SignedPluginRepository` in the plugins module
 
 ## Implementation Phases
@@ -72,7 +72,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin sandboxing with resource limits (memory, CPU) — Evidence: `module_sandbox.cpp`
 - [x] Plugin health monitoring and automatic restart — Watchdog background thread (`startWatchdog/stopWatchdog`) with configurable exponential backoff, `WatchdogConfig`/`WatchdogModuleStats`, `PluginWatchdogFocusedTests` (Issue: #2373)
 - [x] Signed plugin repository with key pinning — TLS SPKI pinning via `RegistryConfig::pinned_public_key` + `CURLOPT_PINNEDPUBLICKEY`; Ed25519 application-layer key pinning in `SignedPluginRepository` (`plugins/signed_plugin_repository.h`)
-- [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; requires WasmRuntime injection (Issue: #1572)
+- [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; WASM runtime injection into `ModuleSandbox` implemented (v1.8.0, Issue: #1572); concrete backend (Wasmtime/WasmEdge) registration still required for production execution
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`
