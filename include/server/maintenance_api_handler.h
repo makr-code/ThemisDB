@@ -1,0 +1,102 @@
+/**
+ * @file maintenance_api_handler.h
+ * @brief HTTP API handler for DatabaseMaintenanceOrchestrator endpoints.
+ *
+ * Exposes a RESTful API over the orchestrator:
+ *
+ *   Schedule CRUD:
+ *     POST   /api/v1/maintenance/schedules          – Create schedule
+ *     GET    /api/v1/maintenance/schedules           – List all schedules
+ *     GET    /api/v1/maintenance/schedules/{id}      – Get schedule
+ *     PUT    /api/v1/maintenance/schedules/{id}      – Full update (replace)
+ *     PATCH  /api/v1/maintenance/schedules/{id}      – Partial update
+ *     DELETE /api/v1/maintenance/schedules/{id}      – Delete schedule
+ *
+ *   Jobs & Control:
+ *     GET    /api/v1/maintenance/jobs               – List jobs
+ *     GET    /api/v1/maintenance/jobs/{id}          – Get job
+ *     POST   /api/v1/maintenance/jobs/{id}/cancel   – Cancel job
+ *     POST   /api/v1/maintenance/schedules/{id}/run – Trigger immediately
+ *
+ *   Observability:
+ *     GET    /api/v1/maintenance/status             – Orchestrator status
+ *     GET    /api/v1/maintenance/health             – Aggregated health
+ *
+ * All endpoints require authentication (enforced at the HttpServer layer).
+ */
+
+#pragma once
+
+#include "maintenance/database_maintenance_orchestrator.h"
+#include <nlohmann/json.hpp>
+#include <string>
+#include <memory>
+
+namespace themis {
+namespace server {
+
+/**
+ * @brief Translates HTTP requests into DatabaseMaintenanceOrchestrator calls.
+ *
+ * All methods return a JSON object.  On success the object contains the
+ * requested data.  On error it contains:
+ *   { "status": "error", "error": "<message>" }
+ */
+class MaintenanceApiHandler {
+public:
+    explicit MaintenanceApiHandler(
+        maintenance::DatabaseMaintenanceOrchestrator* orchestrator)
+        : orchestrator_(orchestrator) {}
+
+    // ---- Schedule CRUD -------------------------------------------------------
+
+    /** POST /api/v1/maintenance/schedules */
+    nlohmann::json createSchedule(const nlohmann::json& body);
+
+    /** GET /api/v1/maintenance/schedules */
+    nlohmann::json listSchedules();
+
+    /** GET /api/v1/maintenance/schedules/{id} */
+    nlohmann::json getSchedule(const std::string& id);
+
+    /** PUT /api/v1/maintenance/schedules/{id} */
+    nlohmann::json updateSchedule(const std::string& id, const nlohmann::json& body);
+
+    /** PATCH /api/v1/maintenance/schedules/{id} */
+    nlohmann::json patchSchedule(const std::string& id, const nlohmann::json& patch);
+
+    /** DELETE /api/v1/maintenance/schedules/{id} */
+    nlohmann::json deleteSchedule(const std::string& id);
+
+    // ---- Jobs & control ------------------------------------------------------
+
+    /** GET /api/v1/maintenance/jobs */
+    nlohmann::json listJobs(bool active_only = false);
+
+    /** GET /api/v1/maintenance/jobs/{id} */
+    nlohmann::json getJob(const std::string& id);
+
+    /** POST /api/v1/maintenance/jobs/{id}/cancel */
+    nlohmann::json cancelJob(const std::string& id);
+
+    /** POST /api/v1/maintenance/schedules/{id}/run */
+    nlohmann::json triggerNow(const std::string& schedule_id);
+
+    // ---- Observability -------------------------------------------------------
+
+    /** GET /api/v1/maintenance/status */
+    nlohmann::json getStatus();
+
+    /** GET /api/v1/maintenance/health */
+    nlohmann::json getHealth();
+
+private:
+    maintenance::DatabaseMaintenanceOrchestrator* orchestrator_;
+
+    static nlohmann::json errorResponse(const std::string& msg) {
+        return {{"status", "error"}, {"error", msg}};
+    }
+};
+
+} // namespace server
+} // namespace themis

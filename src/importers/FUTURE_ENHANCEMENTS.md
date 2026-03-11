@@ -164,3 +164,82 @@ Enables real-time data intake from event-driven systems without polling REST API
 - Incremental checkpoints are written atomically (temp file + rename) to prevent corrupt state that could cause row duplication or data loss on restart.
 - The plugin sandbox limits memory allocation per plugin to prevent a malicious or buggy third-party connector from exhausting process memory and causing denial of service.
 - SQL-based connectors (PostgreSQL, MySQL) must use parameterised queries for all schema introspection calls; dynamic SQL constructed from table names must be validated against an allowlist before execution.
+
+---
+
+## v2.1+ Research-Driven Enhancements
+
+### Scope
+Scientific and enterprise-grade extensions to the import pipeline, covering ML-assisted
+schema intelligence, distributed imports, data quality, and emerging tech integrations.
+
+### Module Descriptions
+
+#### Schema Inference Engine (`importers/schema_inference.cpp`)
+**Scope:** Automatic discovery of implicit FK relationships, semantic column types, and
+cardinality distributions without user configuration.
+**Design Constraints:**
+- Stateless; configurable via `SchemaInferenceConfig` (confidence threshold, sample size).
+- No external ML runtime dependency; all algorithms run in-process.
+**Required Interfaces:** `inferImplicitRelationships()`, `detectSemanticTypes()`, `estimateCardinalities()`
+**Implementation Notes:** Jaccard similarity for FK name-stem matching; voting-based regex for semantic types; Wilson-score CI for cardinalities.
+**Research:** `docs/research/SCHEMA_INFERENCE_ALGORITHM.md`, `docs/research/CARDINALITY_ESTIMATION.md`
+**Performance Target:** ≤ 500 ms for 100-table schema with 10 000 sample values per column.
+
+#### Column Importance Analyzer (`importers/column_importance.cpp`)
+**Scope:** Information-theoretic column ranking to identify key and redundant columns.
+**Required Interfaces:** `analyzeImportance()`, `findRedundantColumns()`
+**Implementation Notes:** Shannon entropy (base-2), Gini impurity, ID3 information gain; Pearson r for redundancy detection.
+**Performance Target:** ≤ 200 ms for 50-column table with 10 000 sample rows.
+
+#### CRDT Importer (`importers/crdt_importer.cpp`)
+**Scope:** Conflict-free parallel imports using Last-Write-Wins CRDT (Shapiro et al. 2016).
+**Design Constraints:** Deterministic merge: wall_clock_ns DESC → lamport_clock DESC → replica_id ASC.
+**Required Interfaces:** `importWithCRDT()`, `lookup()`, `CRDTRecord::merge()`
+**Implementation Notes:** In-memory `state_` map; production builds should persist to RocksDB.
+
+#### PostgreSQL CDC (`importers/postgres_cdc.cpp`)
+**Scope:** True change-data-capture via PostgreSQL logical decoding (pgoutput protocol).
+**Design Constraints:** Interface contract only in default build; live libpq requires `THEMIS_ENABLE_CDC`.
+**Required Interfaces:** `createPublication()`, `createReplicationSlot()`, `subscribeToChanges()`, `confirmLSN()`
+
+#### Data Quality Framework (`importers/data_quality.cpp`)
+**Scope:** NIST SP 800-188 six-dimension quality scoring.
+**Required Interfaces:** `assessTable()`, `generateQualityReport()`
+**Performance Target:** ≤ 100 ms per table for 1 000-row sample.
+
+#### Audit Trail (`importers/audit_trail.cpp`)
+**Scope:** SOX/HIPAA-compliant Merkle-chained immutable event log.
+**Design Constraints:** Append-only; `verifyIntegrity()` must detect any tamper in O(n).
+**Required Interfaces:** `recordEvent()`, `verifyIntegrity()`, `exportForSIEM()`
+
+#### Adaptive Import Optimizer (`importers/adaptive_import.cpp`)
+**Scope:** FK-topology-aware import ordering and runtime batch-size adaptation.
+**Required Interfaces:** `optimizeImportPlan()`, `adaptBatchSize()`, `PerformancePredictor::predictPerformance()`
+**Performance Target:** ≥ 40% throughput improvement vs. fixed batch size on skewed schemas.
+
+#### Polyglot Persistence Mapper (`importers/polyglot_mapper.cpp`)
+**Scope:** Recommend optimal data model (RELATIONAL/DOCUMENT/GRAPH/TIMESERIES/KEYVALUE/VECTORSPACE) per table.
+**Required Interfaces:** `recommendDataModels()`, `ModelTransformer::tableToDocument()`, `ModelTransformer::tableToGraph()`
+
+#### Temporal Database Support (`importers/temporal_support.cpp`)
+**Scope:** SQL:2011 temporal dimension detection and point-in-time query generation.
+**Required Interfaces:** `detectTemporalDimensions()`, `buildPointInTimeQuery()`, `buildSystemTimeQuery()`
+**Research:** `docs/research/TEMPORAL_DATABASE_SUPPORT.md`
+
+#### Blockchain Integrity Verifier (`importers/blockchain_integrity.cpp`)
+**Scope:** SHA-256 Merkle tree with optional blockchain anchoring for tamper-evidence.
+**Design Constraints:** Default uses `std::hash`; enable `THEMIS_ENABLE_OPENSSL` for FIPS 140-2 SHA-256.
+**Required Interfaces:** `buildMerkleTree()`, `verifyRecordInTree()`, `anchorToBlockchain()`, `verifyBlockchainAnchor()`
+**Research:** `docs/research/BLOCKCHAIN_VERIFICATION.md`
+
+#### Federated Learning Coordinator (`importers/federated_learning.cpp`)
+**Scope:** Aggregate schema statistics from distributed PostgreSQL nodes without raw-data transfer.
+**Design Constraints:** ε-δ differential privacy (Gaussian mechanism, ε ≤ 1.0 for strong privacy).
+**Required Interfaces:** `aggregateUpdates()`, `addDifferentialPrivacy()`, `spendBudget()`, `verifyPrivacyBudget()`
+**Research:** `docs/research/FEDERATED_LEARNING_DESIGN.md`
+
+#### GraphQL Federation Support (`importers/graphql_federation.cpp`)
+**Scope:** Auto-generate Apollo Federation v2 SDL from relational schemas.
+**Required Interfaces:** `generateFederatedSchema()`, `generatePlainSchema()`
+**Implementation Notes:** PascalCase type names; `@key` from PKs; `@external` for remote entities; FK columns annotated.
