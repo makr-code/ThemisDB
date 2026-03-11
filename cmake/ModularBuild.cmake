@@ -186,6 +186,11 @@ set(THEMIS_BASE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/ann_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/vector_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/tensor_core_matmul.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/geo_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/graph_kernels.cu>
     $<$<OR:$<BOOL:${THEMIS_ENABLE_CUDA}>,$<BOOL:${THEMIS_ENABLE_HIP}>>:../src/acceleration/faiss_gpu_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_ONEAPI}>:../src/acceleration/oneapi_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/acceleration/opencl_backend.cpp>

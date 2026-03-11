@@ -25,17 +25,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 2. CUDAGraphBackend — Vollständig als Stub implementiert
+## 2. CUDAGraphBackend — ✅ Implementiert (März 2026)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/acceleration/ROADMAP.md` §"Completed ✅" / Issue #1378 ("CUDA graph capture for recurring query workloads") |
 | **Erwartet** | CUDA-beschleunigte Graphalgorithmen (BFS, Shortest Path) mit CUDA-Graph-Capture |
-| **Beobachtet** | `CUDAGraphBackend` in `cuda_backend.cpp` ist vollständig als Stub implementiert: `isAvailable()` gibt immer `false` zurück; `batchBFS()` und `batchShortestPath()` geben leere Vektoren zurück; kein CUDA-Code ausgeführt |
-| **Evidence (geprüfte Pfade)** | `src/acceleration/cuda_backend.cpp` Zeilen 875–935: `// CUDAGraphBackend Stub Implementation`; Header-Metadaten: `Stubs: 6` |
-| **ROADMAP-Status** | Bereits als `[x]` markiert (Claim: `CUDAGraphCache + batchKnnSearchWithGraph()`) — der Graph-Capture-Cache existiert für den **Vector**-Backend, aber der **Graph**-Backend ist ein Stub |
-| **Issue-Titelvorschlag** | `[acceleration] Implement CUDAGraphBackend BFS and shortest-path kernels` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `acceleration`, `status:open` |
+| **Status** | **Implementiert** — `CUDAGraphBackend` in `cuda_backend.cpp` ist vollständig implementiert: `isAvailable()` prüft CUDA-Gerät; `batchBFS()` und `batchShortestPath()` mit CUDA Graph Capture; CUDA-Kernels in `cuda/graph_kernels.cu` |
+| **Implementierungsdetails** | `GraphBFSShape`/`CUDAGraphBFSCache` (Frontier-BFS) + `GraphSPShape`/`CUDAGraphSPCache` (Bellman-Ford) in `cuda_backend.h`/`cuda_backend.cpp`; Tests in `tests/test_acceleration.cpp` |
 
 ---
 
@@ -71,7 +68,7 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
 | 1 | CUDA ANN HNSW-Integration | ROADMAP #1369 | **Hoch** | `[~]` in progress |
-| 2 | CUDAGraphBackend (BFS/Shortest-Path) | cuda_backend.cpp | Mittel | Stub |
+| 2 | CUDAGraphBackend (BFS/Shortest-Path) | cuda_backend.cpp | Mittel | ✅ Implementiert |
 | 3 | DirectXVectorBackend | graphics_backends.cpp | Niedrig | Stub |
 | 4 | OpenGLVectorBackend | graphics_backends.cpp | Niedrig | ✅ Implementiert |
 
