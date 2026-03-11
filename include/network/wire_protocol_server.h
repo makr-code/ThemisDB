@@ -143,6 +143,14 @@ public:
         // IPv6 connections.
         bool ipv6_dual_stack = true;
 
+        // TCP listen backlog — controls the OS-level pending-connection queue
+        // size passed to listen(2).  Under heavy load, connections beyond this
+        // limit are silently dropped by the kernel before they ever reach the
+        // application.  A value of 128 is the Linux default; increase for
+        // high-concurrency deployments (the effective maximum is bounded by
+        // /proc/sys/net/core/somaxconn on Linux).
+        int tcp_backlog = 128;
+
         Config() = default;
     };
 
@@ -335,6 +343,16 @@ private:
     // Server state
     std::atomic<bool> running_{false};
     std::atomic<uint64_t> session_id_counter_{0};
+
+    // Backpressure / overload tracking
+    // Counts accepted (live) connections; incremented in registerConnection(),
+    // decremented in unregisterConnection().  Used for the global max_connections
+    // check without holding connections_mutex_.
+    std::atomic<uint32_t> active_connection_count_{0};
+    // True while the server is in an overloaded state (active connections >=
+    // max_connections).  Used to gate "entering overload" / "recovering" log
+    // messages to one transition per state change instead of one per request.
+    std::atomic<bool> overloaded_{false};
 
     // Statistics
     mutable std::mutex stats_mutex_;

@@ -99,8 +99,10 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
     //   "applied": 2,
     //   "errors": []
     // }
+    auto span = Tracer::startSpan("POST /transaction");
     try {
         if (req.body().empty()) {
+            span.setStatus(false, "Request body is required");
             return makeErrorResponse(http::status::bad_request,
                 "Request body is required", req);
         }
@@ -111,6 +113,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
         std::string iso_error;
         IsolationLevel isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
         if (!iso_valid) {
+            span.setStatus(false, iso_error);
             return makeErrorResponse(http::status::bad_request, iso_error, req);
         }
 
@@ -242,6 +245,7 @@ http::response<http::string_body> TransactionApiHandler::handleTransaction(
 http::response<http::string_body> TransactionApiHandler::handleBegin(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("POST /transaction/begin");
     // Implementation moved from http_server.cpp handleTransactionBegin()
     try {
         // Parse optional isolation level from request body
@@ -253,11 +257,14 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
             std::string iso_error;
             isolation = parseIsolationLevel(body, &iso_valid, &iso_error);
             if (!iso_valid) {
+                span.setStatus(false, iso_error);
                 return makeErrorResponse(http::status::bad_request, iso_error, req);
             }
         }
 
         auto txn_id = tx_manager_->beginTransaction(isolation);
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
+        span.setAttribute("transaction.isolation", isolationLevelToString(isolation));
 
         json response = {
             {"transaction_id", txn_id},
@@ -265,10 +272,15 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
             {"status", "active"}
         };
 
+        span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "Invalid JSON");
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
     }
 }
@@ -276,19 +288,23 @@ http::response<http::string_body> TransactionApiHandler::handleBegin(
 http::response<http::string_body> TransactionApiHandler::handleCommit(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("POST /transaction/commit");
     // Implementation moved from http_server.cpp handleTransactionCommit()
     try {
         json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
+            span.setStatus(false, "Missing transaction_id");
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
         }
         
         TransactionManager::TransactionId txn_id = body["transaction_id"];
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         
         auto status = tx_manager_->commitTransaction(txn_id);
         
         if (status.ok) {
+            span.setStatus(true);
             json response = {
                 {"transaction_id", txn_id},
                 {"status", "committed"},
@@ -296,6 +312,7 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
             };
             return makeResponse(http::status::ok, response.dump(2), req);
         } else {
+            span.setStatus(false, status.message);
             json response = {
                 {"transaction_id", txn_id},
                 {"status", "failed"},
@@ -304,8 +321,12 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
             return makeResponse(http::status::internal_server_error, response.dump(2), req);
         }
     } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "Invalid JSON");
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
     }
 }
@@ -313,18 +334,22 @@ http::response<http::string_body> TransactionApiHandler::handleCommit(
 http::response<http::string_body> TransactionApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("POST /transaction/rollback");
     // Implementation moved from http_server.cpp handleTransactionRollback()
     try {
         json body = json::parse(req.body());
         
         if (!body.contains("transaction_id")) {
+            span.setStatus(false, "Missing transaction_id");
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
         }
         
         TransactionManager::TransactionId txn_id = body["transaction_id"];
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         
         tx_manager_->rollbackTransaction(txn_id);
         
+        span.setStatus(true);
         json response = {
             {"transaction_id", txn_id},
             {"status", "rolled_back"},
@@ -333,8 +358,12 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
         
         return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "Invalid JSON");
         return makeErrorResponse(http::status::bad_request, "Invalid JSON: " + std::string(e.what()), req);
     } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, e.what());
         return makeErrorResponse(http::status::internal_server_error, "Error: " + std::string(e.what()), req);
     }
 }
@@ -342,6 +371,7 @@ http::response<http::string_body> TransactionApiHandler::handleRollback(
 http::response<http::string_body> TransactionApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /transaction/stats");
     // Implementation moved from http_server.cpp handleTransactionStats()
     try {
         auto stats = tx_manager_->getStats();
@@ -367,6 +397,7 @@ http::response<http::string_body> TransactionApiHandler::handleStats(
 http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /transaction/version");
     // GET /transaction/version
     //
     // Request body:
@@ -382,27 +413,35 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
     // Returns version 0 when the entity does not exist.
     try {
         if (req.body().empty()) {
+            span.setStatus(false, "Request body is required");
             return makeErrorResponse(http::status::bad_request,
                 "Request body is required", req);
         }
         json body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
+            span.setStatus(false, "Missing transaction_id");
             return makeErrorResponse(http::status::bad_request, "Missing 'transaction_id'", req);
         }
         if (!body.contains("table") || !body["table"].is_string()) {
+            span.setStatus(false, "Missing table");
             return makeErrorResponse(http::status::bad_request, "Missing 'table'", req);
         }
         if (!body.contains("key") || !body["key"].is_string()) {
+            span.setStatus(false, "Missing key");
             return makeErrorResponse(http::status::bad_request, "Missing 'key'", req);
         }
 
         TransactionManager::TransactionId txn_id = body["transaction_id"];
         const std::string table = body["table"].get<std::string>();
         const std::string key   = body["key"].get<std::string>();
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
+        span.setAttribute("transaction.table", table);
+        span.setAttribute("transaction.key", key);
 
         auto txn = tx_manager_->getTransaction(txn_id);
         if (!txn) {
+            span.setStatus(false, "Transaction not found");
             return makeErrorResponse(http::status::not_found,
                 "Transaction " + std::to_string(txn_id) + " not found or already completed", req);
         }
@@ -433,6 +472,7 @@ http::response<http::string_body> TransactionApiHandler::handleGetVersion(
 http::response<http::string_body> TransactionApiHandler::handleExplain(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("GET /transaction/:id/explain");
     // GET /transaction/{id}/explain
     // Extract the transaction ID from the URL path: /transaction/<id>/explain
     try {
@@ -445,6 +485,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         const std::string prefix = "/transaction/";
         const std::string suffix = "/explain";
         if (target.size() < prefix.size() + suffix.size()) {
+            span.setStatus(false, "Invalid path");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);
         }
@@ -452,6 +493,7 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         const auto id_start = prefix.size();
         const auto id_end = target.find(suffix, id_start);
         if (id_end == std::string::npos) {
+            span.setStatus(false, "Invalid path");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid path: expected /transaction/{id}/explain", req);
         }
@@ -461,12 +503,15 @@ http::response<http::string_body> TransactionApiHandler::handleExplain(
         try {
             txn_id = std::stoull(id_str);
         } catch (...) {
+            span.setStatus(false, "Invalid transaction ID");
             return makeErrorResponse(http::status::bad_request,
                 "Invalid transaction ID: '" + id_str + "'", req);
         }
 
+        span.setAttribute("transaction.id", static_cast<int64_t>(txn_id));
         auto result = tx_manager_->explainTransaction(txn_id);
         if (!result) {
+            span.setStatus(false, "Transaction not found");
             return makeErrorResponse(http::status::not_found,
                 "Transaction " + id_str + " not found", req);
         }

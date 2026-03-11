@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -119,6 +120,18 @@ struct HubUploadConfig {
     std::string requesting_user;
 };
 
+/// A single in-memory shard for use with HuggingFaceHubClient::uploadShards().
+///
+/// `relative_path` is the path that will appear in the Hub repository
+/// (e.g., `"data/train-00000-of-00001.jsonl"`).  `content` holds the raw
+/// bytes of the shard and is uploaded directly without writing to disk.
+struct MemoryShardSpec {
+    /// Relative path within the Hub repository (forward-slash separated).
+    std::string relative_path;
+    /// Raw shard bytes (e.g., JSONL content).
+    std::vector<char> content;
+};
+
 /// @brief Uploads a HuggingFace Datasets-compatible directory to the HF Hub.
 ///
 /// The client uses libcurl for HTTP communication.  Authentication is via a
@@ -127,8 +140,9 @@ struct HubUploadConfig {
 ///
 /// ### Upload workflow
 /// 1. Resolve or create the Hub repository via the Hub API.
-/// 2. Enumerate all files in the dataset directory.
-/// 3. Upload each file via the Hub LFS / files API with chunked transfer.
+/// 2. Enumerate all files in the dataset directory (disk path) **or** accept
+///    pre-built in-memory shards (memory path via `uploadShards()`).
+/// 3. Upload each file / shard via the Hub LFS / files API.
 /// 4. Create a single commit bundling all uploaded files.
 ///
 /// ### Error handling
@@ -136,8 +150,8 @@ struct HubUploadConfig {
 ///   back-off starting at `retry_delay_ms`.
 /// - HTTP 401 Unauthorized is surfaced immediately (no retry) as
 ///   `HubUploadResult::success=false` and a descriptive `error_message`.
-/// - HTTP 413 Payload Too Large causes the client to split the shard into
-///   two halves and retry each half independently.
+/// - HTTP 413 Payload Too Large causes the client to return an error with a
+///   hint to reduce the shard size and retry.
 ///
 /// ### Thread safety
 /// HuggingFaceHubClient instances are NOT thread-safe.  Create one instance
@@ -168,6 +182,26 @@ public:
         const std::string& dataset_dir,
         std::function<void(double /*fraction*/)> progress_cb = {}) const;
 
+    /// @brief Upload pre-built in-memory shards to the Hugging Face Hub.
+    ///
+    /// This is the memory-streaming variant of `uploadDataset()`: it accepts
+    /// a list of `MemoryShardSpec` values (each carrying a relative path and
+    /// raw byte content) and uploads them directly via the libcurl read
+    /// callback, without writing any temporary files to disk.  It is suitable
+    /// for container / serverless environments with read-only or absent local
+    /// storage.
+    ///
+    /// All retry, progress-callback, PolicyEngine, and AuditLogger behaviour
+    /// is identical to `uploadDataset()`.
+    ///
+    /// @param shards       In-memory shards to upload.  Must not be empty.
+    /// @param progress_cb  Optional progress callback; receives a fraction in
+    ///                     [0.0, 1.0] as each shard completes.
+    /// @returns HubUploadResult with success flag and dataset URL or error.
+    HubUploadResult uploadShards(
+        const std::vector<MemoryShardSpec>& shards,
+        std::function<void(double /*fraction*/)> progress_cb = {}) const;
+
 private:
     HubUploadConfig config_;
 
@@ -189,7 +223,17 @@ private:
         const std::string& json_body,
         const std::string& bearer_token) const;
 
+    /// PUT raw bytes to Hub LFS / file-upload endpoint via libcurl read
+    /// callback (no filesystem access).  Returns HTTP status code.
+    int httpPutBytes(
+        const std::string& url,
+        const char* data,
+        std::size_t size,
+        const std::string& bearer_token,
+        std::function<void(double)> progress_cb) const;
+
     /// PUT file content to Hub LFS / file-upload endpoint.
+    /// Reads the file from disk then delegates to httpPutBytes().
     /// Returns HTTP status code.
     int httpPutFile(
         const std::string& url,

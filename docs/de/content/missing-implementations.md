@@ -1,7 +1,7 @@
 # Content Module — Fehlende / Unvollständige Implementierungen
 
-**Stand:** 2026-03-11 (Reality-Check-Pass 2)  
-**Revision:** HEAD (copilot/enhance-office-processor-legacy-support)  
+**Stand:** 2026-03-11 (Reality-Check-Pass 3)  
+**Revision:** HEAD (copilot/update-ocr-language-pack-path)  
 **Geprüfte Pfade:** `src/content/`, `include/content/`
 
 ---
@@ -12,8 +12,8 @@
 |-------------|--------|
 | Critical    | 0 |
 | Medium      | 1 |
-| Low         | 3 |
-| **Gesamt**  | **4** |
+| Low         | 2 |
+| **Gesamt**  | **3** |
 
 ---
 
@@ -55,17 +55,15 @@
 
 ---
 
-## CON-004 — OCR Sprachpaket-Pfad nicht an `config/ai_ml/tesseract_lang/` gebunden *(Low)*
+## CON-004 — OCR Sprachpaket-Pfad nicht an `config/ai_ml/tesseract_lang/` gebunden ✅ BEHOBEN
 
 **Datei:** `src/content/ocr_processor.cpp`
 
 **Erwartet:** Sprachpakete aus `config/ai_ml/tesseract_lang/` laden; Standard `eng`; konfigurierbar pro Collection.
 
-**Beobachtet:** `config_.data_dir` ist benutzergesteuert ohne Default-Konvention; kein Rückfall auf `config/ai_ml/tesseract_lang/`.
+**Behoben:** `runTesseract()` in `ocr_processor.cpp` verwendet nun `ConfigPathResolver::tryResolve("config/ai_ml/tesseract_lang")`, wenn `config_.data_dir` leer ist. Existiert das Verzeichnis, wird es als Tessdata-Pfad gesetzt; andernfalls greift der Tesseract-Auto-Detect-Mechanismus (nullptr). Die Sprachpräferenz bleibt `"eng"` als Standard, sofern nicht pro Collection überschrieben. Der Pfad `config/tesseract_lang` wurde als Legacy-Mapping zu `config/ai_ml/tesseract_lang` in `ConfigPathResolver::PATH_MAPPING` und `METADATA_TABLE` eingetragen. Das Verzeichnis `config/ai_ml/tesseract_lang/` wurde mit einer `README.md` angelegt, die Konventionen für die Installation zusätzlicher Sprachpakete dokumentiert.
 
-**Auswirkung:** Inkonsistentes Deployment; Betreiber müssen den Pfad manuell konfigurieren.
-
-**Empfohlener Issue-Titel:** `feat(content): default ocr_processor data_dir to config/ai_ml/tesseract_lang/ via ConfigPathResolver`
+**Auswirkung:** Konsistentes Deployment; Betreiber müssen den Pfad nicht mehr manuell konfigurieren. Override pro Collection möglich über `OcrProcessor::Config::data_dir`.
 
 ---
 
@@ -137,3 +135,13 @@
 | `src/content/FUTURE_ENHANCEMENTS.md` — PDF section preamble | "Legacy .doc/.xls via LibreOffice headless not yet implemented" | Updated to ✅ implemented |
 | `src/content/FUTURE_ENHANCEMENTS.md` — PDF section notes | `[ ]` LibreOffice headless fallback | `[x]` extractLegacyViaLibreOffice() (CON-001 ✅) |
 | `src/content/FUTURE_ENHANCEMENTS.md` — Security section | `[ ]` LibreOffice subprocess security requirement | `[x]` posix_spawn + POSIX_SPAWN_RESETIDS + minimal env (CON-007 ✅) |
+
+## Behobene Falschangaben (Pass 3 — 2026-03-11)
+
+| Datei | Vorher | Nachher |
+|-------|--------|---------|
+| `src/content/ocr_processor.cpp` — `runTesseract()` | `config_.data_dir` ohne Default, kein Rückfall | `ConfigPathResolver::tryResolve("config/ai_ml/tesseract_lang")` als Default, dann Tesseract auto-detect (CON-004 ✅) |
+| `include/content/ocr_processor.h` — `Config::data_dir` Kommentar | "empty = auto-detect" | "empty = default: config/ai_ml/tesseract_lang/ or Tesseract auto-detect" |
+| `src/config/config_path_resolver.cpp` — `PATH_MAPPING` | kein Tesseract-Eintrag | `{"config/tesseract_lang", "config/ai_ml/tesseract_lang"}` |
+| `src/config/config_path_resolver.cpp` — `METADATA_TABLE` | kein Tesseract-Eintrag | Legacy-Mapping-Metadaten für `config/tesseract_lang` |
+| `config/ai_ml/tesseract_lang/` | Verzeichnis fehlte | Angelegt mit `README.md` (Installationsanleitung für Sprachpakete) |

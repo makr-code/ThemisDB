@@ -29,6 +29,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -100,6 +101,7 @@ nlohmann::json SessionApiHandler::createSession(
     const nlohmann::json& body,
     const std::string& client_ip
 ) {
+    auto span = Tracer::startSpan("createSession");
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::createSession – unauthorized: {}", auth_result.reason);
@@ -148,6 +150,7 @@ nlohmann::json SessionApiHandler::listSessions(
     const std::string& bearer_token,
     const std::string& current_session
 ) {
+    auto span = Tracer::startSpan("listSessions");
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::listSessions – unauthorized: {}", auth_result.reason);
@@ -178,6 +181,7 @@ nlohmann::json SessionApiHandler::revokeSession(
     const std::string& bearer_token,
     const std::string& session_id
 ) {
+    auto span = Tracer::startSpan("revokeSession");
     if (session_id.empty()) {
         return makeError(400, "session_id must not be empty");
     }
@@ -225,6 +229,7 @@ nlohmann::json SessionApiHandler::revokeAllOtherSessions(
     const std::string& bearer_token,
     const std::string& current_session
 ) {
+    auto span = Tracer::startSpan("revokeAllOtherSessions");
     auto auth_result = auth_->authorize(bearer_token, "auth:sessions");
     if (!auth_result.authorized) {
         THEMIS_WARN("SessionApiHandler::revokeAllOtherSessions – unauthorized: {}",

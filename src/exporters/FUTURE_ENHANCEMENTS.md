@@ -143,8 +143,7 @@ a `hub_upload` JSON entry to the `AuditLogger` regardless of outcome, recording
 backward compatibility.
 
 **Remaining (future issues):**
-- Stream JSONL shards directly from memory (current impl reads files from disk; avoids double filesystem write in future PR).
-- ~~`hf_token_kek_id` for KMS-protected token lookup (future security hardening).~~ ✅ Implemented — `HubUploadConfig::hf_token_kek_id` + `key_provider` added; `resolveToken()` resolves via KEK before falling back to `HF_TOKEN` env; null-provider and key-not-found errors surface clear messages; 7 new tests in `tests/exporters/test_huggingface_hub_client.cpp`.
+
 
 ---
 

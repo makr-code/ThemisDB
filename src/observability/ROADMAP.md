@@ -30,7 +30,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Tests: `tests/test_alerting_engine.cpp`
 
 ## In Progress 🚧
-- [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
+- [x] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
 
 ## Planned Features 📋
 
@@ -49,6 +49,10 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Default rules: CPU (>80%), memory (>90%), query P99 latency (>1000ms), error rate (>5%), disk free (<10%), queue depth (>100), cache miss (>50%), write amplification (>20×)
   - Tests: `tests/test_alerting_engine.cpp`
 - [?] Per-tenant metric namespacing
+- [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
+  - Files: `observability/metric_aggregator.h`, `observability/metric_aggregator.cpp`
+  - Implementation: `MetricAggregator` (rate calculation, histogram aggregation SUM/AVG/MAX/MIN/P50/P95/P99, rule-based aggregation with drop_labels/group_by_labels, per-metric cardinality limits)
+  - Tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
 - [?] Structured log search API (query logs like data)
 - [?] Real-time query cost estimator dashboard
 
@@ -88,8 +92,14 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Telemetry aggregation across shards
 - [x] Grafana dashboard integration and PagerDuty/Slack notification routing
 
-### Phase 2: Native OTLP Export & Continuous Profiling (Status: In Progress 🚧)
-- [?] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
+### Phase 2: Native OTLP Export & Continuous Profiling (Status: Complete ✅)
+- [x] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
+  — OtlpExporter: async background flush thread, JSON OTLP payload, libcurl HTTP POST
+  — TracingMiddleware: X-Correlation-ID propagation + finishSpan() enqueues SpanData to OtlpExporter
+  — Tests: `tests/test_otlp_exporter.cpp`, `tests/test_otel_api_tracing.cpp`
+- [x] Distributed tracing spans for all major API paths (Target: Q2 2026)
+  — all 64 API handler files fully instrumented (admin, transaction, schema, export, graphql, maintenance, llm, voice, lora, monitoring, cache_admin, distributed_txn, task_scheduler, pii, audit, session, branch, pitr, diff, merge, mvcc, snapshot, import, pki, profiling, geo_topology, policy_*, async_job, hot_reload, wal, serverless_function, service_mesh, update, bpmn, compliance_reporting, prompt, prompt_engineering, replication_topology, review_scheduling, udf, retention, keys, classification, error, saga, feedback, reports)
+  — Tests: `tests/test_otel_api_tracing.cpp` (162 tests covering every handler group; 120+ new tests added March 2026)
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
 - [x] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
 
@@ -106,6 +116,8 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   — `observability/distributed_flame_graph.h/cpp`, tests: `tests/test_distributed_flame_graph.cpp`
 - [x] SLO/SLA compliance reporting with burn-rate alerts
   — `observability/slo_reporter.h/cpp`, tests: `tests/test_slo_reporter.cpp`
+- [x] Prometheus advanced features — rate calculation, histogram aggregation, cardinality management
+  — `observability/metric_aggregator.h/cpp`, tests: `tests/test_metrics_aggregation.cpp` (MetricsAggregationFocusedTests)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`
@@ -116,7 +128,6 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations
-- OTLP export is not yet implemented (`otlp_exporter.cpp` does not exist); traces use internal span propagation only.
 - Telemetry aggregation across shards is eventually consistent.
 - `query_profiler.cpp`, `storage_profiler.cpp`, and `performance_analyzer.cpp` were missing from `cmake/CMakeLists.txt` — fixed 2026-03-09; `test_observability_profilers.cpp` would fail to link without this fix.
 - `tracer.cpp` and `log_aggregator.cpp` were absent — implemented 2026-03-11 (OBS-MISSING-001); see `include/observability/tracer.h`, `include/observability/log_aggregator.h`.
