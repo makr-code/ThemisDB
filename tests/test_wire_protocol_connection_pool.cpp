@@ -419,3 +419,193 @@ TEST_F(WireProtocolConnectionPoolTest, ConnectionReuseRate) {
     // With no connections, reuse rate should be 0
     EXPECT_EQ(stats.getReuseRate(), 0.0);
 }
+
+// =============================================================================
+// Adaptive pool sizing tests
+// =============================================================================
+
+/**
+ * @brief AdaptivePoolingStrategy default config values
+ */
+TEST(AdaptivePoolingStrategyTest, DefaultConfig) {
+    AdaptivePoolingStrategy strategy;
+    const auto& cfg = strategy.strategyConfig();
+    EXPECT_DOUBLE_EQ(cfg.target_utilization,   0.7);
+    EXPECT_DOUBLE_EQ(cfg.scale_up_threshold,   0.8);
+    EXPECT_DOUBLE_EQ(cfg.scale_down_threshold, 0.3);
+    EXPECT_DOUBLE_EQ(cfg.scale_up_factor,      1.5);
+    EXPECT_DOUBLE_EQ(cfg.scale_down_factor,    0.7);
+    EXPECT_EQ(cfg.min_idle_time, std::chrono::seconds(300));
+}
+
+/**
+ * @brief AdaptivePoolingStrategy custom config values
+ */
+TEST(AdaptivePoolingStrategyTest, CustomConfig) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.scale_up_threshold   = 0.9;
+    cfg.scale_down_threshold = 0.2;
+    cfg.min_idle_time        = std::chrono::seconds(60);
+
+    AdaptivePoolingStrategy strategy(cfg);
+    EXPECT_DOUBLE_EQ(strategy.strategyConfig().scale_up_threshold,   0.9);
+    EXPECT_DOUBLE_EQ(strategy.strategyConfig().scale_down_threshold, 0.2);
+    EXPECT_EQ(strategy.strategyConfig().min_idle_time, std::chrono::seconds(60));
+}
+
+/**
+ * @brief getIdealConnectionCount scales up under high load
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountScaleUp) {
+    AdaptivePoolingStrategy strategy;
+    // 9 active out of 10 total → load = 0.9 (> scale_up_threshold 0.8)
+    size_t ideal = strategy.getIdealConnectionCount(10, 9, 0.9);
+    EXPECT_GT(ideal, 10u);  // Should scale up
+}
+
+/**
+ * @brief getIdealConnectionCount scales down under low load
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountScaleDown) {
+    AdaptivePoolingStrategy strategy;
+    // 2 active out of 10 total → load = 0.2 (< scale_down_threshold 0.3)
+    size_t ideal = strategy.getIdealConnectionCount(10, 2, 0.2);
+    EXPECT_LT(ideal, 10u);  // Should scale down
+    EXPECT_GE(ideal, 1u);   // Never returns 0
+}
+
+/**
+ * @brief getIdealConnectionCount is stable in the normal operating range
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountStable) {
+    AdaptivePoolingStrategy strategy;
+    // load = 0.5 → neither threshold triggered → no change
+    size_t ideal = strategy.getIdealConnectionCount(10, 5, 0.5);
+    EXPECT_EQ(ideal, 10u);
+}
+
+/**
+ * @brief getIdealConnectionCount handles zero current count
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountZeroCurrent) {
+    AdaptivePoolingStrategy strategy;
+    size_t ideal = strategy.getIdealConnectionCount(0, 0, 0.0);
+    EXPECT_GE(ideal, 1u);
+}
+
+/**
+ * @brief shouldCreateConnection returns true when pool is exhausted
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldCreateConnectionPoolExhausted) {
+    AdaptivePoolingStrategy strategy;
+    // 0 available out of 5 total → all in use → should create
+    EXPECT_TRUE(strategy.shouldCreateConnection(5, 20, 0));
+}
+
+/**
+ * @brief shouldCreateConnection returns false when pool is full
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldCreateConnectionPoolFull) {
+    AdaptivePoolingStrategy strategy;
+    EXPECT_FALSE(strategy.shouldCreateConnection(20, 20, 5));
+}
+
+/**
+ * @brief shouldCreateConnection returns true for an empty pool
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldCreateConnectionEmptyPool) {
+    AdaptivePoolingStrategy strategy;
+    EXPECT_TRUE(strategy.shouldCreateConnection(0, 20, 0));
+}
+
+/**
+ * @brief shouldRemoveConnection returns true when idle long enough
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldRemoveConnectionIdleExpired) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.min_idle_time = std::chrono::seconds(60);
+    AdaptivePoolingStrategy strategy(cfg);
+
+    // Pool has 5 connections, min is 2, 3 available, oldest has been idle 90 s
+    EXPECT_TRUE(strategy.shouldRemoveConnection(5, 2, 3, std::chrono::seconds(90)));
+}
+
+/**
+ * @brief shouldRemoveConnection returns false when idle time is below threshold
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldRemoveConnectionNotYetIdle) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.min_idle_time = std::chrono::seconds(300);
+    AdaptivePoolingStrategy strategy(cfg);
+
+    EXPECT_FALSE(strategy.shouldRemoveConnection(5, 2, 3, std::chrono::seconds(10)));
+}
+
+/**
+ * @brief shouldRemoveConnection respects the minimum pool floor
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldRemoveConnectionAtMinimum) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.min_idle_time = std::chrono::seconds(1);
+    AdaptivePoolingStrategy strategy(cfg);
+
+    // current_count == min_count → must not remove
+    EXPECT_FALSE(strategy.shouldRemoveConnection(2, 2, 2, std::chrono::seconds(600)));
+}
+
+/**
+ * @brief shouldRemoveConnection returns false when no idle connections available
+ */
+TEST(AdaptivePoolingStrategyTest, ShouldRemoveConnectionNoIdle) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.min_idle_time = std::chrono::seconds(1);
+    AdaptivePoolingStrategy strategy(cfg);
+
+    EXPECT_FALSE(strategy.shouldRemoveConnection(5, 2, 0, std::chrono::seconds(600)));
+}
+
+/**
+ * @brief Pool with adaptive sizing enabled initialises correctly
+ */
+TEST_F(WireProtocolConnectionPoolTest, AdaptiveSizingEnabledInit) {
+    config_.enable_adaptive_sizing = true;
+    WireProtocolConnectionPool pool(config_);
+
+    auto stats = pool.getStats();
+    EXPECT_EQ(stats.pool_size_adaptations, 0u);
+    EXPECT_DOUBLE_EQ(stats.utilization, 0.0);
+}
+
+/**
+ * @brief Pool with custom adaptive strategy uses provided strategy
+ */
+TEST_F(WireProtocolConnectionPoolTest, AdaptiveSizingCustomStrategy) {
+    AdaptivePoolingStrategy::Config scfg;
+    scfg.min_idle_time = std::chrono::seconds(5);
+
+    config_.enable_adaptive_sizing = true;
+    config_.adaptive_strategy = std::make_shared<AdaptivePoolingStrategy>(scfg);
+
+    WireProtocolConnectionPool pool(config_);
+    auto stats = pool.getStats();
+    EXPECT_EQ(stats.pool_size_adaptations, 0u);
+}
+
+/**
+ * @brief Stats.utilization is 0 when no connections exist
+ */
+TEST_F(WireProtocolConnectionPoolTest, UtilizationZeroWhenEmpty) {
+    config_.enable_adaptive_sizing = false;
+    WireProtocolConnectionPool pool(config_);
+
+    auto stats = pool.getStats();
+    EXPECT_DOUBLE_EQ(stats.utilization, 0.0);
+}
+
+/**
+ * @brief Stats.pool_size_adaptations is exposed as a zero-init counter
+ */
+TEST_F(WireProtocolConnectionPoolTest, PoolSizeAdaptationsInitiallyZero) {
+    WireProtocolConnectionPool pool(config_);
+    EXPECT_EQ(pool.getStats().pool_size_adaptations, 0u);
+}
