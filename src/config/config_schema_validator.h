@@ -42,6 +42,7 @@ namespace config {
  *   - minimum, maximum, exclusiveMinimum, exclusiveMaximum (number/integer)
  *   - minItems, maxItems, items (array)
  *   - enum, const
+ *   - allOf, anyOf, oneOf (schema composition)
  *
  * YAML files are loaded via yaml-cpp and converted to an internal JSON
  * representation before validation.  JSON files are parsed directly with
@@ -160,6 +161,21 @@ private:
                                const nlohmann::json& schema,
                                const std::string& json_path,
                                ValidationResult& result);
+
+    static void validateAllOf(const nlohmann::json& value,
+                              const nlohmann::json& schemas,
+                              const std::string& json_path,
+                              ValidationResult& result);
+
+    static void validateAnyOf(const nlohmann::json& value,
+                              const nlohmann::json& schemas,
+                              const std::string& json_path,
+                              ValidationResult& result);
+
+    static void validateOneOf(const nlohmann::json& value,
+                              const nlohmann::json& schemas,
+                              const std::string& json_path,
+                              ValidationResult& result);
 
     // Check whether a JSON value matches the given JSON Schema type string.
     static bool matchesType(const nlohmann::json& value, const std::string& type);
