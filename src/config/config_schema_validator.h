@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_schema_validator.h                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 03:57:50                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-11                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     168                                            ║
+    • Total Lines:     248                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ec0d1bcbc  2026-03-11  feat(config): add validateFromString API for in-memory validation ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 51bc83fc2  2026-02-24  feat(config): integrate JSON Schema and YAML schema valid... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -145,6 +146,25 @@ public:
      * @throws SchemaValidationException on parse errors.
      */
     static nlohmann::json loadAsJson(const std::string& content, bool is_yaml);
+
+    /**
+     * Validate an in-memory YAML or JSON string against an inline JSON Schema
+     * object.
+     *
+     * This overload eliminates the need to write a config string to disk before
+     * validating it, supporting dynamic config editing and runtime adaptation.
+     *
+     * Parse errors are reported as `ValidationResult` errors rather than thrown.
+     *
+     * @param content  The raw YAML or JSON config string to validate.
+     * @param is_yaml  When true the content is parsed with yaml-cpp;
+     *                 when false it is parsed as JSON with nlohmann::json.
+     * @param schema   JSON Schema as a nlohmann::json object.
+     * @return ValidationResult describing any schema violations.
+     */
+    static ValidationResult validateFromString(const std::string& content,
+                                               bool is_yaml,
+                                               const nlohmann::json& schema);
 
 private:
     // Entry-point wrapper: uses schema itself as the root schema and an empty

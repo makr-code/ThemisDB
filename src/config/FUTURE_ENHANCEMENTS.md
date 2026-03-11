@@ -159,6 +159,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 - `[x]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
 - `[x]` Add `uniqueItems` for array validation.
 - `[x]` Extend `ConfigSchemaValidator::loadAsJson()` to accept an in-memory YAML string (not only a file path) to support inline config parsing in tests and server-side config hot-checks.
+- `[x]` Add `ConfigSchemaValidator::validateFromString(content, is_yaml, schema)` to validate an in-memory YAML or JSON string against a JSON Schema without writing it to disk (Milestone: v2.0.0, Issue: in-memory YAML loading feature).
 
 **Performance Targets:**
 - `validate()` for a 100-field JSON config against a 200-rule schema completes in < 5 ms on a single thread.
