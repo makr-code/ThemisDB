@@ -68,7 +68,7 @@ public:
      */
     struct Config {
         std::string language = "eng";            ///< Tesseract language pack name
-        std::string data_dir;                    ///< Path to tessdata dir (empty = auto-detect)
+        std::string data_dir;                    ///< Path to tessdata dir (empty = default: config/ai_ml/tesseract_lang/ or Tesseract auto-detect)
         int page_seg_mode = 3;                   ///< PSM: 3 = fully automatic page segmentation
         bool extract_metadata = true;            ///< Store language/confidence in metadata
         bool enable_char_whitelist = false;      ///< Restrict recognized characters
@@ -142,7 +142,7 @@ public:
      *
      * @param image_blob  Raw image bytes
      * @param language    Tesseract language pack (default: "eng")
-     * @param data_dir    Path to tessdata directory (empty = auto-detect)
+     * @param data_dir    Path to tessdata directory (empty = default: config/ai_ml/tesseract_lang/ or Tesseract auto-detect)
      * @return Extracted UTF-8 text, or "" on failure/unavailability
      */
     static std::string performOcr(

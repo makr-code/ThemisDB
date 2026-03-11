@@ -485,6 +485,73 @@ TEST(OcrProcessorFactoryTest, CreateOcrProcessorWithConfig) {
 }
 
 // ============================================================================
+// OcrProcessor: data_dir default via ConfigPathResolver
+// ============================================================================
+
+TEST(OcrProcessorConfigTest, DefaultDataDirIsEmpty) {
+    // The Config struct intentionally keeps data_dir empty so the processor
+    // can resolve it lazily at OCR-time via ConfigPathResolver.
+    OcrProcessor::Config cfg;
+    EXPECT_TRUE(cfg.data_dir.empty());
+}
+
+TEST(OcrProcessorConfigTest, ExplicitDataDirOverridesDefault) {
+    OcrProcessor::Config cfg;
+    cfg.data_dir = "/custom/tessdata";
+    EXPECT_EQ(cfg.data_dir, "/custom/tessdata");
+}
+
+TEST(OcrProcessorConfigTest, PerCollectionLanguageOverride) {
+    // Verify that per-collection configs can set a custom language while
+    // leaving data_dir empty (resolved to default at OCR-time).
+    OcrProcessor::Config cfg;
+    cfg.language = "deu";
+    EXPECT_EQ(cfg.language, "deu");
+    EXPECT_TRUE(cfg.data_dir.empty());
+}
+
+TEST(OcrProcessorConfigTest, DefaultLanguageFallbackIsEng) {
+    // language must default to "eng" unless overridden by the caller.
+    OcrProcessor::Config cfg;
+    EXPECT_EQ(cfg.language, "eng");
+}
+
+TEST(OcrProcessorConfigTest, EmptyDataDirDoesNotCrashExtract) {
+    // When data_dir is empty and config/ai_ml/tesseract_lang does not exist,
+    // the processor must not crash — it either falls back to Tesseract
+    // auto-detect or returns an empty/unavailable result gracefully.
+    OcrProcessor::Config cfg;
+    EXPECT_TRUE(cfg.data_dir.empty());
+
+    OcrProcessor proc(std::move(cfg));
+    std::string jpeg_magic;
+    jpeg_magic += '\xFF'; jpeg_magic += '\xD8'; jpeg_magic += '\xFF';
+    jpeg_magic.append(64, '\x00');
+
+    ContentType ct;
+    ct.mime_type = "image/jpeg";
+    ct.category = ContentCategory::IMAGE;
+    ct.supports_text_extraction = true;
+    ct.supports_embedding = false;
+    ct.supports_chunking = false;
+    ct.supports_metadata_extraction = true;
+    ct.binary_storage_required = true;
+
+    // Must not throw regardless of whether OCR or the tessdata dir is available.
+    EXPECT_NO_THROW({ auto result = proc.extract(jpeg_magic, ct); (void)result; });
+}
+
+TEST(OcrProcessorConfigTest, PerformOcrEmptyDataDirDoesNotCrash) {
+    // Static performOcr() with empty data_dir must also resolve gracefully.
+    std::vector<uint8_t> jpeg_magic = {0xFF, 0xD8, 0xFF, 0x00};
+    jpeg_magic.resize(64, 0x00);
+    std::string result;
+    EXPECT_NO_THROW(result = OcrProcessor::performOcr(jpeg_magic, "eng", ""));
+    // Result is a string; no crash is the key requirement.
+    (void)result;
+}
+
+// ============================================================================
 // Integration: MimeDetector OCR routing → OcrProcessor
 // ============================================================================
 

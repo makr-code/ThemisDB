@@ -37,6 +37,7 @@
 
 #include "content/ocr_processor.h"
 #include "content/content_metrics.h"
+#include "config/config_path_resolver.h"
 #include <algorithm>
 #include <chrono>
 #include <cstring>
@@ -127,9 +128,22 @@ std::string OcrProcessor::runTesseract(const std::string& blob) {
 #if OCR_LIBRARY_AVAILABLE
     if (blob.empty()) return "";
 
+    // Resolve effective tessdata directory:
+    // 1. Use the explicit config_.data_dir if set.
+    // 2. Otherwise try the canonical default via ConfigPathResolver.
+    // 3. If neither is available, pass nullptr so Tesseract auto-detects.
+    std::string effective_data_dir = config_.data_dir;
+    if (effective_data_dir.empty()) {
+        auto resolved = themis::config::ConfigPathResolver::tryResolve(
+            "config/ai_ml/tesseract_lang");
+        if (resolved) {
+            effective_data_dir = *resolved;
+        }
+    }
+
     // Initialise Tesseract API
     tesseract::TessBaseAPI api;
-    const char* data_dir = config_.data_dir.empty() ? nullptr : config_.data_dir.c_str();
+    const char* data_dir = effective_data_dir.empty() ? nullptr : effective_data_dir.c_str();
     if (api.Init(data_dir, config_.language.c_str()) != 0) {
         return "";
     }
