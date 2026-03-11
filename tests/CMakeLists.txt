@@ -10631,6 +10631,15 @@ add_network_focused_test(
     "SocketTimeoutManager: construction/destruction, timeout recording, circuit breaker, health state transitions"
 )
 
+# --- Adaptive Circuit Breaker (network resilience) ---
+add_network_focused_test(
+    test_network_circuit_breaker_focused
+    test_network_circuit_breaker.cpp
+    NetworkCircuitBreakerFocusedTests
+    "network;circuit-breaker;resilience;adaptive;recovery;focused;unit"
+    "AdaptiveCircuitBreaker: CLOSED/OPEN/HALF_OPEN state machine, error threshold trigger, recovery scenarios, adaptive threshold, stats, callback, thread-safety"
+)
+
 # --- Wire Protocol Connection Pool ---
 add_network_focused_test(
     test_wire_protocol_connection_pool_focused
