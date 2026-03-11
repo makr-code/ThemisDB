@@ -843,6 +843,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/lora_checkpoint_manager.cpp
         ../src/training/provenance_tracker.cpp
         ../src/training/modality_parser.cpp
+        ../src/training/lora_adapter.cpp
     )
 endif()
 
@@ -11006,6 +11007,41 @@ if(TARGET test_modality_parser_focused)
     )
 
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
+endif()
+
+# LoRAAdapter focused tests – real weight manipulation (no simulation)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
+    message(STATUS "Adding LoRAAdapter focused tests (lora_adapter.cpp)")
+
+    add_executable(test_lora_adapter_focused
+        test_training_lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+    )
+
+    target_include_directories(test_lora_adapter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_lora_adapter_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_lora_adapter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME LoRAAdapterFocusedTests COMMAND test_lora_adapter_focused)
+
+    set_tests_properties(LoRAAdapterFocusedTests PROPERTIES
+        LABELS "training;lora;weight-manipulation;real;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  LoRAAdapter: addLayer/removeLayer, Kaiming init, setWeights, applyUpdate, applyBatchUpdate, forward pass, export/import")
+else()
+    message(STATUS "LoRAAdapter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────
