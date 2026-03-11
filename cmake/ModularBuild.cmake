@@ -149,7 +149,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
-    ../src/utils/build_info.cpp
+    ../src/themis/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
@@ -222,8 +222,9 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_runtime_injector.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
-        ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/module_dependency_resolver.cpp
     ../src/themis/module_signature_verifier.cpp
+    ../src/themis/edition_manager.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp

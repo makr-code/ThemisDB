@@ -1227,6 +1227,43 @@ set_tests_properties(RuntimeLicenseGateTests PROPERTIES
     TIMEOUT 60
 )
 
+# Module hash verifier tests (subset of AllTests)
+# Covers: SHA-256 computation (empty/known/large files, non-existent),
+#         verifyHash helper (match/mismatch/missing), manifest round-trip,
+#         addExpectedHash / manifestSize / clearManifest / getExpectedHash,
+#         verifyModule (success/mismatch/missing)
+#         (from test_module_hash_verifier.cpp, Issue #2471)
+add_test(NAME ModuleHashVerifierFocusedTests
+    COMMAND themis_tests --gtest_filter=ModuleHashVerifier.*)
+set_tests_properties(ModuleHashVerifierFocusedTests PROPERTIES
+    LABELS "module;hash;verifier;security;themis;unit"
+    TIMEOUT 60
+)
+
+# Module signature verifier tests (subset of AllTests)
+# Covers: non-existent file, platform field, error on failure,
+#         GPG (no sig file, explicit non-existent sig, bad content, auto-detect .asc),
+#         Authenticode unsigned/non-existent, Windows unsigned module
+#         (from test_module_signature_verifier.cpp, Issue #2473)
+add_test(NAME ModuleSignatureVerifierFocusedTests
+    COMMAND themis_tests --gtest_filter=ModuleSignatureVerifier.*)
+set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
+    LABELS "module;signature;verifier;security;themis;unit"
+    TIMEOUT 60
+)
+
+# Module dependency resolver tests (subset of AllTests)
+# Covers: ModuleDependency metadata, DependencyResolutionResult, ModuleErrorCode,
+#         ModuleMetadata, ModuleDependencyResolver (topological sort, version compat,
+#         cycle detection, registerModule/resolve/resolveFor/clear)
+#         (from test_module_dependency_resolver.cpp, Issue #2474)
+add_test(NAME ModuleDependencyResolverFocusedTests
+    COMMAND themis_tests --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
+set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
+    LABELS "module;dependency;resolver;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
