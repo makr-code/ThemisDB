@@ -568,52 +568,37 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 #endif // THEMIS_ENABLE_VULKAN
 
 // ============================================================================
-// DirectX Vector Backend Stub
+// DirectXVectorBackend — stub implementation for non-DirectX builds
+// Full Windows implementation is in directx_backend_full.cpp
+// (compiled when _WIN32 && THEMIS_ENABLE_DIRECTX)
 // ============================================================================
+
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+
+class DirectXVectorBackend::DirectXVectorBackendImpl {
+    // Empty placeholder when DirectX 12 is not compiled in
+};
+
+DirectXVectorBackend::DirectXVectorBackend()
+    : initialized_(false), impl_(std::make_unique<DirectXVectorBackendImpl>()) {}
 
 DirectXVectorBackend::~DirectXVectorBackend() {
     shutdown();
 }
 
 bool DirectXVectorBackend::isAvailable() const noexcept {
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    // Check if DirectX 12 is available
-    // Would use D3D12GetDebugInterface() or similar
-    return false; // Stub: not fully implemented yet
-#else
     return false;
-#endif
 }
 
 BackendCapabilities DirectXVectorBackend::getCapabilities() const {
-    BackendCapabilities caps;
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    caps.supportsVectorOps = true;
-    caps.supportsBatchProcessing = true;
-    caps.supportsAsync = true;
-    caps.deviceName = "DirectX 12 (Stub)";
-#endif
-    return caps;
+    return {};
 }
 
 bool DirectXVectorBackend::initialize() {
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    // Initialize DirectX 12 device and command queue
-    initialized_ = false; // Stub
-    return initialized_;
-#else
     return false;
-#endif
 }
 
-void DirectXVectorBackend::shutdown() {
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    if (initialized_) {
-        // Cleanup DirectX resources
-        initialized_ = false;
-    }
-#endif
-}
+void DirectXVectorBackend::shutdown() {}
 
 std::vector<float> DirectXVectorBackend::computeDistances(
     const float* /*queries*/,
@@ -623,7 +608,7 @@ std::vector<float> DirectXVectorBackend::computeDistances(
     size_t /*numVectors*/,
     bool /*useL2*/
 ) {
-    return {}; // Stub
+    return {};
 }
 
 std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batchKnnSearch(
@@ -635,8 +620,10 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
     size_t /*k*/,
     bool /*useL2*/
 ) {
-    return {}; // Stub
+    return {};
 }
+
+#endif // !_WIN32 || !THEMIS_ENABLE_DIRECTX
 
 // ============================================================================
 // VulkanVectorBackend — public interface implementation
