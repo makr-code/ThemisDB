@@ -2381,6 +2381,12 @@ namespace {
     SessionDeleteById,       // DELETE /auth/sessions/{id}
     SessionDeleteOthers,     // DELETE /auth/sessions  (revoke all others)
 
+    // SAML 2.0 SP
+    SamlLoginGet,            // GET    /api/v1/auth/saml/login
+    SamlAcsPost,             // POST   /api/v1/auth/saml/acs
+    SamlSloPost,             // POST   /api/v1/auth/saml/slo
+    SamlMetadataGet,         // GET    /api/v1/auth/saml/metadata
+
     // UDF registration API – AQL user-defined functions
     UdfPost,                 // POST   /api/v1/query/udfs
     UdfListGet,              // GET    /api/v1/query/udfs
@@ -2900,6 +2906,16 @@ namespace {
     if (path_only.rfind("/auth/sessions/", 0) == 0 && path_only.size() > 15) {
         if (method == http::verb::delete_) return Route::SessionDeleteById;
     }
+
+    // SAML 2.0 SP endpoints: /api/v1/auth/saml/*
+    if (path_only == "/api/v1/auth/saml/login" && method == http::verb::get)
+        return Route::SamlLoginGet;
+    if (path_only == "/api/v1/auth/saml/acs" && method == http::verb::post)
+        return Route::SamlAcsPost;
+    if (path_only == "/api/v1/auth/saml/slo" && method == http::verb::post)
+        return Route::SamlSloPost;
+    if (path_only == "/api/v1/auth/saml/metadata" && method == http::verb::get)
+        return Route::SamlMetadataGet;
 
     // UDF registration API: /api/v1/query/udfs and /api/v1/query/udfs/{name}
     if (path_only == "/api/v1/query/udfs") {
@@ -4873,6 +4889,20 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleSessionRevokeOthers(req);
             break;
 
+        // ── SAML 2.0 SP ───────────────────────────────────────────────────────
+        case Route::SamlLoginGet:
+            response = handleSamlLogin(req);
+            break;
+        case Route::SamlAcsPost:
+            response = handleSamlAcs(req);
+            break;
+        case Route::SamlSloPost:
+            response = handleSamlSlo(req);
+            break;
+        case Route::SamlMetadataGet:
+            response = handleSamlMetadata(req);
+            break;
+
         // ── UDF Registration API ──────────────────────────────────────────────
         case Route::UdfPost:
             response = udf_api_handler_->handleRegister(req);
@@ -5788,6 +5818,167 @@ http::response<http::string_body> HttpServer::handleSessionRevokeOthers(
             return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
         }
         return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// SAML 2.0 SP Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleSamlLogin(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        // Extract optional relay_state from query string.
+        std::string relay_state;
+        const std::string target = std::string(req.target());
+        auto qpos = target.find('?');
+        if (qpos != std::string::npos) {
+            const std::string qs = target.substr(qpos + 1);
+            std::istringstream iss(qs);
+            std::string kv;
+            while (std::getline(iss, kv, '&')) {
+                auto eq = kv.find('=');
+                if (eq != std::string::npos && kv.substr(0, eq) == "relay_state") {
+                    relay_state = urlDecode(kv.substr(eq + 1));
+                    break;
+                }
+            }
+        }
+        auto result = saml_provider_->handleLogin(relay_state);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        // Return 302 redirect to IdP SSO URL.
+        auto redirect_url = result.value("redirect_url", "");
+        http::response<http::string_body> res{http::status::found, req.version()};
+        res.set(http::field::location, redirect_url);
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = result.dump();
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSamlAcs(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        // ACS receives an application/x-www-form-urlencoded POST body
+        // with SAMLResponse and optional RelayState fields (SAML 2.0 Bindings §3.5).
+        // InResponseTo is validated by SAMLAuthenticator from the XML assertion; the
+        // pending request_id stored during handleSamlLogin is supplied as in_response_to
+        // to enable server-side SP-initiated flow verification.  The request_id may be
+        // recovered from: (1) a server-side session keyed on the browser session cookie,
+        // or (2) the RelayState when it encodes the request_id.  For programmatic / test
+        // clients an explicit X-SAML-RequestId header is also accepted.
+        std::string saml_response_b64;
+        std::string relay_state;
+
+        const auto& body = req.body();
+        if (!body.empty()) {
+            std::istringstream iss(body);
+            std::string kv;
+            while (std::getline(iss, kv, '&')) {
+                auto eq = kv.find('=');
+                if (eq == std::string::npos) continue;
+                const auto key   = urlDecode(kv.substr(0, eq));
+                const auto value = urlDecode(kv.substr(eq + 1));
+                if (key == "SAMLResponse")  saml_response_b64 = value;
+                else if (key == "RelayState") relay_state      = value;
+            }
+        }
+        if (saml_response_b64.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing SAMLResponse field", req);
+        }
+        // Recover the original SP-initiated request_id (if any).
+        // Check the X-SAML-RequestId header first (programmatic clients / proxies),
+        // then fall back to an empty string (IdP-initiated flow or no validation needed).
+        std::string in_response_to;
+        auto req_id_hdr = req.find("X-SAML-RequestId");
+        if (req_id_hdr != req.end()) {
+            in_response_to = std::string(req_id_hdr->value());
+        }
+        auto result = saml_provider_->handleAcs(saml_response_b64, relay_state, in_response_to);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSamlSlo(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        std::string session_index;
+        if (!req.body().empty()) {
+            try {
+                auto body_json = json::parse(req.body());
+                if (body_json.contains("session_index") && body_json["session_index"].is_string()) {
+                    session_index = body_json["session_index"].get<std::string>();
+                }
+            } catch (...) {
+                // Non-JSON bodies (e.g. form-encoded) are silently ignored for SLO.
+            }
+        }
+        auto result = saml_provider_->handleSlo(session_index);
+        if (result.contains("status_code")) {
+            int sc = result.value("status_code", 500);
+            return makeErrorResponse(static_cast<http::status>(sc), result.dump(), req);
+        }
+        // If result contains a redirect_url, issue 302.
+        if (result.contains("redirect_url") && !result["redirect_url"].get<std::string>().empty()) {
+            http::response<http::string_body> res{http::status::found, req.version()};
+            res.set(http::field::location, result["redirect_url"].get<std::string>());
+            res.set(http::field::content_type, "application/json");
+            res.keep_alive(req.keep_alive());
+            res.body() = result.dump();
+            res.prepare_payload();
+            return res;
+        }
+        return makeResponse(http::status::ok, result.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSamlMetadata(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!saml_provider_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "SAML provider not configured", req);
+        }
+        const auto xml = saml_provider_->buildMetadataXml();
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, "application/samlmetadata+xml");
+        res.keep_alive(req.keep_alive());
+        res.body() = xml;
+        res.prepare_payload();
+        return res;
     } catch (const std::exception& e) {
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
