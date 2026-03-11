@@ -144,6 +144,20 @@ TEST_F(KgeVectorSearchTest, Wired_MaxResultsBound) {
     EXPECT_LE(res.size(), 2u);
 }
 
+TEST_F(KgeVectorSearchTest, Wired_ZeroMaxResults_ReturnsEmpty) {
+    // max_results == 0 must always return an empty vector, even with a wired index.
+    KnowledgeGraphEnricher enricher(makeConfig(), "");
+    enricher.setVectorIndex(vim_.get());
+    auto res = enricher.findSimilarDocuments("doc_a", 0);
+    EXPECT_TRUE(res.empty()) << "Expected empty result when max_results=0";
+}
+
+TEST_F(KgeVectorSearchTest, Offline_ZeroMaxResults_ReturnsEmpty) {
+    KnowledgeGraphEnricher enricher(makeConfig(), "");
+    auto res = enricher.findSimilarDocuments("doc_a", 0);
+    EXPECT_TRUE(res.empty());
+}
+
 TEST_F(KgeVectorSearchTest, Wired_ScoresInValidRange) {
     KnowledgeGraphEnricher enricher(makeConfig(), "");
     enricher.setVectorIndex(vim_.get());

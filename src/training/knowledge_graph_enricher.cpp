@@ -377,7 +377,7 @@ public:
 
         std::vector<std::pair<std::string, float>> similar;
 
-        if (document_id.empty()) return similar;
+        if (document_id.empty() || max_results == 0) return similar;
 
         // Check custom query override (AQL path – used when a query executor
         // is connected rather than a VectorIndexManager)
@@ -413,7 +413,6 @@ public:
 
         // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
         // No VectorIndexManager wired – return empty (no database connection).
-        (void)max_results;
         return similar;
     }
 
