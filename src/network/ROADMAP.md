@@ -32,6 +32,15 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
 - [x] Per-tenant network bandwidth quotas (Issue: #2205)
 - [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
+- [x] TCP backlog management and backpressure handling (Issue: #FEATURE)
+  - `Config::tcp_backlog` (int, default 128) passed to `listen(2)` for OS-level queue control
+  - Global `max_connections` enforced via atomic `active_connection_count_` (fast path, no lock)
+  - Per-IP limit check retained as a secondary guard
+  - Rejected sockets closed immediately to free kernel resources
+  - `Stats::rejected_connections` incremented on every rejected connection
+  - Overload state logged once on entry ("Backpressure: connection limit reached")
+  - Recovery state logged once when active count drops below `max_connections`
+  - Focused unit tests in `tests/test_wire_protocol_backpressure.cpp` (`WireProtocolBackpressureFocusedTests`)
 
 ## In Progress 🚧
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
@@ -150,6 +159,13 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)
   - Config defaults, PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity
   - Cross-region fallback, selectEndpointInRegion, getRankedShards ordering, stats accumulation, edge cases
+- [x] Unit tests added for backpressure / TCP backlog management (`test_wire_protocol_backpressure.cpp`, 18 tests)
+  - tcp_backlog default (128), custom/high values, min-one edge case
+  - max_connections default and reconfiguration (including unlimited=0)
+  - rejected_connections stat starts at zero; all Stats fields default to zero
+  - overloaded_ state-machine: not overloaded initially, set on first rejection,
+    cleared on recovery; unlimited config never overloads
+  - Config field coexistence (tcp_backlog, max_connections, port, TLS)
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
@@ -178,3 +194,5 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - `WireProtocolServer::Config` gained new fields `enable_ipv6` (default: false) and
   `ipv6_dual_stack` (default: true); existing deployments are unaffected (default binding
   remains IPv4 "0.0.0.0").
+- `WireProtocolServer::Config` gained new field `tcp_backlog` (default: 128); existing
+  deployments are unaffected as 128 matches the previous implicit OS default.

@@ -211,7 +211,7 @@ void WireProtocolServer::start() {
     }
 
     acceptor_->bind(endpoint);
-    acceptor_->listen();
+    acceptor_->listen(config_.tcp_backlog);
 
     // Start I/O threads
     for (size_t i = 0; i < config_.num_io_threads; ++i) {
@@ -298,6 +298,11 @@ WireProtocolServer::getAllTenantBandwidthStats() const {
 }
 
 bool WireProtocolServer::checkConnectionLimit(const std::string& remote_ip) {
+    // Global connection limit – fast path via atomic counter.
+    if (config_.max_connections > 0 &&
+        active_connection_count_.load(std::memory_order_relaxed) >= config_.max_connections) {
+        return false;
+    }
     std::lock_guard<std::mutex> lock(connections_mutex_);
     auto it = connections_per_ip_.find(remote_ip);
     if (it != connections_per_ip_.end() && it->second >= config_.max_connections_per_ip) {
@@ -338,6 +343,7 @@ bool WireProtocolServer::checkRateLimit(const std::string& remote_ip) {
 void WireProtocolServer::registerConnection(const std::string& remote_ip) {
     std::lock_guard<std::mutex> lock(connections_mutex_);
     connections_per_ip_[remote_ip]++;
+    active_connection_count_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
@@ -345,6 +351,16 @@ void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
     auto it = connections_per_ip_.find(remote_ip);
     if (it != connections_per_ip_.end() && it->second > 0) {
         it->second--;
+    }
+    const uint32_t prev = active_connection_count_.fetch_sub(1, std::memory_order_relaxed);
+    // Detect recovery: if we were overloaded and have now dropped below the
+    // limit, clear the flag and emit a single recovery log message.
+    if (overloaded_.load(std::memory_order_relaxed) && config_.max_connections > 0 &&
+        prev - 1 < config_.max_connections) {
+        overloaded_.store(false, std::memory_order_relaxed);
+        std::cerr << "[WireProtocol] Backpressure recovery: active connections dropped to "
+                  << (prev - 1) << " (limit=" << config_.max_connections
+                  << "). Accepting new connections again.\n";
     }
 }
 
@@ -374,10 +390,41 @@ void WireProtocolServer::handleAccept(std::shared_ptr<Session> session, const bo
         }
 
         if (!checkConnectionLimit(remote_ip)) {
+            // Explicitly close the socket so the kernel-side TCP connection is
+            // torn down promptly rather than waiting for the session destructor.
+            boost::system::error_code close_ec;
+            session->socket_.close(close_ec);
+
+            // Track and log the overload state (only log on the first rejection
+            // to avoid flooding the log when the server is saturated).
+            if (!overloaded_.exchange(true, std::memory_order_relaxed)) {
+                std::cerr << "[WireProtocol] Backpressure: connection limit reached ("
+                          << active_connection_count_.load(std::memory_order_relaxed)
+                          << "/" << config_.max_connections
+                          << "). New connections from " << remote_ip
+                          << " are being rejected until load decreases.\n";
+            }
+
+            {
+                std::lock_guard<std::mutex> lock(stats_mutex_);
+                stats_.rejected_connections++;
+            }
+            doAccept();
             return;
         }
 
         if (!checkRateLimit(remote_ip)) {
+            boost::system::error_code close_ec;
+            session->socket_.close(close_ec);
+
+            std::cerr << "[WireProtocol] Backpressure: rate limit exceeded for "
+                      << remote_ip << ". Connection rejected.\n";
+
+            {
+                std::lock_guard<std::mutex> lock(stats_mutex_);
+                stats_.rejected_connections++;
+            }
+            doAccept();
             return;
         }
 

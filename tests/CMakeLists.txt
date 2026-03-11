@@ -10604,6 +10604,15 @@ add_network_focused_test(
     "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
 )
 
+# --- Wire Protocol Backpressure / TCP Backlog Management ---
+add_network_focused_test(
+    test_wire_protocol_backpressure_focused
+    test_wire_protocol_backpressure.cpp
+    WireProtocolBackpressureFocusedTests
+    "network;wire-protocol;backpressure;tcp-backlog;connection-limit;overload;focused;unit"
+    "WireProtocolBackpressure: tcp_backlog default/custom, max_connections enforcement, overloaded_ state transitions, recovery logging, rejected_connections stats"
+)
+
 # --- Wire Protocol IPv6 Support ---
 add_network_focused_test(
     test_wire_protocol_ipv6_focused
