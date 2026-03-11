@@ -1088,16 +1088,35 @@ Streamt Änderungen in Server-Sent Events (SSE) Format.
 - `keep_alive` (boolean, optional): Verbindung offen halten (Standard: true)
 - `max_seconds` (integer, optional): Max. Stream-Dauer 1-60s (Standard: 30)
 - `heartbeat_ms` (integer, optional): Heartbeat-Intervall (min: 100ms, nur für Tests)
+- `consumer_id` (string, optional): Opaque Consumer-Identifier für At-least-once-Delivery. Wird ein Consumer-ID übergeben, werden unquittierte Events aus früheren Requests **vor** neuen Events wiederholt zugestellt. Maximallänge: 128 Zeichen.
+- `ack_timeout_ms` (integer, optional): Override für den ACK-Timeout dieses Requests in Millisekunden (Standard: 30000 ms). Werte ≥ 0 sind gültig. Nützlich für Tests mit kurzen Timeouts.
 
 **Antwort (200 OK):**
 ```
 Content-Type: text/event-stream
 
+id: 42
 data: {"operation":"PUT","key":"doc:1","sequence":42,"old_val":null,"new_val":"{\"x\":1}"}
 
+id: 43
 data: {"operation":"DELETE","key":"doc:2","sequence":43,"old_val":"{\"y\":2}","new_val":null}
 
 : heartbeat
+```
+
+**At-least-once Delivery (Reconnect-Protokoll):**
+```
+# 1. Client verbindet sich mit consumer_id
+GET /changefeed/stream?from_seq=0&consumer_id=my-service-uuid
+
+# 2. Server liefert Events mit id-Zeilen
+# Client verarbeitet Events und quittiert via POST /changefeed/stream/ack
+
+# 3. Bei Verbindungsabbruch: Reconnect mit Last-Event-ID + consumer_id
+GET /changefeed/stream?from_seq=0&consumer_id=my-service-uuid
+Last-Event-ID: 42
+
+# Server liefert unquittierte Events erneut (redelivery) vor neuen Events
 ```
 
 **Fehlerbehandlung:**
@@ -1105,6 +1124,44 @@ data: {"operation":"DELETE","key":"doc:2","sequence":43,"old_val":"{\"y\":2}","n
 - `500 Internal Server Error`: Streaming-Fehler
 
 **Hinweis:** Dieser Endpoint ist nicht Teil der OpenAPI-Spezifikation, da er `text/event-stream` zurückliefert.
+
+---
+
+### POST /changefeed/stream/ack
+
+Quittiert den Empfang von SSE-Events für einen Consumer im At-least-once-Delivery-Protokoll.
+Entfernt alle Events mit `sequence ≤ up_to_sequence` aus dem In-flight-Tracking des Consumers.
+
+**Request Body:**
+```json
+{
+  "consumer_id": "my-service-uuid",
+  "up_to_sequence": 42
+}
+```
+
+| Feld | Typ | Pflicht | Beschreibung |
+|------|-----|---------|--------------|
+| `consumer_id` | string | ✅ | Derselbe Identifier wie beim GET-Request |
+| `up_to_sequence` | uint64 | ✅ | Höchste Sequenznummer, die quittiert werden soll (inklusiv, kumulativ) |
+
+**Antwort (200 OK):**
+```json
+{
+  "consumer_id": "my-service-uuid",
+  "up_to_sequence": 42,
+  "acknowledged": 3
+}
+```
+
+| Feld | Beschreibung |
+|------|--------------|
+| `acknowledged` | Anzahl der Events, die aus dem In-flight-Tracking entfernt wurden |
+
+**Fehlerbehandlung:**
+- `400 Bad Request`: Fehlendes / leeres `consumer_id` oder `up_to_sequence`; ungültiges JSON
+- `404 Not Found`: Feature `cdc` deaktiviert
+- `500 Internal Server Error`: Interner Fehler
 
 ---
 

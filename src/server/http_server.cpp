@@ -2137,6 +2137,7 @@ namespace {
         QueryEnhancedPost, // Enterprise: Query + LLM context
         ChangefeedGet,
         ChangefeedStreamSse,
+        ChangefeedStreamAckPost,
     ChangefeedStatsGet,
     ChangefeedRetentionPost,
     ChangefeedRetentionGet,
@@ -2526,6 +2527,7 @@ namespace {
     // Changefeed endpoint should match even with query parameters
     if (path_only == "/changefeed" && method == http::verb::get) return Route::ChangefeedGet;
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
+    if (path_only == "/changefeed/stream/ack" && method == http::verb::post) return Route::ChangefeedStreamAckPost;
     if (path_only == "/changefeed/stats" && method == http::verb::get) return Route::ChangefeedStatsGet;
     if (path_only == "/changefeed/retention" && method == http::verb::post) return Route::ChangefeedRetentionPost;
     if (path_only == "/changefeed/retention" && method == http::verb::get) return Route::ChangefeedRetentionGet;
@@ -3654,6 +3656,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::ChangefeedStreamSse:
             if (changefeed_api_) {
                 response = changefeed_api_->handleStreamSse(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
+            }
+            break;
+        case Route::ChangefeedStreamAckPost:
+            if (changefeed_api_) {
+                response = changefeed_api_->handleStreamAck(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Changefeed not available", req);
             }
