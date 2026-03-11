@@ -282,7 +282,7 @@ bool ModuleSandbox::launch(const std::string& module_name) {
             launch_warnings_.push_back(
                 "WASM isolation requested but no WasmRuntime backend is registered; "
                 "falling back to OS-only sandbox. Register a backend via "
-                "WasmRuntimeInjector::registerRuntime() before constructing the sandbox.");
+                "WasmRuntimeInjector::registerRuntime() before calling launch().");
         } else {
             auto rt = WasmRuntimeInjector::create(config_.wasm_runtime_name);
             if (!rt) {
