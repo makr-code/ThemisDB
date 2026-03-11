@@ -1909,6 +1909,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/neural_sparse_retrieval.cpp
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
+    ../src/search/distributed_hybrid_search.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -4064,6 +4065,19 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_search_highlighter
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_search_highlighter>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_distributed_hybrid_search
+        ${THEMIS_ROOT_DIR}/tests/test_distributed_hybrid_search.cpp
+    )
+    target_link_libraries(test_distributed_hybrid_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_hybrid_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

@@ -689,6 +689,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/negative_keyword_filter.cpp
+    ../src/search/distributed_hybrid_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
