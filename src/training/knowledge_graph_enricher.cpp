@@ -21,6 +21,7 @@
  */
 
 #include "training/knowledge_graph_enricher.h"
+#include "index/vector_index.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -378,18 +379,50 @@ public:
 
         if (document_id.empty()) return similar;
 
-        // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
-        // Uses cosine similarity on pre-computed embeddings
-        // (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // Check custom query override (AQL path – used when a query executor
+        // is connected rather than a VectorIndexManager)
         auto it = custom_queries_.find("find_similar");
         (void)it;
 
+        // Use the VectorIndexManager when one has been wired in.
+        if (vector_index_) {
+            // Fetch the embedding of the query document.
+            auto query_vec_opt = vector_index_->getVectorByPk(document_id);
+            if (!query_vec_opt.has_value()) {
+                // Document has no embedding – cannot perform vector search.
+                return similar;
+            }
+
+            // Request max_results + 1 candidates so we can safely exclude the
+            // query document itself from the result set.
+            const size_t k = max_results + 1;
+            auto [st, results] = vector_index_->searchKnn(*query_vec_opt, k);
+
+            if (!st.ok) {
+                // Index search failed – return empty rather than crashing.
+                return similar;
+            }
+
+            for (const auto& r : results) {
+                if (r.pk == document_id) continue; // exclude self
+                similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
+                if (similar.size() >= max_results) break;
+            }
+            return similar;
+        }
+
+        // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
+        // No VectorIndexManager wired – return empty (no database connection).
+        (void)max_results;
         return similar;
     }
 
     void setCustomQuery(const std::string& query_name, const std::string& aql_query) {
         custom_queries_[query_name] = aql_query;
+    }
+
+    void setVectorIndex(VectorIndexManager* vim) {
+        vector_index_ = vim;
     }
 
     // Phase 6: Get AQL query template for a given query name
@@ -434,6 +467,15 @@ private:
     std::string db_connection_;
     std::unordered_map<std::string, std::string> custom_queries_;
     std::unique_ptr<EnrichmentLRUCache> cache_; ///< optional LRU cache (Phase 9)
+    VectorIndexManager* vector_index_ = nullptr; ///< non-owning; nullptr = offline/stub
+
+    // Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
+    // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
+    // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
+    // point rounding artefacts near the boundaries.
+    static float distanceToSimilarityScore(float distance) {
+        return std::max(0.0f, std::min(1.0f, 1.0f - distance));
+    }
 
     // Build the cache key for a given entity + graph version
     std::string cacheKey(const std::string& entity_key) const {
@@ -539,6 +581,10 @@ std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDo
 void KnowledgeGraphEnricher::setCustomQuery(const std::string& query_name,
                                            const std::string& aql_query) {
     impl_->setCustomQuery(query_name, aql_query);
+}
+
+void KnowledgeGraphEnricher::setVectorIndex(VectorIndexManager* vim) {
+    impl_->setVectorIndex(vim);
 }
 
 std::string KnowledgeGraphEnricher::getQueryTemplate(const std::string& query_name) const {

@@ -39,12 +39,14 @@ bevor der Status auf **Beta** angehoben werden kann.
 | Feld | Wert |
 |------|------|
 | **Schweregrad** | Mittel |
-| **Status** | Offen |
+| **Status** | ✅ Vollständig abgeschlossen (v1.6.0) |
 | **Claim-Quelle** | `src/training/README.md`, Abschnitt "KnowledgeGraphEnricher" |
 | **Erwartet** | `findSimilarDocuments()` führt Cosinus-Ähnlichkeitssuche über Dokumenteinbettungen durch |
 | **Beobachtet** | `knowledge_graph_enricher.cpp`: Vektor-Index-Abfrage ist als kommentierte AQL-Vorlage implementiert; gibt leere Liste zurück bis Query-Executor verdrahtet ist |
 | **Evidence** | `src/training/knowledge_graph_enricher.cpp` (kommentierte AQL-Templates) |
-| **Issue-Titelvorschlag** | `feat(training): wire findSimilarDocuments to vector index / embedding store` |
+| **Lösung** | `KnowledgeGraphEnricher` akzeptiert jetzt einen optionalen `VectorIndexManager*`-Parameter via `setVectorIndex()`. Wenn verdrahtet, ruft `findSimilarDocuments()` `getVectorByPk()` zum Laden des Abfragevektors auf und führt dann `searchKnn()` für eine echte Cosinus-Ähnlichkeitssuche durch. Der Self-Doc wird ausgeschlossen, `distance` wird in einen Similarity-Score (`1 − distance`) umgewandelt, und `max_results` wird eingehalten. Ohne `VectorIndexManager` bleibt das bisherige Offline-/Testverhalten erhalten. |
+| **Tests** | `tests/test_kge_vector_search.cpp` – 12 Integrationstests decken Offline-Stub, Wired-Modus, Self-Exclusion, `max_results`-Bound, Score-Bereich, Nearest-Neighbor-Ranking, fehlende Embedding-Fallback und nullptr-Reset ab. CTest-Target: `KgeVectorSearchFocusedTests`. |
+| **Issue** | [FEATURE] Wire findSimilarDocuments to vector index / embedding store in KnowledgeGraphEnricher |
 | **Label-Vorschläge** | `module:training`, `priority:medium`, `type:stub` |
 
 ---
