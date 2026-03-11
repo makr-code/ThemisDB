@@ -316,6 +316,7 @@ std::shared_ptr<ImportHandle> PostgreSQLImporter::importDataAsync(
         handle->id = "import-" + std::to_string(ms) + "-" +
                      std::to_string(reinterpret_cast<uintptr_t>(handle.get()) & 0xFFFF);
     }
+    handle->source_path = source_path;  // v2.0: store for schema preview
     handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     handle->running.store(true);
@@ -426,7 +427,7 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
     std::string current_sql;
     
     while (std::getline(file, line)) {
-        // Skip comments
+        // Skip comments and blank lines
         if (line.empty() || line[0] == '-') continue;
         
         current_sql += line + " ";
@@ -438,25 +439,93 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
                 if (parseCreateTable(current_sql, schema)) {
                     schemas_[schema.name] = schema;
                 }
+            } else if (current_sql.find("CREATE TYPE") != std::string::npos) {
+                std::regex enum_regex(R"(CREATE TYPE\s+(?:\w+\.)?(\w+)\s+AS\s+ENUM)",
+                                      std::regex_constants::icase);
+                std::regex comp_regex(R"(CREATE TYPE\s+(?:\w+\.)?(\w+)\s+AS\s*\()",
+                                      std::regex_constants::icase);
+                std::smatch tm;
+                if (std::regex_search(current_sql, tm, enum_regex)) {
+                    custom_type_map_[tm[1].str()] = "string";
+                } else if (std::regex_search(current_sql, tm, comp_regex)) {
+                    custom_type_map_[tm[1].str()] = "object";
+                }
+            } else if (current_sql.find("ALTER TABLE") != std::string::npos &&
+                       current_sql.find("ADD CONSTRAINT") != std::string::npos &&
+                       current_sql.find("FOREIGN KEY") != std::string::npos) {
+                std::string tname;
+                ForeignKeyConstraint fk;
+                if (parseAlterTableForeignKey(current_sql, tname, fk) &&
+                    schemas_.count(tname)) {
+                    schemas_[tname].foreign_keys.push_back(fk);
+                }
+            } else if (current_sql.find("CREATE INDEX") != std::string::npos ||
+                       current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
+                std::regex tbl_re(R"(ON\s+(?:\w+\.)?(\w+)\s*[\(])",
+                                   std::regex_constants::icase);
+                std::smatch ti;
+                if (std::regex_search(current_sql, ti, tbl_re)) {
+                    std::string tname = ti[1].str();
+                    IndexMetadata idx;
+                    if (parseCreateIndex(current_sql, tname, idx) && schemas_.count(tname)) {
+                        schemas_[tname].indexes.push_back(idx);
+                    }
+                }
             }
             current_sql.clear();
         }
     }
     
+    // Build relationship mappings
+    ImportOptions schema_opts;
+    auto mappings = RelationshipMapper::mapFromForeignKeys(schemas_,
+                                                           schema_opts.relationship_mapping_mode);
+
+    // Detect circular references
+    std::vector<std::string> cycles;
+    RelationshipMapper::detectCircularReferences(schemas_, cycles);
+
     // Convert to JSON
     json result = json::array();
-    for (const auto& [name, schema] : schemas_) {
+    for (const auto& kv : schemas_) {
+        const auto& schema = kv.second;
         json table_json = {
             {"name", schema.name},
             {"schema", schema.schema},
             {"columns", schema.columns},
             {"column_types", schema.column_types},
-            {"primary_keys", schema.primary_keys}
+            {"primary_keys", schema.primary_keys},
+            {"column_defaults", schema.column_defaults},
+            {"column_constraints", schema.column_constraints},
+            {"custom_types", schema.custom_types}
         };
+
+        // Foreign Keys
+        json fk_arr = json::array();
+        for (const auto& fk : schema.foreign_keys) fk_arr.push_back(fk.toJson());
+        table_json["foreign_keys"] = fk_arr;
+
+        // Indexes
+        json idx_arr = json::array();
+        for (const auto& idx : schema.indexes) idx_arr.push_back(idx.toJson());
+        table_json["indexes"] = idx_arr;
+
         result.push_back(table_json);
     }
-    
-    return result;
+
+    // Wrap in an object with schema + relationships + circular_references
+    json relationships_arr = json::array();
+    for (const auto& m : mappings) relationships_arr.push_back(m.toJson());
+
+    json cycles_arr = json::array();
+    for (const auto& c : cycles) cycles_arr.push_back(c);
+
+    return json{
+        {"tables", result},
+        {"relationships", relationships_arr},
+        {"circular_references", cycles_arr},
+        {"custom_types", custom_type_map_}
+    };
 }
 
 // ============================================================================
@@ -651,6 +720,50 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                     }
                 }
             }
+            // v2.0: ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY
+            else if (current_sql.find("ALTER TABLE") != std::string::npos &&
+                     current_sql.find("ADD CONSTRAINT") != std::string::npos &&
+                     current_sql.find("FOREIGN KEY") != std::string::npos) {
+                if (options.preserve_relationships) {
+                    auto t0 = std::chrono::steady_clock::now();
+                    std::string tname;
+                    ForeignKeyConstraint fk;
+                    if (parseAlterTableForeignKey(current_sql, tname, fk) &&
+                        schemas_.count(tname)) {
+                        schemas_[tname].foreign_keys.push_back(fk);
+                        stats.relationships_processed++;
+                        THEMIS_DEBUG("ALTER TABLE {}: added FK {} → {}({})",
+                                     tname, fk.source_column,
+                                     fk.target_table, fk.target_column);
+                        double dur = std::chrono::duration<double>(
+                            std::chrono::steady_clock::now() - t0).count();
+                        emitSpan(options, "parse_foreign_key",
+                                 {{"table", tname}, {"constraint", fk.name}}, dur);
+                    }
+                }
+            }
+            // v2.0: CREATE [UNIQUE] INDEX ... ON table (cols)
+            else if (current_sql.find("CREATE INDEX") != std::string::npos ||
+                     current_sql.find("CREATE UNIQUE INDEX") != std::string::npos) {
+                auto t0 = std::chrono::steady_clock::now();
+                // Extract table name to attach the index
+                std::regex tbl_re(R"(ON\s+(?:\w+\.)?(\w+)\s*[\(])",
+                                   std::regex_constants::icase);
+                std::smatch ti;
+                if (std::regex_search(current_sql, ti, tbl_re)) {
+                    std::string tname = ti[1].str();
+                    IndexMetadata idx;
+                    if (parseCreateIndex(current_sql, tname, idx) && schemas_.count(tname)) {
+                        schemas_[tname].indexes.push_back(idx);
+                        stats.indexes_processed++;
+                        THEMIS_DEBUG("Parsed index {} on {}", idx.name, tname);
+                        double dur = std::chrono::duration<double>(
+                            std::chrono::steady_clock::now() - t0).count();
+                        emitSpan(options, "parse_index",
+                                 {{"table", tname}, {"index", idx.name}}, dur);
+                    }
+                }
+            }
             else if (current_sql.find("INSERT INTO") != std::string::npos) {
                 stats.total_records++;
                 {
@@ -727,6 +840,25 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     if (!options.dry_run && !options.delta_hash_file.empty() && !delta_hashes.empty()) {
         saveDeltaHashes(options.delta_hash_file, delta_hashes);
     }
+
+    // v2.0: Validate FK references if requested
+    if (options.validate_references && !cancelled_) {
+        validateForeignKeyReferences(options, stats);
+    }
+
+    // v2.0: Count inline FKs (from CREATE TABLE) that were not already counted
+    // via ALTER TABLE.  relationships_processed already counts ALTER TABLE FKs;
+    // add the inline ones here.
+    if (options.preserve_relationships) {
+        for (const auto& kv : schemas_) {
+            for (const auto& fk : kv.second.foreign_keys) {
+                if (fk.name.empty()) {
+                    // Inline REFERENCES FK – not yet counted
+                    stats.relationships_processed++;
+                }
+            }
+        }
+    }
     
     return !cancelled_;
 }
@@ -734,7 +866,8 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
 bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema) {
     // Regex-based parsing for CREATE TABLE statements.
     // Handles schema-qualified names: CREATE TABLE [schema.]table (...)
-    std::regex table_regex(R"(CREATE TABLE\s+(?:(\w+)\.)?(\w+)\s*\()");
+    std::regex table_regex(R"(CREATE TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:(\w+)\.)?(\w+)\s*\()",
+                           std::regex_constants::icase);
     std::smatch match;
     
     if (std::regex_search(sql, match, table_regex)) {
@@ -760,42 +893,419 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         // not treated as column separators.
         std::vector<std::string> column_defs = splitTopLevelCommas(columns_str);
 
+        // Helper: uppercase a copy
+        auto toUpper = [](std::string s) {
+            for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+            return s;
+        };
+
+        // Helper: trim whitespace
+        auto trim = [](const std::string& s) {
+            size_t l = s.find_first_not_of(" \t\n\r");
+            if (l == std::string::npos) return std::string{};
+            size_t r = s.find_last_not_of(" \t\n\r");
+            return s.substr(l, r - l + 1);
+        };
+
         for (auto& column_def : column_defs) {
-                // Trim whitespace
-                column_def.erase(0, column_def.find_first_not_of(" \t\n\r"));
-                column_def.erase(column_def.find_last_not_of(" \t\n\r") + 1);
-                
-                if (column_def.empty()) continue;
+            column_def = trim(column_def);
+            if (column_def.empty()) continue;
 
-                // Skip table-level constraints
-                if (column_def.find("CONSTRAINT") != std::string::npos ||
-                    column_def.find("PRIMARY KEY") != std::string::npos ||
-                    column_def.find("FOREIGN KEY") != std::string::npos ||
-                    column_def.find("UNIQUE") != std::string::npos ||
-                    column_def.find("CHECK") != std::string::npos) {
-                    continue;
-                }
-                
-                // Extract column name and type
-                std::istringstream col_ss(column_def);
-                std::string col_name, col_type;
-                col_ss >> col_name >> col_type;
-                
-                // Strip surrounding quotes from column name
-                if (!col_name.empty() && col_name.front() == '"') {
-                    col_name = col_name.substr(1, col_name.size() - 2);
-                }
+            std::string upper_def = toUpper(column_def);
 
-                if (!col_name.empty() && !col_type.empty()) {
-                    schema.columns.push_back(col_name);
-                    schema.column_types[col_name] = col_type;
+            // ----------------------------------------------------------------
+            // Table-level PRIMARY KEY constraint
+            // ----------------------------------------------------------------
+            if (upper_def.find("PRIMARY KEY") != std::string::npos &&
+                upper_def.find("FOREIGN KEY") == std::string::npos &&
+                (upper_def.find("CONSTRAINT") != std::string::npos ||
+                 upper_def.substr(0, 11) == "PRIMARY KEY")) {
+                // Extract columns from PRIMARY KEY (col1, col2)
+                size_t pk_paren = column_def.find('(');
+                if (pk_paren != std::string::npos) {
+                    size_t pk_end = findMatchingParen(column_def, pk_paren);
+                    if (pk_end != std::string::npos) {
+                        std::string pk_cols = column_def.substr(pk_paren + 1,
+                                                                pk_end - pk_paren - 1);
+                        std::istringstream pkss(pk_cols);
+                        std::string pkc;
+                        while (std::getline(pkss, pkc, ',')) {
+                            pkc = trim(pkc);
+                            // Strip quotes
+                            if (!pkc.empty() && pkc.front() == '"') pkc = pkc.substr(1, pkc.size() - 2);
+                            if (!pkc.empty()) schema.primary_keys.push_back(pkc);
+                        }
+                    }
                 }
+                continue;
+            }
+
+            // ----------------------------------------------------------------
+            // Table-level FOREIGN KEY constraint (named or unnamed)
+            // e.g. CONSTRAINT fk_name FOREIGN KEY (col) REFERENCES tbl(col)
+            //      FOREIGN KEY (col) REFERENCES tbl(col)
+            // ----------------------------------------------------------------
+            if (upper_def.find("FOREIGN KEY") != std::string::npos) {
+                ForeignKeyConstraint fk;
+                if (parseForeignKeyConstraint(column_def, fk)) {
+                    schema.foreign_keys.push_back(fk);
+                }
+                continue;
+            }
+
+            // ----------------------------------------------------------------
+            // Table-level UNIQUE / CHECK constraints (skip columns, record names)
+            // ----------------------------------------------------------------
+            if ((upper_def.find("CONSTRAINT") != std::string::npos &&
+                 (upper_def.find("UNIQUE") != std::string::npos ||
+                  upper_def.find("CHECK") != std::string::npos)) ||
+                (upper_def.substr(0, 6) == "UNIQUE" &&
+                 upper_def.find("(") != std::string::npos)) {
+                // Record table-level UNIQUE index metadata
+                if (upper_def.find("UNIQUE") != std::string::npos) {
+                    size_t u_paren = column_def.find('(');
+                    if (u_paren != std::string::npos) {
+                        size_t u_end = findMatchingParen(column_def, u_paren);
+                        if (u_end != std::string::npos) {
+                            IndexMetadata idx;
+                            idx.unique = true;
+                            idx.type = "btree";
+                            // Extract optional constraint name
+                            std::regex cname_re(R"(CONSTRAINT\s+(\w+))",
+                                                std::regex_constants::icase);
+                            std::smatch cname_m;
+                            if (std::regex_search(column_def, cname_m, cname_re)) {
+                                idx.name = cname_m[1].str();
+                            } else {
+                                idx.name = schema.name + "_unique_" +
+                                           std::to_string(schema.indexes.size());
+                            }
+                            std::string ucols = column_def.substr(u_paren + 1, u_end - u_paren - 1);
+                            std::istringstream ucss(ucols);
+                            std::string uc;
+                            while (std::getline(ucss, uc, ',')) {
+                                uc = trim(uc);
+                                if (!uc.empty() && uc.front() == '"') uc = uc.substr(1, uc.size() - 2);
+                                if (!uc.empty()) idx.columns.push_back(uc);
+                            }
+                            schema.indexes.push_back(idx);
+                        }
+                    }
+                }
+                continue;
+            }
+
+            // ----------------------------------------------------------------
+            // Standalone CHECK constraint – skip
+            // ----------------------------------------------------------------
+            if (upper_def.substr(0, 5) == "CHECK") {
+                continue;
+            }
+
+            // ----------------------------------------------------------------
+            // Column definition
+            // ----------------------------------------------------------------
+            std::istringstream col_ss(column_def);
+            std::string col_name, col_type;
+            col_ss >> col_name >> col_type;
+
+            // Strip surrounding quotes from column name
+            if (!col_name.empty() && col_name.front() == '"') {
+                col_name = col_name.substr(1, col_name.size() - 2);
+            }
+            if (col_name.empty() || col_type.empty()) continue;
+
+            schema.columns.push_back(col_name);
+            schema.column_types[col_name] = col_type;
+
+            // Parse inline column modifiers (NOT NULL, UNIQUE, DEFAULT, REFERENCES)
+            std::string upper_col = toUpper(column_def);
+
+            // NOT NULL
+            if (upper_col.find("NOT NULL") != std::string::npos) {
+                schema.column_constraints[col_name] = "NOT NULL";
+            }
+
+            // Inline UNIQUE
+            if (upper_col.find(" UNIQUE") != std::string::npos ||
+                upper_col.find("\tUNIQUE") != std::string::npos) {
+                schema.column_constraints[col_name] =
+                    (schema.column_constraints.count(col_name) ?
+                     schema.column_constraints[col_name] + ",UNIQUE" : "UNIQUE");
+                IndexMetadata idx;
+                idx.name = schema.name + "_" + col_name + "_key";
+                idx.type = "btree";
+                idx.unique = true;
+                idx.columns = {col_name};
+                schema.indexes.push_back(idx);
+            }
+
+            // PRIMARY KEY inline (single-column)
+            if (upper_col.find("PRIMARY KEY") != std::string::npos) {
+                schema.primary_keys.push_back(col_name);
+            }
+
+            // DEFAULT expression
+            {
+                size_t def_pos = upper_col.find(" DEFAULT ");
+                if (def_pos != std::string::npos) {
+                    std::string after = column_def.substr(def_pos + 9);
+                    // Take the token up to the next keyword or end
+                    // Use a simplified approach: grab up to NOT NULL / UNIQUE / REFERENCES / CHECK
+                    std::string upper_after = toUpper(after);
+                    size_t end_pos = after.size();
+                    for (const auto& kw : {" NOT ", " NULL", " UNIQUE", " PRIMARY", " REFERENCES",
+                                           " CHECK", " GENERATED", " COLLATE"}) {
+                        size_t kp = upper_after.find(kw);
+                        if (kp != std::string::npos && kp < end_pos) end_pos = kp;
+                    }
+                    std::string def_val = trim(after.substr(0, end_pos));
+                    if (!def_val.empty()) schema.column_defaults[col_name] = def_val;
+                }
+            }
+
+            // Inline REFERENCES (inline FK without CONSTRAINT keyword)
+            {
+                size_t ref_pos = upper_col.find(" REFERENCES ");
+                if (ref_pos != std::string::npos) {
+                    std::string ref_clause = column_def.substr(ref_pos + 12);
+                    // ref_clause: "users(id) ON DELETE CASCADE ..."
+                    std::regex ref_re(
+                        R"((\w+)\s*(?:\(([^)]*)\))?(?:\s+ON\s+DELETE\s+(CASCADE|SET\s+NULL|RESTRICT|NO\s+ACTION|SET\s+DEFAULT))?(?:\s+ON\s+UPDATE\s+(CASCADE|SET\s+NULL|RESTRICT|NO\s+ACTION|SET\s+DEFAULT))?(?:\s+(DEFERRABLE))?(?:\s+INITIALLY\s+(DEFERRED|IMMEDIATE))?)",
+                        std::regex_constants::icase);
+                    std::smatch ref_m;
+                    if (std::regex_search(ref_clause, ref_m, ref_re)) {
+                        ForeignKeyConstraint fk;
+                        fk.source_column = col_name;
+                        fk.target_table  = ref_m[1].str();
+                        fk.target_column = ref_m[2].matched ? trim(ref_m[2].str()) : "id";
+                        fk.on_delete_action = ref_m[3].matched ? toUpper(trim(ref_m[3].str())) : "";
+                        fk.on_update_action = ref_m[4].matched ? toUpper(trim(ref_m[4].str())) : "";
+                        fk.deferrable = ref_m[5].matched;
+                        if (ref_m[6].matched) {
+                            fk.initially_deferred = toUpper(ref_m[6].str()) == "DEFERRED";
+                        }
+                        schema.foreign_keys.push_back(fk);
+                    }
+                }
+            }
         }
         
         return !schema.name.empty();
     }
     
     return false;
+}
+
+// ============================================================================
+// v2.0 Parser Methods
+// ============================================================================
+
+/**
+ * @brief Parse a CONSTRAINT ... FOREIGN KEY definition (table-level or from ALTER TABLE).
+ *
+ * Handles:
+ *   [CONSTRAINT name] FOREIGN KEY (src_col[, ...]) REFERENCES tgt_tbl (tgt_col[, ...])
+ *     [ON DELETE action] [ON UPDATE action]
+ *     [DEFERRABLE [INITIALLY DEFERRED|INITIALLY IMMEDIATE]]
+ *     [NOT DEFERRABLE]
+ */
+bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint_def,
+                                                    ForeignKeyConstraint& fk) {
+    // Pattern (case-insensitive):
+    //   [CONSTRAINT name] FOREIGN KEY (cols) REFERENCES table (cols)
+    //   [ON DELETE action] [ON UPDATE action]
+    //   [DEFERRABLE [INITIALLY DEFERRED|IMMEDIATE]] | [NOT DEFERRABLE]
+    std::regex fk_re(
+        R"((?:CONSTRAINT\s+(\w+)\s+)?FOREIGN\s+KEY\s*\(([^)]+)\)\s+REFERENCES\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?)"
+        R"((?:[^;]*))",
+        std::regex_constants::icase);
+    std::smatch m;
+    if (!std::regex_search(constraint_def, m, fk_re)) return false;
+
+    fk.name          = m[1].matched ? m[1].str() : "";
+    fk.target_table  = m[3].str();
+    fk.target_column = m[4].matched ? m[4].str() : "";
+
+    // Trim and collapse spaces in column lists
+    auto trimStr = [](const std::string& s) {
+        size_t l = s.find_first_not_of(" \t\r\n");
+        size_t r = s.find_last_not_of(" \t\r\n");
+        return (l == std::string::npos) ? std::string{} : s.substr(l, r - l + 1);
+    };
+    auto normalizeColList = [&trimStr](const std::string& cols) {
+        std::string result;
+        std::istringstream ss(cols);
+        std::string c;
+        while (std::getline(ss, c, ',')) {
+            c = trimStr(c);
+            if (!c.empty() && c.front() == '"') c = c.substr(1, c.size() - 2);
+            if (!result.empty()) result += ",";
+            result += c;
+        }
+        return result;
+    };
+
+    fk.source_column = normalizeColList(m[2].str());
+    fk.target_column = normalizeColList(fk.target_column);
+
+    // Parse ON DELETE / ON UPDATE actions and DEFERRABLE from the full text
+    std::string upper = constraint_def;
+    for (auto& c : upper) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+
+    auto extractAction = [&upper, &trimStr](const std::string& keyword) -> std::string {
+        size_t pos = upper.find(keyword);
+        if (pos == std::string::npos) return "";
+        std::string rest = upper.substr(pos + keyword.size());
+        // Remove leading whitespace
+        size_t ws = rest.find_first_not_of(" \t\r\n");
+        if (ws == std::string::npos) return "";
+        rest = rest.substr(ws);
+        // Actions: CASCADE | SET NULL | SET DEFAULT | RESTRICT | NO ACTION
+        if (rest.substr(0, 7) == "CASCADE") return "CASCADE";
+        if (rest.substr(0, 8) == "SET NULL") return "SET NULL";
+        if (rest.substr(0, 11) == "SET DEFAULT") return "SET DEFAULT";
+        if (rest.substr(0, 8) == "RESTRICT") return "RESTRICT";
+        if (rest.substr(0, 9) == "NO ACTION") return "NO ACTION";
+        return "";
+    };
+
+    fk.on_delete_action = extractAction("ON DELETE ");
+    fk.on_update_action = extractAction("ON UPDATE ");
+    fk.deferrable       = (upper.find("DEFERRABLE") != std::string::npos &&
+                           upper.find("NOT DEFERRABLE") == std::string::npos);
+    fk.initially_deferred = (upper.find("INITIALLY DEFERRED") != std::string::npos);
+
+    return !fk.target_table.empty();
+}
+
+/**
+ * @brief Parse a CREATE [UNIQUE] INDEX statement.
+ *
+ * Handles:
+ *   CREATE [UNIQUE] INDEX [CONCURRENTLY] [name] ON [schema.]table
+ *     [USING method] (cols) [WHERE predicate]
+ */
+bool PostgreSQLImporter::parseCreateIndex(const std::string& sql,
+                                          const std::string& /*hint_table*/,
+                                          IndexMetadata& index) {
+    std::regex idx_re(
+        R"(CREATE\s+(UNIQUE\s+)?INDEX\s+(?:CONCURRENTLY\s+)?(?:IF\s+NOT\s+EXISTS\s+)?(\w+)\s+ON\s+(?:\w+\.)?(\w+)\s*(?:USING\s+(\w+))?\s*\(([^)]+)\)(?:\s+WHERE\s+(.+?))?(?:\s*;)?$)",
+        std::regex_constants::icase);
+    std::smatch m;
+    if (!std::regex_search(sql, m, idx_re)) return false;
+
+    index.unique = m[1].matched && !m[1].str().empty();
+    index.name   = m[2].str();
+    // m[3] = table name (not stored in IndexMetadata but available to caller)
+    index.type   = m[4].matched ? m[4].str() : "btree";
+    // Lowercase type
+    for (auto& c : index.type) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+
+    // Parse column list
+    std::string cols = m[5].str();
+    std::istringstream css(cols);
+    std::string col;
+    while (std::getline(css, col, ',')) {
+        // Strip expression parts like ASC/DESC, NULLS FIRST
+        size_t sp = col.find_first_of(" \t(");
+        if (sp != std::string::npos) col = col.substr(0, sp);
+        // Trim and strip quotes
+        size_t l = col.find_first_not_of(" \t\r\n");
+        if (l != std::string::npos) col = col.substr(l);
+        size_t r = col.find_last_not_of(" \t\r\n");
+        if (r != std::string::npos) col = col.substr(0, r + 1);
+        if (!col.empty() && col.front() == '"') col = col.substr(1, col.size() - 2);
+        if (!col.empty()) index.columns.push_back(col);
+    }
+
+    // Partial index WHERE clause
+    if (m[6].matched && !m[6].str().empty()) {
+        index.partial = true;
+        index.where_clause = m[6].str();
+        // Trim trailing whitespace/semicolons
+        size_t r = index.where_clause.find_last_not_of(" \t\r\n;");
+        if (r != std::string::npos) index.where_clause = index.where_clause.substr(0, r + 1);
+    }
+
+    return !index.name.empty() && !index.columns.empty();
+}
+
+/**
+ * @brief Parse an ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY statement.
+ *
+ * Handles pg_dump style:
+ *   ALTER TABLE [ONLY] [schema.]table
+ *     ADD CONSTRAINT name FOREIGN KEY (cols) REFERENCES tbl (cols) ...;
+ */
+bool PostgreSQLImporter::parseAlterTableForeignKey(const std::string& sql,
+                                                    std::string& out_table,
+                                                    ForeignKeyConstraint& fk) {
+    std::regex alter_re(
+        R"(ALTER\s+TABLE\s+(?:ONLY\s+)?(?:\w+\.)?(\w+)\s+ADD\s+CONSTRAINT\s+\w+\s+FOREIGN\s+KEY)",
+        std::regex_constants::icase);
+    std::smatch m;
+    if (!std::regex_search(sql, m, alter_re)) return false;
+
+    out_table = m[1].str();
+    return parseForeignKeyConstraint(sql, fk);
+}
+
+/**
+ * @brief Validate that all FK references point to known tables and columns.
+ *
+ * Populates structured errors for every dangling reference.
+ * @return true if all references are valid.
+ */
+bool PostgreSQLImporter::validateForeignKeyReferences(const ImportOptions& /*options*/,
+                                                       ImportStats& stats) {
+    bool all_valid = true;
+    for (const auto& [tname, tschema] : schemas_) {
+        for (const auto& fk : tschema.foreign_keys) {
+            if (fk.target_table.empty()) continue;
+            if (!schemas_.count(fk.target_table)) {
+                all_valid = false;
+                ImportError err;
+                err.code     = ImportErrorCode::UNKNOWN_TABLE;
+                err.severity = ImportErrorSeverity::WARNING;
+                err.message  = "Foreign key '" + (fk.name.empty() ? "(unnamed)" : fk.name) +
+                               "' in table '" + tname + "' references unknown table '" +
+                               fk.target_table + "'";
+                err.location = "table " + tname;
+                stats.structured_errors.push_back(err);
+                stats.warnings.push_back(err.message);
+            } else {
+                // Validate target column(s) exist
+                const auto& target = schemas_.at(fk.target_table);
+                if (!fk.target_column.empty()) {
+                    std::istringstream css(fk.target_column);
+                    std::string col;
+                    while (std::getline(css, col, ',')) {
+                        // Trim
+                        size_t l = col.find_first_not_of(" \t");
+                        if (l != std::string::npos) col = col.substr(l);
+                        size_t r = col.find_last_not_of(" \t");
+                        if (r != std::string::npos) col = col.substr(0, r + 1);
+                        if (col.empty()) continue;
+                        if (std::find(target.columns.begin(), target.columns.end(), col)
+                                == target.columns.end()) {
+                            all_valid = false;
+                            ImportError err;
+                            err.code     = ImportErrorCode::UNKNOWN_TABLE;
+                            err.severity = ImportErrorSeverity::WARNING;
+                            err.message  = "FK '" + (fk.name.empty() ? "(unnamed)" : fk.name) +
+                                           "' in table '" + tname + "' references unknown column '" +
+                                           col + "' in table '" + fk.target_table + "'";
+                            err.location = "table " + tname;
+                            stats.structured_errors.push_back(err);
+                            stats.warnings.push_back(err.message);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return all_valid;
 }
 
 bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions& options,

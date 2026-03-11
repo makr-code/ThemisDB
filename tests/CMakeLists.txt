@@ -5974,7 +5974,9 @@ foreach(_pg_test
         test_postgres_importer_live.cpp
         test_postgres_importer_robustness.cpp
         test_postgres_importer_security_audit.cpp
-        test_postgres_importer_streaming.cpp)
+        test_postgres_importer_streaming.cpp
+        test_postgres_importer_v2.cpp
+        test_postgres_import_integration_v2.cpp)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_pg_test}")
         list(APPEND _postgres_importer_test_sources "${_pg_test}")
     endif()

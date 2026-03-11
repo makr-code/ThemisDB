@@ -28,6 +28,7 @@
 
 #include "importers/importer_interface.h"
 #include "importers/conflict_resolver.h"
+#include "importers/relationship_mapper.h"
 #include "plugins/plugin_interface.h"
 #include <regex>
 #include <atomic>
@@ -76,12 +77,98 @@ public:
     json getSourceSchema(const std::string& source_path) override;
     
 private:
+    // -------------------------------------------------------------------------
+    // v2.0 data structures
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Foreign Key constraint metadata (v2.0).
+     *
+     * Covers both inline REFERENCES and named CONSTRAINT...FOREIGN KEY forms,
+     * including DEFERRABLE / INITIALLY DEFERRED / INITIALLY IMMEDIATE modifiers.
+     */
+    struct ForeignKeyConstraint {
+        std::string name;               ///< Constraint name (empty for inline REFERENCES)
+        std::string source_column;      ///< Comma-joined source columns, e.g. "user_id"
+        std::string target_table;       ///< Referenced table, e.g. "users"
+        std::string target_column;      ///< Comma-joined referenced columns, e.g. "id"
+        std::string on_delete_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
+        std::string on_update_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
+        bool deferrable = false;        ///< DEFERRABLE keyword present
+        bool initially_deferred = false; ///< INITIALLY DEFERRED (vs. INITIALLY IMMEDIATE)
+
+        json toJson() const {
+            return json{
+                {"name", name},
+                {"source_column", source_column},
+                {"target_table", target_table},
+                {"target_column", target_column},
+                {"on_delete", on_delete_action},
+                {"on_update", on_update_action},
+                {"deferrable", deferrable},
+                {"initially_deferred", initially_deferred}
+            };
+        }
+    };
+
+    /**
+     * @brief Index metadata (v2.0).
+     *
+     * Parsed from both inline column constraints (UNIQUE) and standalone
+     * CREATE INDEX / CREATE UNIQUE INDEX statements.
+     */
+    struct IndexMetadata {
+        std::string name;                        ///< Index name
+        std::string type;                        ///< btree | hash | gist | gin | brin (default: btree)
+        std::vector<std::string> columns;        ///< Indexed columns in order
+        bool unique = false;                     ///< UNIQUE index
+        bool partial = false;                    ///< Has WHERE clause
+        std::string where_clause;                ///< Partial index WHERE expression
+
+        json toJson() const {
+            return json{
+                {"name", name},
+                {"type", type.empty() ? "btree" : type},
+                {"columns", columns},
+                {"unique", unique},
+                {"partial", partial},
+                {"where_clause", where_clause}
+            };
+        }
+    };
+
     struct TableSchema {
         std::string name;
         std::string schema;
         std::vector<std::string> columns;
         std::map<std::string, std::string> column_types;
         std::vector<std::string> primary_keys;
+
+        // v2.0 extensions
+        std::vector<ForeignKeyConstraint> foreign_keys;       ///< Parsed FK constraints
+        std::map<std::string, std::string> column_defaults;   ///< DEFAULT expressions per column
+        std::map<std::string, std::string> column_constraints; ///< NOT NULL, UNIQUE inline per column
+        std::vector<IndexMetadata> indexes;                   ///< Explicit indexes on this table
+        std::map<std::string, std::string> custom_types;      ///< Custom type hints per column
+
+        json toJson() const {
+            json fk_arr = json::array();
+            for (const auto& fk : foreign_keys) fk_arr.push_back(fk.toJson());
+            json idx_arr = json::array();
+            for (const auto& idx : indexes) idx_arr.push_back(idx.toJson());
+            return json{
+                {"name", name},
+                {"schema", schema},
+                {"columns", columns},
+                {"column_types", column_types},
+                {"primary_keys", primary_keys},
+                {"foreign_keys", fk_arr},
+                {"column_defaults", column_defaults},
+                {"column_constraints", column_constraints},
+                {"indexes", idx_arr},
+                {"custom_types", custom_types}
+            };
+        }
     };
     
     std::atomic<bool> cancelled_{false};
@@ -99,6 +186,18 @@ private:
                    const std::vector<std::string>& columns,
                    const ImportOptions& options, ImportStats& stats,
                    std::unordered_set<uint64_t>& delta_hashes);
+
+    // v2.0 parser methods
+    bool parseForeignKeyConstraint(const std::string& constraint_def,
+                                   ForeignKeyConstraint& fk);
+    bool parseCreateIndex(const std::string& sql,
+                          const std::string& table_name,
+                          IndexMetadata& index);
+    bool parseAlterTableForeignKey(const std::string& sql,
+                                   std::string& out_table,
+                                   ForeignKeyConstraint& fk);
+    bool validateForeignKeyReferences(const ImportOptions& options,
+                                      ImportStats& stats);
     
     // Schema mapping
     std::string mapPostgreSQLTypeToThemis(const std::string& pg_type,
@@ -171,7 +270,7 @@ public:
     
     // IThemisPlugin interface
     const char* getName() const override { return "postgres_importer"; }
-    const char* getVersion() const override { return "1.7.0"; }
+    const char* getVersion() const override { return "2.0.0"; }
     plugins::PluginType getType() const override { return plugins::PluginType::IMPORTER; }
     plugins::PluginCapabilities getCapabilities() const override;
     bool initialize(const char* config_json) override;
