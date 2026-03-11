@@ -102,21 +102,19 @@ const std::vector<DetectionRule>& getRules()
             "Delimiter-based section injection (---SYSTEM / ###)",
             std::regex(
                 R"((?:^|\n)\s*(?:---+\s*SYSTEM|#{1,6}\s*SYSTEM|<\s*system\s*>|\[SYSTEM\]|\[INST\]|<\|im_start\|>))",
-                std::regex::icase | std::regex::multiline)
+                std::regex::icase)
         });
         r.push_back({
             "delimiter_escape", S::HIGH,
             "Assistant/User role header injection",
             std::regex(
                 R"((?:^|\n)\s*(?:ASSISTANT\s*:|USER\s*:|HUMAN\s*:|AI\s*:)\s*\n)",
-                std::regex::icase | std::regex::multiline)
+                std::regex::icase)
         });
         r.push_back({
             "delimiter_escape", S::MEDIUM,
             "Repeated dash/equals separator that may confuse prompt parsers",
-            std::regex(
-                R"((?:^|\n)[-=]{10,}\s*(?:\n|$))",
-                std::regex::multiline)
+            std::regex(R"((?:^|\n)[-=]{10,}\s*(?:\n|$))")
         });
 
         // ── Role / persona injection ──────────────────────────────────────

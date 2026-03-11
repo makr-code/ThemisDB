@@ -1,3 +1,4 @@
+<!-- Status: current | validated: 2026-03-11 -->
 # Scheduler Module - Future Enhancements
 
 ## Scope
@@ -195,6 +196,10 @@ transform_2 ─┘
 
 Assign priorities to tasks for resource contention resolution.
 
+> **Partial implementation (v1.7.0):** `schedulerLoop()` now sorts `tasks_to_execute` by
+> `ScheduledTask::priority` (HIGH → NORMAL → LOW) before dispatch. Full lock-free priority
+> queue, starvation prevention via aging, and per-slot reservation are still planned below.
+
 **Priority Levels:**
 ```cpp
 enum class TaskPriority {
@@ -212,10 +217,11 @@ struct ScheduledTask {
 ```
 
 **Scheduling Algorithm:**
-- Priority queue instead of FIFO
-- CRITICAL tasks preempt BATCH tasks (configurable)
-- Starvation prevention via aging
-- Dynamic priority adjustment based on wait time
+- [x] Priority-ordered dispatch — `tasks_to_execute` sorted by `priority` DESC before thread launch
+- [ ] Full lock-free priority queue to replace the pre-sort approach
+- [ ] CRITICAL tasks preempt BATCH tasks (configurable)
+- [ ] Starvation prevention via aging (boost priority after N idle ticks)
+- [ ] Dynamic priority adjustment based on wait time
 
 **Resource Allocation:**
 ```cpp
@@ -670,3 +676,11 @@ Feature requests and design discussions: https://github.com/ThemisDB/ThemisDB/di
 - DAG immutability after submission prevents race-condition task graph mutations
 - Distributed coordinator uses Raft-based consensus; no split-brain task duplication
 - Retry policies with jitter prevent thundering-herd effects on transient failures
+
+
+---
+
+## Scientific References
+
+For the full IEEE-formatted scientific reference list backing the planned features above, see:
+→ [`src/scheduler/FUTURE_ENHANCEMENTS.md` – Scientific References (IEEE Format)](../../src/scheduler/FUTURE_ENHANCEMENTS.md#scientific-references-ieee-format)

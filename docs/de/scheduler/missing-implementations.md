@@ -1,31 +1,29 @@
 # Scheduler-Modul – Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/scheduler/ -->
 
 Dieser Report dokumentiert Punkte, die in der Primärdokumentation des Scheduler-Moduls als
 erledigt markiert sind oder als geplante Features gelistet werden, aber beim Abgleich mit dem
 Sourcecode als **nicht vollständig umgesetzt** befunden wurden.
 
-**Prüfstand:** 2026-03-09 | **Branch:** `develop` | **Commit:** `ae47515`
+**Prüfstand:** 2026-03-10 | **Branch:** `develop`
 
 > **Hinweis:** Dieser Report ist ein transparenter Befund-Report. Issue-Erstellung und
 > Priorisierung obliegen dem Engineering-Team.
 
 ---
 
-## Befund 1 – Priority-basiertes Scheduling: Feld vorhanden, Dispatch-Reihenfolge nicht priorisiert
+## Befund 1 – Priority-basiertes Scheduling ✅ Behoben
 
 | Feld | Inhalt |
 |------|--------|
 | **Claim-Quelle** | `src/scheduler/FUTURE_ENHANCEMENTS.md` §"Priority-Based Scheduling" + `include/scheduler/task_scheduler.h` `ScheduledTask::Priority` enum |
 | **Claim** | Priority-basiertes Scheduling mit `Priority::HIGH`, `NORMAL`, `LOW` – Tasks mit höherer Priorität sollen bevorzugt ausgeführt werden |
 | **Erwartet** | Dispatch-Loop sortiert/priorisiert fällige Tasks nach `priority`-Feld vor der Ausführung |
-| **Beobachtet** | `ScheduledTask::Priority` enum (`LOW/NORMAL/HIGH`) ist deklariert und wird serialisiert/deserialisiert (`task_scheduler.cpp:1811, 1918`); der Dispatch-Loop in `schedulerLoop()` iteriert jedoch über `tasks_` (ungeordnete Map) und fügt fällige Tasks per FIFO in `tasks_to_execute` ein – kein Sortierungsschritt nach Priorität |
-| **Geprüfte Pfade** | `include/scheduler/task_scheduler.h:134-139`, `src/scheduler/task_scheduler.cpp:1383-1436` |
-| **ROADMAP-Status** | `[ ]` offen in `src/scheduler/FUTURE_ENHANCEMENTS.md` §"Priority-Based Scheduling" |
-| **Issue-Titelvorschlag** | `feat(scheduler): implement priority-based dispatch ordering in schedulerLoop` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `scheduler`, `status:open` |
+| **Beobachtet (behoben)** | `std::sort` nach `static_cast<int>(priority)` absteigend nach `adjustConcurrencyLimit()` und vor dem Dispatch-Loop eingebaut (`src/scheduler/task_scheduler.cpp`) |
+| **Geprüfte Pfade** | `include/scheduler/task_scheduler.h:134-139`, `src/scheduler/task_scheduler.cpp` |
+| **Status** | ✅ **Behoben** – `tasks_to_execute` wird jetzt vor der Ausführung nach Priorität (HIGH → NORMAL → LOW) sortiert |
 
 ---
 
@@ -59,18 +57,16 @@ Sourcecode als **nicht vollständig umgesetzt** befunden wurden.
 
 ---
 
-## Befund 4 – Grafana-Dashboard: nicht implementiert
+## Befund 4 – Grafana-Dashboard ✅ Behoben
 
 | Feld | Inhalt |
 |------|--------|
 | **Claim-Quelle** | `src/scheduler/FUTURE_ENHANCEMENTS.md` §"Observability Enhancements" |
 | **Claim** | Grafana-Dashboard für Scheduler-Metriken (Concurrency-Limit, Queue-Depth, Task-Erfolge/Fehler) |
 | **Erwartet** | JSON-Dashboard-Definition in `config/grafana/dashboards/` oder `deploy/kubernetes/monitoring/grafana-dashboards/` |
-| **Beobachtet** | Kein scheduler-spezifisches Grafana-Dashboard gefunden; Prometheus-Metriken via `exportMetrics()` werden emittiert (`themis_scheduler_*`), können aber nicht ohne Dashboard visualisiert werden; LoRA- und Shard-Dashboards existieren in `config/grafana/dashboards/` |
-| **Geprüfte Pfade** | `config/grafana/dashboards/` (3 Dateien, keine scheduler-bezogen), `deploy/kubernetes/monitoring/grafana-dashboards/` (shard-network-dashboard.json) |
-| **ROADMAP-Status** | `[ ]` offen (FUTURE_ENHANCEMENTS §"Observability Enhancements") |
-| **Issue-Titelvorschlag** | `feat(scheduler): add Grafana dashboard JSON for scheduler metrics` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `scheduler`, `observability`, `status:open` |
+| **Beobachtet (behoben)** | `config/grafana/dashboards/themisdb-scheduler-dashboard.json` erstellt; enthält 5 stat-Panels (Registered/Active/Running/ConcurrencyLimit/QueueDepth), 2 Zeitreihen-Panels (Concurrency & Queue Depth / Task Counts), 2 Raten-Panels (Success vs Failure / Failure Rate %), 4 Per-Task-Panels (Avg Duration / Failure Rate / Top-10-Slowest / Enabled Status), 1 Last-Run-Tabelle; `$task_name`-Variable für Filterung |
+| **Geprüfte Pfade** | `config/grafana/dashboards/themisdb-scheduler-dashboard.json` |
+| **Status** | ✅ **Behoben** – Dashboard mit allen `themis_scheduler_*` Metriken implementiert |
 
 ---
 

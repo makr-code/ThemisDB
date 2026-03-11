@@ -178,12 +178,13 @@ void TenantBufferManager::configureTenant(const TenantConfig& config) {
         THEMIS_INFO("Updated config for tenant: {}", config.tenant_id);
     } else {
         // Create new tenant with config
-        TenantBufferState state;
+        auto [new_it, inserted] = tenant_buffers_.try_emplace(config.tenant_id);
+        auto& state = new_it->second;
         state.config = config;
         state.stats.tenant_id = config.tenant_id;
         state.enabled = config.enabled;
         state.buffer = std::make_unique<ChangefeedBuffer>(changefeed_, config.buffer_config);
-        
+
         if (running_ && state.enabled) {
             state.buffer->start();
         }
@@ -214,20 +215,26 @@ std::optional<TenantStats> TenantBufferManager::getTenantStats(const std::string
     return std::nullopt;
 }
 
-std::optional<CDCMetrics> TenantBufferManager::getTenantMetrics(const std::string& tenant_id) const {
+std::optional<std::reference_wrapper<const CDCMetrics>> TenantBufferManager::getTenantMetrics(const std::string& tenant_id) const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
     
     auto it = tenant_buffers_.find(tenant_id);
     if (it != tenant_buffers_.end() && it->second.buffer) {
-        return it->second.buffer->getMetrics();
+        return std::cref(it->second.buffer->getMetrics());
     }
     return std::nullopt;
 }
 
-CDCMetrics TenantBufferManager::getGlobalMetrics() const {
+nlohmann::json TenantBufferManager::getGlobalMetrics() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
-    
-    CDCMetrics aggregated;
+
+    uint64_t events_recorded = 0;
+    uint64_t events_flushed = 0;
+    uint64_t flush_count = 0;
+    uint64_t compression_count = 0;
+    uint64_t decompression_count = 0;
+    uint64_t errors = 0;
+    uint64_t retries = 0;
     
     for (const auto& [tenant_id, state] : tenant_buffers_) {
         if (!state.buffer) continue;
@@ -235,19 +242,27 @@ CDCMetrics TenantBufferManager::getGlobalMetrics() const {
         const auto& tenant_metrics = state.buffer->getMetrics();
         
         // Aggregate counters
-        aggregated.events_recorded += tenant_metrics.events_recorded.load();
-        aggregated.events_flushed += tenant_metrics.events_flushed.load();
-        aggregated.flush_count += tenant_metrics.flush_count.load();
-        aggregated.compression_count += tenant_metrics.compression_count.load();
-        aggregated.decompression_count += tenant_metrics.decompression_count.load();
-        aggregated.errors += tenant_metrics.errors.load();
-        aggregated.retries += tenant_metrics.retries.load();
+        events_recorded += tenant_metrics.events_recorded.load();
+        events_flushed += tenant_metrics.events_flushed.load();
+        flush_count += tenant_metrics.flush_count.load();
+        compression_count += tenant_metrics.compression_count.load();
+        decompression_count += tenant_metrics.decompression_count.load();
+        errors += tenant_metrics.errors.load();
+        retries += tenant_metrics.retries.load();
         
         // Note: Histograms and throughput don't aggregate meaningfully
         // Would need weighted averaging or separate tracking
     }
-    
-    return aggregated;
+
+    return {
+        {"events_recorded", events_recorded},
+        {"events_flushed", events_flushed},
+        {"flush_count", flush_count},
+        {"compression_count", compression_count},
+        {"decompression_count", decompression_count},
+        {"errors", errors},
+        {"retries", retries}
+    };
 }
 
 std::map<std::string, TenantStats> TenantBufferManager::getAllTenantStats() const {
@@ -342,16 +357,17 @@ TenantBufferManager::getOrCreateTenantBuffer(const std::string& tenant_id) {
     }
     
     // Create new tenant buffer with default config
-    TenantBufferState state;
+    auto [inserted_it, inserted] = tenant_buffers_.try_emplace(tenant_id);
+    auto& state = inserted_it->second;
     state.config.tenant_id = tenant_id;
     state.config.buffer_config = default_config_;
     state.stats.tenant_id = tenant_id;
     state.buffer = std::make_unique<ChangefeedBuffer>(changefeed_, default_config_);
-    
+
     if (running_) {
         state.buffer->start();
     }
-    
+
     THEMIS_INFO("Auto-created buffer for new tenant: {}", tenant_id);
     
     auto [inserted_it, ok] = tenant_buffers_.try_emplace(tenant_id, std::move(state));
@@ -368,7 +384,7 @@ bool TenantBufferManager::checkTenantQuota(const std::string& tenant_id,
     
     // Check buffer size quota
     if (state.config.max_buffered_events > 0) {
-        auto buffer_stats = state.buffer->getStats();
+        const auto& buffer_stats = state.buffer->getStats();
         if (buffer_stats.current_buffer_size >= state.config.max_buffered_events) {
             THEMIS_WARN("Tenant {} exceeded max buffered events quota: {} >= {}",
                        tenant_id, buffer_stats.current_buffer_size, 
@@ -379,7 +395,7 @@ bool TenantBufferManager::checkTenantQuota(const std::string& tenant_id,
     
     // Check memory quota
     if (state.config.max_memory_bytes > 0) {
-        auto buffer_stats = state.buffer->getStats();
+        const auto& buffer_stats = state.buffer->getStats();
         if (buffer_stats.current_buffer_memory >= state.config.max_memory_bytes) {
             THEMIS_WARN("Tenant {} exceeded memory quota: {} >= {} bytes",
                        tenant_id, buffer_stats.current_buffer_memory,
@@ -400,7 +416,7 @@ void TenantBufferManager::updateTenantStats(const std::string& tenant_id,
     
     if (!state.buffer) return;
     
-    auto buffer_stats = state.buffer->getStats();
+    const auto& buffer_stats = state.buffer->getStats();
     const auto& metrics = state.buffer->getMetrics();
     
     // Update stats from buffer

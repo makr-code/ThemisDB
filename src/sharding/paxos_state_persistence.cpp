@@ -12,6 +12,7 @@
  */
 
 #include "sharding/paxos_state_persistence.h"
+#include "sharding/paxos_consensus.h"
 #include "utils/logger.h"
 
 #include <filesystem>
