@@ -5,7 +5,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-v1.x – Enterprise-grade observability stack. Prometheus metrics, query profiling, storage profiling, automated performance analysis, Alertmanager integration, distributed tracing, and structured log aggregation are all implemented.
+v1.x – Enterprise-grade observability stack. Prometheus metrics, query profiling, storage profiling, automated performance analysis, Alertmanager integration, distributed tracing, structured log aggregation, and rule-based alerting engine are all implemented.
 
 ## Completed ✅
 - [x] MetricsCollector singleton with Prometheus text-format export (`/metrics`)
@@ -23,6 +23,11 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Adaptive sampling rate for high-frequency spans (Issue: #1963)
 - [x] Standalone `tracer.cpp` (ObservabilityTracer) — W3C Trace Context propagation, span ring buffer, MetricsCollector integration (OBS-MISSING-001)
 - [x] Standalone `log_aggregator.cpp` (LogAggregator) — structured JSON log collection, trace-context correlation, ring buffer, file sink (OBS-MISSING-001)
+- [x] Rule-based alerting engine with configurable notification channels
+  - Files: `observability/alerting_engine.h`, `observability/alerting_engine.cpp`
+  - Implementation: `INotificationChannel`, `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`, `AlertingEngine` (owns `AlertRuleManager`, dispatches to channels, optional Prometheus Alertmanager backend)
+  - Predefined default rules: CPU, memory, query latency P99, error rate, disk space, query queue depth, cache miss rate, write amplification
+  - Tests: `tests/test_alerting_engine.cpp`
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
@@ -38,6 +43,11 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
   - Files: `observability/alertmanager.h`, `observability/alertmanager.cpp`
   - Implementation: `AlertRule`, `AlertRuleOperator`, `AlertRuleManager` (CRUD + `evaluateRules()`)
   - Tests: `tests/test_alert_rules.cpp`
+- [x] Rule-based alerting engine with configurable notification channels
+  - Files: `observability/alerting_engine.h`, `observability/alerting_engine.cpp`
+  - Implementation: `INotificationChannel` (abstract), `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`, `AlertingEngine` (extends `Alertmanager`, owns `AlertRuleManager`, pluggable channel dispatch)
+  - Default rules: CPU (>80%), memory (>90%), query P99 latency (>1000ms), error rate (>5%), disk free (<10%), queue depth (>100), cache miss (>50%), write amplification (>20×)
+  - Tests: `tests/test_alerting_engine.cpp`
 - [?] Per-tenant metric namespacing
 - [?] Structured log search API (query logs like data)
 - [?] Real-time query cost estimator dashboard
