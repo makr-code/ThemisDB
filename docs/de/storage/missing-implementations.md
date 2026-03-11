@@ -136,6 +136,21 @@ Prüfstand: 2026-03-10 | Branch: `develop`
 | 6 | Distributed 2PC Transactions | ROADMAP v1.7.0 | **Hoch** | `[ ]` geplant |
 | 7 | ColumnarFormat Parquet-Export | ROADMAP v2.0.0 | Niedrig | `[ ]` geplant |
 | 8 | ColumnarFormat AVX2 SIMD | ROADMAP v2.0.0 | Niedrig | `[ ]` geplant |
+| 9 | 9 Source-Dateien fehlten im CMake-Build | cmake/CMakeLists.txt, cmake/ModularBuild.cmake | **Hoch** | ✅ Behoben in diesem PR |
 
 *Alle anderen ROADMAP-Einträge (Phase 1–4 sowie Tiered Storage und GCS Backend) sind durch
 vorhandene Implementierungsdateien auf `develop` belegt.*
+
+---
+
+## 9. Build-System: 9 Storage-Quelldateien fehlten in cmake/CMakeLists.txt und cmake/ModularBuild.cmake
+
+| Feld | Wert |
+|---|---|
+| **Claim-Quelle** | `src/storage/README.md` §"Relevant Interfaces", `src/storage/ARCHITECTURE.md` §"Key Components" |
+| **Erwartet** | Alle `src/storage/*.cpp`-Dateien sind in `cmake/CMakeLists.txt` (THEMIS_CORE_SOURCES) und `cmake/ModularBuild.cmake` (THEMIS_STORAGE_SOURCES) registriert |
+| **Beobachtet** | Folgende Dateien fehlten in beiden Build-Definitionen: `blob_backend_azure.cpp`, `blob_backend_filesystem.cpp`, `blob_backend_gcs.cpp`, `blob_backend_s3.cpp`, `blob_backend_webdav.cpp`, `compressed_storage.cpp`, `compression_strategy.cpp`, `index_maintenance.cpp`, `storage_engine.cpp` |
+| **Evidence (geprüfte Pfade)** | `cmake/CMakeLists.txt` THEMIS_CORE_SOURCES (Zeilen 1431–1443); `cmake/ModularBuild.cmake` THEMIS_STORAGE_SOURCES (Zeilen 212–238) |
+| **Status** | ✅ **Behoben** in diesem PR – alle 9 Dateien zu `cmake/CMakeLists.txt` und `cmake/ModularBuild.cmake` hinzugefügt |
+| **Issue-Titelvorschlag** | `[storage] Register all blob backends, compressed_storage, compression_strategy, index_maintenance, storage_engine in cmake build` |
+| **Label-Vorschläge** | `type:bug`, `priority:high`, `area:storage`, `area:build`, `status:resolved` |
