@@ -14,7 +14,7 @@
 | 1 | 🟠 Mittel | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | `rate_limiter_v2.cpp` vorhanden (239 LOC), aber kein Redis-Pfad |
 | 2 | 🔴 Hoch | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Keine dieser Dateien existiert |
 | 3 | ✅ Gelöst | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Implementiert (v1.7.0) |
-| 4 | 🟡 Niedrig | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Keine dieser Dateien existiert |
+| 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
 | 5 | 🟡 Niedrig | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Keine dieser Dateien existiert |
 | 6 | ℹ️ Info | PostgreSQL Wire: Advanced Features | Vollständige PG-Kompatibilität | `postgres_session.cpp` (1929 LOC) – ROADMAP warnt explizit: „partial compatibility" |
 
@@ -98,19 +98,20 @@ grep "oauth2|OIDC|pkce" src/server/*.cpp – keine Treffer
 - Multi-Node Gateway-Cluster (3–5 Nodes) mit Raft-basierter Konfigurationssynchronisierung  
 - Leader-Failover ≤ 500 ms  
 
-**Beobachtet:**  
-- Keine dieser Dateien existiert  
-- `api_gateway.cpp` (975 LOC) ist Single-Node-Implementierung ohne Raft  
+**Status: ✅ GELÖST**  
+- `src/server/distributed_gateway.cpp` implementiert (DistributedGateway, ConsistentHashRing, ClusterGatewayConfig)  
+- `include/server/distributed_gateway.h` implementiert  
+- Raft-basierte Config-Replikation über `sharding::RaftConsensus`  
+- ConsistentHashRing mit FNV-1a-Hashing für WebSocket/SSE Session-Affinity  
+- Leader-Failover ≤ 500 ms (konfigurierbar via `leader_failover_timeout`)  
+- Tests in `tests/test_distributed_gateway.cpp` (DistributedGatewayFocusedTests)  
 
 **Evidence (geprüfte Pfade):**  
 ```
-src/server/distributed_gateway.cpp      – nicht vorhanden
-include/server/distributed_gateway.h    – nicht vorhanden
-src/server/api_gateway.cpp              – vorhanden (Single-Node, 975 LOC)
+src/server/distributed_gateway.cpp      – vorhanden (DistributedGateway, ConsistentHashRing)
+include/server/distributed_gateway.h    – vorhanden
+tests/test_distributed_gateway.cpp      – vorhanden (focused test suite)
 ```
-
-**Issue-Titelvorschlag:** `feat(server): distributed API gateway with Raft config sync and auto-failover (v1.7.0)`  
-**Label-Vorschläge:** `area/server`, `type/feature`, `priority/p2`, `effort/x-large`
 
 ---
 

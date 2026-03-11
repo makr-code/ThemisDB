@@ -11456,6 +11456,44 @@ else()
     message(STATUS "Schema Migration Tester focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
 endif()
 
+# DistributedGateway – focused tests for multi-node API gateway
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
+    message(STATUS "Adding Distributed Gateway focused tests")
+
+    add_executable(test_distributed_gateway_focused
+        test_distributed_gateway.cpp
+    )
+
+    target_include_directories(test_distributed_gateway_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_gateway_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_gateway_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_HTTP_SERVER=1
+    )
+
+    add_test(NAME DistributedGatewayFocusedTests COMMAND test_distributed_gateway_focused)
+
+    set_tests_properties(DistributedGatewayFocusedTests PROPERTIES
+        LABELS "server;gateway;distributed;raft;failover;affinity;routing;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedGateway: Raft config sync, consistent-hash ring, session affinity, failover, quorum handling")
+else()
+    message(STATUS "Distributed Gateway focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
