@@ -31,6 +31,7 @@
 #include <chrono>
 #include <thread>
 #include <functional>
+#include <fstream>
 
 #ifdef ERROR
 #undef ERROR
@@ -66,7 +67,8 @@ static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
 // Production HTTP GET using libcurl.
 static ApiHttpResponse apiHttpGet(const std::string& url,
                                    const std::string& auth,
-                                   int timeout_ms) {
+                                   int timeout_ms,
+                                   const std::string& ca_bundle_path = {}) {
     ApiHttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -88,6 +90,15 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -107,7 +118,8 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
 // Production HTTP POST using libcurl (used for OAuth 2.0 token refresh).
 static ApiHttpResponse apiHttpPost(const std::string& url,
                                     const std::string& body,
-                                    int timeout_ms) {
+                                    int timeout_ms,
+                                    const std::string& ca_bundle_path = {}) {
     ApiHttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -129,6 +141,15 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -289,6 +310,9 @@ public:
         oauth_config_.refresh_token  = opt("oauth_refresh_token",  "");
         oauth_config_.access_token   = opt("oauth_access_token",   "");
 
+        // TLS configuration: optional custom CA bundle path
+        retry_config_.ca_bundle_path = opt("ca_bundle_path", "");
+
         return !endpoint_.empty();
     }
 
@@ -302,7 +326,7 @@ public:
             r.body        = std::move(body);
             return r;
         }
-        return apiHttpGet(url, auth, timeout_ms);
+        return apiHttpGet(url, auth, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     // Wrapper for HTTP POST: delegates to test hook or real libcurl.
@@ -315,7 +339,7 @@ public:
             r.body        = std::move(resp_body);
             return r;
         }
-        return apiHttpPost(url, body, timeout_ms);
+        return apiHttpPost(url, body, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     bool isAvailable() const {

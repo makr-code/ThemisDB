@@ -169,6 +169,13 @@ struct RetryConfig {
     double max_delay_ms           = 30000.0; ///< Cap on per-attempt delay (ms)
     int    timeout_ms             = 30000; ///< Per-request timeout (ms)
     int    max_quarantine_retries = 5;     ///< Max per-document quarantine retry attempts
+    /// Path to a CA bundle file (PEM) for TLS certificate verification.
+    /// Empty string means use the default system CA bundle (recommended for
+    /// most deployments).  Set to an explicit path when the server uses a
+    /// private or self-signed CA that is not in the system bundle.
+    /// @note CURLOPT_SSL_VERIFYPEER is always enabled; this field only
+    ///       overrides which CA store is used for verification.
+    std::string ca_bundle_path;           ///< CA bundle path; empty = system default
 
     RetryConfig() = default;
 };

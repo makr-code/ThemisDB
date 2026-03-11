@@ -1,11 +1,11 @@
 # Ingestion-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-10 | updated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-11 | updated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/ingestion/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/ingestion/ROADMAP.md`, `src/ingestion/README.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt** oder **als Stub** befunden wurden.
 
-Prüfstand: 2026-03-09 | Branch: `develop` | Aktualisiert: 2026-03-10
+Prüfstand: 2026-03-09 | Branch: `develop` | Aktualisiert: 2026-03-11
 
 ---
 
@@ -17,6 +17,7 @@ Prüfstand: 2026-03-09 | Branch: `develop` | Aktualisiert: 2026-03-10
 | **Erwartet** | `HuggingFaceConnector::HttpClient::get()` sendet echte HTTP-GET-Anfragen an die HuggingFace API via `libcurl` |
 | **Beobachtet (alt)** | `HttpClient::get()` gab immer `{status_code=200, body="{\"status\": \"available\", \"rows\": 12000}"}` zurück — kein echter Netzwerk-Call. |
 | **Lösung (2026-03-10)** | `hfHttpGet()` verwendet `curl_easy_perform` mit TLS-Verifizierung, Bearer-Token-Header und Timeout-Konfiguration. `Stubs: 0` im Datei-Header bestätigt. (Issue: #1915 — `[x]` in ROADMAP) |
+| **Erweiterung (2026-03-11)** | `RetryConfig::ca_bundle_path` (Issue: INGESTION-MISSING-001) hinzugefügt: konfigurierbarer CA-Bundle-Pfad via `CURLOPT_CAINFO`. Gilt für `hfHttpGet()`, `hfHttpPost()`, `apiHttpGet()`, `apiHttpPost()`. Parsierbar via `SourceConfig::options["ca_bundle_path"]` oder direkt per `setRetryConfig()`. TLS-Verifizierung (`CURLOPT_SSL_VERIFYPEER = 1L`) bleibt immer aktiv; `ca_bundle_path` überschreibt nur den verwendeten CA-Store. |
 | **Issue-Titelvorschlag** | `[ingestion] Replace HuggingFaceConnector simulated HTTP client with real libcurl implementation` — ✅ gelöst |
 | **Label-Vorschläge** | `type:bug`, `priority:high`, `ingestion`, `status:resolved` |
 
