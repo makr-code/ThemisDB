@@ -65,29 +65,71 @@ public:
      * @brief A single resolved FK → graph-edge mapping.
      */
     struct RelationshipMapping {
-        std::string edge_type;       ///< e.g. "orders_references_users"
+        std::string edge_type;          ///< e.g. "orders_references_users"
         std::string source_table;
-        std::string source_column;   ///< comma-joined for composite FKs
+        std::string source_column;      ///< comma-joined for composite FKs
         std::string target_table;
-        std::string target_column;   ///< comma-joined for composite FKs
-        std::string cardinality;     ///< ONE_TO_ONE | MANY_TO_ONE | MANY_TO_MANY
+        std::string target_column;      ///< comma-joined for composite FKs
+        std::string cardinality;        ///< ONE_TO_ONE | MANY_TO_ONE | MANY_TO_MANY
+        std::string on_delete_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
+        std::string on_update_action;   ///< CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT
+        bool is_self_referential = false; ///< source_table == target_table
 
         /**
          * @brief Serialize to a ThemisDB graph edge JSON object.
          */
         json toThemisEdge() const {
             return json{
-                {"_type",        edge_type},
-                {"_from",        source_table + "/" + source_column},
-                {"_to",          target_table + "/" + target_column},
-                {"cardinality",  cardinality},
-                {"source_table", source_table},
-                {"target_table", target_table}
+                {"_type",              edge_type},
+                {"_from",              source_table + "/" + source_column},
+                {"_to",               target_table + "/" + target_column},
+                {"cardinality",        cardinality},
+                {"source_table",       source_table},
+                {"target_table",       target_table},
+                {"on_delete",          on_delete_action},
+                {"on_update",          on_update_action},
+                {"is_self_referential", is_self_referential}
             };
         }
 
         json toJson() const { return toThemisEdge(); }
     };
+
+    /**
+     * @brief Generate inverse (ONE_TO_MANY) edges for every MANY_TO_ONE mapping.
+     *
+     * For each MANY_TO_ONE edge `A → B`, appends a ONE_TO_MANY edge `B ← A`
+     * with edge_type `<target>_has_many_<source>`.
+     *
+     * Self-referential relationships are not inverted (they already represent
+     * both sides of the hierarchy).
+     *
+     * @param mappings  Forward mappings (produced by mapFromForeignKeys()).
+     * @return          Additional inverse-direction mappings (does NOT include
+     *                  the forward ones).
+     */
+    static std::vector<RelationshipMapping> generateInverseEdges(
+            const std::vector<RelationshipMapping>& mappings) {
+
+        std::vector<RelationshipMapping> inverse;
+        for (const auto& m : mappings) {
+            if (m.cardinality != "MANY_TO_ONE") continue;
+            if (m.is_self_referential) continue;
+
+            RelationshipMapping inv;
+            inv.source_table      = m.target_table;
+            inv.source_column     = m.target_column;
+            inv.target_table      = m.source_table;
+            inv.target_column     = m.source_column;
+            inv.cardinality       = "ONE_TO_MANY";
+            inv.on_delete_action  = m.on_delete_action;
+            inv.on_update_action  = m.on_update_action;
+            inv.is_self_referential = false;
+            inv.edge_type = m.target_table + "_has_many_" + m.source_table;
+            inverse.push_back(std::move(inv));
+        }
+        return inverse;
+    }
 
     /**
      * @brief Derive RelationshipMappings from all parsed TableSchemas.
@@ -113,15 +155,34 @@ public:
                 if (fk.target_table.empty()) continue;
 
                 RelationshipMapping m;
-                m.source_table  = tname;
-                m.source_column = fk.source_column;
-                m.target_table  = fk.target_table;
-                m.target_column = fk.target_column;
+                m.source_table       = tname;
+                m.source_column      = fk.source_column;
+                m.target_table       = fk.target_table;
+                m.target_column      = fk.target_column;
+                m.on_delete_action   = fk.on_delete_action;
+                m.on_update_action   = fk.on_update_action;
+                m.is_self_referential = (tname == fk.target_table);
 
-                // Edge type: <source>_references_<target>  (or use FK name if set)
-                m.edge_type = fk.name.empty()
-                    ? (tname + "_references_" + fk.target_table)
-                    : fk.name;
+                // Edge type: use FK name if set; for self-referential use the
+                // FK column as a relationship hint; otherwise <src>_references_<tgt>
+                if (!fk.name.empty()) {
+                    m.edge_type = fk.name;
+                } else if (m.is_self_referential) {
+                    // e.g. employees.manager_id → employees.id  → "employee_manages_employee"
+                    std::string col_hint = fk.source_column;
+                    // Strip common FK suffix patterns: _id, _fk, _ref
+                    for (const auto& sfx : {"_id", "_fk", "_ref"}) {
+                        if (col_hint.size() > std::string(sfx).size() &&
+                            col_hint.compare(col_hint.size() - std::string(sfx).size(),
+                                             std::string(sfx).size(), sfx) == 0) {
+                            col_hint = col_hint.substr(0, col_hint.size() - std::string(sfx).size());
+                            break;
+                        }
+                    }
+                    m.edge_type = tname + "_" + col_hint + "_" + tname;
+                } else {
+                    m.edge_type = tname + "_references_" + fk.target_table;
+                }
 
                 // Cardinality detection
                 m.cardinality = detectCardinalityImpl(tschema, fk, schemas);
