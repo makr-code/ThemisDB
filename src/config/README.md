@@ -522,6 +522,33 @@ nlohmann::json ref_schema = R"({
         "admin_port": { "$ref": "#/$defs/Port" }
     }
 })"_json;
+
+// format — enforce well-known string formats (date, date-time, email, uri, ipv4, ipv6)
+// Unknown format identifiers are silently accepted (informational keyword per JSON Schema spec).
+nlohmann::json format_schema = R"({
+    "type": "object",
+    "properties": {
+        "created_at":  { "type": "string", "format": "date" },
+        "updated_at":  { "type": "string", "format": "date-time" },
+        "contact":     { "type": "string", "format": "email" },
+        "endpoint":    { "type": "string", "format": "uri" },
+        "server_ip":   { "type": "string", "format": "ipv4" },
+        "ipv6_addr":   { "type": "string", "format": "ipv6" }
+    }
+})"_json;
+// Valid values: "2026-03-11", "2026-03-11T09:30:00Z", "user@example.com",
+//               "https://api.example.com/v1", "192.168.1.1", "2001:db8::1"
+
+// uniqueItems — require all array elements to be distinct
+nlohmann::json unique_schema = R"({
+    "type": "object",
+    "properties": {
+        "tags":    { "type": "array", "uniqueItems": true },
+        "modules": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+    }
+})"_json;
+// A config file containing {"tags": ["a", "b", "a"]} will fail validation
+// because index 0 and index 2 are equal.  {"tags": ["a", "b", "c"]} passes.
 ```
 
 ## Migration Scanner Tool
