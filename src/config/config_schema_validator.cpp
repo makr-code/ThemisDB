@@ -494,9 +494,9 @@ void ConfigSchemaValidator::validateAllOf(const nlohmann::json& value,
                                           const nlohmann::json& schemas,
                                           const std::string& json_path,
                                           ValidationResult& result) {
-    for (std::size_t i = 0; i < schemas.size(); ++i) {
-        if (schemas[i].is_object()) {
-            validateValue(value, schemas[i], json_path, result);
+    for (const auto& sub : schemas) {
+        if (sub.is_object()) {
+            validateValue(value, sub, json_path, result);
         }
     }
 }

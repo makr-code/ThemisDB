@@ -601,6 +601,27 @@ TEST_F(ConfigSchemaValidatorTest, AllOfNestedTypeConstraintsFail) {
     EXPECT_FALSE(result.valid);
 }
 
+TEST_F(ConfigSchemaValidatorTest, AllOfCollectsErrorsFromAllFailingSubschemas) {
+    // Value violates BOTH sub-schemas; allOf must surface both errors.
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "allOf": [
+            { "required": ["host"] },
+            { "required": ["ssl"] }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_GE(result.errors.size(), 2u);
+    bool has_host = false, has_ssl = false;
+    for (const auto& e : result.errors) {
+        if (e.find("host") != std::string::npos) has_host = true;
+        if (e.find("ssl")  != std::string::npos) has_ssl  = true;
+    }
+    EXPECT_TRUE(has_host) << "Expected an error about missing 'host'";
+    EXPECT_TRUE(has_ssl)  << "Expected an error about missing 'ssl'";
+}
+
 // ═══════════════════════════════════════════════════════════
 // validate – anyOf
 // ═══════════════════════════════════════════════════════════
@@ -691,8 +712,8 @@ TEST_F(ConfigSchemaValidatorTest, OneOfFailWhenNoSubschemaMatches) {
 }
 
 TEST_F(ConfigSchemaValidatorTest, OneOfFailWhenMultipleSubschemasMatch) {
-    // A number matches both "number" and "integer" in JSON Schema
-    // Use two non-overlapping schemas where value matches both
+    // "abc" satisfies BOTH sub-schemas (string with minLength 1 AND string with maxLength 10),
+    // so oneOf fails because exactly one must match.
     auto path = writeFile("cfg.json", R"("abc")");
     nlohmann::json schema = R"({
         "oneOf": [
