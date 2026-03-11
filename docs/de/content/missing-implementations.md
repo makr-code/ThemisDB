@@ -55,17 +55,15 @@
 
 ---
 
-## CON-004 — OCR Sprachpaket-Pfad nicht an `config/ai_ml/tesseract_lang/` gebunden *(Low)*
+## CON-004 — OCR Sprachpaket-Pfad nicht an `config/ai_ml/tesseract_lang/` gebunden ✅ BEHOBEN
 
 **Datei:** `src/content/ocr_processor.cpp`
 
 **Erwartet:** Sprachpakete aus `config/ai_ml/tesseract_lang/` laden; Standard `eng`; konfigurierbar pro Collection.
 
-**Beobachtet:** `config_.data_dir` ist benutzergesteuert ohne Default-Konvention; kein Rückfall auf `config/ai_ml/tesseract_lang/`.
+**Behoben:** `runTesseract()` in `ocr_processor.cpp` verwendet nun `ConfigPathResolver::tryResolve("config/ai_ml/tesseract_lang")`, wenn `config_.data_dir` leer ist. Existiert das Verzeichnis, wird es als Tessdata-Pfad gesetzt; andernfalls greift der Tesseract-Auto-Detect-Mechanismus (nullptr). Die Sprachpräferenz bleibt `"eng"` als Standard, sofern nicht pro Collection überschrieben. Der Pfad `config/tesseract_lang` wurde als Legacy-Mapping zu `config/ai_ml/tesseract_lang` in `ConfigPathResolver::PATH_MAPPING` und `METADATA_TABLE` eingetragen.
 
-**Auswirkung:** Inkonsistentes Deployment; Betreiber müssen den Pfad manuell konfigurieren.
-
-**Empfohlener Issue-Titel:** `feat(content): default ocr_processor data_dir to config/ai_ml/tesseract_lang/ via ConfigPathResolver`
+**Auswirkung:** Konsistentes Deployment; Betreiber müssen den Pfad nicht mehr manuell konfigurieren. Override pro Collection möglich über `OcrProcessor::Config::data_dir`.
 
 ---
 

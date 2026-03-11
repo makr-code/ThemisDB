@@ -446,6 +446,9 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
 
     // Security – Additional
     {"config/timestamp_authority.yaml", "config/security/timestamp_authority.yaml"},
+
+    // AI/ML – OCR Tesseract Language Packs
+    {"config/tesseract_lang", "config/ai_ml/tesseract_lang"},
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -1272,6 +1275,18 @@ const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TA
             "config/timestamp_authority.yaml",
             "config/security/timestamp_authority.yaml",
             "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // ── AI/ML – OCR Tesseract Language Packs ─────────────────────────────────
+    {
+        "config/tesseract_lang",
+        {
+            "config/tesseract_lang",
+            "config/ai_ml/tesseract_lang",
+            "ai_ml",
             parseDate("2024-01-01"),
             parseDate("2026-06-30"),
             "docs/config_migration_guide.md"
