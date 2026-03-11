@@ -34,7 +34,8 @@
         "module:content",
         "kind:implementation",
         "priority:medium"
-      ]
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-002",

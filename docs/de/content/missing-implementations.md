@@ -71,9 +71,9 @@
 
 **Erwartet:** `ingestStream()` blockiert den Aufrufer, wenn die Worker-Queue-Tiefe `config_.max_queue_depth` überschreitet; gibt `std::future<ContentId>` für async-Aufrufer zurück.
 
-**Behoben:** `AsyncIngestionConfig` um Feld `max_queue_depth` (Standard: 1000) erweitert. `submitStream()` blockiert per `std::condition_variable::wait` statt eine Ausnahme zu werfen, wenn `queue.size() >= max_queue_depth`. Neue Methode `ingestStream()` gibt `std::future<std::string>` zurück, das bei Erfolg mit der primären ContentId aufgelöst wird; bei Fehlern und Worker-Shutdown wird die Ausnahme über das Future weitergeleitet. Worker-Loop benachrichtigt `backpressure_cv_` nach jedem Dequeue-Vorgang; `stop()` benachrichtigt `backpressure_cv_` beim Shutdown und bricht pending Promises ab.
+**Behoben:** `AsyncIngestionConfig` um Feld `max_queue_depth` (Standard: 1000) erweitert. `submitStream()` blockiert per `std::condition_variable::wait` statt eine Ausnahme zu werfen, wenn `queue.size() >= max_queue_depth`. Neue Methode `ingestStream()` gibt `std::future<std::string>` zurück, das bei Erfolg mit der primären ContentId aufgelöst wird; bei Fehlern und Worker-Shutdown wird die Ausnahme über das Future weitergeleitet. Worker-Loop benachrichtigt `backpressure_cv_` nach jedem Dequeue-Vorgang; `stop()` benachrichtigt `backpressure_cv_` beim Shutdown und bricht pending Promises ab. **Overload-Metriken:** `total_backpressure_events_` (atomarer Zähler für Blocking-Ereignisse) und `queue_depth_high_watermark_` (Peak-Queue-Tiefe) werden in `submitStream()` und `ingestStream()` inkrementiert und über `getStatistics()["backpressure"]` exponiert.
 
-**Auswirkung:** Queue-Tiefe wird respektiert; kein unbegrenztes Wachstum unter Last. Sowohl synchrone als auch async-Aufrufer werden korrekt gedrosselt.
+**Auswirkung:** Queue-Tiefe wird respektiert; kein unbegrenztes Wachstum unter Last. Sowohl synchrone als auch async-Aufrufer werden korrekt gedrosselt. Overload-Metriken ermöglichen Prometheus-Überwachung von Back-pressure-Ereignissen.
 
 ---
 

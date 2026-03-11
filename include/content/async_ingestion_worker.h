@@ -422,6 +422,10 @@ private:
     std::atomic<uint64_t> total_jobs_processed_;
     std::atomic<uint64_t> total_jobs_failed_;
     std::atomic<uint64_t> total_items_processed_;
+
+    // Back-pressure metrics
+    std::atomic<uint64_t> total_backpressure_events_;   ///< Number of times a caller was blocked by back-pressure
+    std::atomic<uint64_t> queue_depth_high_watermark_;  ///< Peak queue depth observed since start
     
     // Plugin registry (NEW)
     std::map<std::string, std::shared_ptr<IngestionPlugin>> plugins_;

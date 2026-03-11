@@ -1,6 +1,6 @@
 # Exporters Module — Missing Implementations Report
 
-**Validiert:** 2026-03-10  
+**Validiert:** 2026-03-11  
 **Geprüfte Revision:** `HEAD`  
 **Geprüfte Pfade:** `src/exporters/`, `cmake/CMakeLists.txt`, `cmake/ModularBuild.cmake`, `tests/CMakeLists.txt`  
 **Methode:** Reality-Check (Doku ↔ Sourcecode); Suche nach `TODO`, `STUB`, `NOT_IMPLEMENTED`; Zeilenzählung via `wc -l`; Datei-Metadaten-Analyse
@@ -12,9 +12,9 @@
 | Schwere | Anzahl |
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 0 |
-| 🟡 Mittel (Funktional eingeschränkt) | 1 |
-| 🟢 Gering (Hardening / Optimierung) | 2 |
-| ✅ Behoben | 4 |
+| 🟡 Mittel (Funktional eingeschränkt) | 0 |
+| 🟢 Gering (Hardening / Optimierung) | 0 |
+| ✅ Behoben | 7 |
 
 Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`, `streaming_exporter`, `incremental_exporter`, `aql_predicate_filter`, `format_template`, `export_encryption`, `data_augmentation`, `pii_detector`, `exporter_metrics`, `stream_writer`) haben `Open Issues: TODOs: 0, Stubs: 0` und `Maturity Level: 🟢 PRODUCTION-READY`.
 
@@ -24,7 +24,7 @@ Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporte
 
 ### ~~1. PolicyEngine-Integration für Export-Autorisierung~~ ✅ Behoben
 
-`enforceExportPolicy()` ist in allen 6 Exportern aufgerufen (`jsonl_llm_exporter`, `streaming_exporter`, `incremental_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`). Bei Ablehnung wird `ExporterException(ERR_EXPORT_POLICY_DENIED)` geworfen. Audit-Logging via `AuditLogger`: `EXPORT_DENIED`-Event bei Ablehnung, `BULK_EXPORT`-Event bei Genehmigung — sofern `ExportOptions::audit_logger` gesetzt ist. 9 Unit-Tests in `tests/exporters/test_export_encryption.cpp` (EXP-001).
+`enforceExportPolicy()` ist in allen 6 Exportern aufgerufen (`jsonl_llm_exporter`, `streaming_exporter`, `incremental_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`). Bei Ablehnung wird `ExporterException(ERR_EXPORT_POLICY_DENIED)` geworfen. Audit-Logging via `AuditLogger`: `EXPORT_DENIED`-Event bei Ablehnung, `BULK_EXPORT`-Event bei Genehmigung — sofern `ExportOptions::audit_logger` gesetzt ist. 10 Unit-Tests in `tests/exporters/test_export_encryption.cpp` (EXP-001).
 
 ---
 
@@ -51,43 +51,15 @@ Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporte
 
 ---
 
-### 4. --incremental CLI-Flag fehlt (🟢 Gering)
+### ~~4. --incremental CLI-Flag fehlt~~ ✅ Behoben (EXP-004)
 
-**Claim-Quelle:** `src/exporters/FUTURE_ENHANCEMENTS.md` → Incremental / Delta Export → Remaining  
-**Datei:** `tools/` (CLI-Export-Befehl)
-
-**Erwartet:** `--incremental`-Flag am CLI-Export-Befehl in `tools/`, das `IncrementalExporter` statt `JSONLLLMExporter` aktiviert.
-
-**Beobachtet:** `incremental_exporter.cpp` ist vollständig implementiert. Das CLI-Flag fehlt noch — kein `--incremental`-Argument in den `tools/`-Dateien gefunden.
-
-**Evidence:**
-- `src/exporters/FUTURE_ENHANCEMENTS.md`, Abschnitt „~~Incremental / Delta Export~~ ✅ Implemented": `Remaining: --incremental flag on the CLI export command in tools/.`
-
-**Impact:** Benutzer müssen `IncrementalExporter` programmatisch konfigurieren; kein bequemer CLI-Schalter für inkrementelle Exports.
-
-**Issue-Titelvorschlag:** `feat(tools): add --incremental flag to CLI export command`  
-**Label-Vorschläge:** `module:exporters`, `kind:usability`, `priority:low`
+`tools/export_cli.cpp` implementiert das `--incremental`-Flag als Kurzform für `--format incremental` (EXP-004). Der CLI-Befehl unterstützt `--collection`, `--output`, `--format`, `--incremental`, `--watermark`, `--filter`, `--include-field`, `--exclude-field`, `--compress`, `--user`, `--progress` und `--output-json`. Das Binary `themis-export` ist in `cmake/CMakeLists.txt` registriert.
 
 ---
 
-### 5. ExportFormatRegistry nicht implementiert (🟢 Gering)
+### ~~5. ExportFormatRegistry nicht implementiert~~ ✅ Behoben (EXP-005)
 
-**Claim-Quelle:** `src/exporters/ROADMAP.md` → Breaking Changes; `src/exporters/FUTURE_ENHANCEMENTS.md` → Parquet → Remaining  
-**Datei:** — (kein `export_format_registry.cpp` vorhanden)
-
-**Erwartet:** `ExportFormatRegistry`-Singleton zur Registrierung von Export-Writern nach Format-Typ; ermöglicht additive Erweiterung ohne API-Änderung.
-
-**Beobachtet:** Kein `ExportFormatRegistry` oder vergleichbare Registry-Klasse in `src/exporters/` gefunden. Exporter werden direkt instanziiert.
-
-**Evidence:**
-- `src/exporters/ROADMAP.md` → Breaking Changes: `Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)`
-- `src/exporters/FUTURE_ENHANCEMENTS.md` → Parquet → Remaining: `Register Parquet writer in a formal ExportFormatRegistry`
-- Kein `export_format_registry.cpp` oder `export_format_registry.h` in `src/exporters/`
-
-**Impact:** Gering — neue Formate erfordern aktuell direkten Code-Zugriff; additive Erweiterbarkeit noch nicht gegeben.
-
-**Issue-Titelvorschlag:** `feat(exporters): implement ExportFormatRegistry for pluggable format registration`  
-**Label-Vorschläge:** `module:exporters`, `kind:architecture`, `priority:low`
+`ExportFormatRegistry`-Singleton implementiert in `include/exporters/export_format_registry.h` und `src/exporters/export_format_registry.cpp`. `registerBuiltins()` registriert 9 Built-in-Formate (`jsonl`, `llm_jsonl`, `parquet`, `arrow`, `arrow_stream`, `huggingface`, `hf_datasets`, `streaming`, `incremental`). Thread-sicher, additiv, override-fähig. `loadTemplatesFromConfig()` / `loadTemplatesFromJson()` ermöglichen benutzerdefinierte Templates. 13 Unit-Tests in `tests/exporters/test_export_format_registry.cpp`.
 
 ---
 
