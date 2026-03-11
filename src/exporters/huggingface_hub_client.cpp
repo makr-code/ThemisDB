@@ -20,6 +20,7 @@
 #include "exporters/huggingface_hub_client.h"
 #include "governance/policy_engine.h"
 #include "governance/model_governance.h"
+#include "security/key_provider.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 
@@ -91,9 +92,29 @@ HuggingFaceHubClient::HuggingFaceHubClient(HubUploadConfig config)
 HuggingFaceHubClient::~HuggingFaceHubClient() = default;
 
 std::string HuggingFaceHubClient::resolveToken() const {
+    // Priority 1: explicit hf_token field.
     if (!config_.hf_token.empty()) {
         return config_.hf_token;
     }
+
+    // Priority 2: KEK/KMS-protected token lookup via key_provider.
+    if (!config_.hf_token_kek_id.empty()) {
+        if (!config_.key_provider) {
+            throw std::invalid_argument(
+                "HubUploadConfig::hf_token_kek_id is set but key_provider is null");
+        }
+        // getKey() may throw KeyNotFoundException or KeyOperationException.
+        // Raw token bytes are intentionally never logged.
+        auto token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);
+        if (token_bytes.empty()) {
+            throw std::runtime_error(
+                "HubUploadConfig::hf_token_kek_id '" + config_.hf_token_kek_id +
+                "' resolved to empty token bytes");
+        }
+        return std::string(token_bytes.begin(), token_bytes.end());
+    }
+
+    // Priority 3: HF_TOKEN environment variable.
     const char* env = std::getenv("HF_TOKEN");
     return env ? std::string(env) : std::string{};
 }
@@ -288,7 +309,18 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         }
     }
 
-    const std::string token = resolveToken();
+    std::string token;
+    try {
+        token = resolveToken();
+    } catch (const std::exception& e) {
+        const HubUploadResult kek_err{
+            false, {}, std::string("hf_token_kek_id resolution failed: ") + e.what(), 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir,
+                                     kek_err, "error");
+        }
+        return kek_err;
+    }
     if (token.empty()) {
         const HubUploadResult no_token{
             false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
