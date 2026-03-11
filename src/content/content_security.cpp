@@ -88,6 +88,8 @@ json SecurityCheckResult::toJson() const {
     j["pii_types"] = pii_types;
     j["abuse_checked"] = abuse_checked;
     j["abuse_detected"] = abuse_detected;
+    j["zip_bomb_checked"] = zip_bomb_checked;
+    j["zip_bomb_detected"] = zip_bomb_detected;
     return j;
 }
 
@@ -170,16 +172,22 @@ SecurityCheckResult ContentSecurityManager::checkZipBomb(
     result.error = ContentError::ok();
 
     if (!config_.enable_zip_bomb_check) {
+        // Check explicitly disabled; zip_bomb_checked remains false to signal skip
+        result.zip_bomb_checked = false;
         return result;
     }
 
     metrics_.zip_bomb_scans++;
+
+    // Mark the check as having been performed
+    result.zip_bomb_checked = true;
 
     // Check compression ratio: uncompressed / compressed must not exceed the threshold
     if (compressed_size > 0) {
         uint64_t ratio = uncompressed_size / compressed_size;
         if (ratio > config_.max_zip_bomb_ratio) {
             metrics_.zip_bomb_blocked++;
+            result.zip_bomb_detected = true;
             result.error = ContentError::error(
                 ContentErrorCode::CONTENT_MALWARE_DETECTED,
                 "Archive rejected: compression ratio exceeds limit (possible zip bomb)"
@@ -198,6 +206,7 @@ SecurityCheckResult ContentSecurityManager::checkZipBomb(
     // Check file count
     if (file_count > config_.max_zip_file_count) {
         metrics_.zip_bomb_blocked++;
+        result.zip_bomb_detected = true;
         result.error = ContentError::error(
             ContentErrorCode::CONTENT_SIZE_EXCEEDED,
             "Archive rejected: file count exceeds limit (possible zip bomb)"

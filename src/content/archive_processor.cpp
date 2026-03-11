@@ -602,11 +602,14 @@ ArchiveProcessorResult ArchiveProcessor::process(
         return result;
     }
 
-    // Zip-bomb protection via ContentSecurityManager (blocks ingestion if thresholds exceeded)
+    // Zip-bomb protection via ContentSecurityManager (blocks ingestion if thresholds exceeded).
+    // member_count = total archive entries (files + directories); using it is intentionally
+    // more conservative than file_count alone, and keeps the check consistent with the
+    // member_count guard already applied by validateArchive() directly above.
     auto zip_bomb_result = security_manager_.checkZipBomb(
         metadata.total_compressed_size,
         metadata.total_uncompressed_size,
-        metadata.file_count,
+        metadata.member_count,  // files + directories
         filename
     );
     if (zip_bomb_result.error.failed()) {

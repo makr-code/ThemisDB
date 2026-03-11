@@ -86,6 +86,9 @@ struct SecurityCheckResult {
     bool abuse_checked = false;
     bool abuse_detected = false;
     
+    bool zip_bomb_checked = false;
+    bool zip_bomb_detected = false;
+    
     json toJson() const;
 };
 

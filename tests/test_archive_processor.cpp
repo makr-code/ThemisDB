@@ -316,7 +316,7 @@ TEST_F(ContentSecurityZipBombTest, BlocksExcessiveCompressionRatio) {
     EXPECT_NE(result.error.message.find("compression ratio"), std::string::npos);
 }
 
-TEST_F(ContentSecurityZipBombTest, BlocksExactlyAtRatioLimit) {
+TEST_F(ContentSecurityZipBombTest, AllowsExactlyAtRatioLimit) {
     ContentSecurityManager manager(default_config_);
     // Ratio exactly 100x should pass (limit is >, not >=)
     auto result = manager.checkZipBomb(1, 100, 1, "test_content");
@@ -353,6 +353,8 @@ TEST_F(ContentSecurityZipBombTest, SkipsCheckWhenDisabled) {
     // Would normally fail ratio check (200x), but check is disabled
     auto result = manager.checkZipBomb(1, 200, 2000, "test_content");
     EXPECT_FALSE(result.error.failed());
+    EXPECT_FALSE(result.zip_bomb_checked);   // check was skipped
+    EXPECT_FALSE(result.zip_bomb_detected);
 }
 
 TEST_F(ContentSecurityZipBombTest, HandlesZeroCompressedSize) {
@@ -365,17 +367,21 @@ TEST_F(ContentSecurityZipBombTest, HandlesZeroCompressedSize) {
 TEST_F(ContentSecurityZipBombTest, MetricsIncrementedOnScan) {
     ContentSecurityManager manager(default_config_);
     manager.resetMetrics();
-    manager.checkZipBomb(100, 500, 10, "test_content");
+    auto result = manager.checkZipBomb(100, 500, 10, "test_content");
     EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 1u);
     EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 0u);
+    EXPECT_TRUE(result.zip_bomb_checked);
+    EXPECT_FALSE(result.zip_bomb_detected);
 }
 
 TEST_F(ContentSecurityZipBombTest, MetricsIncrementedOnBlock) {
     ContentSecurityManager manager(default_config_);
     manager.resetMetrics();
-    manager.checkZipBomb(1, 200, 10, "test_content");  // 200x ratio, blocked
+    auto result = manager.checkZipBomb(1, 200, 10, "test_content");  // 200x ratio, blocked
     EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 1u);
     EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 1u);
+    EXPECT_TRUE(result.zip_bomb_checked);
+    EXPECT_TRUE(result.zip_bomb_detected);
 }
 
 TEST_F(ContentSecurityZipBombTest, CustomThresholds) {
@@ -395,6 +401,16 @@ TEST_F(ContentSecurityZipBombTest, CustomThresholds) {
     // Within thresholds should pass
     auto r3 = manager.checkZipBomb(10, 50, 4, "test");
     EXPECT_FALSE(r3.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, ToJsonContainsZipBombFields) {
+    ContentSecurityManager manager(default_config_);
+    auto result = manager.checkZipBomb(1, 200, 1, "test_content");  // blocked
+    auto j = result.toJson();
+    EXPECT_TRUE(j.contains("zip_bomb_checked"));
+    EXPECT_TRUE(j.contains("zip_bomb_detected"));
+    EXPECT_TRUE(j["zip_bomb_checked"].get<bool>());
+    EXPECT_TRUE(j["zip_bomb_detected"].get<bool>());
 }
 
 // Integration test: ArchiveProcessor blocks when ContentSecurityManager detects zip bomb
