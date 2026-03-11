@@ -1531,6 +1531,7 @@ set(THEMIS_CORE_SOURCES
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
+    ../src/config/config_encrypted_store.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp

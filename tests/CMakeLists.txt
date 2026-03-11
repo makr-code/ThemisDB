@@ -7173,6 +7173,7 @@ set(CONFIG_MODULE_SOURCES
     ${THEMIS_ROOT_DIR}/src/config/config_metrics_exporter.cpp
     ${THEMIS_ROOT_DIR}/src/config/config_schema_validator.cpp
     ${THEMIS_ROOT_DIR}/src/config/config_audit_log.cpp
+    ${THEMIS_ROOT_DIR}/src/config/config_encrypted_store.cpp
 )
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
@@ -7355,6 +7356,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
     message(STATUS "  Config metrics scrape: Prometheus text format, scrape latency < 1 ms, counter accuracy")
 else()
     message(STATUS "Config metrics scrape tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_encrypted_store.cpp")
+    message(STATUS "Adding ConfigEncryptedStore focused tests")
+
+    add_executable(test_config_encrypted_store_focused
+        test_config_encrypted_store.cpp
+        ${THEMIS_ROOT_DIR}/src/config/config_encrypted_store.cpp
+    )
+
+    target_include_directories(test_config_encrypted_store_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_encrypted_store_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_encrypted_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigEncryptedStoreFocusedTests COMMAND test_config_encrypted_store_focused)
+
+    set_tests_properties(ConfigEncryptedStoreFocusedTests PROPERTIES
+        LABELS "config;encryption;key-rotation;aes-gcm;security;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigEncryptedStore: AES-256-GCM encryption, key rotation, serialisation, thread safety")
+else()
+    message(STATUS "ConfigEncryptedStore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_encrypted_store.cpp")
 endif()
 
 # ============================================================================
