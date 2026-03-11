@@ -40,6 +40,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -69,6 +70,7 @@ ReplicationTopologyApiHandler::ReplicationTopologyApiHandler(
 http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTopologyGet");
     if (!coordinator_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);
@@ -142,6 +144,7 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleTopologyG
 http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleHealthGet");
     if (!coordinator_) {
         return makeErrorResponse(http::status::service_unavailable,
                                  "Replication not configured", req);
@@ -193,6 +196,7 @@ http::response<http::string_body> ReplicationTopologyApiHandler::handleHealthGet
 http::response<http::string_body> ReplicationTopologyApiHandler::handleUiGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleUiGet");
     std::string api_base;
     const std::string target{req.target()};
     const std::string marker = "/ui/replication/topology";

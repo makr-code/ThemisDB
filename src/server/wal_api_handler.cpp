@@ -60,6 +60,7 @@ WALApiHandler::WALApiHandler(
 http::response<http::string_body> WALApiHandler::handleApply(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleApply");
     // HMAC/shared-secret auth (optional)
     if (!wal_shared_secret_.empty()) {
         auto hdr = req.find("X-WAL-Auth");

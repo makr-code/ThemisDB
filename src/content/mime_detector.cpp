@@ -566,6 +566,14 @@ bool MimeDetector::shouldTriggerOcr(std::string_view mime_type) const {
     return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
 }
 
+bool MimeDetector::shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept {
+    if (!ocr_enabled) {
+        return false;
+    }
+    // OCR is supported for PNG, JPEG, and TIFF image formats
+    return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
+}
+
 void MimeDetector::enableOcr(bool enable) {
     policy_.ocr_enabled = enable;
 }

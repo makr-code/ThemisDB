@@ -157,12 +157,9 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
     ../src/utils/consistent_hash.cpp
-<<<<<<< HEAD
     ../src/utils/checksum_utils.cpp
     ../src/utils/sampled_logger.cpp
     ../src/utils/timestamp_utils.cpp
-=======
->>>>>>> 30fc87177b4a4d2b5f54f6d1d596b5359f33a06c
     ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer
@@ -337,16 +334,13 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/inverted_index.cpp
     ../src/index/workload_replay.cpp
-<<<<<<< HEAD
     ../src/index/tiered_index_manager.cpp
-=======
     ../src/index/graph_auto_buffer.cpp
     ../src/index/index_manager.cpp
     ../src/index/tiered_index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
->>>>>>> 30fc87177b4a4d2b5f54f6d1d596b5359f33a06c
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -1386,6 +1380,10 @@ set(THEMIS_NETWORK_SOURCES
     # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
     ../src/observability/tracer.cpp
     ../src/observability/log_aggregator.cpp
+    # Observability: rule-based alerting engine with configurable notification channels
+    ../src/observability/alerting_engine.cpp
+    # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
+    ../src/observability/metric_aggregator.cpp
 )
 
 set(THEMIS_GEO_SOURCES

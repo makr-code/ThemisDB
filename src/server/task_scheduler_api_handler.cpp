@@ -32,6 +32,7 @@
 #include <chrono>
 #include <ctime>
 #include <sstream>
+#include "utils/tracing.h"
 
 using nlohmann::json;
 
@@ -99,6 +100,7 @@ std::string errorCategoryStr(ScheduledTask::ErrorCategory c) {
 
 json TaskSchedulerApiHandler::registerTask(const json& request) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("registerTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -114,6 +116,7 @@ json TaskSchedulerApiHandler::registerTask(const json& request) {
 
 json TaskSchedulerApiHandler::listTasks() {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("listTasks");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     auto tasks = scheduler_->listTasks();
@@ -126,6 +129,7 @@ json TaskSchedulerApiHandler::listTasks() {
 
 json TaskSchedulerApiHandler::getTask(const std::string& task_id) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("getTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     auto task_ptr = scheduler_->getTask(task_id);
@@ -137,6 +141,7 @@ json TaskSchedulerApiHandler::getTask(const std::string& task_id) {
 
 json TaskSchedulerApiHandler::updateTask(const std::string& task_id, const json& request) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("updateTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -153,6 +158,7 @@ json TaskSchedulerApiHandler::updateTask(const std::string& task_id, const json&
 
 json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("unregisterTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -167,6 +173,7 @@ json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
 
 json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("enableTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -181,6 +188,7 @@ json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
 
 json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("disableTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -195,6 +203,7 @@ json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
 
 json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("executeTask");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -209,6 +218,7 @@ json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
 
 json TaskSchedulerApiHandler::getStats() {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("getStats");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     auto stats = scheduler_->getStats();
@@ -226,6 +236,7 @@ json TaskSchedulerApiHandler::getStats() {
 
 json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t limit) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("getTaskResults");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     auto results = scheduler_->getTaskResults(task_id, limit);
@@ -238,6 +249,7 @@ json TaskSchedulerApiHandler::getTaskResults(const std::string& task_id, size_t 
 
 json TaskSchedulerApiHandler::getLatestTaskResult(const std::string& task_id) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("getLatestTaskResult");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     auto result = scheduler_->getLatestTaskResult(task_id);
@@ -251,6 +263,7 @@ json TaskSchedulerApiHandler::getExecutionHistory(
     const std::string& task_id,
     const json& query_params)
 {
+    auto span = Tracer::startSpan("getExecutionHistory");
     if (!scheduler_) {
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
@@ -352,6 +365,7 @@ std::string TaskSchedulerApiHandler::getWebUi() {
     html += "<title>ThemisDB – Task Scheduler</title>\n";
     html += "<style>\n";
     html += "*, *::before, *::after{box-sizing:border-box}\n";
+    auto span = Tracer::startSpan("getWebUi");
     html += "body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;margin:0;padding:0}\n";
     html += "header{background:#1e293b;padding:14px 24px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #334155}\n";
     html += "header h1{margin:0;font-size:1.25rem;color:#38bdf8}\n";
@@ -677,6 +691,7 @@ std::string TaskSchedulerApiHandler::getWebUi() {
 
 json TaskSchedulerApiHandler::taskToJson(const ScheduledTask& task) {
     json j{
+    auto span = Tracer::startSpan("taskToJson");
         {"id",                    task.id},
         {"name",                  task.name},
         {"description",           task.description},
@@ -794,6 +809,7 @@ ScheduledTask TaskSchedulerApiHandler::parseTaskFromJson(const json& j) {
 
 json TaskSchedulerApiHandler::executeDAG(const json& request) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("executeDAG");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -902,6 +918,7 @@ static const scheduler::ExternalSchedulerAdapter s_adapter;
 
 json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& task_id,
                                                               const json& request) {
+    auto span = Tracer::startSpan("exportToKubernetesCronJobJson");
     if (!scheduler_) {
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
@@ -921,6 +938,7 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& t
 
 json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& task_id,
                                                               const json& request) {
+    auto span = Tracer::startSpan("exportToKubernetesCronJobYaml");
     if (!scheduler_) {
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
@@ -940,6 +958,7 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& t
 
 json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("exportToAirflowDag");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {
@@ -967,6 +986,7 @@ json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
 
 json TaskSchedulerApiHandler::importFromKubernetesCronJob(const json& request) {
     if (!scheduler_) {
+    auto span = Tracer::startSpan("importFromKubernetesCronJob");
         return json{{"status", "error"}, {"error", "Scheduler not initialized"}};
     }
     try {

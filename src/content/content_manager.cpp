@@ -2251,15 +2251,14 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
         }
     }
 
-    // ---- OCR extraction (opt-in via ContentPolicy::ocrEnabled() / config["ocr_enabled"]) ----
+    // ---- OCR extraction (opt-in via ContentPolicy::ocrEnabled() → MimeDetector::shouldTriggerOcr()) ----
     // Triggered when the caller sets config["ocr_enabled"]=true AND the MIME type is
     // one of the OCR-capable image formats: image/png, image/jpeg, image/tiff.
-    // Routing uses the same MIME-type list as MimeDetector::shouldTriggerOcr().
-    if (stage_cfg.extraction.enabled && config.value("ocr_enabled", false) &&
-        category == ContentCategory::IMAGE &&
-        (detected_mime == "image/png" ||
-         detected_mime == "image/jpeg" ||
-         detected_mime == "image/tiff")) {
+    // ContentPolicy::ocrEnabled() is wired to MimeDetector via shouldTriggerOcr(mime, bool) so that
+    // all routing decisions go through MimeDetector — thread-safe, no shared state mutation.
+    const bool ocr_enabled = config.value("ocr_enabled", false);
+    if (stage_cfg.extraction.enabled &&
+        mime_detector_.shouldTriggerOcr(detected_mime, ocr_enabled)) {
 
         const std::string ocr_language = config.value("ocr_language", std::string("eng"));
         std::vector<uint8_t> image_bytes(blob.begin(), blob.end());

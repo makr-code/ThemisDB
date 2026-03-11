@@ -396,6 +396,181 @@ TEST(HuggingFaceHubClientTest, AuditLogNullptrIsBackwardCompatible) {
     EXPECT_FALSE(result.success);  // fails at token check, not audit log
 }
 
+// ── uploadShards: token / config validation ───────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, UploadShardsNoTokenReturnsError) {
+    HfTokenGuard token_guard(nullptr);  // ensure HF_TOKEN is unset
+    HubUploadConfig cfg;
+    cfg.repo_id  = "org/repo";
+    cfg.hf_token = "";
+    HuggingFaceHubClient client(cfg);
+
+    const std::string content = R"({"text":"hello"})" "\n";
+    MemoryShardSpec shard;
+    shard.relative_path = "data/train-00000-of-00001.jsonl";
+    shard.content.assign(content.begin(), content.end());
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("HF_TOKEN"), std::string::npos);
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsEmptyRepoIdReturnsError) {
+    HubUploadConfig cfg;
+    cfg.repo_id  = "";  // intentionally empty
+    cfg.hf_token = "test-token";
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'a', 'b', 'c'};
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsEmptyListReturnsError) {
+    HubUploadConfig cfg;
+    cfg.repo_id  = "org/repo";
+    cfg.hf_token = "test-token";
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadShards({});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsProgressCallbackNotCalledWhenNoToken) {
+    HfTokenGuard token_guard(nullptr);  // ensure HF_TOKEN is unset
+    HubUploadConfig cfg;
+    cfg.repo_id = "org/repo";
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'x'};
+
+    bool cb_called = false;
+    HuggingFaceHubClient client(cfg);
+    const auto result = client.uploadShards(
+        {shard}, [&cb_called](double) { cb_called = true; });
+
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(cb_called);
+}
+
+// ── uploadShards: PolicyEngine integration ────────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, UploadShardsPolicyDeniedReturnsFailure) {
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("restricted-org/secret-data");
+
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "restricted-org/secret-data";
+    cfg.hf_token        = "dummy-token";
+    cfg.requesting_user = "eve";
+    cfg.policy_engine   = &engine;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'a'};
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("PolicyEngine"), std::string::npos)
+        << "Expected 'PolicyEngine' in error; got: " << result.error_message;
+    EXPECT_EQ(result.http_status, 0);
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsTokenFromEnvProceeedsToNetwork) {
+    // Policy permits; upload will fail at network level (unreachable host).
+    HfTokenGuard token_guard("test-memory-token");
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/allowed-dataset";
+    cfg.hub_base_url    = "http://localhost:1"; // unreachable
+    cfg.max_retries     = 0;
+    cfg.timeout_seconds = 2;
+    cfg.requesting_user = "dave";
+    cfg.policy_engine   = &engine;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/train.jsonl";
+    const std::string content = R"({"text":"hello world"})" "\n";
+    shard.content.assign(content.begin(), content.end());
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    // Must NOT be a PolicyEngine or HF_TOKEN error.
+    EXPECT_EQ(result.error_message.find("PolicyEngine"), std::string::npos)
+        << "Got: " << result.error_message;
+    EXPECT_EQ(result.error_message.find("HF_TOKEN"), std::string::npos)
+        << "Got: " << result.error_message;
+}
+
+// ── uploadShards: Audit log integration ──────────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnPolicyDenial) {
+    auto [audit_logger, log_path] = makeTestAuditLogger();
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("secret-org/restricted");
+
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "secret-org/restricted";
+    cfg.hf_token        = "dummy";
+    cfg.requesting_user = "mallory";
+    cfg.policy_engine   = &engine;
+    cfg.audit_log       = audit_logger;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'a'};
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+
+    audit_logger->flush();
+    std::ifstream f(log_path);
+    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
+    std::string content_str((std::istreambuf_iterator<char>(f)),
+                             std::istreambuf_iterator<char>());
+    EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
+    EXPECT_NE(content_str.find("denied"),     std::string::npos);
+    EXPECT_NE(content_str.find("secret-org/restricted"), std::string::npos);
+
+    fs::remove(log_path);
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnNoToken) {
+    HfTokenGuard token_guard(nullptr);
+    auto [audit_logger, log_path] = makeTestAuditLogger();
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/dataset";
+    cfg.hf_token        = "";
+    cfg.requesting_user = "carol";
+    cfg.audit_log       = audit_logger;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'x'};
+
+    const auto result = client.uploadShards({shard});
 // ── hf_token_kek_id / KEK token resolution ───────────────────────────────────
 
 TEST(HuggingFaceHubClientTest, DefaultConfigHasNoKekFields) {
@@ -553,6 +728,28 @@ TEST(HuggingFaceHubClientTest, KekTokenResolution_AuditLogWrittenOnKekError) {
 
     audit_logger->flush();
     std::ifstream f(log_path);
+    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
+    std::string content_str((std::istreambuf_iterator<char>(f)),
+                             std::istreambuf_iterator<char>());
+    EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
+    EXPECT_NE(content_str.find("error"),      std::string::npos);
+
+    fs::remove(log_path);
+}
+
+// ── MemoryShardSpec construction ──────────────────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, MemoryShardSpecHoldsDataCorrectly) {
+    const std::string jsonl = R"({"id":1,"text":"foo"})" "\n"
+                              R"({"id":2,"text":"bar"})" "\n";
+    MemoryShardSpec shard;
+    shard.relative_path = "data/train-00000-of-00001.jsonl";
+    shard.content.assign(jsonl.begin(), jsonl.end());
+
+    EXPECT_EQ(shard.relative_path, "data/train-00000-of-00001.jsonl");
+    EXPECT_EQ(shard.content.size(), jsonl.size());
+    EXPECT_EQ(std::string(shard.content.begin(), shard.content.end()), jsonl);
+}
     ASSERT_TRUE(f.good()) << "Audit log file not found: " << log_path;
     std::string content((std::istreambuf_iterator<char>(f)),
                          std::istreambuf_iterator<char>());

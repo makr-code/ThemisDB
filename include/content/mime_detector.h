@@ -91,6 +91,14 @@ public:
     /// one of: image/png, image/jpeg, image/tiff.
     bool shouldTriggerOcr(std::string_view mime_type) const;
 
+    /// Thread-safe, stateless overload: returns true if OCR should be triggered
+    /// for the given MIME type when the supplied policy flag is true.
+    /// Does NOT read or write the internal ContentPolicy — safe to call from
+    /// concurrent threads without external synchronization.
+    /// Use this overload when the ocr_enabled flag comes from a per-request config
+    /// rather than from a pre-configured detector instance.
+    bool shouldTriggerOcr(std::string_view mime_type, bool ocr_enabled) const noexcept;
+
     /// Enable or disable automatic OCR for image content in this detector's policy.
     /// Setting this to true causes shouldTriggerOcr() to return true for
     /// image/png, image/jpeg, and image/tiff.  Default: false.

@@ -68,6 +68,7 @@ PromptEngineeringApiHandler::PromptEngineeringApiHandler(
 http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleOptimize");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(
@@ -145,6 +146,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
 http::response<http::string_body> PromptEngineeringApiHandler::handleListABTests(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListABTests");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(
@@ -174,6 +176,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleListABTests
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetABTest(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetABTest");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(
@@ -214,6 +217,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetABTest(
 http::response<http::string_body> PromptEngineeringApiHandler::handleSubmitFeedback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleSubmitFeedback");
     try {
         if (!feedback_collector_) {
             return makeErrorResponse(
@@ -280,6 +284,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleSubmitFeedb
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetStats");
     try {
         nlohmann::json stats;
 
@@ -324,6 +329,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetHistory(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetHistory");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(
@@ -363,6 +369,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetHistory(
 http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetVersions");
     try {
         if (!version_control_) {
             return makeErrorResponse(
@@ -403,6 +410,7 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetVersions
 http::response<http::string_body> PromptEngineeringApiHandler::handleRollback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleRollback");
     try {
         if (!orchestrator_) {
             return makeErrorResponse(

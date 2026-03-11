@@ -40,6 +40,7 @@
 #include <regex>
 #include <iostream>
 #include <chrono>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
@@ -92,6 +93,7 @@ void LLMApiHandler::setFeedbackStore(std::shared_ptr<llm::FeedbackStore> feedbac
 
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRequest");
     
     // Delegate to LoRAApiHandler for LoRA-specific paths
     std::string_view target = req.target();
@@ -176,6 +178,7 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
 
 http::response<http::string_body> LLMApiHandler::handleInference(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleInference");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -240,6 +243,7 @@ http::response<http::string_body> LLMApiHandler::handleInference(
 
 http::response<http::string_body> LLMApiHandler::handleRAG(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRAG");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -313,6 +317,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
 
 http::response<http::string_body> LLMApiHandler::handleEmbed(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleEmbed");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -373,6 +378,7 @@ static constexpr int kMaxTokensLimit = 4096;
 
 http::response<http::string_body> LLMApiHandler::handleStreamInference(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleStreamInference");
 
     // Parse query parameters from URL: prompt, request_id, max_tokens
     std::string prompt;
@@ -463,6 +469,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamInference(
 
 http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleStreamExplainAql");
 
     auto body = parseRequestBody(req);
     if (!body) {
@@ -529,6 +536,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
 
 http::response<http::string_body> LLMApiHandler::handleListModels(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListModels");
     
     // Get model list from LLMPluginManager
     try {
@@ -557,6 +565,7 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
 
 http::response<http::string_body> LLMApiHandler::handleLoadModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoadModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -603,6 +612,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
 
 http::response<http::string_body> LLMApiHandler::handleUnloadModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUnloadModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -644,6 +654,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
 
 http::response<http::string_body> LLMApiHandler::handleModelInfo(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleModelInfo");
     
     // Extract model_id from path
     std::string_view target = req.target();
@@ -683,6 +694,7 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
 
 http::response<http::string_body> LLMApiHandler::handleIngestModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleIngestModel");
     
     // Implement model ingestion with chunked upload to RocksDB Blob Store
     // Parse multipart/form-data for model file and metadata
@@ -729,6 +741,7 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
 
 http::response<http::string_body> LLMApiHandler::handleListLoRAs(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListLoRAs");
     
     // Get LoRA list from LLMPluginManager
     try {
@@ -763,6 +776,7 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
 
 http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoadLoRA");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -815,6 +829,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
 
 http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUnloadLoRA");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -856,6 +871,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
 
 http::response<http::string_body> LLMApiHandler::handleStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleStats");
     
     // Get statistics from AsyncInferenceEngine and LLMPluginManager
     try {
@@ -883,6 +899,7 @@ http::response<http::string_body> LLMApiHandler::handleStats(
 
 http::response<http::string_body> LLMApiHandler::handleCacheStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleCacheStats");
     
     // Get cache statistics from LLMResponseCache and LLMPrefixCache
     try {
@@ -920,6 +937,7 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
 
 http::response<http::string_body> LLMApiHandler::handleClearCache(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleClearCache");
     
     // Clear LLMResponseCache and LLMPrefixCache
     try {
@@ -943,6 +961,7 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
 
 http::response<http::string_body> LLMApiHandler::handleHealth(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleHealth");
     
     // Check health of LLMPluginManager and AsyncInferenceEngine
     try {
@@ -1017,6 +1036,7 @@ http::response<http::string_body> LLMApiHandler::createErrorResponse(
 http::response<http::string_body> LLMApiHandler::createJsonResponse(
     const json& data,
     http::status status) {
+    auto span = Tracer::startSpan("createJsonResponse");
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -1045,6 +1065,7 @@ std::optional<json> LLMApiHandler::parseRequestBody(
 
 http::response<http::string_body> LLMApiHandler::handleDocsQuery(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDocsQuery");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1117,6 +1138,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsQuery(
 
 http::response<http::string_body> LLMApiHandler::handleDocsConfig(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDocsConfig");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1175,6 +1197,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsConfig(
 
 http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDocsTroubleshoot");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1237,6 +1260,7 @@ http::response<http::string_body> LLMApiHandler::handleDocsTroubleshoot(
 
 http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleCreateFeedback");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1324,6 +1348,7 @@ http::response<http::string_body> LLMApiHandler::handleCreateFeedback(
 
 http::response<http::string_body> LLMApiHandler::handleGetFeedback(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetFeedback");
     
     // Extract feedback ID from path
     std::string_view target = req.target();
@@ -1373,6 +1398,7 @@ http::response<http::string_body> LLMApiHandler::handleGetFeedback(
 
 http::response<http::string_body> LLMApiHandler::handleListFeedback(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListFeedback");
     
     // Parse query parameters
     std::string_view target = req.target();
@@ -1469,6 +1495,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
 
 http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleFeedbackStats");
     
     // Check if FeedbackStore is available
     if (!feedback_store_) {
@@ -1504,6 +1531,7 @@ http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
 
 http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleOpenAIChatCompletions");
 
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1603,6 +1631,7 @@ http::response<http::string_body> LLMApiHandler::handleOpenAIChatCompletions(
 
 http::response<http::string_body> LLMApiHandler::handleOpenAIListModels(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleOpenAIListModels");
 
     // Return a basic OpenAI-compatible model list using registered plugins
     json models_arr = json::array();

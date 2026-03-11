@@ -29,6 +29,7 @@
 
 #include <regex>
 #include <stdexcept>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -140,6 +141,7 @@ bool CacheAdminApiHandler::checkAuth(
 http::response<http::string_body> CacheAdminApiHandler::handleHealth(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleHealth");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:read", auth_resp)) {
         return auth_resp;
@@ -164,6 +166,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleHealth(
 http::response<http::string_body> CacheAdminApiHandler::handleStats(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleStats");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:read", auth_resp)) {
         return auth_resp;
@@ -196,6 +199,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleStats(
 http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleEvictKey");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
@@ -249,6 +253,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictKey(
 http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleEvictTenant");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
@@ -283,6 +288,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleEvictTenant(
 http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerReset(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleCircuitBreakerReset");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
@@ -310,6 +316,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerRese
 http::response<http::string_body> CacheAdminApiHandler::handleCircuitBreakerStatus(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleCircuitBreakerStatus");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:read", auth_resp)) {
         return auth_resp;
@@ -367,6 +374,7 @@ http::response<http::string_body> CacheAdminApiHandler::makeErrorResponse(
 http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleWarmup");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
@@ -423,6 +431,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleWarmup(
 http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleSnapshot");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
@@ -475,6 +484,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleSnapshot(
 http::response<http::string_body> CacheAdminApiHandler::handleListTenants(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleListTenants");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:read", auth_resp)) {
         return auth_resp;
@@ -501,6 +511,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleListTenants(
 http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleTenantStats");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:read", auth_resp)) {
         return auth_resp;
@@ -550,6 +561,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleTenantStats(
 http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleUpdateTenantQuota");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
@@ -617,6 +629,7 @@ http::response<http::string_body> CacheAdminApiHandler::handleUpdateTenantQuota(
 http::response<http::string_body> CacheAdminApiHandler::handlePiiEvict(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handlePiiEvict");
     http::response<http::string_body> auth_resp;
     if (!checkAuth(req, "admin:cache:write", auth_resp)) {
         return auth_resp;
