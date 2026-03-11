@@ -2912,7 +2912,11 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     
     if(THEMIS_ENABLE_OPENGL)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
-        message(STATUS "OpenGL acceleration enabled (stub)")
+        # Link dl for dynamic loading of libEGL/libGL at runtime (Linux/Unix)
+        if(UNIX AND NOT APPLE)
+            target_link_libraries(themis_core PRIVATE dl)
+        endif()
+        message(STATUS "OpenGL acceleration enabled (EGL/GL 4.3+ compute shaders with CPU fallback)")
     endif()
 endif()
 
