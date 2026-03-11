@@ -7227,6 +7227,42 @@ else()
     message(STATUS "Config coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
+    message(STATUS "Adding Config metrics scrape latency focused tests")
+
+    add_executable(test_config_metrics_scrape_focused
+        test_config_metrics_scrape.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_metrics_scrape_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_metrics_scrape_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_metrics_scrape_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsScrapeFocusedTests COMMAND test_config_metrics_scrape_focused)
+
+    set_tests_properties(MetricsScrapeFocusedTests PROPERTIES
+        LABELS "config;metrics;scrape;latency;prometheus;unit;focused"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Config metrics scrape: Prometheus text format, scrape latency < 1 ms, counter accuracy")
+else()
+    message(STATUS "Config metrics scrape tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
+endif()
+
 # ============================================================================
 # Auth Module Tests
 # ============================================================================
