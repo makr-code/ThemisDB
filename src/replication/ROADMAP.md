@@ -38,10 +38,10 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Replication slot management API (pause/resume individual slots) (Issue: #2249)
 
 ### Long-term (6-12 months)
-- [ ] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
+- [x] Full Raft v2 implementation (joint consensus for membership changes) (Issue: #2441)
 - [x] Multi-region active-active with bounded staleness guarantees (Issue: #2254)
-- [P] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
-- [I] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
+- [x] Schema-aware CDC with Avro/Protobuf schema registry integration (Issue: #2255)
+- [x] Conflict-free Replicated Data Types (CRDT) library expansion (Issue: #2442)
 
 ## Implementation Phases
 
@@ -83,14 +83,19 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] `include/replication/replication_slot.h` + `src/replication/replication_slot.cpp` — ReplicationSlot / ReplicationSlotManager
 - [x] All 5 v1.7.0 files registered in `cmake/ModularBuild.cmake` THEMIS_TRANSACTION_SOURCES
 
-### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: In Progress 🚧)
-- [ ] Full Raft v2 implementation (joint consensus for membership changes)
+## New Modules (v1.8.0 – Phase 4)
+- [x] `include/replication/raft_v2.h` + `src/replication/raft_v2.cpp` — Full Raft v2: RaftV2ClusterConfig (joint consensus quorum), MembershipChangeManager (two-phase membership transitions), RaftV2State
+- [x] `include/replication/crdt_types.h` — Standalone type-safe CRDT library: GrowOnlyCounter, PNCounter, LWWRegister, MVRegister, GrowOnlySet, TwoPSet, ORSet, LWWMap, RGArray, EnableWinsFlag, DisableWinsFlag
+- [x] `include/replication/schema_cdc.h` + `src/replication/schema_cdc.cpp` — SchemaAwareCDCBridge: bridges replication WAL CDC events with CDC SchemaRegistryClient / CdcSchemaEncoder for Confluent-compatible schema-encoded output
+
+### Phase 4: Full Raft v2 & Multi-Region Active-Active (Status: Completed ✅)
+- [x] Full Raft v2 implementation (joint consensus for membership changes)
 - [x] Multi-region active-active with bounded staleness guarantees (MultiRegionActiveActiveManager implemented)
-- [P] Schema-aware CDC with Avro/Protobuf schema registry integration
-- [ ] Conflict-free Replicated Data Types (CRDT) library expansion
+- [x] Schema-aware CDC with Avro/Protobuf schema registry integration
+- [x] Conflict-free Replicated Data Types (CRDT) library expansion
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (209 test cases: 177 original + 30 new v1.7.0 feature tests + 2 commit-index tests)
+- [x] Unit tests coverage > 80% (209+ test cases: 177 original + 30 v1.7.0 feature tests + 2 commit-index tests + 15 Raft v2 tests + 30 CRDT types tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
 - [x] Performance benchmarks (WAL append > 50 000 entries/s, WAL readFrom 1000 < 5 ms, serialize/deserialize < 2 µs) — `benchmarks/bench_replication_throughput.cpp`
 - [x] Focused standalone test targets: `ReplicationHAFocusedTests`, `ReplicationNewFeaturesFocusedTests`, `MultiRegionActiveActiveTests`, `CacheReplicationTests`
@@ -99,9 +104,9 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] API stability guaranteed (ReplicationConfig stable; new classes are additive)
 
 ## Known Issues & Limitations
-- Raft implementation is Raft-like (not a full specification-compliant implementation); joint consensus for membership changes is planned.
 - Cascading replication increases end-to-end lag proportionally to chain depth.
 - CDC stream authentication is the responsibility of downstream consumers.
+- SchemaAwareCDCBridge start()/stop() lifecycle relies on the ReplicationManager remaining alive; users should call stop() before destroying the ReplicationManager.
 
 ## Breaking Changes
 - `ReplicationConfig` struct is stable from v1.x; new optional fields only.

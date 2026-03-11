@@ -1441,6 +1441,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/merge_operators.cpp
+    
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -1565,11 +1566,14 @@ set(THEMIS_CORE_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/cross_cluster_federation.cpp
     ../src/query/workload_cache_strategy.cpp
+    ../src/query/query_cache_manager.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
+    ../src/query/functions/lora_functions.cpp
+    ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
@@ -1671,6 +1675,15 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>:../src/server/voice_api_handler.cpp>
+    ../src/server/cdn_cache_middleware.cpp
+    ../src/server/ethics_api_handler.cpp
+    ../src/server/import_api_handler.cpp
+    ../src/server/import_wizard_builder.cpp
+    ../src/server/profiling_api_handler.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
@@ -1760,6 +1773,8 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/event_stream.cpp
     ../src/replication/policy.cpp
     ../src/replication/replication_slot.cpp
+    ../src/replication/raft_v2.cpp
+    ../src/replication/schema_cdc.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -1827,6 +1842,10 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
+    ../src/utils/bloom_filter.cpp
+    ../src/utils/pii_stream_scanner.cpp
+    ../src/utils/sampled_logger.cpp
+    ../src/utils/timestamp_utils.cpp
     ../src/utils/bloom_filter.cpp             # Bloom filter for membership testing
     ../src/utils/consistent_hash.cpp          # Consistent hash ring utilities
     ../src/utils/pii_stream_scanner.cpp       # Streaming PII detection and redaction
@@ -1996,6 +2015,8 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/health_check.cpp
     ../src/sharding/admin_api.cpp
     ../src/sharding/cloud_agent.cpp
+    ../src/sharding/cloud_backup.cpp
+    ../src/sharding/orphan_detector.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
     ../src/sharding/gossip_config_manager.cpp
@@ -2459,6 +2480,14 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/calibration_manager.cpp
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
+    # Phase 1-3: Core evaluator building blocks (no direct LLM header dependency)
+    ../src/rag/continuous_learning_client.cpp
+    ../src/rag/http_metrics_client.cpp
+    ../src/rag/judge_config.cpp
+    ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/onnx_model_loader.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/response_parser.cpp
     )
 
 # Ensure minimal LLM components are available when referenced from http_server.
@@ -2872,6 +2901,12 @@ if(THEMIS_ENABLE_METAL AND APPLE)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_METAL)
     target_link_libraries(themis_core PRIVATE "-framework Metal" "-framework Foundation")
     message(STATUS "Metal acceleration enabled (Apple Silicon / macOS)")
+endif()
+
+# Vulkan full backend (cross-platform GPU compute)
+if(THEMIS_ENABLE_VULKAN)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/vulkan_backend_full.cpp)
+    message(STATUS "Vulkan full backend enabled (cross-platform GPU compute)")
 endif()
 
 # Add acceleration sources to core if any were selected
@@ -3587,7 +3622,23 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Distributed Evaluation and Security (Phase 5)
         ../src/rag/distributed_rag_evaluator.cpp
         ../src/rag/prompt_injection_detector.cpp
-        
+
+        # RAG Enhancement: LLM-dependent evaluators (Phase 1–4)
+        ../src/rag/llm_integration.cpp
+        ../src/rag/llm_judge_integration.cpp
+        ../src/rag/geval_evaluator.cpp
+        ../src/rag/claim_extractor.cpp
+        ../src/rag/coherence_evaluator.cpp
+        ../src/rag/completeness_evaluator.cpp
+        ../src/rag/cot_evaluator.cpp
+        ../src/rag/document_summarizer.cpp
+        ../src/rag/faithfulness_evaluator.cpp
+        ../src/rag/judge_ensemble.cpp
+        ../src/rag/pairwise_comparator.cpp
+        ../src/rag/quality_control_factory.cpp
+        ../src/rag/relevance_evaluator.cpp
+        ../src/rag/rubric_evaluator.cpp
+
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
         ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit

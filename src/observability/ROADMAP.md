@@ -70,7 +70,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] StorageProfiler: RocksDB stats, write/read amplification, cache hit rates
 - [x] PerformanceAnalyzer: automated issue detection with optimization recommendations
 - [x] Alertmanager integration (alert routing and notifications)
-- [x] Distributed tracing with span context propagation (OpenTelemetry-compatible, `observability/tracer.cpp`)
+- [x] Distributed tracing with span context propagation (OpenTelemetry-compatible, `src/observability/continuous_profiler.cpp`)
 - [x] Structured logging via Core ILogger interface
 - [x] Kubernetes readiness and liveness health probes
 - [x] Telemetry aggregation across shards
@@ -98,9 +98,9 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — `test_observability_profilers.cpp` (280 LOC), `test_observability_hardening.cpp`; focused targets: `ObservabilityProfilersFocusedTests`, `ObservabilityHardeningFocusedTests`
 - [?] Integration tests (Prometheus scrape, Grafana dashboard rendering)
-- [?] Performance benchmarks (metrics overhead < 1% CPU)
+- [x] Performance benchmarks (metrics overhead < 1% CPU) — `benchmarks/bench_metrics_collector.cpp` registered (2026-03-10)
 - [?] Security audit (metrics endpoint authentication, trace data PII)
-- [?] Documentation complete
+- [x] Documentation complete — README.md, ARCHITECTURE.md, FUTURE_ENHANCEMENTS.md, docs/de/observability/ all present
 - [?] API stability guaranteed
 
 ## Known Issues & Limitations

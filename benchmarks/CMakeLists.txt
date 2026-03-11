@@ -2108,6 +2108,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
 endif()
 
 # ============================================================================
+# Observability: MetricsCollector Performance Benchmarks
+# Measures metrics recording, aggregation, Prometheus text export,
+# and concurrent access performance.
+# Performance target: < 1% CPU overhead at steady-state 1,000 req/s workload.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
+    message(STATUS "Adding Observability: MetricsCollector performance benchmarks")
+
+    add_executable(bench_metrics_collector
+        bench_metrics_collector.cpp
+    )
+
+    target_include_directories(bench_metrics_collector PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_metrics_collector PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_metrics_collector PRIVATE
 # Index Module Benchmarks (Issue: #1884 — Performance benchmarks: QPS, recall, memory)
 # These benchmarks cover vector search, quantization, spatial indexing, and
 # approximate radius search.  All CPU-only benchmarks run without GPU hardware.
@@ -2763,6 +2788,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
+        target_compile_options(bench_metrics_collector PRIVATE
         target_compile_options(bench_voice_assistant PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
@@ -2770,6 +2796,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         )
     endif()
 
+    install(TARGETS bench_metrics_collector
     install(TARGETS bench_voice_assistant
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
@@ -2824,6 +2851,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
         COMPONENT benchmarks
     )
 
+    message(STATUS "  MetricsCollector: recordQuery, recordCacheHit, exportPrometheus, concurrent access, cardinality scaling")
     message(STATUS "  ContentVersioning: content lifecycle throughput (create/update/fork/merge), version history scan, GC overhead")
     message(STATUS "  PromptManager: createTemplate, getTemplate (hit/miss), injectContext, validateTemplate")
     message(STATUS "  PromptVersionControl: commit, getHistory (10 versions)")

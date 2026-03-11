@@ -270,7 +270,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
         const std::string rel = fs::relative(file_path, dataset_dir).string();
         const std::string upload_url = config_.hub_base_url
             + "/api/datasets/" + config_.repo_id
-            + "/upload/" + config_.commit_message.empty() ? "main" : "main"
+            + "/upload/main"
             + "/" + rel;
 
         bool file_ok = false;

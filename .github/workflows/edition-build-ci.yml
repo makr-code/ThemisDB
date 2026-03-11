@@ -1,0 +1,104 @@
+name: Edition Build CI (reusable)
+
+# Reusable workflow: builds and validates a single ThemisDB edition on Linux.
+# Called by the per-edition wrapper workflows (edition-*-ci.yml).
+
+on:
+  workflow_call:
+    inputs:
+      edition:
+        description: 'ThemisDB edition to build (MINIMAL | COMMUNITY | ENTERPRISE | HYPERSCALER | MILITARY)'
+        required: true
+        type: string
+      build-type:
+        description: 'CMake build type (Debug | Release)'
+        required: false
+        default: 'Debug'
+        type: string
+
+jobs:
+  edition-build:
+    name: ${{ inputs.edition }} · Linux · ${{ inputs.build-type }}
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up C++ build environment
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc:  gcc-12
+          cxx: g++-12
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev
+
+      - name: Configure and build (${{ inputs.edition }} edition)
+        uses: ./.github/actions/configure-themis
+        with:
+          cc:         gcc-12
+          cxx:        g++-12
+          build-type: ${{ inputs.build-type }}
+          edition:    ${{ inputs.edition }}
+          ci-mode:    'true'
+
+      # ── Core smoke tests ─────────────────────────────────────────────────
+      - name: Run build-info tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*" \
+            --gtest_output="xml:build_info_results.xml" \
+            2>&1 | tee build_info_output.txt
+
+      - name: Run module loader tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="ModuleLoader*:ModuleRegistry*:ModuleError*:ModuleVerif*" \
+            --gtest_output="xml:module_loader_results.xml" \
+            2>&1 | tee module_loader_output.txt
+
+      - name: Run wire protocol V2 tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*" \
+            --gtest_output="xml:wire_v2_results.xml" \
+            2>&1 | tee wire_v2_output.txt
+
+      - name: Run concerns context tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="ConcernsContext*:FeatureFlags*" \
+            --gtest_output="xml:concerns_results.xml" \
+            2>&1 | tee concerns_output.txt
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: edition-${{ inputs.edition }}-${{ inputs.build-type }}-test-results
+          retention-days: 14
+          path: |
+            build/*_results.xml
+            build/*_output.txt
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## ThemisDB ${{ inputs.edition }} Edition Build — ${{ inputs.build-type }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Item | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Edition | \`${{ inputs.edition }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Build type | \`${{ inputs.build-type }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Runner OS | ubuntu-22.04 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Compiler | gcc-12 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Branch | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Commit | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
