@@ -88,6 +88,10 @@ config.request_timeout_sec = 30;
 config.max_requests_per_second = 1000;
 config.max_requests_per_minute = 10000;
 
+// IPv6 dual-stack (optional — defaults to IPv4-only)
+// config.enable_ipv6    = true;  // bind to "::" instead of "0.0.0.0"
+// config.ipv6_dual_stack = true; // IPV6_V6ONLY=0: accepts IPv4-mapped connections too
+
 WireProtocolServer server(
     config, storage, secondary_index, graph_index,
     vector_index, tx_manager, process_graph,

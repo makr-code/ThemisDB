@@ -73,6 +73,21 @@ full plugin lifecycle (init → execute → shutdown). All other plugin-capable 
 │  execute()          │
 │  shutdown()         │
 └─────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│  ModuleSandbox (OS resource limits + optional WASM isolation)   │
+│  launch(module_name)  →  applyMemoryLimit / applyCpuLimit       │
+│  If enable_wasm_isolation:                                      │
+│    WasmRuntimeInjector::create(name)                            │
+│        │                                                        │
+│        ▼                                                        │
+│  WasmRuntimeAdapter (IWasmRuntime → WasmRuntime bridge)         │
+│        │                                                        │
+│        ▼                                                        │
+│  WasmPluginSandbox::setRuntime(adapter)                         │
+│  wasmSandbox()->loadFromFile/Bytes(...)                         │
+│  wasmSandbox()->callExport(name, args)                          │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -160,6 +175,23 @@ Performance targets:
 | `base.security.min_trust_level` | TRUSTED | Minimum acceptable trust level |
 | `base.hot_reload.enabled` | false | Enable hot-reload |
 
+### WASM Sandbox Configuration (v1.8.0)
+
+`ModuleSandbox::Config` includes opt-in WASM isolation fields wired to the
+`WasmRuntimeInjector` registry:
+
+| Config field | Default | Description |
+|---|---|---|
+| `enable_wasm_isolation` | `false` | Enable WASM sandboxing on top of OS limits |
+| `wasm_runtime_name` | `""` | Named backend or empty for auto-select (highest priority) |
+| `wasm_linear_memory_pages` | `256` | 64-KiB pages for the plugin (256 = 16 MiB) |
+| `wasm_allow_unregistered_imports` | `false` | Allow imports not in the host-function allowlist |
+
+When `enable_wasm_isolation` is true and a backend is available,
+`ModuleSandbox::launch()` creates an inner `WasmPluginSandbox` and injects
+the resolved `IWasmRuntime` (wrapped in a `WasmRuntimeAdapter`).
+Accessible afterwards via `ModuleSandbox::wasmSandbox()`.
+
 ---
 
 ## 10. Error Handling
@@ -177,7 +209,7 @@ Performance targets:
 ## 11. Known Limitations & Future Work
 
 - Hot-reload (`hot_reload_manager.cpp`) is production-ready; the `HotReloadManager` provides atomic module swapping with rollback on failure.
-- WASM-based plugin isolation is implemented in `wasm_plugin_sandbox.cpp`; a concrete WasmRuntime (Wasmtime, WasmEdge, etc.) must be injected for full execution support.
+- WASM runtime injection into `ModuleSandbox` is implemented (v1.8.0, Issue #1572): set `Config::enable_wasm_isolation = true` and register at least one `IWasmRuntime` backend via `WasmRuntimeInjector`. The `WasmRuntimeAdapter` bridges the injector's `IWasmRuntime` to the `WasmRuntime` contract expected by `WasmPluginSandbox`.  A concrete Wasmtime or WasmEdge backend still needs to be registered for production execution.
 - Plugin dependency management and version conflict resolution are planned (Issue: #1566).
 
 ---

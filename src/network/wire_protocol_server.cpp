@@ -173,9 +173,43 @@ void WireProtocolServer::start() {
     
     running_.store(true, std::memory_order_release);
 
-    tcp::endpoint endpoint(tcp::v4(), config_.port);
+    // Resolve bind address from config_.host.
+    // * An explicit IPv4 address (e.g. "127.0.0.1") or IPv6 address
+    //   (e.g. "::1", "fe80::1") is used directly.
+    // * When enable_ipv6=true and host is the default "0.0.0.0" the address is
+    //   automatically promoted to "::" so both stacks are covered via one socket.
+    // * When host cannot be parsed (e.g. empty or a DNS name) we fall back to
+    //   the IPv6 or IPv4 wildcard based on enable_ipv6.
+    boost::system::error_code addr_ec;
+    net::ip::address bind_addr = net::ip::make_address(config_.host, addr_ec);
+    if (addr_ec) {
+        // Not a parseable numeric address – use wildcard for the requested family.
+        bind_addr = config_.enable_ipv6
+            ? net::ip::address(net::ip::address_v6::any())
+            : net::ip::address(net::ip::address_v4::any());
+    } else if (config_.enable_ipv6 && bind_addr == net::ip::address_v4::any()) {
+        // enable_ipv6=true but host was left at default "0.0.0.0" – promote.
+        bind_addr = net::ip::address(net::ip::address_v6::any());
+    }
+
+    tcp::endpoint endpoint(bind_addr, config_.port);
     acceptor_->open(endpoint.protocol());
     acceptor_->set_option(tcp::acceptor::reuse_address(true));
+
+    // Enable dual-stack (IPV6_V6ONLY=0) when binding to an IPv6 socket and
+    // ipv6_dual_stack is requested.  This allows a single listener to accept
+    // both IPv4-mapped and native IPv6 clients without a second socket.
+    if (endpoint.address().is_v6() && config_.ipv6_dual_stack) {
+        net::ip::v6_only v6only_opt(false);
+        boost::system::error_code v6ec;
+        acceptor_->set_option(v6only_opt, v6ec);
+        // Non-fatal: some platforms (e.g. OpenBSD) do not support dual-stack.
+        if (v6ec) {
+            std::cerr << "[WireProtocol] Note: dual-stack (IPV6_V6ONLY=0) not supported"
+                         " on this platform, proceeding with IPv6-only socket.\n";
+        }
+    }
+
     acceptor_->bind(endpoint);
     acceptor_->listen();
 

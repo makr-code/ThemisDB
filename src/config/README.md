@@ -133,6 +133,25 @@ Static utility that validates YAML and JSON config files against JSON Schema (Dr
 - `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum` (number/integer)
 - `minItems`, `maxItems`, `items`, `uniqueItems` (array)
 - `enum`, `const`
+- `allOf`, `anyOf`, `oneOf` (schema composition)
+- `$ref` with local `$defs` / `definitions` lookup (JSON Pointer RFC 6901 subset)
+
+**`$ref` and `$defs` support:**
+
+`ConfigSchemaValidator` resolves document-internal `$ref` values using a JSON Pointer walk (RFC 6901). Only refs beginning with `#` (document-local pointers) are supported. Both the Draft 2019-09 `$defs` keyword and the older Draft 4/6/7 `definitions` keyword are accepted as lookup targets. External URI references (e.g., `https://example.com/schema.json`) are rejected with a validation error to prevent SSRF.
+
+- Nested references (a `$defs` entry that itself uses `$ref`) are fully resolved.
+- Cyclic `$ref` chains are detected and reported as a validation error rather than causing infinite recursion.
+- An unresolvable `$ref` is reported as an error in `ValidationResult`.
+- `$ref` with local `$defs` / `definitions` lookup (JSON Pointer, RFC 6901 subset; external URI resolution is not supported)
+
+**Schema Composition keywords:**
+
+| Keyword | Semantics |
+|---------|-----------|
+| `allOf` | Value must satisfy **all** sub-schemas. Errors from every failing sub-schema are collected and reported. |
+| `anyOf` | Value must satisfy **at least one** sub-schema. Passes silently on the first match. |
+| `oneOf` | Value must satisfy **exactly one** sub-schema. Fails if zero or more than one sub-schemas match. |
 
 **Thread Safety:** All public methods are stateless static functions; safe for concurrent use.
 
@@ -348,6 +367,91 @@ auto result2 = ConfigSchemaValidator::validateWithSchemaFile(
 
 // Load any YAML or JSON file as nlohmann::json (e.g., for custom processing)
 nlohmann::json data = ConfigSchemaValidator::loadAsJson("config/server.yaml");
+
+// --- $ref and $defs: reusable schema fragments ---
+// Define shared type definitions in "$defs" and reference them via "$ref".
+// Both "$defs" (Draft 2019-09) and "definitions" (Draft 4/6/7) are supported.
+nlohmann::json schema_with_defs = R"({
+    "$defs": {
+        "Port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "NonEmptyString": { "type": "string", "minLength": 1 },
+        "ServerConfig": {
+            "type": "object",
+            "required": ["host", "port"],
+            "properties": {
+                "host": { "$ref": "#/$defs/NonEmptyString" },
+                "port": { "$ref": "#/$defs/Port" }
+            }
+        }
+    },
+    "$ref": "#/$defs/ServerConfig"
+})"_json;
+
+auto result3 = ConfigSchemaValidator::validate("config/server.yaml", schema_with_defs);
+if (!result3.valid) {
+    spdlog::error("Config validation failed:\n{}", result3.formatErrors());
+}
+// Notes:
+//  - External URI refs (e.g. "https://...") are rejected to prevent SSRF.
+//  - Cyclic $ref chains are detected and reported as a validation error.
+//  - Nested $ref resolution (a $defs entry referencing another $defs entry) is supported.
+// Schema composition: allOf, anyOf, oneOf
+// allOf — value must satisfy ALL sub-schemas (errors from all failing branches are reported)
+nlohmann::json allof_schema = R"({
+    "allOf": [
+        { "type": "object" },
+        { "required": ["host", "port"] },
+        { "properties": { "port": { "minimum": 1, "maximum": 65535 } } }
+    ]
+})"_json;
+
+// anyOf — value must satisfy AT LEAST ONE sub-schema
+nlohmann::json anyof_schema = R"({
+    "properties": {
+        "log_level": {
+            "anyOf": [
+                { "type": "string", "enum": ["debug", "info", "warn", "error"] },
+                { "type": "integer", "minimum": 0, "maximum": 5 }
+            ]
+        }
+    }
+})"_json;
+
+// oneOf — value must satisfy EXACTLY ONE sub-schema (discriminated union)
+nlohmann::json oneof_schema = R"({
+    "oneOf": [
+        {
+            "type": "object",
+            "required": ["type", "port"],
+            "properties": {
+                "type": { "const": "tcp" },
+                "port": { "type": "integer" }
+            },
+            "additionalProperties": false
+        },
+        {
+            "type": "object",
+            "required": ["type", "path"],
+            "properties": {
+                "type": { "const": "unix" },
+                "path": { "type": "string" }
+            },
+            "additionalProperties": false
+        }
+    ]
+})"_json;
+
+// $ref with $defs — reusable schema fragments (local references only)
+nlohmann::json ref_schema = R"({
+    "$defs": {
+        "Port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+    },
+    "type": "object",
+    "properties": {
+        "port":       { "$ref": "#/$defs/Port" },
+        "admin_port": { "$ref": "#/$defs/Port" }
+    }
+})"_json;
 ```
 
 ## Migration Scanner Tool

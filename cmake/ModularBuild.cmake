@@ -567,6 +567,14 @@ set(THEMIS_QUERY_SOURCES
     ../src/importers/blockchain_integrity.cpp
     ../src/importers/federated_learning.cpp
     ../src/importers/graphql_federation.cpp
+    ../src/importers/deterministic_matcher.cpp
+    ../src/importers/semantic_matcher.cpp
+    ../src/importers/entity_linker.cpp
+    ../src/importers/canonical_resolver.cpp
+    ../src/importers/mdm_engine.cpp
+    ../src/importers/mdm_audit_trail.cpp
+    ../src/importers/mdm_metrics.cpp
+    ../src/importers/postgres_importer_mdm.cpp
 
 )
 
@@ -701,6 +709,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/negative_keyword_filter.cpp
+    ../src/search/distributed_hybrid_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES

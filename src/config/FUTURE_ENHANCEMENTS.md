@@ -220,7 +220,7 @@ Available: https://json-schema.org/specification.html
 Validation of JSON," Internet-Draft draft-bhutton-json-schema-validation-01, Dec. 2020.
 Available: https://json-schema.org/specification.html
 *(Normative specification for `allOf`, `anyOf`, `oneOf`, `$ref`, `format`, `uniqueItems` keywords
-planned in § "ConfigSchemaValidator: Extended JSON Schema Keyword Support".)*
+implemented in § "ConfigSchemaValidator: Extended JSON Schema Keyword Support".)*
 
 ### LRU Caching & TTL Eviction
 
