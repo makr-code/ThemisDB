@@ -6973,6 +6973,46 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "Content Policy OCR focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_policy.cpp")
     endif()
 
+    # -------------------------------------------------------------------------
+    # AsyncIngestionWorker back-pressure focused tests (CON-005)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
+        message(STATUS "Adding AsyncIngestionWorker back-pressure focused tests (CON-005)")
+
+        add_executable(test_async_ingestion_backpressure_focused
+            test_async_ingestion_backpressure.cpp
+        )
+
+        target_include_directories(test_async_ingestion_backpressure_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_async_ingestion_backpressure_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_async_ingestion_backpressure_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME AsyncIngestionBackpressureFocusedTests
+            COMMAND test_async_ingestion_backpressure_focused)
+
+        set_tests_properties(AsyncIngestionBackpressureFocusedTests PROPERTIES
+            LABELS "content;ingestion;backpressure;async;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  AsyncIngestionWorker: submitStream() blocking, ingestStream() future, shutdown unblocking")
+    else()
+        message(STATUS "AsyncIngestionWorker back-pressure focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
+    endif()
+
 endif() # THEMIS_ENABLE_CONTENT
 # CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)

@@ -153,6 +153,12 @@ void AsyncIngestionWorker::stop(bool wait_for_completion) {
             job_queue_.pop();
             job.status = IngestionJobStatus::CANCELLED;
             job.error_message = "Worker shutdown requested";
+
+            // Cancel any attached promise
+            if (job.completion_promise) {
+                job.completion_promise->set_exception(std::make_exception_ptr(
+                    std::runtime_error("Worker shutdown requested")));
+            }
             
             std::lock_guard<std::mutex> hist_lock(history_mutex_);
             job_history_[job.job_id] = job;
@@ -161,6 +167,7 @@ void AsyncIngestionWorker::stop(bool wait_for_completion) {
     
     shutdown_requested_.store(true);
     queue_cv_.notify_all();
+    backpressure_cv_.notify_all();  // Wake blocked submitters so they can observe shutdown
     
     // Wait for workers to finish
     for (auto& worker : workers_) {
@@ -258,9 +265,16 @@ std::string AsyncIngestionWorker::submitStream(
     job.progress     = 0.0f;
 
     {
-        std::lock_guard<std::mutex> lock(queue_mutex_);
-        if (job_queue_.size() >= config_.max_queue_size)
-            throw std::runtime_error("Job queue full");
+        std::unique_lock<std::mutex> lock(queue_mutex_);
+        // Block until queue depth is below the back-pressure threshold
+        backpressure_cv_.wait(lock, [this] {
+            return job_queue_.size() < config_.max_queue_depth
+                || !running_.load()
+                || shutdown_requested_.load();
+        });
+        if (!running_.load() || shutdown_requested_.load()) {
+            throw std::runtime_error("Worker shutting down");
+        }
         job_queue_.push(job);
         std::lock_guard<std::mutex> hist_lock(history_mutex_);
         job_history_[job.job_id] = job;
@@ -272,6 +286,63 @@ std::string AsyncIngestionWorker::submitStream(
         THEMIS_INFO("Stream job submitted: {} ({})", job.job_id, filename);
 
     return job.job_id;
+}
+
+std::future<std::string> AsyncIngestionWorker::ingestStream(
+    std::istream& stream,
+    const std::string& filename,
+    const std::string& mime_type,
+    const std::string& user_context,
+    const json& config
+) {
+    if (!running_.load()) {
+        throw std::runtime_error("Worker not running");
+    }
+
+    auto promise = std::make_shared<std::promise<std::string>>();
+    std::future<std::string> future = promise->get_future();
+
+    IngestionJob job;
+    job.job_id              = generateJobId();
+    job.type                = IngestionJobType::STREAM_FILE;
+    job.status              = IngestionJobStatus::QUEUED;
+    job.filename            = filename;
+    job.stream              = &stream;
+    job.config              = config;
+    job.config["mime_type"] = mime_type;
+    job.user_context        = user_context;
+    job.created_at          = getCurrentTimeMs();
+    job.started_at          = 0;
+    job.completed_at        = 0;
+    job.total_items         = 1;
+    job.processed_items     = 0;
+    job.progress            = 0.0f;
+    job.completion_promise  = promise;
+
+    {
+        std::unique_lock<std::mutex> lock(queue_mutex_);
+        // Block until queue depth is below the back-pressure threshold
+        backpressure_cv_.wait(lock, [this] {
+            return job_queue_.size() < config_.max_queue_depth
+                || !running_.load()
+                || shutdown_requested_.load();
+        });
+        if (!running_.load() || shutdown_requested_.load()) {
+            promise->set_exception(std::make_exception_ptr(
+                std::runtime_error("Worker shutting down")));
+            return future;
+        }
+        job_queue_.push(job);
+        std::lock_guard<std::mutex> hist_lock(history_mutex_);
+        job_history_[job.job_id] = job;
+    }
+
+    queue_cv_.notify_one();
+
+    if (config_.verbose_logging)
+        THEMIS_INFO("Async stream job submitted: {} ({})", job.job_id, filename);
+
+    return future;
 }
 
 std::string AsyncIngestionWorker::submitArchive(
@@ -546,12 +617,20 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
             job = job_queue_.front();
             job_queue_.pop();
         }
+
+        // Notify any blocked submitters that queue has space
+        backpressure_cv_.notify_one();
         
         // Check if cancelled
         {
             std::lock_guard<std::mutex> lock(history_mutex_);
             auto it = job_history_.find(job.job_id);
             if (it != job_history_.end() && it->second.status == IngestionJobStatus::CANCELLED) {
+                // Cancel any attached promise
+                if (job.completion_promise) {
+                    job.completion_promise->set_exception(std::make_exception_ptr(
+                        std::runtime_error("Job cancelled")));
+                }
                 continue;
             }
         }
@@ -576,6 +655,12 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
                 THEMIS_INFO("Worker {} completed job {} ({} items)", 
                     worker_id, job.job_id, job.content_ids.size());
             }
+
+            // Fulfill promise for ingestStream() callers
+            if (job.completion_promise) {
+                std::string result_id = job.content_ids.empty() ? "" : job.content_ids.front();
+                job.completion_promise->set_value(result_id);
+            }
             
         } catch (const std::exception& e) {
             job.status = IngestionJobStatus::FAILED;
@@ -584,6 +669,11 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
             total_jobs_failed_.fetch_add(1);
             
             THEMIS_ERROR("Worker {} failed job {}: {}", worker_id, job.job_id, e.what());
+
+            // Break promise for ingestStream() callers
+            if (job.completion_promise) {
+                job.completion_promise->set_exception(std::current_exception());
+            }
         }
         
         // Update history and call callback
