@@ -4148,6 +4148,20 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    # WASM Sandbox Injection focused tests (v1.8.0 – Issue #1572)
+    add_executable(WasmSandboxInjectionFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/test_module_sandbox_wasm_injection.cpp
+    )
+    target_link_libraries(WasmSandboxInjectionFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(WasmSandboxInjectionFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     if(THEMIS_ENABLE_VOICE_ASSISTANT)
         add_executable(test_voice_browser_streaming
             ${THEMIS_ROOT_DIR}/tests/test_voice_browser_streaming.cpp
