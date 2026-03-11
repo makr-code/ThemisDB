@@ -2202,6 +2202,18 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
     $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    ../src/importers/schema_inference.cpp
+    ../src/importers/column_importance.cpp
+    ../src/importers/crdt_importer.cpp
+    ../src/importers/postgres_cdc.cpp
+    ../src/importers/data_quality.cpp
+    ../src/importers/audit_trail.cpp
+    ../src/importers/adaptive_import.cpp
+    ../src/importers/polyglot_mapper.cpp
+    ../src/importers/temporal_support.cpp
+    ../src/importers/blockchain_integrity.cpp
+    ../src/importers/federated_learning.cpp
+    ../src/importers/graphql_federation.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
