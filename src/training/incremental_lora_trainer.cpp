@@ -21,6 +21,7 @@
  */
 
 #include "training/incremental_lora_trainer.h"
+#include "training/lora_checkpoint_manager.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -39,6 +40,7 @@
 namespace spdlog {
     template<typename... Args> inline void warn(const char*, ...) {}
     template<typename... Args> inline void error(const char*, ...) {}
+    template<typename... Args> inline void info(const char*, ...) {}
 }
 #endif
 #include "llm/lora_framework/lora_layers.h"
@@ -46,6 +48,9 @@ namespace spdlog {
 
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
 #include "llm/lora_framework/gpu_lora_layers.h"
+#include "llm/lora_framework/multi_gpu.h"
+#include "llm/lora_framework/multi_gpu_trainer.h"
+#include "llm/lora_framework/quantization.h"
 #endif
 
 namespace themis {
@@ -131,6 +136,9 @@ public:
         TrainingResult result;
         auto start_time = std::chrono::steady_clock::now();
 
+        // Reset metrics for this run
+        metrics_.reset();
+
         // Phase 3: Load training data
         // Production: FOR sample IN @collection RETURN {input: sample.input, output: sample.output}
         std::vector<std::pair<std::string, std::string>> training_data;
@@ -155,6 +163,7 @@ public:
 
             // Training loop: real forward/backward/Adam weight updates
             for (size_t epoch = 0; epoch < config_.num_epochs; ++epoch) {
+                auto epoch_start = std::chrono::steady_clock::now();
                 double epoch_loss = 0.0;
                 size_t steps_in_epoch = 0;
 
@@ -171,6 +180,10 @@ public:
                     steps_in_epoch++;
                     running_steps++;
 
+                    // Record per-step loss in metrics
+                    metrics_.step_losses.push_back(step_loss);
+                    metrics_.total_steps++;
+
                     if (callback && steps_in_epoch % 10 == 0) {
                         callback(epoch, steps_in_epoch, step_loss,
                                  "Training epoch " + std::to_string(epoch));
@@ -184,6 +197,21 @@ public:
 
                 double avg_loss = steps_in_epoch > 0 ? epoch_loss / steps_in_epoch : 0.0;
                 running_loss = avg_loss;
+
+                // Record per-epoch metrics
+                auto epoch_end = std::chrono::steady_clock::now();
+                EpochMetrics em;
+                em.epoch    = epoch;
+                em.steps    = steps_in_epoch;
+                em.train_loss = avg_loss;
+                em.learning_rate = static_cast<double>(config_.learning_rate);
+                em.elapsed_seconds =
+                    std::chrono::duration<double>(epoch_end - epoch_start).count();
+                em.timestamp = std::chrono::system_clock::now();
+                metrics_.epoch_metrics.push_back(em);
+                metrics_.total_epochs++;
+                if (avg_loss < metrics_.best_train_loss)
+                    metrics_.best_train_loss = avg_loss;
             }
 
             // Phase 3: Adapter serialization
@@ -193,6 +221,14 @@ public:
             result.validation_loss  = running_loss * 1.05; // ~5% generalization gap
             result.accuracy         = computeAccuracy(running_loss);
             result.success          = true;
+            result.gpus_used        = activeGpuCount();
+
+            // Update validation metrics for the last epoch
+            if (!metrics_.epoch_metrics.empty()) {
+                metrics_.epoch_metrics.back().val_loss = result.validation_loss;
+                metrics_.epoch_metrics.back().accuracy = result.accuracy;
+                metrics_.best_val_loss = result.validation_loss;
+            }
 
             // Phase 4: Register version in version registry
             registerVersion(result);
@@ -205,6 +241,7 @@ public:
         auto end_time = std::chrono::steady_clock::now();
         result.training_time_seconds =
             std::chrono::duration<double>(end_time - start_time).count();
+        metrics_.total_elapsed_seconds = result.training_time_seconds;
 
         return result;
     }
@@ -415,6 +452,10 @@ public:
         gpu_lora_layer_.reset();
         gpu_optimizer_.reset();
         gpu_training_ = false;
+        multi_gpu_layer_.reset();
+        multi_gpu_trainer_.reset();
+        multi_gpu_ctx_.reset();
+        multi_gpu_training_ = false;
 #endif
     }
 
@@ -423,12 +464,19 @@ public:
         checkpoint_steps_      = (checkpoint_steps > 0) ? checkpoint_steps : 100;
     }
 
+    TrainingMetrics getMetrics() const {
+        return metrics_;
+    }
+
 private:
     IncrementalTrainingConfig config_;
     std::string db_connection_;
     bool checkpointing_enabled_;
     size_t checkpoint_steps_;
     std::map<std::string, VersionRecord> version_registry_;
+
+    // Accumulated training metrics (reset at the start of each train() call)
+    TrainingMetrics metrics_;
 
 #ifdef THEMIS_ENABLE_LLM
     // Real LoRA weight matrices and Adam optimizer (CPU path)
@@ -443,6 +491,12 @@ private:
     std::unique_ptr<llm::lora::GPUSGDOptimizer> gpu_optimizer_;
     llm::lora::Device gpu_device_ = llm::lora::Device::cpu();
     bool gpu_training_ = false;
+
+    // Multi-GPU distributed training components
+    std::unique_ptr<llm::lora::MultiGPUContext>     multi_gpu_ctx_;
+    std::unique_ptr<llm::lora::MultiGPULoRATrainer> multi_gpu_trainer_;
+    std::shared_ptr<llm::lora::MultiGPULoRALayer>   multi_gpu_layer_;
+    bool multi_gpu_training_ = false;
 #endif
 
     // -------------------------------------------------------------------------
@@ -451,6 +505,7 @@ private:
 
     // Initialize LoRA layer and optimizer from config.
     // Uses GPU (CUDA/HIP) when requested and available; falls back to CPU.
+    // When num_gpus > 1, initializes the MultiGPULoRATrainer for data-parallel training.
     // Safe to call multiple times: re-initialization is a no-op when already done.
     void initLoRAComponents() {
 #ifndef THEMIS_ENABLE_LLM
@@ -465,7 +520,55 @@ private:
         const float  scaling     = config_.alpha / static_cast<float>(rank);
 
 #if defined(THEMIS_ENABLE_GPU)
-        // GPU path: CUDA or HIP device requested
+        // Multi-GPU path: requested when num_gpus > 1
+        if (config_.num_gpus > 1 && (config_.device == "cuda" || config_.device == "hip")) {
+            try {
+                multi_gpu_ctx_ = std::make_unique<llm::lora::MultiGPUContext>(
+                    config_.num_gpus, config_.gpu_ids);
+
+                if (multi_gpu_ctx_->num_gpus() < 2) {
+                    throw std::runtime_error(
+                        "Multi-GPU training requested (" +
+                        std::to_string(config_.num_gpus) +
+                        " GPUs) but only " +
+                        std::to_string(multi_gpu_ctx_->num_gpus()) +
+                        " GPU(s) available");
+                }
+
+                llm::lora::MultiGPULoRATrainer::Config mg_cfg;
+                mg_cfg.learning_rate = config_.learning_rate;
+                mg_cfg.gradient_accumulation_steps = std::max(1, config_.sync_steps);
+                mg_cfg.sync_every_step = (config_.sync_steps <= 1);
+                if (!config_.checkpoint_dir.empty()) {
+                    mg_cfg.checkpoint_dir = config_.checkpoint_dir;
+                }
+
+                multi_gpu_trainer_ = std::make_unique<llm::lora::MultiGPULoRATrainer>(
+                    *multi_gpu_ctx_, mg_cfg);
+                multi_gpu_layer_   = multi_gpu_trainer_->create_layer(
+                    feature_dim, feature_dim, rank, scaling);
+
+                multi_gpu_training_ = true;
+                lora_initialized_   = true;
+#ifndef THEMIS_NO_SPDLOG
+                spdlog::info("Multi-GPU LoRA training initialized on {} GPU(s)",
+                             multi_gpu_ctx_->num_gpus());
+#endif
+                return;
+            } catch (const std::exception& ex) {
+                // Multi-GPU init failed – fall through to single-GPU path
+                multi_gpu_layer_.reset();
+                multi_gpu_trainer_.reset();
+                multi_gpu_ctx_.reset();
+                multi_gpu_training_ = false;
+#ifndef THEMIS_NO_SPDLOG
+                spdlog::warn("Multi-GPU init failed ({}); falling back to single-GPU",
+                             ex.what());
+#endif
+            }
+        }
+
+        // Single-GPU path: CUDA or HIP device requested
         if (config_.device == "cuda") {
             try {
                 gpu_device_      = llm::lora::Device::cuda(config_.device_id);
@@ -650,14 +753,78 @@ private:
         float loss = trainer.train_step(input, target);
         return static_cast<double>(loss);
     }
+
+    // Execute one training step on multiple GPUs (data-parallel).
+    // Shards the batch across all GPUs, runs forward/backward on each,
+    // performs all-reduce gradient synchronization, and returns the mean loss.
+    double runMultiGPUTrainingStep(
+        const std::vector<std::pair<std::string, std::string>>& training_data,
+        size_t batch_offset, size_t step_idx)
+    {
+        const int n_gpus = multi_gpu_ctx_->num_gpus();
+        const size_t feature_dim = static_cast<size_t>(config_.max_seq_length);
+        const size_t batch_size  = std::max<size_t>(1, config_.batch_size);
+
+        // Build a full CPU batch, then shard it across GPUs
+        std::vector<float> full_input (batch_size * feature_dim);
+        std::vector<float> full_target(batch_size * feature_dim);
+        for (size_t b = 0; b < batch_size; ++b) {
+            std::vector<float> in_vec, tg_vec;
+            if (!training_data.empty()) {
+                size_t idx = (batch_offset + b) % training_data.size();
+                in_vec = encodeSample(training_data[idx].first,  feature_dim);
+                tg_vec = encodeSample(training_data[idx].second, feature_dim);
+            } else {
+                std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
+                std::normal_distribution<float> d(0.0f, 0.1f);
+                in_vec.resize(feature_dim); tg_vec.resize(feature_dim);
+                for (auto& v : in_vec)  v = d(gen_in);
+                for (auto& v : tg_vec)  v = d(gen_tg);
+            }
+            for (size_t fd = 0; fd < feature_dim; ++fd) {
+                full_input [b * feature_dim + fd] = in_vec[fd];
+                full_target[b * feature_dim + fd] = tg_vec[fd];
+            }
+        }
+
+        // Shard the full batch across GPUs (shard_size = batch_size / n_gpus)
+        const size_t shard_size = std::max<size_t>(1, batch_size / static_cast<size_t>(n_gpus));
+        std::vector<llm::lora::GPUTensor> gpu_inputs, gpu_targets;
+        for (int g = 0; g < n_gpus; ++g) {
+            llm::lora::Device dev = multi_gpu_ctx_->get_device(g);
+            size_t offset = static_cast<size_t>(g) * shard_size;
+            size_t rows   = std::min(shard_size, batch_size - std::min(offset, batch_size));
+
+            llm::lora::GPUTensor in_t ({rows, feature_dim}, dev);
+            llm::lora::GPUTensor tg_t ({rows, feature_dim}, dev);
+            std::vector<float> in_shard (full_input.begin()  + static_cast<std::ptrdiff_t>(offset * feature_dim),
+                                         full_input.begin()  + static_cast<std::ptrdiff_t>((offset + rows) * feature_dim));
+            std::vector<float> tg_shard (full_target.begin() + static_cast<std::ptrdiff_t>(offset * feature_dim),
+                                         full_target.begin() + static_cast<std::ptrdiff_t>((offset + rows) * feature_dim));
+            in_t.upload(in_shard);
+            tg_t.upload(tg_shard);
+            gpu_inputs.push_back(std::move(in_t));
+            gpu_targets.push_back(std::move(tg_t));
+        }
+
+        // Data-parallel step: forward, loss, backward, all-reduce, parameter update
+        float avg_loss = multi_gpu_trainer_->train_step(*multi_gpu_layer_,
+                                                        gpu_inputs,
+                                                        gpu_targets);
+        return static_cast<double>(avg_loss);
+    }
 #endif  // THEMIS_ENABLE_LLM && THEMIS_ENABLE_GPU
 
-    // Dispatch to GPU or CPU training step.
+    // Dispatch to multi-GPU, single-GPU or CPU training step.
     double runTrainingStep(
         const std::vector<std::pair<std::string, std::string>>& training_data,
         size_t batch_offset, size_t step_idx)
     {
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
+        if (multi_gpu_training_ && multi_gpu_trainer_ && multi_gpu_layer_) {
+            return runMultiGPUTrainingStep(training_data, batch_offset, step_idx);
+        }
         if (gpu_training_ && gpu_lora_layer_) {
             return runGPUTrainingStep(training_data, batch_offset, step_idx);
         }
@@ -770,6 +937,23 @@ private:
             throw std::invalid_argument("Learning rate must be positive");
         if (config_.batch_size == 0)
             throw std::invalid_argument("Batch size must be positive");
+        if (config_.num_gpus < 1)
+            throw std::invalid_argument("num_gpus must be at least 1");
+        if (config_.sync_steps < 1)
+            throw std::invalid_argument("sync_steps must be at least 1");
+        if (config_.quantization.block_size <= 0)
+            throw std::invalid_argument("Quantization block_size must be positive");
+    }
+
+    // Returns the number of GPUs currently in use (1 for CPU/single-GPU).
+    int activeGpuCount() const {
+#if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
+        if (multi_gpu_training_ && multi_gpu_ctx_)
+            return multi_gpu_ctx_->num_gpus();
+        if (gpu_training_)
+            return 1;
+#endif
+        return 1;
     }
 
     // Simulate a decreasing loss curve (Phase 3)
@@ -792,13 +976,18 @@ private:
     void saveCheckpoint(const std::string& version,
                          size_t epoch, size_t step,
                          double loss, double accuracy) const {
-        if (db_connection_.empty()) return; // No persistence in test env
+        // When checkpoint_dir is set, delegate to LoRACheckpointManager for
+        // atomic writes, SHA-256 integrity, and rolling-window rotation.
+        const std::string& ckpt_dir = config_.checkpoint_dir.empty()
+                                      ? db_connection_
+                                      : config_.checkpoint_dir;
+        if (ckpt_dir.empty()) return; // No persistence in test env
 
         // Phase 5: Serialize checkpoint metadata
         std::string metadata = checkpoint::serializeMetadata(
             version, epoch, step, loss, accuracy);
 
-        std::string prefix = db_connection_ + "/" + version +
+        std::string prefix = ckpt_dir + "/" + version +
                              "_epoch" + std::to_string(epoch) +
                              "_step" + std::to_string(step);
 
@@ -816,6 +1005,21 @@ private:
             auto weights = lora_layer_->get_weights();
             serializeWeightTensors(prefix + "_weights.bin",
                                    weights.first, weights.second);
+
+            // LoRACheckpointManager integration: when checkpoint_dir is set,
+            // register the checkpoint so it participates in rolling-window
+            // rotation and SHA-256 integrity management.
+            if (!config_.checkpoint_dir.empty()) {
+                CheckpointManagerConfig mgr_cfg;
+                mgr_cfg.checkpoint_dir = config_.checkpoint_dir;
+                LoRACheckpointManager mgr(mgr_cfg);
+                CheckpointManifestEntry meta;
+                meta.adapter_version = version;
+                meta.epoch           = epoch;
+                meta.step            = step;
+                meta.loss            = loss;
+                mgr.save(prefix + "_weights.bin", meta);
+            }
         }
 #endif
     }
@@ -939,6 +1143,10 @@ void IncrementalLoRATrainer::setHyperparameters(int rank, float alpha, float lea
 
 void IncrementalLoRATrainer::setCheckpointing(bool enabled, size_t checkpoint_steps) {
     impl_->setCheckpointing(enabled, checkpoint_steps);
+}
+
+TrainingMetrics IncrementalLoRATrainer::getMetrics() const {
+    return impl_->getMetrics();
 }
 
 } // namespace training

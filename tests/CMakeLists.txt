@@ -11692,6 +11692,49 @@ else()
     message(STATUS "LoRAAdapter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
 endif()
 
+# AdvancedTrainingFeatures focused tests – quantization config, multi-GPU config,
+# training metrics tracking, checkpoint/resume enhancements (feat/advanced-training-features)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
+    message(STATUS "Adding AdvancedTrainingFeatures focused tests")
+
+    add_executable(test_advanced_training_features
+        test_advanced_training_features.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/provenance_tracker.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
+    )
+
+    target_include_directories(test_advanced_training_features PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_advanced_training_features PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_advanced_training_features PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_NO_SPDLOG=1
+    )
+
+    add_test(NAME AdvancedTrainingFeaturesFocusedTests
+             COMMAND test_advanced_training_features)
+
+    set_tests_properties(AdvancedTrainingFeaturesFocusedTests PROPERTIES
+        LABELS "training;quantization;multi-gpu;metrics;checkpoint;advanced;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  AdvancedTrainingFeatures: QuantizationConfig, multi-GPU config, TrainingMetrics, EpochMetrics, getMetrics(), checkpoint dir")
+else()
+    message(STATUS "AdvancedTrainingFeatures focused tests not found")
+endif()
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Voice Module Focused Tests
 # ──────────────────────────────────────────────────────────────────────────────

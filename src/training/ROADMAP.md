@@ -32,17 +32,12 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] Multi-modality parser (`ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`) (Target: Q1 2026) — `modality_parser.h/.cpp` (b2342851)
 - [x] Real LoRA weight manipulation in `IncrementalLoRATrainer` (Target: Q1 2026) — replaced `computeSimulatedLoss()` with `LoRALayer` + `AdamOptimizer` forward/backward/step; CUDA/HIP via `GPULoRALayer`; binary checkpoint serialization for B and A matrices (`incremental_lora_trainer.cpp`)
 - [x] Dedicated LoRA adapter weight manipulation layer `LoRAAdapter` (Target: v1.7.0) — `lora_adapter.h/.cpp`; real forward pass (input @ B @ A × scaling), additive single/batch weight updates, Kaiming-B/zero-A init, export/import for checkpoint integration; 39 unit tests (`test_training_lora_adapter.cpp`)
+- [x] Multi-GPU distributed training coordination (Target: Q2 2026) — `IncrementalTrainingConfig.num_gpus/gpu_ids/sync_steps` fields; `MultiGPULoRATrainer` wired in `incremental_lora_trainer.cpp`; data-parallel sharding, all-reduce gradient sync; device-count mismatch → `std::runtime_error`; fallback to single-GPU on init failure; `TrainingResult.gpus_used` field
+- [x] Model quantization configuration (Target: Q2 2026) — `TrainingQuantizationType` enum (NONE/FP16/INT8/NF4), `QuantizationConfig` struct, `IncrementalTrainingConfig.quantization` field; validated in `validateHyperparameters()`
+- [x] Training metrics tracking (Target: Q2 2026) — `EpochMetrics` (per-epoch loss/accuracy/lr/elapsed), `TrainingMetrics` (step_losses, epoch_metrics, best_train_loss, best_val_loss, total_elapsed_seconds); `IncrementalLoRATrainer::getMetrics()` public API; metrics reset at start of each `train()` call
+- [x] `LoRACheckpointManager` integration in `IncrementalLoRATrainer` (Target: Q2 2026) — `IncrementalTrainingConfig.checkpoint_dir` field; when set, each `saveCheckpoint()` call delegates to `LoRACheckpointManager::save()` for atomic writes, SHA-256 integrity, and rolling-window rotation (3 checkpoints default)
 
 ## In Progress 🚧
-- [~] Multi-GPU distributed training coordination (Target: Q2 2026)
-  - Subsystems: `src/training/incremental_lora_trainer.cpp`, `src/acceleration/` GPU dispatch
-  - Inputs: `IncrementalTrainingConfig.num_gpus`, device list; model partitioned across GPUs via NCCL/MPI
-  - Outputs: single merged checkpoint per epoch; `TrainingResult.elapsed_ms` reflects wall-clock (not GPU-sum) time
-  - Constraints: each GPU worker must use the same LoRA rank/alpha; gradient sync every `sync_steps` (default 1)
-  - Errors: device-count mismatch → `std::runtime_error`; NCCL init failure → `TrainingResult.success=false` + message
-  - Tests: unit — mock GPU dispatch, verify gradient-sync calls; integration — 2-GPU synthetic dataset
-  - Perf: ≥1.8× throughput on 2 GPUs vs. 1 GPU baseline (7B model, batch_size=8, r=16)
-
 - [~] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
   - Subsystems: `src/training/training_pipeline.cpp` (new `HyperparamSearch` inner class), `ConfidenceCalibrator`
   - Inputs: `HyperparamSearchConfig{rank_candidates, lr_candidates, max_trials, budget_seconds}`; validation split fraction
@@ -119,7 +114,8 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 
 ## Known Issues & Limitations
 - NLP modality extractor is provided externally (`analytics::NlpTextAnalyzer`); not bundled.
-- Distributed/multi-GPU training is not yet coordinated; single-node only.
+- Multi-GPU training requires `THEMIS_ENABLE_LLM && THEMIS_ENABLE_GPU` at build time; single-GPU fallback is automatic.
+- `IncrementalTrainingConfig.quantization` governs the _training-module_ view of quantization; the LLM inference layer uses a separate `QuantizationType` defined in `llm/lora_framework/quantization.h`.
 - LoRA adapter serving (inference) must be handled by the LLM integration layer.
 - Real LoRA weight updates use the embedded Tensor framework; base-model tokenization (llama.cpp) is not yet wired — training batches are encoded as float feature vectors from sample hashes.
 - `LoRAAdapter` (training module) operates independently of the LLM-layer `LoRALayer`; integration with `IncrementalLoRATrainer` checkpoints is the caller's responsibility via `exportWeights()` / `importWeights()`.
