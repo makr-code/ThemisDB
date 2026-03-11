@@ -14,7 +14,7 @@
 | 1 | 🟠 Mittel | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | `rate_limiter_v2.cpp` vorhanden (239 LOC), aber kein Redis-Pfad |
 | 2 | ✅ Gelöst | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Implementiert (v1.6.0, 30 Unit-Tests) |
 | 3 | ✅ Gelöst | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Implementiert (v1.7.0) |
-| 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
+| 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert (v2.1.0): `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover, 41 Unit-Tests |
 | 5 | 🟡 Niedrig | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Keine dieser Dateien existiert |
 | 6 | ℹ️ Info | PostgreSQL Wire: Advanced Features | Vollständige PG-Kompatibilität | `postgres_session.cpp` (1929 LOC) – ROADMAP warnt explizit: „partial compatibility" |
 
@@ -106,7 +106,10 @@ tests/test_oauth2_provider.cpp   – vorhanden (OAuth2ProviderTests, 30 Tests)
 - Raft-basierte Config-Replikation über `sharding::RaftConsensus`  
 - ConsistentHashRing mit FNV-1a-Hashing für WebSocket/SSE Session-Affinity  
 - Leader-Failover ≤ 500 ms (konfigurierbar via `leader_failover_timeout`)  
-- Tests in `tests/test_distributed_gateway.cpp` (DistributedGatewayFocusedTests)  
+- Quorum-Loss-Degradation: letzter bekannter Config + CRITICAL-Alert  
+- 41 Unit-Tests in `tests/test_distributed_gateway.cpp` (DistributedGatewayFocusedTests)  
+- Dokumentation in `docs/DISTRIBUTED_GATEWAY.md`  
+- ROADMAP-Eintrag auf `[x]` aktualisiert  
 
 **Evidence (geprüfte Pfade):**  
 ```
