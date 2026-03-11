@@ -257,7 +257,7 @@ void BranchApiHandler::handleGetStats(const httplib::Request& req, httplib::Resp
 }
 
 void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httplib::Response& res) {
-    auto span = Tracer::startSpan("handleGetStats");
+    auto span = Tracer::startSpan("handleGetActiveBranch");
     std::string active_branch = branch_manager_.getActiveBranch();
     
     json result = {

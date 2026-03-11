@@ -51,7 +51,6 @@ http::response<http::string_body> ServiceMeshApiHandler::makeJson(
     const std::string& body,
     const http::request<http::string_body>& req) const
 {
-    auto span = Tracer::startSpan("makeJson");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::server, "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
@@ -64,7 +63,6 @@ http::response<http::string_body> ServiceMeshApiHandler::makeJson(
 http::response<http::string_body> ServiceMeshApiHandler::makeDisabled(
     const http::request<http::string_body>& req) const
 {
-    auto span = Tracer::startSpan("makeDisabled");
     json body = {
         {"enabled", false},
         {"message", "Service mesh support is not compiled in this build "

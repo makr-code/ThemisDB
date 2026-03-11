@@ -226,7 +226,6 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
     const json&  body,
     const http::request<http::string_body>& req)
 {
-    auto span = Tracer::startSpan("makeJsonResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::server,       "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");

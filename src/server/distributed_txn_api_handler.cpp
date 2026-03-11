@@ -298,7 +298,6 @@ DistributedTxnApiHandler::handleStats(const http::request<http::string_body>& re
 http::response<http::string_body>
 DistributedTxnApiHandler::ok(const json& body,
                               const http::request<http::string_body>& req) const {
-    auto span = Tracer::startSpan("ok");
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server,       "THEMIS");
     res.set(http::field::content_type, "application/json");

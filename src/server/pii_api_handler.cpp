@@ -118,7 +118,7 @@ bool PIIApiHandler::deleteMapping(const std::string& original_uuid) {
 }
 
 json PIIApiHandler::listMappings(const PiiQueryFilter& filter) {
-    auto span = Tracer::startSpan("deleteMapping");
+    auto span = Tracer::startSpan("listMappings");
     json out_items = json::array();
     if (!db_) {
         return json{{"items", out_items}, {"total", 0}, {"page", 1}, {"page_size", 0}};
