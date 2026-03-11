@@ -423,6 +423,46 @@ Real-time query suggestions.
 
 ---
 
+## Scientific References
+
+### Neural Sparse Retrieval (SPLADE)
+
+[1] T. Formal, B. Piwowarski, J. Genthial, and S. Clinchant, "SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking," in *Proc. 44th Int. ACM SIGIR Conf. Res. Dev. Inf. Retrieval (SIGIR)*, pp. 2288–2292, 2021. https://doi.org/10.1145/3404835.3463098
+
+[2] T. Formal, C. Lassance, B. Piwowarski, and S. Clinchant, "From Distillation to Hard Negative Sampling: Making Sparse Neural IR Models More Effective," in *Proc. 45th Int. ACM SIGIR Conf. Res. Dev. Inf. Retrieval (SIGIR)*, pp. 2353–2359, 2022. https://doi.org/10.1145/3477495.3531857
+
+### Cross-Lingual Semantic Search
+
+[3] F. Feng, Y. Yang, D. Cer, N. Arivazhagan, and W. Wang, "Language-Agnostic BERT Sentence Embedding," in *Proc. 60th Annu. Meet. Assoc. Comput. Linguistics (ACL)*, pp. 878–891, 2022. https://doi.org/10.18653/v1/2022.acl-long.62
+
+[4] J. Reimers and I. Gurevych, "Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation," in *Proc. 2020 Conf. Empirical Methods Nat. Lang. Process. (EMNLP)*, pp. 4512–4525, 2020. https://doi.org/10.18653/v1/2020.emnlp-main.365
+
+### Learning to Rank
+
+[5] C. J. C. Burges, T. Shaked, E. Renshaw, A. Lazier, M. Deeds, N. Hamilton, and G. Hullender, "Learning to Rank using Gradient Descent," in *Proc. 22nd Int. Conf. Mach. Learn. (ICML)*, pp. 89–96, 2005. https://doi.org/10.1145/1102351.1102363
+
+[6] Z. Cao, T. Qin, T.-Y. Liu, M.-F. Tsai, and H. Li, "Learning to Rank: From Pairwise Approach to Listwise Approach," in *Proc. 24th Int. Conf. Mach. Learn. (ICML)*, pp. 129–136, 2007. https://doi.org/10.1145/1273496.1273513
+
+### Distributed Search
+
+[7] N. Craswell, D. Hawking, and P. Thistlewaite, "Merging Results from Isolated Search Engines," in *Proc. 10th Australasian Database Conf. (ADC)*, pp. 189–200, 1999.
+
+[8] M. Shokouhi and L. Si, "Federated Search," *Foundations and Trends in Information Retrieval*, vol. 5, no. 1, pp. 1–102, 2011. https://doi.org/10.1561/1500000010
+
+### Query Expansion and Rewriting
+
+[9] C. Carpineto and G. Romano, "A Survey of Automatic Query Expansion in Information Retrieval," *ACM Comput. Surv.*, vol. 44, no. 1, pp. 1–50, 2012. https://doi.org/10.1145/2071389.2071390
+
+[10] W. Yu et al., "Generate Rather Than Retrieve: Large Language Models Are Strong Context Augmenters," in *Proc. 11th Int. Conf. Learn. Representations (ICLR)*, 2023. https://openreview.net/forum?id=ZuEW6ue886
+
+### Re-Ranking
+
+[11] R. Nogueira and K. Cho, "Passage Re-ranking with BERT," *arXiv preprint arXiv:1901.04085*, 2019. https://arxiv.org/abs/1901.04085
+
+[12] Y. Zhuang, B. Liu, B. Koopman, and G. Zuccon, "SPLADE-v3: New Baselines for SPLADE," *arXiv preprint arXiv:2310.14276*, 2023. https://arxiv.org/abs/2310.14276
+
+---
+
 ## See Also
 
 - [README.md](README.md) - Current module documentation

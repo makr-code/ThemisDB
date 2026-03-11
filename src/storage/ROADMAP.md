@@ -127,6 +127,10 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [ ] Erasure coding in `BlobRedundancyManager`
 - [ ] 2PC distributed transactions with Raft coordination
 
+### Phase 5.5: Build System Audit (Status: Completed ✅ — March 2026)
+- [x] All `src/storage/*.cpp` files verified registered in cmake build system (main `CMakeLists.txt` + `StorageEnhancements.cmake` + `BlobStorage.cmake`)
+- [x] 21 focused standalone test targets added in `tests/CMakeLists.txt`: StorageEngineDI, StorageEngineProd, StorageAuditLogger, StorageFuzz, StorageLatencyBench, BlobStorage, BlobTransferCheckpoint, CompressionStrategy, TieredStorage, WalStorage, WalManager, WalArchiving, WalBackupManager, WalChaos, WalManifestCorruption, WalReplication, WalReplicationIntegration, WalGrpcApply, MvccStore, MvccHistory, MvccWalIntegration
+
 ## Production Readiness Checklist
 - [x] Unit test coverage for core storage paths
 - [x] Integration tests with real RocksDB instance

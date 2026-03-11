@@ -1,5 +1,8 @@
 # Search Module - Public API
 
+<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
+
 Public interface definitions for ThemisDB search functionality.
 
 ## Headers
