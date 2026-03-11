@@ -247,10 +247,12 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
     
     // Generate answer using LLM
     try {
-        // Use the embedded LLM macros
-            // std::string answer = THEMIS_LLM_COMPLETE(prompt.str());  // TODO: Undefined macro
-            std::string answer = "[LLM completion placeholder]";
-        return answer;
+#ifdef THEMIS_ENABLE_LLM
+        if (themis::llm::EmbeddedLLMManager::instance().isInitialized()) {
+            return THEMIS_LLM_GENERATE(prompt.str());
+        }
+#endif
+        return "[LLM not available — initialize EmbeddedLLM to enable answer generation]";
     } catch (const std::exception& e) {
         return "Error generating answer: " + std::string(e.what());
     }

@@ -191,6 +191,15 @@ public:
      */
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
                                                 size_t max_results = 5);
+
+    /**
+     * @brief Find internal administrative guidance documents for a document
+     * @param document_id Document ID
+     * @param max_results Maximum number of results
+     * @return Vector of guidance document IDs
+     */
+    std::vector<std::string> findRelatedGuidance(const std::string& document_id,
+                                                 size_t max_results = 5);
     
     /**
      * @brief Find similar documents using semantic search
@@ -226,7 +235,8 @@ public:
     /**
      * @brief Get AQL query template by name (Phase 6)
      * @param query_name Built-in name ("find_provisions", "find_case_law",
-     *                   "find_similar", "update_context", "fetch_all") or custom name
+     *                   "find_guidance", "find_similar", "update_context",
+     *                   "fetch_all") or custom name
      * @return AQL query template string, or empty string if not found
      */
     std::string getQueryTemplate(const std::string& query_name) const;

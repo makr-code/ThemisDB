@@ -369,15 +369,59 @@ InferenceHandle AsyncInferenceEngine::submitRAG(
     // Store RAG context in metadata for worker to use
     rag_request.metadata["rag_enabled"] = true;
     rag_request.metadata["num_documents"] = rag_context.documents.size();
-    
-    // TODO: Properly encode RAG context in request
-    // For now, just append to prompt
+
+    // Build structured prompt: use context_template when provided, otherwise
+    // fall back to XML-tag format that most instruction-tuned models handle well.
     std::ostringstream oss;
-    oss << "Context:\n";
-    for (const auto& doc : rag_context.documents) {
-        oss << doc.content << "\n\n";
+    const bool use_custom_template = !rag_context.context_template.empty();
+
+    if (!use_custom_template) {
+        oss << "<system>\n"
+            << "You are a helpful assistant. Answer the user's question based "
+               "solely on the provided context documents. If the answer cannot "
+               "be determined from the context, say so.\n"
+            << "</system>\n\n";
+        oss << "<context>\n";
+        int doc_idx = 1;
+        for (const auto& doc : rag_context.documents) {
+            oss << "<document index=\"" << doc_idx++ << "\"";
+            if (!doc.source.empty()) {
+                oss << " source=\"" << doc.source << "\"";
+            }
+            if (doc.relevance_score > 0.0f) {
+                oss << " relevance=\"" << doc.relevance_score << "\"";
+            }
+            oss << ">\n" << doc.content << "\n</document>\n";
+        }
+        oss << "</context>\n\n";
+        oss << "<question>" << rag_context.query << "</question>\n\n";
+        oss << "<answer>";
+    } else {
+        // Custom template: substitute {{CONTEXT}} and {{QUERY}} placeholders.
+        std::string tmpl = rag_context.context_template;
+
+        std::ostringstream context_block;
+        for (size_t i = 0; i < rag_context.documents.size(); ++i) {
+            const auto& doc = rag_context.documents[i];
+            context_block << "[" << (i + 1) << "] ";
+            if (!doc.source.empty()) context_block << "(" << doc.source << ") ";
+            context_block << doc.content;
+            if (i + 1 < rag_context.documents.size()) context_block << "\n\n";
+        }
+
+        auto replaceAll = [](std::string s, const std::string& from, const std::string& to) {
+            size_t pos = 0;
+            while ((pos = s.find(from, pos)) != std::string::npos) {
+                s.replace(pos, from.size(), to);
+                pos += to.size();
+            }
+            return s;
+        };
+        tmpl = replaceAll(tmpl, "{{CONTEXT}}", context_block.str());
+        tmpl = replaceAll(tmpl, "{{QUERY}}", rag_context.query);
+        oss << tmpl;
     }
-    oss << "Question: " << rag_context.query << "\n";
+
     rag_request.prompt = oss.str();
     
     return submit(rag_request, rag_priority);

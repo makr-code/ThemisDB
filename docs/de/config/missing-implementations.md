@@ -6,7 +6,7 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 
 **Erstellungsdatum:** 2026-03-09  
 **Geprüfte Quellen:** `src/config/`, `benchmarks/`, `tests/`, `tools/`  
-**Gesamtbefund:** 2 kritische Pfadfehler behoben; CFG-005, CFG-006, CFG-007 und CFG-008 vollständig implementiert; keine offenen Findings
+**Gesamtbefund:** 2 kritische Pfadfehler behoben; CFG-005, CFG-006, CFG-007 und CFG-008 implementiert; alle Findings geschlossen
 
 ---
 
@@ -21,7 +21,7 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 | CFG-005 | `src/config/FUTURE_ENHANCEMENTS.md` → ConfigSchemaValidator Extended Keywords | `allOf`, `anyOf`, `oneOf` implementiert | In `config_schema_validator.cpp` vorhanden (seit v1.7.0) | ✅ Implementiert |
 | CFG-006 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `$ref` mit `$defs`-Auflösung | In `config_schema_validator.cpp` vorhanden (seit v2.0.0) | ✅ Implementiert |
 | CFG-007 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `format`, `uniqueItems` | In `config_schema_validator.cpp` vorhanden (seit v2.0.0) | ✅ Implementiert |
-| CFG-008 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `loadAsJson()` für In-Memory-YAML-String | In `config_schema_validator.h` vorhanden (Zeile 147) und in `config_schema_validator.cpp` implementiert (Zeile 134) | ✅ Implementiert |
+| CFG-008 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `loadAsJson()` für In-Memory-YAML-String | Beide Überladungen in `config_schema_validator.h` L132 + L147 vorhanden | ✅ Implementiert (Doku war veraltet) |
 
 ---
 
@@ -98,12 +98,16 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 
 ---
 
-### CFG-008 — ConfigSchemaValidator::loadAsJson() für In-Memory-String ✅ Implementiert
+### CFG-008 — ConfigSchemaValidator::loadAsJson() für In-Memory-String ✅ BEHOBEN
 
 **Claim-Quelle:** `src/config/FUTURE_ENHANCEMENTS.md`  
 **Erwartet:** `loadAsJson(const std::string& yaml_content, bool is_yaml)` Überladung  
-**Beobachtet:** Beide Überladungen vorhanden — `loadAsJson(const std::string& file_path)` (Zeile 132) und `loadAsJson(const std::string& content, bool is_yaml)` (Zeile 147) in `config_schema_validator.h`; Implementierung ab Zeile 134 in `config_schema_validator.cpp`  
-**Status:** ✅ Implementiert — `FUTURE_ENHANCEMENTS.md` zeigt `[x]`
+**Beobachtet (Stand 2026-03-11):** Beide Überladungen sind vorhanden:
+- `loadAsJson(const std::string& file_path)` — lädt aus Datei (Zeile 132 in `config_schema_validator.h`)
+- `loadAsJson(const std::string& content, bool is_yaml)` — parst In-Memory-String (Zeile 147 in `config_schema_validator.h`)
+
+**Evidence:** `config_schema_validator.h` Zeile 147; `src/config/config_schema_validator.cpp` Zeile 134  
+**Status:** ✅ Vollständig implementiert — Dokumentation war veraltet
 
 ---
 
