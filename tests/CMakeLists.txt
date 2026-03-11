@@ -5585,6 +5585,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_query_explain.cpp")
 endif()
 
 # ============================================================================
+# Scheduled Graph Edge Refresh focused tests
+# (Issue: #FEATURE/ScheduledGraphEdgeRefresh)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
+    message(STATUS "Adding focused Scheduled Graph Edge Refresh tests")
+
+    add_executable(test_scheduled_edge_refresh_focused
+        graph/test_scheduled_edge_refresh.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/scheduled_edge_refresh.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+    )
+
+    target_include_directories(test_scheduled_edge_refresh_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_scheduled_edge_refresh_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_scheduled_edge_refresh_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    add_test(NAME ScheduledEdgeRefreshFocusedTests
+             COMMAND test_scheduled_edge_refresh_focused)
+
+    set_tests_properties(ScheduledEdgeRefreshFocusedTests PROPERTIES
+        LABELS "graph;scheduled;edge_refresh;similarity;policy;audit;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ScheduledEdgeRefresh: policy validation, similarity, temporal decay, safety gates, audit trail, lifecycle")
+endif()
+
+# ============================================================================
 # Importer Plugin API Tests (standalone – avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================

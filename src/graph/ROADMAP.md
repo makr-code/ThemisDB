@@ -32,12 +32,13 @@
 - [x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)
 
 ## In Progress 🚧
-*(none currently in progress)*
+- [~] Scheduled Semantic Graph Edge Refresh: ANN/GNN candidate discovery and ChangeFeed/CEP integration (Issue: #FEATURE/ScheduledGraphEdgeRefresh, Phase 4 core complete)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [x] EXPLAIN output in AQL for graph query plans (Issue: #1816)
+- [~] Scheduled Semantic Graph Edge Refresh with vector similarity scoring, temporal decay, and ACID batch updates (Issue: #FEATURE/ScheduledGraphEdgeRefresh, Target: Q4 2026)
 
 ### Long-term (6-12 months)
 - [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
@@ -67,6 +68,23 @@
 - [x] Plan cache eviction with size and TTL controls
 - [x] Temporal graph query optimization (time-ranged traversals)
 - [~] GPU-accelerated BFS/DFS for massive graphs (`graph/gpu_traversal.cpp`, CPU fallback active; real CUDA kernels planned for THEMIS_ENABLE_CUDA)
+
+### Phase 4: Scheduled Edge Refresh (Status: In Progress 🚧)
+- [x] `ScheduledGraphEdgeRefreshEngine` class with `RefreshPolicy` config interface and background scheduler (`include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, Target: Q4 2026)
+  - Affected files: `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, `include/index/graph_index.h`, `src/index/graph_index.cpp`
+  - Runtime: background thread wakes at `refresh_interval`; synchronous `triggerRefresh()` also available
+  - Error handling: safety gate aborts batch; commit failure logged; invalid policy throws `std::invalid_argument`
+  - Tests: `tests/graph/test_scheduled_edge_refresh.cpp` (22 tests)
+  - Performance target: cycle completes in O(V·K) per vertex for candidate discovery; brute-force for ≤10k nodes, ANN for larger graphs
+  - Compatibility: no breaking changes to `GraphIndexManager` public API; `createWriteBatch()` is an additive method
+- [x] Vector similarity scoring: cosine, dot-product, Euclidean (Target: Q4 2026)
+- [x] Temporal decay factor for edge relevance scoring (exponential half-life, Target: Q4 2026)
+- [x] Centrality-based edge weight (inverse log-degree dampening, Target: Q4 2026)
+- [x] ACID batch transactions with rollback on safety-gate violations (`createWriteBatch()` on GraphIndexManager, Target: Q4 2026)
+- [x] Audit trail for all edge mutations (in-memory ring buffer, 10k entries, Target: Q4 2026)
+- [ ] Integration with acceleration module for ANN/GNN top-k candidate edges (Target: Q1 2027)
+- [ ] ChangeFeed/CEP event emission for edge mutations (Target: Q1 2027)
+- [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) (Target: Q4 2026)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)

@@ -106,6 +106,10 @@ void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std:
 	}
 }
 
+std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> GraphIndexManager::createWriteBatch() {
+	return db_.createWriteBatch();
+}
+
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	if (!db_.isOpen()) return Status::Error("addEdge: Datenbank ist nicht geöffnet");
 

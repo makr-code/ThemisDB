@@ -101,6 +101,9 @@ public:
     Status addEdge(const BaseEntity& edge, RocksDBWrapper::TransactionWrapper& txn);
     Status deleteEdge(std::string_view edgeId, RocksDBWrapper::TransactionWrapper& txn);
 
+    /// Create a write batch for atomic multi-edge mutations (e.g. scheduled refresh).
+    std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> createWriteBatch();
+
     // Nachbarschaftsabfragen (nutzt In-Memory falls verfügbar, sonst RocksDB)
     std::pair<Status, std::vector<std::string>> outNeighbors(std::string_view fromPk) const;
     std::pair<Status, std::vector<std::string>> inNeighbors(std::string_view toPk) const;
