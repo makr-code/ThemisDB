@@ -378,6 +378,33 @@ public:
         return request_validator_.get();
     }
 
+    /**
+     * @brief Enable and configure the SAML 2.0 Service Provider.
+     *
+     * SAML SP endpoints (/api/v1/auth/saml/login, /acs, /slo, /metadata) are
+     * only active after this method is called.  Without it every SAML endpoint
+     * returns HTTP 503.
+     *
+     * Call this after constructing the server and before calling start().
+     * It is NOT thread-safe with concurrent request handlers — do not call it
+     * while the server is running.  Replacing an already-initialized SAML
+     * provider at runtime is not supported.
+     *
+     * @param config  Full SamlAuthProvider::Config including SAMLConfig (IdP
+     *                certificate, entity IDs, ACS URL), optional SLO URL, and
+     *                an optional custom token factory.
+     * @throws std::invalid_argument if required config fields are empty.
+     * @throws std::runtime_error   if the IdP certificate cannot be parsed.
+     */
+    void enableSaml(const SamlAuthProvider::Config& config) {
+        saml_provider_ = std::make_unique<SamlAuthProvider>(config);
+    }
+
+    /**
+     * @brief Return whether SAML SP has been enabled (i.e. enableSaml() was called).
+     */
+    bool isSamlEnabled() const { return saml_provider_ != nullptr; }
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
     /**
      * @brief Get WebSocket manager for broadcasting
