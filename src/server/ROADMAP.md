@@ -56,11 +56,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Perf: Redis round-trip ≤ 5 ms p99 on same LAN; throughput ≥ 50 000 check/s per node
 
 ### Long-term (6-12 months)
-- [P] Distributed API Gateway with Raft-based config sync and automatic failover (Target: v1.7.0)
-  - Files: new `server/distributed_gateway.cpp` + `include/server/distributed_gateway.h`; reuses `replication/replication_manager.h` for Raft
+- [x] Distributed API Gateway with Raft-based config sync and automatic failover (Target: v2.1.0)
+  - Files: `src/server/distributed_gateway.cpp` + `include/server/distributed_gateway.h` implemented
   - Behavior: multi-node gateway cluster (3 or 5 nodes); routing rules and rate-limit config replicated via Raft log; leader failover ≤ 500 ms; session affinity for WebSocket/SSE via consistent-hash ring
   - Errors: quorum loss → gateway continues with last-known config + emits `CRITICAL` alert; split-brain → reject writes to config until quorum restored
-  - Tests: unit (config replication, consistent-hash routing), integration (5-node cluster, leader kill, rejoin), chaos (network partition, message drop)
+  - Tests: 41 unit tests in `tests/test_distributed_gateway.cpp` covering config replication, consistent-hash routing, session affinity, quorum handling
   - Perf: config propagation ≤ 100 ms across 5 nodes on LAN; no additional per-request latency vs single-node gateway
 - [ ] gRPC-Web TypeScript client auto-generation (Target: v1.7.0)
   - Files: new `scripts/gen_grpc_web_ts.py`; reads existing `.proto` files under `protos/`

@@ -25,11 +25,21 @@
           "include/server/rate_limiter_v2.h"
         ],
         "files_absent": [],
-        "grep_patterns_searched": ["Backend::REDIS", "redis", "Redis", "evalsha"],
+        "grep_patterns_searched": [
+          "Backend::REDIS",
+          "redis",
+          "Redis",
+          "evalsha"
+        ],
         "grep_results": "no matches in src/server/*.cpp"
       },
       "issue_title_suggestion": "feat(server): implement Redis backend for RateLimiterV2 (distributed token bucket)",
-      "labels": ["area/server", "type/feature", "priority/p1", "effort/medium"]
+      "labels": [
+        "area/server",
+        "type/feature",
+        "priority/p1",
+        "effort/medium"
+      ]
     },
     {
       "id": 2,
@@ -50,11 +60,22 @@
           "src/server/oauth2_provider.cpp",
           "include/server/oauth2_provider.h"
         ],
-        "grep_patterns_searched": ["oauth2", "OIDC", "pkce", "openid"],
+        "grep_patterns_searched": [
+          "oauth2",
+          "OIDC",
+          "pkce",
+          "openid"
+        ],
         "grep_results": "no matches in src/server/*.cpp"
       },
       "issue_title_suggestion": "feat(server): OAuth2/OIDC native support – authorization code flow + PKCE (v1.6.0)",
-      "labels": ["area/server", "area/auth", "type/feature", "priority/p1", "effort/large"]
+      "labels": [
+        "area/server",
+        "area/auth",
+        "type/feature",
+        "priority/p1",
+        "effort/large"
+      ]
     },
     {
       "id": 3,
@@ -75,38 +96,20 @@
           "src/server/saml_auth_provider.cpp",
           "include/server/saml_auth_provider.h"
         ],
-        "grep_patterns_searched": ["saml", "SAML"],
+        "grep_patterns_searched": [
+          "saml",
+          "SAML"
+        ],
         "grep_results": "no matches in src/server/*.cpp"
       },
       "issue_title_suggestion": "feat(server): SAML 2.0 SP support for enterprise SSO (v1.7.0)",
-      "labels": ["area/server", "area/auth", "type/feature", "priority/p2", "effort/large"]
-    },
-    {
-      "id": 4,
-      "severity": "low",
-      "title": "Distributed API Gateway (Raft) – no implementation",
-      "claim_source": "src/server/ROADMAP.md § Planned Features / Long-term",
-      "claim_target_version": "v1.7.0",
-      "expected": {
-        "files": [
-          "src/server/distributed_gateway.cpp",
-          "include/server/distributed_gateway.h"
-        ],
-        "behavior": "Multi-node gateway cluster (3 or 5 nodes); Raft-based config replication; leader failover <= 500 ms; session affinity via consistent-hash ring"
-      },
-      "observed": {
-        "files_present": [
-          "src/server/api_gateway.cpp (975 LOC, single-node only)"
-        ],
-        "files_absent": [
-          "src/server/distributed_gateway.cpp",
-          "include/server/distributed_gateway.h"
-        ],
-        "grep_patterns_searched": ["distributed_gateway", "raft.*gateway", "gateway.*raft"],
-        "grep_results": "no matches in src/server/*.cpp"
-      },
-      "issue_title_suggestion": "feat(server): distributed API gateway with Raft config sync and auto-failover (v1.7.0)",
-      "labels": ["area/server", "type/feature", "priority/p2", "effort/x-large"]
+      "labels": [
+        "area/server",
+        "area/auth",
+        "type/feature",
+        "priority/p2",
+        "effort/large"
+      ]
     },
     {
       "id": 5,
@@ -129,11 +132,21 @@
           "src/server/wasm_handler_registry.cpp",
           "include/server/wasm_handler_registry.h"
         ],
-        "grep_patterns_searched": ["wasm", "WASM", "wasi", "WASI"],
+        "grep_patterns_searched": [
+          "wasm",
+          "WASM",
+          "wasi",
+          "WASI"
+        ],
         "grep_results": "no matches in src/server/*.cpp"
       },
       "issue_title_suggestion": "feat(server): WebAssembly API handler sandbox via WASI (v1.8.0)",
-      "labels": ["area/server", "type/feature", "priority/p3", "effort/x-large"]
+      "labels": [
+        "area/server",
+        "type/feature",
+        "priority/p3",
+        "effort/x-large"
+      ]
     },
     {
       "id": 6,
@@ -142,7 +155,9 @@
       "claim_source": "src/server/ROADMAP.md § Known Issues & Limitations",
       "claim_target_version": null,
       "expected": {
-        "files": ["src/server/postgres_session.cpp"],
+        "files": [
+          "src/server/postgres_session.cpp"
+        ],
         "behavior": "Full PostgreSQL wire protocol compatibility including COPY, LISTEN/NOTIFY, Extended Query Protocol"
       },
       "observed": {
@@ -157,19 +172,100 @@
     }
   ],
   "verified_implemented": [
-    { "feature": "HTTP/3 QUIC", "files": ["src/server/http3_session.cpp", "src/server/http3_datagram.cpp"] },
-    { "feature": "GraphQL endpoint", "files": ["src/server/graphql_api_handler.cpp"] },
-    { "feature": "WebSocket binary frames", "files": ["src/server/websocket_session.cpp"] },
-    { "feature": "gRPC-Web proxy", "files": ["src/server/grpc_web_proxy_handler.cpp"] },
-    { "feature": "Edge caching (CDN)", "files": ["src/server/cdn_cache_middleware.cpp"] },
-    { "feature": "Service mesh sidecar (Envoy xDS)", "files": ["src/server/service_mesh_api_handler.cpp"] },
-    { "feature": "Serverless function hosting", "files": ["src/server/serverless_function_api_handler.cpp"] },
-    { "feature": "MCP server", "files": ["src/server/mcp_server.cpp"] },
-    { "feature": "Async job API (/v2/jobs)", "files": ["src/server/async_job_api_handler.cpp"] },
-    { "feature": "OpenAPI 3.1 auto-generation", "files": ["src/server/openapi_route_registry.cpp"] },
-    { "feature": "Request validation middleware", "files": ["src/server/request_validation_middleware.cpp"] },
-    { "feature": "Rate limiting (local)", "files": ["src/server/rate_limiter.cpp", "src/server/rate_limiter_v2.cpp", "src/server/rate_limiting_middleware.cpp"] },
-    { "feature": "API versioning (/v1/ /v2/)", "files": ["src/server/api_version.cpp"] },
-    { "feature": "Response streaming (chunked)", "files": ["src/server/chunked_response_writer.cpp"] }
+    {
+      "feature": "HTTP/3 QUIC",
+      "files": [
+        "src/server/http3_session.cpp",
+        "src/server/http3_datagram.cpp"
+      ]
+    },
+    {
+      "feature": "GraphQL endpoint",
+      "files": [
+        "src/server/graphql_api_handler.cpp"
+      ]
+    },
+    {
+      "feature": "WebSocket binary frames",
+      "files": [
+        "src/server/websocket_session.cpp"
+      ]
+    },
+    {
+      "feature": "gRPC-Web proxy",
+      "files": [
+        "src/server/grpc_web_proxy_handler.cpp"
+      ]
+    },
+    {
+      "feature": "Edge caching (CDN)",
+      "files": [
+        "src/server/cdn_cache_middleware.cpp"
+      ]
+    },
+    {
+      "feature": "Service mesh sidecar (Envoy xDS)",
+      "files": [
+        "src/server/service_mesh_api_handler.cpp"
+      ]
+    },
+    {
+      "feature": "Serverless function hosting",
+      "files": [
+        "src/server/serverless_function_api_handler.cpp"
+      ]
+    },
+    {
+      "feature": "MCP server",
+      "files": [
+        "src/server/mcp_server.cpp"
+      ]
+    },
+    {
+      "feature": "Async job API (/v2/jobs)",
+      "files": [
+        "src/server/async_job_api_handler.cpp"
+      ]
+    },
+    {
+      "feature": "OpenAPI 3.1 auto-generation",
+      "files": [
+        "src/server/openapi_route_registry.cpp"
+      ]
+    },
+    {
+      "feature": "Request validation middleware",
+      "files": [
+        "src/server/request_validation_middleware.cpp"
+      ]
+    },
+    {
+      "feature": "Rate limiting (local)",
+      "files": [
+        "src/server/rate_limiter.cpp",
+        "src/server/rate_limiter_v2.cpp",
+        "src/server/rate_limiting_middleware.cpp"
+      ]
+    },
+    {
+      "feature": "API versioning (/v1/ /v2/)",
+      "files": [
+        "src/server/api_version.cpp"
+      ]
+    },
+    {
+      "feature": "Response streaming (chunked)",
+      "files": [
+        "src/server/chunked_response_writer.cpp"
+      ]
+    },
+    {
+      "feature": "Distributed API Gateway (Raft)",
+      "files": [
+        "src/server/distributed_gateway.cpp",
+        "include/server/distributed_gateway.h"
+      ],
+      "notes": "DistributedGateway with Raft config sync, ConsistentHashRing (150 virtual nodes/peer), session affinity for WebSocket/SSE, quorum-loss degradation. 41 unit tests in tests/test_distributed_gateway.cpp."
+    }
   ]
 }
