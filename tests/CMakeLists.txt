@@ -6936,6 +6936,43 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "Content DeduplicationChecker focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_deduplication.cpp")
     endif()
 
+    # -------------------------------------------------------------------------
+    # ContentPolicy OCR routing focused tests
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_policy.cpp")
+        message(STATUS "Adding ContentPolicy OCR routing focused tests")
+
+        add_executable(test_content_policy_ocr_focused
+            test_content_policy.cpp
+        )
+
+        target_include_directories(test_content_policy_ocr_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_content_policy_ocr_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_content_policy_ocr_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME ContentPolicyOcrFocusedTests COMMAND test_content_policy_ocr_focused)
+
+        set_tests_properties(ContentPolicyOcrFocusedTests PROPERTIES
+            LABELS "content;policy;ocr;mime;routing;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  ContentPolicy: ocrEnabled(), shouldTriggerOcr() for PNG/JPEG/TIFF, ValidationResult::ocr_recommended")
+    else()
+        message(STATUS "Content Policy OCR focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_policy.cpp")
+    endif()
+
 endif() # THEMIS_ENABLE_CONTENT
 # CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
@@ -7227,6 +7264,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
     message(STATUS "  Config coverage: LRUCacheWithTTL, ConfigAuditLog, exception hierarchy, schema edge-cases")
 else()
     message(STATUS "Config coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
+    message(STATUS "Adding Config metrics scrape latency focused tests")
+
+    add_executable(test_config_metrics_scrape_focused
+        test_config_metrics_scrape.cpp
+        ${CONFIG_MODULE_SOURCES}
+    )
+
+    target_include_directories(test_config_metrics_scrape_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_config_metrics_scrape_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_metrics_scrape_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME MetricsScrapeFocusedTests COMMAND test_config_metrics_scrape_focused)
+
+    set_tests_properties(MetricsScrapeFocusedTests PROPERTIES
+        LABELS "config;metrics;scrape;latency;prometheus;unit;focused"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Config metrics scrape: Prometheus text format, scrape latency < 1 ms, counter accuracy")
+else()
+    message(STATUS "Config metrics scrape tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
 endif()
 
 # ============================================================================
@@ -8071,6 +8144,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saml_authenticator.cpp")
     message(STATUS "  SAML Authenticator: SP/IdP-initiated SSO, assertion validation, attribute mapping")
 else()
     message(STATUS "SAML Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_authenticator.cpp")
+endif()
+
+# SAML Auth Provider Tests (server-layer, focused binary)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saml_auth_provider.cpp")
+    message(STATUS "Adding SAML Auth Provider tests (server-layer)")
+
+    add_executable(test_saml_auth_provider
+        test_saml_auth_provider.cpp
+    )
+
+    target_link_libraries(test_saml_auth_provider PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(test_saml_auth_provider PRIVATE pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(test_saml_auth_provider PRIVATE pugixml::static)
+    endif()
+
+    target_compile_definitions(test_saml_auth_provider PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAMLAuthProviderTests COMMAND test_saml_auth_provider)
+
+    set_tests_properties(SAMLAuthProviderTests PROPERTIES
+        LABELS "server;auth;saml;sso;sp;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAML Auth Provider: SP login redirect, ACS validation, SLO, metadata, replay detection")
+else()
+    message(STATUS "SAML Auth Provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_auth_provider.cpp")
 endif()
 
 # Session Manager Focused Tests (standalone binary)

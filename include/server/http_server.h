@@ -83,6 +83,7 @@
 #include "server/keys_api_handler.h"
 #include "server/api_key_mgmt_handler.h"
 #include "server/session_api_handler.h"
+#include "server/saml_auth_provider.h"
 #include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
@@ -377,6 +378,33 @@ public:
         return request_validator_.get();
     }
 
+    /**
+     * @brief Enable and configure the SAML 2.0 Service Provider.
+     *
+     * SAML SP endpoints (/api/v1/auth/saml/login, /acs, /slo, /metadata) are
+     * only active after this method is called.  Without it every SAML endpoint
+     * returns HTTP 503.
+     *
+     * Call this after constructing the server and before calling start().
+     * It is NOT thread-safe with concurrent request handlers — do not call it
+     * while the server is running.  Replacing an already-initialized SAML
+     * provider at runtime is not supported.
+     *
+     * @param config  Full SamlAuthProvider::Config including SAMLConfig (IdP
+     *                certificate, entity IDs, ACS URL), optional SLO URL, and
+     *                an optional custom token factory.
+     * @throws std::invalid_argument if required config fields are empty.
+     * @throws std::runtime_error   if the IdP certificate cannot be parsed.
+     */
+    void enableSaml(const SamlAuthProvider::Config& config) {
+        saml_provider_ = std::make_unique<SamlAuthProvider>(config);
+    }
+
+    /**
+     * @brief Return whether SAML SP has been enabled (i.e. enableSaml() was called).
+     */
+    bool isSamlEnabled() const { return saml_provider_ != nullptr; }
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
     /**
      * @brief Get WebSocket manager for broadcasting
@@ -574,6 +602,12 @@ private:
     http::response<http::string_body> handleSessionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSessionRevokeById(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSessionRevokeOthers(const http::request<http::string_body>& req);
+
+    // SAML 2.0 SP endpoints
+    http::response<http::string_body> handleSamlLogin(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlAcs(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlSlo(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlMetadata(const http::request<http::string_body>& req);
 
     // PKI endpoints (sign/verify)
     http::response<http::string_body> handlePkiSign(const http::request<http::string_body>& req);
@@ -846,6 +880,8 @@ private:
     // Session Management Handler
     std::shared_ptr<themis::auth::SessionManager> session_manager_;
     std::unique_ptr<themis::server::SessionApiHandler> session_api_;
+    // SAML 2.0 SP Handler
+    std::unique_ptr<themis::server::SamlAuthProvider> saml_provider_;
     // PKI API Handler
     std::unique_ptr<themis::server::PkiApiHandler> pki_api_;
     

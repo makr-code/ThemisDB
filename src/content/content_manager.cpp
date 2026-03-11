@@ -31,6 +31,7 @@
 #include "content/html_processor.h"
 #include "content/markdown_processor.h"
 #include "content/content_validator.h"
+#include "content/ocr_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -2247,6 +2248,63 @@ ContentManager::IngestResult ContentManager::ingestRawBlob(
             }
         } else {
             THEMIS_WARN("Markdown processor extraction failed for '{}': {}", filename, extraction.error_message);
+        }
+    }
+
+    // ---- OCR extraction (opt-in via ContentPolicy::ocrEnabled() / config["ocr_enabled"]) ----
+    // Triggered when the caller sets config["ocr_enabled"]=true AND the MIME type is
+    // one of the OCR-capable image formats: image/png, image/jpeg, image/tiff.
+    // Routing uses the same MIME-type list as MimeDetector::shouldTriggerOcr().
+    if (stage_cfg.extraction.enabled && config.value("ocr_enabled", false) &&
+        category == ContentCategory::IMAGE &&
+        (detected_mime == "image/png" ||
+         detected_mime == "image/jpeg" ||
+         detected_mime == "image/tiff")) {
+
+        const std::string ocr_language = config.value("ocr_language", std::string("eng"));
+        std::vector<uint8_t> image_bytes(blob.begin(), blob.end());
+        std::string ocr_text = OcrProcessor::performOcr(image_bytes, ocr_language);
+
+        if (!ocr_text.empty()) {
+            meta.text_extracted = true;
+            meta.extracted_metadata["content_ocr_text"] = ocr_text;
+
+            if (stage_cfg.chunking.enabled) {
+                OcrProcessor::Config ocr_cfg;
+                ocr_cfg.language = ocr_language;
+                OcrProcessor ocr_proc(std::move(ocr_cfg));
+
+                // Build a synthetic ExtractionResult from the OCR text
+                ExtractionResult ocr_extraction;
+                ocr_extraction.ok   = true;
+                ocr_extraction.text = ocr_text;
+                ocr_extraction.metadata["content_ocr_text"] = ocr_text;
+
+                int chunk_size = config.value("chunk_size", 512);
+                int overlap    = config.value("chunk_overlap", 50);
+                auto raw_chunks = ocr_proc.chunk(ocr_extraction, chunk_size, overlap);
+
+                int64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now().time_since_epoch()).count();
+                for (const auto& rc : raw_chunks) {
+                    ChunkMeta cm;
+                    cm.id         = generateUuid();
+                    cm.content_id = content_id;
+                    cm.seq_num    = rc.value("sequence", 0);
+                    cm.chunk_type = rc.value("type", std::string("ocr_text"));
+                    cm.text       = rc.value("text", std::string{});
+                    cm.created_at = now;
+                    chunks_json.push_back(cm.toJson());
+                }
+                meta.chunk_count = static_cast<int>(chunks_json.size());
+                meta.chunked     = !chunks_json.empty();
+            }
+
+            THEMIS_INFO("OCR extraction: {} chars, {} chunks from '{}' ({})",
+                        ocr_text.size(), chunks_json.size(), filename, detected_mime);
+        } else {
+            THEMIS_INFO("OCR extraction returned no text for '{}' ({})",
+                        filename, detected_mime);
         }
     }
 

@@ -227,7 +227,7 @@ ContentManager: update status → notify caller (webhook or polling)
 - MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` not yet wired (CON-002).
 - OCR DPI pre-processing (300 DPI rescaling + adaptive binarisation via Leptonica) not yet implemented (CON-003).
 - Back-pressure for `ingestStream()` (blocking on `max_queue_depth`) is planned (CON-005).
-- Zip-bomb protection decompression-ratio check in `content_security.cpp` not yet enforced (CON-006).
+- Zip-bomb protection (`ContentSecurityManager::checkZipBomb()`) is enforced in `archive_processor.cpp`: max 100× decompression ratio, max 1 000 archive entries, called before extraction (CON-006).
 - Video scene detection, subtitle extraction, and keyframe extraction are stub implementations in non-FFmpeg builds.
 
 ---

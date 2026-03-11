@@ -155,7 +155,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 **Implementation Notes:**
 - `[x]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
 - `[ ]` Add `not` — assert a value does NOT match a sub-schema.
-- `[ ]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
+- `[x]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
 - `[ ]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
 - `[ ]` Add `uniqueItems` for array validation.
 - `[ ]` Extend `ConfigSchemaValidator::loadAsJson()` to accept an in-memory YAML string (not only a file path) to support inline config parsing in tests and server-side config hot-checks.
@@ -185,7 +185,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 | `resolve()` latency (cache miss, mapped) | < 500 µs | < 200 µs | `benchmarks/bench_config_path_resolver.cpp` |
 | Deprecation aggregator hot path overhead | N/A | < 50 ns | microbenchmark in `benchmarks/bench_config_path_resolver.cpp` |
 | CLI scanner 10K files | N/A | < 5 s | `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K) |
-| Metrics scrape | N/A | < 1 ms | covered in `benchmarks/bench_config_path_resolver.cpp` metrics section |
+| Metrics scrape | N/A | < 1 ms | `tests/test_config_metrics_scrape.cpp` (cold/warm/repeated latency tests); also `benchmarks/bench_config_path_resolver.cpp` MetricsScrape benchmark |
 
 ## Security / Reliability
 

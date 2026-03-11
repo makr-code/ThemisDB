@@ -484,4 +484,92 @@ TEST(OcrProcessorFactoryTest, CreateOcrProcessorWithConfig) {
     EXPECT_EQ(proc->getName(), "OcrProcessor");
 }
 
+// ============================================================================
+// Integration: MimeDetector OCR routing → OcrProcessor
+// ============================================================================
+
+#include "content/content_policy.h"
+#include "content/mime_detector.h"
+
+/// Verify that shouldTriggerOcr() correctly gates OcrProcessor invocation
+/// for the three OCR-eligible MIME types.
+TEST(OcrMimeRoutingIntegrationTest, OcrTriggeredForPng_WhenEnabled) {
+    MimeDetector detector;
+    detector.enableOcr(true);
+
+    // Confirm routing decision
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/png"));
+
+    // Confirm OcrProcessor is called and handles the format gracefully
+    std::vector<uint8_t> png_magic = {0x89, 'P', 'N', 'G'};
+    png_magic.resize(64, 0x00);
+    std::string text = OcrProcessor::performOcr(png_magic);
+    // When Tesseract is unavailable or the image is minimal, result is empty.
+    // The important thing is that it does not throw and returns a string.
+    (void)text;
+}
+
+TEST(OcrMimeRoutingIntegrationTest, OcrTriggeredForJpeg_WhenEnabled) {
+    MimeDetector detector;
+    detector.enableOcr(true);
+
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/jpeg"));
+
+    std::vector<uint8_t> jpeg_magic = {0xFF, 0xD8, 0xFF};
+    jpeg_magic.resize(64, 0x00);
+    std::string text = OcrProcessor::performOcr(jpeg_magic);
+    (void)text;
+}
+
+TEST(OcrMimeRoutingIntegrationTest, OcrTriggeredForTiff_WhenEnabled) {
+    MimeDetector detector;
+    detector.enableOcr(true);
+
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/tiff"));
+
+    // Minimal TIFF header (little-endian)
+    std::vector<uint8_t> tiff_magic = {'I', 'I', 0x2A, 0x00};
+    tiff_magic.resize(64, 0x00);
+    std::string text = OcrProcessor::performOcr(tiff_magic);
+    (void)text;
+}
+
+TEST(OcrMimeRoutingIntegrationTest, OcrNotTriggeredWhenDisabled) {
+    MimeDetector detector;
+    // OCR disabled by default — no trigger even for image/png
+
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/png"));
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/jpeg"));
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/tiff"));
+}
+
+TEST(OcrMimeRoutingIntegrationTest, OcrNotTriggeredForNonOcrMimeTypes) {
+    MimeDetector detector;
+    detector.enableOcr(true);
+
+    // image/gif and image/bmp are not in the OCR-eligible list
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/gif"));
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/bmp"));
+    // Text and documents must never trigger OCR
+    EXPECT_FALSE(detector.shouldTriggerOcr("text/plain"));
+    EXPECT_FALSE(detector.shouldTriggerOcr("application/pdf"));
+}
+
+TEST(OcrMimeRoutingIntegrationTest, ContentPolicyOcrEnabledGatesDetector) {
+    // ContentPolicy with ocr_enabled drives MimeDetector via enableOcr()
+    ContentPolicy policy;
+    ASSERT_FALSE(policy.ocrEnabled());
+
+    MimeDetector detector;
+    detector.enableOcr(policy.ocrEnabled());
+    EXPECT_FALSE(detector.shouldTriggerOcr("image/png"));
+
+    policy.ocr_enabled = true;
+    detector.enableOcr(policy.ocrEnabled());
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/png"));
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/jpeg"));
+    EXPECT_TRUE(detector.shouldTriggerOcr("image/tiff"));
+}
+
+
 // Note: No custom main here; linked with GTest::gtest_main

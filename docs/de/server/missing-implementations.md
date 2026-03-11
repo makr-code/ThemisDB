@@ -13,7 +13,7 @@
 |---|---------|---------|----------|------------|
 | 1 | 🟠 Mittel | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | `rate_limiter_v2.cpp` vorhanden (239 LOC), aber kein Redis-Pfad |
 | 2 | 🔴 Hoch | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Keine dieser Dateien existiert |
-| 3 | 🟠 Mittel | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Keine dieser Dateien existiert |
+| 3 | ✅ Gelöst | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Implementiert (v1.7.0) |
 | 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
 | 5 | 🟡 Niedrig | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Keine dieser Dateien existiert |
 | 6 | ℹ️ Info | PostgreSQL Wire: Advanced Features | Vollständige PG-Kompatibilität | `postgres_session.cpp` (1929 LOC) – ROADMAP warnt explizit: „partial compatibility" |
@@ -75,28 +75,17 @@ grep "oauth2|OIDC|pkce" src/server/*.cpp – keine Treffer
 
 ---
 
-### Finding 3 – SAML 2.0 Service Provider
+### Finding 3 – SAML 2.0 Service Provider ✅ GELÖST
 
 **Claim-Quelle:** `src/server/ROADMAP.md` → „Planned Features / Long-term (Target: v1.7.0)"  
-**Erwartete Implementierung:**  
-- `src/server/saml_auth_provider.cpp`  
-- `include/server/saml_auth_provider.h`  
-- SP-initiiertes SSO, SAML Assertion-Validierung (Signatur, Audience, NotBefore/NotOnOrAfter)  
-- Single Logout: `POST /api/v1/auth/saml/slo`  
-
-**Beobachtet:**  
-- Keine dieser Dateien existiert  
-- Grep auf `saml`, `SAML` in `src/server/*.cpp` → kein Treffer  
-
-**Evidence (geprüfte Pfade):**  
-```
-src/server/saml_auth_provider.cpp       – nicht vorhanden
-include/server/saml_auth_provider.h     – nicht vorhanden
-grep "saml|SAML" src/server/*.cpp       – keine Treffer
-```
-
-**Issue-Titelvorschlag:** `feat(server): SAML 2.0 SP support for enterprise SSO (v1.7.0)`  
-**Label-Vorschläge:** `area/server`, `area/auth`, `type/feature`, `priority/p2`, `effort/large`
+**Implementierung:**  
+- `src/server/saml_auth_provider.cpp` ✅ erstellt  
+- `include/server/saml_auth_provider.h` ✅ erstellt  
+- SP-initiiertes SSO (`GET /api/v1/auth/saml/login` → 302 IdP-Redirect) ✅  
+- ACS POST Handler mit Assertion-Validierung (`POST /api/v1/auth/saml/acs`) ✅  
+- Single Logout (`POST /api/v1/auth/saml/slo`) ✅  
+- SP Metadata (`GET /api/v1/auth/saml/metadata`) ✅  
+- 27 Unit-Tests in `tests/test_saml_auth_provider.cpp` ✅
 
 ---
 

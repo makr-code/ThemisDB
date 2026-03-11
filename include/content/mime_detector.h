@@ -86,6 +86,16 @@ public:
     /// Returns ValidationResult with allowed flag and detailed reason if denied
     ValidationResult validateUpload(const std::string& filename, uint64_t file_size) const;
 
+    /// Returns true if OCR should be triggered for the given MIME type.
+    /// OCR is triggered when policy.ocrEnabled() is true and the MIME type is
+    /// one of: image/png, image/jpeg, image/tiff.
+    bool shouldTriggerOcr(std::string_view mime_type) const;
+
+    /// Enable or disable automatic OCR for image content in this detector's policy.
+    /// Setting this to true causes shouldTriggerOcr() to return true for
+    /// image/png, image/jpeg, and image/tiff.  Default: false.
+    void enableOcr(bool enable = true);
+
 private:
     // Extension -> MIME type mapping
     std::unordered_map<std::string, std::string> ext_to_mime_;

@@ -75,12 +75,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Errors: CPU limit exceeded → 504 + `grpc-status: DEADLINE_EXCEEDED`; memory overflow → 500 + sandbox kill; invalid wasm binary → 400 at upload time
   - Tests: unit (sandbox isolation, memory cap enforcement), integration (Rust→wasm handler round-trip), security (escape-attempt wasm modules must not access host memory)
   - Perf: wasm invocation overhead ≤ 5 ms per call; throughput ≥ 5 000 simple handler calls/s per node
-- [ ] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
-  - Files: new `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h`; integrates into `server/auth_middleware.cpp`
-  - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`
+- [x] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
+  - Files: `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h` ✅ implemented
+  - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`; SP metadata via `GET /api/v1/auth/saml/metadata`
   - Errors: invalid assertion signature → 401; expired assertion → 401 with clock-skew hint; missing required attribute → 403
-  - Tests: unit (assertion validation, attribute mapping, SLO), integration (mock IdP issuing real SAML2 XML), negative (tampered signatures, expired assertions, replay)
-  - Perf: assertion validation ≤ 5 ms (XML parse + RSA verify); no per-request overhead after session cookie issued
+  - Tests: 27 unit tests in `tests/test_saml_auth_provider.cpp` (login redirect, ACS success/failure, SLO, metadata, replay detection, custom token factory)
 
 ## Implementation Phases
 

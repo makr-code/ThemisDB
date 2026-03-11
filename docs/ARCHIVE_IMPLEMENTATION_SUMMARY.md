@@ -413,7 +413,9 @@ with zipfile.ZipFile(archive) as zf:
 |-------|-------|----------|
 | "No processor available" | Plugin not registered | Register ArchiveProcessor at startup |
 | "Archive exceeds maximum size" | File too large | Increase `max_total_size` or use METADATA_ONLY |
-| "Suspicious compression ratio" | Possible zip bomb | Increase `max_compression_ratio` or use external pipeline |
+| "Suspicious compression ratio" | Possible zip bomb (ArchiveProcessor layer) | Increase `max_compression_ratio` in `ArchiveProcessorConfig` or use external pipeline |
+| "Archive rejected: compression ratio exceeds limit" | Possible zip bomb (security layer) | Increase `max_zip_bomb_ratio` in `ContentSecurityConfig` or use external pipeline |
+| "Archive rejected: file count exceeds limit" | Possible zip bomb (security layer) | Increase `max_zip_file_count` in `ContentSecurityConfig` or use external pipeline |
 | "Password required" | Encrypted archive | Provide password or use METADATA_ONLY |
 | "libzip not found" | Missing dependency | `vcpkg install libzip` |
 
