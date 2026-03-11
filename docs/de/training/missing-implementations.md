@@ -22,13 +22,14 @@ bevor der Status auf **Beta** angehoben werden kann.
 | Feld | Wert |
 |------|------|
 | **Schweregrad** | Hoch |
-| **Status** | ✅ Behoben |
+| **Status** | ✅ Vollständig abgeschlossen (v1.6.0) |
 | **Claim-Quelle** | `src/training/README.md`, Abschnitt "Production Readiness" |
 | **Erwartet** | `labelAll()` und `labelQuery()` lesen Dokumente über den AQL-Query-Executor |
 | **Beobachtet** | `auto_labeler.cpp`: Datenbankzugriff ist als `// TODO`-Stub markiert; `labelDocument()` ist vollständig implementiert |
 | **Evidence** | `src/training/auto_labeler.cpp` (TODO-Kommentare im Datenbankzugriff-Pfad) |
 | **Lösung** | `LegalAutoLabeler`-Konstruktor akzeptiert jetzt einen optionalen `QueryEngine*`-Parameter. Wenn eine Engine vorhanden ist, rufen `labelAll()` und `labelQuery()` `executeAql()` auf, um Dokument-IDs aus der Datenbank abzurufen. Ohne Engine bleibt das bisherige Offline-/Testverhalten erhalten. |
-| **Issue-Titelvorschlag** | `feat(training): wire LegalAutoLabeler DB fetch to AQL query executor` |
+| **Tests** | `tests/test_auto_labeler_db_fetch.cpp` – 13 Integrationstests decken DB-Fetch-Pfad, Offline-Fallback, Callback-Auslösung und Statistikakkumulation ab. CTest-Target: `AutoLabelerDbFetchFocusedTests`. |
+| **Issue** | [FEATURE] Wire LegalAutoLabeler DB fetch to AQL query executor |
 | **Label-Vorschläge** | `module:training`, `priority:high`, `type:stub` |
 
 ---

@@ -11009,6 +11009,21 @@ if(TARGET test_modality_parser_focused)
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
 endif()
 
+# AutoLabelerDbFetch focused tests – covers DB fetch paths in labelAll() and
+# labelQuery() by wiring a real QueryEngine (RocksDB + SecondaryIndexManager).
+# Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
+if(TARGET themis_tests)
+    add_test(NAME AutoLabelerDbFetchFocusedTests
+        COMMAND themis_tests
+            --gtest_filter=AutoLabelerDbFetchTest.*:AutoLabelerOfflineTest.*)
+
+    set_tests_properties(AutoLabelerDbFetchFocusedTests PROPERTIES
+        LABELS "training;auto-labeler;db-fetch;aql;legal;focused;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "Adding AutoLabelerDbFetch focused tests")
+    message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
 # LoRAAdapter focused tests – real weight manipulation (no simulation)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
     message(STATUS "Adding LoRAAdapter focused tests (lora_adapter.cpp)")

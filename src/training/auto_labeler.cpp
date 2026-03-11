@@ -352,11 +352,45 @@ private:
         return ids;
     }
 
-    // Fetch document text (falls back to representative German legal text when
-    // no query engine is wired in, e.g. in unit-test / offline mode).
+    // Fetch document text via AQL when a QueryEngine is wired in.
+    // Falls back to a representative German legal text in offline / test mode.
     std::string fetchDocumentText(const std::string& document_id) const {
-        // In production: AQL query (aql_templates::FETCH_DOCUMENT_BY_ID)
-        // For test environment: return representative German legal text
+        if (query_engine_ && !document_id.empty()) {
+            // Escape characters that would break the AQL inline string literal.
+            std::string safe_id;
+            safe_id.reserve(document_id.size());
+            for (char c : document_id) {
+                switch (c) {
+                    case '\\': safe_id += "\\\\"; break;
+                    case '"':  safe_id += "\\\""; break;
+                    case '\n': safe_id += "\\n";  break;
+                    case '\r': safe_id += "\\r";  break;
+                    case '\t': safe_id += "\\t";  break;
+                    default:   safe_id += c;      break;
+                }
+            }
+            auto aql = buildQuery(aql_templates::FETCH_DOCUMENT_BY_ID,
+                                  {{"@collection", config_.source_collection},
+                                   {"document_id", "\"" + safe_id + "\""}});
+            auto result = executeAql(aql, *query_engine_);
+            if (result) {
+                const auto& json = *result;
+                const nlohmann::json* doc_ptr = nullptr;
+                if (json.is_object() && json.contains("results") &&
+                    json["results"].is_array() && !json["results"].empty()) {
+                    doc_ptr = &json["results"][0];
+                } else if (json.is_array() && !json.empty()) {
+                    doc_ptr = &json[0];
+                }
+                if (doc_ptr && doc_ptr->is_object() &&
+                    doc_ptr->contains("text") && (*doc_ptr)["text"].is_string()) {
+                    return (*doc_ptr)["text"].get<std::string>();
+                }
+            }
+            // AQL succeeded but the document has no "text" field – treat as empty.
+            return "";
+        }
+        // Offline / test fallback: representative German legal text
         if (!document_id.empty()) {
             return "Die Behörde muss die Genehmigung erteilen, wenn alle "
                    "Voraussetzungen erfüllt sind. Sie soll die Entscheidung "
