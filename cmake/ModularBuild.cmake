@@ -157,12 +157,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/boost_throw_exception.cpp
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
-    ../src/utils/bloom_filter.cpp
     ../src/utils/consistent_hash.cpp
-    ../src/utils/checksum_utils.cpp
-    ../src/utils/pii_stream_scanner.cpp
-    ../src/utils/sampled_logger.cpp
-    ../src/utils/timestamp_utils.cpp
     ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer

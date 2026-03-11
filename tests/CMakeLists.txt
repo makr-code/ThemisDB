@@ -3840,6 +3840,190 @@ else()
     message(STATUS "SAGA Compactor focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saga_compactor.cpp")
 endif()
 
+# HashChainAudit Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hash_chain_audit.cpp")
+    message(STATUS "Adding HashChainAudit focused tests")
+
+    add_executable(test_hash_chain_audit_focused
+        test_hash_chain_audit.cpp
+    )
+
+    target_link_libraries(test_hash_chain_audit_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hash_chain_audit_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HashChainAuditFocusedTests COMMAND test_hash_chain_audit_focused)
+
+    set_tests_properties(HashChainAuditFocusedTests PROPERTIES
+        LABELS "utils;audit;hash-chain;tamper-evidence;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  HashChainAudit: write, sequence increment, head persistence, tamper detection")
+else()
+    message(STATUS "HashChainAudit focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_hash_chain_audit.cpp")
+endif()
+
+# PIIStreamScanner Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pii_stream_scanner.cpp")
+    message(STATUS "Adding PIIStreamScanner focused tests")
+
+    add_executable(test_pii_stream_scanner_focused
+        test_pii_stream_scanner.cpp
+    )
+
+    target_link_libraries(test_pii_stream_scanner_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_pii_stream_scanner_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PIIStreamScannerFocusedTests COMMAND test_pii_stream_scanner_focused)
+
+    set_tests_properties(PIIStreamScannerFocusedTests PROPERTIES
+        LABELS "utils;pii;streaming;redaction;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PIIStreamScanner: single-chunk scan, cross-boundary detection, reset, bytes_processed")
+else()
+    message(STATUS "PIIStreamScanner focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_pii_stream_scanner.cpp")
+endif()
+
+# SampledLogger Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampled_logger.cpp")
+    message(STATUS "Adding SampledLogger focused tests")
+
+    add_executable(test_sampled_logger_focused
+        test_sampled_logger.cpp
+    )
+
+    target_link_libraries(test_sampled_logger_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_sampled_logger_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SampledLoggerFocusedTests COMMAND test_sampled_logger_focused)
+
+    set_tests_properties(SampledLoggerFocusedTests PROPERTIES
+        LABELS "utils;logging;sampling;rate-limiting;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SampledLogger: construction, suppression counter, token-bucket sampling")
+else()
+    message(STATUS "SampledLogger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_sampled_logger.cpp")
+endif()
+
+# TimestampUtils Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_timestamp_utils.cpp")
+    message(STATUS "Adding TimestampUtils focused tests")
+
+    add_executable(test_timestamp_utils_focused
+        test_timestamp_utils.cpp
+    )
+
+    target_link_libraries(test_timestamp_utils_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_timestamp_utils_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TimestampUtilsFocusedTests COMMAND test_timestamp_utils_focused)
+
+    set_tests_properties(TimestampUtilsFocusedTests PROPERTIES
+        LABELS "utils;timestamp;iso8601;rfc3339;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  TimestampUtils: ISO 8601 format/parse round-trip, milliseconds, duration formatting")
+else()
+    message(STATUS "TimestampUtils focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_timestamp_utils.cpp")
+endif()
+
+# UtilsRateLimiter Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_rate_limiter.cpp")
+    message(STATUS "Adding UtilsRateLimiter focused tests")
+
+    add_executable(test_utils_rate_limiter_focused
+        test_utils_rate_limiter.cpp
+    )
+
+    target_link_libraries(test_utils_rate_limiter_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_utils_rate_limiter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME UtilsRateLimiterFocusedTests COMMAND test_utils_rate_limiter_focused)
+
+    set_tests_properties(UtilsRateLimiterFocusedTests PROPERTIES
+        LABELS "utils;rate-limiter;token-bucket;concurrency;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  UtilsRateLimiter: try_acquire, acquire blocking, set_rate, available")
+else()
+    message(STATUS "UtilsRateLimiter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_rate_limiter.cpp")
+endif()
+
+# UtilsStandalone Focused Tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_standalone.cpp")
+    message(STATUS "Adding UtilsStandalone focused tests")
+
+    add_executable(test_utils_standalone_focused
+        test_utils_standalone.cpp
+    )
+
+    target_link_libraries(test_utils_standalone_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_utils_standalone_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME UtilsStandaloneFocusedTests COMMAND test_utils_standalone_focused)
+
+    set_tests_properties(UtilsStandaloneFocusedTests PROPERTIES
+        LABELS "utils;checksum;file;normalizer;feature-flags;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  UtilsStandalone: calculateSHA256, calculateMD5, readFileContents, Normalizer, Phase2FeatureFlags")
+else()
+    message(STATUS "UtilsStandalone focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utils_standalone.cpp")
+endif()
+
 # Sharding Transaction WAL Focused Tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
     message(STATUS "Adding Sharding Transaction WAL focused tests")
