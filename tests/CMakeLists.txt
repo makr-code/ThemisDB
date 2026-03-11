@@ -12051,31 +12051,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
         ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
     )
 
-    target_compile_definitions(test_blue_green_deployment_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME BlueGreenDeploymentFocusedTests COMMAND test_blue_green_deployment_focused)
-
-    set_tests_properties(BlueGreenDeploymentFocusedTests PROPERTIES
-        LABELS "updates;blue-green;deployment;zero-downtime;focused;unit"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  BlueGreenDeployment: activate/deactivate environments, traffic switching, rollback, state transitions")
-else()
-    message(STATUS "Blue/Green Deployment focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp")
-endif()
-
-# CanaryRollout – focused tests for canary rollout mode
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
-    message(STATUS "Adding Canary Rollout focused tests")
-
-    add_executable(test_canary_rollout_focused
-        test_canary_rollout.cpp
-    )
-
-    target_include_directories(test_canary_rollout_focused PRIVATE
+    target_include_directories(test_voice_coverage_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
@@ -12101,6 +12077,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
     message(STATUS "  VoiceCoverage: VoiceSessionManager, VoiceAudioStorage, VoiceMeetingSupport, VoiceSecurityManager, VoiceTTSCustomizer, VoiceIntentDetector, VoiceAccessibility")
 else()
     message(STATUS "Voice Coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
+endif()
+
+# CanaryRollout – focused tests for canary rollout mode
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
+    message(STATUS "Adding Canary Rollout focused tests")
+
+    add_executable(test_canary_rollout_focused
+        test_canary_rollout.cpp
+    )
+
+    target_include_directories(test_canary_rollout_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_canary_rollout_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_canary_rollout_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CanaryRolloutFocusedTests COMMAND test_canary_rollout_focused)
+
+    set_tests_properties(CanaryRolloutFocusedTests PROPERTIES
+        LABELS "deployment;canary;rollout;focused;unit"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  CanaryRollout: canary deployment, traffic shifting, metrics validation, automatic rollback")
+else()
+    message(STATUS "Canary Rollout focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
 endif()
 
 # VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
@@ -12172,20 +12184,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
         ${THEMIS_ROOT_DIR}/src/voice/voice_browser_streaming.cpp
     )
 
-    target_compile_definitions(test_canary_rollout_focused PRIVATE
+    target_include_directories(test_voice_browser_streaming_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_voice_browser_streaming_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_voice_browser_streaming_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CanaryRolloutFocusedTests COMMAND test_canary_rollout_focused)
+    add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND test_voice_browser_streaming_focused)
 
-    set_tests_properties(CanaryRolloutFocusedTests PROPERTIES
-        LABELS "updates;canary;rollout;staged;health-gate;focused;unit"
+    set_tests_properties(VoiceBrowserStreamingFocusedTests PROPERTIES
+        LABELS "voice;streaming;websocket;browser;focused;unit"
         TIMEOUT 120
     )
 
-    message(STATUS "  CanaryRollout: fraction configuration, promotion gate, automatic rollback, node selection, double-apply guard")
+    message(STATUS "  VoiceBrowserStreaming: VoiceStreamingSession lifecycle, frame processing, streaming stats, error handling")
 else()
-    message(STATUS "Canary Rollout focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
+    message(STATUS "Voice Browser Streaming focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
 endif()
 
 # CoordinatedUpdateManager – focused tests for multi-node coordinated updates
@@ -12276,7 +12300,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp" AND
     )
 
     target_link_libraries(test_data_augmentation_focused PRIVATE
-    
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
     target_link_libraries(test_in_place_schema_migrator_focused PRIVATE
         ${TEST_LIBS}
         themis_core
