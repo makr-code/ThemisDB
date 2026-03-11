@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_import_integration_v2.cpp            ║
-  Version:         2.0.0                                              ║
+  Version:         2.1.0                                              ║
   Last Modified:   2026-03-11                                         ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
