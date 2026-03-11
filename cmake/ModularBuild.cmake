@@ -318,15 +318,12 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/inverted_index.cpp
     ../src/index/multi_vector_search.cpp
     ../src/index/workload_replay.cpp
-<<<<<<< HEAD
-=======
     ../src/index/graph_auto_buffer.cpp
     ../src/index/index_manager.cpp
     ../src/index/tiered_index_manager.cpp
     ../src/index/vector_auto_buffer.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
->>>>>>> 644b3bc679bc7749613caa614bcb198395eb6fab
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
