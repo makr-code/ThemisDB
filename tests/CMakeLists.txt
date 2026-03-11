@@ -239,6 +239,11 @@ if(NOT THEMIS_ENABLE_HTTP_SERVER)
         ".*test_task_scheduler_siem_integration\\.cpp$"
         ".*test_task_scheduler_triggers\\.cpp$"
         ".*test_scheduler_integration\\.cpp$"
+        ".*test_distributed_task_coordinator\\.cpp$"
+        ".*test_task_audit\\.cpp$"
+        ".*test_task_result_store\\.cpp$"
+        ".*test_external_scheduler_adapter\\.cpp$"
+        ".*test_chaos_scheduler\\.cpp$"
     )
 endif()
 
@@ -9996,6 +10001,191 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scheduler_integration.cpp")
     message(STATUS "  SchedulerIntegration: task lifecycle, persistence, retention lifecycle, statistics accumulation")
 else()
     message(STATUS "Scheduler integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_scheduler_integration.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_task_coordinator.cpp")
+    message(STATUS "Adding DistributedTaskCoordinator focused tests (Issue #2272)")
+
+    add_executable(test_distributed_task_coordinator_focused
+        test_distributed_task_coordinator.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_distributed_task_coordinator_focused)
+
+    target_include_directories(test_distributed_task_coordinator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_distributed_task_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_task_coordinator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DistributedTaskCoordinatorFocusedTests COMMAND test_distributed_task_coordinator_focused)
+
+    set_tests_properties(DistributedTaskCoordinatorFocusedTests PROPERTIES
+        LABELS "scheduler;distributed;leader-election;coordination;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DistributedTaskCoordinator: leader election, failover, distributed task registry, one-runner guarantee")
+else()
+    message(STATUS "DistributedTaskCoordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_task_coordinator.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_audit.cpp")
+    message(STATUS "Adding TaskAudit focused tests (Issue #2448)")
+
+    add_executable(test_task_audit_focused
+        test_task_audit.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_audit_focused)
+
+    target_include_directories(test_task_audit_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_audit_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_audit_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskAuditFocusedTests COMMAND test_task_audit_focused)
+
+    set_tests_properties(TaskAuditFocusedTests PROPERTIES
+        LABELS "scheduler;audit;task-audit;anomaly-detection;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskAudit: audit event recording, anomaly detection, queryAuditEvents, JSONL persistence")
+else()
+    message(STATUS "TaskAudit focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_audit.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_result_store.cpp")
+    message(STATUS "Adding TaskResultStore focused tests (Issue #2447)")
+
+    add_executable(test_task_result_store_focused
+        test_task_result_store.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_task_result_store_focused)
+
+    target_include_directories(test_task_result_store_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_task_result_store_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_task_result_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TaskResultStoreFocusedTests COMMAND test_task_result_store_focused)
+
+    set_tests_properties(TaskResultStoreFocusedTests PROPERTIES
+        LABELS "scheduler;task-result;persistence;storage;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  TaskResultStore: store/retrieve task execution results, pagination, latest-result query")
+else()
+    message(STATUS "TaskResultStore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_task_result_store.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_external_scheduler_adapter.cpp")
+    message(STATUS "Adding ExternalSchedulerAdapter focused tests (Kubernetes CronJob + Airflow integration)")
+
+    add_executable(test_external_scheduler_adapter_focused
+        test_external_scheduler_adapter.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_external_scheduler_adapter_focused)
+
+    target_include_directories(test_external_scheduler_adapter_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_external_scheduler_adapter_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_external_scheduler_adapter_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ExternalSchedulerAdapterFocusedTests COMMAND test_external_scheduler_adapter_focused)
+
+    set_tests_properties(ExternalSchedulerAdapterFocusedTests PROPERTIES
+        LABELS "scheduler;external;kubernetes;airflow;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ExternalSchedulerAdapter: Kubernetes CronJob and Airflow DAG export, sync, configuration")
+else()
+    message(STATUS "ExternalSchedulerAdapter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_external_scheduler_adapter.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_scheduler.cpp")
+    message(STATUS "Adding ChaosScheduler focused tests (stress and adversarial conditions)")
+
+    add_executable(test_chaos_scheduler_focused
+        test_chaos_scheduler.cpp
+    )
+
+    themis_scheduler_sources_if_needed(test_chaos_scheduler_focused)
+
+    target_include_directories(test_chaos_scheduler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_chaos_scheduler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_chaos_scheduler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ChaosSchedulerFocusedTests COMMAND test_chaos_scheduler_focused)
+
+    set_tests_properties(ChaosSchedulerFocusedTests PROPERTIES
+        LABELS "scheduler;chaos;stress;concurrency;resilience"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  ChaosScheduler: rapid register/unregister under concurrency, timeout enforcement, crash recovery, cascading failures")
+else()
+    message(STATUS "ChaosScheduler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_scheduler.cpp")
 endif()
 
 add_custom_target(run_tests
