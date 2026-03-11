@@ -70,7 +70,7 @@
 - [x] Add standalone focused test targets `CDCAdminFocusedTests` and `TenantBufferManagerFocusedTests` in `tests/CMakeLists.txt`
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1623)
+- [x] Unit tests coverage > 80% (Issue: #1623) — `test_cdc_changefeed_buffer.cpp` (ChangefeedBuffer direct tests) and `test_cdc_changefeed_core.cpp` (subscribe API, SubscriptionHandle/Filter, listEvents variants, getStats, clear, JSON roundtrip) added; closes Issue #1623
 - [x] Integration tests (SSE streaming, change replay, subscription filtering)
 - [x] Performance benchmarks (event throughput, latency) (Issue: #1624)
 - [x] Security audit (subscription authorization, data leakage) (Issue: #1625)
@@ -85,7 +85,7 @@
 - **At-least-once not guaranteed for SSE:** plain SSE connections (`GET /changefeed/stream`) do not have the acknowledgement loop; use Consumer Groups (`/v2/cdc/stream`) for at-least-once guarantees. See [missing-implementations](../../docs/de/cdc/missing-implementations.md).
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
 - Outbox relay in-flight state is in-memory; FAILED records survive restarts but PENDING records relayed-but-not-marked would be re-relayed after restart (at-least-once semantics)
-- **Unit test coverage < 80%:** Production Readiness item `[I] Unit tests coverage > 80% (Issue: #1623)` is still open. See [missing-implementations](../../docs/de/cdc/missing-implementations.md).
+- **Unit test coverage < 80%:** Production Readiness item `[x] Unit tests coverage > 80% (Issue: #1623)` is now resolved. `tests/test_cdc_changefeed_buffer.cpp` provides direct unit tests for the `ChangefeedBuffer` class; `tests/test_cdc_changefeed_core.cpp` covers the push subscription API (`subscribe()`, `SubscriptionHandle` RAII/move, `SubscriptionFilter::matches()`), `getStats()`, `clear()`, `listEvents()` variants, JSON roundtrip for all event types, and `getWatermarks()`. Closes Issue #1623.
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)
