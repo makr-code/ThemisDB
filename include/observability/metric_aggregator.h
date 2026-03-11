@@ -113,11 +113,11 @@ public:
     MetricAggregator() = default;
     ~MetricAggregator() = default;
 
-    // Non-copyable, movable
+    // Non-copyable, non-movable (mutex member prevents move semantics)
     MetricAggregator(const MetricAggregator&) = delete;
     MetricAggregator& operator=(const MetricAggregator&) = delete;
-    MetricAggregator(MetricAggregator&&) = default;
-    MetricAggregator& operator=(MetricAggregator&&) = default;
+    MetricAggregator(MetricAggregator&&) = delete;
+    MetricAggregator& operator=(MetricAggregator&&) = delete;
 
     // =========================================================================
     // Rate calculation
