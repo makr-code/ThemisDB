@@ -8186,6 +8186,46 @@ else()
     message(STATUS "SAML Auth Provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_auth_provider.cpp")
 endif()
 
+# OAuth2/OIDC Provider Tests (server-layer, focused binary)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oauth2_provider.cpp")
+    message(STATUS "Adding OAuth2/OIDC Provider tests (server-layer)")
+
+    add_executable(test_oauth2_provider
+        test_oauth2_provider.cpp
+    )
+
+    target_link_libraries(test_oauth2_provider PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET CURL::libcurl)
+        target_link_libraries(test_oauth2_provider PRIVATE CURL::libcurl)
+    elseif(TARGET curl)
+        target_link_libraries(test_oauth2_provider PRIVATE curl)
+    endif()
+
+    target_compile_definitions(test_oauth2_provider PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OAuth2ProviderTests COMMAND test_oauth2_provider)
+
+    set_tests_properties(OAuth2ProviderTests PROPERTIES
+        LABELS "server;auth;oauth2;oidc;pkce;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OAuth2/OIDC Provider: authorize, callback, token exchange, refresh, introspect, logout")
+else()
+    message(STATUS "OAuth2/OIDC Provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oauth2_provider.cpp")
+endif()
+
 # Session Manager Focused Tests (standalone binary)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
     message(STATUS "Adding Session Manager focused tests (standalone binary)")
