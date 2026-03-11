@@ -131,6 +131,25 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string& file_path) {
     }
 }
 
+nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string& content, bool is_yaml) {
+    if (is_yaml) {
+        try {
+            YAML::Node root = YAML::Load(content);
+            return yamlNodeToJsonImpl(root);
+        } catch (const YAML::Exception& e) {
+            throw SchemaValidationException("<string>",
+                std::string("YAML parse error: ") + e.what());
+        }
+    } else {
+        try {
+            return nlohmann::json::parse(content);
+        } catch (const nlohmann::json::exception& e) {
+            throw SchemaValidationException("<string>",
+                std::string("JSON parse error: ") + e.what());
+        }
+    }
+}
+
 // ═══════════════════════════════════════════════════════════
 // validate
 // ═══════════════════════════════════════════════════════════

@@ -94,6 +94,39 @@ TEST_F(ConfigSchemaValidatorTest, LoadMissingFileThrows) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// loadAsJson(content, is_yaml) – string overload
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, LoadJsonStringOverload) {
+    auto json = ConfigSchemaValidator::loadAsJson(R"({"port": 9090, "name": "test"})", false);
+    EXPECT_EQ(json["port"].get<int>(), 9090);
+    EXPECT_EQ(json["name"].get<std::string>(), "test");
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadYamlStringOverload) {
+    auto json = ConfigSchemaValidator::loadAsJson("port: 8080\nhost: localhost\n", true);
+    EXPECT_EQ(json["port"].get<int>(), 8080);
+    EXPECT_EQ(json["host"].get<std::string>(), "localhost");
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadYamlStringBoolAndIntOverload) {
+    auto json = ConfigSchemaValidator::loadAsJson("enabled: true\ncount: 3\n", true);
+    EXPECT_TRUE(json["enabled"].get<bool>());
+    EXPECT_EQ(json["count"].get<int>(), 3);
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadInvalidJsonStringThrows) {
+    EXPECT_THROW(ConfigSchemaValidator::loadAsJson("{not valid json", false),
+                 SchemaValidationException);
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadInvalidYamlStringThrows) {
+    // A tab character at the start of a YAML block is a parse error.
+    EXPECT_THROW(ConfigSchemaValidator::loadAsJson("\tkey: bad\n", true),
+                 SchemaValidationException);
+}
+
+// ═══════════════════════════════════════════════════════════
 // validate – type checking
 // ═══════════════════════════════════════════════════════════
 
