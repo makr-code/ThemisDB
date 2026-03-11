@@ -44,6 +44,7 @@ namespace spdlog {
 }
 #endif
 #include "llm/lora_framework/lora_layers.h"
+#include "llm/lora_framework/quantized_model.h"
 #endif
 
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
@@ -445,8 +446,10 @@ public:
         // the new rank, scaling (alpha/rank), and learning rate.
 #ifdef THEMIS_ENABLE_LLM
         lora_layer_.reset();
+        q_lora_layer_.reset();
         optimizer_.reset();
         lora_initialized_ = false;
+        using_qlora_      = false;
 #endif
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
         gpu_lora_layer_.reset();
@@ -483,10 +486,20 @@ private:
     mutable std::unique_ptr<LoRACheckpointManager> checkpoint_manager_;
 
 #ifdef THEMIS_ENABLE_LLM
-    // Real LoRA weight matrices and Adam optimizer (CPU path)
-    std::unique_ptr<llm::lora::LoRALayer> lora_layer_;
+    // Real LoRA weight matrices and Adam optimizer (CPU path).
+    // lora_layer_  is used for NONE and FP16 quantization types.
+    //   NONE : standard fp32 training (no quantization applied).
+    //   FP16 : fp32 LoRALayer is used (the config records the intent to use
+    //          FP16 semantics, but actual fp16 compute requires GPU support;
+    //          on the CPU path this falls back to fp32 with no precision change).
+    // q_lora_layer_ is used for INT8 and NF4 quantization types (QLoRA):
+    //          base weights are frozen/compressed; only A and B adapters are
+    //          trained in full fp32 precision.
+    std::unique_ptr<llm::lora::LoRALayer>    lora_layer_;   ///< Full-precision path (NONE/FP16)
+    std::unique_ptr<llm::lora::QLoRALayer>   q_lora_layer_; ///< Quantized path (INT8/NF4)
     std::unique_ptr<llm::lora::AdamOptimizer> optimizer_;
     bool lora_initialized_ = false;
+    bool using_qlora_      = false;                         ///< true when q_lora_layer_ is active
 #endif
 
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_ENABLE_GPU)
@@ -611,12 +624,35 @@ private:
         }
 #endif  // THEMIS_ENABLE_GPU
 
-        // CPU path: LoRA layer with Kaiming-initialized B and zero-initialized A
-        lora_layer_ = std::make_unique<llm::lora::LoRALayer>(
-            feature_dim, feature_dim, rank, scaling);
-        optimizer_  = std::make_unique<llm::lora::AdamOptimizer>(
-            config_.learning_rate);
-        optimizer_->add_parameters(lora_layer_->parameters());
+        // CPU path: choose between full-precision LoRALayer and QLoRALayer
+        // based on the configured quantization type.
+        if (config_.quantization.type == TrainingQuantizationType::NONE ||
+            config_.quantization.type == TrainingQuantizationType::FP16) {
+            // Full-precision (fp32) or FP16 path: standard LoRALayer
+            lora_layer_ = std::make_unique<llm::lora::LoRALayer>(
+                feature_dim, feature_dim, rank, scaling);
+            optimizer_  = std::make_unique<llm::lora::AdamOptimizer>(
+                config_.learning_rate);
+            optimizer_->add_parameters(lora_layer_->parameters());
+            using_qlora_      = false;
+        } else {
+            // Quantized path (INT8 / NF4): use QLoRALayer so base weights are
+            // kept compressed and only the full-precision LoRA adapters are
+            // updated.  Base weights are nullptr here (no pre-loaded base model
+            // in the training-module context); QLoRALayer falls back to identity
+            // for the base component while still training A and B normally.
+            q_lora_layer_ = std::make_unique<llm::lora::QLoRALayer>(
+                feature_dim, feature_dim, rank, nullptr, scaling);
+            optimizer_  = std::make_unique<llm::lora::AdamOptimizer>(
+                config_.learning_rate);
+            optimizer_->add_parameters(q_lora_layer_->parameters());
+            using_qlora_      = true;
+#ifndef THEMIS_NO_SPDLOG
+            spdlog::info("QLoRA training initialized (quantization={})",
+                         config_.quantization.type == TrainingQuantizationType::NF4
+                             ? "NF4" : "INT8");
+#endif
+        }
         lora_initialized_ = true;
 #endif  // THEMIS_ENABLE_LLM
     }
@@ -687,8 +723,14 @@ private:
         // Zero gradients from previous step
         optimizer_->zero_grad();
 
-        // Forward pass: output = input @ B @ A * scaling
-        llm::lora::Tensor output = lora_layer_->forward(input);
+        // Forward pass: use QLoRALayer (quantized path) or LoRALayer (full-precision path)
+        llm::lora::Tensor output;
+        if (using_qlora_ && q_lora_layer_) {
+            output = q_lora_layer_->forward(input);
+        } else {
+            // output = input @ B @ A * scaling
+            output = lora_layer_->forward(input);
+        }
 
         // MSE loss: L = (1/N) * sum((output - target)^2)
         const size_t n = output.size();
@@ -703,7 +745,11 @@ private:
         loss /= static_cast<double>(n);
 
         // Backward pass: computes dL/dB and dL/dA
-        lora_layer_->backward(grad_output);
+        if (using_qlora_ && q_lora_layer_) {
+            q_lora_layer_->backward(grad_output);
+        } else {
+            lora_layer_->backward(grad_output);
+        }
 
         // Adam optimizer step: updates B and A weight matrices
         optimizer_->step();
@@ -831,7 +877,8 @@ private:
         }
 #endif
 #ifdef THEMIS_ENABLE_LLM
-        if (lora_initialized_ && lora_layer_) {
+        // CPU path: dispatch to QLoRALayer or LoRALayer depending on quantization config
+        if (lora_initialized_ && (lora_layer_ || q_lora_layer_)) {
             return runCPUTrainingStep(training_data, batch_offset, step_idx);
         }
 #endif
@@ -889,9 +936,12 @@ private:
         }
     }
 
-    // Read B and A matrices from a binary file and apply to the LoRA layer.
+    // Read B and A matrices from a binary file and apply to the active LoRA layer.
+    // Handles both LoRALayer (full-precision) and QLoRALayer (quantized) paths.
     void loadCheckpointWeights(const std::string& checkpoint_prefix) {
-        if (!lora_initialized_ || !lora_layer_) return;
+        if (!lora_initialized_) return;
+        // At least one of the two layer types must be valid
+        if (!lora_layer_ && !q_lora_layer_) return;
 
         std::string weights_path = checkpoint_prefix + "_weights.bin";
         std::ifstream f(weights_path, std::ios::binary);
@@ -913,7 +963,11 @@ private:
             llm::lora::Tensor A = readMatrix();
 
             if (f.good()) {
-                lora_layer_->set_weights(B, A);
+                if (using_qlora_ && q_lora_layer_) {
+                    q_lora_layer_->set_lora_weights(B, A);
+                } else if (lora_layer_) {
+                    lora_layer_->set_weights(B, A);
+                }
             }
         } catch (...) {
             // Weight file exists but is corrupt or wrong format;
@@ -1001,9 +1055,19 @@ private:
         }
 
 #ifdef THEMIS_ENABLE_LLM
-        // Serialize real LoRA weight tensors (B and A matrices)
-        if (lora_initialized_ && lora_layer_) {
-            auto weights = lora_layer_->get_weights();
+        // Serialize real LoRA weight tensors (B and A matrices).
+        // Handles both full-precision (LoRALayer) and quantized (QLoRALayer) paths.
+        std::pair<llm::lora::Tensor, llm::lora::Tensor> weights;
+        bool have_weights = false;
+        if (lora_initialized_ && using_qlora_ && q_lora_layer_) {
+            weights     = q_lora_layer_->get_lora_weights();
+            have_weights = true;
+        } else if (lora_initialized_ && lora_layer_) {
+            weights     = lora_layer_->get_weights();
+            have_weights = true;
+        }
+
+        if (have_weights) {
             serializeWeightTensors(prefix + "_weights.bin",
                                    weights.first, weights.second);
 

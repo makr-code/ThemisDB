@@ -300,6 +300,59 @@ TEST(IncrementalLoRATrainerValidation, ValidQuantizationInt8DoesNotFail) {
     EXPECT_TRUE(result.success);
 }
 
+TEST(IncrementalLoRATrainerValidation, ValidQuantizationNF4DoesNotFail) {
+    // NF4 (4-bit NormalFloat) triggers QLoRALayer path in the CPU training flow.
+    IncrementalTrainingConfig cfg;
+    cfg.quantization  = QuantizationConfig(TrainingQuantizationType::NF4, 64);
+    cfg.learning_rate = 0.001f;
+    cfg.rank          = 4;
+    cfg.alpha         = 8.0f;
+    cfg.batch_size    = 1;
+    cfg.num_epochs    = 1;
+    cfg.device        = "cpu";
+
+    IncrementalLoRATrainer trainer(cfg, "");
+    auto result = trainer.train(TrainingMode::INITIAL);
+    EXPECT_TRUE(result.success);
+}
+
+TEST(IncrementalLoRATrainerValidation, ValidQuantizationFP16DoesNotFail) {
+    IncrementalTrainingConfig cfg;
+    cfg.quantization  = QuantizationConfig(TrainingQuantizationType::FP16, 64);
+    cfg.learning_rate = 0.001f;
+    cfg.rank          = 4;
+    cfg.alpha         = 8.0f;
+    cfg.batch_size    = 1;
+    cfg.num_epochs    = 1;
+    cfg.device        = "cpu";
+
+    IncrementalLoRATrainer trainer(cfg, "");
+    auto result = trainer.train(TrainingMode::INITIAL);
+    EXPECT_TRUE(result.success);
+}
+
+TEST(IncrementalLoRATrainerValidation, NF4QuantizationProducesMetrics) {
+    // Verify that NF4 QLoRA training accumulates metrics the same way as full-precision.
+    IncrementalTrainingConfig cfg;
+    cfg.quantization  = QuantizationConfig(TrainingQuantizationType::NF4, 64);
+    cfg.learning_rate = 0.001f;
+    cfg.rank          = 4;
+    cfg.alpha         = 8.0f;
+    cfg.batch_size    = 1;
+    cfg.num_epochs    = 2;
+    cfg.device        = "cpu";
+
+    IncrementalLoRATrainer trainer(cfg, "");
+    auto result = trainer.train(TrainingMode::INITIAL);
+    EXPECT_TRUE(result.success);
+
+    auto metrics = trainer.getMetrics();
+    EXPECT_EQ(metrics.total_epochs, 2u);
+    EXPECT_FALSE(metrics.step_losses.empty());
+    EXPECT_EQ(metrics.total_steps, metrics.step_losses.size());
+    EXPECT_GT(metrics.total_elapsed_seconds, 0.0);
+}
+
 // ============================================================================
 // getMetrics – single-GPU path reports gpus_used == 1
 // ============================================================================
