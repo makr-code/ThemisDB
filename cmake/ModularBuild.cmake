@@ -1313,6 +1313,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
     ../src/network/geo_topology_router.cpp
     ../src/network/socket_timeout_manager.cpp
+    ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
