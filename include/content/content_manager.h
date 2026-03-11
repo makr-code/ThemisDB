@@ -38,6 +38,7 @@
 #include "content/content_processor.h"
 #include "content/deduplication_checker.h"
 #include "content/embedding_pipeline.h"
+#include "content/mime_detector.h"
 #include "content/processor_chain_config.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -604,6 +605,12 @@ private:
     std::shared_ptr<EmbeddingPipeline> embedding_pipeline_;
     std::shared_ptr<DeduplicationChecker> dedup_checker_;
     ProcessorChainConfig processor_chain_config_;  ///< Configurable stage chain.
+
+    /// MIME type detector used for OCR routing via ContentPolicy::ocrEnabled().
+    /// Initialized once on construction (YAML config loaded from default path).
+    /// Call mime_detector_.enableOcr(true/false) before shouldTriggerOcr() to
+    /// apply the per-ingestion ContentPolicy::ocr_enabled flag.
+    MimeDetector mime_detector_;
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;

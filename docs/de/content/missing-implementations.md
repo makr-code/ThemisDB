@@ -11,9 +11,9 @@
 | Schweregrad | Anzahl |
 |-------------|--------|
 | Critical    | 0 |
-| Medium      | 1 |
+| Medium      | 0 |
 | Low         | 3 |
-| **Gesamt**  | **4** |
+| **Gesamt**  | **3** |
 
 ---
 
@@ -29,17 +29,15 @@
 
 ---
 
-## CON-002 — MimeDetector-gesteuerte OCR-Aktivierung via ContentPolicy *(Medium)*
+## CON-002 — MimeDetector-gesteuerte OCR-Aktivierung via ContentPolicy ✅ BEHOBEN
 
-**Datei:** `src/content/mime_detector.cpp`
+**Datei:** `src/content/mime_detector.cpp`, `src/content/content_manager.cpp`
 
 **Erwartet:** `MimeDetector` aktiviert OCR für `image/png`, `image/jpeg`, `image/tiff`, wenn `ContentPolicy::ocrEnabled() == true` für die Collection.
 
-**Beobachtet:** Methode `ocrEnabled()` auf `ContentPolicy` nicht vorhanden; keine OCR-Routing-Logik in `mime_detector.cpp`.
+**Behoben:** `ContentPolicy::ocr_enabled` + `ocrEnabled()` in `include/content/content_policy.h` implementiert. `MimeDetector::shouldTriggerOcr()` und `enableOcr()` in `src/content/mime_detector.cpp` implementiert. `ContentManager::ingestRawBlob()` nutzt jetzt `mime_detector_.enableOcr(config["ocr_enabled"])` + `mime_detector_.shouldTriggerOcr(detected_mime)` für das OCR-Routing statt der manuellen MIME-Typ-Prüfung. `MimeDetector mime_detector_` ist als privates Mitglied von `ContentManager` registriert (einmalige YAML-Initialisierung). Tests: `ContentPolicyOcrTest` (3 Tests in `test_content_policy.cpp`), `MimeDetectorOcrTest` (9 Tests in `test_content_policy.cpp`), `OcrMimeRoutingIntegrationTest` (5 Tests in `test_ocr_processor.cpp`).
 
-**Auswirkung:** OCR wird nicht automatisch beim Ingestion-Prozess ausgelöst; muss manuell via `ocr_processor.cpp` aufgerufen werden.
-
-**Empfohlener Issue-Titel:** `feat(content): add ContentPolicy::ocrEnabled() and wire OCR trigger in MimeDetector`
+**Auswirkung:** OCR wird automatisch beim Ingestion-Prozess ausgelöst, wenn `config["ocr_enabled"]=true` gesetzt ist. Das Routing läuft vollständig über `MimeDetector::shouldTriggerOcr()`, das intern `ContentPolicy::ocrEnabled()` prüft.
 
 ---
 
@@ -137,3 +135,8 @@
 | `src/content/FUTURE_ENHANCEMENTS.md` — PDF section preamble | "Legacy .doc/.xls via LibreOffice headless not yet implemented" | Updated to ✅ implemented |
 | `src/content/FUTURE_ENHANCEMENTS.md` — PDF section notes | `[ ]` LibreOffice headless fallback | `[x]` extractLegacyViaLibreOffice() (CON-001 ✅) |
 | `src/content/FUTURE_ENHANCEMENTS.md` — Security section | `[ ]` LibreOffice subprocess security requirement | `[x]` posix_spawn + POSIX_SPAWN_RESETIDS + minimal env (CON-007 ✅) |
+| `include/content/content_policy.h` | No `ocr_enabled` / `ocrEnabled()` | `bool ocr_enabled = false` + `bool ocrEnabled() const` (CON-002 ✅) |
+| `include/content/mime_detector.h` | No `shouldTriggerOcr()` / `enableOcr()` | `shouldTriggerOcr(mime_type)` + `enableOcr(bool)` added (CON-002 ✅) |
+| `src/content/mime_detector.cpp` | No OCR routing logic | `shouldTriggerOcr()` + `enableOcr()` implemented; `ocr_recommended` set in `validateUpload()` (CON-002 ✅) |
+| `include/content/content_manager.h` | No `MimeDetector` member | `MimeDetector mime_detector_` private member; `#include "content/mime_detector.h"` (CON-002 ✅) |
+| `src/content/content_manager.cpp` — `ingestRawBlob` OCR section | Manual MIME-type check duplicating `shouldTriggerOcr()` logic | Uses `mime_detector_.enableOcr()` + `mime_detector_.shouldTriggerOcr()` (CON-002 ✅) |
