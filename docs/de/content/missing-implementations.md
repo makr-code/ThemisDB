@@ -71,17 +71,15 @@
 
 ---
 
-## CON-005 — Backpressure bei Streaming-Ingestion nicht implementiert *(Low)*
+## CON-005 — Back-pressure bei Streaming-Ingestion ✅ BEHOBEN
 
 **Datei:** `src/content/async_ingestion_worker.cpp`
 
 **Erwartet:** `ingestStream()` blockiert den Aufrufer, wenn die Worker-Queue-Tiefe `config_.max_queue_depth` überschreitet; gibt `std::future<ContentId>` für async-Aufrufer zurück.
 
-**Beobachtet:** Item in `FUTURE_ENHANCEMENTS.md` noch `[ ]` offen.
+**Behoben:** `AsyncIngestionConfig` um Feld `max_queue_depth` (Standard: 1000) erweitert. `submitStream()` blockiert per `std::condition_variable::wait` statt eine Ausnahme zu werfen, wenn `queue.size() >= max_queue_depth`. Neue Methode `ingestStream()` gibt `std::future<std::string>` zurück, das bei Erfolg mit der primären ContentId aufgelöst wird; bei Fehlern und Worker-Shutdown wird die Ausnahme über das Future weitergeleitet. Worker-Loop benachrichtigt `backpressure_cv_` nach jedem Dequeue-Vorgang; `stop()` benachrichtigt `backpressure_cv_` beim Shutdown und bricht pending Promises ab.
 
-**Auswirkung:** Unter hoher Ingestion-Last kann die Worker-Queue unbegrenzt wachsen; Aufrufer werden nicht gedrosselt.
-
-**Empfohlener Issue-Titel:** `feat(content): implement back-pressure in async_ingestion_worker.cpp for ingestStream()`
+**Auswirkung:** Queue-Tiefe wird respektiert; kein unbegrenztes Wachstum unter Last. Sowohl synchrone als auch async-Aufrufer werden korrekt gedrosselt.
 
 ---
 
