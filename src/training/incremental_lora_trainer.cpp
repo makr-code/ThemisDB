@@ -392,6 +392,34 @@ public:
         return versions;
     }
 
+    // Phase 4: Weighted-random adapter selection based on traffic_split values.
+    // Returns the version name of the selected adapter, or "" if no active version exists.
+    std::string selectAdapterForRequest() const {
+        // Collect active versions and their cumulative weights.
+        std::vector<std::pair<std::string, float>> active; // (version, weight)
+        float total = 0.0f;
+        for (const auto& [ver, rec] : version_registry_) {
+            if (rec.is_active && rec.traffic_split > 0.0f) {
+                active.emplace_back(ver, rec.traffic_split);
+                total += rec.traffic_split;
+            }
+        }
+        if (active.empty() || total <= 0.0f) return "";
+
+        // Weighted random draw in [0, total).
+        static thread_local std::mt19937 rng{std::random_device{}()};
+        std::uniform_real_distribution<float> dist(0.0f, total);
+        float roll = dist(rng);
+
+        float cumulative = 0.0f;
+        for (const auto& [ver, weight] : active) {
+            cumulative += weight;
+            if (roll < cumulative) return ver;
+        }
+        // Fallback: return the last active version (handles floating-point edge cases).
+        return active.back().first;
+    }
+
     // -------------------------------------------------------------------------
     // Phase 3: Hyperparameter API
     // -------------------------------------------------------------------------
@@ -931,6 +959,10 @@ bool IncrementalLoRATrainer::rollbackVersion(const std::string& target_version) 
 
 std::vector<std::string> IncrementalLoRATrainer::listVersions() const {
     return impl_->listVersions();
+}
+
+std::string IncrementalLoRATrainer::selectAdapterForRequest() const {
+    return impl_->selectAdapterForRequest();
 }
 
 void IncrementalLoRATrainer::setHyperparameters(int rank, float alpha, float learning_rate) {

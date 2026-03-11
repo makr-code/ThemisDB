@@ -191,6 +191,17 @@ public:
      * @return Vector of version identifiers
      */
     std::vector<std::string> listVersions() const;
+
+    /**
+     * @brief Select an adapter version for the next request using weighted-random traffic routing.
+     *
+     * Returns the adapter version name chosen according to the traffic_split weights set via
+     * deployVersion().  When multiple versions are active, each call independently samples
+     * from the configured distribution, enabling A/B-test-style canary rollouts.
+     *
+     * @return Selected adapter version name, or empty string if no version is active.
+     */
+    std::string selectAdapterForRequest() const;
     
     /**
      * @brief Set training hyperparameters
