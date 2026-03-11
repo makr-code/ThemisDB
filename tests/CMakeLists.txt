@@ -122,6 +122,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_learning_metrics\\.cpp$"
         ".*test_adapter_sync\\.cpp$"
         ".*test_cross_functional_voice_observability\\.cpp$"
+        # test_voice_assistant.cpp includes voice/voice_assistant.h which includes llm/llama_wrapper.h
+        ".*test_voice_assistant\\.cpp$"
         ".*test_process_mining_e2e\\.cpp$"
         ".*test_extended_context\\.cpp$"
         ".*test_model_loader_error_handling\\.cpp$"
@@ -851,6 +853,7 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_macro_manager.cpp
         ../src/voice/emotion_analyzer.cpp
         ../src/voice/voice_browser_streaming.cpp
+        ../src/voice/voice_telephony.cpp
     )
 endif()
 
@@ -10596,19 +10599,38 @@ if(TARGET test_modality_parser_focused)
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
 endif()
 
-# ===========================================================================
-# Updates Module – Focused Standalone Test Targets
-# ===========================================================================
+# ──────────────────────────────────────────────────────────────────────────────
+# Voice Module Focused Tests
+# ──────────────────────────────────────────────────────────────────────────────
 
-# UpdatesProduction – comprehensive production-ready tests for the updates module
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_updates_production.cpp")
-    message(STATUS "Adding Updates Production focused tests")
+# VoiceProduction focused tests – covers all 10 production-readiness phases
+# (AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager,
+#  VoiceSecurityManager, VoiceErrorHandler, VoiceTTSCustomizer, VoiceMeetingSupport,
+#  VoiceAudioStorage, VoiceAccessibility, VoiceModelCache, VoiceBatchProcessor,
+#  VoiceBiometricAuthenticator, EmotionAnalyzer)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+    message(STATUS "Adding Voice Production focused tests")
 
-    add_executable(test_updates_production_focused
-        test_updates_production.cpp
+    add_executable(test_voice_production_focused
+        test_voice_production.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/audio_preprocessing.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/wake_word_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_batch_processor.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_authenticator.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_macro_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/emotion_analyzer.cpp
     )
 
-    target_include_directories(test_updates_production_focused PRIVATE
+    target_include_directories(test_voice_production_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
@@ -10657,6 +10679,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp")
         Threads::Threads
     )
 
+    target_compile_definitions(test_voice_production_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceProductionFocusedTests COMMAND test_voice_production_focused)
+
+    set_tests_properties(VoiceProductionFocusedTests PROPERTIES
+        LABELS "voice;production;stt;tts;session;security;preprocessing;biometric;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VoiceProduction: AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager, VoiceSecurityManager, VoiceErrorHandler, VoiceTTSCustomizer, VoiceBiometricAuthenticator, EmotionAnalyzer")
+else()
+    message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
+endif()
+
+# VoiceCoverage focused tests – pushes coverage above 80% for previously
+# untested methods (VoiceSessionManager, VoiceAudioStorage, VoiceMeetingSupport,
+# VoiceSecurityManager, VoiceTTSCustomizer, VoiceIntentDetector, VoiceAccessibility)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
+    message(STATUS "Adding Voice Coverage focused tests")
+
+    add_executable(test_voice_coverage_focused
+        test_voice_coverage.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+    )
+
+    target_include_directories(test_voice_coverage_focused PRIVATE
     target_compile_definitions(test_blue_green_deployment_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -10686,13 +10743,99 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
 
-    target_link_libraries(test_canary_rollout_focused PRIVATE
+    target_link_libraries(test_voice_coverage_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
         Threads::Threads
     )
 
+    target_compile_definitions(test_voice_coverage_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
+
+    set_tests_properties(VoiceCoverageFocusedTests PROPERTIES
+        LABELS "voice;coverage;session;storage;meeting;security;tts;intent;accessibility;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VoiceCoverage: VoiceSessionManager, VoiceAudioStorage, VoiceMeetingSupport, VoiceSecurityManager, VoiceTTSCustomizer, VoiceIntentDetector, VoiceAccessibility")
+else()
+    message(STATUS "Voice Coverage focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp")
+endif()
+
+# VoiceAssistant focused tests – covers VoiceBiometricAuthenticator, WakeWordDetector,
+# VoiceBatchProcessor, VoiceMacroManager, and full VoiceAssistant pipeline.
+# Requires THEMIS_ENABLE_LLM because voice_assistant.h includes llm/llama_wrapper.h.
+if(THEMIS_ENABLE_LLM)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp")
+        message(STATUS "Adding Voice Assistant focused tests (requires THEMIS_ENABLE_LLM)")
+
+        add_executable(test_voice_assistant_focused
+            test_voice_assistant.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_authenticator.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/wake_word_detector.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_batch_processor.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_macro_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/audio_preprocessing.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_intent_detector.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_security.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_error_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_tts_customizer.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_meeting_support.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_audio_storage.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_accessibility.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_model_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/emotion_analyzer.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_assistant.cpp
+            ${THEMIS_ROOT_DIR}/src/voice/voice_assistant_llm.cpp
+            ${THEMIS_ROOT_DIR}/src/content/stt_processor.cpp
+            ${THEMIS_ROOT_DIR}/src/content/tts_processor.cpp
+        )
+
+        target_include_directories(test_voice_assistant_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+
+        target_link_libraries(test_voice_assistant_focused PRIVATE
+            ${TEST_LIBS}
+            nlohmann_json::nlohmann_json
+            spdlog::spdlog
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_voice_assistant_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME VoiceAssistantFocusedTests COMMAND test_voice_assistant_focused)
+
+        set_tests_properties(VoiceAssistantFocusedTests PROPERTIES
+            LABELS "voice;assistant;biometric;authentication;speaker-verification;wake-word;macros;focused;unit"
+            TIMEOUT 180
+        )
+
+        message(STATUS "  VoiceAssistant: VoiceBiometricAuthenticator enroll/verify/identify, liveness detection, WakeWordDetector, VoiceBatchProcessor, VoiceMacroManager, VoiceAssistant pipeline")
+    else()
+        message(STATUS "Voice Assistant focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_assistant.cpp")
+    endif()
+endif()
+
+# VoiceBrowserStreaming focused tests – covers VoiceStreamingSession lifecycle,
+# frame processing, streaming stats, partial-result emission, and error handling.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
+    message(STATUS "Adding Voice Browser Streaming focused tests")
+
+    add_executable(test_voice_browser_streaming_focused
+        test_voice_browser_streaming.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_browser_streaming.cpp
+    )
+
+    target_include_directories(test_voice_browser_streaming_focused PRIVATE
     target_compile_definitions(test_canary_rollout_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -10758,6 +10901,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_in_place_schema_migrator.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
 
+    target_link_libraries(test_voice_browser_streaming_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+    )
+    
     target_link_libraries(test_in_place_schema_migrator_focused PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -10766,6 +10914,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_in_place_schema_migrator.cpp")
         Threads::Threads
     )
 
+    target_compile_definitions(test_voice_browser_streaming_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND test_voice_browser_streaming_focused)
+
+    set_tests_properties(VoiceBrowserStreamingFocusedTests PROPERTIES
+        LABELS "voice;streaming;websocket;browser;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VoiceBrowserStreaming: VoiceStreamingSession lifecycle, frame processing, streaming stats, error handling")
+else()
+    message(STATUS "Voice Browser Streaming focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
+endif()
+
+# VoiceTelephony focused tests – covers SipCallSession, WebRtcCallSession,
+# IVREngine, and TelephonyBridge coordinator.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp")
+    message(STATUS "Adding Voice Telephony focused tests")
+
+    add_executable(test_voice_telephony_focused
+        test_voice_telephony.cpp
+        ${THEMIS_ROOT_DIR}/src/voice/voice_telephony.cpp
+    )
+
+    target_include_directories(test_voice_telephony_focused PRIVATE
+    )
+    
     target_compile_definitions(test_in_place_schema_migrator_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
@@ -10795,6 +10972,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
 
+    target_link_libraries(test_voice_telephony_focused PRIVATE
+        ${TEST_LIBS}
+    )
+        
     target_link_libraries(test_notification_webhook_focused PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -10803,6 +10984,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp")
         Threads::Threads
     )
 
+    target_compile_definitions(test_voice_telephony_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VoiceTelephonyFocusedTests COMMAND test_voice_telephony_focused)
+
+    set_tests_properties(VoiceTelephonyFocusedTests PROPERTIES
+        LABELS "voice;telephony;sip;webrtc;ivr;bridge;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  VoiceTelephony: SipCallSession, WebRtcCallSession, IVREngine, TelephonyBridge")
+else()
+    message(STATUS "Voice Telephony focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp")
     target_compile_definitions(test_notification_webhook_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
