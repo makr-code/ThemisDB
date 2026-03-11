@@ -1,3 +1,4 @@
+<!-- Status: current | validated: 2026-03-11 -->
 # Scheduler Module - Future Enhancements
 
 ## Scope
@@ -675,3 +676,11 @@ Feature requests and design discussions: https://github.com/ThemisDB/ThemisDB/di
 - DAG immutability after submission prevents race-condition task graph mutations
 - Distributed coordinator uses Raft-based consensus; no split-brain task duplication
 - Retry policies with jitter prevent thundering-herd effects on transient failures
+
+
+---
+
+## Scientific References
+
+For the full IEEE-formatted scientific reference list backing the planned features above, see:
+→ [`src/scheduler/FUTURE_ENHANCEMENTS.md` – Scientific References (IEEE Format)](../../src/scheduler/FUTURE_ENHANCEMENTS.md#scientific-references-ieee-format)

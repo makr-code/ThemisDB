@@ -1,3 +1,4 @@
+<!-- Status: current | validated: 2026-03-11 -->
 # Scheduler Module - Future Enhancements
 
 ## Scope
@@ -50,6 +51,7 @@ Leader election semantics:
 
 ### Distributed Task Coordination with Raft
 **Target:** v1.7.0 (enhanced Raft-based implementation)
+**Research Basis:** *(see [1][2][3])*
 
 Note: Gossip-based leader election is already implemented (v1.x).
 This entry covers the advanced Raft-based alternative for stronger consistency.
@@ -61,6 +63,7 @@ Implementation tasks:
 
 ### Priority-Based Scheduling
 **Target:** v1.7.0
+**Research Basis:** *(see [4][5])*
 
 Implementation tasks:
 - [x] Priority-ordered dispatch – `schedulerLoop()` sorts `tasks_to_execute` by `ScheduledTask::priority` (HIGH → NORMAL → LOW) before launching threads (`std::sort` descending, added v1.7.0)
@@ -82,6 +85,7 @@ Implementation tasks:
 
 ### Dynamic Resource Allocation
 **Target:** v1.8.0
+**Research Basis:** *(see [6][7][8])*
 
 Implementation tasks:
 - [ ] cgroups integration (Linux)
@@ -92,6 +96,7 @@ Implementation tasks:
 
 ### Multi-Tenancy Support
 **Target:** v1.7.0
+**Research Basis:** *(see [9][10])*
 
 Implementation tasks:
 - [ ] Tenant quota tracking
@@ -136,6 +141,7 @@ Implementation tasks:
 
 ### Task Checkpointing and Resume
 **Target:** v1.8.0
+**Research Basis:** *(see [11][12])*
 
 Implementation tasks:
 - [ ] Checkpoint persistence API
@@ -145,6 +151,7 @@ Implementation tasks:
 
 ### Observability Enhancements
 **Target:** v1.7.0
+**Research Basis:** *(see [13][14])*
 
 Implementation tasks:
 - [x] Prometheus metrics export (`TaskScheduler::exportMetrics()` — emits `themis_scheduler_*` gauges/counters in Prometheus text format, including `themis_scheduler_concurrency_limit` and `themis_scheduler_queue_depth`)
@@ -177,6 +184,7 @@ Implementation tasks:
 
 ### Machine Learning for Task Optimization
 **Timeline:** 2025+
+**Research Basis:** *(see [15][16][17])*
 
 Research tasks:
 - [ ] Task execution time prediction (LSTM/Prophet)
@@ -290,7 +298,63 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 ## References
 
+### Internal Implementation References
+
 - [Task Scheduler Implementation](./task_scheduler.cpp)
 - [Hybrid Retention Manager](./hybrid_retention_manager.cpp)
 - [Public API Documentation](../include/scheduler/README.md)
 - [Detailed Feature Descriptions](../include/scheduler/FUTURE_ENHANCEMENTS.md)
+
+---
+
+## Scientific References (IEEE Format)
+
+The following papers underpin the algorithms and design decisions for the planned features in this module. References are grouped by the feature they support.
+
+### Distributed Consensus and Raft-Based Coordination
+
+[1] D. Ongaro and J. Ousterhout, "In Search of an Understandable Consensus Algorithm," in *Proc. 2014 USENIX Annual Technical Conf. (USENIX ATC '14)*, Philadelphia, PA, USA, 2014, pp. 305–319. [Online]. Available: https://www.usenix.org/system/files/conference/atc14/atc14-paper-ongaro.pdf *(Raft consensus algorithm; direct foundation for the planned `DistributedTaskCoordinator` Raft-based leader election and log replication, see [1])*
+
+[2] L. Lamport, "Paxos Made Simple," *ACM SIGACT News (Distributed Computing Column)*, vol. 32, no. 4, pp. 51–58, Dec. 2001. [Online]. Available: https://lamport.azurewebsites.net/pubs/paxos-simple.pdf *(Foundational distributed consensus protocol; Raft is derived from Paxos; provides correctness guarantees for exactly-once task scheduling across replicas)*
+
+[3] A. Boutin et al., "Apollo: Scalable and Coordinated Scheduling for Cloud-Scale Computing," in *Proc. 11th USENIX Symp. on Operating Systems Design and Implementation (OSDI '14)*, Broomfield, CO, USA, 2014, pp. 285–300. [Online]. Available: https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-boutin_0.pdf *(Distributed task scheduling at scale with coordination; models task state replication and leader coordination patterns applicable to `DistributedTaskCoordinator`)*
+
+### Priority-Based Scheduling and Starvation Prevention
+
+[4] R. D. Blumofe and C. E. Leiserson, "Scheduling Multithreaded Computations by Work Stealing," *J. ACM*, vol. 46, no. 5, pp. 720–748, Sep. 1999, doi: 10.1145/324133.324234. *(Work-stealing thread pool scheduler; proves optimal time and space bounds for fully strict computations; the `TaskScheduler` thread pool follows this pattern, underpins priority-ordered dispatch)*
+
+[5] S. Baruah, G. Koren, D. Mao, B. Mishra, A. Raghunathan, L. Rosier, D. Shasha, and F. Wang, "On the Competitiveness of On-Line Real-Time Task Scheduling," *Real-Time Syst.*, vol. 4, no. 2, pp. 125–144, 1992, doi: 10.1007/BF00365326. *(Formal analysis of preemptive priority scheduling and starvation avoidance; provides theoretical foundation for the planned priority-aging mechanism that prevents indefinite postponement of `LOW`-priority tasks)*
+
+### Dynamic Resource Allocation and cgroups
+
+[6] A. Verma, L. Pedrosa, M. Korupolu, D. Oppenheimer, E. Tune, and J. Wilkes, "Large-Scale Cluster Management at Google with Borg," in *Proc. 10th European Conf. on Computer Systems (EuroSys '15)*, Bordeaux, France, 2015, pp. 1–17, doi: 10.1145/2741948.2741964. *(Resource isolation via cgroups in a large-scale cluster scheduler; directly applicable to the planned `cgroups integration (Linux)` for CPU and memory quota enforcement per task)*
+
+[7] B. Burns, B. Grant, D. Oppenheimer, E. Brewer, and J. Wilkes, "Borg, Omega, and Kubernetes," *ACM Queue*, vol. 14, no. 1, pp. 70–93, Jan. 2016, doi: 10.1145/2898442.2898444. *(Evolution of resource-isolation and scheduling techniques from Borg to Kubernetes; informs cgroups-v2 integration strategy and dynamic limit adjustment design)*
+
+[8] B. Hindman et al., "Mesos: A Platform for Fine-Grained Resource Sharing in the Data Center," in *Proc. 8th USENIX Symp. on Networked Systems Design and Implementation (NSDI '11)*, Boston, MA, USA, 2011, pp. 295–308. [Online]. Available: https://www.usenix.org/legacy/events/nsdi11/tech/full_papers/Hindman_new.pdf *(Fine-grained per-task resource offers and enforcement model; basis for `TaskResourceLimits` CPU/memory/I/O throttling design)*
+
+### Multi-Tenancy and Resource Isolation
+
+[9] P. Barham, B. Dragovic, K. Fraser, S. Hand, T. Harris, A. Ho, R. Neugebauer, I. Pratt, and A. Warfield, "Xen and the Art of Virtualization," in *Proc. 19th ACM Symp. on Operating Systems Principles (SOSP '03)*, Bolton Landing, NY, USA, 2003, pp. 164–177, doi: 10.1145/945445.945462. *(Foundational resource partitioning and isolation; scheduling isolation principles applicable to per-tenant task namespace separation and quota enforcement)*
+
+[10] G. Tesauro, N. K. Jong, R. Das, and M. N. Bennani, "A Hybrid Reinforcement Learning Approach to Autonomic Resource Allocation," in *Proc. 3rd Int. Conf. on Autonomic Computing (ICAC '06)*, Dublin, Ireland, 2006, pp. 65–73, doi: 10.1109/ICAC.2006.1662383. *(Autonomic per-tenant resource allocation and billing integration; models quota tracking and dynamic adjustment relevant to multi-tenancy support)*
+
+### Task Checkpointing and Fault-Tolerant Resumption
+
+[11] I. P. Egwutuoha, D. Levy, B. Selic, and S. Chen, "A Survey of Fault Tolerance Mechanisms and Checkpoint/Restart Implementations for High Performance Computing Systems," *J. Supercomput.*, vol. 65, no. 3, pp. 1302–1326, Sep. 2013, doi: 10.1007/s11227-013-0884-0. *(Comprehensive survey of checkpoint strategies; directly informs `ITaskCheckpoint` API design for persistence and automatic resume on failure)*
+
+[12] J. S. Plank, M. Beck, G. Kingsley, and K. Li, "Libckpt: Transparent Checkpointing Under Unix," in *Proc. 1995 USENIX Winter Technical Conf.*, New Orleans, LA, USA, 1995, pp. 213–223. [Online]. Available: https://www.usenix.org/legacy/publications/library/proceedings/wtec95/full_papers/plank.ps *(Transparent process-level checkpointing; foundational techniques for checkpoint persistence API and progress tracking design)*
+
+### Real-Time Event Streaming and Observability
+
+[13] J. Kreps, N. Narkhede, and J. Rao, "Kafka: A Distributed Messaging System for Log Processing," in *Proc. 6th Int. Workshop on Networking Meets Databases (NetDB '11)*, Athens, Greece, 2011, pp. 1–7. [Online]. Available: https://notes.stephenholiday.com/Kafka.pdf *(Persistent distributed event log; relevant to task event streaming design for WebSocket and event-pipeline backends)*
+
+[14] M. Zaharia, T. Das, H. Li, T. Hunter, S. Shenker, and I. Stoica, "Discretized Streams: Fault-Tolerant Streaming Computation at Scale," in *Proc. 24th ACM Symp. on Operating Systems Principles (SOSP '13)*, Farminton, PA, USA, 2013, pp. 423–438, doi: 10.1145/2517349.2522737. *(Fault-tolerant micro-batch streaming; informs real-time task execution timeline streaming and event replay guarantees for the planned WebSocket endpoint)*
+
+### Machine Learning for Task Optimization
+
+[15] S. Hochreiter and J. Schmidhuber, "Long Short-Term Memory," *Neural Comput.*, vol. 9, no. 8, pp. 1735–1780, Nov. 1997, doi: 10.1162/neco.1997.9.8.1735. *(LSTM sequence model; basis for planned task execution time prediction model using historical execution durations)*
+
+[16] S. J. Taylor and B. Letham, "Forecasting at Scale," *Am. Stat.*, vol. 72, no. 1, pp. 37–45, Jan. 2018, doi: 10.1080/00031305.2017.1380080. *(Prophet forecasting model for seasonality-aware time series; applicable to `Task execution time prediction (LSTM/Prophet)` for adaptive concurrency limit scaling)*
+
+[17] Y. Diao, J. L. Hellerstein, S. Parekh, R. Griffith, G. Kaiser, and D. Phung, "Self-Managing Systems: A Control Theory Foundation," in *Proc. 12th IEEE Int. Conf. and Workshop on the Engineering of Computer Based Systems (ECBS '05)*, Greenbelt, MD, USA, 2005, pp. 441–448, doi: 10.1109/ECBS.2005.68. *(Control-theoretic approach to autonomous resource tuning and anomaly detection; basis for `auto-tuning resource limits` and `anomaly detection in task behavior` research items)*
