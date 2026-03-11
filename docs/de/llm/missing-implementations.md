@@ -9,17 +9,44 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 1. AdaptiveVRAMAllocator — GPU-Allokation als Stub
+# LLM-Modul — Fehlende / Unvollständige Implementierungen
+
+<!-- Status: current | validated: 2026-03-11 -->
+<!-- Primärdokumentation: ../../../src/llm/ -->
+
+Dieser Report dokumentiert Funktionen und Komponenten, die in `src/llm/ROADMAP.md`, `src/llm/ARCHITECTURE.md` oder anderen Primary-Docs als implementiert beschrieben werden oder als geplant gelten, jedoch bei der Reality-Check-Prüfung als **nicht vollständig umgesetzt** oder **als Stub** befunden wurden.
+
+Prüfstand: 2026-03-11 | Branch: `develop`
+
+---
+
+## 1. ~~AdaptiveVRAMAllocator — GPU-Allokation als Stub~~ ✅ GELÖST (LLM-MISSING-001)
+
+> **Gelöst in Branch `copilot/llm-missing-001-active-vram-allocator`**
+>
+> `ActiveVRAMAllocator` wurde als neue, eigenständige Klasse implementiert
+> (`include/llm/active_vram_allocator.h`, `src/llm/active_vram_allocator.cpp`).
+> Die Stub-Methoden in `AdaptiveVRAMAllocator` (`allocateWithFragmentation`,
+> `handleOutOfMemory`) delegieren jetzt an `ActiveVRAMAllocator`.
+>
+> **Was implementiert wurde:**
+> - Echte GPU-Memory-Allokation über `GPUMemoryManager` (cudaMalloc / CPU-Fallback)
+> - LRU-basierte Eviction (`evictLRU`, `evictOwner`)
+> - Defragmentierung (`defragment`)
+> - CPU-Spilling (`spillLRUToCPU`, `restoreFromCPU`)
+> - OOM-Recovery-Pipeline (`handleOOM`) in der Reihenfolge: Eviction → Defrag → Spill
+> - OOM-Callback-Benachrichtigungen
+> - VRAM-Waste-Tracking (Padding-Verschwendung, Fragmentation-Prozent)
+> - Thread-sichere Implementierung
+> - 29 Testfälle in `tests/llm/test_active_vram_allocator.cpp`
+> - Benchmark in `benchmarks/bench_active_vram_allocator.cpp`
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/llm/ROADMAP.md` §"Speculative Decoding for Latency Reduction"; `src/llm/FUTURE_ENHANCEMENTS.md` §"Security / Reliability" (VRAM-Caps für Draft-Modell) |
 | **Erwartet** | `AdaptiveVRAMAllocator::allocateWithFragmentation()` alloziert physisch GPU-VRAM; `handleOutOfMemory()` setzt OOM-Recovery-Strategien (Eviction, Defragmentierung, CPU-Spilling) um |
-| **Beobachtet** | `allocateWithFragmentation()` setzt `*ptr = nullptr` und gibt `aligned_bytes > 0` zurück — kein echter GPU-Speicher wird alloziert. `handleOutOfMemory()` gibt `false` zurück ohne Recovery-Aktion |
-| **Evidence** | `src/llm/adaptive_vram_allocator.cpp` Zeilen 127, 139 (`// Stub implementation - would integrate with actual GPU allocator`; `*ptr = nullptr; // Stub`); Datei-Header: `Stubs: 3` |
-| **ROADMAP-Status** | Nicht separat als ROADMAP-Item geführt; implizit Teil von Speculative-Decoding- und KV-Cache-Infrastruktur |
-| **Issue-Titelvorschlag** | `[llm] Implement AdaptiveVRAMAllocator GPU memory allocation (cudaMalloc/hipMalloc)` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `llm`, `gpu`, `status:open` |
+| **Status** | ✅ **Gelöst** — `ActiveVRAMAllocator` implementiert alle geforderten Strategien |
+| **Lösung** | `include/llm/active_vram_allocator.h`, `src/llm/active_vram_allocator.cpp` |
 
 ---
 
@@ -83,7 +110,7 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
-| 1 | AdaptiveVRAMAllocator GPU-Allokation | `adaptive_vram_allocator.cpp` L127,139 | Mittel | Stub |
+| 1 | ActiveVRAMAllocator GPU-Allokation | `active_vram_allocator.cpp` | Hoch | ✅ Gelöst (LLM-MISSING-001) |
 | 2 | KV-Cache-Prewarming + Embedding-Lookup | `inference_engine_enhanced.cpp` L495,1131,1169 | Mittel | TODO |
 | 3 | DocsAssistant LLM-Completion | `docs_assistant.cpp` L251 | Niedrig | Placeholder |
 | 4 | RAG-Kontext-Enkodierung | `async_inference_engine.cpp` L373 | Niedrig | TODO |

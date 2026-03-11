@@ -899,6 +899,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/continuous_batch_scheduler.cpp
     ../src/llm/mixed_precision_inference.cpp
     ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/active_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/gpu_safe_fail.cpp
     ../src/llm/token_quota_manager.cpp

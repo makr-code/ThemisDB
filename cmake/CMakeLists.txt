@@ -2450,6 +2450,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/aql_train_parser.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/active_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/mixed_precision_inference.cpp
