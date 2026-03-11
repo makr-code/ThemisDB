@@ -27,6 +27,8 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <mutex>
+#include <atomic>
 #include "utils/expected.h"
 
 namespace themis {
@@ -461,6 +463,25 @@ public:
     Result<std::vector<std::string>> listSnapshots();
 
 private:
+    // -------------------------------------------------------------------------
+    // Scheduling: in-memory registry for backup schedules.
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Internal representation of a registered backup schedule.
+     */
+    struct ScheduledBackupEntry {
+        std::string schedule_id;
+        std::string cron_expression;
+        std::string backup_type;
+        BackupOptions options;
+        std::string created_at;
+    };
+
+    std::map<std::string, ScheduledBackupEntry> scheduled_backups_;
+    mutable std::mutex scheduler_mutex_;
+    std::atomic<uint64_t> schedule_counter_{0};
+
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
     RAIDConfig raid_config_;
     

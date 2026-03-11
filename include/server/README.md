@@ -88,6 +88,30 @@ Central entry point for request routing, load balancing, and federation.
 
 ---
 
+#### distributed_gateway.h
+**Distributed API Gateway with Raft-based configuration synchronisation**
+
+Multi-node gateway cluster (3 or 5 nodes) where routing rules and rate-limit
+configuration are replicated through Raft log entries.
+
+**Key Classes:**
+- `DistributedGateway` - Multi-node gateway wrapping `APIGateway`
+- `DistributedGateway::Config` - Distributed gateway configuration
+- `ConsistentHashRing` - Consistent-hash ring for WebSocket/SSE session affinity
+- `ClusterGatewayConfig` - Cluster-wide replicated routing configuration
+- `GatewayRouteConfig` - A single replicated routing rule
+- `GatewayNode` - Peer node descriptor
+
+**Features:**
+- Raft-based config replication across all gateway nodes
+- Automatic leader failover (target ≤ 500 ms)
+- Session affinity for WebSocket/SSE via consistent-hash ring
+- Quorum-aware config mutation (writes rejected when not leader)
+- Graceful degradation: last-known config used on quorum loss with `CRITICAL` alert
+- Split-brain safety: config mutations refused when node is not Raft leader
+
+---
+
 #### api_version.h
 **API versioning support**
 

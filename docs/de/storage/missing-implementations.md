@@ -1,6 +1,6 @@
 # Storage Module — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/storage/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/storage/ROADMAP.md`,
@@ -8,21 +8,20 @@ Dieser Report dokumentiert Funktionen, die in `src/storage/ROADMAP.md`,
 beschrieben werden, jedoch bei der Reality-Check-Prüfung als **nicht vollständig
 umgesetzt** befunden wurden.
 
-Prüfstand: 2026-03-10 | Branch: `develop`
+Prüfstand: 2026-03-11 | Branch: `copilot/implement-backup-manager-scheduling`
 
 ---
 
-## 1. BackupManager — Scheduling und Cloud-Upload nicht implementiert
+## 1. BackupManager — Scheduling und Cloud-Upload ✅ BEHOBEN
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/storage/backup_manager.cpp` (Methoden-Signaturen und Header) |
 | **Erwartet** | `scheduleBackup()`, `cancelScheduledBackup()`, `uploadBackupToCloud()`, `restoreFromCloud()` als nutzbare Produktionsmethoden |
-| **Beobachtet** | Alle vier Methoden geben `ERR_UNKNOWN` zurück mit Nachricht *"not implemented"*. Kommentar verweist auf Compile-Time-Flags (`THEMIS_ENABLE_K8S_SCHEDULER`, `THEMIS_ENABLE_S3`, etc.), die nicht ausgewertet werden |
-| **Evidence (geprüfte Pfade)** | `src/storage/backup_manager.cpp` Zeilen 1429–1510: alle Pfade enden in `tl::unexpected(Error(ERR_UNKNOWN, "...not implemented..."))` |
-| **ROADMAP-Status** | Nicht als separater ROADMAP-Eintrag; implizit als vorhanden angenommen |
-| **Issue-Titelvorschlag** | `[storage] Implement BackupManager::scheduleBackup, uploadBackupToCloud, restoreFromCloud` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `area:storage`, `status:open` |
+| **Status** | ✅ **Behoben** in PR `copilot/implement-backup-manager-scheduling` |
+| **Behobene Befunde** | `scheduleBackup()` nutzt jetzt ein thread-sicheres In-Memory-Registry und gibt eine eindeutige Schedule-ID zurück (`sched_<YYYYMMDD_HHMMSS>_<counter>`). `cancelScheduledBackup()` entfernt den Eintrag und gibt `ERR_BACKUP_NOT_FOUND` zurück wenn nicht vorhanden. `listScheduledBackups()` gibt die registrierten Einträge zurück. `uploadBackupToCloud()` und `restoreFromCloud()` validieren Inputs und delegieren über `#if defined(THEMIS_ENABLE_S3\|AZURE\|GCS)` Compile-Time-Gates an die Cloud-Hilfsmethoden. |
+| **Evidence** | `src/storage/backup_manager.cpp` Zeilen 1430–1621; `include/storage/backup_manager.h` (ScheduledBackupEntry, scheduler_mutex_, schedule_counter_) |
+| **Behoben durch** | GitHub Copilot, 2026-03-11 |
 
 ---
 
@@ -128,7 +127,7 @@ Prüfstand: 2026-03-10 | Branch: `develop`
 
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
-| 1 | BackupManager Scheduling / Cloud-Upload | backup_manager.cpp:1429–1510 | **Mittel** | Stub / ERR_UNKNOWN |
+| 1 | BackupManager Scheduling / Cloud-Upload | backup_manager.cpp | **Mittel** | ✅ Behoben (2026-03-11) |
 | 2 | BlobRedundancyManager RocksDB EventListener | blob_redundancy_manager.cpp:768 | Niedrig | Stub |
 | 3 | RocksDBWrapper::getApproximateSize() | rocksdb_wrapper.cpp:1445 | Niedrig | TODO / gibt 0 |
 | 4 | SecuritySignatureManager RocksDB-Iteration | security_signature_manager.cpp:110 | Mittel | TODO |
