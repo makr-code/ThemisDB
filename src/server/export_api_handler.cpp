@@ -27,6 +27,7 @@
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cctype>
@@ -52,9 +53,11 @@ ExportApiHandler::~ExportApiHandler() = default;
 
 http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("POST /export/jsonl-llm");
     
     // Validate admin authentication
     if (!validateAdminToken(req)) {
+        span.setStatus(false, "Unauthorized");
         return errorResponse(http::status::unauthorized, "Unauthorized: Admin token required");
     }
 
@@ -64,6 +67,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
         // Build AQL query from parameters
         std::string aql_query = buildAqlQuery(request_json);
+        span.setAttribute("export.aql_query", aql_query);
         
         THEMIS_INFO("JSONL LLM Export request: query={}", aql_query);
         
@@ -71,6 +75,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         auto& pm = plugins::PluginManager::instance();
         auto result = pm.loadPlugin("jsonl_llm_exporter");
         if (!result.has_value()) {
+            span.setStatus(false, "Plugin not found");
             return errorResponse(http::status::internal_server_error,
                 fmt::format("JSONL LLM exporter plugin not found: {}", 
                             result.error().message()));
@@ -260,9 +265,11 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
 
 http::response<http::string_body> ExportApiHandler::handleExportStatus(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("GET /export/:id/status");
     
     // Validate admin authentication
     if (!validateAdminToken(req)) {
+        span.setStatus(false, "Unauthorized");
         return errorResponse(http::status::unauthorized, "Unauthorized: Admin token required");
     }
 
@@ -271,10 +278,12 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
         std::string target(req.target().data(), req.target().size());
         auto last_slash = target.find_last_of('/');
         if (last_slash == std::string::npos) {
+            span.setStatus(false, "Invalid export ID");
             return errorResponse(http::status::bad_request, "Invalid export ID");
         }
         
         std::string export_id = target.substr(last_slash + 1);
+        span.setAttribute("export.id", export_id);
 
         // Find export job
         std::lock_guard<std::mutex> lock(export_jobs_mutex_);
