@@ -17,7 +17,6 @@
 #include <functional>
 #include <mutex>
 #include <string>
-#include <vector>
 
 namespace themis {
 namespace network {
@@ -172,6 +171,19 @@ public:
      * @brief Return a consistent statistics snapshot.
      */
     Stats getStats() const;
+
+    /**
+     * @brief Force the circuit breaker back to CLOSED and clear all counters.
+     *
+     * Resets consecutive failure/success streaks, the adaptive trip counter,
+     * and restores the effective failure threshold to the configured value.
+     */
+    void reset();
+
+    /**
+     * @brief Immediately trip the circuit to OPEN regardless of failure count.
+     */
+    void forceOpen();
 
     /**
      * @brief Register a callback invoked on every state transition.
