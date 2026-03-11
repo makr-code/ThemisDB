@@ -347,11 +347,21 @@ void WireProtocolServer::registerConnection(const std::string& remote_ip) {
 }
 
 void WireProtocolServer::unregisterConnection(const std::string& remote_ip) {
-    std::lock_guard<std::mutex> lock(connections_mutex_);
-    auto it = connections_per_ip_.find(remote_ip);
-    if (it != connections_per_ip_.end() && it->second > 0) {
-        it->second--;
+    bool was_registered = false;
+    {
+        std::lock_guard<std::mutex> lock(connections_mutex_);
+        auto it = connections_per_ip_.find(remote_ip);
+        if (it != connections_per_ip_.end() && it->second > 0) {
+            it->second--;
+            was_registered = true;
+        }
     }
+    // Only adjust the atomic counter when the connection was actually registered.
+    // Guard against spurious calls for sessions that were rejected before
+    // registerConnection() could be called (client_ip_ == "unknown") and for
+    // WebSocket-upgraded sessions whose client_ip_ was cleared prior to upgrade.
+    if (!was_registered) return;
+
     const uint32_t prev = active_connection_count_.fetch_sub(1, std::memory_order_relaxed);
     // Detect recovery: if we were overloaded and have now dropped below the
     // limit, clear the flag and emit a single recovery log message.

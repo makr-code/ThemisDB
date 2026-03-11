@@ -21,6 +21,7 @@
 #include <gtest/gtest.h>
 #include "network/wire_protocol_server.h"
 #include <atomic>
+#include <map>
 #include <string>
 
 using namespace themis::network;
@@ -255,4 +256,88 @@ TEST(WireProtocolBackpressure, TcpBacklogIndependentOfTLS) {
 
     EXPECT_TRUE(cfg.enable_tls);
     EXPECT_EQ(cfg.tcp_backlog, 200);
+}
+
+// ============================================================================
+// 11. Regression: unregisterConnection must not underflow when called for
+//     sessions that were never registerConnection()-ed (e.g. rejected before
+//     start() was called — client_ip_ stays "unknown").
+// ============================================================================
+
+namespace {
+
+/// Minimal mirror of the fixed unregisterConnection logic:
+/// only adjusts active_count when the IP was actually in the map.
+struct UnregisterMirror {
+    uint32_t max_connections = 10;
+    std::atomic<uint32_t> active_count{0};
+    std::atomic<bool> overloaded{false};
+    std::map<std::string, uint32_t> per_ip;
+
+    void registerConn(const std::string& ip) {
+        per_ip[ip]++;
+        active_count.fetch_add(1, std::memory_order_relaxed);
+    }
+
+    void unregisterConn(const std::string& ip) {
+        bool was_registered = false;
+        auto it = per_ip.find(ip);
+        if (it != per_ip.end() && it->second > 0) {
+            it->second--;
+            was_registered = true;
+        }
+        if (!was_registered) return;  // BUG FIX: don't fetch_sub when not registered
+        active_count.fetch_sub(1, std::memory_order_relaxed);
+    }
+};
+
+}  // anonymous namespace
+
+TEST(WireProtocolBackpressure, UnregisterUnknownIpDoesNotUnderflow) {
+    UnregisterMirror m;
+    m.active_count.store(0);
+
+    // Simulate a rejected session whose client_ip_ was never set ("unknown")
+    m.unregisterConn("unknown");
+
+    // active_count must remain 0, NOT wrap to UINT32_MAX
+    EXPECT_EQ(m.active_count.load(), 0u);
+}
+
+TEST(WireProtocolBackpressure, UnregisterEmptyIpDoesNotUnderflow) {
+    UnregisterMirror m;
+    m.active_count.store(0);
+
+    // Simulate a WebSocket-upgraded session whose client_ip_ was cleared
+    m.unregisterConn("");
+
+    EXPECT_EQ(m.active_count.load(), 0u);
+}
+
+TEST(WireProtocolBackpressure, UnregisterRegisteredIpDecrementsCounter) {
+    UnregisterMirror m;
+    m.registerConn("10.0.0.1");
+    m.registerConn("10.0.0.1");
+    EXPECT_EQ(m.active_count.load(), 2u);
+
+    m.unregisterConn("10.0.0.1");
+    EXPECT_EQ(m.active_count.load(), 1u);
+
+    m.unregisterConn("10.0.0.1");
+    EXPECT_EQ(m.active_count.load(), 0u);
+}
+
+TEST(WireProtocolBackpressure, MixedRegisteredAndUnregisteredCalls) {
+    UnregisterMirror m;
+    m.registerConn("192.168.1.1");
+    m.registerConn("192.168.1.2");
+    EXPECT_EQ(m.active_count.load(), 2u);
+
+    // Unregister a session that was never registered (rejected connection)
+    m.unregisterConn("unknown");
+    EXPECT_EQ(m.active_count.load(), 2u);  // unchanged
+
+    // Properly unregister a real session
+    m.unregisterConn("192.168.1.1");
+    EXPECT_EQ(m.active_count.load(), 1u);
 }
