@@ -11,6 +11,8 @@
 //  - DistributedGateway: cluster status, config apply, quorum handling
 //  - DistributedGateway: session affinity detection (WebSocket / SSE)
 //  - DistributedGateway: request delegation to underlying APIGateway
+//  - DistributedGateway: extensibility (registerHandler / registerDeprecation)
+//  - DistributedGateway: quorum-loss state and data-race safety
 //  - Chaos: repeated add/remove ring operations remain consistent
 
 #include <gtest/gtest.h>
@@ -24,6 +26,7 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <thread>
 #include <unordered_set>
 
 using namespace themis::server;
@@ -645,4 +648,130 @@ TEST(ConsistentHashRingTest, AllKeysResolveAfterFlap) {
         ASSERT_TRUE(r.has_value()) << "Key " << i << " resolved to null after flap";
         EXPECT_NE(r->node_id, "") << "Key " << i << " resolved to empty node_id";
     }
+}
+
+// ============================================================================
+// DistributedGateway – extensibility (registerHandler / registerDeprecation)
+// ============================================================================
+
+TEST(DistributedGatewayTest, RegisterHandlerDelegatesToGateway) {
+    // Verify that registerHandler() delegates to the underlying APIGateway
+    // without throwing and that subsequent requests continue to work.
+    // (The handlers_ map in APIGateway is consulted by the caller's local_handler
+    // dispatch, not auto-injected into the request pipeline; this mirrors the
+    // existing APIGatewayTest::RegisterHandler test contract.)
+    DistributedGateway dg(makeDistConfig(), makeGateway());
+    dg.start();
+
+    // Registration must not throw.
+    ASSERT_NO_THROW(
+        dg.registerHandler(
+            "/api/v1/custom",
+            [](const http::request<http::string_body>& r) {
+                http::response<http::string_body> resp{http::status::ok, r.version()};
+                resp.set(http::field::content_type, "application/json");
+                resp.body() = R"({"custom":true})";
+                resp.prepare_payload();
+                return resp;
+            }));
+
+    // Subsequent requests must continue to succeed after registration.
+    auto req  = makeReq(http::verb::get, "/health");
+    auto resp = dg.handleRequest(req, echoHandler());
+    EXPECT_EQ(resp.result(), http::status::ok)
+        << "Requests must succeed after handler registration";
+
+    dg.stop();
+}
+
+TEST(DistributedGatewayTest, RegisterDeprecationDoesNotThrow) {
+    // Verify that registerDeprecation delegates without throwing.
+    DistributedGateway dg(makeDistConfig(), makeGateway());
+
+    APIDeprecationInfo info;
+    info.deprecated_in        = APIVersion{1, 0, 0};
+    info.removed_in           = APIVersion{2, 0, 0};
+    info.deprecation_date     = std::chrono::system_clock::now();
+    info.removal_date         = std::chrono::system_clock::now()
+                                + std::chrono::hours(24 * 365);
+    info.migration_guide_url  = "https://docs.themisdb.com/migration";
+    info.reason               = "Replaced by /api/v2/custom";
+    info.alternative          = "/api/v2/custom";
+
+    EXPECT_NO_THROW(dg.registerDeprecation("/api/v1/old-custom", info))
+        << "registerDeprecation must not throw";
+}
+
+// ============================================================================
+// DistributedGateway – quorum-loss state tracking
+// ============================================================================
+
+TEST(DistributedGatewayTest, QuorumLostFlagInitiallyFalse) {
+    // Verify that getClusterStatus correctly reports quorum_lost: false
+    // on a fresh gateway before any requests are processed.
+    DistributedGateway dg(makeDistConfig("gw-1", 3), makeGateway());
+
+    auto status = dg.getClusterStatus();
+    EXPECT_FALSE(status["quorum_lost"].get<bool>())
+        << "quorum_lost must be false on construction";
+}
+
+TEST(DistributedGatewayTest, ApplyConfigResetsQuorumLostFlag) {
+    // Once a config entry is successfully applied, quorum_lost_ must be reset
+    // to false.
+    DistributedGateway dg(makeDistConfig("gw-1", 3), makeGateway());
+
+    ClusterGatewayConfig cfg;
+    cfg.version    = 7;
+    cfg.updated_by = "gw-1";
+    cfg.updated_at = std::chrono::system_clock::now();
+
+    EXPECT_TRUE(dg.applyConfigEntry(cfg.toJson().dump()));
+
+    auto status = dg.getClusterStatus();
+    EXPECT_FALSE(status["quorum_lost"].get<bool>())
+        << "quorum_lost must be false after a successful config apply";
+    EXPECT_EQ(status["config_version"].get<uint64_t>(), 7ULL);
+}
+
+// ============================================================================
+// DistributedGateway – data-race safety (concurrent applyConfigEntry)
+// ============================================================================
+
+TEST(DistributedGatewayTest, ConcurrentApplyConfigNoDataRace) {
+    // Rapid concurrent applyConfigEntry calls must not corrupt the config.
+    DistributedGateway dg(makeDistConfig("gw-1", 1), makeGateway());
+
+    const int kThreads     = 4;
+    const int kEntriesEach = 20;
+    std::vector<std::thread> threads;
+    std::atomic<int> applied{0};
+
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&dg, &applied, t, kEntriesEach] {
+            for (int i = 0; i < kEntriesEach; ++i) {
+                ClusterGatewayConfig cfg;
+                // Use non-overlapping version ranges per thread to ensure
+                // each thread can win at least once.
+                cfg.version    = static_cast<uint64_t>(t * kEntriesEach + i + 1);
+                cfg.updated_by = "gw-1";
+                cfg.updated_at = std::chrono::system_clock::now();
+                GatewayRouteConfig r;
+                r.path_prefix  = "/thread/" + std::to_string(t);
+                r.upstream_url = "http://backend:8080";
+                cfg.routes.push_back(r);
+
+                if (dg.applyConfigEntry(cfg.toJson().dump())) {
+                    applied.fetch_add(1, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+
+    for (auto& th : threads) th.join();
+
+    EXPECT_GT(applied.load(), 0);
+    auto current = dg.getCurrentConfig();
+    EXPECT_GT(current.version, 0ULL)
+        << "config version must be non-zero after concurrent applies";
 }

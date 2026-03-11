@@ -246,6 +246,36 @@ http::response<http::string_body> DistributedGateway::handleRequest(
         const http::request<http::string_body>&)> local_handler
 )
 {
+    // Quorum-loss detection: check on every request so operators get a CRITICAL
+    // alert as soon as the cluster loses quorum, not just at config-change time.
+    // All state changes are made inside the lock; logging happens after release.
+    if (running_.load()) {
+        const bool has_q = raft_->hasQuorum();
+        bool emit_critical = false;
+        bool emit_restored = false;
+        uint64_t cfg_ver   = 0;
+        {
+            std::unique_lock lock(config_mutex_);
+            if (!has_q && !quorum_lost_) {
+                quorum_lost_ = true;
+                cfg_ver      = current_config_.version;
+                emit_critical = true;
+            } else if (has_q && quorum_lost_) {
+                quorum_lost_ = false;
+                emit_restored = true;
+            }
+        }
+        if (emit_critical) {
+            spdlog::critical(
+                "DistributedGateway: quorum lost on node '{}' – "
+                "serving requests with last-known config (version {})",
+                config_.node_id, cfg_ver);
+        } else if (emit_restored) {
+            spdlog::info("DistributedGateway: quorum restored on node '{}'",
+                         config_.node_id);
+        }
+    }
+
     // Session-affinity check for WebSocket / SSE
     if (needsSessionAffinity(req)) {
         const std::string key = sessionKey(req);
@@ -306,6 +336,27 @@ ClusterGatewayConfig DistributedGateway::getCurrentConfig() const {
     return current_config_;
 }
 
+// ---------------------------------------------------------------------------
+// Extensibility
+// ---------------------------------------------------------------------------
+
+void DistributedGateway::registerHandler(
+    const std::string& pattern,
+    std::function<http::response<http::string_body>(
+        const http::request<http::string_body>&)> handler
+)
+{
+    gateway_->registerHandler(pattern, std::move(handler));
+}
+
+void DistributedGateway::registerDeprecation(
+    const std::string& endpoint,
+    const APIDeprecationInfo& info
+)
+{
+    gateway_->registerDeprecation(endpoint, info);
+}
+
 bool DistributedGateway::applyConfigEntry(const std::string& entry_json) {
     if (entry_json.empty()) {
         return true; // heartbeat / no-op entries
@@ -315,6 +366,8 @@ bool DistributedGateway::applyConfigEntry(const std::string& entry_json) {
         auto j = nlohmann::json::parse(entry_json);
         ClusterGatewayConfig new_cfg = ClusterGatewayConfig::fromJson(j);
 
+        uint64_t applied_version = 0;
+        std::size_t applied_routes = 0;
         {
             std::unique_lock lock(config_mutex_);
             if (new_cfg.version <= current_config_.version) {
@@ -323,11 +376,13 @@ bool DistributedGateway::applyConfigEntry(const std::string& entry_json) {
             }
             current_config_ = std::move(new_cfg);
             quorum_lost_ = false;
+            // Capture for logging while still holding the lock to avoid a data race.
+            applied_version = current_config_.version;
+            applied_routes  = current_config_.routes.size();
         }
 
         spdlog::info("DistributedGateway: applied config v{} ({} routes)",
-                     current_config_.version,
-                     current_config_.routes.size());
+                     applied_version, applied_routes);
         return true;
 
     } catch (const nlohmann::json::exception& e) {

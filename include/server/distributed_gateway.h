@@ -308,6 +308,40 @@ public:
     ClusterGatewayConfig getCurrentConfig() const;
 
     // -----------------------------------------------------------------------
+    // Extensibility
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Register a local request handler for a path pattern.
+     *
+     * Delegates to the underlying APIGateway::registerHandler so that callers
+     * do not need to hold a reference to the wrapped single-node gateway.
+     *
+     * @param pattern Path pattern (e.g., "/api/v1/custom/*")
+     * @param handler Handler function
+     */
+    void registerHandler(
+        const std::string& pattern,
+        std::function<http::response<http::string_body>(
+            const http::request<http::string_body>&)> handler
+    );
+
+    /**
+     * @brief Register a deprecated API endpoint.
+     *
+     * Delegates to the underlying APIGateway::registerDeprecation so that
+     * callers can register endpoint deprecations without a direct reference to
+     * the wrapped single-node gateway.
+     *
+     * @param endpoint Endpoint path (e.g., "/api/v1/old-endpoint")
+     * @param info     Deprecation details
+     */
+    void registerDeprecation(
+        const std::string& endpoint,
+        const APIDeprecationInfo& info
+    );
+
+    // -----------------------------------------------------------------------
     // Cluster status
     // -----------------------------------------------------------------------
 
