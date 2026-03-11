@@ -246,6 +246,7 @@ if(NOT THEMIS_ENABLE_HTTP_SERVER)
         ".*test_task_result_store\\.cpp$"
         ".*test_external_scheduler_adapter\\.cpp$"
         ".*test_chaos_scheduler\\.cpp$"
+        ".*test_export_api_handler\\.cpp$"
     )
 endif()
 
@@ -4639,6 +4640,40 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_g
         TIMEOUT 120
     )
     message(STATUS "  HTTP Governance: policy evaluation via HTTP, governance endpoints, access-control enforcement")
+endif()
+
+# Export API Handler — PolicyEngine authorization enforcement unit tests (EXP-001)
+if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_export_api_handler.cpp")
+    message(STATUS "Adding ExportApiHandler focused tests (EXP-001)")
+    add_executable(test_export_api_handler_focused
+        test_export_api_handler.cpp
+        ${CMAKE_SOURCE_DIR}/src/server/export_api_handler.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/jsonl_llm_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/format_template.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/exporter_metrics.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/pii_detector.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/stream_writer.cpp
+        ${CMAKE_SOURCE_DIR}/src/exporters/aql_predicate_filter.cpp
+    )
+    target_include_directories(test_export_api_handler_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+    set(_export_api_test_libs ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
+    if(TARGET themis_core)
+        list(APPEND _export_api_test_libs themis_core)
+    endif()
+    if(TARGET OpenSSL::Crypto)
+        list(APPEND _export_api_test_libs OpenSSL::Crypto)
+    endif()
+    target_link_libraries(test_export_api_handler_focused PRIVATE ${_export_api_test_libs})
+    target_compile_definitions(test_export_api_handler_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME ExportApiHandlerFocusedTests COMMAND test_export_api_handler_focused)
+    set_tests_properties(ExportApiHandlerFocusedTests PROPERTIES
+        LABELS "exporters;server;policy-engine;authorization;403;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ExportApiHandler: 403 Forbidden on ERR_EXPORT_POLICY_DENIED, setPolicyEngine/setAuditLogger setters")
 endif()
 
 # Governance – HTTP changefeed + governance integration focused tests (Issue: #1778)

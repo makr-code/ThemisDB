@@ -736,7 +736,15 @@ HttpServer::HttpServer(
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
     }
-    
+
+    // Initialize Export API Handler (EXP-001)
+    export_api_ = std::make_unique<themis::server::ExportApiHandler>(
+        storage_, secondary_index_);
+    if (audit_logger_) {
+        export_api_->setAuditLogger(audit_logger_.get());
+    }
+    THEMIS_INFO("Export API Handler initialized");
+
     // Initialize Admin API Handler
     admin_api_ = std::make_unique<themis::server::AdminApiHandler>(
         storage_, auth_
@@ -2244,7 +2252,11 @@ namespace {
        // Audit API
        AuditQueryGet,
        AuditExportCsvGet,
-       
+
+    // Export API (JSONL LLM export — EXP-001)
+    ExportJsonlLlmPost,        // POST /api/v1/export/jsonl_llm
+    ExportStatusGet,           // GET  /api/v1/export/:id/status
+
     // Update API
     UpdateStatusGet,
     UpdateCheckPost,
@@ -2671,6 +2683,11 @@ namespace {
     // Audit API endpoints
     if (path_only == "/api/audit" && method == http::verb::get) return Route::AuditQueryGet;
     if (path_only == "/api/audit/export/csv" && method == http::verb::get) return Route::AuditExportCsvGet;
+    // Export API endpoints (EXP-001)
+    if (path_only == "/api/v1/export/jsonl_llm" && method == http::verb::post) return Route::ExportJsonlLlmPost;
+    if (path_only.rfind("/api/v1/export/", 0) == 0 &&
+        path_only.rfind("/status") == path_only.size() - 7 &&
+        method == http::verb::get) return Route::ExportStatusGet;
     // Update API endpoints
     if (path_only == "/api/updates" && method == http::verb::get) return Route::UpdateStatusGet;
     if (path_only == "/api/updates/check" && method == http::verb::post) return Route::UpdateCheckPost;
@@ -4344,6 +4361,22 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::AuditExportCsvGet:
             response = handleAuditExportCsv(req);
+            break;
+        case Route::ExportJsonlLlmPost:
+            if (export_api_) {
+                response = export_api_->handleExportJsonlLlm(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Export API not enabled", req);
+            }
+            break;
+        case Route::ExportStatusGet:
+            if (export_api_) {
+                response = export_api_->handleExportStatus(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Export API not enabled", req);
+            }
             break;
         case Route::UpdateStatusGet:
         case Route::UpdateCheckPost:

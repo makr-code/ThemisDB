@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_api_handler.h                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:55:19                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-11 17:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -32,6 +32,10 @@
 
 #include "plugins/plugin_manager.h"
 #include "exporters/exporter_interface.h"
+
+// Forward-declare governance types to keep this header lean.
+namespace themis::governance { class PolicyEngine; }
+namespace themis::utils      { class AuditLogger; }
 
 namespace themis {
 
@@ -67,6 +71,21 @@ public:
     );
 
     ~ExportApiHandler();
+
+    /// Attach a PolicyEngine so that handleExportJsonlLlm() enforces
+    /// per-collection authorization before starting any export.
+    /// Non-owning raw pointer — caller must ensure it outlives this handler.
+    /// Null (default) disables the authorization check (backward compatible).
+    void setPolicyEngine(themis::governance::PolicyEngine* engine) noexcept {
+        policy_engine_ = engine;
+    }
+
+    /// Attach an AuditLogger for recording export authorization decisions.
+    /// Non-owning raw pointer — caller must ensure it outlives this handler.
+    /// Null (default) disables audit logging (backward compatible).
+    void setAuditLogger(themis::utils::AuditLogger* logger) noexcept {
+        audit_logger_ = logger;
+    }
 
     /**
      * @brief Handle JSONL LLM export request
@@ -127,6 +146,10 @@ private:
 
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
+
+    // Optional policy enforcement — set via setPolicyEngine() / setAuditLogger().
+    themis::governance::PolicyEngine* policy_engine_ = nullptr;
+    themis::utils::AuditLogger*       audit_logger_  = nullptr;
     
     // Export job tracking
     std::map<std::string, ExportJob> export_jobs_;

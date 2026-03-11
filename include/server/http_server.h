@@ -59,6 +59,7 @@
 #include "server/websocket_session.h"
 #endif
 #include "server/audit_api_handler.h"
+#include "server/export_api_handler.h"
 #include "server/admin_api_handler.h"
 #include "server/vector_api_handler.h"
 #include "server/rope_api_handler.h"
@@ -809,7 +810,10 @@ private:
     
     // Audit API Handler
     std::unique_ptr<themis::server::AuditApiHandler> audit_api_;
-    
+
+    // Export API Handler (JSONL LLM export — EXP-001)
+    std::unique_ptr<themis::server::ExportApiHandler> export_api_;
+
     // Admin API Handler
     std::unique_ptr<themis::server::AdminApiHandler> admin_api_;
     
