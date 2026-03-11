@@ -1,5 +1,8 @@
 # Search Module
 
+<!-- Status: current | validated: 2026-03-10 | commit: a14cdb2 -->
+<!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
+
 Full-text and semantic search capabilities for ThemisDB.
 
 ## Module Purpose
@@ -14,14 +17,16 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 
 ## Relevant Interfaces
 
-- `inverted_index.cpp` — inverted index construction and lookup
-- `bm25_scorer.cpp` — BM25 relevance scoring
-- `hybrid_search.cpp` — combined vector and keyword search
-- `search_engine.cpp` — query dispatch and result ranking
+- `hybrid_search.cpp` — RRF-based fusion of BM25 and vector search (main entry point)
+- `query_expander.cpp` — synonym expansion, spelling correction, query relaxation
+- `fuzzy_matcher.cpp` — Levenshtein, Soundex, Metaphone, N-gram similarity
+- `llm_query_rewriter.cpp` — LLM-based query rewriting for improved recall
+- `llm_reranker.cpp` — LLM-based re-ranking of top-N results
+- `learning_to_rank.cpp` — online pairwise gradient-descent ranking model
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Inverted index and BM25 scoring operational; hybrid vector+keyword search in progress.
+**Maturity:** 🟢 Production-Ready — All 16 components production-ready as of v2.2.0.
 
 ## Components
 
@@ -247,11 +252,10 @@ their own thread-safety guarantees — consult their documentation.
 ## Documentation
 
 For detailed implementation documentation, see:
-- [Hybrid Search Implementation](../../docs/search/hybrid_search.md)
-- [BM25 Algorithm](../../docs/search/bm25.md)
-- [Vector Search](../../docs/search/vector_search.md)
-- [RRF Algorithm](../../docs/search/reciprocal_rank_fusion.md)
-- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features
+- [Architecture Guide](ARCHITECTURE.md) - Component diagram, data flows, threading, security
+- [Roadmap](ROADMAP.md) - Implementation status, known limitations
+- [Future Enhancements](FUTURE_ENHANCEMENTS.md) - Planned features and IEEE references
+- [Secondary Docs (DE)](../../docs/de/src/search/README.md) - German overview and reality-check
 
 ## Version History
 

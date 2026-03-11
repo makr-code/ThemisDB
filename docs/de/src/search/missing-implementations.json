@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "generated_at": "2026-03-10T10:00:00Z",
+    "module": "search",
+    "module_paths": ["src/search/", "include/search/"],
+    "repo": "makr-code/ThemisDB",
+    "validated_commit": "a14cdb2",
+    "validated_branch": "develop",
+    "audit_note": "Reality-check performed 2026-03-10 against source code on branch develop. All 16 components are production-ready as of v2.2.0. One open finding: distributed search (Issue #2280).",
+    "total_findings": 1,
+    "blocking_findings": 0,
+    "non_blocking_findings": 1
+  },
+  "findings": [
+    {
+      "id": 1,
+      "title": "Distributed search across shards with result merging not implemented",
+      "claim_source": "src/search/ROADMAP.md",
+      "claim_section": "Long-term (6-12 months)",
+      "category": "missing_feature",
+      "severity": "low",
+      "blocking": false,
+      "existing_issue": "#2280",
+      "expected": "Search queries are distributed across multiple shards, partial results are merged using RRF result-merging. Inter-shard communication is authenticated with mTLS.",
+      "observed": "HybridSearch operates exclusively on the local node. No shard router, no result merger, no inter-node communication for search queries exists.",
+      "evidence": {
+        "expected_symbols": ["ShardRouter", "ShardResultMerger", "DistributedHybridSearch"],
+        "file_results": {
+          "src/search/hybrid_search.cpp": true,
+          "include/search/hybrid_search.h": true,
+          "src/search/hybrid_search.cpp#shard_dispatch": false,
+          "include/search/hybrid_search.h#ShardRouter": false
+        },
+        "all_required_present": false
+      },
+      "workaround": "Application layer can query multiple local HybridSearch instances in parallel and merge results manually using RRF.",
+      "scientific_references": [
+        {
+          "id": 7,
+          "citation": "N. Craswell, D. Hawking, and P. Thistlewaite, \"Merging Results from Isolated Search Engines,\" in Proc. 10th Australasian Database Conf. (ADC), pp. 189-200, 1999."
+        },
+        {
+          "id": 8,
+          "citation": "M. Shokouhi and L. Si, \"Federated Search,\" Foundations and Trends in Information Retrieval, vol. 5, no. 1, pp. 1-102, 2011.",
+          "doi": "https://doi.org/10.1561/1500000010"
+        }
+      ],
+      "suggested_issue_title": "[search] Distributed search across shards with mTLS-authenticated result merging",
+      "suggested_labels": ["module:search", "distributed", "enhancement", "priority:low"]
+    }
+  ],
+  "production_ready_components": [
+    {"name": "HybridSearch", "version": "v1.2.0", "files": ["hybrid_search.h", "hybrid_search.cpp"]},
+    {"name": "QueryExpander", "version": "v1.5.0", "files": ["query_expander.h", "query_expander.cpp"]},
+    {"name": "FuzzyMatcher", "version": "v1.5.0", "files": ["fuzzy_matcher.h", "fuzzy_matcher.cpp"]},
+    {"name": "FacetedSearch", "version": "v1.5.0", "files": ["faceted_search.h", "faceted_search.cpp"]},
+    {"name": "SearchAnalytics", "version": "v1.5.0", "files": ["search_analytics.h", "search_analytics.cpp"]},
+    {"name": "AutocompleteEngine", "version": "v1.5.0", "files": ["autocomplete.h", "autocomplete.cpp"]},
+    {"name": "LearningToRank", "version": "v1.5.0", "files": ["learning_to_rank.h", "learning_to_rank.cpp"]},
+    {"name": "MultiModalSearch", "version": "v1.5.0", "files": ["multi_modal_search.h", "multi_modal_search.cpp"]},
+    {"name": "LlmQueryRewriter", "version": "v1.5.0", "files": ["llm_query_rewriter.h", "llm_query_rewriter.cpp"]},
+    {"name": "LlmReranker", "version": "v1.5.0", "files": ["llm_reranker.h", "llm_reranker.cpp"]},
+    {"name": "PersonalizedRanker", "version": "v2.0.0", "files": ["personalized_ranker.h", "personalized_ranker.cpp"]},
+    {"name": "MultiFieldSearch", "version": "v2.0.0", "files": ["multi_field_search.h", "multi_field_search.cpp"]},
+    {"name": "NeuralSparseRetrieval", "version": "v2.0.0", "files": ["neural_sparse_retrieval.h", "neural_sparse_retrieval.cpp"]},
+    {"name": "CrossLingualSearch", "version": "v2.0.0", "files": ["cross_lingual_search.h", "cross_lingual_search.cpp"]},
+    {"name": "SearchHighlighter", "version": "v2.1.0", "files": ["search_highlighter.h", "search_highlighter.cpp"]},
+    {"name": "NegativeKeywordFilter", "version": "v2.2.0", "files": ["negative_keyword_filter.h", "negative_keyword_filter.cpp"]}
+  ]
+}
