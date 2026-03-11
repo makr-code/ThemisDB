@@ -1137,6 +1137,14 @@ HttpServer::HttpServer(
         task_scheduler_->start();
         task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
+
+        // Initialize Database Maintenance Orchestrator
+        maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
+            task_scheduler_.get());
+        maintenance_orchestrator_->start();
+        maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
+            maintenance_orchestrator_.get());
+        THEMIS_INFO("Database Maintenance Orchestrator initialized (endpoints: /api/v1/maintenance/*)");
     }
 
     // Initialize Async Job API Handler – long-running AQL query submission/polling
@@ -2406,6 +2414,23 @@ namespace {
     TasksHistoryGet,         // GET    /api/tasks/{id}/history – searchable audit log
     TasksUiGet,              // GET    /ui/tasks  – Web UI
 
+    // Database Maintenance Orchestrator API
+    // Schedule CRUD
+    MaintenanceSchedulesPost,       // POST   /api/v1/maintenance/schedules
+    MaintenanceSchedulesGet,        // GET    /api/v1/maintenance/schedules
+    MaintenanceScheduleGet,         // GET    /api/v1/maintenance/schedules/{id}
+    MaintenanceSchedulePut,         // PUT    /api/v1/maintenance/schedules/{id}
+    MaintenanceSchedulePatch,       // PATCH  /api/v1/maintenance/schedules/{id}
+    MaintenanceScheduleDelete,      // DELETE /api/v1/maintenance/schedules/{id}
+    MaintenanceScheduleRunPost,     // POST   /api/v1/maintenance/schedules/{id}/run
+    // Jobs
+    MaintenanceJobsGet,             // GET    /api/v1/maintenance/jobs
+    MaintenanceJobGet,              // GET    /api/v1/maintenance/jobs/{id}
+    MaintenanceJobCancelPost,       // POST   /api/v1/maintenance/jobs/{id}/cancel
+    // Observability
+    MaintenanceStatusGet,           // GET    /api/v1/maintenance/status
+    MaintenanceHealthGet,           // GET    /api/v1/maintenance/health
+
         NotFound
     };
 
@@ -2955,6 +2980,62 @@ namespace {
                 if (method == http::verb::post && action == "disable") return Route::TasksDisablePost;
                 if (method == http::verb::post && action == "execute") return Route::TasksExecutePost;
                 if (method == http::verb::get  && action == "history") return Route::TasksHistoryGet;
+            }
+        }
+    }
+
+    // Database Maintenance Orchestrator API: /api/v1/maintenance/*
+    {
+        static constexpr std::string_view kMaintBase{"/api/v1/maintenance/"};
+        static constexpr std::string_view kMaintStatus{"/api/v1/maintenance/status"};
+        static constexpr std::string_view kMaintHealth{"/api/v1/maintenance/health"};
+        static constexpr std::string_view kMaintSchedules{"/api/v1/maintenance/schedules"};
+        static constexpr std::string_view kMaintSchedulesPfx{"/api/v1/maintenance/schedules/"};
+        static constexpr std::string_view kMaintJobs{"/api/v1/maintenance/jobs"};
+        static constexpr std::string_view kMaintJobsPfx{"/api/v1/maintenance/jobs/"};
+
+        if (path_only == kMaintStatus && method == http::verb::get)
+            return Route::MaintenanceStatusGet;
+        if (path_only == kMaintHealth && method == http::verb::get)
+            return Route::MaintenanceHealthGet;
+
+        // /api/v1/maintenance/schedules (collection)
+        if (path_only == kMaintSchedules) {
+            if (method == http::verb::post) return Route::MaintenanceSchedulesPost;
+            if (method == http::verb::get)  return Route::MaintenanceSchedulesGet;
+        }
+        // /api/v1/maintenance/schedules/{id}[/run]
+        if (path_only.rfind(kMaintSchedulesPfx.data(), 0) == 0 &&
+            path_only.size() > kMaintSchedulesPfx.size()) {
+            std::string rest = path_only.substr(kMaintSchedulesPfx.size());
+            auto slash = rest.find('/');
+            if (slash == std::string::npos) {
+                // /api/v1/maintenance/schedules/{id}
+                if (method == http::verb::get)    return Route::MaintenanceScheduleGet;
+                if (method == http::verb::put)    return Route::MaintenanceSchedulePut;
+                if (method == http::verb::patch)  return Route::MaintenanceSchedulePatch;
+                if (method == http::verb::delete_)return Route::MaintenanceScheduleDelete;
+            } else {
+                std::string action = rest.substr(slash + 1);
+                if (method == http::verb::post && action == "run")
+                    return Route::MaintenanceScheduleRunPost;
+            }
+        }
+
+        // /api/v1/maintenance/jobs (collection)
+        if (path_only == kMaintJobs && method == http::verb::get)
+            return Route::MaintenanceJobsGet;
+        // /api/v1/maintenance/jobs/{id}[/cancel]
+        if (path_only.rfind(kMaintJobsPfx.data(), 0) == 0 &&
+            path_only.size() > kMaintJobsPfx.size()) {
+            std::string rest = path_only.substr(kMaintJobsPfx.size());
+            auto slash = rest.find('/');
+            if (slash == std::string::npos) {
+                if (method == http::verb::get) return Route::MaintenanceJobGet;
+            } else {
+                std::string action = rest.substr(slash + 1);
+                if (method == http::verb::post && action == "cancel")
+                    return Route::MaintenanceJobCancelPost;
             }
         }
     }
@@ -5142,6 +5223,303 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             auto result = task_scheduler_api_->getExecutionHistory(task_id, qparams);
             response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+
+        // ---- Database Maintenance Orchestrator API --------------------------
+
+        case Route::MaintenanceStatusGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read", "maintenance.status",
+                                              "/api/v1/maintenance/status")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->getStatus().dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceHealthGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read", "maintenance.health",
+                                              "/api/v1/maintenance/health")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->getHealth().dump(), req);
+            break;
+        }
+
+        // -- Schedule CRUD --------------------------------------------------
+
+        case Route::MaintenanceSchedulesPost: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.create",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            auto result = maintenance_api_->createSchedule(body);
+            if (result.value("status", "") == "error") {
+                response = makeErrorResponse(http::status::bad_request,
+                                             result.value("error", "Unknown error"), req);
+            } else {
+                response = makeResponse(http::status::created, result.dump(), req);
+            }
+            break;
+        }
+
+        case Route::MaintenanceSchedulesGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.schedules.list",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->listSchedules().dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceScheduleGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.schedules.get",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->getSchedule(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceSchedulePut: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.update",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                auto body = nlohmann::json::parse(req.body(), nullptr, false);
+                if (body.is_discarded()) {
+                    response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                    break;
+                }
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->updateSchedule(id, body);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceSchedulePatch: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.patch",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                auto patch = nlohmann::json::parse(req.body(), nullptr, false);
+                if (patch.is_discarded()) {
+                    response = makeErrorResponse(http::status::bad_request, "Invalid JSON body", req);
+                    break;
+                }
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->patchSchedule(id, patch);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceScheduleDelete: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.schedules.delete",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->deleteSchedule(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceScheduleRunPost: {
+            if (auto auth_err = requireAccess(req, "maintenance:admin",
+                                              "maintenance.schedules.run",
+                                              "/api/v1/maintenance/schedules")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/schedules/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string rest = ponly.substr(kPfx.size());
+                std::string id   = rest.substr(0, rest.find('/'));
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->triggerNow(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::accepted, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        // -- Jobs -----------------------------------------------------------
+
+        case Route::MaintenanceJobsGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.jobs.list",
+                                              "/api/v1/maintenance/jobs")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            nlohmann::json qp = parseQueryParams(std::string(req.target()));
+            bool active_only = qp.value("active_only", false);
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->listJobs(active_only).dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceJobGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read",
+                                              "maintenance.jobs.get",
+                                              "/api/v1/maintenance/jobs")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/jobs/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string id = ponly.substr(kPfx.size());
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->getJob(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
+            break;
+        }
+
+        case Route::MaintenanceJobCancelPost: {
+            if (auto auth_err = requireAccess(req, "maintenance:write",
+                                              "maintenance.jobs.cancel",
+                                              "/api/v1/maintenance/jobs")) {
+                response = *auth_err; break;
+            }
+            {
+                static constexpr std::string_view kPfx{"/api/v1/maintenance/jobs/"};
+                std::string ponly = std::string(req.target());
+                if (auto q = ponly.find('?'); q != std::string::npos) ponly = ponly.substr(0, q);
+                std::string rest = ponly.substr(kPfx.size());
+                std::string id   = rest.substr(0, rest.find('/'));
+                if (!maintenance_api_) {
+                    response = makeErrorResponse(http::status::service_unavailable,
+                                                 "Maintenance orchestrator not initialized", req);
+                    break;
+                }
+                auto result = maintenance_api_->cancelJob(id);
+                if (result.value("status", "") == "error") {
+                    response = makeErrorResponse(http::status::not_found,
+                                                 result.value("error", "Not found"), req);
+                } else {
+                    response = makeResponse(http::status::ok, result.dump(), req);
+                }
+            }
             break;
         }
 

@@ -11939,6 +11939,48 @@ else()
     message(STATUS "Distributed Gateway focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
 endif()
 
+# DatabaseMaintenanceOrchestrator – focused tests for CRUD, jobs, and health
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
+    message(STATUS "Adding Database Maintenance Orchestrator focused tests")
+
+    add_executable(test_database_maintenance_orchestrator_focused
+        test_database_maintenance_orchestrator.cpp
+        ${THEMIS_ROOT_DIR}/src/maintenance/database_maintenance_orchestrator.cpp
+        ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/server/maintenance_api_handler.cpp
+    )
+
+    target_include_directories(test_database_maintenance_orchestrator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_database_maintenance_orchestrator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_database_maintenance_orchestrator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_HTTP_SERVER=1
+    )
+
+    add_test(NAME DatabaseMaintenanceOrchestratorFocusedTests
+             COMMAND test_database_maintenance_orchestrator_focused)
+
+    set_tests_properties(DatabaseMaintenanceOrchestratorFocusedTests PROPERTIES
+        LABELS "maintenance;orchestrator;schedule;crud;health;window;metrics;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DatabaseMaintenanceOrchestrator: schedule CRUD, job management, health reporting")
+else()
+    message(STATUS "Database Maintenance Orchestrator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_engine.cpp")
     message(STATUS "Adding Query: QueryEngine focused tests")
     add_executable(test_query_engine_focused test_query_engine.cpp)
