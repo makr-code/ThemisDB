@@ -220,19 +220,27 @@ auto info = provider.handleIntrospect(bearer_token);
 
 ---
 
-#### SAML 2.0 Support
+#### SAML 2.0 Support ✅ Implemented (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented — `src/server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h`
 
-SAML 2.0 integration for enterprise SSO.
+SAML 2.0 Service Provider for enterprise SSO. SP-initiated AuthnRequest, Assertion Consumer
+Service (ACS), Single Logout (SLO), and SP metadata generation are all implemented.
 
-**Features:**
-- Service Provider (SP) implementation
-- SAML assertion validation
+**Implemented Features:**
+- Service Provider (SP) implementation (`SamlAuthProvider`)
+- SP-initiated SSO: `GET /api/v1/auth/saml/login` → 302 IdP redirect
+- Assertion Consumer Service: `POST /api/v1/auth/saml/acs` with full assertion validation
+- Single Logout: `POST /api/v1/auth/saml/slo`
+- SP metadata XML: `GET /api/v1/auth/saml/metadata`
+- SAML assertion validation (signature, audience, NotBefore/NotOnOrAfter, replay detection)
 - Attribute mapping to ThemisDB user model
-- Single Sign-On (SSO) and Single Logout (SLO)
+- Custom token factory support
+- 37 unit tests in `tests/test_saml_auth_provider.cpp`
 
 ---
+
 
 #### Passwordless Authentication
 **Priority:** Low  
