@@ -150,7 +150,8 @@ size_t DeliveryTracker::acknowledgeUpTo(const std::string& consumer_id,
 }
 
 std::vector<Changefeed::ChangeEvent>
-DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
+DeliveryTracker::getPendingRedelivery(const std::string& consumer_id,
+                                       std::optional<std::chrono::milliseconds> timeout_override) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto cit = consumers_.find(consumer_id);
@@ -160,6 +161,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
 
     ConsumerState& state = cit->second;
     auto now = std::chrono::steady_clock::now();
+    const auto effective_timeout = timeout_override.value_or(config_.ack_timeout);
 
     std::vector<Changefeed::ChangeEvent> to_redeliver;
     std::vector<uint64_t> to_expire;
@@ -168,7 +170,7 @@ DeliveryTracker::getPendingRedelivery(const std::string& consumer_id) {
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             now - pending.delivered_at);
 
-        if (elapsed >= config_.ack_timeout) {
+        if (elapsed >= effective_timeout) {
             if (config_.max_redelivery_attempts > 0 &&
                 pending.attempt >= config_.max_redelivery_attempts) {
                 // Max attempts reached — expire the event

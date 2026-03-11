@@ -197,10 +197,14 @@ public:
      * than returned.  Each call resets the delivery timestamp of returned events
      * so they are not returned again immediately.
      *
-     * @param consumer_id  Consumer whose pending events to check.
+     * @param consumer_id      Consumer whose pending events to check.
+     * @param timeout_override If provided, overrides the configured ack_timeout for
+     *                         this call only (useful for per-request timeout control).
      * @return Events ready for redelivery (may be empty).
      */
-    std::vector<Changefeed::ChangeEvent> getPendingRedelivery(const std::string& consumer_id);
+    std::vector<Changefeed::ChangeEvent> getPendingRedelivery(
+        const std::string& consumer_id,
+        std::optional<std::chrono::milliseconds> timeout_override = std::nullopt);
 
     /**
      * @brief Remove all tracked state for a consumer (e.g. on disconnect).

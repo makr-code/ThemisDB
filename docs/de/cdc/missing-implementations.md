@@ -30,18 +30,16 @@
 
 ---
 
-## Befund 2 – At-least-once nicht für SSE-Verbindungen garantiert
+## Befund 2 – At-least-once nicht für SSE-Verbindungen garantiert ✅ BEHOBEN
 
 | Feld | Inhalt |
 |------|--------|
 | **Claim-Quelle** | `src/cdc/ROADMAP.md`, Completed-Liste |
 | **Claim** | `[x] At-least-once delivery guarantees with consumer acknowledgement (Issue: #1606)` |
 | **Erwartet** | At-least-once-Guarantee für alle CDC-Transporte inkl. SSE |
-| **Beobachtet** | Implementiert nur für Consumer Groups (`ConsumerGroupManager::fetchEventsAtLeastOnce()` in `src/cdc/consumer_group.cpp`); für reine SSE-Verbindungen (`GET /changefeed/stream`) existiert **kein Acknowledgement-Loop** – Verbindungsabbrüche führen zu Eventverlust |
-| **Geprüfte Pfade** | `src/cdc/consumer_group.cpp`, `src/cdc/delivery_tracker.cpp`, `src/cdc/changefeed.cpp`; ROADMAP Known Issues: *"At-least-once delivery is not yet guaranteed for SSE connections"* |
-| **Evidence** | `consumer_group.h` + `delivery_tracker.h` existieren; keine SSE-ACK-Logik in `changefeed.cpp` gefunden |
-| **Issue-Titelvorschlag** | `feat(cdc): extend at-least-once delivery guarantee to SSE connections` |
-| **Label-Vorschläge** | `enhancement`, `cdc`, `reliability` |
+| **Beobachtet (behoben)** | `GET /changefeed/stream` unterstützt jetzt `consumer_id` + `ack_timeout_ms` Query-Parameter; `ChangefeedApiHandler::delivery_tracker_` trackt in-flight Events; `POST /changefeed/stream/ack` quittiert Events via `DeliveryTracker::acknowledgeUpTo()`; unquittierte Events werden bei Folge-Requests redelivered. 5 Integrationstests in `tests/test_http_changefeed_sse.cpp` verifizieren at-least-once-Semantik und Reconnect-Szenario. |
+| **Geprüfte Pfade** | `src/server/changefeed_api_handler.cpp`, `include/server/changefeed_api_handler.h`, `src/cdc/delivery_tracker.cpp`, `include/cdc/delivery_tracker.h`, `src/server/http_server.cpp`, `tests/test_http_changefeed_sse.cpp` |
+| **Status** | ✅ Implementiert und getestet |
 
 ---
 
