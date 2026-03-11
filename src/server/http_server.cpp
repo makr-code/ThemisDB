@@ -6422,9 +6422,13 @@ http::response<http::string_body> HttpServer::handleConfig(
                 if (hours < 1 || hours > 8760) { // 1 hour - 1 year
                     return makeErrorResponse(http::status::bad_request, "cdc_retention_hours must be 1-8760", req);
                 }
-                // Store retention policy (Changefeed class would need to expose this)
-                // For MVP, we'll just log it - actual auto-cleanup requires background task
-                THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} (requires manual /changefeed/retention call)", hours);
+                // Apply TTL update to the live retention policy; the background cleanup
+                // thread is started automatically by updateRetentionPolicy() if not running.
+                auto policy = changefeed_->getRetentionPolicy();
+                policy.enabled       = true;
+                policy.max_age_hours = std::chrono::hours(hours);
+                changefeed_->updateRetentionPolicy(policy);
+                THEMIS_INFO("Hot-reload: cdc_retention_hours set to {} and retention policy enabled", hours);
             }
             
             // Respond with updated config

@@ -357,6 +357,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_query_engine_di\\.cpp$"
     ".*test_raii_wrappers\\.cpp$"
     ".*test_cdc_admin\\.cpp$"
+    ".*test_cdc_retention\\.cpp$"
     ".*test_tenant_buffer_manager\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
@@ -7019,6 +7020,54 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
     message(STATUS "  TenantBufferManager: per-tenant CDC buffers, quota enforcement, metrics isolation, flush lifecycle")
 else()
     message(STATUS "Tenant Buffer Manager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_tenant_buffer_manager.cpp")
+endif()
+
+# ============================================================================
+# CDC Retention Tests (standalone – exercises runtime-configurable retention
+# policies, background cleanup thread lifecycle, and RetentionStatus reporting)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
+    message(STATUS "Adding CDC Retention focused tests (runtime TTL + size-based retention)")
+
+    add_executable(test_cdc_retention
+        test_cdc_retention.cpp
+    )
+
+    # cdc_admin.cpp is compiled into themis_core only when THEMIS_ENABLE_HTTP_SERVER=ON.
+    # When HTTP_SERVER is OFF, add it as a direct source to avoid missing-symbol errors.
+    if(NOT THEMIS_ENABLE_HTTP_SERVER)
+        target_sources(test_cdc_retention PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cdc/cdc_admin.cpp
+        )
+    endif()
+
+    target_include_directories(test_cdc_retention PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_cdc_retention PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cdc_retention PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CDCRetentionFocusedTests COMMAND test_cdc_retention)
+
+    set_tests_properties(CDCRetentionFocusedTests PROPERTIES
+        LABELS "cdc;retention;ttl;background-thread;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CDCRetention: runtime policy updates, background thread lifecycle, TTL/size/count enforcement, RetentionStatus")
+else()
+    message(STATUS "CDC Retention tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_retention.cpp")
 endif()
 
 # Config Module – Focused Standalone Test Targets

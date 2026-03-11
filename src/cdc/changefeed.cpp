@@ -824,11 +824,27 @@ size_t Changefeed::applyRetentionPolicy() {
 }
 
 void Changefeed::updateRetentionPolicy(const RetentionPolicy& policy) {
-    std::lock_guard<std::mutex> lock(retention_mutex_);
-    retention_policy_ = policy;
+    bool was_enabled;
+    {
+        std::lock_guard<std::mutex> lock(retention_mutex_);
+        was_enabled = retention_policy_.enabled;
+        retention_policy_ = policy;
+    }
     THEMIS_INFO("RetentionPolicy updated: enabled={} max_age_hours={} max_event_count={} compact_on_cleanup={}",
                 policy.enabled, policy.max_age_hours.count(),
                 policy.max_event_count, policy.compact_on_cleanup);
+
+    if (policy.enabled && !was_enabled) {
+        // Retention was disabled; start the background cleanup thread now.
+        startRetentionCleanup();
+    } else if (!policy.enabled && was_enabled) {
+        // Retention was enabled; stop the background cleanup thread.
+        stopRetentionCleanup();
+    } else if (policy.enabled) {
+        // Policy remains enabled but settings may have changed (e.g. new interval).
+        // Wake the thread so it picks up the updated configuration immediately.
+        retention_cv_.notify_all();
+    }
 }
 
 Changefeed::RetentionPolicy Changefeed::getRetentionPolicy() const {
@@ -862,6 +878,10 @@ void Changefeed::stopRetentionCleanup() {
     }
     
     THEMIS_INFO("Stopped retention cleanup thread");
+}
+
+bool Changefeed::isRetentionCleanupRunning() const noexcept {
+    return retention_thread_running_.load();
 }
 
 void Changefeed::retentionCleanupThread() {

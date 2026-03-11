@@ -383,6 +383,9 @@ RetentionStatus CDCAdmin::getRetentionStatus() {
     status.policy_cleanup_interval_minutes =
         static_cast<uint32_t>(policy.cleanup_interval.count());
 
+    // Report whether the background cleanup thread is actually running
+    status.cleanup_thread_running = changefeed_->isRetentionCleanupRunning();
+
     return status;
 }
 
