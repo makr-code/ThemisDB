@@ -327,6 +327,129 @@ TEST_F(MimeDetectorTest, DetectMimeType_CaseInsensitive) {
 }
 
 // ============================================================================
+// ContentPolicy::ocrEnabled() Tests
+// ============================================================================
+
+TEST(ContentPolicyOcrTest, OcrDisabledByDefault) {
+    ContentPolicy policy;
+    EXPECT_FALSE(policy.ocrEnabled());
+    EXPECT_FALSE(policy.ocr_enabled);
+}
+
+TEST(ContentPolicyOcrTest, OcrEnabledWhenFlagSet) {
+    ContentPolicy policy;
+    policy.ocr_enabled = true;
+    EXPECT_TRUE(policy.ocrEnabled());
+}
+
+TEST(ContentPolicyOcrTest, OcrCanBeDisabledAgain) {
+    ContentPolicy policy;
+    policy.ocr_enabled = true;
+    EXPECT_TRUE(policy.ocrEnabled());
+    policy.ocr_enabled = false;
+    EXPECT_FALSE(policy.ocrEnabled());
+}
+
+// ============================================================================
+// MimeDetector::shouldTriggerOcr() and enableOcr() Tests
+// ============================================================================
+
+class MimeDetectorOcrTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto security_mgr = std::make_shared<storage::SecuritySignatureManager>(nullptr);
+        detector_ = std::make_shared<MimeDetector>("../../../config/mime_types.yaml", security_mgr);
+    }
+
+    std::shared_ptr<MimeDetector> detector_;
+};
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_DisabledByDefault) {
+    // OCR must be opt-in; no trigger when policy.ocr_enabled is false
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/png"));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/jpeg"));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/tiff"));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_EnabledForPng) {
+    detector_->enableOcr(true);
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/png"));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_EnabledForJpeg) {
+    detector_->enableOcr(true);
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/jpeg"));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_EnabledForTiff) {
+    detector_->enableOcr(true);
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/tiff"));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_NotForNonImageTypes) {
+    detector_->enableOcr(true);
+    // Text and document MIME types must not trigger OCR
+    EXPECT_FALSE(detector_->shouldTriggerOcr("text/plain"));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("application/pdf"));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("video/mp4"));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/gif"));  // GIF not in OCR list
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/bmp"));  // BMP not in OCR list
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_DisableAfterEnable) {
+    detector_->enableOcr(true);
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/png"));
+    detector_->enableOcr(false);
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/png"));
+}
+
+// ============================================================================
+// ValidationResult::ocr_recommended Integration Tests
+// ============================================================================
+
+TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseByDefault) {
+    // ocr_recommended must be false when OCR is not enabled
+    auto result = detector_->validateUpload("photo.png", 1 * 1024 * 1024);
+    EXPECT_FALSE(result.ocr_recommended);
+}
+
+TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForPngWhenEnabled) {
+    detector_->enableOcr(true);
+    auto result = detector_->validateUpload("photo.png", 1 * 1024 * 1024);
+    EXPECT_TRUE(result.allowed);
+    EXPECT_TRUE(result.ocr_recommended);
+}
+
+TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForJpegWhenEnabled) {
+    detector_->enableOcr(true);
+    auto result = detector_->validateUpload("scan.jpg", 1 * 1024 * 1024);
+    EXPECT_TRUE(result.allowed);
+    EXPECT_TRUE(result.ocr_recommended);
+}
+
+TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForTiffWhenEnabled) {
+    detector_->enableOcr(true);
+    auto result = detector_->validateUpload("document.tiff", 1 * 1024 * 1024);
+    EXPECT_TRUE(result.allowed);
+    EXPECT_TRUE(result.ocr_recommended);
+}
+
+TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseForNonImageWhenEnabled) {
+    detector_->enableOcr(true);
+    auto result = detector_->validateUpload("report.txt", 1024);
+    EXPECT_TRUE(result.allowed);
+    EXPECT_FALSE(result.ocr_recommended);
+}
+
+TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseWhenDenied) {
+    detector_->enableOcr(true);
+    // Executables are blacklisted; ocr_recommended must remain false
+    auto result = detector_->validateUpload("malware.exe", 1024);
+    EXPECT_FALSE(result.allowed);
+    EXPECT_FALSE(result.ocr_recommended);
+}
+
+// ============================================================================
 // Main Function
 // ============================================================================
 

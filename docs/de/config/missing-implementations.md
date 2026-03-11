@@ -62,16 +62,15 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 
 ---
 
-### CFG-004 — Fehlende Metrics-Scrape-Testdatei ℹ️ Geplant
+### CFG-004 — Fehlende Metrics-Scrape-Testdatei ✅ Behoben
 
 **Claim-Quelle:** `src/config/FUTURE_ENHANCEMENTS.md`, Abschnitt „Performance Targets"  
 **Erwartet:** `tests/config/metrics_scrape_test.cpp`  
-**Beobachtet:** Datei existiert nicht  
-**Evidence:** `find tests/ -name "*metrics_scrape*"` → keine Treffer  
-**Ist-Stand:** Die Metrics-Scrape-Latenz (< 1 ms) ist dokumentiert; `benchmarks/bench_config_path_resolver.cpp` enthält einen Prometheus-Scrape-Abschnitt, aber kein dediziertes Testlauf-Gate.  
-**Status:** ℹ️ Offen — in FUTURE_ENHANCEMENTS.md aktualisiert (auf bench_config_path_resolver.cpp verwiesen)  
-**Issue-Titelvorschlag:** `feat(config): add dedicated metrics scrape latency test`  
-**Labels:** `testing`, `observability`, `config`
+**Beobachtet:** `tests/test_config_metrics_scrape.cpp` (9 Tests: Latenz-Gate cold/warm/repeated, Prometheus-Formatprüfung, Counter-Genauigkeit)  
+**Evidence:** `find tests/ -name "*metrics_scrape*"` → `tests/test_config_metrics_scrape.cpp`  
+**Ist-Stand:** `ConfigMetricsExporter::collect()` wird in drei Latenztests (< 1 000 µs) und sechs Format-/Korrektheitstests abgedeckt. CMake-Target `MetricsScrapeFocusedTests` registriert.  
+**Status:** ✅ Behoben — `tests/test_config_metrics_scrape.cpp` implementiert; `tests/CMakeLists.txt` aktualisiert  
+**Issue-Titelvorschlag:** n/a (behoben)
 
 ---
 
@@ -120,6 +119,7 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 |----|-------|----------|
 | CFG-001 | `src/config/FUTURE_ENHANCEMENTS.md` | `benchmarks/config_bench.cpp` → `benchmarks/bench_config_path_resolver.cpp` |
 | CFG-002 | `src/config/FUTURE_ENHANCEMENTS.md` | `tests/config/config_path_resolver_test.cpp` → `tests/test_config_path_resolver.cpp` |
+| CFG-004 | `tests/test_config_metrics_scrape.cpp` | Neue Testdatei erstellt (9 Tests: Latenz-Gate < 1 ms, Prometheus-Format, Counter-Genauigkeit); `MetricsScrapeFocusedTests` in `tests/CMakeLists.txt` registriert |
 | ROADMAP | `src/config/ROADMAP.md` | Performance-Benchmark-Status `[I]` → `[x]` (bench_config_path_resolver.cpp nachgewiesen) |
 | ROADMAP | `src/config/ROADMAP.md` | Unit-Test-Coverage-Status `[~]` → `[x]` (4 Testdateien, 3 363 Zeilen nachgewiesen) |
 | CFG-005 | `src/config/config_schema_validator.cpp` | `allOf`/`anyOf`/`oneOf` implementiert; `[x]` in FUTURE_ENHANCEMENTS.md |
