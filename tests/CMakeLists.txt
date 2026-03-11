@@ -2399,6 +2399,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
     message(STATUS "  ReplicationNewFeatures: observer, 3-way merge, field merge, event stream, policy, slot manager")
 else()
     message(STATUS "Replication New Features focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
+endif()
+
 # ============================================================================
 # Replication HA Tests (Phase 1-3 – leader election, witness nodes, WAL)
 # ============================================================================
@@ -6025,6 +6027,60 @@ if(_postgres_importer_test_sources)
     message(STATUS "  PostgresImporter: advanced mapping, chaos/retry, complex DDL, data types, integration, robustness, security audit, streaming")
 else()
     message(STATUS "PostgresImporter focused test sources not found")
+endif()
+
+# ============================================================================
+# PostgreSQL Importer v2.1+ Focused Tests (standalone binary)
+# Covers: schema_inference, column_importance, crdt_importer, postgres_cdc,
+#         data_quality, audit_trail, adaptive_import, polyglot_mapper,
+#         temporal_support, blockchain_integrity, federated_learning,
+#         graphql_federation
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_v2.cpp")
+    message(STATUS "Adding PostgresImporterV2 focused tests (standalone binary)")
+
+    add_executable(test_postgres_importer_v2_focused
+        test_postgres_importer_v2.cpp
+        ../src/importers/schema_inference.cpp
+        ../src/importers/column_importance.cpp
+        ../src/importers/crdt_importer.cpp
+        ../src/importers/postgres_cdc.cpp
+        ../src/importers/data_quality.cpp
+        ../src/importers/audit_trail.cpp
+        ../src/importers/adaptive_import.cpp
+        ../src/importers/polyglot_mapper.cpp
+        ../src/importers/temporal_support.cpp
+        ../src/importers/blockchain_integrity.cpp
+        ../src/importers/federated_learning.cpp
+        ../src/importers/graphql_federation.cpp
+    )
+
+    target_include_directories(test_postgres_importer_v2_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_postgres_importer_v2_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_postgres_importer_v2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PostgresImporterV2FocusedTests
+             COMMAND test_postgres_importer_v2_focused)
+
+    set_tests_properties(PostgresImporterV2FocusedTests PROPERTIES
+        LABELS "importers;postgres;v2;ml;cdc;crdt;quality;audit;temporal;blockchain;federated;graphql;unit"
+        TIMEOUT 300
+    )
+
+    message(STATUS "  PostgresImporterV2: schema_inference, column_importance, crdt, cdc, data_quality, audit_trail, adaptive_import, polyglot_mapper, temporal_support, blockchain_integrity, federated_learning, graphql_federation")
+else()
+    message(STATUS "PostgresImporterV2 focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_v2.cpp")
 endif()
 
 # ============================================================================
@@ -10078,6 +10134,8 @@ if(THEMIS_ENABLE_LLM)
 
 else()
     message(STATUS "LLM focused tests (tests/llm/) skipped (THEMIS_ENABLE_LLM=OFF)")
+endif()
+
 # Ingestion Module – Focused Standalone Test Targets
 # Each target links against themis_core (which now always includes all 10
 # ingestion source files) and the target's single test source.
@@ -10966,97 +11024,6 @@ add_prompt_focused_test(
 )
 
 # ============================================================================
-# Custom Test Targets
-# ============================================================================
-
-# ============================================================================
-# Ingestion Module Focused Tests (Issue: #1910 — Integration tests)
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
-    message(STATUS "Adding Ingestion Integration focused tests (Issue #1910)")
-
-    add_executable(test_ingestion_integration_focused
-        test_ingestion_integration.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/filesystem_ingester.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/api_connector.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
-    )
-
-    target_include_directories(test_ingestion_integration_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_ingestion_integration_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_ingestion_integration_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME IngestionIntegrationFocusedTests COMMAND test_ingestion_integration_focused)
-
-    set_tests_properties(IngestionIntegrationFocusedTests PROPERTIES
-        LABELS "ingestion;integration;filesystem;huggingface;api;focused"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  IngestionIntegration: FileSystemIngester, HuggingFaceConnector, GenericApiConnector end-to-end flows")
-else()
-    message(STATUS "Ingestion Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
-endif()
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
-    message(STATUS "Adding Ingestion Coordinator focused tests (Issue #1910)")
-
-    add_executable(test_ingestion_coordinator_focused
-        test_ingestion_coordinator.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/filesystem_ingester.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/api_connector.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/kafka_connector.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/object_storage_connector.cpp
-        ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
-    )
-
-    target_include_directories(test_ingestion_coordinator_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_ingestion_coordinator_focused PRIVATE
-        ${TEST_LIBS}
-        spdlog::spdlog
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_ingestion_coordinator_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME IngestionCoordinatorFocusedTests COMMAND test_ingestion_coordinator_focused)
-
-    set_tests_properties(IngestionCoordinatorFocusedTests PROPERTIES
-        LABELS "ingestion;coordinator;distributed;work-stealing;focused"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  IngestionCoordinator: distributed coordinator, consistent-hash ring, work-stealing pool, leader election")
-else()
-    message(STATUS "Ingestion Coordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
-endif()
-
-# ============================================================================
 # Observability Focused Test Targets
 # Each target links against themis_core so the full observability stack is
 # available.  Tests can be run in isolation without building the whole suite.
@@ -11279,6 +11246,8 @@ if(TARGET themis_tests)
 
     message(STATUS "Adding AutoLabelerDbFetch focused tests")
     message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
+endif()
+
 # LoRAAdapter focused tests – real weight manipulation (no simulation)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
     message(STATUS "Adding LoRAAdapter focused tests (lora_adapter.cpp)")
@@ -11350,7 +11319,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
 
-    target_link_libraries(test_updates_production_focused PRIVATE
+    target_link_libraries(test_voice_production_focused PRIVATE
         ${TEST_LIBS}
         themis_core
         spdlog::spdlog
@@ -11358,20 +11327,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
         Threads::Threads
     )
 
-    target_compile_definitions(test_updates_production_focused PRIVATE
+    target_compile_definitions(test_voice_production_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME UpdatesProductionFocusedTests COMMAND test_updates_production_focused)
+    add_test(NAME VoiceProductionFocusedTests COMMAND test_voice_production_focused)
 
-    set_tests_properties(UpdatesProductionFocusedTests PROPERTIES
-        LABELS "updates;hot-reload;delta;schema-migration;history;production;focused;unit"
+    set_tests_properties(VoiceProductionFocusedTests PROPERTIES
+        LABELS "voice;audio;production;wake-word;intent;session;security;tts;focused;unit"
         TIMEOUT 120
     )
 
-    message(STATUS "  UpdatesProduction: HotReloadEngine, DeltaUpdateEngine, SchemaMigrationTester, UpdateHistoryLogger, dry-run, rollback")
+    message(STATUS "  VoiceProduction: AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager, VoiceSecurityManager, EmotionAnalyzer")
 else()
-    message(STATUS "Updates Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_updates_production.cpp")
+    message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
 endif()
 
 # BlueGreenDeployment – focused tests for blue/green deployment support
