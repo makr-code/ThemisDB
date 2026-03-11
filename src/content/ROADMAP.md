@@ -50,7 +50,7 @@
 - [x] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` (CON-001)
   - Inputs: `.doc`, `.xls`, `.ppt` via OLE/Compound Document
   - Implementation: `office_processor.cpp::extractLegacyViaLibreOffice()` — `posix_spawn` (no `system()`); 30 s timeout with SIGTERM→SIGKILL escalation; `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`+`POSIX_SPAWN_SETSIGDEF`; RAII temp-file cleanup; full 8-byte OLE header validation; minimal sandboxed environment (`HOME=tmpdir`)
-  - Tests: `tests/test_office_processor.cpp` — `LegacyOfficeExtractionTest` (11 tests), `LegacyOfficeMetricsTest`
+  - Tests: `tests/test_office_processor.cpp` — `LegacyOfficeExtractionTest` (11 tests), `LegacyOfficeMetricsTest` (2 tests), `LibreOfficeSecurityTest` (7 security tests: path-hijacking prevention, shell-metacharacter injection, malformed binary input, large-blob handling, RAII temp-dir cleanup)
 - [ ] MimeDetector-triggered OCR activation via ContentPolicy::ocrEnabled() (CON-002) (Target: Q3 2026)
 - [ ] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
 - [x] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005)
