@@ -1,6 +1,7 @@
 # Training Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+<!-- Validated: 2026-03-11 (b2342851) -->
 
 ## Current Status
 v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabeler, IncrementalLoRATrainer, and KnowledgeGraphEnricher are production-ready with checkpoint/resume, adapter versioning, and graph-context enrichment.
@@ -21,17 +22,40 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] `findRelatedProvisions()`, `findRelatedCaseLaw()`, `findSimilarDocuments()`
 - [x] Custom AQL query registration for domain-specific traversals
 - [x] Pimpl pattern for ABI stability across all three components
-- [x] LoRA Checkpoint Manager with SHA-256 integrity validation (Target: Q1 2026)
-- [x] Training Sample Provenance and Lineage Tracking (Target: Q1 2026)
-- [x] Knowledge Graph Enrichment LRU Cache (Target: Q1 2026)
-- [x] ContentModality enum for multi-modality sample tracking (Target: Q1 2026)
-- [x] Confidence-Threshold Auto-Calibration via isotonic regression (Target: Q1 2026)
-- [x] Multi-modality parser (`ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`) (Target: Q1 2026)
+- [x] LoRA Checkpoint Manager with SHA-256 integrity validation (Target: Q1 2026) — `lora_checkpoint_manager.h/.cpp` (b2342851)
+- [x] Training Sample Provenance and Lineage Tracking (Target: Q1 2026) — `provenance_tracker.h/.cpp` (b2342851)
+- [x] Knowledge Graph Enrichment LRU Cache (Target: Q1 2026) — `EnrichmentLRUCache` in `knowledge_graph_enricher.cpp` (b2342851)
+- [x] ContentModality enum for multi-modality sample tracking (Target: Q1 2026) — `auto_labeler.h` (b2342851)
+- [x] Confidence-Threshold Auto-Calibration via isotonic regression (Target: Q1 2026) — `ConfidenceCalibrator` in `training_pipeline.h/.cpp` (b2342851)
+- [x] Multi-modality parser (`ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`) (Target: Q1 2026) — `modality_parser.h/.cpp` (b2342851)
 
 ## In Progress 🚧
-- [?] Multi-GPU distributed training coordination (Target: Q2 2026)
-- [?] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
-- [?] Adapter serving integration with LLM inference layer (Target: Q3 2026)
+- [~] Multi-GPU distributed training coordination (Target: Q2 2026)
+  - Subsystems: `src/training/incremental_lora_trainer.cpp`, `src/acceleration/` GPU dispatch
+  - Inputs: `IncrementalTrainingConfig.num_gpus`, device list; model partitioned across GPUs via NCCL/MPI
+  - Outputs: single merged checkpoint per epoch; `TrainingResult.elapsed_ms` reflects wall-clock (not GPU-sum) time
+  - Constraints: each GPU worker must use the same LoRA rank/alpha; gradient sync every `sync_steps` (default 1)
+  - Errors: device-count mismatch → `std::runtime_error`; NCCL init failure → `TrainingResult.success=false` + message
+  - Tests: unit — mock GPU dispatch, verify gradient-sync calls; integration — 2-GPU synthetic dataset
+  - Perf: ≥1.8× throughput on 2 GPUs vs. 1 GPU baseline (7B model, batch_size=8, r=16)
+
+- [~] Automated hyperparameter search (LoRA rank, learning rate sweep) (Target: Q2 2026)
+  - Subsystems: `src/training/training_pipeline.cpp` (new `HyperparamSearch` inner class), `ConfidenceCalibrator`
+  - Inputs: `HyperparamSearchConfig{rank_candidates, lr_candidates, max_trials, budget_seconds}`; validation split fraction
+  - Outputs: `HyperparamResult{best_rank, best_lr, best_val_loss, trial_log}`; best config auto-applied to pipeline
+  - Constraints: deterministic trial ordering (seeded random); concurrent trials capped at `num_gpus`
+  - Errors: no improvement after `max_trials` → return best seen; budget exceeded → early-stop, return best so far
+  - Tests: unit — mock trainer, verify trial scheduling; integration — sweep over 3 rank values on synthetic dataset
+  - Perf: trial overhead (excluding training) ≤ 50 ms/trial; total sweep for 9-trial 3×3 grid ≤ 3× single-train time
+
+- [~] Adapter serving integration with LLM inference layer (Target: Q3 2026)
+  - Subsystems: `src/training/incremental_lora_trainer.cpp` (`deployVersion`), `src/llm/multi_lora_manager.h`
+  - Inputs: `adapter_version` (string), `traffic_split` (float [0,1]); LLM router must expose `setAdapterWeight(version, weight)`
+  - Outputs: LLM module routes `traffic_split` fraction of requests to new adapter; `DeployResult{active_version, split_applied}`
+  - Constraints: atomic routing update (no mid-request split change); rollback must complete within 1 request cycle
+  - Errors: adapter not found → `DeployResult.error = "version_not_found"`; LLM router unavailable → propagate `std::runtime_error`
+  - Tests: integration — deploy v1.1 at 10% split, verify 10% of mock requests routed to v1.1; rollback test
+  - Perf: routing weight update latency ≤ 1 ms; zero dropped requests during split change
 
 ## Planned Features 📋
 

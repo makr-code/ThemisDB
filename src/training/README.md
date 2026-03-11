@@ -1,5 +1,21 @@
 # Training Module
 
+**Status:** Alpha  
+**Version:** 1.0  
+**Last Validated:** 2026-03-11 (b2342851)  
+**Module Path:** `src/training/` / `include/training/`
+
+---
+
+## Related Documentation
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — System architecture, component diagram, data flow
+- [ROADMAP.md](ROADMAP.md) — Feature roadmap and implementation phases
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Planned features and design constraints
+- [German Docs](../../docs/de/training/README.md) — Deutschsprachige Übersicht
+
+---
+
 ## Module Purpose
 
 The Training module provides tools for building and maintaining domain-specific AI fine-tuning datasets and adapters within ThemisDB. It is designed around the legal domain (with German-language legal text as the primary target) and consists of three components: an automatic labeler that extracts structured training samples from legal documents using NLP modality detection, an incremental LoRA trainer that fine-tunes language model adapters with checkpoint/resume support, and a knowledge graph enricher that annotates training samples with graph-traversal context (related provisions, case law, and semantically similar documents).
@@ -9,10 +25,13 @@ The Training module provides tools for building and maintaining domain-specific 
 | Interface / File | Role |
 |-----------------|------|
 | `auto_labeler.cpp` | LegalAutoLabeler: structured training sample extraction from legal documents |
-| `lora_trainer.cpp` | Incremental LoRA adapter fine-tuning with checkpoint/resume |
+| `incremental_lora_trainer.cpp` | Incremental LoRA adapter fine-tuning with checkpoint/resume |
 | `knowledge_graph_enricher.cpp` | AQL-based context enrichment via graph traversal |
-| `adapter_version_manager.cpp` | Adapter version management (deploy, rollback, list versions) |
+| `lora_checkpoint_manager.cpp` | LoRA checkpoint management with SHA-256 integrity validation and rotation |
 | `modality_parser.cpp` | ModalityDetector, TextClauseExtractor, TableExtractor, CitationExtractor, OCRExtractor |
+| `provenance_tracker.cpp` | Training sample provenance and lineage tracking |
+| `lora_data_selection.cpp` | Training data selection, deduplication, and balancing |
+| `training_pipeline.cpp` | End-to-end training pipeline orchestrator (ConfidenceCalibrator, ProvenanceTracker integration) |
 
 ## Scope
 

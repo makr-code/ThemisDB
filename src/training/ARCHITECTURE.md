@@ -1,7 +1,7 @@
 # Training Module — Architecture Guide
 
 **Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Last Updated:** 2026-03-11  
 **Module Path:** `src/training/`
 
 ---
@@ -26,7 +26,7 @@ and enriches training samples with knowledge graph context.
   (provisions, citations, similar documents) from the knowledge graph to training samples.
 - **Confidence Gating** – low-confidence samples are flagged for human review before
   being included in training data.
-- **Adapter Versioning** – `adapter_version_manager.cpp` manages adapter versions with
+- **Adapter Versioning** – `incremental_lora_trainer.cpp` manages adapter versions with
   deploy/rollback and configurable traffic splitting.
 
 ---
@@ -40,7 +40,10 @@ and enriches training samples with knowledge graph context.
 | `auto_labeler.cpp` | LegalAutoLabeler: extract structured training samples from documents |
 | `incremental_lora_trainer.cpp` | LoRA adapter training with checkpoint/resume |
 | `knowledge_graph_enricher.cpp` | AQL-based context enrichment via graph traversal |
+| `lora_checkpoint_manager.cpp` | Checkpoint management with SHA-256 integrity validation and rotation |
 | `lora_data_selection.cpp` | Training data selection and deduplication |
+| `modality_parser.cpp` | Multi-modality content extraction (text, tables, citations, OCR) |
+| `provenance_tracker.cpp` | Training sample provenance and lineage tracking |
 | `training_pipeline.cpp` | End-to-end training pipeline orchestrator |
 
 ### 3.2 Component Diagram
@@ -118,7 +121,7 @@ incremental_lora_trainer.deployVersion("v1.3", traffic_split=0.1)
     │       → better than baseline → increase split → full rollout
     │       → worse → rollback: deployVersion("v1.2", split=1.0)
     │
-    └─ adapter_version_manager: record version history
+    └─ incremental_lora_trainer.cpp: record version history
 ```
 
 ---
@@ -202,6 +205,8 @@ incremental_lora_trainer.deployVersion("v1.3", traffic_split=0.1)
 ## 12. References
 
 - `src/training/README.md` — module overview
-- `docs/training/` — training documentation
+- `src/training/ROADMAP.md` — feature roadmap
+- `src/training/FUTURE_ENHANCEMENTS.md` — planned enhancements
+- `docs/de/training/README.md` — Deutschsprachige Übersicht
 - `src/llm/lora_framework/` — LoRA implementation
 - `ARCHITECTURE.md` (root) — full system architecture

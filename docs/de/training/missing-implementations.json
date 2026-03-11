@@ -1,0 +1,64 @@
+{
+  "module": "training",
+  "language": "de",
+  "generated": "2026-03-11",
+  "validated_at_commit": "b2342851",
+  "branch": "copilot/update-module-documentation-ad046901-1b9a-4382-b7ae-e0f74f440802",
+  "primary_source": "src/training/",
+  "status": "Alpha",
+  "summary": "Phase 3 abgeschlossen. Alle ROADMAP [x]-Einträge haben korrespondierende Quelldateien. Vier Produktiv-Stubs erfordern weitere Integration bevor Beta-Status erreichbar ist.",
+  "findings": [
+    {
+      "id": "FINDING-T-001",
+      "severity": "high",
+      "status": "open",
+      "claim_source": "src/training/README.md: Production Readiness section",
+      "expected": "labelAll() and labelQuery() read documents via the AQL query executor",
+      "observed": "auto_labeler.cpp: database fetch is a TODO stub; labelDocument() is fully implemented",
+      "evidence_paths": [
+        "src/training/auto_labeler.cpp"
+      ],
+      "issue_title_suggestion": "feat(training): wire LegalAutoLabeler DB fetch to AQL query executor",
+      "label_suggestions": ["module:training", "priority:high", "type:stub"]
+    },
+    {
+      "id": "FINDING-T-002",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/training/README.md: KnowledgeGraphEnricher section",
+      "expected": "findSimilarDocuments() performs cosine similarity search over document embeddings",
+      "observed": "knowledge_graph_enricher.cpp: vector index query is a commented AQL template; returns empty list until query executor is wired",
+      "evidence_paths": [
+        "src/training/knowledge_graph_enricher.cpp"
+      ],
+      "issue_title_suggestion": "feat(training): wire findSimilarDocuments to vector index / embedding store",
+      "label_suggestions": ["module:training", "priority:medium", "type:stub"]
+    },
+    {
+      "id": "FINDING-T-003",
+      "severity": "high",
+      "status": "open",
+      "claim_source": "src/training/README.md: Production Readiness section",
+      "expected": "IncrementalLoRATrainer manipulates real LoRA model weights and serializes checkpoint data",
+      "observed": "Model weight manipulation, optimizer state, and checkpoint serialization are simulated with placeholder values; ML framework integration (e.g. llama.cpp LoRA APIs) is absent",
+      "evidence_paths": [
+        "src/training/incremental_lora_trainer.cpp"
+      ],
+      "issue_title_suggestion": "feat(training): integrate real LoRA weight manipulation via llama.cpp / libtorch",
+      "label_suggestions": ["module:training", "priority:high", "type:stub", "depends:llm"]
+    },
+    {
+      "id": "FINDING-T-004",
+      "severity": "medium",
+      "status": "open",
+      "claim_source": "src/training/README.md: IncrementalLoRATrainer section",
+      "expected": "deployVersion(version, traffic_split) routes a configurable fraction of LLM traffic to the new adapter",
+      "observed": "Traffic splitting is a configuration placeholder; production deployment requires a routing layer update in the LLM integration module",
+      "evidence_paths": [
+        "src/training/incremental_lora_trainer.cpp"
+      ],
+      "issue_title_suggestion": "feat(training/llm): wire deployVersion traffic-split to LLM routing layer",
+      "label_suggestions": ["module:training", "module:llm", "priority:medium", "type:integration"]
+    }
+  ]
+}
