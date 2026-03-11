@@ -29,7 +29,6 @@
  */
 
 #include "observability/tracer.h"
-#include "observability/continuous_profiler.h"
 #include "observability/metrics_collector.h"
 
 #include <algorithm>
@@ -149,7 +148,9 @@ public:
                       std::mutex*                ring_mu,
                       size_t                     max_retained,
                       std::atomic<int64_t>*      active_count,
-                      std::atomic<int64_t>*      total_count)
+                      std::atomic<int64_t>*      total_count,
+                      std::weak_ptr<ContinuousProfiler> profiler,
+                      bool                       attach_profile)
         : name_(std::move(name))
         , trace_id_(std::move(trace_id))
         , span_id_(std::move(span_id))
@@ -159,6 +160,8 @@ public:
         , max_retained_(max_retained)
         , active_count_(active_count)
         , total_count_(total_count)
+        , profiler_(std::move(profiler))
+        , attach_profile_(attach_profile)
         , start_time_(std::chrono::system_clock::now())
     {
         if (active_count_) ++(*active_count_);
@@ -231,6 +234,18 @@ private:
             rec.ok                 = ok_;
             rec.status_description = status_description_;
 
+            // ContinuousProfiler integration: attach CPU snapshot when configured
+            if (attach_profile_) {
+                if (auto prof = profiler_.lock()) {
+                    try {
+                        auto snap = prof->snapshot(ProfileType::CPU);
+                        rec.cpu_profile_folded = snap.dataAsString();
+                    } catch (...) {
+                        // Profiling is best-effort; never block the span from ending
+                    }
+                }
+            }
+
             std::lock_guard<std::mutex> lk(*ring_mu_);
             ring_buf_->push_back(std::move(rec));
             while (ring_buf_->size() > max_retained_) {
@@ -250,6 +265,8 @@ private:
     std::atomic<int64_t>*   active_count_;
     std::atomic<int64_t>*   total_count_;
 
+    std::weak_ptr<ContinuousProfiler>    profiler_;
+    bool                                 attach_profile_;
     std::chrono::system_clock::time_point start_time_;
     std::atomic<bool>                     ended_{false};
     bool                                  ok_{true};
@@ -327,7 +344,9 @@ public:
             config_.max_retained_spans > 0 ? &ring_mu_  : nullptr,
             config_.max_retained_spans,
             &active_spans_,
-            &total_spans_
+            &total_spans_,
+            config_.profiler,          // weak_ptr to profiler (may be nullptr)
+            config_.attach_profile_on_span_end
         );
     }
 

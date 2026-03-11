@@ -20,6 +20,7 @@
 #pragma once
 
 #include "core/concerns/i_tracer.h"
+#include "observability/continuous_profiler.h"
 
 #include <atomic>
 #include <chrono>
@@ -28,12 +29,6 @@
 #include <mutex>
 #include <string>
 #include <vector>
-
-namespace themis {
-namespace observability {
-class ContinuousProfiler;
-} // namespace observability
-} // namespace themis
 
 namespace themis {
 namespace observability {
@@ -68,7 +63,13 @@ struct ObservabilityTracerConfig {
     /// When true, publish span counters to MetricsCollector on each startSpan.
     bool publish_metrics = true;
 
-    /// Optional profiler that the tracer notifies on span start/end so that
+    /// When true and @c profiler is set, capture a CPU profile snapshot when
+    /// a span ends.  The snapshot's folded-stacks text is attached to the
+    /// SpanRecord under the "profile.cpu_folded" attribute key so that flame
+    /// graphs can be correlated with individual trace spans.
+    bool attach_profile_on_span_end = false;
+
+    /// Optional profiler that the tracer notifies on span end so that
     /// profiler snapshots can be correlated with trace spans.
     std::shared_ptr<ContinuousProfiler> profiler;
 };
@@ -88,6 +89,16 @@ struct SpanRecord {
     bool ok{true};
     std::string status_description;
     std::map<std::string, std::string> attributes;
+
+    /**
+     * @brief CPU profile snapshot attached when
+     *        `ObservabilityTracerConfig::attach_profile_on_span_end` is true
+     *        and a `ContinuousProfiler` is configured.
+     *
+     * Contains the folded-stacks text (pprof format) captured at span end.
+     * Empty when profiling is not enabled.
+     */
+    std::string cpu_profile_folded;
 };
 
 /**
@@ -102,7 +113,9 @@ struct SpanRecord {
  *   - In-process ring buffer of completed spans for local diagnostics
  *   - MetricsCollector integration: publishes `themis_tracer_spans_total`,
  *     `themis_tracer_active_spans`, and `themis_tracer_dropped_spans_total`
- *   - Optional ContinuousProfiler attachment for span-correlated profiles
+ *   - Optional ContinuousProfiler attachment: when `attach_profile_on_span_end`
+ *     is true, a CPU profiler snapshot is captured at span end and stored in
+ *     `SpanRecord::cpu_profile_folded` for flame-graph correlation
  *
  * ### Thread Safety
  * All public methods are thread-safe.

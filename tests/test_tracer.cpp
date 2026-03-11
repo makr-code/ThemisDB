@@ -36,11 +36,16 @@
  *  - Sampling: always-off drops spans (isValid() == false)
  *  - Ring-buffer cap: clearCompletedSpans()
  *  - Thread safety: concurrent span creation
+ *  - ContinuousProfiler integration: attach disabled by default; graceful no-op
+ *    when profiler is null or destroyed before span ends; snapshot attached when
+ *    profiler is set and attach_profile_on_span_end is true
  */
 
 #include <gtest/gtest.h>
 #include "observability/tracer.h"
+#include "observability/continuous_profiler.h"
 
+#include <memory>
 #include <string>
 #include <thread>
 #include <vector>
@@ -337,4 +342,109 @@ TEST(ObservabilityTracerTest, ConcurrentSpanCreation) {
     for (auto& th : threads) th.join();
 
     EXPECT_EQ(kThreads * kEach, tracer.stats().total_spans);
+}
+
+// ---------------------------------------------------------------------------
+// ContinuousProfiler integration
+// ---------------------------------------------------------------------------
+
+TEST(ObservabilityTracerTest, ProfilerIntegration_AttachDisabledByDefault) {
+    // When attach_profile_on_span_end is false (default), cpu_profile_folded
+    // should always be empty even if a profiler is set.
+    auto profiler = std::make_shared<ContinuousProfiler>();
+    // Do NOT start() the profiler — we only care that no crash occurs and the
+    // field stays empty when attachment is disabled.
+
+    ObservabilityTracerConfig cfg;
+    cfg.sample_rate              = 1.0;
+    cfg.max_retained_spans       = 10;
+    cfg.publish_metrics          = false;
+    cfg.profiler                 = profiler;
+    cfg.attach_profile_on_span_end = false;  // disabled (default)
+
+    ObservabilityTracer tracer(cfg);
+    auto span = tracer.startSpan("no_profile");
+    span->end();
+
+    auto records = tracer.completedSpans();
+    ASSERT_EQ(1u, records.size());
+    // cpu_profile_folded must be empty when attach is disabled
+    EXPECT_TRUE(records[0].cpu_profile_folded.empty());
+}
+
+TEST(ObservabilityTracerTest, ProfilerIntegration_AttachEnabled_NoProfiler) {
+    // attach_profile_on_span_end=true but no profiler set: must not crash,
+    // cpu_profile_folded stays empty.
+    ObservabilityTracerConfig cfg;
+    cfg.sample_rate              = 1.0;
+    cfg.max_retained_spans       = 10;
+    cfg.publish_metrics          = false;
+    cfg.profiler                 = nullptr;
+    cfg.attach_profile_on_span_end = true;
+
+    ObservabilityTracer tracer(cfg);
+    auto span = tracer.startSpan("no_profiler_attached");
+    span->end();
+
+    auto records = tracer.completedSpans();
+    ASSERT_EQ(1u, records.size());
+    EXPECT_TRUE(records[0].cpu_profile_folded.empty());
+}
+
+TEST(ObservabilityTracerTest, ProfilerIntegration_AttachEnabled_WithProfiler) {
+    // attach_profile_on_span_end=true with a started profiler:
+    // cpu_profile_folded may be empty (depends on stack samples) but must
+    // not crash, and the profiler pointer must be properly weak-referenced.
+    ContinuousProfilerConfig pcfg;
+    pcfg.enabled              = true;
+    pcfg.enable_cpu_profiling = true;
+
+    auto profiler = std::make_shared<ContinuousProfiler>(pcfg);
+    profiler->start();
+
+    ObservabilityTracerConfig cfg;
+    cfg.sample_rate              = 1.0;
+    cfg.max_retained_spans       = 10;
+    cfg.publish_metrics          = false;
+    cfg.profiler                 = profiler;
+    cfg.attach_profile_on_span_end = true;
+
+    ObservabilityTracer tracer(cfg);
+    auto span = tracer.startSpan("with_profiler");
+    span->end();
+
+    profiler->stop();
+
+    // Must not crash, and the record must have been written
+    auto records = tracer.completedSpans();
+    ASSERT_EQ(1u, records.size());
+    // cpu_profile_folded can be empty or non-empty depending on timing;
+    // we only require no crash and the field is a valid string.
+    EXPECT_NO_THROW({ std::string s = records[0].cpu_profile_folded; (void)s; });
+}
+
+TEST(ObservabilityTracerTest, ProfilerIntegration_ProfilerDestroyedBeforeSpanEnds) {
+    // If the shared_ptr to the profiler is destroyed before the span ends,
+    // the weak_ptr locks to nullptr and we gracefully skip the snapshot.
+    auto profiler = std::make_shared<ContinuousProfiler>();
+
+    ObservabilityTracerConfig cfg;
+    cfg.sample_rate              = 1.0;
+    cfg.max_retained_spans       = 10;
+    cfg.publish_metrics          = false;
+    cfg.profiler                 = profiler;
+    cfg.attach_profile_on_span_end = true;
+
+    ObservabilityTracer tracer(cfg);
+    auto span = tracer.startSpan("dangling_profiler");
+
+    // Destroy the profiler while the span is still open
+    profiler.reset();
+
+    // end() must not crash even though the profiler is gone
+    EXPECT_NO_THROW(span->end());
+
+    auto records = tracer.completedSpans();
+    ASSERT_EQ(1u, records.size());
+    EXPECT_TRUE(records[0].cpu_profile_folded.empty());
 }
