@@ -28,9 +28,11 @@
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
 #include "acceleration/kernel_invocation.h"
+#include "index/cuda_hnsw_graph_traversal.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <memory>
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -272,6 +274,66 @@ void CUDAVectorBackend::shutdown() {
         initialized_ = false;
     }
 #endif
+    // Release HNSW engine device resources
+    hnswEngine_.reset();
+}
+
+// ============================================================================
+// HNSW ANN index management
+// ============================================================================
+
+bool CUDAVectorBackend::buildHnswAnnIndex(
+    const std::vector<HnswLayerGraph>& layers,
+    const float* vectors,
+    size_t numVectors,
+    uint32_t dim)
+{
+    if (layers.empty() || vectors == nullptr || numVectors == 0 || dim == 0) return false;
+
+    CudaHnswConfig cfg;
+    cfg.dim       = dim;
+    cfg.device_id = 0;
+
+    hnswEngine_ = std::make_unique<CudaHnswTraversalEngine>(cfg);
+    return hnswEngine_->buildIndex(layers, vectors, numVectors);
+}
+
+bool CUDAVectorBackend::isHnswIndexBuilt() const noexcept {
+    return hnswEngine_ && hnswEngine_->isBuilt();
+}
+
+std::vector<std::vector<std::pair<uint32_t, float>>>
+CUDAVectorBackend::annBatchSearch(
+    const float* queries,
+    size_t numQueries,
+    size_t k,
+    uint32_t ef)
+{
+    if (!hnswEngine_ || !hnswEngine_->isBuilt()) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "CUDA",
+            "HNSW index not built; call buildHnswAnnIndex() before annBatchSearch()",
+            "Build the HNSW index first via buildHnswAnnIndex()"));
+        return {};
+    }
+    if (queries == nullptr || numQueries == 0 || k == 0) return {};
+
+    auto hnswResults = hnswEngine_->batchSearch(
+        queries, numQueries, static_cast<uint32_t>(k), ef);
+
+    // Convert HnswTraversalResult → pair<uint32_t, float>
+    std::vector<std::vector<std::pair<uint32_t, float>>> out;
+    out.reserve(hnswResults.size());
+    for (const auto& queryRes : hnswResults) {
+        std::vector<std::pair<uint32_t, float>> row;
+        row.reserve(queryRes.size());
+        for (const auto& r : queryRes) {
+            row.emplace_back(static_cast<uint32_t>(r.id), r.score);
+        }
+        out.push_back(std::move(row));
+    }
+    return out;
 }
 
 std::vector<float> CUDAVectorBackend::computeDistances(
@@ -380,6 +442,25 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
     size_t k,
     bool useL2
 ) {
+    // ── HNSW fast-path: use GPU-accelerated graph traversal when available ──
+    // When an HNSW index has been pre-built via buildHnswAnnIndex() the engine
+    // stores the graph and vectors on device.  We delegate the search there
+    // instead of running the brute-force O(N·d) distance matrix.
+    if (hnswEngine_ && hnswEngine_->isBuilt()) {
+        auto hnswResults = hnswEngine_->batchSearch(
+            queries, numQueries, static_cast<uint32_t>(k));
+        std::vector<std::vector<std::pair<uint32_t, float>>> out;
+        out.reserve(hnswResults.size());
+        for (const auto& qr : hnswResults) {
+            std::vector<std::pair<uint32_t, float>> row;
+            row.reserve(qr.size());
+            for (const auto& r : qr)
+                row.emplace_back(static_cast<uint32_t>(r.id), r.score);
+            out.push_back(std::move(row));
+        }
+        return out;
+    }
+
 #ifdef THEMIS_ENABLE_CUDA
     if (!initialized_) {
         setError(ErrorContext(
