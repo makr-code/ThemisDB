@@ -20,7 +20,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Version compatibility checking — Evidence: version fields in `ModuleCapabilities` struct
 - [x] Plugin sandboxing with resource limits (memory, CPU) (Issue: #2372) — Evidence: `src/base/module_sandbox.cpp`, `include/themis/base/module_sandbox.h`
 - [~] Plugin health monitoring and automatic restart (Issue: #2373) — **Partial**: health checks on module load implemented (`module_loader.cpp` lines 452–1178, `healthChecks_` map); **automatic restart** on failure is not yet implemented; see Missing Implementations report
-- [~] WASM-based plugin isolation for untrusted code (Issue: #1572) — **Partial**: full sandbox infrastructure implemented in `src/base/wasm_plugin_sandbox.cpp`; requires injection of a concrete `WasmRuntime` (e.g. Wasmtime, WasmEdge) before `callExport()` is operational; see Missing Implementations report
+- [~] WASM-based plugin isolation for untrusted code (Issue: #1572) — WASM runtime injection now integrated into `module_sandbox.cpp` (v1.8.0): `ModuleSandbox::Config::enable_wasm_isolation` enables the feature; `ModuleSandbox::launch()` auto-creates a `WasmPluginSandbox` and injects the best available `IWasmRuntime` via `WasmRuntimeInjector`; accessible via `wasmSandbox()`. Concrete runtime backends (Wasmtime, WasmEdge) still require separate registration.
 - [x] Hot-reload support for plugins without database restart (Issue: #1554, PR: #2396) — Evidence: `src/base/hot_reload_manager.cpp`
 - [x] Plugin dependency graph visualization (Issue: #1563) — Evidence: `src/base/plugin_dependency_graph.cpp`, `topologicalOrder()` + DOT output
 - [x] Per-plugin audit trail (load, unload, errors) (Issue: #1564) — Evidence: `auditTrail_` in `module_loader.cpp`
@@ -41,7 +41,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [ ] Automatic plugin restart after health-check failure (Target: Q2 2026) (Issue: #2373) — prerequisite: health monitoring partially implemented; restart loop not implemented
 
 ### Long-term (6-12 months)
-- [ ] Concrete WasmRuntime integration (Wasmtime or WasmEdge) (Target: Q3 2026) — prerequisite: WasmPluginSandbox infrastructure complete; runtime injection required
+- [ ] Concrete WasmRuntime integration (Wasmtime or WasmEdge) (Target: Q3 2026) — `ModuleSandbox::Config::enable_wasm_isolation` and `WasmRuntimeInjector` injection path are ready (v1.8.0); register a concrete backend via `THEMIS_REGISTER_WASM_RUNTIME` macro
 - [x] TLS public-key pinning for remote plugin registry — implemented via `RegistryConfig::pinned_public_key` + `CURLOPT_PINNEDPUBLICKEY`; Ed25519 application-layer key pinning is handled separately by `SignedPluginRepository` in the plugins module
 
 ## Implementation Phases
@@ -72,7 +72,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] Plugin sandboxing with resource limits (memory, CPU) — Evidence: `module_sandbox.cpp`
 - [~] Plugin health monitoring and automatic restart — **Partial**: health checks implemented; automatic restart not yet implemented (Issue: #2373)
 - [x] Signed plugin repository with key pinning — TLS SPKI pinning via `RegistryConfig::pinned_public_key` + `CURLOPT_PINNEDPUBLICKEY`; Ed25519 application-layer key pinning in `SignedPluginRepository` (`plugins/signed_plugin_repository.h`)
-- [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; requires WasmRuntime injection (Issue: #1572)
+- [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; WASM runtime injection into `ModuleSandbox` implemented (v1.8.0, Issue: #1572); concrete backend (Wasmtime/WasmEdge) registration still required for production execution
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`
@@ -83,7 +83,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] API stability guaranteed for module loading interface
 
 ## Known Issues & Limitations
-- WASM plugin isolation (`WasmPluginSandbox`) requires injection of a concrete WASM runtime (Wasmtime, WasmEdge, etc.) for full execution support (Issue: #1572)
+- WASM plugin isolation: `ModuleSandbox::Config::enable_wasm_isolation` + `WasmRuntimeInjector` injection path is complete (v1.8.0, Issue: #1572); concrete engine (Wasmtime, WasmEdge) registration still required for production execution
 - Automatic plugin restart after health-check failure is not implemented; health checks run at module-load time only (Issue: #2373)
 - Unit test coverage, integration tests, and performance benchmarks are still open (Issues: #1573, #1574, #1575)
 

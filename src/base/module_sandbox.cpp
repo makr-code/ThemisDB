@@ -29,6 +29,8 @@
 
 #include "themis/base/module_sandbox.h"
 #include "themis/base/module_loader.h"
+#include "themis/base/wasm_plugin_sandbox.h"
+#include "themis/base/wasm_runtime_injector.h"
 
 #include <cstring>
 #include <sstream>
@@ -48,6 +50,49 @@
 
 namespace themis {
 namespace modules {
+
+namespace {
+
+// =============================================================================
+// WasmRuntimeAdapter – bridges IWasmRuntime (injector API) to WasmRuntime
+//                      (WasmPluginSandbox API)
+//
+// WasmRuntimeInjector::create() returns IWasmRuntime, while
+// WasmPluginSandbox::setRuntime() takes a WasmRuntime.  This adapter owns
+// the IWasmRuntime and implements the WasmRuntime contract.
+// =============================================================================
+
+class WasmRuntimeAdapter final : public WasmRuntime {
+public:
+    explicit WasmRuntimeAdapter(std::unique_ptr<IWasmRuntime> impl)
+        : impl_(std::move(impl)) {}
+
+    bool instantiate(const std::vector<uint8_t>&         wasm_bytes,
+                     const std::vector<WasmHostFunction>& host_fns,
+                     uint8_t*                             /*linear_memory*/,
+                     size_t                               memory_size) override {
+        // IWasmRuntime::instantiate() takes a memory limit in bytes and manages
+        // its own linear memory allocation.
+        return impl_->instantiate(wasm_bytes, host_fns, memory_size);
+    }
+
+    bool call(const std::string&          export_name,
+              const std::vector<uint8_t>& args,
+              std::vector<uint8_t>&       out) override {
+        return impl_->call(export_name, args, out);
+    }
+
+    void destroy() override { impl_.reset(); }
+
+    std::string engineName() const override {
+        return impl_ ? impl_->name() : std::string{};
+    }
+
+private:
+    std::unique_ptr<IWasmRuntime> impl_;
+};
+
+} // anonymous namespace
 
 // =============================================================================
 // AbiChecker
@@ -231,6 +276,35 @@ bool ModuleSandbox::launch(const std::string& module_name) {
 
     if (!ok) return false;
 
+    // ── WASM isolation (v1.8.0) ──────────────────────────────────────────
+    if (config_.enable_wasm_isolation) {
+        if (!WasmRuntimeInjector::available()) {
+            launch_warnings_.push_back(
+                "WASM isolation requested but no WasmRuntime backend is registered; "
+                "falling back to OS-only sandbox. Register a backend via "
+                "WasmRuntimeInjector::registerRuntime() before constructing the sandbox.");
+        } else {
+            auto rt = WasmRuntimeInjector::create(config_.wasm_runtime_name);
+            if (!rt) {
+                launch_warnings_.push_back(
+                    "WASM isolation: WasmRuntimeInjector::create() returned nullptr; "
+                    "OS-only sandbox active.");
+            } else {
+                WasmPluginSandbox::Config wasm_cfg;
+                wasm_cfg.linear_memory_pages          = config_.wasm_linear_memory_pages;
+                wasm_cfg.max_memory_mb                = config_.max_memory_mb;
+                wasm_cfg.max_cpu_time_seconds         = config_.max_cpu_time_seconds;
+                wasm_cfg.allow_unregistered_imports   = config_.wasm_allow_unregistered_imports;
+
+                wasm_sandbox_ = std::make_unique<WasmPluginSandbox>(wasm_cfg);
+                // Wrap the IWasmRuntime (injector API) to WasmRuntime (sandbox API)
+                wasm_sandbox_->setRuntime(
+                    std::make_unique<WasmRuntimeAdapter>(std::move(rt)));
+                wasm_isolation_active_ = true;
+            }
+        }
+    }
+
     active_ = true;
     return true;
 }
@@ -256,6 +330,12 @@ void ModuleSandbox::shutdown() {
     // On a real production system, we'd also remove the cgroup.
     // For now, just mark as inactive.
 #endif
+
+    // Release WASM sandbox (v1.8.0)
+    if (wasm_isolation_active_) {
+        wasm_sandbox_.reset();
+        wasm_isolation_active_ = false;
+    }
 
     active_ = false;
 }
@@ -434,6 +514,22 @@ SandboxStats ModuleSandbox::stats() const {
 
     s.killed     = false;
     return s;
+}
+
+// =============================================================================
+// ModuleSandbox – WASM isolation accessors (v1.8.0)
+// =============================================================================
+
+bool ModuleSandbox::isWasmIsolationActive() const noexcept {
+    return wasm_isolation_active_;
+}
+
+WasmPluginSandbox* ModuleSandbox::wasmSandbox() noexcept {
+    return wasm_sandbox_.get();
+}
+
+const WasmPluginSandbox* ModuleSandbox::wasmSandbox() const noexcept {
+    return wasm_sandbox_.get();
 }
 
 } // namespace modules
