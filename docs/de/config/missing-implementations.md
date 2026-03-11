@@ -16,7 +16,7 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 |----|--------|----------|------------|---------|
 | CFG-001 | `src/config/FUTURE_ENHANCEMENTS.md` → Performance Targets | `benchmarks/config_bench.cpp` | Datei existiert nicht; tatsächlich: `benchmarks/bench_config_path_resolver.cpp` | ⚠️ Pfadfehler (behoben) |
 | CFG-002 | `src/config/FUTURE_ENHANCEMENTS.md` → Test Strategy | `tests/config/config_path_resolver_test.cpp` | Datei existiert nicht; tatsächlich: `tests/test_config_path_resolver.cpp` | ⚠️ Pfadfehler (behoben) |
-| CFG-003 | `src/config/FUTURE_ENHANCEMENTS.md` → Performance Targets | `tests/config/scanner_bench.cpp` | Datei existiert nicht | ℹ️ Geplant (offen) |
+| CFG-003 | `src/config/FUTURE_ENHANCEMENTS.md` → Performance Targets | `benchmarks/bench_config_migration_scanner.cpp` | Datei existiert | ✅ Behoben |
 | CFG-004 | `src/config/FUTURE_ENHANCEMENTS.md` → Performance Targets | `tests/config/metrics_scrape_test.cpp` | Datei existiert nicht | ℹ️ Geplant (offen) |
 | CFG-005 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `allOf`, `anyOf`, `oneOf` implementiert | Nicht in `config_schema_validator.cpp` vorhanden | ℹ️ Geplant für v2.0.0 |
 | CFG-006 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `$ref` mit `$defs`-Auflösung | Nicht in `config_schema_validator.cpp` vorhanden | ℹ️ Geplant für v2.0.0 |
@@ -51,16 +51,14 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 
 ---
 
-### CFG-003 — Fehlende Scanner-Benchmark-Datei ℹ️ Geplant
+### CFG-003 — Fehlende Scanner-Benchmark-Datei ✅ Behoben
 
 **Claim-Quelle:** `src/config/FUTURE_ENHANCEMENTS.md`, Abschnitt „Performance Targets"  
-**Erwartet:** `tests/config/scanner_bench.cpp` (oder gleichwertige Benchmark-Datei)  
-**Beobachtet:** Datei existiert nicht  
-**Evidence:** `find benchmarks/ tests/ -name "*scanner_bench*"` → keine Treffer  
-**Ist-Stand:** Die Performance-Anforderung (CLI scanner 10K Dateien < 5 s) ist dokumentiert, aber nicht verifiziert.  
-**Status:** ℹ️ Offen — als geplant in FUTURE_ENHANCEMENTS.md vermerkt (Bezeichnung korrigiert)  
-**Issue-Titelvorschlag:** `feat(config): add migration scanner performance benchmark`  
-**Labels:** `testing`, `performance`, `config`
+**Erwartet:** `benchmarks/bench_config_migration_scanner.cpp` (oder gleichwertige Benchmark-Datei)  
+**Beobachtet:** Datei existiert  
+**Evidence:** `benchmarks/bench_config_migration_scanner.cpp` enthält BM_ScanTree_10K (10K Dateien < 5 s)  
+**Ist-Stand:** Die Performance-Anforderung (CLI scanner 10K Dateien < 5 s) ist dokumentiert und durch BM_ScanTree_10K verifiziert.  
+**Status:** ✅ Behoben — `benchmarks/bench_config_migration_scanner.cpp` implementiert; CMakeLists.txt aktualisiert
 
 ---
 

@@ -184,7 +184,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 | `resolve()` latency (cache hit) | < 1 µs | < 1 µs (no regression) | `benchmarks/bench_config_path_resolver.cpp` |
 | `resolve()` latency (cache miss, mapped) | < 500 µs | < 200 µs | `benchmarks/bench_config_path_resolver.cpp` |
 | Deprecation aggregator hot path overhead | N/A | < 50 ns | microbenchmark in `benchmarks/bench_config_path_resolver.cpp` |
-| CLI scanner 10K files | N/A | < 5 s | planned: `benchmarks/bench_config_migration_scanner.cpp` |
+| CLI scanner 10K files | N/A | < 5 s | `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K) |
 | Metrics scrape | N/A | < 1 ms | covered in `benchmarks/bench_config_path_resolver.cpp` metrics section |
 
 ## Security / Reliability

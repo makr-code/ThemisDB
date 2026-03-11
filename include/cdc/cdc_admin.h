@@ -145,6 +145,7 @@ struct RetentionStatus {
     uint64_t policy_max_event_count = 1000000;      ///< Maximum number of events to retain
     size_t   policy_max_size_bytes = Changefeed::RetentionPolicy::DEFAULT_MAX_SIZE_BYTES;  ///< Maximum log size in bytes
     uint32_t policy_cleanup_interval_minutes = 60;  ///< Interval between background cleanup runs
+    bool     cleanup_thread_running = false;        ///< Whether the background cleanup thread is currently active
 
     nlohmann::json toJson() const {
         return {
@@ -155,6 +156,7 @@ struct RetentionStatus {
             {"newest_timestamp_ms",   newest_timestamp_ms},
             {"next_cleanup_time_ms",  next_cleanup_time_ms},
             {"compact_on_cleanup",    compact_on_cleanup},
+            {"cleanup_thread_running", cleanup_thread_running},
             {"policy", {
                 {"enabled",                   policy_enabled},
                 {"max_age_hours",             policy_max_age_hours},

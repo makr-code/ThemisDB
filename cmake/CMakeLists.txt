@@ -2741,6 +2741,8 @@ if(THEMIS_ENABLE_CUDA)
     ../src/acceleration/cuda/vector_kernels.cu
     ../src/acceleration/cuda/tensor_core_matmul.cu
     ../src/acceleration/cuda/geo_kernels.cu
+    ../src/acceleration/cuda/cuda_hnsw_kernels.cu
+    ../src/acceleration/cuda/graph_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
@@ -4097,6 +4099,19 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_cuda_hnsw_graph_traversal
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_hnsw_graph_traversal>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    add_executable(test_cuda_ann_search
+        ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
+    )
+    target_link_libraries(test_cuda_ann_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_cuda_ann_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

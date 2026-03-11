@@ -290,6 +290,12 @@ public:
      */
     void stopRetentionCleanup();
 
+    /**
+     * @brief Check whether the background retention cleanup thread is running
+     * @return true if the background thread is active
+     */
+    bool isRetentionCleanupRunning() const noexcept;
+
     // -----------------------------------------------------------------------
     // Push-based subscription API
     // -----------------------------------------------------------------------

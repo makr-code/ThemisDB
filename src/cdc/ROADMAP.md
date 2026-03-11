@@ -80,7 +80,6 @@
 
 ## Known Issues & Limitations
 - Consumer offset tracking is available via `ConsumerGroupManager`; full log scan is no longer required for existing groups
-- **Change log retention not runtime-configurable:** `[x] Change log TTL and size-based retention (Issue: #1608)` is implemented for manual admin trim (`CDCAdmin::purgeOlderThan()`), but policies are not yet configurable at runtime without a server restart. See [missing-implementations](../../docs/de/cdc/missing-implementations.md).
 - At-least-once delivery is implemented via `ConsumerGroupManager::fetchEventsAtLeastOnce`; in-flight state is in-memory and resets on server restart (consumers resume from the last durably committed offset)
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
 - Outbox relay in-flight state is in-memory; FAILED records survive restarts but PENDING records relayed-but-not-marked would be re-relayed after restart (at-least-once semantics)
