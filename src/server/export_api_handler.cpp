@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_api_handler.cpp                             ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:00:11                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-11 17:58:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -23,6 +23,9 @@
 
 #include "server/export_api_handler.h"
 #include "exporters/aql_predicate_filter.h"
+#include "exporters/exporter_errors.h"
+#include "governance/policy_engine.h"
+#include "utils/audit_logger.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -96,6 +99,18 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         // Configure export options
         exporters::ExportOptions export_options;
         export_options.output_path = output_path;
+
+        // Wire PolicyEngine and AuditLogger for per-collection authorization (EXP-001).
+        // Populate collection_name and requesting_user so enforceExportPolicy() can
+        // build a complete ModelTrainingExportRequest.
+        if (request_json.contains("collection") && request_json["collection"].is_string()) {
+            export_options.collection_name = request_json["collection"].get<std::string>();
+        }
+        if (request_json.contains("requesting_user") && request_json["requesting_user"].is_string()) {
+            export_options.requesting_user = request_json["requesting_user"].get<std::string>();
+        }
+        export_options.policy_engine = policy_engine_;
+        export_options.audit_logger  = audit_logger_;
 
         // Support AQL predicate filtering via the "filter" request parameter.
         // Example: {"filter": "doc.category == \"active\" AND doc.score >= 0.5"}
@@ -257,6 +272,16 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
     } catch (const json::exception& e) {
         return errorResponse(http::status::bad_request,
             std::string("JSON parsing error: ") + e.what());
+    } catch (const exporters::ExporterException& e) {
+        // Map ERR_EXPORT_POLICY_DENIED → 403 Forbidden (EXP-001).
+        // All other exporter exceptions surface as 500 so callers can
+        // distinguish authorization failures from infrastructure faults.
+        if (e.getErrorCode() == errors::ErrorCode::ERR_EXPORT_POLICY_DENIED) {
+            return errorResponse(http::status::forbidden,
+                std::string("Export forbidden: ") + e.what());
+        }
+        return errorResponse(http::status::internal_server_error,
+            std::string("Export error: ") + e.what());
     } catch (const std::exception& e) {
         return errorResponse(http::status::internal_server_error,
             std::string("Export error: ") + e.what());
