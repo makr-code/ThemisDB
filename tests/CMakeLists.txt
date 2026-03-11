@@ -1221,9 +1221,11 @@ set_tests_properties(AllTests PROPERTIES
 # Themis Wire Protocol V1 unit tests (subset of AllTests)
 # Covers: WireV1Constants, WireFrameHeader, OpCode, MessageFlags,
 #         MessageDispatcher, WireProtocolSession, WireProtocolServer,
-#         WireProtocolConstants (from test_themis_wire_protocol_server.cpp)
+#         WireProtocolConstants, WireProtocolV1ThemisAuth/Get/Put/Delete/
+#         Query/VectorSearch/GeoQuery/Timeseries/Bpmn/ErrorCodes
+#         (from test_themis_wire_protocol_server.cpp)
 add_test(NAME ThemisWireProtocolV1Tests
-    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*)
+    COMMAND themis_tests --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:WireProtocolV1Themis*)
 set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
     LABELS "wire;protocol;themis;unit"
     TIMEOUT 60

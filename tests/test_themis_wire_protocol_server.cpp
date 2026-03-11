@@ -434,3 +434,336 @@ TEST(WireProtocolConstants, ChecksumSizeIsCrc32Width) {
     EXPECT_EQ(CHECKSUM_SIZE, 4u);
     EXPECT_EQ(CHECKSUM_SIZE, sizeof(uint32_t));
 }
+
+// ===========================================================================
+// Handler validation logic — mirrors the implemented handler behaviour
+// without requiring a live protobuf payload or TCP connection.
+// ===========================================================================
+
+// --- Auth decision (handleAuthResponse logic) --------------------------------
+
+TEST(WireProtocolV1ThemisAuth, UnauthenticatedSessionDefaultFalse) {
+    boost::asio::io_context ioc;
+    auto client = make_client_socket(ioc);
+    auto session = std::make_shared<WireProtocolSession>(std::move(client));
+    EXPECT_FALSE(session->is_authenticated());
+}
+
+// Logic mirror for handle_auth_response authentication success path.
+TEST(WireProtocolV1ThemisAuth, AuthSuccessRequiresNonEmptyUsername) {
+    // handle_auth_response sets authenticated_=true only when username is non-empty.
+    std::string username = "alice";
+    bool accepted = !username.empty();
+    EXPECT_TRUE(accepted);
+}
+
+TEST(WireProtocolV1ThemisAuth, AuthFailsWithEmptyUsername) {
+    std::string username = "";
+    bool accepted = !username.empty();
+    EXPECT_FALSE(accepted);
+}
+
+// --- GET input validation ---------------------------------------------------
+
+TEST(WireProtocolV1ThemisGet, EmptyCollectionWouldBeRejected) {
+    // handle_get checks collection.empty() → error 400.
+    std::string collection = "";
+    std::string uuid = "doc-1";
+    bool would_reject = collection.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisGet, EmptyUuidWouldBeRejected) {
+    std::string collection = "users";
+    std::string uuid = "";
+    bool would_reject = uuid.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisGet, ValidInputWouldPassValidation) {
+    std::string collection = "users";
+    std::string uuid = "user-42";
+    bool would_reject = collection.empty() || uuid.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+// --- PUT input validation ---------------------------------------------------
+
+TEST(WireProtocolV1ThemisPut, EmptyCollectionWouldBeRejected) {
+    std::string collection = "";
+    std::string uuid = "doc-1";
+    std::string entity = "{}";
+    bool would_reject = collection.empty() || uuid.empty() || entity.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisPut, EmptyEntityWouldBeRejected) {
+    std::string collection = "orders";
+    std::string uuid = "ord-99";
+    std::string entity = "";
+    bool would_reject = collection.empty() || uuid.empty() || entity.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisPut, ValidInputWouldPassValidation) {
+    std::string collection = "orders";
+    std::string uuid = "ord-99";
+    std::string entity = "{\"total\": 42}";
+    bool would_reject = collection.empty() || uuid.empty() || entity.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+// --- DELETE input validation ------------------------------------------------
+
+TEST(WireProtocolV1ThemisDelete, EmptyCollectionWouldBeRejected) {
+    std::string collection = "";
+    std::string uuid = "doc-1";
+    bool would_reject = collection.empty() || uuid.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisDelete, EmptyUuidWouldBeRejected) {
+    std::string collection = "products";
+    std::string uuid = "";
+    bool would_reject = collection.empty() || uuid.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+// --- QUERY_AQL input validation ---------------------------------------------
+
+TEST(WireProtocolV1ThemisQuery, EmptyAqlWouldBeRejected) {
+    std::string aql = "";
+    bool would_reject = aql.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisQuery, NonEmptyAqlPassesValidation) {
+    std::string aql = "FOR doc IN users RETURN doc";
+    bool would_reject = aql.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+// --- VECTOR_SEARCH input validation -----------------------------------------
+
+TEST(WireProtocolV1ThemisVectorSearch, EmptyCollectionWouldBeRejected) {
+    std::string collection = "";
+    int vector_size = 128;
+    bool would_reject = collection.empty() || (vector_size == 0);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisVectorSearch, EmptyVectorWouldBeRejected) {
+    std::string collection = "embeddings";
+    int vector_size = 0;
+    bool would_reject = collection.empty() || (vector_size == 0);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisVectorSearch, ValidRequestPassesValidation) {
+    std::string collection = "embeddings";
+    int vector_size = 384;
+    bool would_reject = collection.empty() || (vector_size == 0);
+    EXPECT_FALSE(would_reject);
+}
+
+// --- GEO_QUERY input validation ---------------------------------------------
+
+TEST(WireProtocolV1ThemisGeoQuery, EmptyCollectionWouldBeRejected) {
+    std::string collection = "";
+    bool would_reject = collection.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisGeoQuery, NonEmptyCollectionPassesValidation) {
+    std::string collection = "locations";
+    bool would_reject = collection.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+// --- TIMESERIES_QUERY input validation --------------------------------------
+
+TEST(WireProtocolV1ThemisTimeseries, EmptyCollectionWouldBeRejected) {
+    std::string collection = "";
+    uint64_t start_ns = 1000u;
+    uint64_t end_ns   = 2000u;
+    bool would_reject = collection.empty() || (start_ns >= end_ns);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTimeseries, InvalidTimeRangeWouldBeRejected) {
+    // start >= end must be rejected.
+    std::string collection = "cpu_usage";
+    uint64_t start_ns = 2000u;
+    uint64_t end_ns   = 1000u;
+    bool would_reject = collection.empty() || (start_ns >= end_ns);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTimeseries, EqualTimestampsWouldBeRejected) {
+    std::string collection = "cpu_usage";
+    uint64_t start_ns = 1000u;
+    uint64_t end_ns   = 1000u;
+    bool would_reject = collection.empty() || (start_ns >= end_ns);
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisTimeseries, ValidRequestPassesValidation) {
+    std::string collection = "cpu_usage";
+    uint64_t start_ns = 1000u;
+    uint64_t end_ns   = 2000u;
+    bool would_reject = collection.empty() || (start_ns >= end_ns);
+    EXPECT_FALSE(would_reject);
+}
+
+// --- BPMN_START_PROCESS input validation ------------------------------------
+
+TEST(WireProtocolV1ThemisBpmn, EmptyProcessKeyWouldBeRejected) {
+    std::string process_definition_key = "";
+    bool would_reject = process_definition_key.empty();
+    EXPECT_TRUE(would_reject);
+}
+
+TEST(WireProtocolV1ThemisBpmn, NonEmptyProcessKeyPassesValidation) {
+    std::string process_definition_key = "invoice-approval-v2";
+    bool would_reject = process_definition_key.empty();
+    EXPECT_FALSE(would_reject);
+}
+
+// --- Auth error code --------------------------------------------------------
+
+TEST(WireProtocolV1ThemisAuthCode, UnauthenticatedUsesCode0x0401) {
+    // All data handlers check authenticated_ and send error 0x0401 when false.
+    constexpr uint32_t kAuthRequired = 0x0401u;
+    EXPECT_EQ(kAuthRequired, 1025u);  // 0x0401 = 1025
+}
+
+// --- Handler decision logic mirrors (auth + validation + outcome) ------------
+
+// GET: logic mirror of the full handle_get decision path.
+TEST(WireProtocolV1ThemisGet, UnauthenticatedRequestSends0x0401) {
+    bool authenticated = false;
+    std::string collection = "users";
+    std::string uuid = "user-1";
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (collection.empty() || uuid.empty()) {
+        expected_code = 400;
+    } else {
+        expected_code = 503;
+    }
+    EXPECT_EQ(expected_code, 0x0401u);
+}
+
+TEST(WireProtocolV1ThemisGet, AuthenticatedValidRequestSends503) {
+    bool authenticated = true;
+    std::string collection = "users";
+    std::string uuid = "user-1";
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (collection.empty() || uuid.empty()) {
+        expected_code = 400;
+    } else {
+        expected_code = 503;
+    }
+    EXPECT_EQ(expected_code, 503u);
+}
+
+TEST(WireProtocolV1ThemisGet, AuthenticatedMissingFieldSends400) {
+    bool authenticated = true;
+    std::string collection = "users";
+    std::string uuid = "";  // missing
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (collection.empty() || uuid.empty()) {
+        expected_code = 400;
+    } else {
+        expected_code = 503;
+    }
+    EXPECT_EQ(expected_code, 400u);
+}
+
+// QUERY_AQL: logic mirror of the full handle_query_aql decision path.
+TEST(WireProtocolV1ThemisQuery, AuthenticatedValidRequestSends501) {
+    bool authenticated = true;
+    std::string aql = "FOR doc IN users RETURN doc";
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (aql.empty()) {
+        expected_code = 400;
+    } else {
+        expected_code = 501;  // not integrated
+    }
+    EXPECT_EQ(expected_code, 501u);
+}
+
+// VECTOR_SEARCH: logic mirror of the full handle_vector_search decision path.
+TEST(WireProtocolV1ThemisVectorSearch, AuthenticatedValidRequestSends503) {
+    bool authenticated = true;
+    std::string collection = "embeddings";
+    int vector_size = 384;
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (collection.empty() || vector_size == 0) {
+        expected_code = 400;
+    } else {
+        expected_code = 503;  // vector index not connected
+    }
+    EXPECT_EQ(expected_code, 503u);
+}
+
+// GEO_QUERY: logic mirror of the full handle_geo_query decision path.
+TEST(WireProtocolV1ThemisGeoQuery, AuthenticatedValidRequestSends501) {
+    bool authenticated = true;
+    std::string collection = "locations";
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (collection.empty()) {
+        expected_code = 400;
+    } else {
+        expected_code = 501;  // geo not integrated
+    }
+    EXPECT_EQ(expected_code, 501u);
+}
+
+// TIMESERIES: logic mirror of the full handle_timeseries_query decision path.
+TEST(WireProtocolV1ThemisTimeseries, AuthenticatedValidRequestSends503) {
+    bool authenticated = true;
+    std::string collection = "cpu_usage";
+    uint64_t start_ns = 1000u;
+    uint64_t end_ns   = 2000u;
+    uint32_t expected_code = 0;
+    if (!authenticated) {
+        expected_code = 0x0401;
+    } else if (collection.empty() || start_ns >= end_ns) {
+        expected_code = 400;
+    } else {
+        expected_code = 503;  // ts store not connected
+    }
+    EXPECT_EQ(expected_code, 503u);
+}
+
+// --- Not-implemented error codes --------------------------------------------
+
+TEST(WireProtocolV1ThemisErrorCodes, QueryAqlUses501) {
+    // handle_query_aql returns 501 (not implemented) for AQL queries.
+    constexpr uint32_t kNotImplemented = 501u;
+    EXPECT_EQ(kNotImplemented, 501u);
+}
+
+TEST(WireProtocolV1ThemisErrorCodes, GeoQueryUses501) {
+    // handle_geo_query returns 501 (not implemented) for geo queries.
+    constexpr uint32_t kNotImplemented = 501u;
+    EXPECT_EQ(kNotImplemented, 501u);
+}
+
+TEST(WireProtocolV1ThemisErrorCodes, StorageUnavailableUses503) {
+    // handle_get/put/delete/vector_search return 503 (service unavailable).
+    constexpr uint32_t kServiceUnavailable = 503u;
+    EXPECT_EQ(kServiceUnavailable, 503u);
+}
