@@ -153,6 +153,82 @@ enum class ConflictStrategy {
     ERROR       ///< Abort the batch on the first conflict
 };
 
+// ============================================================================
+// Entity Linking / MDM configuration (used by ImportOptions)
+// ============================================================================
+
+/**
+ * @brief Per-collection semantic matching settings for the MDM pipeline.
+ */
+struct CollectionMatchingConfig {
+    /// Field names to use for deterministic (exact-key) matching.
+    std::vector<std::string> primary_key_fields;
+
+    /// Field names with unique constraints (secondary deterministic matching).
+    std::vector<std::string> unique_fields;
+
+    /// Semantic matching algorithm per field: "jaro_winkler", "levenshtein",
+    /// "soundex", "email", "phone".
+    std::map<std::string, std::string> field_algorithms;
+
+    /// Per-field weight for the semantic matching score (0.0–1.0).
+    std::map<std::string, double> field_weights;
+
+    /// Minimum overall semantic confidence to accept a match (default: 0.85).
+    double semantic_threshold = 0.85;
+};
+
+/**
+ * @brief Configuration for the MDM entity-linking phase of an import.
+ *
+ * When @c enabled is true, the importer runs an MDM workflow after the
+ * standard import phase to match, link, and deduplicate incoming entities
+ * against existing ones in ThemisDB.
+ *
+ * The strategy and thresholds can be overridden per collection via
+ * @c collection_configs.
+ */
+struct EntityLinkingConfig {
+    /// When false the MDM workflow is completely bypassed (default).
+    bool enabled = false;
+
+    /// Matching strategy: 0 = DETERMINISTIC_FIRST, 1 = SEMANTIC_FIRST,
+    /// 2 = WEIGHTED_ENSEMBLE.  Stored as int to avoid pulling in
+    /// entity_matcher.h from this header.
+    int strategy = 0; // DETERMINISTIC_FIRST
+
+    double deterministic_threshold = 1.0;
+    double semantic_threshold      = 0.85;
+
+    /// Resolution policy: 0–5 maps to ResolutionPolicy enum values.
+    int resolution_policy = 4; // RICHEST_MERGE
+
+    /// Automatically resolve conflicts without queuing for manual review.
+    bool auto_resolve_conflicts = false;
+
+    /// Create reverse links (target → source) in addition to forward links.
+    bool create_reverse_links = true;
+
+    /// Fields that are never overwritten during golden-record creation.
+    std::vector<std::string> protected_fields;
+
+    /// Per-collection overrides for matching algorithm and thresholds.
+    std::map<std::string, CollectionMatchingConfig> collection_configs;
+
+    json toJson() const {
+        return json{
+            {"enabled",                  enabled},
+            {"strategy",                 strategy},
+            {"deterministic_threshold",  deterministic_threshold},
+            {"semantic_threshold",       semantic_threshold},
+            {"resolution_policy",        resolution_policy},
+            {"auto_resolve_conflicts",   auto_resolve_conflicts},
+            {"create_reverse_links",     create_reverse_links},
+            {"protected_fields",         protected_fields}
+        };
+    }
+};
+
 /**
  * @brief Import Statistics
  */
@@ -183,6 +259,16 @@ struct ImportStats {
     std::vector<std::string> warnings;
     std::vector<std::string> errors;
     std::vector<ImportError> structured_errors;  ///< Machine-readable error list
+
+    // MDM / Entity-linking counters (populated when entity_linking is enabled)
+    size_t entities_linked    = 0;  ///< Entity links created by the MDM phase
+    size_t golden_records     = 0;  ///< Golden records produced by the MDM phase
+    size_t mdm_reviews_needed = 0;  ///< Entities queued for manual review
+
+    /// Optional sample of imported entities (used by MDM post-processing).
+    /// Populated by the importer when entity_linking.enabled is true and
+    /// the batch fits within the configured sample limit.
+    json sample_entities = json::array();
     
     json toJson() const {
         json err_arr = json::array();
@@ -208,7 +294,10 @@ struct ImportStats {
             {"is_data_only", is_data_only},
             {"warnings", warnings},
             {"errors", errors},
-            {"structured_errors", err_arr}
+            {"structured_errors", err_arr},
+            {"entities_linked",    entities_linked},
+            {"golden_records",     golden_records},
+            {"mdm_reviews_needed", mdm_reviews_needed}
         };
     }
 };
@@ -466,6 +555,13 @@ struct ImportOptions {
     ///   "manual" – no automatic mapping; user configures via API
     ///   "skip"   – do not create graph edges for FKs
     std::string relationship_mapping_mode = "auto";
+    // Entity linking / Master Data Management (MDM)
+    // -------------------------------------------------------------------------
+
+    /// When entity_linking.enabled is true, a post-import MDM workflow
+    /// matches, links, and deduplicates the imported entities against
+    /// existing ThemisDB records using the configured strategy.
+    EntityLinkingConfig entity_linking;
 
     json toJson() const {
         return json{
@@ -496,6 +592,7 @@ struct ImportOptions {
             {"preserve_relationships", preserve_relationships},
             {"validate_references", validate_references},
             {"relationship_mapping_mode", relationship_mapping_mode}
+            {"entity_linking", entity_linking.toJson()}
         };
     }
 };

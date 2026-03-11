@@ -30,7 +30,9 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#ifndef _WIN32
 #include <dlfcn.h>  // For dynamic library loading (Unix)
+#endif
 
 #ifdef _WIN32
 #include <windows.h>

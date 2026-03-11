@@ -1,8 +1,8 @@
-# Hybrid Search Guide - ThemisDB v1.4
+# Hybrid Search Guide - ThemisDB v2.3
 
-**Version:** 1.4.0  
+**Version:** 2.3.0  
 **Status:** ✅ Produktionsreif  
-**Aktualisiert:** Januar 2026
+**Aktualisiert:** März 2026
 
 ---
 
@@ -15,6 +15,7 @@
 - [Beispiele](#beispiele)
 - [Performance](#performance)
 - [Best Practices](#best-practices)
+- [Distributed Hybrid Search](#distributed-hybrid-search-v230)
 
 ---
 
@@ -629,6 +630,129 @@ async function robustHybridSearch(query) {
 | **Image Search** | ⚠️ Vector bevorzugt (Keine Keywords) |
 | **News Articles** | ✅ Hybrid (Aktualität + Relevanz) |
 | **Academic Papers** | ✅ Hybrid (Technical Terms + Semantik) |
+| **Multi-Shard Deployment** | ✅ `DistributedHybridSearch` (horizontale Skalierung) |
+
+---
+
+## Distributed Hybrid Search (v2.3.0)
+
+`DistributedHybridSearch` erweitert `HybridSearch` für den Betrieb über mehrere ThemisDB-Shards.
+Anfragen werden parallel an alle gesunden Shards verteilt, Teilergebnisse werden mittels
+Cross-Shard Reciprocal Rank Fusion (RRF) zusammengeführt. Die Kommunikation ist per mTLS gesichert.
+
+### Architektur
+
+```
+Client Request
+      │
+      ▼
+DistributedHybridSearch::search()
+      │
+      ├── Local HybridSearch (this shard)
+      │
+      ├── RemoteExecutor POST /search/hybrid → Shard A (mTLS)
+      ├── RemoteExecutor POST /search/hybrid → Shard B (mTLS)
+      └── RemoteExecutor POST /search/hybrid → Shard C (mTLS)
+              │ (parallel, with per-shard timeout)
+              ▼
+      mergeShardResults() — Cross-Shard RRF
+              │
+              ▼
+      Top-k globally ranked results
+```
+
+### Konfiguration
+
+```cpp
+#include "search/distributed_hybrid_search.h"
+#include "sharding/remote_executor.h"
+
+// mTLS-Konfiguration für inter-node Kommunikation
+themis::sharding::RemoteExecutor::Config exec_cfg;
+exec_cfg.cert_path    = "/etc/themis/tls/shard.crt";
+exec_cfg.key_path     = "/etc/themis/tls/shard.key";
+exec_cfg.ca_cert_path = "/etc/themis/tls/ca.crt";
+auto executor = std::make_shared<themis::sharding::RemoteExecutor>(exec_cfg);
+
+// Distributed Search Engine konfigurieren
+themis::DistributedHybridSearch::Config cfg;
+cfg.k                    = 20;          // Globale Top-K Ergebnisse
+cfg.rrf_k                = 60.0;        // RRF-Konstante (Standard: 60)
+cfg.shard_timeout_ms     = 3000;        // Timeout pro Shard
+cfg.max_concurrent_shards = 8;          // Parallele Shard-Anfragen
+cfg.skip_failed_shards   = true;        // Ausgefallene Shards überspringen
+cfg.local_shard_id       = "shard_001"; // ID des lokalen Shards
+// cfg.search_endpoint = "/search/hybrid"; // Standard-Endpoint
+
+themis::DistributedHybridSearch dhs(
+    &local_hybrid_search,  // Lokale HybridSearch-Instanz
+    resolver.get(),        // URNResolver für Shard-Enumeration
+    executor.get(),        // mTLS-konfigurierter RemoteExecutor
+    cfg
+);
+```
+
+### Suchanfrage ausführen
+
+```cpp
+// Text + Vector Query
+std::vector<float> query_embedding = embedModel.encode("machine learning");
+
+themis::DistributedHybridSearch::SearchStats stats;
+auto results = dhs.search("machine learning", query_embedding, &stats);
+
+// Degraded-Mode erkennen
+if (stats.partial_result) {
+    // Mindestens ein Shard war nicht verfügbar
+    std::cerr << "Warning: " << stats.shards_failed << "/"
+              << stats.shards_queried << " shards failed\n";
+}
+
+// Ergebnisse verarbeiten
+for (const auto& r : results) {
+    std::cout << r.document_id
+              << " score=" << r.hybrid_score
+              << " bm25="  << r.bm25_score
+              << " vec="   << r.vector_score << "\n";
+}
+```
+
+### Cross-Shard RRF
+
+Ergebnisse, die in mehreren Shards vorkommen, erhalten höhere Scores durch akkumulierte
+RRF-Beiträge:
+
+```
+global_score(doc) = Σ  1 / (rrf_k + rank_in_shard_i)
+                   shards i
+```
+
+Beispiel (rrf_k = 60):
+
+| Dokument | Rank Shard A | Rank Shard B | Global RRF Score |
+|----------|-------------|-------------|-----------------|
+| doc_x    | 1           | 1           | 1/61 + 1/61 = 0.0328 |
+| doc_y    | 1           | —           | 1/61 = 0.0164 |
+| doc_z    | 2           | 2           | 1/62 + 1/62 = 0.0323 |
+
+### Fehlertoleranz
+
+```cpp
+// skip_failed_shards = true (Standard):
+// Ausgefallene Shards werden übersprungen,
+// Ergebnisse kommen von den verbleibenden Shards.
+cfg.skip_failed_shards = true;
+
+// skip_failed_shards = false (Strict-Mode):
+// Jeder Shard-Fehler führt zu einem leeren Ergebnis-Set.
+cfg.skip_failed_shards = false;
+```
+
+| Szenario | skip_failed_shards=true | skip_failed_shards=false |
+|----------|------------------------|-------------------------|
+| 3/3 Shards OK | ✅ Vollständige Ergebnisse | ✅ Vollständige Ergebnisse |
+| 2/3 Shards OK | ⚠️ Partielle Ergebnisse | ❌ Leeres Ergebnis |
+| 0/3 Shards OK | ❌ Leeres Ergebnis | ❌ Leeres Ergebnis |
 
 ---
 

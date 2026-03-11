@@ -145,7 +145,7 @@ IncrementalLoRATrainer
 - `<chrono>` — elapsed time tracking in training/enrichment stats
 - `<stdexcept>` — exception propagation
 - AQL query executor (`QueryEngine` / `executeAql()` from `query/aql_runner.h`) — document ID fetch in `labelAll()`, document text fetch in `labelDocument()`, user-supplied queries in `labelQuery()`. Pass a `QueryEngine*` to `LegalAutoLabeler` at construction time. Pass `nullptr` to run in offline/test mode (no DB access).
-- Vector index / embedding store — cosine similarity for `findSimilarDocuments` (production integration; currently stubbed)
+- `VectorIndexManager` (from `index/vector_index.h`) — cosine-similarity search for `findSimilarDocuments()`. Wire via `KnowledgeGraphEnricher::setVectorIndex(&vim)`. Pass `nullptr` (default) to run without a vector index.
 
 ## Usage Examples
 
@@ -194,13 +194,25 @@ enrich_config.include_provisions  = true;
 enrich_config.include_case_law    = true;
 enrich_config.include_similar_docs = true;
 enrich_config.max_related_items   = 5;
+enrich_config.similarity_threshold = 0.75f;
+
+// RocksDBWrapper db(...);  db.open();
+// VectorIndexManager vim(db);
+// vim.init("documents", /*dim=*/1536, VectorIndexManager::Metric::COSINE);
+// (populate vim with document embeddings, then:)
 
 KnowledgeGraphEnricher enricher(enrich_config, "rocksdb://./data");
+enricher.setVectorIndex(&vim);   // wire real cosine-similarity search
+                                  // omit (or pass nullptr) for offline/test mode
 enricher.enrichAll();
 
 // Enrich a single sample
 GraphContext ctx = enricher.enrichSample("sample_001");
 // ctx.related_provisions, ctx.case_law, ctx.similar_documents
+
+// Direct vector-similarity query (returns pairs of {doc_id, cosine_score ∈ [0,1]})
+auto similar = enricher.findSimilarDocuments("doc_001", /*max_results=*/5);
+// similar[0] = {"doc_042", 0.97f}, similar[1] = {"doc_017", 0.84f}, ...
 
 // --- 3. Train a LoRA adapter ---
 IncrementalTrainingConfig train_config;
