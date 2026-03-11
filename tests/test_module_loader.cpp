@@ -1800,28 +1800,23 @@ TEST(PluginWatchdog, ResetWatchdogStatsIsIdempotent) {
 // We drive the watchdog loop manually via a short check_interval_ms so the
 // test remains deterministic without needing a real module binary.
 
-TEST(PluginWatchdog, HealthCheckFailureIncreasesConsecutiveFailures) {
+TEST(PluginWatchdog, WatchdogRunsCleanlyWithNoLoadedModules) {
+    // Register a health check that always fails.  With no loaded modules,
+    // the watchdog loop should complete one sweep and record no stats.
+    // This verifies the watchdog lifecycle (start/sweep/stop) is safe.
     ModuleLoader loader;
 
-    // Register a health check that always fails
     loader.registerHealthCheck("always_fail", [](void*, const std::string&) {
         return HealthCheckResult::failure("always_fail", "simulated failure");
     });
 
-    // Inject a fake fully-activated module entry into the loader so the
-    // watchdog has something to check.
-    // We use a very short interval so the check fires quickly.
     WatchdogConfig cfg;
     cfg.check_interval_ms = 50;       // 50 ms sweep interval
-    cfg.max_restart_attempts = 1;     // Only one retry attempt
-    cfg.initial_backoff_ms = 100'000; // Large backoff so reload is not attempted
+    cfg.max_restart_attempts = 1;
+    cfg.initial_backoff_ms = 100'000;
     cfg.enabled = true;
     loader.configureWatchdog(cfg);
 
-    // Manually insert a fake loaded module (no real .so needed for health checks)
-    // We do this via public API — loadModule() on a non-existent path returns
-    // failure, so we cannot use it.  Instead, verify that without any loaded
-    // modules the watchdog runs cleanly and stats remain empty.
     loader.startWatchdog();
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     loader.stopWatchdog();

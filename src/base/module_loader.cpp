@@ -1781,7 +1781,10 @@ void ModuleLoader::watchdogCheckAllModules() {
 
         uint64_t now = nowMs();
 
-        // Update watchdog stats (protected by watchdogMutex_)
+        // Determine whether a restart is needed, updating watchdog stats under
+        // the watchdogMutex_ lock.  The actual unload/reload is deferred to
+        // after the lock is released to avoid a potential deadlock with
+        // loadModule()/unloadModule() (which may acquire their own resources).
         bool shouldRestart = false;
         {
             std::lock_guard<std::mutex> lk(watchdogMutex_);
@@ -1797,46 +1800,42 @@ void ModuleLoader::watchdogCheckAllModules() {
                 }
                 stats.consecutive_failures = 0;
                 stats.last_error.clear();
-                continue;
+                // healthy — no restart needed; move to next module
+            } else {
+                // Health check failed
+                stats.consecutive_failures++;
+                stats.last_failure_ms = now;
+                stats.last_error = errorMsg;
+
+                spdlog::warn("Watchdog: health check FAILED for '{}' (consecutive: {}): {}",
+                             name, stats.consecutive_failures, errorMsg);
+
+                if (stats.permanently_failed) {
+                    spdlog::warn("Watchdog: module '{}' is permanently failed; skipping restart",
+                                 name);
+                } else {
+                    uint32_t maxAttempts = watchdogConfig_.max_restart_attempts;
+                    if (maxAttempts > 0 && stats.restart_count >= maxAttempts) {
+                        stats.permanently_failed = true;
+                        spdlog::error("Watchdog: module '{}' exceeded max_restart_attempts ({}); "
+                                      "marking as permanently failed",
+                                      name, maxAttempts);
+                    } else if (now < stats.next_retry_ms) {
+                        uint64_t wait = stats.next_retry_ms - now;
+                        spdlog::debug("Watchdog: module '{}' in backoff; {}ms remaining",
+                                      name, wait);
+                    } else {
+                        shouldRestart = true;
+                    }
+                }
             }
-
-            // Health check failed
-            stats.consecutive_failures++;
-            stats.last_failure_ms = now;
-            stats.last_error = errorMsg;
-
-            spdlog::warn("Watchdog: health check FAILED for '{}' (consecutive: {}): {}",
-                         name, stats.consecutive_failures, errorMsg);
-
-            if (stats.permanently_failed) {
-                spdlog::warn("Watchdog: module '{}' is permanently failed; skipping restart", name);
-                continue;
-            }
-
-            uint32_t maxAttempts = watchdogConfig_.max_restart_attempts;
-            if (maxAttempts > 0 && stats.restart_count >= maxAttempts) {
-                stats.permanently_failed = true;
-                spdlog::error("Watchdog: module '{}' exceeded max_restart_attempts ({}); "
-                              "marking as permanently failed",
-                              name, maxAttempts);
-                continue;
-            }
-
-            if (now < stats.next_retry_ms) {
-                uint64_t wait = stats.next_retry_ms - now;
-                spdlog::debug("Watchdog: module '{}' in backoff; {}ms remaining", name, wait);
-                continue;
-            }
-
-            shouldRestart = true;
-        }
+        } // lock released here
 
         if (shouldRestart) {
-            // Perform restart outside the watchdogMutex_ lock to avoid
-            // deadlock with loadModule()/unloadModule() which may log via auditor.
-            std::lock_guard<std::mutex> lk(watchdogMutex_);
-            auto& stats = watchdogStats_[name];
-            watchdogRestartModule(stats, path);
+            // Perform unload/reload without holding watchdogMutex_ to avoid
+            // locking ordering issues with the auditor and OS loader.
+            // Stats are updated inside watchdogRestartModule() under a fresh lock.
+            watchdogRestartModule(watchdogStats_[name], path);
         }
     }
 }
@@ -1863,7 +1862,11 @@ bool ModuleLoader::watchdogRunHealthChecks(LoadedModule& module, std::string& er
 
 bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,
                                          const std::string& modulePath) {
-    const std::string& name = stats.moduleName;
+    // Called without watchdogMutex_ held so that unloadModule()/loadModule()
+    // can proceed without a locking ordering issue.  Stats are updated after
+    // the OS-level operations complete, which is safe because only the watchdog
+    // thread modifies stats for a given module.
+    const std::string name = stats.moduleName;  // copy name (stats ref may alias)
     spdlog::info("Watchdog: attempting restart of module '{}' (attempt #{}) from '{}'",
                  name, stats.restart_count + 1, modulePath);
 
@@ -1897,6 +1900,8 @@ uint64_t ModuleLoader::watchdogCalculateBackoff(uint32_t consecutiveFailures) co
     if (consecutiveFailures == 0) {
         return 0;
     }
+    // Cap at 60 to prevent floating-point overflow in std::pow():
+    // 2^60 ≈ 1.15e18 ms, far beyond any realistic max_backoff_ms.
     if (consecutiveFailures > 60) {
         return watchdogConfig_.max_backoff_ms;
     }
