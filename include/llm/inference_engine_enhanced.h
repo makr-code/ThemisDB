@@ -439,7 +439,6 @@ private:
     // Cache integration
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);
     void updateCache(const InferenceRequest& request, const InferenceResponse& response);
-    std::string generateCacheKey(const InferenceRequest& request);
     
     // Load balancing
     std::string selectModel(const EnhancedInferenceRequest& request);
@@ -452,6 +451,19 @@ private:
     // Timeout handling
     void checkAndHandleTimeouts();
     
+    // Embedding helper for cache operations.
+    // Uses the first available plugin (see implementation for selection rationale).
+    // Returns an empty vector when no plugin is registered or embedding fails
+    // (graceful degradation: falls back to exact-key matching only).
+    std::vector<float> computeEmbeddingForCache(const std::string& text);
+
+    // Build a token-ID sequence for a given prompt.
+    // Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight
+    // approximation.  A real tokenizer call would be required for exact counts,
+    // but the ILLMPlugin interface does not expose a standalone tokenize()
+    // method at this level of abstraction.
+    static std::vector<int> estimateTokenSequence(const std::string& text);
+
     // Statistics updates
     void recordCacheHit(size_t tokens_saved);
     void recordCacheMiss();

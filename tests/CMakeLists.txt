@@ -9866,6 +9866,51 @@ if(THEMIS_ENABLE_LLM)
         "llm;vram;gpu;oom;recovery;unit"
         "ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation"
     )
+
+    # Standalone focused test target for InferenceEngineEnhanced.
+    # Exercises KV-cache prewarming, embedding-based cache lookup, hot-swap,
+    # speculative decoding, load-balancing, and per-model quotas.
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inference_engine_enhanced.cpp")
+        add_executable(test_inference_engine_enhanced_focused
+            test_inference_engine_enhanced.cpp
+        )
+        target_include_directories(test_inference_engine_enhanced_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
+        )
+        if(TARGET themis_llm)
+            target_link_libraries(test_inference_engine_enhanced_focused PRIVATE
+                ${TEST_LIBS}
+                themis_llm
+                spdlog::spdlog
+                nlohmann_json::nlohmann_json
+                OpenSSL::SSL
+                OpenSSL::Crypto
+                Threads::Threads
+            )
+        else()
+            target_link_libraries(test_inference_engine_enhanced_focused PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                spdlog::spdlog
+                nlohmann_json::nlohmann_json
+                OpenSSL::SSL
+                OpenSSL::Crypto
+                Threads::Threads
+            )
+        endif()
+        target_compile_definitions(test_inference_engine_enhanced_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_LLM_EXPORTS
+        )
+        add_test(NAME InferenceEngineEnhancedFocusedTests
+            COMMAND test_inference_engine_enhanced_focused)
+        set_tests_properties(InferenceEngineEnhancedFocusedTests PROPERTIES
+            LABELS "llm;inference;cache;prewarming;embedding;unit"
+            TIMEOUT 120
+        )
+        message(STATUS "InferenceEngineEnhanced focused tests: KV-cache prewarming, embedding-based lookup, hot-swap, load-balancing")
+    endif()
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.
