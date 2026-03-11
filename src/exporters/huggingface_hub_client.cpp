@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdlib>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -78,6 +79,24 @@ static int progressCb(void* clientp, curl_off_t dltotal, curl_off_t dlnow,
         pd->cb(pd->file_fraction_start + frac * pd->file_fraction_range);
     }
     return 0;  // non-zero cancels
+}
+
+/// State for the libcurl read callback used by httpPutBytes().
+struct CurlMemoryReadState {
+    const char* data   = nullptr;
+    std::size_t size   = 0;
+    std::size_t offset = 0;
+};
+
+/// libcurl CURLOPT_READFUNCTION callback that reads from a CurlMemoryReadState.
+static size_t memoryReadCb(char* dest, size_t sz, size_t nmemb, void* userp) {
+    auto* state = static_cast<CurlMemoryReadState*>(userp);
+    const std::size_t available = state->size - state->offset;
+    const std::size_t to_copy   = std::min(sz * nmemb, available);
+    if (to_copy == 0) return 0;
+    std::memcpy(dest, state->data + state->offset, to_copy);
+    state->offset += to_copy;
+    return to_copy;
 }
 
 } // anonymous namespace
@@ -161,6 +180,60 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost(
 #endif
 }
 
+int HuggingFaceHubClient::httpPutBytes(
+    const std::string& url,
+    const char* data,
+    std::size_t size,
+    const std::string& bearer_token,
+    std::function<void(double)> progress_cb) const
+{
+#ifndef CURL_ENABLED
+    (void)url; (void)data; (void)size; (void)bearer_token; (void)progress_cb;
+    return 0;
+#else
+    CURL* curl = curl_easy_init();
+    if (!curl) return 0;
+
+    CurlMemoryReadState read_state{data, size, 0};
+    std::string response;
+    struct curl_slist* headers = nullptr;
+    const std::string auth_hdr = "Authorization: Bearer " + bearer_token;
+    headers = curl_slist_append(headers, auth_hdr.c_str());
+
+    ProgressData pd;
+    pd.cb = progress_cb;
+
+    curl_easy_setopt(curl, CURLOPT_URL,              url.c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,       headers);
+    curl_easy_setopt(curl, CURLOPT_UPLOAD,           1L);
+    curl_easy_setopt(curl, CURLOPT_READFUNCTION,     memoryReadCb);
+    curl_easy_setopt(curl, CURLOPT_READDATA,         &read_state);
+    curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, static_cast<curl_off_t>(size));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,    writeStringCb);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA,        &response);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,   1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT,          config_.timeout_seconds);
+
+    if (progress_cb) {
+        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progressCb);
+        curl_easy_setopt(curl, CURLOPT_XFERINFODATA,     &pd);
+        curl_easy_setopt(curl, CURLOPT_NOPROGRESS,       0L);
+    }
+
+    CURLcode res = curl_easy_perform(curl);
+    long http_code = 0;
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    if (res != CURLE_OK) {
+        THEMIS_WARN("HuggingFaceHubClient: PUT {} failed: {}", url, curl_easy_strerror(res));
+        return 0;
+    }
+    return static_cast<int>(http_code);
+#endif
+}
+
 int HuggingFaceHubClient::httpPutFile(
     const std::string& url,
     const std::string& file_path,
@@ -180,44 +253,7 @@ int HuggingFaceHubClient::httpPutFile(
     f.read(buf.data(), file_size);
     f.close();
 
-    CURL* curl = curl_easy_init();
-    if (!curl) return 0;
-
-    std::string response;
-    struct curl_slist* headers = nullptr;
-    const std::string auth_hdr = "Authorization: Bearer " + bearer_token;
-    headers = curl_slist_append(headers, auth_hdr.c_str());
-
-    ProgressData pd;
-    pd.cb = progress_cb;
-
-    curl_easy_setopt(curl, CURLOPT_URL,             url.c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers);
-    curl_easy_setopt(curl, CURLOPT_UPLOAD,          1L);
-    curl_easy_setopt(curl, CURLOPT_READDATA,        buf.data());
-    curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, static_cast<curl_off_t>(file_size));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   writeStringCb);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &response);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION,  1L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT,         config_.timeout_seconds);
-
-    if (progress_cb) {
-        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progressCb);
-        curl_easy_setopt(curl, CURLOPT_XFERINFODATA,     &pd);
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS,       0L);
-    }
-
-    CURLcode res  = curl_easy_perform(curl);
-    long http_code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-    curl_slist_free_all(headers);
-    curl_easy_cleanup(curl);
-
-    if (res != CURLE_OK) {
-        THEMIS_WARN("HuggingFaceHubClient: PUT {} failed: {}", url, curl_easy_strerror(res));
-        return 0;
-    }
-    return static_cast<int>(http_code);
+    return httpPutBytes(url, buf.data(), buf.size(), bearer_token, progress_cb);
 #endif
 }
 
@@ -452,6 +488,165 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(
     const HubUploadResult success{true, repo_res.dataset_url, {}, 200};
     if (config_.audit_log) {
         writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, success, "success");
+    }
+    return success;
+}
+
+// ── Memory-streaming upload ──────────────────────────────────────────────────
+
+HubUploadResult HuggingFaceHubClient::uploadShards(
+    const std::vector<MemoryShardSpec>& shards,
+    std::function<void(double)> progress_cb) const
+{
+    const std::string context =
+        "<memory:" + std::to_string(shards.size()) + " shards>";
+
+    // ── 0. PolicyEngine authorization check ─────────────────────────────────
+    if (config_.policy_engine) {
+        themis::governance::ModelTrainingExportRequest req;
+        req.export_job_id   = "hub-upload-" + config_.repo_id;
+        req.collection_ids  = {config_.repo_id};
+        req.requesting_user = config_.requesting_user;
+        req.purpose         = "HUB_UPLOAD";
+
+        const auto decision = config_.policy_engine->checkExportPermission(req);
+        if (!decision.is_permitted) {
+            const HubUploadResult denied{
+                false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
+            if (config_.audit_log) {
+                writeHubUploadAuditEntry(*config_.audit_log, config_, context, denied, "denied");
+            }
+            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}",
+                        config_.repo_id, decision.denial_reason);
+            return denied;
+        }
+    }
+
+    const std::string token = resolveToken();
+    if (token.empty()) {
+        const HubUploadResult no_token{
+            false, {}, "No HF_TOKEN set and HubUploadConfig::hf_token is empty", 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, context, no_token, "error");
+        }
+        return no_token;
+    }
+    if (config_.repo_id.empty()) {
+        const HubUploadResult no_repo{
+            false, {}, "HubUploadConfig::repo_id must not be empty", 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, context, no_repo, "error");
+        }
+        return no_repo;
+    }
+    if (shards.empty()) {
+        const HubUploadResult empty_shards{
+            false, {}, "No shards provided for memory upload", 0};
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, context, empty_shards, "error");
+        }
+        return empty_shards;
+    }
+
+    // 1. Ensure repo exists
+    auto repo_res = ensureRepo(token);
+    if (!repo_res.success) {
+        if (config_.audit_log) {
+            writeHubUploadAuditEntry(*config_.audit_log, config_, context, repo_res, "error");
+        }
+        return repo_res;
+    }
+
+    THEMIS_INFO("HuggingFaceHubClient: uploading {} memory shards to {}",
+                shards.size(), config_.repo_id);
+
+    // 2. Upload each shard with retry logic
+    const size_t total_shards = shards.size();
+    size_t uploaded = 0;
+
+    for (const auto& shard : shards) {
+        const std::string& rel = shard.relative_path;
+        const std::string upload_url = config_.hub_base_url
+            + "/api/datasets/" + config_.repo_id
+            + "/upload/main"
+            + "/" + rel;
+
+        bool shard_ok = false;
+        for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
+            if (attempt > 0) {
+                const int delay_ms = config_.retry_delay_ms * (1 << (attempt - 1));
+                std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+                THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
+            }
+
+            const double frac_start =
+                static_cast<double>(uploaded) / static_cast<double>(total_shards);
+            const double frac_range = 1.0 / static_cast<double>(total_shards);
+
+            std::function<void(double)> shard_progress;
+            if (progress_cb) {
+                shard_progress = [&progress_cb, frac_start, frac_range](double f) {
+                    progress_cb(frac_start + f * frac_range);
+                };
+            }
+
+            const int http_status = httpPutBytes(
+                upload_url, shard.content.data(), shard.content.size(),
+                token, shard_progress);
+
+            if (http_status == 200 || http_status == 201) {
+                shard_ok = true;
+                break;
+            }
+            if (http_status == 401) {
+                const HubUploadResult auth_fail{
+                    false, {}, "Hub upload authentication failed (HTTP 401)", 401};
+                if (config_.audit_log) {
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, context,
+                                             auth_fail, "error");
+                }
+                return auth_fail;
+            }
+            if (http_status == 413) {
+                THEMIS_WARN("HuggingFaceHubClient: HTTP 413 for memory shard {}; too large", rel);
+                const HubUploadResult too_large{
+                    false, {},
+                    "Shard '" + rel + "' too large for Hub API (HTTP 413); "
+                    "reduce shard size and retry",
+                    413};
+                if (config_.audit_log) {
+                    writeHubUploadAuditEntry(*config_.audit_log, config_, context,
+                                             too_large, "error");
+                }
+                return too_large;
+            }
+            // Transient error → retry
+        }
+
+        if (!shard_ok) {
+            const HubUploadResult retry_fail{
+                false, {},
+                "Failed to upload shard '" + rel + "' after "
+                    + std::to_string(config_.max_retries) + " retries",
+                0};
+            if (config_.audit_log) {
+                writeHubUploadAuditEntry(*config_.audit_log, config_, context,
+                                         retry_fail, "error");
+            }
+            return retry_fail;
+        }
+
+        ++uploaded;
+        if (progress_cb) {
+            progress_cb(static_cast<double>(uploaded) / static_cast<double>(total_shards));
+        }
+    }
+
+    THEMIS_INFO("HuggingFaceHubClient: all {} memory shards uploaded successfully to {}",
+                total_shards, repo_res.dataset_url);
+    const HubUploadResult success{true, repo_res.dataset_url, {}, 200};
+    if (config_.audit_log) {
+        writeHubUploadAuditEntry(*config_.audit_log, config_, context, success, "success");
     }
     return success;
 }

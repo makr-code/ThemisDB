@@ -191,12 +191,60 @@ cfg.retry_delay_ms  = 500;      // initial delay, doubles each retry; default: 1
 cfg.timeout_seconds = 60;       // curl connect+operation timeout; default: 120 s
 ```
 
+### Memory-streaming upload (no filesystem required)
+
+`uploadShards()` accepts pre-built in-memory shards and uploads them directly via a
+libcurl read callback — **no temporary files are written to disk**.  This is the
+recommended path for container / serverless environments with read-only or absent local
+storage.
+
+```cpp
+#include "exporters/huggingface_hub_client.h"
+using namespace themis::exporters;
+
+// Build one shard per JSONL split in memory.
+MemoryShardSpec shard;
+shard.relative_path = "data/train-00000-of-00001.jsonl";  // path inside the Hub repo
+
+const std::string jsonl = R"({"text":"hello world"})" "\n"
+                          R"({"text":"foo bar"})" "\n";
+shard.content.assign(jsonl.begin(), jsonl.end());
+
+HubUploadConfig cfg;
+cfg.repo_id  = "my-org/my-dataset";
+cfg.hf_token = "hf_...";
+
+HuggingFaceHubClient client(cfg);
+HubUploadResult result = client.uploadShards({shard});
+
+if (result.success) {
+    // Dataset is live at result.dataset_url
+}
+```
+
+All features available in `uploadDataset()` — progress callbacks, PolicyEngine
+authorization, AuditLogger, and retry / timeout configuration — work identically with
+`uploadShards()`.
+
+```cpp
+// Memory upload with progress + policy + audit (same config as uploadDataset())
+HubUploadResult result = client.uploadShards(
+    shards,
+    [](double fraction) {
+        std::cout << "Memory upload progress: " << (fraction * 100.0) << "%\n";
+    });
+```
+
+Both `uploadDataset()` (disk path) and `uploadShards()` (memory path) share the same
+`HubUploadConfig`, retry logic, and error surface — they are interchangeable upload
+strategies backed by the same `httpPutBytes()` transport.
+
 ### Compile-time dependency
 
 `HuggingFaceHubClient` requires libcurl.  When `CURL_ENABLED` is not defined at
-compile time, `uploadDataset()` returns immediately with `success=false` and an
-explanatory `error_message`.  All other `HubUploadConfig` fields remain available for
-configuration in both modes.
+compile time, both `uploadDataset()` and `uploadShards()` return immediately with
+`success=false` and an explanatory `error_message`.  All other `HubUploadConfig` fields
+remain available for configuration in both modes.
 
 ## Documentation
 
