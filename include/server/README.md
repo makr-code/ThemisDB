@@ -233,22 +233,36 @@ Token bucket algorithm for API rate limiting.
 ---
 
 #### rate_limiter_v2.h
-**Advanced rate limiting (v2)**
+**Advanced rate limiting (v2) – lokal und verteilt via Redis**
 
-Enhanced rate limiting with distributed coordination and multiple algorithms.
+Enhanced rate limiting with priority lanes, per-client tracking, and optional Redis backend for cluster-wide distributed limiting.
 
 **Key Classes:**
-- `RateLimiterV2` - Enhanced rate limiter
-- `RateLimiterV2::Config` - Configuration with backend selection
+- `TokenBucketRateLimiter` – Token-bucket limiter with HIGH/NORMAL/LOW priority lanes
+- `TokenBucketRateLimiter::Config` – Configuration including `backend`, `redis`, and `bucket_id`
+- `TokenBucketRateLimiter::Backend` – `LOCAL` (default, in-process) or `REDIS` (distributed)
+- `RedisRateLimiterConfig` – Redis connection settings (host, port, auth, key_prefix, timeout_ms, max_errors, key_ttl_seconds)
+- `PerClientRateLimiter` – Per-client wrapper; creates one `TokenBucketRateLimiter` per client key
 
 **Algorithms:**
-- Token bucket
-- Sliding window counter
-- Leaky bucket
+- Token bucket (local and Redis-backed)
 
 **Backends:**
-- In-memory (single node)
-- Redis (distributed)
+- `Backend::LOCAL` – In-process token bucket (default, backward-compatible)
+- `Backend::REDIS` – Cluster-wide atomic token bucket via Redis `EVALSHA`; automatic fallback to local on Redis error
+
+**Usage example (distributed):**
+```cpp
+TokenBucketRateLimiter::Config cfg;
+cfg.capacity    = 1000;
+cfg.refill_rate = 100;
+cfg.backend     = TokenBucketRateLimiter::Backend::REDIS;
+cfg.redis.host  = "redis.internal";
+cfg.bucket_id   = "api:v1";
+TokenBucketRateLimiter limiter(cfg);
+bool allowed = limiter.tryAcquire();
+bool healthy = limiter.isRedisHealthy(); // false → running in local-fallback mode
+```
 
 ---
 

@@ -86,7 +86,7 @@ Governance, LLM-Inferenz, Observability und Administration.
 | Komponente | Header | Source | Beschreibung |
 |------------|--------|--------|--------------|
 | RateLimiter | `rate_limiter.h` | `rate_limiter.cpp` | Token Bucket, Sliding Window |
-| RateLimiterV2 | `rate_limiter_v2.h` | `rate_limiter_v2.cpp` | Erweiterter Rate Limiter (lokal) |
+| RateLimiterV2 | `rate_limiter_v2.h` | `rate_limiter_v2.cpp` | Erweiterter Rate Limiter (lokal + Redis/distributed) |
 | RateLimitingMiddleware | `rate_limiting_middleware.h` | `rate_limiting_middleware.cpp` | Middleware-Integration |
 | LoadShedder | `load_shedder.h` | `load_shedder.cpp` | Load Shedding & Circuit Breaking |
 
@@ -189,13 +189,24 @@ class AuthMiddleware {
 ### Rate Limiting
 
 ```cpp
-// Token Bucket / Sliding Window (rate_limiter.cpp, rate_limiter_v2.cpp)
-class RateLimiter {
-    bool allowRequest(const std::string& client_id);
-    void setLimit(int requests_per_second);
-    // Hinweis: Redis-Backend für verteiltes Rate Limiting noch nicht implementiert
-    // (geplant in v1.6.0 via rate_limiter_v2.h Backend::REDIS)
-};
+// Token Bucket (rate_limiter.cpp, rate_limiter_v2.cpp)
+
+// Lokal (Einzelknoten):
+TokenBucketRateLimiter::Config cfg;
+cfg.capacity    = 1000;
+cfg.refill_rate = 100;
+cfg.backend     = TokenBucketRateLimiter::Backend::LOCAL;
+TokenBucketRateLimiter limiter(cfg);
+limiter.tryAcquire();  // → true / false
+
+// Verteilt via Redis (cluster-weit):
+cfg.backend       = TokenBucketRateLimiter::Backend::REDIS;
+cfg.redis.host    = "redis.internal";
+cfg.redis.port    = 6379;
+cfg.bucket_id     = "api:v1";
+TokenBucketRateLimiter redis_limiter(cfg);
+// Automatischer Fallback auf lokales Bucket bei Redis-Ausfall
+bool healthy = redis_limiter.isRedisHealthy();
 ```
 
 ### Apache Ranger & OPA
@@ -229,7 +240,7 @@ Benchmarks: [`benchmarks/bench_api_endpoints.cpp`](../../../benchmarks/bench_api
 | Feature | Target | Status |
 |---------|--------|--------|
 | OAuth2/OIDC (Authorization Code + PKCE) | v1.6.0 | ⏳ Geplant (kein Code vorhanden) |
-| Verteiltes Rate Limiting via Redis | v1.6.0 | ⏳ Geplant (`rate_limiter_v2.h` vorhanden, Redis-Backend fehlt) |
+| Verteiltes Rate Limiting via Redis | v1.6.0 | ✅ Implementiert (`Backend::REDIS` in `rate_limiter_v2.h`, EVALSHA-Lua-Skript, lokaler Fallback) |
 | Verteiltes API Gateway (Raft) | v1.7.0 | ⏳ Geplant (kein Code vorhanden) |
 | gRPC-Web TypeScript Client-Generierung | v1.7.0 | ⏳ Geplant |
 | SAML 2.0 SP-Support | v1.7.0 | ⏳ Geplant (kein Code vorhanden) |
@@ -247,10 +258,10 @@ Zusammenfassung der wichtigsten Befunde:
 
 | # | Claim | Beobachtung | Schwere |
 |---|-------|-------------|---------|
-| 1 | `rate_limiter_v2` Redis-Backend (ROADMAP § Distributed Rate Limiting) | `rate_limiter_v2.cpp` vorhanden, aber kein `Backend::REDIS`; nur lokales Token-Bucket | Mittel |
-| 2 | OAuth2/OIDC-Provider (`server/oauth2_provider.cpp`) | Keine Datei vorhanden | Hoch |
-| 3 | SAML 2.0 SP (`server/saml_auth_provider.cpp`) | Keine Datei vorhanden | Mittel |
-| 4 | Distributed API Gateway (`server/distributed_gateway.cpp`) | Keine Datei vorhanden | Niedrig |
+| 1 | `rate_limiter_v2` Redis-Backend (ROADMAP § Distributed Rate Limiting) | ✅ **Gelöst** – `Backend::REDIS` implementiert; EVALSHA-Lua-Skript; lokaler Fallback; Tests in `test_rate_limiter_v2.cpp` | ✅ Gelöst |
+| 2 | OAuth2/OIDC-Provider (`server/oauth2_provider.cpp`) | ✅ **Gelöst** – `oauth2_provider.cpp` implementiert (v1.6.0, 30 Unit-Tests) | ✅ Gelöst |
+| 3 | SAML 2.0 SP (`server/saml_auth_provider.cpp`) | ✅ **Gelöst** – `saml_auth_provider.cpp` implementiert (v1.7.0, 27 Unit-Tests) | ✅ Gelöst |
+| 4 | Distributed API Gateway (`server/distributed_gateway.cpp`) | ✅ **Gelöst** – `distributed_gateway.cpp` implementiert (Raft, ConsistentHashRing) | ✅ Gelöst |
 | 5 | WebAssembly Handler Registry (`server/wasm_handler_registry.cpp`) | Keine Datei vorhanden | Niedrig |
 | 6 | PostgreSQL Wire-Protokoll: erweiterte PG-Features | `postgres_session.cpp` vorhanden (1929 LOC), aber ROADMAP warnt: „partial compatibility" | Info |
 
