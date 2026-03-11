@@ -11399,6 +11399,41 @@ else()
     message(STATUS "AlertRules focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_alert_rules.cpp")
 endif()
 
+# AlertingEngine tests (rule-based alerting engine with notification channels)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_alerting_engine.cpp")
+    message(STATUS "Adding Observability: AlertingEngine focused tests")
+
+    add_executable(test_alerting_engine_focused
+        test_alerting_engine.cpp
+    )
+
+    target_include_directories(test_alerting_engine_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_alerting_engine_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_alerting_engine_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AlertingEngineFocusedTests COMMAND test_alerting_engine_focused)
+
+    set_tests_properties(AlertingEngineFocusedTests PROPERTIES
+        LABELS "observability;alerting-engine;notification-channels;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  AlertingEngine: INotificationChannel, LogChannel, WebhookChannel, SlackChannel, AlertingEngine CRUD, evaluateAndNotify, default rules")
+else()
+    message(STATUS "AlertingEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_alerting_engine.cpp")
+endif()
+
 # ContinuousProfiler tests (Issue #2418)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_continuous_profiler.cpp")
     message(STATUS "Adding Observability: ContinuousProfiler focused tests (Issue #2418)")
