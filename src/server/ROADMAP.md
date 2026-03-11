@@ -15,7 +15,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC services for high-performance RPC
 - [x] API Gateway (routing, versioning, load balancing)
 - [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Rate limiting (token bucket, sliding window) — node-local only; cluster-wide Redis backend planned for v1.6.0 (see Planned Features)
 - [x] Load shedding and circuit breaking
 - [x] Server-Sent Events (SSE) for changefeeds
 - [x] Multi-tenancy with tenant isolation
@@ -94,7 +94,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC services for high-performance RPC
 - [x] API Gateway (routing, versioning, load balancing)
 - [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Rate limiting (token bucket, sliding window) — node-local; Redis distributed backend planned v1.6.0
 - [x] Load shedding and circuit breaking
 - [x] Server-Sent Events (SSE) for changefeeds
 - [x] Multi-tenancy with tenant isolation

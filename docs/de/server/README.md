@@ -259,18 +259,22 @@ Zusammenfassung der wichtigsten Befunde:
 ## Verwandte Dokumentation
 
 ### Primary (Entwickler-Docs)
-- [`src/server/README.md`](../../../src/server/README.md) — vollständige Komponentenbeschreibung (1342 Zeilen)
-- [`include/server/README.md`](../../../include/server/README.md) — Header-Interface-Dokumentation (817 Zeilen)
+- [`src/server/README.md`](../../../src/server/README.md) — vollständige Komponentenbeschreibung (1344 Zeilen)
+- [`include/server/README.md`](../../../include/server/README.md) — Header-Interface-Dokumentation (819 Zeilen)
 - [`src/server/ARCHITECTURE.md`](../../../src/server/ARCHITECTURE.md) — Architekturleitfaden
 - [`src/server/ROADMAP.md`](../../../src/server/ROADMAP.md) — Feature-Roadmap und Phasenstatus
 - [`src/server/FUTURE_ENHANCEMENTS.md`](../../../src/server/FUTURE_ENHANCEMENTS.md) — Geplante Erweiterungen mit Referenzen
 - [`src/server/rpc/README.md`](../../../src/server/rpc/README.md) — RPC-Transfer-Handler
 
+### Dieses Modul (Secondary/German docs)
+- [inventory.md](./inventory.md) — Primär-Inventar aller Dateien
+- [missing-implementations.md](./missing-implementations.md) — Reality-Check Befunde (6 Findings)
+- [missing-implementations.json](./missing-implementations.json) — Maschinenlesbar
+
 ### Secondary (Nutzerdocs)
 - [Deployment Guide](../guides/guides_deployment.md)
 - [TLS Setup](../guides/guides_tls_setup.md)
-- [RBAC](../guides/guides_rbac.md)
+- [RBAC / Authorization](../guides/guides_rbac.md)
 - [Enterprise Features](../enterprise/README.md)
 - [APIs: OpenAPI](../apis/apis_openapi.md)
 - [APIs: GraphQL](../apis/apis_graphql.md)
-- [Security: RBAC](../security/security_rbac.md)
