@@ -1,8 +1,27 @@
-# LoRA Framework Grafana Dashboards
+# ThemisDB Grafana Dashboards
 
-This directory contains pre-configured Grafana dashboards for monitoring the ThemisDB LoRA Adapter Framework.
+This directory contains pre-configured Grafana dashboards for monitoring ThemisDB modules.
 
 ## Dashboards
+
+### 4. ThemisDB Task Scheduler (`themisdb-scheduler-dashboard.json`)
+
+**Purpose**: Scheduler health, concurrency, queue depth, and per-task execution monitoring  
+**Update Frequency**: 30 seconds  
+**Default Time Range**: Last 3 hours  
+**Metrics Prefix**: `themis_scheduler_*`  
+**Template Variable**: `$task_name` (multi-select, auto-populated from Prometheus labels)
+
+**Sections**:
+- Scheduler Overview (5 stat panels): Registered/Active/Running tasks, Concurrency Limit, Queue Depth
+- Concurrency & Queue Depth Over Time (2 timeseries): Limit vs running vs pending, task count trends
+- Execution Success & Failure Rates (2 timeseries): Success/failure rate per minute, failure percentage
+- Per-Task Metrics (4 panels): Avg execution duration timeseries, per-task failure rate, Top-10 slowest tasks table, enabled/disabled status table
+- Last Run Timestamps (1 table): Last execution time per task
+
+**Best For**: Detecting scheduling bottlenecks, SLA monitoring, identifying slow or failing tasks
+
+---
 
 ### 1. LoRA Framework Overview (`lora-framework-overview.json`)
 

@@ -38,10 +38,12 @@ namespace config {
  *
  * Supported JSON Schema keywords:
  *   - type, properties, required, additionalProperties
- *   - minLength, maxLength, pattern (string)
+ *   - minLength, maxLength, pattern, format (string)
  *   - minimum, maximum, exclusiveMinimum, exclusiveMaximum (number/integer)
- *   - minItems, maxItems, items (array)
+ *   - minItems, maxItems, items, uniqueItems (array)
  *   - enum, const
+ *   - allOf, anyOf, oneOf (schema composition)
+ *   - $ref with local $defs / definitions lookup (JSON Pointer, RFC 6901 subset)
  *
  * YAML files are loaded via yaml-cpp and converted to an internal JSON
  * representation before validation.  JSON files are parsed directly with
@@ -130,11 +132,29 @@ public:
     static nlohmann::json loadAsJson(const std::string& file_path);
 
 private:
-    // Recursively validate a JSON value against a schema node.
+    // Entry-point wrapper: uses schema itself as the root schema and an empty
+    // visited-refs set.  Called by validate() and validateWithSchemaFile().
     static void validateValue(const nlohmann::json& value,
                               const nlohmann::json& schema,
                               const std::string& json_path,
                               ValidationResult& result);
+
+    // Internal recursive implementation.
+    // root_schema — top-level schema object used for $ref/$defs resolution.
+    // visited_refs — current $ref resolution chain for cycle detection.
+    static void validateValueImpl(const nlohmann::json& value,
+                                  const nlohmann::json& schema,
+                                  const std::string& json_path,
+                                  ValidationResult& result,
+                                  const nlohmann::json& root_schema,
+                                  std::vector<std::string>& visited_refs);
+
+    // Resolve a local $ref string (e.g. "#/$defs/Foo" or "#/definitions/Bar")
+    // against root_schema using a JSON Pointer walk (RFC 6901).
+    // Returns a pointer into root_schema, or nullptr on failure.
+    // Only document-internal refs starting with '#' are supported.
+    static const nlohmann::json* resolveRef(const std::string& ref,
+                                            const nlohmann::json& root_schema);
 
     static void validateType(const nlohmann::json& value,
                              const std::string& expected_type,
@@ -144,12 +164,16 @@ private:
     static void validateObject(const nlohmann::json& value,
                                const nlohmann::json& schema,
                                const std::string& json_path,
-                               ValidationResult& result);
+                               ValidationResult& result,
+                               const nlohmann::json& root_schema,
+                               std::vector<std::string>& visited_refs);
 
     static void validateArray(const nlohmann::json& value,
                               const nlohmann::json& schema,
                               const std::string& json_path,
-                              ValidationResult& result);
+                              ValidationResult& result,
+                              const nlohmann::json& root_schema,
+                              std::vector<std::string>& visited_refs);
 
     static void validateString(const nlohmann::json& value,
                                const nlohmann::json& schema,
@@ -160,6 +184,27 @@ private:
                                const nlohmann::json& schema,
                                const std::string& json_path,
                                ValidationResult& result);
+
+    static void validateAllOf(const nlohmann::json& value,
+                              const nlohmann::json& schemas,
+                              const std::string& json_path,
+                              ValidationResult& result,
+                              const nlohmann::json& root_schema,
+                              std::vector<std::string>& visited_refs);
+
+    static void validateAnyOf(const nlohmann::json& value,
+                              const nlohmann::json& schemas,
+                              const std::string& json_path,
+                              ValidationResult& result,
+                              const nlohmann::json& root_schema,
+                              std::vector<std::string>& visited_refs);
+
+    static void validateOneOf(const nlohmann::json& value,
+                              const nlohmann::json& schemas,
+                              const std::string& json_path,
+                              ValidationResult& result,
+                              const nlohmann::json& root_schema,
+                              std::vector<std::string>& visited_refs);
 
     // Check whether a JSON value matches the given JSON Schema type string.
     static bool matchesType(const nlohmann::json& value, const std::string& type);

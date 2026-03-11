@@ -601,3 +601,130 @@ TEST_F(CDCRetentionTest, RetentionStatusReflectsUpdatedPolicy) {
     EXPECT_EQ(after.policy_max_age_hours, 96u);
     EXPECT_EQ(after.policy_max_event_count, 2000u);
 }
+
+// ===== Runtime Configurability Tests =====
+
+TEST_F(CDCRetentionTest, UpdateRetentionPolicyStartsThreadWhenEnabled) {
+    // Start with retention disabled — background thread must NOT be running.
+    Changefeed::RetentionPolicy initial;
+    initial.enabled = false;
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, initial);
+
+    EXPECT_FALSE(changefeed_->isRetentionCleanupRunning());
+
+    // Enable retention at runtime.
+    Changefeed::RetentionPolicy updated;
+    updated.enabled = true;
+    updated.max_event_count = 1000000;
+    updated.cleanup_interval = std::chrono::minutes(60);
+    changefeed_->updateRetentionPolicy(updated);
+
+    // Background thread must now be running.
+    EXPECT_TRUE(changefeed_->isRetentionCleanupRunning());
+
+    // Clean up — destructor calls stopRetentionCleanup() but let's be explicit.
+    changefeed_->stopRetentionCleanup();
+    EXPECT_FALSE(changefeed_->isRetentionCleanupRunning());
+}
+
+TEST_F(CDCRetentionTest, UpdateRetentionPolicyStopsThreadWhenDisabled) {
+    // Start with retention enabled — background thread is started by constructor.
+    Changefeed::RetentionPolicy initial;
+    initial.enabled = true;
+    initial.max_event_count = 1000000;
+    initial.cleanup_interval = std::chrono::minutes(60);
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, initial);
+
+    // Give the thread a moment to start.
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    EXPECT_TRUE(changefeed_->isRetentionCleanupRunning());
+
+    // Disable retention at runtime — thread must stop automatically.
+    Changefeed::RetentionPolicy disabled;
+    disabled.enabled = false;
+    changefeed_->updateRetentionPolicy(disabled);
+
+    EXPECT_FALSE(changefeed_->isRetentionCleanupRunning());
+}
+
+TEST_F(CDCRetentionTest, UpdateRetentionPolicyIdempotentWhenAlreadyEnabled) {
+    // Start with retention enabled.
+    Changefeed::RetentionPolicy initial;
+    initial.enabled = true;
+    initial.max_event_count = 1000000;
+    initial.cleanup_interval = std::chrono::minutes(60);
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, initial);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    EXPECT_TRUE(changefeed_->isRetentionCleanupRunning());
+
+    // Update policy while enabled — should not crash or spawn a second thread.
+    Changefeed::RetentionPolicy updated;
+    updated.enabled = true;
+    updated.max_event_count = 500000;  // change a setting
+    updated.cleanup_interval = std::chrono::minutes(30);
+    changefeed_->updateRetentionPolicy(updated);
+
+    // Thread must still be running.
+    EXPECT_TRUE(changefeed_->isRetentionCleanupRunning());
+
+    // Policy change is reflected.
+    auto policy = changefeed_->getRetentionPolicy();
+    EXPECT_EQ(policy.max_event_count, 500000u);
+    EXPECT_EQ(policy.cleanup_interval, std::chrono::minutes(30));
+
+    changefeed_->stopRetentionCleanup();
+}
+
+TEST_F(CDCRetentionTest, RetentionStatusReportsCleanupThreadState) {
+    // Disabled at construction.
+    Changefeed::RetentionPolicy initial;
+    initial.enabled = false;
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, initial);
+
+    themis::cdc::CDCAdmin admin(changefeed_.get());
+
+    auto status_before = admin.getRetentionStatus();
+    EXPECT_FALSE(status_before.cleanup_thread_running);
+
+    // Enable retention at runtime.
+    Changefeed::RetentionPolicy enabled;
+    enabled.enabled = true;
+    enabled.max_event_count = 1000000;
+    enabled.cleanup_interval = std::chrono::minutes(60);
+    changefeed_->updateRetentionPolicy(enabled);
+
+    auto status_after = admin.getRetentionStatus();
+    EXPECT_TRUE(status_after.cleanup_thread_running);
+
+    // Disable again.
+    Changefeed::RetentionPolicy disabled;
+    disabled.enabled = false;
+    changefeed_->updateRetentionPolicy(disabled);
+
+    auto status_stopped = admin.getRetentionStatus();
+    EXPECT_FALSE(status_stopped.cleanup_thread_running);
+}
+
+TEST_F(CDCRetentionTest, RetentionStatusJsonIncludesCleanupThreadRunning) {
+    Changefeed::RetentionPolicy initial;
+    initial.enabled = false;
+
+    auto* raw_db = db_->getDB();
+    changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, initial);
+
+    themis::cdc::CDCAdmin admin(changefeed_.get());
+    auto j = admin.getRetentionStatus().toJson();
+
+    ASSERT_TRUE(j.contains("cleanup_thread_running"))
+        << "RetentionStatus JSON must include 'cleanup_thread_running'";
+    EXPECT_FALSE(j["cleanup_thread_running"].get<bool>());
+}

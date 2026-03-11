@@ -1,5 +1,7 @@
 # ThemisDB Server Module
 
+**Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
+
 ## Module Purpose
 
 The Server module provides ThemisDB's complete API surface, network protocol implementations, and client-facing services. Built on Boost.Beast and Boost.Asio, it handles HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, and gRPC, exposing a comprehensive REST API with 40+ specialized endpoints for multi-model data operations, governance, and observability.
@@ -240,6 +242,109 @@ auth_middleware.addToken(token_config);
 - `admin:all` (superuser)
 - `tenant:manage` (tenant management)
 - Custom scopes per API endpoint
+
+---
+
+#### OAuth2Provider
+**Location:** `oauth2_provider.cpp`, `../include/server/oauth2_provider.h`
+
+Server-layer OAuth2/OIDC provider implementing the full Authorization Code Grant
+with PKCE (RFC 7636 / RFC 6749) and JWT token introspection (RFC 7662).  Bridges
+the auth-layer `OIDCProvider` and `OAuthPKCEFlow` to HTTP endpoints.
+
+**Endpoints:**
+- `GET  /api/v1/auth/oauth2/authorize` – Generate PKCE challenge + authorization URL
+- `GET  /api/v1/auth/oauth2/callback` – Handle IdP redirect, exchange code for tokens
+- `POST /api/v1/auth/oauth2/token` – Explicit code exchange for server-side clients
+- `POST /api/v1/auth/oauth2/refresh` – Refresh token rotation (RFC 6749 §6)
+- `POST /api/v1/auth/token/introspect` – Local JWT validation (RFC 7662)
+- `POST /api/v1/auth/oauth2/logout` – Best-effort session termination
+
+**Integration:**
+```cpp
+#include "server/oauth2_provider.h"
+
+// Configure the provider
+OAuth2Provider::Config cfg;
+cfg.oidc.issuer_url           = "https://keycloak.example.com/realms/production";
+cfg.oidc.client_id            = "themisdb";
+cfg.oidc.client_secret        = "";            // empty for public (PKCE) clients
+cfg.oidc.scopes               = {"openid", "email", "groups"};
+cfg.oidc.expected_audience    = "themisdb";
+cfg.redirect_uri              = "https://myapp.example.com/auth/callback";
+cfg.state_ttl                 = std::chrono::seconds{600}; // 10-minute CSRF window
+
+// Optional: wrap the IdP access_token in an internal session token
+cfg.token_factory = [](const std::string& access_token) -> std::string {
+    return createInternalSession(access_token);
+};
+
+OAuth2Provider provider(cfg);
+
+// ── Browser-redirect flow ──────────────────────────────────────────────────
+// Step 1: client calls GET /api/v1/auth/oauth2/authorize
+auto auth = provider.handleAuthorize();
+// → { "authorization_url": "https://keycloak.../auth?code_challenge=...",
+//     "state":             "a3f8c1...",
+//     "code_verifier":     "<store client-side, never send to IdP>" }
+
+// Step 2: IdP redirects to redirect_uri?code=AUTH_CODE&state=a3f8c1...
+//         Client calls GET /api/v1/auth/oauth2/callback?code=...&state=...
+auto tokens = provider.handleCallback(auth_code, state);
+// → { "access_token": "...", "token_type": "Bearer",
+//     "expires_in": 3600, "refresh_token": "...", "id_token": "..." }
+
+// ── Refresh ───────────────────────────────────────────────────────────────
+auto new_tokens = provider.handleRefresh(old_refresh_token);
+
+// ── Introspect ────────────────────────────────────────────────────────────
+auto info = provider.handleIntrospect(bearer_token);
+// → { "active": true, "sub": "user@example.com", "exp": 1712345678,
+//     "iss": "https://keycloak...", "aud": "themisdb", "groups": [...] }
+// → { "active": false }   — on expired / invalid token
+```
+
+**Error responses** always contain a `status_code` field:
+- `400` – missing/invalid parameters (code, state, verifier, refresh_token, token)
+- `400` – PKCE verifier mismatch or unknown/expired state
+- `401` – IdP-rejected token or invalid/expired access token
+- `500` – internal or IdP connectivity error
+
+---
+
+#### SamlAuthProvider
+**Location:** `saml_auth_provider.cpp`, `../include/server/saml_auth_provider.h`
+
+Server-layer SAML 2.0 Service Provider for enterprise SSO.  Handles SP-initiated
+login, Assertion Consumer Service (ACS), Single Logout (SLO), and SP metadata.
+
+**Endpoints:**
+- `GET  /api/v1/auth/saml/login` – SP-initiated SSO redirect
+- `POST /api/v1/auth/saml/acs` – Assertion Consumer Service
+- `POST /api/v1/auth/saml/slo` – Single Logout
+- `GET  /api/v1/auth/saml/metadata` – SP SAML metadata XML
+
+**Integration:**
+```cpp
+#include "server/saml_auth_provider.h"
+
+SamlAuthProvider::Config cfg;
+cfg.saml.sp_entity_id      = "https://myapp.example.com/saml/metadata";
+cfg.saml.sp_acs_url        = "https://myapp.example.com/saml/acs";
+cfg.saml.idp_sso_url       = "https://idp.example.com/sso";
+cfg.saml.idp_entity_id     = "https://idp.example.com/metadata";
+cfg.saml.idp_certificate_pem = IDP_CERT;
+cfg.idp_slo_url            = "https://idp.example.com/slo";
+
+SamlAuthProvider saml(cfg);
+
+// Login redirect
+auto login  = saml.handleLogin();     // → { "redirect_url": "...", "request_id": "..." }
+
+// ACS callback
+auto result = saml.handleAcs(saml_response_b64);
+// → { "token": "...", "user_id": "...", "email": "...", "attributes": {...} }
+```
 
 ---
 
@@ -1328,6 +1433,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned server improvements
 - [Core Module](../core/README.md) - Dependency injection and concerns
 - [Storage Module](../storage/README.md) - Data persistence layer
+- [docs/de/server/README.md](../../docs/de/server/README.md) - German secondary documentation (Übersicht, Komponenten, Protokolle)
+- [docs/de/server/missing-implementations.md](../../docs/de/server/missing-implementations.md) - Reality-check findings (March 2026)
 
 ## Scientific References
 

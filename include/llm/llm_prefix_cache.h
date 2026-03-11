@@ -46,6 +46,10 @@ struct PrefixCacheEntry {
     // KV cache data (if precomputed)
     std::vector<float> precomputed_kv;
     bool has_precomputed_kv = false;
+
+    // The generated response text associated with this cached prompt.
+    // Empty for prewarm-only entries (no response has been generated yet).
+    std::string generated_text;
 };
 
 /**
@@ -97,15 +101,17 @@ public:
     
     /**
      * @brief Add a prefix to the cache
-     * @param prefix The text prefix to cache
+     * @param prefix The prompt text prefix to cache (used as lookup key)
      * @param tokens Tokenized version of the prefix
      * @param embedding Embedding vector for similarity search
-     * @param precomputed_kv Optional precomputed KV cache
+     * @param precomputed_kv Optional precomputed KV cache tensors
+     * @param generated_text Optional generated response text to return on cache hits
      */
     void put(const std::string& prefix,
              const std::vector<int>& tokens,
              const std::vector<float>& embedding,
-             const std::vector<float>& precomputed_kv = {});
+             const std::vector<float>& precomputed_kv = {},
+             const std::string& generated_text = {});
     
     /**
      * @brief Find a similar cached prefix

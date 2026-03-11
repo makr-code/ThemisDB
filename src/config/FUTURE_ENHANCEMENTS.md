@@ -153,11 +153,11 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 `ConfigSchemaValidator` currently implements a Draft 7 subset. Extend it to cover the most commonly needed remaining keywords.
 
 **Implementation Notes:**
-- `[ ]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
+- `[x]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
 - `[ ]` Add `not` — assert a value does NOT match a sub-schema.
-- `[ ]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
-- `[ ]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
-- `[ ]` Add `uniqueItems` for array validation.
+- `[x]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
+- `[x]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
+- `[x]` Add `uniqueItems` for array validation.
 - `[ ]` Extend `ConfigSchemaValidator::loadAsJson()` to accept an in-memory YAML string (not only a file path) to support inline config parsing in tests and server-side config hot-checks.
 
 **Performance Targets:**
@@ -184,8 +184,8 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 | `resolve()` latency (cache hit) | < 1 µs | < 1 µs (no regression) | `benchmarks/bench_config_path_resolver.cpp` |
 | `resolve()` latency (cache miss, mapped) | < 500 µs | < 200 µs | `benchmarks/bench_config_path_resolver.cpp` |
 | Deprecation aggregator hot path overhead | N/A | < 50 ns | microbenchmark in `benchmarks/bench_config_path_resolver.cpp` |
-| CLI scanner 10K files | N/A | < 5 s | planned: `benchmarks/bench_config_migration_scanner.cpp` |
-| Metrics scrape | N/A | < 1 ms | covered in `benchmarks/bench_config_path_resolver.cpp` metrics section |
+| CLI scanner 10K files | N/A | < 5 s | `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K) |
+| Metrics scrape | N/A | < 1 ms | `tests/test_config_metrics_scrape.cpp` (cold/warm/repeated latency tests); also `benchmarks/bench_config_path_resolver.cpp` MetricsScrape benchmark |
 
 ## Security / Reliability
 
@@ -220,7 +220,7 @@ Available: https://json-schema.org/specification.html
 Validation of JSON," Internet-Draft draft-bhutton-json-schema-validation-01, Dec. 2020.
 Available: https://json-schema.org/specification.html
 *(Normative specification for `allOf`, `anyOf`, `oneOf`, `$ref`, `format`, `uniqueItems` keywords
-planned in § "ConfigSchemaValidator: Extended JSON Schema Keyword Support".)*
+implemented in § "ConfigSchemaValidator: Extended JSON Schema Keyword Support".)*
 
 ### LRU Caching & TTL Eviction
 

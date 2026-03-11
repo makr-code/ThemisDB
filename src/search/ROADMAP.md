@@ -2,8 +2,11 @@
 
 # Search Module Roadmap
 
+<!-- validated: 2026-03-10 | Status: current -->
+<!-- Primary: src/search/ | Secondary: docs/de/src/search/ -->
+
 ## Current Status
-v2.2.0 – Production-ready hybrid search with highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support.
+v2.3.0 – Production-ready hybrid search with distributed search across shards, highlight/snippet generation and NOT-operator negative keyword filtering. The core engine (BM25, HNSW vector, RRF fusion, fuzzy matching, phonetic search, query expansion) has been production-ready since v1.2.0. v1.5.0 adds 7 new components: `QueryExpander`, `FuzzyMatcher`, `FacetedSearch`, `SearchAnalytics`, `AutocompleteEngine`, `LearningToRank`, and `MultiModalSearch`. v2.1.0 adds `SearchHighlighter` for highlight and snippet generation. v2.2.0 adds `NegativeKeywordFilter` for NOT-operator support. v2.3.0 adds `DistributedHybridSearch` for distributed search across shards with cross-shard RRF result merging and mTLS-secured inter-node communication.
 
 ## Completed ✅
 - [x] HybridSearch – RRF-based fusion of BM25 and vector results
@@ -38,14 +41,15 @@ v2.2.0 – Production-ready hybrid search with highlight/snippet generation and 
 ## Completed ✅ (continued)
 - [x] Highlight / snippet generation for matched terms (`SearchHighlighter`, v2.1.0) (Issue: #2457)
 - [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
+- [x] Distributed search across shards with result merging (`DistributedHybridSearch`, v2.3.0) (Issue: #2280)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
+- *(all short-term items completed — see Completed ✅ sections above)*
 
 ### Long-term (6-12 months)
-- [I] Distributed search across shards with result merging (Issue: #2280)
+- [x] Distributed search across shards with result merging (Issue: #2280) (v2.3.0)
 
 ## Implementation Phases
 
@@ -73,11 +77,11 @@ v2.2.0 – Production-ready hybrid search with highlight/snippet generation and 
 - [x] Search analytics (top queries, zero-result queries) (`SearchAnalytics`, v1.5.0)
 - [x] Spelling correction suggestions
 
-### Phase 4: Neural Retrieval & Distributed Search (Status: In Progress 🚧)
+### Phase 4: Neural Retrieval & Distributed Search (Status: Completed ✅)
 - [x] Neural sparse retrieval (SPLADE / BERT-based)
 - [x] Cross-lingual semantic search (multilingual embeddings)
 - [x] Personalized ranking based on user interaction history
-- [ ] Distributed search across shards with result merging
+- [x] Distributed search across shards with result merging (`DistributedHybridSearch`, v2.3.0) (Issue: #2280)
 - [x] Autocomplete / type-ahead query suggestions (`AutocompleteEngine`, v1.5.0)
 
 ## Production Readiness Checklist

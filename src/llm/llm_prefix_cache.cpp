@@ -70,7 +70,8 @@ public:
     void put(const std::string& prefix,
              const std::vector<int>& tokens,
              const std::vector<float>& embedding,
-             const std::vector<float>& precomputed_kv) {
+             const std::vector<float>& precomputed_kv,
+             const std::string& generated_text = {}) {
         if (prefix.length() < config_.min_prefix_length) {
             return;  // Too short to cache
         }
@@ -83,6 +84,7 @@ public:
         entry.embedding = embedding;
         entry.usage_count = 1;
         entry.last_used = clock_->now();
+        entry.generated_text = generated_text;
         
         if (config_.enable_kv_caching && !precomputed_kv.empty()) {
             entry.precomputed_kv = precomputed_kv;
@@ -321,8 +323,9 @@ LLMPrefixCache::~LLMPrefixCache() = default;
 void LLMPrefixCache::put(const std::string& prefix,
                           const std::vector<int>& tokens,
                           const std::vector<float>& embedding,
-                          const std::vector<float>& precomputed_kv) {
-    impl_->put(prefix, tokens, embedding, precomputed_kv);
+                          const std::vector<float>& precomputed_kv,
+                          const std::string& generated_text) {
+    impl_->put(prefix, tokens, embedding, precomputed_kv, generated_text);
 }
 
 std::optional<PrefixCacheEntry> LLMPrefixCache::get(const std::string& text,

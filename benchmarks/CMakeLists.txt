@@ -1326,6 +1326,50 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loadi
     message(STATUS "  LLM: Model store/load latency (1KB/1MB/10MB), SHA256 verification, temp-file cleanup")
 endif()
 
+# ActiveVRAMAllocator Benchmarks (LLM-MISSING-001)
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_active_vram_allocator.cpp")
+    message(STATUS "Adding ActiveVRAMAllocator benchmarks")
+
+    add_executable(bench_active_vram_allocator
+        bench_active_vram_allocator.cpp
+    )
+
+    target_include_directories(bench_active_vram_allocator PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(bench_active_vram_allocator PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_active_vram_allocator PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_active_vram_allocator PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_active_vram_allocator
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ActiveVRAMAllocator: alloc/free at 4KB/1MB/64MB, batch alloc, evictLRU, defragment, spillToCPU, getStats")
+endif()
+
 # ============================================================================
 # Rotary Embeddings Benchmarks (NEW)
 # ============================================================================
@@ -1746,6 +1790,64 @@ else()
     message(STATUS "Compliance/Security/Governance benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_compliance_security_governance.cpp")
 endif()
 
+# ============================================================================
+# Security Module Benchmarks
+# Measures the cryptographic and policy hot-paths mandated by
+# src/security/FUTURE_ENHANCEMENTS.md performance targets:
+#   - AES-256-GCM encrypt/decrypt throughput  : ≥ 1 GB/s (AES-NI, single core)
+#   - RBAC policy evaluation (100 roles)       : p99 ≤ 0.5 ms
+#   - Kyber-1024 key encapsulation             : ≥ 2 000 ops/s
+#   - Dilithium-5 signing                      : ≥ 1 000 ops/s
+#   - FIPS algorithm-list validation           : overhead characterisation
+#   - AQL injection detection throughput       : throughput characterisation
+#   - Audit log tamper-evident append          : p99 ≤ 2 ms per entry
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
+    message(STATUS "Adding security module benchmarks")
+
+    add_executable(bench_security
+        bench_security.cpp
+    )
+
+    target_include_directories(bench_security PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_security PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_security PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_security PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_security
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Security: AES-256-GCM throughput, RBAC 100-role check, Kyber-1024/Dilithium-5, FIPS validation, AQL injection, audit-log append")
+else()
+    message(STATUS "Security benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
+endif()
+
 # ConfigPathResolver Performance Benchmarks (Issue #1675)
 # Measures cache hit rate and resolution latency for config path resolution.
 #
@@ -1794,6 +1896,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
     message(STATUS "  Config benchmarks: cache hit/miss latency, mapLegacyToNew, deprecation aggregator, metrics scrape, concurrent hit rate")
 else()
     message(STATUS "ConfigPathResolver benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_config_path_resolver.cpp")
+endif()
+
+# ============================================================================
+# Config Migration Scanner Benchmarks
+# Performance target: CLI scanner 10K files < 5 s
+# (ref: src/config/FUTURE_ENHANCEMENTS.md, Performance Targets)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_config_migration_scanner.cpp")
+    message(STATUS "Adding ConfigMigrationScanner throughput benchmarks")
+
+    add_executable(bench_config_migration_scanner
+        bench_config_migration_scanner.cpp
+    )
+
+    target_link_libraries(bench_config_migration_scanner PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_config_migration_scanner PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_config_migration_scanner PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_config_migration_scanner
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Migration scanner benchmarks: shouldScanFile, scanFile (no/with match), 1K-tree, 10K-tree")
+else()
+    message(STATUS "ConfigMigrationScanner benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_config_migration_scanner.cpp")
 endif()
 
 # ============================================================================

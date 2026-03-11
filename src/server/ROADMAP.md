@@ -15,7 +15,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC services for high-performance RPC
 - [x] API Gateway (routing, versioning, load balancing)
 - [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Rate limiting (token bucket, sliding window) — node-local only; cluster-wide Redis backend planned for v1.6.0 (see Planned Features)
 - [x] Load shedding and circuit breaking
 - [x] Server-Sent Events (SSE) for changefeeds
 - [x] Multi-tenancy with tenant isolation
@@ -43,12 +43,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] OAuth2/OIDC native support (authorization code flow, PKCE, refresh token rotation) (Target: v1.6.0)
-  - Files: `server/auth_middleware.cpp`, new `server/oauth2_provider.cpp` + `include/server/oauth2_provider.h`
+- [x] OAuth2/OIDC native support (authorization code flow, PKCE, refresh token rotation) (Target: v1.6.0)
+  - Files: `server/oauth2_provider.cpp` + `include/server/oauth2_provider.h` ✅ implemented
   - Behavior: full RFC 6749 authorization-code + PKCE flow; discovery via `/.well-known/openid-configuration`; refresh token rotation on each use; JWT introspection at `POST /api/v1/auth/token/introspect`
   - Errors: expired access token → 401 with `WWW-Authenticate: Bearer error="invalid_token"`; invalid refresh token → 400; PKCE verifier mismatch → 400
-  - Tests: unit (token validation, expiry, rotation), integration (full OIDC provider mock), negative (replay attacks, invalid verifier)
-  - Perf: token validation ≤ 1 ms with in-process JWT cache (LRU, 10 000 entries); no network round-trip for cached tokens
+  - Tests: 30 unit tests in `tests/test_oauth2_provider.cpp` (construction, authorize, callback, token exchange, refresh, introspect, logout, state TTL, custom token factory, deterministic PKCE)
 - [ ] Distributed rate limiting via Redis backend (cluster-wide token bucket) (Target: v1.6.0)
   - Files: `server/rate_limiter_v2.cpp` + `include/server/rate_limiter_v2.h` (add `Backend::REDIS` strategy)
   - Behavior: all gateway nodes share a single token bucket per client key in Redis using atomic `EVALSHA`; propagation delay ≤ 10 ms; graceful fallback to local bucket on Redis unavailability
@@ -57,7 +56,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Perf: Redis round-trip ≤ 5 ms p99 on same LAN; throughput ≥ 50 000 check/s per node
 
 ### Long-term (6-12 months)
-- [ ] Distributed API Gateway with Raft-based config sync and automatic failover (Target: v1.7.0)
+- [P] Distributed API Gateway with Raft-based config sync and automatic failover (Target: v1.7.0)
   - Files: new `server/distributed_gateway.cpp` + `include/server/distributed_gateway.h`; reuses `replication/replication_manager.h` for Raft
   - Behavior: multi-node gateway cluster (3 or 5 nodes); routing rules and rate-limit config replicated via Raft log; leader failover ≤ 500 ms; session affinity for WebSocket/SSE via consistent-hash ring
   - Errors: quorum loss → gateway continues with last-known config + emits `CRITICAL` alert; split-brain → reject writes to config until quorum restored
@@ -75,12 +74,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
   - Errors: CPU limit exceeded → 504 + `grpc-status: DEADLINE_EXCEEDED`; memory overflow → 500 + sandbox kill; invalid wasm binary → 400 at upload time
   - Tests: unit (sandbox isolation, memory cap enforcement), integration (Rust→wasm handler round-trip), security (escape-attempt wasm modules must not access host memory)
   - Perf: wasm invocation overhead ≤ 5 ms per call; throughput ≥ 5 000 simple handler calls/s per node
-- [ ] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
-  - Files: new `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h`; integrates into `server/auth_middleware.cpp`
-  - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`
+- [x] SAML 2.0 Service Provider support for enterprise SSO (Target: v1.7.0)
+  - Files: `server/saml_auth_provider.cpp` + `include/server/saml_auth_provider.h` ✅ implemented
+  - Behavior: SP-initiated SSO redirect; validates SAML assertions (signature, audience, NotBefore/NotOnOrAfter); maps attributes to ThemisDB user model; Single Logout (SLO) via `POST /api/v1/auth/saml/slo`; SP metadata via `GET /api/v1/auth/saml/metadata`
   - Errors: invalid assertion signature → 401; expired assertion → 401 with clock-skew hint; missing required attribute → 403
-  - Tests: unit (assertion validation, attribute mapping, SLO), integration (mock IdP issuing real SAML2 XML), negative (tampered signatures, expired assertions, replay)
-  - Perf: assertion validation ≤ 5 ms (XML parse + RSA verify); no per-request overhead after session cookie issued
+  - Tests: 27 unit tests in `tests/test_saml_auth_provider.cpp` (login redirect, ACS success/failure, SLO, metadata, replay detection, custom token factory)
 
 ## Implementation Phases
 
@@ -94,7 +92,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] gRPC services for high-performance RPC
 - [x] API Gateway (routing, versioning, load balancing)
 - [x] JWT, Kerberos, API token, and USB admin authentication
-- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Rate limiting (token bucket, sliding window) — node-local; Redis distributed backend planned v1.6.0
 - [x] Load shedding and circuit breaking
 - [x] Server-Sent Events (SSE) for changefeeds
 - [x] Multi-tenancy with tenant isolation
@@ -127,7 +125,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Integration tests (all 40+ endpoints, TLS, auth, rate limiting) — unified suite added in `tests/test_server_integration_complete.cpp` (111 tests, 6 sub-suites): live server auth enforcement (401 without/with invalid Bearer, non-401 with valid token), `RateLimitingMiddleware` token-bucket exhaustion + whitelist + endpoint overrides + stats + concurrency, legacy `RateLimiter` blacklist + anomaly-detection + per-user limits, `HttpServer::Config` completeness (HTTP/2, HTTP/3, WebSocket, feature flags, timeouts, connection limits), live server rate-limit enforcement via `X-Forwarded-For` (429 after bucket exhausted, whitelist bypass, `Retry-After` header), and 25+ additional endpoint-breadth tests; existing per-feature suites (`test_api_integration.cpp`, `test_http_audit.cpp`, `test_http_timeseries.cpp`, `test_http_vector.cpp`, `test_http_changefeed*.cpp`, `bench_api_endpoints.cpp`, `stress_test_wire_vs_http.sh`) complement the coverage
 - [x] Performance benchmarks (req/sec, p99 latency, concurrent connections) — `benchmarks/bench_api_endpoints.cpp` (634 lines, 14 micro-benchmarks: GraphQL parse/execute, JSON serialisation, correlation-ID overhead, REST roundtrip latency); `benchmarks/stress_test_wire_vs_http.sh` measures peak throughput under 1–500 concurrent clients; documented targets: 50K–200K req/sec, p50 < 5 ms, p99 < 50 ms
 - [x] Security audit (header injection, CORS misconfiguration, DoS vectors) — CORS fully implemented: `cors_allowed_origins_` / `cors_allow_all_` / `cors_allow_credentials_` / `cors_allowed_methods_` in `http_server.h`; `cors_allow_origin` in `grpc_web_proxy_handler.h`; header injection mitigated via `sanitize_filename_part` in `export_api_handler.cpp`; DoS protection via `RateLimiter` (http_server.h:936, initialised in http_server.cpp:1280) and configurable `max_request_size_mb` body limit
-- [x] Documentation complete — `include/server/README.md` (817 lines), `src/server/README.md` (1 342 lines), `docs/de/server/README.md` (130 lines, German), `src/server/ARCHITECTURE.md`, `src/server/FUTURE_ENHANCEMENTS.md`, `include/server/FUTURE_ENHANCEMENTS.md`, `src/server/rpc/README.md`; all public API handlers and configuration options documented
+- [x] Documentation complete — `include/server/README.md` (817 lines), `src/server/README.md` (1 342 lines), `docs/de/server/README.md` (276 lines, German, validated 2026-03-10), `src/server/ARCHITECTURE.md`, `src/server/FUTURE_ENHANCEMENTS.md` (with IEEE references), `include/server/FUTURE_ENHANCEMENTS.md`, `src/server/rpc/README.md`, `docs/de/server/missing-implementations.md`; all public API handlers and configuration options documented
 - [x] API stability guaranteed — REST `/api/v1/` path versioning enforced; `v2` prefix introduced for breaking changes; deprecation headers and `Sunset` dates emitted by versioning middleware; gRPC `.proto` definitions stable (no breaking field removals planned); MCP server protocol tracks upstream spec; see §Breaking Changes below
 
 ## Known Issues & Limitations

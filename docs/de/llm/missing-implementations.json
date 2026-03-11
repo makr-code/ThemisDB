@@ -23,10 +23,25 @@
         "file_header_stubs": 3,
         "pr_evidence": "none"
       },
+      "status": "resolved",
+      "resolution": {
+        "resolved_at": "2026-03-11",
+        "pr_branch": "copilot/llm-missing-001-active-vram-allocator",
+        "new_files": [
+          "include/llm/active_vram_allocator.h",
+          "src/llm/active_vram_allocator.cpp",
+          "tests/llm/test_active_vram_allocator.cpp",
+          "benchmarks/bench_active_vram_allocator.cpp"
+        ],
+        "modified_files": [
+          "src/llm/adaptive_vram_allocator.cpp"
+        ],
+        "description": "Introduced ActiveVRAMAllocator as a standalone production class. Delegates real GPU memory allocation to GPUMemoryManager (cudaMalloc/CPU-fallback). OOM recovery pipeline: LRU eviction → defragmentation → CPU spilling. AdaptiveVRAMAllocator::allocateWithFragmentation() and handleOutOfMemory() now delegate to ActiveVRAMAllocator. 29 focused tests and a Google Benchmark suite added."
+      },
       "roadmap_status": "not_tracked_separately",
       "roadmap_marker": null,
       "issue_number": null,
-      "criticality": "medium",
+      "criticality": "high",
       "suggested_issue_title": "[llm] Implement AdaptiveVRAMAllocator GPU memory allocation (cudaMalloc/hipMalloc)",
       "suggested_labels": ["type:feature", "priority:medium", "llm", "gpu", "status:open"]
     },
@@ -113,17 +128,19 @@
   ],
   "summary": {
     "total_findings": 5,
+    "resolved_findings": 1,
     "by_criticality": {
       "high": 0,
       "medium": 2,
       "low": 3
     },
     "by_type": {
-      "stub": 1,
+      "stub": 0,
       "todo": 2,
       "placeholder": 1,
-      "not_implemented": 1
+      "not_implemented": 1,
+      "resolved": 1
     },
-    "note": "All other ROADMAP entries are backed by present implementation files in develop. No stub exists in the critical inference execution path (AsyncInferenceEngine, InferenceEngineEnhanced, LlamaWrapper, grammar, LoRA hot-loading, speculative decoding, streaming)."
+    "note": "LLM-MISSING-001 resolved (2026-03-11): ActiveVRAMAllocator implemented with real GPU allocation, LRU eviction, defragmentation and CPU spilling. All other ROADMAP entries are backed by present implementation files in develop. No stub exists in the critical inference execution path (AsyncInferenceEngine, InferenceEngineEnhanced, LlamaWrapper, grammar, LoRA hot-loading, speculative decoding, streaming)."
   }
 }

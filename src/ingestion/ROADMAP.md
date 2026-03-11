@@ -78,6 +78,7 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 
 ### Phase 2: HTTP Hardening & Binary Formats (Status: Completed ✅)
 - [x] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`, `ingestion/huggingface_connector.cpp`) (Target: Q2 2026) (Issue: #1915)
+- [x] Configurable TLS CA bundle path (`RetryConfig::ca_bundle_path` → `CURLOPT_CAINFO`); `CURLOPT_SSL_VERIFYPEER` always enabled; file existence validated before use (Issue: INGESTION-MISSING-001)
 - [x] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
 - [x] `DocumentWriteFn` injection for quarantine retry (`IngestionManager::setDocumentWriteForTesting()`) — eliminates last write stub
 - [x] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026) (Issue: #1917)

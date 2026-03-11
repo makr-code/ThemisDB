@@ -31,6 +31,7 @@
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
 #include "server/auth_middleware.h"
+#include "cdc/delivery_tracker.h"
 
 namespace themis {
 
@@ -140,6 +141,21 @@ public:
     http::response<http::string_body> handleCompact(const http::request<http::string_body>& req);
 
     /**
+     * @brief Handle POST /changefeed/stream/ack request
+     *
+     * Acknowledges delivery of SSE change events, clearing them from the
+     * at-least-once in-flight tracking state for the given consumer.
+     *
+     * Accepted JSON body fields:
+     *   consumer_id      (string, required) – opaque consumer identifier
+     *   up_to_sequence   (uint64, required) – highest sequence number to acknowledge
+     *
+     * @param req HTTP request with JSON body
+     * @return HTTP response with acknowledgement result
+     */
+    http::response<http::string_body> handleStreamAck(const http::request<http::string_body>& req);
+
+    /**
      * @brief Handle POST /changefeed/redact request (GDPR right to erasure)
      *
      * Scrubs PII from all change log entries whose key starts with the
@@ -164,6 +180,10 @@ private:
     std::shared_ptr<SseConnectionManager> sse_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
     bool feature_cdc_;
+
+    /// At-least-once delivery tracker for SSE consumers.
+    /// Tracks in-flight events per consumer_id until the client ACKs them.
+    cdc::DeliveryTracker delivery_tracker_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

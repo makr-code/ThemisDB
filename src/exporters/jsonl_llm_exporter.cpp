@@ -34,6 +34,7 @@
 #include "exporters/stream_writer.h"
 #include "governance/policy_engine.h"
 #include "governance/model_governance.h"
+#include "utils/audit_logger.h"
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
@@ -87,12 +88,28 @@ void enforceExportPolicy(const ExportOptions& options) {
 
     const auto decision = options.policy_engine->checkExportPermission(req);
     if (!decision.is_permitted) {
+        if (options.audit_logger) {
+            options.audit_logger->logSecurityEvent(
+                themis::utils::SecurityEventType::EXPORT_DENIED,
+                req.requesting_user,
+                options.collection_name,
+                {{"denial_reason", decision.denial_reason},
+                 {"export_job_id", req.export_job_id}});
+        }
         throw ExporterException(
             themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED,
             "Export denied by PolicyEngine: " + decision.denial_reason,
             "collection=" + options.collection_name
                 + ", user=" + req.requesting_user
         );
+    }
+
+    if (options.audit_logger) {
+        options.audit_logger->logSecurityEvent(
+            themis::utils::SecurityEventType::BULK_EXPORT,
+            req.requesting_user,
+            options.collection_name,
+            {{"export_job_id", req.export_job_id}});
     }
 }
 
@@ -905,6 +922,20 @@ bool JSONLLLMExporter::validateJsonSchema(
         }
         return false;
     }
+}
+
+// ============================================================================
+// Template dry-run validation
+// ============================================================================
+
+TemplateValidationResult JSONLLLMExporter::validateTemplate(
+    const std::vector<BaseEntity>& sample
+) const {
+    return themis::exporters::validateTemplate(
+        config_.format_template_type,
+        config_.template_field_mapping,
+        sample
+    );
 }
 
 // ============================================================================

@@ -1,12 +1,12 @@
 # Scheduler-Modul – Sekundärdokumentation (DE)
 
-<!-- Status: current | validated: 2026-03-09 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/scheduler/ und ../../../include/scheduler/ -->
 
 **Modul:** `scheduler`  
 **Version:** v1.5.0  
 **Status:** ✅ Produktionsreif  
-**Geprüft:** 2026-03-09 (Commit `ae47515`)
+**Geprüft:** 2026-03-11 (Commit `1d4165d`)
 
 ---
 

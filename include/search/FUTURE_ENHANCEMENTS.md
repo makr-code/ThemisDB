@@ -213,6 +213,53 @@ Typical pipeline usage:
 
 ---
 
+## Delivered in v2.3.0
+
+### DistributedHybridSearch API (`include/search/distributed_hybrid_search.h`)
+**Status:** ✅ Delivered in v2.3.0 (Issue #2280)
+
+`DistributedHybridSearch` extends the local `HybridSearch` engine to operate across a
+cluster of ThemisDB shards.  It dispatches hybrid search requests in parallel to all
+healthy remote shards via mTLS-secured HTTP POST (`RemoteExecutor`), then merges the
+per-shard result lists into a single globally ranked result set using cross-shard
+Reciprocal Rank Fusion (RRF).
+
+Key API surface:
+- `search(text_query, vector_query, stats)` — runs local + all remote shards in parallel,
+  merges via cross-shard RRF, returns top-k globally ranked results.  Never throws.
+- `mergeShardResults(shard_results)` — public RRF merge helper; directly unit-testable
+  without network infrastructure
+- `parseShardResponse(json_data)` — public static JSON deserializer; accepts direct array
+  or `{"results": [...]}` wrapped format; exposed primarily for unit testing
+- `ShardSearchResult` struct: `{shard_id, results, success, error_msg, execution_time_ms}`
+- `SearchStats` struct: `{shards_queried, shards_succeeded, shards_failed, partial_result}`
+- `Config` fields: `k`, `rrf_k`, `shard_timeout_ms`, `max_concurrent_shards`,
+  `skip_failed_shards`, `local_shard_id`, `search_endpoint` (default: `"/search/hybrid"`)
+- Fault tolerance: `skip_failed_shards=true` (default) skips timed-out / unreachable shards
+  and returns results from surviving shards; callers inspect `SearchStats::partial_result`
+- mTLS: all inter-node traffic is routed through the injected `RemoteExecutor` which is
+  constructed with mTLS certificates — no additional TLS configuration required
+
+Typical pipeline usage:
+```cpp
+RemoteExecutor::Config exec_cfg;
+exec_cfg.cert_path = "/etc/themis/tls/shard.crt";
+exec_cfg.key_path  = "/etc/themis/tls/shard.key";
+exec_cfg.ca_cert_path = "/etc/themis/tls/ca.crt";
+auto executor = std::make_shared<RemoteExecutor>(exec_cfg);
+
+DistributedHybridSearch::Config dhs_cfg;
+dhs_cfg.k               = 20;
+dhs_cfg.local_shard_id  = "shard_001";
+DistributedHybridSearch dhs(&local_hs, resolver.get(), executor.get(), dhs_cfg);
+
+DistributedHybridSearch::SearchStats stats;
+auto results = dhs.search("machine learning", query_embedding, &stats);
+// stats.shards_failed > 0 indicates degraded mode
+```
+
+---
+
 - **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
 - **Multi-namespace VectorIndexManager**: one instance per modality namespace
 - **Streaming result delivery**: async/generator API for large `k` values
@@ -254,3 +301,5 @@ Typical pipeline usage:
 *Last Updated: March 2026*  
 *Current API Version: v2.2.0*  
 *Next Target: v2.3.0*
+
+<!-- validated: 2026-03-10 | commit: a14cdb2 -->

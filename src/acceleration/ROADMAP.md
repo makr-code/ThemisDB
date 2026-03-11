@@ -4,7 +4,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
+Production hardening complete — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) is fully wired: `CUDAVectorBackend::buildHnswAnnIndex()` loads the graph onto the device and `batchKnnSearch()` delegates to GPU-accelerated HNSW traversal when an index is pre-built (`cuda/cuda_hnsw_kernels.cu`).
 
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
@@ -18,6 +18,7 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [x] ROCm/HIP support for AMD GPU acceleration (Issue: #1370) — `src/acceleration/hip/ann_kernels.hip` and `src/acceleration/hip/geo_kernels.hip` implemented; non-HIP fallback stubs added
 - [x] Multi-GPU sharding for large embedding datasets (Target: Q4 2026) (Issue: #1376) — `MultiGPUVectorBackend` implemented in `src/acceleration/multi_gpu_backend.cpp`; range-based sharding, fan-out KNN search, host-side top-k merge, NCCL/RCCL collective backend integration with CPU fallback; tests in `tests/test_multi_gpu_backend.cpp`
 - [x] CUDA graph capture for recurring query workloads (Target: Q4 2026) (Issue: #1378) — `CUDAGraphCache` + `batchKnnSearchWithGraph()` implemented in `cuda_backend.h`/`cuda_backend.cpp`; tests in `tests/test_cuda_graph_capture.cpp`
+- [x] CUDAGraphBackend BFS and shortest-path CUDA kernels (Target: Q2 2026) — `cuda/graph_kernels.cu` implements parallel BFS (frontier expansion) and Bellman-Ford (edge relaxation); `CUDAGraphBackend` wired with CUDA Graph Capture (`CUDAGraphBFSCache` + `CUDAGraphSPCache`); `isAvailable()` now performs real device detection; tests in `tests/test_acceleration.cpp`
 
 ## In Progress 🚧
 - [x] CUDA kernel implementations for vector similarity (Target: Q2 2026) (Issue: #1366) — `cuda/vector_kernels.cu` and `cuda/ann_kernels.cu` implemented; issue closed 2026-02-23
@@ -27,9 +28,10 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [~] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; **end-to-end ANN search still falls through to CPU pending HNSW graph traversal wiring** (see Known Issues); issue closed 2026-02-23
+- [x] CUDA-accelerated ANN (Approximate Nearest Neighbor) search (Issue: #1369) — `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu` implemented with L2, cosine, inner-product, and top-K kernels; HNSW graph traversal wired into `CUDAVectorBackend` via `buildHnswAnnIndex()` + `annBatchSearch()` methods and integrated in `batchKnnSearch()` fast-path; GPU HNSW kernel in `src/acceleration/cuda/cuda_hnsw_kernels.cu`; preprocessor guard fixed (`THEMIS_CUDA_AVAILABLE` → `THEMIS_ENABLE_CUDA`); tests in `tests/test_cuda_ann_search.cpp`
 - [x] Runtime device detection and capability negotiation (Target: Q3 2026) (Issue: #1374) — `DeviceManager` implemented in `src/acceleration/device_manager.cpp` / `include/acceleration/device_manager.h`; 60-second TTL cache; issue closed 2026-02-23
 - [x] Benchmark harness for CUDA vs CPU performance comparison (Target: Q3 2026) (Issue: #1375) — `benchmarks/bench_cuda_vs_cpu.cpp` with JSON output; baselines in `benchmarks/baselines/acceleration/baseline.json`; issue closed 2026-02-23
+- [x] OpenGL 4.3+ Compute Shader backend for platform-wide GPU acceleration (Target: Q2 2026) — `OpenGLVectorBackend` fully implemented in `src/acceleration/graphics_backends.cpp`; GLSL L2 and cosine distance compute shaders; headless EGL context via dynamic loading (no compile-time GL headers required); CPU fallback when EGL/GL 4.3+ is not available; tests in `tests/test_opengl_backend.cpp`; issue closed 2026-03-11
 ### Long-term (6-12 months)
 - [x] Tensor Core utilization for matrix operations (FP16/BF16) (Target: Q4 2026) (Issue: #1377) — `CUDAMatrixBackend` with FP16/BF16 Tensor Core support in `src/acceleration/cuda/tensor_core_matmul.cu` and `src/acceleration/tensor_core_matmul.cpp`; requires SM 7.0+ (FP16) or SM 8.0+ (BF16); issue closed 2026-02-23
 - [x] OpenCL backend for broad hardware compatibility (Target: Q1 2027) (Issue: #1379) — `src/acceleration/opencl_backend.cpp` implemented; issue closed 2026-02-23
@@ -41,7 +43,7 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [x] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382) — `AccelerationError` codes defined in `include/acceleration/error_codes.h` and `include/acceleration/error_context.h`; issue closed 2026-02-21
 
 ### Phase 2: Core-Implementierung
-- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`; ANN vector kernels (L2, cosine, inner-product, top-K) present in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; **Note:** HNSW integration pending — ANN queries currently fall through to CPU until HNSW graph traversal is wired (see Known Issues)
+- [x] Implement CUDA ANN + geospatial kernels with production execution paths (Target: Q3 2026) (Issue: #1383) — geospatial kernels (Haversine distance, point-in-polygon) complete in `cuda/geo_kernels.cu`, wired via `GeoAccelerationBridge::populateGeoDispatch()`; ANN vector kernels (L2, cosine, inner-product, top-K) present in `cuda/ann_kernels.cu` + `cuda/vector_kernels.cu`; HNSW graph traversal kernel in `cuda/cuda_hnsw_kernels.cu` (launched by `CudaHnswTraversalEngine`); `CUDAVectorBackend::buildHnswAnnIndex()` + `annBatchSearch()` wire HNSW into the ANN search path; `batchKnnSearch()` delegates to HNSW when index is pre-built
 - [x] Implement Vulkan compute equivalents for baseline feature parity (Target: Q3 2026) (Issue: #1384) — Vulkan compute shaders for L2 distance, cosine distance, inner-product distance, Haversine distance, point-in-polygon, and top-K selection in `src/acceleration/vulkan/shaders/`; wired in `src/acceleration/graphics_backends.cpp`; issue closed 2026-02-23
 - [x] Integrate capability-driven backend registry selection into runtime startup (Target: Q3 2026) (Issue: #1385) — `initializeRuntime()` added to `BackendRegistry`; `defaultVectorRequirements()` / `defaultGraphRequirements()` / `defaultGeoRequirements()` factory helpers; `getSelectedVectorBackend()` / `getSelectedGraphBackend()` / `getSelectedGeoBackend()` accessors; tests in `tests/test_backend_registry_startup.cpp`
 
@@ -74,9 +76,11 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 - [x] API stability guaranteed for acceleration backend contracts (Issue: #1403) — `BACKEND_CONTRACT_VERSION = 100` added to `compute_backend.h`; tests in `tests/test_backend_api_stability.cpp` verify all frozen enum values, struct field existence, version constants, and dispatcher behaviour
 
 ## Known Issues & Limitations
-- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
 - `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
+- CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
 - DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
+- `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
+- DirectX (`DirectXVectorBackend`): fully implemented with DX12 compute shaders for L2 and cosine distance in `src/acceleration/directx_backend_full.cpp` (Windows only, `THEMIS_ENABLE_DIRECTX`); `OpenGLVectorBackend` is still a stub; not yet implemented
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
 - HIP top-K selection for k > 1024: heap-based/radix path not yet implemented (TODO in `hip_backend.cpp` line 204)

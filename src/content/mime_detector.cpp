@@ -494,6 +494,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         
         result.allowed = true;
         result.reason = "Allowed by whitelist";
+        result.ocr_recommended = shouldTriggerOcr(result.mime_type);
         return result;
     }
     
@@ -528,6 +529,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
                 
                 result.allowed = true;
                 result.reason = "Allowed by category '" + category + "'";
+                result.ocr_recommended = shouldTriggerOcr(result.mime_type);
                 return result;
             }
         }
@@ -546,6 +548,7 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         
         result.allowed = true;
         result.reason = "Allowed by default policy";
+        result.ocr_recommended = shouldTriggerOcr(result.mime_type);
         return result;
     } else {
         result.allowed = false;
@@ -553,6 +556,18 @@ ValidationResult MimeDetector::validateUpload(const std::string& filename,
         result.reason = "File type '" + result.mime_type + "' not in whitelist and default policy is deny";
         return result;
     }
+}
+
+bool MimeDetector::shouldTriggerOcr(std::string_view mime_type) const {
+    if (!policy_.ocrEnabled()) {
+        return false;
+    }
+    // OCR is supported for PNG, JPEG, and TIFF image formats
+    return mime_type == "image/png" || mime_type == "image/jpeg" || mime_type == "image/tiff";
+}
+
+void MimeDetector::enableOcr(bool enable) {
+    policy_.ocr_enabled = enable;
 }
 
 } // namespace content

@@ -91,7 +91,8 @@ legacy-to-new path mapping is applied automatically when loading schema files.
 
 **Supported keywords:** `type`, `properties`, `required`, `additionalProperties`,
 `minLength`, `maxLength`, `pattern`, `minimum`, `maximum`, `exclusiveMinimum`,
-`exclusiveMaximum`, `minItems`, `maxItems`, `items`, `enum`, `const`.
+`exclusiveMaximum`, `minItems`, `maxItems`, `items`, `enum`, `const`,
+`allOf`, `anyOf`, `oneOf`.
 
 **YAML → JSON conversion:** yaml-cpp `Node` → `nlohmann::json` (type inference: null, bool,
 int, float, string).

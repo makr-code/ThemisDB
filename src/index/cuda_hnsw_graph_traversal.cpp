@@ -24,9 +24,10 @@
  * @file cuda_hnsw_graph_traversal.cpp
  * @brief CUDA HNSW graph traversal — host-side wiring and CPU fallback.
  *
- * When built with CUDA (THEMIS_CUDA_AVAILABLE defined by the build system)
+ * When built with CUDA (THEMIS_ENABLE_CUDA defined by the build system)
  * the implementation allocates device memory and issues kernel launches via
- * the cuda_hnsw_kernels.cuh device-side definitions.
+ * the cuda_hnsw_kernels.cu device-side definitions in
+ * src/acceleration/cuda/cuda_hnsw_kernels.cu.
  *
  * When built without CUDA the engine performs an equivalent greedy best-first
  * traversal entirely on the CPU so that all unit-tests and non-GPU deployments
@@ -48,9 +49,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Conditional CUDA headers
 // ─────────────────────────────────────────────────────────────────────────────
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
 #  include <cuda_runtime.h>
-// Forward-declare device kernels (defined in cuda_hnsw_kernels.cu)
+// Forward-declare device kernels (defined in src/acceleration/cuda/cuda_hnsw_kernels.cu)
 namespace themis::cuda {
 void launchHnswSearchKernel(const float* d_vectors, uint32_t dim,
                              const int32_t* d_offsets, const int32_t* d_neighbours,
@@ -220,7 +221,7 @@ struct CudaHnswTraversalEngine::Impl {
     std::vector<float>          flat_vectors;
     size_t                      num_vectors = 0;
 
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
     // Device pointers
     float*   d_vectors    = nullptr;
     int32_t* d_offsets    = nullptr;  // Bottom layer only (layer 0)
@@ -242,7 +243,7 @@ struct CudaHnswTraversalEngine::Impl {
 #endif
 
     ~Impl() {
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
         freeDevice();
 #endif
     }
@@ -255,7 +256,7 @@ struct CudaHnswTraversalEngine::Impl {
 CudaHnswTraversalEngine::CudaHnswTraversalEngine(CudaHnswConfig config)
     : impl_(std::make_unique<Impl>()), config_(std::move(config))
 {
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
     int device_count = 0;
     cudaError_t err = cudaGetDeviceCount(&device_count);
     if (err == cudaSuccess && device_count > 0 &&
@@ -295,7 +296,7 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
     impl_->num_vectors = num_vectors;
     impl_->flat_vectors.assign(vectors, vectors + num_vectors * config_.dim);
 
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
     if (!impl_->cuda_available) {
         impl_->index_built = true;
         return true;
@@ -368,7 +369,7 @@ CudaHnswTraversalEngine::search(const float* query, uint32_t k, uint32_t ef) con
     if (ef == 0) ef = config_.ef_search;
     if (k == 0)  k  = 1;
 
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
     if (impl_->cuda_available && impl_->d_vectors) {
         auto batch = batchSearch(query, 1, k, ef);
         if (!batch.empty()) return batch[0];
@@ -392,7 +393,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
 
     std::vector<std::vector<HnswTraversalResult>> results(num_queries);
 
-#ifdef THEMIS_CUDA_AVAILABLE
+#ifdef THEMIS_ENABLE_CUDA
     if (impl_->cuda_available && impl_->d_vectors) {
         // Allocate / grow result buffers
         if (impl_->result_buf_size < num_queries * k) {

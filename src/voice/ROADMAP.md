@@ -70,12 +70,13 @@ v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator 
 - [x] Integration with telephony systems (SIP / WebRTC) (Issue: #2495)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #2355)
-- [P] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356)
-- [P] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357)
+- [x] Unit tests coverage > 80% (Issue: #2355) — `test_voice_assistant.cpp`, `test_voice_coverage.cpp`, `test_voice_production.cpp` (496+ tests); focused targets: `VoiceProductionFocusedTests`, `VoiceCoverageFocusedTests`
+- [x] Integration tests (full pipeline: audio in → transcription → AQL → audio out) (Issue: #2356) — `VoiceProductionFocusedTests`
+- [x] Performance benchmarks (STT latency, TTS generation speed) (Issue: #2357) — `benchmarks/bench_voice_assistant.cpp`
 - [I] Security audit (audio data storage, transcription PII handling) (Issue: #2358)
 - [I] Documentation complete (Issue: #2359)
-- [I] API stability guaranteed (Issue: #2360)
+- [x] API stability guaranteed (Issue: #2360) — VoiceAssistant session API stable from v1.x; new v1.1.0 APIs (telephony, biometric, browser streaming) marked stable
+- [x] Standalone focused test targets registered in `tests/CMakeLists.txt`: `VoiceProductionFocusedTests`, `VoiceCoverageFocusedTests`, `VoiceAssistantFocusedTests` (LLM-gated), `VoiceBrowserStreamingFocusedTests`, `VoiceTelephonyFocusedTests`
 
 ## Known Issues & Limitations
 - Streaming STT operates in sliding-window mode (3 s window, 1 s step); true sample-by-sample streaming requires Whisper.cpp `THEMIS_ENABLE_WHISPER` build flag.

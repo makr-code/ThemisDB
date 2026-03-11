@@ -248,6 +248,202 @@ TEST(CudaAnnSearch, ANNDispatch_InnerProduct_SlotIsNonNullOnGPU) {
 #endif // THEMIS_ENABLE_CUDA
 
 // =============================================================================
+// HNSW ANN wiring tests — no GPU required (CPU fallback in CudaHnswTraversalEngine)
+// =============================================================================
+//
+// These tests validate that the HNSW traversal engine is correctly wired into
+// CUDAVectorBackend via buildHnswAnnIndex() / annBatchSearch() / batchKnnSearch().
+// They run in any environment because CudaHnswTraversalEngine transparently falls
+// back to CPU when no CUDA device is available.
+
+#include "acceleration/cuda_backend.h"
+#include "index/cuda_hnsw_graph_traversal.h"
+
+namespace {
+
+/// Build a fully-connected CSR graph (every node is a neighbour of every other).
+static themis::HnswLayerGraph makeTestFullGraph(uint32_t num_nodes) {
+    themis::HnswLayerGraph g;
+    g.num_nodes      = num_nodes;
+    g.max_neighbours = num_nodes > 0 ? num_nodes - 1 : 0;
+    g.offsets.resize(num_nodes + 1);
+    g.offsets[0] = 0;
+    for (uint32_t i = 0; i < num_nodes; ++i) {
+        for (uint32_t j = 0; j < num_nodes; ++j) {
+            if (j != i) g.neighbours.push_back(static_cast<int32_t>(j));
+        }
+        g.offsets[i + 1] = static_cast<int32_t>(g.neighbours.size());
+    }
+    return g;
+}
+
+} // anonymous namespace
+
+TEST(CudaAnnHnswWiring, BuildHnswAnnIndex_ReturnsTrueOnValidData) {
+    constexpr uint32_t N   = 6;
+    constexpr uint32_t DIM = 4;
+
+    themis::acceleration::CUDAVectorBackend backend;
+
+    // Build a trivial 1-layer HNSW graph
+    auto g = makeTestFullGraph(N);
+    std::vector<float> vecs(N * DIM, 1.0f);
+
+    EXPECT_FALSE(backend.isHnswIndexBuilt());  // not built yet
+    bool ok = backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM);
+    EXPECT_TRUE(ok);
+    EXPECT_TRUE(backend.isHnswIndexBuilt());
+}
+
+TEST(CudaAnnHnswWiring, BuildHnswAnnIndex_ReturnsFalseOnNullVectors) {
+    themis::acceleration::CUDAVectorBackend backend;
+    auto g = makeTestFullGraph(4);
+    bool ok = backend.buildHnswAnnIndex({g}, nullptr, 4, 2);
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(backend.isHnswIndexBuilt());
+}
+
+TEST(CudaAnnHnswWiring, BuildHnswAnnIndex_ReturnsFalseOnZeroDim) {
+    themis::acceleration::CUDAVectorBackend backend;
+    auto g = makeTestFullGraph(4);
+    std::vector<float> vecs(4 * 2, 1.0f);
+    bool ok = backend.buildHnswAnnIndex({g}, vecs.data(), 4, 0u);
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(backend.isHnswIndexBuilt());
+}
+
+TEST(CudaAnnHnswWiring, AnnBatchSearch_ReturnsEmptyBeforeIndexBuilt) {
+    themis::acceleration::CUDAVectorBackend backend;
+    const float q[] = {0.f, 0.f};
+    auto results = backend.annBatchSearch(q, 1, 1);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(CudaAnnHnswWiring, AnnBatchSearch_ReturnsKResultsAfterBuild) {
+    constexpr uint32_t N   = 8;
+    constexpr uint32_t DIM = 3;
+    constexpr uint32_t K   = 3;
+
+    themis::acceleration::CUDAVectorBackend backend;
+
+    // Vectors: i-th vector = (i*0.1, i*0.1, i*0.1)
+    std::vector<float> vecs;
+    for (uint32_t i = 0; i < N; ++i)
+        for (uint32_t d = 0; d < DIM; ++d)
+            vecs.push_back(static_cast<float>(i) * 0.1f);
+
+    auto g = makeTestFullGraph(N);
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    std::vector<float> query(DIM, 0.0f);
+    auto results = backend.annBatchSearch(query.data(), 1, K);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].size(), K);
+}
+
+TEST(CudaAnnHnswWiring, AnnBatchSearch_ResultsSortedAscendingByScore) {
+    constexpr uint32_t N   = 6;
+    constexpr uint32_t DIM = 2;
+
+    themis::acceleration::CUDAVectorBackend backend;
+
+    // Vectors at distances 0, 1, 2, 3, 4, 5 from origin (along x-axis)
+    std::vector<float> vecs;
+    for (uint32_t i = 0; i < N; ++i) {
+        vecs.push_back(static_cast<float>(i));
+        vecs.push_back(0.0f);
+    }
+
+    auto g = makeTestFullGraph(N);
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    std::vector<float> query(DIM, 0.0f);
+    auto results = backend.annBatchSearch(query.data(), 1, N);
+    ASSERT_EQ(results.size(), 1u);
+    ASSERT_FALSE(results[0].empty());
+
+    for (size_t i = 1; i < results[0].size(); ++i) {
+        EXPECT_LE(results[0][i - 1].second, results[0][i].second)
+            << "Results not sorted ascending at index " << i;
+    }
+}
+
+TEST(CudaAnnHnswWiring, AnnBatchSearch_NearestNeighbourIsOriginForOriginQuery) {
+    constexpr uint32_t N   = 5;
+    constexpr uint32_t DIM = 2;
+
+    themis::acceleration::CUDAVectorBackend backend;
+
+    // Vector 0 = (0,0), vector 1 = (1,0), ...
+    std::vector<float> vecs;
+    for (uint32_t i = 0; i < N; ++i) {
+        vecs.push_back(static_cast<float>(i));
+        vecs.push_back(0.0f);
+    }
+
+    auto g = makeTestFullGraph(N);
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    std::vector<float> query = {0.0f, 0.0f};
+    auto results = backend.annBatchSearch(query.data(), 1, 1);
+    ASSERT_EQ(results.size(), 1u);
+    ASSERT_FALSE(results[0].empty());
+    EXPECT_EQ(results[0][0].first, 0u);         // nearest is vector 0
+    EXPECT_NEAR(results[0][0].second, 0.0f, 1e-5f);
+}
+
+TEST(CudaAnnHnswWiring, BatchKnnSearch_UsesHnswWhenIndexBuilt) {
+    // Verify that batchKnnSearch() delegates to HNSW when an index is pre-built.
+    // We use a query = origin and expect vector 0 (at origin) to be the top hit.
+    constexpr uint32_t N   = 5;
+    constexpr uint32_t DIM = 2;
+
+    themis::acceleration::CUDAVectorBackend backend;
+
+    // Vector 0 = (0,0), vector 1 = (1,0), ...
+    std::vector<float> vecs;
+    for (uint32_t i = 0; i < N; ++i) {
+        vecs.push_back(static_cast<float>(i));
+        vecs.push_back(0.0f);
+    }
+
+    auto g = makeTestFullGraph(N);
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    // batchKnnSearch should detect the built index and use HNSW traversal
+    std::vector<float> query = {0.0f, 0.0f};
+    auto results = backend.batchKnnSearch(
+        query.data(), 1, DIM,
+        vecs.data(),  N,
+        1, /*useL2=*/true);
+
+    ASSERT_EQ(results.size(), 1u);
+    ASSERT_FALSE(results[0].empty());
+    EXPECT_EQ(results[0][0].first, 0u);
+    EXPECT_NEAR(results[0][0].second, 0.0f, 1e-5f);
+}
+
+TEST(CudaAnnHnswWiring, AnnBatchSearch_MultipleQueries) {
+    constexpr uint32_t N   = 8;
+    constexpr uint32_t DIM = 4;
+    constexpr uint32_t K   = 2;
+    constexpr uint32_t NQ  = 3;
+
+    themis::acceleration::CUDAVectorBackend backend;
+
+    std::vector<float> vecs(N * DIM, 1.0f);
+    auto g = makeTestFullGraph(N);
+    ASSERT_TRUE(backend.buildHnswAnnIndex({g}, vecs.data(), N, DIM));
+
+    std::vector<float> queries(NQ * DIM, 0.5f);
+    auto results = backend.annBatchSearch(queries.data(), NQ, K);
+    ASSERT_EQ(results.size(), NQ);
+    for (const auto& r : results) {
+        EXPECT_EQ(r.size(), K);
+    }
+}
+
+// =============================================================================
 // CPU-backend parity checks (always run, no GPU required)
 // =============================================================================
 

@@ -1,13 +1,13 @@
 # Network-Modul — Fehlende / Unvollständige Implementierungen
 
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/network/ -->
 
 Dieser Report dokumentiert Funktionen, die in `src/network/ROADMAP.md` oder anderen
 Primary-Docs als implementiert oder abgeschlossen beschrieben werden, jedoch beim
 Reality-Check als **nicht vollständig umgesetzt** befunden wurden.
 
-Prüfstand: 2026-03-09 (Erstprüfung) | 2026-03-10 (Update nach Fixes) | Branch: `develop`
+Prüfstand: 2026-03-09 (Erstprüfung) | 2026-03-10 (Update nach Fixes) | 2026-03-11 (Audit-Pass 2) | Branch: `develop`
 
 ---
 
@@ -73,6 +73,33 @@ Prüfstand: 2026-03-09 (Erstprüfung) | 2026-03-10 (Update nach Fixes) | Branch:
 
 ---
 
+## 5. Fehlende Opcodes in der Dispatch-Tabelle (Audit-Pass 2, 2026-03-11)
+
+| Feld | Wert |
+|---|---|
+| **ID** | NETWORK-MISSING-005 |
+| **Claim-Quelle** | `docs/de/architecture/wire_protocol_v1.md` §"OpCodes" — vollständige Spec-Tabelle aller Client→Server-Opcodes |
+| **Erwartet** | Alle Client→Server-Opcodes sind in der `handleMessage()`-Switch-Anweisung behandelt |
+| **Beobachtet** | Audit-Pass 2 (2026-03-11) ergab drei fehlende Opcodes in `src/network/wire_protocol_server.cpp`: `0x04 AUTH_RESPONSE` (Client→Server per Spec, aber nur `0x03` dispatched), `0x23 CURSOR_NEXT`, `0x24 CURSOR_CLOSE`. Identische Lücken auch in `src/themis/wire_protocol_server.cpp` (protobuf-Seite). |
+| **Evidence** | `docs/de/architecture/wire_protocol_v1.md:100–112` (OpCode-Tabelle); grep nach `0x04`, `0x23`, `0x24` in beiden `.cpp`-Dateien lieferte keine Treffer |
+| **Kritikalität** | Hoch — `AUTH_RESPONSE (0x04)` ist der spec-konforme Auth-Opcode, den korrekte Clients senden; `CURSOR_NEXT`/`CURSOR_CLOSE` ermöglichen Cursor-basiertes Streaming |
+| **Status** | ✅ **Behoben** am 2026-03-11: <br>• `0x04 AUTH_RESPONSE` als Fallthrough-Alias auf `handleAuthRequest()` hinzugefügt (Rückwärtskompatibilität zu `0x03` bleibt erhalten). <br>• `handleCursorNext()` und `handleCursorClose()` implementiert: validieren `cursor_id`, geben strukturierten Fehler mit HTTP-API-Redirect-Hinweis zurück. <br>• Identische Fixes in `src/themis/wire_protocol_server.cpp`. <br>• Tests für alle drei Opcodes in `tests/test_wire_protocol_v1_handlers.cpp` ergänzt. |
+
+---
+
+## 6. Fehlende Advanced-Message-Type-Handler (Audit-Pass 1, 2026-03-11)
+
+| Feld | Wert |
+|---|---|
+| **ID** | NETWORK-MISSING-006 |
+| **Claim-Quelle** | Issue #3456 "[FEATURE] WireProtocol V1 — Complete Opcode Handler Implementation" |
+| **Erwartet** | Alle Wire-Protocol-V1-Handler inkl. Advanced-Message-Types und Edge-Cases vollständig implementiert |
+| **Beobachtet** | Audit-Pass 1 (2026-03-11): 6 Handler in `src/network/wire_protocol_server.cpp` fehlten: `BATCH_GET (0x13)`, `BATCH_PUT (0x14)`, `TRANSACTION_BEGIN (0x30)`, `TRANSACTION_COMMIT (0x31)`, `TRANSACTION_ABORT (0x32)`, `GRAPH_TRAVERSE (0x41)`. In `src/themis/wire_protocol_server.cpp` fehlten zusätzlich `BPMN_TASK_COMPLETE (0x61)` und `BPMN_QUERY_INSTANCE (0x62)`. |
+| **Kritikalität** | Hoch — ohne Batch- und Transaktions-Handler keine produktiven Client-Workflows möglich |
+| **Status** | ✅ **Behoben** am 2026-03-11: Alle 8 fehlenden Handler implementiert. Tests von 36 auf 92 Fälle erweitert. Deklarationen in beiden Header-Dateien nachgezogen. |
+
+---
+
 ## Zusammenfassung
 
 | ID | Titel | Kritikalität | Status |
@@ -81,6 +108,8 @@ Prüfstand: 2026-03-09 (Erstprüfung) | 2026-03-10 (Update nach Fixes) | Branch:
 | NETWORK-MISSING-002 | Authentifizierung nicht verdrahtet | Hoch | ✅ Behoben (2026-03-10) |
 | NETWORK-MISSING-003 | `grpc_transport.cpp` fehlte in CMakeLists | Mittel | ✅ Behoben (2026-03-09) |
 | NETWORK-MISSING-004 | WebSocket-Binary-Frame-Dispatch fehlt | Niedrig | 🟡 Dokumentiert / Offen |
+| NETWORK-MISSING-005 | AUTH_RESPONSE (0x04) + CURSOR_NEXT (0x23) + CURSOR_CLOSE (0x24) fehlten | Hoch | ✅ Behoben (2026-03-11) |
+| NETWORK-MISSING-006 | Fehlende Advanced-Message-Type-Handler (Batch, Tx, Graph, BPMN) | Hoch | ✅ Behoben (2026-03-11) |
 
 **Korrekte ROADMAP-Einträge:** Alle anderen ROADMAP-Einträge (V2-Protokoll, WebSocket-Upgrade,
 UDP-Fast-Path, QUIC, gRPC-Transport, Geo-Topology-Router, Service-Mesh, QoS-Manager,

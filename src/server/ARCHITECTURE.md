@@ -1,7 +1,9 @@
 # Server Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-10  
+**Status:** `current`  
+**Validated:** 2026-03-10 (Commit `a04b89b`)  
 **Module Path:** `src/server/`
 
 ---

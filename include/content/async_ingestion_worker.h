@@ -32,6 +32,7 @@
 #include <atomic>
 #include <memory>
 #include <functional>
+#include <future>
 #include <map>
 #include <sstream>
 #include <nlohmann/json.hpp>
@@ -100,6 +101,9 @@ struct IngestionJob {
     
     // Callback (optional)
     std::function<void(const IngestionJob&)> on_complete;
+
+    // Promise for ingestStream() callers (optional)
+    std::shared_ptr<std::promise<std::string>> completion_promise;
 };
 
 /**
@@ -107,7 +111,8 @@ struct IngestionJob {
  */
 struct AsyncIngestionConfig {
     size_t worker_thread_count = 2;       // Number of parallel workers
-    size_t max_queue_size = 1000;         // Max jobs in queue
+    size_t max_queue_size = 1000;         // Absolute queue capacity (hard limit)
+    size_t max_queue_depth = 1000;        // Back-pressure threshold: callers block when exceeded
     bool enable_auto_cleanup = true;      // Auto-cleanup completed jobs
     int64_t job_retention_ms = 3600000;   // Keep completed jobs for 1 hour
     bool verbose_logging = false;
@@ -181,6 +186,9 @@ public:
      * wait_for_completion = true; for async jobs the caller is
      * responsible for the stream lifetime.
      *
+     * Blocks the calling thread when the queue depth reaches
+     * config_.max_queue_depth until a worker dequeues a job.
+     *
      * @param stream       Input stream positioned at the start of the content
      * @param filename     Original filename (for MIME detection and metadata)
      * @param mime_type    Optional MIME type override
@@ -189,6 +197,31 @@ public:
      * @return Job ID for tracking
      */
     std::string submitStream(
+        std::istream& stream,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
+    /**
+     * @brief Submit a stream for async ingestion with back-pressure
+     *
+     * Blocks the calling thread when the queue depth reaches
+     * config_.max_queue_depth until a worker dequeues a job.
+     * Returns a future that resolves to the primary ContentId
+     * (std::string) once the ingestion job completes.
+     *
+     * The stream must remain valid until the returned future is ready.
+     *
+     * @param stream       Input stream positioned at the start of the content
+     * @param filename     Original filename (for MIME detection and metadata)
+     * @param mime_type    Optional MIME type override
+     * @param user_context User context for auth/encryption
+     * @param config       Optional job configuration (chunk_size_bytes, etc.)
+     * @return std::future<std::string> resolving to the primary ContentId
+     */
+    std::future<std::string> ingestStream(
         std::istream& stream,
         const std::string& filename,
         const std::string& mime_type = "",
@@ -374,7 +407,8 @@ private:
     // Job queue
     std::queue<IngestionJob> job_queue_;
     std::mutex queue_mutex_;
-    std::condition_variable queue_cv_;
+    std::condition_variable queue_cv_;        // Signals workers when jobs are available
+    std::condition_variable backpressure_cv_; // Signals callers when queue has space
     
     // Job tracking
     std::map<std::string, IngestionJob> job_history_;

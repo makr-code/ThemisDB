@@ -773,6 +773,104 @@ TEST(MultiSourceIntegrationTest, ParallelIngestionMultipleSources) {
     fs::remove_all(root);
 }
 
+// ============================================================================
+// HTTP client TLS configuration – ca_bundle_path tests
+// ============================================================================
+
+TEST(RetryConfigTest, CaBundlePathDefaultIsEmpty) {
+    RetryConfig cfg;
+    EXPECT_TRUE(cfg.ca_bundle_path.empty());
+}
+
+TEST(RetryConfigTest, CaBundlePathCanBeSet) {
+    RetryConfig cfg;
+    cfg.ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    EXPECT_EQ(cfg.ca_bundle_path, "/etc/ssl/certs/ca-certificates.crt");
+}
+
+TEST(HuggingFaceIntegrationTest, CaBundlePathFromOptions) {
+    HuggingFaceConnector conn;
+    SourceConfig cfg = makeHfConfig("hf_ca_bundle", "test/dataset", "train");
+    cfg.options["ca_bundle_path"] = "/etc/ssl/certs/ca-certificates.crt";
+    ASSERT_TRUE(conn.initialize(cfg));
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
+
+    // Ingestion must succeed with ca_bundle_path option set (mock HTTP path)
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST(HuggingFaceIntegrationTest, CaBundlePathViaRetryConfig) {
+    HuggingFaceConnector conn;
+    SourceConfig cfg = makeHfConfig("hf_ca_retry", "test/dataset", "train");
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    RetryConfig retry;
+    retry.ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    conn.setRetryConfig(retry);
+    conn.setHttpGetForTesting(makeHfHttpGetMock());
+
+    // setRetryConfig must not discard ca_bundle_path
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, DEFAULT_HF_TEST_ROWS);
+    EXPECT_EQ(stats.documents_failed, 0u);
+}
+
+TEST(GenericApiIntegrationTest, CaBundlePathFromOptions) {
+    GenericApiConnector conn;
+
+    SourceConfig cfg;
+    cfg.source_id              = "api_ca_bundle";
+    cfg.type                   = SourceType::API;
+    cfg.location               = "https://api.example.com/data";
+    cfg.options["page_size"]   = "3";
+    cfg.options["max_pages"]   = "1";
+    cfg.options["text_field"]  = "text";
+    cfg.options["ca_bundle_path"] = "/etc/ssl/certs/ca-certificates.crt";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    conn.setHttpGetForTesting(
+        [](const std::string& /*url*/, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            return {200, makeApiPage(3)};
+        });
+
+    // Ingestion must succeed with ca_bundle_path option set (mock HTTP path)
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 3u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+}
+
+TEST(GenericApiIntegrationTest, CaBundlePathViaRetryConfig) {
+    GenericApiConnector conn;
+
+    SourceConfig cfg;
+    cfg.source_id             = "api_ca_retry";
+    cfg.type                  = SourceType::API;
+    cfg.location              = "https://api.example.com/data";
+    cfg.options["page_size"]  = "2";
+    cfg.options["max_pages"]  = "1";
+    cfg.options["text_field"] = "text";
+    ASSERT_TRUE(conn.initialize(cfg));
+
+    RetryConfig retry;
+    retry.ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    conn.setRetryConfig(retry);
+
+    conn.setHttpGetForTesting(
+        [](const std::string& /*url*/, const std::string& /*auth*/)
+        -> std::pair<int, std::string> {
+            return {200, makeApiPage(2)};
+        });
+
+    auto stats = conn.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 2u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+}
+
 TEST(MultiSourceIntegrationTest, IngestAllReportCorrelationIds) {
     auto tmp_dir = makeDir("themis_corrids_test");
     writeFile(tmp_dir, "doc.txt", "hello");

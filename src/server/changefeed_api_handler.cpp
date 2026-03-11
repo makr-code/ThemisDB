@@ -99,6 +99,9 @@ ChangefeedApiHandler::ChangefeedApiHandler(
     , auth_(std::move(auth))
     , feature_cdc_(feature_cdc)
 {
+    // Start the at-least-once delivery tracker background thread.
+    // The tracker accumulates per-consumer in-flight state across SSE requests.
+    delivery_tracker_.start();
 }
 
 http::response<http::string_body> ChangefeedApiHandler::handleGet(
@@ -223,6 +226,11 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         int heartbeat_ms_override = -1; // Optional per-request heartbeat interval
         int retry_ms = 3000;
         size_t max_events_per_poll = 100; // Backpressure: limit events consumed per poll
+        // At-least-once delivery: optional consumer identifier and ack timeout override.
+        // When consumer_id is set, unacknowledged events from previous requests are
+        // redelivered before new events; clients ACK via POST /changefeed/stream/ack.
+        std::string consumer_id;
+        std::optional<std::chrono::milliseconds> ack_timeout_override;
         
         std::string target = std::string(req.target());
         size_t query_pos = target.find('?');
@@ -339,6 +347,38 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                     THEMIS_DEBUG("changefeed: ignoring invalid max_events query param");
                 }
             }
+
+            // Parse consumer_id for at-least-once delivery tracking.
+            // Maximum length for consumer_id to prevent DoS via oversized input.
+            static constexpr size_t CONSUMER_ID_MAX_LEN = 128;
+            size_t cid_pos = query_str.find("consumer_id=");
+            if (cid_pos != std::string::npos) {
+                size_t cid_end = query_str.find('&', cid_pos);
+                std::string cid_str = query_str.substr(cid_pos + 12,
+                    cid_end == std::string::npos ? std::string::npos : cid_end - cid_pos - 12);
+                if (!cid_str.empty() && cid_str.size() <= CONSUMER_ID_MAX_LEN) {
+                    consumer_id = std::move(cid_str);
+                } else if (cid_str.size() > CONSUMER_ID_MAX_LEN) {
+                    THEMIS_WARN("changefeed: consumer_id exceeds max length ({}), ignoring", CONSUMER_ID_MAX_LEN);
+                }
+            }
+
+            // Parse ack_timeout_ms: per-request override for the at-least-once
+            // redelivery timeout (useful for testing with short timeouts).
+            size_t at_pos = query_str.find("ack_timeout_ms=");
+            if (at_pos != std::string::npos) {
+                size_t at_end = query_str.find('&', at_pos);
+                std::string at_str = query_str.substr(at_pos + 15,
+                    at_end == std::string::npos ? std::string::npos : at_end - at_pos - 15);
+                try {
+                    int v = std::stoi(at_str);
+                    if (v >= 0) {
+                        ack_timeout_override = std::chrono::milliseconds(v);
+                    }
+                } catch (...) {
+                    THEMIS_DEBUG("changefeed: ignoring invalid ack_timeout_ms query param");
+                }
+            }
         }
 
         // Support Last-Event-ID header for resume
@@ -376,9 +416,19 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             // Production mode: Register connection for streaming
             // Note: Current Beast setup limits us to batch-based streaming
             // Full keep-alive requires custom async write loop (see TODO in docs)
+            //
+            // At-least-once delivery note: In this path, SseConnectionManager::pollEvents()
+            // returns pre-formatted SSE strings ("id: N\ndata: {...}\n\n"), not raw
+            // ChangeEvent objects.  Feeding them into delivery_tracker_.trackDelivery()
+            // would require parsing them back, which is fragile.  For full at-least-once
+            // support in the production SSE path, SseConnectionManager should be extended
+            // to return raw ChangeEvent objects alongside formatted lines.  Until then,
+            // use the MVP batch path (keep_alive=false or without sse_manager_) for
+            // guaranteed at-least-once delivery via consumer_id + POST /changefeed/stream/ack.
             
             uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));
+            span.setAttribute("sse.consumer_id", consumer_id);
             
             // Stream events for limited duration (configurable for tests)
             auto start = std::chrono::steady_clock::now();
@@ -388,11 +438,11 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             
             auto last_hb = start;
             while (std::chrono::steady_clock::now() - start < max_duration) {
-                // Poll for new events
-                auto events = sse_manager_->pollEvents(conn_id, max_events_per_poll);
+                // Poll for new events (returns pre-formatted SSE strings: "id: N\ndata: ...\n\n")
+                auto sse_formatted_lines = sse_manager_->pollEvents(conn_id, max_events_per_poll);
                 
-                if (!events.empty()) {
-                    for (const auto& event_line : events) {
+                if (!sse_formatted_lines.empty()) {
+                    for (const auto& event_line : sse_formatted_lines) {
                         body << event_line;
                         total_events++;
                     }
@@ -428,13 +478,16 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             span.setAttribute("sse.heartbeats", static_cast<int64_t>(heartbeats));
             span.setAttribute("sse.duration_s", static_cast<int64_t>(max_seconds));
             
-            THEMIS_INFO("SSE stream completed: conn={}, events={}, heartbeats={}",
-                conn_id, total_events, heartbeats);
+            THEMIS_INFO("SSE stream completed: conn={}, consumer_id='{}', events={}, heartbeats={}",
+                conn_id, consumer_id, total_events, heartbeats);
             
         } else
 #endif
         {
-            // MVP mode: Send one batch and close (backward compatible)
+            // MVP mode: Send one batch and close (backward compatible).
+            // At-least-once delivery: when a consumer_id is provided, unacknowledged
+            // events from the previous delivery window are redelivered first, then
+            // new events are fetched and tracked as in-flight.
             Changefeed::ListOptions options;
             options.from_sequence = from_seq;
             options.limit = 1000;
@@ -446,7 +499,17 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
             if (!event_types.empty()) {
                 options.event_types = event_types;
             }
-            
+
+            // --- At-least-once: prepend any pending redelivery events ---
+            std::vector<Changefeed::ChangeEvent> redelivery_events;
+            if (!consumer_id.empty()) {
+                redelivery_events = delivery_tracker_.getPendingRedelivery(consumer_id, ack_timeout_override);
+                for (const auto& ev : redelivery_events) {
+                    body << "id: " << ev.sequence << "\n";
+                    body << "data: " << ev.toJson().dump() << "\n\n";
+                }
+            }
+
             auto events = changefeed_->listEvents(options);
             
             for (const auto& ev : events) {
@@ -454,12 +517,19 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
                 body << "data: " << ev.toJson().dump() << "\n\n";
             }
             
-            if (events.empty()) {
+            if (events.empty() && redelivery_events.empty()) {
                 body << ": heartbeat\n\n";
             }
-            
+
+            // --- At-least-once: track newly delivered events ---
+            if (!consumer_id.empty() && !events.empty()) {
+                delivery_tracker_.trackDelivery(consumer_id, events);
+            }
+
             span.setAttribute("sse.mode", "mvp_batch");
+            span.setAttribute("sse.consumer_id", consumer_id);
             span.setAttribute("events.count", static_cast<int64_t>(events.size()));
+            span.setAttribute("events.redelivered", static_cast<int64_t>(redelivery_events.size()));
         }
         
         res.body() = body.str();
@@ -473,6 +543,67 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         span.recordError(e.what());
         span.setStatus(false, "internal_error");
         return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> ChangefeedApiHandler::handleStreamAck(
+    const http::request<http::string_body>& req
+) {
+    // Authorization check
+    if (auto auth_resp = checkAuth(req, "cdc:read")) {
+        return *auth_resp;
+    }
+
+    // Feature flag check
+    if (!feature_cdc_) {
+        return makeErrorResponse(http::status::not_found, "Feature 'cdc' disabled", req);
+    }
+
+    auto span = Tracer::startSpan("handleChangefeedStreamAck");
+    span.setAttribute("http.path", "/changefeed/stream/ack");
+
+    try {
+        auto body_json = nlohmann::json::parse(req.body());
+
+        if (!body_json.contains("consumer_id") || !body_json.contains("up_to_sequence")) {
+            return makeErrorResponse(http::status::bad_request,
+                "Required fields: 'consumer_id' (string) and 'up_to_sequence' (uint64)", req);
+        }
+
+        std::string consumer_id = body_json["consumer_id"].get<std::string>();
+        if (consumer_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "'consumer_id' must not be empty", req);
+        }
+
+        uint64_t up_to_sequence = body_json["up_to_sequence"].get<uint64_t>();
+
+        span.setAttribute("sse.consumer_id", consumer_id);
+        span.setAttribute("sse.up_to_sequence", static_cast<int64_t>(up_to_sequence));
+
+        size_t removed = delivery_tracker_.acknowledgeUpTo(consumer_id, up_to_sequence);
+
+        nlohmann::json response = {
+            {"consumer_id",     consumer_id},
+            {"up_to_sequence",  up_to_sequence},
+            {"acknowledged",    removed}
+        };
+
+        span.setAttribute("sse.acknowledged", static_cast<int64_t>(removed));
+        span.setStatus(true);
+
+        THEMIS_DEBUG("SSE ACK: consumer='{}', up_to_seq={}, acknowledged={}",
+                     consumer_id, up_to_sequence, removed);
+
+        return makeResponse(http::status::ok, response.dump(), req);
+
+    } catch (const nlohmann::json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "json_parse_error");
+        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }
 

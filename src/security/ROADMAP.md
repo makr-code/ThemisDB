@@ -30,10 +30,22 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Systematic attack vector test suite (`tests/security/attack-vectors/crypto/`, `injection/`, `authentication/`)
 - [x] USB admin authenticator HMAC-SHA256 challenge-response with replay protection; Windows MachineGuid fix
 - [x] SOC 2 Type II security compliance evidence collection (`include/security/security_evidence_collector.h`)
+- [x] Performance benchmarks for security hot-paths (`benchmarks/bench_security.cpp`)
+  - AES-256-GCM encrypt/decrypt throughput (1 KB, 64 KB, 1 MB); FieldEncryption API
+  - RBAC policy evaluation latency: single-role and 100-role checks, role-hierarchy validation
+  - Post-quantum: Kyber-1024 key-gen/encapsulate/decapsulate, Dilithium-5 sign/verify
+  - FIPS algorithm-list validation overhead (approved vs. rejected paths)
+  - AQL injection detection throughput (benign and malicious queries)
+  - Audit log tamper-evident append latency (single entry and batch-100)
+- [x] Focused standalone test targets for all `tests/security/` test files
+  - `SecurityNegativeIntegrationFocusedTests` (JWT/RBAC/Vault negative tests)
+  - `InputValidationSecurityFocusedTests` (input validation security placeholder)
 
 ## In Progress 🚧
 - [~] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026) (Issue: #2297)
-  - Requires FIPS-validated OpenSSL build; cipher suites restricted to approved list
+  - `FipsCryptoMode` singleton, `FipsPolicyViolation` exception, approved-algorithm set implemented
+  - Activation requires FIPS-validated OpenSSL 3.x build (not bundled); graceful degradation on unavailable provider
+  - 20 tests in `tests/security/test_fips_crypto_mode.cpp`; `FipsCryptoModeFocusedTests` standalone target
 
 ## Planned Features 📋
 
@@ -105,6 +117,23 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Security metrics snapshot: active keys, deprecated keys, role count, audit log entry count
   - Append-only JSON export with atomic file write; 12-month retention enforcement; retention verification
   - Tests: 28 test cases in `tests/security/test_security_evidence_collector.cpp`
+- [x] Performance benchmarks for security hot-paths (`benchmarks/bench_security.cpp`)
+  - AES-256-GCM encrypt/decrypt (1 KB / 64 KB / 1 MB); target ≥ 1 GB/s (AES-NI, single core)
+  - RBAC single-role check and 100-role check; role hierarchy validation
+  - Kyber-1024 key-gen / encapsulate / decapsulate; target ≥ 2 000 ops/s
+  - Dilithium-5 key-gen / sign / verify; target ≥ 1 000 ops/s
+  - FIPS algorithm-list validation overhead (approved + rejected paths)
+  - AQL injection detection throughput (benign and malicious)
+  - Audit log tamper-evident append; target p99 ≤ 2 ms
+- [x] Focused standalone test targets for all `tests/security/` test files
+  - `SecurityNegativeIntegrationFocusedTests` — JWT/RBAC/Vault negative integration tests
+  - `InputValidationSecurityFocusedTests` — input validation security placeholder
+- [~] FIPS 140-2 / 140-3 validated cryptography mode (`src/security/fips_crypto_mode.cpp`) (Issue: #2297)
+  - `FipsCryptoMode` singleton + `FipsPolicyViolation` exception fully implemented
+  - Approved-algorithm set: all NIST SP 800-175B rev.1 ciphers, hashes, MACs, KDFs, DRBGs
+  - Graceful degradation if FIPS provider is not installed (returns false, no abort)
+  - 20 tests in `tests/security/test_fips_crypto_mode.cpp` (`FipsCryptoModeFocusedTests`)
+  - Pending: FIPS-validated OpenSSL 3.x build + full CI gate (not bundled)
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80%:
@@ -112,12 +141,16 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - SecurityEvidenceCollector: 28 tests (`tests/security/test_security_evidence_collector.cpp`)
   - FipsCryptoMode: 20 tests (`tests/security/test_fips_crypto_mode.cpp`)
   - QueryMaskingPolicy, RLSManager, ZeroTrustPolicyEnforcer, AuthRateLimiter, HsmProvider: covered
-  - Standalone focused test targets for all security sub-directory tests
+  - Standalone focused test targets for all security sub-directory tests:
+    `SecurityEvidenceCollectorFocusedTests`, `FipsCryptoModeFocusedTests`,
+    `AccessControlManagerFocusedTests`, `RowLevelSecurityFocusedTests`,
+    `SecurityNegativeIntegrationFocusedTests`, `InputValidationSecurityFocusedTests`,
+    `CryptoAttackVectorTests`, `InjectionAttackVectorTests`, `AuthenticationAttackVectorTests`
 - [x] Integration tests (TLS handshake, key rotation, RBAC enforcement, RLS filtering, JWT revocation)
 - [x] Attack vector tests (crypto IV/tag/key confusion, injection, authentication privilege escalation)
 - [x] Challenge-response security: HMAC-SHA256 with replay protection, TTL, one-time-use
 - [x] SOC 2 evidence collection: audit log, key rotations, metrics, RBAC report, retention enforcement
-- [~] Performance benchmarks (encryption overhead, auth latency) (Target: Q2 2026)
+- [x] Performance benchmarks (AES-256-GCM, RBAC, Kyber-1024/Dilithium-5, FIPS, AQL injection, audit-log) — `benchmarks/bench_security.cpp`
 - [~] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026)
 - [x] Documentation complete (ROADMAP.md, FUTURE_ENHANCEMENTS.md, inline docblocks)
 - [x] API stability guaranteed (SecurityManager v1.x, RLSManager v1.5.0, QueryMaskingPolicy v1.5.0)

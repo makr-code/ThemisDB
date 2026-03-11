@@ -1441,6 +1441,15 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/merge_operators.cpp
+    ../src/storage/compressed_storage.cpp
+    ../src/storage/compression_strategy.cpp
+    ../src/storage/index_maintenance.cpp
+    ../src/storage/storage_engine.cpp
+    ../src/storage/blob_backend_filesystem.cpp
+    ../src/storage/blob_backend_s3.cpp
+    ../src/storage/blob_backend_azure.cpp
+    ../src/storage/blob_backend_webdav.cpp
+    ../src/storage/blob_backend_gcs.cpp
     
 
     ../src/metadata/schema_manager.cpp
@@ -1566,11 +1575,14 @@ set(THEMIS_CORE_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/cross_cluster_federation.cpp
     ../src/query/workload_cache_strategy.cpp
+    ../src/query/query_cache_manager.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/fulltext_functions.cpp
+    ../src/query/functions/lora_functions.cpp
+    ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
@@ -1632,6 +1644,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/keys_api_handler.cpp
     ../src/server/api_key_mgmt_handler.cpp
     ../src/server/session_api_handler.cpp
+    ../src/server/saml_auth_provider.cpp
+    ../src/server/oauth2_provider.cpp
     ../src/server/classification_api_handler.cpp
     ../src/server/reports_api_handler.cpp
     ../src/server/ranger_adapter.cpp
@@ -1648,6 +1662,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/load_shedder.cpp
     ../src/server/api_version.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
@@ -1663,6 +1678,16 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/task_scheduler_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_scheduler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_event.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_audit_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_result_store.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/task_anomaly_detector.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/hybrid_retention_manager.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/event_trigger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/external_scheduler_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/scheduler/distributed_task_coordinator.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
@@ -1770,6 +1795,8 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/event_stream.cpp
     ../src/replication/policy.cpp
     ../src/replication/replication_slot.cpp
+    ../src/replication/raft_v2.cpp
+    ../src/replication/schema_cdc.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp
@@ -1837,10 +1864,6 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
-    ../src/utils/bloom_filter.cpp
-    ../src/utils/pii_stream_scanner.cpp
-    ../src/utils/sampled_logger.cpp
-    ../src/utils/timestamp_utils.cpp
     ../src/utils/bloom_filter.cpp             # Bloom filter for membership testing
     ../src/utils/consistent_hash.cpp          # Consistent hash ring utilities
     ../src/utils/pii_stream_scanner.cpp       # Streaming PII detection and redaction
@@ -1887,6 +1910,7 @@ set(THEMIS_CORE_SOURCES
     ../src/search/neural_sparse_retrieval.cpp
     ../src/search/search_highlighter.cpp
     ../src/search/negative_keyword_filter.cpp
+    ../src/search/distributed_hybrid_search.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -2066,7 +2090,13 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
     ../src/server/sharding_metrics_handler.cpp
-    
+
+    # Enhanced sharding features
+    ../src/sharding/admin_operations.cpp
+    ../src/sharding/operational_metrics.cpp
+    ../src/sharding/sharding_manager_edition.cpp
+    ../src/sharding/slo_monitor.cpp
+
     # Hardware acceleration (core abstraction layer - always included)
     ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp
@@ -2115,6 +2145,9 @@ set(THEMIS_CORE_SOURCES
     # Themis core module (Phase 3: Wire Protocol – themis::wire namespace)
     ../src/themis/wire_protocol_server.cpp
     ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/edition_manager.cpp
+    ../src/themis/module_hash_verifier.cpp
+    ../src/themis/module_signature_verifier.cpp
     
     # Observability (GAP-008: Alertmanager integration + continuous profiling)
     ../src/observability/metrics_collector.cpp
@@ -2170,6 +2203,26 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
     $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    ../src/importers/schema_inference.cpp
+    ../src/importers/column_importance.cpp
+    ../src/importers/crdt_importer.cpp
+    ../src/importers/postgres_cdc.cpp
+    ../src/importers/data_quality.cpp
+    ../src/importers/audit_trail.cpp
+    ../src/importers/adaptive_import.cpp
+    ../src/importers/polyglot_mapper.cpp
+    ../src/importers/temporal_support.cpp
+    ../src/importers/blockchain_integrity.cpp
+    ../src/importers/federated_learning.cpp
+    ../src/importers/graphql_federation.cpp
+    ../src/importers/deterministic_matcher.cpp
+    ../src/importers/semantic_matcher.cpp
+    ../src/importers/entity_linker.cpp
+    ../src/importers/canonical_resolver.cpp
+    ../src/importers/mdm_engine.cpp
+    ../src/importers/mdm_audit_trail.cpp
+    ../src/importers/mdm_metrics.cpp
+    ../src/importers/postgres_importer_mdm.cpp
     ../src/aql/llm_metrics_collector.cpp
     ../src/aql/aql_syntax_highlighter.cpp
 
@@ -2421,6 +2474,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/aql_train_parser.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/active_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/mixed_precision_inference.cpp
@@ -2475,7 +2529,16 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/calibration_manager.cpp
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
+    # Phase 1-3: Core evaluator building blocks (no direct LLM header dependency)
+    ../src/rag/continuous_learning_client.cpp
+    ../src/rag/http_metrics_client.cpp
+    ../src/rag/judge_config.cpp
+    ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/onnx_model_loader.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/response_parser.cpp
     )
+endif()  # Close if(THEMIS_ENABLE_LLM)
 
 endif()
 
@@ -2706,6 +2769,8 @@ if(THEMIS_ENABLE_CUDA)
     ../src/acceleration/cuda/vector_kernels.cu
     ../src/acceleration/cuda/tensor_core_matmul.cu
     ../src/acceleration/cuda/geo_kernels.cu
+    ../src/acceleration/cuda/cuda_hnsw_kernels.cu
+    ../src/acceleration/cuda/graph_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
@@ -2873,7 +2938,11 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
     
     if(THEMIS_ENABLE_OPENGL)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
-        message(STATUS "OpenGL acceleration enabled (stub)")
+        # Link dl for dynamic loading of libEGL/libGL at runtime (Linux/Unix)
+        if(UNIX AND NOT APPLE)
+            target_link_libraries(themis_core PRIVATE dl)
+        endif()
+        message(STATUS "OpenGL acceleration enabled (EGL/GL 4.3+ compute shaders with CPU fallback)")
     endif()
 endif()
 
@@ -3611,7 +3680,23 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Distributed Evaluation and Security (Phase 5)
         ../src/rag/distributed_rag_evaluator.cpp
         ../src/rag/prompt_injection_detector.cpp
-        
+
+        # RAG Enhancement: LLM-dependent evaluators (Phase 1–4)
+        ../src/rag/llm_integration.cpp
+        ../src/rag/llm_judge_integration.cpp
+        ../src/rag/geval_evaluator.cpp
+        ../src/rag/claim_extractor.cpp
+        ../src/rag/coherence_evaluator.cpp
+        ../src/rag/completeness_evaluator.cpp
+        ../src/rag/cot_evaluator.cpp
+        ../src/rag/document_summarizer.cpp
+        ../src/rag/faithfulness_evaluator.cpp
+        ../src/rag/judge_ensemble.cpp
+        ../src/rag/pairwise_comparator.cpp
+        ../src/rag/quality_control_factory.cpp
+        ../src/rag/relevance_evaluator.cpp
+        ../src/rag/rubric_evaluator.cpp
+
         # Model Deployment Plugin (Ollama-inspired, production-ready)
         ../src/llm/model_downloader.cpp           # Model downloading from Ollama/HTTP/local sources
         ../src/llm/llm_deployment_plugin.cpp      # Production LLM deployment with caching and audit
@@ -4007,6 +4092,19 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    add_executable(test_distributed_hybrid_search
+        ${THEMIS_ROOT_DIR}/tests/test_distributed_hybrid_search.cpp
+    )
+    target_link_libraries(test_distributed_hybrid_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_hybrid_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     add_executable(test_bitemporal_join
         ${THEMIS_ROOT_DIR}/tests/test_bitemporal_join.cpp
     )
@@ -4046,6 +4144,19 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    add_executable(test_cuda_ann_search
+        ${THEMIS_ROOT_DIR}/tests/test_cuda_ann_search.cpp
+    )
+    target_link_libraries(test_cuda_ann_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_cuda_ann_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_cuda_ann_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     add_executable(test_wasm_runtime_injector
         ${THEMIS_ROOT_DIR}/tests/test_wasm_runtime_injector.cpp
     )
@@ -4055,6 +4166,20 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(test_wasm_runtime_injector
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # WASM Sandbox Injection focused tests (v1.8.0 – Issue #1572)
+    add_executable(WasmSandboxInjectionFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/test_module_sandbox_wasm_injection.cpp
+    )
+    target_link_libraries(WasmSandboxInjectionFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(WasmSandboxInjectionFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )
@@ -5187,6 +5312,14 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
             ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_hybrid_search.cpp
         )
         target_link_libraries(benchmark_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+
+    # Distributed Hybrid Search Benchmarks (cross-shard RRF merge, fault tolerance overhead)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_distributed_hybrid_search.cpp")
+        add_executable(benchmark_distributed_hybrid_search
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_distributed_hybrid_search.cpp
+        )
+        target_link_libraries(benchmark_distributed_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Vector Compression Lossless Benchmark

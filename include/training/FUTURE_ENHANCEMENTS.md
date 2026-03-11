@@ -92,3 +92,37 @@
 - `ISampleProvenanceTracker` stores only opaque source URIs and metadata; raw training content is never retained in provenance records
 - `IConfidenceCalibrator` is prohibited from accessing gradient state or weight tensors; calibration operates exclusively on threshold scalars
 - `IKGEnrichmentInterface` cache entries have TTL enforcement; stale enrichment data is evicted before use to prevent poisoning of training features
+
+---
+
+## References
+
+[1] Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., … Chen, W. (2022).
+    **LoRA: Low-Rank Adaptation of Large Language Models.**
+    *Proceedings of the 10th International Conference on Learning Representations (ICLR).*
+    https://arxiv.org/abs/2106.09685
+
+[2] Bernstein, P. A., & Newcomer, E. (2009).
+    **Principles of Transaction Processing** (2nd ed.). Morgan Kaufmann.
+    *(append-only provenance store design and lineage DAG patterns)*
+
+[3] Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023).
+    **QLoRA: Efficient Finetuning of Quantized LLMs.**
+    *Advances in Neural Information Processing Systems (NeurIPS)*, 36.
+    https://arxiv.org/abs/2305.14314
+    *(content-addressed checkpoint IDs and integrity verification)*
+
+[4] Boneh, D., & Shoup, V. (2023).
+    **A Graduate Course in Applied Cryptography** (Draft v0.6).
+    https://toc.cryptobook.us
+    *(Ed25519 checkpoint signing, SHA-256 content addressing, key derivation)*
+
+[5] Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., … Young, M. (2015).
+    **Hidden Technical Debt in Machine Learning Systems.**
+    *Advances in Neural Information Processing Systems (NIPS)*, 28.
+    *(IConfidenceCalibrator design rationale: avoid weight mutation via calibrator)*
+
+[6] Zaharia, M., Chowdhury, M., Franklin, M. J., Shenker, S., & Stoica, I. (2010).
+    **Spark: Cluster Computing with Working Sets.**
+    *Proceedings of the 2nd USENIX Workshop on Hot Topics in Cloud Computing (HotCloud)*, 10.
+    *(async pipeline orchestration patterns for ITrainingPipeline)*

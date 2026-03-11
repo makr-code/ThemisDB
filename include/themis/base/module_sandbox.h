@@ -30,6 +30,13 @@
 //
 // These components extend the existing ModuleLoader (include/themis/base/module_loader.h)
 // with security and safety guarantees needed for production hot-reload.
+//
+// WASM Runtime Injection (v1.8.0):
+// ModuleSandbox::Config now has optional WASM isolation fields.  When
+// Config::enable_wasm_isolation is true, launch() creates an inner
+// WasmPluginSandbox and injects the best available WasmRuntime from the
+// WasmRuntimeInjector registry.  The resulting WasmPluginSandbox is
+// accessible via wasmSandbox() for loading .wasm plugin binaries.
 
 #pragma once
 
@@ -47,6 +54,11 @@ namespace modules {
 
 // ── Forward-declarations from module_loader.h ────────────────────────────────
 struct ModuleMetadata;
+
+// ── Forward-declaration to avoid circular includes ───────────────────────────
+// wasm_plugin_sandbox.h already includes this header; the full type is only
+// needed in module_sandbox.cpp and by callers that use wasmSandbox().
+class WasmPluginSandbox;
 
 // =============================================================================
 // AbiChecker – deep ABI-compatibility validation for safe hot-reload
@@ -230,6 +242,26 @@ public:
         std::vector<std::string> allowed_syscalls; ///< Empty = use default allow-list
 
         std::chrono::seconds shutdown_timeout{10}; ///< Grace period before SIGKILL
+
+        // ── WASM isolation (v1.8.0) ────────────────────────────────────────
+
+        /// Enable WASM-based plugin isolation on top of OS resource limits.
+        /// When true, launch() creates an inner WasmPluginSandbox and injects
+        /// the best available WasmRuntime from WasmRuntimeInjector.
+        bool enable_wasm_isolation = false;
+
+        /// WASM runtime name to inject (empty = auto-select highest-priority
+        /// registered backend via WasmRuntimeInjector::create()).
+        std::string wasm_runtime_name;
+
+        /// Number of 64-KiB WASM linear-memory pages for the plugin (default
+        /// 256 = 16 MiB).  Passed to the inner WasmPluginSandbox.
+        uint32_t wasm_linear_memory_pages = 256;
+
+        /// When false (default), imports that are not registered as host
+        /// functions cause the WASM module load to fail.
+        bool wasm_allow_unregistered_imports = false;
+
         static Config defaults() { return {}; }
     };
 
@@ -284,6 +316,25 @@ public:
      */
     SandboxStats stats() const;
 
+    // ── WASM isolation (v1.8.0) ────────────────────────────────────────────
+
+    /**
+     * @brief True if WASM isolation is active.
+     *
+     * WASM isolation is active when Config::enable_wasm_isolation was true
+     * *and* a WasmRuntime was successfully injected during launch().
+     */
+    bool isWasmIsolationActive() const noexcept;
+
+    /**
+     * @brief Return the inner WasmPluginSandbox.
+     *
+     * Non-null only when isWasmIsolationActive() is true.
+     * Use this to load .wasm plugin binaries and call their exports.
+     */
+    WasmPluginSandbox*       wasmSandbox() noexcept;
+    const WasmPluginSandbox* wasmSandbox() const noexcept;
+
 private:
     Config                   config_;
     std::string              module_name_;
@@ -294,6 +345,10 @@ private:
     // Platform handles (pimpl-lite)
     struct PlatformHandle;
     std::unique_ptr<PlatformHandle> platform_;
+
+    // WASM isolation (v1.8.0)
+    std::unique_ptr<WasmPluginSandbox> wasm_sandbox_;
+    bool                               wasm_isolation_active_ = false;
 
     bool applyMemoryLimit();
     bool applyCpuLimit();

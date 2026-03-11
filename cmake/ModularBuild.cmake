@@ -147,7 +147,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
-    ../src/utils/build_info.cpp
+    ../src/themis/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
@@ -155,11 +155,13 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/boost_throw_exception.cpp
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
-    ../src/utils/bloom_filter.cpp
     ../src/utils/consistent_hash.cpp
+<<<<<<< HEAD
     ../src/utils/checksum_utils.cpp
     ../src/utils/sampled_logger.cpp
     ../src/utils/timestamp_utils.cpp
+=======
+>>>>>>> 30fc87177b4a4d2b5f54f6d1d596b5359f33a06c
     ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer
@@ -188,6 +190,11 @@ set(THEMIS_BASE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/ann_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/vector_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/tensor_core_matmul.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/geo_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/graph_kernels.cu>
     $<$<OR:$<BOOL:${THEMIS_ENABLE_CUDA}>,$<BOOL:${THEMIS_ENABLE_HIP}>>:../src/acceleration/faiss_gpu_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_ONEAPI}>:../src/acceleration/oneapi_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/acceleration/opencl_backend.cpp>
@@ -219,8 +226,9 @@ set(THEMIS_BASE_SOURCES
     ../src/base/wasm_runtime_injector.cpp
     ../src/base/plugin_dependency_graph.cpp
     ../src/themis/module_hash_verifier.cpp
-        ../src/themis/module_dependency_resolver.cpp
+    ../src/themis/module_dependency_resolver.cpp
     ../src/themis/module_signature_verifier.cpp
+    ../src/themis/edition_manager.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -258,6 +266,19 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/raft_mvcc_bridge.cpp
     # Tiered storage (hot/warm/cold) with age- and access-based migration
     ../src/storage/tiered_storage.cpp
+    # Storage engine abstraction (DI-based)
+    ../src/storage/storage_engine.cpp
+    # Compression strategies (pluggable per-column-family)
+    ../src/storage/compressed_storage.cpp
+    ../src/storage/compression_strategy.cpp
+    # Index maintenance (background rebuild and consistency checks)
+    ../src/storage/index_maintenance.cpp
+    # Blob storage backends (self-contained; SDK guards handled inside each file)
+    ../src/storage/blob_backend_filesystem.cpp
+    ../src/storage/blob_backend_s3.cpp
+    ../src/storage/blob_backend_azure.cpp
+    ../src/storage/blob_backend_webdav.cpp
+    ../src/storage/blob_backend_gcs.cpp
     # Merge operators (counter, list-append RocksDB custom operators)
     ../src/storage/merge_operators.cpp
     # Storage engine high-level abstraction
@@ -315,7 +336,16 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/inverted_index.cpp
     ../src/index/workload_replay.cpp
+<<<<<<< HEAD
     ../src/index/tiered_index_manager.cpp
+=======
+    ../src/index/graph_auto_buffer.cpp
+    ../src/index/index_manager.cpp
+    ../src/index/tiered_index_manager.cpp
+    ../src/index/vector_auto_buffer.cpp
+    ../src/index/spatial_index.cpp
+    ../src/api/geo_index_hooks.cpp
+>>>>>>> 30fc87177b4a4d2b5f54f6d1d596b5359f33a06c
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -345,8 +375,13 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/update_history_logger.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
+    ../src/updates/schema_migration_tester.cpp
+    ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
+    ../src/updates/coordinated_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
 
     # Storage security
@@ -425,6 +460,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
     ../src/query/cte_cache.cpp
+    ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -435,6 +471,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/vectorized_execution.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
+    ../src/query/vectorized_execution.cpp
+    ../src/query/sparql_parser.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/workload_predictor.cpp
     ../src/performance/async_metrics_exporter.cpp
@@ -450,6 +489,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
+    ../src/query/functions/fulltext_functions.cpp
     ../src/query/functions/lora_functions.cpp
     ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
@@ -523,6 +563,26 @@ set(THEMIS_QUERY_SOURCES
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
     $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    ../src/importers/schema_inference.cpp
+    ../src/importers/column_importance.cpp
+    ../src/importers/crdt_importer.cpp
+    ../src/importers/postgres_cdc.cpp
+    ../src/importers/data_quality.cpp
+    ../src/importers/audit_trail.cpp
+    ../src/importers/adaptive_import.cpp
+    ../src/importers/polyglot_mapper.cpp
+    ../src/importers/temporal_support.cpp
+    ../src/importers/blockchain_integrity.cpp
+    ../src/importers/federated_learning.cpp
+    ../src/importers/graphql_federation.cpp
+    ../src/importers/deterministic_matcher.cpp
+    ../src/importers/semantic_matcher.cpp
+    ../src/importers/entity_linker.cpp
+    ../src/importers/canonical_resolver.cpp
+    ../src/importers/mdm_engine.cpp
+    ../src/importers/mdm_audit_trail.cpp
+    ../src/importers/mdm_metrics.cpp
+    ../src/importers/postgres_importer_mdm.cpp
 
 )
 
@@ -665,6 +725,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/search_highlighter.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/negative_keyword_filter.cpp
+    ../src/search/distributed_hybrid_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -677,6 +738,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/branch_manager.cpp
     ../src/transaction/merge_engine.cpp
+    ../src/transaction/global_transaction_manager.cpp
     ../src/analytics/diff_engine.cpp
     
     # Temporal conflict resolution and production-readiness modules
@@ -692,6 +754,13 @@ set(THEMIS_TRANSACTION_SOURCES
     
     # Replication
     ../src/replication/replication_manager.cpp
+    ../src/replication/observability.cpp
+    ../src/replication/conflict_resolution.cpp
+    ../src/replication/event_stream.cpp
+    ../src/replication/policy.cpp
+    ../src/replication/replication_slot.cpp
+    ../src/replication/raft_v2.cpp
+    ../src/replication/schema_cdc.cpp
     
 )
 
@@ -759,6 +828,8 @@ set(THEMIS_SHARDING_SOURCES
     
     # Distributed transactions
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/two_phase_commit_participant.cpp
+    ../src/sharding/two_phase_commit_coordinator.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
@@ -769,24 +840,26 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/cross_shard_transaction.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
-    
+
     # Redundancy and reliability
+    ../src/sharding/hardware_migration_manager.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
     ../src/sharding/shard_rpc_server.cpp
     ../src/sharding/cloud_backup.cpp
     ../src/sharding/orphan_detector.cpp
-    
+
     # GPU erasure coding (conditional)
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
-    
+
     # Enhanced sharding features
     ../src/sharding/shard_durability.cpp
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
+    ../src/sharding/sharding_manager_edition.cpp
     ../src/sharding/slo_monitor.cpp
     ../src/sharding/cloud_backup.cpp
     ../src/sharding/hardware_migration_manager.cpp
@@ -862,6 +935,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/continuous_batch_scheduler.cpp
     ../src/llm/mixed_precision_inference.cpp
     ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/active_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/gpu_safe_fail.cpp
     ../src/llm/token_quota_manager.cpp
@@ -971,6 +1045,34 @@ set(THEMIS_LLM_SOURCES
     ../src/aql/llm_metrics_collector.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
     ../src/rag/multimodal_rag.cpp
+    # Phase 1–4: Missing RAG evaluators and orchestrators
+    ../src/rag/ab_testing_framework.cpp
+    ../src/rag/agentic_rag.cpp
+    ../src/rag/bayesian_optimizer.cpp
+    ../src/rag/claim_extractor.cpp
+    ../src/rag/coherence_evaluator.cpp
+    ../src/rag/completeness_evaluator.cpp
+    ../src/rag/continuous_learning_client.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
+    ../src/rag/cot_evaluator.cpp
+    ../src/rag/faithfulness_evaluator.cpp
+    ../src/rag/hallucination_dashboard.cpp
+    ../src/rag/http_metrics_client.cpp
+    ../src/rag/judge_config.cpp
+    ../src/rag/judge_ensemble.cpp
+    ../src/rag/knowledge_graph_retriever.cpp
+    ../src/rag/learning_metrics.cpp
+    ../src/rag/llm_judge_integration.cpp
+    ../src/rag/llm_meta_analyzer.cpp
+    ../src/rag/onnx_model_loader.cpp
+    ../src/rag/pairwise_comparator.cpp
+    ../src/rag/prompt_templates.cpp
+    ../src/rag/quality_control_factory.cpp
+    ../src/rag/rag_judge.cpp
+    ../src/rag/relevance_evaluator.cpp
+    ../src/rag/response_parser.cpp
+    ../src/rag/rubric_evaluator.cpp
+    ../src/rag/streaming_retriever.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
@@ -1099,6 +1201,8 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/session_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/saml_auth_provider.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/oauth2_provider.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/opa_adapter.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_type_adapter.cpp>
@@ -1169,6 +1273,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/auth/auth_rate_limiter.cpp
     ../src/server/api_version.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
@@ -1346,7 +1451,6 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp
-    ../src/query/result_stream.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
 )

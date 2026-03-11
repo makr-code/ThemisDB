@@ -28,6 +28,7 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <fstream>
 
 #ifdef ERROR
 #undef ERROR
@@ -57,7 +58,8 @@ static size_t hfCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
 // Production HTTP GET using libcurl.
 static HttpResponse hfHttpGet(const std::string& url,
                                const std::string& auth_token,
-                               int timeout_ms) {
+                               int timeout_ms,
+                               const std::string& ca_bundle_path = {}) {
     HttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -79,6 +81,15 @@ static HttpResponse hfHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -179,7 +190,8 @@ namespace {
 // Production HTTP POST via libcurl (OAuth 2.0 token refresh only).
 static HttpResponse hfHttpPost(const std::string& url,
                                 const std::string& body,
-                                int timeout_ms) {
+                                int timeout_ms,
+                                const std::string& ca_bundle_path = {}) {
     HttpResponse r;
     CURL* curl = curl_easy_init();
     if (!curl) {
@@ -201,6 +213,15 @@ static HttpResponse hfHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+    if (!ca_bundle_path.empty()) {
+        if (!std::ifstream(ca_bundle_path).good()) {
+            if (headers) curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+            r.error = "ca_bundle_path not found or not readable: " + ca_bundle_path;
+            return r;
+        }
+        curl_easy_setopt(curl, CURLOPT_CAINFO, ca_bundle_path.c_str());
+    }
 
     const CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -282,6 +303,9 @@ public:
         oauth_config_.client_secret  = opt("oauth_client_secret");
         oauth_config_.refresh_token  = opt("oauth_refresh_token");
         oauth_config_.access_token   = opt("oauth_access_token");
+
+        // TLS configuration: optional custom CA bundle path
+        retry_config_.ca_bundle_path = opt("ca_bundle_path");
 
         return true;
     }
@@ -389,7 +413,7 @@ private:
             r.body        = std::move(body);
             return r;
         }
-        return hfHttpGet(url, auth_token, timeout_ms);
+        return hfHttpGet(url, auth_token, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     // Perform an HTTP POST, delegating to the test hook when set.
@@ -402,7 +426,7 @@ private:
             r.body        = std::move(resp_body);
             return r;
         }
-        return hfHttpPost(url, body, timeout_ms);
+        return hfHttpPost(url, body, timeout_ms, retry_config_.ca_bundle_path);
     }
 
     // Percent-encode a string for application/x-www-form-urlencoded.

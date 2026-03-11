@@ -93,6 +93,7 @@ enum class SecurityEventType {
     DATA_WRITE,
     DATA_DELETE,
     BULK_EXPORT,
+    EXPORT_DENIED,          ///< Export request rejected by PolicyEngine (EXP-001)
     BULK_IMPORT,            ///< Large-scale data import started (e.g. pg_dump)
     BULK_IMPORT_COMPLETED,  ///< Large-scale data import finished; includes stats payload
     

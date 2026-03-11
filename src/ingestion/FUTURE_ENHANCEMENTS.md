@@ -39,15 +39,15 @@ This document covers planned enhancements to the Ingestion module beyond what is
 ### Production libcurl HTTP Client
 **Priority:** High
 **Target Version:** v1.6.0
+**Status:** ✅ Implemented (Issue: INGESTION-MISSING-001, PR: 2026-03-11)
 
 Replace the simulated HTTP response stubs in `api_connector.cpp` and `huggingface_connector.cpp` with a real `libcurl`-based `HttpClient` class. The stubs currently return hardcoded JSON payloads, making both connectors non-functional in production deployments.
 
 **Implementation Notes:**
-- Add `http_client.cpp` with a `HttpClient` class wrapping `CURL*` handles from a per-thread handle pool (avoids per-request `curl_easy_init` overhead).
-- Use `CURLOPT_CAINFO` for TLS certificate verification; default to the system CA bundle; allow override via `IngestionConfig::ca_bundle_path`. Never set `CURLOPT_SSL_VERIFYPEER = 0` in production code paths.
-- Implement `CURLOPT_WRITEFUNCTION` callback that streams response bytes directly into the JSON parser buffer to avoid a double-copy.
-- Map HTTP status codes to `IngestionErrorCode` values consistently: 429 → `RATE_LIMITED`, 401/403 → `AUTH_FAILED`, 5xx → `SERVER_ERROR`, timeout → `TIMEOUT`; these drive the existing exponential back-off retry logic in `IngestionManager`.
-- Add `CURLOPT_TIMEOUT_MS` and `CURLOPT_CONNECTTIMEOUT_MS` configurable via `RetryConfig::request_timeout_ms` (default 30 000 ms).
+- `hfHttpGet()` / `hfHttpPost()` in `huggingface_connector.cpp` and `apiHttpGet()` / `apiHttpPost()` in `api_connector.cpp` use `curl_easy_perform` with TLS verification, Bearer-Token header, and configurable timeout.
+- `RetryConfig::ca_bundle_path` (std::string, default empty) added to `include/ingestion/ingestion_manager.h`. When non-empty, `CURLOPT_CAINFO` is set to override the system CA bundle. `CURLOPT_SSL_VERIFYPEER = 1L` is always enabled.
+- `ca_bundle_path` is parsed from `SourceConfig::options["ca_bundle_path"]` in both `initialize()` methods and can also be set directly via `setRetryConfig()`.
+- Both connectors expose `setHttpGetForTesting()` / `setHttpPostForTesting()` injection points so unit tests run without network access.
 
 **Performance Targets:**
 - HTTP GET round-trip to a local test server ≤ 5 ms overhead vs. raw TCP (measured with `benchmarks/ingestion_bench.cpp`).

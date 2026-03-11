@@ -72,7 +72,7 @@ Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine
 
 **Remaining (future issues):**
 - Register templates in `ExportFormatRegistry`; allow user-defined templates via a JSON config file.
-- `validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.
+- ~~`validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.~~ ✅ Implemented — `validateTemplate()` free function in `format_template.h/cpp`; `JSONLLLMExporter::validateTemplate()` wrapper; 18 test cases in `tests/exporters/test_format_template.cpp`.
 
 ---
 
@@ -130,7 +130,19 @@ or `HF_TOKEN` env variable.  Retry logic (exponential back-off, `max_retries = 3
 401 Unauthorized surfaced immediately; 413 Payload Too Large returns a shard-split hint.
 Progress via `std::function<void(double)>` callback.
 
-**Remaining:**
+**PolicyEngine integration** (`HubUploadConfig::policy_engine`): `uploadDataset()` calls
+`PolicyEngine::checkExportPermission()` **before any HTTP activity**.  A denied decision
+returns `success=false` immediately with an error message containing "PolicyEngine"; no
+files are uploaded.  Setting `policy_engine = nullptr` (the default) preserves backward
+compatibility.
+
+**Audit logging** (`HubUploadConfig::audit_log`): every call to `uploadDataset()` appends
+a `hub_upload` JSON entry to the `AuditLogger` regardless of outcome, recording
+`repo_id`, `requesting_user`, `dataset_dir`, `outcome` (success / denied / error),
+`http_status`, and `timestamp`.  Setting `audit_log = nullptr` (the default) preserves
+backward compatibility.
+
+**Remaining (future issues):**
 - Stream JSONL shards directly from memory (current impl reads files from disk; avoids double filesystem write in future PR).
 - `hf_token_kek_id` for KMS-protected token lookup (future security hardening).
 

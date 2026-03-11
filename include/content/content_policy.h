@@ -69,7 +69,16 @@ struct ContentPolicy {
     /// (pHash for images, MinHash for text) and rejects near-duplicates before
     /// committing to storage.  Default: false (opt-in per collection).
     bool enable_deduplication = false;
-    
+
+    /// Enable automatic OCR extraction for image content in this collection.
+    /// When true, MimeDetector::shouldTriggerOcr() returns true for image/png,
+    /// image/jpeg, and image/tiff MIME types, routing them through OcrProcessor.
+    /// Default: false (opt-in per collection).
+    bool ocr_enabled = false;
+
+    /// Returns true when automatic OCR is enabled for this policy.
+    bool ocrEnabled() const { return ocr_enabled; }
+
     /// Check if a MIME type is explicitly allowed
     bool isAllowed(const std::string& mime_type) const;
     
@@ -98,6 +107,7 @@ struct ValidationResult {
     bool size_exceeded = false;
     bool blacklisted = false;
     bool not_whitelisted = false;
+    bool ocr_recommended = false;  ///< OCR should be triggered (image MIME type + policy ocr_enabled)
 };
 
 } // namespace content

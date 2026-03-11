@@ -129,6 +129,20 @@ public:
         // rejected as invalid binary frames.
         bool enable_websocket_upgrade = false;
 
+        // IPv6 support
+        // When true the server binds to an IPv6 socket.  If host is the default
+        // "0.0.0.0" it is automatically promoted to "::" (IPv6 any-address).
+        // Explicit IPv6 addresses in host (e.g. "::1" or "fe80::1") are always
+        // honoured regardless of this flag.
+        bool enable_ipv6 = false;
+
+        // Dual-stack mode (IPV6_V6ONLY=0).
+        // When enable_ipv6 is true and this flag is true, a single IPv6 socket
+        // also accepts IPv4-mapped connections, eliminating the need for two
+        // listener sockets.  Defaults to true; set to false to accept only pure
+        // IPv6 connections.
+        bool ipv6_dual_stack = true;
+
         Config() = default;
     };
 
@@ -386,12 +400,20 @@ private:
     // Message handlers (OpCode dispatch)
     void handleMessage();
     void handleHello();
-    void handleAuthRequest();
+    void handleAuthRequest();   // 0x03 (backward-compat alias) and 0x04 AUTH_RESPONSE
     void handleGet();
     void handlePut();
     void handleDelete();
+    void handleBatchGet();
+    void handleBatchPut();
     void handleQuery();
+    void handleCursorNext();
+    void handleCursorClose();
+    void handleTransactionBegin();
+    void handleTransactionCommit();
+    void handleTransactionAbort();
     void handleVectorSearch();
+    void handleGraphTraverse();
     void handleGeoQuery();
     void handleTimeseriesQuery();
     void handleBpmnStartProcess();

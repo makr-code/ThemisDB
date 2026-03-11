@@ -83,8 +83,15 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - [?] Cryptographic utility consolidation (centralise scattered crypto helpers in utils)
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
-- [?] Integration tests (audit log integrity, PII redaction correctness, ZSTD round-trip)
+- [x] Unit tests coverage > 80%
+  - Phase 3 test files: `test_hash_chain_audit.cpp`, `test_pii_stream_scanner.cpp`, `test_sampled_logger.cpp`, `test_saga_compactor.cpp`
+  - Focused targets: `HashChainAuditFocusedTests`, `PIIStreamScannerFocusedTests`, `SampledLoggerFocusedTests`, `SAGACompactorFocusedTests`
+  - Additional targets: `TimestampUtilsFocusedTests`, `UtilsRateLimiterFocusedTests`, `UtilsStandaloneFocusedTests`
+- [x] Build-system wiring complete — duplicate source entries removed from `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`; all focused test targets registered in `tests/CMakeLists.txt`
+- [x] Integration tests
+  - Audit log integrity: `HashChainAuditFocusedTests`
+  - PII redaction: `PIIStreamScannerFocusedTests`
+  - SAGA replay: `SAGACompactorFocusedTests`
 - [?] Performance benchmarks (compression throughput, stemmer latency)
 - [?] Security audit (PII detector false-negative rate, LEK key material handling)
 - [?] Documentation complete
