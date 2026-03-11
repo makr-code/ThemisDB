@@ -85,7 +85,6 @@
 - **At-least-once not guaranteed for SSE:** plain SSE connections (`GET /changefeed/stream`) do not have the acknowledgement loop; use Consumer Groups (`/v2/cdc/stream`) for at-least-once guarantees. See [missing-implementations](../../docs/de/cdc/missing-implementations.md).
 - Dead-letter queue captures events that exhaust delivery retries; events that fail due to payload decompression errors are logged but not enqueued in the DLQ (data is not recoverable in that case)
 - Outbox relay in-flight state is in-memory; FAILED records survive restarts but PENDING records relayed-but-not-marked would be re-relayed after restart (at-least-once semantics)
-- **Unit test coverage < 80%:** Production Readiness item `[x] Unit tests coverage > 80% (Issue: #1623)` is now resolved. `tests/test_cdc_changefeed_buffer.cpp` provides direct unit tests for the `ChangefeedBuffer` class; `tests/test_cdc_changefeed_core.cpp` covers the push subscription API (`subscribe()`, `SubscriptionHandle` RAII/move, `SubscriptionFilter::matches()`), `getStats()`, `clear()`, `listEvents()` variants, JSON roundtrip for all event types, and `getWatermarks()`. Closes Issue #1623.
 
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)

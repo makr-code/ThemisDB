@@ -410,8 +410,9 @@ TEST_F(ChangefeedCoreTest, ListEventsWithFromSequenceFilters) {
 
     ASSERT_EQ(events.size(), 1u);
     EXPECT_EQ(events[0].sequence, ev3.sequence);
-    // ev1 establishes baseline ordering and confirms 3 events were recorded
+    // Verify ordering across all 3 recorded events
     EXPECT_LT(ev1.sequence, ev2.sequence);
+    EXPECT_LT(ev2.sequence, ev3.sequence);
 }
 
 TEST_F(ChangefeedCoreTest, ListEventsWithLimitCapsResults) {
@@ -616,7 +617,7 @@ TEST_F(ChangefeedCoreTest, GetWatermarksAfterRecordingEvents) {
     auto wm = feed_->getWatermarks();
     EXPECT_EQ(wm.low_watermark,  ev1.sequence);
     EXPECT_EQ(wm.high_watermark, ev3.sequence);
-    // ev2 is an intermediate event that confirms the sequence is contiguous
+    // ev2 is an intermediate event that confirms monotonically increasing ordering
     EXPECT_GT(ev2.sequence, ev1.sequence);
     EXPECT_LT(ev2.sequence, ev3.sequence);
 }

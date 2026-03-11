@@ -26,8 +26,7 @@
 #include <gtest/gtest.h>
 #include "cdc/tenant_buffer_manager.h"
 #include "cdc/changefeed.h"
-#include <rocksdb/db.h>
-#include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 #include <thread>
 
@@ -41,11 +40,12 @@ protected:
         test_db_path_ = "/tmp/test_tenant_cdc_" + std::to_string(std::time(nullptr));
         std::filesystem::create_directories(test_db_path_);
         
-        // Open RocksDB
+        // Open RocksDB as a TransactionDB (required by Changefeed)
         rocksdb::Options options;
         options.create_if_missing = true;
-        rocksdb::DB* db_ptr;
-        auto status = rocksdb::DB::Open(options, test_db_path_, &db_ptr);
+        rocksdb::TransactionDBOptions txn_options;
+        rocksdb::TransactionDB* db_ptr;
+        auto status = rocksdb::TransactionDB::Open(options, txn_options, test_db_path_, &db_ptr);
         ASSERT_TRUE(status.ok()) << "Failed to open DB: " << status.ToString();
         db_.reset(db_ptr);
         
@@ -60,7 +60,7 @@ protected:
     }
     
     std::string test_db_path_;
-    std::unique_ptr<rocksdb::DB> db_;
+    std::unique_ptr<rocksdb::TransactionDB> db_;
     std::unique_ptr<Changefeed> changefeed_;
 };
 
