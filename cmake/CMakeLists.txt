@@ -1861,10 +1861,6 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/checksum_utils.cpp           # SHA256/MD5 checksum utilities for model verification
-    ../src/utils/bloom_filter.cpp
-    ../src/utils/pii_stream_scanner.cpp
-    ../src/utils/sampled_logger.cpp
-    ../src/utils/timestamp_utils.cpp
     ../src/utils/bloom_filter.cpp             # Bloom filter for membership testing
     ../src/utils/consistent_hash.cpp          # Consistent hash ring utilities
     ../src/utils/pii_stream_scanner.cpp       # Streaming PII detection and redaction
