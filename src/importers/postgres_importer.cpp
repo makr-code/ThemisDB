@@ -525,6 +525,14 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
                     }
                 }
             }
+            // v2.0: capture FK constraints declared outside the CREATE TABLE body
+            else if (current_sql.find("ALTER TABLE") != std::string::npos &&
+                     current_sql.find("FOREIGN KEY") != std::string::npos) {
+                ImportStats dummy_stats;
+                ImportOptions dummy_opts;
+                dummy_opts.preserve_foreign_keys = true;
+                parseAlterTableAddFk(current_sql, dummy_opts, dummy_stats);
+            }
             current_sql.clear();
         }
     }
@@ -543,6 +551,11 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
 
     // Convert to JSON
     json result = json::array();
+    for (const auto& [name, schema] : schemas_) {
+        json fk_arr = json::array();
+        for (const auto& fk : schema.foreign_keys) {
+            fk_arr.push_back(fk.toJson());
+        }
     for (const auto& kv : schemas_) {
         const auto& schema = kv.second;
         json table_json = {
@@ -551,6 +564,7 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
             {"columns", schema.columns},
             {"column_types", schema.column_types},
             {"primary_keys", schema.primary_keys},
+            {"foreign_keys", fk_arr}  // v2.0: preserved FK metadata
             {"column_defaults", schema.column_defaults},
             {"column_constraints", schema.column_constraints},
             {"custom_types", schema.custom_types}
@@ -736,6 +750,15 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                 TableSchema schema;
                 if (parseCreateTable(current_sql, schema)) {
                     if (shouldImportTable(schema.name, options)) {
+                        // v2.0: count preserved FKs discovered in CREATE TABLE body
+                        if (options.preserve_foreign_keys) {
+                            stats.foreign_keys_preserved += schema.foreign_keys.size();
+                        } else {
+                            // When FK preservation is disabled, discard parsed FKs so
+                            // they are not embedded in entity JSON or returned by
+                            // getSourceSchema().
+                            schema.foreign_keys.clear();
+                        }
                         schemas_[schema.name] = schema;
                         stats.tables_processed++;
                         // v2.0: count inline FKs (REFERENCES) extracted during DDL parsing
@@ -793,6 +816,10 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                     }
                 }
             }
+            // v2.0: ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY – preserve FK
+            else if (current_sql.find("ALTER TABLE") != std::string::npos &&
+                     current_sql.find("FOREIGN KEY") != std::string::npos) {
+                parseAlterTableAddFk(current_sql, options, stats);
             // v2.0: ALTER TABLE ... ADD CONSTRAINT ... FOREIGN KEY
             else if (current_sql.find("ALTER TABLE") != std::string::npos &&
                      current_sql.find("ADD CONSTRAINT") != std::string::npos &&
@@ -960,6 +987,27 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
         };
 
         for (auto& column_def : column_defs) {
+                // Trim whitespace
+                column_def.erase(0, column_def.find_first_not_of(" \t\n\r"));
+                column_def.erase(column_def.find_last_not_of(" \t\n\r") + 1);
+                
+                if (column_def.empty()) continue;
+
+                // Detect table-level constraints.
+                // - PRIMARY KEY, UNIQUE, CHECK → still skip (no schema mapping needed here)
+                // - FOREIGN KEY (with or without CONSTRAINT prefix) → parse and preserve (v2.0)
+                bool has_constraint_kw  = (column_def.find("CONSTRAINT") != std::string::npos);
+                bool has_fk_kw          = (column_def.find("FOREIGN KEY") != std::string::npos);
+                bool has_pk_kw          = (column_def.find("PRIMARY KEY") != std::string::npos);
+                bool has_unique_kw      = (column_def.find("UNIQUE")      != std::string::npos);
+                bool has_check_kw       = (column_def.find("CHECK")       != std::string::npos);
+
+                if (has_fk_kw) {
+                    // v2.0: parse FK constraint instead of silently dropping it
+                    parseForeignKeyConstraint(column_def, schema);
+                    continue;
+                }
+                if (has_pk_kw || has_unique_kw || has_check_kw || has_constraint_kw) {
             column_def = trim(column_def);
             if (column_def.empty()) continue;
 
@@ -1069,6 +1117,12 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
                 continue;
             }
 
+                if (!col_name.empty() && !col_type.empty()) {
+                    schema.columns.push_back(col_name);
+                    schema.column_types[col_name] = col_type;
+
+                    // v2.0: check for inline REFERENCES clause on the column
+                    parseInlineReference(col_name, column_def, schema);
             // ----------------------------------------------------------------
             // Column definition
             // ----------------------------------------------------------------
@@ -1170,6 +1224,164 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
 }
 
 // ============================================================================
+// v2.0: Foreign Key Preservation helpers
+// ============================================================================
+
+/**
+ * Split a comma-separated column list (no nested parens expected here).
+ * Returns trimmed column names stripped of surrounding quotes.
+ */
+static std::vector<std::string> splitColumnList(const std::string& s) {
+    std::vector<std::string> cols;
+    std::istringstream ss(s);
+    std::string col;
+    while (std::getline(ss, col, ',')) {
+        col.erase(0, col.find_first_not_of(" \t\n\r\""));
+        col.erase(col.find_last_not_of(" \t\n\r\"") + 1);
+        if (!col.empty()) cols.push_back(col);
+    }
+    return cols;
+}
+
+bool PostgreSQLImporter::parseForeignKeyConstraint(const std::string& constraint_def,
+                                                    TableSchema& schema) const {
+    // Matches patterns like:
+    //   FOREIGN KEY (col1, col2) REFERENCES ref_table (ref1, ref2) [ON DELETE action] [ON UPDATE action]
+    //   CONSTRAINT name FOREIGN KEY (col) REFERENCES ref_table (ref_col) ON DELETE CASCADE
+    std::regex fk_regex(
+        R"(FOREIGN KEY\s*\(([^)]+)\)\s*REFERENCES\s+(?:\w+\.)?(\w+)\s*\(([^)]+)\)([^,]*)?)",
+        std::regex_constants::icase);
+    std::smatch m;
+    if (!std::regex_search(constraint_def, m, fk_regex)) {
+        return false;
+    }
+
+    TableSchema::ForeignKeyConstraint fk;
+
+    // Extract optional constraint name
+    std::regex cname_regex(R"(CONSTRAINT\s+(\w+)\s+FOREIGN KEY)", std::regex_constants::icase);
+    std::smatch cm;
+    if (std::regex_search(constraint_def, cm, cname_regex)) {
+        fk.constraint_name = cm[1].str();
+    }
+
+    fk.columns     = splitColumnList(m[1].str());
+    fk.ref_table   = m[2].str();
+    fk.ref_columns = splitColumnList(m[3].str());
+
+    // Extract ON DELETE / ON UPDATE actions from the trailing clause (m[4])
+    std::string trailing = m[4].matched ? m[4].str() : "";
+    {
+        std::regex on_delete_regex(R"(ON\s+DELETE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
+                                   std::regex_constants::icase);
+        std::smatch dm;
+        if (std::regex_search(trailing, dm, on_delete_regex)) {
+            fk.on_delete = dm[1].str();
+            // Normalise to uppercase
+            std::transform(fk.on_delete.begin(), fk.on_delete.end(),
+                           fk.on_delete.begin(), ::toupper);
+        }
+    }
+    {
+        std::regex on_update_regex(R"(ON\s+UPDATE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
+                                   std::regex_constants::icase);
+        std::smatch um;
+        if (std::regex_search(trailing, um, on_update_regex)) {
+            fk.on_update = um[1].str();
+            std::transform(fk.on_update.begin(), fk.on_update.end(),
+                           fk.on_update.begin(), ::toupper);
+        }
+    }
+
+    if (!fk.columns.empty() && !fk.ref_table.empty() && !fk.ref_columns.empty()) {
+        schema.foreign_keys.push_back(std::move(fk));
+        THEMIS_DEBUG("FK preserved: {}.({}) → {}.({})",
+                     schema.name,
+                     schema.foreign_keys.back().columns.empty() ? "" : schema.foreign_keys.back().columns[0],
+                     schema.foreign_keys.back().ref_table,
+                     schema.foreign_keys.back().ref_columns.empty() ? "" : schema.foreign_keys.back().ref_columns[0]);
+        return true;
+    }
+    return false;
+}
+
+bool PostgreSQLImporter::parseInlineReference(const std::string& col_name,
+                                               const std::string& col_def,
+                                               TableSchema& schema) const {
+    // Handles: column_name type [NOT NULL] REFERENCES ref_table [(ref_col)] [ON DELETE …]
+    // The ref_col part is optional (defaults to PK of ref_table when omitted).
+    std::regex ref_regex(
+        R"(REFERENCES\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]+)\))?([^,]*)?)",
+        std::regex_constants::icase);
+    std::smatch m;
+    if (!std::regex_search(col_def, m, ref_regex)) {
+        return false;
+    }
+
+    TableSchema::ForeignKeyConstraint fk;
+    fk.columns   = {col_name};
+    fk.ref_table = m[1].str();
+    if (m[2].matched && !m[2].str().empty()) {
+        fk.ref_columns = splitColumnList(m[2].str());
+    }
+
+    std::string trailing = m[3].matched ? m[3].str() : "";
+    {
+        std::regex on_delete_regex(R"(ON\s+DELETE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
+                                   std::regex_constants::icase);
+        std::smatch dm;
+        if (std::regex_search(trailing, dm, on_delete_regex)) {
+            fk.on_delete = dm[1].str();
+            std::transform(fk.on_delete.begin(), fk.on_delete.end(),
+                           fk.on_delete.begin(), ::toupper);
+        }
+    }
+    {
+        std::regex on_update_regex(R"(ON\s+UPDATE\s+(CASCADE|SET NULL|SET DEFAULT|RESTRICT|NO ACTION))",
+                                   std::regex_constants::icase);
+        std::smatch um;
+        if (std::regex_search(trailing, um, on_update_regex)) {
+            fk.on_update = um[1].str();
+            std::transform(fk.on_update.begin(), fk.on_update.end(),
+                           fk.on_update.begin(), ::toupper);
+        }
+    }
+
+    if (!fk.ref_table.empty()) {
+        schema.foreign_keys.push_back(std::move(fk));
+        return true;
+    }
+    return false;
+}
+
+void PostgreSQLImporter::parseAlterTableAddFk(const std::string& sql,
+                                               const ImportOptions& options,
+                                               ImportStats& stats) {
+    if (!options.preserve_foreign_keys) return;
+
+    // Pattern: ALTER TABLE [ONLY] [schema.]table ADD CONSTRAINT name FOREIGN KEY (cols) REFERENCES ref (ref_cols) [ON DELETE …];
+    // Also handles: ALTER TABLE table ADD FOREIGN KEY (cols) REFERENCES ref (ref_cols);
+    std::regex tbl_regex(
+        R"(ALTER TABLE\s+(?:ONLY\s+)?(?:\w+\.)?(\w+)\s+ADD\s+(?:CONSTRAINT\s+\w+\s+)?FOREIGN KEY)",
+        std::regex_constants::icase);
+    std::smatch tm;
+    if (!std::regex_search(sql, tm, tbl_regex)) {
+        return;
+    }
+    std::string tname = tm[1].str();
+
+    if (!schemas_.count(tname)) {
+        THEMIS_DEBUG("ALTER TABLE ADD FOREIGN KEY: unknown table '{}', skipping", tname);
+        return;
+    }
+
+    size_t before = schemas_[tname].foreign_keys.size();
+    parseForeignKeyConstraint(sql, schemas_[tname]);
+    size_t added = schemas_[tname].foreign_keys.size() - before;
+    if (added > 0) {
+        stats.foreign_keys_preserved += added;
+        THEMIS_DEBUG("ALTER TABLE {}: preserved {} FK(s)", tname, added);
+    }
 // v2.0 Parser Methods
 // ============================================================================
 
@@ -2019,6 +2231,15 @@ json PostgreSQLImporter::convertRowToEntity(const TableSchema& schema, const std
     
     for (size_t i = 0; i < values.size() && i < schema.columns.size(); i++) {
         entity[schema.columns[i]] = values[i];
+    }
+
+    // v2.0: embed FK metadata when present so downstream consumers can resolve relationships
+    if (!schema.foreign_keys.empty()) {
+        json fk_arr = json::array();
+        for (const auto& fk : schema.foreign_keys) {
+            fk_arr.push_back(fk.toJson());
+        }
+        entity["_foreign_keys"] = std::move(fk_arr);
     }
     
     return entity;

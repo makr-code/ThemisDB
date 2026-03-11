@@ -203,6 +203,27 @@ private:
         std::map<std::string, std::string> column_types;
         std::vector<std::string> primary_keys;
 
+        /// v2.0: Foreign Key Preservation – extracted FK constraints.
+        struct ForeignKeyConstraint {
+            std::string constraint_name;        ///< e.g. "fk_orders_user"
+            std::vector<std::string> columns;   ///< local column(s), e.g. {"user_id"}
+            std::string ref_table;              ///< referenced table, e.g. "users"
+            std::vector<std::string> ref_columns; ///< referenced columns, e.g. {"id"}
+            std::string on_delete;              ///< ON DELETE action, e.g. "CASCADE" (empty = RESTRICT)
+            std::string on_update;              ///< ON UPDATE action, e.g. "SET NULL" (empty = RESTRICT)
+
+            json toJson() const {
+                return json{
+                    {"constraint_name", constraint_name},
+                    {"columns",         columns},
+                    {"ref_table",       ref_table},
+                    {"ref_columns",     ref_columns},
+                    {"on_delete",       on_delete},
+                    {"on_update",       on_update}
+                };
+            }
+        };
+        std::vector<ForeignKeyConstraint> foreign_keys;  ///< v2.0: preserved FK constraints
         // v2.0 extensions
         std::vector<ForeignKeyConstraint> foreign_keys;       ///< Parsed FK constraints
         std::map<std::string, std::string> column_defaults;   ///< DEFAULT expressions per column
@@ -260,6 +281,29 @@ private:
                    const ImportOptions& options, ImportStats& stats,
                    std::unordered_set<uint64_t>& delta_hashes);
 
+    // v2.0: Foreign Key helpers
+    /// Parse a single FOREIGN KEY constraint clause (table-level) and append to schema.
+    /// @param constraint_def  The trimmed constraint definition, e.g.
+    ///   "CONSTRAINT fk_x FOREIGN KEY (col) REFERENCES tbl(id) ON DELETE CASCADE"
+    ///   or bare "FOREIGN KEY (col) REFERENCES tbl(id)"
+    /// @return true if a valid FK was parsed and appended.
+    bool parseForeignKeyConstraint(const std::string& constraint_def,
+                                   TableSchema& schema) const;
+
+    /// Parse an inline column-level REFERENCES clause and append a FK to schema.
+    /// @param col_name   The column owning the reference.
+    /// @param col_def    Full column definition string, e.g.
+    ///   "user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE"
+    /// @return true if a REFERENCES clause was found and a FK was appended.
+    bool parseInlineReference(const std::string& col_name,
+                              const std::string& col_def,
+                              TableSchema& schema) const;
+
+    /// Parse a standalone ALTER TABLE … ADD CONSTRAINT … FOREIGN KEY statement
+    /// and update the corresponding cached schema entry.
+    void parseAlterTableAddFk(const std::string& sql,
+                               const ImportOptions& options,
+                               ImportStats& stats);
     // v2.0 parser methods
     bool parseForeignKeyConstraint(const std::string& constraint_def,
                                    ForeignKeyConstraint& fk);

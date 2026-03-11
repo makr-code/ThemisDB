@@ -247,6 +247,7 @@ struct ImportStats {
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
     size_t custom_types_processed = 0;  ///< CREATE TYPE statements parsed (enum / composite)
+    size_t foreign_keys_preserved = 0;  ///< Foreign key constraints extracted and preserved (v2.0)
     size_t relationships_processed = 0; ///< Foreign key constraints mapped to graph relationships
     size_t indexes_processed = 0;       ///< CREATE INDEX statements parsed
     
@@ -287,6 +288,7 @@ struct ImportStats {
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
             {"custom_types_processed", custom_types_processed},
+            {"foreign_keys_preserved", foreign_keys_preserved},
             {"relationships_processed", relationships_processed},
             {"indexes_processed", indexes_processed},
             {"elapsed_seconds", elapsed_seconds},
@@ -539,6 +541,17 @@ struct ImportOptions {
     size_t schema_sample_rows = 100;
 
     // -------------------------------------------------------------------------
+    // v2.0: Foreign Key Preservation
+    // -------------------------------------------------------------------------
+
+    /// When true (default), the importer parses and preserves FOREIGN KEY
+    /// constraints from the dump.  Extracted FK metadata is:
+    ///   - stored in the per-table schema (getSourceSchema returns "foreign_keys")
+    ///   - counted in ImportStats::foreign_keys_preserved
+    ///   - embedded in entity JSON as "_foreign_keys" array when present
+    ///
+    /// Setting this to false restores v1.x behaviour (FKs silently skipped).
+    bool preserve_foreign_keys = true;
     // Foreign Key / Relationship preservation (v2.0)
     // -------------------------------------------------------------------------
 
@@ -589,6 +602,7 @@ struct ImportOptions {
             {"merge_depth", merge_depth},
             {"validate_schema", validate_schema},
             {"schema_sample_rows", schema_sample_rows},
+            {"preserve_foreign_keys", preserve_foreign_keys}
             {"preserve_relationships", preserve_relationships},
             {"validate_references", validate_references},
             {"relationship_mapping_mode", relationship_mapping_mode}
