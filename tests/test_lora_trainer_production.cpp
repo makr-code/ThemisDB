@@ -304,3 +304,52 @@ TEST_F(LoRATrainerProductionTest, Train_WithCheckpointing_Enabled_Succeeds) {
 
     EXPECT_TRUE(result.success);
 }
+
+// ============================================================================
+// selectAdapterForRequest() — traffic-split routing (FINDING-T-004)
+// ============================================================================
+
+TEST_F(LoRATrainerProductionTest, SelectAdapter_NoActiveVersions_ReturnsEmpty) {
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+    // No versions deployed → empty string
+    EXPECT_EQ(trainer.selectAdapterForRequest(), "");
+}
+
+TEST_F(LoRATrainerProductionTest, SelectAdapter_SingleFullDeployment_ReturnsIt) {
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+    trainer.deployVersion("legal_v1.0", 1.0f);
+    EXPECT_EQ(trainer.selectAdapterForRequest(), "legal_v1.0");
+}
+
+TEST_F(LoRATrainerProductionTest, SelectAdapter_ZeroTrafficSplit_ReturnsEmpty) {
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+    trainer.deployVersion("legal_v1.0", 0.0f); // inactive
+    EXPECT_EQ(trainer.selectAdapterForRequest(), "");
+}
+
+TEST_F(LoRATrainerProductionTest, SelectAdapter_TwoVersions_BothPossible) {
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+    trainer.deployVersion("legal_v1.0", 0.5f);
+    trainer.deployVersion("legal_v1.1", 0.5f);
+
+    // With 50/50 split, repeated calls should return both versions across N trials.
+    std::set<std::string> seen;
+    for (int i = 0; i < 200; ++i) {
+        seen.insert(trainer.selectAdapterForRequest());
+    }
+    EXPECT_TRUE(seen.count("legal_v1.0") || seen.count("legal_v1.1"))
+        << "At least one version must be returned";
+    // With 200 trials and 50% each, the probability of only seeing one is < 2^-200.
+    EXPECT_EQ(seen.size(), 2u) << "Both versions should be selected at least once";
+}
+
+TEST_F(LoRATrainerProductionTest, SelectAdapter_FullDeployment_DeactivatesOthers) {
+    IncrementalLoRATrainer trainer(config_, db_conn_);
+    trainer.deployVersion("legal_v1.0", 0.5f);
+    trainer.deployVersion("legal_v1.1", 1.0f); // full switch
+
+    // After full deployment of v1.1, only v1.1 should be returned.
+    for (int i = 0; i < 20; ++i) {
+        EXPECT_EQ(trainer.selectAdapterForRequest(), "legal_v1.1");
+    }
+}

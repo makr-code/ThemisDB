@@ -454,18 +454,23 @@ if (!limiter.checkLimit(client_ip, user_id)) {
 #### RateLimiterV2
 **Location:** `rate_limiter_v2.cpp`, `../include/server/rate_limiter_v2.h`
 
-Advanced rate limiting with distributed coordination.
+Advanced rate limiting with priority lanes and optional Redis backend for cluster-wide distributed limiting.
 
-**Algorithms:**
-- Token bucket
-- Sliding window counter
-- Leaky bucket
+**Key classes:** `TokenBucketRateLimiter`, `PerClientRateLimiter`, `RedisRateLimiterConfig`
+
+**Algorithm:** Token bucket (local in-process or Redis-backed)
+
+**Backends:**
+- `Backend::LOCAL` – In-process token bucket (default, backward-compatible)
+- `Backend::REDIS` – Cluster-wide atomic token bucket via Redis `EVALSHA`; automatic fallback to local on Redis error
 
 **Features:**
-- Distributed rate limiting (Redis backend)
-- Multi-tiered limits (per-second, per-minute, per-hour)
-- Dynamic limit adjustment based on load
-- Rate limit sharing across cluster nodes
+- Priority lanes: HIGH / NORMAL / LOW
+- Per-client rate limiting via `PerClientRateLimiter`
+- Distributed rate limiting across cluster nodes (Redis `Backend::REDIS`)
+- Graceful fallback to local bucket on Redis unavailability
+- Health observability via `isRedisHealthy()`
+- Metrics: `getTotalRequests()`, `getTotalRejections()`
 
 ---
 
@@ -1344,8 +1349,8 @@ option(THEMIS_ENABLE_POSTGRES_PROTOCOL "Enable PostgreSQL wire protocol" ON)
 
 4. **Rate Limiting Granularity**
    - Per-IP rate limiting can affect NAT'd clients
-   - No distributed rate limiting in v1 (planned for v2)
-   - Workaround: Use Redis-backed RateLimiterV2
+   - Distributed rate limiting available via `TokenBucketRateLimiter` with `Backend::REDIS` (`rate_limiter_v2.h`)
+   - Enable by setting `cfg.backend = TokenBucketRateLimiter::Backend::REDIS` with appropriate `cfg.redis` connection config
 
 5. **Policy Engine Performance**
    - Complex ABAC policies can add latency

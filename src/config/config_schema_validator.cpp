@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_schema_validator.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-11                                        ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-11                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     756                                            ║
+    • Total Lines:     782                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ec0d1bcbc  2026-03-11  feat(config): add validateFromString API for in-memory validation ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 51bc83fc2  2026-02-24  feat(config): integrate JSON Schema and YAML schema valid... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -148,6 +149,32 @@ nlohmann::json ConfigSchemaValidator::loadAsJson(const std::string& content, boo
                 std::string("JSON parse error: ") + e.what());
         }
     }
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateFromString
+// ═══════════════════════════════════════════════════════════
+
+ConfigSchemaValidator::ValidationResult
+ConfigSchemaValidator::validateFromString(const std::string& content,
+                                          bool is_yaml,
+                                          const nlohmann::json& schema) {
+    ValidationResult result;
+    result.config_path = "<string>";
+
+    nlohmann::json data;
+    try {
+        data = loadAsJson(content, is_yaml);
+    } catch (const SchemaValidationException& e) {
+        result.addError(e.what());
+        return result;
+    } catch (const std::exception& e) {
+        result.addError(std::string("Unexpected error parsing config string: ") + e.what());
+        return result;
+    }
+
+    validateValue(data, schema, "#", result);
+    return result;
 }
 
 // ═══════════════════════════════════════════════════════════

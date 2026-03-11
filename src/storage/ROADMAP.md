@@ -13,6 +13,7 @@ v1.x – Production-grade persistent storage layer built on RocksDB with MVCC, W
 - [x] `KeySchema` – unified multi-model key encoding (relational, document, graph, vector, timeseries)
 - [x] `StorageEngine` – high-level abstraction with dependency injection (evaluator, encryption, key provider, index manager)
 - [x] `BackupManager` – incremental and full backup with checksum verification
+- [x] `BackupManager` – in-memory backup scheduling (`scheduleBackup`, `cancelScheduledBackup`, `listScheduledBackups`); cloud upload/restore routing via `THEMIS_ENABLE_S3/AZURE/GCS` compile-time flags (`uploadBackupToCloud`, `restoreFromCloud`)
 - [x] `PITRManager` – point-in-time recovery via WAL replay and snapshot restore
 - [x] Blob storage backends: INLINE, RocksDB BlobDB, Filesystem, S3, Azure Blob, WebDAV
 - [x] `BlobRedundancyManager` – RAID-1 mirror across multiple backends

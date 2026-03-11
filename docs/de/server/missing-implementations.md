@@ -1,8 +1,8 @@
 # Server Module – Fehlende Implementierungen
 
-**Stand:** 2026-03-10  
+**Stand:** 2026-03-11  
 **Modul:** `src/server/` / `include/server/`  
-**Geprüft anhand:** Commit `a04b89b` (Branch `copilot/update-server-module-docs`)  
+**Geprüft anhand:** Commit `ea7db4d` (Branch `copilot/implement-redis-backend-rate-limiter-v2`)  
 **Methodik:** Source-Code-Scan gegen Behauptungen in `src/server/ROADMAP.md`, `src/server/FUTURE_ENHANCEMENTS.md` und `include/server/README.md`
 
 ---
@@ -11,7 +11,7 @@
 
 | # | Schwere | Feature | Erwartet | Beobachtet |
 |---|---------|---------|----------|------------|
-| 1 | 🟠 Mittel | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | `rate_limiter_v2.cpp` vorhanden (239 LOC), aber kein Redis-Pfad |
+| 1 | ✅ Gelöst | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | Implementiert: `Backend::REDIS`, EVALSHA-Lua-Skript, lokaler Fallback, 28 Tests |
 | 2 | ✅ Gelöst | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Implementiert (v1.6.0, 30 Unit-Tests) |
 | 3 | ✅ Gelöst | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Implementiert (v1.7.0) |
 | 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
@@ -22,7 +22,7 @@
 
 ## Details
 
-### Finding 1 – Distributed Rate Limiting (Redis-Backend)
+### Finding 1 – Distributed Rate Limiting (Redis-Backend) ✅ GELÖST
 
 **Claim-Quelle:** `src/server/ROADMAP.md` → „Planned Features / Short-term" → „Distributed rate limiting via Redis backend"  
 **Erwartete Implementierung:**  
@@ -30,20 +30,18 @@
 - Atomares EVALSHA in Redis für cluster-weites Token Bucket  
 - Fallback auf lokales Bucket bei Redis-Ausfall  
 
-**Beobachtet:**  
-- `src/server/rate_limiter_v2.cpp` existiert (239 LOC, Stand 2026-03-09)  
-- `include/server/rate_limiter_v2.h` existiert  
-- Grep auf `REDIS`, `redis`, `evalsha`, `Backend::REDIS` → **kein Treffer**  
-- Nur lokales Token-Bucket implementiert  
+**Implementierung (March 2026):**  
+- `include/server/rate_limiter_v2.h` – `Backend` enum (`LOCAL` / `REDIS`), `RedisRateLimiterConfig` struct, `isRedisHealthy()` API ✅  
+- `src/server/rate_limiter_v2.cpp` – Lua-Skript via `SCRIPT LOAD` + `EVALSHA`; atomisches HMGET/HMSET/EXPIRE; Reconnect-Logik; lokaler Fallback bei `max_errors` Schwellwert ✅  
+- `PerClientRateLimiter::Config` erweitert um `backend` + `redis` Felder ✅  
+- Tests: `tests/test_rate_limiter_v2.cpp` (28 Tests: lokal, Fallback, per-client, Priority-Lanes, Concurrency) ✅  
 
 **Evidence (geprüfte Pfade):**  
 ```
-src/server/rate_limiter_v2.cpp   – vorhanden, 239 LOC, kein Redis-Pfad
-include/server/rate_limiter_v2.h – vorhanden, kein Backend::REDIS Enum
+include/server/rate_limiter_v2.h  – Backend::REDIS, RedisRateLimiterConfig, isRedisHealthy()
+src/server/rate_limiter_v2.cpp    – kTokenBucketLua (EVALSHA), redisConnect(), redisEvalBucket(), markRedisError()
+tests/test_rate_limiter_v2.cpp    – 28 Tests (TokenBucketLocalTest, TokenBucketRedisFallbackTest, PerClientLocalTest, PerClientRedisFallbackTest)
 ```
-
-**Issue-Titelvorschlag:** `feat(server): implement Redis backend for RateLimiterV2 (distributed token bucket)`  
-**Label-Vorschläge:** `area/server`, `type/feature`, `priority/p1`, `effort/medium`
 
 ---
 
@@ -106,7 +104,10 @@ tests/test_oauth2_provider.cpp   – vorhanden (OAuth2ProviderTests, 30 Tests)
 - Raft-basierte Config-Replikation über `sharding::RaftConsensus`  
 - ConsistentHashRing mit FNV-1a-Hashing für WebSocket/SSE Session-Affinity  
 - Leader-Failover ≤ 500 ms (konfigurierbar via `leader_failover_timeout`)  
-- Tests in `tests/test_distributed_gateway.cpp` (DistributedGatewayFocusedTests)  
+- Quorum-Loss-Degradation: letzter bekannter Config + CRITICAL-Alert  
+- 41 Unit-Tests in `tests/test_distributed_gateway.cpp` (DistributedGatewayFocusedTests)  
+- Dokumentation in `docs/DISTRIBUTED_GATEWAY.md`  
+- ROADMAP-Eintrag auf `[x]` aktualisiert  
 
 **Evidence (geprüfte Pfade):**  
 ```
@@ -174,7 +175,7 @@ Die folgenden in ROADMAP als `[x]` markierten Features wurden durch Dateipräsen
 | Async Job API | `src/server/async_job_api_handler.cpp` |
 | OpenAPI 3.1 Auto-Gen | `src/server/openapi_route_registry.cpp` |
 | Request Validation | `src/server/request_validation_middleware.cpp` |
-| Rate Limiting (lokal) | `src/server/rate_limiter.cpp`, `rate_limiter_v2.cpp`, `rate_limiting_middleware.cpp` |
+| Rate Limiting (lokal + Redis/distributed) | `src/server/rate_limiter.cpp`, `rate_limiter_v2.cpp` (`Backend::REDIS`), `rate_limiting_middleware.cpp` |
 | API-Versionierung | `src/server/api_version.cpp` |
 | Response-Streaming | `src/server/chunked_response_writer.cpp` |
 

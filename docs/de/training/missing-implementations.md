@@ -67,18 +67,16 @@ FINDING-T-001, T-002 und T-003 sind vollständig abgeschlossen.
 
 ---
 
-### FINDING-T-004: `deployVersion` Traffic-Splitting ist Konfigurations-Placeholder
+### FINDING-T-004: `deployVersion` Traffic-Splitting ✅ BEHOBEN (2026-03-11)
 
 | Feld | Wert |
 |------|------|
 | **Schweregrad** | Mittel |
-| **Status** | Offen |
+| **Status** | ✅ Behoben (2026-03-11) |
 | **Claim-Quelle** | `src/training/README.md`, Abschnitt "IncrementalLoRATrainer" |
 | **Erwartet** | `deployVersion(version, traffic_split)` leitet einen konfigurierbaren Anteil des LLM-Traffics auf den neuen Adapter um |
-| **Beobachtet** | Traffic-Splitting ist ein Konfigurationsplatzhalter; Produktiveinsatz erfordert ein Routing-Layer-Update im LLM-Integrationsmodul |
-| **Evidence** | `src/training/incremental_lora_trainer.cpp` (deployVersion-Implementierung) |
-| **Issue-Titelvorschlag** | `feat(training/llm): wire deployVersion traffic-split to LLM routing layer` |
-| **Label-Vorschläge** | `module:training`, `module:llm`, `priority:medium`, `type:integration` |
+| **Lösung** | `selectAdapterForRequest()` (public API in `include/training/incremental_lora_trainer.h`): gewichtete Zufallsauswahl eines aktiven Adapters basierend auf den `traffic_split`-Werten in `version_registry_`. Thread-lokaler `mt19937`-PRNG; korrekte Fallback-Behandlung bei leerem Registry oder `total == 0`. |
+| **Evidence** | `src/training/incremental_lora_trainer.cpp` (`Impl::selectAdapterForRequest()`), `include/training/incremental_lora_trainer.h` |
 
 ---
 
