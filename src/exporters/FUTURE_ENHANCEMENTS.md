@@ -71,7 +71,7 @@ Atomic watermark update uses `.tmp` + `rename()`. The
 Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine-tuning JSONL) are implemented in `format_template.cpp` / `format_template.h`.  The `JSONLLLMExporter` activates a template via `JSONLLLMConfig::format_template_type`; field-name overrides go in `template_field_mapping`.  See `tests/exporters/test_format_template.cpp` for 35 test cases.
 
 **Remaining (future issues):**
-- Register templates in `ExportFormatRegistry`; allow user-defined templates via a JSON config file.
+- ~~Register templates in `ExportFormatRegistry`; allow user-defined templates via a JSON config file.~~ ✅ Implemented — `registerBuiltins()` registers `jsonl_alpaca`, `jsonl_sharegpt`, `jsonl_chatml`, `jsonl_openai_ft`; `loadTemplatesFromJson()` / `loadTemplatesFromConfig()` accept user-defined templates; 15 tests in `tests/exporters/test_export_format_registry.cpp`.
 - ~~`validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.~~ ✅ Implemented — `validateTemplate()` free function in `format_template.h/cpp`; `JSONLLLMExporter::validateTemplate()` wrapper; 18 test cases in `tests/exporters/test_format_template.cpp`.
 
 ---
