@@ -1,47 +1,57 @@
 # Base-Modul — Fehlende / Unvollständige Implementierungen
 
-**Geprüft:** 2026-03-09 (aktualisiert: 2026-03-10)  
-**Geprüft von:** Source-Code-Audit (commit 0091524); Follow-up-Audit (PR copilot/sync-developer-docs-module)  
+**Geprüft:** 2026-03-09 (aktualisiert: 2026-03-11)  
+**Geprüft von:** Source-Code-Audit (commit 0091524); Follow-up-Audit (PR copilot/sync-developer-docs-module); Watchdog-Implementierung (PR copilot/add-watchdog-plugin-restart)  
 **Modul:** `src/base/` + `include/themis/base/`
 
 ---
 
 ## Übersicht
 
-Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepanzen zwischen dokumentierten Ansprüchen und tatsächlicher Implementierung gefunden. Einträge 3 und 4 wurden inzwischen implementiert und als ✅ geschlossen.
+Bei der Reality-Check-Prüfung (ROADMAP vs. Sourcecode) wurden folgende Diskrepanzen zwischen dokumentierten Ansprüchen und tatsächlicher Implementierung gefunden. Einträge 1, 3 und 4 wurden inzwischen implementiert und als ✅ geschlossen.
 
 | # | Feature | ROADMAP-Status (alt) | Beobachteter Stand | Schwere | Aktueller Status |
 |---|---------|---------------------|-------------------|---------|-----------------|
-| 1 | Plugin health monitoring & automatic restart | `[x]` erledigt | Nur Health-Checks beim Laden; kein Auto-Restart | Medium | 🔴 Offen (Issue #2373) |
+| 1 | Plugin health monitoring & automatic restart | `[x]` erledigt | Nur Health-Checks beim Laden; kein Auto-Restart | Medium | ✅ Gelöst (2026-03-11) |
 | 2 | WASM-based plugin isolation | `[x]` erledigt | Infrastruktur vollständig; Runtime-Injection fehlt | Medium | 🔴 Offen (Issue #1572) |
 | 3 | Signed plugin repository with key pinning | `[x]` erledigt | TLS-Zertifikat-Verifikation vorhanden; Public-Key-Pinning fehlt | Low | ✅ Gelöst (2026-03-10) |
 | 4 | Runtime plugin capability negotiation (version ranges) | `[x]` erledigt | Version-Ranges in Dependency-Graph gespeichert; kein aktives Negotiation-Protokoll | Low | ✅ Gelöst (2026-03-10) |
 
 ---
 
-## Eintrag 1: Plugin Health Monitoring & Automatic Restart
+## Eintrag 1: Plugin Health Monitoring & Automatic Restart — ✅ Gelöst
+
+**Lösung (2026-03-11):** Plugin-Watchdog in `src/base/module_loader.cpp` implementiert.
+
+- `WatchdogConfig` struct (in `include/themis/base/module_loader.h`): konfigurierbare Parameter
+  `check_interval_ms`, `max_restart_attempts`, `initial_backoff_ms`, `backoff_multiplier`,
+  `max_backoff_ms`, `enabled`.
+- `WatchdogModuleStats` struct: per-Modul-Statistiken (`restart_count`, `consecutive_failures`,
+  `last_health_check_ms`, `last_failure_ms`, `last_restart_ms`, `next_retry_ms`,
+  `permanently_failed`, `last_error`).
+- Neue öffentliche API in `ModuleLoader`:
+  - `configureWatchdog(WatchdogConfig)` — Konfiguration setzen
+  - `startWatchdog()` / `stopWatchdog()` — Lifecycle (idempotent)
+  - `isWatchdogRunning() const` — Status-Abfrage
+  - `getWatchdogStats(name)` / `getAllWatchdogStats()` — Metriken je Modul
+  - `resetWatchdogStats()` — Counters zurücksetzen
+- Hintergrund-Thread (`watchdogLoop`) führt periodische Health-Checks auf alle geladenen Module aus.
+- Bei Fehler: exponentieller Backoff, max. Restart-Versuche, Markierung als `permanently_failed`.
+- Destruktor stoppt den Watchdog-Thread korrekt (kein Race Condition bei Shutdown).
+- `PluginWatchdogFocusedTests` in `tests/CMakeLists.txt` (12 Unit-Tests).
 
 **Claim-Quelle:** `src/base/ROADMAP.md`, Abschnitt "Completed ✅"  
 > `[x] Plugin health monitoring and automatic restart (Issue: #2373)`
 
-**Erwartet:** Plugins werden nach einem Health-Check-Fehler automatisch neugestartet (Watchdog-Mechanismus).
+**Ursprünglich beobachtet:**
+- Health-Check-Infrastruktur war in `src/base/module_loader.cpp` implementiert: Activation Stage, `runHealthChecks()`, `healthChecks_` Map.
+- **Kein Restart-Mechanismus** gefunden: weder in `module_loader.cpp`, `hot_reload_manager.cpp` noch in `module_sandbox.cpp`.
 
-**Beobachtet:**
-- Health-Check-Infrastruktur ist in `src/base/module_loader.cpp` implementiert: Activation Stage (Zeilen 452–476), `runHealthChecks()` (Zeilen 1148–1190), `healthChecks_` Map.
+---
 - Health-Checks werden beim Modullade-Vorgang ausgeführt (Activation Stage, `module_loader.cpp` Zeilen 452–476 und `runHealthChecks()` Zeilen 1148–1190).
 - **Kein Restart-Mechanismus** gefunden: weder in `module_loader.cpp`, `hot_reload_manager.cpp` noch in `module_sandbox.cpp`. Keine `restart_count`-, `watchdog`- oder `auto_recover`-Symbole in einem der Base-Quellcode-Dateien.
 
 **Evidence (geprüfte Pfade):**
-- `src/base/module_loader.cpp` — `healthChecks_` Map; Activation Stage (Zeilen 452–476); `runHealthChecks()` (Zeilen 1148–1190)
-- `include/themis/base/module_loader.h` — `registerHealthCheck()` API
-- `src/base/hot_reload_manager.cpp` — kein `restart`/`watchdog` Symbol
-- `include/themis/base/module_sandbox.h` — kein `restart`/`watchdog` Symbol
-
-**Issue-Titelvorschlag:** `feat(base): implement automatic plugin restart on health-check failure`  
-**Label-Vorschläge:** `enhancement`, `module:base`, `priority:medium`
-
----
-
 ## Eintrag 2: WASM-Based Plugin Isolation (Runtime-Injection erforderlich)
 
 **Claim-Quelle:** `src/base/ROADMAP.md`, Abschnitt "Completed ✅"  
@@ -101,11 +111,11 @@ Regressionstests in `tests/test_module_loader.cpp` abgedeckt.
 
 | # | Issue-Titelvorschlag | Priorität | Labels | Status |
 |---|---------------------|-----------|--------|--------|
-| 1 | `feat(base): implement automatic plugin restart on health-check failure` | Medium | `enhancement`, `module:base`, `priority:medium` | 🔴 Offen |
+| 1 | `feat(base): implement automatic plugin restart on health-check failure` | Medium | `enhancement`, `module:base`, `priority:medium` | ✅ Gelöst (2026-03-11) |
 | 2 | `feat(base): integrate concrete WasmRuntime (Wasmtime or WasmEdge) into WasmPluginSandbox` | Medium | `enhancement`, `module:base`, `priority:medium` | 🔴 Offen |
 | 3 | `feat(base): implement public-key pinning for remote plugin registry` | Low | `enhancement`, `module:base`, `security`, `priority:low` | ✅ Gelöst (2026-03-10) |
 | 4 | Teil von Issue #1566: Runtime version compatibility enforcement | Medium | `enhancement`, `module:base`, `priority:medium` | ✅ Gelöst (2026-03-10) |
 
 ---
 
-*Generiert: 2026-03-09 | Aktualisiert: 2026-03-10 | Modul: base | Validierung: Source-Code-Audit commit 0091524 + PR copilot/sync-developer-docs-module*
+*Generiert: 2026-03-09 | Aktualisiert: 2026-03-11 | Modul: base | Validierung: Source-Code-Audit commit 0091524 + PR copilot/sync-developer-docs-module + Watchdog PR copilot/add-watchdog-plugin-restart*

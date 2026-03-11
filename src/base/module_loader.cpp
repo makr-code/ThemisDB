@@ -177,6 +177,7 @@ ModuleLoader::ModuleLoader()
 }
 
 ModuleLoader::~ModuleLoader() {
+    stopWatchdog();
     unloadAllModules();
 }
 
@@ -1654,6 +1655,257 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
     return metadata;
 }
 #endif // __linux__
+
+// ============================================================================
+// Plugin Watchdog Implementation (Issue #2373)
+// ============================================================================
+
+uint64_t ModuleLoader::nowMs() {
+    return static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count());
+}
+
+void ModuleLoader::configureWatchdog(const WatchdogConfig& config) {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    watchdogConfig_ = config;
+    spdlog::info("Watchdog configured: interval={}ms, max_restarts={}, initial_backoff={}ms",
+                 config.check_interval_ms, config.max_restart_attempts, config.initial_backoff_ms);
+}
+
+void ModuleLoader::startWatchdog() {
+    if (watchdogRunning_.exchange(true)) {
+        return;  // Already running
+    }
+    watchdogThread_ = std::thread([this]() { watchdogLoop(); });
+    spdlog::info("Plugin watchdog started");
+}
+
+void ModuleLoader::stopWatchdog() {
+    if (!watchdogRunning_.exchange(false)) {
+        return;  // Not running
+    }
+    watchdogCv_.notify_all();
+    if (watchdogThread_.joinable()) {
+        watchdogThread_.join();
+    }
+    spdlog::info("Plugin watchdog stopped");
+}
+
+bool ModuleLoader::isWatchdogRunning() const {
+    return watchdogRunning_.load();
+}
+
+std::optional<WatchdogModuleStats> ModuleLoader::getWatchdogStats(const std::string& moduleName) const {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    auto it = watchdogStats_.find(moduleName);
+    if (it == watchdogStats_.end()) {
+        return std::nullopt;
+    }
+    return it->second;
+}
+
+std::map<std::string, WatchdogModuleStats> ModuleLoader::getAllWatchdogStats() const {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    return watchdogStats_;
+}
+
+void ModuleLoader::resetWatchdogStats() {
+    std::lock_guard<std::mutex> lk(watchdogMutex_);
+    watchdogStats_.clear();
+    spdlog::info("Watchdog stats reset");
+}
+
+// ---- private helpers -------------------------------------------------------
+
+void ModuleLoader::watchdogLoop() {
+    spdlog::debug("Watchdog loop started");
+
+    while (watchdogRunning_.load()) {
+        {
+            std::unique_lock<std::mutex> lk(watchdogMutex_);
+            uint64_t interval_ms = watchdogConfig_.check_interval_ms;
+            watchdogCv_.wait_for(lk,
+                std::chrono::milliseconds(interval_ms),
+                [this]() { return !watchdogRunning_.load(); });
+        }
+
+        if (!watchdogRunning_.load()) {
+            break;
+        }
+
+        {
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            if (!watchdogConfig_.enabled) {
+                continue;
+            }
+        }
+
+        watchdogCheckAllModules();
+    }
+
+    spdlog::debug("Watchdog loop exited");
+}
+
+void ModuleLoader::watchdogCheckAllModules() {
+    // Take a snapshot of currently loaded, fully-activated modules.
+    // loadedModules_ has no dedicated mutex in the existing design; the
+    // watchdog is expected to run when the main thread is not concurrently
+    // modifying the module list (e.g., during steady-state operation).
+    std::vector<std::pair<std::string, std::string>> snapshot;  // name → path
+    for (const auto& mod : loadedModules_) {
+        if (mod.fullyActivated) {
+            snapshot.emplace_back(mod.name, mod.path);
+        }
+    }
+
+    for (auto& [name, path] : snapshot) {
+        if (!watchdogRunning_.load()) {
+            break;
+        }
+
+        // Verify module is still loaded (may have been unloaded between snapshot and now)
+        auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
+                               [&name](const LoadedModule& m) { return m.name == name; });
+        if (it == loadedModules_.end()) {
+            continue;  // Module was unloaded since snapshot
+        }
+        LoadedModule modCopy = *it;
+
+        if (healthChecks_.empty()) {
+            continue;  // Nothing to check
+        }
+
+        std::string errorMsg;
+        bool healthy = watchdogRunHealthChecks(modCopy, errorMsg);
+
+        uint64_t now = nowMs();
+
+        // Update watchdog stats (protected by watchdogMutex_)
+        bool shouldRestart = false;
+        {
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            auto& stats = watchdogStats_[name];
+            stats.moduleName = name;
+            stats.modulePath = path;
+            stats.last_health_check_ms = now;
+
+            if (healthy) {
+                if (stats.consecutive_failures > 0) {
+                    spdlog::info("Watchdog: module '{}' recovered (was {} consecutive failures)",
+                                 name, stats.consecutive_failures);
+                }
+                stats.consecutive_failures = 0;
+                stats.last_error.clear();
+                continue;
+            }
+
+            // Health check failed
+            stats.consecutive_failures++;
+            stats.last_failure_ms = now;
+            stats.last_error = errorMsg;
+
+            spdlog::warn("Watchdog: health check FAILED for '{}' (consecutive: {}): {}",
+                         name, stats.consecutive_failures, errorMsg);
+
+            if (stats.permanently_failed) {
+                spdlog::warn("Watchdog: module '{}' is permanently failed; skipping restart", name);
+                continue;
+            }
+
+            uint32_t maxAttempts = watchdogConfig_.max_restart_attempts;
+            if (maxAttempts > 0 && stats.restart_count >= maxAttempts) {
+                stats.permanently_failed = true;
+                spdlog::error("Watchdog: module '{}' exceeded max_restart_attempts ({}); "
+                              "marking as permanently failed",
+                              name, maxAttempts);
+                continue;
+            }
+
+            if (now < stats.next_retry_ms) {
+                uint64_t wait = stats.next_retry_ms - now;
+                spdlog::debug("Watchdog: module '{}' in backoff; {}ms remaining", name, wait);
+                continue;
+            }
+
+            shouldRestart = true;
+        }
+
+        if (shouldRestart) {
+            // Perform restart outside the watchdogMutex_ lock to avoid
+            // deadlock with loadModule()/unloadModule() which may log via auditor.
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            auto& stats = watchdogStats_[name];
+            watchdogRestartModule(stats, path);
+        }
+    }
+}
+
+bool ModuleLoader::watchdogRunHealthChecks(LoadedModule& module, std::string& errorMessage) {
+    if (healthChecks_.empty()) {
+        return true;
+    }
+
+    for (const auto& [checkName, checkFunc] : healthChecks_) {
+        try {
+            auto result = checkFunc(module.handle, module.name);
+            if (!result.passed) {
+                errorMessage = checkName + ": " + result.message;
+                return false;
+            }
+        } catch (const std::exception& e) {
+            errorMessage = checkName + " threw exception: " + e.what();
+            return false;
+        }
+    }
+    return true;
+}
+
+bool ModuleLoader::watchdogRestartModule(WatchdogModuleStats& stats,
+                                         const std::string& modulePath) {
+    const std::string& name = stats.moduleName;
+    spdlog::info("Watchdog: attempting restart of module '{}' (attempt #{}) from '{}'",
+                 name, stats.restart_count + 1, modulePath);
+
+    // Unload the failed module
+    unloadModule(name);
+
+    // Attempt to reload
+    auto loadResult = loadModule(modulePath, name);
+
+    uint64_t now = nowMs();
+    if (loadResult.success) {
+        stats.restart_count++;
+        stats.consecutive_failures = 0;
+        stats.last_restart_ms = now;
+        stats.next_retry_ms = 0;
+        spdlog::info("Watchdog: module '{}' restarted successfully (total restarts: {})",
+                     name, stats.restart_count);
+        return true;
+    }
+
+    // Reload failed — update backoff for next attempt
+    stats.consecutive_failures++;
+    uint64_t backoff = watchdogCalculateBackoff(stats.consecutive_failures);
+    stats.next_retry_ms = now + backoff;
+    spdlog::error("Watchdog: restart of '{}' failed ({}); next retry in {}ms",
+                  name, loadResult.errorMessage, backoff);
+    return false;
+}
+
+uint64_t ModuleLoader::watchdogCalculateBackoff(uint32_t consecutiveFailures) const {
+    if (consecutiveFailures == 0) {
+        return 0;
+    }
+    if (consecutiveFailures > 60) {
+        return watchdogConfig_.max_backoff_ms;
+    }
+    double backoff = watchdogConfig_.initial_backoff_ms *
+                     std::pow(watchdogConfig_.backoff_multiplier,
+                              static_cast<double>(consecutiveFailures - 1));
+    return static_cast<uint64_t>(
+        std::min(backoff, static_cast<double>(watchdogConfig_.max_backoff_ms)));
+}
 
 } // namespace modules
 } // namespace themis
