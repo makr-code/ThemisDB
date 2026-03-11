@@ -2071,7 +2071,13 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/sharding/gpu_erasure_coder_opencl.cpp>
     ../src/storage/blob_redundancy_manager.cpp
     ../src/server/sharding_metrics_handler.cpp
-    
+
+    # Enhanced sharding features
+    ../src/sharding/admin_operations.cpp
+    ../src/sharding/operational_metrics.cpp
+    ../src/sharding/sharding_manager_edition.cpp
+    ../src/sharding/slo_monitor.cpp
+
     # Hardware acceleration (core abstraction layer - always included)
     ../src/acceleration/compute_backend.cpp
     ../src/acceleration/backend_registry.cpp

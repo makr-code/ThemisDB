@@ -94,6 +94,10 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Schema-aware CDC with Avro/Protobuf schema registry integration
 - [x] Conflict-free Replicated Data Types (CRDT) library expansion
 
+### Phase 4.5: Build System Audit (Status: Completed ✅ — March 2026)
+- [x] All `src/replication/*.cpp` files verified registered in `cmake/CMakeLists.txt`
+- [x] 3 focused standalone test targets added in `tests/CMakeLists.txt`: ReplicationHA, ReplicationNewFeatures, ReplicationTopologyApiHandler
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (209+ test cases: 177 original + 30 v1.7.0 feature tests + 2 commit-index tests + 15 Raft v2 tests + 30 CRDT types tests)
 - [x] Integration tests (failover, lag detection, PITR restoration, cross-cluster end-to-end)
