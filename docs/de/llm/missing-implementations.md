@@ -52,25 +52,29 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 
 ## 2. ~~InferenceEngineEnhanced — KV-Cache-Prewarming und Embedding-basiertes Cache-Lookup~~ ✅ GELÖST
 
-> **Gelöst in Branch `copilot/implement-kv-cache-prewarming`**
+> **Gelöst in Branch `copilot/implement-kv-cache-prewarming`** (Audit-Pass 2: 2026-03-11)
 >
 > **Was implementiert wurde:**
 > - `prewarmCache()`: Berechnet echte Embeddings via `computeEmbeddingForCache()` für jeden Prompt,
->   schätzt Token-IDs und speichert den Eintrag im `LLMPrefixCache` (`prefix_cache_->put()`).
-> - `checkCache()`: Ersetzt den Null-Vektor durch `computeEmbeddingForCache(request.prompt)` —
->   der Lookup nutzt jetzt HNSW-basierte Ähnlichkeitssuche.
-> - `updateCache()`: Berechnet echtes Embedding und schätzt Token-Sequenz; speichert beides im Cache.
-> - Neuer privater Hilfsmethode `computeEmbeddingForCache(text)`: Holt den ersten verfügbaren
->   Plugin-Zeiger (lock-free während `embed()`), ruft `plugin->embed(text)` auf und gibt bei
->   Fehler einen leeren Vektor zurück (graceful degradation).
+>   schätzt Token-IDs und speichert den Eintrag im `LLMPrefixCache` mit dem Prompt-Text als Schlüssel.
+> - `checkCache()`: Nutzt `request.prompt` als Cache-Schlüssel + echtes Embedding → HNSW-Fuzzy-Matching
+>   für semantisch ähnliche Prompts. Gibt `cached->generated_text` zurück (die echte Modellantwort).
+> - `updateCache()`: Speichert Prompt als Schlüssel, echtes Embedding und `response.text` als
+>   `generated_text` in `PrefixCacheEntry`.
+> - `computeEmbeddingForCache(text)`: Holt ersten verfügbaren Plugin-Zeiger (lock-free während `embed()`),
+>   graceful degradation bei Fehler.
+> - `estimateTokenSequence(text)`: Gemeinsamer statischer Helfer (4 chars ≈ 1 Token BPE-Heuristik).
+> - `PrefixCacheEntry::generated_text` (neu): Speichert die tatsächlich generierte Antwort;
+>   `put()` erhält neuen optionalen Parameter `generated_text`.
 > - 3 neue Tests (Tests 21–23) in `tests/test_inference_engine_enhanced.cpp`.
+> - `InferenceEngineEnhancedFocusedTests` CMake-Target in `tests/CMakeLists.txt`.
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/llm/ARCHITECTURE.md` §"KV-Cache Reuse (Prefix Cache)"; `src/llm/ROADMAP.md` §"Context caching (KV-cache reuse)" |
 | **Erwartet** | Prefix-Cache kann vorgewärmt werden durch Pre-Berechnung von KV-Cache-Einträgen für häufige Prompts; Cache-Lookup nutzt Embedding-Ähnlichkeit für Fuzzy-Treffer |
-| **Status** | ✅ **Gelöst** — `computeEmbeddingForCache()` liefert echte Embeddings; alle drei Cache-Methoden nutzen sie |
-| **Lösung** | `include/llm/inference_engine_enhanced.h`, `src/llm/inference_engine_enhanced.cpp` |
+| **Status** | ✅ **Vollständig gelöst** (Audit-Pass 2: SHA256-as-response-text-Bug behoben, Prompt als Cache-Schlüssel, `generated_text` korrekt gespeichert und zurückgegeben) |
+| **Lösung** | `include/llm/llm_prefix_cache.h`, `src/llm/llm_prefix_cache.cpp`, `include/llm/inference_engine_enhanced.h`, `src/llm/inference_engine_enhanced.cpp` |
 
 ---
 

@@ -1097,8 +1097,10 @@ TEST_F(InferenceEngineEnhancedTest, PrewarmCacheNoModelNoCrash) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// Test 23: updateCache uses real embeddings (non-zero)
-// Verifies that subsequent identical requests get cache hits.
+// Test 23: updateCache stores generated_text; cache hit returns it
+// Verifies that the second identical request gets a cache hit AND
+// that response.text matches the first (real) model response, not
+// a hash or empty string.
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(InferenceEngineEnhancedTest, UpdateCacheEmbeddingBasedHit) {
@@ -1135,11 +1137,23 @@ TEST_F(InferenceEngineEnhancedTest, UpdateCacheEmbeddingBasedHit) {
     auto resp2 = engine.submit(req2).get();
     EXPECT_FALSE(resp2.text.empty());
 
+    // Verify that when a cache hit occurs, the returned text is the actual
+    // model-generated response (not a SHA256 hash or the prompt text itself).
+    if (resp2.cache_hit) {
+        EXPECT_EQ(resp2.text, resp1.text)
+            << "Cache hit must return the stored generated text, not a hash";
+        // The response text must look like a model output, not a 64-char hex hash
+        EXPECT_NE(resp2.text.size(), 64u)
+            << "response.text must not be a SHA256 hash";
+    }
+
     auto stats = engine.getStatistics();
     EXPECT_GT(stats.cache_hits + stats.cache_misses, 0u);
 
-    spdlog::info("UpdateCacheEmbeddingBasedHit: hits={}, misses={}, hit_rate={:.2f}",
-                 stats.cache_hits, stats.cache_misses, stats.cache_hit_rate);
+    spdlog::info("UpdateCacheEmbeddingBasedHit: hits={}, misses={}, hit_rate={:.2f}, "
+                 "resp1='{}', resp2='{}'",
+                 stats.cache_hits, stats.cache_misses, stats.cache_hit_rate,
+                 resp1.text.substr(0, 40), resp2.text.substr(0, 40));
 
     engine.shutdown();
 }

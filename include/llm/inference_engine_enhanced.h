@@ -439,7 +439,6 @@ private:
     // Cache integration
     std::optional<InferenceResponse> checkCache(const InferenceRequest& request);
     void updateCache(const InferenceRequest& request, const InferenceResponse& response);
-    std::string generateCacheKey(const InferenceRequest& request);
     
     // Load balancing
     std::string selectModel(const EnhancedInferenceRequest& request);
@@ -452,9 +451,10 @@ private:
     // Timeout handling
     void checkAndHandleTimeouts();
     
-    // Embedding helper for cache operations
-    // Returns an embedding from the first available plugin, or an empty vector
-    // when no plugin is registered or embedding generation fails.
+    // Embedding helper for cache operations.
+    // Uses the first available plugin (see implementation for selection rationale).
+    // Returns an empty vector when no plugin is registered or embedding fails
+    // (graceful degradation: falls back to exact-key matching only).
     std::vector<float> computeEmbeddingForCache(const std::string& text);
 
     // Build a token-ID sequence for a given prompt.
