@@ -165,5 +165,47 @@ public:
 /// Returns nullptr for FormatTemplateType::NONE.
 std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type);
 
+// ---------------------------------------------------------------------------
+// Dry-run / preflight validation
+// ---------------------------------------------------------------------------
+
+/// Result of a collection-level template dry-run validation.
+struct TemplateValidationResult {
+    /// True when every entity in the sample satisfies the template's required
+    /// fields (or when no template is active, i.e. type == NONE).
+    bool valid = true;
+
+    /// Sorted, deduplicated list of field names that were absent in at least
+    /// one entity of the sample.  Empty when \p valid is true.
+    std::vector<std::string> missing_fields;
+
+    /// Number of entities that were examined.
+    size_t entities_checked = 0;
+
+    /// Number of entities that failed validation (i.e. had at least one
+    /// missing required field).
+    size_t entities_failed = 0;
+};
+
+/// Validate that all entities in \p sample provide the required fields for
+/// the selected template type.
+///
+/// \param type     The format template to check against.  When NONE the
+///                 result is always valid (no template fields are required).
+/// \param mapping  Field-name overrides forwarded to the template.
+/// \param sample   Representative collection of entities to inspect.  At
+///                 least one entity is recommended for meaningful results;
+///                 an empty sample yields a valid result with
+///                 entities_checked == 0.
+///
+/// \returns A TemplateValidationResult summarising the outcome.  The
+///          \p missing_fields list is deterministic (sorted) so callers can
+///          rely on its order for automated comparisons.
+TemplateValidationResult validateTemplate(
+    FormatTemplateType type,
+    const FormatTemplateFieldMapping& mapping,
+    const std::vector<BaseEntity>& sample
+);
+
 } // namespace exporters
 } // namespace themis

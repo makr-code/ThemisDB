@@ -34,6 +34,7 @@
 
 ### Short-term (Next 3-6 months)
 - [I] Cross-collection join export for complex training datasets (Issue: #1722)
+- [x] `validate_template` dry-run mode — `validateTemplate()` free function in `format_template.h/cpp`; `JSONLLLMExporter::validateTemplate()`; 18 tests in `tests/exporters/test_format_template.cpp`
 
 ## Implementation Phases
 

@@ -72,7 +72,7 @@ Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine
 
 **Remaining (future issues):**
 - Register templates in `ExportFormatRegistry`; allow user-defined templates via a JSON config file.
-- `validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.
+- ~~`validate_template` dry-run mode that checks all required fields exist in the source collection schema before export begins.~~ ✅ Implemented — `validateTemplate()` free function in `format_template.h/cpp`; `JSONLLLMExporter::validateTemplate()` wrapper; 18 test cases in `tests/exporters/test_format_template.cpp`.
 
 ---
 
