@@ -326,7 +326,7 @@ TEST_F(TenantBufferManagerTest, TenantMetrics) {
     // Get tenant metrics
     auto metrics = manager.getTenantMetrics("tenant1");
     ASSERT_TRUE(metrics.has_value());
-    EXPECT_EQ(metrics->events_recorded.load(), 50);
+    EXPECT_EQ(metrics->get().events_recorded.load(), 50);
     
     manager.stop();
 }
@@ -350,7 +350,7 @@ TEST_F(TenantBufferManagerTest, GlobalMetricsAggregation) {
     auto global_metrics = manager.getGlobalMetrics();
     
     // Should aggregate across all tenants (3 * 20 = 60)
-    EXPECT_EQ(global_metrics.events_recorded.load(), 60);
+    EXPECT_EQ(global_metrics["events_recorded"].get<uint64_t>(), 60);
     
     manager.stop();
 }

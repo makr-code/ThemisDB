@@ -79,12 +79,12 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [?] Active learning loop (auto-select most informative unlabelled samples)
 
 ## Production Readiness Checklist
-- [?] Unit tests coverage > 80%
+- [x] Unit tests coverage > 80% — `test_lora_checkpoint_manager.cpp`, `test_provenance_tracker.cpp`, `test_lora_data_selection.cpp`, `test_training_pipeline_e2e.cpp`; focused standalone targets: `LoRACheckpointManagerFocusedTests`, `ProvenanceTrackerFocusedTests`
 - [?] Integration tests (label → train → evaluate → deploy lifecycle)
 - [?] Performance benchmarks (samples/sec labeling, training convergence)
 - [?] Security audit (training data access control, adapter integrity verification)
 - [?] Documentation complete
-- [?] API stability guaranteed
+- [~] API stability guaranteed — `TrainingSample`, `IncrementalTrainingConfig` stable; new Phase-3 classes (`LoRACheckpointManager`, `ProvenanceTracker`) additive
 
 ## Known Issues & Limitations
 - NLP modality extractor is provided externally (`analytics::NlpTextAnalyzer`); not bundled.

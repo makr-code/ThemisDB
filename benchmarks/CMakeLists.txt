@@ -1746,6 +1746,64 @@ else()
     message(STATUS "Compliance/Security/Governance benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_compliance_security_governance.cpp")
 endif()
 
+# ============================================================================
+# Security Module Benchmarks
+# Measures the cryptographic and policy hot-paths mandated by
+# src/security/FUTURE_ENHANCEMENTS.md performance targets:
+#   - AES-256-GCM encrypt/decrypt throughput  : ≥ 1 GB/s (AES-NI, single core)
+#   - RBAC policy evaluation (100 roles)       : p99 ≤ 0.5 ms
+#   - Kyber-1024 key encapsulation             : ≥ 2 000 ops/s
+#   - Dilithium-5 signing                      : ≥ 1 000 ops/s
+#   - FIPS algorithm-list validation           : overhead characterisation
+#   - AQL injection detection throughput       : throughput characterisation
+#   - Audit log tamper-evident append          : p99 ≤ 2 ms per entry
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
+    message(STATUS "Adding security module benchmarks")
+
+    add_executable(bench_security
+        bench_security.cpp
+    )
+
+    target_include_directories(bench_security PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_security PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_security PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_security PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_security
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Security: AES-256-GCM throughput, RBAC 100-role check, Kyber-1024/Dilithium-5, FIPS validation, AQL injection, audit-log append")
+else()
+    message(STATUS "Security benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/bench_security.cpp")
+endif()
+
 # ConfigPathResolver Performance Benchmarks (Issue #1675)
 # Measures cache hit rate and resolution latency for config path resolution.
 #
@@ -2050,6 +2108,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_update_pipeline.cpp")
 endif()
 
 # ============================================================================
+# Observability: MetricsCollector Performance Benchmarks
+# Measures metrics recording, aggregation, Prometheus text export,
+# and concurrent access performance.
+# Performance target: < 1% CPU overhead at steady-state 1,000 req/s workload.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
+    message(STATUS "Adding Observability: MetricsCollector performance benchmarks")
+
+    add_executable(bench_metrics_collector
+        bench_metrics_collector.cpp
+    )
+
+    target_include_directories(bench_metrics_collector PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_metrics_collector PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_metrics_collector PRIVATE
 # Index Module Benchmarks (Issue: #1884 — Performance benchmarks: QPS, recall, memory)
 # These benchmarks cover vector search, quantization, spatial indexing, and
 # approximate radius search.  All CPU-only benchmarks run without GPU hardware.
@@ -2705,6 +2788,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
+        target_compile_options(bench_metrics_collector PRIVATE
         target_compile_options(bench_voice_assistant PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
@@ -2712,6 +2796,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         )
     endif()
 
+    install(TARGETS bench_metrics_collector
     install(TARGETS bench_voice_assistant
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
@@ -2766,6 +2851,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
         COMPONENT benchmarks
     )
 
+    message(STATUS "  MetricsCollector: recordQuery, recordCacheHit, exportPrometheus, concurrent access, cardinality scaling")
     message(STATUS "  ContentVersioning: content lifecycle throughput (create/update/fork/merge), version history scan, GC overhead")
     message(STATUS "  PromptManager: createTemplate, getTemplate (hit/miss), injectContext, validateTemplate")
     message(STATUS "  PromptVersionControl: commit, getHistory (10 versions)")

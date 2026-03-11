@@ -173,6 +173,7 @@ class THEMIS_BASE_API SampledLogger {
 public:
     explicit SampledLogger(std::shared_ptr<Logger> underlying,
                            SampledLoggerConfig cfg = {});
+    ~SampledLogger();
 
     /// Log with sampling; file/line identify the call-site bucket.
     void log(Logger::Level level, const std::string& msg,
