@@ -78,31 +78,27 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 
 ---
 
-## 3. DocsAssistant — LLM-Completion-Macro nicht definiert
+## 3. DocsAssistant — LLM-Completion-Macro ✅ BEHOBEN (2026-03-11)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/llm/docs_assistant.cpp` — behauptet LLM-basierte Antwortgenerierung |
-| **Erwartet** | `DocsAssistant::generateAnswer()` generiert Antworten mittels LLM-Inferenz (`THEMIS_LLM_COMPLETE` macro oder direkter Engine-Aufruf) |
-| **Beobachtet** | Der Aufruf `THEMIS_LLM_COMPLETE(prompt.str())` ist auskommentiert (`// TODO: Undefined macro`); Rückgabewert ist immer der hardcodierte String `"[LLM completion placeholder]"` |
-| **Evidence** | `src/llm/docs_assistant.cpp` Zeilen 251–252; Datei-Header: `TODOs: 1` |
-| **ROADMAP-Status** | Nicht im ROADMAP erfasst |
-| **Issue-Titelvorschlag** | `[llm] Wire DocsAssistant::generateAnswer() to actual LLM inference engine` |
-| **Label-Vorschläge** | `type:bug`, `priority:low`, `llm`, `status:open` |
+| **Erwartet** | `DocsAssistant::generateAnswer()` generiert Antworten mittels LLM-Inferenz |
+| **Beobachtet (behoben)** | `generateAnswer()` ruft jetzt `THEMIS_LLM_GENERATE(prompt.str())` auf, wenn `THEMIS_ENABLE_LLM` gesetzt und `EmbeddedLLMManager::instance().isInitialized()` wahr ist. Andernfalls wird eine aussagekräftige Fehlermeldung zurückgegeben statt `"[LLM completion placeholder]"`. |
+| **Evidence** | `src/llm/docs_assistant.cpp` Zeilen 249–256 |
+| **Status** | ✅ Behoben (2026-03-11) |
 
 ---
 
-## 4. AsyncInferenceEngine — RAG-Kontext-Enkodierung unvollständig
+## 4. AsyncInferenceEngine — RAG-Kontext-Enkodierung ✅ BEHOBEN (2026-03-11)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/llm/ARCHITECTURE.md` §"Standard Inference" (RAG-Integration durch `src/rag/llm_integration.cpp`) |
-| **Erwartet** | `AsyncInferenceEngine::submitWithRAGContext()` kodiert RAG-Dokumente strukturiert in den Prompt (z.B. XML-Tags, Chat-Template, strukturierter JSON-Context) |
-| **Beobachtet** | RAG-Kontext wird naiv als `"Context:\n<doc>\n\nQuestion: <prompt>"` konkateniert; kein Chat-Template, kein strukturiertes Format, kein Deduplizieren |
-| **Evidence** | `src/llm/async_inference_engine.cpp` Zeile 373 (`// TODO: Properly encode RAG context in request`) |
-| **ROADMAP-Status** | Nicht im ROADMAP erfasst |
-| **Issue-Titelvorschlag** | `[llm] Implement structured RAG context encoding in AsyncInferenceEngine::submitWithRAGContext()` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `llm`, `rag`, `status:open` |
+| **Erwartet** | `AsyncInferenceEngine::submitRAG()` kodiert RAG-Dokumente strukturiert in den Prompt |
+| **Beobachtet (behoben)** | Strukturiertes XML-Tag-Format: `<system>`, `<context><document index="N" source="..." relevance="...">`, `<question>`, `<answer>` — kompatibel mit modernen instruction-tuned Modellen. Custom `context_template` mit `{{CONTEXT}}`/`{{QUERY}}`-Platzhaltern wird ebenfalls unterstützt. |
+| **Evidence** | `src/llm/async_inference_engine.cpp` Zeilen 369–428 |
+| **Status** | ✅ Behoben (2026-03-11) |
 
 ---
 
@@ -126,8 +122,8 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 |---|---|---|---|---|
 | 1 | ActiveVRAMAllocator GPU-Allokation | `active_vram_allocator.cpp` | Hoch | ✅ Gelöst (LLM-MISSING-001) |
 | 2 | KV-Cache-Prewarming + Embedding-Lookup | `inference_engine_enhanced.cpp` L495,1131,1169 | Mittel | ✅ Gelöst |
-| 3 | DocsAssistant LLM-Completion | `docs_assistant.cpp` L251 | Niedrig | Placeholder |
-| 4 | RAG-Kontext-Enkodierung | `async_inference_engine.cpp` L373 | Niedrig | TODO |
+| 3 | DocsAssistant LLM-Completion | `docs_assistant.cpp` L251 | Niedrig | ✅ Behoben (2026-03-11) |
+| 4 | RAG-Kontext-Enkodierung | `async_inference_engine.cpp` L373 | Niedrig | ✅ Behoben (2026-03-11) |
 | 5 | Federated Inference | ROADMAP Issue #1928 | Niedrig | Nicht implementiert |
 
 *Alle anderen ROADMAP-Einträge sind durch vorhandene Implementierungsdateien in `develop` belegt (kein Stub in der kritischen Inferenz-Pfad).*

@@ -88,6 +88,30 @@ Central entry point for request routing, load balancing, and federation.
 
 ---
 
+#### distributed_gateway.h
+**Distributed API Gateway with Raft-based configuration synchronisation**
+
+Multi-node gateway cluster (3 or 5 nodes) where routing rules and rate-limit
+configuration are replicated through Raft log entries.
+
+**Key Classes:**
+- `DistributedGateway` - Multi-node gateway wrapping `APIGateway`
+- `DistributedGateway::Config` - Distributed gateway configuration
+- `ConsistentHashRing` - Consistent-hash ring for WebSocket/SSE session affinity
+- `ClusterGatewayConfig` - Cluster-wide replicated routing configuration
+- `GatewayRouteConfig` - A single replicated routing rule
+- `GatewayNode` - Peer node descriptor
+
+**Features:**
+- Raft-based config replication across all gateway nodes
+- Automatic leader failover (target ≤ 500 ms)
+- Session affinity for WebSocket/SSE via consistent-hash ring
+- Quorum-aware config mutation (writes rejected when not leader)
+- Graceful degradation: last-known config used on quorum loss with `CRITICAL` alert
+- Split-brain safety: config mutations refused when node is not Raft leader
+
+---
+
 #### api_version.h
 **API versioning support**
 
@@ -233,22 +257,36 @@ Token bucket algorithm for API rate limiting.
 ---
 
 #### rate_limiter_v2.h
-**Advanced rate limiting (v2)**
+**Advanced rate limiting (v2) – lokal und verteilt via Redis**
 
-Enhanced rate limiting with distributed coordination and multiple algorithms.
+Enhanced rate limiting with priority lanes, per-client tracking, and optional Redis backend for cluster-wide distributed limiting.
 
 **Key Classes:**
-- `RateLimiterV2` - Enhanced rate limiter
-- `RateLimiterV2::Config` - Configuration with backend selection
+- `TokenBucketRateLimiter` – Token-bucket limiter with HIGH/NORMAL/LOW priority lanes
+- `TokenBucketRateLimiter::Config` – Configuration including `backend`, `redis`, and `bucket_id`
+- `TokenBucketRateLimiter::Backend` – `LOCAL` (default, in-process) or `REDIS` (distributed)
+- `RedisRateLimiterConfig` – Redis connection settings (host, port, auth, key_prefix, timeout_ms, max_errors, key_ttl_seconds)
+- `PerClientRateLimiter` – Per-client wrapper; creates one `TokenBucketRateLimiter` per client key
 
 **Algorithms:**
-- Token bucket
-- Sliding window counter
-- Leaky bucket
+- Token bucket (local and Redis-backed)
 
 **Backends:**
-- In-memory (single node)
-- Redis (distributed)
+- `Backend::LOCAL` – In-process token bucket (default, backward-compatible)
+- `Backend::REDIS` – Cluster-wide atomic token bucket via Redis `EVALSHA`; automatic fallback to local on Redis error
+
+**Usage example (distributed):**
+```cpp
+TokenBucketRateLimiter::Config cfg;
+cfg.capacity    = 1000;
+cfg.refill_rate = 100;
+cfg.backend     = TokenBucketRateLimiter::Backend::REDIS;
+cfg.redis.host  = "redis.internal";
+cfg.bucket_id   = "api:v1";
+TokenBucketRateLimiter limiter(cfg);
+bool allowed = limiter.tryAcquire();
+bool healthy = limiter.isRedisHealthy(); // false → running in local-fallback mode
+```
 
 ---
 
