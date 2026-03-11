@@ -10,7 +10,7 @@
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     463                                            ║
+    • Total Lines:     694                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -47,6 +47,11 @@ TEST(ContentSecurityConfigTest, DefaultValues) {
     EXPECT_TRUE(config.sanitize_error_messages);
     EXPECT_TRUE(config.hide_internal_paths);
     EXPECT_TRUE(config.hide_system_info);
+
+    // Zip-bomb protection defaults
+    EXPECT_TRUE(config.enable_zip_bomb_check);
+    EXPECT_EQ(config.max_zip_bomb_ratio, 100u);
+    EXPECT_EQ(config.max_zip_file_count, 1000u);
 }
 
 TEST(ContentSecurityConfigTest, ToJson) {
@@ -344,6 +349,8 @@ TEST(ContentSecurityManagerTest, MetricsToJson) {
     EXPECT_TRUE(j.contains("pii_scans"));
     EXPECT_TRUE(j.contains("abuse_scans"));
     EXPECT_TRUE(j.contains("errors_sanitized"));
+    EXPECT_TRUE(j.contains("zip_bomb_scans"));
+    EXPECT_TRUE(j.contains("zip_bomb_blocked"));
 }
 
 // ============================================================================
@@ -463,4 +470,225 @@ TEST(ContentSecurityManagerTest, SpecialCharactersInErrorMessage) {
     // Should still contain special chars but sanitize path
     EXPECT_NE(sanitized.message.find("<tag>"), std::string::npos);
     EXPECT_NE(sanitized.message.find("[PATH]"), std::string::npos);
+}
+
+// ============================================================================
+// Zip-Bomb Protection Tests (CON-006)
+// ============================================================================
+
+class ZipBombProtectionTest : public ::testing::Test {
+protected:
+    // Default config has enable_zip_bomb_check=true, max_zip_bomb_ratio=100, max_zip_file_count=1000
+    ContentSecurityConfig default_config_;
+};
+
+TEST_F(ZipBombProtectionTest, AllowsNormalArchive) {
+    ContentSecurityManager manager(default_config_);
+    // 100 bytes compressed -> 500 bytes uncompressed: ratio 5x, well under 100x
+    auto result = manager.checkZipBomb(100, 500, 10, "archive.zip");
+    EXPECT_FALSE(result.error.failed());
+    EXPECT_TRUE(result.zip_bomb_checked);
+    EXPECT_FALSE(result.zip_bomb_detected);
+}
+
+TEST_F(ZipBombProtectionTest, BlocksExcessiveCompressionRatio) {
+    ContentSecurityManager manager(default_config_);
+    // 1 byte compressed -> 200 bytes uncompressed: ratio 200x, exceeds 100x limit
+    auto result = manager.checkZipBomb(1, 200, 1, "bomb.zip");
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_TRUE(result.zip_bomb_checked);
+    EXPECT_TRUE(result.zip_bomb_detected);
+    EXPECT_EQ(result.error.code, ContentErrorCode::CONTENT_MALWARE_DETECTED);
+    EXPECT_NE(result.error.message.find("compression ratio"), std::string::npos);
+}
+
+TEST_F(ZipBombProtectionTest, AllowsExactlyAtRatioLimit) {
+    ContentSecurityManager manager(default_config_);
+    // Ratio exactly 100x should pass (limit is strictly >, not >=)
+    auto result = manager.checkZipBomb(1, 100, 1, "archive.zip");
+    EXPECT_FALSE(result.error.failed());
+    EXPECT_FALSE(result.zip_bomb_detected);
+}
+
+TEST_F(ZipBombProtectionTest, BlocksOneOverRatioLimit) {
+    ContentSecurityManager manager(default_config_);
+    // Ratio 101x must be rejected
+    auto result = manager.checkZipBomb(1, 101, 1, "archive.zip");
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_TRUE(result.zip_bomb_detected);
+}
+
+TEST_F(ZipBombProtectionTest, BlocksExcessiveFileCount) {
+    ContentSecurityManager manager(default_config_);
+    // 1001 files exceeds the 1000-file limit
+    auto result = manager.checkZipBomb(1000, 2000, 1001, "archive.zip");
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_TRUE(result.zip_bomb_detected);
+    EXPECT_EQ(result.error.code, ContentErrorCode::CONTENT_SIZE_EXCEEDED);
+    EXPECT_NE(result.error.message.find("file count"), std::string::npos);
+}
+
+TEST_F(ZipBombProtectionTest, AllowsExactlyMaxFileCount) {
+    ContentSecurityManager manager(default_config_);
+    // Exactly 1000 files must pass (limit is strictly >)
+    auto result = manager.checkZipBomb(1000, 2000, 1000, "archive.zip");
+    EXPECT_FALSE(result.error.failed());
+    EXPECT_FALSE(result.zip_bomb_detected);
+}
+
+TEST_F(ZipBombProtectionTest, SkipsCheckWhenDisabled) {
+    ContentSecurityConfig cfg;
+    cfg.enable_zip_bomb_check = false;
+    ContentSecurityManager manager(cfg);
+    // Would fail both ratio and file-count limits, but check is disabled
+    auto result = manager.checkZipBomb(1, 200, 2000, "bomb.zip");
+    EXPECT_FALSE(result.error.failed());
+    EXPECT_FALSE(result.zip_bomb_checked);   // check was skipped
+    EXPECT_FALSE(result.zip_bomb_detected);
+}
+
+TEST_F(ZipBombProtectionTest, HandlesZeroCompressedSize) {
+    ContentSecurityManager manager(default_config_);
+    // Zero compressed size must not divide-by-zero; only file count is checked
+    auto result = manager.checkZipBomb(0, 1000000, 5, "archive.zip");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ZipBombProtectionTest, RatioCheckUsesIntegerDivision) {
+    ContentSecurityManager manager(default_config_);
+    // 2 bytes compressed -> 201 bytes uncompressed: integer ratio = 100x, must pass
+    auto result = manager.checkZipBomb(2, 201, 1, "archive.zip");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ZipBombProtectionTest, CustomRatioThreshold) {
+    ContentSecurityConfig cfg;
+    cfg.max_zip_bomb_ratio = 10;    // stricter: only 10x ratio allowed
+    cfg.max_zip_file_count = 10000;
+    ContentSecurityManager manager(cfg);
+
+    // 11x ratio must be blocked
+    auto r1 = manager.checkZipBomb(1, 11, 1, "archive.zip");
+    EXPECT_TRUE(r1.error.failed());
+    EXPECT_TRUE(r1.zip_bomb_detected);
+
+    // 10x ratio must pass
+    auto r2 = manager.checkZipBomb(1, 10, 1, "archive.zip");
+    EXPECT_FALSE(r2.error.failed());
+    EXPECT_FALSE(r2.zip_bomb_detected);
+}
+
+TEST_F(ZipBombProtectionTest, CustomFileCountThreshold) {
+    ContentSecurityConfig cfg;
+    cfg.max_zip_bomb_ratio = 10000; // lenient ratio
+    cfg.max_zip_file_count = 5;     // strict file count
+    ContentSecurityManager manager(cfg);
+
+    // 6 files must be blocked
+    auto r1 = manager.checkZipBomb(100, 200, 6, "archive.zip");
+    EXPECT_TRUE(r1.error.failed());
+    EXPECT_EQ(r1.error.code, ContentErrorCode::CONTENT_SIZE_EXCEEDED);
+
+    // 5 files must pass
+    auto r2 = manager.checkZipBomb(100, 200, 5, "archive.zip");
+    EXPECT_FALSE(r2.error.failed());
+}
+
+TEST_F(ZipBombProtectionTest, ErrorIncludesRatioMetadata) {
+    ContentSecurityManager manager(default_config_);
+    auto result = manager.checkZipBomb(1, 200, 1, "bomb.zip");
+    ASSERT_TRUE(result.error.failed());
+    ASSERT_TRUE(result.error.metadata.contains("ratio"));
+    ASSERT_TRUE(result.error.metadata.contains("max_ratio"));
+    ASSERT_TRUE(result.error.metadata.contains("compressed_size"));
+    ASSERT_TRUE(result.error.metadata.contains("uncompressed_size"));
+    EXPECT_EQ(result.error.metadata["ratio"].get<uint64_t>(), 200u);
+    EXPECT_EQ(result.error.metadata["max_ratio"].get<uint64_t>(), 100u);
+    EXPECT_EQ(result.error.metadata["compressed_size"].get<uint64_t>(), 1u);
+    EXPECT_EQ(result.error.metadata["uncompressed_size"].get<uint64_t>(), 200u);
+}
+
+TEST_F(ZipBombProtectionTest, ErrorIncludesFileCountMetadata) {
+    ContentSecurityManager manager(default_config_);
+    auto result = manager.checkZipBomb(1000, 2000, 1001, "bomb.zip");
+    ASSERT_TRUE(result.error.failed());
+    ASSERT_TRUE(result.error.metadata.contains("file_count"));
+    ASSERT_TRUE(result.error.metadata.contains("max_file_count"));
+    EXPECT_EQ(result.error.metadata["file_count"].get<size_t>(), 1001u);
+    EXPECT_EQ(result.error.metadata["max_file_count"].get<size_t>(), 1000u);
+}
+
+TEST_F(ZipBombProtectionTest, ErrorContentIdSet) {
+    ContentSecurityManager manager(default_config_);
+    auto result = manager.checkZipBomb(1, 500, 1, "my_archive_id");
+    ASSERT_TRUE(result.error.failed());
+    EXPECT_EQ(result.error.content_id, "my_archive_id");
+}
+
+TEST_F(ZipBombProtectionTest, MetricsIncrementOnScan) {
+    ContentSecurityManager manager(default_config_);
+    manager.resetMetrics();
+    manager.checkZipBomb(100, 500, 10, "archive.zip");
+    EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 1u);
+    EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 0u);
+}
+
+TEST_F(ZipBombProtectionTest, MetricsIncrementOnBlock) {
+    ContentSecurityManager manager(default_config_);
+    manager.resetMetrics();
+    manager.checkZipBomb(1, 200, 1, "bomb.zip");  // ratio 200x, blocked
+    EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 1u);
+    EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 1u);
+}
+
+TEST_F(ZipBombProtectionTest, MetricsNotIncrementedWhenDisabled) {
+    ContentSecurityConfig cfg;
+    cfg.enable_zip_bomb_check = false;
+    ContentSecurityManager manager(cfg);
+    manager.resetMetrics();
+    manager.checkZipBomb(1, 200, 2000, "bomb.zip");
+    EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 0u);
+    EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 0u);
+}
+
+TEST_F(ZipBombProtectionTest, ResultToJsonContainsZipBombFields) {
+    ContentSecurityManager manager(default_config_);
+    auto result = manager.checkZipBomb(1, 200, 1, "bomb.zip");
+    auto j = result.toJson();
+    EXPECT_TRUE(j.contains("zip_bomb_checked"));
+    EXPECT_TRUE(j.contains("zip_bomb_detected"));
+    EXPECT_TRUE(j["zip_bomb_checked"].get<bool>());
+    EXPECT_TRUE(j["zip_bomb_detected"].get<bool>());
+}
+
+TEST_F(ZipBombProtectionTest, ConfigJsonRoundTrip) {
+    ContentSecurityConfig cfg1;
+    cfg1.enable_zip_bomb_check = false;
+    cfg1.max_zip_bomb_ratio = 50;
+    cfg1.max_zip_file_count = 500;
+
+    auto j = cfg1.toJson();
+    EXPECT_TRUE(j.contains("enable_zip_bomb_check"));
+    EXPECT_TRUE(j.contains("max_zip_bomb_ratio"));
+    EXPECT_TRUE(j.contains("max_zip_file_count"));
+
+    auto cfg2 = ContentSecurityConfig::fromJson(j);
+    EXPECT_EQ(cfg2.enable_zip_bomb_check, false);
+    EXPECT_EQ(cfg2.max_zip_bomb_ratio, 50u);
+    EXPECT_EQ(cfg2.max_zip_file_count, 500u);
+}
+
+TEST_F(ZipBombProtectionTest, MultipleScansAccumulateMetrics) {
+    ContentSecurityManager manager(default_config_);
+    manager.resetMetrics();
+
+    // Three clean scans
+    manager.checkZipBomb(100, 500, 5, "a.zip");
+    manager.checkZipBomb(200, 1000, 3, "b.zip");
+    manager.checkZipBomb(50, 250, 8, "c.zip");
+    // One blocked scan (ratio 200x)
+    manager.checkZipBomb(1, 200, 1, "bomb.zip");
+
+    EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 4u);
+    EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 1u);
 }
