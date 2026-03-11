@@ -3,24 +3,24 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphics_backends.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:56:51                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-11 06:44:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   40.0/100                                       ║
-    • Total Lines:     1422                                           ║
-    • Open Issues:     TODOs: 0, Stubs: 12                            ║
+    • Maturity Level:  🟡 RC                                            ║
+    • Quality Score:   75.0/100                                       ║
+    • Total Lines:     1409                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 5 (OpenGL only)              ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9b3ffd6f0 2026-03-11  feat(acceleration): implement DirectX 12 compute shader backend ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a325cf2a1  2026-02-24  feat(acceleration): implement Vulkan compute shaders for ... ║
     • 04867b2d4  2026-02-23  fix(acceleration): address code review feedback - move ef... ║
     • c5f10fdcb  2026-02-23  fix(acceleration): add input validation and error handlin... ║
-    • 2b9cce943  2026-02-23  feat(acceleration): implement Vulkan compute equivalents ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
+  Status: 🔧 In Progress (OpenGL stub remaining)                       ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -581,52 +581,37 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 #endif // THEMIS_ENABLE_VULKAN
 
 // ============================================================================
-// DirectX Vector Backend Stub
+// DirectXVectorBackend — stub implementation for non-DirectX builds
+// Full Windows implementation is in directx_backend_full.cpp
+// (compiled when _WIN32 && THEMIS_ENABLE_DIRECTX)
 // ============================================================================
+
+#if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
+
+class DirectXVectorBackend::DirectXVectorBackendImpl {
+    // Empty placeholder when DirectX 12 is not compiled in
+};
+
+DirectXVectorBackend::DirectXVectorBackend()
+    : initialized_(false), impl_(std::make_unique<DirectXVectorBackendImpl>()) {}
 
 DirectXVectorBackend::~DirectXVectorBackend() {
     shutdown();
 }
 
 bool DirectXVectorBackend::isAvailable() const noexcept {
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    // Check if DirectX 12 is available
-    // Would use D3D12GetDebugInterface() or similar
-    return false; // Stub: not fully implemented yet
-#else
     return false;
-#endif
 }
 
 BackendCapabilities DirectXVectorBackend::getCapabilities() const {
-    BackendCapabilities caps;
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    caps.supportsVectorOps = true;
-    caps.supportsBatchProcessing = true;
-    caps.supportsAsync = true;
-    caps.deviceName = "DirectX 12 (Stub)";
-#endif
-    return caps;
+    return {};
 }
 
 bool DirectXVectorBackend::initialize() {
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    // Initialize DirectX 12 device and command queue
-    initialized_ = false; // Stub
-    return initialized_;
-#else
     return false;
-#endif
 }
 
-void DirectXVectorBackend::shutdown() {
-#if defined(_WIN32) && defined(THEMIS_ENABLE_DIRECTX)
-    if (initialized_) {
-        // Cleanup DirectX resources
-        initialized_ = false;
-    }
-#endif
-}
+void DirectXVectorBackend::shutdown() {}
 
 std::vector<float> DirectXVectorBackend::computeDistances(
     const float* /*queries*/,
@@ -636,7 +621,7 @@ std::vector<float> DirectXVectorBackend::computeDistances(
     size_t /*numVectors*/,
     bool /*useL2*/
 ) {
-    return {}; // Stub
+    return {};
 }
 
 std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batchKnnSearch(
@@ -648,8 +633,10 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
     size_t /*k*/,
     bool /*useL2*/
 ) {
-    return {}; // Stub
+    return {};
 }
+
+#endif // !_WIN32 || !THEMIS_ENABLE_DIRECTX
 
 // ============================================================================
 // VulkanVectorBackend — public interface implementation

@@ -77,7 +77,7 @@ Production hardening in progress — all GPU kernel surfaces and design contract
 ## Known Issues & Limitations
 - CUDA ANN backends are still in progress; ANN vector operations fall through to CPU pending full HNSW index integration (kernels in `cuda/ann_kernels.cu` are complete; HNSW wiring is missing)
 - `CUDAGraphBackend` (graph analytics — BFS, shortest path) is a stub; GPU-accelerated graph traversal is not yet implemented
-- DirectX (`DirectXVectorBackend`) and OpenGL (`OpenGLVectorBackend`) vector backends are stubs; not yet implemented
+- DirectX (`DirectXVectorBackend`): fully implemented with DX12 compute shaders for L2 and cosine distance in `src/acceleration/directx_backend_full.cpp` (Windows only, `THEMIS_ENABLE_DIRECTX`); `OpenGLVectorBackend` is still a stub; not yet implemented
 - Tensor Core matrix ops (`CUDAMatrixBackend`) are production-ready; FP16/BF16 Tensor Core acceleration requires a CUDA-capable device (SM 7.0+ for FP16, SM 8.0+ for BF16)
 - Multi-GPU sharding backend (`MultiGPUVectorBackend`) implemented in acceleration layer; uses CPU sub-backends pending real CUDA kernels; `ncclGroupStart`/`ncclGroupEnd` wiring deferred to v2.5+
 - HIP top-K selection for k > 1024: heap-based/radix path not yet implemented (TODO in `hip_backend.cpp` line 204)
