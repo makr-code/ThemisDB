@@ -45,6 +45,9 @@ json ContentSecurityConfig::toJson() const {
     j["sanitize_error_messages"] = sanitize_error_messages;
     j["hide_internal_paths"] = hide_internal_paths;
     j["hide_system_info"] = hide_system_info;
+    j["enable_zip_bomb_check"] = enable_zip_bomb_check;
+    j["max_zip_bomb_ratio"] = max_zip_bomb_ratio;
+    j["max_zip_file_count"] = max_zip_file_count;
     return j;
 }
 
@@ -63,6 +66,9 @@ ContentSecurityConfig ContentSecurityConfig::fromJson(const json& j) {
     if (j.contains("sanitize_error_messages")) config.sanitize_error_messages = j["sanitize_error_messages"];
     if (j.contains("hide_internal_paths")) config.hide_internal_paths = j["hide_internal_paths"];
     if (j.contains("hide_system_info")) config.hide_system_info = j["hide_system_info"];
+    if (j.contains("enable_zip_bomb_check")) config.enable_zip_bomb_check = j["enable_zip_bomb_check"];
+    if (j.contains("max_zip_bomb_ratio")) config.max_zip_bomb_ratio = j["max_zip_bomb_ratio"].get<uint64_t>();
+    if (j.contains("max_zip_file_count")) config.max_zip_file_count = j["max_zip_file_count"].get<size_t>();
     
     return config;
 }
@@ -154,6 +160,59 @@ SecurityCheckResult ContentSecurityManager::checkContent(
     return result;
 }
 
+SecurityCheckResult ContentSecurityManager::checkZipBomb(
+    uint64_t compressed_size,
+    uint64_t uncompressed_size,
+    size_t file_count,
+    const std::string& content_id
+) {
+    SecurityCheckResult result;
+    result.error = ContentError::ok();
+
+    if (!config_.enable_zip_bomb_check) {
+        return result;
+    }
+
+    metrics_.zip_bomb_scans++;
+
+    // Check compression ratio: uncompressed / compressed must not exceed the threshold
+    if (compressed_size > 0) {
+        uint64_t ratio = uncompressed_size / compressed_size;
+        if (ratio > config_.max_zip_bomb_ratio) {
+            metrics_.zip_bomb_blocked++;
+            result.error = ContentError::error(
+                ContentErrorCode::CONTENT_MALWARE_DETECTED,
+                "Archive rejected: compression ratio exceeds limit (possible zip bomb)"
+            );
+            result.error.content_id = content_id;
+            result.error.metadata = {
+                {"ratio", ratio},
+                {"max_ratio", config_.max_zip_bomb_ratio},
+                {"compressed_size", compressed_size},
+                {"uncompressed_size", uncompressed_size}
+            };
+            return result;
+        }
+    }
+
+    // Check file count
+    if (file_count > config_.max_zip_file_count) {
+        metrics_.zip_bomb_blocked++;
+        result.error = ContentError::error(
+            ContentErrorCode::CONTENT_SIZE_EXCEEDED,
+            "Archive rejected: file count exceeds limit (possible zip bomb)"
+        );
+        result.error.content_id = content_id;
+        result.error.metadata = {
+            {"file_count", file_count},
+            {"max_file_count", config_.max_zip_file_count}
+        };
+        return result;
+    }
+
+    return result;
+}
+
 SecurityCheckResult ContentSecurityManager::checkTextForPii(
     const std::string& text,
     const std::string& content_id
@@ -232,6 +291,8 @@ void ContentSecurityManager::resetMetrics() {
     metrics_.abuse_scans.store(0, std::memory_order_relaxed);
     metrics_.abuse_detected.store(0, std::memory_order_relaxed);
     metrics_.errors_sanitized.store(0, std::memory_order_relaxed);
+    metrics_.zip_bomb_scans.store(0, std::memory_order_relaxed);
+    metrics_.zip_bomb_blocked.store(0, std::memory_order_relaxed);
 }
 
 // ============================================================================
@@ -424,6 +485,8 @@ json ContentSecurityManager::Metrics::toJson() const {
     j["abuse_scans"] = abuse_scans.load();
     j["abuse_detected"] = abuse_detected.load();
     j["errors_sanitized"] = errors_sanitized.load();
+    j["zip_bomb_scans"] = zip_bomb_scans.load();
+    j["zip_bomb_blocked"] = zip_bomb_blocked.load();
     return j;
 }
 

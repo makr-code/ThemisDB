@@ -25,6 +25,7 @@
 #pragma once
 
 #include "content/content_processor.h"
+#include "content/content_security.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -256,8 +257,20 @@ public:
      */
     void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
 
+    /**
+     * @brief Configure the security manager used for zip-bomb checks
+     * 
+     * By default a ContentSecurityManager with zip-bomb checks enabled (ratio 100×,
+     * max 1,000 files) is used automatically. Call this to supply a pre-configured
+     * manager, e.g. to adjust thresholds or share metrics with another component.
+     */
+    void setSecurityConfig(const ContentSecurityConfig& security_config) {
+        security_manager_ = ContentSecurityManager(security_config);
+    }
+
 private:
     ArchiveProcessorConfig config_;
+    ContentSecurityManager security_manager_;
     
     // Format-specific extraction methods
     ArchiveExtractionResult extractZip(const std::string& blob, const std::string& password);

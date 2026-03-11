@@ -59,6 +59,11 @@ struct ContentSecurityConfig {
     bool hide_internal_paths = true;
     bool hide_system_info = true;
     
+    // Zip-bomb protection for archive ingestion
+    bool enable_zip_bomb_check = true;
+    uint64_t max_zip_bomb_ratio = 100;   // Max decompressed/compressed ratio (100×)
+    size_t max_zip_file_count = 1000;    // Max number of files per archive
+    
     json toJson() const;
     static ContentSecurityConfig fromJson(const json& j);
 };
@@ -139,6 +144,26 @@ public:
     );
     
     /**
+     * @brief Check archive for zip-bomb patterns
+     * 
+     * Validates that the archive's decompressed/compressed size ratio does not
+     * exceed max_zip_bomb_ratio (default 100×) and that the file count does not
+     * exceed max_zip_file_count (default 1,000). Must be called before extraction.
+     * 
+     * @param compressed_size   Total compressed size of the archive in bytes
+     * @param uncompressed_size Total uncompressed size reported in archive headers
+     * @param file_count        Number of file entries in the archive
+     * @param content_id        Content identifier for logging
+     * @return SecurityCheckResult with error set if a zip-bomb pattern is detected
+     */
+    SecurityCheckResult checkZipBomb(
+        uint64_t compressed_size,
+        uint64_t uncompressed_size,
+        size_t file_count,
+        const std::string& content_id
+    );
+    
+    /**
      * @brief Check text for PII
      * 
      * @param text Text to check
@@ -188,6 +213,8 @@ public:
         std::atomic<uint64_t> abuse_scans{0};
         std::atomic<uint64_t> abuse_detected{0};
         std::atomic<uint64_t> errors_sanitized{0};
+        std::atomic<uint64_t> zip_bomb_scans{0};
+        std::atomic<uint64_t> zip_bomb_blocked{0};
         
         json toJson() const;
     };

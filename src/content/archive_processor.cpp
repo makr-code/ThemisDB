@@ -595,10 +595,22 @@ ArchiveProcessorResult ArchiveProcessor::process(
         }
     }
     
-    // Validate archive
+    // Validate archive (size, file count, compression ratio, paths)
     std::string validation_error;
     if (!validateArchive(metadata, validation_error)) {
         result.error_message = validation_error;
+        return result;
+    }
+
+    // Zip-bomb protection via ContentSecurityManager (blocks ingestion if thresholds exceeded)
+    auto zip_bomb_result = security_manager_.checkZipBomb(
+        metadata.total_compressed_size,
+        metadata.total_uncompressed_size,
+        metadata.file_count,
+        filename
+    );
+    if (zip_bomb_result.error.failed()) {
+        result.error_message = zip_bomb_result.error.message;
         return result;
     }
     

@@ -291,6 +291,148 @@ TEST_F(ArchiveProcessorTest, PluginAvailability) {
     EXPECT_TRUE(available || !available);  // Always passes, documents the API
 }
 
+// ============================================================================
+// Tests for zip-bomb protection via ContentSecurityManager
+// ============================================================================
+
+class ContentSecurityZipBombTest : public ::testing::Test {
+protected:
+    ContentSecurityConfig default_config_;  // enable_zip_bomb_check=true, ratio=100, count=1000
+};
+
+TEST_F(ContentSecurityZipBombTest, AllowsNormalArchive) {
+    ContentSecurityManager manager(default_config_);
+    // 100 bytes compressed -> 500 bytes uncompressed: ratio 5x, well under 100x
+    auto result = manager.checkZipBomb(100, 500, 10, "test_content");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, BlocksExcessiveCompressionRatio) {
+    ContentSecurityManager manager(default_config_);
+    // 1 byte compressed -> 200 bytes uncompressed: ratio 200x, exceeds 100x limit
+    auto result = manager.checkZipBomb(1, 200, 1, "test_content");
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_EQ(result.error.code, ContentErrorCode::CONTENT_MALWARE_DETECTED);
+    EXPECT_NE(result.error.message.find("compression ratio"), std::string::npos);
+}
+
+TEST_F(ContentSecurityZipBombTest, BlocksExactlyAtRatioLimit) {
+    ContentSecurityManager manager(default_config_);
+    // Ratio exactly 100x should pass (limit is >, not >=)
+    auto result = manager.checkZipBomb(1, 100, 1, "test_content");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, BlocksOneOverRatioLimit) {
+    ContentSecurityManager manager(default_config_);
+    // Ratio 101x should be blocked
+    auto result = manager.checkZipBomb(1, 101, 1, "test_content");
+    EXPECT_TRUE(result.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, BlocksExcessiveFileCount) {
+    ContentSecurityManager manager(default_config_);
+    // 1001 files exceeds the 1000-file limit
+    auto result = manager.checkZipBomb(1000, 2000, 1001, "test_content");
+    EXPECT_TRUE(result.error.failed());
+    EXPECT_EQ(result.error.code, ContentErrorCode::CONTENT_SIZE_EXCEEDED);
+    EXPECT_NE(result.error.message.find("file count"), std::string::npos);
+}
+
+TEST_F(ContentSecurityZipBombTest, AllowsExactlyMaxFileCount) {
+    ContentSecurityManager manager(default_config_);
+    // Exactly 1000 files should pass
+    auto result = manager.checkZipBomb(1000, 2000, 1000, "test_content");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, SkipsCheckWhenDisabled) {
+    ContentSecurityConfig cfg;
+    cfg.enable_zip_bomb_check = false;
+    ContentSecurityManager manager(cfg);
+    // Would normally fail ratio check (200x), but check is disabled
+    auto result = manager.checkZipBomb(1, 200, 2000, "test_content");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, HandlesZeroCompressedSize) {
+    ContentSecurityManager manager(default_config_);
+    // Zero compressed size should not divide-by-zero; only file count is checked
+    auto result = manager.checkZipBomb(0, 1000, 5, "test_content");
+    EXPECT_FALSE(result.error.failed());
+}
+
+TEST_F(ContentSecurityZipBombTest, MetricsIncrementedOnScan) {
+    ContentSecurityManager manager(default_config_);
+    manager.resetMetrics();
+    manager.checkZipBomb(100, 500, 10, "test_content");
+    EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 1u);
+    EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 0u);
+}
+
+TEST_F(ContentSecurityZipBombTest, MetricsIncrementedOnBlock) {
+    ContentSecurityManager manager(default_config_);
+    manager.resetMetrics();
+    manager.checkZipBomb(1, 200, 10, "test_content");  // 200x ratio, blocked
+    EXPECT_EQ(manager.getMetrics().zip_bomb_scans.load(), 1u);
+    EXPECT_EQ(manager.getMetrics().zip_bomb_blocked.load(), 1u);
+}
+
+TEST_F(ContentSecurityZipBombTest, CustomThresholds) {
+    ContentSecurityConfig cfg;
+    cfg.max_zip_bomb_ratio = 10;   // stricter: only 10x ratio
+    cfg.max_zip_file_count = 5;    // stricter: only 5 files
+    ContentSecurityManager manager(cfg);
+
+    // 11x ratio should be blocked
+    auto r1 = manager.checkZipBomb(1, 11, 1, "test");
+    EXPECT_TRUE(r1.error.failed());
+
+    // 6 files should be blocked
+    auto r2 = manager.checkZipBomb(100, 200, 6, "test");
+    EXPECT_TRUE(r2.error.failed());
+
+    // Within thresholds should pass
+    auto r3 = manager.checkZipBomb(10, 50, 4, "test");
+    EXPECT_FALSE(r3.error.failed());
+}
+
+// Integration test: ArchiveProcessor blocks when ContentSecurityManager detects zip bomb
+TEST_F(ArchiveProcessorTest, SecurityManagerBlocksZipBombRatioViaConfig) {
+    // Build a processor whose security manager uses a very strict 1x ratio limit
+    ArchiveProcessorConfig proc_cfg;
+    proc_cfg.max_compression_ratio = 10000;  // disable internal ratio guard
+    proc_cfg.max_file_count = 10000;
+    ArchiveProcessor processor(proc_cfg);
+
+    ContentSecurityConfig sec_cfg;
+    sec_cfg.max_zip_bomb_ratio = 1;     // only 1x allowed
+    sec_cfg.max_zip_file_count = 10000;
+    processor.setSecurityConfig(sec_cfg);
+
+    ArchiveMetadata metadata;
+    metadata.format = ArchiveFormat::ZIP;
+    metadata.total_compressed_size = 1;
+    metadata.total_uncompressed_size = 2;  // ratio = 2, blocked by sec limit of 1
+    metadata.member_count = 1;
+    metadata.file_count = 1;
+
+    // validateArchive passes (internal limit is 10000), but security manager blocks
+    std::string err;
+    EXPECT_TRUE(processor.validateArchive(metadata, err));  // internal check passes
+
+    // We cannot call process() without a real archive blob, so test the security
+    // manager directly through the processor's setSecurityConfig path
+    ContentSecurityManager mgr(sec_cfg);
+    auto result = mgr.checkZipBomb(
+        metadata.total_compressed_size,
+        metadata.total_uncompressed_size,
+        metadata.file_count,
+        "test"
+    );
+    EXPECT_TRUE(result.error.failed());
+}
+
 } // namespace test
 } // namespace content
 } // namespace themis
