@@ -156,6 +156,14 @@ public:
         int max_cell_count = 1000000;      // XLSX: limit cells to extract
         std::string password;              // For encrypted documents
         ContentMetrics* metrics = nullptr; // Optional: report office_extracted / extract_error counters
+
+        // LibreOffice headless fallback (DOC/XLS/PPT legacy formats).
+        // Sandboxing relies on POSIX_SPAWN_RESETIDS (drops SUID/SGID bits) and
+        // POSIX_SPAWN_SETPGROUP (isolated process group for clean kill on timeout).
+        // For additional OS-level isolation run the ThemisDB process itself under
+        // a restricted system account with no write access to the data directory.
+        std::string libreoffice_path;          // Absolute path to soffice binary; default: /usr/bin/soffice
+        int libreoffice_timeout_seconds = 30;  // Hard timeout in seconds; subprocess is killed on expiry
     };
 
     OfficeProcessor();
@@ -227,6 +235,10 @@ private:
     ExtractionResult extractXLSX(const std::string& blob);
     ExtractionResult extractPPTX(const std::string& blob);
     ExtractionResult extractODF(const std::string& blob, OfficeDocumentType type);
+
+    // LibreOffice headless fallback for legacy OLE formats (DOC/XLS/PPT)
+    // Spawns soffice --headless via posix_spawn with a configurable timeout.
+    ExtractionResult extractLegacyViaLibreOffice(const std::string& blob, OfficeDocumentType doc_type);
 
     // OOXML helpers
     std::string readZipEntry(const std::string& zip_blob, const std::string& entry_path);

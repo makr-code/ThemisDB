@@ -1,12 +1,12 @@
 # Config-Modul — Fehlende Implementierungen
-<!-- status: current | validated: 2026-03-09 | primary: src/config/ -->
+<!-- status: current | validated: 2026-03-11 | primary: src/config/ -->
 
 Dieser Report dokumentiert Punkte, bei denen der Reality-Check (Doku ↔ Sourcecode) Abweichungen
 ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 
 **Erstellungsdatum:** 2026-03-09  
 **Geprüfte Quellen:** `src/config/`, `benchmarks/`, `tests/`, `tools/`  
-**Gesamtbefund:** 2 kritische Pfadfehler behoben; 3 geplante Features noch nicht implementiert (korrekt als `[ ]` markiert); CFG-005 und CFG-006 inzwischen implementiert (v1.7.0 / v2.0.0 Vorarbeiten)
+**Gesamtbefund:** 2 kritische Pfadfehler behoben; CFG-005, CFG-006 und CFG-007 implementiert; 1 geplantes Feature noch offen (CFG-008: `loadAsJson()` In-Memory-Überladung)
 
 ---
 
@@ -20,7 +20,7 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 | CFG-004 | `src/config/FUTURE_ENHANCEMENTS.md` → Performance Targets | `tests/config/metrics_scrape_test.cpp` | Datei existiert nicht | ℹ️ Geplant (offen) |
 | CFG-005 | `src/config/FUTURE_ENHANCEMENTS.md` → ConfigSchemaValidator Extended Keywords | `allOf`, `anyOf`, `oneOf` implementiert | In `config_schema_validator.cpp` vorhanden (seit v1.7.0) | ✅ Implementiert |
 | CFG-006 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `$ref` mit `$defs`-Auflösung | In `config_schema_validator.cpp` vorhanden (seit v2.0.0) | ✅ Implementiert |
-| CFG-007 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `format`, `uniqueItems` | Nicht in `config_schema_validator.cpp` vorhanden | ℹ️ Geplant für v2.0.0 |
+| CFG-007 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `format`, `uniqueItems` | In `config_schema_validator.cpp` vorhanden (seit v2.0.0) | ✅ Implementiert |
 | CFG-008 | `src/config/FUTURE_ENHANCEMENTS.md` § ConfigSchemaValidator Extended Keywords | `loadAsJson()` für In-Memory-YAML-String | Nicht in `config_schema_validator.h` vorhanden | ℹ️ Geplant für v2.0.0 |
 
 ---
@@ -90,14 +90,11 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 
 ---
 
-### CFG-007 — ConfigSchemaValidator: format / uniqueItems nicht implementiert ℹ️ Geplant für v2.0.0
+### CFG-007 — ConfigSchemaValidator: format / uniqueItems ✅ Implementiert
 
 **Claim-Quelle:** `src/config/FUTURE_ENHANCEMENTS.md`  
 **Erwartet:** `format` und `uniqueItems` Keywords in `config_schema_validator.cpp`  
-**Beobachtet:** Keine entsprechenden Code-Stellen  
-**Status:** ℹ️ Korrekt als geplant markiert  
-**Issue-Titelvorschlag:** `feat(config): add format and uniqueItems JSON Schema keywords`  
-**Labels:** `enhancement`, `config`, `schema-validation`
+**Status:** ✅ Implementiert — `validateString()` prüft `format` (date, date-time, email, uri, ipv4, ipv6); `validateArray()` prüft `uniqueItems`; 20 neue Tests in `tests/test_config_schema_validator.cpp`; `FUTURE_ENHANCEMENTS.md` zeigt `[x]`
 
 ---
 
@@ -124,3 +121,4 @@ ergeben hat. Er wird beim nächsten Validierungslauf aktualisiert.
 | ROADMAP | `src/config/ROADMAP.md` | Unit-Test-Coverage-Status `[~]` → `[x]` (4 Testdateien, 3 363 Zeilen nachgewiesen) |
 | CFG-005 | `src/config/config_schema_validator.cpp` | `allOf`/`anyOf`/`oneOf` implementiert; `[x]` in FUTURE_ENHANCEMENTS.md |
 | CFG-006 | `src/config/config_schema_validator.cpp` | `$ref`/`$defs`-Auflösung implementiert (RFC 6901, Zyklus-Schutz, SSRF-Schutz); `[x]` in FUTURE_ENHANCEMENTS.md |
+| CFG-007 | `src/config/config_schema_validator.cpp` | `format` (date, date-time, email, uri, ipv4, ipv6) und `uniqueItems` implementiert; 20 neue Tests; `[x]` in FUTURE_ENHANCEMENTS.md |

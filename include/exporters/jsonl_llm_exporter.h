@@ -204,6 +204,17 @@ public:
         format_template_ = makeFormatTemplate(config.format_template_type);
     }
     
+    /// Validate that all entities in \p sample satisfy the configured format
+    /// template's required fields.  Returns immediately with a valid result
+    /// when no template is active (format_template_type == NONE).
+    ///
+    /// Intended for use as a CI/preflight dry-run before a full export.
+    /// The returned TemplateValidationResult::missing_fields list is sorted
+    /// and deduplicated so automated comparisons are deterministic.
+    TemplateValidationResult validateTemplate(
+        const std::vector<BaseEntity>& sample
+    ) const;
+
     /// Get current configuration
     const JSONLLLMConfig& getConfig() const { return config_; }
     

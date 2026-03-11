@@ -386,12 +386,20 @@ private:
     // Message handlers (OpCode dispatch)
     void handleMessage();
     void handleHello();
-    void handleAuthRequest();
+    void handleAuthRequest();   // 0x03 (backward-compat alias) and 0x04 AUTH_RESPONSE
     void handleGet();
     void handlePut();
     void handleDelete();
+    void handleBatchGet();
+    void handleBatchPut();
     void handleQuery();
+    void handleCursorNext();
+    void handleCursorClose();
+    void handleTransactionBegin();
+    void handleTransactionCommit();
+    void handleTransactionAbort();
     void handleVectorSearch();
+    void handleGraphTraverse();
     void handleGeoQuery();
     void handleTimeseriesQuery();
     void handleBpmnStartProcess();

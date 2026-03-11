@@ -129,9 +129,9 @@ Static utility that validates YAML and JSON config files against JSON Schema (Dr
 
 **Supported JSON Schema keywords:**
 - `type`, `properties`, `required`, `additionalProperties`
-- `minLength`, `maxLength`, `pattern` (string)
+- `minLength`, `maxLength`, `pattern`, `format` (string; formats: `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`)
 - `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum` (number/integer)
-- `minItems`, `maxItems`, `items` (array)
+- `minItems`, `maxItems`, `items`, `uniqueItems` (array)
 - `enum`, `const`
 
 **Thread Safety:** All public methods are stateless static functions; safe for concurrent use.

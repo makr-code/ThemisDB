@@ -23,6 +23,7 @@
 
 #include "exporters/format_template.h"
 #include <nlohmann/json.hpp>
+#include <set>
 
 using json = nlohmann::json;
 
@@ -233,6 +234,48 @@ std::unique_ptr<IFormatTemplate> makeFormatTemplate(FormatTemplateType type) {
         default:
             return nullptr;
     }
+}
+
+// ---------------------------------------------------------------------------
+// Dry-run / preflight validation
+// ---------------------------------------------------------------------------
+
+TemplateValidationResult validateTemplate(
+    FormatTemplateType type,
+    const FormatTemplateFieldMapping& mapping,
+    const std::vector<BaseEntity>& sample
+) {
+    TemplateValidationResult result;
+
+    // No template active — nothing to validate.
+    if (type == FormatTemplateType::NONE) {
+        result.valid = true;
+        return result;
+    }
+
+    auto tpl = makeFormatTemplate(type);
+    if (!tpl) {
+        // Unknown type treated as no template.
+        result.valid = true;
+        return result;
+    }
+
+    std::set<std::string> missing_set;
+
+    for (const auto& entity : sample) {
+        ++result.entities_checked;
+        std::vector<std::string> entity_missing;
+        if (!tpl->validateFields(entity, mapping, &entity_missing)) {
+            ++result.entities_failed;
+            for (const auto& f : entity_missing) {
+                missing_set.insert(f);
+            }
+        }
+    }
+
+    result.valid = (result.entities_failed == 0);
+    result.missing_fields.assign(missing_set.begin(), missing_set.end());
+    return result;
 }
 
 } // namespace exporters

@@ -289,3 +289,39 @@ TEST_F(AutoLabelerProductionTest, LabelAll_WithCallback_CallsCallbackOnProgress)
     // No documents → callback not invoked, but no crash either
     EXPECT_FALSE(callback_invoked);
 }
+
+// ============================================================================
+// AQL executor wiring – nullptr engine (backward-compatibility, offline mode)
+// ============================================================================
+
+TEST_F(AutoLabelerProductionTest, Construction_ExplicitNullEngine_Succeeds) {
+    // Explicit nullptr engine must be accepted without throwing
+    EXPECT_NO_THROW(LegalAutoLabeler labeler(config_, db_conn_, nullptr));
+}
+
+TEST_F(AutoLabelerProductionTest, LabelAll_NullEngine_ReturnsZeroDocuments) {
+    // When no engine is wired in, labelAll() must return 0 documents – same as
+    // the two-argument constructor.
+    LegalAutoLabeler labeler(config_, db_conn_, nullptr);
+    auto stats = labeler.labelAll();
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.samples_created,     0u);
+}
+
+TEST_F(AutoLabelerProductionTest, LabelQuery_NullEngine_ReturnsZeroDocuments) {
+    // When no engine is wired in, labelQuery() must return 0 documents even for
+    // a well-formed AQL query string.
+    LegalAutoLabeler labeler(config_, db_conn_, nullptr);
+    auto stats = labeler.labelQuery(
+        "FOR doc IN legal_documents RETURN doc._key");
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_GE(stats.elapsed_seconds, 0.0);
+}
+
+TEST_F(AutoLabelerProductionTest, LabelDocument_NullEngine_StillProducesSamples) {
+    // labelDocument() does not require a query engine; it uses the in-process
+    // fallback text regardless of whether an engine is wired in.
+    LegalAutoLabeler labeler(config_, db_conn_, nullptr);
+    auto samples = labeler.labelDocument("doc_null_engine");
+    EXPECT_GE(samples.size(), 1u);
+}

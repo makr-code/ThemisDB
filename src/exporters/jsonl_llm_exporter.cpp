@@ -908,6 +908,20 @@ bool JSONLLLMExporter::validateJsonSchema(
 }
 
 // ============================================================================
+// Template dry-run validation
+// ============================================================================
+
+TemplateValidationResult JSONLLLMExporter::validateTemplate(
+    const std::vector<BaseEntity>& sample
+) const {
+    return themis::exporters::validateTemplate(
+        config_.format_template_type,
+        config_.template_field_mapping,
+        sample
+    );
+}
+
+// ============================================================================
 // LoRA Adapter Metadata (LoRAExchange.ai compatibility)
 // ============================================================================
 

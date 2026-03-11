@@ -23,6 +23,7 @@
 
 #include "training/auto_labeler.h"
 #include "analytics/nlp_text_analyzer.h"
+#include "query/aql_runner.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -83,9 +84,11 @@ namespace aql_templates {
 // ============================================================================
 class LegalAutoLabeler::Impl {
 public:
-    explicit Impl(const AutoLabelConfig& config, const std::string& db_connection)
+    explicit Impl(const AutoLabelConfig& config, const std::string& db_connection,
+                  QueryEngine* engine)
         : config_(config)
         , db_connection_(db_connection)
+        , query_engine_(engine)
         , total_processed_(0)
         , total_errors_(0) {
 
@@ -102,13 +105,14 @@ public:
         LabelingStats stats;
         auto start_time = std::chrono::steady_clock::now();
 
-        // Phase 1: AQL query to fetch document IDs from source collection
-        // Production query: FOR doc IN @@source_collection FILTER doc.text != null RETURN doc._key
-        // In-process simulation: use an empty list (database not connected in test env)
+        // Fetch document IDs from the source collection via AQL when a query
+        // engine is wired in; fall back to an empty list in offline/test mode.
         std::vector<std::string> document_ids;
-        // When database is connected, document_ids would be populated via:
-        //   executeAqlQuery(aql_templates::FETCH_ALL_DOCUMENTS,
-        //                   {{"@source_collection", config_.source_collection}})
+        if (query_engine_) {
+            auto query = buildQuery(aql_templates::FETCH_ALL_DOCUMENTS,
+                                    {{"@source_collection", config_.source_collection}});
+            document_ids = executeAqlQuery(query);
+        }
 
         size_t processed = 0;
         std::vector<TrainingSample> batch;
@@ -211,10 +215,13 @@ public:
             return stats;
         }
 
-        // Phase 1: Execute the provided AQL query to get document IDs
-        // In production: results = executeAqlQuery(aql_query, {})
+        // Execute the provided AQL query to get document IDs.
+        // When a query engine is available, run the query against the DB;
+        // otherwise fall back to an empty list (offline/test mode).
         std::vector<std::string> document_ids;
-        // document_ids would be populated from AQL query execution
+        if (query_engine_) {
+            document_ids = executeAqlQuery(aql_query);
+        }
 
         size_t processed = 0;
         std::vector<TrainingSample> batch;
@@ -237,6 +244,7 @@ public:
 
                 stats.documents_processed++;
                 processed++;
+                total_processed_++;
 
                 if (callback && processed % 10 == 0) {
                     callback(processed, document_ids.size(),
@@ -303,11 +311,49 @@ public:
 private:
     AutoLabelConfig config_;
     std::string db_connection_;
+    QueryEngine* query_engine_;   ///< AQL engine (non-owning); nullptr in offline/test mode
     std::unique_ptr<analytics::NlpTextAnalyzer> nlp_analyzer_;
     size_t total_processed_;
     size_t total_errors_;
 
-    // Phase 1: Fetch document text (in-process fallback for test environment)
+    // Execute an AQL query via the wired QueryEngine and extract document IDs
+    // from the "results" array of the JSON response envelope.
+    // Returns an empty vector when no engine is available or the query fails.
+    std::vector<std::string> executeAqlQuery(const std::string& aql) const {
+        std::vector<std::string> ids;
+        if (!query_engine_) {
+            return ids;
+        }
+        auto result = executeAql(aql, *query_engine_);
+        if (!result) {
+            return ids;
+        }
+        const auto& json = *result;
+        if (json.is_object() && json.contains("results") && json["results"].is_array()) {
+            for (const auto& item : json["results"]) {
+                if (item.is_string()) {
+                    ids.push_back(item.get<std::string>());
+                } else if (item.is_object()) {
+                    // Standard AQL response envelope: each entry carries "pk"
+                    if (item.contains("pk") && item["pk"].is_string()) {
+                        ids.push_back(item["pk"].get<std::string>());
+                    } else if (item.contains("_key") && item["_key"].is_string()) {
+                        ids.push_back(item["_key"].get<std::string>());
+                    }
+                }
+            }
+        } else if (json.is_array()) {
+            for (const auto& item : json) {
+                if (item.is_string()) {
+                    ids.push_back(item.get<std::string>());
+                }
+            }
+        }
+        return ids;
+    }
+
+    // Fetch document text (falls back to representative German legal text when
+    // no query engine is wired in, e.g. in unit-test / offline mode).
     std::string fetchDocumentText(const std::string& document_id) const {
         // In production: AQL query (aql_templates::FETCH_DOCUMENT_BY_ID)
         // For test environment: return representative German legal text
@@ -420,8 +466,9 @@ private:
 
 // Public API implementation
 LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
-                                   const std::string& db_connection)
-    : impl_(std::make_unique<Impl>(config, db_connection)) {
+                                   const std::string& db_connection,
+                                   QueryEngine* engine)
+    : impl_(std::make_unique<Impl>(config, db_connection, engine)) {
 }
 
 LegalAutoLabeler::~LegalAutoLabeler() = default;

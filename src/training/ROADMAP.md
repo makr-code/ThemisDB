@@ -9,6 +9,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 ## Completed ✅
 - [x] LegalAutoLabeler – automated training sample generation from legal documents via NLP modality extraction
 - [x] `labelAll()`, `labelDocument()`, `labelQuery()` APIs
+- [x] AQL query executor wired to `labelAll()` and `labelQuery()` for DB document-ID fetch (v1.7.0) — `auto_labeler.cpp`
 - [x] Low-confidence sample flagging and human-review queue
 - [x] `updateSampleConfidence()` for recording human review decisions
 - [x] German (`de`) and multi-language support
@@ -28,6 +29,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] ContentModality enum for multi-modality sample tracking (Target: Q1 2026) — `auto_labeler.h` (b2342851)
 - [x] Confidence-Threshold Auto-Calibration via isotonic regression (Target: Q1 2026) — `ConfidenceCalibrator` in `training_pipeline.h/.cpp` (b2342851)
 - [x] Multi-modality parser (`ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`) (Target: Q1 2026) — `modality_parser.h/.cpp` (b2342851)
+- [x] Real LoRA weight manipulation in `IncrementalLoRATrainer` (Target: Q1 2026) — replaced `computeSimulatedLoss()` with `LoRALayer` + `AdamOptimizer` forward/backward/step; CUDA/HIP via `GPULoRALayer`; binary checkpoint serialization for B and A matrices (`incremental_lora_trainer.cpp`)
 
 ## In Progress 🚧
 - [~] Multi-GPU distributed training coordination (Target: Q2 2026)
@@ -78,6 +80,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 ### Phase 1: Auto-Labeling & LoRA Training Pipeline (Status: Completed ✅)
 - [x] LegalAutoLabeler – NLP modality extraction from legal documents
 - [x] `labelAll()`, `labelDocument()`, `labelQuery()` public APIs
+- [x] `labelAll()` and `labelQuery()` fetch document IDs from the DB via AQL query executor (`executeAql()`); offline/nullptr-engine fallback for tests
 - [x] Low-confidence sample flagging and human-review queue with `updateSampleConfidence()`
 - [x] IncrementalLoRATrainer – full LoRA lifecycle (train, evaluate, deploy, rollback)
 - [x] INITIAL and INCREMENTAL training modes with configurable rank/alpha/lr
@@ -116,6 +119,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - NLP modality extractor is provided externally (`analytics::NlpTextAnalyzer`); not bundled.
 - Distributed/multi-GPU training is not yet coordinated; single-node only.
 - LoRA adapter serving (inference) must be handled by the LLM integration layer.
+- Real LoRA weight updates use the embedded Tensor framework; base-model tokenization (llama.cpp) is not yet wired — training batches are encoded as float feature vectors from sample hashes.
 
 ## Breaking Changes
 - `TrainingSample` struct is stable from v1.x; new optional fields only.

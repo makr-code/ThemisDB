@@ -28,13 +28,13 @@ This document covers implementation-specific future enhancements for the Content
 **Priority:** High
 **Target Version:** v1.7.0 ✅ Implemented
 
-`pdf_processor.cpp` and `office_processor.cpp` are fully implemented. PDF text extraction uses **poppler-cpp** (not pdfium); DOCX/XLSX/PPTX/ODF extraction uses built-in minizip + pugixml. Legacy `.doc`/`.xls` via LibreOffice headless is not yet implemented (see open item below).
+`pdf_processor.cpp` and `office_processor.cpp` are fully implemented. PDF text extraction uses **poppler-cpp** (not pdfium); DOCX/XLSX/PPTX/ODF extraction uses built-in minizip + pugixml. Legacy `.doc`/`.xls`/`.ppt` via LibreOffice headless is implemented via `extractLegacyViaLibreOffice()` (CON-001 ✅).
 
 **Implementation Notes:**
 - `[x]` PDF: `pdf_processor.cpp` uses poppler-cpp (`THEMIS_ENABLE_PDF=ON`); extracts text per page with layout preservation; `page_number` preserved as metadata field; Quality Score 100/100, 0 stubs (poppler was chosen over pdfium for its C++ API).
 - `[x]` DOCX: `office_processor.cpp::extractDOCX()` — unzips `.docx` with minizip/libzip; parses `word/document.xml` extracting `<w:t>` nodes via pugixml.
 - `[x]` XLSX: `office_processor.cpp::extractXLSX()` — extracts cell values from `xl/worksheets/sheet*.xml`; returns JSON array-of-arrays; row/column cap enforced.
-- `[ ]` LibreOffice headless fallback (`.doc`, `.ppt`, `.xls`): spawn `soffice --headless --convert-to txt` in a sandboxed subprocess with a 30 s timeout; run under restricted OS user via `posix_spawn`; clean up temp files on completion or timeout.
+- `[x]` LibreOffice headless fallback (`.doc`, `.ppt`, `.xls`): `office_processor.cpp::extractLegacyViaLibreOffice()` spawns `soffice --headless --convert-to txt` via `posix_spawn`; 30 s timeout (SIGTERM→SIGKILL); `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`; RAII temp-file cleanup; full 8-byte OLE header validation (CON-001 ✅).
 - `[x]` Prometheus counters `content_pdf_extracted_total`, `content_office_extracted_total`, `content_extract_errors_total` implemented in `content_metrics.cpp`.
 
 **Performance Targets:**
@@ -153,7 +153,7 @@ After text extraction (from documents, PDF, OCR output), automatically generate 
 ## Security / Reliability
 
 - `[x]` `content_security.cpp` scans all uploaded archives (ZIP, tar) for zip-bomb patterns before extraction in `archive_processor.cpp`; enforces a maximum decompressed-to-compressed ratio of 100× and a maximum extracted file count of 1,000 via `ContentSecurityManager::checkZipBomb()` (CON-006).
-- `[ ]` LibreOffice headless subprocess spawned by `office_processor.cpp` must run in a separate OS user with no write access to the ThemisDB data directory; use `posix_spawn` with a restricted environment rather than `system()`.
+- `[x]` LibreOffice headless subprocess spawned by `office_processor.cpp` uses `posix_spawn` with `POSIX_SPAWN_RESETIDS` (drops SUID/SGID), `POSIX_SPAWN_SETPGROUP` (isolated process group), minimal sanitised environment (`HOME=tmpdir`), and no write access to ThemisDB data directory (CON-007 ✅).
 - `[ ]` OCR output from `ocr_processor.cpp` must pass through `content_validator.cpp` before indexing to prevent injection of control characters or oversized text fields into the document store.
 
 ---

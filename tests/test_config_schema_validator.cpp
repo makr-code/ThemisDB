@@ -931,6 +931,230 @@ TEST_F(ConfigSchemaValidatorTest, CyclicRefReportsError) {
     EXPECT_NE(result.errors[0].find("Cyclic"), std::string::npos);
 }
 
+// ═══════════════════════════════════════════════════════════
+// validate – uniqueItems
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, UniqueItemsPassWhenAllDistinct) {
+    auto path = writeFile("cfg.json", R"({"tags": ["a", "b", "c"]})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "tags": { "type": "array", "uniqueItems": true }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, UniqueItemsFailWhenDuplicateExists) {
+    auto path = writeFile("cfg.json", R"({"tags": ["a", "b", "a"]})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "tags": { "type": "array", "uniqueItems": true }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("unique"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, UniqueItemsFalseDoesNotEnforceUniqueness) {
+    auto path = writeFile("cfg.json", R"([1, 1, 2])");
+    nlohmann::json schema = R"({ "type": "array", "uniqueItems": false })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, UniqueItemsPassOnEmptyArray) {
+    auto path = writeFile("cfg.json", R"([])");
+    nlohmann::json schema = R"({ "type": "array", "uniqueItems": true })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, UniqueItemsWithIntegerDuplicates) {
+    auto path = writeFile("cfg.json", R"([1, 2, 1])");
+    nlohmann::json schema = R"({ "type": "array", "uniqueItems": true })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+// ═══════════════════════════════════════════════════════════
+// validate – format
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, FormatDatePass) {
+    auto path = writeFile("cfg.json", R"({"created": "2026-03-11"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "created": { "type": "string", "format": "date" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatDateFail) {
+    auto path = writeFile("cfg.json", R"({"created": "11/03/2026"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "created": { "type": "string", "format": "date" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatDateTimePass) {
+    auto path = writeFile("cfg.json", R"({"ts": "2026-03-11T09:30:00Z"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "ts": { "type": "string", "format": "date-time" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatDateTimeFail) {
+    auto path = writeFile("cfg.json", R"({"ts": "not-a-datetime"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "ts": { "type": "string", "format": "date-time" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatEmailPass) {
+    auto path = writeFile("cfg.json", R"({"email": "user@example.com"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "email": { "type": "string", "format": "email" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatEmailFail) {
+    auto path = writeFile("cfg.json", R"({"email": "not-an-email"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "email": { "type": "string", "format": "email" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatUriPass) {
+    auto path = writeFile("cfg.json", R"({"endpoint": "https://api.example.com/v1"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "endpoint": { "type": "string", "format": "uri" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatUriFail) {
+    auto path = writeFile("cfg.json", R"({"endpoint": "not a uri"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "endpoint": { "type": "string", "format": "uri" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatIpv4Pass) {
+    auto path = writeFile("cfg.json", R"({"host": "192.168.1.1"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "host": { "type": "string", "format": "ipv4" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatIpv4Fail) {
+    auto path = writeFile("cfg.json", R"({"host": "999.999.999.999"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "host": { "type": "string", "format": "ipv4" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatIpv4FailNotDottedDecimal) {
+    auto path = writeFile("cfg.json", R"({"host": "not-an-ip"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "host": { "type": "string", "format": "ipv4" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatIpv6Pass) {
+    auto path = writeFile("cfg.json", R"({"host": "2001:db8::1"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "host": { "type": "string", "format": "ipv6" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatIpv6Fail) {
+    auto path = writeFile("cfg.json", R"({"host": "192.168.1.1"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "host": { "type": "string", "format": "ipv6" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, FormatUnknownIsAccepted) {
+    // Unknown format identifiers must not cause a validation error.
+    auto path = writeFile("cfg.json", R"({"value": "anything"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": { "type": "string", "format": "custom-format" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis
