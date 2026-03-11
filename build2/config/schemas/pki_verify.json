@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": ["data", "signature"],
+  "properties": {
+    "data": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10485760
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8192
+    },
+    "algorithm": {
+      "type": "string",
+      "enum": ["RSA-PSS-SHA256", "RSA-PKCS1-SHA256", "ECDSA-P256-SHA256", "Ed25519", "RSA-PSS-SHA384", "RSA-PSS-SHA512"]
+    }
+  },
+  "additionalProperties": false
+}

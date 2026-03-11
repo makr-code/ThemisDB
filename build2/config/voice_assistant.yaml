@@ -1,0 +1,278 @@
+# Voice Assistant Configuration
+#
+# Configuration for natural language voice interactions,
+# phone call recording, and meeting protocol generation.
+#
+# Version: 1.0
+
+voice_assistant:
+  # Enable voice assistant
+  enabled: false  # Enterprise feature, disabled by default
+  
+  # ============================================================================
+  # STT Configuration
+  # ============================================================================
+  stt:
+    # Model configuration
+    model_path: "./models/ggml-base.bin"
+    model_size: "base"  # tiny, base, small, medium, large
+    
+    # Language
+    language: "auto"  # auto-detect or ISO 639-1 code
+    
+    # Enable features
+    timestamps: true
+    speaker_diarization: true
+    word_confidence: false
+
+  # ============================================================================
+  # TTS Configuration
+  # ============================================================================
+  tts:
+    # Model configuration
+    model_path: "./models/tts-model.bin"
+    
+    # Voice settings
+    voice: "default"
+    speed: 1.0
+    pitch: 1.0
+    
+    # Output format
+    format: "wav"
+    sample_rate: 22050
+
+  # ============================================================================
+  # LLM Configuration
+  # ============================================================================
+  llm:
+    # Model configuration
+    model_path: "./models/llama-2-7b-chat.gguf"
+    
+    # Context settings
+    n_ctx: 4096
+    n_gpu_layers: 0  # 0 = CPU only, >0 = GPU offload
+    
+    # Inference settings
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 40
+    
+    # System prompt for voice assistant
+    system_prompt: |
+      You are a helpful voice assistant integrated into ThemisDB, 
+      a high-performance multi-model database. You help users with:
+      - Database queries and operations
+      - Data analysis and insights
+      - Meeting protocol generation
+      - Phone call transcription and summarization
+      - General information and assistance
+      
+      Keep your responses concise and friendly. Speak naturally as 
+      if you're having a conversation.
+
+  # ============================================================================
+  # Storage Configuration
+  # ============================================================================
+  storage:
+    # Storage path for recordings
+    path: "./data/voice_recordings"
+    
+    # Enable revision control (Enterprise feature)
+    enable_revision_control: true
+    
+    # Compress audio files
+    compress_audio: true
+    
+    # Audio format for storage: ogg, mp3, mp4
+    audio_format: "ogg"
+    
+    # Retention policy (days, 0 = unlimited)
+    retention_days: 365
+    
+    # Automatic cleanup
+    auto_cleanup: true
+
+  # ============================================================================
+  # Phone Call Recording
+  # ============================================================================
+  phone_calls:
+    # Enable phone call recording
+    enabled: true
+    
+    # Automatic transcription
+    auto_transcribe: true
+    
+    # Include summary
+    include_summary: true
+    
+    # Speaker diarization
+    speaker_diarization: true
+    
+    # Store original audio
+    store_audio: true
+    
+    # Metadata fields to capture
+    metadata_fields:
+      - caller_number
+      - callee_number
+      - call_type
+      - duration_ms
+      - timestamp
+
+  # ============================================================================
+  # Meeting Protocol Generation
+  # ============================================================================
+  meetings:
+    # Enable meeting protocol generation
+    enabled: true
+    
+    # Protocol format: markdown, json, html, docx
+    protocol_format: "markdown"
+    
+    # Include elements
+    include_summary: true
+    include_key_points: true
+    include_action_items: true
+    include_timestamps: true
+    include_speakers: true
+    
+    # Store original audio
+    store_audio: true
+    
+    # LLM-enhanced features
+    llm_summary: true
+    llm_key_points: true
+    llm_action_items: true
+
+  # ============================================================================
+  # Voice Commands
+  # ============================================================================
+  voice_commands:
+    # Enable voice command processing
+    enabled: true
+    
+    # Wake word detection
+    wake_word_enabled: false
+    wake_word: "hey themis"
+    # Advanced wake-word configuration (WakeWordConfig)
+    wake_word_sensitivity: 0.5        # Detection threshold: 0.0 (permissive) – 1.0 (strict)
+    wake_word_buffer_length_ms: 1500  # Rolling audio buffer size in ms
+    wake_word_cooldown_ms: 1000       # Minimum ms between successive detections
+    wake_word_vad_min_energy: 0.005   # Minimum RMS energy for VAD gate (silence suppressor)
+    wake_word_sample_rate: 16000      # Expected PCM sample rate (Hz)
+    # Additional wake words (id: phrase format)
+    wake_words:
+      - id: "hey-themis"
+        phrase: "hey themis"
+      - id: "themis"
+        phrase: "themis"
+      - id: "database"
+        phrase: "database"
+    
+    # Continuous listening
+    continuous_listening: false
+    
+    # Command timeout (seconds)
+    command_timeout_sec: 30
+    
+    # Context retention (previous commands)
+    context_retention: 5
+
+  # ============================================================================
+  # Session Management
+  # ============================================================================
+  sessions:
+    # Session timeout (seconds)
+    timeout_sec: 1800  # 30 minutes
+    
+    # Max concurrent sessions
+    max_concurrent: 100
+    
+    # Session cleanup interval (seconds)
+    cleanup_interval_sec: 300
+
+  # ============================================================================
+  # Security & Privacy
+  # ============================================================================
+  security:
+    # Enable authentication
+    require_auth: true
+    
+    # PII detection and redaction
+    pii_detection: true
+    pii_redaction: false
+    
+    # Audit logging
+    audit_logging: true
+    
+    # Encryption at rest
+    encrypt_at_rest: true
+    
+    # Max recording duration (seconds)
+    max_recording_duration_sec: 7200  # 2 hours
+    
+    # Max file size (MB)
+    max_file_size_mb: 500
+
+  # ============================================================================
+  # Integration
+  # ============================================================================
+  integration:
+    # REST API
+    rest_api:
+      enabled: true
+      endpoint: "/api/v1/voice"
+      
+    # WebSocket
+    websocket:
+      enabled: true
+      endpoint: "/ws/voice"
+      
+    # Webhook notifications
+    webhooks:
+      enabled: false
+      url: ""
+      events:
+        - call_completed
+        - meeting_completed
+        - transcription_ready
+
+  # ============================================================================
+  # Performance
+  # ============================================================================
+  performance:
+    # Worker threads
+    worker_threads: 4
+    
+    # Queue size
+    queue_size: 100
+    
+    # Enable caching
+    enable_caching: true
+    
+    # Cache TTL (seconds)
+    cache_ttl_sec: 3600
+    
+    # Max cache size (MB)
+    max_cache_size_mb: 2048
+
+  # ============================================================================
+  # Monitoring
+  # ============================================================================
+  monitoring:
+    # Enable metrics
+    enable_metrics: true
+    
+    # Metrics endpoint
+    metrics_endpoint: "/metrics"
+    
+    # Log level: debug, info, warn, error
+    log_level: "info"
+    
+    # Track metrics
+    track_metrics:
+      - transcription_latency
+      - synthesis_latency
+      - llm_latency
+      - session_count
+      - error_rate

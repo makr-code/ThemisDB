@@ -1,0 +1,68 @@
+# ThemisDB LLM Mode Pack – Minimal Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# A minimal mode pack for CI/testing and embedded deployments.
+# Only defines "ask" and "rag" modes with conservative resource limits.
+# ─────────────────────────────────────────────────────────────────────────────
+
+apiVersion: themis.ai/v1
+kind: ThemisModePack
+
+metadata:
+  name: themisdb-minimal-modes
+  version: "1.0.0"
+
+default_mode: ask
+
+models:
+  - id: default
+    path: ""
+    gpu_layers: 0
+    n_ctx: 2048
+
+tools:
+  - name: docs_search
+    description: "Search documentation"
+    timeout_ms: 3000
+    schema:
+      type: object
+      properties:
+        query: {type: string}
+        top_k:  {type: integer, default: 3}
+      required: [query]
+
+modes:
+  - id: ask
+    description: "Plain Q&A, no retrieval"
+    model: default
+    tools_allowed: []
+    retrieval:
+      enabled: false
+    output:
+      format: text
+    budgets:
+      max_tokens: 256
+      timeout_ms: 15000
+      temperature: 0.7
+    observability:
+      log_requests: true
+      metrics: false
+
+  - id: rag
+    description: "RAG with documentation search"
+    model: default
+    tools_allowed:
+      - docs_search
+    retrieval:
+      enabled: true
+      strategy: hybrid
+      top_k: 3
+      threshold: 0.4
+    output:
+      format: text
+    budgets:
+      max_tokens: 512
+      timeout_ms: 30000
+      temperature: 0.5
+    observability:
+      log_requests: true
+      metrics: false

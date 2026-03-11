@@ -1,0 +1,121 @@
+# Multi-GPU Hybrid Configuration
+# RTX 4090 (24GB) + A40 (48GB) = 72GB total
+# Optimized for cost-effective high-performance inference
+
+hardware:
+  primary_gpu: 
+    model: "NVIDIA RTX 4090"
+    device_id: 0
+    vram_gb: 24
+    memory_bandwidth_gbps: 1008
+    compute_capability: "8.9"
+    
+  secondary_gpu:
+    model: "NVIDIA A40"
+    device_id: 1
+    vram_gb: 48
+    memory_bandwidth_gbps: 696
+    compute_capability: "8.6"
+    
+  total_vram_gb: 72
+  nvlink: false                          # PCIe interconnect
+  pcie_bandwidth_gbps: 64                # PCIe 4.0 x16
+  
+model: "Llama-2-70B"
+inference:
+  batch_size: 16
+  max_seq_length: 4096
+  context_window: 4096
+  
+vram_allocation:
+  # GPU 0 (RTX 4090 - 24GB)
+  gpu0_model_weights: "10 GB"            # 25% of model (tensor parallel)
+  gpu0_kv_cache: "8 GB"                  # Distributed KV cache
+  gpu0_activations: "4 GB"
+  gpu0_overhead: "1 GB"
+  gpu0_total: "23 GB"
+  
+  # GPU 1 (A40 - 48GB)
+  gpu1_model_weights: "30 GB"            # 75% of model (tensor parallel)
+  gpu1_kv_cache: "12 GB"                 # Distributed KV cache  
+  gpu1_activations: "4 GB"
+  gpu1_overhead: "1 GB"
+  gpu1_total: "47 GB"
+  
+  total_model_weights: "40 GB"           # FP16 70B model (distributed)
+  total_kv_cache: "20 GB"                # Shared across GPUs
+  total_allocated: "70 GB"
+  
+optimization:
+  quantization: "FP16"
+  enable_flash_attention: true
+  enable_paged_kv_cache: true
+  enable_prefix_caching: true
+  kv_cache_block_size: 16
+  
+  # Multi-GPU settings
+  tensor_parallel_size: 2                # Split layers across 2 GPUs
+  pipeline_parallel_size: 1
+  enable_peer_to_peer: true              # Enable PCIe P2P
+  enable_all_reduce_fusion: true         # Optimize gradient sync
+  load_balancing_strategy: "weighted"    # Balance by GPU capacity
+  
+  # Memory management
+  defragmentation_enabled: true
+  memory_pool_enabled: true
+  oom_recovery_enabled: true
+  cross_gpu_memory_sharing: true
+  
+distribution_strategy:
+  method: "tensor_parallel"              # Best for memory-bound models
+  gpu0_shard_percentage: 25              # RTX 4090 gets 25%
+  gpu1_shard_percentage: 75              # A40 gets 75%
+  
+  # Load balancing weights (inverse of relative performance)
+  gpu0_compute_weight: 1.2               # RTX 4090 faster
+  gpu1_compute_weight: 0.8               # A40 slower but larger
+  
+performance:
+  expected_throughput_tps: "400-600"     # Tokens per second (batch 16)
+  expected_latency_ms: "25-35"           # Per-token latency
+  first_token_latency_ms: "60-100"       # Time to first token
+  max_concurrent_requests: 16
+  
+  # Cross-GPU communication overhead
+  p2p_latency_us: "10-20"                # PCIe P2P latency
+  bandwidth_utilization: "60-70%"        # Effective bandwidth usage
+  
+limits:
+  max_model_size_gb: 60                  # Max distributed model
+  max_batch_size: 32                     # Max batch before OOM
+  max_context_length: 8192               # Max with batch_size=8
+  
+recommendations:
+  - "Cost-effective alternative to 2x A100 (~$15k vs $30k)"
+  - "70B models with FP16 precision supported"
+  - "Tensor parallelism reduces memory pressure"
+  - "PCIe bandwidth may bottleneck small batches"
+  - "Optimal batch size: 8-16 to amortize P2P overhead"
+  - "Consider NVLink bridge if available for better performance"
+  
+use_cases:
+  - "Budget-conscious production deployment"
+  - "Development with large models"
+  - "Research requiring 70B+ models"
+  - "Cost-optimized inference at moderate QPS"
+  
+cost_efficiency:
+  hardware_cost: "$15,000"               # ~$1,600 + $13,400
+  power_consumption_w: 650               # 450W + 300W
+  cost_per_1m_tokens: "$4-6"             # Includes power/amortization
+  
+bottlenecks:
+  - "PCIe bandwidth limits cross-GPU transfers"
+  - "Asymmetric GPU performance requires careful load balancing"
+  - "Higher latency than single A100 due to communication"
+  
+mitigations:
+  - "Use larger batch sizes (8-16) to amortize communication"
+  - "Enable all-reduce fusion for efficient gradient sync"
+  - "Distribute KV cache to minimize cross-GPU transfers"
+  - "Consider upgrading to NVLink-capable GPUs for 2x speedup"

@@ -1,0 +1,408 @@
+# Legal German LoRA Training Configuration
+# Training configuration for German legal domain-specific LoRA adapters
+
+# ============================================================================
+# Base Model Configuration
+# ============================================================================
+
+base_model:
+  name: "llama-2-7b-german-legal"
+  path: "models/llama-2-7b-chat.gguf"
+  type: "llama"
+  tokenizer_path: "models/tokenizer.model"
+  context_length: 4096
+
+# ============================================================================
+# LoRA Hyperparameters
+# ============================================================================
+
+lora:
+  # LoRA rank (r) - controls adapter capacity
+  # Higher rank = more capacity but slower inference
+  # Recommended: 8-16 for domain adaptation, 32-64 for complex tasks
+  rank: 16
+  
+  # LoRA alpha - scaling factor
+  # Typically 2x rank for stability
+  alpha: 32.0
+  
+  # Dropout rate for regularization
+  dropout: 0.1
+  
+  # Target modules to apply LoRA
+  # These are the attention projection layers
+  target_modules:
+    - "q_proj"      # Query projection
+    - "v_proj"      # Value projection
+    - "k_proj"      # Key projection
+    - "o_proj"      # Output projection
+    # Optionally add feed-forward layers:
+    # - "gate_proj"
+    # - "up_proj"
+    # - "down_proj"
+    
+  # Whether to train bias parameters
+  train_bias: false
+  
+  # Task type
+  task_type: "CAUSAL_LM"  # Causal language modeling
+
+# ============================================================================
+# Training Parameters
+# ============================================================================
+
+training:
+  # Training data source
+  data:
+    collection: "legal_training_samples"
+    
+    # Data filtering
+    filters:
+      min_confidence: 0.6        # Minimum confidence for training
+      reviewed_only: false       # Use only human-reviewed samples
+      categories:
+        - "obligation"
+        - "permission"
+        - "prohibition"
+    
+    # Data split
+    validation_split: 0.1
+    test_split: 0.05
+    
+    # Shuffle and seed for reproducibility
+    shuffle: true
+    seed: 42
+    
+  # Training hyperparameters
+  hyperparameters:
+    learning_rate: 0.0003
+    batch_size: 4
+    gradient_accumulation_steps: 4
+    num_epochs: 3
+    max_steps: -1  # -1 = train for full epochs
+    
+    # Learning rate scheduler
+    lr_scheduler: "cosine"
+    warmup_steps: 100
+    warmup_ratio: 0.05
+    
+    # Optimizer
+    optimizer: "adamw"
+    weight_decay: 0.01
+    adam_beta1: 0.9
+    adam_beta2: 0.999
+    adam_epsilon: 1e-8
+    max_grad_norm: 1.0
+    
+  # Sequence length
+  max_seq_length: 512
+  
+  # Mixed precision training
+  mixed_precision:
+    enabled: true
+    fp16: true
+    bf16: false  # Use fp16 unless you have Ampere+ GPUs
+    
+  # Device configuration
+  device: "cuda"  # cuda, cpu, mps
+  device_id: 0
+  
+  # Multi-GPU (if available)
+  multi_gpu:
+    enabled: false
+    strategy: "ddp"  # ddp, fsdp
+    
+  # Checkpointing
+  checkpointing:
+    enabled: true
+    save_steps: 100
+    save_total_limit: 3
+    checkpoint_dir: "checkpoints/legal_lora"
+    
+  # Evaluation
+  evaluation:
+    eval_steps: 50
+    eval_strategy: "steps"  # steps, epoch, no
+    
+    # Metrics to compute
+    metrics:
+      - "perplexity"
+      - "accuracy"
+      - "f1_score"
+      
+    # Early stopping
+    early_stopping:
+      enabled: true
+      patience: 3
+      min_delta: 0.001
+      metric: "eval_loss"
+      
+  # Logging
+  logging:
+    enabled: true
+    log_level: "INFO"
+    log_steps: 10
+    log_dir: "logs/legal_lora_training"
+    
+    # Weights & Biases integration (optional)
+    wandb:
+      enabled: false
+      project: "themisdb-legal-lora"
+      entity: "your-team"
+      name: "legal-german-v1"
+    
+    # TensorBoard
+    tensorboard:
+      enabled: true
+      log_dir: "runs/legal_lora"
+
+# ============================================================================
+# Incremental Training Configuration
+# ============================================================================
+
+incremental:
+  # Enable incremental training
+  enabled: true
+  
+  # Use existing adapter as starting point
+  use_existing_adapter: false
+  existing_adapter_version: ""
+  
+  # Freeze already-trained layers
+  freeze_existing_layers: false
+  
+  # Incremental training steps
+  incremental_steps: 1000
+  
+  # Learning rate for incremental updates (typically lower)
+  incremental_learning_rate: 0.0001
+
+# ============================================================================
+# Data Augmentation
+# ============================================================================
+
+augmentation:
+  enabled: true
+  
+  # Augmentation techniques
+  techniques:
+    # Synonym replacement
+    synonym_replacement:
+      enabled: true
+      probability: 0.1
+      max_replacements: 3
+      
+    # Back-translation (requires translation API)
+    back_translation:
+      enabled: false
+      languages: ["en", "fr"]
+      
+    # Paraphrasing
+    paraphrasing:
+      enabled: true
+      probability: 0.1
+      
+    # Random deletion
+    random_deletion:
+      enabled: false
+      probability: 0.05
+      
+    # Random swap
+    random_swap:
+      enabled: false
+      probability: 0.05
+
+# ============================================================================
+# Knowledge Graph Enrichment
+# ============================================================================
+
+graph_enrichment:
+  enabled: true
+  graph_name: "legal_knowledge_graph"
+  
+  # Context to include
+  include_provisions: true
+  include_case_law: true
+  include_guidance: true
+  include_similar_docs: true
+  
+  # Limits
+  max_related_items: 5
+  traversal_depth: 2
+  similarity_threshold: 0.7
+
+# ============================================================================
+# Quality Assurance
+# ============================================================================
+
+quality_assurance:
+  # A/B testing for new versions
+  ab_testing:
+    enabled: true
+    traffic_split: 0.1  # 10% traffic to new version
+    duration_hours: 24
+    
+    # Success metrics
+    metrics:
+      - "avg_rating"
+      - "response_accuracy"
+      - "user_satisfaction"
+      
+    min_improvement: 0.05  # 5% improvement required
+    
+  # Auto-rollback on quality degradation
+  auto_rollback:
+    enabled: true
+    
+    triggers:
+      accuracy_drop_threshold: 0.1  # 10% drop
+      min_avg_rating: 3.0
+      max_error_rate: 0.05
+      
+    cooldown_hours: 6
+    
+  # Validation tests
+  validation_tests:
+    - question: "Was bedeutet 'muss' in einem Verwaltungsakt?"
+      expected_keywords:
+        - "bindend"
+        - "Verpflichtung"
+        - "obligation"
+      min_confidence: 0.8
+      
+    - question: "Was ist der Unterschied zwischen 'soll' und 'kann'?"
+      expected_keywords:
+        - "Ermessen"
+        - "discretion"
+        - "Regelfall"
+      min_confidence: 0.7
+      
+    - question: "Wann liegt eine Ermessensentscheidung vor?"
+      expected_keywords:
+        - "kann"
+        - "Ermessen"
+        - "Abwägung"
+      min_confidence: 0.75
+
+# ============================================================================
+# Storage and Versioning
+# ============================================================================
+
+storage:
+  # Storage backend
+  backend: "themisdb"  # themisdb, filesystem, s3
+  collection_name: "lora_adapters"
+  
+  # Filesystem fallback
+  filesystem_path: "data/lora_adapters"
+  
+  # Versioning
+  versioning:
+    enabled: true
+    max_versions: 10
+    version_prefix: "legal_v"
+    
+  # Compression
+  compression:
+    enabled: true
+    algorithm: "zstd"
+    level: 3
+    
+  # Encryption
+  encryption:
+    enabled: false
+    encryption_key_id: "lora_adapters"
+
+# ============================================================================
+# Deployment
+# ============================================================================
+
+deployment:
+  # Deployment strategy
+  strategy: "blue_green"  # blue_green, rolling, canary
+  
+  # Health checks before deployment
+  health_checks:
+    enabled: true
+    validation_samples: 100
+    min_pass_rate: 0.95
+    
+  # Rollback strategy
+  rollback:
+    automatic: true
+    on_health_check_failure: true
+    
+  # Production settings
+  production:
+    enable_monitoring: true
+    enable_audit_logging: true
+    max_concurrent_requests: 100
+
+# ============================================================================
+# Monitoring
+# ============================================================================
+
+monitoring:
+  enabled: true
+  
+  # Metrics to track
+  metrics:
+    # Training metrics
+    - "training_loss"
+    - "validation_loss"
+    - "learning_rate"
+    - "gradient_norm"
+    - "training_throughput"
+    
+    # Quality metrics
+    - "accuracy"
+    - "f1_score"
+    - "perplexity"
+    
+    # Performance metrics
+    - "inference_latency"
+    - "samples_per_second"
+    - "gpu_utilization"
+    - "memory_usage"
+    
+  # Prometheus export
+  prometheus:
+    enabled: true
+    port: 9090
+    endpoint: "/metrics"
+    
+  # Grafana dashboard
+  grafana:
+    enabled: true
+    dashboard_id: "legal-lora-training"
+
+# ============================================================================
+# Notifications
+# ============================================================================
+
+notifications:
+  enabled: true
+  
+  # Email
+  email:
+    enabled: false
+    smtp_host: "smtp.example.com"
+    smtp_port: 587
+    from: "lora-training@example.com"
+    to:
+      - "admin@example.com"
+    events:
+      - "training_completed"
+      - "training_failed"
+      - "deployment_completed"
+      - "auto_rollback_triggered"
+      
+  # Slack
+  slack:
+    enabled: false
+    webhook_url: "https://hooks.slack.com/services/YOUR/WEBHOOK"
+    channel: "#legal-ai"
+    events:
+      - "training_completed"
+      - "deployment_completed"
+      - "auto_rollback_triggered"

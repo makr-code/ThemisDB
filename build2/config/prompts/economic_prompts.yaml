@@ -1,0 +1,301 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 ThemisDB Contributors
+#
+# Economic and Business Prompts
+#
+# This file contains prompt templates for economic analysis, business queries,
+# financial analysis, and market research.
+
+version: "1.0.0"
+
+prompts:
+  
+  business_analysis:
+    name: "Business Analysis"
+    version: "1.0"
+    description: "Analyze business data and metrics"
+    active: true
+    content: |
+      You are conducting business analysis.
+      
+      Business question: {query}
+      Available data: {context}
+      
+      Analysis framework:
+      1. **Context**: What is the business situation?
+      2. **Metrics**: What are the key performance indicators?
+      3. **Trends**: What patterns are visible?
+      4. **Benchmarks**: How does this compare?
+      5. **Insights**: What does this tell us?
+      6. **Recommendations**: What actions should be taken?
+      
+      Business dimensions:
+      - Revenue and growth
+      - Profitability
+      - Market share
+      - Customer acquisition/retention
+      - Operational efficiency
+      - Competitive position
+      
+      Present analysis:
+      - Executive summary
+      - Key metrics and trends
+      - Comparative analysis
+      - Strategic insights
+      - Action recommendations
+
+  financial_analysis:
+    name: "Financial Analysis"
+    version: "1.0"
+    description: "Analyze financial data and performance"
+    active: true
+    content: |
+      You are performing financial analysis.
+      
+      Financial subject: {query}
+      Financial data: {context}
+      
+      Financial analysis:
+      1. **Income Statement**: Revenue, costs, profitability
+      2. **Balance Sheet**: Assets, liabilities, equity
+      3. **Cash Flow**: Operating, investing, financing
+      4. **Ratios**: Profitability, liquidity, leverage, efficiency
+      5. **Trends**: Historical performance
+      6. **Projections**: Future outlook
+      
+      Key financial ratios:
+      - Profitability: ROE, ROA, profit margin
+      - Liquidity: Current ratio, quick ratio
+      - Leverage: Debt-to-equity, interest coverage
+      - Efficiency: Asset turnover, inventory turnover
+      
+      Present analysis:
+      - Financial summary
+      - Key ratios and interpretation
+      - Trend analysis
+      - Strengths and weaknesses
+      - Financial health assessment
+      - Recommendations
+
+  market_research:
+    name: "Market Research"
+    version: "1.0"
+    description: "Conduct market research and analysis"
+    active: true
+    content: |
+      You are conducting market research.
+      
+      Market/Product: {query}
+      Research data: {context}
+      
+      Research framework:
+      1. **Market Size**: How big is the market?
+      2. **Segments**: What are the customer segments?
+      3. **Trends**: What are the market trends?
+      4. **Competition**: Who are the competitors?
+      5. **Customer Needs**: What do customers want?
+      6. **Opportunities**: Where are the gaps?
+      
+      Market analysis:
+      - Total Addressable Market (TAM)
+      - Served Available Market (SAM)
+      - Market growth rate
+      - Customer demographics
+      - Competitive landscape
+      - Barriers to entry
+      
+      Present research:
+      - Market overview
+      - Segment analysis
+      - Competitive positioning
+      - Customer insights
+      - Growth opportunities
+      - Market entry strategy
+
+  economic_forecast:
+    name: "Economic Forecasting"
+    version: "1.0"
+    description: "Forecast economic trends and outcomes"
+    active: true
+    content: |
+      You are forecasting economic trends.
+      
+      Forecast subject: {query}
+      Historical data: {context}
+      
+      Forecasting methodology:
+      1. **Historical Analysis**: Review past trends
+      2. **Variables**: Identify key economic indicators
+      3. **Models**: Apply forecasting models (time series, regression)
+      4. **Scenarios**: Develop multiple scenarios
+      5. **Confidence**: Assess forecast confidence
+      6. **Risks**: Identify risk factors
+      
+      Economic indicators:
+      - GDP growth
+      - Inflation/deflation
+      - Employment/unemployment
+      - Interest rates
+      - Exchange rates
+      - Consumer confidence
+      
+      Present forecast:
+      - Baseline forecast
+      - Best case scenario
+      - Worst case scenario
+      - Key assumptions
+      - Confidence intervals
+      - Risk factors
+
+  cost_benefit_analysis:
+    name: "Cost-Benefit Analysis"
+    version: "1.0"
+    description: "Analyze costs and benefits of decisions"
+    active: true
+    content: |
+      You are conducting cost-benefit analysis.
+      
+      Decision/Project: {query}
+      Available data: {context}
+      
+      CBA framework:
+      1. **Costs**: What are all the costs? (direct, indirect, opportunity)
+      2. **Benefits**: What are all the benefits? (tangible, intangible)
+      3. **Timeline**: When do costs/benefits occur?
+      4. **Discount Rate**: What discount rate to use?
+      5. **NPV**: What is the net present value?
+      6. **ROI**: What is the return on investment?
+      
+      Analysis components:
+      - Initial investment
+      - Ongoing costs
+      - Revenue/savings
+      - Risk-adjusted returns
+      - Payback period
+      - Sensitivity analysis
+      
+      Present analysis:
+      - Cost breakdown
+      - Benefit breakdown
+      - NPV calculation
+      - ROI and payback period
+      - Sensitivity analysis
+      - Recommendation (go/no-go)
+
+  pricing_strategy:
+    name: "Pricing Strategy Analysis"
+    version: "1.0"
+    description: "Analyze and recommend pricing strategies"
+    active: true
+    content: |
+      You are analyzing pricing strategy.
+      
+      Product/Service: {query}
+      Market context: {context}
+      
+      Pricing analysis:
+      1. **Costs**: What are the cost structures?
+      2. **Value**: What value do customers perceive?
+      3. **Competition**: What do competitors charge?
+      4. **Elasticity**: How sensitive is demand to price?
+      5. **Segments**: Different prices for different segments?
+      6. **Positioning**: Premium, mid-market, or value?
+      
+      Pricing strategies:
+      - Cost-plus pricing
+      - Value-based pricing
+      - Competitive pricing
+      - Penetration pricing
+      - Skimming pricing
+      - Dynamic pricing
+      
+      Present recommendation:
+      - Current pricing analysis
+      - Market positioning
+      - Recommended pricing strategy
+      - Price points (with justification)
+      - Expected impact on volume/revenue
+      - Implementation plan
+
+  roi_analysis:
+    name: "ROI Analysis"
+    version: "1.0"
+    description: "Calculate and analyze return on investment"
+    active: true
+    content: |
+      You are calculating ROI for an investment or project.
+      
+      Investment: {query}
+      Financial data: {context}
+      
+      ROI calculation:
+      1. **Investment**: Total investment required
+      2. **Returns**: Expected returns (cash flows)
+      3. **Timeline**: Time horizon
+      4. **ROI**: (Returns - Investment) / Investment
+      5. **Payback**: Time to recover investment
+      6. **IRR**: Internal rate of return
+      
+      Analysis components:
+      - Initial costs
+      - Ongoing costs
+      - Revenue/benefits
+      - Risk factors
+      - Opportunity costs
+      - Time value of money
+      
+      Present ROI analysis:
+      - Investment summary
+      - Return projections
+      - ROI percentage
+      - Payback period
+      - IRR calculation
+      - Risk assessment
+      - Recommendation
+
+  competitive_analysis:
+    name: "Competitive Analysis"
+    version: "1.0"
+    description: "Analyze competitive landscape"
+    active: true
+    content: |
+      You are conducting competitive analysis.
+      
+      Market/Industry: {query}
+      Competitor data: {context}
+      
+      Competitive framework (Porter's Five Forces):
+      1. **Competitive Rivalry**: How intense is competition?
+      2. **Threat of New Entrants**: How easy to enter market?
+      3. **Supplier Power**: How powerful are suppliers?
+      4. **Buyer Power**: How powerful are customers?
+      5. **Substitutes**: What alternatives exist?
+      
+      Competitor analysis:
+      - Market share
+      - Strengths and weaknesses
+      - Product offerings
+      - Pricing strategies
+      - Value propositions
+      - Competitive advantages
+      
+      Present analysis:
+      - Competitive landscape overview
+      - Key competitors profiled
+      - SWOT analysis (Strengths, Weaknesses, Opportunities, Threats)
+      - Competitive positioning
+      - Market dynamics
+      - Strategic recommendations
+
+metadata:
+  created: "2026-02-10"
+  author: "ThemisDB Development Team"
+  purpose: "Economic and business analysis prompt templates"
+  category: "economic"
+  areas:
+    - "business_analysis"
+    - "financial_analysis"
+    - "market_research"
+    - "forecasting"
+    - "pricing"
+    - "competitive_analysis"

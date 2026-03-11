@@ -5984,6 +5984,7 @@ foreach(_pg_test
         test_postgres_importer_chaos.cpp
         test_postgres_importer_complex_ddl.cpp
         test_postgres_importer_datatypes.cpp
+        test_postgres_importer_fk.cpp
         test_postgres_importer_integration.cpp
         test_postgres_importer_live.cpp
         test_postgres_importer_robustness.cpp
@@ -6022,7 +6023,7 @@ if(_postgres_importer_test_sources)
         TIMEOUT 300
     )
 
-    message(STATUS "  PostgresImporter: advanced mapping, chaos/retry, complex DDL, data types, integration, robustness, security audit, streaming")
+    message(STATUS "  PostgresImporter: advanced mapping, chaos/retry, complex DDL, data types, FK preservation, integration, robustness, security audit, streaming")
 else()
     message(STATUS "PostgresImporter focused test sources not found")
 endif()

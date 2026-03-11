@@ -171,6 +171,7 @@ struct ImportStats {
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
     size_t custom_types_processed = 0;  ///< CREATE TYPE statements parsed (enum / composite)
+    size_t foreign_keys_preserved = 0;  ///< Foreign key constraints extracted and preserved (v2.0)
     
     double elapsed_seconds = 0.0;
 
@@ -199,6 +200,7 @@ struct ImportStats {
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
             {"custom_types_processed", custom_types_processed},
+            {"foreign_keys_preserved", foreign_keys_preserved},
             {"elapsed_seconds", elapsed_seconds},
             {"is_schema_only", is_schema_only},
             {"is_data_only", is_data_only},
@@ -445,6 +447,19 @@ struct ImportOptions {
     /// sampled → no schema is built → per-row validation is skipped).
     size_t schema_sample_rows = 100;
 
+    // -------------------------------------------------------------------------
+    // v2.0: Foreign Key Preservation
+    // -------------------------------------------------------------------------
+
+    /// When true (default), the importer parses and preserves FOREIGN KEY
+    /// constraints from the dump.  Extracted FK metadata is:
+    ///   - stored in the per-table schema (getSourceSchema returns "foreign_keys")
+    ///   - counted in ImportStats::foreign_keys_preserved
+    ///   - embedded in entity JSON as "_foreign_keys" array when present
+    ///
+    /// Setting this to false restores v1.x behaviour (FKs silently skipped).
+    bool preserve_foreign_keys = true;
+
     json toJson() const {
         return json{
             {"dry_run", dry_run},
@@ -470,7 +485,8 @@ struct ImportOptions {
             {"protected_fields", protected_fields},
             {"merge_depth", merge_depth},
             {"validate_schema", validate_schema},
-            {"schema_sample_rows", schema_sample_rows}
+            {"schema_sample_rows", schema_sample_rows},
+            {"preserve_foreign_keys", preserve_foreign_keys}
         };
     }
 };

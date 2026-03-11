@@ -1,0 +1,176 @@
+# Query Cache Configuration - Mixed Workload
+# Optimized for: Combination of transactional and analytical queries
+# Use case: General-purpose applications, SaaS platforms, web applications
+
+query_cache:
+  # Enable query result caching
+  enabled: true
+  
+  # Cache implementation: adaptive is best for mixed workloads
+  type: "adaptive"
+  
+  # Workload detection and auto-tuning (CRITICAL for mixed workloads)
+  workload_detection:
+    enabled: true
+    sample_rate: 0.15          # Sample 15% of queries
+    min_samples: 100
+    detection_window_sec: 300  # Frequent re-detection
+    
+    # Note: auto_adjust feature is planned for future release
+    # Currently, cache configuration is selected based on detected workload
+    # but manual adjustment of thresholds is required
+  
+  # Adaptive cache configuration (3-tier) - Balanced settings
+  adaptive:
+    # L1 (HOT): Frequent small queries (OLTP-like)
+    l1:
+      max_entries: 20000
+      max_entry_size_bytes: 5120         # 5KB
+      ttl_seconds: 300                   # 5 minutes
+    
+    # L2 (WARM): Medium-sized results
+    l2:
+      max_entries: 30000
+      max_entry_size_bytes: 524288       # 512KB (compressed)
+      ttl_seconds: 1800                  # 30 minutes
+      compression_level: 3
+    
+    # L3 (COLD): Large analytical results (OLAP-like)
+    l3:
+      ttl_seconds: 43200                 # 12 hours
+      db_path: "./data/query_cache"
+      enable_compression: true
+  
+  # Basic cache fallback (balanced settings)
+  basic:
+    max_entries: 20000
+    max_memory_bytes: 314572800          # 300MB
+    max_entry_size_bytes: 10485760       # 10MB max per entry
+  
+  # TTL settings (adaptive range)
+  ttl:
+    default_seconds: 1800    # 30 minutes
+    min_seconds: 60          # 1 minute
+    max_seconds: 43200       # 12 hours
+    adaptive: true           # Critical for mixed workloads
+  
+  # Eviction policy: LRU works well for mixed patterns
+  eviction_policy: "LRU"
+  
+  # Cache warming
+  cache_warming:
+    enabled: true
+    top_k_queries: 100
+    warmup_timeout_sec: 120
+    
+    # Warm both frequent and expensive queries
+    strategy: "hybrid"  # "frequent" | "expensive" | "hybrid"
+  
+  # Mixed workload tuning
+  mixed:
+    # Classification thresholds
+    oltp_frequency_threshold: 5.0        # >5 queries/min = OLTP-like
+    olap_frequency_threshold: 0.5        # <0.5 queries/min = OLAP-like
+    oltp_result_threshold_bytes: 102400  # <100KB = OLTP-like
+    olap_result_threshold_bytes: 2097152 # >2MB = OLAP-like
+    
+    # Enable smart routing
+    smart_routing: true
+    
+    # Separate pools for different query types
+    separate_pools:
+      enabled: true
+      oltp_pool_ratio: 0.6    # 60% of cache for OLTP
+      olap_pool_ratio: 0.4    # 40% for OLAP
+    
+    # Adaptive TTL multipliers
+    ttl_multipliers:
+      oltp: 0.5      # OLTP queries: 50% of default TTL
+      olap: 2.0      # OLAP queries: 200% of default TTL
+    
+    # Priority-based eviction
+    priority_eviction: true
+    # Higher priority = kept longer
+    priority_weights:
+      frequency: 0.3  # Query frequency
+      cost: 0.5       # Execution cost
+      size: 0.2       # Result size (inverse)
+  
+  # Monitoring and statistics
+  monitoring:
+    enabled: true
+    detailed_stats: true
+    stats_report_interval_sec: 300
+    
+    # Track per-workload-type statistics
+    per_workload_stats: true
+    
+    # Alert on workload pattern changes
+    alert_on_workload_change: true
+  
+  # Invalidation
+  invalidation:
+    by_table: true
+    by_pattern: true
+    
+    # Smart invalidation based on query type
+    smart_invalidation:
+      enabled: true
+      # OLTP: immediate invalidation
+      # OLAP: delayed batch invalidation
+      olap_batch_delay_sec: 300
+
+# Server integration for mixed workload
+server:
+  query:
+    enable_cache: true
+    # Try both cache layers
+    cache_layer: "adaptive"  # Check cache at multiple points
+    
+    track_execution_metrics: true
+    
+    # Dynamic query routing
+    enable_query_routing: true
+    route_by_workload: true
+
+# Storage configuration
+storage:
+  rocksdb:
+    # Moderate block cache
+    block_cache_size_mb: 1024
+    cache_index_and_filter_blocks: true
+
+# Performance tuning
+performance:
+  # Adaptive parallelism
+  parallel_query: true
+  max_parallel_workers: 4
+  
+  # Auto-scale based on workload
+  auto_scale_workers: true
+  
+  # Result streaming for large queries
+  streaming_results: true
+  stream_chunk_size: 5000
+
+# Performance expectations for Mixed configuration:
+# - Cache hit rate: 60-75% (varies by workload mix)
+# - OLTP queries: 70-85% hit rate, <1ms latency
+# - OLAP queries: 40-60% hit rate, <10ms latency
+# - Memory efficiency: Adaptive compression and tiering
+# - Throughput: 2-5x improvement on average
+# - Auto-adaptation: Reconfigures within 10-30 minutes of workload changes
+
+# Workload patterns handled:
+# 1. Morning OLTP (user logins, transactions) -> optimizes for frequency
+# 2. Evening analytics (reports, dashboards) -> optimizes for size/cost
+# 3. Mixed throughout day -> balances both strategies
+# 4. Sudden workload shifts -> auto-detects and adjusts
+
+# Best practices for mixed workloads:
+# - Enable workload detection and auto-adjustment
+# - Use adaptive cache type (3-tier)
+# - Monitor per-workload-type statistics
+# - Set up alerts for workload pattern changes
+# - Review and tune thresholds based on actual patterns
+# - Consider separate cache pools for critical queries
