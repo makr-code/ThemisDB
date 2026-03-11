@@ -460,6 +460,7 @@ void AuditLogger::logSecurityEvent(
             securityEventTypeToString(event_type), user_id, resource);
     } else if (event_type == SecurityEventType::RATE_LIMIT_EXCEEDED ||
                event_type == SecurityEventType::PERMISSION_DENIED ||
+               event_type == SecurityEventType::EXPORT_DENIED ||
                event_type == SecurityEventType::SUSPICIOUS_ACTIVITY) {
         event["severity"] = "MEDIUM";
     } else {

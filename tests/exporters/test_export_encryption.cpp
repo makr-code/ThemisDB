@@ -1214,3 +1214,54 @@ TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_NoAuditLogger_NoCrash) {
     EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
 }
 
+// 10. EXPORT_DENIED audit event must carry severity MEDIUM.
+TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_AuditEventHasMediumSeverity) {
+    auto entities = makeEntities();
+    const std::string out_path   = test_dir_ + "/denied_severity.jsonl";
+    const std::string audit_path = test_dir_ + "/audit_severity.jsonl";
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("col_severity");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    auto logger = makeAuditLogger(audit_path);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "col_severity";
+    opts.requesting_user  = "auditor";
+    opts.policy_engine    = &engine;
+    opts.audit_logger     = logger.get();
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+
+    EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
+
+    logger->flush();
+
+    // Parse the audit log and verify the EXPORT_DENIED event has severity MEDIUM
+    std::ifstream f(audit_path);
+    bool found_medium_export_denied = false;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        try {
+            auto j = json::parse(line);
+            // The audit log entry may be nested under a "payload" key
+            const auto& payload = j.contains("payload") ? j["payload"] : j;
+            if (payload.value("event_type", std::string{}) == "EXPORT_DENIED") {
+                EXPECT_EQ(payload.value("severity", std::string{}), "MEDIUM")
+                    << "EXPORT_DENIED audit event must have severity MEDIUM";
+                found_medium_export_denied = true;
+            }
+        } catch (...) {
+            // skip unparseable lines (e.g. encrypted entries)
+        }
+    }
+    EXPECT_TRUE(found_medium_export_denied)
+        << "Expected at least one EXPORT_DENIED event in the audit log";
+}
+
