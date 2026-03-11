@@ -48,6 +48,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleListVersions
     const http::request<http::string_body>& req,
     const std::string& rule_id
 ) {
+    auto span = Tracer::startSpan("handleListVersions");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -84,6 +85,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleGetVersion(
     const std::string& rule_id,
     const std::string& version
 ) {
+    auto span = Tracer::startSpan("handleGetVersion");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -113,6 +115,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleRollback(
     const std::string& rule_id,
     const std::string& target_version
 ) {
+    auto span = Tracer::startSpan("handleRollback");
     try {
         if (!checkAuth(req, "admin")) {
             return makeErrorResponse(http::status::unauthorized, 
@@ -169,6 +172,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersi
     const std::string& version1,
     const std::string& version2
 ) {
+    auto span = Tracer::startSpan("handleCompareVersions");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -193,6 +197,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleCompareVersi
 http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleQueryAudit");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -245,6 +250,7 @@ http::response<http::string_body> PolicyVersioningApiHandler::handleQueryAudit(
 http::response<http::string_body> PolicyVersioningApiHandler::handleGetConflicts(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetConflicts");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);

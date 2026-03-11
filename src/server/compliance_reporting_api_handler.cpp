@@ -28,6 +28,7 @@
 
 #include <climits>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -47,6 +48,7 @@ ComplianceReportingApiHandler::ComplianceReportingApiHandler(
 http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageAnalysis(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCoverageAnalysis");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -83,6 +85,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleCoverageA
 http::response<http::string_body> ComplianceReportingApiHandler::handleComplianceReport(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleComplianceReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -112,6 +115,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleComplianc
 http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalysis(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGapAnalysis");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -145,6 +149,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleGapAnalys
 http::response<http::string_body> ComplianceReportingApiHandler::handleGenerateReport(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGenerateReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);
@@ -233,6 +238,7 @@ http::response<http::string_body> ComplianceReportingApiHandler::handleExportRep
     const http::request<http::string_body>& req,
     const std::string& report_id
 ) {
+    auto span = Tracer::startSpan("handleExportReport");
     try {
         if (!checkAuth(req, "operator")) {
             return makeErrorResponse(http::status::unauthorized, "Unauthorized", req);

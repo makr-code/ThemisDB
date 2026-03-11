@@ -22,6 +22,7 @@
  */
 
 #include "server/graphql_api_handler.h"
+#include "utils/tracing.h"
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -99,6 +100,7 @@ json GraphQLApiHandler::serializeValue(
 http::response<http::string_body> GraphQLApiHandler::handlePost(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("POST /graphql");
     try {
         // Parse the request body as a JSON object.
         json body_json = json::object();
@@ -108,6 +110,7 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
 
         // The "query" field is mandatory.
         if (!body_json.contains("query") || !body_json["query"].is_string()) {
+            span.setStatus(false, "Missing query field");
             return makeErrorResponse(
                 http::status::bad_request,
                 "GraphQL request must contain a 'query' field",
@@ -190,8 +193,11 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
 http::response<http::string_body> GraphQLApiHandler::handleSchemaGet(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("GET /graphql/schema");
     auto schema  = graphql::ThemisSchemaBuilder::build();
     std::string sdl = schema.toSDL();
+    span.setAttribute("graphql.schema.size_bytes", static_cast<int64_t>(sdl.size()));
+    span.setStatus(true);
 
     http::response<http::string_body> res{http::status::ok, req.version()};
     res.set(http::field::server, "THEMIS/0.1.0");

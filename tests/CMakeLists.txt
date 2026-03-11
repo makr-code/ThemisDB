@@ -4431,6 +4431,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_tracing.cpp")
     message(STATUS "  Distributed Tracing: span lifecycle, child spans, error recording, W3C propagation")
 endif()
 
+# OpenTelemetry API-path tracing tests (all major API paths)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_api_tracing.cpp")
+    message(STATUS "Adding OpenTelemetry API-path tracing tests")
+    add_executable(test_otel_api_tracing test_otel_api_tracing.cpp)
+    target_link_libraries(test_otel_api_tracing PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+        CURL::libcurl
+    )
+    target_compile_definitions(test_otel_api_tracing PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelApiTracingTests COMMAND test_otel_api_tracing)
+    set_tests_properties(OtelApiTracingTests PROPERTIES
+        LABELS "api;tracing;otel;distributed;spans;integration;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OTel API Tracing: span names, attributes, W3C propagation, OtlpExporter, TracingMiddleware")
+endif()
+
 # Phase 2 – Sampling strategy unit tests (replaces stub)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
     message(STATUS "Adding Sampling Strategy tests (Phase 2)")

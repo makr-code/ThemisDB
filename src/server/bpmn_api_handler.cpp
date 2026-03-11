@@ -27,6 +27,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -165,6 +166,7 @@ http::response<http::string_body> BpmnApiHandler::makeResponse(
 http::response<http::string_body> BpmnApiHandler::handleStartProcess(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleStartProcess");
     // Check authorization
     auto auth_err = requireAccess(req, "bpmn", "start", "process");
     if (auth_err) {
@@ -262,6 +264,7 @@ http::response<http::string_body> BpmnApiHandler::handleStartProcess(
 http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleTaskComplete");
     // Check authorization
     auto auth_err = requireAccess(req, "bpmn", "complete", "task");
     if (auth_err) {
@@ -352,6 +355,7 @@ http::response<http::string_body> BpmnApiHandler::handleTaskComplete(
 http::response<http::string_body> BpmnApiHandler::handleQueryInstance(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleQueryInstance");
     // Check authorization
     auto auth_err = requireAccess(req, "bpmn", "read", "instance");
     if (auth_err) {

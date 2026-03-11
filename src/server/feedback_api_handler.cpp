@@ -24,6 +24,7 @@
 #include "utils/logger.h"
 #include <spdlog/spdlog.h>
 #include <boost/url.hpp>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -46,6 +47,7 @@ FeedbackAPIHandler::FeedbackAPIHandler(
 http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCreateFeedback");
     try {
         // Parse request body
         auto body_json = json::parse(req.body());
@@ -90,6 +92,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleCreateFeedback(
 http::response<http::string_body> FeedbackAPIHandler::handleListFeedback(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListFeedback");
     try {
         // Parse query parameters
         std::string target(req.target());
@@ -128,6 +131,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
 ) {
+    auto span = Tracer::startSpan("handleGetFeedback");
     try {
         auto feedback = storage_service_->getFeedback(id);
         
@@ -155,6 +159,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleUpdateFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
 ) {
+    auto span = Tracer::startSpan("handleUpdateFeedback");
     try {
         // Parse request body
         auto body_json = json::parse(req.body());
@@ -197,6 +202,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleDeleteFeedback(
     const http::request<http::string_body>& req,
     const std::string& id
 ) {
+    auto span = Tracer::startSpan("handleDeleteFeedback");
     try {
         bool success = storage_service_->deleteFeedback(id);
         
@@ -228,6 +234,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
     const http::request<http::string_body>& req,
     const std::string& adapter_id
 ) {
+    auto span = Tracer::startSpan("handleGetAdapterFeedback");
     try {
         // Parse limit from query if provided
         std::string target(req.target());
@@ -269,6 +276,7 @@ http::response<http::string_body> FeedbackAPIHandler::handleGetAdapterFeedback(
 http::response<http::string_body> FeedbackAPIHandler::handleGetStatistics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetStatistics");
     try {
         // Parse adapter_id from query if provided
         std::string target(req.target());
@@ -311,6 +319,7 @@ http::response<http::string_body> FeedbackAPIHandler::makeResponse(
     const std::string& body,
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("makeResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::server, "ThemisDB");
     res.set(http::field::content_type, "text/plain");

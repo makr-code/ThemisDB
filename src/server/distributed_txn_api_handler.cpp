@@ -27,6 +27,7 @@
 #include "sharding/distributed_transaction.h"
 #include "utils/logger.h"
 #include <string_view>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
@@ -45,6 +46,7 @@ DistributedTxnApiHandler::DistributedTxnApiHandler(
 http::response<http::string_body>
 DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleBegin");
         auto body = json::parse(req.body());
 
         if (!body.contains("shards") || !body["shards"].is_array()) {
@@ -106,6 +108,7 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
 http::response<http::string_body>
 DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleOperation");
         auto body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -145,6 +148,7 @@ DistributedTxnApiHandler::handleOperation(const http::request<http::string_body>
 http::response<http::string_body>
 DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleCommit");
         auto body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -178,6 +182,7 @@ DistributedTxnApiHandler::handleCommit(const http::request<http::string_body>& r
 http::response<http::string_body>
 DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleAbort");
         auto body = json::parse(req.body());
 
         if (!body.contains("transaction_id")) {
@@ -205,6 +210,7 @@ DistributedTxnApiHandler::handleAbort(const http::request<http::string_body>& re
 http::response<http::string_body>
 DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleReadOnly");
         auto body = json::parse(req.body());
 
         if (!body.contains("shards") || !body["shards"].is_array()) {
@@ -243,6 +249,7 @@ DistributedTxnApiHandler::handleReadOnly(const http::request<http::string_body>&
 http::response<http::string_body>
 DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleStatus");
         // Extract transaction ID from the URL path: /dtxn/status/{txn_id}
         std::string_view path  = req.target();
         const std::string_view prefix = "/dtxn/status/";
@@ -276,6 +283,7 @@ DistributedTxnApiHandler::handleStatus(const http::request<http::string_body>& r
 http::response<http::string_body>
 DistributedTxnApiHandler::handleStats(const http::request<http::string_body>& req) {
     try {
+    auto span = Tracer::startSpan("handleStats");
         return ok(coordinator_->getStatistics(), req);
     } catch (const std::exception& e) {
         return error(http::status::internal_server_error,

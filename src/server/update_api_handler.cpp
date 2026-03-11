@@ -24,6 +24,7 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include "utils/tracing.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
@@ -40,6 +41,7 @@ UpdateApiHandler::UpdateApiHandler(std::shared_ptr<utils::UpdateChecker> checker
 http::response<http::string_body> UpdateApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleRequest");
     std::string target = std::string(req.target());
     auto method = req.method();
     
@@ -64,6 +66,7 @@ http::response<http::string_body> UpdateApiHandler::handleRequest(
 http::response<http::string_body> UpdateApiHandler::handleGetStatus(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetStatus");
     try {
         auto result = checker_->getLastResult();
         auto response_json = result.toJson();
@@ -82,6 +85,7 @@ http::response<http::string_body> UpdateApiHandler::handleGetStatus(
 http::response<http::string_body> UpdateApiHandler::handleCheckNow(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCheckNow");
     try {
         LOG_INFO("Manual update check triggered via API");
         
@@ -103,6 +107,7 @@ http::response<http::string_body> UpdateApiHandler::handleCheckNow(
 http::response<http::string_body> UpdateApiHandler::handleGetConfig(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetConfig");
     try {
         auto config = checker_->getConfig();
         auto config_json = config.toJson();
@@ -124,6 +129,7 @@ http::response<http::string_body> UpdateApiHandler::handleGetConfig(
 http::response<http::string_body> UpdateApiHandler::handleUpdateConfig(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleUpdateConfig");
     try {
         // Parse request body
         json request_json;
@@ -167,6 +173,7 @@ http::response<http::string_body> UpdateApiHandler::createJsonResponse(
     const json& body,
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("createJsonResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::content_type, "application/json");
     res.set(http::field::server, "ThemisDB");

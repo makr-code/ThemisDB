@@ -41,6 +41,7 @@
 #include <algorithm>
 #include <cctype>
 #include <regex>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
@@ -125,6 +126,7 @@ VoiceApiHandler::VoiceApiHandler(std::shared_ptr<voice::VoiceAssistant> voice_as
 http::response<http::string_body> VoiceApiHandler::handleRequest(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleRequest");
     // Validate authentication
     if (!validateBearerToken(req)) {
         return createErrorResponse(
@@ -268,6 +270,7 @@ http::response<http::string_body> VoiceApiHandler::handleRequest(
 http::response<http::string_body> VoiceApiHandler::handleTranscribe(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleTranscribe");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -328,6 +331,7 @@ http::response<http::string_body> VoiceApiHandler::handleTranscribe(
 http::response<http::string_body> VoiceApiHandler::handleSynthesize(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleSynthesize");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -372,6 +376,7 @@ http::response<http::string_body> VoiceApiHandler::handleSynthesize(
 http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleVoiceCommand");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -418,6 +423,7 @@ http::response<http::string_body> VoiceApiHandler::handleVoiceCommand(
 http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleStreamCommand");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -478,6 +484,7 @@ http::response<http::string_body> VoiceApiHandler::handleStreamCommand(
 http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleWakeWordDetect");
     auto audio_data = extractAudioData(req);
     if (audio_data.empty()) {
         return createErrorResponse(
@@ -501,6 +508,7 @@ http::response<http::string_body> VoiceApiHandler::handleWakeWordDetect(
 http::response<http::string_body> VoiceApiHandler::handleRecordCall(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleRecordCall");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -544,6 +552,7 @@ http::response<http::string_body> VoiceApiHandler::handleRecordCall(
 http::response<http::string_body> VoiceApiHandler::handleGenerateProtocol(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGenerateProtocol");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -593,6 +602,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetSession(
     const http::request<http::string_body>& req,
     const std::string& session_id
 ) {
+    auto span = Tracer::startSpan("handleGetSession");
     auto session = voice_assistant_->getSession(session_id);
     
     json result;
@@ -610,6 +620,7 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateSessionContext(
     const http::request<http::string_body>& req,
     const std::string& session_id
 ) {
+    auto span = Tracer::startSpan("handleUpdateSessionContext");
     auto body = parseRequestBody(req);
     if (!body || !body->contains("context")) {
         return createErrorResponse(
@@ -632,6 +643,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const http::request<http::string_body>& req,
     const std::string& session_id
 ) {
+    auto span = Tracer::startSpan("handleDeleteSession");
     // Delete session (not yet implemented in voice_assistant)
     
     json result;
@@ -644,6 +656,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
 http::response<http::string_body> VoiceApiHandler::handleGetVoices(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetVoices");
     // Get available voices (placeholder)
     json result;
     result["voices"] = json::array({
@@ -659,6 +672,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetVoices(
 http::response<http::string_body> VoiceApiHandler::handleGetLanguages(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGetLanguages");
     json result;
     result["languages"] = json::array({
         "en", "de", "es", "fr", "it", "pt", "ru", "zh", "ja", "ko"
@@ -745,6 +759,7 @@ json macroInfoToResponseJson(const voice::MacroInfo& m) {
 http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCreateMacro");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -817,6 +832,7 @@ http::response<http::string_body> VoiceApiHandler::handleCreateMacro(
 http::response<http::string_body> VoiceApiHandler::handleListMacros(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListMacros");
     // Parse optional ?tags=tag1,tag2 query parameter.
     // Note: percent-encoded characters are not decoded; use plain ASCII tag identifiers.
     std::vector<std::string> tag_filter;
@@ -846,6 +862,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
 ) {
+    auto span = Tracer::startSpan("handleGetMacro");
     auto info = voice_assistant_->macroManager().getMacro(macro_id);
     if (!info) {
         return createErrorResponse(
@@ -859,6 +876,7 @@ http::response<http::string_body> VoiceApiHandler::handleUpdateMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
 ) {
+    auto span = Tracer::startSpan("handleUpdateMacro");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -926,6 +944,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
     const http::request<http::string_body>& req,
     const std::string& macro_id
 ) {
+    auto span = Tracer::startSpan("handleDeleteMacro");
     bool ok = voice_assistant_->macroManager().deleteMacro(macro_id);
     if (!ok) {
         return createErrorResponse(
@@ -941,6 +960,7 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteMacro(
 http::response<http::string_body> VoiceApiHandler::handleListRecordings(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleListRecordings");
     std::string tier_str = parseQueryParam(std::string(req.target()), "tier");
     voice::StorageTier tier = voice::StorageTier::HOT;
     if (tier_str == "warm")    tier = voice::StorageTier::WARM;
@@ -976,6 +996,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
     const http::request<http::string_body>& req,
     const std::string& record_id
 ) {
+    auto span = Tracer::startSpan("handleGetRecording");
     auto rec = voice_assistant_->audioStorage().getRecord(record_id);
     if (!rec.has_value()) {
         return createErrorResponse(
@@ -1017,6 +1038,7 @@ http::response<http::string_body> VoiceApiHandler::handleGetRecording(
 http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleSearchTranscripts");
     std::string query = parseQueryParam(std::string(req.target()), "q");
     if (query.empty()) {
         return createErrorResponse(
@@ -1056,6 +1078,7 @@ http::response<http::string_body> VoiceApiHandler::handleSearchTranscripts(
 http::response<http::string_body> VoiceApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleStats");
     auto stats = voice_assistant_->getStatistics();
     return createJsonResponse(stats);
 }
@@ -1063,6 +1086,7 @@ http::response<http::string_body> VoiceApiHandler::handleStats(
 http::response<http::string_body> VoiceApiHandler::handleHealth(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleHealth");
     json result;
     result["status"] = "healthy";
     result["voice_assistant"] = "available";
@@ -1116,6 +1140,7 @@ http::response<http::string_body> VoiceApiHandler::createJsonResponse(
     const json& data,
     http::status status
 ) {
+    auto span = Tracer::startSpan("createJsonResponse");
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
     res.body() = data.dump();
@@ -1127,6 +1152,7 @@ http::response<http::string_body> VoiceApiHandler::createAudioResponse(
     const std::vector<uint8_t>& audio_data,
     const std::string& mime_type
 ) {
+    auto span = Tracer::startSpan("createAudioResponse");
     http::response<http::string_body> res{http::status::ok, 11};
     res.set(http::field::content_type, mime_type);
     res.body() = std::string(audio_data.begin(), audio_data.end());
@@ -1331,6 +1357,7 @@ std::string VoiceApiHandler::parseQueryParam(
 http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleAuthEnroll");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -1409,6 +1436,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthEnroll(
 http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleAuthVerify");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -1442,6 +1470,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthVerify(
 http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleAuthAuthenticate");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -1481,6 +1510,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthAuthenticate(
 http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleAuthIdentify");
     auto body = parseRequestBody(req);
     if (!body) {
         return createErrorResponse(
@@ -1535,6 +1565,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
 http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleAuthListProfiles");
     (void)req;
     const auto profiles = voice_assistant_->listVoiceProfiles();
     json arr = json::array();
@@ -1551,6 +1582,7 @@ http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
     const http::request<http::string_body>& req,
     const std::string& profile_id)
 {
+    auto span = Tracer::startSpan("handleAuthDeleteProfile");
     (void)req;
     if (profile_id.empty()) {
         return createErrorResponse(
