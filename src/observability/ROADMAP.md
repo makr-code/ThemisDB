@@ -22,7 +22,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Continuous profiling integration (pprof / async-profiler compatible) (Issue: #2418)
 - [x] Adaptive sampling rate for high-frequency spans (Issue: #1963)
 - [x] Standalone `tracer.cpp` (ObservabilityTracer) — W3C Trace Context propagation, span ring buffer, MetricsCollector integration (OBS-MISSING-001)
-- [x] Standalone `log_aggregator.cpp` (LogAggregator) — structured JSON log collection, trace-context correlation, ring buffer, file sink (OBS-MISSING-001)
+- [x] Standalone `log_aggregator.cpp` (LogAggregator) — structured JSON log collection, trace-context correlation, ring buffer, file sink, **real-time async streaming via `IAsyncLogger`** (dedicated background worker thread, bounded async queue, `logAsync()` / `logStructuredAsync()` / `logWithContextAsync()`, overflow tracking, shutdown drain) (OBS-MISSING-001)
 
 ## In Progress 🚧
 - [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)

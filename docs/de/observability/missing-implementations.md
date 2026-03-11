@@ -20,7 +20,7 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 | **Erwartet** | `tracer.cpp` (OpenTelemetry Span-Management) und `log_aggregator.cpp` (Structured Log Collection) als eigenständige Implementierungsdateien |
 | **Beobachtet** | Weder `src/observability/tracer.cpp` noch `src/observability/log_aggregator.cpp` existierten. Distributed Tracing wurde in `continuous_profiler.cpp` umgesetzt; strukturiertes Logging lief über das Core `ILogger`-Interface. |
 | **Evidence** | `ls src/observability/` liefert: `alertmanager.cpp`, `continuous_profiler.cpp`, `distributed_flame_graph.cpp`, `ebpf_tracer.cpp`, `metrics_collector.cpp`, `performance_analyzer.cpp`, `query_profiler.cpp`, `storage_profiler.cpp` — kein `tracer.cpp`, kein `log_aggregator.cpp` |
-| **Status** | ✅ **Behoben** am 2026-03-11: `src/observability/tracer.cpp` + `include/observability/tracer.h` (ObservabilityTracer — W3C Trace Context, Span-Ring-Buffer, MetricsCollector-Integration) und `src/observability/log_aggregator.cpp` + `include/observability/log_aggregator.h` (LogAggregator — JSON-Structured-Log, Trace-Context-Korrelation, Ring-Buffer, File-Sink) implementiert. Tests in `tests/test_tracer.cpp` und `tests/test_log_aggregator.cpp`. CMake-Registrierung in `cmake/CMakeLists.txt` und `cmake/ModularBuild.cmake`. |
+| **Status** | ✅ **Behoben** am 2026-03-11: `src/observability/tracer.cpp` + `include/observability/tracer.h` (ObservabilityTracer — W3C Trace Context, Span-Ring-Buffer, MetricsCollector-Integration) und `src/observability/log_aggregator.cpp` + `include/observability/log_aggregator.h` (LogAggregator — JSON-Structured-Log, Trace-Context-Korrelation, Ring-Buffer, File-Sink) implementiert. Tests in `tests/test_tracer.cpp` (25 Tests) und `tests/test_log_aggregator.cpp` (32 Tests). CMake-Registrierung in `cmake/CMakeLists.txt` und `cmake/ModularBuild.cmake`. **Erweiterung 2026-03-11:** `LogAggregator` upgraded auf `IAsyncLogger` — dedizierter Background-Worker-Thread, bounded Async-Queue (`async_queue_max_size`, default 8192), `logAsync()` / `logStructuredAsync()` / `logWithContextAsync()`, Overflow-Counter (`async_queue_overflows`), Shutdown draint Queue vor Join. Vollständige Acceptance Criteria erfüllt: Echtzeit-Aggregation, Async-Streaming, Error-Handling (Overflow, Post-Shutdown, File-Sink-Fehler). |
 | **Kritikalität** | Medium — vollständige Standalone-Implementierung fehlt(e); Funktionalität jetzt eigenständig vorhanden |
 | **Fix-Branch** | `copilot/obs-missing-001-implement-tracer-log-aggregator` (2026-03-11) |
 
@@ -106,7 +106,7 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 
 | ID | Titel | Kritikalität | Status |
 |---|---|---|---|
-| OBS-MISSING-001 | `tracer.cpp` / `log_aggregator.cpp` fehlten als Standalone-Implementierungen | Medium | ✅ Implementiert (2026-03-11) |
+| OBS-MISSING-001 | `tracer.cpp` / `log_aggregator.cpp` fehlten als Standalone-Implementierungen; Async-Streaming fehlte in LogAggregator | Medium | ✅ Implementiert + Async-Streaming (2026-03-11) |
 | OBS-MISSING-002 | 3 `.cpp`-Dateien fehlten in CMakeLists | Hoch | ✅ Behoben (2026-03-09) |
 | OBS-MISSING-003 | eBPF-Tracer + Flame Graph als "planned" markiert, sind fertig | Mittel | ✅ ROADMAP korrigiert (2026-03-09) |
 | OBS-MISSING-004 | OTLP-Export (`otlp_exporter.cpp`) fehlt | Mittel | 🔴 Offen |

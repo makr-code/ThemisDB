@@ -117,8 +117,8 @@ struct LogAggregatorStats {
 /**
  * @brief Structured-log aggregator and collector for the observability module.
  *
- * `LogAggregator` implements `core::concerns::ILogger` and augments the base
- * interface with:
+ * `LogAggregator` implements `core::concerns::IAsyncLogger` (which in turn
+ * extends `ILogger`) and augments the base interface with:
  *   - In-process ring buffer of `LogEntry` structs (each serialisable to JSON)
  *   - Optional file sink (append-only, one JSON object per line)
  *   - Trace-context correlation via `logWithContext()` — every entry carries
