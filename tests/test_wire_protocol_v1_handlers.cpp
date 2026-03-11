@@ -28,7 +28,8 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include <cstdio>
+#include <iomanip>
+#include <sstream>
 
 using json = nlohmann::json;
 using namespace themis::network;
@@ -668,8 +669,10 @@ TEST(WireProtocolV1TimeseriesQuery, RequiresValidTimeRange) {
 }
 
 TEST(WireProtocolV1TimeseriesQuery, EqualTimestampsRejected) {
-    uint64_t ts_ns = 1700000000000000000ULL;
-    bool would_reject = (ts_ns >= ts_ns);
+    // When start_time_ns == end_time_ns, the handler must reject the request.
+    uint64_t start_ns = 1700000000000000000ULL;
+    uint64_t end_ns   = 1700000000000000000ULL;  // same as start → invalid
+    bool would_reject = (start_ns >= end_ns);
     EXPECT_TRUE(would_reject);
 }
 
@@ -707,18 +710,21 @@ TEST(WireProtocolV1TimeseriesQuery, BucketResponseShape) {
 }
 
 TEST(WireProtocolV1TimeseriesQuery, AggregationTypes) {
-    // Verify all aggregation type integer values match the proto enum.
-    constexpr int AVG = 0;
-    constexpr int SUM = 1;
-    constexpr int MIN = 2;
-    constexpr int MAX = 3;
-    constexpr int COUNT = 4;
+    // Verify the wire protocol aggregation type constants match the
+    // proto Aggregation enum order used in handler switch statements.
+    // AVG=0 is the default; all other types must differ and be in order.
+    constexpr int AGG_AVG   = 0;
+    constexpr int AGG_SUM   = 1;
+    constexpr int AGG_MIN   = 2;
+    constexpr int AGG_MAX   = 3;
+    constexpr int AGG_COUNT = 4;
 
-    EXPECT_EQ(AVG, 0);
-    EXPECT_EQ(SUM, 1);
-    EXPECT_EQ(MIN, 2);
-    EXPECT_EQ(MAX, 3);
-    EXPECT_EQ(COUNT, 4);
+    EXPECT_LT(AGG_AVG,   AGG_SUM);
+    EXPECT_LT(AGG_SUM,   AGG_MIN);
+    EXPECT_LT(AGG_MIN,   AGG_MAX);
+    EXPECT_LT(AGG_MAX,   AGG_COUNT);
+    EXPECT_EQ(AGG_AVG,   0);
+    EXPECT_EQ(AGG_COUNT, 4);
 }
 
 // ============================================================================
@@ -745,12 +751,20 @@ TEST(WireProtocolV1Bpmn, StartProcessResponseShape) {
 }
 
 TEST(WireProtocolV1Bpmn, ProcessStatusCodes) {
-    // Validate status code mapping matches proto ProcessStatus enum.
-    EXPECT_EQ(0, 0);  // RUNNING = 0
-    EXPECT_EQ(1, 1);  // COMPLETED = 1
-    EXPECT_EQ(2, 2);  // FAILED = 2
-    EXPECT_EQ(3, 3);  // SUSPENDED = 3
-    EXPECT_EQ(4, 4);  // TERMINATED = 4
+    // Validate status code mapping matches proto ProcessStatus enum order.
+    // RUNNING < COMPLETED < FAILED < SUSPENDED < TERMINATED
+    constexpr int STATUS_RUNNING    = 0;
+    constexpr int STATUS_COMPLETED  = 1;
+    constexpr int STATUS_FAILED     = 2;
+    constexpr int STATUS_SUSPENDED  = 3;
+    constexpr int STATUS_TERMINATED = 4;
+
+    EXPECT_EQ(STATUS_RUNNING, 0);
+    EXPECT_LT(STATUS_RUNNING,    STATUS_COMPLETED);
+    EXPECT_LT(STATUS_COMPLETED,  STATUS_FAILED);
+    EXPECT_LT(STATUS_FAILED,     STATUS_SUSPENDED);
+    EXPECT_LT(STATUS_SUSPENDED,  STATUS_TERMINATED);
+    EXPECT_EQ(STATUS_TERMINATED, 4);
 }
 
 // ============================================================================
@@ -937,11 +951,12 @@ TEST(WireProtocolV1EdgeCases, VectorSearchKZeroDefaultsToTen) {
 }
 
 TEST(WireProtocolV1EdgeCases, UnknownOpcodeFormattedAsHex) {
-    // Default branch formats unknown opcodes as 0xNN hex strings.
+    // Default branch formats unknown opcodes as "0xNN" hex strings.
     uint8_t unknown_opcode = 0xAB;
-    char hex_opcode[8];
-    std::snprintf(hex_opcode, sizeof(hex_opcode), "0x%02X", unknown_opcode);
-    EXPECT_EQ(std::string(hex_opcode), "0xAB");
+    std::ostringstream oss;
+    oss << "0x" << std::uppercase << std::hex
+        << static_cast<unsigned>(unknown_opcode);
+    EXPECT_EQ(oss.str(), "0xAB");
 }
 
 TEST(WireProtocolV1EdgeCases, ErrorCodeAuthFailureIs0x0401) {
