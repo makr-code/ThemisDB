@@ -29,6 +29,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <regex>
+#include <sstream>
 
 namespace themis {
 namespace config {
@@ -195,7 +196,69 @@ ConfigSchemaValidator::validateWithSchemaFile(const std::string& config_path,
 }
 
 // ═══════════════════════════════════════════════════════════
-// matchesType
+// resolveRef  (RFC 6901 JSON Pointer over local '#/...' refs)
+// ═══════════════════════════════════════════════════════════
+
+const nlohmann::json* ConfigSchemaValidator::resolveRef(
+        const std::string& ref, const nlohmann::json& root_schema) {
+    // Only document-internal refs beginning with '#' are supported.
+    if (ref.empty() || ref[0] != '#') return nullptr;
+
+    // "#" alone refers to the root schema.
+    if (ref == "#") return &root_schema;
+
+    // After '#' there must be a '/'.
+    if (ref.size() < 2 || ref[1] != '/') return nullptr;
+
+    // Walk the JSON Pointer path (RFC 6901).
+    const nlohmann::json* node = &root_schema;
+    const std::string path = ref.substr(2); // strip leading "#/"
+
+    std::size_t pos = 0;
+    while (pos <= path.size()) {
+        const std::size_t slash = path.find('/', pos);
+        const std::string raw_token = (slash == std::string::npos)
+                                      ? path.substr(pos)
+                                      : path.substr(pos, slash - pos);
+        pos = (slash == std::string::npos) ? path.size() + 1 : slash + 1;
+
+        // RFC 6901: unescape '~1' → '/' and '~0' → '~' (in that order).
+        std::string key;
+        key.reserve(raw_token.size());
+        for (std::size_t i = 0; i < raw_token.size(); ++i) {
+            if (raw_token[i] == '~' && i + 1 < raw_token.size()) {
+                if (raw_token[i + 1] == '1') { key += '/'; ++i; }
+                else if (raw_token[i + 1] == '0') { key += '~'; ++i; }
+                else { key += raw_token[i]; }
+            } else {
+                key += raw_token[i];
+            }
+        }
+
+        if (node->is_object()) {
+            auto it = node->find(key);
+            if (it == node->end()) return nullptr;
+            node = &(*it);
+        } else if (node->is_array()) {
+            // RFC 6901 §4: array index must be "0" or a positive decimal
+            // integer with no leading zeros.
+            if (key.empty() || (key[0] == '0' && key.size() > 1)) return nullptr;
+            try {
+                const std::size_t idx = std::stoull(key);
+                if (idx >= node->size()) return nullptr;
+                node = &((*node)[idx]);
+            } catch (...) {
+                return nullptr;
+            }
+        } else {
+            return nullptr;
+        }
+    }
+    return node;
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateValue  (entry-point wrapper)
 // ═══════════════════════════════════════════════════════════
 
 bool ConfigSchemaValidator::matchesType(const nlohmann::json& value,
@@ -210,15 +273,57 @@ bool ConfigSchemaValidator::matchesType(const nlohmann::json& value,
     return false;
 }
 
-// ═══════════════════════════════════════════════════════════
-// validateValue  (dispatcher)
-// ═══════════════════════════════════════════════════════════
-
 void ConfigSchemaValidator::validateValue(const nlohmann::json& value,
                                           const nlohmann::json& schema,
                                           const std::string& json_path,
                                           ValidationResult& result) {
+    std::vector<std::string> visited;
+    validateValueImpl(value, schema, json_path, result, schema, visited);
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateValueImpl  (dispatcher, carries root schema and visited-refs)
+// ═══════════════════════════════════════════════════════════
+
+void ConfigSchemaValidator::validateValueImpl(const nlohmann::json& value,
+                                              const nlohmann::json& schema,
+                                              const std::string& json_path,
+                                              ValidationResult& result,
+                                              const nlohmann::json& root_schema,
+                                              std::vector<std::string>& visited_refs) {
     if (!schema.is_object()) return;
+
+    // --- $ref ---
+    // In JSON Schema Draft 7, $ref replaces sibling keywords; resolve and
+    // delegate to the referenced schema.
+    if (schema.contains("$ref") && schema["$ref"].is_string()) {
+        const std::string& ref = schema["$ref"].get<std::string>();
+
+        // Detect and reject cycles before they can recurse infinitely.
+        for (const auto& v : visited_refs) {
+            if (v == ref) {
+                result.addError("Cyclic $ref detected at '" + json_path + "': " + ref);
+                return;
+            }
+        }
+
+        // External URI resolution is out of scope to prevent SSRF.
+        if (ref.empty() || ref[0] != '#') {
+            result.addError("External $ref is not supported at '" + json_path + "': " + ref);
+            return;
+        }
+
+        const nlohmann::json* resolved = resolveRef(ref, root_schema);
+        if (!resolved) {
+            result.addError("Cannot resolve $ref '" + ref + "' at '" + json_path + "'");
+            return;
+        }
+
+        visited_refs.push_back(ref);
+        validateValueImpl(value, *resolved, json_path, result, root_schema, visited_refs);
+        visited_refs.pop_back();
+        return; // $ref replaces sibling keywords (Draft 7 §8.3)
+    }
 
     // --- enum ---
     if (schema.contains("enum") && schema["enum"].is_array()) {
@@ -263,9 +368,9 @@ void ConfigSchemaValidator::validateValue(const nlohmann::json& value,
 
     // --- type-specific keywords ---
     if (value.is_object()) {
-        validateObject(value, schema, json_path, result);
+        validateObject(value, schema, json_path, result, root_schema, visited_refs);
     } else if (value.is_array()) {
-        validateArray(value, schema, json_path, result);
+        validateArray(value, schema, json_path, result, root_schema, visited_refs);
     } else if (value.is_string()) {
         validateString(value, schema, json_path, result);
     } else if (value.is_number()) {
@@ -274,17 +379,17 @@ void ConfigSchemaValidator::validateValue(const nlohmann::json& value,
 
     // --- allOf ---
     if (schema.contains("allOf") && schema["allOf"].is_array()) {
-        validateAllOf(value, schema["allOf"], json_path, result);
+        validateAllOf(value, schema["allOf"], json_path, result, root_schema, visited_refs);
     }
 
     // --- anyOf ---
     if (schema.contains("anyOf") && schema["anyOf"].is_array()) {
-        validateAnyOf(value, schema["anyOf"], json_path, result);
+        validateAnyOf(value, schema["anyOf"], json_path, result, root_schema, visited_refs);
     }
 
     // --- oneOf ---
     if (schema.contains("oneOf") && schema["oneOf"].is_array()) {
-        validateOneOf(value, schema["oneOf"], json_path, result);
+        validateOneOf(value, schema["oneOf"], json_path, result, root_schema, visited_refs);
     }
 }
 
@@ -309,7 +414,9 @@ void ConfigSchemaValidator::validateType(const nlohmann::json& value,
 void ConfigSchemaValidator::validateObject(const nlohmann::json& value,
                                            const nlohmann::json& schema,
                                            const std::string& json_path,
-                                           ValidationResult& result) {
+                                           ValidationResult& result,
+                                           const nlohmann::json& root_schema,
+                                           std::vector<std::string>& visited_refs) {
     // --- required ---
     if (schema.contains("required") && schema["required"].is_array()) {
         for (const auto& req : schema["required"]) {
@@ -325,7 +432,7 @@ void ConfigSchemaValidator::validateObject(const nlohmann::json& value,
         const auto& props = schema["properties"];
         for (const auto& [key, prop_schema] : props.items()) {
             if (value.contains(key)) {
-                validateValue(value[key], prop_schema, json_path + "/" + key, result);
+                validateValueImpl(value[key], prop_schema, json_path + "/" + key, result, root_schema, visited_refs);
             }
         }
     }
@@ -349,7 +456,7 @@ void ConfigSchemaValidator::validateObject(const nlohmann::json& value,
                     result.addError("Additional property '" + key +
                                     "' is not allowed at '" + json_path + "'");
                 } else if (ap.is_object()) {
-                    validateValue(val, ap, json_path + "/" + key, result);
+                    validateValueImpl(val, ap, json_path + "/" + key, result, root_schema, visited_refs);
                 }
             }
         }
@@ -363,7 +470,9 @@ void ConfigSchemaValidator::validateObject(const nlohmann::json& value,
 void ConfigSchemaValidator::validateArray(const nlohmann::json& value,
                                           const nlohmann::json& schema,
                                           const std::string& json_path,
-                                          ValidationResult& result) {
+                                          ValidationResult& result,
+                                          const nlohmann::json& root_schema,
+                                          std::vector<std::string>& visited_refs) {
     // --- minItems ---
     if (schema.contains("minItems") && schema["minItems"].is_number_integer()) {
         std::size_t min = schema["minItems"].get<std::size_t>();
@@ -387,7 +496,7 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json& value,
         const auto& item_schema = schema["items"];
         std::size_t idx = 0;
         for (const auto& item : value) {
-            validateValue(item, item_schema, json_path + "/" + std::to_string(idx), result);
+            validateValueImpl(item, item_schema, json_path + "/" + std::to_string(idx), result, root_schema, visited_refs);
             ++idx;
         }
     }
@@ -493,10 +602,12 @@ void ConfigSchemaValidator::validateNumber(const nlohmann::json& value,
 void ConfigSchemaValidator::validateAllOf(const nlohmann::json& value,
                                           const nlohmann::json& schemas,
                                           const std::string& json_path,
-                                          ValidationResult& result) {
+                                          ValidationResult& result,
+                                          const nlohmann::json& root_schema,
+                                          std::vector<std::string>& visited_refs) {
     for (const auto& sub : schemas) {
         if (sub.is_object()) {
-            validateValue(value, sub, json_path, result);
+            validateValueImpl(value, sub, json_path, result, root_schema, visited_refs);
         }
     }
 }
@@ -508,11 +619,13 @@ void ConfigSchemaValidator::validateAllOf(const nlohmann::json& value,
 void ConfigSchemaValidator::validateAnyOf(const nlohmann::json& value,
                                           const nlohmann::json& schemas,
                                           const std::string& json_path,
-                                          ValidationResult& result) {
+                                          ValidationResult& result,
+                                          const nlohmann::json& root_schema,
+                                          std::vector<std::string>& visited_refs) {
     for (const auto& sub : schemas) {
         if (sub.is_object()) {
             ValidationResult sub_result;
-            validateValue(value, sub, json_path, sub_result);
+            validateValueImpl(value, sub, json_path, sub_result, root_schema, visited_refs);
             if (sub_result.valid) {
                 return; // at least one sub-schema matched
             }
@@ -528,12 +641,14 @@ void ConfigSchemaValidator::validateAnyOf(const nlohmann::json& value,
 void ConfigSchemaValidator::validateOneOf(const nlohmann::json& value,
                                           const nlohmann::json& schemas,
                                           const std::string& json_path,
-                                          ValidationResult& result) {
+                                          ValidationResult& result,
+                                          const nlohmann::json& root_schema,
+                                          std::vector<std::string>& visited_refs) {
     int matched = 0;
     for (const auto& sub : schemas) {
         if (sub.is_object()) {
             ValidationResult sub_result;
-            validateValue(value, sub, json_path, sub_result);
+            validateValueImpl(value, sub, json_path, sub_result, root_schema, visited_refs);
             if (sub_result.valid) {
                 ++matched;
             }

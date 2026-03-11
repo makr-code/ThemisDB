@@ -756,6 +756,181 @@ TEST_F(ConfigSchemaValidatorTest, OneOfWithObjectSchemas) {
     EXPECT_TRUE(result.valid) << result.formatErrors();
 }
 
+// ═══════════════════════════════════════════════════════════
+// validate – $ref / $defs
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, RefDefsResolutionPass) {
+    // $ref pointing to a $defs entry; value satisfies the referenced schema.
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "$defs": {
+            "Port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+        },
+        "type": "object",
+        "properties": {
+            "port": { "$ref": "#/$defs/Port" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, RefDefsResolutionFail) {
+    // Port value out of range according to the $defs entry.
+    auto path = writeFile("cfg.json", R"({"port": 99999})");
+    nlohmann::json schema = R"({
+        "$defs": {
+            "Port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+        },
+        "type": "object",
+        "properties": {
+            "port": { "$ref": "#/$defs/Port" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("maximum"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, RefDefinitionsResolutionPass) {
+    // Draft 4/6/7 style: "definitions" instead of "$defs".
+    auto path = writeFile("cfg.json", R"({"name": "themis"})");
+    nlohmann::json schema = R"({
+        "definitions": {
+            "NonEmptyString": { "type": "string", "minLength": 1 }
+        },
+        "type": "object",
+        "properties": {
+            "name": { "$ref": "#/definitions/NonEmptyString" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, RefDefinitionsResolutionFail) {
+    // Empty string fails the NonEmptyString definition.
+    auto path = writeFile("cfg.json", R"({"name": ""})");
+    nlohmann::json schema = R"({
+        "definitions": {
+            "NonEmptyString": { "type": "string", "minLength": 1 }
+        },
+        "type": "object",
+        "properties": {
+            "name": { "$ref": "#/definitions/NonEmptyString" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, RefEnforcesRequiredPropertiesPass) {
+    // $ref is used as a top-level schema for a required check.
+    auto path = writeFile("cfg.json", R"({"host": "localhost", "port": 8080})");
+    nlohmann::json schema = R"({
+        "$defs": {
+            "ServerConfig": {
+                "type": "object",
+                "required": ["host", "port"],
+                "properties": {
+                    "host": { "type": "string" },
+                    "port": { "type": "integer" }
+                }
+            }
+        },
+        "$ref": "#/$defs/ServerConfig"
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, RefDetectsMissingRequiredProperty) {
+    // Missing required property detected through $ref resolution.
+    auto path = writeFile("cfg.json", R"({"host": "localhost"})");
+    nlohmann::json schema = R"({
+        "$defs": {
+            "ServerConfig": {
+                "type": "object",
+                "required": ["host", "port"]
+            }
+        },
+        "$ref": "#/$defs/ServerConfig"
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("port"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, NestedRefResolutionPass) {
+    // $defs entry that itself references another $defs entry.
+    auto path = writeFile("cfg.json", R"({"level": "info"})");
+    nlohmann::json schema = R"({
+        "$defs": {
+            "LogLevel": { "enum": ["trace", "debug", "info", "warn", "error"] },
+            "LogConfig": {
+                "type": "object",
+                "properties": {
+                    "level": { "$ref": "#/$defs/LogLevel" }
+                }
+            }
+        },
+        "$ref": "#/$defs/LogConfig"
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, UnresolvableRefReportsError) {
+    // $ref that points to a non-existent definition.
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "port": { "$ref": "#/$defs/DoesNotExist" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("Cannot resolve"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, ExternalRefReportsError) {
+    // External URI refs are not supported (SSRF guard).
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "port": { "$ref": "https://example.com/schema.json#/Port" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("External $ref"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, CyclicRefReportsError) {
+    // Directly self-referencing $ref must be detected as a cycle.
+    auto path = writeFile("cfg.json", R"({"value": 1})");
+    nlohmann::json schema = R"({
+        "$defs": {
+            "Cyclic": { "$ref": "#/$defs/Cyclic" }
+        },
+        "type": "object",
+        "properties": {
+            "value": { "$ref": "#/$defs/Cyclic" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("Cyclic"), std::string::npos);
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis
