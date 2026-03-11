@@ -29,7 +29,6 @@
 #include <fstream>
 #include <stdexcept>
 #include <regex>
-#include <sstream>
 
 namespace themis {
 namespace config {
@@ -258,7 +257,7 @@ const nlohmann::json* ConfigSchemaValidator::resolveRef(
 }
 
 // ═══════════════════════════════════════════════════════════
-// validateValue  (entry-point wrapper)
+// matchesType
 // ═══════════════════════════════════════════════════════════
 
 bool ConfigSchemaValidator::matchesType(const nlohmann::json& value,
@@ -272,6 +271,10 @@ bool ConfigSchemaValidator::matchesType(const nlohmann::json& value,
     if (type == "object")  return value.is_object();
     return false;
 }
+
+// ═══════════════════════════════════════════════════════════
+// validateValue  (entry-point wrapper)
+// ═══════════════════════════════════════════════════════════
 
 void ConfigSchemaValidator::validateValue(const nlohmann::json& value,
                                           const nlohmann::json& schema,
