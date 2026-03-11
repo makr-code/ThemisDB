@@ -609,3 +609,88 @@ TEST_F(WireProtocolConnectionPoolTest, PoolSizeAdaptationsInitiallyZero) {
     WireProtocolConnectionPool pool(config_);
     EXPECT_EQ(pool.getStats().pool_size_adaptations, 0u);
 }
+
+/**
+ * @brief getIdealConnectionCount returns current when load is exactly at scale_up_threshold
+ * (boundary: equal is not greater-than, so no scale-up)
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountAtScaleUpBoundaryNoChange) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.scale_up_threshold = 0.8;
+    AdaptivePoolingStrategy strategy(cfg);
+    // load = 0.8 exactly — equal, not strictly greater → stable
+    size_t ideal = strategy.getIdealConnectionCount(10, 8, 0.8);
+    EXPECT_EQ(ideal, 10u);
+}
+
+/**
+ * @brief getIdealConnectionCount returns current when load is exactly at scale_down_threshold
+ * (boundary: equal is not less-than, so no scale-down)
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountAtScaleDownBoundaryNoChange) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.scale_down_threshold = 0.3;
+    AdaptivePoolingStrategy strategy(cfg);
+    // load = 0.3 exactly — equal, not strictly less-than → stable
+    size_t ideal = strategy.getIdealConnectionCount(10, 3, 0.3);
+    EXPECT_EQ(ideal, 10u);
+}
+
+/**
+ * @brief Verify that getIdealConnectionCount scale-down result never drops below 1
+ */
+TEST(AdaptivePoolingStrategyTest, GetIdealCountScaleDownFloor) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.scale_down_threshold = 0.5;
+    cfg.scale_down_factor    = 0.1;   // very aggressive: 0.1 × 2 = 0 → clamped to 1
+    AdaptivePoolingStrategy strategy(cfg);
+    size_t ideal = strategy.getIdealConnectionCount(2, 0, 0.0);
+    EXPECT_GE(ideal, 1u);
+}
+
+/**
+ * @brief Pool with adaptive sizing disabled does not call adaptPoolSize
+ * (stats.pool_size_adaptations stays 0 even after pruning)
+ */
+TEST_F(WireProtocolConnectionPoolTest, AdaptiveSizingDisabledNoAdaptations) {
+    config_.enable_adaptive_sizing = false;
+    WireProtocolConnectionPool pool(config_);
+    pool.pruneStaleConnections();  // trigger maintenance path
+    EXPECT_EQ(pool.getStats().pool_size_adaptations, 0u);
+}
+
+/**
+ * @brief shouldCreateConnection agrees with getIdealConnectionCount for scale-up:
+ * When load is high (> scale_up_threshold) ideal is larger, AND the pool
+ * is not full, shouldCreate should return true.
+ */
+TEST(AdaptivePoolingStrategyTest, IdealCountAndShouldCreateAgreement) {
+    AdaptivePoolingStrategy strategy;
+    // current=5, active=5 (100% utilization → load > 0.8)
+    size_t ideal = strategy.getIdealConnectionCount(5, 5, 1.0);
+    EXPECT_GT(ideal, 5u);
+
+    // Pool is not full, no available conns → shouldCreate should agree
+    bool should_create = strategy.shouldCreateConnection(5, 20, 0);
+    EXPECT_TRUE(should_create);
+}
+
+/**
+ * @brief shouldRemoveConnection agrees with getIdealConnectionCount for scale-down:
+ * When load is low (< scale_down_threshold) ideal is smaller, AND idle time
+ * exceeds min_idle_time, shouldRemove should return true.
+ */
+TEST(AdaptivePoolingStrategyTest, IdealCountAndShouldRemoveAgreement) {
+    AdaptivePoolingStrategy::Config cfg;
+    cfg.scale_down_threshold = 0.3;
+    cfg.min_idle_time        = std::chrono::seconds(10);
+    AdaptivePoolingStrategy strategy(cfg);
+
+    // current=10, active=1 (10% utilization → load < 0.3)
+    size_t ideal = strategy.getIdealConnectionCount(10, 1, 0.1);
+    EXPECT_LT(ideal, 10u);
+
+    // Pool above min, has idle connections, idle time exceeded → shouldRemove agrees
+    bool should_remove = strategy.shouldRemoveConnection(10, 2, 5, std::chrono::seconds(30));
+    EXPECT_TRUE(should_remove);
+}

@@ -53,7 +53,7 @@ using tcp = net::ip::tcp;
  * @brief Abstract interface for connection pool sizing strategies.
  *
  * Implementations decide when to grow or shrink the pool based on
- * real-time utilisation metrics supplied by the pool itself.
+ * real-time utilization metrics supplied by the pool itself.
  */
 class IPoolingStrategy {
 public:
@@ -100,7 +100,7 @@ public:
 };
 
 /**
- * @brief Adaptive pool sizing strategy based on utilisation thresholds.
+ * @brief Adaptive pool sizing strategy based on utilization thresholds.
  *
  * - Scales up when the fraction of idle connections drops below
  *   `(1 - scale_up_threshold)`.
@@ -110,11 +110,11 @@ public:
 class AdaptivePoolingStrategy : public IPoolingStrategy {
 public:
     struct Config {
-        /// Target utilisation (fraction of connections that should be active).
+        /// Target utilization (fraction of connections that should be active).
         double target_utilization  = 0.7;
-        /// Trigger scale-up when utilisation exceeds this value.
+        /// Trigger scale-up when utilization exceeds this value.
         double scale_up_threshold  = 0.8;
-        /// Trigger scale-down when utilisation drops below this value.
+        /// Trigger scale-down when utilization drops below this value.
         double scale_down_threshold = 0.3;
         /// Multiplier applied when growing the pool.
         double scale_up_factor     = 1.5;
@@ -210,7 +210,7 @@ public:
         std::string ssl_ca_cert_path;                 ///< CA certificate path
         size_t max_retries = 3;                       ///< Max connection retry attempts
         bool enable_warmup = true;                    ///< Pre-create min connections on startup
-        /// Enable adaptive pool sizing driven by real-time utilisation metrics.
+        /// Enable adaptive pool sizing driven by real-time utilization metrics.
         bool enable_adaptive_sizing = false;
         /// Custom sizing strategy (default: AdaptivePoolingStrategy with default config).
         /// Only consulted when enable_adaptive_sizing is true.
@@ -288,7 +288,7 @@ public:
         size_t connections_created = 0;
         size_t connections_reused = 0;
         size_t keepalive_checks_sent = 0;
-        /// Current utilisation: active / (active + idle), averaged across all targets.
+        /// Current utilization: active / (active + idle), averaged across all targets.
         double utilization = 0.0;
         /// Number of pool-size adaptations performed by the adaptive strategy.
         size_t pool_size_adaptations = 0;
@@ -384,7 +384,7 @@ private:
     void initializeSSLContext();
     
     /**
-     * @brief Adapt pool size based on real-time utilisation metrics.
+     * @brief Adapt pool size based on real-time utilization metrics.
      * Called from the maintenance thread when adaptive sizing is enabled.
      */
     void adaptPoolSize();

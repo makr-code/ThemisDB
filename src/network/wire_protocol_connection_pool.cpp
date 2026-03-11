@@ -587,8 +587,25 @@ void WireProtocolConnectionPool::adaptPoolSize() {
             }
         }
 
+        // --- Compute load and ideal connection count ---
+        // load = fraction of connections currently in use (0.0 – 1.0).
+        // The strategy returns an ideal total count; we clamp it to the
+        // configured [min_connections_per_target, max_connections_per_target]
+        // range before using it to drive scale-up / scale-down decisions.
+        double load = (current_count > 0)
+            ? static_cast<double>(active_count) / static_cast<double>(current_count)
+            : 0.0;
+
+        size_t ideal = config_.adaptive_strategy->getIdealConnectionCount(
+            current_count, active_count, load);
+
+        // Clamp ideal to configured limits
+        ideal = std::max(ideal, config_.min_connections_per_target);
+        ideal = std::min(ideal, config_.max_connections_per_target);
+
         // --- Scale up: pre-create a connection if the strategy recommends it ---
-        if (config_.adaptive_strategy->shouldCreateConnection(
+        if (ideal > current_count &&
+            config_.adaptive_strategy->shouldCreateConnection(
                 current_count, config_.max_connections_per_target, available_count)) {
             try {
                 auto socket = createConnection(target);
@@ -617,7 +634,8 @@ void WireProtocolConnectionPool::adaptPoolSize() {
         }
 
         // --- Scale down: remove the oldest idle connection if eligible ---
-        if (config_.adaptive_strategy->shouldRemoveConnection(
+        if (ideal < current_count &&
+            config_.adaptive_strategy->shouldRemoveConnection(
                 current_count, config_.min_connections_per_target,
                 available_count, oldest_idle)) {
             std::lock_guard<std::mutex> pool_lock(pool->mutex);
@@ -686,7 +704,7 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     stats.available_connections = available;
     stats.in_use_connections = in_use;
 
-    // Compute overall utilisation across all targets
+    // Compute overall utilization across all targets
     size_t total = in_use + available;
     stats.utilization = (total > 0)
         ? static_cast<double>(in_use) / static_cast<double>(total)
