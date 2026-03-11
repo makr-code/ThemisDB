@@ -573,9 +573,10 @@ void ConfigSchemaValidator::validateString(const nlohmann::json& value,
                 static const std::regex re_date(R"(^\d{4}-\d{2}-\d{2}$)");
                 format_valid = std::regex_match(s, re_date);
             } else if (fmt == "date-time") {
-                // YYYY-MM-DDThh:mm:ss with optional fractional seconds and timezone
+                // RFC 3339 / ISO 8601: YYYY-MM-DDTHH:mm:ss with optional fractional seconds
+                // and UTC offset.  Only 'T' is accepted as the separator (not space).
                 static const std::regex re_datetime(
-                    R"(^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+\-]\d{2}:\d{2})?$)");
+                    R"(^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+\-]\d{2}:\d{2})?$)");
                 format_valid = std::regex_match(s, re_datetime);
             } else if (fmt == "email") {
                 // Simplified RFC 5321 local@domain check
@@ -599,7 +600,9 @@ void ConfigSchemaValidator::validateString(const nlohmann::json& value,
                     format_valid = false;
                 }
             } else if (fmt == "ipv6") {
-                // Simplified: colon-hex groups (does not cover all compressed forms)
+                // Simplified check: requires at least one colon and only hex digits plus colons.
+                // Does not validate segment count, leading/trailing :: compression,
+                // or embedded IPv4 addresses.  Rejects non-hex characters and plain IPv4.
                 static const std::regex re_ipv6(
                     R"(^[0-9a-fA-F:]+:[0-9a-fA-F:]*$)");
                 format_valid = std::regex_match(s, re_ipv6);
