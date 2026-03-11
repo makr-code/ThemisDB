@@ -239,7 +239,10 @@ public:
 
         spdlog::info("[ActiveVRAMAllocator] Triggering OOM recovery for '{}' ({} bytes)",
                      owner_id, bytes);
-        bool recovered = handleOOMInternal(bytes);
+        // Use the public handleOOM() wrapper which acquires mu_ independently.
+        // Calling the private handleOOMInternal() here would be a data race
+        // because allocate() already released the lock before returning.
+        bool recovered = handleOOM(bytes);
         if (!recovered) {
             spdlog::error("[ActiveVRAMAllocator] OOM recovery failed for '{}' ({} bytes)",
                           owner_id, bytes);
@@ -389,10 +392,11 @@ public:
         // Free the CPU buffer
         gpu_mgr_->freeCPU(makeModelKey(handle.owner_id, handle.id), handle.cpu_ptr);
 
-        // Update tracking
+        // Update tracking.
+        // Note: live_allocation_count is NOT decremented on spill (the handle
+        // remains valid), so we must NOT increment it on restore either.
         stats_.spilled_cpu_bytes -= bytes;
         stats_.used_vram_bytes   += bytes;
-        stats_.live_allocation_count++;  // was decremented on spill
         updateFreeVRAM();
 
         handle.gpu_ptr    = gpu_ptr;
@@ -663,6 +667,8 @@ private:
         handle.cpu_ptr = nullptr;
 
         allocations_.erase(handle.id);
+        // Remove from bridge map too (if it was a bridge allocation).
+        bridge_handles_.erase(handle.id);
         return true;
     }
 

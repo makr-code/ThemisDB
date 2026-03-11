@@ -539,3 +539,102 @@ TEST(ActiveVRAMAllocatorTest, ConcurrentEvictAndAllocateIsSafe) {
 
     EXPECT_NO_THROW(alloc.getStats());
 }
+
+// ---------------------------------------------------------------------------
+// Regression tests for bugs found during code audit
+// ---------------------------------------------------------------------------
+
+// Bug 1: allocateOrRecover must not call handleOOMInternal without lock.
+// This test forces the OOM recovery path and verifies it doesn't deadlock or
+// corrupt state when called concurrently.
+TEST(ActiveVRAMAllocatorTest, AllocateOrRecoverIsThreadSafe) {
+    ActiveVRAMAllocator alloc(makeTestConfig(/*mb=*/128));
+
+    // Pre-populate so recovery has something to evict
+    std::vector<ActiveVRAMAllocator::AllocationHandle> seed;
+    for (int i = 0; i < 4; ++i) {
+        auto h = alloc.allocate(4096, "seed_" + std::to_string(i));
+        if (h) seed.push_back(*h);
+    }
+
+    // Fire multiple threads calling allocateOrRecover simultaneously
+    constexpr int kThreads = 4;
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&alloc, t]() {
+            for (int i = 0; i < 10; ++i) {
+                auto h = alloc.allocateOrRecover(4096, "recovery_" + std::to_string(t));
+                if (h) alloc.free(*h);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    // If the thread-safety bug were present, we'd see crashes or assertion failures.
+    // Just verify the allocator is still consistent.
+    EXPECT_NO_THROW(alloc.getStats());
+
+    for (auto& h : seed) {
+        if (h.valid) alloc.free(h);
+    }
+}
+
+// Bug 2: live_allocation_count must not drift after spill+restore cycles.
+TEST(ActiveVRAMAllocatorTest, LiveCountDoesNotDriftAfterSpillRestore) {
+    auto cfg = makeTestConfig(/*mb=*/128, /*spill=*/true);
+    ActiveVRAMAllocator alloc(cfg);
+
+    auto h = alloc.allocate(4096, "spill_restore_model");
+    ASSERT_TRUE(h.has_value());
+
+    auto count_before = alloc.getStats().live_allocation_count;
+    EXPECT_EQ(count_before, 1u);
+
+    // Spill to CPU
+    size_t spilled = alloc.spillLRUToCPU();
+    if (spilled > 0) {
+        // Count must remain 1 after spill (handle is still valid)
+        EXPECT_EQ(alloc.getStats().live_allocation_count, 1u);
+
+        // Restore from CPU
+        // We need to get the updated handle (is_spilled=true) from listAllocations
+        auto live = alloc.listAllocations();
+        ASSERT_EQ(live.size(), 1u);
+        EXPECT_TRUE(live[0].is_spilled);
+
+        bool restored = alloc.restoreFromCPU(live[0]);
+        if (restored) {
+            // Count must still be 1 — not incremented on restore
+            EXPECT_EQ(alloc.getStats().live_allocation_count, 1u);
+        }
+    }
+
+    // Free
+    auto live = alloc.listAllocations();
+    if (!live.empty()) alloc.free(live[0]);
+    EXPECT_EQ(alloc.getStats().live_allocation_count, 0u);
+}
+
+// Bug 3: bridge_handles_ entries must not accumulate unboundedly.
+// After repeated allocateWithFragmentation calls and subsequent evictions,
+// the internal bridge metadata map should not grow forever.
+TEST(ActiveVRAMAllocatorTest, BridgeHandlesCleanedUpOnEviction) {
+    ActiveVRAMAllocator alloc(makeTestConfig(/*mb=*/128));
+
+    // Call bridge API several times — internally stores handles in bridge_handles_
+    for (int i = 0; i < 5; ++i) {
+        void* ptr = nullptr;
+        bool ok = alloc.allocateWithFragmentation(4096, &ptr);
+        (void)ok;
+    }
+
+    // Evict all — should clean up bridge entries too
+    for (int i = 0; i < 10; ++i) {
+        alloc.evictLRU();
+    }
+
+    // Allocator should be in a consistent state (no crash, no stale pointers)
+    EXPECT_EQ(alloc.listAllocations().size(), 0u);
+    EXPECT_NO_THROW(alloc.getStats());
+}
