@@ -299,8 +299,13 @@ TEST(ConsistentHashRingTest, RemoveNodeReroutesGracefully) {
             changed++;
         }
     }
-    // A minimal hash ring disruption: only keys previously on gw-2 should move.
-    EXPECT_LT(changed, 60) << "Too many keys rerouted; consistent hash ring broken";
+    // In a 3-node consistent-hash ring, removing 1 node should disrupt at most
+    // ~1/3 of keys (≈33 out of 100). We allow up to 50% (50 keys) as a generous
+    // bound to absorb hash-distribution variance with 150 virtual nodes, but not
+    // the 67% that would occur if all keys were rehashed from scratch.
+    static constexpr int kMaxAllowedDisruption = 50;
+    EXPECT_LT(changed, kMaxAllowedDisruption)
+        << "Too many keys rerouted; consistent hash ring broken";
 }
 
 // ============================================================================

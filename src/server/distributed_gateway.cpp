@@ -26,6 +26,7 @@
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <unordered_set>
 
 namespace themis::server {
 
@@ -167,11 +168,9 @@ std::optional<GatewayNode> ConsistentHashRing::getNode(
 
 std::size_t ConsistentHashRing::nodeCount() const {
     std::shared_lock lock(mutex_);
-    // Each physical node occupies virtual_nodes_ entries; use a set to count
-    // distinct node IDs (handles edge cases with hash collisions).
-    std::unordered_map<std::string, bool> seen;
+    std::unordered_set<std::string> seen;
     for (const auto& [h, node] : ring_) {
-        seen[node.node_id] = true;
+        seen.insert(node.node_id);
     }
     return seen.size();
 }
