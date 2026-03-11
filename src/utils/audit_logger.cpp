@@ -373,6 +373,7 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::DATA_WRITE: return "DATA_WRITE";
         case SecurityEventType::DATA_DELETE: return "DATA_DELETE";
         case SecurityEventType::BULK_EXPORT: return "BULK_EXPORT";
+        case SecurityEventType::EXPORT_DENIED: return "EXPORT_DENIED";
         case SecurityEventType::BULK_IMPORT: return "BULK_IMPORT";
         case SecurityEventType::BULK_IMPORT_COMPLETED: return "BULK_IMPORT_COMPLETED";
         // Graph & Vector Operations (Phase 1)

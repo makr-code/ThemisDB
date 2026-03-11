@@ -34,12 +34,18 @@
 #include "exporters/jsonl_llm_exporter.h"
 #include "exporters/streaming_exporter.h"
 #include "exporters/incremental_exporter.h"
+#include "governance/policy_engine.h"
+#include "governance/model_governance.h"
 #include "security/mock_key_provider.h"
+#include "security/encryption.h"
 #include "storage/base_entity.h"
+#include "utils/audit_logger.h"
+#include "utils/pki_client.h"
 #include <ctime>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <sstream>
 #include <string>
 #ifdef _WIN32
 #include <process.h>
@@ -48,13 +54,6 @@
 #include <unistd.h>
 #endif
 #include <vector>
-#include <vector>
-#ifdef _WIN32
-#  include <process.h>
-#  define getpid _getpid
-#else
-#  include <unistd.h>
-#endif
 
 using namespace themis::exporters;
 using namespace themis;
@@ -923,5 +922,295 @@ TEST_F(ExportEncryptionTest, ExportWithNoEncryptionProducesPlaintextJsonl) {
         << "Without encryption_config the output must be plain JSONL";
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// PolicyEngine integration (EXP-001)
+// ─────────────────────────────────────────────────────────────────────────────
 
+using namespace themis::governance;  // PolicyEngine, ModelGovernancePolicy
+
+// Helpers for creating a minimal in-process AuditLogger
+static std::shared_ptr<themis::utils::AuditLogger> makeAuditLogger(const std::string& log_path) {
+    auto kp = std::make_shared<MockKeyProvider>();
+    kp->createKey("audit_key", 1);
+    auto enc = std::make_shared<themis::FieldEncryption>(kp);
+    themis::utils::PKIConfig pki_cfg;
+    pki_cfg.service_id = "test";
+    auto pki = std::make_shared<themis::utils::VCCPKIClient>(pki_cfg);
+    themis::utils::AuditLoggerConfig cfg;
+    cfg.enabled              = true;
+    cfg.encrypt_then_sign    = false;
+    cfg.enable_hash_chain    = false;
+    cfg.log_path             = log_path;
+    cfg.key_id               = "audit_key";
+    cfg.enable_siem          = false;
+    return std::make_shared<themis::utils::AuditLogger>(enc, pki, cfg);
+}
+
+static std::string readAuditLog(const std::string& path) {
+    std::ifstream f(path);
+    std::ostringstream ss;
+    ss << f.rdbuf();
+    return ss.str();
+}
+
+class ExportPolicyEnforcementTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        auto temp_base = std::filesystem::temp_directory_path();
+        test_dir_ = (temp_base /
+            ("themis_policy_test_" + std::to_string(std::time(nullptr)) +
+             "_" + std::to_string(static_cast<int>(getpid()))))
+            .string();
+        std::filesystem::create_directories(test_dir_);
+    }
+
+    void TearDown() override {
+        std::error_code ec;
+        std::filesystem::remove_all(test_dir_, ec);
+    }
+
+    std::vector<BaseEntity> makeEntities(int n = 3) {
+        std::vector<BaseEntity> entities;
+        for (int i = 0; i < n; ++i) {
+            BaseEntity e;
+            e.setPrimaryKey("ent_" + std::to_string(i));
+            e.setField("text", "sample " + std::to_string(i));
+            entities.push_back(e);
+        }
+        return entities;
+    }
+
+    std::string test_dir_;
+};
+
+// 1. No PolicyEngine attached — backward-compatible no-op, export proceeds.
+TEST_F(ExportPolicyEnforcementTest, NoPolicyEngine_ExportProceeds) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/no_policy.jsonl";
+
+    ExportOptions opts;
+    opts.output_path = out_path;
+    // policy_engine stays nullptr (default)
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+    EXPECT_NO_THROW(exporter.exportEntities(entities, opts));
+    EXPECT_TRUE(std::filesystem::exists(out_path));
+}
+
+// 2. PolicyEngine permits the export — export proceeds normally.
+TEST_F(ExportPolicyEnforcementTest, PolicyEnginePermits_ExportProceeds) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/permitted.jsonl";
+
+    PolicyEngine engine;
+    // Default fallback allows "offen" classification
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "open_collection";
+    opts.requesting_user  = "alice";
+    opts.policy_engine    = &engine;
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+    EXPECT_NO_THROW(exporter.exportEntities(entities, opts));
+    EXPECT_TRUE(std::filesystem::exists(out_path));
+}
+
+// 3. PolicyEngine denies the export — ExporterException(ERR_EXPORT_POLICY_DENIED) thrown.
+TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_ThrowsExporterException) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/denied.jsonl";
+
+    // Restrict the collection so the engine will deny the request
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("sensitive_col");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "sensitive_col";
+    opts.requesting_user  = "bob";
+    opts.policy_engine    = &engine;
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+
+    try {
+        exporter.exportEntities(entities, opts);
+        FAIL() << "Expected ExporterException(ERR_EXPORT_POLICY_DENIED)";
+    } catch (const ExporterException& ex) {
+        EXPECT_EQ(ex.getErrorCode(), themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED);
+        EXPECT_NE(std::string(ex.what()).find("denied"), std::string::npos)
+            << "Error message must contain 'denied'";
+    }
+
+    // No partial output must have been written
+    EXPECT_FALSE(std::filesystem::exists(out_path))
+        << "Denied export must not write any output file";
+}
+
+// 4. Denied export writes EXPORT_DENIED event to the audit log.
+TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_AuditLogReceivesExportDeniedEvent) {
+    auto entities = makeEntities();
+    const std::string out_path   = test_dir_ + "/denied_audit.jsonl";
+    const std::string audit_path = test_dir_ + "/audit_deny.jsonl";
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("secret_col");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    auto logger = makeAuditLogger(audit_path);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "secret_col";
+    opts.requesting_user  = "eve";
+    opts.policy_engine    = &engine;
+    opts.audit_logger     = logger.get();
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+
+    EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
+
+    logger->flush();
+
+    const std::string log_content = readAuditLog(audit_path);
+    EXPECT_NE(log_content.find("EXPORT_DENIED"), std::string::npos)
+        << "Audit log must contain EXPORT_DENIED event on policy denial";
+    EXPECT_NE(log_content.find("eve"), std::string::npos)
+        << "Audit log must contain the requester identity";
+    EXPECT_NE(log_content.find("secret_col"), std::string::npos)
+        << "Audit log must contain the collection name";
+}
+
+// 5. Permitted export writes BULK_EXPORT event to the audit log.
+TEST_F(ExportPolicyEnforcementTest, PolicyEnginePermits_AuditLogReceivesBulkExportEvent) {
+    auto entities = makeEntities();
+    const std::string out_path   = test_dir_ + "/permit_audit.jsonl";
+    const std::string audit_path = test_dir_ + "/audit_permit.jsonl";
+
+    PolicyEngine engine;  // Default fallback: permit all non-classified
+
+    auto logger = makeAuditLogger(audit_path);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "public_col";
+    opts.requesting_user  = "carol";
+    opts.policy_engine    = &engine;
+    opts.audit_logger     = logger.get();
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+    EXPECT_NO_THROW(exporter.exportEntities(entities, opts));
+
+    logger->flush();
+
+    const std::string log_content = readAuditLog(audit_path);
+    EXPECT_NE(log_content.find("BULK_EXPORT"), std::string::npos)
+        << "Audit log must contain BULK_EXPORT event on permitted export";
+    EXPECT_NE(log_content.find("carol"), std::string::npos)
+        << "Audit log must contain the requester identity";
+}
+
+// 6. StreamingExporter also enforces policy (all 6 exporters call enforceExportPolicy).
+TEST_F(ExportPolicyEnforcementTest, StreamingExporter_PolicyEngineDenies_ThrowsExporterException) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/stream_denied.jsonl";
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("restricted_stream");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "restricted_stream";
+    opts.requesting_user  = "dave";
+    opts.policy_engine    = &engine;
+
+    StreamingExporter exporter;
+    EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
+    EXPECT_FALSE(std::filesystem::exists(out_path));
+}
+
+// 7. IncrementalExporter also enforces policy.
+TEST_F(ExportPolicyEnforcementTest, IncrementalExporter_PolicyEngineDenies_ThrowsExporterException) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/incr_denied.jsonl";
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("restricted_incr");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "restricted_incr";
+    opts.requesting_user  = "frank";
+    opts.policy_engine    = &engine;
+
+    IncrementalExporter exporter;
+    EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
+    EXPECT_FALSE(std::filesystem::exists(out_path));
+}
+
+// 8. Multi-collection scenario: export with multiple collections is denied
+//    when any collection is restricted.
+TEST_F(ExportPolicyEnforcementTest, MultiCollection_AnyRestrictedDeniesExport) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/multi_denied.jsonl";
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("col_restricted");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    // collection_name is a single string in ExportOptions; the policy engine
+    // maps it to collection_ids. We test via the fallback classification path
+    // by setting collection_name to the restricted collection.
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "col_restricted";
+    opts.requesting_user  = "mallory";
+    opts.policy_engine    = &engine;
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+    EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
+}
+
+// 9. No audit_logger set — denial still throws, no crash.
+TEST_F(ExportPolicyEnforcementTest, PolicyEngineDenies_NoAuditLogger_NoCrash) {
+    auto entities = makeEntities();
+    const std::string out_path = test_dir_ + "/denied_no_audit.jsonl";
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("col_no_audit");
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    ExportOptions opts;
+    opts.output_path      = out_path;
+    opts.collection_name  = "col_no_audit";
+    opts.requesting_user  = "grace";
+    opts.policy_engine    = &engine;
+    // audit_logger stays nullptr
+
+    JSONLLLMConfig cfg;
+    cfg.quality.min_text_length = 0;
+    JSONLLLMExporter exporter(cfg);
+    EXPECT_THROW(exporter.exportEntities(entities, opts), ExporterException);
+}
 
