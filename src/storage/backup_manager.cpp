@@ -1540,7 +1540,7 @@ Result<std::string> BackupManager::uploadBackupToCloud(
 
     if (!isValidCloudUri(cloud_uri)) {
         return tl::unexpected(Error(
-            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            errors::ErrorCode::ERR_BACKUP_INVALID_TYPE,
             "Invalid cloud URI: '" + cloud_uri +
             "'. Supported schemes: s3://<bucket>/path, azure://<account>/container/path,"
             " gs://<bucket>/path"
@@ -1581,7 +1581,7 @@ Result<void> BackupManager::restoreFromCloud(
 
     if (cloud_uri.empty()) {
         return tl::unexpected(Error(
-            errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+            errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
             "restoreFromCloud: cloud URI must not be empty"
         ));
     }

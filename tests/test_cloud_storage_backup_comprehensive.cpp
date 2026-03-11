@@ -677,8 +677,9 @@ TEST_F(CloudStorageBackupTest, InvalidCloudURIHandling) {
         
         if (!result.has_value()) {
             std::string error_msg = result.error().message();
-            // Current stub implementation returns generic error
+            // Matches either "Invalid cloud URI" (our validation) or old-style error messages
             EXPECT_TRUE(
+                error_msg.find("Invalid cloud URI") != std::string::npos ||
                 error_msg.find("invalid") != std::string::npos ||
                 error_msg.find("URI") != std::string::npos ||
                 error_msg.find("not yet implemented") != std::string::npos ||
