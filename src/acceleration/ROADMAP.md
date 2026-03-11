@@ -4,7 +4,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production hardening in progress — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) remains incomplete and currently falls through to CPU (see Known Issues).
+Production hardening complete — all GPU kernel surfaces and design contracts are in place; the CUDA ANN end-to-end path (HNSW integration) is fully wired: `CUDAVectorBackend::buildHnswAnnIndex()` loads the graph onto the device and `batchKnnSearch()` delegates to GPU-accelerated HNSW traversal when an index is pre-built (`cuda/cuda_hnsw_kernels.cu`).
 
 ## Completed ✅
 - [x] Directory structure for CUDA and Vulkan backends
