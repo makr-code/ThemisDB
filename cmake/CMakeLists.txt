@@ -5277,6 +5277,14 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
         target_link_libraries(benchmark_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
+    # Distributed Hybrid Search Benchmarks (cross-shard RRF merge, fault tolerance overhead)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_distributed_hybrid_search.cpp")
+        add_executable(benchmark_distributed_hybrid_search
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_distributed_hybrid_search.cpp
+        )
+        target_link_libraries(benchmark_distributed_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+
     # Vector Compression Lossless Benchmark
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_vector_compression_lossless.cpp")
         add_executable(bench_vector_compression_lossless

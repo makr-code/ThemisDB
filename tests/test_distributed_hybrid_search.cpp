@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "search/distributed_hybrid_search.h"
+#include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <vector>
 #include <string>
@@ -496,4 +497,126 @@ TEST(DistributedHybridSearchParse, JsonResponseRoundTripViaShardResult) {
     EXPECT_DOUBLE_EQ(merged[0].bm25_score,   0.75);
     EXPECT_DOUBLE_EQ(merged[0].vector_score, 0.95);
     EXPECT_EQ(merged[0].content, "sample content");
+}
+
+// ============================================================================
+// parseShardResponse: direct JSON deserialization tests
+// ============================================================================
+
+TEST(DistributedHybridSearchParseShardResponse, EmptyArrayReturnsEmpty) {
+    auto results = DistributedHybridSearch::parseShardResponse(
+        nlohmann::json::array());
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(DistributedHybridSearchParseShardResponse, WrappedResultsField) {
+    nlohmann::json payload = {
+        {"results", nlohmann::json::array({
+            {{"document_id", "doc1"}, {"bm25_score", 0.8}, {"hybrid_score", 0.9}}
+        })}
+    };
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].document_id, "doc1");
+    EXPECT_DOUBLE_EQ(results[0].bm25_score, 0.8);
+    EXPECT_DOUBLE_EQ(results[0].hybrid_score, 0.9);
+}
+
+TEST(DistributedHybridSearchParseShardResponse, DirectArrayFormat) {
+    nlohmann::json payload = nlohmann::json::array({
+        {{"document_id", "doc_a"}, {"vector_score", 0.7}, {"bm25_rank", 2}},
+        {{"document_id", "doc_b"}, {"vector_score", 0.5}, {"vector_rank", 1}},
+    });
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0].document_id, "doc_a");
+    EXPECT_DOUBLE_EQ(results[0].vector_score, 0.7);
+    EXPECT_EQ(results[0].bm25_rank, 2);
+    EXPECT_EQ(results[1].document_id, "doc_b");
+    EXPECT_EQ(results[1].vector_rank, 1);
+}
+
+TEST(DistributedHybridSearchParseShardResponse, AllFieldsPopulated) {
+    nlohmann::json payload = nlohmann::json::array({
+        {
+            {"document_id",  "full_doc"},
+            {"bm25_score",   0.75},
+            {"vector_score", 0.92},
+            {"hybrid_score", 0.88},
+            {"bm25_rank",    1},
+            {"vector_rank",  2},
+            {"content",      "some text content"},
+        }
+    });
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].document_id, "full_doc");
+    EXPECT_DOUBLE_EQ(results[0].bm25_score,   0.75);
+    EXPECT_DOUBLE_EQ(results[0].vector_score, 0.92);
+    EXPECT_DOUBLE_EQ(results[0].hybrid_score, 0.88);
+    EXPECT_EQ(results[0].bm25_rank,   1);
+    EXPECT_EQ(results[0].vector_rank, 2);
+    EXPECT_EQ(results[0].content, "some text content");
+}
+
+TEST(DistributedHybridSearchParseShardResponse, MissingFieldsDefaultToZero) {
+    // Only document_id present; all score fields should default to 0
+    nlohmann::json payload = nlohmann::json::array({
+        {{"document_id", "sparse_doc"}}
+    });
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].document_id, "sparse_doc");
+    EXPECT_DOUBLE_EQ(results[0].bm25_score,   0.0);
+    EXPECT_DOUBLE_EQ(results[0].vector_score, 0.0);
+    EXPECT_DOUBLE_EQ(results[0].hybrid_score, 0.0);
+    EXPECT_EQ(results[0].bm25_rank,   -1);  // default int value from HybridSearch::Result
+    EXPECT_TRUE(results[0].content.empty());
+}
+
+TEST(DistributedHybridSearchParseShardResponse, EmptyDocumentIdSkipped) {
+    nlohmann::json payload = nlohmann::json::array({
+        {{"document_id", ""}, {"hybrid_score", 0.99}},  // empty id -> skip
+        {{"document_id", "valid_doc"}, {"hybrid_score", 0.5}},
+    });
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].document_id, "valid_doc");
+}
+
+TEST(DistributedHybridSearchParseShardResponse, NonObjectItemsSkipped) {
+    nlohmann::json payload = nlohmann::json::array({
+        "not an object",
+        42,
+        nullptr,
+        {{"document_id", "ok_doc"}, {"hybrid_score", 0.7}},
+    });
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].document_id, "ok_doc");
+}
+
+TEST(DistributedHybridSearchParseShardResponse, UnrecognizedFormatReturnsEmpty) {
+    // Not an array and not an object with "results" key
+    nlohmann::json payload = {{"foo", "bar"}};
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(DistributedHybridSearchParseShardResponse, NullJsonReturnsEmpty) {
+    auto results = DistributedHybridSearch::parseShardResponse(nullptr);
+    EXPECT_TRUE(results.empty());
+}
+
+TEST(DistributedHybridSearchParseShardResponse, MultipleResultsPreserveOrder) {
+    nlohmann::json payload = nlohmann::json::array({
+        {{"document_id", "first"},  {"hybrid_score", 0.9}},
+        {{"document_id", "second"}, {"hybrid_score", 0.7}},
+        {{"document_id", "third"},  {"hybrid_score", 0.5}},
+    });
+    auto results = DistributedHybridSearch::parseShardResponse(payload);
+    ASSERT_EQ(results.size(), 3u);
+    EXPECT_EQ(results[0].document_id, "first");
+    EXPECT_EQ(results[1].document_id, "second");
+    EXPECT_EQ(results[2].document_id, "third");
 }

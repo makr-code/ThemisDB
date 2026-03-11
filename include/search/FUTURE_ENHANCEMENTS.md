@@ -229,10 +229,12 @@ Key API surface:
   merges via cross-shard RRF, returns top-k globally ranked results.  Never throws.
 - `mergeShardResults(shard_results)` — public RRF merge helper; directly unit-testable
   without network infrastructure
+- `parseShardResponse(json_data)` — public static JSON deserializer; accepts direct array
+  or `{"results": [...]}` wrapped format; exposed primarily for unit testing
 - `ShardSearchResult` struct: `{shard_id, results, success, error_msg, execution_time_ms}`
 - `SearchStats` struct: `{shards_queried, shards_succeeded, shards_failed, partial_result}`
 - `Config` fields: `k`, `rrf_k`, `shard_timeout_ms`, `max_concurrent_shards`,
-  `skip_failed_shards`, `local_shard_id`, `search_endpoint`
+  `skip_failed_shards`, `local_shard_id`, `search_endpoint` (default: `"/search/hybrid"`)
 - Fault tolerance: `skip_failed_shards=true` (default) skips timed-out / unreachable shards
   and returns results from surviving shards; callers inspect `SearchStats::partial_result`
 - mTLS: all inter-node traffic is routed through the injected `RemoteExecutor` which is

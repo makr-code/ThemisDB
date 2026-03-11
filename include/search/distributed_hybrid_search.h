@@ -85,7 +85,7 @@ public:
         std::string local_shard_id;
 
         /// HTTP endpoint on each shard that accepts hybrid search POST requests.
-        std::string search_endpoint = "/api/v1/search/hybrid";
+        std::string search_endpoint = "/search/hybrid";
     };
 
     // -----------------------------------------------------------------------
@@ -189,6 +189,26 @@ public:
     const Config& getConfig() const { return config_; }
     void setConfig(const Config& config) { config_ = config; }
 
+    /**
+     * @brief Parse a JSON result array from a shard HTTP response.
+     *
+     * Exposed as public static so it can be unit-tested directly.
+     * Tolerates missing fields by using zero/empty defaults.
+     *
+     * Accepted formats:
+     * - Direct JSON array: `[{"document_id": "...", ...}, ...]`
+     * - Wrapped: `{"results": [{...}, ...]}`
+     *
+     * Entries with empty `document_id` are silently dropped.
+     *
+     * @note This method is `public` primarily to enable direct unit testing
+     *       of the JSON deserialization logic without requiring network
+     *       infrastructure.  It is a stateless utility with no side effects.
+     */
+    static std::vector<HybridSearch::Result> parseShardResponse(
+        const nlohmann::json& data
+    );
+
 private:
     HybridSearch* local_search_;
     themis::sharding::URNResolver* resolver_;
@@ -208,15 +228,6 @@ private:
         const std::string& text_query,
         const std::vector<float>& vector_query,
         size_t k
-    );
-
-    /**
-     * @brief Parse a JSON result array from a shard HTTP response.
-     *
-     * Tolerates missing fields by using zero/empty defaults.
-     */
-    static std::vector<HybridSearch::Result> parseShardResponse(
-        const nlohmann::json& data
     );
 };
 
