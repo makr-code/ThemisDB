@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -49,8 +51,6 @@ Exit codes
     1  One or more violations found
     2  Internal error / bad arguments
 """
-
-from __future__ import annotations
 
 import argparse
 import json
