@@ -1,7 +1,7 @@
 # Training-Modul – Fehlende Implementierungen
 
 **Generiert:** 2026-03-11  
-**Validiert gegen:** Commit `b2342851` (Branch `copilot/update-module-documentation-ad046901-1b9a-4382-b7ae-e0f74f440802`)  
+**Validiert gegen:** Commit `c5396a31` (Branch `copilot/wire-find-similar-documents`)  
 **Primärquelle:** `src/training/`, `include/training/`
 
 ---
@@ -10,8 +10,9 @@
 
 Das Training-Modul hat Phase 3 abgeschlossen und ist im Status **Alpha**.
 Alle in der ROADMAP als `[x]` markierten Einträge besitzen korrespondierende
-Implementierungsdateien. Vier Bereiche erfordern jedoch weitere Produktivimplementierungen
-bevor der Status auf **Beta** angehoben werden kann.
+Implementierungsdateien. Ein Bereich erfordert noch weitere Produktivimplementierungen
+bevor der Status auf **Beta** angehoben werden kann (FINDING-T-004).
+FINDING-T-001, T-002 und T-003 sind vollständig abgeschlossen.
 
 ---
 
@@ -45,7 +46,7 @@ bevor der Status auf **Beta** angehoben werden kann.
 | **Beobachtet** | `knowledge_graph_enricher.cpp`: Vektor-Index-Abfrage ist als kommentierte AQL-Vorlage implementiert; gibt leere Liste zurück bis Query-Executor verdrahtet ist |
 | **Evidence** | `src/training/knowledge_graph_enricher.cpp` (kommentierte AQL-Templates) |
 | **Lösung** | `KnowledgeGraphEnricher` akzeptiert jetzt einen optionalen `VectorIndexManager*`-Parameter via `setVectorIndex()`. Wenn verdrahtet, ruft `findSimilarDocuments()` `getVectorByPk()` zum Laden des Abfragevektors auf und führt dann `searchKnn()` für eine echte Cosinus-Ähnlichkeitssuche durch. Der Self-Doc wird ausgeschlossen, `distance` wird in einen Similarity-Score (`1 − distance`) umgewandelt, und `max_results` wird eingehalten. Ohne `VectorIndexManager` bleibt das bisherige Offline-/Testverhalten erhalten. |
-| **Tests** | `tests/test_kge_vector_search.cpp` – 12 Integrationstests decken Offline-Stub, Wired-Modus, Self-Exclusion, `max_results`-Bound, Score-Bereich, Nearest-Neighbor-Ranking, fehlende Embedding-Fallback und nullptr-Reset ab. CTest-Target: `KgeVectorSearchFocusedTests`. |
+| **Tests** | `tests/test_kge_vector_search.cpp` – 11 Integrationstests decken Offline-Stub, Wired-Modus, Self-Exclusion, `max_results`-Bound, Score-Bereich, Nearest-Neighbor-Ranking, fehlende Embedding-Fallback und nullptr-Reset ab. CTest-Target: `KgeVectorSearchFocusedTests`. |
 | **Issue** | [FEATURE] Wire findSimilarDocuments to vector index / embedding store in KnowledgeGraphEnricher |
 | **Label-Vorschläge** | `module:training`, `priority:medium`, `type:stub` |
 
@@ -90,4 +91,5 @@ bevor der Status auf **Beta** angehoben werden kann.
 - ✅ `LoraDataSelection` — Deduplizierung, Balancierung, Stratifizierung
 - ✅ `LegalAutoLabeler::labelDocument()` — vollständig implementiert
 - ✅ `LegalAutoLabeler::labelAll()` und `labelQuery()` — DB-Verdrahtung via AQL-Executor implementiert (FINDING-T-001)
+- ✅ `KnowledgeGraphEnricher::findSimilarDocuments()` — Cosinus-Ähnlichkeitssuche via `VectorIndexManager` implementiert (FINDING-T-002)
 - ✅ Alle ROADMAP `[x]`-Einträge haben korrespondierende Quelldateien (b2342851)
