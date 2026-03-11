@@ -43,12 +43,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] OAuth2/OIDC native support (authorization code flow, PKCE, refresh token rotation) (Target: v1.6.0)
-  - Files: `server/auth_middleware.cpp`, new `server/oauth2_provider.cpp` + `include/server/oauth2_provider.h`
+- [x] OAuth2/OIDC native support (authorization code flow, PKCE, refresh token rotation) (Target: v1.6.0)
+  - Files: `server/oauth2_provider.cpp` + `include/server/oauth2_provider.h` ✅ implemented
   - Behavior: full RFC 6749 authorization-code + PKCE flow; discovery via `/.well-known/openid-configuration`; refresh token rotation on each use; JWT introspection at `POST /api/v1/auth/token/introspect`
   - Errors: expired access token → 401 with `WWW-Authenticate: Bearer error="invalid_token"`; invalid refresh token → 400; PKCE verifier mismatch → 400
-  - Tests: unit (token validation, expiry, rotation), integration (full OIDC provider mock), negative (replay attacks, invalid verifier)
-  - Perf: token validation ≤ 1 ms with in-process JWT cache (LRU, 10 000 entries); no network round-trip for cached tokens
+  - Tests: 30 unit tests in `tests/test_oauth2_provider.cpp` (construction, authorize, callback, token exchange, refresh, introspect, logout, state TTL, custom token factory, deterministic PKCE)
 - [ ] Distributed rate limiting via Redis backend (cluster-wide token bucket) (Target: v1.6.0)
   - Files: `server/rate_limiter_v2.cpp` + `include/server/rate_limiter_v2.h` (add `Backend::REDIS` strategy)
   - Behavior: all gateway nodes share a single token bucket per client key in Redis using atomic `EVALSHA`; propagation delay ≤ 10 ms; graceful fallback to local bucket on Redis unavailability

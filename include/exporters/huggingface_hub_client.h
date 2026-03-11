@@ -20,8 +20,20 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
+
+// Forward declarations – avoids pulling heavy headers into every translation
+// unit that only needs the config type.
+namespace themis {
+namespace governance {
+class PolicyEngine;
+} // namespace governance
+namespace utils {
+class AuditLogger;
+} // namespace utils
+} // namespace themis
 
 namespace themis::exporters {
 
@@ -68,6 +80,26 @@ struct HubUploadConfig {
 
     /// Connection / operation timeout in seconds.
     long timeout_seconds = 120;
+
+    /// Optional PolicyEngine for upload authorization checks.
+    /// When non-null, `uploadDataset()` calls
+    /// `PolicyEngine::checkExportPermission()` before any HTTP activity.
+    /// A denied decision causes `uploadDataset()` to return immediately with
+    /// `success=false` — no files are uploaded.
+    /// Raw non-owning pointer; the caller must ensure it outlives all upload
+    /// calls.  Null = no policy check (backward-compatible default).
+    themis::governance::PolicyEngine* policy_engine = nullptr;
+
+    /// Optional AuditLogger for recording every upload attempt.
+    /// When non-null, each call to `uploadDataset()` appends a JSON entry
+    /// containing the repo_id, requesting_user, dataset_dir, outcome
+    /// (success / denied / error), and timestamp.
+    /// Null = no audit trail (backward-compatible default).
+    std::shared_ptr<themis::utils::AuditLogger> audit_log;
+
+    /// User identity forwarded to PolicyEngine and the audit log.
+    /// Treated as anonymous when empty.
+    std::string requesting_user;
 };
 
 /// @brief Uploads a HuggingFace Datasets-compatible directory to the HF Hub.
@@ -99,6 +131,15 @@ public:
     ~HuggingFaceHubClient();
 
     /// @brief Upload a dataset directory to the Hugging Face Hub.
+    ///
+    /// If `HubUploadConfig::policy_engine` is non-null, the method calls
+    /// `PolicyEngine::checkExportPermission()` before any network activity.
+    /// A denied decision returns immediately with `success=false` and a
+    /// descriptive `error_message` — no files are uploaded.
+    ///
+    /// If `HubUploadConfig::audit_log` is non-null, every invocation is
+    /// recorded as a JSON audit entry regardless of outcome (success, denied,
+    /// or network error).
     ///
     /// @param dataset_dir  Path to the directory produced by HuggingFaceExporter
     ///                     (contains `dataset_info.json`, `README.md`, and
