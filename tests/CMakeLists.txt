@@ -10596,6 +10596,302 @@ if(TARGET test_modality_parser_focused)
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
 endif()
 
+# ===========================================================================
+# Updates Module – Focused Standalone Test Targets
+# ===========================================================================
+
+# UpdatesProduction – comprehensive production-ready tests for the updates module
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_updates_production.cpp")
+    message(STATUS "Adding Updates Production focused tests")
+
+    add_executable(test_updates_production_focused
+        test_updates_production.cpp
+    )
+
+    target_include_directories(test_updates_production_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_updates_production_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_updates_production_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME UpdatesProductionFocusedTests COMMAND test_updates_production_focused)
+
+    set_tests_properties(UpdatesProductionFocusedTests PROPERTIES
+        LABELS "updates;hot-reload;delta;schema-migration;history;production;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  UpdatesProduction: HotReloadEngine, DeltaUpdateEngine, SchemaMigrationTester, UpdateHistoryLogger, dry-run, rollback")
+else()
+    message(STATUS "Updates Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_updates_production.cpp")
+endif()
+
+# BlueGreenDeployment – focused tests for blue/green deployment support
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp")
+    message(STATUS "Adding Blue/Green Deployment focused tests")
+
+    add_executable(test_blue_green_deployment_focused
+        test_blue_green_deployment.cpp
+    )
+
+    target_include_directories(test_blue_green_deployment_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_blue_green_deployment_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_blue_green_deployment_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BlueGreenDeploymentFocusedTests COMMAND test_blue_green_deployment_focused)
+
+    set_tests_properties(BlueGreenDeploymentFocusedTests PROPERTIES
+        LABELS "updates;blue-green;deployment;zero-downtime;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  BlueGreenDeployment: activate/deactivate environments, traffic switching, rollback, state transitions")
+else()
+    message(STATUS "Blue/Green Deployment focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp")
+endif()
+
+# CanaryRollout – focused tests for canary rollout mode
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
+    message(STATUS "Adding Canary Rollout focused tests")
+
+    add_executable(test_canary_rollout_focused
+        test_canary_rollout.cpp
+    )
+
+    target_include_directories(test_canary_rollout_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_canary_rollout_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_canary_rollout_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CanaryRolloutFocusedTests COMMAND test_canary_rollout_focused)
+
+    set_tests_properties(CanaryRolloutFocusedTests PROPERTIES
+        LABELS "updates;canary;rollout;staged;health-gate;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CanaryRollout: fraction configuration, promotion gate, automatic rollback, node selection, double-apply guard")
+else()
+    message(STATUS "Canary Rollout focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
+endif()
+
+# CoordinatedUpdateManager – focused tests for multi-node coordinated updates
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_coordinated_update_manager.cpp")
+    message(STATUS "Adding Coordinated Update Manager focused tests")
+
+    add_executable(test_coordinated_update_manager_focused
+        test_coordinated_update_manager.cpp
+    )
+
+    target_include_directories(test_coordinated_update_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_coordinated_update_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_coordinated_update_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME CoordinatedUpdateManagerFocusedTests COMMAND test_coordinated_update_manager_focused)
+
+    set_tests_properties(CoordinatedUpdateManagerFocusedTests PROPERTIES
+        LABELS "updates;coordinated;multi-node;replication;sequencing;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  CoordinatedUpdateManager: transport-agnostic callbacks, replication-safe sequencing, rollback on failure, node ordering")
+else()
+    message(STATUS "Coordinated Update Manager focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_coordinated_update_manager.cpp")
+endif()
+
+# InPlaceSchemaMigrator – focused tests for in-place schema migrations
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_in_place_schema_migrator.cpp")
+    message(STATUS "Adding In-Place Schema Migrator focused tests")
+
+    add_executable(test_in_place_schema_migrator_focused
+        test_in_place_schema_migrator.cpp
+    )
+
+    target_include_directories(test_in_place_schema_migrator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_in_place_schema_migrator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_in_place_schema_migrator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME InPlaceSchemaMigratorFocusedTests COMMAND test_in_place_schema_migrator_focused)
+
+    set_tests_properties(InPlaceSchemaMigratorFocusedTests PROPERTIES
+        LABELS "updates;schema-migration;in-place;additive;preview;rollback;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  InPlaceSchemaMigrator: apply, preview (MigrationChangePreview), idempotent re-run, rollback, version tracking, history")
+else()
+    message(STATUS "In-Place Schema Migrator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_in_place_schema_migrator.cpp")
+endif()
+
+# NotificationWebhook – focused tests for Slack/PagerDuty update notifications
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp")
+    message(STATUS "Adding Notification Webhook focused tests")
+
+    add_executable(test_notification_webhook_focused
+        test_notification_webhook.cpp
+    )
+
+    target_include_directories(test_notification_webhook_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_notification_webhook_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_notification_webhook_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME NotificationWebhookFocusedTests COMMAND test_notification_webhook_focused)
+
+    set_tests_properties(NotificationWebhookFocusedTests PROPERTIES
+        LABELS "updates;notification;webhook;slack;pagerduty;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  NotificationWebhook: Slack color-coded attachments, PagerDuty Events API v2, injectable HttpSendFunc, error handling")
+else()
+    message(STATUS "Notification Webhook focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp")
+endif()
+
+# PreflightHealthCheck – focused tests for pre-update health checks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_preflight_health_check.cpp")
+    message(STATUS "Adding Preflight Health Check focused tests")
+
+    add_executable(test_preflight_health_check_focused
+        test_preflight_health_check.cpp
+    )
+
+    target_include_directories(test_preflight_health_check_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_preflight_health_check_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_preflight_health_check_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME PreflightHealthCheckFocusedTests COMMAND test_preflight_health_check_focused)
+
+    set_tests_properties(PreflightHealthCheckFocusedTests PROPERTIES
+        LABELS "updates;preflight;health-check;disk-space;memory;dependency;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  PreflightHealthCheck: DiskSpaceChecker, MemoryHeadroomChecker, DependencyVersionChecker, injectable providers, <=2s completion")
+else()
+    message(STATUS "Preflight Health Check focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_preflight_health_check.cpp")
+endif()
+
+# SchemaMigrationTester – focused tests for schema migration testing framework
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
+    message(STATUS "Adding Schema Migration Tester focused tests")
+
+    add_executable(test_schema_migration_tester_focused
+        test_schema_migration_tester.cpp
+    )
+
+    target_include_directories(test_schema_migration_tester_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_schema_migration_tester_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_schema_migration_tester_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SchemaMigrationTesterFocusedTests COMMAND test_schema_migration_tester_focused)
+
+    set_tests_properties(SchemaMigrationTesterFocusedTests PROPERTIES
+        LABELS "updates;schema-migration;testing-framework;staging;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SchemaMigrationTester: apply to staging before production, rollback on failure, version compatibility checks")
+else()
+    message(STATUS "Schema Migration Tester focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
+endif()
+
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}

@@ -3,7 +3,7 @@
 # Updates Module Roadmap
 
 ## Current Status
-v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented.
+v1.x – Production-ready zero-downtime update and migration system. HotReloadEngine, release manifest management, schema migration framework, digital signature verification, automatic backup, rollback, binary delta updates, canary rollout, blue/green deployment, multi-node coordinated updates, notification webhooks, dry-run migration preview, and pre-flight health checks are all implemented. Build system audit complete (March 2026): all 14 source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake; 8 standalone focused test targets added.
 
 ## Completed ✅
 - [x] HotReloadEngine – atomic file replacement with fsync and all-or-nothing semantics
@@ -35,6 +35,8 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
   - Injectable providers for full testability (no real filesystem/sysinfo required)
   - Completes in ≤ 2 s; disk check enforces ≥ 2× bundle size of free space
   - Tests: 35+ unit tests in `tests/test_preflight_health_check.cpp`
+- [x] Build system audit: all 14 src/updates/*.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
+- [x] 8 standalone focused test targets added to tests/CMakeLists.txt (UpdatesProduction, BlueGreen, CanaryRollout, CoordinatedUpdateManager, InPlaceSchemaMigrator, NotificationWebhook, PreflightHealthCheck, SchemaMigrationTester)
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
