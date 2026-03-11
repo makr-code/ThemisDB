@@ -128,6 +128,99 @@ if (result.is_ok()) {
 }
 ```
 
+### WASM Sandbox (v1.8.0)
+
+WASM-based plugin isolation is enabled on `ModuleSandbox` by setting
+`Config::enable_wasm_isolation = true`.  At `launch()` time the sandbox
+auto-selects (or explicitly names) a registered `IWasmRuntime` backend via
+`WasmRuntimeInjector` and creates an inner `WasmPluginSandbox`.  Call
+`wasmSandbox()` to load `.wasm` plugin binaries and invoke their exports.
+
+#### Register a runtime backend (once at startup)
+
+```cpp
+#include "themis/base/wasm_runtime_injector.h"
+
+// Use the macro to register at static-init time:
+THEMIS_REGISTER_WASM_RUNTIME(
+    "wasmtime",   // unique name
+    100,          // priority — higher = preferred in auto-select
+    "Bytecode Alliance Wasmtime",
+    []() -> std::unique_ptr<themis::modules::IWasmRuntime> {
+        return std::make_unique<WasmtimeRuntime>(); // your concrete impl
+    });
+```
+
+#### Configure and use the sandbox
+
+```cpp
+#include "themis/base/module_sandbox.h"
+#include "themis/base/wasm_plugin_sandbox.h"
+
+using namespace themis::modules;
+
+// 1. Build a config with WASM isolation enabled
+ModuleSandbox::Config cfg;
+cfg.max_memory_mb             = 128;    // OS-level hard cap
+cfg.enable_wasm_isolation     = true;   // opt-in to WASM sandboxing
+cfg.wasm_runtime_name         = "";     // empty = auto-select highest-priority backend
+cfg.wasm_linear_memory_pages  = 256;    // 256 × 64 KiB = 16 MiB WASM linear memory
+cfg.wasm_allow_unregistered_imports = false; // reject unknown host-function imports
+
+// 2. Launch sandbox (creates & injects the WasmRuntime)
+ModuleSandbox sandbox(cfg);
+bool ok = sandbox.launch("my_wasm_plugin");
+if (!ok) {
+    std::cerr << "Sandbox launch failed: " << sandbox.lastError() << "\n";
+}
+
+// Log any degradation warnings (e.g. no runtime registered, platform limits)
+for (const auto& w : sandbox.launchWarnings())
+    std::cerr << "[WARN] " << w << "\n";
+
+// 3. Check WASM isolation is active
+if (sandbox.isWasmIsolationActive()) {
+    WasmPluginSandbox* ws = sandbox.wasmSandbox();
+
+    // Register host functions the plugin is allowed to call
+    ws->addHostFunction({
+        "themis", "log",
+        [](uint8_t*, size_t, const std::vector<uint8_t>& args, std::vector<uint8_t>&) {
+            std::string msg(args.begin(), args.end());
+            std::cout << "[plugin] " << msg << "\n";
+            return true;
+        },
+        "Write a log message"
+    });
+
+    // Load the .wasm plugin binary
+    if (!ws->loadFromFile("/plugins/my_plugin.wasm")) {
+        std::cerr << "WASM load error: " << ws->lastError() << "\n";
+    }
+
+    // Call an exported function
+    WasmCallResult result = ws->callExport("process", {});
+    if (!result.success)
+        std::cerr << "WASM call failed: " << result.error << "\n";
+} else {
+    // Fallback: OS-only sandbox (no WASM runtime registered)
+    std::cerr << "WASM isolation not active; running OS-only sandbox\n";
+}
+
+// 4. Shut down when done
+sandbox.shutdown();
+```
+
+#### Compatibility notes
+
+| Scenario | Behaviour |
+|---|---|
+| `enable_wasm_isolation = false` | OS-only sandbox; `wasmSandbox()` returns `nullptr` |
+| No backend registered | `launch()` succeeds with a warning; `isWasmIsolationActive()` returns `false` |
+| Named `wasm_runtime_name` not found | Same graceful fallback as above |
+| `wasm_allow_unregistered_imports = false` | Modules with undeclared host-function imports are rejected at load time |
+| `wasm_allow_unregistered_imports = true` | Unknown imports are allowed (for permissive/development mode) |
+
 ### Export/Import Macros
 ```cpp
 #include "themis/base/export.h"

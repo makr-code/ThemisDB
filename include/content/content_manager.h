@@ -537,6 +537,26 @@ public:
     std::vector<float> generateEmbedding(const std::string& text,
                                           const std::string& model_name = "");
 
+    // =========================================================================
+    // LLM-assisted content analysis
+    // =========================================================================
+
+    json analyzeContent(const std::string& content_id);
+
+    std::vector<std::string> generateTags(
+        const std::string& content_id,
+        int max_tags = 10
+    );
+
+    std::string summarizeContent(
+        const std::string& content_id,
+        int max_words = 100
+    );
+
+    std::string classifyContent(const std::string& content_id);
+
+    json extractEntities(const std::string& content_id);
+
     /**
      * @brief Attach a deduplication checker for near-duplicate detection.
      *
@@ -608,6 +628,11 @@ private:
         const std::vector<std::string>& child_ids,
         const std::string& edge_type
     );
+
+    json parseAnalysisResult(const std::string& analysis_text, const ContentMeta& meta);
+    std::vector<std::string> parseTags(const std::string& tags_text);
+    json parseEntities(const std::string& entities_text);
+    std::string getExtractedText(const std::string& content_id);
 };
 
 } // namespace content
