@@ -10156,6 +10156,7 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/deontic_extractor.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/semantic_validator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/agentic_reference_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/llm_adapter.cpp
 )
 
 # Helper macro for ingestion focused tests

@@ -1777,6 +1777,7 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
 
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp

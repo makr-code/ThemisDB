@@ -32,6 +32,7 @@
 #include "ingestion/deontic_extractor.h"
 #include "ingestion/semantic_validator.h"
 #include "ingestion/agentic_reference_validator.h"
+#include "ingestion/llm_adapter.h"
 #include "ingestion/ingestion_manager.h"
 #include <string>
 #include <vector>
@@ -857,4 +858,100 @@ TEST(IngestionBuilderLegalTest, MultipleLegalConfigsCanBeSet) {
     EXPECT_TRUE(mgr->getLegalIngestionConfig("src_b", out_b));
     EXPECT_TRUE(out_a.validate_references);
     EXPECT_FALSE(out_b.validate_references);
+}
+
+// ============================================================================
+// LlmAdapterConfig – struct behavior
+// ============================================================================
+
+TEST(LlmAdapterConfigTest, DefaultValues) {
+    LlmAdapterConfig cfg;
+    EXPECT_FALSE(cfg.hasModel());
+    EXPECT_FALSE(cfg.hasAdapter());
+    EXPECT_DOUBLE_EQ(cfg.temperature, 0.1);
+    EXPECT_EQ(cfg.context_size, 4096);
+    EXPECT_FALSE(cfg.use_gpu);
+    EXPECT_EQ(cfg.gpu_layers, 0);
+}
+
+TEST(LlmAdapterConfigTest, HasModelAndAdapter) {
+    LlmAdapterConfig cfg("/models/mistral.gguf", "/adapters/legal.gguf");
+    EXPECT_TRUE(cfg.hasModel());
+    EXPECT_TRUE(cfg.hasAdapter());
+}
+
+TEST(LlmAdapterConfigTest, NoAdapter) {
+    LlmAdapterConfig cfg("/models/mistral.gguf");
+    EXPECT_TRUE(cfg.hasModel());
+    EXPECT_FALSE(cfg.hasAdapter());
+}
+
+// ============================================================================
+// LegalLlmAdapter – Phase 1 behavior (no LLM available)
+// ============================================================================
+
+TEST(LegalLlmAdapterTest, DefaultAdapterHasNoLlm) {
+    LegalLlmAdapter adapter;
+    // In Phase 1 (no model path configured) LLM is always unavailable
+    EXPECT_FALSE(adapter.isLlmAvailable());
+}
+
+TEST(LegalLlmAdapterTest, SetConfigRoundtrip) {
+    LegalLlmAdapter adapter;
+    LlmAdapterConfig cfg("/models/mistral.gguf", "", 0.2);
+    adapter.setConfig(cfg);
+    EXPECT_EQ(adapter.getConfig().model_path, "/models/mistral.gguf");
+    EXPECT_DOUBLE_EQ(adapter.getConfig().temperature, 0.2);
+}
+
+TEST(LegalLlmAdapterTest, BuildExtractorFnIsEmptyWithoutModel) {
+    LegalLlmAdapter adapter;
+    // No model path → should return empty fn (regex fallback)
+    auto fn = adapter.buildExtractorFn();
+    EXPECT_FALSE(static_cast<bool>(fn));
+}
+
+TEST(LegalLlmAdapterTest, BuildExtractorFnWithNonExistentModelIsEmpty) {
+    LegalLlmAdapter adapter;
+    adapter.setConfig(LlmAdapterConfig("/nonexistent/path/model.gguf"));
+    // File doesn't exist → isLlmAvailable returns false → empty fn
+    auto fn = adapter.buildExtractorFn();
+    EXPECT_FALSE(static_cast<bool>(fn));
+}
+
+TEST(LegalLlmAdapterTest, BuildExtractorUsesRegexFallbackWhenNoLlm) {
+    LegalLlmAdapter adapter;
+    // No model → buildExtractor returns a DeonticExtractor with built-in regex
+    auto extractor = adapter.buildExtractor(0.75);
+    EXPECT_DOUBLE_EQ(extractor.getConfidenceThreshold(), 0.75);
+
+    // The extractor should still work with regex
+    auto result = extractor.extract(
+        "§ 4 Die Anlage bedarf einer Genehmigung.");
+    bool found_obligation = false;
+    for (auto c : result.deontic_categories) {
+        if (c == DeonticCategory::OBLIGATION) { found_obligation = true; break; }
+    }
+    EXPECT_TRUE(found_obligation);
+}
+
+TEST(LegalLlmAdapterTest, BuildExtractorConfidenceThresholdApplied) {
+    LegalLlmAdapter adapter;
+    auto extractor = adapter.buildExtractor(0.90);
+    EXPECT_DOUBLE_EQ(extractor.getConfidenceThreshold(), 0.90);
+}
+
+TEST(LegalLlmAdapterTest, MoveConstruction) {
+    LegalLlmAdapter adapter;
+    adapter.setConfig(LlmAdapterConfig("/tmp/model.gguf"));
+    LegalLlmAdapter moved = std::move(adapter);
+    EXPECT_EQ(moved.getConfig().model_path, "/tmp/model.gguf");
+}
+
+TEST(LegalLlmAdapterTest, MoveAssignment) {
+    LegalLlmAdapter a;
+    a.setConfig(LlmAdapterConfig("/tmp/a.gguf"));
+    LegalLlmAdapter b;
+    b = std::move(a);
+    EXPECT_EQ(b.getConfig().model_path, "/tmp/a.gguf");
 }

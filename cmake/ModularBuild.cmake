@@ -1179,6 +1179,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/deontic_extractor.cpp
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
