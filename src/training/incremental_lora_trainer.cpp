@@ -505,12 +505,20 @@ private:
     // Real training step: forward → MSE loss → backward → Adam update
     // -------------------------------------------------------------------------
 
+    // Synthetic data seed constants for deterministic but varied per-step batches.
+    // These primes avoid seed collisions across steps and batch elements.
+    static constexpr uint32_t kSyntheticSeedBase      = 31337u; ///< Per-step entropy factor
+    static constexpr uint32_t kSyntheticBatchMultiplier =  997u; ///< Per-batch-element offset
+
     // Encode a text sample as a float feature vector via character hashing.
-    // Produces a deterministic, varied representation of the sample content.
+    // NOTE: std::hash<std::string> is implementation-defined; encoding may differ
+    //       across platforms/compilers. This is acceptable since the encoded vector
+    //       is used as a training approximation when real tokenization is unavailable,
+    //       and reproducibility across platforms is not required for correctness.
     std::vector<float> encodeSample(const std::string& text, size_t feature_dim) const {
         std::vector<float> vec(feature_dim, 0.0f);
         if (text.empty()) return vec;
-        // Mix 64-bit hash into a 32-bit seed using FNV-1a folding to preserve entropy
+        // XOR-fold 64-bit hash into 32-bit seed to preserve entropy
         std::hash<std::string> hasher;
         size_t h64 = hasher(text);
         uint32_t seed = static_cast<uint32_t>(h64 ^ (h64 >> 32));
@@ -541,9 +549,9 @@ private:
                 input_vec  = encodeSample(training_data[idx].first,  feature_dim);
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
-                // Synthetic deterministic batch: varied across steps
-                std::mt19937 gen_in(step_idx * 31337u + b * 997u);
-                std::mt19937 gen_tg(step_idx * 31337u + b * 997u + 1u);
+                // Synthetic deterministic batch: varied across steps and batch positions
+                std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
@@ -604,8 +612,8 @@ private:
                 input_vec  = encodeSample(training_data[idx].first,  feature_dim);
                 target_vec = encodeSample(training_data[idx].second, feature_dim);
             } else {
-                std::mt19937 gen_in(step_idx * 31337u + b * 997u);
-                std::mt19937 gen_tg(step_idx * 31337u + b * 997u + 1u);
+                std::mt19937 gen_in(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier);
+                std::mt19937 gen_tg(step_idx * kSyntheticSeedBase + b * kSyntheticBatchMultiplier + 1u);
                 std::normal_distribution<float> d(0.0f, 0.1f);
                 input_vec.resize(feature_dim);
                 target_vec.resize(feature_dim);
@@ -672,14 +680,12 @@ private:
             if (t.shape().size() < 2) return;
             const size_t rows = t.shape()[0];
             const size_t cols = t.shape()[1];
-            // Validate dimensions fit in uint32 range before truncating
+            // Validate dimensions fit in uint32 range before writing
             if (rows > static_cast<size_t>(UINT32_MAX) ||
                 cols > static_cast<size_t>(UINT32_MAX)) {
-#ifndef THEMIS_NO_SPDLOG
-                spdlog::error("LoRA checkpoint: tensor dimension exceeds uint32 range "
-                              "({}x{})", rows, cols);
-#endif
-                return;
+                throw std::overflow_error(
+                    "LoRA checkpoint: tensor dimension exceeds uint32 range ("
+                    + std::to_string(rows) + "x" + std::to_string(cols) + ")");
             }
             uint32_t r = static_cast<uint32_t>(rows);
             uint32_t c = static_cast<uint32_t>(cols);
@@ -688,8 +694,18 @@ private:
             f.write(reinterpret_cast<const char*>(t.data().data()),
                     static_cast<std::streamsize>(t.data().size() * sizeof(float)));
         };
-        writeMatrix(B);
-        writeMatrix(A);
+        try {
+            writeMatrix(B);
+            writeMatrix(A);
+        } catch (const std::exception& ex) {
+#ifndef THEMIS_NO_SPDLOG
+            spdlog::error("LoRA checkpoint: weight serialization failed for {}: {}",
+                          path, ex.what());
+#endif
+            // Truncate the incomplete file to avoid loading corrupted data
+            f.close();
+            std::remove(path.c_str());
+        }
     }
 
     // Read B and A matrices from a binary file and apply to the LoRA layer.
