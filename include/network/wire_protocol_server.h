@@ -390,8 +390,14 @@ private:
     void handleGet();
     void handlePut();
     void handleDelete();
+    void handleBatchGet();
+    void handleBatchPut();
     void handleQuery();
+    void handleTransactionBegin();
+    void handleTransactionCommit();
+    void handleTransactionAbort();
     void handleVectorSearch();
+    void handleGraphTraverse();
     void handleGeoQuery();
     void handleTimeseriesQuery();
     void handleBpmnStartProcess();

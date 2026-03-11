@@ -76,11 +76,18 @@ class AuthResponse;
 class GetRequest;
 class PutRequest;
 class DeleteRequest;
+class BatchGetRequest;
+class BatchPutRequest;
 class QueryRequest;
+class TransactionBeginRequest;
+class TransactionCommitRequest;
+class TransactionAbortRequest;
 class VectorSearchRequest;
 class GeoQueryRequest;
 class TimeSeriesQueryRequest;
 class BpmnStartProcessRequest;
+class BpmnTaskCompleteRequest;
+class BpmnQueryInstanceRequest;
 class PingRequest;
 class CloseRequest;
 }
@@ -210,11 +217,19 @@ private:
     void handle_get(const v1::GetRequest& req);
     void handle_put(const v1::PutRequest& req);
     void handle_delete(const v1::DeleteRequest& req);
+    void handle_batch_get(const v1::BatchGetRequest& req);
+    void handle_batch_put(const v1::BatchPutRequest& req);
     void handle_query_aql(const v1::QueryRequest& req);
+    void handle_transaction_begin(const v1::TransactionBeginRequest& req);
+    void handle_transaction_commit(const v1::TransactionCommitRequest& req);
+    void handle_transaction_abort(const v1::TransactionAbortRequest& req);
     void handle_vector_search(const v1::VectorSearchRequest& req);
+    void handle_graph_traverse();
     void handle_geo_query(const v1::GeoQueryRequest& req);
     void handle_timeseries_query(const v1::TimeSeriesQueryRequest& req);
     void handle_bpmn_start(const v1::BpmnStartProcessRequest& req);
+    void handle_bpmn_task_complete(const v1::BpmnTaskCompleteRequest& req);
+    void handle_bpmn_query_instance(const v1::BpmnQueryInstanceRequest& req);
     void handle_ping(const v1::PingRequest& req);
     void handle_close(const v1::CloseRequest& req);
     

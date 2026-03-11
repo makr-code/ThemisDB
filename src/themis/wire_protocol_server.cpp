@@ -400,12 +400,52 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("DeleteRequest");
                     break;
                 }
+                case OpCode::OP_BATCH_GET: {
+                    v1::BatchGetRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_batch_get(req);
+                    else
+                        on_parse_fail("BatchGetRequest");
+                    break;
+                }
+                case OpCode::OP_BATCH_PUT: {
+                    v1::BatchPutRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_batch_put(req);
+                    else
+                        on_parse_fail("BatchPutRequest");
+                    break;
+                }
                 case OpCode::OP_QUERY_AQL: {
                     v1::QueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
                         handle_query_aql(req);
                     else
                         on_parse_fail("QueryRequest");
+                    break;
+                }
+                case OpCode::OP_TRANSACTION_BEGIN: {
+                    v1::TransactionBeginRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_transaction_begin(req);
+                    else
+                        on_parse_fail("TransactionBeginRequest");
+                    break;
+                }
+                case OpCode::OP_TRANSACTION_COMMIT: {
+                    v1::TransactionCommitRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_transaction_commit(req);
+                    else
+                        on_parse_fail("TransactionCommitRequest");
+                    break;
+                }
+                case OpCode::OP_TRANSACTION_ABORT: {
+                    v1::TransactionAbortRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_transaction_abort(req);
+                    else
+                        on_parse_fail("TransactionAbortRequest");
                     break;
                 }
                 case OpCode::OP_VECTOR_SEARCH: {
@@ -416,6 +456,9 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         on_parse_fail("VectorSearchRequest");
                     break;
                 }
+                case OpCode::OP_GRAPH_TRAVERSE:
+                    handle_graph_traverse();
+                    break;
                 case OpCode::OP_GEO_QUERY: {
                     v1::GeoQueryRequest req;
                     if (req.ParseFromArray(payload.data(), isz))
@@ -438,6 +481,22 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                         handle_bpmn_start(req);
                     else
                         on_parse_fail("BpmnStartProcessRequest");
+                    break;
+                }
+                case OpCode::OP_BPMN_TASK_COMPLETE: {
+                    v1::BpmnTaskCompleteRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_bpmn_task_complete(req);
+                    else
+                        on_parse_fail("BpmnTaskCompleteRequest");
+                    break;
+                }
+                case OpCode::OP_BPMN_QUERY_INSTANCE: {
+                    v1::BpmnQueryInstanceRequest req;
+                    if (req.ParseFromArray(payload.data(), isz))
+                        handle_bpmn_query_instance(req);
+                    else
+                        on_parse_fail("BpmnQueryInstanceRequest");
                     break;
                 }
                 case OpCode::OP_PING: {
@@ -817,6 +876,157 @@ void WireProtocolSession::handle_bpmn_start(
         "Use the JSON wire protocol port (8766) or HTTP REST API "
         "POST /api/v1/bpmn/process/" +
         sanitizeForMessage(req.process_definition_key()) + "/start");
+}
+
+void WireProtocolSession::handle_batch_get(const v1::BatchGetRequest& req) {
+    // BATCH_GET: retrieve multiple documents by collection and UUID list.
+    // Requires authentication; validates collection and non-empty UUID list.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.collection().empty()) {
+        send_error(400, "Missing 'collection' in BATCH_GET request");
+        return;
+    }
+    if (req.uuids_size() == 0) {
+        send_error(400, "Empty 'uuids' list in BATCH_GET request");
+        return;
+    }
+    send_error(503,
+        "Storage not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "POST /api/v1/collection/" + sanitizeForMessage(req.collection()) + "/batch-get");
+}
+
+void WireProtocolSession::handle_batch_put(const v1::BatchPutRequest& req) {
+    // BATCH_PUT: store multiple documents by collection.
+    // Requires authentication; validates collection and non-empty items list.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.collection().empty()) {
+        send_error(400, "Missing 'collection' in BATCH_PUT request");
+        return;
+    }
+    if (req.items_size() == 0) {
+        send_error(400, "Empty 'items' list in BATCH_PUT request");
+        return;
+    }
+    send_error(503,
+        "Storage not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "POST /api/v1/collection/" + sanitizeForMessage(req.collection()) + "/batch-put");
+}
+
+void WireProtocolSession::handle_transaction_begin(
+    const v1::TransactionBeginRequest& req) {
+    // TRANSACTION_BEGIN: begin a new transaction.
+    // Requires authentication; validates isolation_level field.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    // Transaction manager requires a reference not yet injected into this
+    // protobuf wire session.
+    send_error(503,
+        "Transaction manager not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "POST /api/v1/transaction/begin (isolation: " +
+        sanitizeForMessage(req.isolation_level()) + ")");
+}
+
+void WireProtocolSession::handle_transaction_commit(
+    const v1::TransactionCommitRequest& req) {
+    // TRANSACTION_COMMIT: commit an open transaction.
+    // Requires authentication; validates transaction_id field.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.transaction_id().empty()) {
+        send_error(400, "Missing 'transaction_id' in TRANSACTION_COMMIT request");
+        return;
+    }
+    send_error(503,
+        "Transaction manager not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "POST /api/v1/transaction/" +
+        sanitizeForMessage(req.transaction_id()) + "/commit");
+}
+
+void WireProtocolSession::handle_transaction_abort(
+    const v1::TransactionAbortRequest& req) {
+    // TRANSACTION_ABORT: abort/roll back an open transaction.
+    // Requires authentication; validates transaction_id field.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.transaction_id().empty()) {
+        send_error(400, "Missing 'transaction_id' in TRANSACTION_ABORT request");
+        return;
+    }
+    send_error(503,
+        "Transaction manager not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "POST /api/v1/transaction/" +
+        sanitizeForMessage(req.transaction_id()) + "/abort");
+}
+
+void WireProtocolSession::handle_graph_traverse() {
+    // GRAPH_TRAVERSE: traverse graph edges from a start vertex.
+    // Requires authentication.
+    // Full graph traversal integration over the protobuf wire protocol is planned
+    // for a future release.  Clients should use HTTP POST /api/v1/graph/traverse.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    send_error(501,
+        "Graph traversal is not yet integrated in the protobuf wire protocol. "
+        "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.");
+}
+
+void WireProtocolSession::handle_bpmn_task_complete(
+    const v1::BpmnTaskCompleteRequest& req) {
+    // BPMN_TASK_COMPLETE: complete a user task in a process instance.
+    // Requires authentication; validates task_id field.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.task_id().empty()) {
+        send_error(400,
+            "Missing 'task_id' in BPMN_TASK_COMPLETE request");
+        return;
+    }
+    send_error(503,
+        "Process graph manager not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "POST /api/v1/bpmn/task/" +
+        sanitizeForMessage(req.task_id()) + "/complete");
+}
+
+void WireProtocolSession::handle_bpmn_query_instance(
+    const v1::BpmnQueryInstanceRequest& req) {
+    // BPMN_QUERY_INSTANCE: query a running or completed process instance.
+    // Requires authentication; validates process_instance_id field.
+    if (!authenticated_) {
+        send_error(0x0401, "Authentication required");
+        return;
+    }
+    if (req.process_instance_id().empty()) {
+        send_error(400,
+            "Missing 'process_instance_id' in BPMN_QUERY_INSTANCE request");
+        return;
+    }
+    send_error(503,
+        "Process graph manager not connected to protobuf wire session. "
+        "Use the JSON wire protocol port (8766) or HTTP REST API "
+        "GET /api/v1/bpmn/instance/" +
+        sanitizeForMessage(req.process_instance_id()));
 }
 
 void WireProtocolSession::handle_ping(const v1::PingRequest& /*req*/) {
