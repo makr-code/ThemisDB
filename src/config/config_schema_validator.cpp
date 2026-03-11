@@ -503,6 +503,21 @@ void ConfigSchemaValidator::validateArray(const nlohmann::json& value,
             ++idx;
         }
     }
+
+    // --- uniqueItems ---
+    if (schema.contains("uniqueItems") && schema["uniqueItems"].is_boolean() &&
+        schema["uniqueItems"].get<bool>()) {
+        for (std::size_t i = 0; i < value.size(); ++i) {
+            for (std::size_t j = i + 1; j < value.size(); ++j) {
+                if (value[i] == value[j]) {
+                    result.addError("Array at '" + json_path + "' must have unique items "
+                                    "(duplicate at index " + std::to_string(i) +
+                                    " and " + std::to_string(j) + ")");
+                    return;
+                }
+            }
+        }
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -545,6 +560,57 @@ void ConfigSchemaValidator::validateString(const nlohmann::json& value,
         } catch (const std::regex_error& e) {
             result.addWarning("Invalid pattern '" + pattern + "' in schema at '" +
                               json_path + "': " + e.what());
+        }
+    }
+
+    // --- format ---
+    if (schema.contains("format") && schema["format"].is_string()) {
+        const std::string& fmt = schema["format"].get<std::string>();
+        bool format_valid = true;
+        try {
+            if (fmt == "date") {
+                // YYYY-MM-DD
+                static const std::regex re_date(R"(^\d{4}-\d{2}-\d{2}$)");
+                format_valid = std::regex_match(s, re_date);
+            } else if (fmt == "date-time") {
+                // YYYY-MM-DDThh:mm:ss with optional fractional seconds and timezone
+                static const std::regex re_datetime(
+                    R"(^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+\-]\d{2}:\d{2})?$)");
+                format_valid = std::regex_match(s, re_datetime);
+            } else if (fmt == "email") {
+                // Simplified RFC 5321 local@domain check
+                static const std::regex re_email(
+                    R"(^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$)");
+                format_valid = std::regex_match(s, re_email);
+            } else if (fmt == "uri") {
+                // scheme ":" hier-part; must start with a valid scheme
+                static const std::regex re_uri(R"(^[a-zA-Z][a-zA-Z0-9+\-.]*:.+$)");
+                format_valid = std::regex_match(s, re_uri);
+            } else if (fmt == "ipv4") {
+                // Dotted-decimal, each octet 0-255
+                static const std::regex re_ipv4(
+                    R"(^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$)");
+                std::smatch m;
+                if (std::regex_match(s, m, re_ipv4)) {
+                    for (int i = 1; i <= 4; ++i) {
+                        if (std::stoi(m[i].str()) > 255) { format_valid = false; break; }
+                    }
+                } else {
+                    format_valid = false;
+                }
+            } else if (fmt == "ipv6") {
+                // Simplified: colon-hex groups (does not cover all compressed forms)
+                static const std::regex re_ipv6(
+                    R"(^[0-9a-fA-F:]+:[0-9a-fA-F:]*$)");
+                format_valid = std::regex_match(s, re_ipv6);
+            }
+            // Unknown formats are silently accepted (informational keyword).
+        } catch (const std::regex_error&) {
+            // Internal pattern error — treat as valid to avoid false positives.
+        }
+        if (!format_valid) {
+            result.addError("String at '" + json_path + "' does not conform to format '" +
+                            fmt + "'");
         }
     }
 }

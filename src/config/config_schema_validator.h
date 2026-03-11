@@ -38,9 +38,9 @@ namespace config {
  *
  * Supported JSON Schema keywords:
  *   - type, properties, required, additionalProperties
- *   - minLength, maxLength, pattern (string)
+ *   - minLength, maxLength, pattern, format (string)
  *   - minimum, maximum, exclusiveMinimum, exclusiveMaximum (number/integer)
- *   - minItems, maxItems, items (array)
+ *   - minItems, maxItems, items, uniqueItems (array)
  *   - enum, const
  *   - allOf, anyOf, oneOf (schema composition)
  *   - $ref with local $defs / definitions lookup (JSON Pointer, RFC 6901 subset)
