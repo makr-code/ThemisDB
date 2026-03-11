@@ -1252,6 +1252,18 @@ set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Module dependency resolver tests (subset of AllTests)
+# Covers: ModuleDependency metadata, DependencyResolutionResult, ModuleErrorCode,
+#         ModuleMetadata, ModuleDependencyResolver (topological sort, version compat,
+#         cycle detection, registerModule/resolve/resolveFor/clear)
+#         (from test_module_dependency_resolver.cpp, Issue #2474)
+add_test(NAME ModuleDependencyResolverFocusedTests
+    COMMAND themis_tests --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
+set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
+    LABELS "module;dependency;resolver;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
