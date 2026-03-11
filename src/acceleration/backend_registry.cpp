@@ -33,6 +33,11 @@
 #ifdef THEMIS_ENABLE_VULKAN
 #include "acceleration/graphics_backends.h"
 #endif
+#if defined(THEMIS_ENABLE_OPENGL) && !defined(THEMIS_ENABLE_VULKAN)
+// graphics_backends.h declares both VulkanVectorBackend and OpenGLVectorBackend.
+// Include it here when Vulkan is disabled so OpenGLVectorBackend is reachable.
+#include "acceleration/graphics_backends.h"
+#endif
 #ifdef THEMIS_ENABLE_HIP
 #include "acceleration/hip_backend.h"
 #endif
@@ -105,6 +110,15 @@ BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader
     // no OpenCL ICD is present.
 #ifdef THEMIS_ENABLE_OPENCL
     registerBackend(std::make_unique<OpenCLVectorBackend>());
+#endif
+
+    // Register OpenGL Compute Shader backend for platform-wide GPU acceleration.
+    // Uses EGL headless context (no display required); falls back to CPU kernels
+    // when EGL/GL 4.3+ is unavailable so initialize() always succeeds.
+    // registerBackend() checks isAvailable() at runtime; on systems without a
+    // compatible EGL driver the backend still initialises in CPU-fallback mode.
+#ifdef THEMIS_ENABLE_OPENGL
+    registerBackend(std::make_unique<OpenGLVectorBackend>());
 #endif
 }
 

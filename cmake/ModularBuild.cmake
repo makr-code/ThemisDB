@@ -157,12 +157,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/boost_throw_exception.cpp
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
-    ../src/utils/bloom_filter.cpp
     ../src/utils/consistent_hash.cpp
-    ../src/utils/checksum_utils.cpp
-    ../src/utils/pii_stream_scanner.cpp
-    ../src/utils/sampled_logger.cpp
-    ../src/utils/timestamp_utils.cpp
     ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer
@@ -191,6 +186,11 @@ set(THEMIS_BASE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/ann_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/vector_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/tensor_core_matmul.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/geo_kernels.cu>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/acceleration/cuda/graph_kernels.cu>
     $<$<OR:$<BOOL:${THEMIS_ENABLE_CUDA}>,$<BOOL:${THEMIS_ENABLE_HIP}>>:../src/acceleration/faiss_gpu_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_ONEAPI}>:../src/acceleration/oneapi_backend.cpp>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:../src/acceleration/opencl_backend.cpp>
@@ -367,8 +367,13 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/update_history_logger.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
+    ../src/updates/canary_rollout.cpp
+    ../src/updates/delta_update_engine.cpp
+    ../src/updates/schema_migration_tester.cpp
+    ../src/updates/in_place_schema_migrator.cpp
     ../src/updates/notification_webhook.cpp
     ../src/updates/blue_green_deployment.cpp
+    ../src/updates/coordinated_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
 
     # Storage security

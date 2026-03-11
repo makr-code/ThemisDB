@@ -25,17 +25,14 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 2. CUDAGraphBackend — Vollständig als Stub implementiert
+## 2. CUDAGraphBackend — ✅ Implementiert (März 2026)
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/acceleration/ROADMAP.md` §"Completed ✅" / Issue #1378 ("CUDA graph capture for recurring query workloads") |
 | **Erwartet** | CUDA-beschleunigte Graphalgorithmen (BFS, Shortest Path) mit CUDA-Graph-Capture |
-| **Beobachtet** | `CUDAGraphBackend` in `cuda_backend.cpp` ist vollständig als Stub implementiert: `isAvailable()` gibt immer `false` zurück; `batchBFS()` und `batchShortestPath()` geben leere Vektoren zurück; kein CUDA-Code ausgeführt |
-| **Evidence (geprüfte Pfade)** | `src/acceleration/cuda_backend.cpp` Zeilen 875–935: `// CUDAGraphBackend Stub Implementation`; Header-Metadaten: `Stubs: 6` |
-| **ROADMAP-Status** | Bereits als `[x]` markiert (Claim: `CUDAGraphCache + batchKnnSearchWithGraph()`) — der Graph-Capture-Cache existiert für den **Vector**-Backend, aber der **Graph**-Backend ist ein Stub |
-| **Issue-Titelvorschlag** | `[acceleration] Implement CUDAGraphBackend BFS and shortest-path kernels` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `acceleration`, `status:open` |
+| **Status** | **Implementiert** — `CUDAGraphBackend` in `cuda_backend.cpp` ist vollständig implementiert: `isAvailable()` prüft CUDA-Gerät; `batchBFS()` und `batchShortestPath()` mit CUDA Graph Capture; CUDA-Kernels in `cuda/graph_kernels.cu` |
+| **Implementierungsdetails** | `GraphBFSShape`/`CUDAGraphBFSCache` (Frontier-BFS) + `GraphSPShape`/`CUDAGraphSPCache` (Bellman-Ford) in `cuda_backend.h`/`cuda_backend.cpp`; Tests in `tests/test_acceleration.cpp` |
 
 ---
 
@@ -53,17 +50,16 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 
 ---
 
-## 4. OpenGLVectorBackend — Stub, keine Implementierung
+## 4. OpenGLVectorBackend — ✅ Implementiert (Issue #OPENGL-COMPUTE)
 
 | Feld | Wert |
 |---|---|
-| **Claim-Quelle** | `src/acceleration/graphics_backends.cpp` (registriert als Backend-Option) |
+| **Claim-Quelle** | `src/acceleration/graphics_backends.cpp` |
 | **Erwartet** | OpenGL 4.3+ Compute Shader Backend für breite Plattformkompatibilität |
-| **Beobachtet** | `OpenGLVectorBackend::isAvailable()` gibt immer `false` zurück mit Kommentar `// Stub: not implemented yet`; `batchKnnSearch()` und `computeDistances()` geben leere Vektoren zurück |
-| **Evidence (geprüfte Pfade)** | `src/acceleration/graphics_backends.cpp` Zeilen 1015–1085 |
-| **ROADMAP-Status** | Nicht als separater ROADMAP-Eintrag geführt |
-| **Issue-Titelvorschlag** | `[acceleration] Implement OpenGL Compute Shader backend` |
-| **Label-Vorschläge** | `type:feature`, `priority:low`, `acceleration`, `status:open` |
+| **Beobachtet** | Vollständig implementiert: `isAvailable()` prüft EGL/GL 4.3+-Verfügbarkeit; `initialize()` erstellt headless EGL-Kontext und kompiliert GLSL-Compute-Shader (L2/Cosine); CPU-Fallback wenn kein EGL-Treiber vorhanden; `batchKnnSearch()` und `computeDistances()` liefern korrekte Ergebnisse via GPU oder CPU-Fallback |
+| **Evidence (geprüfte Pfade)** | `src/acceleration/graphics_backends.cpp` (OpenGLVectorBackendImpl PIMPL), `tests/test_opengl_backend.cpp` |
+| **ROADMAP-Status** | Implementiert und getestet — Issue geschlossen |
+| **Label-Vorschläge** | `type:feature`, `priority:low`, `acceleration`, `status:closed` |
 
 ---
 
@@ -72,9 +68,9 @@ Prüfstand: 2026-03-09 | Branch: `develop`
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
 | 1 | CUDA ANN HNSW-Integration | ROADMAP #1369 | **Hoch** | `[~]` in progress |
-| 2 | CUDAGraphBackend (BFS/Shortest-Path) | cuda_backend.cpp | Mittel | Stub |
+| 2 | CUDAGraphBackend (BFS/Shortest-Path) | cuda_backend.cpp | Mittel | ✅ Implementiert |
 | 3 | DirectXVectorBackend | graphics_backends.cpp | Niedrig | Stub |
-| 4 | OpenGLVectorBackend | graphics_backends.cpp | Niedrig | Stub |
+| 4 | OpenGLVectorBackend | graphics_backends.cpp | Niedrig | ✅ Implementiert |
 
 *Alle anderen ROADMAP-Einträge (#1366–#1403, außer #1369) sind durch vorhandene
 Implementierungsdateien auf `develop` belegt (kein HNSW-spezifischer Pfad ausgenommen).*
