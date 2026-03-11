@@ -34,14 +34,18 @@
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <ctime>
 #include <deque>
 #include <fstream>
+#include <future>
 #include <iomanip>
 #include <mutex>
+#include <queue>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 
 namespace themis {
 namespace observability {
@@ -145,9 +149,18 @@ public:
                 file_open_ = ofs_.is_open();
             }
         }
+
+        // Start background worker thread for async dispatch.
+        // IMPORTANT: this must remain last in the constructor body so that
+        // all member variables are fully initialized before the worker
+        // thread begins executing.
+        if (cfg.async_queue_max_size > 0) {
+            worker_ = std::thread([this] { runWorker(); });
+        }
     }
 
     ~Impl() {
+        stopWorker();
         if (ofs_.is_open()) ofs_.close();
     }
 
@@ -213,6 +226,85 @@ public:
                     static_cast<double>(stats_.dropped_entries));
     }
 
+    // -----------------------------------------------------------------------
+    // Async worker thread
+    // -----------------------------------------------------------------------
+
+    /// A single task posted to the async queue.
+    struct AsyncTask {
+        Level       level;
+        std::string message;
+        Fields      fields;
+        std::shared_ptr<std::promise<void>> promise;
+    };
+
+    /// Post a task to the async queue.  Returns the associated future.
+    /// If the queue is full or async is disabled, the promise is resolved
+    /// immediately (record dropped) and the overflow counter incremented.
+    std::future<void> enqueue(Level level,
+                               std::string message,
+                               Fields fields)
+    {
+        auto p = std::make_shared<std::promise<void>>();
+        auto f = p->get_future();
+
+        if (shutdown_.load() || config_.async_queue_max_size == 0) {
+            // Disabled or shut down: resolve immediately without logging
+            p->set_value();
+            return f;
+        }
+
+        {
+            std::lock_guard<std::mutex> lk(async_mu_);
+            if (async_queue_.size() >= config_.async_queue_max_size) {
+                ++async_overflows_;
+                p->set_value(); // drop the task
+                return f;
+            }
+            async_queue_.push(
+                AsyncTask{level, std::move(message), std::move(fields),
+                          std::move(p)});
+        }
+        async_cv_.notify_one();
+        return f;
+    }
+
+    void runWorker() {
+        while (true) {
+            AsyncTask task;
+            {
+                std::unique_lock<std::mutex> lk(async_mu_);
+                async_cv_.wait(lk, [this] {
+                    return !async_queue_.empty() || worker_stop_.load();
+                });
+                if (async_queue_.empty()) {
+                    // Stop signal received and queue is drained
+                    break;
+                }
+                task = std::move(async_queue_.front());
+                async_queue_.pop();
+            }
+            // Process outside the queue lock to maximise throughput
+            try {
+                accept(task.level, task.message, task.fields);
+            } catch (...) {
+                // accept() must never throw, but guard defensively
+            }
+            task.promise->set_value();
+        }
+    }
+
+    void stopWorker() {
+        {
+            std::lock_guard<std::mutex> lk(async_mu_);
+            worker_stop_.store(true);
+        }
+        async_cv_.notify_all();
+        if (worker_.joinable()) {
+            worker_.join();
+        }
+    }
+
     LogAggregatorConfig                config_;
     mutable std::mutex                 mu_;
     std::deque<LogEntry>               buffer_;
@@ -220,6 +312,14 @@ public:
     bool                               file_open_;
     std::atomic<bool>                  shutdown_;
     EntryCallback                      callback_;
+
+    // Async worker
+    std::queue<AsyncTask>              async_queue_;
+    std::mutex                         async_mu_;
+    std::condition_variable            async_cv_;
+    std::thread                        worker_;
+    std::atomic<bool>                  worker_stop_{false};
+    std::atomic<int64_t>               async_overflows_{0};
 
     struct Stats {
         int64_t total_entries{0};
@@ -310,6 +410,9 @@ void LogAggregator::flush() noexcept {
 
 void LogAggregator::shutdown() noexcept {
     impl_->shutdown_.store(true);
+    // Drain the async queue: signal worker_stop_ so the worker exits after
+    // processing all enqueued tasks, then join the thread.
+    impl_->stopWorker();
     flush();
 }
 
@@ -356,8 +459,9 @@ size_t LogAggregator::size() const {
 LogAggregatorStats LogAggregator::stats() const {
     std::lock_guard<std::mutex> lk(impl_->mu_);
     LogAggregatorStats s;
-    s.total_entries   = impl_->stats_.total_entries;
-    s.dropped_entries = impl_->stats_.dropped_entries;
+    s.total_entries         = impl_->stats_.total_entries;
+    s.dropped_entries       = impl_->stats_.dropped_entries;
+    s.async_queue_overflows = impl_->async_overflows_.load();
     for (int i = 0; i < 6; ++i) {
         s.entries_by_level[i] = impl_->stats_.entries_by_level[i];
     }
@@ -372,6 +476,31 @@ void LogAggregator::setEntryCallback(EntryCallback cb) {
 LogAggregatorConfig LogAggregator::getConfig() const {
     std::lock_guard<std::mutex> lk(impl_->mu_);
     return impl_->config_;
+}
+
+// ---------------------------------------------------------------------------
+// IAsyncLogger overrides — worker-thread-backed async dispatch
+// ---------------------------------------------------------------------------
+
+std::future<void> LogAggregator::logAsync(Level level, std::string_view message) {
+    return impl_->enqueue(level, std::string(message), {});
+}
+
+std::future<void> LogAggregator::logStructuredAsync(Level level,
+                                                     std::string_view message,
+                                                     const Fields& fields) {
+    return impl_->enqueue(level, std::string(message), fields);
+}
+
+std::future<void> LogAggregator::logWithContextAsync(Level level,
+                                                       std::string_view message,
+                                                       const TraceCtx& ctx,
+                                                       const Fields& fields) {
+    Fields merged = fields;
+    if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
+    if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
+    if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
+    return impl_->enqueue(level, std::string(message), std::move(merged));
 }
 
 } // namespace observability

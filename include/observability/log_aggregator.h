@@ -19,16 +19,20 @@
 
 #pragma once
 
-#include "core/concerns/i_logger.h"
+#include "core/concerns/i_async_logger.h"
 
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
 #include <deque>
 #include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace themis {
@@ -82,6 +86,12 @@ struct LogAggregatorConfig {
     /// buffer.  0 disables in-process retention (file-only mode).
     size_t max_retained_entries{4096};
 
+    /// Maximum number of pending async log tasks in the worker queue.
+    /// When the queue is full, new async tasks are dropped and the overflow
+    /// counter is incremented.  0 disables async queueing (async calls fall
+    /// back to synchronous dispatch on the calling thread).
+    size_t async_queue_max_size{8192};
+
     /// spdlog-compatible format pattern used when formatting lines for the
     /// file sink.  Empty string uses a sensible default.
     std::string format_pattern;
@@ -98,9 +108,10 @@ struct LogAggregatorConfig {
  * @brief Counters exported by LogAggregator for observability.
  */
 struct LogAggregatorStats {
-    int64_t total_entries{0};    ///< Total entries accepted (not dropped)
-    int64_t dropped_entries{0};  ///< Entries dropped due to level filter
+    int64_t total_entries{0};        ///< Total entries accepted (not dropped)
+    int64_t dropped_entries{0};      ///< Entries dropped due to level filter
     int64_t entries_by_level[6]{0, 0, 0, 0, 0, 0}; ///< Per-level accepted count
+    int64_t async_queue_overflows{0}; ///< Async tasks dropped due to full queue
 };
 
 /**
@@ -145,8 +156,25 @@ struct LogAggregatorStats {
  *     std::cout << e.toJson() << "\n";
  * }
  * ```
+ * ### Async streaming
+ * `LogAggregator` also implements `core::concerns::IAsyncLogger`.  A dedicated
+ * background worker thread drains a bounded in-process queue so that callers
+ * on hot paths can fire-and-forget log records without blocking on sink I/O.
+ *
+ * ```cpp
+ * // Fire-and-forget (discard future):
+ * agg.infoAsync("Request accepted");
+ *
+ * // Await dispatch (e.g. in tests or before shutdown):
+ * agg.logStructuredAsync(Level::WARN, "Slow query", {{"ms", "450"}}).get();
+ * ```
+ *
+ * When the async queue is full (configurable via `async_queue_max_size`),
+ * new tasks are dropped and `LogAggregatorStats::async_queue_overflows` is
+ * incremented.  `shutdown()` drains all pending async tasks before returning.
+ *
  */
-class LogAggregator : public core::concerns::ILogger {
+class LogAggregator : public core::concerns::IAsyncLogger {
 public:
     using Fields   = core::concerns::ILogger::Fields;
     using Level    = core::concerns::ILogger::Level;
@@ -191,6 +219,41 @@ public:
     void shutdown() noexcept override;
 
     core::concerns::ProbeResult isHealthy() const override;
+
+    // -----------------------------------------------------------------------
+    // IAsyncLogger overrides — worker-thread-backed async dispatch
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Post a log record to the async worker queue.
+     *
+     * Returns a future that resolves once the record has been processed by the
+     * background worker thread and written to all configured sinks.  When the
+     * queue is full the record is dropped, `stats().async_queue_overflows` is
+     * incremented, and the future resolves immediately.
+     */
+    std::future<void> logAsync(Level level, std::string_view message) override;
+
+    /**
+     * @brief Post a structured log record to the async worker queue.
+     *
+     * Like `logAsync()` but includes key/value @p fields in the entry.
+     */
+    std::future<void> logStructuredAsync(Level level,
+                                          std::string_view message,
+                                          const Fields& fields = {}) override;
+
+    /**
+     * @brief Post a trace-context-correlated log record to the async worker
+     *        queue.
+     *
+     * Injects `trace_id`, `span_id`, and `request_id` from @p ctx as fields
+     * and dispatches asynchronously.
+     */
+    std::future<void> logWithContextAsync(Level level,
+                                           std::string_view message,
+                                           const TraceCtx& ctx,
+                                           const Fields& fields = {});
 
     // -----------------------------------------------------------------------
     // Extended API
