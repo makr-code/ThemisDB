@@ -376,6 +376,14 @@ public:
         auto distances = computeDistances(
             queries, numQueries, dim, vectors, numVectors, useL2);
 
+        // Guard against an unexpectedly sized result from computeDistances
+        if (distances.size() != numQueries * numVectors) {
+            throw std::runtime_error(
+                "[DirectX] batchKnnSearch: computeDistances returned unexpected size "
+                "(expected " + std::to_string(numQueries * numVectors) +
+                ", got " + std::to_string(distances.size()) + ")");
+        }
+
         const size_t actualK = std::min(k, numVectors);
         std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
 
