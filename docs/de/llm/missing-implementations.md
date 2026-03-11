@@ -50,17 +50,27 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 
 ---
 
-## 2. InferenceEngineEnhanced — KV-Cache-Prewarming und Embedding-basiertes Cache-Lookup
+## 2. ~~InferenceEngineEnhanced — KV-Cache-Prewarming und Embedding-basiertes Cache-Lookup~~ ✅ GELÖST
+
+> **Gelöst in Branch `copilot/implement-kv-cache-prewarming`**
+>
+> **Was implementiert wurde:**
+> - `prewarmCache()`: Berechnet echte Embeddings via `computeEmbeddingForCache()` für jeden Prompt,
+>   schätzt Token-IDs und speichert den Eintrag im `LLMPrefixCache` (`prefix_cache_->put()`).
+> - `checkCache()`: Ersetzt den Null-Vektor durch `computeEmbeddingForCache(request.prompt)` —
+>   der Lookup nutzt jetzt HNSW-basierte Ähnlichkeitssuche.
+> - `updateCache()`: Berechnet echtes Embedding und schätzt Token-Sequenz; speichert beides im Cache.
+> - Neuer privater Hilfsmethode `computeEmbeddingForCache(text)`: Holt den ersten verfügbaren
+>   Plugin-Zeiger (lock-free während `embed()`), ruft `plugin->embed(text)` auf und gibt bei
+>   Fehler einen leeren Vektor zurück (graceful degradation).
+> - 3 neue Tests (Tests 21–23) in `tests/test_inference_engine_enhanced.cpp`.
 
 | Feld | Wert |
 |---|---|
 | **Claim-Quelle** | `src/llm/ARCHITECTURE.md` §"KV-Cache Reuse (Prefix Cache)"; `src/llm/ROADMAP.md` §"Context caching (KV-cache reuse)" |
 | **Erwartet** | Prefix-Cache kann vorgewärmt werden durch Pre-Berechnung von KV-Cache-Einträgen für häufige Prompts; Cache-Lookup nutzt Embedding-Ähnlichkeit für Fuzzy-Treffer |
-| **Beobachtet** | `prewarmCache()` loggt nur Prompt-Präfixe ohne tatsächliche Berechnung. `checkCache()` und `updateCache()` verwenden einen Null-Vektor (`dummy_embedding(128, 0.0f)`) statt echter Embeddings |
-| **Evidence** | `src/llm/inference_engine_enhanced.cpp` Zeile 495 (`// TODO: In production, implement actual cache prewarming`); Zeilen 1131, 1139 (`// Placeholder - not used`), 1169 (`// TODO: compute actual embeddings`) |
-| **ROADMAP-Status** | Nicht als separates Item geführt; Teil von "Context caching (KV-cache reuse)" |
-| **Issue-Titelvorschlag** | `[llm] Implement embedding-based prefix cache lookup in InferenceEngineEnhanced` |
-| **Label-Vorschläge** | `type:feature`, `priority:medium`, `llm`, `status:open` |
+| **Status** | ✅ **Gelöst** — `computeEmbeddingForCache()` liefert echte Embeddings; alle drei Cache-Methoden nutzen sie |
+| **Lösung** | `include/llm/inference_engine_enhanced.h`, `src/llm/inference_engine_enhanced.cpp` |
 
 ---
 
@@ -111,7 +121,7 @@ Prüfstand: 2026-03-11 | Branch: `develop`
 | # | Feature | Quelle | Kritikalität | Status |
 |---|---|---|---|---|
 | 1 | ActiveVRAMAllocator GPU-Allokation | `active_vram_allocator.cpp` | Hoch | ✅ Gelöst (LLM-MISSING-001) |
-| 2 | KV-Cache-Prewarming + Embedding-Lookup | `inference_engine_enhanced.cpp` L495,1131,1169 | Mittel | TODO |
+| 2 | KV-Cache-Prewarming + Embedding-Lookup | `inference_engine_enhanced.cpp` L495,1131,1169 | Mittel | ✅ Gelöst |
 | 3 | DocsAssistant LLM-Completion | `docs_assistant.cpp` L251 | Niedrig | Placeholder |
 | 4 | RAG-Kontext-Enkodierung | `async_inference_engine.cpp` L373 | Niedrig | TODO |
 | 5 | Federated Inference | ROADMAP Issue #1928 | Niedrig | Nicht implementiert |

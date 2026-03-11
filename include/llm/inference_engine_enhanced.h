@@ -452,6 +452,18 @@ private:
     // Timeout handling
     void checkAndHandleTimeouts();
     
+    // Embedding helper for cache operations
+    // Returns an embedding from the first available plugin, or an empty vector
+    // when no plugin is registered or embedding generation fails.
+    std::vector<float> computeEmbeddingForCache(const std::string& text);
+
+    // Build a token-ID sequence for a given prompt.
+    // Uses the rough heuristic of 4 chars ≈ 1 token as a lightweight
+    // approximation.  A real tokenizer call would be required for exact counts,
+    // but the ILLMPlugin interface does not expose a standalone tokenize()
+    // method at this level of abstraction.
+    static std::vector<int> estimateTokenSequence(const std::string& text);
+
     // Statistics updates
     void recordCacheHit(size_t tokens_saved);
     void recordCacheMiss();

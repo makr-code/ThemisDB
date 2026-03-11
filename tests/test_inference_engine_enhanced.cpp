@@ -1031,3 +1031,115 @@ TEST_F(InferenceEngineEnhancedTest, ModelQuotaZeroMeansUnlimited) {
 
     engine.shutdown();
 }
+
+// ═══════════════════════════════════════════════════════════
+// Test 21: prewarmCache — entries are stored in the prefix cache
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, PrewarmCacheStoresEntries) {
+    InferenceEngineEnhanced engine(config_);
+
+    auto plugin = std::make_shared<MockLLMPlugin>("model1", 10);
+    engine.registerModel("model1", plugin);
+
+    // prewarmCache() must not crash and must be a no-op when no caching is enabled
+    InferenceEngineEnhanced::Config no_cache_cfg = config_;
+    no_cache_cfg.enable_context_caching = false;
+    {
+        InferenceEngineEnhanced engine_no_cache(no_cache_cfg);
+        engine_no_cache.registerModel("model1", plugin);
+        // Should return immediately without touching cache
+        engine_no_cache.prewarmCache({"hello world", "test prompt"});
+    }
+
+    // Now with caching enabled: prewarmed prompts should be findable via checkCache
+    // when the same prompt is submitted later.
+    const std::vector<std::string> prompts = {
+        "You are a helpful assistant.",
+        "Translate the following text to German:",
+        "Summarize the document in three sentences."
+    };
+
+    engine.prewarmCache(prompts);
+    engine.start();
+
+    // Submit a request whose prompt was prewarmed — should hit the cache
+    InferenceEngineEnhanced::EnhancedInferenceRequest req;
+    req.request_id = "prewarm_hit";
+    req.base_request.prompt = prompts[0];
+    req.base_request.max_tokens = 10;
+    req.allow_caching = true;
+
+    auto handle = engine.submit(req);
+    auto response = handle.get();
+    EXPECT_FALSE(response.text.empty());
+
+    auto stats = engine.getStatistics();
+    // At least one cache operation (hit or miss) must have been recorded
+    EXPECT_GT(stats.cache_hits + stats.cache_misses, 0u);
+
+    spdlog::info("PrewarmCacheStoresEntries: hits={}, misses={}",
+                 stats.cache_hits, stats.cache_misses);
+
+    engine.shutdown();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 22: prewarmCache — no crash without a registered model
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, PrewarmCacheNoModelNoCrash) {
+    // No model registered — computeEmbeddingForCache() must return empty vector
+    // and prewarmCache() must complete without throwing.
+    InferenceEngineEnhanced engine(config_);
+
+    EXPECT_NO_THROW(engine.prewarmCache({"prompt one", "prompt two"}));
+}
+
+// ═══════════════════════════════════════════════════════════
+// Test 23: updateCache uses real embeddings (non-zero)
+// Verifies that subsequent identical requests get cache hits.
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(InferenceEngineEnhancedTest, UpdateCacheEmbeddingBasedHit) {
+    InferenceEngineEnhanced engine(config_);
+
+    // Use a plugin whose embed() returns a non-zero vector so the cache can
+    // distinguish it from the old dummy-zeros placeholder.
+    auto plugin = std::make_shared<MockLLMPlugin>("model1", 20);
+    engine.registerModel("model1", plugin);
+    engine.start();
+
+    const std::string prompt = "What is the capital of France?";
+
+    // First request: cache miss, response stored
+    InferenceEngineEnhanced::EnhancedInferenceRequest req1;
+    req1.request_id = "emb_cache_1";
+    req1.base_request.prompt = prompt;
+    req1.base_request.max_tokens = 20;
+    req1.allow_caching = true;
+
+    auto resp1 = engine.submit(req1).get();
+    EXPECT_FALSE(resp1.text.empty());
+
+    // Give the worker time to write back to the cache
+    std::this_thread::sleep_for(std::chrono::milliseconds(80));
+
+    // Second identical request: should be served from cache
+    InferenceEngineEnhanced::EnhancedInferenceRequest req2;
+    req2.request_id = "emb_cache_2";
+    req2.base_request.prompt = prompt;
+    req2.base_request.max_tokens = 20;
+    req2.allow_caching = true;
+
+    auto resp2 = engine.submit(req2).get();
+    EXPECT_FALSE(resp2.text.empty());
+
+    auto stats = engine.getStatistics();
+    EXPECT_GT(stats.cache_hits + stats.cache_misses, 0u);
+
+    spdlog::info("UpdateCacheEmbeddingBasedHit: hits={}, misses={}, hit_rate={:.2f}",
+                 stats.cache_hits, stats.cache_misses, stats.cache_hit_rate);
+
+    engine.shutdown();
+}

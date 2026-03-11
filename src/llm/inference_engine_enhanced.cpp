@@ -489,21 +489,30 @@ void InferenceEngineEnhanced::prewarmCache(const std::vector<std::string>& commo
     if (!prefix_cache_ || !config_.enable_context_caching) {
         return;
     }
-    
+
     spdlog::info("Prewarming cache with {} common prompts", common_prompts.size());
-    
-    // TODO: In production, implement actual cache prewarming:
-    // 1. Use embedding model to compute embeddings for each prompt
-    //    auto embedding = embedding_model_->encode(prompt);
-    // 2. Pre-compute KV cache for frequent prompts
-    //    auto kv_cache = computeKVCache(prompt);
-    // 3. Store in prefix cache for fast retrieval
-    //    prefix_cache_->store(prompt, kv_cache);
-    
+
+    size_t warmed = 0;
     for (const auto& prompt : common_prompts) {
-        spdlog::debug("  Prewarming: {}", prompt.substr(0, 50));
-        // Actual implementation would pre-process these prompts
+        // Compute real embedding for embedding-based similarity lookup
+        std::vector<float> embedding = computeEmbeddingForCache(prompt);
+
+        std::vector<int> tokens = estimateTokenSequence(prompt);
+
+        // Derive the same cache key that checkCache() / updateCache() would use
+        InferenceRequest key_request;
+        key_request.prompt = prompt;
+        std::string cache_key = generateCacheKey(key_request);
+
+        // Store in prefix cache — precomputed KV tensors not available at this level
+        prefix_cache_->put(cache_key, tokens, embedding, {});
+        ++warmed;
+
+        spdlog::debug("  Prewarmed: {} ({} estimated tokens, embedding dim={})",
+                      prompt.substr(0, 50), tokens.size(), embedding.size());
     }
+
+    spdlog::info("Cache prewarming complete: {}/{} prompts stored", warmed, common_prompts.size());
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1124,34 +1133,29 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
     if (!prefix_cache_) {
         return std::nullopt;
     }
-    
+
     // Generate cache key
     std::string cache_key = generateCacheKey(request);
-    
-    // TODO: In production, compute embeddings for similarity-based cache lookup
-    // Real implementation would:
-    // 1. Use an embedding model (e.g., sentence-transformers, all-MiniLM-L6-v2)
-    //    auto embedding = embedding_model_->encode(request.prompt);
-    // 2. Perform similarity search in the prefix cache
-    //    auto cached = prefix_cache_->findSimilar(embedding, similarity_threshold);
-    // 
-    // For now, use simple string-based exact matching with a placeholder embedding
-    std::vector<float> dummy_embedding(128, 0.0f);  // Placeholder - not used in current implementation
-    
-    auto cached = prefix_cache_->get(cache_key, dummy_embedding);
-    
+
+    // Compute real embedding for embedding-based similarity lookup.
+    // Falls back to an empty vector when no plugin is available; the prefix
+    // cache will then perform an exact-key match only.
+    std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
+
+    auto cached = prefix_cache_->get(cache_key, embedding);
+
     if (cached) {
         recordCacheHit(cached->token_ids.size());
-        
+
         // Reconstruct response from cache
         InferenceResponse response;
         response.text = cached->prefix;  // Simplified - would be actual generated text
         response.tokens_prompt = static_cast<int>(cached->token_ids.size());
         response.cache_hit = true;
-        
+
         return response;
     }
-    
+
     recordCacheMiss();
     return std::nullopt;
 }
@@ -1163,14 +1167,17 @@ void InferenceEngineEnhanced::updateCache(
     if (!prefix_cache_ || response.text.empty()) {
         return;
     }
-    
+
     std::string cache_key = generateCacheKey(request);
-    
-    // TODO: In production, compute actual embeddings and KV cache
-    std::vector<int> tokens;  // Would tokenize response
-    std::vector<float> embedding(128, 0.0f);
-    std::vector<float> kv_cache;  // Would extract from model
-    
+
+    // Compute real embedding for future similarity-based lookups
+    std::vector<float> embedding = computeEmbeddingForCache(request.prompt);
+
+    std::vector<int> tokens = estimateTokenSequence(request.prompt);
+
+    // KV cache tensors would be extracted from the model state in a full implementation
+    std::vector<float> kv_cache;
+
     prefix_cache_->put(cache_key, tokens, embedding, kv_cache);
 }
 
@@ -1207,6 +1214,45 @@ std::string InferenceEngineEnhanced::generateCacheKey(const InferenceRequest& re
     }
     
     return hash_str.str();
+}
+
+std::vector<float> InferenceEngineEnhanced::computeEmbeddingForCache(const std::string& text) {
+    // Grab a shared_ptr to the first available plugin without holding the lock
+    // during the (potentially slow) embed() call.
+    std::shared_ptr<ILLMPlugin> plugin;
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        for (const auto& [id, info] : models_) {
+            if (info.is_available && info.plugin) {
+                plugin = info.plugin;
+                break;
+            }
+        }
+    }
+
+    if (!plugin) {
+        return {};
+    }
+
+    try {
+        return plugin->embed(text);
+    } catch (const std::exception& e) {
+        spdlog::warn("Embedding computation failed for cache lookup: {}", e.what());
+        return {};
+    }
+}
+
+// static
+std::vector<int> InferenceEngineEnhanced::estimateTokenSequence(const std::string& text) {
+    // Lightweight approximation: ~4 UTF-8 characters per token (BPE heuristic).
+    // The ILLMPlugin interface does not expose a standalone tokenize() method
+    // at this abstraction level, so an exact token count is not available here.
+    // Sequential IDs (0, 1, 2, …) are used as placeholder token identifiers;
+    // the prefix cache uses them only for the token_ids.size() field.
+    const size_t estimated_count = std::max<size_t>(1, text.size() / 4);
+    std::vector<int> tokens(estimated_count);
+    std::iota(tokens.begin(), tokens.end(), 0);
+    return tokens;
 }
 
 // ═══════════════════════════════════════════════════════════
