@@ -65,9 +65,8 @@ TEST(ActiveVRAMAllocatorTest, DefaultConfigAllocatorCanAllocate) {
     ActiveVRAMAllocator alloc;
     auto handle = alloc.allocate(4096, "default_config_test");
     // In CPU-simulation mode with auto-detected 8GB limit, allocation must succeed
-    ASSERT_TRUE(handle.has_value())
-        << "Default-config allocator failed to allocate 4096 bytes. "
-           "GPUMemoryManager must auto-detect a non-zero VRAM limit when max_vram_bytes=0.";
+    ASSERT_TRUE(handle.has_value()) << "Default-config allocator failed to allocate 4096 bytes; "
+                                       "GPUMemoryManager must auto-set a non-zero VRAM limit when max_vram_bytes=0";
     EXPECT_TRUE(handle->valid);
     alloc.free(*handle);
 }

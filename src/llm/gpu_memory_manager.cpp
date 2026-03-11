@@ -214,11 +214,9 @@ void GPUMemoryManager::initializeGPU() {
             spdlog::info("  Total VRAM: {:.2f} GB", prop.totalGlobalMem / (1024.0*1024*1024));
             spdlog::info("  Multiprocessors: {}", prop.multiProcessorCount);
 
-            // Auto-detect VRAM limit from device if not configured (0 = auto-detect)
+            // Auto-detect VRAM limit from device properties (0 = auto-detect)
             if (config_.max_vram_bytes == 0) {
                 config_.max_vram_bytes = prop.totalGlobalMem;
-                spdlog::info("  Auto-detected VRAM limit: {:.2f} GB",
-                             config_.max_vram_bytes / (1024.0 * 1024 * 1024));
             }
         }
         
@@ -282,25 +280,11 @@ void GPUMemoryManager::initializeGPU() {
         available_gpus_.push_back(gpu_device_id_);
         per_gpu_vram_used_[gpu_device_id_] = 0;
         gpu_health_status_[gpu_device_id_] = true;
-
-        // Use default VRAM limit for simulation mode when not configured
-        if (config_.max_vram_bytes == 0) {
-            config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
-            spdlog::info("  Simulation VRAM limit set to: {:.2f} GB",
-                         config_.max_vram_bytes / (1024.0 * 1024 * 1024));
-        }
     }
 #else
     // Simulation mode when CUDA is not enabled at build time
     gpu_available_ = false;
     gpu_device_id_ = 0;
-
-    // Use default VRAM limit for simulation mode when not configured (0 = auto-detect)
-    if (config_.max_vram_bytes == 0) {
-        config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
-        spdlog::info("  Simulation VRAM limit set to: {:.2f} GB",
-                     config_.max_vram_bytes / (1024.0 * 1024 * 1024));
-    }
     
     // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
@@ -326,6 +310,15 @@ void GPUMemoryManager::initializeGPU() {
     spdlog::info("GPU Memory Manager: Running in simulation mode (CUDA not enabled at build time)");
     spdlog::info("  Available GPUs: {} (simulated)", available_gpus_.size());
 #endif
+
+    // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
+    // initialization (e.g. no GPU available or cudaGetDeviceProperties failed), use a
+    // sensible simulation default so that canAllocate() and getLeastLoadedGPU() work.
+    if (config_.max_vram_bytes == 0) {
+        config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
+        spdlog::info("  VRAM limit defaulted to {:.2f} GB (simulation)",
+                     config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+    }
 }
 
 void GPUMemoryManager::shutdownGPU() {
