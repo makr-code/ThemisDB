@@ -157,10 +157,10 @@ private:
     bool initialized_ = false;
 };
 
-// OpenGL Compute Shaders backend (legacy support)
+// OpenGL Compute Shaders backend (OpenGL 4.3+ compute shader acceleration)
 class OpenGLVectorBackend : public IVectorBackend {
 public:
-    OpenGLVectorBackend() = default;
+    OpenGLVectorBackend();
     ~OpenGLVectorBackend() override;
     
     const char* name() const noexcept override { return "OpenGL"; }
@@ -192,7 +192,8 @@ public:
 
 private:
     bool initialized_ = false;
-    void* context_ = nullptr;  // OpenGL context
+    class OpenGLVectorBackendImpl;
+    std::unique_ptr<OpenGLVectorBackendImpl> impl_;
 };
 
 } // namespace acceleration

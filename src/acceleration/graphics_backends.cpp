@@ -43,6 +43,19 @@
 #include <vulkan/vulkan.h>
 #endif
 
+#ifdef THEMIS_ENABLE_OPENGL
+#if defined(__linux__) || defined(__unix__)
+#include <dlfcn.h>
+#elif defined(_WIN32)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
+#endif
+#include <cstddef>   // ptrdiff_t, size_t
+#include <cstdint>   // intptr_t
+#endif
+
 namespace themis {
 namespace acceleration {
 
@@ -1010,8 +1023,627 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
 }
 
 // ============================================================================
-// OpenGL Vector Backend Stub
+// OpenGL Vector Backend — full OpenGL 4.3+ Compute Shader implementation
+//
+// Context creation uses EGL (Linux/Android) or WGL (Windows) via dynamic
+// loading so that no GL headers are required at compile time. When an
+// OpenGL 4.3+ context cannot be created (no display, no compatible driver)
+// the backend falls back to CPU kernels so that initialize() always
+// succeeds and the registry can still exercise the dispatch path.
 // ============================================================================
+
+#ifdef THEMIS_ENABLE_OPENGL
+
+namespace {
+
+// ---------------------------------------------------------------------------
+// Minimal GL / EGL type and constant declarations.
+// These match the stable OpenGL 4.3 and EGL 1.5 specifications exactly.
+// No GL headers are included so the file compiles on systems that have
+// the runtime libraries but not the development headers (e.g. CI).
+// ---------------------------------------------------------------------------
+
+typedef unsigned int    GL_GLuint;
+typedef int             GL_GLint;
+typedef unsigned int    GL_GLenum;
+typedef int             GL_GLsizei;
+typedef char            GL_GLchar;
+typedef std::ptrdiff_t  GL_GLsizeiptr;   // matches the OpenGL spec (signed pointer-sized)
+typedef std::ptrdiff_t  GL_GLintptr;     // same as GLintptr in the spec
+typedef unsigned int    GL_GLbitfield;
+typedef float           GL_GLfloat;
+typedef unsigned char   GL_GLboolean;
+typedef unsigned char   GL_GLubyte;
+
+typedef void*           EGL_Display;
+typedef void*           EGL_Config;
+typedef void*           EGL_Context;
+typedef void*           EGL_Surface;
+typedef unsigned int    EGL_Enum;
+typedef unsigned int    EGL_Boolean;
+typedef int             EGL_Int;
+typedef void*           EGL_NativeDisplayType;
+
+// GL constants used by compute shaders
+static const GL_GLenum  k_COMPUTE_SHADER              = 0x91B9u;
+static const GL_GLenum  k_SHADER_STORAGE_BUFFER       = 0x90D2u;
+static const GL_GLenum  k_STREAM_COPY                 = 0x88E2u;
+static const GL_GLenum  k_DYNAMIC_COPY                = 0x88EAu;
+static const GL_GLbitfield k_SHADER_STORAGE_BARRIER_BIT = 0x00002000u;
+static const GL_GLenum  k_COMPILE_STATUS              = 0x8B81u;
+static const GL_GLenum  k_LINK_STATUS                 = 0x8B82u;
+static const GL_GLenum  k_INFO_LOG_LENGTH             = 0x8B84u;
+static const GL_GLenum  k_RENDERER                    = 0x1F01u;
+static const GL_GLenum  k_VENDOR                      = 0x1F00u;
+static const GL_GLenum  k_MAJOR_VERSION               = 0x821Bu;
+static const GL_GLenum  k_MINOR_VERSION               = 0x821Cu;
+
+// EGL constants
+static const EGL_Display k_EGL_NO_DISPLAY             = nullptr;
+static const EGL_Context k_EGL_NO_CONTEXT             = nullptr;
+static const EGL_Surface k_EGL_NO_SURFACE             = nullptr;
+static const EGL_Enum    k_EGL_OPENGL_API             = 0x30A2u;
+static const EGL_Int     k_EGL_RENDERABLE_TYPE        = 0x3040;
+static const EGL_Int     k_EGL_OPENGL_BIT             = 0x0008;
+static const EGL_Int     k_EGL_NONE                   = 0x3038;
+static const EGL_Int     k_EGL_CONTEXT_MAJOR_VERSION  = 0x3098;
+static const EGL_Int     k_EGL_CONTEXT_MINOR_VERSION  = 0x30FB;
+static const EGL_Int     k_EGL_CONTEXT_OPENGL_PROFILE_MASK            = 0x30FD;
+static const EGL_Int     k_EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT        = 0x00000001;
+
+// ---------------------------------------------------------------------------
+// Function pointer typedefs — EGL
+// ---------------------------------------------------------------------------
+typedef EGL_Display (*PFN_eglGetDisplay)(EGL_NativeDisplayType);
+typedef EGL_Boolean (*PFN_eglInitialize)(EGL_Display, EGL_Int*, EGL_Int*);
+typedef EGL_Boolean (*PFN_eglBindAPI)(EGL_Enum);
+typedef EGL_Boolean (*PFN_eglChooseConfig)(EGL_Display, const EGL_Int*, EGL_Config*, EGL_Int, EGL_Int*);
+typedef EGL_Context (*PFN_eglCreateContext)(EGL_Display, EGL_Config, EGL_Context, const EGL_Int*);
+typedef EGL_Boolean (*PFN_eglMakeCurrent)(EGL_Display, EGL_Surface, EGL_Surface, EGL_Context);
+typedef EGL_Boolean (*PFN_eglDestroyContext)(EGL_Display, EGL_Context);
+typedef EGL_Boolean (*PFN_eglTerminate)(EGL_Display);
+typedef void*       (*PFN_eglGetProcAddress)(const char*);
+
+// ---------------------------------------------------------------------------
+// Function pointer typedefs — OpenGL 4.3 Compute Shaders
+// ---------------------------------------------------------------------------
+typedef GL_GLuint (*PFN_glCreateShader)(GL_GLenum);
+typedef void (*PFN_glShaderSource)(GL_GLuint, GL_GLsizei, const GL_GLchar**, const GL_GLint*);
+typedef void (*PFN_glCompileShader)(GL_GLuint);
+typedef void (*PFN_glGetShaderiv)(GL_GLuint, GL_GLenum, GL_GLint*);
+typedef void (*PFN_glGetShaderInfoLog)(GL_GLuint, GL_GLsizei, GL_GLsizei*, GL_GLchar*);
+typedef void (*PFN_glDeleteShader)(GL_GLuint);
+typedef GL_GLuint (*PFN_glCreateProgram)();
+typedef void (*PFN_glAttachShader)(GL_GLuint, GL_GLuint);
+typedef void (*PFN_glLinkProgram)(GL_GLuint);
+typedef void (*PFN_glGetProgramiv)(GL_GLuint, GL_GLenum, GL_GLint*);
+typedef void (*PFN_glGetProgramInfoLog)(GL_GLuint, GL_GLsizei, GL_GLsizei*, GL_GLchar*);
+typedef void (*PFN_glDeleteProgram)(GL_GLuint);
+typedef void (*PFN_glUseProgram)(GL_GLuint);
+typedef GL_GLint (*PFN_glGetUniformLocation)(GL_GLuint, const GL_GLchar*);
+typedef void (*PFN_glUniform1ui)(GL_GLint, unsigned int);
+typedef void (*PFN_glGenBuffers)(GL_GLsizei, GL_GLuint*);
+typedef void (*PFN_glDeleteBuffers)(GL_GLsizei, const GL_GLuint*);
+typedef void (*PFN_glBindBuffer)(GL_GLenum, GL_GLuint);
+typedef void (*PFN_glBufferData)(GL_GLenum, GL_GLsizeiptr, const void*, GL_GLenum);
+typedef void (*PFN_glBindBufferBase)(GL_GLenum, GL_GLuint, GL_GLuint);
+typedef void (*PFN_glDispatchCompute)(GL_GLuint, GL_GLuint, GL_GLuint);
+typedef void (*PFN_glMemoryBarrier)(GL_GLbitfield);
+typedef void (*PFN_glGetBufferSubData)(GL_GLenum, GL_GLintptr, GL_GLsizeiptr, void*);
+typedef const GL_GLubyte* (*PFN_glGetString)(GL_GLenum);
+typedef void (*PFN_glGetIntegerv)(GL_GLenum, GL_GLint*);
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — L2 squared distance
+// Each invocation computes one (query, vector) pair.
+// local_size_x = queries axis, local_size_y = vectors axis.
+// ---------------------------------------------------------------------------
+static const char* s_glsl_l2_src = R"glsl(
+#version 430 core
+layout(local_size_x = 8, local_size_y = 8) in;
+
+layout(std430, binding = 0) readonly buffer QBuf { float q[]; };
+layout(std430, binding = 1) readonly buffer VBuf { float v[]; };
+layout(std430, binding = 2) writeonly buffer DBuf { float d[]; };
+
+uniform uint uNQ;
+uniform uint uNV;
+uniform uint uDim;
+
+void main() {
+    uint qi = gl_GlobalInvocationID.x;
+    uint vi = gl_GlobalInvocationID.y;
+    if (qi >= uNQ || vi >= uNV) return;
+    float sum = 0.0;
+    for (uint dd = 0u; dd < uDim; ++dd) {
+        float diff = q[qi * uDim + dd] - v[vi * uDim + dd];
+        sum += diff * diff;
+    }
+    d[qi * uNV + vi] = sum;
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// GLSL compute shader source — cosine distance (1 - cosine_similarity)
+// ---------------------------------------------------------------------------
+static const char* s_glsl_cosine_src = R"glsl(
+#version 430 core
+layout(local_size_x = 8, local_size_y = 8) in;
+
+layout(std430, binding = 0) readonly buffer QBuf { float q[]; };
+layout(std430, binding = 1) readonly buffer VBuf { float v[]; };
+layout(std430, binding = 2) writeonly buffer DBuf { float d[]; };
+
+uniform uint uNQ;
+uniform uint uNV;
+uniform uint uDim;
+
+void main() {
+    uint qi = gl_GlobalInvocationID.x;
+    uint vi = gl_GlobalInvocationID.y;
+    if (qi >= uNQ || vi >= uNV) return;
+    float dot = 0.0, nq = 0.0, nv = 0.0;
+    for (uint dd = 0u; dd < uDim; ++dd) {
+        float qv = q[qi * uDim + dd];
+        float vv = v[vi * uDim + dd];
+        dot += qv * vv;
+        nq  += qv * qv;
+        nv  += vv * vv;
+    }
+    float denom = sqrt(nq) * sqrt(nv);
+    d[qi * uNV + vi] = (denom > 1e-10) ? (1.0 - dot / denom) : 1.0;
+}
+)glsl";
+
+// ---------------------------------------------------------------------------
+// Platform dynamic-library helpers
+// ---------------------------------------------------------------------------
+
+static void* openLib(const char* name) {
+#if defined(__linux__) || defined(__unix__)
+    return dlopen(name, RTLD_LAZY | RTLD_LOCAL);
+#elif defined(_WIN32)
+    return static_cast<void*>(LoadLibraryA(name));
+#else
+    (void)name;
+    return nullptr;
+#endif
+}
+
+static void closeLib(void* lib) {
+    if (!lib) return;
+#if defined(__linux__) || defined(__unix__)
+    dlclose(lib);
+#elif defined(_WIN32)
+    FreeLibrary(static_cast<HMODULE>(lib));
+#endif
+}
+
+static void* libSym(void* lib, const char* sym) {
+    if (!lib) return nullptr;
+#if defined(__linux__) || defined(__unix__)
+    return dlsym(lib, sym);
+#elif defined(_WIN32)
+    return reinterpret_cast<void*>(GetProcAddress(static_cast<HMODULE>(lib), sym));
+#else
+    (void)sym;
+    return nullptr;
+#endif
+}
+
+} // anonymous namespace
+
+#endif // THEMIS_ENABLE_OPENGL
+
+// ---------------------------------------------------------------------------
+// OpenGLVectorBackend::OpenGLVectorBackendImpl
+// Holds all EGL/GL handles and function pointers. When gpuAvailable_ is
+// false the impl runs pure-CPU kernels so that the backend always succeeds
+// after initialize() (mirrors the VulkanGeoBackend CPU-fallback pattern).
+// ---------------------------------------------------------------------------
+
+class OpenGLVectorBackend::OpenGLVectorBackendImpl {
+public:
+#ifdef THEMIS_ENABLE_OPENGL
+    // Library handles
+    void* libEGL_ = nullptr;
+    void* libGL_  = nullptr;
+
+    // EGL handles
+    EGL_Display eglDisplay_ = nullptr;
+    EGL_Context eglContext_ = nullptr;
+
+    // EGL function pointers
+    PFN_eglGetDisplay       pfnEglGetDisplay       = nullptr;
+    PFN_eglInitialize       pfnEglInitialize       = nullptr;
+    PFN_eglBindAPI          pfnEglBindAPI          = nullptr;
+    PFN_eglChooseConfig     pfnEglChooseConfig     = nullptr;
+    PFN_eglCreateContext    pfnEglCreateContext    = nullptr;
+    PFN_eglMakeCurrent      pfnEglMakeCurrent      = nullptr;
+    PFN_eglDestroyContext   pfnEglDestroyContext   = nullptr;
+    PFN_eglTerminate        pfnEglTerminate        = nullptr;
+    PFN_eglGetProcAddress   pfnEglGetProcAddress   = nullptr;
+
+    // GL function pointers
+    PFN_glCreateShader      pfnGlCreateShader      = nullptr;
+    PFN_glShaderSource      pfnGlShaderSource      = nullptr;
+    PFN_glCompileShader     pfnGlCompileShader     = nullptr;
+    PFN_glGetShaderiv       pfnGlGetShaderiv       = nullptr;
+    PFN_glGetShaderInfoLog  pfnGlGetShaderInfoLog  = nullptr;
+    PFN_glDeleteShader      pfnGlDeleteShader      = nullptr;
+    PFN_glCreateProgram     pfnGlCreateProgram     = nullptr;
+    PFN_glAttachShader      pfnGlAttachShader      = nullptr;
+    PFN_glLinkProgram       pfnGlLinkProgram       = nullptr;
+    PFN_glGetProgramiv      pfnGlGetProgramiv      = nullptr;
+    PFN_glGetProgramInfoLog pfnGlGetProgramInfoLog = nullptr;
+    PFN_glDeleteProgram     pfnGlDeleteProgram     = nullptr;
+    PFN_glUseProgram        pfnGlUseProgram        = nullptr;
+    PFN_glGetUniformLocation pfnGlGetUniformLocation = nullptr;
+    PFN_glUniform1ui        pfnGlUniform1ui        = nullptr;
+    PFN_glGenBuffers        pfnGlGenBuffers        = nullptr;
+    PFN_glDeleteBuffers     pfnGlDeleteBuffers     = nullptr;
+    PFN_glBindBuffer        pfnGlBindBuffer        = nullptr;
+    PFN_glBufferData        pfnGlBufferData        = nullptr;
+    PFN_glBindBufferBase    pfnGlBindBufferBase    = nullptr;
+    PFN_glDispatchCompute   pfnGlDispatchCompute   = nullptr;
+    PFN_glMemoryBarrier     pfnGlMemoryBarrier     = nullptr;
+    PFN_glGetBufferSubData  pfnGlGetBufferSubData  = nullptr;
+    PFN_glGetString         pfnGlGetString         = nullptr;
+    PFN_glGetIntegerv       pfnGlGetIntegerv       = nullptr;
+
+    // Compiled compute programs
+    GL_GLuint l2Program_     = 0;
+    GL_GLuint cosineProgram_ = 0;
+
+    // Device info
+    std::string rendererName_;
+    std::string vendorName_;
+    int glMajor_ = 0;
+    int glMinor_ = 0;
+
+    bool gpuAvailable_ = false;  // true → GL context + shaders ready
+    bool cpuFallback_  = false;  // true → use CPU kernels
+
+    // ---- Library loading -----------------------------------------------
+
+    bool loadEGLLibrary() {
+#if defined(__linux__) || defined(__unix__)
+        libEGL_ = openLib("libEGL.so.1");
+        if (!libEGL_) libEGL_ = openLib("libEGL.so");
+        libGL_  = openLib("libGL.so.1");
+        if (!libGL_)  libGL_  = openLib("libGL.so");
+#elif defined(_WIN32)
+        libGL_  = openLib("OpenGL32.dll");
+        // On Windows, ANGLE provides EGL; try common install locations
+        libEGL_ = openLib("libEGL.dll");
+        if (!libEGL_) libEGL_ = openLib("EGL.dll");
+#endif
+        return libEGL_ != nullptr;
+    }
+
+    bool loadEGLFunctions() {
+        auto s = [&](const char* n) { return libSym(libEGL_, n); };
+        pfnEglGetProcAddress   = reinterpret_cast<PFN_eglGetProcAddress>  (s("eglGetProcAddress"));
+        pfnEglGetDisplay       = reinterpret_cast<PFN_eglGetDisplay>      (s("eglGetDisplay"));
+        pfnEglInitialize       = reinterpret_cast<PFN_eglInitialize>      (s("eglInitialize"));
+        pfnEglBindAPI          = reinterpret_cast<PFN_eglBindAPI>         (s("eglBindAPI"));
+        pfnEglChooseConfig     = reinterpret_cast<PFN_eglChooseConfig>    (s("eglChooseConfig"));
+        pfnEglCreateContext    = reinterpret_cast<PFN_eglCreateContext>   (s("eglCreateContext"));
+        pfnEglMakeCurrent      = reinterpret_cast<PFN_eglMakeCurrent>     (s("eglMakeCurrent"));
+        pfnEglDestroyContext   = reinterpret_cast<PFN_eglDestroyContext>  (s("eglDestroyContext"));
+        pfnEglTerminate        = reinterpret_cast<PFN_eglTerminate>       (s("eglTerminate"));
+        return pfnEglGetDisplay && pfnEglInitialize && pfnEglBindAPI &&
+               pfnEglChooseConfig && pfnEglCreateContext && pfnEglMakeCurrent &&
+               pfnEglDestroyContext && pfnEglTerminate;
+    }
+
+    void* glProc(const char* name) {
+        void* fn = nullptr;
+        if (pfnEglGetProcAddress) fn = pfnEglGetProcAddress(name);
+        if (!fn && libGL_) fn = libSym(libGL_, name);
+        return fn;
+    }
+
+    bool loadGLFunctions() {
+        auto l = [&](const char* n) { return glProc(n); };
+        pfnGlCreateShader       = reinterpret_cast<PFN_glCreateShader>     (l("glCreateShader"));
+        pfnGlShaderSource       = reinterpret_cast<PFN_glShaderSource>     (l("glShaderSource"));
+        pfnGlCompileShader      = reinterpret_cast<PFN_glCompileShader>    (l("glCompileShader"));
+        pfnGlGetShaderiv        = reinterpret_cast<PFN_glGetShaderiv>      (l("glGetShaderiv"));
+        pfnGlGetShaderInfoLog   = reinterpret_cast<PFN_glGetShaderInfoLog> (l("glGetShaderInfoLog"));
+        pfnGlDeleteShader       = reinterpret_cast<PFN_glDeleteShader>     (l("glDeleteShader"));
+        pfnGlCreateProgram      = reinterpret_cast<PFN_glCreateProgram>    (l("glCreateProgram"));
+        pfnGlAttachShader       = reinterpret_cast<PFN_glAttachShader>     (l("glAttachShader"));
+        pfnGlLinkProgram        = reinterpret_cast<PFN_glLinkProgram>      (l("glLinkProgram"));
+        pfnGlGetProgramiv       = reinterpret_cast<PFN_glGetProgramiv>     (l("glGetProgramiv"));
+        pfnGlGetProgramInfoLog  = reinterpret_cast<PFN_glGetProgramInfoLog>(l("glGetProgramInfoLog"));
+        pfnGlDeleteProgram      = reinterpret_cast<PFN_glDeleteProgram>    (l("glDeleteProgram"));
+        pfnGlUseProgram         = reinterpret_cast<PFN_glUseProgram>       (l("glUseProgram"));
+        pfnGlGetUniformLocation = reinterpret_cast<PFN_glGetUniformLocation>(l("glGetUniformLocation"));
+        pfnGlUniform1ui         = reinterpret_cast<PFN_glUniform1ui>       (l("glUniform1ui"));
+        pfnGlGenBuffers         = reinterpret_cast<PFN_glGenBuffers>       (l("glGenBuffers"));
+        pfnGlDeleteBuffers      = reinterpret_cast<PFN_glDeleteBuffers>    (l("glDeleteBuffers"));
+        pfnGlBindBuffer         = reinterpret_cast<PFN_glBindBuffer>       (l("glBindBuffer"));
+        pfnGlBufferData         = reinterpret_cast<PFN_glBufferData>       (l("glBufferData"));
+        pfnGlBindBufferBase     = reinterpret_cast<PFN_glBindBufferBase>   (l("glBindBufferBase"));
+        pfnGlDispatchCompute    = reinterpret_cast<PFN_glDispatchCompute>  (l("glDispatchCompute"));
+        pfnGlMemoryBarrier      = reinterpret_cast<PFN_glMemoryBarrier>    (l("glMemoryBarrier"));
+        pfnGlGetBufferSubData   = reinterpret_cast<PFN_glGetBufferSubData> (l("glGetBufferSubData"));
+        pfnGlGetString          = reinterpret_cast<PFN_glGetString>        (l("glGetString"));
+        pfnGlGetIntegerv        = reinterpret_cast<PFN_glGetIntegerv>      (l("glGetIntegerv"));
+        // Minimum set needed for compute dispatch
+        return pfnGlCreateShader && pfnGlShaderSource && pfnGlCompileShader &&
+               pfnGlGetShaderiv && pfnGlDeleteShader && pfnGlCreateProgram &&
+               pfnGlAttachShader && pfnGlLinkProgram && pfnGlGetProgramiv &&
+               pfnGlDeleteProgram && pfnGlUseProgram && pfnGlGetUniformLocation &&
+               pfnGlUniform1ui && pfnGlGenBuffers && pfnGlDeleteBuffers &&
+               pfnGlBindBuffer && pfnGlBufferData && pfnGlBindBufferBase &&
+               pfnGlDispatchCompute && pfnGlMemoryBarrier && pfnGlGetBufferSubData;
+    }
+
+    // ---- EGL context creation ------------------------------------------
+
+    bool createEGLContext() {
+        if (!pfnEglGetDisplay) return false;
+        eglDisplay_ = pfnEglGetDisplay(nullptr);
+        if (eglDisplay_ == k_EGL_NO_DISPLAY) return false;
+
+        EGL_Int major = 0, minor = 0;
+        if (!pfnEglInitialize(eglDisplay_, &major, &minor)) {
+            eglDisplay_ = nullptr;
+            return false;
+        }
+        if (!pfnEglBindAPI(k_EGL_OPENGL_API)) {
+            pfnEglTerminate(eglDisplay_);
+            eglDisplay_ = nullptr;
+            return false;
+        }
+
+        const EGL_Int configAttribs[] = {
+            k_EGL_RENDERABLE_TYPE, k_EGL_OPENGL_BIT,
+            k_EGL_NONE
+        };
+        EGL_Config cfg = nullptr;
+        EGL_Int numCfg = 0;
+        if (!pfnEglChooseConfig(eglDisplay_, configAttribs, &cfg, 1, &numCfg)
+            || numCfg == 0) {
+            pfnEglTerminate(eglDisplay_);
+            eglDisplay_ = nullptr;
+            return false;
+        }
+
+        // Request OpenGL 4.3 Core Profile (required for compute shaders)
+        const EGL_Int ctxAttribs[] = {
+            k_EGL_CONTEXT_MAJOR_VERSION, 4,
+            k_EGL_CONTEXT_MINOR_VERSION, 3,
+            k_EGL_CONTEXT_OPENGL_PROFILE_MASK, k_EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
+            k_EGL_NONE
+        };
+        eglContext_ = pfnEglCreateContext(eglDisplay_, cfg,
+                                          k_EGL_NO_CONTEXT, ctxAttribs);
+        if (eglContext_ == k_EGL_NO_CONTEXT) {
+            pfnEglTerminate(eglDisplay_);
+            eglDisplay_ = nullptr;
+            return false;
+        }
+
+        // Surfaceless context (EGL_KHR_surfaceless_context / EGL 1.5)
+        if (!pfnEglMakeCurrent(eglDisplay_,
+                               k_EGL_NO_SURFACE, k_EGL_NO_SURFACE,
+                               eglContext_)) {
+            pfnEglDestroyContext(eglDisplay_, eglContext_);
+            eglContext_ = nullptr;
+            pfnEglTerminate(eglDisplay_);
+            eglDisplay_ = nullptr;
+            return false;
+        }
+        return true;
+    }
+
+    // ---- Shader compilation / linking ----------------------------------
+
+    GL_GLuint compileShader(const char* src) {
+        GL_GLuint shader = pfnGlCreateShader(k_COMPUTE_SHADER);
+        const GL_GLchar* srcs[] = { src };
+        pfnGlShaderSource(shader, 1, srcs, nullptr);
+        pfnGlCompileShader(shader);
+
+        GL_GLint status = 0;
+        pfnGlGetShaderiv(shader, k_COMPILE_STATUS, &status);
+        if (!status) {
+            GL_GLint logLen = 0;
+            pfnGlGetShaderiv(shader, k_INFO_LOG_LENGTH, &logLen);
+            if (logLen > 0) {
+                std::vector<char> log(static_cast<size_t>(logLen));
+                pfnGlGetShaderInfoLog(shader, logLen, nullptr, log.data());
+                std::cerr << "[OpenGL] Shader compile error: " << log.data() << std::endl;
+            }
+            pfnGlDeleteShader(shader);
+            return 0;
+        }
+        return shader;
+    }
+
+    GL_GLuint linkProgram(GL_GLuint shader) {
+        GL_GLuint prog = pfnGlCreateProgram();
+        pfnGlAttachShader(prog, shader);
+        pfnGlLinkProgram(prog);
+
+        GL_GLint status = 0;
+        pfnGlGetProgramiv(prog, k_LINK_STATUS, &status);
+        if (!status) {
+            GL_GLint logLen = 0;
+            pfnGlGetProgramiv(prog, k_INFO_LOG_LENGTH, &logLen);
+            if (logLen > 0) {
+                std::vector<char> log(static_cast<size_t>(logLen));
+                pfnGlGetProgramInfoLog(prog, logLen, nullptr, log.data());
+                std::cerr << "[OpenGL] Program link error: " << log.data() << std::endl;
+            }
+            pfnGlDeleteProgram(prog);
+            return 0;
+        }
+        return prog;
+    }
+
+    bool createShaderPrograms() {
+        GL_GLuint l2Shader = compileShader(s_glsl_l2_src);
+        if (!l2Shader) return false;
+        l2Program_ = linkProgram(l2Shader);
+        pfnGlDeleteShader(l2Shader);
+        if (!l2Program_) return false;
+
+        GL_GLuint cosShader = compileShader(s_glsl_cosine_src);
+        if (!cosShader) { pfnGlDeleteProgram(l2Program_); l2Program_ = 0; return false; }
+        cosineProgram_ = linkProgram(cosShader);
+        pfnGlDeleteShader(cosShader);
+        if (!cosineProgram_) { pfnGlDeleteProgram(l2Program_); l2Program_ = 0; return false; }
+
+        return true;
+    }
+
+    // ---- GPU dispatch --------------------------------------------------
+
+    // Dispatch a compute shader; SSBOs are created internally.
+    // The output buffer is read back synchronously after glMemoryBarrier.
+    std::vector<float> gpuDispatch(
+        GL_GLuint program,
+        const float* queries, uint32_t nq,
+        const float* vectors, uint32_t nv,
+        uint32_t dim)
+    {
+        const GL_GLsizeiptr qBytes = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(nq) * dim * sizeof(float));
+        const GL_GLsizeiptr vBytes = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(nv) * dim * sizeof(float));
+        const GL_GLsizeiptr dBytes = static_cast<GL_GLsizeiptr>(
+            static_cast<size_t>(nq) * nv  * sizeof(float));
+
+        GL_GLuint bufs[3] = {0, 0, 0};
+        pfnGlGenBuffers(3, bufs);
+
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[0]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, qBytes, queries, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[1]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, vBytes, vectors, k_STREAM_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[2]);
+        pfnGlBufferData(k_SHADER_STORAGE_BUFFER, dBytes, nullptr, k_DYNAMIC_COPY);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 0, bufs[0]);
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 1, bufs[1]);
+        pfnGlBindBufferBase(k_SHADER_STORAGE_BUFFER, 2, bufs[2]);
+
+        pfnGlUseProgram(program);
+        GL_GLint locNQ  = pfnGlGetUniformLocation(program, "uNQ");
+        GL_GLint locNV  = pfnGlGetUniformLocation(program, "uNV");
+        GL_GLint locDim = pfnGlGetUniformLocation(program, "uDim");
+        if (locNQ  >= 0) pfnGlUniform1ui(locNQ,  nq);
+        if (locNV  >= 0) pfnGlUniform1ui(locNV,  nv);
+        if (locDim >= 0) pfnGlUniform1ui(locDim, dim);
+
+        const GL_GLuint gx = (nq + 7u) / 8u;
+        const GL_GLuint gy = (nv + 7u) / 8u;
+        pfnGlDispatchCompute(gx, gy, 1u);
+        pfnGlMemoryBarrier(k_SHADER_STORAGE_BARRIER_BIT);
+
+        std::vector<float> out(static_cast<size_t>(nq) * nv);
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, bufs[2]);
+        pfnGlGetBufferSubData(k_SHADER_STORAGE_BUFFER, 0, dBytes, out.data());
+        pfnGlBindBuffer(k_SHADER_STORAGE_BUFFER, 0);
+
+        pfnGlDeleteBuffers(3, bufs);
+        return out;
+    }
+
+    // ---- CPU fallback kernels ------------------------------------------
+
+    static std::vector<float> cpuL2(
+        const float* queries, size_t nq, size_t dim,
+        const float* vectors, size_t nv)
+    {
+        std::vector<float> out(nq * nv);
+        for (size_t q = 0; q < nq; ++q) {
+            for (size_t v = 0; v < nv; ++v) {
+                float sum = 0.f;
+                for (size_t d = 0; d < dim; ++d) {
+                    float diff = queries[q * dim + d] - vectors[v * dim + d];
+                    sum += diff * diff;
+                }
+                out[q * nv + v] = sum;
+            }
+        }
+        return out;
+    }
+
+    static std::vector<float> cpuCosine(
+        const float* queries, size_t nq, size_t dim,
+        const float* vectors, size_t nv)
+    {
+        constexpr float kEps = 1e-10f;
+        std::vector<float> out(nq * nv);
+        for (size_t q = 0; q < nq; ++q) {
+            for (size_t v = 0; v < nv; ++v) {
+                float dot = 0.f, nqNorm = 0.f, nvNorm = 0.f;
+                for (size_t d = 0; d < dim; ++d) {
+                    float qv = queries[q * dim + d];
+                    float vv = vectors[v * dim + d];
+                    dot   += qv * vv;
+                    nqNorm += qv * qv;
+                    nvNorm += vv * vv;
+                }
+                float denom = std::sqrt(nqNorm) * std::sqrt(nvNorm);
+                out[q * nv + v] = (denom > kEps) ? 1.f - dot / denom : 1.f;
+            }
+        }
+        return out;
+    }
+
+    // ---- Cleanup -------------------------------------------------------
+
+    void cleanup() {
+        if (gpuAvailable_) {
+            if (l2Program_)     { pfnGlDeleteProgram(l2Program_);     l2Program_ = 0; }
+            if (cosineProgram_) { pfnGlDeleteProgram(cosineProgram_); cosineProgram_ = 0; }
+        }
+        if (eglContext_ && pfnEglMakeCurrent) {
+            pfnEglMakeCurrent(eglDisplay_,
+                              k_EGL_NO_SURFACE, k_EGL_NO_SURFACE,
+                              k_EGL_NO_CONTEXT);
+        }
+        if (eglContext_ && pfnEglDestroyContext)
+            pfnEglDestroyContext(eglDisplay_, eglContext_);
+        if (eglDisplay_ && pfnEglTerminate)
+            pfnEglTerminate(eglDisplay_);
+        eglContext_ = nullptr;
+        eglDisplay_ = nullptr;
+        closeLib(libEGL_); libEGL_ = nullptr;
+        closeLib(libGL_);  libGL_  = nullptr;
+        gpuAvailable_ = false;
+        cpuFallback_  = false;
+    }
+#else
+    // Stub members so the class compiles without THEMIS_ENABLE_OPENGL
+    bool gpuAvailable_ = false;
+    bool cpuFallback_  = false;
+    std::string rendererName_;
+    std::string vendorName_;
+    int glMajor_ = 0;
+    int glMinor_ = 0;
+    void cleanup() {}
+
+    static std::vector<float> cpuL2(
+        const float*, size_t, size_t, const float*, size_t) { return {}; }
+    static std::vector<float> cpuCosine(
+        const float*, size_t, size_t, const float*, size_t) { return {}; }
+#endif
+};
+
+// ============================================================================
+// OpenGL Vector Backend — public interface
+// ============================================================================
+
+OpenGLVectorBackend::OpenGLVectorBackend()
+    : initialized_(false), impl_(std::make_unique<OpenGLVectorBackendImpl>()) {}
 
 OpenGLVectorBackend::~OpenGLVectorBackend() {
     shutdown();
@@ -1019,8 +1651,54 @@ OpenGLVectorBackend::~OpenGLVectorBackend() {
 
 bool OpenGLVectorBackend::isAvailable() const noexcept {
 #ifdef THEMIS_ENABLE_OPENGL
-    // Check if OpenGL compute shaders are available (4.3+)
-    return false; // Stub: not implemented yet
+    // Probe EGL availability by attempting a minimal OpenGL 4.3 context.
+    // This is a one-shot check; we open and immediately close the library.
+    void* lib = openLib("libEGL.so.1");
+    if (!lib) lib = openLib("libEGL.so");
+    if (!lib) return false;
+
+    auto fnGetDisplay    = reinterpret_cast<PFN_eglGetDisplay>  (libSym(lib, "eglGetDisplay"));
+    auto fnInit          = reinterpret_cast<PFN_eglInitialize>  (libSym(lib, "eglInitialize"));
+    auto fnBindAPI       = reinterpret_cast<PFN_eglBindAPI>     (libSym(lib, "eglBindAPI"));
+    auto fnChooseConfig  = reinterpret_cast<PFN_eglChooseConfig>(libSym(lib, "eglChooseConfig"));
+    auto fnCreateContext = reinterpret_cast<PFN_eglCreateContext>(libSym(lib, "eglCreateContext"));
+    auto fnDestroyCtx    = reinterpret_cast<PFN_eglDestroyContext>(libSym(lib, "eglDestroyContext"));
+    auto fnTerminate     = reinterpret_cast<PFN_eglTerminate>   (libSym(lib, "eglTerminate"));
+
+    bool ok = false;
+    if (fnGetDisplay && fnInit && fnBindAPI && fnChooseConfig &&
+        fnCreateContext && fnDestroyCtx && fnTerminate) {
+
+        EGL_Display dpy = fnGetDisplay(nullptr);
+        if (dpy != k_EGL_NO_DISPLAY) {
+            EGL_Int major = 0, minor = 0;
+            if (fnInit(dpy, &major, &minor) && fnBindAPI(k_EGL_OPENGL_API)) {
+                const EGL_Int cfgAttribs[] = {
+                    k_EGL_RENDERABLE_TYPE, k_EGL_OPENGL_BIT, k_EGL_NONE
+                };
+                EGL_Config cfg = nullptr;
+                EGL_Int n = 0;
+                if (fnChooseConfig(dpy, cfgAttribs, &cfg, 1, &n) && n > 0) {
+                    const EGL_Int ctxAttribs[] = {
+                        k_EGL_CONTEXT_MAJOR_VERSION, 4,
+                        k_EGL_CONTEXT_MINOR_VERSION, 3,
+                        k_EGL_CONTEXT_OPENGL_PROFILE_MASK,
+                        k_EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
+                        k_EGL_NONE
+                    };
+                    EGL_Context ctx = fnCreateContext(dpy, cfg,
+                                                      k_EGL_NO_CONTEXT, ctxAttribs);
+                    if (ctx != k_EGL_NO_CONTEXT) {
+                        ok = true;
+                        fnDestroyCtx(dpy, ctx);
+                    }
+                }
+            }
+            fnTerminate(dpy);
+        }
+    }
+    closeLib(lib);
+    return ok;
 #else
     return false;
 #endif
@@ -1029,19 +1707,61 @@ bool OpenGLVectorBackend::isAvailable() const noexcept {
 BackendCapabilities OpenGLVectorBackend::getCapabilities() const {
     BackendCapabilities caps;
 #ifdef THEMIS_ENABLE_OPENGL
-    caps.supportsVectorOps = true;
+    caps.supportsVectorOps       = true;
     caps.supportsBatchProcessing = true;
-    caps.supportsAsync = false;  // OpenGL compute is typically synchronous
-    caps.deviceName = "OpenGL Compute (Stub)";
+    caps.supportsAsync           = false;  // OpenGL compute is synchronous
+    caps.supportedPrecisions     = PrecisionMode::FP32;
+    caps.supportedMetrics        = metricBit(DistanceMetric::L2)
+                                 | metricBit(DistanceMetric::COSINE);
+    if (initialized_ && impl_) {
+        caps.deviceName = impl_->rendererName_.empty()
+                        ? "OpenGL Compute" : impl_->rendererName_;
+        caps.vendorName = impl_->vendorName_;
+    } else {
+        caps.deviceName = "OpenGL Compute";
+    }
 #endif
     return caps;
 }
 
 bool OpenGLVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_OPENGL
-    // Initialize OpenGL context
-    initialized_ = false; // Stub
-    return initialized_;
+    if (initialized_) return true;
+    if (!impl_) impl_ = std::make_unique<OpenGLVectorBackendImpl>();
+
+    // Attempt to create a headless OpenGL 4.3 context via EGL.
+    // On failure we activate the CPU fallback so the backend remains usable.
+    if (impl_->loadEGLLibrary() && impl_->loadEGLFunctions() &&
+        impl_->createEGLContext() && impl_->loadGLFunctions() &&
+        impl_->createShaderPrograms()) {
+
+        // Retrieve device info
+        if (impl_->pfnGlGetString) {
+            const GL_GLubyte* r = impl_->pfnGlGetString(k_RENDERER);
+            const GL_GLubyte* v = impl_->pfnGlGetString(k_VENDOR);
+            if (r) impl_->rendererName_ = reinterpret_cast<const char*>(r);
+            if (v) impl_->vendorName_   = reinterpret_cast<const char*>(v);
+        }
+        if (impl_->pfnGlGetIntegerv) {
+            impl_->pfnGlGetIntegerv(k_MAJOR_VERSION, &impl_->glMajor_);
+            impl_->pfnGlGetIntegerv(k_MINOR_VERSION, &impl_->glMinor_);
+        }
+        impl_->gpuAvailable_ = true;
+        std::cout << "[OpenGL] Initialized: " << impl_->rendererName_
+                  << " (GL " << impl_->glMajor_ << "." << impl_->glMinor_ << ")"
+                  << std::endl;
+    } else {
+        // No EGL / GL 4.3+ available on this machine; use CPU kernels.
+        // This mirrors VulkanGeoBackend which initializes successfully even
+        // without a Vulkan ICD and uses CPU fallback implementations.
+        std::cerr << "[OpenGL] EGL/GL 4.3+ not available; running in CPU fallback mode"
+                  << std::endl;
+        impl_->cpuFallback_ = true;
+    }
+
+    initialized_ = true;
+    clearError();
+    return true;
 #else
     return false;
 #endif
@@ -1049,34 +1769,152 @@ bool OpenGLVectorBackend::initialize() {
 
 void OpenGLVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_OPENGL
-    if (initialized_) {
-        // Cleanup OpenGL resources
+    if (initialized_ && impl_) {
+        impl_->cleanup();
         initialized_ = false;
     }
 #endif
 }
 
 std::vector<float> OpenGLVectorBackend::computeDistances(
-    const float* /*queries*/,
-    size_t /*numQueries*/,
-    size_t /*dim*/,
-    const float* /*vectors*/,
-    size_t /*numVectors*/,
-    bool /*useL2*/
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    bool useL2
 ) {
-    return {}; // Stub
+#ifdef THEMIS_ENABLE_OPENGL
+    if (!initialized_ || !impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGL",
+            "OpenGL backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGL", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGL", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, and dim must all be > 0"));
+        return {};
+    }
+
+    try {
+        if (impl_->gpuAvailable_) {
+            GL_GLuint prog = useL2 ? impl_->l2Program_ : impl_->cosineProgram_;
+            auto result = impl_->gpuDispatch(
+                prog, queries, static_cast<uint32_t>(numQueries),
+                vectors, static_cast<uint32_t>(numVectors),
+                static_cast<uint32_t>(dim));
+            clearError();
+            return result;
+        } else {
+            // CPU fallback
+            auto result = useL2
+                ? OpenGLVectorBackendImpl::cpuL2(queries, numQueries, dim, vectors, numVectors)
+                : OpenGLVectorBackendImpl::cpuCosine(queries, numQueries, dim, vectors, numVectors);
+            clearError();
+            return result;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "[OpenGL] computeDistances error: " << e.what() << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "OpenGL",
+            std::string("Dispatch failed: ") + e.what(),
+            "Reduce batch size or check GPU memory"));
+        return {};
+    }
+#else
+    return {};
+#endif
 }
 
 std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchKnnSearch(
-    const float* /*queries*/,
-    size_t /*numQueries*/,
-    size_t /*dim*/,
-    const float* /*vectors*/,
-    size_t /*numVectors*/,
-    size_t /*k*/,
-    bool /*useL2*/
+    const float* queries,
+    size_t numQueries,
+    size_t dim,
+    const float* vectors,
+    size_t numVectors,
+    size_t k,
+    bool useL2
 ) {
-    return {}; // Stub
+#ifdef THEMIS_ENABLE_OPENGL
+    if (!initialized_ || !impl_) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendNotInitialized,
+            "OpenGL",
+            "OpenGL backend not initialized",
+            "Call initialize() before using the backend"));
+        return {};
+    }
+    if (queries == nullptr || vectors == nullptr) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGL", AccelerationErrorCode::InvalidInputShape,
+            "queries and vectors pointers must be non-null"));
+        return {};
+    }
+    if (numQueries == 0 || numVectors == 0 || dim == 0 || k == 0) {
+        setError(ErrorContextHelpers::createValidationError(
+            "OpenGL", AccelerationErrorCode::InvalidInputShape,
+            "numQueries, numVectors, dim, and k must all be > 0"));
+        return {};
+    }
+
+    // Compute pairwise distances (GPU or CPU fallback)
+    std::vector<float> distances;
+    try {
+        if (impl_->gpuAvailable_) {
+            GL_GLuint prog = useL2 ? impl_->l2Program_ : impl_->cosineProgram_;
+            distances = impl_->gpuDispatch(
+                prog, queries, static_cast<uint32_t>(numQueries),
+                vectors, static_cast<uint32_t>(numVectors),
+                static_cast<uint32_t>(dim));
+        } else {
+            distances = useL2
+                ? OpenGLVectorBackendImpl::cpuL2(queries, numQueries, dim, vectors, numVectors)
+                : OpenGLVectorBackendImpl::cpuCosine(queries, numQueries, dim, vectors, numVectors);
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "[OpenGL] batchKnnSearch dispatch error: " << e.what() << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::AllocationFailed,
+            "OpenGL",
+            std::string("Dispatch failed: ") + e.what(),
+            "Reduce batch size or check GPU memory"));
+        return {};
+    }
+
+    // CPU top-k selection from the distance matrix
+    // Clamp k to available vectors to prevent out-of-bounds indexing
+    const size_t effectiveK = std::min(k, numVectors);
+    std::vector<std::vector<std::pair<uint32_t, float>>> results(numQueries);
+    for (size_t q = 0; q < numQueries; ++q) {
+        const float* row = distances.data() + q * numVectors;
+        std::vector<std::pair<float, uint32_t>> row_pairs(numVectors);
+        for (size_t v = 0; v < numVectors; ++v)
+            row_pairs[v] = {row[v], static_cast<uint32_t>(v)};
+
+        std::partial_sort(row_pairs.begin(),
+                          row_pairs.begin() + static_cast<std::ptrdiff_t>(effectiveK),
+                          row_pairs.end());
+
+        results[q].resize(effectiveK);
+        for (size_t i = 0; i < effectiveK; ++i)
+            results[q][i] = {row_pairs[i].second, row_pairs[i].first};
+    }
+    clearError();
+    return results;
+#else
+    return {};
+#endif
 }
 
 // ============================================================================

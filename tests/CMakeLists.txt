@@ -538,6 +538,19 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/test_acceleration_dispatch.cpp
 )
 
+# Re-include the OpenGL backend test.
+# test_opengl_backend.cpp exercises:
+#  - Identity (name, type, capabilities) — always compiled
+#  - isAvailable() probe — non-crashing regardless of GL hardware
+#  - Computation correctness via CPU fallback path (when compiled with
+#    THEMIS_ENABLE_OPENGL but no EGL/GL 4.3+ driver present in CI)
+#  - Input validation (null pointers, zero dims, zero k)
+#  - Large-batch smoke test
+# No GPU hardware is required; the CPU-fallback path activates automatically.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_opengl_backend.cpp
+)
+
 # Re-include shader integrity test excluded by ".*test_shader_integrity\\.cpp$".
 # shader_integrity.cpp uses only OpenSSL SHA-256 (no GPU dependency) and is
 # now compiled unconditionally as a core acceleration source.  The test covers:
