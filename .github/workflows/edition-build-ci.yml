@@ -35,7 +35,7 @@ jobs:
         with:
           cc:  gcc-12
           cxx: g++-12
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev
 
       - name: Configure and build (${{ inputs.edition }} edition)
         uses: ./.github/actions/configure-themis
