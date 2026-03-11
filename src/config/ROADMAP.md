@@ -63,7 +63,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (539 lines) (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
-- [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675)
+- [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675); migration scanner throughput (10K files < 5 s) — `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K)
 - [x] Security audit (path traversal prevention, symlink escape hardening)
 - [x] Documentation complete (`src/config/README.md`, `src/config/ARCHITECTURE.md`, `src/config/ROADMAP.md`, `src/config/FUTURE_ENHANCEMENTS.md`)
 - [x] API stability guaranteed for ConfigPathResolver
