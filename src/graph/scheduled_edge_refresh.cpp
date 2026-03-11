@@ -20,6 +20,7 @@
 
 #include "graph/scheduled_edge_refresh.h"
 
+#include <nlohmann/json.hpp>
 #include <algorithm>
 #include <cmath>
 #include <chrono>
@@ -163,6 +164,11 @@ void ScheduledGraphEdgeRefreshEngine::setPolicy(const RefreshPolicy& policy) {
     validatePolicy(policy);
     std::lock_guard<std::mutex> lock(policy_mutex_);
     policy_ = policy;
+}
+
+void ScheduledGraphEdgeRefreshEngine::setChangefeed(std::shared_ptr<Changefeed> changefeed) {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    changefeed_ = std::move(changefeed);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -310,6 +316,8 @@ EdgeScore ScheduledGraphEdgeRefreshEngine::scoreEdge(
         throw std::invalid_argument("RefreshPolicy: decay_half_life_seconds must be >= 0");
     if (policy.top_k_candidates == 0)
         throw std::invalid_argument("RefreshPolicy: top_k_candidates must be > 0");
+    if (policy.anomaly_threshold_removal_rate < 0.0f || policy.anomaly_threshold_removal_rate > 1.0f)
+        throw std::invalid_argument("RefreshPolicy: anomaly_threshold_removal_rate must be in [0, 1]");
 }
 
 void ScheduledGraphEdgeRefreshEngine::schedulerLoop() {
@@ -450,6 +458,20 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
         post_avg /= static_cast<double>(retained);
         stats.avg_relevance_retained = post_avg;
         stats.avg_relevance_improvement = post_avg - pre_avg;
+    }
+
+    // Anomaly detection: compute removal rate and flag if above threshold.
+    if (stats.edges_evaluated > 0) {
+        stats.removal_rate = static_cast<double>(stats.edges_removed) /
+                             static_cast<double>(stats.edges_evaluated);
+    }
+    if (policy.anomaly_threshold_removal_rate > 0.0f &&
+        stats.removal_rate > static_cast<double>(policy.anomaly_threshold_removal_rate)) {
+        stats.anomaly_high_removal_rate = true;
+        spdlog::warn("[ScheduledEdgeRefresh] cycle {} – anomaly: removal rate {:.2f} "
+                     "exceeds threshold {:.2f}",
+                     cycle, stats.removal_rate,
+                     static_cast<double>(policy.anomaly_threshold_removal_rate));
     }
 
     auto t_end = std::chrono::steady_clock::now();
@@ -675,6 +697,32 @@ void ScheduledGraphEdgeRefreshEngine::appendAudit(RefreshAuditEntry entry) {
     if (audit_trail_.size() >= kMaxAuditEntries) {
         audit_trail_.erase(audit_trail_.begin()); // evict oldest
     }
+
+    // Emit a Changefeed event if a changefeed is attached.
+    if (changefeed_) {
+        Changefeed::ChangeEvent ev;
+        ev.type = (entry.action == RefreshAuditEntry::Action::ADD)
+                      ? Changefeed::ChangeEventType::EVENT_PUT
+                      : Changefeed::ChangeEventType::EVENT_DELETE;
+        ev.key = "graph_edge_refresh:" + entry.edge_id;
+        ev.timestamp_ms = static_cast<int64_t>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                entry.timestamp.time_since_epoch()).count());
+        ev.metadata = {
+            {"action",          (entry.action == RefreshAuditEntry::Action::ADD) ? "ADD" : "REMOVE"},
+            {"edge_id",         entry.edge_id},
+            {"from_vertex",     entry.from_vertex},
+            {"to_vertex",       entry.to_vertex},
+            {"relevance_score", entry.relevance_score},
+            {"cycle_number",    entry.cycle_number}
+        };
+        try {
+            changefeed_->recordEvent(std::move(ev));
+        } catch (const std::exception& ex) {
+            spdlog::warn("[ScheduledEdgeRefresh] changefeed recordEvent failed: {}", ex.what());
+        }
+    }
+
     audit_trail_.push_back(std::move(entry));
 }
 

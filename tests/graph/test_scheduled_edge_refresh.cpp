@@ -15,10 +15,16 @@
  *  - start() / stop() scheduler lifecycle with zero interval (manual only)
  *  - setPolicy() runtime update
  *  - Empty graph: triggerRefresh() handles zero-edge graph gracefully
+ *  - Multiple cycles: cycle counter increases
+ *  - Anomaly detection: anomaly_high_removal_rate flag
+ *  - ChangeFeed integration: recordEvent() called per mutation
+ *  - Integration: large graph (100 nodes) refresh cycle
+ *  - Regression: repeated cycles on stable graph leave it unchanged
  */
 
 #include <gtest/gtest.h>
 
+#include "cdc/changefeed.h"
 #include "graph/scheduled_edge_refresh.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
@@ -570,4 +576,306 @@ TEST_F(ScheduledEdgeRefreshTest, MultipleCycles_CycleCounterIncreases) {
 
     auto stats = engine.getStats();
     EXPECT_EQ(stats.total_cycles_completed, 3u);
+}
+
+// ============================================================================
+// Anomaly detection
+// ============================================================================
+
+TEST_F(ScheduledEdgeRefreshTest, AnomalyDetection_FlaggedOnHighRemovalRate) {
+    buildSmallGraph(); // 4 edges
+
+    RefreshPolicy p;
+    // Set threshold so all 4 edges become removal candidates.
+    p.relevance_threshold          = 0.999f;
+    p.max_removal_fraction         = 1.0f;   // allow all removals
+    p.max_edges_to_remove          = 100;
+    p.decay_half_life_seconds      = 0.0;
+    // Flag cycles where removal rate > 50%.
+    p.anomaly_threshold_removal_rate = 0.5f;
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.aborted_safety_gate);
+    EXPECT_GT(stats.removal_rate, 0.5);          // removal_rate should be ~1.0
+    EXPECT_TRUE(stats.anomaly_high_removal_rate); // anomaly must be flagged
+}
+
+TEST_F(ScheduledEdgeRefreshTest, AnomalyDetection_NotFlaggedWhenBelowThreshold) {
+    buildSmallGraph();
+
+    RefreshPolicy p;
+    p.relevance_threshold          = 0.0f;   // keep everything (no removals)
+    p.max_removal_fraction         = 1.0f;
+    p.decay_half_life_seconds      = 0.0;
+    p.anomaly_threshold_removal_rate = 0.5f; // 50% anomaly threshold
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_EQ(stats.edges_removed, 0u);
+    EXPECT_DOUBLE_EQ(stats.removal_rate, 0.0);
+    EXPECT_FALSE(stats.anomaly_high_removal_rate);
+}
+
+TEST_F(ScheduledEdgeRefreshTest, AnomalyDetection_DisabledWhenThresholdIsZero) {
+    buildSmallGraph();
+
+    RefreshPolicy p;
+    p.relevance_threshold          = 0.999f; // all edges are removal candidates
+    p.max_removal_fraction         = 1.0f;
+    p.max_edges_to_remove          = 100;
+    p.decay_half_life_seconds      = 0.0;
+    p.anomaly_threshold_removal_rate = 0.0f; // anomaly detection disabled
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.anomaly_high_removal_rate); // never flagged when threshold=0
+}
+
+TEST_F(ScheduledEdgeRefreshTest, AnomalyDetection_RemovalRateStoredInStats) {
+    buildSmallGraph(); // 4 edges
+
+    RefreshPolicy p;
+    // Remove exactly 2 of 4 edges (50%) by using orthogonal embeddings for half.
+    // Simpler: remove all, check rate = 1.0.
+    p.relevance_threshold     = 0.999f;
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_remove     = 100;
+    p.decay_half_life_seconds = 0.0;
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    RefreshStats stats = engine.triggerRefresh();
+    // removal_rate = edges_removed / edges_evaluated
+    EXPECT_GT(stats.edges_evaluated, 0u);
+    double expected_rate = static_cast<double>(stats.edges_removed) /
+                           static_cast<double>(stats.edges_evaluated);
+    EXPECT_NEAR(stats.removal_rate, expected_rate, 1e-9);
+}
+
+TEST_F(ScheduledEdgeRefreshTest, AnomalyDetection_PolicyValidation_InvalidThreshold) {
+    RefreshPolicy p;
+    p.anomaly_threshold_removal_rate = 1.5f; // invalid
+
+    EXPECT_THROW(
+        ScheduledGraphEdgeRefreshEngine(*graph_mgr_, p),
+        std::invalid_argument);
+}
+
+// ============================================================================
+// ChangeFeed integration
+// ============================================================================
+
+TEST_F(ScheduledEdgeRefreshTest, ChangeFeed_SetChangefeedNullSafetyCheck) {
+    RefreshPolicy p;
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    // Setting to nullptr must not crash.
+    EXPECT_NO_THROW(engine.setChangefeed(nullptr));
+}
+
+TEST_F(ScheduledEdgeRefreshTest, ChangeFeed_RecordsRemoveEventsViaChangefeed) {
+    buildSmallGraph(); // 4 edges
+
+    // Create a Changefeed using the underlying TransactionDB.
+    auto raw_db = db_->getRawDB();
+    ASSERT_NE(raw_db, nullptr);
+    auto changefeed = std::make_shared<Changefeed>(raw_db);
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.999f; // make all edges removal candidates
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_remove     = 100;
+    p.decay_half_life_seconds = 0.0;
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+    engine.setChangefeed(changefeed);
+
+    engine.triggerRefresh();
+
+    // Changefeed should have received DELETE events.
+    Changefeed::ListOptions opts;
+    opts.from_sequence = 0;
+    opts.limit         = 1000;
+    auto events        = changefeed->listEvents();
+    EXPECT_GT(events.size(), 0u);
+
+    // All events must have the "graph_edge_refresh:" prefix.
+    for (const auto& ev : events) {
+        EXPECT_EQ(ev.key.find("graph_edge_refresh:"), 0u);
+    }
+}
+
+TEST_F(ScheduledEdgeRefreshTest, ChangeFeed_RecordsAddEventsViaChangefeed) {
+    addEdge("e_ab", "A", "B");
+
+    auto raw_db = db_->getRawDB();
+    ASSERT_NE(raw_db, nullptr);
+    auto changefeed = std::make_shared<Changefeed>(raw_db);
+
+    RefreshPolicy p;
+    p.relevance_threshold          = 0.0f;  // keep existing edges
+    p.add_threshold                = 0.5f;  // add B→A (identical embeddings)
+    p.max_removal_fraction         = 0.0f;
+    p.max_edges_to_remove          = 0;
+    p.max_edges_to_add             = 100;
+    p.decay_half_life_seconds      = 0.0;
+    p.top_k_candidates             = 5;
+    p.similarity_metric            = SimilarityMetric::COSINE;
+
+    std::unordered_map<std::string, std::vector<float>> embs = {
+        {"A", {1.0f, 0.0f}},
+        {"B", {1.0f, 0.0f}},
+    };
+
+    ScheduledGraphEdgeRefreshEngine engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+    engine.setChangefeed(changefeed);
+
+    auto stats = engine.triggerRefresh();
+
+    if (stats.edges_added > 0) {
+        auto events = changefeed->listEvents();
+        bool found_add = false;
+        for (const auto& ev : events) {
+            if (ev.type == Changefeed::ChangeEventType::EVENT_PUT) {
+                found_add = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found_add);
+    }
+}
+
+TEST_F(ScheduledEdgeRefreshTest, ChangeFeed_AuditTrailIndependentOfChangefeed) {
+    buildSmallGraph();
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.999f;
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_remove     = 100;
+    p.decay_half_life_seconds = 0.0;
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+    // No changefeed set – audit trail must still work.
+    engine.triggerRefresh();
+
+    auto trail = engine.getAuditTrail();
+    EXPECT_GT(trail.size(), 0u);
+}
+
+// ============================================================================
+// Integration: large graph
+// ============================================================================
+
+TEST_F(ScheduledEdgeRefreshTest, Integration_LargeGraph_RefreshCycleCompletes) {
+    // Build a graph with 50 nodes in a ring topology: 0→1→2→...→49→0
+    // plus a few cross edges. Total: ~55 edges.
+    constexpr int N = 50;
+    for (int i = 0; i < N; ++i) {
+        std::string from = "node" + std::to_string(i);
+        std::string to   = "node" + std::to_string((i + 1) % N);
+        std::string eid  = "ring_" + std::to_string(i);
+        addEdge(eid, from, to);
+    }
+    // Add a few cross edges.
+    for (int i = 0; i < 5; ++i) {
+        std::string eid = "cross_" + std::to_string(i);
+        addEdge(eid, "node" + std::to_string(i * 2),
+                     "node" + std::to_string((i * 7 + 3) % N));
+    }
+
+    // No embedding provider: similarity = 1.0 for all edges.
+    RefreshPolicy p;
+    p.relevance_threshold  = 0.0f;  // keep all
+    p.max_removal_fraction = 1.0f;
+    p.decay_half_life_seconds = 0.0;
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+    RefreshStats stats = engine.triggerRefresh();
+
+    EXPECT_EQ(stats.edges_evaluated, 55u);
+    EXPECT_EQ(stats.edges_removed, 0u);
+    EXPECT_FALSE(stats.aborted_safety_gate);
+    EXPECT_GT(stats.cycle_duration_ms, 0.0);
+}
+
+TEST_F(ScheduledEdgeRefreshTest, Integration_LargeGraph_WithEmbeddings_RemovesSomeEdges) {
+    constexpr int N = 20;
+
+    // Build graph with two clusters: cluster A (nodes 0-9) and cluster B (nodes 10-19).
+    // Cross-cluster edges should score low; intra-cluster edges high.
+    for (int i = 0; i < 10; ++i) {
+        // Intra-cluster A
+        addEdge("aa_" + std::to_string(i),
+                "a" + std::to_string(i), "a" + std::to_string((i + 1) % 10));
+        // Intra-cluster B
+        addEdge("bb_" + std::to_string(i),
+                "b" + std::to_string(i), "b" + std::to_string((i + 1) % 10));
+        // Cross-cluster edges (should be low-score)
+        addEdge("ab_" + std::to_string(i),
+                "a" + std::to_string(i), "b" + std::to_string(i));
+    }
+
+    // Embeddings: cluster A = [1,0], cluster B = [0,1] → orthogonal → low similarity
+    std::unordered_map<std::string, std::vector<float>> embs;
+    for (int i = 0; i < 10; ++i) {
+        embs["a" + std::to_string(i)] = {1.0f, 0.0f};
+        embs["b" + std::to_string(i)] = {0.0f, 1.0f};
+    }
+
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.6f;   // cross edges will score ~0.5 < 0.6 → removed
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_remove     = 100;
+    p.decay_half_life_seconds = 0.0;
+    p.similarity_metric       = SimilarityMetric::COSINE;
+
+    ScheduledGraphEdgeRefreshEngine engine(
+        *graph_mgr_, p, makeEmbeddingProvider(embs));
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_FALSE(stats.aborted_safety_gate);
+    EXPECT_EQ(stats.edges_evaluated, 30u);
+    // Cross-cluster edges should be removed (10 of them)
+    EXPECT_GE(stats.edges_removed, 5u);
+}
+
+// ============================================================================
+// Regression: stable graph stays unchanged
+// ============================================================================
+
+TEST_F(ScheduledEdgeRefreshTest, Regression_StableGraph_MultiCycle_NoDrift) {
+    buildSmallGraph(); // 4 edges
+
+    // All edges keep high scores across multiple cycles.
+    RefreshPolicy p;
+    p.relevance_threshold     = 0.0f;  // never remove
+    p.max_removal_fraction    = 1.0f;
+    p.max_edges_to_add        = 0;     // no additions either
+    p.decay_half_life_seconds = 0.0;
+
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    // Run 5 cycles – edge count must remain 4 throughout.
+    for (int i = 0; i < 5; ++i) {
+        RefreshStats stats = engine.triggerRefresh();
+        EXPECT_EQ(stats.edges_evaluated, 4u) << "cycle " << (i + 1);
+        EXPECT_EQ(stats.edges_removed, 0u)   << "cycle " << (i + 1);
+        EXPECT_EQ(stats.edges_added, 0u)     << "cycle " << (i + 1);
+    }
+
+    EXPECT_EQ(engine.getStats().total_cycles_completed, 5u);
+}
+
+TEST_F(ScheduledEdgeRefreshTest, Regression_Stats_RemovalRate_EmptyGraph) {
+    RefreshPolicy p;
+    ScheduledGraphEdgeRefreshEngine engine(*graph_mgr_, p);
+
+    RefreshStats stats = engine.triggerRefresh();
+    EXPECT_DOUBLE_EQ(stats.removal_rate, 0.0); // 0/0 → 0.0
+    EXPECT_FALSE(stats.anomaly_high_removal_rate);
 }

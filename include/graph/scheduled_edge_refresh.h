@@ -39,6 +39,7 @@
 
 #pragma once
 
+#include "cdc/changefeed.h"
 #include "index/graph_index.h"
 #include "utils/expected.h"
 
@@ -120,6 +121,12 @@ struct RefreshPolicy {
     /// If non-empty, restrict refresh to this graph ID.
     std::string graph_id;
 
+    // ── Anomaly detection ─────────────────────────────────────────────────────
+    /// Removal rate fraction [0, 1] above which a cycle is flagged as anomalous.
+    /// 0 = anomaly detection disabled.
+    /// DE: Entfernungsrate, ab der ein Zyklus als anomal markiert wird.
+    float anomaly_threshold_removal_rate{0.0f};
+
     RefreshPolicy() = default;
 };
 
@@ -193,6 +200,18 @@ struct RefreshStats {
 
     /// Total number of completed refresh cycles since engine start.
     uint64_t total_cycles_completed{0};
+
+    // ── Anomaly detection metrics ─────────────────────────────────────────────
+
+    /// Fraction of evaluated edges that were removed [0, 1].
+    /// removal_rate = edges_removed / edges_evaluated (0 when edges_evaluated == 0).
+    /// DE: Anteil entfernter Kanten an der Gesamtzahl bewerteter Kanten.
+    double removal_rate{0.0};
+
+    /// True when removal_rate exceeded policy.anomaly_threshold_removal_rate
+    /// and anomaly detection was enabled (threshold > 0).
+    /// DE: Gibt an, ob eine anomal hohe Entfernungsrate erkannt wurde.
+    bool anomaly_high_removal_rate{false};
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -395,6 +414,22 @@ public:
      */
     void setPolicy(const RefreshPolicy& policy);
 
+    /**
+     * @brief Attach a Changefeed instance for persistent event logging.
+     *
+     * When set, every edge mutation (ADD / REMOVE) emitted during a refresh
+     * cycle will additionally be recorded as a Changefeed::ChangeEvent using
+     * the key "graph_edge_refresh:<edge_id>".  Events carry the action, cycle
+     * number, and relevance score in the metadata JSON.
+     *
+     * Set to nullptr to detach an existing Changefeed.
+     *
+     * Thread-safe: may be called before or after start().
+     *
+     * DE: Registriert einen Changefeed für dauerhafte Ereignisprotokollierung.
+     */
+    void setChangefeed(std::shared_ptr<Changefeed> changefeed);
+
     // ── Scoring helpers (exposed for testability) ─────────────────────────────
 
     /**
@@ -474,10 +509,11 @@ private:
     GraphIndexManager& graph_mgr_;
     RefreshPolicy policy_;
     NodeEmbeddingProvider embedding_fn_;
+    std::shared_ptr<Changefeed> changefeed_; ///< Optional – may be nullptr
 
     mutable std::mutex policy_mutex_;   ///< Protects policy_ updates
     mutable std::mutex cycle_mutex_;    ///< Serialises concurrent triggerRefresh calls
-    mutable std::mutex stats_mutex_;    ///< Protects last_stats_ / audit_trail_
+    mutable std::mutex stats_mutex_;    ///< Protects last_stats_ / audit_trail_ / changefeed_
     std::condition_variable cv_;
     std::mutex cv_mutex_;
 

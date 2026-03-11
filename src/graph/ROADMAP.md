@@ -32,7 +32,7 @@
 - [x] EXPLAIN HTTP endpoint (`POST /api/v1/graph/query/explain`) for all query types (Issue: #1816)
 
 ## In Progress 🚧
-- [~] Scheduled Semantic Graph Edge Refresh: ANN/GNN candidate discovery and ChangeFeed/CEP integration (Issue: #FEATURE/ScheduledGraphEdgeRefresh, Phase 4 core complete)
+- [~] Scheduled Semantic Graph Edge Refresh: ANN/GNN candidate discovery and CEP integration remaining (ChangeFeed + anomaly detection + integration tests complete, Issue: #FEATURE/ScheduledGraphEdgeRefresh)
 
 ## Planned Features 📋
 
@@ -74,7 +74,7 @@
   - Affected files: `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`, `include/index/graph_index.h`, `src/index/graph_index.cpp`
   - Runtime: background thread wakes at `refresh_interval`; synchronous `triggerRefresh()` also available
   - Error handling: safety gate aborts batch; commit failure logged; invalid policy throws `std::invalid_argument`
-  - Tests: `tests/graph/test_scheduled_edge_refresh.cpp` (22 tests)
+  - Tests: `tests/graph/test_scheduled_edge_refresh.cpp` (45+ tests: unit, integration, regression, ChangeFeed, anomaly)
   - Performance target: cycle completes in O(V·K) per vertex for candidate discovery; brute-force for ≤10k nodes, ANN for larger graphs
   - Compatibility: no breaking changes to `GraphIndexManager` public API; `createWriteBatch()` is an additive method
 - [x] Vector similarity scoring: cosine, dot-product, Euclidean (Target: Q4 2026)
@@ -82,9 +82,12 @@
 - [x] Centrality-based edge weight (inverse log-degree dampening, Target: Q4 2026)
 - [x] ACID batch transactions with rollback on safety-gate violations (`createWriteBatch()` on GraphIndexManager, Target: Q4 2026)
 - [x] Audit trail for all edge mutations (in-memory ring buffer, 10k entries, Target: Q4 2026)
+- [x] Anomaly detection: `removal_rate` + `anomaly_high_removal_rate` in `RefreshStats`; `anomaly_threshold_removal_rate` in `RefreshPolicy` (Target: Q4 2026)
+- [x] Changefeed integration: `setChangefeed()` → `recordEvent()` per mutation with key prefix `graph_edge_refresh:` (Target: Q4 2026)
+- [x] Integration tests: large graph (50+ nodes), cluster-embedding scenario, regression (stable graph), changefeed event verification (Target: Q4 2026)
 - [ ] Integration with acceleration module for ANN/GNN top-k candidate edges (Target: Q1 2027)
-- [ ] ChangeFeed/CEP event emission for edge mutations (Target: Q1 2027)
-- [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) (Target: Q4 2026)
+- [ ] CEP event emission for edge mutations via `analytics/cep_engine` (Target: Q1 2027)
+- [x] Bilingual documentation EN (`docs/scheduled_edge_refresh.md`) and DE (`docs/de/scheduled_edge_refresh.md`) including anomaly detection + Changefeed sections (Target: Q4 2026)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1830)

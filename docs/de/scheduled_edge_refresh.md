@@ -40,19 +40,21 @@ Kanten mit niedriger Relevanz werden entfernt und neue Kanten mit hoher Ähnlich
 │  └─────────────┘   │  collectEdges()  │   │   + Zentralität)  │   │
 │                    │                  │   └───────────────────┘   │
 │  triggerRefresh()──▶  discoverCand.() │         │                  │
-│                    │                  │   ┌──────▼──────────────┐  │
-│                    │  applyBatch()    │◀──│  Sicherheitssperren │  │
-│                    │  (ACID-Commit)   │   │  (max_removal_frac) │  │
-│                    └──────────────────┘   └─────────────────────┘  │
+│                    │                  │   ┌──────▼───────────────┐ │
+│                    │  applyBatch()    │◀──│  Sicherheitssperren  │ │
+│                    │  (ACID-Commit)   │   │  + Anomalieerkennung │ │
+│                    └──────────────────┘   └──────────────────────┘ │
 │                           │                                         │
 │                    ┌──────▼──────────────────────────────────────┐ │
-│                    │  Prüfspur (im Speicher, begrenzter Ring)    │ │
+│                    │  appendAudit()                              │ │
+│                    │  ├── Prüfspur (im Speicher, Ring, max 10k) │ │
+│                    │  └── Changefeed::recordEvent() [optional]   │ │
 │                    └─────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
-         │                    │
-         ▼                    ▼
-  GraphIndexManager    NodeEmbeddingProvider
-  (ACID-WriteBatch)    (Benutzerdefinierter Callback)
+         │                    │                     │
+         ▼                    ▼                     ▼
+  GraphIndexManager    NodeEmbeddingProvider   Changefeed
+  (ACID-WriteBatch)    (Benutzerdefiniert)     (optional, CDC)
 ```
 
 ---
@@ -64,13 +66,14 @@ Kanten mit niedriger Relevanz werden entfernt und neue Kanten mit hoher Ähnlich
 | `refresh_interval` | `std::chrono::seconds` | 3600 | Intervall zwischen automatischen Zyklen. 0 = nur manueller Modus. |
 | `similarity_metric` | `SimilarityMetric` | `COSINE` | Ähnlichkeitsmetrik für Knoten-Einbettungsvektoren. |
 | `relevance_threshold` | `float` [0,1] | 0.5 | Kanten mit `relevance < threshold` sind Löschkandidaten. |
-| `add_threshold` | `float` [0,1] | 0.7 | Mindeständlichkeit für neue Kanten. |
+| `add_threshold` | `float` [0,1] | 0.7 | Mindestähnlichkeit für neue Kanten. |
 | `top_k_candidates` | `uint32_t` | 10 | Top-k ähnlichste Nachbarn pro Knoten bei der Entdeckung. |
 | `decay_half_life_seconds` | `double` | 86400 | Halbwertszeit für den zeitlichen Verfall (Sekunden). 0 = deaktiviert. |
 | `max_removal_fraction` | `float` [0,1] | 0.10 | **Sicherheitssperre**: maximaler Anteil löschbarer Kanten pro Zyklus. |
 | `max_edges_to_add` | `uint32_t` | 1000 | Maximale Anzahl hinzuzufügender Kanten pro Zyklus (0 = unbegrenzt). |
 | `max_edges_to_remove` | `uint32_t` | 500 | Maximale Anzahl zu löschender Kanten pro Zyklus (0 = unbegrenzt). |
 | `graph_id` | `std::string` | `""` | Refresh auf einen bestimmten Graphen einschränken. Leer = alle Graphen. |
+| `anomaly_threshold_removal_rate` | `float` [0,1] | 0.0 | **Anomalieerkennung**: Entfernungsrate, ab der `anomaly_high_removal_rate` gesetzt wird. 0 = deaktiviert. |
 
 ### Validierung
 
@@ -128,14 +131,65 @@ Jeder Zyklus folgt diesen Schritten:
 4. **Sicherheitssperre prüfen** — Falls `|Kandidaten| / |Gesamtkanten| > max_removal_fraction`, Abbruch mit `aborted_safety_gate = true`.
 5. **Neue Kandidaten entdecken** — Für jeden Knoten die top-k ähnlichsten Nachbarn finden. Bereits vorhandene Kanten und solche unterhalb von `add_threshold` herausfiltern.
 6. **ACID-Batch anwenden** — Alle Löschungen und Einfügungen werden atomar über einen `WriteBatchWrapper` übermittelt. Bei Commit-Fehler wird kein teilweise Zustand übernommen.
-7. **Prüfspur aktualisieren** — Ein `RefreshAuditEntry` pro Mutation.
-8. **Statistiken aktualisieren** — `RefreshStats` wird atomar aktualisiert.
+7. **Prüfspur und Changefeed aktualisieren** — Ein `RefreshAuditEntry` pro Mutation; zusätzlich wird ein `Changefeed::ChangeEvent` ausgelöst, wenn ein Changefeed konfiguriert ist.
+8. **Anomalieerkennung** — `removal_rate` berechnen; `anomaly_high_removal_rate` setzen und Warnung protokollieren, falls der Wert `anomaly_threshold_removal_rate` überschreitet.
+9. **Statistiken aktualisieren** — `RefreshStats` wird atomar aktualisiert.
 
 ---
 
 ## ACID-Garantien
 
 Alle Kantenmutationen eines Refresh-Zyklus werden als einzelne `RocksDBWrapper::WriteBatchWrapper` übermittelt. Bei einem Commit-Fehler werden keine partiellen Mutationen angewendet. Wenn eine Sicherheitssperre greift, wird der Batch nie übermittelt — der Graph bleibt unverändert.
+
+---
+
+## Anomalieerkennung
+
+Der Engine berechnet für jeden Zyklus eine `removal_rate = edges_removed / edges_evaluated` und gibt sie in `RefreshStats` aus. Wenn `RefreshPolicy::anomaly_threshold_removal_rate > 0` ist und die Rate diesen Schwellenwert überschreitet, wird `RefreshStats::anomaly_high_removal_rate` auf `true` gesetzt und eine Warnung protokolliert.
+
+```cpp
+// Anomalieerkennung bei mehr als 20 % Entfernungen
+policy.anomaly_threshold_removal_rate = 0.20f;
+
+auto stats = engine.triggerRefresh();
+if (stats.anomaly_high_removal_rate) {
+    alert_ops("Anomale Kanten-Entfernungsrate: " + std::to_string(stats.removal_rate));
+}
+```
+
+**Anomalie-Metriken in `RefreshStats`:**
+
+| Feld | Beschreibung |
+|------|--------------|
+| `removal_rate` | `edges_removed / edges_evaluated` dieses Zyklus |
+| `anomaly_high_removal_rate` | `true`, wenn `removal_rate > anomaly_threshold_removal_rate` und Schwellenwert > 0 |
+
+---
+
+## Changefeed-Integration
+
+Der Engine integriert sich mit dem ThemisDB `Changefeed`-Modul für dauerhafte, nachgelagert konsumierbare Ereignisprotokollierung. Wenn ein `Changefeed` über `setChangefeed()` registriert wird, wird jede Kantenmutation als `Changefeed::ChangeEvent` emittiert:
+
+- **REMOVE** → `EVENT_DELETE` mit Schlüssel `"graph_edge_refresh:<edge_id>"`
+- **ADD** → `EVENT_PUT` mit Schlüssel `"graph_edge_refresh:<edge_id>"`
+
+Beide Ereignistypen enthalten vollständige Metadaten (Aktion, Edge-ID, Quell-/Zielknoten, Relevanzbewertung, Zyklus-Nummer) im `metadata`-JSON-Feld.
+
+```cpp
+// Changefeed konfigurieren
+auto changefeed = std::make_shared<themis::Changefeed>(rocksdb_ptr);
+engine.setChangefeed(changefeed);
+
+// Nachgelagerte Konsumenten können Ereignisse abfragen oder abonnieren
+auto events = changefeed->listEvents();
+for (const auto& ev : events) {
+    auto action = ev.metadata.value("action", "");
+    auto edge   = ev.metadata.value("edge_id", "");
+    // weiterverarbeiten...
+}
+```
+
+Die In-Memory-Prüfspur (`getAuditTrail()`) arbeitet unabhängig und wird immer befüllt, unabhängig davon, ob ein `Changefeed` konfiguriert ist.
 
 ---
 
@@ -200,6 +254,12 @@ const RefreshPolicy&           getPolicy()      const;  // Aktuelle Richtlinie
 
 ```cpp
 void setPolicy(const RefreshPolicy& policy);  // Wirkt beim nächsten Zyklus
+```
+
+### Changefeed-Integration
+
+```cpp
+void setChangefeed(std::shared_ptr<Changefeed> changefeed);  // nullptr = trennen
 ```
 
 ### Bewertungs-Hilfsfunktionen (testbar)

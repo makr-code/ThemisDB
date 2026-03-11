@@ -41,18 +41,20 @@ Low-relevance edges are pruned and new high-similarity edges are discovered, kee
 │                    │                  │   └───────────────────┘   │
 │  triggerRefresh()──▶  discoverCand.() │         │                  │
 │                    │                  │   ┌──────▼──────────────┐  │
-│                    │  applyBatch()    │◀──│  Safety Gates       │  │
-│                    │  (ACID commit)   │   │  (max_removal_frac) │  │
+│                    │  applyBatch()    │◀──│  Safety Gates +     │  │
+│                    │  (ACID commit)   │   │  Anomaly Detection  │  │
 │                    └──────────────────┘   └─────────────────────┘  │
 │                           │                                         │
 │                    ┌──────▼──────────────────────────────────────┐ │
-│                    │  Audit Trail (in-memory, bounded ring)      │ │
+│                    │  appendAudit()                              │ │
+│                    │  ├── Audit Trail (in-memory, bounded ring)  │ │
+│                    │  └── Changefeed::recordEvent() [optional]   │ │
 │                    └─────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
-         │                    │
-         ▼                    ▼
-  GraphIndexManager    NodeEmbeddingProvider
-  (ACID write batch)   (user-supplied callback)
+         │                    │                     │
+         ▼                    ▼                     ▼
+  GraphIndexManager    NodeEmbeddingProvider   Changefeed
+  (ACID write batch)   (user-supplied)         (optional, CDC)
 ```
 
 ---
@@ -71,6 +73,7 @@ Low-relevance edges are pruned and new high-similarity edges are discovered, kee
 | `max_edges_to_add` | `uint32_t` | 1000 | Hard cap on additions per cycle (0 = unlimited). |
 | `max_edges_to_remove` | `uint32_t` | 500 | Hard cap on removals per cycle (0 = unlimited). |
 | `graph_id` | `std::string` | `""` | Restrict refresh to a specific graph. Empty = all graphs. |
+| `anomaly_threshold_removal_rate` | `float` [0,1] | 0.0 | **Anomaly detection**: removal rate above which `RefreshStats::anomaly_high_removal_rate` is set and a warning is logged. 0 = disabled. |
 
 ### Validation
 
@@ -128,8 +131,9 @@ Each cycle follows these steps:
 4. **Safety gate check** — If `|candidates| / |total_edges| > max_removal_fraction`, abort with `aborted_safety_gate = true`.
 5. **Discover new candidates** — For each vertex, find top-k most similar neighbours (using `embedding_fn`). Filter out already-existing edges and those below `add_threshold`.
 6. **Apply ACID batch** — All removals and additions are applied atomically via a `WriteBatchWrapper`. On commit failure, the cycle reports an error but does not crash.
-7. **Update audit trail** — One `RefreshAuditEntry` per mutation.
-8. **Update stats** — `RefreshStats` is updated atomically.
+7. **Update audit trail + Changefeed** — One `RefreshAuditEntry` per mutation; also emitted to the attached `Changefeed` if configured.
+8. **Anomaly detection** — Computes `removal_rate`; sets `anomaly_high_removal_rate` and logs a warning if it exceeds `anomaly_threshold_removal_rate`.
+9. **Update stats** — `RefreshStats` is updated atomically.
 
 ---
 
@@ -138,6 +142,57 @@ Each cycle follows these steps:
 All edge mutations (removals and additions) within a single refresh cycle are submitted as a single `RocksDBWrapper::WriteBatchWrapper`. If the commit fails, no partial mutations are applied and the error is logged. This ensures atomicity at the storage level.
 
 > **Note:** If a safety gate fires, the batch is never submitted – the graph is left untouched.
+
+---
+
+## Anomaly Detection
+
+The engine computes a `removal_rate = edges_removed / edges_evaluated` for every cycle and exposes it in `RefreshStats`. When `RefreshPolicy::anomaly_threshold_removal_rate > 0` and the rate exceeds this threshold, `RefreshStats::anomaly_high_removal_rate` is set to `true` and a warning is logged.
+
+```cpp
+// Enable anomaly detection at 20% removal rate
+policy.anomaly_threshold_removal_rate = 0.20f;
+
+auto stats = engine.triggerRefresh();
+if (stats.anomaly_high_removal_rate) {
+    alert_ops("graph edge removal anomaly: removal_rate=" +
+              std::to_string(stats.removal_rate));
+}
+```
+
+**Anomaly metrics in `RefreshStats`:**
+
+| Field | Description |
+|-------|-------------|
+| `removal_rate` | `edges_removed / edges_evaluated` for this cycle |
+| `anomaly_high_removal_rate` | `true` when `removal_rate > anomaly_threshold_removal_rate` and threshold > 0 |
+
+---
+
+## ChangeFeed Integration
+
+The engine integrates with ThemisDB's `Changefeed` module for durable, downstream-consumable event logging.  When a `Changefeed` is attached via `setChangefeed()`, each edge mutation emits a `Changefeed::ChangeEvent`:
+
+- **REMOVE** → `EVENT_DELETE` with key `"graph_edge_refresh:<edge_id>"`
+- **ADD** → `EVENT_PUT` with key `"graph_edge_refresh:<edge_id>"`
+
+Both event types carry full metadata (action, edge_id, from/to vertex, relevance score, cycle number) in the event's `metadata` JSON field.
+
+```cpp
+// Wire up a Changefeed
+auto changefeed = std::make_shared<Changefeed>(rocksdb_transactiondb_ptr);
+engine.setChangefeed(changefeed);
+
+// Downstream consumers can poll or subscribe
+auto events = changefeed->listEvents();
+for (const auto& ev : events) {
+    auto action = ev.metadata.value("action", "");
+    auto edge   = ev.metadata.value("edge_id", "");
+    // process...
+}
+```
+
+The in-memory audit trail (`getAuditTrail()`) operates independently and is always populated regardless of whether a `Changefeed` is attached.
 
 ---
 
@@ -204,6 +259,12 @@ const RefreshPolicy&         getPolicy()      const;  // Current policy
 void setPolicy(const RefreshPolicy& policy);  // Takes effect on next cycle
 ```
 
+### ChangeFeed Integration
+
+```cpp
+void setChangefeed(std::shared_ptr<Changefeed> changefeed);  // nullptr = detach
+```
+
 ### Scoring Helpers (testable)
 
 ```cpp
@@ -218,17 +279,19 @@ EdgeScore scoreEdge(const BaseEntity& edge_entity) const;
 
 ```cpp
 #include "graph/scheduled_edge_refresh.h"
+#include "cdc/changefeed.h"
 #include "index/graph_index.h"
 
 // 1. Configure policy
 themis::graph::RefreshPolicy policy;
-policy.refresh_interval     = std::chrono::seconds(300);  // every 5 minutes
-policy.similarity_metric    = themis::graph::SimilarityMetric::COSINE;
-policy.relevance_threshold  = 0.4f;
-policy.add_threshold        = 0.75f;
-policy.decay_half_life_seconds = 86400.0;  // 1 day
-policy.max_removal_fraction = 0.05f;       // never remove more than 5% per cycle
-policy.top_k_candidates     = 20;
+policy.refresh_interval              = std::chrono::seconds(300);  // every 5 minutes
+policy.similarity_metric             = themis::graph::SimilarityMetric::COSINE;
+policy.relevance_threshold           = 0.4f;
+policy.add_threshold                 = 0.75f;
+policy.decay_half_life_seconds       = 86400.0;  // 1 day
+policy.max_removal_fraction          = 0.05f;    // never remove more than 5% per cycle
+policy.top_k_candidates              = 20;
+policy.anomaly_threshold_removal_rate = 0.15f;   // flag if >15% removed in one cycle
 
 // 2. Embedding provider (wire up to GNN index or in-memory cache)
 themis::graph::NodeEmbeddingProvider embedding_fn =
@@ -236,24 +299,41 @@ themis::graph::NodeEmbeddingProvider embedding_fn =
         return my_gnn_index.getEmbedding(node_id);
     };
 
-// 3. Create and start engine
+// 3. Create engine and attach ChangeFeed for durable event logging
 themis::graph::ScheduledGraphEdgeRefreshEngine engine(
     graph_manager, policy, embedding_fn);
+
+auto changefeed = std::make_shared<themis::Changefeed>(rocksdb_ptr);
+engine.setChangefeed(changefeed);
 engine.start();
 
 // 4. Manual trigger (optional, for testing or forced refresh)
 auto stats = engine.triggerRefresh();
-spdlog::info("Removed {} edges, added {} edges in {:.2f}ms",
-             stats.edges_removed, stats.edges_added, stats.cycle_duration_ms);
+spdlog::info("Removed {} edges, added {} edges in {:.2f}ms (removal_rate={:.2f})",
+             stats.edges_removed, stats.edges_added,
+             stats.cycle_duration_ms, stats.removal_rate);
 
-// 5. Inspect audit trail
+// 5. Check for anomalies
+if (stats.anomaly_high_removal_rate) {
+    alert_ops("Anomalous edge removal rate: " + std::to_string(stats.removal_rate));
+}
+
+// 6. Inspect in-memory audit trail
 for (const auto& entry : engine.getAuditTrail()) {
     spdlog::info("[{}] edge {} ({} → {})",
         entry.action == themis::graph::RefreshAuditEntry::Action::ADD ? "ADD" : "REMOVE",
         entry.edge_id, entry.from_vertex, entry.to_vertex);
 }
 
-// 6. Graceful shutdown
+// 7. Consume ChangeFeed events downstream
+auto events = changefeed->listEvents();
+for (const auto& ev : events) {
+    auto action = ev.metadata.value("action", "");
+    auto edge   = ev.metadata.value("edge_id", "");
+    // dispatch to analytics, CEP, or replication pipeline...
+}
+
+// 8. Graceful shutdown
 engine.stop();
 ```
 

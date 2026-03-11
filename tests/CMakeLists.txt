@@ -5625,11 +5625,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
              COMMAND test_scheduled_edge_refresh_focused)
 
     set_tests_properties(ScheduledEdgeRefreshFocusedTests PROPERTIES
-        LABELS "graph;scheduled;edge_refresh;similarity;policy;audit;focused;unit"
-        TIMEOUT 120
+        LABELS "graph;scheduled;edge_refresh;similarity;policy;audit;anomaly;changefeed;integration;regression;focused"
+        TIMEOUT 180
     )
 
-    message(STATUS "  ScheduledEdgeRefresh: policy validation, similarity, temporal decay, safety gates, audit trail, lifecycle")
+    message(STATUS "  ScheduledEdgeRefresh: policy validation, similarity, temporal decay, safety gates, audit trail, anomaly detection, ChangeFeed integration, large-graph integration, regression")
 endif()
 
 # ============================================================================
