@@ -12,7 +12,7 @@
 | # | Schwere | Feature | Erwartet | Beobachtet |
 |---|---------|---------|----------|------------|
 | 1 | 🟠 Mittel | Distributed Rate Limiting – Redis-Backend | `rate_limiter_v2.h/cpp` mit `Backend::REDIS` | `rate_limiter_v2.cpp` vorhanden (239 LOC), aber kein Redis-Pfad |
-| 2 | 🔴 Hoch | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Keine dieser Dateien existiert |
+| 2 | ✅ Gelöst | OAuth2/OIDC-Provider | `server/oauth2_provider.cpp`, `include/server/oauth2_provider.h` | Implementiert (v1.6.0, 30 Unit-Tests) |
 | 3 | ✅ Gelöst | SAML 2.0 SP | `server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h` | Implementiert (v1.7.0) |
 | 4 | ✅ Gelöst | Distributed API Gateway | `server/distributed_gateway.cpp`, `include/server/distributed_gateway.h` | Implementiert in PR: `DistributedGateway` mit Raft-Config-Sync, ConsistentHashRing, Failover |
 | 5 | 🟡 Niedrig | WebAssembly Handler Registry | `server/wasm_handler_registry.cpp`, `include/server/wasm_handler_registry.h` | Keine dieser Dateien existiert |
@@ -47,7 +47,7 @@ include/server/rate_limiter_v2.h – vorhanden, kein Backend::REDIS Enum
 
 ---
 
-### Finding 2 – OAuth2/OIDC-Provider
+### Finding 2 – OAuth2/OIDC-Provider ✅ GELÖST
 
 **Claim-Quelle:** `src/server/ROADMAP.md` → „Planned Features / Short-term (Target: v1.6.0)"  
 **Erwartete Implementierung:**  
@@ -58,20 +58,22 @@ include/server/rate_limiter_v2.h – vorhanden, kein Backend::REDIS Enum
 - Refresh-Token-Rotation  
 - JWT Introspection: `POST /api/v1/auth/token/introspect`  
 
-**Beobachtet:**  
-- Keine dieser Dateien existiert in `src/server/` oder `include/server/`  
-- Kein `oauth2`, `OIDC`, `pkce` in `src/server/*.cpp` gefunden  
-- `auth_middleware.cpp` enthält keine OAuth2-Logik  
+**Implementierung:**  
+- `src/server/oauth2_provider.cpp` ✅ erstellt  
+- `include/server/oauth2_provider.h` ✅ erstellt  
+- RFC 6749 Authorization Code + PKCE Flow (`GET /api/v1/auth/oauth2/authorize`, `GET /api/v1/auth/oauth2/callback`) ✅  
+- Explicit token exchange (`POST /api/v1/auth/oauth2/token`) ✅  
+- Refresh-Token-Rotation (`POST /api/v1/auth/oauth2/refresh`) ✅  
+- JWT Introspection: `POST /api/v1/auth/token/introspect` (RFC 7662) ✅  
+- Session-Ende: `POST /api/v1/auth/oauth2/logout` ✅  
+- 30 Unit-Tests in `tests/test_oauth2_provider.cpp` ✅
 
 **Evidence (geprüfte Pfade):**  
 ```
-src/server/oauth2_provider.cpp          – nicht vorhanden
-include/server/oauth2_provider.h        – nicht vorhanden
-grep "oauth2|OIDC|pkce" src/server/*.cpp – keine Treffer
+src/server/oauth2_provider.cpp   – vorhanden (OAuth2Provider, 6 Handler)
+include/server/oauth2_provider.h – vorhanden (vollständige API-Dokumentation)
+tests/test_oauth2_provider.cpp   – vorhanden (OAuth2ProviderTests, 30 Tests)
 ```
-
-**Issue-Titelvorschlag:** `feat(server): OAuth2/OIDC native support – authorization code flow + PKCE (v1.6.0)`  
-**Label-Vorschläge:** `area/server`, `area/auth`, `type/feature`, `priority/p1`, `effort/large`
 
 ---
 

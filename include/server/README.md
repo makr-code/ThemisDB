@@ -128,6 +128,53 @@ Comprehensive authentication supporting JWT, API tokens, Kerberos, and USB admin
 
 ---
 
+#### oauth2_provider.h
+**OAuth2/OIDC Provider (server-side)**
+
+Server-layer bridge between the HTTP router and the auth-layer `OIDCProvider` /
+`OAuthPKCEFlow`.  Implements the OAuth 2.0 Authorization Code Grant with PKCE
+(RFC 7636 / RFC 6749) and a JWT token introspection endpoint (RFC 7662).
+
+**Key Classes:**
+- `OAuth2Provider` - Main OAuth2/OIDC server provider
+- `OAuth2Provider::Config` - Configuration (OIDC settings, redirect URI, state TTL)
+
+**Endpoints:**
+- `GET  /api/v1/auth/oauth2/authorize` – PKCE challenge generation, state storage
+- `GET  /api/v1/auth/oauth2/callback` – Authorization code callback, token exchange
+- `POST /api/v1/auth/oauth2/token` – Explicit code exchange (server-side / CLI)
+- `POST /api/v1/auth/oauth2/refresh` – Refresh token rotation (RFC 6749 §6)
+- `POST /api/v1/auth/token/introspect` – JWT introspection (RFC 7662)
+- `POST /api/v1/auth/oauth2/logout` – End-session / best-effort token revocation
+
+**Features:**
+- Full RFC 6749 Authorization Code + PKCE flow
+- OIDC Discovery via `/.well-known/openid-configuration`
+- Refresh token rotation
+- RFC 7662 JWT introspection (local, JWKS-based, no network round-trip for cached keys)
+- Thread-safe CSRF state map with configurable TTL
+- Dependency injection hooks for unit testing
+
+---
+
+#### saml_auth_provider.h
+**SAML 2.0 Service Provider (server-side)**
+
+Server-layer bridge for SAML 2.0 SP-initiated SSO, Assertion Consumer Service,
+Single Logout, and SP metadata generation.
+
+**Key Classes:**
+- `SamlAuthProvider` - Main SAML SP handler
+- `SamlAuthProvider::Config` - Configuration (SAMLConfig, IdP SLO URL, token factory)
+
+**Endpoints:**
+- `GET  /api/v1/auth/saml/login` – SP-initiated SSO redirect
+- `POST /api/v1/auth/saml/acs` – Assertion Consumer Service
+- `POST /api/v1/auth/saml/slo` – Single Logout
+- `GET  /api/v1/auth/saml/metadata` – SP metadata XML
+
+---
+
 #### policy_engine.h
 **Fine-grained policy enforcement**
 

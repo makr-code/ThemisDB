@@ -68,7 +68,13 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 
 ### Long-term (6-12 months)
 - [?] RDMA support for ultra-low-latency inter-node communication
-- [?] IPv6 dual-stack support
+- [x] IPv6 dual-stack support (Issue: #FEATURE, v1.9.0)
+  - `Config::enable_ipv6` (bool, default false) – switches acceptor to IPv6 socket
+  - `Config::ipv6_dual_stack` (bool, default true) – clears IPV6_V6ONLY so a single socket accepts both IPv4-mapped and native IPv6 clients
+  - When `enable_ipv6=true` and `host` is the default "0.0.0.0" it is automatically promoted to "::"
+  - Explicit IPv6 addresses in `host` (e.g. "::1", "fe80::1") always honoured
+  - Connection-tracking maps keyed by `address().to_string()` – works transparently for IPv6 strings
+  - Unit tests in `tests/test_wire_protocol_ipv6.cpp` (`WireProtocolIPv6FocusedTests`, 18 tests)
 
 ## Implementation Phases
 
@@ -169,3 +175,6 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
 - `WireProtocolServer::Config` gained new field `auth_token` (default: empty string);
   defaults remain backward-compatible.
+- `WireProtocolServer::Config` gained new fields `enable_ipv6` (default: false) and
+  `ipv6_dual_stack` (default: true); existing deployments are unaffected (default binding
+  remains IPv4 "0.0.0.0").

@@ -12,9 +12,9 @@
 | Schwere | Anzahl |
 |---------|--------|
 | 🔴 Kritisch (Produktionsblocker) | 0 |
-| 🟡 Mittel (Funktional eingeschränkt) | 2 |
+| 🟡 Mittel (Funktional eingeschränkt) | 1 |
 | 🟢 Gering (Hardening / Optimierung) | 2 |
-| ✅ Behoben | 3 |
+| ✅ Behoben | 4 |
 
 Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`, `streaming_exporter`, `incremental_exporter`, `aql_predicate_filter`, `format_template`, `export_encryption`, `data_augmentation`, `pii_detector`, `exporter_metrics`, `stream_writer`) haben `Open Issues: TODOs: 0, Stubs: 0` und `Maturity Level: 🟢 PRODUCTION-READY`.
 
@@ -22,45 +22,26 @@ Alle Kern-Exporter (`jsonl_llm_exporter`, `parquet_exporter`, `arrow_ipc_exporte
 
 ## Einträge
 
-### 1. PolicyEngine-Integration für Export-Autorisierung (🟡 Mittel)
+### ~~1. PolicyEngine-Integration für Export-Autorisierung~~ ✅ Behoben
 
-**Claim-Quelle:** `src/exporters/FUTURE_ENHANCEMENTS.md` → Export Encryption and Authorization → Remaining  
-**Datei:** `src/exporters/export_encryption.cpp`
-
-**Erwartet:** Vor dem Export wird `PolicyEngine::checkExportPermission(collection, requester_id)` aufgerufen; bei Ablehnung wird der Export abgebrochen und ins Audit-Log eingetragen.
-
-**Beobachtet:** `export_encryption.cpp` implementiert AES-256-GCM-Verschlüsselung vollständig. Die Autorisierungsprüfung via `PolicyEngine` ist noch nicht integriert — kein `PolicyEngine`-Aufruf in `exportEntities()` oder verwandten Einstiegspunkten gefunden.
-
-**Evidence:**
-- `src/exporters/FUTURE_ENHANCEMENTS.md`, Abschnitt „~~Export Encryption and Authorization~~ ✅ Implemented": `Remaining: Full integration with PolicyEngine::checkExportPermission() for per-collection authorization checks before any cursor is opened.`
-- `src/exporters/export_encryption.cpp` — kein `PolicyEngine`-Include oder -Aufruf
-
-**Impact:** Export-Zugriffskontrolle auf Kollektions-Ebene nicht aktiv; böswillige oder fehlerhafte Clients könnten ohne Autorisierungsprüfung Daten exportieren.
-
-**Issue-Titelvorschlag:** `feat(exporters): integrate PolicyEngine::checkExportPermission() before cursor open in all exporters`  
-**Label-Vorschläge:** `module:exporters`, `kind:security`, `priority:medium`
+`enforceExportPolicy()` ist in allen 6 Exportern aufgerufen (`jsonl_llm_exporter`, `streaming_exporter`, `incremental_exporter`, `parquet_exporter`, `arrow_ipc_exporter`, `huggingface_exporter`). Bei Ablehnung wird `ExporterException(ERR_EXPORT_POLICY_DENIED)` geworfen. Audit-Logging via `AuditLogger`: `EXPORT_DENIED`-Event bei Ablehnung, `BULK_EXPORT`-Event bei Genehmigung — sofern `ExportOptions::audit_logger` gesetzt ist. 9 Unit-Tests in `tests/exporters/test_export_encryption.cpp` (EXP-001).
 
 ---
 
-### 2. Hub Direct Upload Integration (🟡 Mittel)
+### ~~2. Hub Direct Upload Integration~~ ✅ Behoben (Issue: #1719)
 
-**Claim-Quelle:** `src/exporters/ROADMAP.md` → Planned Features (Issue: #1719)  
-**Datei:** — (kein `huggingface_hub_client.cpp` vorhanden)
+`HuggingFaceHubClient` vollständig implementiert in `src/exporters/huggingface_hub_client.cpp` und
+`include/exporters/huggingface_hub_client.h`. Die Implementierung umfasst:
 
-**Erwartet:** `HuggingFaceHubClient` mit libcurl für direktes Hochladen von JSONL-Shards und `dataset_card.md` via Hugging Face Hub HTTP API, ohne Zwischenspeicherung auf dem Dateisystem.
-
-**Beobachtet:** `huggingface_exporter.cpp` exportiert vollständig ins lokale Dateisystem. Kein `HuggingFaceHubClient` oder HTTP-Upload-Pfad implementiert.
-
-**Evidence:**
-- `src/exporters/FUTURE_ENHANCEMENTS.md`, Abschnitt „Hugging Face Hub Direct Upload Integration" (Target: v1.9.0, Issue: #1719)
-- `src/exporters/ROADMAP.md` → `[I] Hugging Face Hub direct upload integration (Issue: #1719)`
-- Kein `huggingface_hub_client.cpp` oder `hf_upload*.cpp` in `src/exporters/`
-
-**Impact:** Benutzer müssen Datasets manuell von exportierten Dateien hochladen; kein integrierter Hub-Upload-Workflow.
-
-**Issue-Titelvorschlag:** `feat(exporters): implement HuggingFaceHubClient for direct Hub upload`  
-**Label-Vorschläge:** `module:exporters`, `kind:implementation`, `priority:medium`  
-**Bestehender Issue:** #1719
+- libcurl-basierter HTTP-Upload mit Retry-Logik und Exponential Backoff
+- Bearer-Token-Authentifizierung via `HubUploadConfig::hf_token` oder `HF_TOKEN`-Umgebungsvariable
+- Automatische Repository-Erstellung bei `create_repo=true`
+- **PolicyEngine-Integration**: `HubUploadConfig::policy_engine` — `uploadDataset()` ruft
+  `PolicyEngine::checkExportPermission()` auf; abgelehnte Uploads geben sofort `success=false` zurück
+- **Audit-Log-Integration**: `HubUploadConfig::audit_log` — jeder Upload-Versuch (erlaubt,
+  abgelehnt, Fehler) wird als `hub_upload`-JSON-Eintrag ins Audit-Log geschrieben
+- Unit-Tests in `tests/exporters/test_huggingface_hub_client.cpp` decken Denial, Permit,
+  Audit-Log-Writes und Backward-Compatibility ab
 
 ---
 

@@ -39,6 +39,12 @@
 #include <optional>
 #include <map>
 #include <functional>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <condition_variable>
+#include <chrono>
+#include <cstdint>
 
 namespace themis {
 namespace modules {
@@ -254,6 +260,52 @@ struct ModuleMetrics {
             ? (double)totalLoadDurationMs / successfulLoads 
             : 0.0;
     }
+};
+
+/**
+ * @brief Configuration for the plugin watchdog monitor.
+ *
+ * All time fields are in milliseconds for easy unit-testing.
+ */
+struct WatchdogConfig {
+    /// Interval between successive health-check sweeps (default: 30 s).
+    uint64_t check_interval_ms = 30'000;
+
+    /// Maximum number of restart attempts before a module is declared permanently failed
+    /// (0 = unlimited).
+    uint32_t max_restart_attempts = 5;
+
+    /// Initial backoff delay after the first restart attempt (default: 5 s).
+    uint64_t initial_backoff_ms = 5'000;
+
+    /// Multiplicative factor applied to backoff after each consecutive failure (default: 2×).
+    double backoff_multiplier = 2.0;
+
+    /// Upper bound on calculated backoff (default: 5 min).
+    uint64_t max_backoff_ms = 300'000;
+
+    /// When false the watchdog thread is started but performs no work until re-enabled.
+    bool enabled = true;
+};
+
+/**
+ * @brief Per-module runtime statistics maintained by the plugin watchdog.
+ */
+struct WatchdogModuleStats {
+    std::string moduleName;
+    std::string modulePath;
+
+    uint32_t restart_count = 0;         ///< Total successful restart count
+    uint32_t consecutive_failures = 0;  ///< Failures since last successful health-check
+    uint64_t last_health_check_ms = 0;  ///< Wall-clock time of last check (epoch ms)
+    uint64_t last_failure_ms = 0;       ///< Wall-clock time of last failure (epoch ms)
+    uint64_t last_restart_ms = 0;       ///< Wall-clock time of last restart (epoch ms)
+    uint64_t next_retry_ms = 0;         ///< Earliest time for next restart attempt (epoch ms)
+
+    bool permanently_failed = false;    ///< True when max_restart_attempts exhausted
+
+    /// Human-readable last error message from the failing health check.
+    std::string last_error;
 };
 
 /**
@@ -511,6 +563,67 @@ public:
      */
     std::vector<themis::acceleration::PluginSecurityEvent>
     getPluginAuditTrail(const std::string& modulePath) const;
+
+    // =========================================================================
+    // Plugin Watchdog — automatic health monitoring and restart (Issue #2373)
+    // =========================================================================
+
+    /**
+     * @brief Configure the watchdog before starting it.
+     *
+     * May be called before or after startWatchdog(); if called while the
+     * watchdog is running the new settings take effect on the next sweep.
+     *
+     * @param config Watchdog configuration parameters.
+     */
+    void configureWatchdog(const WatchdogConfig& config);
+
+    /**
+     * @brief Start the watchdog background thread.
+     *
+     * The thread performs periodic health checks on all loaded modules and
+     * automatically restarts any module that fails its checks, applying
+     * exponential backoff between successive restart attempts.
+     *
+     * Calling startWatchdog() while it is already running is a no-op.
+     */
+    void startWatchdog();
+
+    /**
+     * @brief Stop the watchdog background thread.
+     *
+     * Blocks until the background thread has exited.  Calling stopWatchdog()
+     * when the watchdog is not running is a no-op.
+     */
+    void stopWatchdog();
+
+    /**
+     * @brief Return true if the watchdog background thread is running.
+     */
+    bool isWatchdogRunning() const;
+
+    /**
+     * @brief Get watchdog statistics for a specific module.
+     *
+     * @param moduleName Name of the module.
+     * @return Optional stats (nullopt if module not tracked).
+     */
+    std::optional<WatchdogModuleStats> getWatchdogStats(const std::string& moduleName) const;
+
+    /**
+     * @brief Get watchdog statistics for all tracked modules.
+     *
+     * @return Map from module name to watchdog stats.
+     */
+    std::map<std::string, WatchdogModuleStats> getAllWatchdogStats() const;
+
+    /**
+     * @brief Reset watchdog statistics for all modules.
+     *
+     * Clears restart counts, failure counters, and permanently_failed flags.
+     * Does not stop the watchdog if it is running.
+     */
+    void resetWatchdogStats();
     
 #ifdef _WIN32
     /**
@@ -604,6 +717,16 @@ private:
     bool stagedLoadingEnabled_ = true;     // Default: use staged loading
     std::map<std::string, HealthCheckFunction> healthChecks_;
     std::map<std::string, ModuleMetadata> metadataCache_;  // Cache to avoid double-loading
+
+    // -------------------------------------------------------------------------
+    // Watchdog state (Issue #2373)
+    // -------------------------------------------------------------------------
+    WatchdogConfig watchdogConfig_;
+    std::map<std::string, WatchdogModuleStats> watchdogStats_;  // keyed by module name
+    std::thread watchdogThread_;
+    mutable std::mutex watchdogMutex_;
+    std::condition_variable watchdogCv_;
+    std::atomic<bool> watchdogRunning_{false};
     
     // Platform-specific loading functions
     void* loadLibrary(const std::string& path);
@@ -636,6 +759,14 @@ private:
     bool runHealthChecks(LoadedModule& module, ModuleVerificationResult& result);
     ModuleMetadata extractMetadataFromHandle(void* handle);
     ModuleMetadata getCachedMetadata(const std::string& modulePath);
+
+    // Watchdog helpers (Issue #2373)
+    void watchdogLoop();
+    void watchdogCheckAllModules();
+    bool watchdogRunHealthChecks(LoadedModule& module, std::string& errorMessage);
+    bool watchdogRestartModule(WatchdogModuleStats& stats, const std::string& modulePath);
+    uint64_t watchdogCalculateBackoff(uint32_t consecutiveFailures) const;
+    static uint64_t nowMs();
 };
 
 /**

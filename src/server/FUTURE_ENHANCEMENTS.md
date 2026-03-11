@@ -181,28 +181,41 @@ Time 5ms:  Both clients receive same response
 
 ### Authentication Enhancements
 
-#### OAuth2/OIDC Native Support
-**Priority:** High  
-**Target Version:** v1.6.0
+#### OAuth2/OIDC Native Support ✅ Implemented (v1.6.0)
+**Status:** Implemented in `src/server/oauth2_provider.cpp` +
+`include/server/oauth2_provider.h`
 
-First-class OAuth2 and OpenID Connect support.
+Full OAuth2/OIDC server-layer provider bridging the auth-layer `OIDCProvider` and
+`OAuthPKCEFlow` to HTTP endpoints.  See `src/server/README.md` for integration
+examples.
 
-**Features:**
-- Authorization code flow
-- PKCE for mobile apps
-- Refresh token rotation
-- Token introspection endpoint
-- Discovery endpoint (.well-known/openid-configuration)
+**Implemented features:**
+- Authorization code flow with PKCE (RFC 7636 / RFC 6749)
+- OIDC Discovery via `/.well-known/openid-configuration`
+- Refresh token rotation (`POST /api/v1/auth/oauth2/refresh`)
+- RFC 7662 JWT introspection (`POST /api/v1/auth/token/introspect`)
+- 30 unit tests in `tests/test_oauth2_provider.cpp`
 
-**Configuration:**
 ```cpp
-OAuth2Config config;
-config.authorization_endpoint = "https://auth.example.com/authorize";
-config.token_endpoint = "https://auth.example.com/token";
-config.client_id = "themisdb";
-config.client_secret = "secret";
+// See src/server/README.md § OAuth2Provider for full integration example
+#include "server/oauth2_provider.h"
 
-auth_middleware.enableOAuth2(config);
+OAuth2Provider::Config cfg;
+cfg.oidc.issuer_url  = "https://keycloak.example.com/realms/production";
+cfg.oidc.client_id   = "themisdb";
+cfg.redirect_uri     = "https://myapp.example.com/auth/callback";
+
+OAuth2Provider provider(cfg);
+
+// Initiate PKCE flow
+auto auth = provider.handleAuthorize();
+// → { "authorization_url": "...", "state": "...", "code_verifier": "..." }
+
+// Exchange code (after IdP redirect)
+auto tokens = provider.handleCallback(code, state);
+
+// Introspect a bearer token
+auto info = provider.handleIntrospect(bearer_token);
 ```
 
 ---

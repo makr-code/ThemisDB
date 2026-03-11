@@ -1318,6 +1318,20 @@ set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Plugin Watchdog tests (subset of AllTests)
+# Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
+#         WatchdogModuleStats defaults/field completeness, lifecycle
+#         (start/stop/isRunning), idempotent start/stop, configureWatchdog,
+#         getWatchdogStats/getAllWatchdogStats, resetWatchdogStats (incl.
+#         while running), disabled watchdog, destructor cleanup
+#         (from test_module_loader.cpp, Issue #2373)
+add_test(NAME PluginWatchdogFocusedTests
+    COMMAND themis_tests --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
+set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
+    LABELS "module;watchdog;health;restart;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
@@ -8227,6 +8241,46 @@ else()
     message(STATUS "SAML Auth Provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_auth_provider.cpp")
 endif()
 
+# OAuth2/OIDC Provider Tests (server-layer, focused binary)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oauth2_provider.cpp")
+    message(STATUS "Adding OAuth2/OIDC Provider tests (server-layer)")
+
+    add_executable(test_oauth2_provider
+        test_oauth2_provider.cpp
+    )
+
+    target_link_libraries(test_oauth2_provider PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET CURL::libcurl)
+        target_link_libraries(test_oauth2_provider PRIVATE CURL::libcurl)
+    elseif(TARGET curl)
+        target_link_libraries(test_oauth2_provider PRIVATE curl)
+    endif()
+
+    target_compile_definitions(test_oauth2_provider PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OAuth2ProviderTests COMMAND test_oauth2_provider)
+
+    set_tests_properties(OAuth2ProviderTests PROPERTIES
+        LABELS "server;auth;oauth2;oidc;pkce;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  OAuth2/OIDC Provider: authorize, callback, token exchange, refresh, introspect, logout")
+else()
+    message(STATUS "OAuth2/OIDC Provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_oauth2_provider.cpp")
+endif()
+
 # Session Manager Focused Tests (standalone binary)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
     message(STATUS "Adding Session Manager focused tests (standalone binary)")
@@ -9826,6 +9880,51 @@ if(THEMIS_ENABLE_LLM)
         "llm;vram;gpu;oom;recovery;unit"
         "ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation"
     )
+
+    # Standalone focused test target for InferenceEngineEnhanced.
+    # Exercises KV-cache prewarming, embedding-based cache lookup, hot-swap,
+    # speculative decoding, load-balancing, and per-model quotas.
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inference_engine_enhanced.cpp")
+        add_executable(test_inference_engine_enhanced_focused
+            test_inference_engine_enhanced.cpp
+        )
+        target_include_directories(test_inference_engine_enhanced_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
+        )
+        if(TARGET themis_llm)
+            target_link_libraries(test_inference_engine_enhanced_focused PRIVATE
+                ${TEST_LIBS}
+                themis_llm
+                spdlog::spdlog
+                nlohmann_json::nlohmann_json
+                OpenSSL::SSL
+                OpenSSL::Crypto
+                Threads::Threads
+            )
+        else()
+            target_link_libraries(test_inference_engine_enhanced_focused PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                spdlog::spdlog
+                nlohmann_json::nlohmann_json
+                OpenSSL::SSL
+                OpenSSL::Crypto
+                Threads::Threads
+            )
+        endif()
+        target_compile_definitions(test_inference_engine_enhanced_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_LLM_EXPORTS
+        )
+        add_test(NAME InferenceEngineEnhancedFocusedTests
+            COMMAND test_inference_engine_enhanced_focused)
+        set_tests_properties(InferenceEngineEnhancedFocusedTests PROPERTIES
+            LABELS "llm;inference;cache;prewarming;embedding;unit"
+            TIMEOUT 120
+        )
+        message(STATUS "InferenceEngineEnhanced focused tests: KV-cache prewarming, embedding-based lookup, hot-swap, load-balancing")
+    endif()
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.
@@ -10258,6 +10357,15 @@ add_network_focused_test(
     WireProtocolV1HandlersFocusedTests
     "network;wire-protocol;v1;handlers;auth;get;put;delete;vector-search;focused;unit"
     "WireProtocolV1Handlers: Config::auth_token defaults, auth decision logic (3 modes), HELLO caps, GET/PUT/DELETE key format, VECTOR_SEARCH shape, QUERY_AQL/GEO_QUERY structured-error contract"
+)
+
+# --- Wire Protocol IPv6 Support ---
+add_network_focused_test(
+    test_wire_protocol_ipv6_focused
+    test_wire_protocol_ipv6.cpp
+    WireProtocolIPv6FocusedTests
+    "network;wire-protocol;ipv6;dual-stack;bind-address;focused;unit"
+    "WireProtocolIPv6: Config defaults (enable_ipv6, ipv6_dual_stack), address promotion logic, IPv6 address parsing/string, dual-stack semantics, connection-tracking keys"
 )
 
 # --- QoS Manager ---
