@@ -1,8 +1,8 @@
 {
   "module": "content",
   "validated": "2026-03-09",
-  "updated": "2026-03-09 (Reality-Check-Pass 1)",
-  "revision": "HEAD (copilot/check-documentation-against-sourcecode)",
+  "updated": "2026-03-11 (Reality-Check-Pass 2)",
+  "revision": "HEAD (copilot/add-ocr-dpi-pre-processing)",
   "checked_paths": [
     "src/content/",
     "include/content/"
@@ -10,8 +10,9 @@
   "summary": {
     "total": 7,
     "critical": 0,
-    "medium": 3,
-    "low": 4
+    "medium": 0,
+    "low": 0,
+    "resolved": 7
   },
   "entries": [
     {
@@ -21,18 +22,19 @@
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — PDF and Office Document Text Extraction section",
       "file": "src/content/office_processor.cpp",
       "expected": "Spawn soffice --headless to convert legacy .doc/.xls/.ppt to text in a sandboxed subprocess (posix_spawn, restricted OS user, 30 s timeout)",
-      "observed": "Not implemented; no soffice/posix_spawn usage found in office_processor.cpp",
+      "observed": "Implemented: extractLegacyViaLibreOffice() uses posix_spawn with POSIX_SPAWN_RESETIDS, POSIX_SPAWN_SETPGROUP, POSIX_SPAWN_SETSIGDEF; 30 s SIGTERM→SIGKILL escalation; RAII temp-dir cleanup; HOME restricted to tmp dir",
       "evidence": [
-        "src/content/office_processor.cpp — grep for 'soffice', 'posix_spawn', 'LibreOffice' returns empty",
-        "src/content/ROADMAP.md Known Issues: 'Legacy Office formats (DOC/XLS/PPT via OLE/Compound Document) not fully supported'"
+        "src/content/office_processor.cpp: posix_spawn, posix_spawnattr_setflags, posix_spawn_file_actions used at lines 887–912",
+        "src/content/ROADMAP.md: item marked [x]"
       ],
-      "impact": "Legacy .doc/.xls/.ppt files cannot be extracted; only OOXML (DOCX/XLSX/PPTX) and ODF are handled",
+      "impact": "Legacy .doc/.xls/.ppt files are now extracted via soffice headless",
       "issue_title_suggestion": "feat(content): implement LibreOffice headless fallback in office_processor.cpp for legacy .doc/.xls/.ppt",
       "label_suggestions": [
         "module:content",
         "kind:implementation",
         "priority:medium"
-      ]
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-002",
@@ -41,18 +43,20 @@
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — OCR section",
       "file": "src/content/mime_detector.cpp",
       "expected": "MimeDetector triggers OCR for image/png, image/jpeg, image/tiff when ContentPolicy::ocrEnabled() == true for the collection",
-      "observed": "No ocrEnabled() method found on ContentPolicy; MimeDetector does not trigger OCR routing",
+      "observed": "Implemented: MimeDetector::shouldTriggerOcr() checks policy_.ocrEnabled() and returns true for image/png, image/jpeg, image/tiff; ValidationResult::ocr_recommended is populated",
       "evidence": [
-        "grep -rn 'ocrEnabled' include/content/ — no results",
-        "src/content/mime_detector.cpp — no OCR routing logic"
+        "src/content/mime_detector.cpp:561 — shouldTriggerOcr() checks policy_.ocrEnabled()",
+        "include/content/mime_detector.h:90–100 — shouldTriggerOcr() declarations",
+        "src/content/ROADMAP.md: item marked [x]"
       ],
-      "impact": "OCR is not automatically triggered during ingestion; must be invoked manually via ocr_processor.cpp",
+      "impact": "OCR is automatically triggered during ingestion when collection policy enables it",
       "issue_title_suggestion": "feat(content): add ContentPolicy::ocrEnabled() and wire OCR trigger in MimeDetector",
       "label_suggestions": [
         "module:content",
         "kind:implementation",
         "priority:medium"
-      ]
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-003",
@@ -61,17 +65,23 @@
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — OCR section",
       "file": "src/content/ocr_processor.cpp",
       "expected": "Rescale images to 300 DPI before OCR if metadata indicates lower resolution; apply adaptive binarisation via Leptonica",
-      "observed": "Leptonica used for image loading (line 145); no DPI rescaling logic found",
+      "observed": "Implemented: OcrProcessor::Config has target_dpi=300, enable_dpi_rescaling=true, enable_adaptive_binarization=true. runTesseract() uses pixGetXRes/pixGetYRes for DPI detection, pixScale for upscaling, pixConvertTo8+pixSauvolaBinarize(whsize=15, k=0.35) for binarisation. Metadata fields ocr_input_dpi, ocr_rescaled, ocr_binarized populated in ExtractionResult::metadata",
       "evidence": [
-        "src/content/ocr_processor.cpp — grep for 'rescale', '300', 'dpi', 'binariz' returns no results"
+        "src/content/ocr_processor.cpp:171 — DPI detection and pixScale upscaling",
+        "src/content/ocr_processor.cpp:207 — pixSauvolaBinarize adaptive binarisation",
+        "src/content/ocr_processor.cpp:304–306 — metadata fields populated",
+        "include/content/ocr_processor.h:78–80 — Config fields target_dpi/enable_dpi_rescaling/enable_adaptive_binarization",
+        "tests/test_ocr_processor.cpp — 8 DPI/binarization tests (OcrProcessorConfigTest.DpiRescalingConfigFields etc.)",
+        "tests/CMakeLists.txt — OcrDpiPreprocessingFocusedTests standalone target"
       ],
-      "impact": "OCR quality on low-resolution scans may be degraded; no pre-processing normalisation",
+      "impact": "OCR quality on low-resolution scans is improved; pre-processing normalisation applied automatically",
       "issue_title_suggestion": "feat(content): add 300-DPI rescaling and adaptive binarisation in ocr_processor.cpp",
       "label_suggestions": [
         "module:content",
         "kind:quality",
         "priority:medium"
-      ]
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-004",
@@ -80,17 +90,19 @@
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — OCR section",
       "file": "src/content/ocr_processor.cpp",
       "expected": "Language packs loaded from config/ai_ml/tesseract_lang/; default eng; configurable per-collection",
-      "observed": "config_.data_dir is user-provided with no default value pointing to config/ai_ml/tesseract_lang/; language pack path is not constrained",
+      "observed": "Implemented: runTesseract() calls ConfigPathResolver::tryResolve(\"config/ai_ml/tesseract_lang\") when config_.data_dir is empty; resolved path used as tessdata dir; falls back to Tesseract auto-detect when directory does not exist",
       "evidence": [
-        "src/content/ocr_processor.cpp:132 — 'const char* data_dir = config_.data_dir.empty() ? nullptr : config_.data_dir.c_str()'"
+        "src/content/ocr_processor.cpp:134–143 — ConfigPathResolver::tryResolve(\"config/ai_ml/tesseract_lang\")",
+        "src/content/ROADMAP.md: item marked [x]"
       ],
-      "impact": "Inconsistent deployment — operators must know the path; no convention-over-configuration",
+      "impact": "Consistent deployment; operators no longer need to manually configure the tessdata path",
       "issue_title_suggestion": "feat(content): default ocr_processor data_dir to config/ai_ml/tesseract_lang/ via ConfigPathResolver",
       "label_suggestions": [
         "module:content",
         "kind:configuration",
         "priority:low"
-      ]
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-005",
@@ -99,17 +111,20 @@
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — Streaming Ingestion section",
       "file": "src/content/async_ingestion_worker.cpp",
       "expected": "ingestStream() blocks the caller when the worker queue depth exceeds config_.max_queue_depth; returns a std::future<ContentId> for async callers",
-      "observed": "Back-pressure item is still [ ] open in FUTURE_ENHANCEMENTS.md",
+      "observed": "Implemented: submitStream() blocks via std::condition_variable::wait when job_queue_.size() >= config_.max_queue_depth; ingestStream() returns std::future<std::string>; backpressure_cv_ notified on dequeue and shutdown",
       "evidence": [
-        "src/content/FUTURE_ENHANCEMENTS.md line ~69: '[ ] Back-pressure: ingestStream() blocks the caller...'"
+        "src/content/async_ingestion_worker.cpp:270 — backpressure_cv_.wait on max_queue_depth",
+        "src/content/async_ingestion_worker.cpp:291 — ingestStream() returns std::future<std::string>",
+        "src/content/ROADMAP.md: item marked [x]"
       ],
-      "impact": "Under high ingestion load the worker queue can grow unbounded; callers are not throttled",
+      "impact": "Queue depth is respected under load; callers are throttled and no unbounded growth occurs",
       "issue_title_suggestion": "feat(content): implement back-pressure in async_ingestion_worker.cpp for ingestStream()",
       "label_suggestions": [
         "module:content",
         "kind:reliability",
         "priority:low"
-      ]
+      ],
+      "status": "resolved"
     },
     {
       "id": "CON-006",
@@ -141,17 +156,19 @@
       "claim_source": "src/content/FUTURE_ENHANCEMENTS.md — Security / Reliability section",
       "file": "src/content/office_processor.cpp",
       "expected": "LibreOffice headless subprocess runs under a restricted OS user with no write access to ThemisDB data dir; uses posix_spawn instead of system()",
-      "observed": "LibreOffice fallback not yet implemented (see CON-001); security constraint must be applied when CON-001 is implemented",
+      "observed": "Implemented as part of CON-001: posix_spawn with POSIX_SPAWN_RESETIDS (drops SUID bits), POSIX_SPAWN_SETPGROUP (new process group), POSIX_SPAWN_SETSIGDEF (reset signal handlers); HOME set to temp dir so soffice cannot modify user home dir",
       "evidence": [
-        "src/content/FUTURE_ENHANCEMENTS.md: '[ ] LibreOffice headless subprocess ... must run in a separate OS user ... use posix_spawn'"
+        "src/content/office_processor.cpp:906 — flags = POSIX_SPAWN_SETPGROUP | POSIX_SPAWN_SETSIGDEF | POSIX_SPAWN_RESETIDS",
+        "src/content/office_processor.cpp:876 — HOME restricted to tmp_dir"
       ],
-      "impact": "If LibreOffice fallback is added without sandboxing, a malicious document could compromise the ThemisDB data directory",
+      "impact": "LibreOffice subprocess is sandboxed; a malicious document cannot compromise the ThemisDB data directory",
       "issue_title_suggestion": "fix(content/security): ensure LibreOffice subprocess in office_processor.cpp uses posix_spawn with restricted user",
       "label_suggestions": [
         "module:content",
         "kind:security",
         "priority:medium"
-      ]
+      ],
+      "status": "resolved"
     }
   ]
 }
