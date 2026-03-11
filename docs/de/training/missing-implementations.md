@@ -52,11 +52,11 @@ bevor der Status auf **Beta** angehoben werden kann.
 | Feld | Wert |
 |------|------|
 | **Schweregrad** | Hoch |
-| **Status** | Offen |
+| **Status** | ✅ Behoben (PR: feat(training): implement LoRA model weight manipulation) |
 | **Claim-Quelle** | `src/training/README.md`, Abschnitt "Production Readiness" |
 | **Erwartet** | `IncrementalLoRATrainer` manipuliert echte LoRA-Modellgewichte und serialisiert Checkpoint-Daten |
-| **Beobachtet** | Modellgewichtmanipulation, Optimizer-Zustand und Checkpoint-Serialisierung sind mit Platzhalterwerten simuliert; ML-Framework-Integration (z.B. llama.cpp LoRA APIs) fehlt |
-| **Evidence** | `src/training/incremental_lora_trainer.cpp` (Kommentare im Trainingsloop-Abschnitt) |
+| **Beobachtet** | `IncrementalLoRATrainer` nutzt jetzt `llm::lora::LoRALayer` + `AdamOptimizer` für echte Gewichts-Updates. Trainingsloop führt echte Forward-/Backward-Pässe und Adam-Optimizer-Schritte durch. CUDA/HIP-Beschleunigung via `GPULoRALayer` + `GPUSGDOptimizer` optional. Checkpoint-Serialisierung schreibt B- und A-Tensoren als Binärdaten. |
+| **Evidence** | `src/training/incremental_lora_trainer.cpp` (`initLoRAComponents`, `runCPUTrainingStep`, `runGPUTrainingStep`, `serializeWeightTensors`, `loadCheckpointWeights`) |
 | **Issue-Titelvorschlag** | `feat(training): integrate real LoRA weight manipulation via llama.cpp / libtorch` |
 | **Label-Vorschläge** | `module:training`, `priority:high`, `type:stub`, `depends:llm` |
 

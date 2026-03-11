@@ -28,6 +28,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] ContentModality enum for multi-modality sample tracking (Target: Q1 2026) — `auto_labeler.h` (b2342851)
 - [x] Confidence-Threshold Auto-Calibration via isotonic regression (Target: Q1 2026) — `ConfidenceCalibrator` in `training_pipeline.h/.cpp` (b2342851)
 - [x] Multi-modality parser (`ModalityDetector`, `TextClauseExtractor`, `TableExtractor`, `CitationExtractor`, `OCRExtractor`) (Target: Q1 2026) — `modality_parser.h/.cpp` (b2342851)
+- [x] Real LoRA weight manipulation in `IncrementalLoRATrainer` (Target: Q1 2026) — replaced `computeSimulatedLoss()` with `LoRALayer` + `AdamOptimizer` forward/backward/step; CUDA/HIP via `GPULoRALayer`; binary checkpoint serialization for B and A matrices (`incremental_lora_trainer.cpp`)
 
 ## In Progress 🚧
 - [~] Multi-GPU distributed training coordination (Target: Q2 2026)
@@ -116,6 +117,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - NLP modality extractor is provided externally (`analytics::NlpTextAnalyzer`); not bundled.
 - Distributed/multi-GPU training is not yet coordinated; single-node only.
 - LoRA adapter serving (inference) must be handled by the LLM integration layer.
+- Real LoRA weight updates use the embedded Tensor framework; base-model tokenization (llama.cpp) is not yet wired — training batches are encoded as float feature vectors from sample hashes.
 
 ## Breaking Changes
 - `TrainingSample` struct is stable from v1.x; new optional fields only.
