@@ -168,9 +168,7 @@ jobs:
           cc:             ${{ matrix.cc }}
           cxx:            ${{ matrix.cxx }}
           # librocksdb-dev: fix CMake "RocksDB not found"; libfmt-dev: fix find_package(fmt); libtbb-dev: optional threading
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev
-
-      - name: Configure and build
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev
         uses: ./.github/actions/configure-themis
         with:
           cc:  ${{ matrix.cc }}
@@ -364,7 +362,7 @@ jobs:
           cc:             gcc-12
           cxx:            g++-12
           # librocksdb-dev: fix CMake "RocksDB not found"; libfmt-dev: fix find_package(fmt); libtbb-dev: optional threading
-          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev lcov
+          extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev lcov
 
       - name: Configure and build (coverage)
         uses: ./.github/actions/configure-themis
