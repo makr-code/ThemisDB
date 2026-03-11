@@ -45,7 +45,7 @@ v2.2.0 – Production-ready hybrid search with highlight/snippet generation and 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [x] Negative keyword filtering (`NOT` operator) (`NegativeKeywordFilter`, v2.2.0) (Issue: #2003)
+- *(all short-term items completed — see Completed ✅ sections above)*
 
 ### Long-term (6-12 months)
 - [I] Distributed search across shards with result merging (Issue: #2280)

@@ -171,7 +171,7 @@ HybridSearch(query="database performance tuning", k=10)
 | `search.hybrid.bm25_weight` | 0.5 | BM25 weight in fusion |
 | `search.llm_rewriter.enabled` | false | Enable LLM query rewriting |
 | `search.llm_reranker.enabled` | false | Enable LLM re-ranking |
-| `search.bm25.k1` | 1.5 | BM25 term frequency saturation |
+| `search.bm25.k1` | 1.2 | BM25 term frequency saturation |
 | `search.bm25.b` | 0.75 | BM25 length normalization |
 
 ---

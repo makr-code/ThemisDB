@@ -63,7 +63,7 @@ HybridSearch (Hauptfassade)
 | Komponente | Funktion |
 |---|---|
 | HybridSearch | Zentraler Orchestrator: BM25 + Vektor + RRF-Fusion |
-| BM25Search | Invertierter Index mit BM25-Scoring (k1=1.5, b=0.75) |
+| BM25Search | Invertierter Index mit BM25-Scoring (k1=1.2, b=0.75) |
 | VectorSearch | HNSW-ANN-Suche (Cosine, Dot Product, L2) |
 | RRF | Reciprocal Rank Fusion (O(k log k), keine Score-Normalisierung) |
 | LlmQueryRewriter | LLM-basierte Query-Umschreibung mit Fallback |
@@ -97,56 +97,69 @@ HybridSearch (Hauptfassade)
 ## Konfiguration
 
 ```cpp
+// HybridSearch konfigurieren (Felder aus HybridSearch::Config)
 HybridSearch::Config config;
 
-// BM25-Parameter
-config.bm25_k1 = 1.5;     // Term-Frequency-Sättigung
-config.bm25_b  = 0.75;    // Längen-Normalisierung
+// RRF-Fusion-Gewichte
+config.bm25_weight   = 0.5;    // Gewicht BM25-Ergebnisse (>= 0)
+config.vector_weight = 0.5;    // Gewicht Vektor-Ergebnisse (>= 0)
+config.use_rrf       = true;   // Reciprocal Rank Fusion verwenden (empfohlen)
+config.rrf_k         = 60.0;   // RRF-Konstante
 
-// RRF-Fusion
-config.rrf_k         = 60;  // RRF-Konstante
-config.bm25_weight   = 0.5; // Gewicht BM25 in Fusion
+// Ergebniszählen
+config.k        = 10;   // Finale Ergebnis-Anzahl
+config.k_bm25   = 50;   // BM25-Kandidaten
+config.k_vector = 50;   // Vektor-Kandidaten
 
-// LLM-Augmentierung (optional)
-config.llm_rewriter_enabled  = false; // Query-Umschreibung
-config.llm_reranker_enabled  = false; // Re-Ranking
-config.llm_timeout_ms        = 200;   // Timeout mit Fallback
+// Performance-Limits (Sicherheitsschranken)
+config.max_k          = 10000; // Obere Schranke für k
+config.max_candidates = 10000; // Obere Schranke für k_bm25 / k_vector
 
-// Performance-Limits
-config.max_k          = 1000;  // Maximale Ergebnis-Anzahl
-config.max_candidates = 10000; // Maximale HNSW-Kandidaten
+// Index-Zuordnung
+config.default_table  = "documents";
+config.default_column = "content";
 
-HybridSearch engine(config);
+// Vektordistanzmetrik
+config.vector_metric = VectorIndexManager::Metric::COSINE; // COSINE / DOT / L2
+
+// Konstruktor wirft std::invalid_argument bei ungültiger Config
+HybridSearch engine(fulltext_index, vector_index, config);
 ```
+
+> **Hinweis BM25-Parameter**: k1 (= 1.2) und b (= 0.75) werden im BM25-Scorer
+> (`src/index/inverted_index.cpp`) konfiguriert, nicht in `HybridSearch::Config`.
 
 ---
 
 ## Schnellstart
 
 ```cpp
-// Hybride Suche durchführen
-HybridSearch::Request req;
-req.query   = "database performance tuning";
-req.top_k   = 10;
-req.mode    = HybridSearch::Mode::HYBRID;
-req.tenant  = "my-tenant";
+#include "search/hybrid_search.h"
+#include "search/personalized_ranker.h"
+#include "search/faceted_search.h"
 
-auto result = engine.search(req);
-// result.hits      — sortierte Treffer-Liste
-// result.facets    — Facetten-Buckets
-// result.total     — Gesamtanzahl Treffer
-// result.highlights — Hervorhebungen pro Dokument
+using namespace themis;
 
-// Personalisiertes Re-Ranking
+// 1. Hybride Suche durchführen
+std::string text_query = "database performance tuning";
+std::vector<float> query_vec = embed(text_query); // eigene Embedding-Funktion
+
+HybridSearch::SearchStats stats;
+auto results = engine.search(text_query, query_vec.data(), query_vec.size(), &stats);
+
+if (stats.partial_result) {
+    // Ein Backend schlug fehl; Ergebnisse sind degradiert
+}
+
+// 2. Personalisiertes Re-Ranking
 PersonalizedRanker ranker;
 ranker.recordInteraction(user_id, doc_id, InteractionType::CLICK);
-auto ranked = ranker.rerank(user_id, result.hits);
+auto reranked = ranker.rerank(user_id, results);
 
-// Facetten-Drill-Down
-FacetedSearch facets;
-facets.addFilter("category", "database");
-facets.addRangeFilter("year", 2020, 2026);
-auto filtered = facets.apply(result.hits);
+// 3. Facetten berechnen
+FacetedSearch facets(&secondary_index);
+auto facet_result = facets.computeFacet("documents", "category");
+// facet_result.value_counts — Map<Wert, Anzahl Dokumente>
 ```
 
 ---
