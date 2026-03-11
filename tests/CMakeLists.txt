@@ -9662,6 +9662,14 @@ if(THEMIS_ENABLE_LLM)
         "llm;benchmark;batch-scheduler;performance"
         "Continuous batch scheduler benchmark: throughput at varying concurrency levels"
     )
+
+    add_llm_focused_test(
+        test_llm_active_vram_allocator
+        llm/test_active_vram_allocator.cpp
+        LlmActiveVRAMAllocatorFocusedTests
+        "llm;vram;gpu;oom;recovery;unit"
+        "ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation"
+    )
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.

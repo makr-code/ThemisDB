@@ -39,6 +39,7 @@ v1.16.0 – Full-featured production LLM module. All short-term and long-term pl
 - [x] Multi-modal input support (image + text, experimental) (Issue: #1927)
 - [x] LoRA adapter hot-loading at inference time (Issue: #1929)
 - [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
+- [x] ActiveVRAMAllocator: GPU VRAM allocation, OOM recovery (LRU eviction, defragmentation, CPU spilling), VRAM waste tracking (LLM-MISSING-001, March 2026)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -96,6 +97,7 @@ v1.16.0 – Full-featured production LLM module. All short-term and long-term pl
 - [x] API stability guaranteed (Issue: #1943)
 - [x] Build system audit: 16 previously-unregistered source files added to cmake/CMakeLists.txt and cmake/ModularBuild.cmake; all 151 src/llm/ files now registered (March 2026)
 - [x] Test registration: all 28 tests/llm/ focused test targets added to tests/CMakeLists.txt via add_llm_focused_test macro (March 2026)
+- [x] ActiveVRAMAllocator implemented (LLM-MISSING-001): real GPU allocation, OOM recovery (eviction/defrag/spill), 29 tests, benchmark (March 2026)
 
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.

@@ -1326,6 +1326,50 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_SOURCE_DIR}/tests/llm/bench_model_loadi
     message(STATUS "  LLM: Model store/load latency (1KB/1MB/10MB), SHA256 verification, temp-file cleanup")
 endif()
 
+# ActiveVRAMAllocator Benchmarks (LLM-MISSING-001)
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_active_vram_allocator.cpp")
+    message(STATUS "Adding ActiveVRAMAllocator benchmarks")
+
+    add_executable(bench_active_vram_allocator
+        bench_active_vram_allocator.cpp
+    )
+
+    target_include_directories(bench_active_vram_allocator PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(bench_active_vram_allocator PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_active_vram_allocator PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_LLM_EXPORTS
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_active_vram_allocator PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_active_vram_allocator
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ActiveVRAMAllocator: alloc/free at 4KB/1MB/64MB, batch alloc, evictLRU, defragment, spillToCPU, getStats")
+endif()
+
 # ============================================================================
 # Rotary Embeddings Benchmarks (NEW)
 # ============================================================================
