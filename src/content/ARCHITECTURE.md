@@ -223,11 +223,11 @@ ContentManager: update status → notify caller (webhook or polling)
 
 ## 11. Known Limitations & Future Work
 
-- Legacy Office formats (`.doc`/`.xls`/`.ppt` via OLE/Compound Document) are supported via LibreOffice headless fallback (`posix_spawn`) in `office_processor.cpp::extractLegacyViaLibreOffice()` (CON-001 resolved).
-- MimeDetector-triggered OCR routing is wired via `ContentPolicy::ocrEnabled()` and `MimeDetector::shouldTriggerOcr()` (CON-002 resolved).
-- OCR DPI pre-processing (300 DPI rescaling via `pixScale` + adaptive Sauvola binarisation via `pixSauvolaBinarize`) is implemented in `ocr_processor.cpp::runTesseract()` (CON-003 resolved).
-- Back-pressure for `ingestStream()` (blocking on `max_queue_depth` via condition variable) is implemented in `async_ingestion_worker.cpp` (CON-005 resolved).
-- Zip-bomb protection (`ContentSecurityManager::checkZipBomb()`) is enforced in `archive_processor.cpp`: max 100× decompression ratio, max 1 000 archive entries, called before extraction (CON-006 resolved).
+- Legacy Office formats (`.doc`/`.xls`/`.ppt` via OLE/Compound Document) are supported via LibreOffice headless fallback (`extractLegacyViaLibreOffice()`, `posix_spawn`, 30 s timeout, RAII temp-file cleanup, sandboxed env) (CON-001 ✅).
+- MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` is wired in `content_manager.cpp` (CON-002 ✅).
+- OCR DPI pre-processing (300 DPI rescaling + adaptive binarisation via Leptonica) implemented in `ocr_processor.cpp` (CON-003 ✅).
+- Back-pressure for `ingestStream()` (blocking on `max_queue_depth`) is implemented in `async_ingestion_worker.cpp` (CON-005 ✅).
+- Zip-bomb protection (`ContentSecurityManager::checkZipBomb()`) is enforced in `archive_processor.cpp`: max 100× decompression ratio, max 1 000 archive entries, called before extraction (CON-006 ✅).
 - Video scene detection, subtitle extraction, and keyframe extraction are stub implementations in non-FFmpeg builds.
 
 ---

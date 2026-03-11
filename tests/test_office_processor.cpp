@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_office_processor.cpp                          ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 04:05:35                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-11 17:52:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     346                                            ║
+    • Total Lines:     683                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • (current)        2026-03-11  feat: LibreOfficeSecurityTest + LegacyOfficeExtractionTest suites (CON-001/CON-007) ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3b1aefed2  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -486,6 +487,24 @@ TEST(LegacyOfficeMetricsTest, DocExtractionFailureIncrementsErrorCounter) {
     EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
 }
 
+// PPT extraction failure must also increment the extract_errors_total counter.
+TEST(LegacyOfficeMetricsTest, PptExtractionFailureIncrementsErrorCounter) {
+    ContentMetrics metrics;
+
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/soffice_test_binary";
+    cfg.metrics = &metrics;
+    OfficeProcessor proc(std::move(cfg));
+    ContentType ct;
+
+    std::string blob = makeFakeOLEBlob("PowerPoint");
+    auto result = proc.extract(blob, ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(metrics.getExtractErrorsTotal(), 1u);
+    EXPECT_EQ(metrics.getOfficeExtractedTotal(), 0u);
+}
+
 TEST_F(LegacyOfficeExtractionTest, ConfigDefaultTimeoutIs30) {
     OfficeProcessor::Config cfg;
     EXPECT_EQ(cfg.libreoffice_timeout_seconds, 30);
@@ -494,6 +513,36 @@ TEST_F(LegacyOfficeExtractionTest, ConfigDefaultTimeoutIs30) {
 TEST_F(LegacyOfficeExtractionTest, ConfigDefaultPathIsEmpty) {
     OfficeProcessor::Config cfg;
     EXPECT_TRUE(cfg.libreoffice_path.empty());
+}
+
+// XLS: same end-to-end path as DOC but routed through the XLS type switch.
+// Verifies that a valid XLS OLE blob fails gracefully when soffice is absent.
+TEST_F(LegacyOfficeExtractionTest, XlsBlobFailsGracefullyWhenLibreOfficeNotFound) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/path/to/soffice_____does_not_exist";
+    OfficeProcessor proc_nolo(std::move(cfg));
+
+    std::string blob = makeFakeOLEBlob("Workbook");
+    auto result = proc_nolo.extract(blob, ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty())
+        << "Expected an error message when soffice binary does not exist (XLS)";
+}
+
+// PPT: same end-to-end path as DOC but routed through the PPT type switch.
+// Verifies that a valid PPT OLE blob fails gracefully when soffice is absent.
+TEST_F(LegacyOfficeExtractionTest, PptBlobFailsGracefullyWhenLibreOfficeNotFound) {
+    OfficeProcessor::Config cfg;
+    cfg.libreoffice_path = "/nonexistent/path/to/soffice_____does_not_exist";
+    OfficeProcessor proc_nolo(std::move(cfg));
+
+    std::string blob = makeFakeOLEBlob("PowerPoint");
+    auto result = proc_nolo.extract(blob, ct);
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error_message.empty())
+        << "Expected an error message when soffice binary does not exist (PPT)";
 }
 
 // ============================================================================

@@ -23,7 +23,7 @@ Provides multi-format content ingestion and processing for ThemisDB, handling JS
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Core content ingestion, PDF (poppler-cpp), Office OOXML/ODF (libzip+pugixml), OCR (Tesseract), streaming ingestion, perceptual deduplication, and embedding pipeline are operational. Legacy Office formats (DOC/XLS/PPT), MimeDetector-triggered OCR, and LibreOffice headless remain open items.
+**Maturity:** 🟢 Production-Ready — Core content ingestion, PDF (poppler-cpp), Office OOXML/ODF (libzip+pugixml), legacy Office formats (.doc/.xls/.ppt via LibreOffice headless, CON-001), OCR (Tesseract, CON-002/CON-003), streaming ingestion, perceptual deduplication, and embedding pipeline are all operational.
 
 ## Components
 

@@ -7372,6 +7372,92 @@ if(THEMIS_ENABLE_CONTENT)
         message(STATUS "AsyncIngestionWorker back-pressure focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_async_ingestion_backpressure.cpp")
     endif()
 
+    # -------------------------------------------------------------------------
+    # LegacyOfficeExtraction focused tests (CON-001)
+    # Covers: OLE header validation, DOC/XLS/PPT metadata routing,
+    #         graceful failure when soffice is absent, timeout enforcement,
+    #         and metrics counters (extract_errors_total).
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+        message(STATUS "Adding LegacyOfficeExtraction focused tests (CON-001)")
+
+        add_executable(test_legacy_office_extraction_focused
+            test_office_processor.cpp
+        )
+
+        target_include_directories(test_legacy_office_extraction_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_legacy_office_extraction_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_legacy_office_extraction_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME LegacyOfficeExtractionFocusedTests
+            COMMAND test_legacy_office_extraction_focused
+            --gtest_filter=LegacyOfficeExtractionTest.*:LegacyOfficeMetricsTest.*)
+
+        set_tests_properties(LegacyOfficeExtractionFocusedTests PROPERTIES
+            LABELS "content;office;legacy;doc;xls;ppt;libreoffice;posix-spawn;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  LegacyOffice: OLE header check, DOC/XLS/PPT type routing, graceful soffice-absent failure, timeout, metrics (CON-001)")
+    else()
+        message(STATUS "LegacyOfficeExtraction focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+    endif()
+
+    # -------------------------------------------------------------------------
+    # LibreOffice subprocess security focused tests (CON-007)
+    # Covers: relative-path rejection, dot-slash rejection, path-traversal
+    #         rejection, shell-metacharacter injection resistance, malformed
+    #         OLE blob handling, large-blob handling, and RAII temp-dir cleanup.
+    # -------------------------------------------------------------------------
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+        message(STATUS "Adding LibreOffice subprocess security focused tests (CON-007)")
+
+        add_executable(test_libreoffice_security_focused
+            test_office_processor.cpp
+        )
+
+        target_include_directories(test_libreoffice_security_focused PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${CMAKE_SOURCE_DIR}/src
+        )
+
+        target_link_libraries(test_libreoffice_security_focused PRIVATE
+            ${TEST_LIBS}
+            themis_content
+            themis_core
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_libreoffice_security_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+
+        add_test(NAME LibreOfficeSecurityFocusedTests
+            COMMAND test_libreoffice_security_focused
+            --gtest_filter=LibreOfficeSecurityTest.*)
+
+        set_tests_properties(LibreOfficeSecurityFocusedTests PROPERTIES
+            LABELS "content;office;security;posix-spawn;sandbox;path-hijacking;focused;unit"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  LibreOfficeSecurity: relative-path rejection, shell-metachar injection, malformed OLE, RAII cleanup (CON-007)")
+    else()
+        message(STATUS "LibreOffice security focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_office_processor.cpp")
+    endif()
+
 endif() # THEMIS_ENABLE_CONTENT
 # CDC Admin Tests (standalone – cdc_admin.cpp is in themis_core only when
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
