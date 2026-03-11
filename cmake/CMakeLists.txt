@@ -1774,6 +1774,11 @@ set(THEMIS_CORE_SOURCES
     # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; the file
     # always compiles and returns CONNECTOR_NOT_SUPPORTED when the flag is OFF.
     ../src/ingestion/cdc_connector.cpp
+    # Legal ingestion pipeline: deontic extraction, semantic validation, reference validation
+    ../src/ingestion/deontic_extractor.cpp
+    ../src/ingestion/semantic_validator.cpp
+    ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
 
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -2134,6 +2139,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
+    ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>

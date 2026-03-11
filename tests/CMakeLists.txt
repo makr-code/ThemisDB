@@ -10193,6 +10193,10 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/web_crawler_connector.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_coordinator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/cdc_connector.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/deontic_extractor.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/semantic_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/agentic_reference_validator.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/llm_adapter.cpp
 )
 
 # Helper macro for ingestion focused tests
@@ -10388,6 +10392,14 @@ add_ingestion_focused_test(
     IngestionLineageFocusedTests
     "ingestion;lineage;provenance;tracking;focused;unit"
     "IngestionLineage: IngestionLineageRecord struct, IngestionLineageStore, IngestionManager lineage API (Issue #1901)"
+)
+
+add_ingestion_focused_test(
+    test_legal_extraction_focused
+    test_legal_extraction.cpp
+    LegalExtractionFocusedTests
+    "ingestion;legal;deontic;semantic;extraction;focused;unit"
+    "LegalExtraction: DeonticExtractor, SemanticValidator, AgenticReferenceValidator, LegalIngestionConfig, IngestionManager legal pipeline"
 )
 # Metadata Module – Focused Test Targets
 # ============================================================================
@@ -10629,6 +10641,15 @@ add_network_focused_test(
     NetworkTimeoutFocusedTests
     "network;timeout;socket;circuit-breaker;focused;unit"
     "SocketTimeoutManager: construction/destruction, timeout recording, circuit breaker, health state transitions"
+)
+
+# --- Adaptive Circuit Breaker (network resilience) ---
+add_network_focused_test(
+    test_network_circuit_breaker_focused
+    test_network_circuit_breaker.cpp
+    NetworkCircuitBreakerFocusedTests
+    "network;circuit-breaker;resilience;adaptive;recovery;focused;unit"
+    "AdaptiveCircuitBreaker: CLOSED/OPEN/HALF_OPEN state machine, error threshold trigger, recovery scenarios, adaptive threshold, stats, callback, thread-safety"
 )
 
 # --- Wire Protocol Connection Pool ---

@@ -63,6 +63,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `Stats::utilization` + `Stats::pool_size_adaptations` metrics exposed via `getStats()`
   - `adaptPoolSize()` called from existing maintenance thread every 10 s
   - Unit tests in `test_wire_protocol_connection_pool.cpp` (AdaptivePoolingStrategyTest + pool tests)
+- [x] Adaptive circuit breaker for network failure resilience (Issue: #FEATURE)
+  - `AdaptiveCircuitBreaker` in `include/network/adaptive_circuit_breaker.h` / `src/network/adaptive_circuit_breaker.cpp`
+  - CLOSED → OPEN → HALF_OPEN → CLOSED state machine; thread-safe (atomic state, mutex for counters)
+  - `shouldAllow()` / `recordSuccess()` / `recordFailure()` / `getState()` / `getStats()`
+  - Adaptive threshold: reduces `failure_threshold` on repeated trips; restores on full recovery
+  - Half-open timeout: re-opens circuit if probe window expires without enough successes
+  - State-change callback for Prometheus / logging integration
+  - Unit tests in `tests/test_network_circuit_breaker.cpp` (`NetworkCircuitBreakerFocusedTests`, 19 tests)
 - [?] Adaptive I/O thread scaling based on connection load
 - [?] Structured network audit log (connection open/close/auth events)
 
@@ -127,6 +135,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `WireProtocolPerformanceFocusedTests`, `UDPFastPathFocusedTests`, `GeoTopologyRouterFocusedTests`
   - `WireProtocolV2FocusedTests`, `WireProtocolWebSocketFocusedTests` (THEMIS_ENABLE_WEBSOCKET)
   - `QuicTransportFocusedTests` (THEMIS_ENABLE_HTTP3), `GrpcTransportFocusedTests` (THEMIS_ENABLE_GRPC)
+  - `NetworkCircuitBreakerFocusedTests` (`test_network_circuit_breaker.cpp`, 2026-03-11) — AdaptiveCircuitBreaker
 - [x] Unit tests added for WebSocket upgrade (`test_wire_protocol_websocket.cpp`)
 - [x] Protocol detection logic tested (8 test cases covering all relevant prefixes)
 - [x] Security: connection-count accounting correct across WS upgrade

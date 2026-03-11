@@ -143,8 +143,7 @@ a `hub_upload` JSON entry to the `AuditLogger` regardless of outcome, recording
 backward compatibility.
 
 **Remaining (future issues):**
-- ~~Stream JSONL shards directly from memory (current impl reads files from disk; avoids double filesystem write in future PR).~~ ✅ Implemented — `HuggingFaceHubClient::uploadShards()` + `httpPutBytes()` deliver memory-streaming uploads without any filesystem write (see `include/exporters/huggingface_hub_client.h` → `MemoryShardSpec`, `uploadShards()`).
-- `hf_token_kek_id` for KMS-protected token lookup (future security hardening).
+
 
 ---
 

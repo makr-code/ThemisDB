@@ -116,8 +116,31 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
   - `LineageStatus` enum: `SUCCESS`, `FAILED`, `QUARANTINED`, `DRY_RUN`
   - `IngestionManager` API: `enableLineageTracking()`, `isLineageTrackingEnabled()`, `getLineageRecords(source_id)`, `getLineageRecordsByRun(correlation_id)`, `getAllLineageRecords()`, `clearLineageRecords()`
   - Tracking is opt-in (disabled by default); one batch record per successful source run + per-quarantine-entry records
-  - Transformation steps auto-detected: `schema_validation`, `mime_detection`, `rate_limiting`, `incremental_checkpoint`, `dry_run`
+  - Transformation steps auto-detected: `schema_validation`, `mime_detection`, `rate_limiting`, `incremental_checkpoint`, `dry_run`, `deontic_extraction`, `semantic_validation`, `reference_validation`
   - Test coverage: `tests/test_ingestion_lineage.cpp` (19 tests) → `IngestionLineageFocusedTests`
+
+### Phase 5: LLM-Driven Semantic Extraction for Legal Texts (Status: Phase 1 ✅ / Phase 2 Planned 📋)
+
+**Phase 1 (Completed ✅):**
+- [x] `config/ingestion/legal-ingestion-schema.yaml` — YAML schema with deontic rules, entity patterns, temporal patterns, quality gates, and agentic verification agents
+- [x] `DeonticExtractor` (`include/ingestion/deontic_extractor.h`, `src/ingestion/deontic_extractor.cpp`) — regex-based deontic logic extraction for 7 categories (obligation, permission, prohibition, definition, condition, exception, reference); entity extraction (law_reference, person_role, organization, temporal, threshold_value); injectable extractor function for LLM Phase 2
+- [x] `SemanticValidator` (`include/ingestion/semantic_validator.h`, `src/ingestion/semantic_validator.cpp`) — quality gates (min_confidence, deontic_confidence, section_hierarchy, temporal_present, no_dangling_refs); semantic scoring; document-level extraction with per-section splitting; injectable validator function
+- [x] `AgenticReferenceValidator` (`include/ingestion/agentic_reference_validator.h`, `src/ingestion/agentic_reference_validator.cpp`) — regex-based reference extraction (§ N Abs. M, named-law, Article, EU directive); knowledge-base lookup; dangling reference detection and reporting; injectable extractor function
+- [x] `LegalIngestionConfig` struct in `ingestion_manager.h` — enabled, confidence_threshold, validate_references, require_section_struct, flag_low_confidence
+- [x] `IngestionManager::setLegalIngestionConfig()` / `getLegalIngestionConfig()` — per-source legal pipeline registration
+- [x] `IngestionManager::runLegalExtraction()` — ad-hoc extraction on a single document
+- [x] `IngestionBuilder::withLegalIngestionConfig()` — fluent builder support
+- [x] Lineage tracking extended: `deontic_extraction`, `semantic_validation`, `reference_validation` steps recorded when legal pipeline is active
+- [x] Unit tests: `tests/test_legal_extraction.cpp` (80+ tests) → `LegalExtractionFocusedTests`
+- [x] Documentation: `docs/guides/legal-text-ingestion.md`, `examples/legal-ingestion-example.md`
+
+**Phase 2 (Planned 📋 — Target: Q3 2026):**
+- [ ] LoRA adapter training pipeline for German legal texts (BImSchG, StGB, DSGVO)
+- [ ] Mistral 7B integration via llama.cpp (injectable via `DeonticExtractor::setExtractorFn()`)
+- [ ] SpaCy `de_legal_ner` custom model for `DeonticExtractor::extractEntities()`
+- [ ] Full agentic verification loop (deontic consistency checker, temporal validator, hierarchy fixer)
+- [ ] Multi-law knowledge base populated from gesetze-im-internet.de
+- [ ] Performance benchmarks: extraction throughput, LLM latency
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (Issue: #1909) — 19 focused test targets in tests/CMakeLists.txt

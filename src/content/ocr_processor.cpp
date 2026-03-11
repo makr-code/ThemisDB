@@ -37,6 +37,7 @@
 
 #include "content/ocr_processor.h"
 #include "content/content_metrics.h"
+#include "config/config_path_resolver.h"
 #include <algorithm>
 #include <chrono>
 #include <cstring>
@@ -123,13 +124,27 @@ std::string OcrProcessor::getTesseractVersion() {
 // Core Tesseract invocation
 // ---------------------------------------------------------------------------
 
-std::string OcrProcessor::runTesseract(const std::string& blob) {
+std::string OcrProcessor::runTesseract(const std::string& blob,
+                                        PreprocessInfo* preprocess_info) {
 #if OCR_LIBRARY_AVAILABLE
     if (blob.empty()) return "";
 
+    // Resolve effective tessdata directory:
+    // 1. Use the explicit config_.data_dir if set.
+    // 2. Otherwise try the canonical default via ConfigPathResolver.
+    // 3. If neither is available, pass nullptr so Tesseract auto-detects.
+    std::string effective_data_dir = config_.data_dir;
+    if (effective_data_dir.empty()) {
+        auto resolved = themis::config::ConfigPathResolver::tryResolve(
+            "config/ai_ml/tesseract_lang");
+        if (resolved) {
+            effective_data_dir = *resolved;
+        }
+    }
+
     // Initialise Tesseract API
     tesseract::TessBaseAPI api;
-    const char* data_dir = config_.data_dir.empty() ? nullptr : config_.data_dir.c_str();
+    const char* data_dir = effective_data_dir.empty() ? nullptr : effective_data_dir.c_str();
     if (api.Init(data_dir, config_.language.c_str()) != 0) {
         return "";
     }
@@ -145,6 +160,71 @@ std::string OcrProcessor::runTesseract(const std::string& blob) {
     // Load image from memory via Leptonica
     const auto* data = reinterpret_cast<const uint8_t*>(blob.data());
     Pix* pix = pixReadMem(data, static_cast<size_t>(blob.size()));
+    if (!pix) {
+        api.End();
+        return "";
+    }
+
+    // -----------------------------------------------------------------------
+    // Pre-processing step 1: DPI detection and rescaling to target_dpi
+    // -----------------------------------------------------------------------
+    if (config_.enable_dpi_rescaling && config_.target_dpi > 0) {
+        l_int32 xres = pixGetXRes(pix);
+        l_int32 yres = pixGetYRes(pix);
+        // Prefer x-resolution; fall back to y-resolution when x is unset
+        int current_dpi = (xres > 0) ? static_cast<int>(xres)
+                                      : static_cast<int>(yres);
+
+        if (preprocess_info) {
+            preprocess_info->original_dpi = current_dpi;
+        }
+
+        if (current_dpi > 0 && current_dpi < config_.target_dpi) {
+            l_float32 scale =
+                static_cast<l_float32>(config_.target_dpi) / static_cast<l_float32>(current_dpi);
+            Pix* scaled = pixScale(pix, scale, scale);
+            pixDestroy(&pix);
+            pix = scaled;
+            if (pix) {
+                pixSetXRes(pix, static_cast<l_int32>(config_.target_dpi));
+                pixSetYRes(pix, static_cast<l_int32>(config_.target_dpi));
+                if (preprocess_info) preprocess_info->rescaled = true;
+            }
+        }
+    }
+
+    if (!pix) {
+        api.End();
+        return "";
+    }
+
+    // -----------------------------------------------------------------------
+    // Pre-processing step 2: Adaptive binarisation (Sauvola method)
+    //
+    // Only applied when the image is not already 1-bit binary, since
+    // binarising an already-binary image would degrade quality.
+    // -----------------------------------------------------------------------
+    if (config_.enable_adaptive_binarization && pixGetDepth(pix) > 1) {
+        // Convert to 8-bit grayscale (handles 1/2/4/8/16/32 bpp input)
+        Pix* pix8 = pixConvertTo8(pix, 0);
+        pixDestroy(&pix);
+        pix = pix8;
+
+        if (pix) {
+            // Sauvola adaptive binarisation:
+            //   whsize = 15  → 31×31 local window (good for 300 DPI text)
+            //   factor = 0.35 → standard k parameter for document images
+            Pix* pixBin = nullptr;
+            if (pixSauvolaBinarize(pix, 15, 0.35f, 0,
+                                   nullptr, nullptr, nullptr, &pixBin) == 0
+                && pixBin) {
+                pixDestroy(&pix);
+                pix = pixBin;
+                if (preprocess_info) preprocess_info->binarized = true;
+            }
+        }
+    }
+
     if (!pix) {
         api.End();
         return "";
@@ -169,6 +249,7 @@ std::string OcrProcessor::runTesseract(const std::string& blob) {
     return text;
 #else
     (void)blob;
+    (void)preprocess_info;
     return "";
 #endif
 }
@@ -212,13 +293,17 @@ ExtractionResult OcrProcessor::extract(
     }
 
     try {
-        result.text = runTesseract(blob);
+        PreprocessInfo preprocess_info;
+        result.text = runTesseract(blob, &preprocess_info);
 
         if (config_.extract_metadata) {
             result.metadata["ocr_language"] = config_.language;
             result.metadata["ocr_text_length"] = static_cast<int>(result.text.size());
             result.metadata["content_ocr_text"] = result.text;
             result.metadata["mime_type"] = content_type.mime_type;
+            result.metadata["ocr_input_dpi"]  = preprocess_info.original_dpi;
+            result.metadata["ocr_rescaled"]   = preprocess_info.rescaled;
+            result.metadata["ocr_binarized"]  = preprocess_info.binarized;
         }
 
         result.ok = true;
