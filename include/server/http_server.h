@@ -83,6 +83,7 @@
 #include "server/keys_api_handler.h"
 #include "server/api_key_mgmt_handler.h"
 #include "server/session_api_handler.h"
+#include "server/saml_auth_provider.h"
 #include "server/timeseries_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
@@ -575,6 +576,12 @@ private:
     http::response<http::string_body> handleSessionRevokeById(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSessionRevokeOthers(const http::request<http::string_body>& req);
 
+    // SAML 2.0 SP endpoints
+    http::response<http::string_body> handleSamlLogin(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlAcs(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlSlo(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSamlMetadata(const http::request<http::string_body>& req);
+
     // PKI endpoints (sign/verify)
     http::response<http::string_body> handlePkiSign(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePkiVerify(const http::request<http::string_body>& req);
@@ -846,6 +853,8 @@ private:
     // Session Management Handler
     std::shared_ptr<themis::auth::SessionManager> session_manager_;
     std::unique_ptr<themis::server::SessionApiHandler> session_api_;
+    // SAML 2.0 SP Handler
+    std::unique_ptr<themis::server::SamlAuthProvider> saml_provider_;
     // PKI API Handler
     std::unique_ptr<themis::server::PkiApiHandler> pki_api_;
     

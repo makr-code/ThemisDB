@@ -8073,6 +8073,46 @@ else()
     message(STATUS "SAML Authenticator tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_authenticator.cpp")
 endif()
 
+# SAML Auth Provider Tests (server-layer, focused binary)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saml_auth_provider.cpp")
+    message(STATUS "Adding SAML Auth Provider tests (server-layer)")
+
+    add_executable(test_saml_auth_provider
+        test_saml_auth_provider.cpp
+    )
+
+    target_link_libraries(test_saml_auth_provider PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(test_saml_auth_provider PRIVATE pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(test_saml_auth_provider PRIVATE pugixml::static)
+    endif()
+
+    target_compile_definitions(test_saml_auth_provider PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SAMLAuthProviderTests COMMAND test_saml_auth_provider)
+
+    set_tests_properties(SAMLAuthProviderTests PROPERTIES
+        LABELS "server;auth;saml;sso;sp;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SAML Auth Provider: SP login redirect, ACS validation, SLO, metadata, replay detection")
+else()
+    message(STATUS "SAML Auth Provider tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_saml_auth_provider.cpp")
+endif()
+
 # Session Manager Focused Tests (standalone binary)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
     message(STATUS "Adding Session Manager focused tests (standalone binary)")
