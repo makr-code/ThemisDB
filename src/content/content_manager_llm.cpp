@@ -53,7 +53,7 @@ json ContentManager::analyzeContent(const std::string& content_id) {
     
     try {
         // Get content metadata
-        auto meta_opt = getContentMetadata(content_id);
+        auto meta_opt = getContentMeta(content_id);
         if (!meta_opt) {
             result["error"] = "Content not found";
             return result;

@@ -2477,6 +2477,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bias_detector.cpp
     )
 
+endif()
+
 # Ensure minimal LLM components are available when referenced from http_server.
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.
 if(NOT THEMIS_ENABLE_LLM)

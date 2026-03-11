@@ -8611,6 +8611,8 @@ if(THEMIS_ENABLE_LLM)
 
 else()
     message(STATUS "LLM focused tests (tests/llm/) skipped (THEMIS_ENABLE_LLM=OFF)")
+endif()
+
 # Ingestion Module – Focused Standalone Test Targets
 # Each target links against themis_core (which now always includes all 10
 # ingestion source files) and the target's single test source.
@@ -9497,7 +9499,7 @@ add_prompt_focused_test(
 # Ingestion Module Focused Tests (Issue: #1910 — Integration tests)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp" AND NOT TARGET test_ingestion_integration_focused)
     message(STATUS "Adding Ingestion Integration focused tests (Issue #1910)")
 
     add_executable(test_ingestion_integration_focused
@@ -9535,10 +9537,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
 
     message(STATUS "  IngestionIntegration: FileSystemIngester, HuggingFaceConnector, GenericApiConnector end-to-end flows")
 else()
-    message(STATUS "Ingestion Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
+    if(TARGET test_ingestion_integration_focused)
+        message(STATUS "Ingestion Integration focused tests already registered: test_ingestion_integration_focused")
+    else()
+        message(STATUS "Ingestion Integration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp")
+    endif()
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp" AND NOT TARGET test_ingestion_coordinator_focused)
     message(STATUS "Adding Ingestion Coordinator focused tests (Issue #1910)")
 
     add_executable(test_ingestion_coordinator_focused
@@ -9577,7 +9583,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
 
     message(STATUS "  IngestionCoordinator: distributed coordinator, consistent-hash ring, work-stealing pool, leader election")
 else()
-    message(STATUS "Ingestion Coordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
+    if(TARGET test_ingestion_coordinator_focused)
+        message(STATUS "Ingestion Coordinator focused tests already registered: test_ingestion_coordinator_focused")
+    else()
+        message(STATUS "Ingestion Coordinator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_coordinator.cpp")
+    endif()
 endif()
 
 # ============================================================================
@@ -10034,7 +10044,7 @@ endif()
 # Exporter Module Focused Tests (Issue: #1729 — Unit tests coverage >80%)
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" AND NOT TARGET test_huggingface_exporter_focused)
     message(STATUS "Adding HuggingFace Exporter focused tests (Issue #1729)")
 
     add_executable(test_huggingface_exporter_focused
@@ -10070,10 +10080,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
 
     message(STATUS "  HuggingFaceExporter: dataset export (JSONL shards, dataset_card.md, dataset_info.json), shard rotation")
 else()
-    message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+    if(TARGET test_huggingface_exporter_focused)
+        message(STATUS "HuggingFace Exporter focused tests already registered: test_huggingface_exporter_focused")
+    else()
+        message(STATUS "HuggingFace Exporter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp")
+    endif()
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp" AND NOT TARGET test_data_augmentation_focused)
     message(STATUS "Adding Data Augmentation focused tests (Issue #1729)")
 
     add_executable(test_data_augmentation_focused
@@ -10105,7 +10119,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 
     message(STATUS "  DataAugmentation: synonym substitution, paraphrase variants, back-translation, dedup-safe augmentation")
 else()
-    message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+    if(TARGET test_data_augmentation_focused)
+        message(STATUS "Data Augmentation focused tests already registered: test_data_augmentation_focused")
+    else()
+        message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
+    endif()
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_cache_manager.cpp")
@@ -10193,7 +10211,7 @@ endif()
 # Network Module Focused Tests
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_network_timeout.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_network_timeout.cpp" AND NOT TARGET test_network_timeout_focused)
     message(STATUS "Adding Network: NetworkTimeout focused tests")
     add_executable(test_network_timeout_focused test_network_timeout.cpp)
     target_include_directories(test_network_timeout_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
@@ -10204,7 +10222,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_network_timeout.cpp")
     message(STATUS "  NetworkTimeout: socket timeout manager, circuit breaker")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_v2.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_v2.cpp" AND NOT TARGET test_wire_protocol_v2_focused)
     message(STATUS "Adding Network: WireProtocolV2 focused tests")
     add_executable(test_wire_protocol_v2_focused test_wire_protocol_v2.cpp)
     target_include_directories(test_wire_protocol_v2_focused PRIVATE ${THEMIS_ROOT_DIR}/include)

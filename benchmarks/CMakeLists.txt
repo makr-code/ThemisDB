@@ -2075,6 +2075,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
     )
 
     target_compile_definitions(bench_metrics_collector PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_metrics_collector PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_metrics_collector
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  MetricsCollector: counter/gauge/histogram recording, Prometheus export, contention behaviour")
+endif()
+
 # Index Module Benchmarks (Issue: #1884 — Performance benchmarks: QPS, recall, memory)
 # These benchmarks cover vector search, quantization, spatial indexing, and
 # approximate radius search.  All CPU-only benchmarks run without GPU hardware.
@@ -2655,28 +2677,34 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_assistant.cpp")
     target_link_libraries(bench_voice_assistant PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_assistant PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_voice_assistant PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_voice_assistant
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  VoiceAssistant: STT latency, TTS generation speed, command pipeline throughput, wake-word detection QPS")
+endif()
+
+# ============================================================================
 # Prompt Engineering Performance Benchmarks (ROADMAP Production Readiness)
-# Measures per-operation latency and concurrent-access throughput for the
-# prompt engineering module:
-#   1. PromptManager createTemplate / getTemplate (hit+miss) / injectContext /
-#      validateTemplate (valid+invalid)
-#   2. PromptVersionControl commit / getHistory
-#   3. FeedbackCollector recordFeedback / getStats (100 entries)
-#   4. PromptOptimizer optimize (1 iteration, deterministic eval_fn)
-#   5. PromptEvaluator evaluateSingle (structural similarity)
-#   6. PromptEngineeringMetrics recordOptimizationAttempt / recordPromptExecution
-#   7. Concurrent writes: PromptManager 4-thread TBB concurrent_hash_map insert
-#   8. Concurrent commits: PromptVersionControl 4-thread commit throughput
-#
-# Performance targets (from src/prompt_engineering/ROADMAP.md):
-#   - createTemplate (in-memory):   < 10 µs
-#   - getTemplate    (in-memory):   < 1 µs
-#   - injectContext  (5 vars):      < 5 µs
-#   - validateTemplate (valid):     < 5 µs
-#   - commit (in-memory):           < 20 µs
-#   - recordFeedback (in-memory):   < 10 µs
-#   - optimize (1 iter):            < 500 µs
-#   - evaluateSingle (structural):  < 50 µs
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
@@ -2695,13 +2723,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_prompt_engineering.cpp")
     )
 
     target_compile_definitions(bench_prompt_engineering PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Release")
+        if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
+            set(BENCHMARK_ARCH_FLAGS "-march=native")
+        endif()
+        target_compile_options(bench_prompt_engineering PRIVATE
+            -O3
+            ${BENCHMARK_ARCH_FLAGS}
+            -DNDEBUG
+        )
+    endif()
+
+    install(TARGETS bench_prompt_engineering
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  PromptManager: createTemplate/getTemplate/injectContext/validateTemplate")
+    message(STATUS "  PromptVersionControl: commit/getHistory")
+    message(STATUS "  PromptOptimizer/Evaluator: optimize and evaluateSingle latency")
+endif()
+
+# ============================================================================
 # Exporters Throughput Benchmarks (Issue #1730)
-# JSONLLLMExporter: batch throughput (INSTRUCTION_TUNING, Alpaca, ChatML),
-# StreamingExporter: streaming throughput with progress callbacks,
-# IncrementalExporter: full export vs delta export speedup.
-# Targets (src/exporters/FUTURE_ENHANCEMENTS.md):
-#   - JSONL throughput: >= 200 000 docs/sec
-#   - Delta export speedup (0.1% change): >= 10x vs full export
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
@@ -2721,7 +2768,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         Threads::Threads
     )
 
-    target_compile_definitions(bench_voice_assistant PRIVATE
     target_compile_definitions(bench_exporters PRIVATE
         THEMIS_BENCHMARK_BUILD=1
     )
@@ -2730,21 +2776,19 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
         if(NOT DEFINED BENCHMARK_ARCH_FLAGS)
             set(BENCHMARK_ARCH_FLAGS "-march=native")
         endif()
-        target_compile_options(bench_metrics_collector PRIVATE
-        target_compile_options(bench_voice_assistant PRIVATE
+        target_compile_options(bench_exporters PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
             -DNDEBUG
         )
     endif()
 
-    install(TARGETS bench_metrics_collector
-    install(TARGETS bench_voice_assistant
+    install(TARGETS bench_exporters
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
-    message(STATUS "  VoiceAssistant: STT latency, TTS generation speed, command pipeline throughput, wake-word detection QPS")
+    message(STATUS "  JSONL export throughput and incremental delta speedup")
 endif()
 
 # ============================================================================
@@ -2776,33 +2820,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_content_versioning.cpp")
         target_compile_options(bench_content_versioning PRIVATE
             -O3
             ${BENCHMARK_ARCH_FLAGS}
-        target_compile_options(bench_prompt_engineering PRIVATE
-            -O3
-            ${BENCHMARK_ARCH_FLAGS}
-        target_compile_options(bench_exporters PRIVATE
-            -O3
-            -march=native
             -DNDEBUG
         )
     endif()
 
     install(TARGETS bench_content_versioning
-    install(TARGETS bench_prompt_engineering
-    install(TARGETS bench_exporters
         RUNTIME DESTINATION bin/benchmarks
         COMPONENT benchmarks
     )
 
-    message(STATUS "  MetricsCollector: recordQuery, recordCacheHit, exportPrometheus, concurrent access, cardinality scaling")
     message(STATUS "  ContentVersioning: content lifecycle throughput (create/update/fork/merge), version history scan, GC overhead")
-    message(STATUS "  PromptManager: createTemplate, getTemplate (hit/miss), injectContext, validateTemplate")
-    message(STATUS "  PromptVersionControl: commit, getHistory (10 versions)")
-    message(STATUS "  FeedbackCollector: recordFeedback, getStats (100 entries)")
-    message(STATUS "  PromptOptimizer: optimize (1 iter, deterministic eval_fn)")
-    message(STATUS "  PromptEvaluator: evaluateSingle (structural similarity)")
-    message(STATUS "  PromptEngineeringMetrics: recordOptimizationAttempt, recordPromptExecution")
-    message(STATUS "  Concurrent: PromptManager 4-thread insert, PromptVersionControl 4-thread commit")
-    message(STATUS "  JSONL export: batch throughput (100/1000/10000 entities), Alpaca/ChatML templates, GZIP compression")
-    message(STATUS "  StreamingExporter: throughput with progress callbacks (1000/5000 entities)")
-    message(STATUS "  IncrementalExporter: full export vs delta export speedup (0.1% change scenario)")
 endif()

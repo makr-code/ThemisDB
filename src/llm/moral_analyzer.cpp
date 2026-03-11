@@ -79,9 +79,9 @@ MoralAnalyzer::Status MoralAnalyzer::addScenarioNode(
     scenario_entity.setField("description", scenario.description);
     scenario_entity.setField("domain", scenario.domain);
     scenario_entity.setField("_labels", 
-        std::vector<std::string>{"Scenario", scenario.domain});
+        std::string(json(std::vector<std::string>{"Scenario", scenario.domain}).dump()));
     
-    auto [status, _] = graph_manager_->addNode(scenario_entity, scenario.graph_id);
+    auto status = graph_manager_->addNode(scenario_entity, scenario.graph_id);
     
     if (!status.ok) {
         return Status::Error("Failed to add scenario node: " + status.message);
@@ -102,9 +102,9 @@ MoralAnalyzer::Status MoralAnalyzer::addStakeholderNodes(
         stakeholder_entity.setField("stakeholder_type", stakeholder_type);
         stakeholder_entity.setField("count", count);
         stakeholder_entity.setField("_labels", 
-            std::vector<std::string>{"Stakeholder"});
+            std::string(json(std::vector<std::string>{"Stakeholder"}).dump()));
         
-        auto [status, _] = graph_manager_->addNode(
+        auto status = graph_manager_->addNode(
             stakeholder_entity, 
             scenario.graph_id
         );
@@ -119,7 +119,7 @@ MoralAnalyzer::Status MoralAnalyzer::addStakeholderNodes(
         involves_edge.setField("_to", stakeholder_id);
         involves_edge.setField("_type", "involves");
         
-        auto [edge_status, __] = graph_manager_->addEdge(
+        auto edge_status = graph_manager_->addEdge(
             involves_edge,
             scenario.graph_id
         );
@@ -147,9 +147,9 @@ MoralAnalyzer::Status MoralAnalyzer::addPrincipleNodes(
         principle_entity.setField("principle_id", principle_id);
         principle_entity.setField("philosophy", philosophy);
         principle_entity.setField("_labels", 
-            std::vector<std::string>{"Principle", philosophy});
+            std::string(json(std::vector<std::string>{"Principle", philosophy}).dump()));
         
-        auto [status, _] = graph_manager_->addNode(
+        auto status = graph_manager_->addNode(
             principle_entity,
             scenario.graph_id
         );
@@ -164,7 +164,7 @@ MoralAnalyzer::Status MoralAnalyzer::addPrincipleNodes(
         applies_edge.setField("_to", scenario_node_id);
         applies_edge.setField("_type", "applies_to");
         
-        auto [edge_status, __] = graph_manager_->addEdge(
+        auto edge_status = graph_manager_->addEdge(
             applies_edge,
             scenario.graph_id
         );
@@ -187,9 +187,9 @@ MoralAnalyzer::Status MoralAnalyzer::addActionNodes(
         BaseEntity action_entity(action_id);
         action_entity.setField("type", "action");
         action_entity.setField("description", action);
-        action_entity.setField("_labels", std::vector<std::string>{"Action"});
+        action_entity.setField("_labels", std::string("Action"));
         
-        auto [status, _] = graph_manager_->addNode(
+        auto status = graph_manager_->addNode(
             action_entity,
             scenario.graph_id
         );
@@ -204,7 +204,7 @@ MoralAnalyzer::Status MoralAnalyzer::addActionNodes(
         considers_edge.setField("_to", action_id);
         considers_edge.setField("_type", "considers");
         
-        auto [edge_status, __] = graph_manager_->addEdge(
+        auto edge_status = graph_manager_->addEdge(
             considers_edge,
             scenario.graph_id
         );
@@ -230,13 +230,13 @@ MoralAnalyzer::Status MoralAnalyzer::addOutcomeNodes(
         outcome_entity.setField("description", outcome.description);
         outcome_entity.setField("probability", outcome.probability);
         outcome_entity.setField("utility", outcome.utility);
-        outcome_entity.setField("_labels", std::vector<std::string>{"Outcome"});
+        outcome_entity.setField("_labels", std::string("Outcome"));
         
         // Extract graph_id from action_id (assuming format: action_<scenario_id>_...)
         // For now, use default graph
         std::string graph_id = "ethics_default";
         
-        auto [status, _] = graph_manager_->addNode(outcome_entity, graph_id);
+        auto status = graph_manager_->addNode(outcome_entity, graph_id);
         
         if (!status.ok) {
             return Status::Error("Failed to add outcome node");
@@ -248,7 +248,7 @@ MoralAnalyzer::Status MoralAnalyzer::addOutcomeNodes(
         leads_edge.setField("_to", outcome_id);
         leads_edge.setField("_type", "leads_to");
         
-        auto [edge_status, __] = graph_manager_->addEdge(leads_edge, graph_id);
+        auto edge_status = graph_manager_->addEdge(leads_edge, graph_id);
         
         if (!edge_status.ok) {
             return Status::Error("Failed to add leads_to edge");
@@ -274,9 +274,9 @@ MoralAnalyzer::Status MoralAnalyzer::addArgumentNodes(
         arg_entity.setField("principle_basis", arg.principle_basis);
         arg_entity.setField("argument_type", arg.argument_type);
         arg_entity.setField("strength", arg.strength);
-        arg_entity.setField("_labels", std::vector<std::string>{"Argument"});
+        arg_entity.setField("_labels", std::string("Argument"));
         
-        auto [status, _] = graph_manager_->addNode(arg_entity, graph_id);
+        auto status = graph_manager_->addNode(arg_entity, graph_id);
         
         if (!status.ok) {
             return Status::Error("Failed to add argument node");
@@ -289,7 +289,7 @@ MoralAnalyzer::Status MoralAnalyzer::addArgumentNodes(
         arg_edge.setField("_to", action_id);
         arg_edge.setField("_type", edge_type);
         
-        auto [edge_status, __] = graph_manager_->addEdge(arg_edge, graph_id);
+        auto edge_status = graph_manager_->addEdge(arg_edge, graph_id);
         
         if (!edge_status.ok) {
             return Status::Error("Failed to add argument edge");
@@ -734,10 +734,10 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     decision_entity.setField("recommended_action", decision.recommended_action);
     decision_entity.setField("reasoning", decision.reasoning);
     decision_entity.setField("confidence", decision.confidence);
-    decision_entity.setField("_labels", std::vector<std::string>{"Decision"});
+    decision_entity.setField("_labels", std::string("Decision"));
     
     // Add principle citations to graph
-    decision_entity.setField("principle_citations", decision.principle_citations);
+    decision_entity.setField("principle_citations", std::string(json(decision.principle_citations).dump()));
     
     // Add alternative perspectives
     json alt_perspectives_json = json::object();
@@ -753,7 +753,7 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     decision_entity.setField("metric_feasibility", decision.metrics.feasibility);
     decision_entity.setField("metric_long_term_impact", decision.metrics.long_term_impact);
     
-    auto [status, _] = graph_manager_->addNode(decision_entity, decision.graph_id);
+    auto status = graph_manager_->addNode(decision_entity, decision.graph_id);
     
     if (!status.ok) {
         return Status::Error("Failed to store decision in graph: " + status.message);
@@ -765,7 +765,7 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     based_on_edge.setField("_to", "scenario_" + decision.scenario_id);
     based_on_edge.setField("_type", "based_on");
     
-    auto [edge_status, __] = graph_manager_->addEdge(based_on_edge, decision.graph_id);
+    auto edge_status = graph_manager_->addEdge(based_on_edge, decision.graph_id);
     
     if (!edge_status.ok) {
         return Status::Error("Failed to store decision edge in graph");
@@ -796,7 +796,7 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     metadata_entity.setField("philosophy", decision.philosophy);
     metadata_entity.setField("recommended_action", decision.recommended_action);
     metadata_entity.setField("confidence", decision.confidence);
-    metadata_entity.setField("keywords", keywords);
+    metadata_entity.setField("keywords", std::string(json(keywords).dump()));
     metadata_entity.setField("timestamp", std::chrono::system_clock::now().time_since_epoch().count());
     metadata_entity.setField("principle_count", static_cast<int>(decision.principle_citations.size()));
     metadata_entity.setField("metrics_avg", 
@@ -804,10 +804,10 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
          decision.metrics.transparency + decision.metrics.feasibility + 
          decision.metrics.long_term_impact) / 5.0);
     
-    auto metadata_status = db_.put("ethics_metadata:" + decision.decision_id, 
+    bool metadata_stored = db_.put("ethics_metadata:" + decision.decision_id, 
                                      metadata_entity.serialize());
-    if (!metadata_status.ok) {
-        return Status::Error("Failed to store decision metadata: " + metadata_status.message);
+    if (!metadata_stored) {
+        return Status::Error("Failed to store decision metadata");
     }
     
     // 4. AUDIT TRAIL: Log decision for compliance and transparency
@@ -865,8 +865,8 @@ MoralAnalyzer::Status MoralAnalyzer::storeDecision(
         audit.requires_human_review = (decision.confidence < 0.7);
         
         // Log the audit entry
-        auto audit_status = decision_auditor_->logDecision(audit);
-        if (!audit_status.ok) {
+        decision_auditor_->logDecision(audit);
+        {
             // Log warning but don't fail - audit is important but shouldn't block
             // In production: Alert monitoring system
         }
@@ -1299,15 +1299,15 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
     try {
         // Submit request and wait for response
         auto handle = llm_engine_->submit(request);
-        auto response = llm_engine_->wait(handle);
+        auto response = handle.get();
         
-        if (!response.success) {
-            return {Status::Error("LLM inference failed: " + response.error_message), {}};
+        if (response.text.empty()) {
+            return {Status::Error("LLM inference failed: empty response"), {}};
         }
         
         // Parse JSON response
         try {
-            json response_json = json::parse(response.generated_text);
+            json response_json = json::parse(response.text);
             
             if (!response_json.contains("philosophies")) {
                 return {Status::Error("LLM response missing 'philosophies' field"), {}};
@@ -1337,7 +1337,7 @@ MoralAnalyzer::detectEthicalImplicationsViaLLM(
         } catch (const json::exception& e) {
             // If JSON parsing fails, try simple text extraction
             std::vector<std::string> fallback_philosophies;
-            std::string text = response.generated_text;
+            std::string text = response.text;
             std::transform(text.begin(), text.end(), text.begin(), ::tolower);
             
             // Simple keyword extraction from LLM response

@@ -137,10 +137,8 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/grpc_channel_pool.cpp
     ../src/utils/cron_parser.cpp
     ../src/utils/bloom_filter.cpp
-    ../src/utils/capability_auto_generator.cpp
     ../src/utils/checksum_utils.cpp
     ../src/utils/compression_metrics.cpp
-    ../src/utils/pii_stream_scanner.cpp
     ../src/utils/sampled_logger.cpp
     ../src/utils/self_awareness.cpp
     ../src/utils/timestamp_utils.cpp
@@ -160,7 +158,6 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/bloom_filter.cpp
     ../src/utils/consistent_hash.cpp
     ../src/utils/checksum_utils.cpp
-    ../src/utils/pii_stream_scanner.cpp
     ../src/utils/sampled_logger.cpp
     ../src/utils/timestamp_utils.cpp
     ../src/utils/rate_limiter.cpp
@@ -227,6 +224,9 @@ set(THEMIS_BASE_SOURCES
     
     # Stubs for missing symbols
     ../src/stubs.cpp
+    # Interface stubs: forces MSVC to emit ISecondaryIndex/IVectorIndex/IGraphIndex
+    # constructor+destructor symbols into themis_base.dll (THEMIS_BASE_API = dllexport)
+    ../src/core/index_interface_stubs.cpp
 )
 
 set(THEMIS_STORAGE_SOURCES
@@ -265,8 +265,7 @@ set(THEMIS_STORAGE_SOURCES
     # Compression and columnar support
     ../src/storage/compression_strategy.cpp
     ../src/storage/compressed_storage.cpp
-    # Index maintenance (background rebuild/optimize/consistency)
-    ../src/storage/index_maintenance.cpp
+    # (index_maintenance.cpp moved to THEMIS_SECURITY_SOURCES: needs VectorIndexManager)
     # Blob storage backends
     $<$<BOOL:${THEMIS_ENABLE_BLOB_FILESYSTEM}>:../src/storage/blob_backend_filesystem.cpp>
     $<$<BOOL:${THEMIS_ENABLE_BLOB_S3}>:../src/storage/blob_backend_s3.cpp>
@@ -294,7 +293,6 @@ set(THEMIS_STORAGE_SOURCES
     # Indexes
     ../src/index/secondary_index.cpp
     ../src/index/ann_index.cpp
-    ../src/index/approximate_radius_search.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/rotary_embeddings_gpu_cpu.cpp
     ../src/index/learnable_rope.cpp
@@ -316,17 +314,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/adaptive_index.cpp
     ../src/index/distributed_vector_index.cpp
     ../src/index/inverted_index.cpp
-    ../src/index/multi_vector_search.cpp
     ../src/index/workload_replay.cpp
-<<<<<<< HEAD
-=======
-    ../src/index/graph_auto_buffer.cpp
-    ../src/index/index_manager.cpp
     ../src/index/tiered_index_manager.cpp
-    ../src/index/vector_auto_buffer.cpp
-    ../src/index/spatial_index.cpp
-    ../src/api/geo_index_hooks.cpp
->>>>>>> 644b3bc679bc7749613caa614bcb198395eb6fab
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -544,8 +533,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/key_cache.cpp
     ../src/security/keyprovider_signing.cpp
     ../src/security/vault_signing_provider.cpp
-    ../src/security/field_encryption.cpp
-    ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp
     ../src/security/usb_admin_authenticator.cpp
     ../src/security/pki_key_provider.cpp
@@ -567,7 +554,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
-    ../src/utils/audit_logger.cpp
     ../src/utils/lek_manager.cpp
     ../src/utils/saga_logger.cpp
     
@@ -629,6 +615,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/utils/regex_detection_engine.cpp
     ../src/utils/ner_detection_engine.cpp
     ../src/utils/pii_detector.cpp
+    ../src/utils/pii_stream_scanner.cpp
     ../src/utils/retention_manager.cpp
     ../src/utils/pki_client.cpp
     
@@ -648,9 +635,19 @@ set(THEMIS_SECURITY_SOURCES
     # Security initialization
     ../src/core/security_initialization.cpp
     
+    # Encryption and vector/graph index helpers (use storage + security features)
+    ../src/security/field_encryption.cpp
+    ../src/security/encrypted_field.cpp
+    ../src/utils/audit_logger.cpp
+    ../src/storage/index_maintenance.cpp
+    ../src/index/vector_index.cpp
+    ../src/index/graph_index.cpp
+    ../src/index/approximate_radius_search.cpp
+    ../src/index/multi_vector_search.cpp
+    ../src/index/index_manager.cpp
+    ../src/index/vector_auto_buffer.cpp
     # Storage-backed PII and vector index helpers
     ../src/utils/pii_pseudonymizer.cpp
-    ../src/index/vector_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
     ../src/search/llm_reranker.cpp
@@ -696,8 +693,6 @@ set(THEMIS_TRANSACTION_SOURCES
     # Replication
     ../src/replication/replication_manager.cpp
     
-    # Graph index (used by transactions)
-    ../src/index/graph_index.cpp
 )
 
 set(THEMIS_SHARDING_SOURCES
@@ -731,6 +726,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/locality_aware_router.cpp
     ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/capability_matcher.cpp
+    ../src/utils/capability_auto_generator.cpp
     ../src/sharding/metadata_shard.cpp
     ../src/sharding/metadata_wal.cpp
     ../src/sharding/metadata_snapshot.cpp
@@ -1339,6 +1335,8 @@ endif()
 
 set(THEMIS_GRAPH_SOURCES
     # Graph indexes and analytics
+    ../src/index/graph_auto_buffer.cpp
+    ../src/index/spatial_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp
     ../src/index/edge_types.cpp
