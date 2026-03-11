@@ -406,3 +406,4 @@ a.out
 benchmark_results/
 *.gch
 
+build2/
