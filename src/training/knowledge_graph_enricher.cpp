@@ -80,6 +80,14 @@ namespace graph_aql {
         "FOR sample IN @@collection "
         "FILTER sample.input != null "
         "RETURN sample._key";
+
+    // Find internal administrative guidance documents via OUTBOUND graph traversal
+    constexpr const char* RELATED_GUIDANCE =
+        "FOR doc IN @@documents FILTER doc._key == @document_id "
+        "FOR guidance, edge IN 1..@depth OUTBOUND doc @@references "
+        "FILTER guidance.document_type == 'guidance' "
+        "LIMIT @max_results "
+        "RETURN guidance._key";
 } // namespace graph_aql
 
 // ============================================================================
@@ -205,7 +213,7 @@ public:
                 // Phase 6: Persist enriched context back to collection
                 persistContext(sample_id, context);
 
-                stats.graph_queries_executed += 3; // provisions + case_law + similar
+                stats.graph_queries_executed += 4; // provisions + case_law + guidance + similar
                 stats.samples_processed++;
                 processed++;
 
@@ -272,6 +280,11 @@ public:
             }
         }
 
+        if (config_.include_guidance) {
+            context.internal_guidance = findRelatedGuidance(source_document_id,
+                                                            config_.max_related_items);
+        }
+
         // Phase 6: Build context summary
         context.context_summary = buildContextSummary(context);
 
@@ -306,13 +319,14 @@ public:
 
                 stats.context_items_added += context.related_provisions.size()
                                            + context.case_law.size()
+                                           + context.internal_guidance.size()
                                            + context.similar_documents.size();
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
                 }
 
                 persistContext(sample_id, context);
-                stats.graph_queries_executed += 3;
+                stats.graph_queries_executed += 4;
                 stats.samples_processed++;
                 processed++;
 
@@ -369,6 +383,21 @@ public:
         (void)it;
 
         return case_law;
+    }
+
+    std::vector<std::string> findRelatedGuidance(const std::string& document_id,
+                                                  size_t max_results) {
+        std::vector<std::string> guidance;
+
+        if (document_id.empty() || max_results == 0) return guidance;
+
+        // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
+        // (max_results bound as @max_results in production AQL query)
+        (void)max_results; // bound as @max_results in production AQL query
+        auto it = custom_queries_.find("find_guidance");
+        (void)it;
+
+        return guidance;
     }
 
     std::vector<std::pair<std::string, float>> findSimilarDocuments(
@@ -433,6 +462,7 @@ public:
         // Return built-in templates
         if (query_name == "find_provisions")  return graph_aql::RELATED_PROVISIONS;
         if (query_name == "find_case_law")    return graph_aql::RELATED_CASE_LAW;
+        if (query_name == "find_guidance")    return graph_aql::RELATED_GUIDANCE;
         if (query_name == "find_similar")     return graph_aql::SIMILAR_DOCUMENTS;
         if (query_name == "update_context")   return graph_aql::UPDATE_SAMPLE_CONTEXT;
         if (query_name == "fetch_all")        return graph_aql::FETCH_ALL_SAMPLES;
@@ -569,6 +599,12 @@ std::vector<std::string> KnowledgeGraphEnricher::findRelatedCaseLaw(
     const std::string& document_id,
     size_t max_results) {
     return impl_->findRelatedCaseLaw(document_id, max_results);
+}
+
+std::vector<std::string> KnowledgeGraphEnricher::findRelatedGuidance(
+    const std::string& document_id,
+    size_t max_results) {
+    return impl_->findRelatedGuidance(document_id, max_results);
 }
 
 std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDocuments(
