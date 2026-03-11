@@ -254,3 +254,5 @@ Typical pipeline usage:
 *Last Updated: March 2026*  
 *Current API Version: v2.2.0*  
 *Next Target: v2.3.0*
+
+<!-- validated: 2026-03-10 | commit: a14cdb2 -->

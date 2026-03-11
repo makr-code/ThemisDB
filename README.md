@@ -3,11 +3,18 @@
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
 
   <!-- Row 1: Build & Release -->
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg)](docs/en/badges/ci-status.md)
-  [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg)](docs/en/badges/security-ci.md)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/themis-core-ci.yml/badge.svg?branch=develop)](docs/en/badges/ci-status.md)
+  [![Security CI](https://github.com/makr-code/ThemisDB/actions/workflows/security-hardening-ci.yml/badge.svg?branch=develop)](docs/en/badges/security-ci.md)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](docs/en/badges/version.md)
   [![License](https://img.shields.io/badge/license-MIT-green)](docs/en/badges/license.md)
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)](docs/en/badges/docker.md)
+
+  <!-- Row 1b: Edition CI (develop branch) -->
+  [![MINIMAL](https://github.com/makr-code/ThemisDB/actions/workflows/edition-minimal-ci.yml/badge.svg?branch=develop&label=MINIMAL)](docs/en/badges/edition-ci.md)
+  [![COMMUNITY](https://github.com/makr-code/ThemisDB/actions/workflows/edition-community-ci.yml/badge.svg?branch=develop&label=COMMUNITY)](docs/en/badges/edition-ci.md)
+  [![ENTERPRISE](https://github.com/makr-code/ThemisDB/actions/workflows/edition-enterprise-ci.yml/badge.svg?branch=develop&label=ENTERPRISE)](docs/en/badges/edition-ci.md)
+  [![HYPERSCALER](https://github.com/makr-code/ThemisDB/actions/workflows/edition-hyperscaler-ci.yml/badge.svg?branch=develop&label=HYPERSCALER)](docs/en/badges/edition-ci.md)
+  [![MILITARY](https://github.com/makr-code/ThemisDB/actions/workflows/edition-military-ci.yml/badge.svg?branch=develop&label=MILITARY)](docs/en/badges/edition-ci.md)
 
   <!-- Row 2: Code Metrics -->
   [![Lines of Code](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json&query=%24.message&label=Lines%20of%20Code&color=blue)](https://github.com/makr-code/ThemisDB)

@@ -1,7 +1,10 @@
+<!-- Status: current | validated: 2026-03-10 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/storage/README.md -->
+
 # Storage Module — Architecture Guide
 
-**Version:** 1.0  
-**Last Updated:** 2026-02-24  
+**Version:** 1.1  
+**Last Updated:** 2026-03-10  
 **Module Path:** `src/storage/`
 
 ---
@@ -39,8 +42,10 @@ field-level encryption, and blob redundancy management.
 | `rocksdb_wrapper.cpp` | Primary RocksDB wrapper: MVCC, WAL, BlobDB, async I/O |
 | `mvcc_store.cpp` | MVCC snapshot management and version chain |
 | `key_schema.cpp` | Unified key encoding for all data models |
-| `wal_manager.cpp` | Write-Ahead Log management and replay |
+| `wal_storage.cpp` | Write-Ahead Log management and replay |
 | `backup_manager.cpp` | RocksDB backup API and PITR |
+| `pitr_manager.cpp` | Point-in-time recovery via WAL replay and snapshot restore |
+| `storage_engine.cpp` | High-level storage abstraction with dependency injection |
 | `base_entity.cpp` | Base document serialization/deserialization |
 | `batch_write_optimizer.cpp` | WriteBatch coalescing for throughput |
 | `compaction_manager.cpp` | Manual compaction triggering and tuning |
@@ -55,10 +60,17 @@ field-level encryption, and blob redundancy management.
 | `blob_backend_azure.cpp` | Azure Blob Storage backend |
 | `blob_backend_filesystem.cpp` | Local filesystem blob backend |
 | `blob_backend_webdav.cpp` | WebDAV blob backend |
-| `blob_redundancy_manager.cpp` | Erasure-coded blob redundancy |
+| `blob_backend_gcs.cpp` | Google Cloud Storage backend (requires `THEMIS_ENABLE_GCS`) |
+| `blob_redundancy_manager.cpp` | RAID-1 mirror redundancy across multiple backends |
 | `database_connection_manager.cpp` | Connection lifecycle management |
 | `disk_space_monitor.cpp` | Disk space monitoring and write throttling |
 | `nlp_metadata_extractor.cpp` | NLP metadata extraction on ingest |
+| `security_signature.cpp` | Field-level AES-256-GCM encryption primitives |
+| `security_signature_manager.cpp` | HMAC-SHA256 tamper detection and signature management |
+| `storage_audit_logger.cpp` | Structured audit trail for all storage operations |
+| `tiered_storage.cpp` | Hot/warm/cold tiered storage with automatic migration |
+| `transaction_retry_manager.cpp` | Exponential backoff retry for failed transactions |
+| `raft_mvcc_bridge.cpp` | Raft consensus log to MVCC storage integration |
 
 ### 3.2 Key Schema
 

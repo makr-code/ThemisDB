@@ -1,0 +1,44 @@
+name: Edition · MINIMAL · CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'cmake/**'
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - '.github/workflows/edition-minimal-ci.yml'
+      - '.github/workflows/edition-build-ci.yml'
+      - '.github/actions/configure-themis/**'
+      - '.github/actions/setup-cpp-build/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'cmake/**'
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - '.github/workflows/edition-minimal-ci.yml'
+      - '.github/workflows/edition-build-ci.yml'
+      - '.github/actions/configure-themis/**'
+      - '.github/actions/setup-cpp-build/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/edition-build-ci.yml
+    with:
+      edition: MINIMAL
+      build-type: Debug

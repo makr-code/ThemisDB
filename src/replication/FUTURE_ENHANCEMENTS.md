@@ -20,7 +20,7 @@
 - [x] CRDT merge operations must be idempotent and commutative; incorrect usage must produce a compile-time error where possible
 - [x] CDC event emission must not block the write path; use a dedicated async queue with configurable max depth
 - [x] Selective replication filters must be evaluated in O(1) per write using a pre-compiled pattern set
-- [ ] Full Raft v2 (joint consensus) must not break existing `ReplicationConfig`; new fields are additive only
+- [x] Full Raft v2 (joint consensus) must not break existing `ReplicationConfig`; new fields are additive only
 
 ## Required Interfaces
 

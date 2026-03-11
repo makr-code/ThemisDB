@@ -75,7 +75,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [~] WASM-based plugin isolation for untrusted code — **Partial**: infrastructure complete; requires WasmRuntime injection (Issue: #1572)
 
 ## Production Readiness Checklist
-- [I] Unit tests coverage > 80% (Issue: #1573)
+- [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`
 - [I] Integration tests (Issue: #1574)
 - [I] Performance benchmarks (Issue: #1575)
 - [x] Security audit (signature verification, revocation checking)

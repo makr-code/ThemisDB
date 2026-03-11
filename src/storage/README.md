@@ -1,3 +1,6 @@
+<!-- Status: current | validated: 2026-03-10 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/storage/README.md -->
+
 # ThemisDB Storage Module
 
 ## Module Purpose
@@ -8,11 +11,38 @@ The Storage module provides ThemisDB's persistent data layer, built on RocksDB f
 
 | Interface / File | Role |
 |-----------------|------|
-| `rocksdb_storage.cpp` | RocksDB wrapper with MVCC and BlobDB integration |
-| `mvcc_manager.cpp` | Multi-version concurrency control transaction management |
-| `wal_manager.cpp` | Write-Ahead Log management and replay |
+| `rocksdb_wrapper.cpp` | RocksDB wrapper with MVCC, WAL, BlobDB, and async I/O |
+| `mvcc_store.cpp` | Multi-version concurrency control snapshot management |
+| `wal_storage.cpp` | Write-Ahead Log management and replay |
 | `backup_manager.cpp` | Backup creation and point-in-time recovery |
-| `storage_engine.h` | Storage abstraction interface for dependency injection |
+| `pitr_manager.cpp` | Point-in-time recovery via WAL replay and snapshot restore |
+| `storage_engine.cpp` | Storage engine with dependency injection (`storage_engine.h` public API) |
+| `key_schema.cpp` | Unified multi-model key encoding (relational/doc/graph/vector/timeseries) |
+| `base_entity.cpp` | Base type for all storage-layer entities |
+| `batch_write_optimizer.cpp` | Adaptive write batching to reduce write amplification |
+| `compaction_manager.cpp` | Manual and scheduled RocksDB compaction control |
+| `compression_strategy.cpp` | Pluggable per-table compression (Snappy, Zstd, LZ4, Brotli) |
+| `compressed_storage.cpp` | Transparent compression/decompression layer |
+| `columnar_format.cpp` | Columnar storage for analytical workloads |
+| `blob_backend_filesystem.cpp` | Local filesystem blob backend |
+| `blob_backend_s3.cpp` | Amazon S3 blob backend |
+| `blob_backend_azure.cpp` | Azure Blob Storage backend |
+| `blob_backend_gcs.cpp` | Google Cloud Storage blob backend (requires `THEMIS_ENABLE_GCS`) |
+| `blob_backend_webdav.cpp` | WebDAV blob backend |
+| `blob_redundancy_manager.cpp` | RAID-1 mirror redundancy across multiple backends |
+| `database_connection_manager.cpp` | Connection pooling and lifecycle management |
+| `disk_space_monitor.cpp` | Real-time disk quota monitoring and alerting |
+| `index_maintenance.cpp` | Background index rebuild, optimize, and consistency checks |
+| `history_manager.cpp` | Version history and change tracking per key |
+| `hlc.cpp` | Hybrid Logical Clock for causally consistent timestamps |
+| `merge_operators.cpp` | Custom RocksDB merge operators (counters, list appends) |
+| `raft_mvcc_bridge.cpp` | Integration between Raft consensus log and MVCC storage |
+| `security_signature.cpp` | Field-level AES-GCM encryption primitives |
+| `security_signature_manager.cpp` | HMAC-SHA256 tamper detection and signature management |
+| `storage_audit_logger.cpp` | Structured audit trail for all storage operations |
+| `tiered_storage.cpp` | Hot/warm/cold tiered storage with automatic data migration |
+| `transaction_retry_manager.cpp` | Exponential backoff retry for failed transactions |
+| `nlp_metadata_extractor.cpp` | Automatic metadata extraction for ingested documents |
 
 ## Scope
 
@@ -761,7 +791,11 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Component architecture and data flow diagrams
+- [ROADMAP.md](ROADMAP.md) - Implementation phases and planned features
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage improvements
+- [Secondary Docs (docs/de)](../../../docs/de/storage/README.md) - German-language overview
+- [Missing Implementations Report](../../../docs/de/storage/missing-implementations.md) - Reality-check findings
 - [Core Module](../core/README.md) - Cross-cutting concerns
 - [Server Module](../server/README.md) - Network protocols and APIs
 
