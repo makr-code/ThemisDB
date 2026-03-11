@@ -96,7 +96,7 @@ struct DurableNodeState {
     std::string node_id;             ///< This node's identifier
     uint64_t    current_round  = 0;  ///< Global proposal round counter
     uint64_t    last_committed = 0;  ///< Highest committed slot seen
-    LSN         last_lsn{};          ///< WAL LSN of the last persisted entry
+    LSN         last_lsn       {};  ///< WAL LSN of the last persisted entry
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

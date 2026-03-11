@@ -23,7 +23,7 @@ This document covers planned enhancements to ThemisDB's legal-domain model train
 
 ## Planned Features
 
-### [ ] Multi-Modality Legal Document Parser
+### [x] Multi-Modality Legal Document Parser
 **Priority:** High
 **Target Version:** v0.9.0
 
@@ -142,3 +142,44 @@ Implement end-to-end provenance tracking for every training sample from source d
 - [?] Clarify whether trained LoRA adapters that have seen client-privileged legal documents constitute privileged work product and therefore require special deletion procedures.
 - [ ] The `KnowledgeGraphEnricher` must use a read-only AQL database user credential; the training service account must not hold write permissions on the legal knowledge graph.
 - [ ] `training_pipeline.cpp` must emit a SAGA log entry (`utils/saga_logger.cpp`) for each pipeline run to enable compensating transaction rollback if a downstream model deployment fails post-training.
+
+---
+
+## References
+
+[1] Hu, E. J., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, S., … Chen, W. (2022).
+    **LoRA: Low-Rank Adaptation of Large Language Models.**
+    *Proceedings of the 10th International Conference on Learning Representations (ICLR).*
+    https://arxiv.org/abs/2106.09685
+
+[2] Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023).
+    **QLoRA: Efficient Finetuning of Quantized LLMs.**
+    *Advances in Neural Information Processing Systems (NeurIPS)*, 36.
+    https://arxiv.org/abs/2305.14314
+
+[3] Auer, S., Bizer, C., Kobilarov, G., Lehmann, J., Cyganiak, R., & Ives, Z. G. (2007).
+    **DBpedia: A Nucleus for a Web of Open Data.**
+    *Proceedings of the 6th International Semantic Web Conference (ISWC)*, 722–735.
+    https://doi.org/10.1007/978-3-540-76298-0_52
+
+[4] Bellman, R. (1957).
+    **Dynamic Programming.**
+    Princeton University Press.
+    *(isotonic regression / calibration mathematical foundation)*
+
+[5] Mitra, B., & Craswell, N. (2018).
+    **An Introduction to Neural Information Retrieval.**
+    *Foundations and Trends in Information Retrieval*, 13(1), 1–126.
+    https://doi.org/10.1561/1500000061
+    *(knowledge graph traversal and enrichment patterns)*
+
+[6] Ribeiro, M. T., Singh, S., & Guestrin, C. (2020).
+    **Beyond Accuracy: Behavioral Testing of NLP Models with CheckList.**
+    *Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL)*, 4902–4912.
+    https://doi.org/10.18653/v1/2020.acl-main.442
+    *(modality-aware confidence calibration for NLP)*
+
+[7] Carta, S., Giuliani, A., Piano, L., Podda, A. S., Pompianu, L., & Tiddia, S. G. (2023).
+    **Iterative Zero-Shot LLM Prompting for Knowledge Graph Construction.**
+    arXiv preprint arXiv:2307.01128.
+    *(knowledge graph enrichment for training data)*

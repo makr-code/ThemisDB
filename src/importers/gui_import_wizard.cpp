@@ -214,13 +214,13 @@ ImportWizard::connect(const std::string& session_id,
             // Build a synthetic preview schema from the importer
             s.preview_schema = json::array();
             s.preview_rows   = json::array();
-            // Populate up to preview_max_rows via the importer's streaming API
-            // (The importer's streaming callback fills preview_rows)
+            // Populate up to preview_max_rows using importDataStreaming with
+            // dry_run=true so no data is written to storage during preview.
+            ImportOptions preview_opts;
+            preview_opts.dry_run = true;
             size_t row_count = 0;
-            ImportOptions preview_options;
-            preview_options.dry_run = true;
-            importer->importDataStreaming(cfg, preview_options,
-                [&](const std::string& /*table_name*/, const json& row) -> bool {
+            importer->importDataStreaming(cfg, preview_opts,
+                    [&](const std::string& /*table*/, const json& row) -> bool {
                 if (row_count == 0) {
                     // Infer schema from first row
                     for (const auto& [key, val] : row.items()) {
@@ -308,11 +308,13 @@ void ImportWizard::runImport(const std::string& session_id,
 
     size_t batch_counter = 0;
 
-    ImportOptions options;
-    options.dry_run = s.dry_run;
-    options.batch_size = s.batch_size;
-    importer->importDataStreaming(cfg, options,
-        [&](const std::string& /*table_name*/, const json& row) -> bool {
+    // Pass dry_run to the importer via ImportOptions so the importer itself
+    // can skip any side-effecting writes (e.g. writing to external systems).
+    ImportOptions import_opts;
+    import_opts.dry_run = s.dry_run;
+
+    importer->importDataStreaming(cfg, import_opts,
+            [&](const std::string& /*table*/, const json& /*row*/) -> bool {
         ++s.rows_processed;
         if (!s.dry_run) {
             // In a real implementation this calls the storage layer.
