@@ -26,10 +26,67 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 #include <openssl/x509v3.h>
 #include <openssl/ssl.h>
 
 namespace themis::network {
+
+// =============================================================================
+// AdaptivePoolingStrategy Implementation
+// =============================================================================
+
+AdaptivePoolingStrategy::AdaptivePoolingStrategy(const Config& config)
+    : config_(config)
+{}
+
+AdaptivePoolingStrategy::AdaptivePoolingStrategy()
+    : config_(Config{})
+{}
+
+size_t AdaptivePoolingStrategy::getIdealConnectionCount(
+    size_t current_count,
+    size_t active_count,
+    double load)
+{
+    if (current_count == 0) return 1;
+
+    if (load > config_.scale_up_threshold) {
+        return static_cast<size_t>(
+            std::ceil(static_cast<double>(current_count) * config_.scale_up_factor));
+    }
+    if (load < config_.scale_down_threshold && current_count > 1) {
+        return std::max(size_t{1},
+            static_cast<size_t>(
+                std::floor(static_cast<double>(current_count) * config_.scale_down_factor)));
+    }
+    return current_count;
+}
+
+bool AdaptivePoolingStrategy::shouldCreateConnection(
+    size_t current_count,
+    size_t max_count,
+    size_t available_count)
+{
+    if (current_count >= max_count) return false;
+    if (current_count == 0) return true;
+    // Create when the fraction of available (idle) connections is below the low-water mark
+    double available_ratio = static_cast<double>(available_count)
+                           / static_cast<double>(current_count);
+    return available_ratio < (1.0 - config_.scale_up_threshold);
+}
+
+bool AdaptivePoolingStrategy::shouldRemoveConnection(
+    size_t current_count,
+    size_t min_count,
+    size_t available_count,
+    std::chrono::seconds idle_time)
+{
+    if (current_count <= min_count) return false;
+    if (available_count == 0) return false;
+    // Only remove connections that have been idle long enough
+    return idle_time >= config_.min_idle_time;
+}
 
 // =============================================================================
 // SocketWrapper Implementation
@@ -78,6 +135,11 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
     if (config_.enable_ssl || config_.enable_mtls) {
         initializeSSLContext();
     }
+
+    // Ensure an adaptive strategy object exists when adaptive sizing is enabled
+    if (config_.enable_adaptive_sizing && !config_.adaptive_strategy) {
+        config_.adaptive_strategy = std::make_shared<AdaptivePoolingStrategy>();
+    }
     
     // Start maintenance thread for pruning stale connections
     shutdown_.store(false, std::memory_order_release);
@@ -90,6 +152,9 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
                 break;  // Shutdown requested
             }
             pruneStaleConnections();
+            if (config_.enable_adaptive_sizing) {
+                adaptPoolSize();
+            }
         }
     });
 }
@@ -487,6 +552,108 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
     }
 }
 
+void WireProtocolConnectionPool::adaptPoolSize() {
+    if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) return;
+
+    // Collect current target names (under lock) to avoid holding pools_mutex_
+    // while performing potentially slow createConnection() calls.
+    std::vector<std::string> targets;
+    {
+        std::lock_guard<std::mutex> lock(pools_mutex_);
+        targets.reserve(target_pools_.size());
+        for (const auto& [t, _] : target_pools_) {
+            targets.push_back(t);
+        }
+    }
+
+    for (const auto& target : targets) {
+        auto pool = getOrCreateTargetPool(target);
+
+        size_t current_count;
+        size_t active_count;
+        size_t available_count;
+        std::chrono::seconds oldest_idle{0};
+
+        {
+            std::lock_guard<std::mutex> pool_lock(pool->mutex);
+            active_count    = pool->active_count;
+            available_count = pool->available.size();
+            current_count   = active_count + available_count;
+
+            if (!pool->available.empty()) {
+                auto now = std::chrono::steady_clock::now();
+                oldest_idle = std::chrono::duration_cast<std::chrono::seconds>(
+                    now - pool->available.front()->last_used);
+            }
+        }
+
+        // --- Compute load and ideal connection count ---
+        // load = fraction of connections currently in use (0.0 – 1.0).
+        // The strategy returns an ideal total count; we clamp it to the
+        // configured [min_connections_per_target, max_connections_per_target]
+        // range before using it to drive scale-up / scale-down decisions.
+        double load = (current_count > 0)
+            ? static_cast<double>(active_count) / static_cast<double>(current_count)
+            : 0.0;
+
+        size_t ideal = config_.adaptive_strategy->getIdealConnectionCount(
+            current_count, active_count, load);
+
+        // Clamp ideal to configured limits
+        ideal = std::max(ideal, config_.min_connections_per_target);
+        ideal = std::min(ideal, config_.max_connections_per_target);
+
+        // --- Scale up: pre-create a connection if the strategy recommends it ---
+        if (ideal > current_count &&
+            config_.adaptive_strategy->shouldCreateConnection(
+                current_count, config_.max_connections_per_target, available_count)) {
+            try {
+                auto socket = createConnection(target);
+                auto conn   = std::make_shared<PooledConnection>();
+                conn->socket     = socket;
+                conn->last_used  = std::chrono::steady_clock::now();
+                conn->created_at = conn->last_used;
+                conn->in_use     = false;
+
+                {
+                    std::lock_guard<std::mutex> pool_lock(pool->mutex);
+                    void* key = socket.get();
+                    pool->all_connections[key] = conn;
+                    pool->available.push(conn);
+                }
+
+                total_connections_.fetch_add(1, std::memory_order_relaxed);
+                connections_created_.fetch_add(1, std::memory_order_relaxed);
+                pool_size_adaptations_.fetch_add(1, std::memory_order_relaxed);
+                pool->cv.notify_one();
+            } catch (const std::exception& e) {
+                // Log but continue — scale-up failure is non-fatal
+                std::cerr << "[AdaptivePool] scale-up failed for " << target
+                          << ": " << e.what() << "\n";
+            }
+        }
+
+        // --- Scale down: remove the oldest idle connection if eligible ---
+        if (ideal < current_count &&
+            config_.adaptive_strategy->shouldRemoveConnection(
+                current_count, config_.min_connections_per_target,
+                available_count, oldest_idle)) {
+            std::lock_guard<std::mutex> pool_lock(pool->mutex);
+            if (!pool->available.empty()) {
+                auto conn = pool->available.front();
+                pool->available.pop();
+                if (conn->socket && conn->socket->is_open()) {
+                    boost::system::error_code ec;
+                    conn->socket->close(ec);
+                }
+                pool->all_connections.erase(conn->socket.get());
+                total_connections_.fetch_sub(1, std::memory_order_relaxed);
+                pool_size_adaptations_.fetch_add(1, std::memory_order_relaxed);
+            }
+        }
+    }
+}
+
 void WireProtocolConnectionPool::clear() {
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
@@ -521,6 +688,7 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     stats.failed_connections = failed_connections_.load(std::memory_order_relaxed);
     stats.acquire_timeouts = acquire_timeouts_.load(std::memory_order_relaxed);
     stats.keepalive_checks_sent = keepalive_checks_.load(std::memory_order_relaxed);
+    stats.pool_size_adaptations = pool_size_adaptations_.load(std::memory_order_relaxed);
     
     std::lock_guard<std::mutex> lock(pools_mutex_);
     
@@ -535,6 +703,12 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     
     stats.available_connections = available;
     stats.in_use_connections = in_use;
+
+    // Compute overall utilization across all targets
+    size_t total = in_use + available;
+    stats.utilization = (total > 0)
+        ? static_cast<double>(in_use) / static_cast<double>(total)
+        : 0.0;
     
     return stats;
 }

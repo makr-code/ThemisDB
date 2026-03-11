@@ -55,6 +55,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+- [x] Adaptive connection pool sizing driven by real-time utilisation metrics (Issue: #FEATURE)
+  - `IPoolingStrategy` interface + `AdaptivePoolingStrategy` implementation in `wire_protocol_connection_pool.h/.cpp`
+  - Scale-up when idle fraction drops below `(1 - scale_up_threshold)` (default 0.8)
+  - Scale-down when oldest idle connection exceeds `min_idle_time` and pool > min_count
+  - `Config::enable_adaptive_sizing` / `Config::adaptive_strategy` opt-in fields
+  - `Stats::utilization` + `Stats::pool_size_adaptations` metrics exposed via `getStats()`
+  - `adaptPoolSize()` called from existing maintenance thread every 10 s
+  - Unit tests in `test_wire_protocol_connection_pool.cpp` (AdaptivePoolingStrategyTest + pool tests)
 - [?] Adaptive I/O thread scaling based on connection load
 - [?] Structured network audit log (connection open/close/auth events)
 
