@@ -326,6 +326,23 @@ TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonThrowsOnInvalidJson) {
     );
 }
 
+TEST_F(ExportFormatRegistryTest, LoadTemplatesFromJsonIsAtomicOnPartialFailure) {
+    // First entry is valid; second entry has an unknown template_type.
+    // Neither entry should be registered after the failure (all-or-nothing).
+    const std::string json = R"({
+        "templates": [
+            {"format_key": "good_entry",  "template_type": "alpaca"},
+            {"format_key": "bad_entry",   "template_type": "nonexistent_type"}
+        ]
+    })";
+    EXPECT_THROW(
+        ExportFormatRegistry::instance().loadTemplatesFromJson(json),
+        std::invalid_argument
+    );
+    // The valid first entry must NOT have been registered.
+    EXPECT_FALSE(ExportFormatRegistry::instance().hasFormat("good_entry"));
+}
+
 // ── loadTemplatesFromConfig ───────────────────────────────────────────────────
 
 TEST_F(ExportFormatRegistryTest, LoadTemplatesFromConfigRegistersFormats) {

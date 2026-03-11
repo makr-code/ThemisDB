@@ -136,6 +136,15 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string& json_str) {
             "ExportFormatRegistry: JSON config must contain a 'templates' array");
     }
 
+    // --- Pass 1: validate all entries before touching the registry ---
+    struct ValidatedEntry {
+        std::string             format_key;
+        FormatTemplateType      ttype;
+        FormatTemplateFieldMapping mapping;
+    };
+    std::vector<ValidatedEntry> validated;
+    validated.reserve(j["templates"].size());
+
     for (const auto& entry : j["templates"]) {
         if (!entry.contains("format_key") || !entry["format_key"].is_string()) {
             throw std::invalid_argument(
@@ -156,7 +165,6 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string& json_str) {
                 "'; expected one of: alpaca, sharegpt, chatml, openai_finetuning");
         }
 
-        const FormatTemplateType ttype = it->second;
         FormatTemplateFieldMapping mapping;
 
         if (entry.contains("field_mapping") && entry["field_mapping"].is_object()) {
@@ -175,7 +183,12 @@ void ExportFormatRegistry::loadTemplatesFromJson(const std::string& json_str) {
                 mapping.assistant_field = fm["assistant_field"].get<std::string>();
         }
 
-        registerFormat(format_key, [ttype, mapping]() -> std::unique_ptr<IExporter> {
+        validated.push_back({format_key, it->second, mapping});
+    }
+
+    // --- Pass 2: register — only reached when all entries are valid ---
+    for (auto& ve : validated) {
+        registerFormat(ve.format_key, [ttype = ve.ttype, mapping = ve.mapping]() -> std::unique_ptr<IExporter> {
             JSONLLLMConfig cfg;
             cfg.format_template_type    = ttype;
             cfg.template_field_mapping  = mapping;
