@@ -462,3 +462,114 @@ TEST(NetworkCircuitBreakerTest, ConcurrentTripAndRecovery) {
     const CircuitState s = cb.getState();
     EXPECT_TRUE(s == CircuitState::OPEN || s == CircuitState::HALF_OPEN);
 }
+
+// ============================================================================
+// reset() and forceOpen()
+// ============================================================================
+
+TEST(NetworkCircuitBreakerTest, ResetFromOpenReturnsToClosed) {
+    AdaptiveCircuitBreaker cb(makeConfig(2));
+
+    cb.recordFailure();
+    cb.recordFailure();
+    ASSERT_EQ(cb.getState(), CircuitState::OPEN);
+    ASSERT_FALSE(cb.shouldAllow());
+
+    cb.reset();
+
+    EXPECT_EQ(cb.getState(), CircuitState::CLOSED);
+    EXPECT_TRUE(cb.shouldAllow());
+}
+
+TEST(NetworkCircuitBreakerTest, ResetRestoresAdaptiveThreshold) {
+    AdaptiveCircuitBreaker cb(makeConfig(10, 2, 1s, 30s, true, 0.2));
+
+    // Trip twice to reduce effective threshold to 8
+    for (size_t i = 0; i < 10; ++i) cb.recordFailure();
+    ASSERT_EQ(cb.getState(), CircuitState::OPEN);
+    std::this_thread::sleep_for(1200ms);
+    ASSERT_TRUE(cb.shouldAllow());
+    cb.recordFailure(); // re-opens, adaptive kicks in
+    ASSERT_EQ(cb.getStats().current_failure_threshold, 8u);
+
+    cb.reset();
+
+    EXPECT_EQ(cb.getState(), CircuitState::CLOSED);
+    EXPECT_EQ(cb.getStats().current_failure_threshold, 10u);
+}
+
+TEST(NetworkCircuitBreakerTest, ResetClearsFailureStreak) {
+    AdaptiveCircuitBreaker cb(makeConfig(3));
+
+    cb.recordFailure();
+    cb.recordFailure(); // 2 failures, threshold=3, still CLOSED
+
+    cb.reset(); // clear the streak
+
+    // After reset, 3 fresh failures should trip (not 1)
+    cb.recordFailure();
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), CircuitState::CLOSED);
+    cb.recordFailure();
+    EXPECT_EQ(cb.getState(), CircuitState::OPEN);
+}
+
+TEST(NetworkCircuitBreakerTest, ForceOpenFromClosedTripsCircuit) {
+    AdaptiveCircuitBreaker cb(makeConfig(100)); // high threshold, wouldn't trip naturally
+
+    ASSERT_EQ(cb.getState(), CircuitState::CLOSED);
+    cb.forceOpen();
+
+    EXPECT_EQ(cb.getState(), CircuitState::OPEN);
+    EXPECT_FALSE(cb.shouldAllow());
+}
+
+TEST(NetworkCircuitBreakerTest, ForceOpenFromHalfOpenTripsCircuit) {
+    AdaptiveCircuitBreaker cb(makeConfig(2, 5, 1s));
+
+    cb.recordFailure();
+    cb.recordFailure();
+    ASSERT_EQ(cb.getState(), CircuitState::OPEN);
+    std::this_thread::sleep_for(1200ms);
+    ASSERT_TRUE(cb.shouldAllow());
+    ASSERT_EQ(cb.getState(), CircuitState::HALF_OPEN);
+
+    cb.forceOpen();
+
+    EXPECT_EQ(cb.getState(), CircuitState::OPEN);
+    EXPECT_FALSE(cb.shouldAllow());
+}
+
+TEST(NetworkCircuitBreakerTest, ForceOpenFiresStateChangeCallback) {
+    AdaptiveCircuitBreaker cb(makeConfig(10));
+
+    std::vector<std::pair<CircuitState, CircuitState>> transitions;
+    cb.setStateChangeCallback([&](CircuitState from, CircuitState to) {
+        transitions.emplace_back(from, to);
+    });
+
+    cb.forceOpen();
+
+    ASSERT_EQ(transitions.size(), 1u);
+    EXPECT_EQ(transitions[0].first,  CircuitState::CLOSED);
+    EXPECT_EQ(transitions[0].second, CircuitState::OPEN);
+}
+
+TEST(NetworkCircuitBreakerTest, ResetFiresStateChangeCallback) {
+    AdaptiveCircuitBreaker cb(makeConfig(2));
+
+    cb.recordFailure();
+    cb.recordFailure();
+    ASSERT_EQ(cb.getState(), CircuitState::OPEN);
+
+    std::vector<std::pair<CircuitState, CircuitState>> transitions;
+    cb.setStateChangeCallback([&](CircuitState from, CircuitState to) {
+        transitions.emplace_back(from, to);
+    });
+
+    cb.reset();
+
+    ASSERT_EQ(transitions.size(), 1u);
+    EXPECT_EQ(transitions[0].first,  CircuitState::OPEN);
+    EXPECT_EQ(transitions[0].second, CircuitState::CLOSED);
+}

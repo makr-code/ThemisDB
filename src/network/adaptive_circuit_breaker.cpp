@@ -52,21 +52,26 @@ AdaptiveCircuitBreaker::AdaptiveCircuitBreaker(const Config& config)
 bool AdaptiveCircuitBreaker::shouldAllow() {
     ++total_calls_;
 
-    const CircuitState s = state_.load(std::memory_order_acquire);
+    // Fast path: CLOSED — no lock needed on the hot path
+    if (state_.load(std::memory_order_acquire) == CircuitState::CLOSED) {
+        return true;
+    }
+
+    // All non-CLOSED states require the lock to avoid races during transitions.
+    // We never recurse while holding the lock to prevent deadlocks.
+    std::lock_guard<std::mutex> lock(mutex_);
+    const CircuitState s = state_.load(std::memory_order_relaxed);
 
     if (s == CircuitState::CLOSED) {
+        // Another thread transitioned to CLOSED between the fast-path check
+        // and acquiring the lock.
         return true;
     }
 
     if (s == CircuitState::OPEN) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        // Re-check under lock — another thread may have transitioned already
-        if (state_.load(std::memory_order_relaxed) != CircuitState::OPEN) {
-            return true;
-        }
         const auto elapsed = std::chrono::steady_clock::now() - open_timestamp_;
         if (elapsed >= config_.open_timeout) {
-            // Timeout elapsed — probe with one request
+            // Timeout elapsed — enter probe window
             transitionTo(CircuitState::HALF_OPEN);
             return true;
         }
@@ -74,24 +79,14 @@ bool AdaptiveCircuitBreaker::shouldAllow() {
         return false;
     }
 
-    // HALF_OPEN: allow limited probe requests
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (state_.load(std::memory_order_relaxed) != CircuitState::HALF_OPEN) {
-            // Raced with a state transition — re-evaluate
-            return shouldAllow();
-        }
-        // Check half-open timeout: if we've been in HALF_OPEN too long,
-        // re-open the circuit.
-        const auto elapsed = std::chrono::steady_clock::now() - last_state_change_;
-        if (elapsed >= config_.half_open_timeout) {
-            transitionTo(CircuitState::OPEN);
-            ++rejected_calls_;
-            return false;
-        }
-        // Allow the probe request
-        return true;
+    // HALF_OPEN: allow probe requests; re-open if the half-open timeout expired
+    const auto elapsed = std::chrono::steady_clock::now() - last_state_change_;
+    if (elapsed >= config_.half_open_timeout) {
+        transitionTo(CircuitState::OPEN);
+        ++rejected_calls_;
+        return false;
     }
+    return true;
 }
 
 void AdaptiveCircuitBreaker::recordSuccess() {
@@ -190,6 +185,22 @@ void AdaptiveCircuitBreaker::setStateChangeCallback(
 {
     std::lock_guard<std::mutex> lock(mutex_);
     state_change_cb_ = std::move(callback);
+}
+
+void AdaptiveCircuitBreaker::reset() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    consecutive_failures_        = 0;
+    half_open_successes_         = 0;
+    consecutive_trip_count_      = 0;
+    effective_failure_threshold_ = config_.failure_threshold;
+    transitionTo(CircuitState::CLOSED);
+}
+
+void AdaptiveCircuitBreaker::forceOpen() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    consecutive_failures_ = 0;
+    half_open_successes_  = 0;
+    transitionTo(CircuitState::OPEN);
 }
 
 // static
