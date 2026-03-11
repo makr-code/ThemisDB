@@ -25,6 +25,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis { namespace server {
 
@@ -34,6 +35,7 @@ KeysApiHandler::KeysApiHandler(std::shared_ptr<KeyProvider> key_provider)
 
 nlohmann::json KeysApiHandler::listKeys() {
     try {
+    auto span = Tracer::startSpan("listKeys");
         if (!key_provider_) {
             THEMIS_WARN("Keys API: KeyProvider not initialized, returning empty list");
             return {
@@ -98,6 +100,7 @@ nlohmann::json KeysApiHandler::listKeys() {
 nlohmann::json KeysApiHandler::rotateKey(const std::string& key_id, const nlohmann::json& body) {
     (void)body;
     try {
+    auto span = Tracer::startSpan("rotateKey");
         if (!key_provider_) {
             THEMIS_ERROR("Keys API: KeyProvider not initialized");
             return {

@@ -88,6 +88,7 @@ MonitoringApiHandler::MonitoringApiHandler(
 http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleHealthCheck");
     // Implementation moved from http_server.cpp handleHealthCheck()
     auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::steady_clock::now() - *start_time_
@@ -124,6 +125,7 @@ http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
 http::response<http::string_body> MonitoringApiHandler::handleLiveness(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleLiveness");
     // Liveness probe: server process is running and not deadlocked
     bool alive = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
 
@@ -149,6 +151,7 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
 http::response<http::string_body> MonitoringApiHandler::handleReadiness(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleReadiness");
     // Readiness probe: server is ready to accept traffic.
     // Reports per-layer health: server state, storage, connections, memory.
     bool server_running = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
@@ -224,6 +227,7 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
 http::response<http::string_body> MonitoringApiHandler::handleVersion(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleVersion");
     // Implementation moved from http_server.cpp handleVersion()
     try {
         auto build_config = themis::build_info::getBuildConfiguration();
@@ -356,6 +360,7 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
 http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleOpenApi");
     // Assemble an OpenAPI 3.1.0 document from all routes registered via
     // RouteRegistry.  registerRoutes() is called here so that monitoring-handler
     // routes are always present even if the caller did not invoke it explicitly
@@ -391,6 +396,7 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
 http::response<http::string_body> MonitoringApiHandler::handleStats(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleStats");
     // Implementation moved from http_server.cpp handleStats()
     try {
         auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
@@ -434,6 +440,7 @@ http::response<http::string_body> MonitoringApiHandler::handleStats(
 http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleCapabilities");
     // Implementation moved from http_server.cpp handleCapabilities()
     // No auth required for capabilities (read-only, non-sensitive)
     json caps;
@@ -545,6 +552,7 @@ http::response<http::string_body> MonitoringApiHandler::handleCapabilities(
 http::response<http::string_body> MonitoringApiHandler::handleMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleMetrics");
     // Basic Prometheus metrics implementation
     // Includes core server metrics, auth metrics, RocksDB stats, and index rebuild metrics
     // Note: Some advanced metrics (latency histograms, vector index, SSE, rate limiter, sharding)
@@ -843,6 +851,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
 http::response<http::string_body> MonitoringApiHandler::handlePluginMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handlePluginMetrics");
     // GET /api/plugins/metrics - Return plugin metrics in JSON format
     try {
         auto& plugin_manager = themis::plugins::PluginManager::instance();
@@ -913,6 +922,7 @@ http::response<http::string_body> MonitoringApiHandler::makeResponse(
 http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleShardingMetrics");
     if (!sharding_metrics_) {
         return makeErrorResponse(http::status::service_unavailable, 
                                  "Sharding metrics not configured", req);
@@ -943,6 +953,7 @@ http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
 http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleSLOStatus");
     if (!sharding_metrics_) {
         return makeErrorResponse(http::status::service_unavailable, 
                                  "SLO monitoring not configured", req);
@@ -985,6 +996,7 @@ json MonitoringApiHandler::buildConcernsJson(
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlerts(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleObservabilityAlerts");
     try {
         auto severityToString = [](observability::AlertSeverity severity) -> const char* {
             switch (severity) {
@@ -1045,6 +1057,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlertSilence(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleObservabilityAlertSilence");
     try {
         // Extract alert ID from path: /api/v1/observability/alerts/{id}/silence
         const std::string target = std::string(req.target());
@@ -1106,6 +1119,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlert
 http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealth(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleObservabilityHealth");
     try {
         json body;
         body["status"] = "ok";
@@ -1168,6 +1182,7 @@ http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealt
 http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleMetricsHtml");
     try {
         // Collect raw Prometheus text
         std::string version;
@@ -1248,6 +1263,7 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
 http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleLicenseStatus");
     using namespace themis::license;
 
     const RuntimeLicenseGate& gate = RuntimeLicenseGate::instance();

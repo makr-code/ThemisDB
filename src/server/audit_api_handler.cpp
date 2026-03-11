@@ -25,6 +25,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -217,6 +218,7 @@ nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     result["entries"] = nlohmann::json::array();
     
     if (start_idx < total_count) {
+    auto span = Tracer::startSpan("queryAuditLogs");
         for (int i = start_idx; i < end_idx; i++) {
             result["entries"].push_back(all_entries[i].toJson());
         }
@@ -240,6 +242,7 @@ std::string AuditApiHandler::exportAuditLogsCsv(const AuditQueryFilter& filter) 
     
     // Rows
     for (const auto& entry : entries) {
+    auto span = Tracer::startSpan("exportAuditLogsCsv");
         // Helper to escape CSV fields
         auto escape = [](const std::string& s) {
             if (s.find(',') != std::string::npos || s.find('"') != std::string::npos || s.find('\n') != std::string::npos) {

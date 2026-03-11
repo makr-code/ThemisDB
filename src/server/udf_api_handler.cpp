@@ -26,6 +26,7 @@
 
 #include <nlohmann/json.hpp>
 #include <stdexcept>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -67,6 +68,7 @@ UdfApiHandler::makeErrorResponse(
 http::response<http::string_body>
 UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleRegister");
     json body;
     try {
         body = json::parse(req.body());
@@ -161,6 +163,7 @@ UdfApiHandler::handleRegister(const http::request<http::string_body>& req)
 http::response<http::string_body>
 UdfApiHandler::handleList(const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleList");
     auto udfs = UdfRegistry::instance().listUdfs();
     json arr = json::array();
     for (const auto& d : udfs) {
@@ -180,6 +183,7 @@ UdfApiHandler::handleGet(
     const http::request<http::string_body>& req,
     const std::string& name)
 {
+    auto span = Tracer::startSpan("handleGet");
     try {
         auto def = UdfRegistry::instance().getUdf(name);
         return makeJsonResponse(http::status::ok, def.toJson(), req);
@@ -198,6 +202,7 @@ UdfApiHandler::handleDelete(
     const http::request<http::string_body>& req,
     const std::string& name)
 {
+    auto span = Tracer::startSpan("handleDelete");
     try {
         UdfRegistry::instance().unregisterUdf(name);
     } catch (const std::runtime_error&) {

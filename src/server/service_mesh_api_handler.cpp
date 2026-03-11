@@ -26,6 +26,7 @@
 
 #ifdef THEMIS_ENABLE_SERVICE_MESH
 #include "network/service_mesh.h"
+#include "utils/tracing.h"
 #endif
 
 namespace themis {
@@ -50,6 +51,7 @@ http::response<http::string_body> ServiceMeshApiHandler::makeJson(
     const std::string& body,
     const http::request<http::string_body>& req) const
 {
+    auto span = Tracer::startSpan("makeJson");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::server, "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
@@ -62,6 +64,7 @@ http::response<http::string_body> ServiceMeshApiHandler::makeJson(
 http::response<http::string_body> ServiceMeshApiHandler::makeDisabled(
     const http::request<http::string_body>& req) const
 {
+    auto span = Tracer::startSpan("makeDisabled");
     json body = {
         {"enabled", false},
         {"message", "Service mesh support is not compiled in this build "
@@ -77,6 +80,7 @@ http::response<http::string_body> ServiceMeshApiHandler::makeDisabled(
 http::response<http::string_body> ServiceMeshApiHandler::handleStatus(
     const http::request<http::string_body>& req) const
 {
+    auto span = Tracer::startSpan("handleStatus");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {
@@ -116,6 +120,7 @@ http::response<http::string_body> ServiceMeshApiHandler::handleStatus(
 http::response<http::string_body> ServiceMeshApiHandler::handleConfig(
     const http::request<http::string_body>& req) const
 {
+    auto span = Tracer::startSpan("handleConfig");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {
@@ -148,6 +153,7 @@ http::response<http::string_body> ServiceMeshApiHandler::handleConfig(
 http::response<http::string_body> ServiceMeshApiHandler::handleAnnotations(
     const http::request<http::string_body>& req) const
 {
+    auto span = Tracer::startSpan("handleAnnotations");
 #ifdef THEMIS_ENABLE_SERVICE_MESH
     if (!smi_) {
         json body = {

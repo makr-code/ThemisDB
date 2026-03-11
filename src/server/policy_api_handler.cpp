@@ -49,6 +49,7 @@ PolicyApiHandler::PolicyApiHandler(
 http::response<http::string_body> PolicyApiHandler::handleImportRanger(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleImportRanger");
     // Implementation moved from http_server.cpp handlePoliciesImportRanger()
     if (!ranger_client_) {
         return makeErrorResponse(http::status::service_unavailable, "Ranger client not configured", req);
@@ -84,6 +85,7 @@ http::response<http::string_body> PolicyApiHandler::handleImportRanger(
 http::response<http::string_body> PolicyApiHandler::handleExportRanger(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleExportRanger");
     // Implementation moved from http_server.cpp handlePoliciesExportRanger()
     try {
         if (!policy_engine_) {

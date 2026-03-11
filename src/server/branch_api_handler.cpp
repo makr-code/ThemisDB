@@ -23,6 +23,7 @@
 
 #include "server/branch_api_handler.h"
 #include <sstream>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -86,6 +87,7 @@ void BranchApiHandler::registerRoutes(httplib::Server& server) {
 void BranchApiHandler::handleCreateBranch(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handleCreateBranch");
         return;
     }
     
@@ -136,6 +138,7 @@ void BranchApiHandler::handleListBranches(const httplib::Request& req, httplib::
     // Parse query parameters
     size_t limit = 0;
     if (req.has_param("limit")) {
+    auto span = Tracer::startSpan("handleListBranches");
         limit = std::stoull(req.get_param_value("limit"));
     }
     
@@ -166,6 +169,7 @@ void BranchApiHandler::handleGetBranch(const httplib::Request& req, httplib::Res
     
     auto branch = branch_manager_.getBranch(branch_name);
     if (!branch.has_value()) {
+    auto span = Tracer::startSpan("handleGetBranch");
         sendError(res, 404, "Branch not found");
         return;
     }
@@ -178,6 +182,7 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
     
     bool success = branch_manager_.switchBranch(branch_name);
     if (!success) {
+    auto span = Tracer::startSpan("handleSwitchBranch");
         sendError(res, 400, "Failed to switch branch. Branch may not exist.");
         return;
     }
@@ -193,6 +198,7 @@ void BranchApiHandler::handleSwitchBranch(const httplib::Request& req, httplib::
 void BranchApiHandler::handleMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handleMergeBranches");
         return;
     }
     
@@ -228,6 +234,7 @@ void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::
     // Check for force flag
     bool force = false;
     if (req.has_param("force")) {
+    auto span = Tracer::startSpan("handleDeleteBranch");
         force = req.get_param_value("force") == "true";
     }
     
@@ -250,6 +257,7 @@ void BranchApiHandler::handleGetStats(const httplib::Request& req, httplib::Resp
 }
 
 void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetStats");
     std::string active_branch = branch_manager_.getActiveBranch();
     
     json result = {
@@ -261,6 +269,7 @@ void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httpli
 void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handlePreviewMergeBranches");
         return;
     }
 
@@ -300,6 +309,7 @@ void BranchApiHandler::handlePreviewMergeBranches(const httplib::Request& req, h
 void BranchApiHandler::handleResolveMergeBranches(const httplib::Request& req, httplib::Response& res) {
     json body;
     if (!parseJsonBody(req, body, res)) {
+    auto span = Tracer::startSpan("handleResolveMergeBranches");
         return;
     }
 

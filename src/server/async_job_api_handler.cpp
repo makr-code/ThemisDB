@@ -47,6 +47,7 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -225,6 +226,7 @@ http::response<http::string_body> AsyncJobApiHandler::makeJsonResponse(
     const json&  body,
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("makeJsonResponse");
     http::response<http::string_body> res{status, req.version()};
     res.set(http::field::server,       "THEMIS/0.1.0");
     res.set(http::field::content_type, "application/json");
@@ -314,6 +316,7 @@ void AsyncJobApiHandler::launchJob(std::shared_ptr<AsyncJobRecord> job) {
 http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleSubmit");
     // Optional auth check
     if (auth_ && auth_->isEnabled()) {
         const auto auth_hdr = req[http::field::authorization];
@@ -375,6 +378,7 @@ http::response<http::string_body> AsyncJobApiHandler::handleSubmit(
 http::response<http::string_body> AsyncJobApiHandler::handleList(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleList");
     auto jobs = registry_->all();
     json arr = json::array();
     for (const auto& job : jobs) {
@@ -387,6 +391,7 @@ http::response<http::string_body> AsyncJobApiHandler::handleList(
 http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleGetStatus");
     const std::string target(req.target());
     const std::string job_id = extractJobId(target);
 
@@ -408,6 +413,7 @@ http::response<http::string_body> AsyncJobApiHandler::handleGetStatus(
 http::response<http::string_body> AsyncJobApiHandler::handleCancel(
     const http::request<http::string_body>& req)
 {
+    auto span = Tracer::startSpan("handleCancel");
     const std::string target(req.target());
     const std::string job_id = extractJobId(target);
 
