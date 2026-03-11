@@ -271,6 +271,21 @@ void ConfigSchemaValidator::validateValue(const nlohmann::json& value,
     } else if (value.is_number()) {
         validateNumber(value, schema, json_path, result);
     }
+
+    // --- allOf ---
+    if (schema.contains("allOf") && schema["allOf"].is_array()) {
+        validateAllOf(value, schema["allOf"], json_path, result);
+    }
+
+    // --- anyOf ---
+    if (schema.contains("anyOf") && schema["anyOf"].is_array()) {
+        validateAnyOf(value, schema["anyOf"], json_path, result);
+    }
+
+    // --- oneOf ---
+    if (schema.contains("oneOf") && schema["oneOf"].is_array()) {
+        validateOneOf(value, schema["oneOf"], json_path, result);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -468,6 +483,66 @@ void ConfigSchemaValidator::validateNumber(const nlohmann::json& value,
                             ") must be strictly less than exclusiveMaximum (" +
                             std::to_string(emax) + ")");
         }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateAllOf
+// ═══════════════════════════════════════════════════════════
+
+void ConfigSchemaValidator::validateAllOf(const nlohmann::json& value,
+                                          const nlohmann::json& schemas,
+                                          const std::string& json_path,
+                                          ValidationResult& result) {
+    for (const auto& sub : schemas) {
+        if (sub.is_object()) {
+            validateValue(value, sub, json_path, result);
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateAnyOf
+// ═══════════════════════════════════════════════════════════
+
+void ConfigSchemaValidator::validateAnyOf(const nlohmann::json& value,
+                                          const nlohmann::json& schemas,
+                                          const std::string& json_path,
+                                          ValidationResult& result) {
+    for (const auto& sub : schemas) {
+        if (sub.is_object()) {
+            ValidationResult sub_result;
+            validateValue(value, sub, json_path, sub_result);
+            if (sub_result.valid) {
+                return; // at least one sub-schema matched
+            }
+        }
+    }
+    result.addError("Value at '" + json_path + "' does not match any of the anyOf schemas");
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateOneOf
+// ═══════════════════════════════════════════════════════════
+
+void ConfigSchemaValidator::validateOneOf(const nlohmann::json& value,
+                                          const nlohmann::json& schemas,
+                                          const std::string& json_path,
+                                          ValidationResult& result) {
+    int matched = 0;
+    for (const auto& sub : schemas) {
+        if (sub.is_object()) {
+            ValidationResult sub_result;
+            validateValue(value, sub, json_path, sub_result);
+            if (sub_result.valid) {
+                ++matched;
+            }
+        }
+    }
+    if (matched != 1) {
+        result.addError("Value at '" + json_path +
+                        "' must match exactly one of the oneOf schemas, but matched " +
+                        std::to_string(matched));
     }
 }
 

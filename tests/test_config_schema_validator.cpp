@@ -535,6 +535,227 @@ TEST_F(ConfigSchemaValidatorTest, MainConfigJsonPassesOfficialSchema) {
                               << result.formatErrors();
 }
 
+// ═══════════════════════════════════════════════════════════
+// validate – allOf
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, AllOfPassWhenAllSubschemasMatch) {
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "allOf": [
+            { "type": "object" },
+            { "required": ["port"] }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, AllOfFailWhenOneSubschemaFails) {
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "allOf": [
+            { "type": "object" },
+            { "required": ["host"] }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("host"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, AllOfNestedTypeConstraintsPass) {
+    auto path = writeFile("cfg.json", R"({"value": 42})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": {
+                "allOf": [
+                    { "type": "integer" },
+                    { "minimum": 1 },
+                    { "maximum": 100 }
+                ]
+            }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, AllOfNestedTypeConstraintsFail) {
+    auto path = writeFile("cfg.json", R"({"value": 200})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "value": {
+                "allOf": [
+                    { "type": "integer" },
+                    { "minimum": 1 },
+                    { "maximum": 100 }
+                ]
+            }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+}
+
+TEST_F(ConfigSchemaValidatorTest, AllOfCollectsErrorsFromAllFailingSubschemas) {
+    // Value violates BOTH sub-schemas; allOf must surface both errors.
+    auto path = writeFile("cfg.json", R"({"port": 8080})");
+    nlohmann::json schema = R"({
+        "allOf": [
+            { "required": ["host"] },
+            { "required": ["ssl"] }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_GE(result.errors.size(), 2u);
+    bool has_host = false, has_ssl = false;
+    for (const auto& e : result.errors) {
+        if (e.find("host") != std::string::npos) has_host = true;
+        if (e.find("ssl")  != std::string::npos) has_ssl  = true;
+    }
+    EXPECT_TRUE(has_host) << "Expected an error about missing 'host'";
+    EXPECT_TRUE(has_ssl)  << "Expected an error about missing 'ssl'";
+}
+
+// ═══════════════════════════════════════════════════════════
+// validate – anyOf
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, AnyOfPassWhenFirstSubschemaMatches) {
+    auto path = writeFile("cfg.json", R"("hello")");
+    nlohmann::json schema = R"({
+        "anyOf": [
+            { "type": "string" },
+            { "type": "integer" }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, AnyOfPassWhenSecondSubschemaMatches) {
+    auto path = writeFile("cfg.json", R"(42)");
+    nlohmann::json schema = R"({
+        "anyOf": [
+            { "type": "string" },
+            { "type": "integer" }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, AnyOfFailWhenNoSubschemaMatches) {
+    auto path = writeFile("cfg.json", R"([1, 2, 3])");
+    nlohmann::json schema = R"({
+        "anyOf": [
+            { "type": "string" },
+            { "type": "integer" }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("anyOf"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, AnyOfWithPropertyConstraints) {
+    auto path = writeFile("cfg.json", R"({"level": "info"})");
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "level": {
+                "anyOf": [
+                    { "type": "string", "minLength": 1 },
+                    { "type": "integer", "minimum": 0 }
+                ]
+            }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+// ═══════════════════════════════════════════════════════════
+// validate – oneOf
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, OneOfPassWhenExactlyOneSubschemaMatches) {
+    auto path = writeFile("cfg.json", R"("hello")");
+    nlohmann::json schema = R"({
+        "oneOf": [
+            { "type": "string" },
+            { "type": "integer" }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, OneOfFailWhenNoSubschemaMatches) {
+    auto path = writeFile("cfg.json", R"([1, 2, 3])");
+    nlohmann::json schema = R"({
+        "oneOf": [
+            { "type": "string" },
+            { "type": "integer" }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("oneOf"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, OneOfFailWhenMultipleSubschemasMatch) {
+    // "abc" satisfies BOTH sub-schemas (string with minLength 1 AND string with maxLength 10),
+    // so oneOf fails because exactly one must match.
+    auto path = writeFile("cfg.json", R"("abc")");
+    nlohmann::json schema = R"({
+        "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "string", "maxLength": 10 }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_FALSE(result.valid);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].find("oneOf"), std::string::npos);
+}
+
+TEST_F(ConfigSchemaValidatorTest, OneOfWithObjectSchemas) {
+    // Object with "type" key: only the first schema matches (has required "type")
+    auto path = writeFile("cfg.json", R"({"type": "tcp", "port": 8080})");
+    nlohmann::json schema = R"({
+        "oneOf": [
+            {
+                "type": "object",
+                "required": ["type", "port"],
+                "properties": {
+                    "type": { "const": "tcp" },
+                    "port": { "type": "integer" }
+                },
+                "additionalProperties": false
+            },
+            {
+                "type": "object",
+                "required": ["type", "path"],
+                "properties": {
+                    "type": { "const": "unix" },
+                    "path": { "type": "string" }
+                },
+                "additionalProperties": false
+            }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validate(path, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
 } // namespace test
 } // namespace config
 } // namespace themis

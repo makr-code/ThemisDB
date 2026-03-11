@@ -153,7 +153,7 @@ Config paths currently resolve against a single filesystem root. Add overlay sup
 `ConfigSchemaValidator` currently implements a Draft 7 subset. Extend it to cover the most commonly needed remaining keywords.
 
 **Implementation Notes:**
-- `[ ]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
+- `[x]` Add `allOf` / `anyOf` / `oneOf` — combine multiple sub-schemas; collect errors from all branches for `allOf`.
 - `[ ]` Add `not` — assert a value does NOT match a sub-schema.
 - `[ ]` Add `$ref` with a local `$defs` / `definitions` lookup table to allow reusable schema fragments.
 - `[ ]` Add `format` keyword (informational only): `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6`.
