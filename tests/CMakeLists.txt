@@ -11417,6 +11417,45 @@ if(TARGET themis_tests)
     message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
 endif()
 
+# KgeVectorSearch focused tests – covers findSimilarDocuments() wired to a
+# real VectorIndexManager (FINDING-T-002 resolution, v1.6.0).
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kge_vector_search.cpp")
+    message(STATUS "Adding KgeVectorSearch focused tests (knowledge_graph_enricher + VectorIndexManager)")
+
+    add_executable(test_kge_vector_search_focused
+        test_kge_vector_search.cpp
+        ${THEMIS_ROOT_DIR}/src/training/knowledge_graph_enricher.cpp
+    )
+
+    target_include_directories(test_kge_vector_search_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_kge_vector_search_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_kge_vector_search_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME KgeVectorSearchFocusedTests COMMAND test_kge_vector_search_focused)
+
+    set_tests_properties(KgeVectorSearchFocusedTests PROPERTIES
+        LABELS "training;knowledge-graph;vector-search;cosine;similarity;focused;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  KgeVectorSearch: offline stub, setVectorIndex wiring, self-exclusion, max_results, score range, nearest-neighbor ranking, nullptr reset")
+else()
+    message(STATUS "KgeVectorSearch focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kge_vector_search.cpp")
+endif()
+
 # LoRAAdapter focused tests – real weight manipulation (no simulation)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
     message(STATUS "Adding LoRAAdapter focused tests (lora_adapter.cpp)")

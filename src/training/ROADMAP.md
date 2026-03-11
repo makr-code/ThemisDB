@@ -21,6 +21,7 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [x] Training progress callback (epoch, step, loss)
 - [x] KnowledgeGraphEnricher – AQL graph traversal context enrichment
 - [x] `findRelatedProvisions()`, `findRelatedCaseLaw()`, `findSimilarDocuments()`
+- [x] `findSimilarDocuments()` wired to `VectorIndexManager` for real cosine-similarity search via `setVectorIndex()` (v1.6.0) — `knowledge_graph_enricher.h/.cpp`, `tests/test_kge_vector_search.cpp`
 - [x] Custom AQL query registration for domain-specific traversals
 - [x] Pimpl pattern for ABI stability across all three components
 - [x] LoRA Checkpoint Manager with SHA-256 integrity validation (Target: Q1 2026) — `lora_checkpoint_manager.h/.cpp` (b2342851)
