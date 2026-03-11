@@ -10,7 +10,7 @@
  *  - Offline / stub behaviour (no VectorIndexManager set)
  *  - Real cosine-similarity search via setVectorIndex()
  *  - Self-document exclusion
- *  - max_results bound
+ *  - max_results bound (including max_results == 0 edge case)
  *  - Similarity scores in [0, 1]
  *  - Similarity-threshold filtering inside enrichSample()
  *  - Missing-embedding fallback (document ID not in index)
