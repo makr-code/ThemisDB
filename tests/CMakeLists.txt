@@ -1318,6 +1318,20 @@ set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
     TIMEOUT 60
 )
 
+# Plugin Watchdog tests (subset of AllTests)
+# Covers: WatchdogConfig defaults/custom values/zero-max-restarts,
+#         WatchdogModuleStats defaults/field completeness, lifecycle
+#         (start/stop/isRunning), idempotent start/stop, configureWatchdog,
+#         getWatchdogStats/getAllWatchdogStats, resetWatchdogStats (incl.
+#         while running), disabled watchdog, destructor cleanup
+#         (from test_module_loader.cpp, Issue #2373)
+add_test(NAME PluginWatchdogFocusedTests
+    COMMAND themis_tests --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
+set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
+    LABELS "module;watchdog;health;restart;themis;unit"
+    TIMEOUT 60
+)
+
 # Session management and revocation endpoint tests (subset of AllTests)
 add_test(NAME SessionManagerTests
     COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
