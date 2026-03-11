@@ -366,3 +366,43 @@ TEST(OpenGLAvailabilityTest, IsAvailableReturnsBoolWithoutCrash) {
     EXPECT_STREQ(backend.name(), "OpenGL");
     EXPECT_EQ(backend.type(), BackendType::OPENGL);
 }
+
+// ============================================================================
+// BackendRegistry integration — verify OpenGL backend is registered and
+// retrievable via BackendType::OPENGL when THEMIS_ENABLE_OPENGL is active
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_OPENGL
+
+TEST(OpenGLRegistryTest, BackendRegistrableAndRetrievable) {
+    auto& registry = BackendRegistry::instance();
+
+    // The backend should already be registered from the BackendRegistry
+    // constructor (wired in this PR). If not (e.g., in a test that cleared
+    // the registry), register it explicitly.
+    auto* retrieved = registry.getBackend(BackendType::OPENGL);
+    if (!retrieved) {
+        registry.registerBackend(std::make_unique<OpenGLVectorBackend>());
+        retrieved = registry.getBackend(BackendType::OPENGL);
+    }
+
+    ASSERT_NE(retrieved, nullptr);
+    EXPECT_STREQ(retrieved->name(), "OpenGL");
+    EXPECT_EQ(retrieved->type(), BackendType::OPENGL);
+}
+
+TEST(OpenGLRegistryTest, BackendInitializesViaRegistry) {
+    auto& registry = BackendRegistry::instance();
+    auto* b = registry.getBackend(BackendType::OPENGL);
+    if (!b) {
+        // Register if not yet present
+        registry.registerBackend(std::make_unique<OpenGLVectorBackend>());
+        b = registry.getBackend(BackendType::OPENGL);
+    }
+    ASSERT_NE(b, nullptr);
+    // initialize() must succeed (GPU path or CPU-fallback path)
+    EXPECT_TRUE(b->initialize());
+    b->shutdown();
+}
+
+#endif  // THEMIS_ENABLE_OPENGL

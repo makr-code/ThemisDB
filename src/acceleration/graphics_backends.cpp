@@ -52,6 +52,8 @@
 #endif
 #include <windows.h>
 #endif
+#include <cstddef>   // ptrdiff_t, size_t
+#include <cstdint>   // intptr_t
 #endif
 
 namespace themis {
@@ -1046,8 +1048,8 @@ typedef int             GL_GLint;
 typedef unsigned int    GL_GLenum;
 typedef int             GL_GLsizei;
 typedef char            GL_GLchar;
-typedef long long       GL_GLsizeiptr;
-typedef long long       GL_GLintptr;
+typedef std::ptrdiff_t  GL_GLsizeiptr;   // matches the OpenGL spec (signed pointer-sized)
+typedef std::ptrdiff_t  GL_GLintptr;     // same as GLintptr in the spec
 typedef unsigned int    GL_GLbitfield;
 typedef float           GL_GLfloat;
 typedef unsigned char   GL_GLboolean;
