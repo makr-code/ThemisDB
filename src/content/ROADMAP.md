@@ -119,7 +119,7 @@
 - [x] FUTURE_ENHANCEMENTS.md with design constraints and required interfaces
 - [x] Missing-implementations audit report (`docs/de/content/missing-implementations.md`)
 - [x] German developer docs (`docs/de/content/`)
-- [ ] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004) (Target: Q3 2026)
+- [x] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - [x] API reference for `ContentManager::ingestStream()` back-pressure behaviour
 
 ## Production Readiness Checklist
@@ -133,7 +133,7 @@
 ## Known Issues & Limitations
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
 - OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); MimeDetector-triggered OCR routing and DPI pre-processing not yet implemented (CON-002, CON-003; see `docs/de/content/missing-implementations.md`)
-- OCR language-pack data directory not defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
+- OCR language-pack data directory defaults to `config/ai_ml/tesseract_lang/` via `ConfigPathResolver` (CON-004 resolved); per-collection override via `OcrProcessor::Config::data_dir`; language defaults to `"eng"`
 - Large file streaming ingestion:
   - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size
   - Non-streaming types (image, PDF, binary, etc.): buffered up to `max_buffered_bytes` (default 256 MB) before delegating to `ingestRawBlob`; files exceeding the limit are rejected
