@@ -90,6 +90,7 @@ struct JWTValidatorConfig {
     int jwks_max_retries{MAX_JWKS_RETRY_ATTEMPTS};           // JWKS fetch max retries
     bool require_issuer_validation = true;   // throw at construction if expected_issuer is unset
     bool require_audience_validation = true; // throw at construction if expected_audience is unset
+    bool require_jti = false;                // when true, reject tokens that are missing the jti claim
 };
 
 class JWTValidator {

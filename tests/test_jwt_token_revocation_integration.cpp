@@ -379,3 +379,55 @@ TEST(EdDSAAllowlistRegression, UnsupportedAlgorithmHintIncludesEdDSA) {
             << "Error message did not mention EdDSA: " << msg;
     }
 }
+
+// ============================================================================
+// require_jti enforcement
+// ============================================================================
+
+class RequireJtiTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        JWTValidatorConfig cfg = makeConfig();
+        cfg.require_jti = true;
+        val_ = std::make_unique<JWTValidator>(cfg);
+        val_->setJWKSForTesting(makeECJwks(key_));
+    }
+    ECKey key_;
+    std::unique_ptr<JWTValidator> val_;
+};
+
+TEST_F(RequireJtiTest, AcceptsTokenWithJti) {
+    auto token = makeES256Token(key_, "ec1", {{"jti", "required-jti-001"}});
+    EXPECT_NO_THROW(val_->parseAndValidate(token));
+}
+
+TEST_F(RequireJtiTest, RejectsTokenWithoutJti) {
+    auto token = makeES256Token(key_, "ec1", {});
+    EXPECT_THROW(val_->parseAndValidate(token), std::runtime_error);
+}
+
+TEST_F(RequireJtiTest, ErrorMessageMentionsJti) {
+    auto token = makeES256Token(key_, "ec1", {});
+    try {
+        val_->parseAndValidate(token);
+        FAIL() << "Expected std::runtime_error";
+    } catch (const std::runtime_error& e) {
+        EXPECT_NE(std::string(e.what()).find("jti"), std::string::npos)
+            << "Error message did not mention jti: " << e.what();
+    }
+}
+
+TEST(RequireJtiDefaultTest, RequireJtiDefaultsToFalse) {
+    JWTValidatorConfig cfg;
+    EXPECT_FALSE(cfg.require_jti);
+}
+
+TEST(RequireJtiDefaultTest, AcceptsTokenWithoutJtiByDefault) {
+    ECKey key;
+    JWTValidatorConfig cfg = makeConfig();
+    JWTValidator val(cfg);
+    val.setJWKSForTesting(makeECJwks(key));
+
+    auto token = makeES256Token(key, "ec1", {});
+    EXPECT_NO_THROW(val.parseAndValidate(token));
+}

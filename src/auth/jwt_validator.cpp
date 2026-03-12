@@ -486,6 +486,14 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     
     claims.email = payload.value("email", "");
     claims.jti = payload.value("jti", "");         // JWT ID – used for per-token revocation
+    if (cfg_.require_jti && claims.jti.empty()) {
+        utils::Logger::warn("JWT validation failed: Missing required jti claim");
+        if (audit_logger_) {
+            audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
+                claims.sub, "jwt/token", {{"reason", "missing_jti"}});
+        }
+        throw std::runtime_error("Missing required jti claim");
+    }
     claims.tenant_id = payload.value("tenant_id", "");  // Extract tenant_id from JWT
     claims.issuer = payload.value("iss", "");
     if (payload.contains("groups")) {
@@ -602,6 +610,9 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         throw std::runtime_error("Signature verification failed");
     }
     // Per-token revocation check: reject if the JTI is in the blacklist
+    if (token_blacklist_ && claims.jti.empty()) {
+        utils::Logger::warn("JWT has no jti; per-token revocation impossible for this token");
+    }
     if (token_blacklist_ && !claims.jti.empty() && token_blacklist_->isRevoked(claims.jti)) {
         utils::Logger::warn("JWT validation failed: Token revoked (jti: " + claims.jti + ")");
         if (audit_logger_) {
