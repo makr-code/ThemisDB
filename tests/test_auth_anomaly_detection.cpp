@@ -31,6 +31,7 @@
 
 #include <gtest/gtest.h>
 #include "auth/auth_rate_limiter.h"
+#include "auth/auth_metrics.h"
 #include "utils/audit_logger.h"
 #include <atomic>
 #include <string>
@@ -519,4 +520,186 @@ TEST_F(AuditLoggerIntegrationTest, DetachAuditLoggerStopsLogging) {
     audit_logger.flush();
 
     EXPECT_EQ(countLogLines(log_path_), lines_after_lockout);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Credential-stuffing escalation (persistent breach-count) tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+class CredentialStuffingEscalationTest : public ::testing::Test {
+protected:
+    AuthRateLimitConfig cfg;
+    CollectedAuthEvents collected;
+
+    void SetUp() override {
+        cfg.enable_ip_rate_limiting              = false;
+        cfg.enable_user_rate_limiting            = false;
+        cfg.enable_account_lockout               = false;
+        cfg.enable_credential_stuffing_detection = true;
+        cfg.credential_stuffing_user_threshold   = 3;
+        cfg.credential_stuffing_window_seconds   = 60;
+        // Use in-memory (no Redis) persistent backend for testing
+        cfg.enable_cs_persistent_backend = false;
+    }
+
+    // Helper: trigger credential stuffing threshold from a unique IP by sending
+    // `threshold` distinct usernames.  Returns the resulting anomaly event.
+    //
+    // Each call uses its own `ip` argument so IP-level state never needs to be
+    // cleared between calls — the breach counter for `user_id` accumulates
+    // across calls while the IP windows are independent.  No reset() is used,
+    // which lets the per-user breach count grow naturally across successive
+    // calls in the same test.
+    AuthAnomalyEvent triggerStuffingForUser(AuthRateLimiter& rl,
+                                            const std::string& user_id,
+                                            const std::string& ip)
+    {
+        collected.clear();
+        rl.setAnomalyCallback([&](const AuthAnomalyEvent& ev) {
+            if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
+                std::lock_guard<std::mutex> l(collected.mtx);
+                collected.events.push_back(ev);
+            }
+        });
+        // Use threshold-1 filler users then the target user to cross the threshold.
+        // All attempts come from the same `ip` so the IP-level window fires.
+        for (size_t i = 0; i + 1 < cfg.credential_stuffing_user_threshold; ++i) {
+            rl.recordFailedAuth("filler_" + ip + "_" + std::to_string(i), ip, "bad_pw");
+        }
+        rl.recordFailedAuth(user_id, ip, "bad_pw");
+
+        // The anomaly callback is invoked synchronously inside recordFailedAuth,
+        // so no sleep is needed here.
+        std::lock_guard<std::mutex> l(collected.mtx);
+        EXPECT_FALSE(collected.events.empty()) << "Expected a stuffing event";
+        if (collected.events.empty()) return AuthAnomalyEvent{};
+        return collected.events.back();
+    }
+};
+
+TEST_F(CredentialStuffingEscalationTest, FirstBreachTriggersCaptcha) {
+    AuthRateLimiter rl(cfg);
+    AuthAnomalyEvent ev = triggerStuffingForUser(rl, "victim_user", "10.0.0.1");
+    EXPECT_EQ(ev.cs_outcome, CredentialStuffingOutcome::CAPTCHA_REQUIRED);
+    EXPECT_EQ(ev.user_id, "victim_user");
+}
+
+TEST_F(CredentialStuffingEscalationTest, SecondBreachTriggersOTP) {
+    AuthRateLimiter rl(cfg);
+    triggerStuffingForUser(rl, "victim2", "10.1.0.1");  // breach 1
+    AuthAnomalyEvent ev = triggerStuffingForUser(rl, "victim2", "10.1.0.2");  // breach 2
+    EXPECT_EQ(ev.cs_outcome, CredentialStuffingOutcome::OTP_REQUIRED);
+}
+
+TEST_F(CredentialStuffingEscalationTest, ThirdBreachLocksAccount24h) {
+    // Enable account lockout so the force-lock can be verified
+    cfg.enable_account_lockout = true;
+    AuthRateLimiter rl(cfg);
+
+    triggerStuffingForUser(rl, "victim3", "10.2.0.1");  // breach 1
+    triggerStuffingForUser(rl, "victim3", "10.2.0.2");  // breach 2
+    AuthAnomalyEvent ev = triggerStuffingForUser(rl, "victim3", "10.2.0.3");  // breach 3
+
+    EXPECT_EQ(ev.cs_outcome, CredentialStuffingOutcome::ACCOUNT_LOCKED_24H);
+    EXPECT_TRUE(rl.isAccountLocked("victim3"));
+}
+
+TEST_F(CredentialStuffingEscalationTest, AnomalyEventCarriesUserIdOnFailedAuth) {
+    AuthRateLimiter rl(cfg);
+    rl.setAnomalyCallback([&](const AuthAnomalyEvent& ev) {
+        std::lock_guard<std::mutex> l(collected.mtx);
+        collected.events.push_back(ev);
+    });
+
+    const std::string ip      = "10.3.0.1";
+    const std::string victim  = "alice_victim";
+
+    for (size_t i = 0; i + 1 < cfg.credential_stuffing_user_threshold; ++i) {
+        rl.recordFailedAuth("fill" + std::to_string(i), ip, "bad");
+    }
+    rl.recordFailedAuth(victim, ip, "bad");
+
+    ASSERT_TRUE(collected.hasType(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED));
+    // The anomaly event must carry the targeted user_id (not empty)
+    bool found = false;
+    {
+        std::lock_guard<std::mutex> l(collected.mtx);
+        for (const auto& ev : collected.events) {
+            if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED &&
+                ev.user_id == victim) {
+                found = true;
+                break;
+            }
+        }
+    }
+    EXPECT_TRUE(found) << "Expected anomaly event with user_id='" << victim << "'";
+}
+
+TEST_F(CredentialStuffingEscalationTest, InMemoryBreachCountClearedByReset) {
+    // When enable_cs_persistent_backend=false (in-memory), the breach count
+    // is stored in the in-process map and is cleared by reset().
+    // After a reset the breach count starts fresh.
+    AuthRateLimiter rl(cfg);
+    AuthAnomalyEvent ev1 = triggerStuffingForUser(rl, "reset_victim", "10.4.0.1");
+    EXPECT_EQ(ev1.cs_outcome, CredentialStuffingOutcome::CAPTCHA_REQUIRED);
+
+    // A full reset clears the in-memory breach count
+    rl.reset();
+
+    // Re-register callback
+    rl.setAnomalyCallback([&](const AuthAnomalyEvent& ev) {
+        if (ev.type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
+            std::lock_guard<std::mutex> l(collected.mtx);
+            collected.events.push_back(ev);
+        }
+    });
+
+    // Trigger stuffing again – count should restart from 1 → CAPTCHA
+    const std::string ip = "10.4.0.2";
+    for (size_t i = 0; i + 1 < cfg.credential_stuffing_user_threshold; ++i) {
+        rl.recordFailedAuth("f_" + std::to_string(i), ip, "bad");
+    }
+    rl.recordFailedAuth("reset_victim", ip, "bad");
+
+    {
+        std::lock_guard<std::mutex> l(collected.mtx);
+        ASSERT_FALSE(collected.events.empty());
+        EXPECT_EQ(collected.events.back().cs_outcome,
+                  CredentialStuffingOutcome::CAPTCHA_REQUIRED);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AuthMetrics: credential_stuffing_attempts_total
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(AuthMetricsCredentialStuffingTest, RecordIncreasesInternalCounter) {
+    AuthMetrics metrics;
+    metrics.recordCredentialStuffingAttempt("user1", "1.2.3.4", "captcha_required");
+    metrics.recordCredentialStuffingAttempt("user2", "1.2.3.5", "otp_required");
+    metrics.recordCredentialStuffingAttempt("user3", "1.2.3.6", "account_locked_24h");
+    EXPECT_EQ(metrics.getCredentialStuffingTotal(), 3u);
+}
+
+TEST(AuthMetricsCredentialStuffingTest, MetricsWiredToRateLimiter) {
+    AuthRateLimitConfig cfg;
+    cfg.enable_ip_rate_limiting              = false;
+    cfg.enable_user_rate_limiting            = false;
+    cfg.enable_account_lockout               = false;
+    cfg.enable_credential_stuffing_detection = true;
+    cfg.credential_stuffing_user_threshold   = 3;
+
+    AuthMetrics metrics;
+    AuthRateLimiter rl(cfg);
+    rl.setMetrics(&metrics);
+
+    const auto before_total = metrics.getCredentialStuffingTotal();
+
+    const std::string ip = "10.9.0.1";
+    for (size_t i = 0; i + 1 < cfg.credential_stuffing_user_threshold; ++i) {
+        rl.recordFailedAuth("fill" + std::to_string(i), ip, "bad");
+    }
+    rl.recordFailedAuth("wired_victim", ip, "bad");  // crosses threshold → metric recorded
+
+    EXPECT_GT(metrics.getCredentialStuffingTotal(), before_total);
 }

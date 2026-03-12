@@ -48,6 +48,7 @@
 #include <atomic>
 #include <map>
 #include <mutex>
+#include <vector>
 
 // ============================================================================
 // Compilation Guard for Prometheus
@@ -240,6 +241,25 @@ public:
     void recordRevokedTokenCheck(bool was_revoked);
 
     // ========================================================================
+    // Credential Stuffing Metrics
+    // ========================================================================
+
+    /**
+     * @brief Record a credential-stuffing detection event.
+     *
+     * Increments the `credential_stuffing_attempts_total` counter with labels
+     * `{user_id, ip, outcome}` where outcome is one of:
+     *   "allowed", "captcha_required", "otp_required", "account_locked_24h"
+     *
+     * @param user_id  Targeted user account (may be empty for IP-only events)
+     * @param ip       Source IP address of the stuffing attempt
+     * @param outcome  Escalation outcome string
+     */
+    void recordCredentialStuffingAttempt(const std::string& user_id,
+                                         const std::string& ip,
+                                         const std::string& outcome);
+
+    // ========================================================================
     // TOTP Drift Metrics
     // ========================================================================
 
@@ -307,6 +327,11 @@ public:
     double getSuccessRate() const;
 
     /**
+     * @brief Get total credential-stuffing detection events recorded.
+     */
+    uint64_t getCredentialStuffingTotal() const;
+
+    /**
      * @brief Get current LDAP connection pool size.
      */
     int getLDAPPoolSize() const;
@@ -340,6 +365,7 @@ private:
     prometheus::Family<prometheus::Counter>& errors_total_;
     prometheus::Family<prometheus::Counter>& revoked_token_checks_total_;
     prometheus::Family<prometheus::Counter>& totp_drift_total_;
+    prometheus::Family<prometheus::Counter>& credential_stuffing_attempts_total_;
     
     // Gauge families
     prometheus::Family<prometheus::Gauge>& jwks_cache_size_;
@@ -359,6 +385,7 @@ private:
     std::atomic<uint64_t> successful_auths_{0};
     std::atomic<uint64_t> failed_auths_{0};
     std::atomic<uint64_t> totp_drift_count_{0};
+    std::atomic<uint64_t> credential_stuffing_total_{0};
 
     // LDAP connection pool gauges (always available)
     std::atomic<int> ldap_pool_size_count_{0};
