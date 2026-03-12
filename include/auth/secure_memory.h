@@ -12,11 +12,12 @@
 
 #pragma once
 
+#include <algorithm>
 #include <cstddef>
 #include <cstring>
 #include <string>
 #include <vector>
-#include <openssl/crypto.h>  // OPENSSL_cleanse
+#include <openssl/crypto.h>  // OPENSSL_cleanse, CRYPTO_memcmp
 
 // Platform-specific memory locking
 #if defined(__linux__) || defined(__APPLE__)
@@ -36,11 +37,11 @@ namespace detail {
  * @brief Lock a memory region against swapping to disk (best-effort; never throws).
  *
  * Linux/macOS: mlock(2)
- * Windows:     VirtualLock() – requires the process to hold the
- *              "Lock pages in memory" user right (SeImpersonatePrivilege
- *              or SeLoadDriverPrivilege, or grant via Local Security Policy:
+ * Windows:     VirtualLock() – may require the process to hold the
+ *              "Lock pages in memory" user right (SeLockMemoryPrivilege),
+ *              configurable via Local Security Policy:
  *              Computer Configuration → Windows Settings → Security Settings →
- *              Local Policies → User Rights Assignment → Lock pages in memory).
+ *              Local Policies → User Rights Assignment → Lock pages in memory.
  */
 inline void secure_mlock(void* ptr, std::size_t len) noexcept {
     if (!ptr || len == 0) return;
@@ -155,6 +156,7 @@ public:
     ~SecureString() { release(); }
 
     const char* c_str() const noexcept { return data_ ? data_ : ""; }
+    char*       data()  noexcept       { return data_; }  ///< Writable pointer for in-place cleansing
     std::size_t size()  const noexcept { return size_; }
     bool        empty() const noexcept { return size_ == 0; }
 
@@ -162,15 +164,15 @@ public:
         if (!rhs)       return empty();
         const std::size_t rlen = std::strlen(rhs);
         if (size_ != rlen) return false;
-        return size_ == 0 || std::memcmp(data_, rhs, size_) == 0;
+        return size_ == 0 || CRYPTO_memcmp(data_, rhs, size_) == 0;
     }
     bool operator==(const std::string& rhs) const noexcept {
         if (size_ != rhs.size()) return false;
-        return size_ == 0 || std::memcmp(data_, rhs.data(), size_) == 0;
+        return size_ == 0 || CRYPTO_memcmp(data_, rhs.data(), size_) == 0;
     }
     bool operator==(const SecureString& rhs) const noexcept {
         if (size_ != rhs.size_) return false;
-        return size_ == 0 || std::memcmp(data_, rhs.data_, size_) == 0;
+        return size_ == 0 || CRYPTO_memcmp(data_, rhs.data_, size_) == 0;
     }
 
     bool operator!=(const char*        rhs) const noexcept { return !(*this == rhs); }
@@ -279,11 +281,17 @@ public:
 
     bool operator==(const SecureBuffer& o) const noexcept {
         if (size_ != o.size_) return false;
-        return size_ == 0 || std::memcmp(data_, o.data_, size_ * sizeof(T)) == 0;
+        return size_ == 0 ||
+               CRYPTO_memcmp(static_cast<const void*>(data_),
+                             static_cast<const void*>(o.data_),
+                             size_ * sizeof(T)) == 0;
     }
     bool operator==(const std::vector<T>& v) const noexcept {
         if (size_ != v.size()) return false;
-        return size_ == 0 || std::memcmp(data_, v.data(), size_ * sizeof(T)) == 0;
+        return size_ == 0 ||
+               CRYPTO_memcmp(static_cast<const void*>(data_),
+                             static_cast<const void*>(v.data()),
+                             size_ * sizeof(T)) == 0;
     }
     bool operator!=(const SecureBuffer& o) const noexcept { return !(*this == o); }
     bool operator!=(const std::vector<T>& v) const noexcept { return !(*this == v); }

@@ -56,7 +56,9 @@ struct TOTPSecretEncryption::Impl {
         // ensures zeroing is visible at the point of use and survives any future
         // refactoring that might replace SecureBuffer with a plain std::vector.
         if (!config.master_key.empty()) {
-            OPENSSL_cleanse(config.master_key.data(), config.master_key.size());
+            OPENSSL_cleanse(
+                config.master_key.data(),
+                config.master_key.size() * sizeof(uint8_t));
         }
     }
 };

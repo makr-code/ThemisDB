@@ -203,8 +203,8 @@ struct JWKSSecureFetcher::Impl {
         // refactoring that might replace SecureString with a plain std::string.
         if (!config.client_key_password.empty()) {
             OPENSSL_cleanse(
-                const_cast<char*>(config.client_key_password.c_str()),
-                config.client_key_password.size());
+                config.client_key_password.data(),
+                config.client_key_password.size() + 1);  // +1 to include null terminator
         }
         if (curl) {
             curl_easy_cleanup(curl);

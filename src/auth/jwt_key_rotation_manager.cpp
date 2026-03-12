@@ -47,7 +47,8 @@ JWTKeyRotationManager::~JWTKeyRotationManager() {
     // migrate JWKKeyInfo::kid to SecureString in a future refactor.
     for (auto& [kid_str, info] : keys_) {
         if (!info.kid.empty()) {
-            OPENSSL_cleanse(const_cast<char*>(info.kid.data()), info.kid.size());
+            char* buf = &info.kid[0];
+            OPENSSL_cleanse(buf, info.kid.size());
         }
     }
 }
