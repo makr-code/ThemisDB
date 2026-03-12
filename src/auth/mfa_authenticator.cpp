@@ -87,8 +87,10 @@ MFAAuthenticator::MFAAuthenticator(const Config& config)
         config_.code_length = 6;
     }
     
-    // Log a warning when time_window exceeds the recommended maximum.
-    if (config_.time_window > config_.max_window_steps) {
+    // Log a soft warning only when time_window is above the recommended soft limit
+    // (max_window_steps) but still within the absolute hard limit of 2.
+    // Values above 2 are rejected below, so warn only in the range (max_window_steps, 2].
+    if (config_.time_window > config_.max_window_steps && config_.time_window <= 2) {
         spdlog::warn("TOTP time_window ({}) exceeds max_window_steps ({}); "
                      "consider reducing to limit replay exposure",
                      config_.time_window, config_.max_window_steps);

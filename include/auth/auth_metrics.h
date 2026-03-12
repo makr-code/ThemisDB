@@ -246,7 +246,7 @@ public:
     /**
      * @brief Record a TOTP validation that succeeded with a non-zero time step offset.
      *
-     * Increments the `totp_drift_total` counter labelled with the absolute step
+     * Increments the `totp_drift_total` counter labelled with the signed step
      * offset value.  Sustained non-zero offsets indicate a device clock that is
      * drifting and should be investigated.
      *
