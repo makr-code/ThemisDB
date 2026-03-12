@@ -10063,6 +10063,14 @@ add_chimera_focused_test(
     "AdapterCapabilityMatrix: cross-system capability comparison for all 9 adapters"
 )
 
+add_chimera_focused_test(
+    test_chimera_batch_operations
+    chimera/test_chimera_batch_operations.cpp
+    ChimeraBatchOperationsTests
+    "chimera;adapter;batch;unit"
+    "Batch Operation Enhancements: BatchOptions, BatchResult, batch_insert_advanced, progress/batch callbacks, stop_on_error"
+)
+
 # ============================================================================
 # Exporters Focused Test Targets
 # Each target compiles the full exporter source set and links themis_core
