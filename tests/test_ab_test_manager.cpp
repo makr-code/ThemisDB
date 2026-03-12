@@ -33,9 +33,13 @@
 #include "themis/base/ab_test_manager.h"
 #include "themis/base/hot_reload_manager.h"
 #include "themis/base/module_loader.h"
+#include "themis/base/interfaces/storage_interface.h"
+#include "observability/metrics_collector.h"
 
+#include <nlohmann/json.hpp>
 #include <string>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 
 using namespace themis::modules;
@@ -579,4 +583,285 @@ TEST_F(ABTestManagerTest, RollbackAfterCancelDoesNotOverrideCancelledStatus) {
     bool ok = mgr.rollbackTest("t1");
     EXPECT_FALSE(ok);
     EXPECT_EQ(mgr.getTestStatus("t1"), ABTestStatus::CANCELLED);
+}
+
+// =============================================================================
+// exportMetricsSnapshot
+// =============================================================================
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotEmptyWithNoTests) {
+    auto rows = mgr.exportMetricsSnapshot();
+    EXPECT_TRUE(rows.empty());
+}
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotHasTwoRowsPerTest) {
+    startTest("t1");
+    auto rows = mgr.exportMetricsSnapshot();
+    EXPECT_EQ(rows.size(), 2u);
+}
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotContainsControlAndTreatment) {
+    startTest("t1");
+    auto rows = mgr.exportMetricsSnapshot();
+    bool has_ctrl = false, has_trt = false;
+    for (const auto& r : rows) {
+        EXPECT_EQ(r.test_id, "t1");
+        if (r.variant == "control")   has_ctrl = true;
+        if (r.variant == "treatment") has_trt  = true;
+    }
+    EXPECT_TRUE(has_ctrl);
+    EXPECT_TRUE(has_trt);
+}
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotReflectsAccumulatedMetrics) {
+    startTest("t1");
+    for (int i = 0; i < 8; ++i) mgr.recordOutcome("t1", false, true,  10.0);
+    for (int i = 0; i < 2; ++i) mgr.recordOutcome("t1", false, false, 10.0);
+
+    auto rows = mgr.exportMetricsSnapshot();
+    for (const auto& r : rows) {
+        if (r.variant == "control") {
+            EXPECT_EQ(r.requests,    10u);
+            EXPECT_EQ(r.conversions,  8u);
+            EXPECT_NEAR(r.success_rate,    0.8, 0.001);
+            EXPECT_NEAR(r.mean_latency_ms, 10.0, 0.001);
+        }
+    }
+}
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotP99IsAtLeastMean) {
+    startTest("t1");
+    for (int i = 0; i < 10; ++i) mgr.recordOutcome("t1", false, true, 5.0);
+    for (int i = 0; i < 10; ++i) mgr.recordOutcome("t1", false, true, 15.0);
+
+    auto rows = mgr.exportMetricsSnapshot();
+    for (const auto& r : rows) {
+        if (r.variant == "control") {
+            EXPECT_GE(r.latency_p99_ms, r.mean_latency_ms);
+        }
+    }
+}
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotStatusMatchesTestStatus) {
+    startTest("t1");
+    mgr.rollbackTest("t1");
+
+    auto rows = mgr.exportMetricsSnapshot();
+    for (const auto& r : rows) {
+        EXPECT_EQ(r.status, ABTestStatus::ROLLED_BACK);
+    }
+}
+
+TEST_F(ABTestManagerTest, ExportMetricsSnapshotCoversFourRowsForTwoTests) {
+    startTest("t1");
+    startTest("t2");
+    auto rows = mgr.exportMetricsSnapshot();
+    EXPECT_EQ(rows.size(), 4u);
+}
+
+// =============================================================================
+// Thompson Sampling auto-stop
+// =============================================================================
+
+TEST_F(ABTestManagerTest, ThompsonSamplingNotTriggeredWhenBelowMinSamples) {
+    ABModuleTestConfig cfg = makeConfig("t_thompson", "mod", 0.5);
+    cfg.min_samples             = 100;
+    cfg.thompson_stop_threshold = 0.95;
+    mgr.startTest(cfg, loader);
+
+    for (int i = 0; i < 50; ++i) mgr.recordOutcome("t_thompson", false, true, 1.0);
+    for (int i = 0; i < 50; ++i) mgr.recordOutcome("t_thompson", true,  true, 1.0);
+
+    EXPECT_EQ(mgr.getTestStatus("t_thompson"), ABTestStatus::ACTIVE);
+}
+
+TEST_F(ABTestManagerTest, ThompsonSamplingPromotesTreatmentWhenItClearlyWins) {
+    ABModuleTestConfig cfg = makeConfig("t_wins", "mod", 0.5);
+    cfg.min_samples             = 50;
+    cfg.thompson_stop_threshold = 0.95;
+    mgr.startTest(cfg, loader);
+
+    // Control: 20% success rate, Treatment: 90% success rate.
+    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_wins", false, (i < 20), 1.0);
+    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_wins", true,  (i < 90), 1.0);
+
+    EXPECT_EQ(mgr.getTestStatus("t_wins"), ABTestStatus::PROMOTED);
+}
+
+TEST_F(ABTestManagerTest, ThompsonSamplingRollsBackWhenControlClearlyWins) {
+    ABModuleTestConfig cfg = makeConfig("t_ctrl_wins", "mod", 0.5);
+    cfg.min_samples             = 50;
+    cfg.thompson_stop_threshold = 0.95;
+    mgr.startTest(cfg, loader);
+
+    // Control: 90% success rate, Treatment: 10% success rate.
+    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_ctrl_wins", false, (i < 90), 1.0);
+    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_ctrl_wins", true,  (i < 10), 1.0);
+
+    EXPECT_EQ(mgr.getTestStatus("t_ctrl_wins"), ABTestStatus::ROLLED_BACK);
+}
+
+TEST_F(ABTestManagerTest, ThompsonSamplingDisabledWhenThresholdIsZero) {
+    ABModuleTestConfig cfg = makeConfig("t_disabled", "mod", 0.5);
+    cfg.min_samples             = 50;
+    cfg.thompson_stop_threshold = 0.0;
+    mgr.startTest(cfg, loader);
+
+    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_disabled", false, (i < 20), 1.0);
+    for (int i = 0; i < 100; ++i) mgr.recordOutcome("t_disabled", true,  (i < 90), 1.0);
+
+    EXPECT_EQ(mgr.getTestStatus("t_disabled"), ABTestStatus::ACTIVE);
+}
+
+// =============================================================================
+// Persistence wiring (setStorageEngine / start / re-activation)
+// =============================================================================
+
+/// Minimal in-memory IStorageEngine for testing persistence without RocksDB.
+class InMemoryStorage : public themis::IStorageEngine {
+public:
+    Result<void> open(const std::string&) override { return OkVoid(); }
+    void         close() override {}
+
+    Result<void> put(const std::string& key, const std::string& value) override {
+        store_[key] = value;
+        return OkVoid();
+    }
+
+    Result<std::string> get(const std::string& key) override {
+        auto it = store_.find(key);
+        if (it == store_.end())
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_KEY_NOT_FOUND, key);
+        return Ok(it->second);
+    }
+
+    Result<void> del(const std::string& key) override {
+        store_.erase(key);
+        return OkVoid();
+    }
+
+    Result<void> scanPrefix(
+            std::string_view prefix,
+            std::function<bool(std::string_view, std::string_view)> callback) override {
+        for (const auto& [k, v] : store_) {
+            if (k.rfind(std::string(prefix), 0) == 0) {
+                if (!callback(k, v)) break;
+            }
+        }
+        return OkVoid();
+    }
+
+    std::unordered_map<std::string, std::string> store_;
+};
+
+class ABTestManagerPersistenceTest : public ::testing::Test {
+protected:
+    InMemoryStorage storage;
+    ModuleLoader    loader;
+
+    ABModuleTestConfig makePersistedConfig(const std::string& test_id) {
+        ABModuleTestConfig cfg;
+        cfg.test_id        = test_id;
+        cfg.module_name    = "mod";
+        cfg.control_path   = "/nonexistent/control.so";
+        cfg.treatment_path = "/nonexistent/treatment.so";
+        cfg.traffic_split  = 0.5;
+        cfg.min_samples    = 30;
+        return cfg;
+    }
+};
+
+TEST_F(ABTestManagerPersistenceTest, StartPersistsEntryToStorage) {
+    ABTestManager mgr;
+    mgr.setStorageEngine(&storage);
+
+    mgr.startTest(makePersistedConfig("p1"), loader);
+
+    auto r = storage.get("ab_test::p1");
+    EXPECT_TRUE(r.has_value());
+}
+
+TEST_F(ABTestManagerPersistenceTest, StartLoadsPersistedEntries) {
+    // Phase 1: populate storage via a first manager instance.
+    {
+        ABTestManager mgr1;
+        mgr1.setStorageEngine(&storage);
+        ABModuleTestConfig cfg = makePersistedConfig("p2");
+        mgr1.startTest(cfg, loader);
+        // Record 100 outcomes to trigger the periodic persist.
+        for (int i = 0; i < 100; ++i) mgr1.recordOutcome("p2", false, true, 3.0);
+    }
+
+    // Phase 2: new manager — restore from storage.
+    ABTestManager mgr2;
+    mgr2.setStorageEngine(&storage);
+    mgr2.start();
+
+    auto ctrl = mgr2.getControlMetrics("p2");
+    EXPECT_EQ(ctrl.sample_count, 100u);
+    EXPECT_NEAR(ctrl.mean_latency_ms, 3.0, 0.01);
+}
+
+TEST_F(ABTestManagerPersistenceTest, StartTestReactivatesPersistedOnlyEntry) {
+    {
+        ABTestManager mgr1;
+        mgr1.setStorageEngine(&storage);
+        mgr1.startTest(makePersistedConfig("p3"), loader);
+        for (int i = 0; i < 100; ++i) mgr1.recordOutcome("p3", false, true, 5.0);
+    }
+
+    ABTestManager mgr2;
+    mgr2.setStorageEngine(&storage);
+    mgr2.start();
+
+    // Re-activate: must succeed AND preserve accumulated metrics.
+    bool ok = mgr2.startTest(makePersistedConfig("p3"), loader);
+    EXPECT_TRUE(ok);
+    auto ctrl = mgr2.getControlMetrics("p3");
+    EXPECT_EQ(ctrl.sample_count, 100u);
+}
+
+TEST_F(ABTestManagerPersistenceTest, RollbackPersistsTerminalStatus) {
+    ABTestManager mgr;
+    mgr.setStorageEngine(&storage);
+    mgr.startTest(makePersistedConfig("p4"), loader);
+    mgr.rollbackTest("p4");
+
+    auto r = storage.get("ab_test::p4");
+    ASSERT_TRUE(r.has_value());
+    auto j = nlohmann::json::parse(r.value());
+    EXPECT_EQ(j.at("status").get<std::string>(), "ROLLED_BACK");
+}
+
+// =============================================================================
+// MetricsCollector wiring (setMetricsCollector)
+// =============================================================================
+
+TEST_F(ABTestManagerTest, SetMetricsCollectorDoesNotCrash) {
+    auto& mc = observability::MetricsCollector::getInstance();
+    EXPECT_NO_THROW(mgr.setMetricsCollector(&mc));
+}
+
+TEST_F(ABTestManagerTest, RecordOutcomeEmitsToMetricsCollector) {
+    auto& mc = observability::MetricsCollector::getInstance();
+    mc.reset();
+    mgr.setMetricsCollector(&mc);
+    startTest("t_mc");
+    mgr.recordOutcome("t_mc", false, true, 5.0);
+
+    const std::string prom = mc.getPrometheusMetrics();
+    EXPECT_NE(prom.find("ab_test"), std::string::npos);
+
+    // Cleanup: reset MetricsCollector so this test does not leak state
+    mc.reset();
+}
+
+TEST_F(ABTestManagerTest, ABTestMetricRowDefaultValues) {
+    ABTestMetricRow row;
+    EXPECT_EQ(row.requests,    0u);
+    EXPECT_EQ(row.conversions, 0u);
+    EXPECT_DOUBLE_EQ(row.success_rate,    0.0);
+    EXPECT_DOUBLE_EQ(row.mean_latency_ms, 0.0);
+    EXPECT_DOUBLE_EQ(row.latency_p99_ms,  0.0);
+    EXPECT_EQ(row.status, ABTestStatus::ACTIVE);
 }

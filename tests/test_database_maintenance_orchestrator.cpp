@@ -11,11 +11,14 @@
 #include "maintenance/maintenance_schedule_store.h"
 #include "maintenance/maintenance_task.h"
 #include "maintenance/maintenance_health_report.h"
+#include "maintenance/i_maintenance_task_handler.h"
 #include "server/maintenance_api_handler.h"
 #include "observability/metrics_collector.h"
 
 #include <nlohmann/json.hpp>
+#include <atomic>
 #include <thread>
+#include <vector>
 #include <chrono>
 #include <map>
 #include <mutex>
@@ -1562,4 +1565,283 @@ TEST_F(MaintenanceOrchestratorTest, DAG_HaltOnTaskFailure_FlagPreserved) {
     auto restored = MaintenanceScheduleEntry::fromJson(j);
     EXPECT_TRUE(restored.halt_on_task_failure);
     ASSERT_EQ(restored.task_dependencies.size(), 1u);
+}
+
+// ===========================================================================
+// IMaintenanceTaskHandler registry tests
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Simple mock handler that records invocations and returns a preset result.
+// ---------------------------------------------------------------------------
+
+class MockTaskHandler : public IMaintenanceTaskHandler {
+public:
+    explicit MockTaskHandler(std::string name,
+                             Result<std::string> result = Result<std::string>{"mock success"})
+        : name_(std::move(name)), result_(std::move(result)) {}
+
+    Result<std::string> execute(const std::string& job_id,
+                                MaintenanceTaskType task_type) override {
+        ++call_count_;
+        last_job_id_   = job_id;
+        last_task_type_ = task_type;
+        return result_;
+    }
+
+    std::string handlerName() const override { return name_; }
+
+    int         call_count()     const { return call_count_; }
+    std::string last_job_id()    const { return last_job_id_; }
+    MaintenanceTaskType last_task_type() const { return last_task_type_; }
+
+private:
+    std::string          name_;
+    Result<std::string>  result_;
+    std::atomic<int>     call_count_{0};
+    std::string          last_job_id_;
+    MaintenanceTaskType  last_task_type_{MaintenanceTaskType::METRICS_COLLECTION};
+};
+
+// ---------------------------------------------------------------------------
+// registerTaskHandler – basic registration and listTaskHandlers
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, RegisterTaskHandler_AppearsInList) {
+    auto handler = std::make_shared<MockTaskHandler>("CompactionHandler");
+    orchestrator_->registerTaskHandler(MaintenanceTaskType::STORAGE_COMPACTION, handler);
+
+    auto handlers = orchestrator_->listTaskHandlers();
+    ASSERT_EQ(handlers.count("storage_compaction"), 1u);
+    EXPECT_EQ(handlers.at("storage_compaction"), "CompactionHandler");
+}
+
+// ---------------------------------------------------------------------------
+// Registering a second handler for the same type replaces the first
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, RegisterTaskHandler_ReplacesExisting) {
+    auto h1 = std::make_shared<MockTaskHandler>("Handler1");
+    auto h2 = std::make_shared<MockTaskHandler>("Handler2");
+    orchestrator_->registerTaskHandler(MaintenanceTaskType::STORAGE_COMPACTION, h1);
+    orchestrator_->registerTaskHandler(MaintenanceTaskType::STORAGE_COMPACTION, h2);
+
+    auto handlers = orchestrator_->listTaskHandlers();
+    EXPECT_EQ(handlers.at("storage_compaction"), "Handler2");
+}
+
+// ---------------------------------------------------------------------------
+// executeTask calls the registered handler and sets SUCCEEDED on success
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, RegisteredHandler_CalledOnExecuteTask_Success) {
+    auto handler = std::make_shared<MockTaskHandler>("StorageCompaction", Result<std::string>{"compaction done"});
+    orchestrator_->registerTaskHandler(MaintenanceTaskType::STORAGE_COMPACTION, handler);
+
+    auto entry = makeEntry("Compaction Schedule");
+    entry.tasks          = {MaintenanceTaskType::STORAGE_COMPACTION};
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SUCCEEDED);
+    EXPECT_EQ(final_job->result_summary, "compaction done");
+    EXPECT_GE(handler->call_count(), 1);
+}
+
+// ---------------------------------------------------------------------------
+// executeTask sets FAILED when the registered handler returns an error
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, RegisteredHandler_CalledOnExecuteTask_Failure) {
+    auto err_result = Result<std::string>{tl::unexpected(
+        Error(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED, "disk full"))};
+    auto handler = std::make_shared<MockTaskHandler>("FailingHandler", err_result);
+    orchestrator_->registerTaskHandler(MaintenanceTaskType::STORAGE_COMPACTION, handler);
+
+    auto entry = makeEntry("Failing Compaction");
+    entry.tasks          = {MaintenanceTaskType::STORAGE_COMPACTION};
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::FAILED);
+    EXPECT_FALSE(final_job->error_message.empty());
+}
+
+// ---------------------------------------------------------------------------
+// Unregistered module-delegated task type returns SKIPPED
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, UnregisteredTaskType_ReturnsSkipped) {
+    // No handler registered for REPLICA_VALIDATION
+    auto entry = makeEntry("Replica Validation Schedule");
+    entry.tasks          = {MaintenanceTaskType::REPLICA_VALIDATION};
+    entry.enforce_window = false;
+    auto created = orchestrator_->createSchedule(entry);
+    ASSERT_TRUE(created);
+
+    auto job_result = orchestrator_->triggerNow(created->id, /*force=*/true);
+    ASSERT_TRUE(job_result);
+    waitForTerminalJobState(orchestrator_.get(), job_result->id);
+
+    auto final_job = orchestrator_->getJob(job_result->id);
+    ASSERT_TRUE(final_job);
+    EXPECT_EQ(final_job->state, MaintenanceJobState::SKIPPED)
+        << "Expected SKIPPED but got: " << jobStateToString(final_job->state);
+    EXPECT_FALSE(final_job->result_summary.empty());
+    EXPECT_NE(final_job->result_summary.find("no handler"), std::string::npos);
+}
+
+// ---------------------------------------------------------------------------
+// Multiple handlers registered for different task types
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, MultipleHandlers_AllListed) {
+    orchestrator_->registerTaskHandler(
+        MaintenanceTaskType::STORAGE_COMPACTION,
+        std::make_shared<MockTaskHandler>("CompactionHandler"));
+    orchestrator_->registerTaskHandler(
+        MaintenanceTaskType::REPLICA_VALIDATION,
+        std::make_shared<MockTaskHandler>("ReplicaHandler"));
+    orchestrator_->registerTaskHandler(
+        MaintenanceTaskType::MVCC_CLEANUP,
+        std::make_shared<MockTaskHandler>("MvccHandler"));
+
+    auto handlers = orchestrator_->listTaskHandlers();
+    EXPECT_EQ(handlers.size(), 3u);
+    EXPECT_EQ(handlers.at("storage_compaction"),  "CompactionHandler");
+    EXPECT_EQ(handlers.at("replica_validation"),  "ReplicaHandler");
+    EXPECT_EQ(handlers.at("mvcc_cleanup"),         "MvccHandler");
+}
+
+// ---------------------------------------------------------------------------
+// listTaskHandlers returns empty map when no handlers are registered
+// ---------------------------------------------------------------------------
+
+TEST_F(MaintenanceOrchestratorTest, ListTaskHandlers_EmptyWhenNoneRegistered) {
+    auto handlers = orchestrator_->listTaskHandlers();
+    EXPECT_TRUE(handlers.empty());
+}
+
+// ===========================================================================
+// MaintenanceApiHandler – listTaskHandlers endpoint
+// ===========================================================================
+
+TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_EmptyWhenNoneRegistered) {
+    auto result = handler_->listTaskHandlers();
+    EXPECT_EQ(result.value("count", -1), 0);
+    ASSERT_TRUE(result.contains("task_handlers"));
+    EXPECT_TRUE(result["task_handlers"].empty());
+}
+
+TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_ReturnsRegisteredHandlers) {
+    orchestrator_->registerTaskHandler(
+        MaintenanceTaskType::STORAGE_COMPACTION,
+        std::make_shared<MockTaskHandler>("StorageCompactionHandler"));
+    orchestrator_->registerTaskHandler(
+        MaintenanceTaskType::MVCC_CLEANUP,
+        std::make_shared<MockTaskHandler>("MvccCleanupHandler"));
+
+    auto result = handler_->listTaskHandlers();
+    EXPECT_EQ(result.value("count", -1), 2);
+
+    auto& arr = result["task_handlers"];
+    ASSERT_EQ(arr.size(), 2u);
+
+    // Verify both entries are present (order may vary)
+    std::map<std::string, std::string> by_type;
+    for (auto& item : arr) {
+        by_type[item.value("task_type", "")] = item.value("handler", "");
+    }
+    EXPECT_EQ(by_type["storage_compaction"], "StorageCompactionHandler");
+    EXPECT_EQ(by_type["mvcc_cleanup"],        "MvccCleanupHandler");
+}
+
+TEST_F(MaintenanceApiHandlerTest, ListTaskHandlers_NullOrchestratorReturnsError) {
+    server::MaintenanceApiHandler null_handler(nullptr);
+    auto result = null_handler.listTaskHandlers();
+    EXPECT_EQ(result.value("status", ""), "error");
+// Concurrency / TSAN – shared_mutex read-path upgrade
+// Exercises 8 concurrent listSchedules readers + 1 createSchedule writer.
+// When built with -DTHEMIS_ENABLE_TSAN=ON, ThreadSanitizer will report any
+// data race that remains on schedules_mutex_ or jobs_mutex_.
+// ===========================================================================
+
+TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
+    // Pre-populate a few schedules so readers have non-empty work.
+    for (int i = 0; i < 4; ++i) {
+        auto e = makeEntry("Seed-" + std::to_string(i));
+        auto result = orchestrator_->createSchedule(e);
+        ASSERT_TRUE(result) << "Seed createSchedule(" << i << ") failed: "
+                            << result.error().message();
+    }
+
+    constexpr int kReaders        = 8;
+    constexpr int kItersPerThread = 200;
+
+    std::atomic<bool> go{false};
+    std::atomic<int>  total_read{0};
+    // Collect writer failures outside the worker thread so gtest assertions
+    // are always issued from the main thread (worker-thread ASSERT/EXPECT
+    // calls do not abort the test and can be missed by the test framework).
+    std::atomic<int>  writer_failures{0};
+
+    // 8 concurrent readers – yield inside the spin loop to avoid burning CPU
+    // and to reduce TSAN false-positive suppression headroom.
+    std::vector<std::thread> readers;
+    readers.reserve(kReaders);
+    for (int t = 0; t < kReaders; ++t) {
+        readers.emplace_back([&] {
+            while (!go.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
+            for (int i = 0; i < kItersPerThread; ++i) {
+                auto schedules = orchestrator_->listSchedules();
+                total_read.fetch_add(static_cast<int>(schedules.size()),
+                                     std::memory_order_relaxed);
+            }
+        });
+    }
+
+    // 1 concurrent writer – track failures atomically so the main thread can
+    // assert on them after joining (gtest assertions in worker threads are
+    // unreliable and may silently pass even when the assertion fires).
+    std::thread writer([&] {
+        while (!go.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
+        for (int i = 0; i < kItersPerThread; ++i) {
+            auto e      = makeEntry("Writer-" + std::to_string(i));
+            auto result = orchestrator_->createSchedule(e);
+            if (!result) {
+                writer_failures.fetch_add(1, std::memory_order_relaxed);
+            }
+        }
+    });
+
+    go.store(true, std::memory_order_release);
+
+    writer.join();
+    for (auto& r : readers) r.join();
+
+    // Assert writer never failed – checked on main thread where gtest works.
+    EXPECT_EQ(writer_failures.load(), 0)
+        << "createSchedule failed " << writer_failures.load() << " time(s) during concurrent run";
+
+    // Sanity: at least the pre-populated schedules must be visible at the end.
+    EXPECT_GE(orchestrator_->listSchedules().size(), 4u);
+    EXPECT_GT(total_read.load(), 0);
 }

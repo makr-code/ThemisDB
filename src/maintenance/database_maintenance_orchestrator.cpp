@@ -16,6 +16,7 @@
 
 #include "maintenance/database_maintenance_orchestrator.h"
 #include "maintenance/maintenance_schedule_store.h"
+#include "maintenance/i_maintenance_task_handler.h"
 #include "scheduler/task_scheduler.h"
 #include "storage/index_maintenance.h"
 #include "utils/audit_logger.h"
@@ -30,6 +31,7 @@
 #include <deque>
 #include <random>
 #include <set>
+#include <shared_mutex>
 #include <sstream>
 #include <iomanip>
 #include <thread>
@@ -136,7 +138,7 @@ Result<void> DatabaseMaintenanceOrchestrator::start() {
         // Use insert_or_assign so persisted entries always take precedence
         // over any schedules that were inserted before start() was called.
         {
-            std::lock_guard<std::mutex> lock(schedules_mutex_);
+            std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
             for (auto& [id, entry] : loaded) {
                 schedules_.insert_or_assign(id, std::move(entry));
             }
@@ -151,7 +153,7 @@ Result<void> DatabaseMaintenanceOrchestrator::start() {
     running_.store(true);
 
     // Re-register all currently enabled schedules.
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     for (auto& [id, entry] : schedules_) {
         if (entry.enabled) {
             registerWithScheduler(entry);
@@ -167,7 +169,7 @@ void DatabaseMaintenanceOrchestrator::stop() {
     if (!running_.exchange(false)) return;
 
     // Deregister all schedules from the scheduler.
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     for (auto& [id, entry] : schedules_) {
         deregisterFromScheduler(id);
     }
@@ -210,7 +212,7 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule
     }
 
     {
-        std::lock_guard<std::mutex> lock(schedules_mutex_);
+        std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
         // Persist to durable storage first; fail the operation if persistence
         // fails so the caller can retry rather than silently losing durability.
         if (schedule_store_) {
@@ -257,7 +259,7 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::createSchedule
 Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::getSchedule(
     const std::string& id) const
 {
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -267,7 +269,7 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::getSchedule(
 }
 
 std::vector<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::listSchedules() const {
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
     std::vector<MaintenanceScheduleEntry> result;
     result.reserve(schedules_.size());
     for (auto& [id, entry] : schedules_) {
@@ -289,7 +291,7 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule
         return tl::unexpected(Error(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT, ex.what()));
     }
 
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -353,7 +355,7 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::updateSchedule
 Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::patchSchedule(
     const std::string& id, const nlohmann::json& patch)
 {
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -416,7 +418,7 @@ Result<MaintenanceScheduleEntry> DatabaseMaintenanceOrchestrator::patchSchedule(
 // ---------------------------------------------------------------------------
 
 Result<void> DatabaseMaintenanceOrchestrator::deleteSchedule(const std::string& id) {
-    std::lock_guard<std::mutex> lock(schedules_mutex_);
+    std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
     auto it = schedules_.find(id);
     if (it == schedules_.end()) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -464,7 +466,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
 {
     MaintenanceScheduleEntry entry;
     {
-        std::lock_guard<std::mutex> lock(schedules_mutex_);
+        std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         auto it = schedules_.find(schedule_id);
         if (it == schedules_.end()) {
             return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -488,7 +490,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
     job.forced      = force;
 
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::unique_lock<std::shared_mutex> lock(jobs_mutex_);
         jobs_[job.id] = job;
     }
 
@@ -516,7 +518,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::triggerNow(
 }
 
 Result<void> DatabaseMaintenanceOrchestrator::cancelJob(const std::string& job_id) {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::unique_lock<std::shared_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -547,7 +549,7 @@ Result<void> DatabaseMaintenanceOrchestrator::cancelJob(const std::string& job_i
 Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::getJob(
     const std::string& job_id) const
 {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
     auto it = jobs_.find(job_id);
     if (it == jobs_.end()) {
         return tl::unexpected(Error(errors::ErrorCode::ERR_INDEX_NOT_FOUND,
@@ -559,7 +561,7 @@ Result<OrchestratorJob> DatabaseMaintenanceOrchestrator::getJob(
 std::vector<OrchestratorJob> DatabaseMaintenanceOrchestrator::listJobs(
     bool active_only) const
 {
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
     std::vector<OrchestratorJob> result;
     for (auto& [id, job] : jobs_) {
         if (active_only && job.state != MaintenanceJobState::PENDING &&
@@ -581,7 +583,7 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
 
     int enabled = 0, total = 0;
     {
-        std::lock_guard<std::mutex> lock(schedules_mutex_);
+        std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         total = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
             if (e.enabled) ++enabled;
@@ -592,7 +594,7 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
 
     int active = 0;
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
         for (auto& [id, job] : jobs_) {
             if (job.state == MaintenanceJobState::PENDING ||
                 job.state == MaintenanceJobState::RUNNING) {
@@ -611,7 +613,7 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
 
     // Orchestrator counts
     {
-        std::lock_guard<std::mutex> lock(schedules_mutex_);
+        std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         report.total_schedules = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
             if (e.enabled) ++report.enabled_schedules;
@@ -620,7 +622,7 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
 
     int64_t cutoff = nowMs() - 24LL * 60 * 60 * 1000;
     {
-        std::lock_guard<std::mutex> lock(jobs_mutex_);
+        std::shared_lock<std::shared_mutex> lock(jobs_mutex_);
         for (auto& [id, job] : jobs_) {
             if (job.started_at_ms < cutoff) continue;
             if (job.state == MaintenanceJobState::RUNNING ||
@@ -675,6 +677,35 @@ void DatabaseMaintenanceOrchestrator::registerHealthProbe(
     health_probes_[module_name] = std::move(probe);
 }
 
+void DatabaseMaintenanceOrchestrator::registerTaskHandler(
+    MaintenanceTaskType task_type,
+    std::shared_ptr<IMaintenanceTaskHandler> handler)
+{
+    if (!handler) {
+        spdlog::warn("registerTaskHandler: ignoring null handler for task type '{}'",
+                     taskTypeToString(task_type));
+        return;
+    }
+    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    task_handlers_[static_cast<int>(task_type)] = std::move(handler);
+}
+
+std::map<std::string, std::string>
+DatabaseMaintenanceOrchestrator::listTaskHandlers() const
+{
+    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    std::map<std::string, std::string> result;
+    for (const auto& [key, handler] : task_handlers_) {
+        const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
+        if (handler) {
+            result[task_type_str] = handler->handlerName();
+        } else {
+            result[task_type_str] = "<null-handler>";
+        }
+    }
+    return result;
+}
+
 // ---------------------------------------------------------------------------
 // Private helpers
 // ---------------------------------------------------------------------------
@@ -722,7 +753,7 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
 
             MaintenanceScheduleEntry entry_copy;
             {
-                std::lock_guard<std::mutex> lock(schedules_mutex_);
+                std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
                 auto it = schedules_.find(eid);
                 if (it == schedules_.end()) {
                     return {{"status", "error"}, {"error", "schedule_not_found"}};
@@ -734,13 +765,13 @@ void DatabaseMaintenanceOrchestrator::registerWithScheduler(
             }
 
             {
-                std::lock_guard<std::mutex> jlock(jobs_mutex_);
+                std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
                 jobs_[job_id] = job;
             }
 
             executeSchedule(eid, job_id);
 
-            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            std::shared_lock<std::shared_mutex> jlock(jobs_mutex_);
             auto it = jobs_.find(job_id);
             if (it != jobs_.end()) {
                 return it->second.toJson();
@@ -765,10 +796,10 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 {
     MaintenanceScheduleEntry entry;
     {
-        std::lock_guard<std::mutex> lock(schedules_mutex_);
+        std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
         auto it = schedules_.find(schedule_id);
         if (it == schedules_.end()) {
-            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
             if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                 jit->second.state          = MaintenanceJobState::FAILED;
                 jit->second.error_message  = "Schedule not found";
@@ -790,7 +821,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
         int64_t now = themis::maintenance::nowMs();
         {
-            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
             if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
                 jit->second.state          = MaintenanceJobState::SKIPPED;
                 jit->second.error_message  = "Skipped: outside maintenance window";
@@ -798,7 +829,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
             }
         }
         {
-            std::lock_guard<std::mutex> lock(schedules_mutex_);
+            std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
             if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
                 it->second.last_run_ms    = now;
                 it->second.last_run_state = "skipped";
@@ -829,7 +860,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
         const std::string err = std::string("Task order resolution failed: ") + ex.what();
         spdlog::error("MaintenanceJob {}: {}", job_id, err);
         {
-            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
             auto jit = jobs_.find(job_id);
             if (jit != jobs_.end()) {
                 jit->second.state          = MaintenanceJobState::FAILED;
@@ -847,7 +878,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     for (auto task_type : ordered_tasks) {
         // Check cancellation
         {
-            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            std::shared_lock<std::shared_mutex> jlock(jobs_mutex_);
             auto jit = jobs_.find(job_id);
             if (jit != jobs_.end() &&
                 jit->second.state == MaintenanceJobState::CANCELLED) {
@@ -891,7 +922,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
     // Update the job record
     {
-        std::lock_guard<std::mutex> jlock(jobs_mutex_);
+        std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
         auto jit = jobs_.find(job_id);
         if (jit != jobs_.end() &&
             jit->second.state != MaintenanceJobState::CANCELLED) {
@@ -905,7 +936,7 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
     // Update the schedule's runtime state
     {
-        std::lock_guard<std::mutex> lock(schedules_mutex_);
+        std::unique_lock<std::shared_mutex> lock(schedules_mutex_);
         auto it = schedules_.find(schedule_id);
         if (it != schedules_.end()) {
             it->second.last_run_ms    = now;
@@ -1062,7 +1093,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
             break;
         }
 
-        // ---- Module-delegated tasks (handled via registered HealthProbes) ----
+        // ---- Module-delegated tasks (handled via registered IMaintenanceTaskHandler) ----
 
         case MaintenanceTaskType::METRICS_COLLECTION:
         case MaintenanceTaskType::QUOTA_CHECK:
@@ -1076,16 +1107,36 @@ void DatabaseMaintenanceOrchestrator::executeTask(
         case MaintenanceTaskType::DISASTER_RECOVERY_DRILL:
         case MaintenanceTaskType::BASELINE_UPDATE:
         case MaintenanceTaskType::STORAGE_COMPACTION: {
-            // These tasks are owned by other modules that register health probes
-            // and/or custom task handlers.  The orchestrator marks them as
-            // succeeded and records an audit event so operators can see the task
-            // ran.  Modules that need custom execution register their own handlers
-            // via registerHealthProbe() or extend executeTask() for their type.
-            spdlog::info("Maintenance task '{}': delegated to module (job={})",
-                         taskTypeToString(task_type), job.id);
-            job.state          = MaintenanceJobState::SUCCEEDED;
-            job.result_summary = "Task '" + taskTypeToString(task_type) +
-                                 "' completed (module-delegated)";
+            // Look for a registered handler for this task type.
+            std::shared_ptr<IMaintenanceTaskHandler> handler;
+            {
+                std::lock_guard<std::mutex> lock(handlers_mutex_);
+                auto it = task_handlers_.find(static_cast<int>(task_type));
+                if (it != task_handlers_.end()) {
+                    handler = it->second;
+                }
+            }
+
+            if (handler) {
+                auto result = handler->execute(job.id, task_type);
+                if (!result) {
+                    job.state         = MaintenanceJobState::FAILED;
+                    job.error_message = result.error().message();
+                } else {
+                    job.state          = MaintenanceJobState::SUCCEEDED;
+                    job.result_summary = *result;
+                }
+            } else {
+                // No handler registered – skip with a structured diagnostic message.
+                spdlog::warn(
+                    "Maintenance task '{}' skipped: no IMaintenanceTaskHandler registered "
+                    "(job={}).  Register a handler via registerTaskHandler() to enable "
+                    "real execution for this task type.",
+                    taskTypeToString(task_type), job.id);
+                job.state          = MaintenanceJobState::SKIPPED;
+                job.result_summary = "Task '" + taskTypeToString(task_type) +
+                                     "' skipped: no handler registered";
+            }
             break;
         }
 
@@ -1102,7 +1153,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
 
 void DatabaseMaintenanceOrchestrator::pruneCompletedJobs() {
     int64_t cutoff = themis::maintenance::nowMs() - kJobRetentionMs;
-    std::lock_guard<std::mutex> lock(jobs_mutex_);
+    std::unique_lock<std::shared_mutex> lock(jobs_mutex_);
     for (auto it = jobs_.begin(); it != jobs_.end(); ) {
         auto& job = it->second;
         if (job.state != MaintenanceJobState::RUNNING &&

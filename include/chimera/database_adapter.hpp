@@ -1210,6 +1210,25 @@ public:
      * @return true if registered successfully, false if already exists
      */
     static bool register_adapter(const std::string& system_name, AdapterCreator creator);
+
+    /**
+     * @brief Register a new adapter together with a static capability hint list
+     *
+     * @details
+     * The @p static_capabilities list is stored in a lightweight capability
+     * hints map keyed by @p system_name.  When create_with_capabilities() is
+     * called, it uses the hints to negotiate without instantiating any adapter,
+     * avoiding expensive construction (and potential resource acquisition) for
+     * non-qualifying candidates.
+     *
+     * @param system_name        System name (e.g., "PostgreSQL:16")
+     * @param creator            Factory function for the adapter
+     * @param static_capabilities Capabilities the adapter is known to support
+     * @return true if registered successfully, false if already exists
+     */
+    static bool register_adapter(const std::string& system_name,
+                                  AdapterCreator creator,
+                                  const std::vector<Capability>& static_capabilities);
     
     /**
      * @brief Get list of supported systems
@@ -1224,8 +1243,123 @@ public:
      */
     static bool is_supported(const std::string& system_name);
 
+    /**
+     * @brief Create an adapter using a prioritised fallback list
+     *
+     * @details
+     * Iterates through @p candidates in order and returns the first adapter
+     * that can be successfully created.  This enables version-specific fallback
+     * chains, e.g. try "PostgreSQL:16", then "PostgreSQL:15", then "PostgreSQL:14".
+     *
+     * @param candidates Ordered list of system names to try (highest priority first)
+     * @return First successfully created adapter, or nullptr if none can be created
+     */
+    static std::unique_ptr<IDatabaseAdapter> create_with_fallback(
+        const std::vector<std::string>& candidates);
+
+    /**
+     * @brief Create the first adapter in @p candidates that satisfies all
+     *        @p required_capabilities (capability negotiation)
+     *
+     * @details
+     * Iterates through @p candidates in order.  For each registered candidate an
+     * instance is created, its capabilities are queried, and if every capability
+     * in @p required_capabilities is supported the adapter is returned.
+     * Candidates that are not registered or do not meet the capability
+     * requirements are silently skipped.
+     *
+     * @param candidates             Ordered list of system names to try
+     * @param required_capabilities  Capabilities that the chosen adapter must support
+     * @return First qualifying adapter, or nullptr if no candidate qualifies
+     */
+    static std::unique_ptr<IDatabaseAdapter> create_with_capabilities(
+        const std::vector<std::string>& candidates,
+        const std::vector<Capability>& required_capabilities);
+
 private:
     static std::map<std::string, AdapterCreator>& get_registry();
+    static std::map<std::string, std::vector<Capability>>& get_capability_hints();
+};
+
+/**
+ * @struct ParsedConnectionString
+ * @brief Components of a parsed adapter connection string
+ *
+ * @details Populated by AdapterConfig::parse_connection_string().
+ */
+struct ParsedConnectionString {
+    std::string scheme;   ///< URI scheme (e.g. "themisdb", "postgresql")
+    std::string host;     ///< Hostname or IP
+    std::string port;     ///< Port number as string (empty if absent)
+    std::string database; ///< Database / path component (empty if absent)
+    std::string username; ///< User info (empty if absent)
+    // NOTE: password is intentionally omitted to avoid credential exposure
+};
+
+/**
+ * @struct AdapterConfig
+ * @brief Configuration container for a database adapter
+ *
+ * @details Aggregates a connection string and a map of key-value options.
+ *          Call validate() before passing the config to any adapter's
+ *          connect() method to surface problems early.
+ *
+ * @example
+ * @code
+ * AdapterConfig config;
+ * config.connection_string = "themisdb://localhost:8529/db";
+ * config.options["pool_size"]  = int64_t{50};
+ * config.options["timeout_ms"] = int64_t{30000};
+ *
+ * if (!config.validate().is_ok()) {
+ *     for (const auto& err : config.get_validation_errors()) {
+ *         std::cerr << "Config error: " << err << '\n';
+ *     }
+ * }
+ * @endcode
+ */
+struct AdapterConfig {
+    /// Connection URI (e.g. "themisdb://localhost:8529/mydb")
+    std::string connection_string;
+
+    /// Adapter-specific options (type-safe via the Scalar variant)
+    std::map<std::string, Scalar> options;
+
+    // -----------------------------------------------------------------------
+    // Validation
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Validate the configuration.
+     *
+     * Checks:
+     *  - connection_string is non-empty and contains a recognised scheme
+     *  - connection_string contains a non-empty host
+     *  - well-known options have the expected type
+     *  - well-known options are within their valid ranges
+     *
+     * @return Result<bool> — ok(true) if valid; err(...) on the first fatal
+     *         error (call get_validation_errors() for the full list).
+     */
+    Result<bool> validate() const;
+
+    /**
+     * @brief Collect all validation errors.
+     *
+     * Unlike validate(), this method always inspects the entire configuration
+     * and returns every problem found.
+     *
+     * @return Vector of human-readable error strings (empty if valid).
+     */
+    std::vector<std::string> get_validation_errors() const;
+
+    /**
+     * @brief Parse the connection string into its components.
+     *
+     * @return Populated ParsedConnectionString.  Fields that are absent from
+     *         the URI are left as empty strings.
+     */
+    ParsedConnectionString parse_connection_string() const;
 };
 
 /**

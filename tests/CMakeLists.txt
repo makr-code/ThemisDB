@@ -10157,6 +10157,11 @@ add_chimera_focused_test(
 )
 
 add_chimera_focused_test(
+    test_chimera_adapter_config_validation
+    chimera/test_adapter_config_validation.cpp
+    ChimeraAdapterConfigValidationTests
+    "chimera;adapter;config;validation;unit"
+    "AdapterConfig: validate(), get_validation_errors(), parse_connection_string(), type/range checks"
     test_chimera_async_api
     chimera/test_chimera_async_api.cpp
     ChimeraAsyncAPITests
@@ -13115,6 +13120,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.
     message(STATUS "  TemporalConflictDetector: CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, UNIQUENESS_VIOLATION")
 else()
     message(STATUS "Temporal conflict resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_retention_manager.cpp")
+    message(STATUS "Adding Temporal: RetentionManager focused tests (time-based, storage-based, compliance, incremental, retry)")
+
+    add_executable(test_temporal_retention_manager_focused
+        temporal/test_retention_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/retention_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+    )
+
+    target_include_directories(test_temporal_retention_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_retention_manager_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_retention_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalRetentionManagerFocusedTests COMMAND test_temporal_retention_manager_focused)
+
+    set_tests_properties(TemporalRetentionManagerFocusedTests PROPERTIES
+        LABELS "temporal;retention;time-based;storage-based;compliance;incremental;retry;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  RetentionManager: TIME_BASED, VERSION_COUNT_BASED, STORAGE_BASED, CUSTOM policies, archiving, compliance, incremental batch, retry")
+else()
+    message(STATUS "Temporal RetentionManager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_retention_manager.cpp")
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")

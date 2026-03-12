@@ -21,6 +21,7 @@
  *   Observability:
  *     GET    /api/v1/maintenance/status             – Orchestrator status
  *     GET    /api/v1/maintenance/health             – Aggregated health
+ *     GET    /api/v1/maintenance/task-handlers      – Registered task handlers
  *
  * All endpoints require authentication (enforced at the HttpServer layer).
  */
@@ -95,6 +96,9 @@ public:
 
     /** GET /api/v1/maintenance/health */
     nlohmann::json getHealth();
+
+    /** GET /api/v1/maintenance/task-handlers */
+    nlohmann::json listTaskHandlers();
 
 private:
     maintenance::DatabaseMaintenanceOrchestrator* orchestrator_;
