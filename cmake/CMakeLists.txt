@@ -5526,9 +5526,36 @@ if(THEMIS_ENABLE_LLM)
 endif()
 
 # Enterprise Plugins
-option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
-if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins")
-    add_subdirectory(plugins)
+# Plugin feature flags are defined in cmake/features/PluginFeatures.cmake which is
+# already included via FeatureDefaults.cmake.  The plugin implementations live in
+# src/plugins/ (sources) and include/plugins/ (headers).
+# Manifest / configuration files for non-compiled plugins remain in plugins/.
+#
+# THEMIS_ENABLE_ENTERPRISE_PLUGINS is set by the edition (ON for ENTERPRISE and
+# above, OFF for MINIMAL/COMMUNITY).  THEMIS_BUILD_ENTERPRISE_PLUGINS lets users
+# override that default at configure time.
+if(NOT DEFINED THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    if(DEFINED THEMIS_ENABLE_ENTERPRISE_PLUGINS)
+        set(_plugin_default ${THEMIS_ENABLE_ENTERPRISE_PLUGINS})
+    else()
+        set(_plugin_default ON)
+    endif()
+    option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ${_plugin_default})
+else()
+    option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
+endif()
+
+if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    # Compiled plugin implementations: src/plugins/
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/plugins/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/plugins
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/plugins)
+    endif()
+    # Non-compiled plugin manifests / legacy orchestration: plugins/
+    if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/plugins
+                         ${CMAKE_CURRENT_BINARY_DIR}/plugins)
+    endif()
 endif()
 
 # Enterprise Modules (new modular DLL architecture)
