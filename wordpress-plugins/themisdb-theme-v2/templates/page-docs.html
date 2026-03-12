@@ -1,0 +1,60 @@
+<!-- wp:template-part {"slug":"announcement-bar","tagName":"div"} /-->
+<!-- wp:template-part {"slug":"header-docs","tagName":"header","area":"header"} /-->
+
+<!-- wp:template-part {"slug":"page-hero","tagName":"div","className":"page-hero-wrapper"} /-->
+
+<!-- wp:group {"tagName":"main","className":"site-main themis-docs-layout-wrapper","style":{"spacing":{"padding":{"top":"var:preset|spacing|10","bottom":"var:preset|spacing|20"}}},"layout":{"type":"constrained","contentSize":"1100px"}} -->
+<main class="wp-block-group site-main themis-docs-layout-wrapper" style="padding-top:var(--wp--preset--spacing--10);padding-bottom:var(--wp--preset--spacing--20)">
+
+	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var:preset|spacing|10"}}}} -->
+	<div class="wp-block-columns">
+
+		<!-- Sidebar: Sticky Docs Navigation -->
+		<!-- wp:column {"width":"260px","className":"themis-docs-sidebar-column","style":{"spacing":{"padding":{"top":"0","bottom":"0"}}}} -->
+		<div class="wp-block-column themis-docs-sidebar-column" style="flex-basis:260px;min-width:0;">
+			<!-- wp:template-part {"slug":"sidebar-docs","tagName":"aside"} /-->
+		</div>
+		<!-- /wp:column -->
+
+		<!-- Main Docs Content -->
+		<!-- wp:column {"className":"themis-docs-content-column"} -->
+		<div class="wp-block-column themis-docs-content-column">
+
+			<!-- Breadcrumbs -->
+			<!-- wp:template-part {"slug":"breadcrumbs","tagName":"nav"} /-->
+			<!-- wp:spacer {"height":"12px"} --><div style="height:12px" aria-hidden="true" class="wp-block-spacer"></div><!-- /wp:spacer -->
+
+			<!-- Page title -->
+			<!-- wp:post-title {"level":1,"style":{"typography":{"fontSize":"2.25rem","fontWeight":"800","letterSpacing":"-0.03em","lineHeight":"1.15"},"color":{"text":"#2c3e50"},"spacing":{"margin":{"bottom":"var:preset|spacing|4"}}}} /-->
+
+			<!-- Last updated meta -->
+			<!-- wp:post-date {"displayType":"modified","format":"F j, Y","isLink":false,"prefix":"Updated: ","style":{"typography":{"fontSize":"0.8125rem"},"color":{"text":"#95a5a6"},"spacing":{"margin":{"bottom":"var:preset|spacing|8"}}}} /-->
+
+			<!-- Post content -->
+			<!-- wp:post-content {"layout":{"type":"constrained","contentSize":"100%"},"className":"themisdb-docs-content"} /-->
+
+			<!-- Docs navigation: prev/next -->
+			<!-- wp:template-part {"slug":"post-navigation","tagName":"nav"} /-->
+
+			<!-- Was this page helpful? -->
+			<!-- wp:html -->
+			<div class="themis-docs-feedback" style="margin-top:3rem;padding:1.25rem 1.5rem;background:#f8f9fa;border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+				<span style="font-size:0.9375rem;font-weight:600;color:#2c3e50;">Was this page helpful?</span>
+				<div style="display:flex;gap:0.5rem;">
+					<button style="display:inline-flex;align-items:center;gap:0.375rem;padding:0.375rem 0.875rem;border:1px solid #dee2e6;border-radius:6px;background:#fff;font-size:0.875rem;font-weight:500;color:#2c3e50;cursor:pointer;" aria-label="Yes, this was helpful">👍 Yes</button>
+					<button style="display:inline-flex;align-items:center;gap:0.375rem;padding:0.375rem 0.875rem;border:1px solid #dee2e6;border-radius:6px;background:#fff;font-size:0.875rem;font-weight:500;color:#2c3e50;cursor:pointer;" aria-label="No, needs improvement">👎 No</button>
+				</div>
+				<a href="https://github.com/makr-code/ThemisDB/issues/new" target="_blank" rel="noopener" style="font-size:0.8125rem;color:#3498db;text-decoration:none;font-weight:500;">Suggest an edit on GitHub →</a>
+			</div>
+			<!-- /wp:html -->
+
+		</div>
+		<!-- /wp:column -->
+
+	</div>
+	<!-- /wp:columns -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer"} /-->
