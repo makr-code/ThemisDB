@@ -20,6 +20,7 @@ jobs:
   edition-build:
     name: ${{ inputs.edition }} · Linux · ${{ inputs.build-type }}
     runs-on: ubuntu-22.04
+    timeout-minutes: 60
 
     permissions:
       contents: read
@@ -49,6 +50,7 @@ jobs:
       # ── Core smoke tests ─────────────────────────────────────────────────
       - name: Run build-info tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*" \
@@ -57,6 +59,7 @@ jobs:
 
       - name: Run module loader tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="ModuleLoader*:ModuleRegistry*:ModuleError*:ModuleVerif*" \
@@ -65,6 +68,7 @@ jobs:
 
       - name: Run wire protocol V2 tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*" \
@@ -73,6 +77,7 @@ jobs:
 
       - name: Run concerns context tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="ConcernsContext*:FeatureFlags*" \

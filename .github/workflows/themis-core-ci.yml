@@ -135,6 +135,7 @@ jobs:
     if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: Core tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
 
     permissions:
       contents: read
@@ -169,6 +170,8 @@ jobs:
           cxx:            ${{ matrix.cxx }}
           # librocksdb-dev: fix CMake "RocksDB not found"; libfmt-dev: fix find_package(fmt); libtbb-dev: optional threading
           extra-packages: libssl-dev libcurl4-openssl-dev libboost-all-dev librocksdb-dev libfmt-dev libtbb-dev libspdlog-dev nlohmann-json3-dev
+
+      - name: Configure and build
         uses: ./.github/actions/configure-themis
         with:
           cc:  ${{ matrix.cc }}
@@ -177,6 +180,7 @@ jobs:
       # ── Unit tests ──────────────────────────────────────────────────────
       - name: Run build-info tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*" \
@@ -185,6 +189,7 @@ jobs:
 
       - name: Run wire protocol V2 tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*" \
@@ -193,6 +198,7 @@ jobs:
 
       - name: Run wire protocol performance tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="WireProtocolMetrics*:PayloadBufferPool*:CompressionAdvisor*" \
@@ -201,6 +207,7 @@ jobs:
 
       - name: Run module sandbox / ABI checker tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="AbiChecker*:ModuleSandbox*" \
@@ -209,6 +216,7 @@ jobs:
 
       - name: Run module loader tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="ModuleLoader*:ModuleRegistry*:ModuleError*:ModuleVerif*" \
@@ -217,6 +225,7 @@ jobs:
 
       - name: Run license client tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="LicenseActivation*:LicenseClientConfig*:LicenseClient*:RuntimeLicenseGate*:RuntimeLicenseGateInit*" \
@@ -225,6 +234,7 @@ jobs:
 
       - name: Run fuzz-style core tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*" \
@@ -237,6 +247,7 @@ jobs:
       # They are self-contained and require no external services.
       - name: Run JWT negative tests (required)
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="JWTNegativeTest*:JWTValidationTest*:JWTValidatorTest*:KidRevocationTest*" \
@@ -245,6 +256,7 @@ jobs:
 
       - name: Run RBAC negative tests (required)
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="RBACNegativeTest*:RBACTest*:PermissionTest*:RBACBuiltinRolesTest*:RBACInheritanceTest*:RBACSerializationTest*" \
@@ -253,6 +265,7 @@ jobs:
 
       - name: Run Vault negative tests (required)
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="VaultNegativeTest*:VaultSigningProviderErrorTest*" \
@@ -261,6 +274,7 @@ jobs:
 
       - name: Run wire performance benchmarks
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="WirePerfBenchmark*" \
@@ -269,6 +283,7 @@ jobs:
 
       - name: Run concerns context and feature flags tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="ConcernsContextTest*:InMemoryFeatureFlagsTest*:NoOpFeatureFlagsTest*:NoOpCircuitBreakerTest*:MetricLabelsTest*:IContextTest*:IAsyncLoggerTest*:IAsyncCacheTest*:ContextPropagationTest*:ContextScopeTest*" \
@@ -277,6 +292,7 @@ jobs:
 
       - name: Run plugin health monitor tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="PluginHealthMonitorTest*:PluginHealthMonitorSingleton*" \
@@ -286,6 +302,7 @@ jobs:
       # ── CCPA/CPRA data subject rights tests ──────────────────────────────
       - name: Run CCPA/CPRA data subject rights tests
         run: |
+          set -o pipefail
           cd build
           ./tests/themis_tests \
             --gtest_filter="RightToKnow*:RightToDelete*:OptOutOfSale*:DataPortability*:CcpaRuleSetTest*:PolicyEngineWithCcpa*:CcpaReportTest*:PolicyValidatorCcpaHipaa*:DataSubjectRequest*:CcpaRuleEvalResult*" \
@@ -346,6 +363,7 @@ jobs:
     name: Coverage report (ubuntu-22.04 / gcc-12)
     runs-on: ubuntu-22.04
     needs: core-tests
+    timeout-minutes: 45
 
     permissions:
       contents: read
