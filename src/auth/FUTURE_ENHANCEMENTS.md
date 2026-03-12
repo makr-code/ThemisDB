@@ -85,10 +85,12 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `ldap_authenticator.cpp` uses exclusively synchronous blocking calls: `ldap_simple_bind_s()` (line 222), `ldap_search_s()` (line 257), `ldap_search_ext_s()` (line 379), `ldap_start_tls_s()` (line 333). `jwt_validator.cpp:132` calls `curl_easy_perform()` synchronously with an inline `std::this_thread::sleep_for` retry loop (lines 118, 145). `oidc_provider.cpp:230` and `oauth_pkce_flow.cpp:214` and `oauth_device_flow.cpp:198` each call `curl_easy_perform()` / `httpPost()` on the caller's thread. This means any network timeout or LDAP server slowdown stalls the entire calling thread.
 
 **Implementation Notes:**
-- `[ ]` Introduce a dedicated `AuthWorkerThreadPool` (min 4, max 32 threads) in `ldap_authenticator.cpp` so that `authenticate()` dispatches to the pool and returns a `std::future<LDAPAuthResult>`
-- `[ ]` Replace `curl_easy_perform()` in `jwt_validator.cpp:fetchJWKS()`, `oidc_provider.cpp:httpGet()`, `oauth_pkce_flow.cpp`, and `oauth_device_flow.cpp` with `curl_multi_perform()` calls on a shared multi-handle, or migrate to libcurl's async event interface (CURLMOPT_TIMERFUNCTION)
-- `[ ]` Remove `std::this_thread::sleep_for` retry-back-off inside `fetchJWKS()` (lines 118, 145) — implement exponential back-off via timer callbacks that do not block the caller
-- `[ ]` Expose async variants (`authenticateAsync()`, `validateAsync()`) on existing public interfaces so callers can use `co_await` / `std::future`
+- `[x]` Introduce a dedicated `AuthWorkerThreadPool` (min 4, max 32 threads) in `ldap_authenticator.cpp` so that `authenticate()` dispatches to the pool and returns a `std::future<LDAPAuthResult>`
+- `[x]` Replace `curl_easy_perform()` in `jwt_validator.cpp:fetchJWKS()`, `oidc_provider.cpp:httpGet()`, `oauth_pkce_flow.cpp`, and `oauth_device_flow.cpp` with `curl_multi_perform()` calls on a shared multi-handle. `curl_multi_info_read()` is used to retrieve per-transfer `CURLcode` results.
+- `[x]` Move the HTTP fetch in `fetchJWKS()` entirely outside `jwks_cache_mutex_`. Only a brief exclusive lock is taken to write the result. A single-flight mutex (`jwks_refresh_mutex_`) prevents thundering-herd stampedes.  `std::this_thread::sleep_for` back-off remains on the worker thread (not on the caller).
+- `[x]` Expose async variants (`authenticateAsync()`, `validateAsync()`) on existing public interfaces so callers can use `co_await` / `std::future`
+
+**Status:** `[x]` Implemented in v1.2.0
 
 **Performance Targets:**
 - LDAP bind latency P99 ≤ 50 ms visible to callers even when backend latency is 200 ms (no head-of-line blocking)

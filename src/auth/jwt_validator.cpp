@@ -72,12 +72,20 @@ JWTValidator::JWTValidator(const std::string& jwks_url)
           .require_audience_validation = false,
       }}
     , jwks_url_(jwks_url)
-    , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {}
+    , jwks_cache_time_(std::chrono::system_clock::time_point::min())
+    , worker_pool_(std::make_unique<AuthWorkerThreadPool>(
+          AuthWorkerThreadPool::kMinThreads,
+          AuthWorkerThreadPool::kMaxThreads))
+{}
 
 JWTValidator::JWTValidator(const JWTValidatorConfig& cfg)
     : cfg_(cfg)
     , jwks_url_(cfg.jwks_url)
-    , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {
+    , jwks_cache_time_(std::chrono::system_clock::time_point::min())
+    , worker_pool_(std::make_unique<AuthWorkerThreadPool>(
+          AuthWorkerThreadPool::kMinThreads,
+          AuthWorkerThreadPool::kMaxThreads))
+{
     // Normalize empty string values to nullopt so empty strings are treated as 'unset'
     auto normalizeOptional = [](std::optional<std::string>& opt) {
         if (opt.has_value() && opt->empty()) opt = std::nullopt;
@@ -126,7 +134,7 @@ std::string JWTValidator::decodeBase64UrlToString(const std::string& input) {
 nlohmann::json JWTValidator::fetchJWKS() {
     auto now = std::chrono::system_clock::now();
 
-    // Fast path: shared (reader) lock — concurrent reads proceed in parallel
+    // Fast path: shared (reader) lock — concurrent reads proceed in parallel.
     {
         std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
         if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
@@ -134,85 +142,161 @@ nlohmann::json JWTValidator::fetchJWKS() {
         }
     }
 
-    // Slow path: upgrade to exclusive (writer) lock for cache refresh
-    std::unique_lock<std::shared_mutex> write_lock(jwks_cache_mutex_);
-    // Double-check: another thread may have refreshed the cache while we waited
-    const auto write_lock_now = std::chrono::system_clock::now();
-    if (!jwks_cache_.empty() && write_lock_now - jwks_cache_time_ < cfg_.cache_ttl) {
-        return jwks_cache_;
-    }
-    
-    std::string response;
-    int attempt = 0;
-    int retry_delay_ms = 100; // Start with 100ms delay
-    CURLcode rc = CURLE_FAILED_INIT;
-    long code = 0;
-    
-    // Retry with exponential backoff
-    while (attempt < cfg_.jwks_max_retries) {
-        attempt++;
-        
-        CURL* curl = curl_easy_init();
-        if (!curl) {
-            utils::Logger::error("Failed to init curl for JWKS fetch");
-            if (attempt < cfg_.jwks_max_retries) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
-                retry_delay_ms *= 2; // Exponential backoff
-                continue;
+    // Single-flight: only one thread performs the HTTP fetch at a time.
+    // Others wait for it to finish and then read from the (now-fresh) cache.
+    {
+        std::unique_lock<std::mutex> refresh_lock(jwks_refresh_mutex_);
+        // Wait if another thread is already refreshing.
+        jwks_refresh_cv_.wait(refresh_lock, [this] { return !jwks_refreshing_; });
+
+        // Double-check: the refreshing thread may have just updated the cache.
+        {
+            std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
+            const auto recheck_now = std::chrono::system_clock::now();
+            if (!jwks_cache_.empty() && recheck_now - jwks_cache_time_ < cfg_.cache_ttl) {
+                return jwks_cache_;
             }
-            throw std::runtime_error("Failed to init curl for JWKS fetch after " + std::to_string(attempt) + " attempts");
         }
-        
-        response.clear();
-        curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
-        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
-        
-        rc = curl_easy_perform(curl);
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
-        curl_easy_cleanup(curl);
-        
-        if (rc == CURLE_OK && code == 200) {
-            // Success
-            break;
-        }
-        
-        // Log error and retry if not the last attempt
-        if (attempt < cfg_.jwks_max_retries) {
-            utils::Logger::warn("JWKS fetch attempt " + std::to_string(attempt) + " failed (HTTP " + 
-                              std::to_string(code) + ", curl error " + std::to_string(rc) + "), retrying...");
-            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
-            retry_delay_ms *= 2; // Exponential backoff
-        }
+
+        // We are the designated refresher for this round.
+        jwks_refreshing_ = true;
     }
-    
-    if (rc != CURLE_OK || code != 200) {
-        utils::Logger::error("JWKS HTTP error after " + std::to_string(attempt) + 
-                           " attempts: HTTP " + std::to_string(code) + ", curl error " + std::to_string(rc));
-        throw std::runtime_error("JWKS HTTP error: " + std::to_string(code) + " (after " + 
-                               std::to_string(attempt) + " attempts)");
-    }
-    
-    auto json = nlohmann::json::parse(response);
-    if (!json.is_object() || !json.contains("keys")) {
-        utils::Logger::error("Invalid JWKS document (missing keys)");
-        throw std::runtime_error("Invalid JWKS document (missing keys)");
-    }
-    
-    // Validate JWKS schema (P1 security hardening)
-    JWKSValidator jwks_validator;
+
+    // Perform the HTTP fetch completely outside all locks so concurrent
+    // readers/validators are never stalled.
+    nlohmann::json fetched_json;
+    std::exception_ptr fetch_exc;
+
     try {
+        std::string response;
+        int attempt = 0;
+        int retry_delay_ms = 100; // Start with 100 ms; doubles each attempt
+        CURLcode rc = CURLE_FAILED_INIT;
+        long http_code = 0;
+
+        while (attempt < cfg_.jwks_max_retries) {
+            attempt++;
+            response.clear();
+
+            CURL* curl = curl_easy_init();
+            if (!curl) {
+                utils::Logger::error("Failed to init curl for JWKS fetch");
+            } else {
+                curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
+                curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
+                curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+                curl_easy_setopt(curl, CURLOPT_TIMEOUT,
+                                 static_cast<long>(cfg_.jwks_timeout_seconds));
+                curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT,
+                                 static_cast<long>(cfg_.jwks_timeout_seconds));
+
+                CURLM* multi = curl_multi_init();
+                if (!multi) {
+                    curl_easy_cleanup(curl);
+                    curl = nullptr;
+                } else {
+                    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+                    if (add_rc != CURLM_OK) {
+                        curl_multi_cleanup(multi);
+                        curl_easy_cleanup(curl);
+                        curl = nullptr;
+                    } else {
+                        int still_running = 0;
+                        CURLMcode mc = CURLM_OK;
+                        do {
+                            mc = curl_multi_perform(multi, &still_running);
+                            if (mc != CURLM_OK) break;
+                            if (still_running) {
+                                curl_multi_wait(multi, nullptr, 0, 1000, nullptr);
+                            }
+                        } while (still_running && mc == CURLM_OK);
+
+                        // Read per-transfer result via curl_multi_info_read().
+                        if (mc == CURLM_OK) {
+                            CURLMsg* msg = nullptr;
+                            int msgs_left = 0;
+                            while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+                                if (msg->msg == CURLMSG_DONE &&
+                                    msg->easy_handle == curl) {
+                                    rc = msg->data.result;
+                                }
+                            }
+                        }
+
+                        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+                        curl_multi_remove_handle(multi, curl);
+                        curl_multi_cleanup(multi);
+                        curl_easy_cleanup(curl);
+                        curl = nullptr;
+                    }
+                }
+            }
+
+            if (rc == CURLE_OK && http_code == 200) {
+                break;
+            }
+
+            if (attempt < cfg_.jwks_max_retries) {
+                utils::Logger::warn(
+                    "JWKS fetch attempt " + std::to_string(attempt) +
+                    " failed (HTTP " + std::to_string(http_code) +
+                    ", curl error " + std::to_string(rc) + "), retrying...");
+                // Back-off: no lock held, so readers/validators remain unblocked.
+                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+                retry_delay_ms *= 2;
+            }
+        }
+
+        if (rc != CURLE_OK || http_code != 200) {
+            utils::Logger::error(
+                "JWKS HTTP error after " + std::to_string(attempt) +
+                " attempts: HTTP " + std::to_string(http_code) +
+                ", curl error " + std::to_string(rc));
+            throw std::runtime_error(
+                "JWKS HTTP error: " + std::to_string(http_code) +
+                " (after " + std::to_string(attempt) + " attempts)");
+        }
+
+        auto json = nlohmann::json::parse(response);
+        if (!json.is_object() || !json.contains("keys")) {
+            utils::Logger::error("Invalid JWKS document (missing keys)");
+            throw std::runtime_error("Invalid JWKS document (missing keys)");
+        }
+
+        JWKSValidator jwks_validator;
         jwks_validator.validateOrThrow(json);
-    } catch (const std::exception& e) {
-        utils::Logger::error("JWKS schema validation failed: {}", e.what());
-        throw std::runtime_error(std::string("JWKS schema validation failed: ") + e.what());
+
+        fetched_json = std::move(json);
+        utils::Logger::info("JWKS fetched successfully on attempt " +
+                            std::to_string(attempt));
+    } catch (...) {
+        fetch_exc = std::current_exception();
     }
-    
-    jwks_cache_ = json;
-    jwks_cache_time_ = write_lock_now;
-    utils::Logger::info("JWKS fetched successfully on attempt " + std::to_string(attempt));
+
+    // Briefly acquire the write lock only to update the cache (or discard if
+    // another thread already refreshed while we were fetching).
+    if (!fetch_exc) {
+        std::unique_lock<std::shared_mutex> write_lock(jwks_cache_mutex_);
+        const auto cache_now = std::chrono::system_clock::now();
+        if (jwks_cache_.empty() || cache_now - jwks_cache_time_ >= cfg_.cache_ttl) {
+            jwks_cache_      = fetched_json;
+            jwks_cache_time_ = cache_now;
+        }
+    }
+
+    // Release single-flight lock and wake any waiting threads.
+    {
+        std::lock_guard<std::mutex> refresh_lock(jwks_refresh_mutex_);
+        jwks_refreshing_ = false;
+    }
+    jwks_refresh_cv_.notify_all();
+
+    if (fetch_exc) {
+        std::rethrow_exception(fetch_exc);
+    }
+
+    // Return whatever is now in the cache (may be from a concurrent refresher).
+    std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
     return jwks_cache_;
 }
 
@@ -666,6 +750,17 @@ bool JWTValidator::isKidRevoked(const std::string& kid) const {
         }
     }
     return false;
+}
+
+std::future<JWTClaims> JWTValidator::validateAsync(const std::string& token) {
+    // Dispatch parseAndValidate() — which includes any JWKS refresh — to the
+    // worker pool so the caller's thread is never blocked by network I/O.
+    // The exponential back-off sleep in fetchJWKS() executes on the worker
+    // thread, not on the caller's thread.
+    return worker_pool_->submit(
+        [this, token]() {
+            return this->parseAndValidate(token);
+        });
 }
 
 } // namespace auth
