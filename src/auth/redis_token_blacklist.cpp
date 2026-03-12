@@ -96,8 +96,16 @@ void RedisTokenBlacklist::add(const std::string& jti,
 
     auto now   = std::chrono::system_clock::now();
     auto delta = std::chrono::duration_cast<std::chrono::seconds>(expiry - now).count();
-    long long ttl = (delta > 0) ? static_cast<long long>(delta)
-                                : static_cast<long long>(config_.min_ttl_seconds);
+
+    // If the token is already expired (or expires now), do not record it in Redis.
+    // This keeps behavior consistent with other backends, where expired tokens
+    // are not considered revoked.
+    if (delta <= 0) {
+        THEMIS_DEBUG("RedisTokenBlacklist::add: expiry <= now for JTI '{}', skipping", jti);
+        return;
+    }
+
+    long long ttl = static_cast<long long>(delta);
 
     const std::string key = makeKey(jti);
     redisReply* reply = static_cast<redisReply*>(
@@ -110,8 +118,25 @@ void RedisTokenBlacklist::add(const std::string& jti,
         return;
     }
 
+    if (reply->type == REDIS_REPLY_STATUS &&
+        reply->str != nullptr &&
+        std::strcmp(reply->str, "OK") == 0) {
+        THEMIS_DEBUG("RedisTokenBlacklist: revoked JTI '{}' with TTL {}s", jti, ttl);
+    } else if (reply->type == REDIS_REPLY_NIL) {
+        // Key already exists; NX caused no-op — token was already blacklisted.
+        THEMIS_DEBUG("RedisTokenBlacklist::add: JTI '{}' already blacklisted – no-op", jti);
+    } else if (reply->type == REDIS_REPLY_ERROR) {
+        THEMIS_WARN("RedisTokenBlacklist::add: Redis returned error for JTI '{}': {}",
+                    jti, (reply->str ? reply->str : "unknown error"));
+        freeReplyObject(reply);
+        disconnect();
+        return;
+    } else {
+        THEMIS_WARN("RedisTokenBlacklist::add: unexpected reply type {} for JTI '{}'",
+                    reply->type, jti);
+    }
+
     freeReplyObject(reply);
-    THEMIS_DEBUG("RedisTokenBlacklist: revoked JTI '{}' with TTL {}s", jti, ttl);
 }
 
 bool RedisTokenBlacklist::isRevoked(const std::string& jti) const {

@@ -243,8 +243,7 @@ TEST_F(RocksDBTokenBlacklistTest, Persistence_TokenSurvivesRestart) {
     // Phase 2: reopen the same DB in instance B
     {
         RocksDBTokenBlacklist bl(cfg);
-        EXPECT_TRUE(bl.isRevoked(jti))
-            << "Token must still be revoked after process restart simulation";
+        EXPECT_TRUE(bl.isRevoked(jti)) << "Token must still be revoked after process restart simulation";
     }
 }
 

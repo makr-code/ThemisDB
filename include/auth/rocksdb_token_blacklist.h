@@ -32,8 +32,8 @@ namespace auth {
  *   Value: <expiry as int64 seconds-since-epoch, big-endian>
  *
  * A background thread wakes every purge_interval_seconds to iterate the column
- * family and delete expired entries (compaction-aware range deletions are used
- * to keep the space reclaim prompt).
+ * family and delete expired entries, allowing RocksDB to reclaim space over
+ * time through its normal compaction mechanisms.
  *
  * Durability contract: entries survive process restart because RocksDB writes
  * use the default WriteOptions (WAL enabled).

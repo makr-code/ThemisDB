@@ -44,9 +44,6 @@ public:
         std::string key_prefix = "themis:jbl:";
         /// Connection timeout in milliseconds.
         int connect_timeout_ms = 200;
-        /// Minimum TTL applied to entries whose expiry is in the past (seconds).
-        /// Keeps the key alive for a brief window to handle clock skew.
-        int min_ttl_seconds = 1;
     };
 
     /**

@@ -189,16 +189,31 @@ bool RocksDBTokenBlacklist::isRevoked(const std::string& jti) const {
 void RocksDBTokenBlacklist::purgeExpired() {
     auto now = std::chrono::system_clock::now();
 
+    // Use a chunk size to bound WriteBatch memory usage and write-stall risk for
+    // large column families.
+    static constexpr size_t kChunkSize = 1000;
+
     rocksdb::ReadOptions  ro;
     rocksdb::WriteOptions wo;
     rocksdb::WriteBatch   batch;
+    size_t pending = 0;
 
     std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(ro, cf_));
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-        std::string val = it->value().ToString();
-        auto expiry = decodeExpiry(val);
+        auto expiry = decodeExpiry(it->value().ToString());
         if (expiry <= now) {
             batch.Delete(cf_, it->key());
+            ++pending;
+
+            if (pending >= kChunkSize) {
+                rocksdb::Status s = db_->Write(wo, &batch);
+                if (!s.ok()) {
+                    THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: Write failed: {}",
+                                s.ToString());
+                }
+                batch.Clear();
+                pending = 0;
+            }
         }
     }
 
@@ -208,12 +223,16 @@ void RocksDBTokenBlacklist::purgeExpired() {
         return;
     }
 
-    rocksdb::Status s = db_->Write(wo, &batch);
-    if (!s.ok()) {
-        THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: Write failed: {}", s.ToString());
-    } else {
-        THEMIS_DEBUG("RocksDBTokenBlacklist: purgeExpired completed");
+    // Flush any remaining deletes.
+    if (pending > 0) {
+        rocksdb::Status s = db_->Write(wo, &batch);
+        if (!s.ok()) {
+            THEMIS_WARN("RocksDBTokenBlacklist::purgeExpired: Write failed: {}", s.ToString());
+            return;
+        }
     }
+
+    THEMIS_DEBUG("RocksDBTokenBlacklist: purgeExpired completed");
 }
 
 // ============================================================================
