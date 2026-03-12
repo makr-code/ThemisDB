@@ -29,6 +29,7 @@
 
 #include "temporal/temporal_aggregator.h"
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <map>
 #include <numeric>
@@ -123,19 +124,25 @@ TemporalAggregator::aggregateByGroup(
     Timestamp from,
     Timestamp to) const {
 
-    if (from >= to || spec.group_by_fields.empty()) {
-        // Degenerate cases: return a single unnamed group using the standard path.
+    if (from >= to) {
+        return {};
+    }
+
+    if (spec.group_by_fields.empty()) {
+        // No grouping fields: return a single unnamed group using the standard path.
         std::map<std::string, std::vector<AggregateResult>> result;
         result[""] = aggregate(table, spec, from, to);
         return result;
     }
 
-    // Collect and sort all in-range rows (same logic as aggregate()).
+    // Collect and sort all in-range rows.
+    // Use getAllKeys() so that deleted/expired keys (not current at kMaxTimestamp)
+    // are also included; their history may still overlap [from, to).
     std::vector<VersionedDocument> all_rows;
     {
-        auto current_rows = table.scan(kMaxTimestamp);
-        for (const auto& cr : current_rows) {
-            auto hist = table.getHistoryInRange(cr.key, {from, to});
+        const auto keys = table.getAllKeys();
+        for (const auto& k : keys) {
+            auto hist = table.getHistoryInRange(k, {from, to});
             for (auto& h : hist) {
                 all_rows.push_back(std::move(h));
             }
@@ -233,22 +240,48 @@ std::vector<AggregateResult> TemporalAggregator::aggregateSnapshots(
         }
     }
 
+    // Short-circuit: nothing to aggregate when the table is empty.
+    if (all_versions.empty()) {
+        return {};
+    }
+
+    // Pre-sort versions by sys_start so we can maintain an incremental active set
+    // across snapshot ticks instead of re-scanning all versions at every tick.
+    // This reduces complexity from O(ticks × all_versions) to O(ticks × max_active).
+    std::sort(all_versions.begin(), all_versions.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
     std::vector<AggregateResult> results;
+    std::vector<const VersionedDocument*> active; // versions active at current tick
+    size_t next_to_activate = 0;
 
     for (Timestamp snap = from; snap < to; snap += spec.window_size_ms) {
-        // Rows visible at this snapshot instant: sys_start ≤ snap < sys_end
+        // Activate versions whose sys_start ≤ snap (they have arrived by this tick).
+        while (next_to_activate < all_versions.size() &&
+               all_versions[next_to_activate].sys_time.start <= snap) {
+            active.push_back(&all_versions[next_to_activate++]);
+        }
+
+        // Purge versions that ended before or at snap (sys_end ≤ snap means not
+        // visible at snap because visibility requires sys_start ≤ snap < sys_end).
+        active.erase(
+            std::remove_if(active.begin(), active.end(),
+                           [snap](const VersionedDocument* v) {
+                               return v->sys_time.end <= snap;
+                           }),
+            active.end());
+
+        // Aggregate over the active set.
         std::vector<double> values;
         size_t count = 0;
 
-        for (const auto& ver : all_versions) {
-            const Timestamp start = ver.sys_time.start;
-            const Timestamp end   = ver.sys_time.end;  // kMaxTimestamp = still current
-            if (start <= snap && snap < end) {
-                ++count;
-                auto val = extractMeasure(ver.data, spec.measure_field);
-                if (val.has_value() && spec.func != AggregateFunc::COUNT) {
-                    values.push_back(*val);
-                }
+        for (const VersionedDocument* ver : active) {
+            ++count;
+            auto val = extractMeasure(ver->data, spec.measure_field);
+            if (val.has_value() && spec.func != AggregateFunc::COUNT) {
+                values.push_back(*val);
             }
         }
 
@@ -560,29 +593,27 @@ TemporalAggregator::buildGroupKey(const Document& doc,
         return {"", {}};
     }
 
+    // Use a JSON object as the canonical group key.  nlohmann::json::dump()
+    // with default settings applies UTF-8 escaping, so field names or values
+    // containing '|', '=', '"' or any other special character are
+    // unambiguous and can never collide with a different set of group values.
+    // Keys in the JSON object are sorted by nlohmann's map ordering so the
+    // output is deterministic regardless of iteration order.
+    Document json_key = Document::object();
     std::map<std::string, std::string> kv;
-    std::string key;
 
     for (const auto& field : fields) {
-        std::string value;
         auto it = doc.find(field);
         if (it != doc.end()) {
-            if (it->is_string()) {
-                value = it->get<std::string>();
-            } else {
-                value = it->dump();
-            }
+            json_key[field] = *it;
+            kv[field] = it->is_string() ? it->get<std::string>() : it->dump();
+        } else {
+            json_key[field] = nullptr;
+            kv[field] = "";
         }
-        kv[field] = value;
-        if (!key.empty()) {
-            key += '|';
-        }
-        key += field;
-        key += '=';
-        key += value;
     }
 
-    return {key, std::move(kv)};
+    return {json_key.dump(), std::move(kv)};
 }
 
 // ── computeLinearRegression ───────────────────────────────────────────────────
@@ -608,12 +639,18 @@ TemporalAggregator::computeLinearRegression(const std::vector<double>& x,
     }
 
     const double dn = static_cast<double>(n);
-    const double denom = sum_xx - (sum_x * sum_x) / dn;
+    const double sum_x2_over_n = (sum_x * sum_x) / dn;
+    const double denom = sum_xx - sum_x2_over_n;
 
     double slope     = 0.0;
     double intercept = sum_y / dn;
 
-    if (denom != 0.0) {
+    // Use a relative epsilon to guard against near-singular cases where
+    // denom is non-zero but so small that the computed slope would be
+    // numerically meaningless (e.g. when all x values are nearly equal).
+    const double eps = std::numeric_limits<double>::epsilon() *
+                       std::max({sum_xx, std::abs(sum_x2_over_n), 1.0});
+    if (std::abs(denom) > eps) {
         slope     = (sum_xy - (sum_x * sum_y) / dn) / denom;
         intercept = (sum_y - slope * sum_x) / dn;
     }

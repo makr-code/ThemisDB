@@ -470,6 +470,24 @@ TEST_F(TemporalAggregatorTest, GroupBy_EmptyGroupByFields_ReturnsUnnamedGroup) {
     EXPECT_TRUE(groups.count(""));
 }
 
+TEST_F(TemporalAggregatorTest, GroupBy_InvalidRange_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"region", "us"}});
+
+    AggregationSpec spec;
+    spec.window_type     = WindowType::TUMBLING;
+    spec.window_size_ms  = 1000;
+    spec.func            = AggregateFunc::COUNT;
+    spec.group_by_fields = {"region"};
+
+    Timestamp ts = now();
+    auto groups = agg.aggregateByGroup(t, spec, ts, ts); // from == to
+    EXPECT_TRUE(groups.empty());
+
+    groups = agg.aggregateByGroup(t, spec, ts + 1000, ts); // from > to (1000ms = spec.window_size_ms)
+    EXPECT_TRUE(groups.empty());
+}
+
 // ============================================================================
 // Snapshot aggregations
 // ============================================================================
@@ -530,10 +548,8 @@ TEST_F(TemporalAggregatorTest, Snapshots_EmptyTable_ReturnsEmpty) {
     Timestamp to   = from + 3000;
 
     auto results = agg.aggregateSnapshots(t, spec, from, to);
-    // No rows: no snapshots have count > 0
-    for (const auto& r : results) {
-        EXPECT_EQ(r.record_count, 0u);
-    }
+    // No versions in the table → empty result vector.
+    EXPECT_TRUE(results.empty());
 }
 
 // ============================================================================
@@ -543,17 +559,16 @@ TEST_F(TemporalAggregatorTest, Snapshots_EmptyTable_ReturnsEmpty) {
 TEST_F(TemporalAggregatorTest, AnalyzeTrend_IncreasingValues) {
     // Insert rows with monotonically increasing values spread over time
     // so the trend slope should be positive.
+    // Sleep between inserts to guarantee distinct millisecond sys_start values
+    // (matching the convention used by Session window tests in this file).
     SystemVersionedTable t{"tbl", "n"};
-    // Use explicit timestamps: inject rows at t=0, t=100, t=200, t=300
-    // We use kMinTimestamp-safe values to keep things simple; just use
-    // wall clock and a large window.
     Timestamp base = now();
     t.insert("k1", {{"v", 10.0}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
     t.insert("k2", {{"v", 20.0}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
     t.insert("k3", {{"v", 30.0}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
     t.insert("k4", {{"v", 40.0}});
     Timestamp after = now() + 1;
 
@@ -579,10 +594,11 @@ TEST_F(TemporalAggregatorTest, AnalyzeTrend_EmptyTable_ReturnsZeroTrend) {
 }
 
 TEST_F(TemporalAggregatorTest, AnalyzeTrend_ToJson) {
+    // Only checks that the returned JSON object contains the required keys;
+    // no timing-dependent assertions needed here.
     SystemVersionedTable t{"tbl", "n"};
     Timestamp base = now();
     t.insert("k1", {{"v", 5.0}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
     t.insert("k2", {{"v", 10.0}});
     Timestamp after = now() + 1;
 
