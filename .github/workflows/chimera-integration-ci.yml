@@ -82,8 +82,8 @@ jobs:
       - name: Build chimera unit tests
         shell: bash
         run: |
-          # Build only the chimera test targets if they exist.
-          cmake --build build/sim --parallel || true
+          # Build all chimera test targets; fail the job if the build fails.
+          cmake --build build/sim --parallel
 
       - name: Write job summary
         if: always()
@@ -156,20 +156,40 @@ jobs:
       - name: Build integration targets
         shell: bash
         run: |
-          cmake --build build/integration --parallel || true
+          cmake --build build/integration --parallel
 
       - name: Run chimera integration smoke tests
         shell: bash
         run: |
-          # Run any chimera test binaries if they were built.
-          find build/integration -name 'test_*chimera*' -o -name '*chimera*_test' | \
-          while read -r bin; do
+          set -euo pipefail
+
+          # Discover chimera test binaries that were built.
+          mapfile -t chimera_bins < <(find build/integration -type f \
+            \( -name 'test_*chimera*' -o -name '*chimera*_test' \) 2>/dev/null || true)
+
+          if [ "${#chimera_bins[@]}" -eq 0 ]; then
+            echo "No chimera integration test binaries found; skipping smoke tests."
+            exit 0
+          fi
+
+          mkdir -p integration-results
+
+          failed=0
+          for bin in "${chimera_bins[@]}"; do
             echo "Running: $bin"
-            "$bin" \
+            if ! "$bin" \
               --gtest_filter='*Connection*:*Insert*:*Find*' \
-              --gtest_output="xml:integration-results/$(basename "$bin").xml" || true
+              --gtest_output="xml:integration-results/$(basename "$bin").xml"; then
+              echo "Test binary failed: $bin"
+              failed=1
+            fi
           done
-          echo "Integration smoke tests complete."
+
+          if [ "$failed" -ne 0 ]; then
+            echo "One or more chimera integration smoke tests failed."
+            exit 1
+          fi
+          echo "All integration smoke tests passed."
 
       - name: Stop containers
         if: always()

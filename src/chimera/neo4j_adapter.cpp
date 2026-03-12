@@ -94,24 +94,55 @@ static std::string base64_encode(const std::string& input) {
     return out;
 }
 
-/// Parse host and HTTP port from a bolt://host[:port] URL.
-/// Maps bolt/neo4j schemes to Neo4j's default HTTP port 7474.
+/// Parse host and HTTP port from a Neo4j endpoint string.
+///
+/// For bolt://, neo4j://, and neo4j+s:// schemes the Bolt port is irrelevant
+/// for the HTTP Transactional API; this function always maps those schemes to
+/// Neo4j's default HTTP API port (7474) and strips any :port from the URL.
+///
+/// For bare host[:port] or http://host[:port] inputs the explicit port is
+/// honoured, defaulting to 7474 when absent.
 static std::pair<std::string, int> parse_neo4j_http_endpoint(
-    const std::string& bolt_url)
+    const std::string& url)
 {
-    // Strip scheme
-    std::string rest;
-    if (bolt_url.rfind("bolt://", 0) == 0)       rest = bolt_url.substr(7);
-    else if (bolt_url.rfind("neo4j://", 0) == 0)  rest = bolt_url.substr(8);
-    else if (bolt_url.rfind("neo4j+s://", 0) == 0) rest = bolt_url.substr(10);
-    else                                           rest = bolt_url;
+    std::string rest = url;
+    bool ignore_port = false; // true for bolt/neo4j schemes
 
+    // Detect and strip scheme
+    if (url.rfind("bolt://", 0) == 0) {
+        rest = url.substr(7);
+        ignore_port = true;
+    } else if (url.rfind("neo4j://", 0) == 0) {
+        rest = url.substr(8);
+        ignore_port = true;
+    } else if (url.rfind("neo4j+s://", 0) == 0) {
+        rest = url.substr(10);
+        ignore_port = true;
+    } else if (url.rfind("http://", 0) == 0) {
+        rest = url.substr(7);
+    } else if (url.rfind("https://", 0) == 0) {
+        rest = url.substr(8);
+    }
+
+    // Strip any path component after host[:port]
+    const auto slash = rest.find('/');
+    if (slash != std::string::npos) {
+        rest = rest.substr(0, slash);
+    }
+
+    // For bolt/neo4j schemes, strip the Bolt port and always use HTTP 7474.
+    if (ignore_port) {
+        const auto colon = rest.find(':');
+        const std::string host =
+            (colon != std::string::npos) ? rest.substr(0, colon) : rest;
+        return {host, 7474};
+    }
+
+    // For http/https or bare host[:port], honour an explicit :port.
     const auto colon = rest.find(':');
     if (colon != std::string::npos) {
-        // Use the provided port number.
         return {rest.substr(0, colon), std::stoi(rest.substr(colon + 1))};
     }
-    // Fall back to default Neo4j HTTP API port.
     return {rest, 7474};
 }
 
@@ -465,11 +496,13 @@ Result<std::string> Neo4jAdapter::insert_edge(const GraphEdge& edge) {
         json params = {
             {"src",  edge.source_id},
             {"tgt",  edge.target_id},
-            {"eid",  eid}
+            {"eid",  eid},
+            // Always provide $weight so the Cypher parameter is never missing.
+            // Use null when the edge has no weight so Neo4j stores a null value.
+            {"weight", edge.weight.has_value()
+                           ? json(*edge.weight)
+                           : json(nullptr)}
         };
-        if (edge.weight.has_value()) {
-            params["weight"] = *edge.weight;
-        }
 
         const std::string cypher =
             "MATCH (a {id: $src}), (b {id: $tgt}) "
@@ -628,12 +661,13 @@ Result<std::vector<GraphNode>> Neo4jAdapter::traverse(
     try {
         std::string rel_filter = "*1.." + std::to_string(max_depth);
         if (!edge_labels.empty()) {
-            rel_filter = "";
+            // Cypher type alternation: :`T1`|`T2`|... (colon only once).
+            std::string type_expr;
             for (size_t i = 0; i < edge_labels.size(); ++i) {
-                if (i > 0) rel_filter += "|";
-                rel_filter += ":`" + edge_labels[i] + "`";
+                if (i > 0) type_expr += "|";
+                type_expr += "`" + edge_labels[i] + "`";
             }
-            rel_filter = rel_filter + "*1.." + std::to_string(max_depth);
+            rel_filter = ":" + type_expr + "*1.." + std::to_string(max_depth);
         }
 
         const std::string cypher =

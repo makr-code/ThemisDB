@@ -39,6 +39,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <vector>
 
 namespace chimera {
@@ -54,13 +55,21 @@ struct ConnectionPoolConfig {
     /// Maximum total connections (active + idle) the pool will create.
     size_t max_connections = 50;
 
-    /// Timeout when waiting for a free slot in a saturated pool.
+    /// Default timeout passed to acquire() when no explicit timeout is given.
+    /// Callers may override this per-call by passing a value to acquire().
     std::chrono::milliseconds connection_timeout{30'000};
 
-    /// Maximum time a connection can remain idle before being evicted.
+    /// Maximum time a connection can remain idle before being eligible for
+    /// eviction. Eviction is performed lazily inside health_check() — the pool
+    /// does not schedule evictions automatically; callers must invoke
+    /// health_check() on a suitable timer if idle-TTL enforcement is required.
     std::chrono::minutes idle_timeout{5};
 
-    /// Interval between automatic health-check sweeps.
+    /// Suggested interval between health-check sweeps. The pool does NOT
+    /// schedule health checks automatically; callers must invoke health_check()
+    /// on their own schedule (e.g., using a background thread or a periodic
+    /// task). This field is provided for callers that wish to align their
+    /// scheduling with the pool's configuration.
     std::chrono::seconds health_check_interval{60};
 };
 
@@ -157,12 +166,15 @@ public:
      * @brief Check out a connection from the pool.
      *
      * Blocks until a connection is available or @p timeout elapses.
-     * Returns nullptr on timeout or failure.
+     * When @p timeout is not specified, defaults to
+     * `config_.connection_timeout`.  Returns nullptr on timeout or failure.
      */
     std::unique_ptr<Connection> acquire(
-        std::chrono::milliseconds timeout = std::chrono::milliseconds{5000}
+        std::optional<std::chrono::milliseconds> timeout = std::nullopt
     ) {
-        const auto deadline = std::chrono::steady_clock::now() + timeout;
+        const auto effective_timeout =
+            timeout.value_or(config_.connection_timeout);
+        const auto deadline = std::chrono::steady_clock::now() + effective_timeout;
         const auto t_start  = std::chrono::steady_clock::now();
 
         std::unique_lock<std::mutex> lock(mutex_);

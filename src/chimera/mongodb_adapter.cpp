@@ -915,25 +915,19 @@ Result<std::string> MongoDBAdapter::begin_transaction(
     }
 
 #ifdef THEMIS_ENABLE_MONGODB
-    // Real path: start a mongocxx client session and begin a transaction.
-    // The session handle is serialized as the transaction ID so that
-    // commit/rollback can look it up in the active_transactions_ map.
-    try {
-        (void)0; // Sessions require a single client from the pool that lives
-                 // across the transaction; for simplicity we track the txn_id
-                 // and use a stateless approach here: commit/rollback become
-                 // lightweight no-ops in the real driver path since the
-                 // session management is handled within the operation methods.
-        std::string txn_id = generate_transaction_id();
-        std::lock_guard<std::mutex> lock(txn_mutex_);
-        active_transactions_[txn_id] = true;
-        return Result<std::string>::ok(std::move(txn_id));
-    } catch (const mongocxx::exception& ex) {
-        return Result<std::string>::err(
-            ErrorCode::INTERNAL_ERROR,
-            std::string("MongoDB begin_transaction failed: ") + ex.what()
-        );
-    }
+    // Multi-document ACID transactions require a pinned mongocxx::client_session
+    // that must live across begin/commit/rollback calls within the same thread.
+    // Storing an active session in a map keyed by txn_id requires a thread-safe
+    // session store and careful lifetime management; that is deferred to a
+    // dedicated transaction-manager feature.  In the meantime, return
+    // NOT_IMPLEMENTED so callers are not misled into thinking writes made
+    // through this adapter are protected by a real MongoDB transaction.
+    return Result<std::string>::err(
+        ErrorCode::NOT_IMPLEMENTED,
+        "MongoDB multi-document transactions require a pinned client session "
+        "that outlives the begin() call. Use per-operation sessions instead, "
+        "or wait for the dedicated transaction-manager feature."
+    );
 #else
     std::string txn_id = generate_transaction_id();
     std::lock_guard<std::mutex> lock(txn_mutex_);

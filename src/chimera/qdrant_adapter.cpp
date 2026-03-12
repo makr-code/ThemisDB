@@ -72,40 +72,67 @@ namespace chimera {
 #ifdef THEMIS_ENABLE_QDRANT
 
 /// Parse host and port from an http(s)://host[:port] URL.
-static std::pair<std::string, int> parse_qdrant_endpoint(
+/// Returns {host, port, use_tls}.
+static std::tuple<std::string, int, bool> parse_qdrant_endpoint(
     const std::string& url)
 {
-    std::string rest;
     bool use_https = false;
+    std::string rest;
     if (url.rfind("https://", 0) == 0) {
         rest = url.substr(8);
         use_https = true;
     } else {
         rest = url.substr(7); // http://
     }
-    (void)use_https;
+
+    // Strip path component if present
+    const auto slash = rest.find('/');
+    if (slash != std::string::npos) {
+        rest = rest.substr(0, slash);
+    }
 
     const auto colon = rest.find(':');
     if (colon != std::string::npos) {
-        return {rest.substr(0, colon), std::stoi(rest.substr(colon + 1))};
+        return {rest.substr(0, colon),
+                std::stoi(rest.substr(colon + 1)),
+                use_https};
     }
-    return {rest, use_https ? 443 : 6333};
+    return {rest, use_https ? 443 : 6333, use_https};
 }
 
 struct QdrantAdapter::QdrantState {
     std::string host;
     int         port;
+    bool        use_tls;
     std::string api_key;
     ConnectionPool<httplib::Client> pool;
 
     QdrantState(const std::string& url,
                 const std::string& key,
                 const ConnectionPoolConfig& pool_cfg)
-        : host([&] { return parse_qdrant_endpoint(url).first; }())
-        , port([&] { return parse_qdrant_endpoint(url).second; }())
+        : host(std::get<0>(parse_qdrant_endpoint(url)))
+        , port(std::get<1>(parse_qdrant_endpoint(url)))
+        , use_tls(std::get<2>(parse_qdrant_endpoint(url)))
         , api_key(key)
         , pool(
             [this]() -> std::unique_ptr<httplib::Client> {
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+                if (use_tls) {
+                    auto cli = std::make_unique<httplib::SSLClient>(host, port);
+                    cli->set_connection_timeout(30);
+                    if (!api_key.empty()) {
+                        cli->set_default_headers({{"api-key", api_key}});
+                    }
+                    // Return as base-class pointer via unique_ptr to Client.
+                    // SSLClient derives from Client so this is safe.
+                    return std::unique_ptr<httplib::Client>(cli.release());
+                }
+#endif
+                if (use_tls) {
+                    // TLS requested but OpenSSL support not compiled in.
+                    // Return nullptr so the pool treats it as a failed factory.
+                    return nullptr;
+                }
                 auto cli = std::make_unique<httplib::Client>(host, port);
                 cli->set_connection_timeout(30);
                 if (!api_key.empty()) {
@@ -118,7 +145,18 @@ struct QdrantAdapter::QdrantState {
                 auto res = cli.Get("/collections");
                 return res && (res->status == 200 || res->status == 401);
             },
-            pool_cfg) {}
+            pool_cfg)
+    {
+        // Validate that TLS endpoints are actually reachable.
+        if (use_tls) {
+#ifndef CPPHTTPLIB_OPENSSL_SUPPORT
+            throw std::runtime_error(
+                "Qdrant: HTTPS endpoint requested but cpp-httplib was built "
+                "without OpenSSL support (CPPHTTPLIB_OPENSSL_SUPPORT). "
+                "Use an http:// URL or rebuild cpp-httplib with OpenSSL.");
+#endif
+        }
+    }
 };
 
 #else
