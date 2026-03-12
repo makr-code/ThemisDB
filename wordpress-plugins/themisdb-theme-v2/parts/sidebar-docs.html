@@ -1,0 +1,32 @@
+<!-- wp:group {"className":"themis-docs-sidebar-part","style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
+<div class="wp-block-group themis-docs-sidebar-part">
+
+	<!-- Search within docs -->
+	<!-- wp:search {"label":"Search Docs","showLabel":false,"placeholder":"Search documentation…","buttonText":"Search","buttonUseIcon":true,"style":{"border":{"radius":"6px"}},"className":"themis-docs-search"} /-->
+
+	<!-- wp:spacer {"height":"16px"} --><div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div><!-- /wp:spacer -->
+
+	<!-- Dynamic docs menu -->
+	<!-- wp:navigation {"className":"themis-docs-sidebar-nav","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"menuSlug":"docs"} /-->
+
+	<!-- wp:spacer {"height":"16px"} --><div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div><!-- /wp:spacer -->
+
+	<!-- Quick links section -->
+	<!-- wp:group {"className":"themis-docs-sidebar-quicklinks","style":{"color":{"background":"#f8f9fa"},"border":{"radius":"8px"},"spacing":{"padding":{"top":"var:preset|spacing|4","bottom":"var:preset|spacing|4","left":"var:preset|spacing|4","right":"var:preset|spacing|4"}}}} -->
+	<div class="wp-block-group themis-docs-sidebar-quicklinks" style="background-color:#f8f9fa;border-radius:8px;padding:var(--wp--preset--spacing--4)">
+		<!-- wp:heading {"level":6,"style":{"typography":{"fontSize":"0.6875rem","fontWeight":"700","letterSpacing":"0.06em","textTransform":"uppercase"},"color":{"text":"#95a5a6"},"spacing":{"margin":{"bottom":"var:preset|spacing|3"}}}} -->
+		<h6 class="wp-block-heading" style="color:#95a5a6;font-size:0.6875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:var(--wp--preset--spacing--3)">Quick Links</h6>
+		<!-- /wp:heading -->
+		<!-- wp:list {"className":"themis-docs-quicklinks-list","style":{"typography":{"fontSize":"0.8125rem"}}} -->
+		<ul class="wp-block-list themis-docs-quicklinks-list" style="font-size:0.8125rem">
+			<!-- wp:list-item --><li><a href="/docs/getting-started">🚀 Getting Started</a></li><!-- /wp:list-item -->
+			<!-- wp:list-item --><li><a href="/downloads">⬇ Downloads</a></li><!-- /wp:list-item -->
+			<!-- wp:list-item --><li><a href="/docs/api">📘 API Reference</a></li><!-- /wp:list-item -->
+			<!-- wp:list-item --><li><a href="https://github.com/makr-code/ThemisDB">⭐ GitHub</a></li><!-- /wp:list-item -->
+		</ul>
+		<!-- /wp:list -->
+	</div>
+	<!-- /wp:group -->
+
+</div>
+<!-- /wp:group -->
