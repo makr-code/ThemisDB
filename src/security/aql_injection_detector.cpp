@@ -198,6 +198,9 @@ bool AQLInjectionDetector::containsSuspiciousPatterns(const std::string& str) {
         // Command execution (SQL injection patterns)
         std::regex(R"(\b(EXEC|EXECUTE|SYSTEM|SHELL)\b)", std::regex::icase),
         
+        // Stored procedure / OS-command execution (MSSQL / SQL Server patterns)
+        std::regex(R"(\b(XP_CMDSHELL|SP_EXECUTESQL)\b)", std::regex::icase),
+        
         // File operations (SQL injection patterns)
         std::regex(R"(\b(LOAD_FILE|INTO\s+OUTFILE|INTO\s+DUMPFILE)\b)", std::regex::icase),
         
@@ -223,10 +226,17 @@ bool AQLInjectionDetector::containsSuspiciousPatterns(const std::string& str) {
 std::vector<std::string> AQLInjectionDetector::extractPatterns(const std::string& str) {
     std::vector<std::string> patterns;
     
+    // Pattern list mirrors the full suspicious-keyword set from containsSuspiciousPatterns()
+    // so that detected_patterns is non-empty whenever that function returns true.
     static const std::vector<std::regex> pattern_list = {
-        std::regex(R"(\b(DROP|DELETE|UPDATE|INSERT)\b)", std::regex::icase),
+        // DML/DDL and AQL write operations (matches the first pattern in containsSuspiciousPatterns)
+        std::regex(R"(\b(DROP|DELETE|UPDATE|INSERT|REPLACE|UPSERT|REMOVE)\b)", std::regex::icase),
         std::regex(R"(-{2}|/\*|\*/)"),
-        std::regex(R"(\bUNION\s+SELECT\b)", std::regex::icase),
+        std::regex(R"(\bUNION\s+(SELECT|ALL)\b)", std::regex::icase),
+        std::regex(R"(\b(EXEC|EXECUTE|SYSTEM|SHELL)\b)", std::regex::icase),
+        std::regex(R"(\b(XP_CMDSHELL|SP_EXECUTESQL)\b)", std::regex::icase),
+        std::regex(R"(\b(WAITFOR|BENCHMARK|SLEEP)\b)", std::regex::icase),
+        std::regex(R"(\b(LOAD_FILE|INTO\s+OUTFILE|INTO\s+DUMPFILE)\b)", std::regex::icase),
     };
     
     for (const auto& pattern : pattern_list) {
@@ -347,7 +357,12 @@ bool AQLInjectionDetector::scanExpressionForDangerousOps(
     if (node_type == query::ASTNodeType::FunctionCall) {
         auto func_expr = std::static_pointer_cast<query::FunctionCallExpr>(expr);
         std::string upper_name = func_expr->name;
-        std::transform(upper_name.begin(), upper_name.end(), upper_name.begin(), ::toupper);
+        std::transform(
+            upper_name.begin(),
+            upper_name.end(),
+            upper_name.begin(),
+            [](unsigned char c) { return static_cast<char>(std::toupper(c)); }
+        );
         if (kDangerousFunctions.count(upper_name) > 0) {
             return true;
         }

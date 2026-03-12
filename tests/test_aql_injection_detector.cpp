@@ -542,6 +542,34 @@ TEST(AQLInjectionDetectorTest, ASTLevel_ParseFailureFallsBackToRegex) {
     EXPECT_FALSE(result.error_message.empty());
 }
 
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectXpCmdshellFunctionCall) {
+    AQLInjectionDetector detector;
+
+    // XP_CMDSHELL is detected by both the AST-level check and the regex layer.
+    // This test validates the AST-level path: when XP_CMDSHELL appears as a
+    // parsed function-call node the detector must reject the query.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN XP_CMDSHELL(\"dir c:\\\\\")"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(AQLInjectionDetectorTest, ASTLevel_RejectSpExecuteSqlFunctionCall) {
+    AQLInjectionDetector detector;
+
+    // SP_EXECUTESQL is detected by both the AST-level check and the regex layer.
+    // This test validates the AST-level path: when SP_EXECUTESQL appears as a
+    // parsed function-call node the detector must reject the query.
+    auto result = detector.validateAQLAST(
+        "FOR doc IN users RETURN SP_EXECUTESQL(doc.query)"
+    );
+
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
 // ============================================================================
 // Main
 // ============================================================================
