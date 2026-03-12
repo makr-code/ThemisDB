@@ -13,6 +13,9 @@
 - [x] Period-based temporal index: B-tree on `(sys_start, sys_end)` for efficient range lookups (`temporal_index.cpp`)
 - [x] Temporal aggregations: tumbling and sliding window aggregation over version history (`temporal_aggregator.cpp`)
 - [x] Point-in-time snapshot creation, querying, and release (`snapshot_manager.cpp`)
+- [x] Snapshot versioning: monotonically increasing `version_number` in `SnapshotHandle`
+- [x] Snapshot garbage collection: TTL-based (`garbageCollect(max_age_ms)`) and max-count-based (`garbageCollect(max_snapshots)`) GC
+- [x] Snapshot metadata: `SnapshotMetadata` struct with `getSnapshotMetadata()` API
 - [x] Retention manager: time-based and count-based policy enforcement with background cleanup (`retention_manager.cpp`)
 - [x] Conflict resolution audit trail: all resolutions logged for auditability
 - [x] Thread-safe version writes (per-record lock) with lock-free reads via MVCC
@@ -51,7 +54,7 @@
 - [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`); new: `scanBiTemporal(sys_as_of, valid_at)`, `getAllKeys()`
 - [x] `TemporalIndex`: period B-tree index with `insert`, `queryAsOf`, `queryRange`, `stats` (`temporal_index.cpp`)
 - [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)
-- [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`)
+- [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`); snapshot versioning (`version_number`), TTL-based and max-count GC, `SnapshotMetadata`
 - [x] `RetentionManager`: per-table policies, `enforceRetention()`, `RetentionStats` reporting (`retention_manager.cpp`)
 - [x] `TemporalAggregator`: tumbling/sliding window aggregation over version history, `AggregateResult` output (`temporal_aggregator.cpp`)
 - [x] Unit tests: aggregator, index, query engine, bi-temporal (`tests/temporal/`)
