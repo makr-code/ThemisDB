@@ -100,10 +100,9 @@ TEST(LDAPConnectionPoolTest, CheckoutReturnsNullWhenServerUnreachable)
     // The pool has no idle connections and cannot create new ones because the
     // server is unreachable.  checkout() should time out and return nullptr.
     auto conn = pool.checkout();
-    // Depending on platform LDAP support, this may be null (LDAP compiled in
-    // and server unreachable) or null (LDAP not compiled in).
-    // Either way it must not crash.
-    (void)conn;
+    // Either LDAP is not compiled in (nullptr immediately) or the server is
+    // unreachable and the checkout times out (nullptr after timeout).
+    EXPECT_EQ(conn, nullptr);
 }
 
 TEST(LDAPConnectionPoolTest, MetricsAfterFailedCheckout)
@@ -317,7 +316,7 @@ TEST(LDAPConnectionPoolTest, DISABLED_PoolReuseIntegration)
     LDAPConnectionPool pool(cfg);
 
     // Pre-warming should have established min_idle connections.
-    EXPECT_GE(pool.idleConnections(), 0);
+    EXPECT_GE(pool.idleConnections(), cfg.min_idle);
 
     {
         auto conn = pool.checkout();

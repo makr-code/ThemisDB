@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <chrono>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -101,12 +102,34 @@ LDAPConnectionPool::LDAPConnectionPool(const LDAPPoolConfig& config)
 
 LDAPConnectionPool::~LDAPConnectionPool()
 {
-    std::lock_guard<std::mutex> lock(mutex_);
-    for (LDAP* ld : idle_) {
-        destroyHandle(ld);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        closing_ = true;
+        // Destroy all idle handles immediately.
+        for (LDAP* ld : idle_) {
+            destroyHandle(ld);
+            --total_count_;
+        }
+        idle_.clear();
     }
-    idle_.clear();
-    total_count_ = 0;
+    // Wake any threads blocked in checkout() so they can observe closing_.
+    cv_.notify_all();
+
+    // Wait (bounded) for active connections to be returned.
+    // This avoids use-after-free when PooledConnection outlives the pool.
+    constexpr int kShutdownWaitMs = 5000;
+    const auto deadline =
+        std::chrono::steady_clock::now() +
+        std::chrono::milliseconds(kShutdownWaitMs);
+    std::unique_lock<std::mutex> lock(mutex_);
+    while (active_count_.load(std::memory_order_acquire) > 0) {
+        if (cv_.wait_until(lock, deadline) == std::cv_status::timeout) {
+            spdlog::warn("LDAPConnectionPool: destructor timed out waiting for "
+                         "{} active connection(s) to be returned",
+                         active_count_.load());
+            break;
+        }
+    }
 }
 
 // ===========================================================================
@@ -126,6 +149,11 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
     std::unique_lock<std::mutex> lock(mutex_);
 
     while (true) {
+        // Fail fast if the pool is shutting down.
+        if (closing_) {
+            return nullptr;
+        }
+
         // --- 1. Try to pop an idle connection --------------------------------
         while (!idle_.empty()) {
             LDAP* candidate = idle_.front();
@@ -136,6 +164,13 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
             lock.unlock();
             const bool healthy = isHealthy(candidate);
             lock.lock();
+
+            if (closing_) {
+                // Pool shut down while we were health-checking; evict and bail.
+                destroyHandle(candidate);
+                --total_count_;
+                return nullptr;
+            }
 
             if (healthy) {
                 ++active_count_;
@@ -187,17 +222,18 @@ void LDAPConnectionPool::returnConnection(LDAP* handle, bool stale)
         std::lock_guard<std::mutex> lock(mutex_);
         --active_count_;
 
-        if (!stale && static_cast<int>(idle_.size()) < config_.max_size) {
+        if (!closing_ && !stale && static_cast<int>(idle_.size()) < config_.max_size) {
             idle_.push_back(handle);
             cv_.notify_one();
             return;
         }
 
-        // Either stale or pool already has enough idle connections — destroy.
+        // Either closing, stale, or pool already has enough idle connections — destroy.
         destroyHandle(handle);
         --total_count_;
     }
-    cv_.notify_one();
+    // Notify: wakes checkout() waiters AND the destructor's active_count_ wait.
+    cv_.notify_all();
 }
 
 // ===========================================================================
@@ -319,8 +355,10 @@ bool LDAPConnectionPool::isHealthy(LDAP* handle) const
     const char* attrs[] = {"supportedLDAPVersion", nullptr};
     LDAPMessage* result = nullptr;
 
+    // Use the configured search timeout for the liveness probe, but cap it at
+    // 2 s so that a misconfigured large timeout doesn't stall checkout().
     struct timeval tv{};
-    tv.tv_sec  = 2;   // Short timeout — this is just a liveness probe.
+    tv.tv_sec  = std::min(config_.search_timeout_seconds, 2);
     tv.tv_usec = 0;
 
     const int rc = ldap_search_ext_s(

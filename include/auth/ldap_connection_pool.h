@@ -143,10 +143,11 @@ public:
      * @brief Check out a connection from the pool.
      *
      * Blocks up to config.checkout_timeout_ms waiting for an available
-     * connection.  Returns an empty optional if the timeout expires or
-     * if the pool has not been started (LDAP not compiled in).
+     * connection.  Returns nullptr if the timeout expires, the pool is
+     * shutting down, or LDAP support is not compiled in.
      *
-     * @return PooledConnection on success, or an empty optional on failure.
+     * @return A non-null std::unique_ptr<PooledConnection> on success, or
+     *         nullptr on failure.
      */
     std::unique_ptr<PooledConnection> checkout();
 
@@ -186,6 +187,10 @@ private:
 
     mutable std::mutex mutex_;
     std::condition_variable cv_;
+
+    /// Set to true when the pool is shutting down; causes checkout() to return
+    /// nullptr and returnConnection() to destroy handles rather than re-pool them.
+    bool closing_{false};
 
     /// Idle connections available for checkout.
     std::deque<LDAP*> idle_;

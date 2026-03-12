@@ -292,21 +292,24 @@ double AuthMetrics::getSuccessRate() const {
 void AuthMetrics::setLDAPPoolSize(int count) {
     ldap_pool_size_count_.store(count, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
-    ldap_pool_size_.Add({}).Set(static_cast<double>(count));
+    static auto& gauge = ldap_pool_size_.Add({});
+    gauge.Set(static_cast<double>(count));
 #endif
 }
 
 void AuthMetrics::setLDAPIdleConnections(int count) {
     ldap_idle_connections_count_.store(count, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
-    ldap_idle_connections_.Add({}).Set(static_cast<double>(count));
+    static auto& gauge = ldap_idle_connections_.Add({});
+    gauge.Set(static_cast<double>(count));
 #endif
 }
 
 void AuthMetrics::setLDAPActiveConnections(int count) {
     ldap_active_connections_count_.store(count, std::memory_order_relaxed);
 #ifdef THEMIS_HAS_PROMETHEUS
-    ldap_active_connections_.Add({}).Set(static_cast<double>(count));
+    static auto& gauge = ldap_active_connections_.Add({});
+    gauge.Set(static_cast<double>(count));
 #endif
 }
 
