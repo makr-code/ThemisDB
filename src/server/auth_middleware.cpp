@@ -42,8 +42,14 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
     
     auth::JWTValidatorConfig jwt_cfg;
     jwt_cfg.jwks_url = config.jwks_url;
-    jwt_cfg.expected_issuer = config.expected_issuer;
-    jwt_cfg.expected_audience = config.expected_audience;
+    if (!config.expected_issuer.empty()) {
+        jwt_cfg.expected_issuer = config.expected_issuer;
+    }
+    jwt_cfg.require_issuer_validation = config.require_issuer_validation;
+    if (!config.expected_audience.empty()) {
+        jwt_cfg.expected_audience = config.expected_audience;
+    }
+    jwt_cfg.require_audience_validation = config.require_audience_validation;
     jwt_cfg.cache_ttl = config.jwks_cache_ttl;
     jwt_cfg.clock_skew = config.clock_skew;
     

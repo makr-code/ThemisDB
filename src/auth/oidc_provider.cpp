@@ -302,7 +302,11 @@ JWTValidatorConfig OIDCProvider::buildValidatorConfig() const {
     JWTValidatorConfig cfg;
     cfg.jwks_url          = discovery_doc_->jwks_uri;
     cfg.expected_issuer   = discovery_doc_->issuer;
-    cfg.expected_audience = config_.expected_audience;
+    if (!config_.expected_audience.empty()) {
+        cfg.expected_audience = config_.expected_audience;
+    } else {
+        cfg.require_audience_validation = false;
+    }
     cfg.cache_ttl         = config_.jwks_cache_ttl;
     cfg.clock_skew        = config_.clock_skew;
     cfg.jwks_timeout_seconds = config_.http_timeout_seconds;

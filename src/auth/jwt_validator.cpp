@@ -62,14 +62,41 @@ size_t curlWriteToString(char* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 JWTValidator::JWTValidator(const std::string& jwks_url)
-    : cfg_{JWTValidatorConfig{jwks_url, "", "", std::chrono::seconds(600), std::chrono::seconds(60)}}
+    : cfg_{JWTValidatorConfig{
+          .jwks_url                  = jwks_url,
+          .expected_issuer           = std::nullopt,
+          .expected_audience         = std::nullopt,
+          .cache_ttl                 = std::chrono::seconds(600),
+          .clock_skew                = std::chrono::seconds(60),
+          .require_issuer_validation  = false,
+          .require_audience_validation = false,
+      }}
     , jwks_url_(jwks_url)
     , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {}
 
 JWTValidator::JWTValidator(const JWTValidatorConfig& cfg)
     : cfg_(cfg)
     , jwks_url_(cfg.jwks_url)
-    , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {}
+    , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {
+    // Normalize empty string values to nullopt so empty strings are treated as 'unset'
+    auto normalizeOptional = [](std::optional<std::string>& opt) {
+        if (opt.has_value() && opt->empty()) opt = std::nullopt;
+    };
+    normalizeOptional(cfg_.expected_issuer);
+    normalizeOptional(cfg_.expected_audience);
+    if (cfg_.require_issuer_validation && !cfg_.expected_issuer.has_value()) {
+        throw std::runtime_error("Issuer validation not configured");
+    }
+    if (cfg_.require_audience_validation && !cfg_.expected_audience.has_value()) {
+        throw std::runtime_error("Audience validation not configured");
+    }
+    if (!cfg_.require_issuer_validation && !cfg_.expected_issuer.has_value()) {
+        utils::Logger::warn("JWT issuer validation is disabled - tokens from any issuer will be accepted");
+    }
+    if (!cfg_.require_audience_validation && !cfg_.expected_audience.has_value()) {
+        utils::Logger::warn("JWT audience validation is disabled - tokens with any audience will be accepted");
+    }
+}
 
 std::vector<uint8_t> JWTValidator::decodeBase64Url(const std::string& input) {
     std::string base64 = input;
@@ -356,14 +383,14 @@ bool JWTValidator::verifySignatureEdDSA(const std::string& header_payload,
 }
 
 bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
-    if (cfg_.expected_audience.empty()) return true;
+    if (!cfg_.expected_audience.has_value()) return true;
     if (!payload.contains("aud")) return false;
     if (payload["aud"].is_string()) {
-        return payload["aud"].get<std::string>() == cfg_.expected_audience;
+        return payload["aud"].get<std::string>() == *cfg_.expected_audience;
     }
     if (payload["aud"].is_array()) {
         for (auto& v : payload["aud"]) {
-            if (v.is_string() && v.get<std::string>() == cfg_.expected_audience) return true;
+            if (v.is_string() && v.get<std::string>() == *cfg_.expected_audience) return true;
         }
         return false;
     }
@@ -518,8 +545,8 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         }
         throw std::runtime_error("Token expired");
     }
-    if (!cfg_.expected_issuer.empty() && claims.issuer != cfg_.expected_issuer) {
-        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + cfg_.expected_issuer + ", got: " + claims.issuer + ")");
+    if (cfg_.expected_issuer.has_value() && claims.issuer != *cfg_.expected_issuer) {
+        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + *cfg_.expected_issuer + ", got: " + claims.issuer + ")");
         if (audit_logger_) {
             audit_logger_->logSecurityEvent(utils::SecurityEventType::LOGIN_FAILED,
                 claims.sub, "jwt/token", {{"reason", "issuer_mismatch"}, {"issuer", claims.issuer}});
