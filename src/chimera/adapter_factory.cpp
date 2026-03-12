@@ -76,6 +76,41 @@ bool AdapterFactory::is_supported(const std::string& system_name) {
     return registry.find(system_name) != registry.end();
 }
 
+std::unique_ptr<IDatabaseAdapter> AdapterFactory::create_with_fallback(
+    const std::vector<std::string>& candidates
+) {
+    for (const auto& name : candidates) {
+        auto adapter = create(name);
+        if (adapter) {
+            return adapter;
+        }
+    }
+    return nullptr;
+}
+
+std::unique_ptr<IDatabaseAdapter> AdapterFactory::create_with_capabilities(
+    const std::vector<std::string>& candidates,
+    const std::vector<Capability>& required_capabilities
+) {
+    for (const auto& name : candidates) {
+        auto adapter = create(name);
+        if (!adapter) {
+            continue;
+        }
+        bool meets_requirements = true;
+        for (const auto& cap : required_capabilities) {
+            if (!adapter->has_capability(cap)) {
+                meets_requirements = false;
+                break;
+            }
+        }
+        if (meets_requirements) {
+            return adapter;
+        }
+    }
+    return nullptr;
+}
+
 // ---------------------------------------------------------------------------
 // AdapterCapabilityMatrix
 // ---------------------------------------------------------------------------

@@ -690,6 +690,17 @@ static std::vector<std::string> get_supported_systems();
 
 // Check if system is registered
 static bool is_supported(const std::string& system_name);
+
+// Create from prioritised fallback list (returns first registered)
+static std::unique_ptr<IDatabaseAdapter> create_with_fallback(
+    const std::vector<std::string>& candidates
+);
+
+// Create first adapter in list that meets required capabilities
+static std::unique_ptr<IDatabaseAdapter> create_with_capabilities(
+    const std::vector<std::string>& candidates,
+    const std::vector<Capability>& required_capabilities
+);
 ```
 
 ### ThemisDBAdapter

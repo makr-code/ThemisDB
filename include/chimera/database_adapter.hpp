@@ -1224,6 +1224,39 @@ public:
      */
     static bool is_supported(const std::string& system_name);
 
+    /**
+     * @brief Create an adapter using a prioritised fallback list
+     *
+     * @details
+     * Iterates through @p candidates in order and returns the first adapter
+     * that is registered.  This enables version-specific fallback chains, e.g.
+     * try "PostgreSQL:16", then "PostgreSQL:15", then "PostgreSQL:14".
+     *
+     * @param candidates Ordered list of system names to try (highest priority first)
+     * @return First successfully created adapter, or nullptr if none are registered
+     */
+    static std::unique_ptr<IDatabaseAdapter> create_with_fallback(
+        const std::vector<std::string>& candidates);
+
+    /**
+     * @brief Create the first adapter in @p candidates that satisfies all
+     *        @p required_capabilities (capability negotiation)
+     *
+     * @details
+     * Iterates through @p candidates in order.  For each registered candidate an
+     * instance is created, its capabilities are queried, and if every capability
+     * in @p required_capabilities is supported the adapter is returned.
+     * Candidates that are not registered or do not meet the capability
+     * requirements are silently skipped.
+     *
+     * @param candidates             Ordered list of system names to try
+     * @param required_capabilities  Capabilities that the chosen adapter must support
+     * @return First qualifying adapter, or nullptr if no candidate qualifies
+     */
+    static std::unique_ptr<IDatabaseAdapter> create_with_capabilities(
+        const std::vector<std::string>& candidates,
+        const std::vector<Capability>& required_capabilities);
+
 private:
     static std::map<std::string, AdapterCreator>& get_registry();
 };

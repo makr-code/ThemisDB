@@ -495,6 +495,144 @@ TEST(ThemisDBAdapterSecurityTest, CredentialsNotExposedWithoutUserInfo) {
     EXPECT_TRUE(adapter.is_connected());
 }
 
+// ---------------------------------------------------------------------------
+// Multi-Database Adapter Registration (v1.3.0)
+// ---------------------------------------------------------------------------
+
+/// A mock adapter that reports a configurable set of capabilities.
+class CapableAdapter : public MockAdapter {
+public:
+    explicit CapableAdapter(std::vector<Capability> caps)
+        : caps_(std::move(caps)) {}
+
+    bool has_capability(Capability cap) const override {
+        for (const auto& c : caps_) {
+            if (c == cap) return true;
+        }
+        return false;
+    }
+
+    std::vector<Capability> get_capabilities() const override {
+        return caps_;
+    }
+
+private:
+    std::vector<Capability> caps_;
+};
+
+/**
+ * @brief Version-specific adapters can be registered with "System:version" keys
+ *        and retrieved individually via AdapterFactory::create.
+ */
+TEST(MultiDatabaseAdapterTest, VersionedAdapterRegistration) {
+    AdapterFactory::register_adapter("VersionedDB:1",
+        []() { return std::make_unique<MockAdapter>(); });
+    AdapterFactory::register_adapter("VersionedDB:2",
+        []() { return std::make_unique<MockAdapter>(); });
+    AdapterFactory::register_adapter("VersionedDB:3",
+        []() { return std::make_unique<MockAdapter>(); });
+
+    EXPECT_TRUE(AdapterFactory::is_supported("VersionedDB:1"));
+    EXPECT_TRUE(AdapterFactory::is_supported("VersionedDB:2"));
+    EXPECT_TRUE(AdapterFactory::is_supported("VersionedDB:3"));
+    EXPECT_FALSE(AdapterFactory::is_supported("VersionedDB:99"));
+
+    auto v1 = AdapterFactory::create("VersionedDB:1");
+    auto v2 = AdapterFactory::create("VersionedDB:2");
+    auto v3 = AdapterFactory::create("VersionedDB:3");
+    EXPECT_NE(v1, nullptr);
+    EXPECT_NE(v2, nullptr);
+    EXPECT_NE(v3, nullptr);
+}
+
+/**
+ * @brief create_with_fallback returns the first registered adapter in the list.
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithFallbackReturnsFirstRegistered) {
+    AdapterFactory::register_adapter("FallbackDB:3",
+        []() { return std::make_unique<MockAdapter>(); });
+    AdapterFactory::register_adapter("FallbackDB:2",
+        []() { return std::make_unique<MockAdapter>(); });
+
+    // FallbackDB:4 is not registered; FallbackDB:3 is – it should be returned.
+    auto adapter = AdapterFactory::create_with_fallback(
+        {"FallbackDB:4", "FallbackDB:3", "FallbackDB:2"});
+    ASSERT_NE(adapter, nullptr);
+}
+
+/**
+ * @brief create_with_fallback returns nullptr when no candidate is registered.
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithFallbackReturnsNullptrWhenNoneRegistered) {
+    auto adapter = AdapterFactory::create_with_fallback(
+        {"UnknownDB:99", "UnknownDB:98"});
+    EXPECT_EQ(adapter, nullptr);
+}
+
+/**
+ * @brief create_with_fallback on an empty candidate list returns nullptr.
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithFallbackEmptyListReturnsNullptr) {
+    auto adapter = AdapterFactory::create_with_fallback({});
+    EXPECT_EQ(adapter, nullptr);
+}
+
+/**
+ * @brief create_with_capabilities returns the first adapter that meets the
+ *        required capability set (capability negotiation).
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithCapabilitiesReturnsFirstQualifying) {
+    AdapterFactory::register_adapter("CapDB:low",
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{Capability::RELATIONAL_QUERIES});
+        });
+    AdapterFactory::register_adapter("CapDB:high",
+        []() {
+            return std::make_unique<CapableAdapter>(
+                std::vector<Capability>{
+                    Capability::RELATIONAL_QUERIES,
+                    Capability::VECTOR_SEARCH,
+                    Capability::TRANSACTIONS});
+        });
+
+    // Both are registered; only "CapDB:high" supports VECTOR_SEARCH.
+    auto adapter = AdapterFactory::create_with_capabilities(
+        {"CapDB:low", "CapDB:high"},
+        {Capability::VECTOR_SEARCH});
+    ASSERT_NE(adapter, nullptr);
+    EXPECT_TRUE(adapter->has_capability(Capability::VECTOR_SEARCH));
+}
+
+/**
+ * @brief create_with_capabilities returns nullptr when no candidate meets all
+ *        required capabilities.
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithCapabilitiesReturnsNullptrWhenNoneQualify) {
+    AdapterFactory::register_adapter("CapDB:none",
+        []() {
+            return std::make_unique<CapableAdapter>(std::vector<Capability>{});
+        });
+
+    auto adapter = AdapterFactory::create_with_capabilities(
+        {"CapDB:none"},
+        {Capability::GRAPH_TRAVERSAL});
+    EXPECT_EQ(adapter, nullptr);
+}
+
+/**
+ * @brief create_with_capabilities with an empty required-capability list
+ *        behaves like create_with_fallback (first registered wins).
+ */
+TEST(MultiDatabaseAdapterTest, CreateWithCapabilitiesEmptyRequirementsActsAsFallback) {
+    AdapterFactory::register_adapter("CapDB:any",
+        []() { return std::make_unique<MockAdapter>(); });
+
+    auto adapter = AdapterFactory::create_with_capabilities(
+        {"CapDB:any"}, {});
+    EXPECT_NE(adapter, nullptr);
+}
+
 /**
  * @brief Main test runner
  */
