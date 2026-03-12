@@ -31,6 +31,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Initialize llama.cpp submodule (required for LLM-enabled editions)
+        if: ${{ inputs.edition == 'COMMUNITY' || inputs.edition == 'ENTERPRISE' || inputs.edition == 'HYPERSCALER' }}
+        run: git submodule update --init --depth=1 llama.cpp
+
       - name: Set up C++ build environment
         uses: ./.github/actions/setup-cpp-build
         with:
@@ -46,6 +50,10 @@ jobs:
           build-type: ${{ inputs.build-type }}
           edition:    ${{ inputs.edition }}
           ci-mode:    'true'
+
+      - name: Show ccache statistics
+        if: always()
+        run: ccache --show-stats || true
 
       # ── Core smoke tests ─────────────────────────────────────────────────
       - name: Run build-info tests
@@ -97,6 +105,18 @@ jobs:
       - name: Write job summary
         if: always()
         run: |
+          # Edition → LLM/GPU status must stay in sync with the case statement
+          # in .github/actions/configure-themis/action.yml (Edition-aware LLM/GPU config).
+          case "${{ inputs.edition }}" in
+            COMMUNITY|ENTERPRISE|HYPERSCALER)
+              LLM_STATUS="ON (CPU fallback)"
+              GPU_STATUS="ON (CPU fallback)"
+              ;;
+            *)
+              LLM_STATUS="OFF"
+              GPU_STATUS="OFF"
+              ;;
+          esac
           echo "## ThemisDB ${{ inputs.edition }} Edition Build — ${{ inputs.build-type }}" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "| Item | Value |" >> "$GITHUB_STEP_SUMMARY"
@@ -105,5 +125,7 @@ jobs:
           echo "| Build type | \`${{ inputs.build-type }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Runner OS | ubuntu-22.04 |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Compiler | gcc-12 |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| LLM | ${LLM_STATUS} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| GPU | ${GPU_STATUS} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Branch | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| Commit | \`${{ github.sha }}\` |" >> "$GITHUB_STEP_SUMMARY"

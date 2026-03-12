@@ -1,9 +1,14 @@
 name: 'Setup C++ Build Environment'
 description: |
   Installs standard C++ build dependencies (cmake, ninja-build, libgtest-dev,
-  libfmt-dev, pkg-config, git) plus the requested compiler and any optional extra packages,
-  then builds Google Test from source when the pre-built library files are
-  absent (required on Ubuntu runners where libgtest-dev ships source-only).
+  libfmt-dev, pkg-config, git, ccache) plus the requested compiler and any
+  optional extra packages, then builds Google Test from source when the
+  pre-built library files are absent (required on Ubuntu runners where
+  libgtest-dev ships source-only).
+
+  ccache is installed and restored from the GitHub Actions cache on every call.
+  The cache is keyed by OS, compiler, and week number so it is refreshed weekly
+  while still providing fast incremental builds within a week.
 
 inputs:
   cc:
@@ -20,16 +25,33 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Restore ccache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ccache
+        # Key on commit SHA so re-runs of the same commit get a cache hit.
+        # Restore-keys cascade to the closest prior cache for the same compiler.
+        key: ccache-${{ runner.os }}-${{ inputs.cc }}-${{ github.sha }}
+        restore-keys: |
+          ccache-${{ runner.os }}-${{ inputs.cc }}-
+
     - name: Install build dependencies
       shell: bash
       run: |
         sudo apt-get update -qq
-        # Base packages required by every C++ CI job
-        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev"
+        # Base packages required by every C++ CI job (ccache for incremental builds)
+        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev ccache"
         # Append optional extra packages (guard against empty string)
         EXTRA="${{ inputs.extra-packages }}"
         # shellcheck disable=SC2086
         sudo apt-get install -y $BASE_PKGS ${EXTRA:+$EXTRA}
+
+    - name: Configure ccache
+      shell: bash
+      run: |
+        ccache --max-size=2G
+        ccache --zero-stats
+        echo "CCACHE_DIR=${HOME}/.cache/ccache" >> "$GITHUB_ENV"
 
     - name: Build GTest from source (if needed)
       shell: bash
