@@ -166,7 +166,6 @@ TEST_F(ConfigValidatorTest, JWTConfigRequiresIssuerInProduction) {
     auth::JWTValidatorConfig config;
     config.jwks_url = "https://auth.example.com/jwks";
     config.expected_issuer = std::nullopt;  // No issuer configured
-    config.require_issuer_validation = false;
     
     auto result = ConfigValidator::validateJWTConfig(config, true);
     EXPECT_FALSE(result.valid);

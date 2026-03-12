@@ -121,7 +121,11 @@ public:
             }
             
             if (!config.expected_audience.has_value()) {
-                result.addWarning("JWT expected_audience not set - audience validation disabled");
+                if (config.require_audience_validation) {
+                    result.addError("JWT expected_audience is required in production mode");
+                } else {
+                    result.addWarning("JWT expected_audience not set - audience validation disabled");
+                }
             }
         } else {
             // In development, just warnings

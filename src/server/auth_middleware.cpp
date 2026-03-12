@@ -44,14 +44,12 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
     jwt_cfg.jwks_url = config.jwks_url;
     if (!config.expected_issuer.empty()) {
         jwt_cfg.expected_issuer = config.expected_issuer;
-    } else {
-        jwt_cfg.require_issuer_validation = false;
     }
+    jwt_cfg.require_issuer_validation = config.require_issuer_validation;
     if (!config.expected_audience.empty()) {
         jwt_cfg.expected_audience = config.expected_audience;
-    } else {
-        jwt_cfg.require_audience_validation = false;
     }
+    jwt_cfg.require_audience_validation = config.require_audience_validation;
     jwt_cfg.cache_ttl = config.jwks_cache_ttl;
     jwt_cfg.clock_skew = config.clock_skew;
     

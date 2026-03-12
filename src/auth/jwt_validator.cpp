@@ -78,6 +78,13 @@ JWTValidator::JWTValidator(const JWTValidatorConfig& cfg)
     : cfg_(cfg)
     , jwks_url_(cfg.jwks_url)
     , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {
+    // Normalize empty string values to nullopt so empty strings are treated as 'unset'
+    if (cfg_.expected_issuer.has_value() && cfg_.expected_issuer->empty()) {
+        cfg_.expected_issuer = std::nullopt;
+    }
+    if (cfg_.expected_audience.has_value() && cfg_.expected_audience->empty()) {
+        cfg_.expected_audience = std::nullopt;
+    }
     if (cfg_.require_issuer_validation && !cfg_.expected_issuer.has_value()) {
         throw std::runtime_error("Issuer validation not configured");
     }
