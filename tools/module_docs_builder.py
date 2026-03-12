@@ -53,10 +53,11 @@ Exit codes
 
 import argparse
 import datetime
+import json
 import os
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -297,6 +298,85 @@ def write_page(path: Path, content: str, dry_run: bool = False) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Secondary-doc coverage analysis (for issue reporter)
+# ---------------------------------------------------------------------------
+
+
+def scan_secondary_coverage(
+    repo_root: Path,
+    module_files: Dict[str, List[str]],
+) -> Dict[str, Dict[str, Any]]:
+    """Check each module for human-authored secondary documentation.
+
+    A file is considered "human-authored" when it lives in
+    ``docs/de/<module>/`` **and** is not ``PRIMARY_SOURCES.md``.
+
+    Returns a dict mapping module → coverage info dict with keys:
+      - ``files``             list of primary source paths
+      - ``de_human_authored`` count of human-authored DE files
+      - ``en_human_authored`` count of human-authored EN files
+    """
+    coverage: Dict[str, Dict[str, Any]] = {}
+
+    for module, files in module_files.items():
+        de_dir = repo_root / "docs" / "de" / module
+        en_dir = repo_root / "docs" / "en" / module
+
+        de_human = (
+            [
+                f.name
+                for f in de_dir.glob("*.md")
+                if f.name != "PRIMARY_SOURCES.md"
+            ]
+            if de_dir.exists()
+            else []
+        )
+        en_human = (
+            [
+                f.name
+                for f in en_dir.glob("*.md")
+                if f.name != "PRIMARY_SOURCES.md"
+            ]
+            if en_dir.exists()
+            else []
+        )
+
+        coverage[module] = {
+            "files": files,
+            "de_human_authored": len(de_human),
+            "en_human_authored": len(en_human),
+            "de_human_files": sorted(de_human),
+            "en_human_files": sorted(en_human),
+        }
+
+    return coverage
+
+
+def _build_issues_report(
+    module_files: Dict[str, List[str]],
+    coverage: Dict[str, Dict[str, Any]],
+    new_modules: List[str],
+    today: str,
+) -> Dict[str, Any]:
+    """Build the issues-JSON payload for the issue reporter."""
+    underdocumented = sorted(
+        module
+        for module, info in coverage.items()
+        if info["de_human_authored"] == 0
+    )
+    return {
+        "generated_at": today,
+        "generator": f"{TOOL_NAME} v{TOOL_VERSION}",
+        "modules": {
+            module: coverage[module]
+            for module in sorted(module_files.keys())
+        },
+        "new_modules": sorted(new_modules),
+        "underdocumented_modules": underdocumented,
+    }
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -325,6 +405,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--quiet",
         action="store_true",
         help="Suppress informational output to stdout",
+    )
+    parser.add_argument(
+        "--issues-json",
+        metavar="PATH",
+        help=(
+            "Write a JSON report of underdocumented/new modules to this path "
+            "(consumed by tools/ci/module_docs_issue_reporter.py)"
+        ),
     )
     return parser
 
@@ -402,6 +490,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     written_de = 0
     written_en = 0
     skipped = 0
+    new_modules: List[str] = []
 
     for module in sorted(module_files.keys()):
         files = module_files[module]
@@ -409,8 +498,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         # --- German page ---
         de_content = generate_de_page(module, files, today)
         de_path = repo_root / "docs" / "de" / module / "PRIMARY_SOURCES.md"
+        de_is_new = not de_path.exists()
         if write_page(de_path, de_content, dry_run=args.dry_run):
             written_de += 1
+            if de_is_new:
+                new_modules.append(module)
         else:
             skipped += 1
 
@@ -421,6 +513,20 @@ def main(argv: Optional[List[str]] = None) -> int:
             written_en += 1
         else:
             skipped += 1
+
+    # --- Issues JSON (optional) ---
+    if args.issues_json:
+        coverage = scan_secondary_coverage(repo_root, module_files)
+        issues_report = _build_issues_report(module_files, coverage, new_modules, today)
+        issues_path = Path(args.issues_json)
+        issues_path.parent.mkdir(parents=True, exist_ok=True)
+        issues_path.write_text(
+            json.dumps(issues_report, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        if not args.quiet:
+            print(f"Issues report written    : {issues_path}")
+            print(f"Underdocumented modules  : {len(issues_report['underdocumented_modules'])}")
 
     # Console output.
     if not args.quiet:
@@ -444,7 +550,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     )
 
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

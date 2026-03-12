@@ -255,10 +255,19 @@ PR/Push → documentation-validation.yml
           ├── metadata-check
           ├── doc-header-check (changed-only)
           ├── drift-detection
+          │     └── [develop only] Issues für driftende/stale Sekundärdoku
           └── validation-summary
 
 Push to main/develop/release/* → primary-docs-index.yml
           └── Update docs/_generated/primary_index.json
+
+Push to develop (src/**/*.md | include/**/*.md) → module-docs-sync.yml
+          ├── module_docs_builder  → docs/de/<modul>/PRIMARY_SOURCES.md
+          │                          docs/en/<modul>/PRIMARY_SOURCES.md
+          │                          /tmp/module-findings.json
+          ├── changelog_updater   → CHANGELOG.md [Unreleased] fortschreiben
+          ├── git commit + push   → "docs: sync module docs [skip ci]"
+          └── module_docs_issue_reporter → Issues für neue/underdokumentierte Module
 ```
 
 **Skripte:**
@@ -271,6 +280,9 @@ Push to main/develop/release/* → primary-docs-index.yml
 | `scripts/doc-header-check.py` | Header-Schema-Validierung |
 | `scripts/drift-detector.py` | Drift Primary → Secondary |
 | `tools/primary_docs_indexer.py` | Primary-Doc-Inventar generieren |
+| `tools/module_docs_builder.py` | Modulweise PRIMARY_SOURCES.md generieren (DE + EN) |
+| `tools/ci/changelog_updater.py` | CHANGELOG.md [Unreleased] automatisch fortschreiben |
+| `tools/ci/module_docs_issue_reporter.py` | GitHub Issues für neue/underdokumentierte Module und Drift |
 
 ---
 
