@@ -4159,10 +4159,9 @@ if(THEMIS_BUILD_TESTS)
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
-        )
-        set_tests_properties(test_temporal_snapshot_manager PROPERTIES
-            LABELS "temporal;snapshot;isolation;unit"
-            TIMEOUT 60
+            PROPERTIES
+                LABELS "temporal;snapshot;isolation;unit"
+                TIMEOUT 60
         )
         message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
     endif()

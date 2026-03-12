@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB Theme - Menu Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); padding: 1rem 0;">
+        <div class="site-branding" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <h1 class="site-title" style="color: white; margin-bottom: 1rem;">ThemisDB</h1>
+            
+            <nav class="main-navigation">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Documentation</a>
+                        <ul>
+                            <li><a href="#">Getting Started</a></li>
+                            <li><a href="#">Installation Guide</a></li>
+                            <li><a href="#">API Reference</a></li>
+                            <li><a href="#">Examples</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Features</a>
+                        <ul>
+                            <li><a href="#">Multi-Model Database</a></li>
+                            <li><a href="#">AI Integration</a></li>
+                            <li><a href="#">Query Language (AQL)</a></li>
+                            <li><a href="#">Performance</a></li>
+                            <li><a href="#">Security</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Resources</a>
+                        <ul>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Tutorials</a></li>
+                            <li><a href="#">Community</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main style="max-width: 1200px; margin: 3rem auto; padding: 0 2rem;">
+        <h1>Menu Hover Test</h1>
+        <p style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 2rem;">
+            Hover over the menu items above (Documentation, Features, Resources) to test the dropdown behavior.
+        </p>
+        
+        <div style="background: #f8f9fa; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">✅ Improvements Made</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                    <span style="position: absolute; left: 0;">✓</span>
+                    Removed the gap between parent menu item and dropdown (margin-top: 0)
+                </li>
+                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                    <span style="position: absolute; left: 0;">✓</span>
+                    Added invisible bridge area to prevent dropdown from closing when moving mouse
+                </li>
+                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                    <span style="position: absolute; left: 0;">✓</span>
+                    Enhanced JavaScript with hover delay for smoother experience
+                </li>
+                <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                    <span style="position: absolute; left: 0;">✓</span>
+                    Maintained smooth animations and transitions
+                </li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">How to Test</h2>
+            <ol style="color: #7f8c8d; line-height: 1.8;">
+                <li>Hover over "Documentation", "Features", or "Resources" in the menu</li>
+                <li>Move your mouse slowly from the parent item toward the dropdown menu</li>
+                <li>The dropdown should stay visible as you move between items</li>
+                <li>The menu should not disappear until you move your mouse away from both the parent and dropdown</li>
+            </ol>
+        </div>
+    </main>
+    
+    <script src="js/navigation.js"></script>
+</body>
+</html>

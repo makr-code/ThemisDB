@@ -128,6 +128,9 @@ include(cmake/Versions.cmake)
 # 2. Compiler setup
 include(cmake/CompilerOptions.cmake)
 
+# 2.5. Compiler cache launcher (sccache/ccache)
+include(cmake/CompilerCache.cmake)
+
 # 3. Platform detection (OS, CPU, triplet)
 include(cmake/platforms/PlatformDetection.cmake)
 
