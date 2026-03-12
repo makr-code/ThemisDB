@@ -31,6 +31,7 @@
 #include <algorithm>
 #include <chrono>
 #include <limits>
+#include <stdexcept>
 #include <thread>
 
 namespace themisdb {
@@ -79,7 +80,13 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table) {
     RetentionStats result;
 
     while (attempts < max_attempts) {
-        result = applyPolicy(table, policy);
+        try {
+            result = applyPolicy(table, policy);
+        } catch (const std::exception& e) {
+            result.errors.push_back(std::string("applyPolicy exception: ") + e.what());
+        } catch (...) {
+            result.errors.push_back("applyPolicy: unknown exception");
+        }
         if (result.errors.empty()) {
             break;
         }
@@ -102,7 +109,13 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
     RetentionStats result;
 
     while (attempts < max_attempts) {
-        result = applyPolicy(table, policy);
+        try {
+            result = applyPolicy(table, policy);
+        } catch (const std::exception& e) {
+            result.errors.push_back(std::string("applyPolicy exception: ") + e.what());
+        } catch (...) {
+            result.errors.push_back("applyPolicy: unknown exception");
+        }
         if (result.errors.empty()) {
             break;
         }
@@ -231,11 +244,16 @@ static uint64_t estimateVersionSize(const VersionedDocument& v) {
            32u; // overhead: timestamps + metadata fields
 }
 
-/// Resolve the archive tag: explicit archive_tag > compliance_tag > table name.
+/// Resolve the archive tag:
+///   1. Explicit archive_tag  → used as-is (backwards compatible).
+///   2. compliance_tag only   → "<table_name>:<compliance_tag>" so that
+///      getArchivedRecords("<table>") (which filters by tags containing the
+///      table name) can still retrieve these records.
+///   3. Neither set           → table name alone.
 static std::string resolveArchiveTag(const RetentionPolicy& policy,
                                      const std::string& table_name) {
     if (!policy.archive_tag.empty())    return policy.archive_tag;
-    if (!policy.compliance_tag.empty()) return policy.compliance_tag;
+    if (!policy.compliance_tag.empty()) return table_name + ":" + policy.compliance_tag;
     return table_name;
 }
 
@@ -282,14 +300,15 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
             return stats;
         }
 
-        // Collect all historical (non-current) versions across all keys
-        // together with their estimated sizes.
-        struct HistEntry {
-            std::string key;
-            VersionedDocument doc;
-            uint64_t size_bytes;
+        // Collect lightweight metadata for every non-current version so we can
+        // sort and decide what to delete without holding copies of all documents.
+        struct HistMeta {
+            std::string   key;
+            Timestamp     sys_start;
+            Timestamp     sys_end;
+            uint64_t      size_bytes;
         };
-        std::vector<HistEntry> all_historical;
+        std::vector<HistMeta> all_historical;
         uint64_t total_size = 0;
 
         for (const auto& key : keys) {
@@ -299,7 +318,7 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
                 if (v.isCurrent()) continue;
                 uint64_t sz = estimateVersionSize(v);
                 total_size += sz;
-                all_historical.push_back({key, v, sz});
+                all_historical.push_back({key, v.sys_time.start, v.sys_time.end, sz});
             }
         }
 
@@ -312,41 +331,65 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
 
         // Sort oldest first (by sys_start ascending) – delete oldest first.
         std::sort(all_historical.begin(), all_historical.end(),
-                  [](const HistEntry& a, const HistEntry& b) {
-                      return a.doc.sys_time.start < b.doc.sys_time.start;
+                  [](const HistMeta& a, const HistMeta& b) {
+                      return a.sys_start < b.sys_start;
                   });
 
         size_t batch_remaining = batchLimit(policy);
 
-        for (auto& entry : all_historical) {
+        for (const auto& meta : all_historical) {
             if (total_size <= policy.max_storage_bytes) break;
             if (batch_remaining == 0) break;
 
             // Compliance minimum: skip versions that are too young to delete.
-            if (isProtected(entry.doc)) continue;
-
-            if (policy.archive_before_delete) {
-                ArchivedRecord ar;
-                ar.document    = entry.doc;
-                ar.archive_tag = resolveArchiveTag(policy, table.tableName());
-                ar.archived_at = now();
-                std::lock_guard<std::mutex> lock(mutex_);
-                archive_.push_back(std::move(ar));
-                ++stats.versions_archived;
+            // We use sys_start as the version birth time for the guard.
+            if (policy.minimum_retention_period.count() > 0 &&
+                meta.sys_start > min_keep_before) {
+                continue;
             }
 
-            Timestamp del_start = entry.doc.sys_time.start;
-            Timestamp del_end   = entry.doc.sys_time.end;
-            table.purgeHistoricalVersions(
-                entry.key, [del_start, del_end](const VersionedDocument& v) {
-                    return v.sys_time.start == del_start &&
-                           v.sys_time.end == del_end;
+            // Archive the document before purging, if required.
+            if (policy.archive_before_delete) {
+                // Retrieve the full document only when we actually need it.
+                auto history = table.getHistory(meta.key);
+                for (const auto& v : history) {
+                    if (v.sys_time.start == meta.sys_start &&
+                        v.sys_time.end   == meta.sys_end) {
+                        ArchivedRecord ar;
+                        ar.document    = v;
+                        ar.archive_tag = resolveArchiveTag(policy, table.tableName());
+                        ar.archived_at = now();
+                        std::lock_guard<std::mutex> lock(mutex_);
+                        archive_.push_back(std::move(ar));
+                        ++stats.versions_archived;
+                        break;
+                    }
+                }
+            }
+
+            // Use a countdown predicate so that versions sharing identical
+            // sys_time intervals (e.g. millisecond-resolution collisions) do not
+            // cause more than one version to be removed per meta entry.
+            size_t remaining_to_delete = 1;
+            Timestamp del_start = meta.sys_start;
+            Timestamp del_end   = meta.sys_end;
+            size_t deleted = table.purgeHistoricalVersions(
+                meta.key,
+                [del_start, del_end, &remaining_to_delete](const VersionedDocument& v) -> bool {
+                    if (remaining_to_delete == 0) return false;
+                    if (v.sys_time.start == del_start && v.sys_time.end == del_end) {
+                        --remaining_to_delete;
+                        return true;
+                    }
+                    return false;
                 });
 
-            total_size -= entry.size_bytes;
-            stats.space_freed_bytes += entry.size_bytes;
-            ++stats.versions_deleted;
-            --batch_remaining;
+            if (deleted > 0) {
+                total_size -= meta.size_bytes;
+                stats.space_freed_bytes += meta.size_bytes;
+                ++stats.versions_deleted;
+                --batch_remaining;
+            }
         }
 
         auto t_end = std::chrono::steady_clock::now();

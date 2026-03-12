@@ -319,19 +319,49 @@ TEST_F(RetentionManagerTest, StorageBased_UnderLimit_DeletesNothing) {
 
 TEST_F(RetentionManagerTest, StorageBased_OverLimit_DeletesOldestFirst) {
     SystemVersionedTable t{"tbl", "node_a"};
-    populateHistory(t, 5); // 1 current + 5 historical
+    // Insert 5 updates; sleep between some to ensure distinct timestamps.
+    t.insert("k1", {{"value", 0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    t.update("k1", {{"value", 1}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    t.update("k1", {{"value", 2}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    t.update("k1", {{"value", 3}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    t.update("k1", {{"value", 4}}); // current
+
+    // Capture all sys_start values in ascending order before enforcement.
+    auto before = t.getHistory("k1");
+    std::sort(before.begin(), before.end(), [](const VersionedDocument& a, const VersionedDocument& b) {
+        return a.sys_time.start < b.sys_time.start;
+    });
+    ASSERT_EQ(before.size(), 5u); // 4 historical + 1 current
+
+    // Allow only 1 historical version to survive besides the current row.
+    // Compute max_storage_bytes that would hold at most 1 historical entry.
+    uint64_t one_entry_approx = before[0].key.size() + before[0].data.dump().size() + 32 + 10;
 
     RetentionPolicy policy;
     policy.type              = RetentionType::STORAGE_BASED;
-    // Set max_storage_bytes to 1 byte so any historical data exceeds the limit,
-    // forcing deletion of all eligible historical versions.
-    policy.max_storage_bytes = 1;
+    policy.max_storage_bytes = one_entry_approx;
 
     auto stats = mgr.enforceRetention(t, policy);
     EXPECT_GT(stats.versions_deleted, 0u);
     EXPECT_GT(stats.space_freed_bytes, 0u);
     // Current version must always survive
     EXPECT_GE(t.versionCount(), 1u);
+
+    // Verify that the oldest historical version(s) were deleted first.
+    // The remaining historical version should have a sys_start greater than
+    // the ones that were removed.
+    auto after = t.getHistory("k1");
+    for (const auto& remaining : after) {
+        if (remaining.isCurrent()) continue;
+        // Every remaining non-current version must have a sys_start newer than
+        // the oldest entry in 'before' that we expect to have been deleted.
+        // before[0] is the oldest historical version; it must be gone.
+        EXPECT_GT(remaining.sys_time.start, before[0].sys_time.start);
+    }
 }
 
 TEST_F(RetentionManagerTest, StorageBased_ZeroLimit_IsNoop) {
@@ -424,10 +454,15 @@ TEST_F(RetentionManagerTest, ComplianceTag_AppearsInArchivedRecords) {
 
     auto archived = mgr.getArchivedRecords();
     EXPECT_GT(archived.size(), 0u);
-    // When archive_tag is empty the compliance_tag is used as fallback
+    // When archive_tag is empty the compliance_tag is combined with the table name
+    // so that getArchivedRecords("<table>") can still locate these records.
     for (const auto& rec : archived) {
-        EXPECT_EQ(rec.archive_tag, "GDPR");
+        EXPECT_EQ(rec.archive_tag, "tbl:GDPR");
     }
+
+    // Verify that getArchivedRecords("tbl") returns the same records.
+    auto by_table = mgr.getArchivedRecords("tbl");
+    EXPECT_EQ(by_table.size(), archived.size());
 }
 
 TEST_F(RetentionManagerTest, ComplianceTag_ExplicitArchiveTagTakesPrecedence) {

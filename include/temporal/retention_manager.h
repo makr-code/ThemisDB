@@ -79,8 +79,10 @@ struct RetentionPolicy {
     std::function<bool(const VersionedDocument&)> should_keep;
 
     // --- Compliance ---
-    /// Regulatory label attached to this policy (e.g. "GDPR", "HIPAA").
-    /// Informational: recorded in archived records and cumulative statistics.
+    /// Regulatory label for this policy (e.g. "GDPR", "HIPAA").
+    /// Used as the archive_tag fallback (prefixed with the table name so that
+    /// getArchivedRecords("<table>") can still locate the records) and
+    /// propagated to ArchivedRecord::archive_tag when archive_before_delete is set.
     std::string compliance_tag;
 
     /// Minimum age a version must reach before it may be deleted by this
