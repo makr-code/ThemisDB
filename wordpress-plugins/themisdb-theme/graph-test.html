@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB Graph Navigation Test</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .test-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .test-info h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .test-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .test-info li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .test-info li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .legend {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+        
+        .legend h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .legend-item {
+            display: inline-block;
+            margin-right: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .legend-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Graph Navigation Test</h1>
+        
+        <div class="test-info">
+            <h2>Was wurde behoben?</h2>
+            <ul>
+                <li>Graph-Navigation zeigt jetzt WordPress-Beiträge und Seiten an</li>
+                <li>Kategorien werden als Knoten dargestellt</li>
+                <li>Schlagwörter (Tags) werden visualisiert</li>
+                <li>Beziehungen zwischen Posts, Kategorien und Tags werden angezeigt</li>
+                <li>Hover-Tooltips zeigen detaillierte Informationen</li>
+                <li>Interaktive Force-directed Graph Visualisierung mit D3.js</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 3rem 0;">
+            <button class="demo-button" onclick="openGraphDemo()">
+                📊 Graph Navigation Öffnen
+            </button>
+            <p style="color: #7f8c8d; margin-top: 1rem;">
+                Klicken Sie auf den Button, um die Graph-Navigation zu testen
+            </p>
+        </div>
+        
+        <div class="legend">
+            <h3>Legende der Knotentypen</h3>
+            <div class="legend-item">
+                <span class="legend-icon">🏠</span>
+                <strong>Home</strong> - Startseite
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">📁</span>
+                <strong>Category</strong> - Kategorien (Blau)
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🏷️</span>
+                <strong>Tag</strong> - Schlagwörter (Orange)
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">📄</span>
+                <strong>Page</strong> - Seiten (Grün)
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">📝</span>
+                <strong>Post</strong> - Beiträge (Rot)
+            </div>
+        </div>
+        
+        <div style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-top: 2rem;">
+            <h3 style="color: #2c3e50; margin-bottom: 1rem;">Technische Details</h3>
+            <p style="color: #7f8c8d; line-height: 1.8;">
+                Die Graph-Navigation verwendet nun eine PHP-Funktion (<code>themisdb_get_graph_data()</code>), 
+                die WordPress-Inhalte abruft und an JavaScript übergibt. Die Daten werden per 
+                <code>wp_localize_script()</code> als <code>themisdbGraphData</code> bereitgestellt.
+            </p>
+            <p style="color: #7f8c8d; line-height: 1.8; margin-top: 1rem;">
+                Das JavaScript überprüft zuerst, ob WordPress-Daten verfügbar sind, und erstellt 
+                daraus eine interaktive Force-directed Graph Visualisierung. Falls keine Daten 
+                vorhanden sind, wird auf die menübasierte Darstellung zurückgegriffen.
+            </p>
+        </div>
+        
+        <div style="background: #fff3cd; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; border-left: 4px solid #f39c12;">
+            <h3 style="color: #2c3e50; margin-bottom: 1rem;">⚠️ Hinweis für Testen</h3>
+            <p style="color: #7f8c8d; line-height: 1.8;">
+                Um die Graph-Navigation vollständig zu testen, muss das Theme in einer echten 
+                WordPress-Installation aktiviert sein. In dieser Demo-Umgebung werden Mock-Daten 
+                verwendet, um die Funktionalität zu demonstrieren.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Mock WordPress data for demonstration
+        window.themisdbGraphData = {
+            nodes: [
+                { id: 'home', label: 'ThemisDB', url: '/', type: 'home', level: 0 },
+                { id: 'cat_1', label: 'Database', url: '/category/database', type: 'category', level: 1, count: 5 },
+                { id: 'cat_2', label: 'AI/ML', url: '/category/ai-ml', type: 'category', level: 1, count: 8 },
+                { id: 'cat_3', label: 'Tutorials', url: '/category/tutorials', type: 'category', level: 1, count: 12 },
+                { id: 'tag_1', label: 'Performance', url: '/tag/performance', type: 'tag', level: 1, count: 3 },
+                { id: 'tag_2', label: 'Security', url: '/tag/security', type: 'tag', level: 1, count: 4 },
+                { id: 'tag_3', label: 'Neo4j', url: '/tag/neo4j', type: 'tag', level: 1, count: 2 },
+                { id: 'page_1', label: 'About', url: '/about', type: 'page', level: 1, excerpt: 'Learn more about ThemisDB project' },
+                { id: 'page_2', label: 'Documentation', url: '/docs', type: 'page', level: 1, excerpt: 'Complete documentation and guides' },
+                { id: 'post_1', label: 'Getting Started with ThemisDB', url: '/post/getting-started', type: 'post', level: 2, date: '2026-01-05', excerpt: 'A comprehensive guide to getting started with ThemisDB database system' },
+                { id: 'post_2', label: 'AI Integration Features', url: '/post/ai-features', type: 'post', level: 2, date: '2026-01-06', excerpt: 'Exploring the powerful AI and LLM integration capabilities' },
+                { id: 'post_3', label: 'Query Performance Optimization', url: '/post/performance', type: 'post', level: 2, date: '2026-01-07', excerpt: 'Tips and tricks for optimizing query performance' },
+                { id: 'post_4', label: 'Security Best Practices', url: '/post/security', type: 'post', level: 2, date: '2026-01-08', excerpt: 'Essential security practices for ThemisDB deployments' }
+            ],
+            links: [
+                { source: 'home', target: 'cat_1', type: 'contains' },
+                { source: 'home', target: 'cat_2', type: 'contains' },
+                { source: 'home', target: 'cat_3', type: 'contains' },
+                { source: 'home', target: 'tag_1', type: 'tagged' },
+                { source: 'home', target: 'tag_2', type: 'tagged' },
+                { source: 'home', target: 'tag_3', type: 'tagged' },
+                { source: 'home', target: 'page_1', type: 'page_of' },
+                { source: 'home', target: 'page_2', type: 'page_of' },
+                { source: 'cat_3', target: 'post_1', type: 'has_post' },
+                { source: 'cat_2', target: 'post_2', type: 'has_post' },
+                { source: 'cat_1', target: 'post_3', type: 'has_post' },
+                { source: 'cat_1', target: 'post_4', type: 'has_post' },
+                { source: 'tag_1', target: 'post_3', type: 'has_tag' },
+                { source: 'tag_2', target: 'post_4', type: 'has_tag' },
+                { source: 'tag_3', target: 'post_2', type: 'has_tag' }
+            ]
+        };
+        
+        function openGraphDemo() {
+            // Simulate opening the graph overlay
+            alert('In einer WordPress-Installation würde hier die Graph-Navigation geöffnet werden.\n\nDie Navigation würde zeigen:\n• ' + window.themisdbGraphData.nodes.length + ' Knoten (Posts, Pages, Categories, Tags)\n• ' + window.themisdbGraphData.links.length + ' Verbindungen\n\nÖffnen Sie die Browser-Konsole für mehr Details.');
+            console.log('Graph Data:', window.themisdbGraphData);
+        }
+    </script>
+    
+    <script src="js/graph-navigation.js"></script>
+</body>
+</html>

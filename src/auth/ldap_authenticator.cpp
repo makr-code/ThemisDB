@@ -25,6 +25,7 @@
 
 #include "auth/ldap_authenticator.h"
 #include "auth/auth_audit_logger.h"
+#include "auth/ldap_connection_pool.h"
 #include "utils/audit_logger.h"
 #include "security/pii_redaction_policy.h"
 
@@ -169,7 +170,24 @@ bool LDAPAuthenticator::initialize(const LDAPConfig& config)
     config_      = config;
     initialized_ = true;
 
-    spdlog::info("LDAPAuthenticator: initialized for server {}", config_.server_url);
+    // Create the connection pool if it is enabled.
+    if (config_.pool_enabled) {
+        LDAPPoolConfig pool_cfg;
+        pool_cfg.server_url                 = config_.server_url;
+        pool_cfg.port                       = config_.port;
+        pool_cfg.use_tls                    = config_.use_tls;
+        pool_cfg.connection_timeout_seconds = config_.connection_timeout_seconds;
+        pool_cfg.search_timeout_seconds     = config_.search_timeout_seconds;
+        pool_cfg.min_idle                   = config_.pool_min_idle;
+        pool_cfg.max_size                   = config_.pool_max_size;
+        pool_cfg.checkout_timeout_ms        = config_.pool_checkout_timeout_ms;
+
+        pool_ = std::make_unique<LDAPConnectionPool>(pool_cfg);
+    }
+
+    spdlog::info("LDAPAuthenticator: initialized for server {} (pool={})",
+                 config_.server_url,
+                 config_.pool_enabled ? "enabled" : "disabled");
     return true;
 }
 
@@ -335,18 +353,20 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 {
     AuthAuditLogger audit(audit_logger_);
 
-    // ldap_init is deprecated in newer SDKs but still universally available
-    LDAP* ld = ldap_init(
-        const_cast<PCHAR>(config_.server_url.c_str()),
-        config_.port > 0 ? static_cast<ULONG>(config_.port) : DEFAULT_LDAP_PORT
-    );
-    if (!ld) {
-        const std::string msg = "ldap_init failed";
-        spdlog::error("LDAPAuthenticator: {}", msg);
-        audit.logLDAPFailure(username, msg);
-        return LDAPAuthResult::Failed("LDAP connection failed");
-    }
+    // -----------------------------------------------------------------------
+    // Obtain an LDAP connection — from the pool if available, otherwise open
+    // a new per-call connection.
+    // -----------------------------------------------------------------------
 
+    std::unique_ptr<PooledConnection> pooled_conn;
+    LDAP* ld = nullptr;
+    bool  owns_connection = false;
+
+    if (pool_) {
+        pooled_conn = pool_->checkout();
+        if (pooled_conn) {
+            ld = pooled_conn->rawHandle();
+        }
     // Set search time limit (seconds)
     ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
     ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
@@ -364,14 +384,44 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
     }
 
-    // StartTLS if requested
-    if (config_.use_tls) {
-        const ULONG tls_result = ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr);
-        if (tls_result != LDAP_SUCCESS) {
-            spdlog::error("LDAPAuthenticator: StartTLS failed: {}", tls_result);
+    if (!ld) {
+        // ldap_init is deprecated in newer SDKs but still universally available
+        ld = ldap_init(
+            const_cast<PCHAR>(config_.server_url.c_str()),
+            config_.port > 0 ? static_cast<ULONG>(config_.port) : DEFAULT_LDAP_PORT
+        );
+        if (!ld) {
+            const std::string msg = "ldap_init failed";
+            spdlog::error("LDAPAuthenticator: {}", msg);
+            audit.logLDAPFailure(username, msg);
+            return LDAPAuthResult::Failed("LDAP connection failed");
+        }
+        owns_connection = true;
+
+        // Set search time limit (seconds)
+        ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
+        ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+
+        // Disable referral chasing
+        ULONG referrals_off = LDAP_OPT_OFF;
+        const ULONG referrals_result =
+            ldap_set_option(ld, LDAP_OPT_REFERRALS, static_cast<void*>(&referrals_off));
+        if (referrals_result != LDAP_SUCCESS) {
+            spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
+                          referrals_result);
             ldap_unbind(ld);
-            audit.logLDAPFailure(username, "tls_failed");
-            return LDAPAuthResult::Failed("LDAP TLS negotiation failed");
+            audit.logLDAPFailure(username, "disable_referrals_failed");
+            return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
+        }
+
+        if (config_.use_tls) {
+            const ULONG tls_result = ldap_start_tls_s(ld, nullptr, nullptr, nullptr, nullptr);
+            if (tls_result != LDAP_SUCCESS) {
+                spdlog::error("LDAPAuthenticator: StartTLS failed: {}", tls_result);
+                ldap_unbind(ld);
+                audit.logLDAPFailure(username, "tls_failed");
+                return LDAPAuthResult::Failed("LDAP TLS negotiation failed");
+            }
         }
     }
 
@@ -385,7 +435,11 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     if (bind_result != LDAP_SUCCESS) {
         spdlog::warn("LDAPAuthenticator: bind failed for DN '{}': {}",
                      dn, bind_result);
-        ldap_unbind(ld);
+        if (pooled_conn) {
+            pooled_conn->markStale();
+        } else if (owns_connection) {
+            ldap_unbind(ld);
+        }
         audit.logLDAPFailure(username, "bind_failed");
         return LDAPAuthResult::Failed("LDAP bind failed: invalid credentials");
     }
@@ -435,7 +489,10 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         }
     }
 
-    ldap_unbind(ld);
+    if (owns_connection) {
+        ldap_unbind(ld);
+    }
+    // pooled_conn destructor returns the connection to the pool.
 
     const auto roles = mapGroupsToRoles(groups);
     audit.logLDAPSuccess(username, dn);
@@ -455,74 +512,97 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 {
     AuthAuditLogger audit(audit_logger_);
 
+    // -----------------------------------------------------------------------
+    // Obtain an LDAP connection — from the pool if available, otherwise open
+    // a new per-call connection (pool-disabled or pool exhausted path).
+    // -----------------------------------------------------------------------
+
+    std::unique_ptr<PooledConnection> pooled_conn;
     LDAP* ld = nullptr;
-    int rc = ldap_initialize(&ld, config_.server_url.c_str());
-    if (rc != LDAP_SUCCESS || !ld) {
-        spdlog::error("LDAPAuthenticator: ldap_initialize failed: {}",
-                      ldap_err2string(rc));
-        audit.logLDAPFailure(username, "connection_failed");
-        return LDAPAuthResult::Failed("LDAP connection failed");
-    }
+    bool  owns_connection = false;  // true when we must unbind on exit
 
-    // Protocol version
-    int version = LDAP_VERSION3;
-    ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &version);
-
-    // Connection timeout
-    struct timeval conn_tv{};
-    conn_tv.tv_sec  = config_.connection_timeout_seconds;
-    conn_tv.tv_usec = 0;
-    ldap_set_option(ld, LDAP_OPT_NETWORK_TIMEOUT, &conn_tv);
-
-    // Search timeout
-    struct timeval srch_tv{};
-    srch_tv.tv_sec  = config_.search_timeout_seconds;
-    srch_tv.tv_usec = 0;
-    ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
-
-    // Disable referral chasing — following attacker-controlled referrals can
-    // redirect authentication to a rogue LDAP server.
-    int referrals_off = LDAP_OPT_OFF;
-    rc = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
-    if (rc != LDAP_SUCCESS) {
-        spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
-                      ldap_err2string(rc));
-        ldap_unbind_ext_s(ld, nullptr, nullptr);
-        audit.logLDAPFailure(username, "disable_referrals_failed");
-        return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
-    }
-
-    // StartTLS if requested
-    if (config_.use_tls) {
-        rc = ldap_start_tls_s(ld, nullptr, nullptr);
-        if (rc != LDAP_SUCCESS) {
-            spdlog::error("LDAPAuthenticator: StartTLS failed: {}",
-                          ldap_err2string(rc));
-            ldap_unbind_ext_s(ld, nullptr, nullptr);
-            audit.logLDAPFailure(username, "tls_failed");
-            return LDAPAuthResult::Failed("LDAP TLS negotiation failed");
+    if (pool_) {
+        pooled_conn = pool_->checkout();
+        if (pooled_conn) {
+            ld = pooled_conn->rawHandle();
         }
     }
 
-    // Simple bind with user DN + password
+    if (!ld) {
+        // Fall back to a fresh per-call connection (pool disabled, exhausted,
+        // or LDAP not compiled in path will hit the #else stub instead).
+        int rc2 = ldap_initialize(&ld, config_.server_url.c_str());
+        if (rc2 != LDAP_SUCCESS || !ld) {
+            spdlog::error("LDAPAuthenticator: ldap_initialize failed: {}",
+                          ldap_err2string(rc2));
+            audit.logLDAPFailure(username, "connection_failed");
+            return LDAPAuthResult::Failed("LDAP connection failed");
+        }
+        owns_connection = true;
+
+        int version = LDAP_VERSION3;
+        ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &version);
+
+        struct timeval conn_tv{};
+        conn_tv.tv_sec  = config_.connection_timeout_seconds;
+        conn_tv.tv_usec = 0;
+        ldap_set_option(ld, LDAP_OPT_NETWORK_TIMEOUT, &conn_tv);
+
+        struct timeval srch_tv{};
+        srch_tv.tv_sec  = config_.search_timeout_seconds;
+        srch_tv.tv_usec = 0;
+        ldap_set_option(ld, LDAP_OPT_TIMEOUT, &srch_tv);
+
+        int referrals_off = LDAP_OPT_OFF;
+        rc2 = ldap_set_option(ld, LDAP_OPT_REFERRALS, &referrals_off);
+        if (rc2 != LDAP_SUCCESS) {
+            spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
+                          ldap_err2string(rc2));
+            ldap_unbind_ext_s(ld, nullptr, nullptr);
+            audit.logLDAPFailure(username, "disable_referrals_failed");
+            return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
+        }
+
+        if (config_.use_tls) {
+            rc2 = ldap_start_tls_s(ld, nullptr, nullptr);
+            if (rc2 != LDAP_SUCCESS) {
+                spdlog::error("LDAPAuthenticator: StartTLS failed: {}",
+                              ldap_err2string(rc2));
+                ldap_unbind_ext_s(ld, nullptr, nullptr);
+                audit.logLDAPFailure(username, "tls_failed");
+                return LDAPAuthResult::Failed("LDAP TLS negotiation failed");
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Bind with the user's DN + password
+    // -----------------------------------------------------------------------
+
     struct berval cred{};
     cred.bv_val = const_cast<char*>(password.c_str());
     cred.bv_len = static_cast<ber_len_t>(password.size());
 
-    rc = ldap_sasl_bind_s(ld, dn.c_str(), LDAP_SASL_SIMPLE,
-                          &cred, nullptr, nullptr, nullptr);
+    int rc = ldap_sasl_bind_s(ld, dn.c_str(), LDAP_SASL_SIMPLE,
+                              &cred, nullptr, nullptr, nullptr);
     if (rc != LDAP_SUCCESS) {
         spdlog::warn("LDAPAuthenticator: bind failed for DN '{}': {}",
                      dn, ldap_err2string(rc));
-        ldap_unbind_ext_s(ld, nullptr, nullptr);
+        if (pooled_conn) {
+            pooled_conn->markStale();
+        } else if (owns_connection) {
+            ldap_unbind_ext_s(ld, nullptr, nullptr);
+        }
         audit.logLDAPFailure(username, "bind_failed");
         return LDAPAuthResult::Failed("LDAP bind failed: invalid credentials");
     }
 
+    // -----------------------------------------------------------------------
     // Optional group search
+    // -----------------------------------------------------------------------
+
     std::vector<std::string> groups;
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
-        // Build group filter with {dn} substituted and filter-escaped (RFC 4515).
         const std::string filter = buildGroupSearchFilter(dn);
 
         const std::string search_base =
@@ -572,7 +652,14 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         }
     }
 
-    ldap_unbind_ext_s(ld, nullptr, nullptr);
+    // -----------------------------------------------------------------------
+    // Release connection — pool handles it via RAII; per-call connections are
+    // explicitly unbound here.
+    // -----------------------------------------------------------------------
+    if (owns_connection) {
+        ldap_unbind_ext_s(ld, nullptr, nullptr);
+    }
+    // pooled_conn destructor returns the connection to the pool.
 
     const auto roles = mapGroupsToRoles(groups);
     audit.logLDAPSuccess(username, dn);

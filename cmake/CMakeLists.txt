@@ -1952,6 +1952,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/ldap_authenticator.cpp
+    ../src/auth/ldap_connection_pool.cpp
     ../src/auth/mtls_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
@@ -4159,10 +4160,9 @@ if(THEMIS_BUILD_TESTS)
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
-        )
-        set_tests_properties(test_temporal_snapshot_manager PROPERTIES
-            LABELS "temporal;snapshot;isolation;unit"
-            TIMEOUT 60
+            PROPERTIES
+                LABELS "temporal;snapshot;isolation;unit"
+                TIMEOUT 60
         )
         message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
     endif()
