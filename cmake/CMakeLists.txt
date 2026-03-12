@@ -1952,6 +1952,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/ldap_authenticator.cpp
+    ../src/auth/ldap_connection_pool.cpp
     ../src/auth/mtls_authenticator.cpp
     ../src/auth/saml_authenticator.cpp
     ../src/auth/oauth_device_flow.cpp
