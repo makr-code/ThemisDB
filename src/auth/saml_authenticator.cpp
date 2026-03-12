@@ -471,6 +471,283 @@ pugi::xml_node findSignature(const pugi::xml_node& node) {
 } // anonymous namespace
 
 // ============================================================================
+// decryptAssertion – XML Encryption (XMLEnc) assertion decryption
+// Supports AES-128-CBC / AES-256-CBC data encryption and
+// RSA-OAEP (rsa-oaep-mgf1p) / RSA-PKCS1-v1.5 key transport.
+// IV is the first block_size bytes of the CipherValue (per XML Enc §5.2).
+// ============================================================================
+
+std::string SAMLAuthenticator::decryptAssertion(
+        const pugi::xml_node& encrypted_assertion_node) const
+{
+    // ----------------------------------------------------------------
+    // Step 1: Validate that a private key loader is configured
+    // ----------------------------------------------------------------
+    if (!config_.sp_private_key_loader) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "No SP private key loader configured. "
+                         "Set SAMLConfig::sp_private_key_loader to a callback that loads "
+                         "the SP private key from your HSM, KMS, or secrets manager.");
+    }
+
+    const std::string sp_key_pem = config_.sp_private_key_loader();
+    if (sp_key_pem.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "SP private key loader returned an empty string. "
+                         "Ensure the key is available in the configured secure store.");
+    }
+
+    // ----------------------------------------------------------------
+    // Step 2: Parse EncryptedData structure
+    // ----------------------------------------------------------------
+    auto enc_data_node = findChildByLocalName(encrypted_assertion_node, "EncryptedData");
+    if (!enc_data_node) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "EncryptedAssertion is missing the EncryptedData child element");
+    }
+
+    // Determine data encryption algorithm
+    std::string data_enc_alg;
+    {
+        auto enc_method = findChildByLocalName(enc_data_node, "EncryptionMethod");
+        if (enc_method)
+            data_enc_alg = enc_method.attribute("Algorithm").as_string("");
+    }
+
+    // Locate EncryptedKey (inside KeyInfo or anywhere in the subtree)
+    pugi::xml_node enc_key_node;
+    {
+        auto key_info = findChildByLocalName(enc_data_node, "KeyInfo");
+        if (key_info)
+            enc_key_node = findChildByLocalName(key_info, "EncryptedKey");
+        if (!enc_key_node)
+            enc_key_node = findDescendantByLocalName(enc_data_node, "EncryptedKey");
+    }
+    if (!enc_key_node) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "EncryptedData contains no EncryptedKey; "
+                         "key-agreement methods are not supported");
+    }
+
+    // Key transport algorithm
+    std::string key_transport_alg;
+    {
+        auto key_enc_method = findChildByLocalName(enc_key_node, "EncryptionMethod");
+        if (key_enc_method)
+            key_transport_alg = key_enc_method.attribute("Algorithm").as_string("");
+    }
+
+    // Extract base64-encoded encrypted symmetric key
+    std::string encrypted_key_b64;
+    {
+        auto key_cipher_data = findChildByLocalName(enc_key_node, "CipherData");
+        if (key_cipher_data) {
+            auto key_cipher_val = findChildByLocalName(key_cipher_data, "CipherValue");
+            if (key_cipher_val)
+                encrypted_key_b64 = nodeText(key_cipher_val);
+        }
+    }
+    if (encrypted_key_b64.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "EncryptedKey CipherValue is missing or empty");
+    }
+    encrypted_key_b64.erase(
+        std::remove_if(encrypted_key_b64.begin(), encrypted_key_b64.end(),
+                       [](char c){ return std::isspace((unsigned char)c); }),
+        encrypted_key_b64.end());
+
+    // Extract base64-encoded encrypted assertion
+    std::string encrypted_data_b64;
+    {
+        auto data_cipher_data = findChildByLocalName(enc_data_node, "CipherData");
+        if (data_cipher_data) {
+            auto data_cipher_val = findChildByLocalName(data_cipher_data, "CipherValue");
+            if (data_cipher_val)
+                encrypted_data_b64 = nodeText(data_cipher_val);
+        }
+    }
+    if (encrypted_data_b64.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "EncryptedData CipherValue is missing or empty");
+    }
+    encrypted_data_b64.erase(
+        std::remove_if(encrypted_data_b64.begin(), encrypted_data_b64.end(),
+                       [](char c){ return std::isspace((unsigned char)c); }),
+        encrypted_data_b64.end());
+
+    // ----------------------------------------------------------------
+    // Step 3: Load SP private key from the secure loader
+    // ----------------------------------------------------------------
+    BIO* key_bio = BIO_new_mem_buf(sp_key_pem.data(),
+                                   static_cast<int>(sp_key_pem.size()));
+    if (!key_bio) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Failed to allocate BIO for SP private key");
+    }
+
+    EVP_PKEY* sp_pkey = PEM_read_bio_PrivateKey(key_bio, nullptr, nullptr, nullptr);
+    BIO_free(key_bio);
+
+    if (!sp_pkey) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Failed to parse SP private key PEM. "
+                         "Ensure the key is a valid PKCS#8 or PKCS#1 RSA PEM.");
+    }
+
+    // ----------------------------------------------------------------
+    // Step 4: RSA-decrypt the symmetric (AES) key
+    // ----------------------------------------------------------------
+    auto encrypted_key_bytes = base64Decode(encrypted_key_b64);
+    if (encrypted_key_bytes.empty()) {
+        EVP_PKEY_free(sp_pkey);
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Base64 decode of EncryptedKey CipherValue failed");
+    }
+
+    // Select RSA padding: OAEP is the default; fall back to PKCS1-v1.5 when
+    // explicitly indicated by the algorithm URI.
+    const int rsa_padding = (key_transport_alg.find("rsa-1_5") != std::string::npos)
+                            ? RSA_PKCS1_PADDING      // RSA-PKCS1-v1.5 (legacy)
+                            : RSA_PKCS1_OAEP_PADDING; // RSA-OAEP (default per XMLEnc)
+
+    EVP_PKEY_CTX* rsa_ctx = EVP_PKEY_CTX_new(sp_pkey, nullptr);
+    EVP_PKEY_free(sp_pkey);
+
+    if (!rsa_ctx) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Failed to create EVP_PKEY_CTX for key transport decryption");
+    }
+
+    std::vector<uint8_t> symmetric_key;
+    {
+        bool ok = false;
+        if (EVP_PKEY_decrypt_init(rsa_ctx) > 0 &&
+            EVP_PKEY_CTX_set_rsa_padding(rsa_ctx, rsa_padding) > 0)
+        {
+            size_t key_len = 0;
+            if (EVP_PKEY_decrypt(rsa_ctx, nullptr, &key_len,
+                                 encrypted_key_bytes.data(),
+                                 encrypted_key_bytes.size()) > 0)
+            {
+                symmetric_key.resize(key_len);
+                if (EVP_PKEY_decrypt(rsa_ctx,
+                                     symmetric_key.data(), &key_len,
+                                     encrypted_key_bytes.data(),
+                                     encrypted_key_bytes.size()) > 0)
+                {
+                    symmetric_key.resize(key_len);
+                    ok = true;
+                }
+            }
+        }
+        EVP_PKEY_CTX_free(rsa_ctx);
+
+        if (!ok) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                             "Assertion decryption failed",
+                             "RSA decryption of assertion symmetric key failed. "
+                             "Verify the SP private key matches the SP certificate "
+                             "advertised in the SAML metadata.");
+        }
+    }
+
+    // ----------------------------------------------------------------
+    // Step 5: AES-CBC decrypt the assertion
+    // ----------------------------------------------------------------
+    auto encrypted_data_bytes = base64Decode(encrypted_data_b64);
+    if (encrypted_data_bytes.empty()) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Base64 decode of EncryptedData CipherValue failed");
+    }
+
+    // Select AES cipher from the data encryption algorithm URI.
+    // Per XML Encryption spec §5.2 the IV precedes the ciphertext in CipherValue.
+    const EVP_CIPHER* cipher = nullptr;
+    size_t required_key_size = 0;
+
+    if (data_enc_alg.find("aes256-cbc") != std::string::npos) {
+        cipher = EVP_aes_256_cbc();
+        required_key_size = 32;
+    } else if (data_enc_alg.find("aes128-cbc") != std::string::npos) {
+        cipher = EVP_aes_128_cbc();
+        required_key_size = 16;
+    } else if (data_enc_alg.empty()) {
+        // Infer from the decrypted key length when the algorithm is absent
+        if (symmetric_key.size() == 32) {
+            cipher = EVP_aes_256_cbc();
+            required_key_size = 32;
+        } else if (symmetric_key.size() == 16) {
+            cipher = EVP_aes_128_cbc();
+            required_key_size = 16;
+        }
+    }
+
+    if (!cipher) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Unsupported or unrecognized data encryption algorithm: '" +
+                         data_enc_alg + "'. Supported: aes128-cbc, aes256-cbc.");
+    }
+
+    if (symmetric_key.size() < required_key_size) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Decrypted symmetric key is shorter than required for the "
+                         "selected cipher (got " + std::to_string(symmetric_key.size()) +
+                         " bytes, need " + std::to_string(required_key_size) + ")");
+    }
+
+    const size_t iv_len = static_cast<size_t>(EVP_CIPHER_iv_length(cipher));
+    if (encrypted_data_bytes.size() <= iv_len) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "EncryptedData CipherValue is too short to contain an IV");
+    }
+
+    const uint8_t* iv         = encrypted_data_bytes.data();
+    const uint8_t* ciphertext = encrypted_data_bytes.data() + iv_len;
+    const int      ct_len     = static_cast<int>(encrypted_data_bytes.size() - iv_len);
+
+    EVP_CIPHER_CTX* aes_ctx = EVP_CIPHER_CTX_new();
+    if (!aes_ctx) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "Failed to allocate AES cipher context");
+    }
+
+    std::vector<uint8_t> plaintext(
+        static_cast<size_t>(ct_len) + static_cast<size_t>(EVP_CIPHER_block_size(cipher)));
+    int out1 = 0, out2 = 0;
+    bool aes_ok = (EVP_DecryptInit_ex(aes_ctx, cipher, nullptr,
+                                       symmetric_key.data(), iv) == 1) &&
+                  (EVP_DecryptUpdate(aes_ctx, plaintext.data(), &out1,
+                                     ciphertext, ct_len) == 1) &&
+                  (EVP_DecryptFinal_ex(aes_ctx, plaintext.data() + out1, &out2) == 1);
+    EVP_CIPHER_CTX_free(aes_ctx);
+
+    if (!aes_ok) {
+        THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                         "Assertion decryption failed",
+                         "AES-CBC decryption or PKCS#7 padding verification failed. "
+                         "The symmetric key or ciphertext may be corrupted.");
+    }
+
+    plaintext.resize(static_cast<size_t>(out1 + out2));
+    return std::string(reinterpret_cast<const char*>(plaintext.data()), plaintext.size());
+}
+
+// ============================================================================
 // processResponse – main entry point
 // ============================================================================
 
@@ -583,31 +860,49 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
     // Find Response-level signature
     auto response_sig = findSignature(response_node);
 
-    // Detect EncryptedAssertion elements (decryption is not yet supported)
+    // Detect EncryptedAssertion and attempt decryption when present.
+    // decryptAssertion() throws SAML_DECRYPTION_FAILED with an explicit
+    // diagnostic if the SP private key loader is not configured or decryption fails.
     auto encrypted_assertion_node = findDescendantByLocalName(response_node, "EncryptedAssertion");
+
+    // decrypted_assertion_doc keeps the decrypted XML document alive for the
+    // lifetime of this function so that assertion_node remains valid.
+    pugi::xml_document decrypted_assertion_doc;
+    pugi::xml_node assertion_node;
+
     if (encrypted_assertion_node) {
-        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
-                         "Encrypted assertion not supported",
-                         "SAMLResponse contains an EncryptedAssertion element. "
-                         "XML assertion decryption (requiring SP private key) is not yet implemented. "
-                         "Configure the IdP to send unencrypted assertions.");
-    }
+        const std::string decrypted_xml = decryptAssertion(encrypted_assertion_node);
+        auto dec_parse = decrypted_assertion_doc.load_string(decrypted_xml.c_str());
+        if (!dec_parse) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                             "Assertion decryption failed",
+                             std::string("Decrypted assertion is not valid XML: ") +
+                             dec_parse.description());
+        }
+        assertion_node = decrypted_assertion_doc.first_child();
+        if (!assertion_node) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED,
+                             "Assertion decryption failed",
+                             "Decrypted assertion XML document is empty");
+        }
+    } else {
+        // Find plain Assertion element
+        assertion_node = findDescendantByLocalName(response_node, "Assertion");
+        if (!assertion_node) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_MISSING_ASSERTION,
+                             "Invalid SAML response",
+                             "No Assertion element found in SAMLResponse");
+        }
 
-    // Find plain Assertion element
-    auto assertion_node = findDescendantByLocalName(response_node, "Assertion");
-    if (!assertion_node) {
-        THROW_AUTH_ERROR(AuthErrorCode::SAML_MISSING_ASSERTION,
-                         "Invalid SAML response",
-                         "No Assertion element found in SAMLResponse");
-    }
-
-    // Enforce require_encrypted_assertion: reject plain assertions when encryption is required
-    if (config_.require_encrypted_assertion) {
-        THROW_AUTH_ERROR(AuthErrorCode::AUTH_NOT_IMPLEMENTED,
-                         "Encrypted assertion required but not supported",
-                         "require_encrypted_assertion=true is set but XML assertion decryption "
-                         "(requiring SP private key) is not yet implemented. "
-                         "Set require_encrypted_assertion=false or integrate an XML decryption library.");
+        // Enforce require_encrypted_assertion: reject plain (unencrypted) assertions
+        // when the SP policy mandates encryption.
+        if (config_.require_encrypted_assertion) {
+            THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE,
+                             "Invalid SAML response",
+                             "require_encrypted_assertion=true but the SAMLResponse contains "
+                             "a plain (unencrypted) Assertion. Configure the IdP to send "
+                             "EncryptedAssertion elements and set sp_private_key_loader.");
+        }
     }
 
     auto assertion_sig = findSignature(assertion_node);

@@ -133,7 +133,10 @@ enum class AuthErrorCode {
     LDAP_INVALID_DN = 9409,
 
     // Password policy errors (9410-9419)
-    PASSWORD_POLICY_VIOLATION = 9410
+    PASSWORD_POLICY_VIOLATION = 9410,
+
+    // SAML assertion decryption errors (9411)
+    SAML_DECRYPTION_FAILED = 9411
 };
 
 /**
