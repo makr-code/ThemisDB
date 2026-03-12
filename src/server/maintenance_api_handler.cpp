@@ -174,5 +174,16 @@ json MaintenanceApiHandler::getHealth() {
     return orchestrator_->getHealthReport().toJson();
 }
 
+json MaintenanceApiHandler::listTaskHandlers() {
+    if (!orchestrator_) return errorResponse("Orchestrator not initialized");
+
+    auto handlers = orchestrator_->listTaskHandlers();
+    json arr = json::array();
+    for (const auto& [task_type, handler_name] : handlers) {
+        arr.push_back({{"task_type", task_type}, {"handler", handler_name}});
+    }
+    return {{"task_handlers", arr}, {"count", static_cast<int>(handlers.size())}};
+}
+
 } // namespace server
 } // namespace themis

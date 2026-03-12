@@ -28,6 +28,7 @@
 #include "maintenance/maintenance_task.h"
 #include "maintenance/maintenance_schedule.h"
 #include "maintenance/maintenance_health_report.h"
+#include "maintenance/i_maintenance_task_handler.h"
 #include "utils/expected.h"
 
 #include <string>
@@ -92,6 +93,7 @@ using HealthProbe = std::function<ModuleHealthSignal()>;
  *   Observability:
  *     GET    /api/v1/maintenance/status            – getStatus
  *     GET    /api/v1/maintenance/health            – getHealthReport
+ *     GET    /api/v1/maintenance/task-handlers     – listTaskHandlers
  */
 class DatabaseMaintenanceOrchestrator {
 public:
@@ -295,6 +297,31 @@ public:
     void registerHealthProbe(const std::string& module_name, HealthProbe probe);
 
     /**
+     * @brief Register a task handler for a specific task type.
+     *
+     * Modules call this to wire real execution logic into the orchestrator for
+     * their task type(s).  A previously registered handler for the same type
+     * is silently replaced.  Thread-safe.
+     *
+     * @param task_type  The task type this handler owns.
+     * @param handler    Non-null shared pointer to the handler implementation.
+     */
+    void registerTaskHandler(MaintenanceTaskType task_type,
+                             std::shared_ptr<IMaintenanceTaskHandler> handler);
+
+    /**
+     * @brief Return a map of registered task handlers.
+     *
+     * Keys are the string representation of the task type
+     * (see taskTypeToString()).  Values are the handler names
+     * (IMaintenanceTaskHandler::handlerName()).
+     *
+     * Used by GET /api/v1/maintenance/task-handlers to let operators
+     * diagnose which task types have no handler registered.
+     */
+    std::map<std::string, std::string> listTaskHandlers() const;
+
+    /**
      * @brief Resolve task execution order from task_dependencies using topological sort.
      *
      * When task_dependencies is empty, returns entry.tasks in positional order.
@@ -346,6 +373,10 @@ private:
     // Module health probes
     mutable std::mutex                                       probes_mutex_;
     std::map<std::string, HealthProbe>                       health_probes_;
+
+    // Registered task handlers (keyed by MaintenanceTaskType cast to int)
+    mutable std::mutex                                              handlers_mutex_;
+    std::map<int, std::shared_ptr<IMaintenanceTaskHandler>>         task_handlers_;
 
     std::atomic<bool>                                        running_{false};
     mutable std::atomic<uint64_t>                            id_counter_{0};

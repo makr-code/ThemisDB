@@ -2442,6 +2442,7 @@ namespace {
     // Observability
     MaintenanceStatusGet,           // GET    /api/v1/maintenance/status
     MaintenanceHealthGet,           // GET    /api/v1/maintenance/health
+    MaintenanceTaskHandlersGet,     // GET    /api/v1/maintenance/task-handlers
 
         NotFound
     };
@@ -3006,6 +3007,7 @@ namespace {
         static constexpr std::string_view kMaintBase{"/api/v1/maintenance/"};
         static constexpr std::string_view kMaintStatus{"/api/v1/maintenance/status"};
         static constexpr std::string_view kMaintHealth{"/api/v1/maintenance/health"};
+        static constexpr std::string_view kMaintTaskHandlers{"/api/v1/maintenance/task-handlers"};
         static constexpr std::string_view kMaintSchedules{"/api/v1/maintenance/schedules"};
         static constexpr std::string_view kMaintSchedulesPfx{"/api/v1/maintenance/schedules/"};
         static constexpr std::string_view kMaintJobs{"/api/v1/maintenance/jobs"};
@@ -3015,6 +3017,8 @@ namespace {
             return Route::MaintenanceStatusGet;
         if (path_only == kMaintHealth && method == http::verb::get)
             return Route::MaintenanceHealthGet;
+        if (path_only == kMaintTaskHandlers && method == http::verb::get)
+            return Route::MaintenanceTaskHandlersGet;
 
         // /api/v1/maintenance/schedules (collection)
         if (path_only == kMaintSchedules) {
@@ -5288,6 +5292,21 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             response = makeResponse(http::status::ok,
                                     maintenance_api_->getHealth().dump(), req);
+            break;
+        }
+
+        case Route::MaintenanceTaskHandlersGet: {
+            if (auto auth_err = requireAccess(req, "maintenance:read", "maintenance.task_handlers",
+                                              "/api/v1/maintenance/task-handlers")) {
+                response = *auth_err; break;
+            }
+            if (!maintenance_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Maintenance orchestrator not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    maintenance_api_->listTaskHandlers().dump(), req);
             break;
         }
 
