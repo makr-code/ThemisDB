@@ -94,56 +94,43 @@ WITH SYSTEM VERSIONING;
 
 ---
 
-### Application-Versioned Tables (Bi-Temporal)
+### ~~Application-Versioned Tables (Bi-Temporal)~~ ✅ Implemented (v1.2.0)
 **Priority:** High  
-**Target Version:** v1.2.0
+**Target Version:** v1.2.0  
+**Status:** ✅ **Delivered** — see `include/temporal/bi_temporal.h` and `src/temporal/bi_temporal.cpp`
 
 Support for user-defined valid time periods alongside system transaction time.
 
-**Features:**
-- User-controlled valid time periods
-- Bi-temporal queries (transaction time + valid time)
-- Temporal foreign keys
-- Temporal uniqueness constraints
-- Gap and overlap detection
+**Implemented Features:**
+- ✅ User-controlled valid time periods (`BiTemporalTable::insertWithValidTime`, `updateForValidTime`)
+- ✅ Bi-temporal queries (transaction time + valid time) (`BiTemporalTable::queryBiTemporal`, `scanBiTemporal`)
+- ✅ Temporal foreign keys (`TemporalForeignKey::validate()` — period-aware referential integrity check)
+- ✅ Temporal uniqueness constraints (`BiTemporalTable::hasUniquenessConflict` + overlap rejection on insert)
+- ✅ Gap and overlap detection (`BiTemporalTable::findGaps`, `BiTemporalTable::findOverlaps`)
 
-**Implementation:**
+**Delivered API:**
 ```cpp
-class ApplicationVersionedTable {
-public:
-    struct ValidTimePeriod {
-        std::chrono::system_clock::time_point valid_from;
-        std::chrono::system_clock::time_point valid_to;
-        
-        bool overlaps(const ValidTimePeriod& other) const;
-        bool contains(const std::chrono::system_clock::time_point& t) const;
-    };
-    
-    // Insert with valid time period
-    Result<bool> insertWithValidTime(
-        const std::string& table_name,
-        const Document& doc,
-        const ValidTimePeriod& period
-    );
-    
-    // Update affecting specific valid time range
-    Result<bool> updateForPeriod(
-        const std::string& table_name,
-        const std::string& key,
-        const Document& updates,
-        const ValidTimePeriod& period
-    );
-    
-    // Detect overlapping periods
-    Result<std::vector<Document>> findOverlappingPeriods(
-        const std::string& table_name,
-        const std::string& key,
-        const ValidTimePeriod& period
-    );
+// Temporal uniqueness constraint check
+bool BiTemporalTable::hasUniquenessConflict(
+    const std::string& key,
+    const TimeRange& period) const;
+
+// Gap detection in valid-time coverage
+std::vector<TimeRange> BiTemporalTable::findGaps(
+    const std::string& key,
+    Timestamp from,
+    Timestamp to) const;
+
+// Period-aware referential integrity
+struct TemporalForeignKey {
+    std::string parent_table_name;
+    bool validate(const BiTemporalTable& parent_table,
+                  const std::string& parent_key,
+                  const TimeRange& child_period) const;
 };
 ```
 
-**DDL Syntax:**
+**DDL Syntax (planned for AQL layer — Phase 3b):**
 ```sql
 CREATE TABLE contracts (
     contract_id INTEGER PRIMARY KEY,
