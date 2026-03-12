@@ -369,3 +369,230 @@ TEST_F(TemporalAggregatorTest, AggregateResult_ToJson) {
     EXPECT_DOUBLE_EQ(j["value"].get<double>(), 42.0);
     EXPECT_EQ(j["record_count"], 5);
 }
+
+TEST_F(TemporalAggregatorTest, AggregateResult_ToJson_WithGroupValues) {
+    AggregateResult r;
+    r.window_start  = 1000;
+    r.window_end    = 2000;
+    r.value         = 7.0;
+    r.record_count  = 1;
+    r.group_values  = {{"region", "us-east"}, {"product", "widget"}};
+
+    auto j = r.toJson();
+    EXPECT_TRUE(j.contains("group_values"));
+    EXPECT_EQ(j["group_values"]["region"], "us-east");
+    EXPECT_EQ(j["group_values"]["product"], "widget");
+}
+
+// ============================================================================
+// GROUP BY aggregations
+// ============================================================================
+
+TEST_F(TemporalAggregatorTest, GroupBy_COUNT_TwoGroups) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"region", "us"}, {"value", 10}});
+    t.insert("k2", {{"region", "eu"}, {"value", 20}});
+    t.insert("k3", {{"region", "us"}, {"value", 30}});
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 10'000;
+    spec.func           = AggregateFunc::COUNT;
+    spec.group_by_fields = {"region"};
+
+    auto groups = agg.aggregateByGroup(t, spec, base, after);
+
+    // Expect exactly two groups
+    ASSERT_EQ(groups.size(), 2u);
+
+    size_t us_count = 0, eu_count = 0;
+    for (auto& [key, windows] : groups) {
+        for (const auto& w : windows) {
+            if (w.group_values.count("region") &&
+                w.group_values.at("region") == "us") {
+                us_count += w.record_count;
+            } else if (w.group_values.count("region") &&
+                       w.group_values.at("region") == "eu") {
+                eu_count += w.record_count;
+            }
+        }
+    }
+    EXPECT_EQ(us_count, 2u);
+    EXPECT_EQ(eu_count, 1u);
+}
+
+TEST_F(TemporalAggregatorTest, GroupBy_SUM_GroupValuesPopulated) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"cat", "A"}, {"price", 5.0}});
+    t.insert("k2", {{"cat", "B"}, {"price", 15.0}});
+    t.insert("k3", {{"cat", "A"}, {"price", 25.0}});
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type     = WindowType::TUMBLING;
+    spec.window_size_ms  = 10'000;
+    spec.func            = AggregateFunc::SUM;
+    spec.measure_field   = "price";
+    spec.group_by_fields = {"cat"};
+
+    auto groups = agg.aggregateByGroup(t, spec, base, after);
+    ASSERT_EQ(groups.size(), 2u);
+
+    double sum_a = 0.0;
+    for (auto& [key, windows] : groups) {
+        if (!windows.empty() &&
+            windows[0].group_values.count("cat") &&
+            windows[0].group_values.at("cat") == "A") {
+            for (const auto& w : windows) sum_a += w.value;
+        }
+    }
+    EXPECT_DOUBLE_EQ(sum_a, 30.0);
+}
+
+TEST_F(TemporalAggregatorTest, GroupBy_EmptyGroupByFields_ReturnsUnnamedGroup) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"value", 1}});
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 10'000;
+    spec.func           = AggregateFunc::COUNT;
+    // group_by_fields intentionally empty
+
+    auto groups = agg.aggregateByGroup(t, spec, base, after);
+    ASSERT_EQ(groups.size(), 1u);
+    // The single group key is the empty string
+    EXPECT_TRUE(groups.count(""));
+}
+
+// ============================================================================
+// Snapshot aggregations
+// ============================================================================
+
+TEST_F(TemporalAggregatorTest, Snapshots_COUNT_StableRow) {
+    // Insert a single row that is current across the whole query range.
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"value", 1}});
+
+    // Query 5 snapshots of 1-second intervals far in the future
+    // so the row is still current at every tick.
+    Timestamp from = now() + 100'000; // 100 seconds in the future
+    Timestamp to   = from + 5000;     // 5 seconds range
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 1000;
+    spec.func           = AggregateFunc::COUNT;
+
+    auto results = agg.aggregateSnapshots(t, spec, from, to);
+    ASSERT_EQ(results.size(), 5u);
+    for (const auto& r : results) {
+        EXPECT_EQ(r.record_count, 1u); // row visible at every snapshot
+    }
+}
+
+TEST_F(TemporalAggregatorTest, Snapshots_SUM_VisibleAtSnapshotTime) {
+    SystemVersionedTable t{"tbl", "n"};
+    // Insert a row with sys_start < from so it is visible throughout
+    Timestamp now_ts = now();
+    t.insert("k1", {{"value", 7.0}});
+
+    Timestamp from = now_ts + 100'000;
+    Timestamp to   = from + 3000;
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 1000;
+    spec.func           = AggregateFunc::SUM;
+    spec.measure_field  = "value";
+
+    auto results = agg.aggregateSnapshots(t, spec, from, to);
+    ASSERT_EQ(results.size(), 3u);
+    for (const auto& r : results) {
+        EXPECT_DOUBLE_EQ(r.value, 7.0);
+    }
+}
+
+TEST_F(TemporalAggregatorTest, Snapshots_EmptyTable_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 1000;
+    spec.func           = AggregateFunc::COUNT;
+
+    Timestamp from = now();
+    Timestamp to   = from + 3000;
+
+    auto results = agg.aggregateSnapshots(t, spec, from, to);
+    // No rows: no snapshots have count > 0
+    for (const auto& r : results) {
+        EXPECT_EQ(r.record_count, 0u);
+    }
+}
+
+// ============================================================================
+// Trend analysis
+// ============================================================================
+
+TEST_F(TemporalAggregatorTest, AnalyzeTrend_IncreasingValues) {
+    // Insert rows with monotonically increasing values spread over time
+    // so the trend slope should be positive.
+    SystemVersionedTable t{"tbl", "n"};
+    // Use explicit timestamps: inject rows at t=0, t=100, t=200, t=300
+    // We use kMinTimestamp-safe values to keep things simple; just use
+    // wall clock and a large window.
+    Timestamp base = now();
+    t.insert("k1", {{"v", 10.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    t.insert("k2", {{"v", 20.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    t.insert("k3", {{"v", 30.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    t.insert("k4", {{"v", 40.0}});
+    Timestamp after = now() + 1;
+
+    auto trend = agg.analyzeTrend(t, "v", base, after);
+
+    EXPECT_GT(trend.slope, 0.0);  // increasing values → positive slope
+    EXPECT_GE(trend.sample_count, 1u);
+    EXPECT_GE(trend.r_squared, 0.0);
+    EXPECT_LE(trend.r_squared, 1.0);
+    EXPECT_EQ(trend.period_start, base);
+    EXPECT_EQ(trend.period_end,   after);
+}
+
+TEST_F(TemporalAggregatorTest, AnalyzeTrend_EmptyTable_ReturnsZeroTrend) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    auto trend = agg.analyzeTrend(t, "v", base, base + 1000);
+
+    EXPECT_EQ(trend.slope,        0.0);
+    EXPECT_EQ(trend.intercept,    0.0);
+    EXPECT_EQ(trend.r_squared,    0.0);
+    EXPECT_EQ(trend.sample_count, 0u);
+}
+
+TEST_F(TemporalAggregatorTest, AnalyzeTrend_ToJson) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("k1", {{"v", 5.0}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    t.insert("k2", {{"v", 10.0}});
+    Timestamp after = now() + 1;
+
+    auto trend = agg.analyzeTrend(t, "v", base, after);
+    auto j = trend.toJson();
+
+    EXPECT_TRUE(j.contains("slope"));
+    EXPECT_TRUE(j.contains("intercept"));
+    EXPECT_TRUE(j.contains("r_squared"));
+    EXPECT_TRUE(j.contains("sample_count"));
+    EXPECT_TRUE(j.contains("period_start"));
+    EXPECT_TRUE(j.contains("period_end"));
+}
