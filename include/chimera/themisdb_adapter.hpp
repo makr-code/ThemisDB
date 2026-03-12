@@ -51,6 +51,7 @@
 #include "chimera/database_adapter.hpp"
 
 #include <map>
+#include <mutex>
 #include <string>
 #include <utility>
 #include <vector>
@@ -235,6 +236,8 @@ private:
 
     // ── In-memory simulation collections ────────────────────────────────────
     // Used when no engine is injected (unit-test / simulation mode).
+    // All accesses must be guarded by store_mutex_ for thread safety.
+    mutable std::mutex store_mutex_;
 
     // Relational: table_name -> rows
     std::map<std::string, std::vector<RelationalRow>> table_store_;

@@ -15,9 +15,14 @@
  *
  * @details Provides a self-contained, dependency-free UUID v4 generator
  *          using the C++17 <random> facilities. Each call produces a
- *          cryptographically-random 128-bit UUID formatted as the
- *          canonical lowercase hyphenated string
+ *          statistically random 128-bit UUID formatted as the canonical
+ *          lowercase hyphenated string
  *          "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".
+ *
+ *          This implementation is intended for identifier/uniqueness use
+ *          cases and does not use a cryptographically secure PRNG; it
+ *          MUST NOT be used for secrets, authentication tokens, or other
+ *          security-sensitive values.
  *
  * @copyright MIT License
  */

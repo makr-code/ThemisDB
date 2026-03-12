@@ -50,6 +50,7 @@
 #include "chimera/themisdb_adapter.hpp"
 
 #include <chrono>
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -598,7 +599,8 @@ TEST_F(ThemisDBPerformanceTest, TransactionBeginCommitOverhead) {
 class ThemisDBIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        adapter.connect("themisdb://localhost:7777");
+        auto connect_result = adapter.connect("themisdb://localhost:7777");
+        ASSERT_TRUE(connect_result.is_ok());
     }
 
     ThemisDBAdapter adapter;
@@ -633,7 +635,8 @@ TEST_F(ThemisDBIntegrationTest, TransactionIdsAreUniqueUuids) {
         auto res = adapter.begin_transaction();
         ASSERT_TRUE(res.is_ok());
         txn_ids.push_back(res.value.value());
-        adapter.commit_transaction(res.value.value());
+        auto commit_res = adapter.commit_transaction(res.value.value());
+        ASSERT_TRUE(commit_res.is_ok());
     }
 
     std::sort(txn_ids.begin(), txn_ids.end());

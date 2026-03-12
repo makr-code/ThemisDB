@@ -49,6 +49,8 @@
 // included headers are only needed when the ThemisDB back-end is linked in.
 #if defined(THEMISDB_ENGINE_AVAILABLE)
 #  include "query/aql_runner.h"
+#  include "index/vector_index.h"
+#  include "index/graph_index.h"
 #endif
 
 namespace chimera {
@@ -189,6 +191,7 @@ Result<RelationalTable> ThemisDBAdapter::execute_query(
 
     // In-memory simulation: scan the matching table store and return all rows.
     RelationalTable table;
+    std::unique_lock<std::mutex> lock(store_mutex_);
     auto it = table_store_.find(query); // treat query as a table name for simple scans
     if (it != table_store_.end()) {
         for (const auto& row : it->second) {
@@ -216,7 +219,10 @@ Result<size_t> ThemisDBAdapter::insert_row(
         );
     }
 
-    table_store_[table_name].push_back(row);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        table_store_[table_name].push_back(row);
+    }
     return Result<size_t>::ok(1);
 }
 
@@ -231,8 +237,11 @@ Result<size_t> ThemisDBAdapter::batch_insert(
         );
     }
 
-    auto& store = table_store_[table_name];
-    store.insert(store.end(), rows.begin(), rows.end());
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        auto& store = table_store_[table_name];
+        store.insert(store.end(), rows.begin(), rows.end());
+    }
     return Result<size_t>::ok(rows.size());
 }
 
@@ -259,7 +268,10 @@ Result<std::string> ThemisDBAdapter::insert_vector(
 
     // Generate a unique ID via UUID v4.
     const std::string id = generate_id();
-    vector_store_[collection].emplace_back(id, vector);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        vector_store_[collection].emplace_back(id, vector);
+    }
     return Result<std::string>::ok(id);
 }
 
@@ -274,10 +286,13 @@ Result<size_t> ThemisDBAdapter::batch_insert_vectors(
         );
     }
 
-    auto& store = vector_store_[collection];
-    store.reserve(store.size() + vectors.size());
-    for (const auto& v : vectors) {
-        store.emplace_back(generate_id(), v);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        auto& store = vector_store_[collection];
+        store.reserve(store.size() + vectors.size());
+        for (const auto& v : vectors) {
+            store.emplace_back(generate_id(), v);
+        }
     }
     return Result<size_t>::ok(vectors.size());
 }
@@ -325,6 +340,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
     }
 
     // In-memory simulation: brute-force cosine similarity search.
+    std::unique_lock<std::mutex> lock(store_mutex_);
     const auto& store_it = vector_store_.find(collection);
     if (store_it == vector_store_.end() || store_it->second.empty()) {
         return Result<std::vector<std::pair<Vector, double>>>::ok({});
@@ -387,7 +403,10 @@ Result<bool> ThemisDBAdapter::create_index(
     // Ensure the collection entry exists in the in-memory store.
     (void)dimensions;
     (void)index_params;
-    vector_store_.try_emplace(collection);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        vector_store_.try_emplace(collection);
+    }
     return Result<bool>::ok(true);
 }
 
@@ -403,7 +422,10 @@ Result<std::string> ThemisDBAdapter::insert_node(const GraphNode& node) {
     const std::string id = node.id.empty() ? generate_id() : node.id;
     GraphNode stored   = node;
     stored.id          = id;
-    graph_nodes_[id]   = std::move(stored);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        graph_nodes_[id] = std::move(stored);
+    }
     return Result<std::string>::ok(id);
 }
 
@@ -418,8 +440,11 @@ Result<std::string> ThemisDBAdapter::insert_edge(const GraphEdge& edge) {
     const std::string id = edge.id.empty() ? generate_id() : edge.id;
     GraphEdge stored   = edge;
     stored.id          = id;
-    graph_edges_[id]   = stored;
-    adj_out_[stored.source_id].emplace_back(id, stored.target_id);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        graph_edges_[id] = stored;
+        adj_out_[stored.source_id].emplace_back(id, stored.target_id);
+    }
     return Result<std::string>::ok(id);
 }
 
@@ -438,6 +463,17 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
     // When a GraphIndexManager is wired in, delegate to its Dijkstra.
     if (graph_index_) {
 #if defined(THEMISDB_ENGINE_AVAILABLE)
+        // The GraphIndexManager::dijkstra API does not support a depth bound.
+        // Fail fast when a non-default max_depth is requested so callers are
+        // not silently surprised by unbounded graph exploration.
+        if (max_depth != 10U) { // 10 is the interface default
+            return Result<GraphPath>::err(
+                ErrorCode::NOT_IMPLEMENTED,
+                "shortest_path with a custom max_depth constraint is not supported "
+                "by the engine-backed GraphIndexManager; pass the default max_depth "
+                "(10) for unbounded Dijkstra search"
+            );
+        }
         auto [status, path_result] =
             graph_index_->dijkstra(source_id, target_id);
         if (!status.ok) {
@@ -467,6 +503,8 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
     // In-memory simulation: unweighted BFS shortest path.
     GraphPath path;
     path.total_weight = 0.0;
+
+    std::unique_lock<std::mutex> lock(store_mutex_);
 
     if (source_id == target_id) {
         if (auto it = graph_nodes_.find(source_id);
@@ -563,8 +601,33 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
     // When a GraphIndexManager is wired in, delegate to GraphEngine::traverse.
     if (graph_index_) {
 #if defined(THEMISDB_ENGINE_AVAILABLE)
-        auto [status, bfs_result] =
-            graph_index_->bfs(start_id, static_cast<int>(max_depth));
+        // Map edge_labels to the engine API:
+        //   • no labels    -> unfiltered BFS
+        //   • single label -> BFS filtered by that edge type (engine overload)
+        //   • multi-label  -> not yet supported; fail explicitly to avoid
+        //                     silent divergence from the in-memory semantics.
+        if (edge_labels.size() > 1) {
+            return Result<std::vector<GraphNode>>::err(
+                ErrorCode::NOT_IMPLEMENTED,
+                "GraphIndexManager-backed traverse does not yet support "
+                "multi-label edge filters; use zero or one edge label"
+            );
+        }
+
+        std::pair<GraphIndexManager::Status, std::vector<std::string>> bfs_pair;
+        if (edge_labels.empty()) {
+            bfs_pair = graph_index_->bfs(start_id, static_cast<int>(max_depth));
+        } else {
+            // Use the overload that accepts an edge_type.
+            bfs_pair = graph_index_->bfs(
+                start_id,
+                static_cast<int>(max_depth),
+                edge_labels.front(),
+                /*graph_id=*/""
+            );
+        }
+
+        auto& [status, bfs_result] = bfs_pair;
         if (!status.ok) {
             return Result<std::vector<GraphNode>>::err(
                 ErrorCode::INTERNAL_ERROR, status.message);
@@ -593,6 +656,8 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
     std::vector<GraphNode> visited_nodes;
     std::map<std::string, bool> visited;
     std::queue<std::pair<std::string, size_t>> bfs_q; // (node_id, depth)
+
+    std::unique_lock<std::mutex> lock(store_mutex_);
 
     visited[start_id] = true;
     bfs_q.push({start_id, 0});
@@ -665,7 +730,10 @@ Result<std::string> ThemisDBAdapter::insert_document(
     const std::string id = doc.id.empty() ? generate_id() : doc.id;
     Document stored   = doc;
     stored.id         = id;
-    doc_store_[collection][id] = std::move(stored);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        doc_store_[collection][id] = std::move(stored);
+    }
     return Result<std::string>::ok(id);
 }
 
@@ -680,12 +748,15 @@ Result<size_t> ThemisDBAdapter::batch_insert_documents(
         );
     }
 
-    auto& col = doc_store_[collection];
-    for (const auto& doc : docs) {
-        const std::string id = doc.id.empty() ? generate_id() : doc.id;
-        Document stored = doc;
-        stored.id       = id;
-        col[id]         = std::move(stored);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        auto& col = doc_store_[collection];
+        for (const auto& doc : docs) {
+            const std::string id = doc.id.empty() ? generate_id() : doc.id;
+            Document stored = doc;
+            stored.id       = id;
+            col[id]         = std::move(stored);
+        }
     }
     return Result<size_t>::ok(docs.size());
 }
@@ -703,6 +774,7 @@ Result<std::vector<Document>> ThemisDBAdapter::find_documents(
     }
 
     std::vector<Document> matched;
+    std::unique_lock<std::mutex> lock(store_mutex_);
     auto col_it = doc_store_.find(collection);
     if (col_it == doc_store_.end()) {
         return Result<std::vector<Document>>::ok(std::move(matched));
@@ -740,6 +812,7 @@ Result<size_t> ThemisDBAdapter::update_documents(
     }
 
     size_t count = 0;
+    std::unique_lock<std::mutex> lock(store_mutex_);
     auto col_it = doc_store_.find(collection);
     if (col_it == doc_store_.end()) {
         return Result<size_t>::ok(0);
@@ -776,7 +849,10 @@ Result<std::string> ThemisDBAdapter::begin_transaction(
     }
 
     const std::string txn_id = generate_id();
-    active_transactions_[txn_id] = options;
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        active_transactions_[txn_id] = options;
+    }
     return Result<std::string>::ok(txn_id);
 }
 
@@ -788,7 +864,10 @@ Result<bool> ThemisDBAdapter::commit_transaction(const std::string& transaction_
         );
     }
 
-    active_transactions_.erase(transaction_id);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        active_transactions_.erase(transaction_id);
+    }
     return Result<bool>::ok(true);
 }
 
@@ -800,7 +879,10 @@ Result<bool> ThemisDBAdapter::rollback_transaction(const std::string& transactio
         );
     }
 
-    active_transactions_.erase(transaction_id);
+    {
+        std::unique_lock<std::mutex> lock(store_mutex_);
+        active_transactions_.erase(transaction_id);
+    }
     return Result<bool>::ok(true);
 }
 
