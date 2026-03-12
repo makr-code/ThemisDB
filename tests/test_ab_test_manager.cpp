@@ -851,6 +851,9 @@ TEST_F(ABTestManagerTest, RecordOutcomeEmitsToMetricsCollector) {
 
     const std::string prom = mc.getPrometheusMetrics();
     EXPECT_NE(prom.find("ab_test"), std::string::npos);
+
+    // Cleanup: reset MetricsCollector so this test does not leak state
+    mc.reset();
 }
 
 TEST_F(ABTestManagerTest, ABTestMetricRowDefaultValues) {

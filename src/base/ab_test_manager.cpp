@@ -214,14 +214,21 @@ bool ABTestManager::startTest(const ABModuleTestConfig& config, ModuleLoader& lo
                              "during module load; discarding", config.test_id);
                 return false;
             }
-            // Re-activate a persisted-only entry: update loader + config,
-            // preserve accumulated metrics.
-            it->second.config          = config;
-            it->second.status          = ABTestStatus::ACTIVE;
-            it->second.loader_ptr      = &loader;
+            // Re-attach a persisted-only entry: update loader + config,
+            // preserve accumulated metrics and the persisted status.
+            it->second.config           = config;
+            it->second.loader_ptr       = &loader;
             it->second.treatment_loaded = treatment_loaded;
-            it->second.persisted_only  = false;
-            spdlog::info("ABTestManager: test '{}' re-activated from persistence", config.test_id);
+            it->second.persisted_only   = false;
+            if (it->second.status == ABTestStatus::ACTIVE) {
+                spdlog::info("ABTestManager: test '{}' re-activated from persistence", config.test_id);
+            } else {
+                spdlog::info(
+                    "ABTestManager: test '{}' restored from persistence with terminal status '{}'; "
+                    "loader re-attached without changing status",
+                    config.test_id,
+                    statusToString(it->second.status));
+            }
             entry_to_persist = it->second;
         } else {
             TestEntry entry;
@@ -385,7 +392,6 @@ void ABTestManager::recordOutcome(const std::string& test_id,
                                    double latency_ms) {
     // Values captured under the mutex for out-of-lock use.
     bool   emit_metrics        = false;
-    size_t emit_requests       = 0;
     bool   emit_success        = false;
     double emit_p99_lat        = 0.0;
 
@@ -418,14 +424,16 @@ void ABTestManager::recordOutcome(const std::string& test_id,
             m.mean_latency_ms    = vd.total_latency_ms / m.sample_count;
             vd.sum_sq_latency   += (latency_ms - old_mean) * (latency_ms - m.mean_latency_ms);
             if (m.sample_count > 1) {
-                m.std_dev_latency = std::sqrt(vd.sum_sq_latency / (m.sample_count - 1));
+                // Clamp to >= 0 to guard against tiny negative values from
+                // floating-point rounding that would produce NaN via sqrt.
+                double variance = std::max(0.0, vd.sum_sq_latency / (m.sample_count - 1));
+                m.std_dev_latency = std::sqrt(variance);
             }
         }
 
         // Capture values for MetricsCollector emission (outside mutex).
         if (metrics_collector_) {
             emit_metrics   = true;
-            emit_requests  = m.sample_count;
             emit_success   = success;
             // p99 estimate via normal approximation: μ + 2.3263σ
             emit_p99_lat   = m.mean_latency_ms + 2.3263 * m.std_dev_latency;

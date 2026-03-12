@@ -112,12 +112,12 @@ In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section s
 
 **Implementation Notes:**
 - `[x]` Persist `ABTestConfig` and `ABVariantMetrics` snapshots to RocksDB using key prefix `ab_test::` via the `StorageEngine` interface; reload on `ABTestManager::start()`.
-- `[x]` Emit per-variant counters (`ab_test.<test_id>.<variant>.requests`, `.conversions`, `.latency_p99`) to `MetricsCollector` on every `recordEvent()` call without holding the `tests_` mutex.
+- `[x]` Emit per-variant counters (`ab_test.<test_id>.<variant>.requests`, `.conversions`, `.latency_p99`) to `MetricsCollector` on every `recordOutcome()` call without holding the `tests_` mutex.
 - `[x]` Add `ABTestManager::exportMetricsSnapshot()` returning a `std::vector<ABTestMetricRow>` for admin API consumption.
 - `[x]` Add a Bayesian Thompson Sampling auto-stop: when posterior probability that treatment beats control exceeds a configurable threshold (default 0.95), mark the test as concluded and route all traffic to the winner.
 
 **Performance Targets:**
-- `recordEvent()` (hot path): ≤ 2 µs with metrics emission; no mutex held during MetricsCollector call. ✅
+- `recordOutcome()` (hot path): ≤ 2 µs with metrics emission; no mutex held during MetricsCollector call. ✅
 
 ---
 
