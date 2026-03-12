@@ -27,6 +27,7 @@
 
 #include "maintenance/maintenance_task.h"
 #include "maintenance/maintenance_schedule.h"
+#include "maintenance/maintenance_schedule_store.h"
 #include "maintenance/maintenance_health_report.h"
 #include "utils/expected.h"
 
@@ -44,6 +45,7 @@ namespace themis {
 // Forward declarations – keeps the orchestrator header dependency-light.
 class TaskScheduler;
 class IndexMaintenanceManager;
+class IStorageEngine;
 
 namespace utils { class AuditLogger; }
 
@@ -101,11 +103,17 @@ public:
      *                          May be nullptr; index operations will return
      *                          an error in that case.
      * @param audit_logger      Optional audit logger.  May be nullptr.
+     * @param storage           Optional storage engine for schedule persistence
+     *                          (RocksDB via StorageEngine).  When non-null,
+     *                          schedules are written through on every CRUD
+     *                          mutation and reloaded on start().  May be nullptr
+     *                          for in-memory-only operation (e.g., in tests).
      */
     explicit DatabaseMaintenanceOrchestrator(
         TaskScheduler*                           scheduler,
         std::shared_ptr<IndexMaintenanceManager> index_maintenance = nullptr,
-        std::shared_ptr<utils::AuditLogger>      audit_logger      = nullptr);
+        std::shared_ptr<utils::AuditLogger>      audit_logger      = nullptr,
+        IStorageEngine*                          storage           = nullptr);
 
     ~DatabaseMaintenanceOrchestrator();
 
@@ -300,6 +308,9 @@ private:
     TaskScheduler*                           scheduler_;
     std::shared_ptr<IndexMaintenanceManager> index_maintenance_;
     std::shared_ptr<utils::AuditLogger>      audit_logger_;
+
+    // Optional durable store (nullptr → in-memory only)
+    std::unique_ptr<MaintenanceScheduleStore> schedule_store_;
 
     // Persisted schedules
     mutable std::mutex                                       schedules_mutex_;

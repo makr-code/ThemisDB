@@ -12692,6 +12692,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cp
     add_executable(test_database_maintenance_orchestrator_focused
         test_database_maintenance_orchestrator.cpp
         ${THEMIS_ROOT_DIR}/src/maintenance/database_maintenance_orchestrator.cpp
+        ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_schedule_store.cpp
         ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_registry.cpp
         ${THEMIS_ROOT_DIR}/src/server/maintenance_api_handler.cpp
     )
