@@ -293,6 +293,19 @@ public:
      */
     void registerHealthProbe(const std::string& module_name, HealthProbe probe);
 
+    /**
+     * @brief Resolve task execution order from task_dependencies using topological sort.
+     *
+     * When task_dependencies is empty, returns entry.tasks in positional order.
+     * Otherwise performs a stable Kahn's-algorithm topological sort seeded in
+     * entry.tasks order, so unrelated tasks preserve their original relative
+     * position.  Throws std::invalid_argument if:
+     *   - any task_type or depends_on reference is not present in entry.tasks, or
+     *   - a cycle is detected.
+     */
+    static std::vector<MaintenanceTaskType> resolveTaskExecutionOrder(
+        const MaintenanceScheduleEntry& entry);
+
 private:
     // ---- Internal helpers -------------------------------------------------
 
@@ -311,11 +324,6 @@ private:
     void pruneCompletedJobs();
 
     void validateEntry(const MaintenanceScheduleEntry& entry) const;
-
-    /// Resolve task execution order from task_dependencies using topological sort.
-    /// Returns the ordered task list.  Throws std::invalid_argument on cycle.
-    static std::vector<MaintenanceTaskType> resolveTaskExecutionOrder(
-        const MaintenanceScheduleEntry& entry);
 
     // ---- Members ----------------------------------------------------------
     TaskScheduler*                           scheduler_;

@@ -21,7 +21,6 @@
 #include "utils/audit_logger.h"
 #include "utils/error_registry.h"
 #include "observability/metrics_collector.h"
-#include "themis/base/module_loader.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -29,6 +28,7 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
+#include <set>
 #include <sstream>
 #include <iomanip>
 #include <thread>
@@ -820,10 +820,25 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     try {
         ordered_tasks = resolveTaskExecutionOrder(entry);
     } catch (const std::exception& ex) {
-        // Should not happen (already validated on create/update), but guard
-        // defensively in case an invalid schedule was inserted directly.
-        spdlog::error("MaintenanceJob {}: task order resolution failed: {}", job_id, ex.what());
-        ordered_tasks = entry.tasks;
+        // Should not happen (already validated on create/update), but if a
+        // corrupt schedule somehow reaches execution we must not run tasks in
+        // an unvalidated order — fail the job immediately.
+        const std::string err = std::string("Task order resolution failed: ") + ex.what();
+        spdlog::error("MaintenanceJob {}: {}", job_id, err);
+        {
+            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            auto jit = jobs_.find(job_id);
+            if (jit != jobs_.end()) {
+                jit->second.state          = MaintenanceJobState::FAILED;
+                jit->second.error_message  = err;
+                jit->second.finished_at_ms = themis::maintenance::nowMs();
+            }
+        }
+        MetricsCollector::getInstance().addCounter(
+            "maintenance_jobs_failed_total", 1,
+            {{"reason", "task_order_resolution_failed"},
+             {"schedule_id", schedule_id}});
+        return;
     }
 
     for (auto task_type : ordered_tasks) {
@@ -1120,11 +1135,7 @@ void DatabaseMaintenanceOrchestrator::validateEntry(
 
     // ---- Validate task_dependencies DAG (cycle detection) ----------------
     if (!entry.task_dependencies.empty()) {
-        try {
-            resolveTaskExecutionOrder(entry);
-        } catch (const std::invalid_argument&) {
-            throw; // propagate cycle error with original message
-        }
+        resolveTaskExecutionOrder(entry); // throws std::invalid_argument on cycle or bad reference
     }
 }
 
@@ -1137,44 +1148,96 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
         return entry.tasks;
     }
 
-    // Use ModuleDependencyResolver (Kahn's algorithm) to compute a safe
-    // execution order.  Each MaintenanceTaskType is mapped to its string
-    // representation so we can reuse the existing infrastructure.
-
-    themis::modules::ModuleDependencyResolver resolver;
-
-    // Register every task that appears in `tasks` as a "module".
-    for (auto t : entry.tasks) {
-        resolver.registerModule(taskTypeToString(t), {});
+    // Build a stable index map so that tasks with equal eligibility are
+    // emitted in the same relative order as entry.tasks (Kahn's seeding).
+    std::map<MaintenanceTaskType, std::size_t> taskIndex;
+    for (std::size_t i = 0; i < entry.tasks.size(); ++i) {
+        taskIndex[entry.tasks[i]] = i;
     }
 
-    // Apply dependency edges from task_dependencies.
+    // ---- Validate that all dependency references name tasks in entry.tasks --
     for (const auto& dep : entry.task_dependencies) {
-        const std::string dependent = taskTypeToString(dep.task_type);
-        std::vector<themis::modules::ModuleDependency> deps_vec;
-        for (auto prereq : dep.depends_on) {
-            themis::modules::ModuleDependency md;
-            md.name     = taskTypeToString(prereq);
-            md.required = true;
-            deps_vec.push_back(md);
+        if (taskIndex.find(dep.task_type) == taskIndex.end()) {
+            throw std::invalid_argument(
+                "task_dependencies: task_type '" +
+                taskTypeToString(dep.task_type) +
+                "' is not present in the tasks list");
         }
-        // Re-register with the dependency list (replaces the empty registration).
-        resolver.registerModule(dependent, deps_vec);
+        for (auto prereq : dep.depends_on) {
+            if (taskIndex.find(prereq) == taskIndex.end()) {
+                throw std::invalid_argument(
+                    "task_dependencies: depends_on task '" +
+                    taskTypeToString(prereq) +
+                    "' is not present in the tasks list");
+            }
+        }
     }
 
-    auto res = resolver.resolve();
-    if (!res.success) {
-        // Cycle or missing dependency — surface as invalid-argument.
-        throw std::invalid_argument("task_dependencies: " + res.errorMessage);
+    // ---- Build in-degree map and reverse adjacency (Kahn's algorithm) ------
+    std::map<MaintenanceTaskType, int>                          inDegree;
+    std::map<MaintenanceTaskType, std::vector<MaintenanceTaskType>> dependents;
+
+    for (auto t : entry.tasks) {
+        inDegree[t]   = 0;
+        dependents[t] = {};
     }
 
-    // Map the resolved string names back to MaintenanceTaskType.
-    std::vector<MaintenanceTaskType> ordered;
-    ordered.reserve(res.loadOrder.size());
-    for (const auto& name : res.loadOrder) {
-        ordered.push_back(taskTypeFromString(name));
+    // Deduplicate edges using a set per dependent to avoid double-counting.
+    std::map<MaintenanceTaskType, std::set<MaintenanceTaskType>> seen;
+    for (const auto& dep : entry.task_dependencies) {
+        for (auto prereq : dep.depends_on) {
+            if (seen[dep.task_type].insert(prereq).second) {
+                // New edge: prereq → dep.task_type
+                dependents[prereq].push_back(dep.task_type);
+                inDegree[dep.task_type]++;
+            }
+        }
     }
-    return ordered;
+
+    // ---- Stable Kahn's sort: seed ready-queue in entry.tasks order ---------
+    // The comparator uses the original position in entry.tasks so that tasks
+    // with equal eligibility are always emitted in the declared list order.
+    auto byOriginalOrder = [&](MaintenanceTaskType a, MaintenanceTaskType b) {
+        return taskIndex.at(a) < taskIndex.at(b);
+    };
+
+    // Initialize ready list with zero-in-degree tasks, in entry.tasks order.
+    std::vector<MaintenanceTaskType> ready;
+    for (auto t : entry.tasks) {
+        if (inDegree[t] == 0) {
+            ready.push_back(t);
+        }
+    }
+    // ready is already in entry.tasks order because we iterated entry.tasks.
+
+    std::vector<MaintenanceTaskType> result;
+    result.reserve(entry.tasks.size());
+
+    while (!ready.empty()) {
+        auto cur = ready.front();
+        ready.erase(ready.begin());
+        result.push_back(cur);
+
+        // Sort this node's dependents by original position before merging into ready.
+        auto deps = dependents[cur];
+        std::sort(deps.begin(), deps.end(), byOriginalOrder);
+
+        for (auto dep : deps) {
+            if (--inDegree[dep] == 0) {
+                // Insert in original-order position.
+                auto pos = std::lower_bound(ready.begin(), ready.end(), dep, byOriginalOrder);
+                ready.insert(pos, dep);
+            }
+        }
+    }
+
+    // If not all tasks were emitted, at least one cycle exists.
+    if (result.size() != entry.tasks.size()) {
+        throw std::invalid_argument(
+            "task_dependencies: circular dependency detected");
+    }
+
+    return result;
 }
 
 } // namespace maintenance

@@ -102,16 +102,28 @@ struct MaintenanceTaskDependency {
         nlohmann::json j;
         j["task_type"] = taskTypeToString(task_type);
         nlohmann::json deps = nlohmann::json::array();
-        for (auto& d : depends_on) deps.push_back(taskTypeToString(d));
+        for (const auto& d : depends_on) deps.push_back(taskTypeToString(d));
         j["depends_on"] = deps;
         return j;
     }
 
     static MaintenanceTaskDependency fromJson(const nlohmann::json& j) {
+        if (!j.contains("task_type") || !j["task_type"].is_string()) {
+            throw std::invalid_argument(
+                "MaintenanceTaskDependency: 'task_type' field is required and must be a string");
+        }
         MaintenanceTaskDependency d;
-        d.task_type = taskTypeFromString(j.value("task_type", std::string{}));
+        d.task_type = taskTypeFromString(j["task_type"].get<std::string>());
         if (j.contains("depends_on")) {
-            for (auto& dep : j["depends_on"]) {
+            if (!j["depends_on"].is_array()) {
+                throw std::invalid_argument(
+                    "MaintenanceTaskDependency: 'depends_on' must be an array of strings");
+            }
+            for (const auto& dep : j["depends_on"]) {
+                if (!dep.is_string()) {
+                    throw std::invalid_argument(
+                        "MaintenanceTaskDependency: each 'depends_on' entry must be a string");
+                }
                 d.depends_on.push_back(taskTypeFromString(dep.get<std::string>()));
             }
         }
