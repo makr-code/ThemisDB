@@ -298,6 +298,20 @@ uint32_t TieredStorageManager::runMigrationCycle() {
     for (auto& [key, entry] : entries) {
         if (limit > 0 && migrated >= limit) break;
 
+        // ── Size-based policy (checked first, overrides tier-based rules) ──
+        if (config_.large_blob_bytes > 0 && entry.tier != config_.large_blob_tier) {
+            const std::string src_path = keyFilePath(key, entry.tier);
+            std::error_code ec;
+            auto file_size = fs::file_size(src_path, ec);
+            if (!ec && file_size >= config_.large_blob_bytes) {
+                if (migrateKey(key, entry.tier, config_.large_blob_tier)) {
+                    stat_migrations_size_based_++;
+                    ++migrated;
+                }
+                continue;  // skip further policy checks for this key
+            }
+        }
+
         if (entry.tier == StorageTierLevel::HOT) {
             bool demote = false;
 
@@ -394,6 +408,7 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
     Stats s;
     s.migrations_hot_to_warm = stat_migrations_hot_to_warm_.load();
     s.migrations_warm_to_cold = stat_migrations_warm_to_cold_.load();
+    s.migrations_size_based = stat_migrations_size_based_.load();
     s.migration_errors = stat_migration_errors_.load();
 
     auto entries = tracker_.snapshot();

@@ -305,3 +305,138 @@ TEST_F(TieredStorageTest, MultipleKeysIsolated) {
         EXPECT_EQ(mgr.get("k" + std::to_string(i)), "v" + std::to_string(i));
     }
 }
+
+// ============================================================================
+// Size-based migration policy tests
+// ============================================================================
+
+TEST_F(TieredStorageTest, SizeBasedMigrationHotToCold) {
+    TieredStorageConfig cfg = makeConfig();
+    cfg.hot_to_warm_days   = 0;   // disable age-based policy
+    cfg.warm_to_cold_days  = 0;
+    cfg.hot_zero_access_days  = 0;
+    cfg.warm_zero_access_days = 0;
+    cfg.large_blob_bytes = 10;   // anything >= 10 bytes goes to cold
+    cfg.large_blob_tier  = StorageTierLevel::COLD;
+    TieredStorageManager mgr(cfg);
+
+    // Small key – should NOT be migrated by size policy
+    mgr.put("small", "tiny");         // 4 bytes < 10
+    // Large key – should be migrated to cold by size policy
+    mgr.put("large", "this_is_large"); // 13 bytes >= 10
+
+    uint32_t n = mgr.runMigrationCycle();
+    EXPECT_GE(n, 1u);
+
+    EXPECT_EQ(mgr.tierOf("large"), StorageTierLevel::COLD);
+    EXPECT_EQ(mgr.get("large"), "this_is_large");
+
+    // Small key stays where it is (no age/access rule active)
+    EXPECT_EQ(mgr.tierOf("small"), StorageTierLevel::HOT);
+}
+
+TEST_F(TieredStorageTest, SizeBasedMigrationWarmToCold) {
+    // Get a key into WARM first (using a manager without size policy),
+    // then verify that a second manager with size policy demotes it to COLD.
+
+    // Step 1: place key in WARM using age-based demotion
+    TieredStorageConfig cfg_no_size = makeConfig();
+    cfg_no_size.hot_to_warm_days   = 0;    // immediate hot->warm
+    cfg_no_size.warm_to_cold_days  = 999;  // no warm->cold by age
+    cfg_no_size.large_blob_bytes   = 0;    // size policy off
+
+    TieredStorageManager mgr_stage(cfg_no_size);
+    mgr_stage.put("blob", "large_value_here");  // 16 bytes
+    mgr_stage.runMigrationCycle();  // hot -> warm
+    ASSERT_EQ(mgr_stage.tierOf("blob"), StorageTierLevel::WARM);
+
+    // Step 2: open the same tier directories with size policy enabled
+    TieredStorageConfig cfg_sized = cfg_no_size;
+    cfg_sized.large_blob_bytes = 10;
+    cfg_sized.large_blob_tier  = StorageTierLevel::COLD;
+
+    TieredStorageManager mgr_sized(cfg_sized);
+    // Re-register the key as WARM in the new manager's tracker
+    mgr_sized.accessTracker().recordWrite("blob", StorageTierLevel::WARM);
+
+    // Now size policy should demote it to COLD
+    uint32_t n = mgr_sized.runMigrationCycle();
+    EXPECT_GE(n, 1u);
+    EXPECT_EQ(mgr_sized.tierOf("blob"), StorageTierLevel::COLD);
+    EXPECT_EQ(mgr_sized.get("blob"), "large_value_here");
+}
+
+TEST_F(TieredStorageTest, SizeBasedMigrationDisabledByDefault) {
+    // Default config has large_blob_bytes = 0 (disabled)
+    TieredStorageConfig cfg = makeConfig();
+    cfg.hot_to_warm_days      = 999; // no age demotion
+    cfg.hot_zero_access_days  = 0;
+    cfg.warm_zero_access_days = 0;
+    TieredStorageManager mgr(cfg);
+
+    mgr.put("blob", std::string(1024, 'A'));  // 1 KB
+    mgr.runMigrationCycle();
+
+    // Key should stay on HOT because size-based policy is off and age hasn't elapsed
+    EXPECT_EQ(mgr.tierOf("blob"), StorageTierLevel::HOT);
+}
+
+TEST_F(TieredStorageTest, SizeBasedMigrationStatsCounter) {
+    TieredStorageConfig cfg = makeConfig();
+    cfg.hot_to_warm_days      = 999;
+    cfg.warm_to_cold_days     = 999;
+    cfg.hot_zero_access_days  = 0;
+    cfg.warm_zero_access_days = 0;
+    cfg.large_blob_bytes = 5;
+    cfg.large_blob_tier  = StorageTierLevel::COLD;
+    TieredStorageManager mgr(cfg);
+
+    mgr.put("a", "hello!");    // 6 bytes >= 5
+    mgr.put("b", "hi");        // 2 bytes <  5
+    mgr.runMigrationCycle();
+
+    auto s = mgr.stats();
+    EXPECT_EQ(s.migrations_size_based, 1u);
+    EXPECT_EQ(s.migration_errors,      0u);
+}
+
+TEST_F(TieredStorageTest, SizeBasedMigrationReadAfterMigrate) {
+    TieredStorageConfig cfg = makeConfig();
+    cfg.hot_to_warm_days      = 999;
+    cfg.warm_to_cold_days     = 999;
+    cfg.hot_zero_access_days  = 0;
+    cfg.warm_zero_access_days = 0;
+    cfg.large_blob_bytes = 10;
+    cfg.large_blob_tier  = StorageTierLevel::COLD;
+    TieredStorageManager mgr(cfg);
+
+    std::string data(50, 'Z');
+    mgr.put("key", data);
+    mgr.runMigrationCycle();
+
+    // Data must be intact after size-based migration
+    EXPECT_EQ(mgr.get("key"), data);
+    EXPECT_EQ(mgr.tierOf("key"), StorageTierLevel::COLD);
+}
+
+TEST_F(TieredStorageTest, SizeBasedMigrationAlreadyAtTarget) {
+    // Keys already in the large_blob_tier must not be migrated again
+    TieredStorageConfig cfg = makeConfig();
+    cfg.hot_to_warm_days      = 0;   // hot -> warm immediately
+    cfg.warm_to_cold_days     = 999;
+    cfg.hot_zero_access_days  = 0;
+    cfg.warm_zero_access_days = 0;
+    cfg.large_blob_bytes = 5;
+    cfg.large_blob_tier  = StorageTierLevel::COLD;
+    TieredStorageManager mgr(cfg);
+
+    // Put a large value and migrate all the way to cold
+    mgr.put("k", "hello!");    // 6 bytes >= 5
+    mgr.runMigrationCycle();   // size-based: hot -> cold
+    EXPECT_EQ(mgr.tierOf("k"), StorageTierLevel::COLD);
+
+    // A second cycle must not attempt re-migration
+    uint32_t n = mgr.runMigrationCycle();
+    EXPECT_EQ(n, 0u);
+    EXPECT_EQ(mgr.get("k"), "hello!");
+}
