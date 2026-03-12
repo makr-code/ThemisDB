@@ -60,18 +60,37 @@ Result<void> MaintenanceScheduleStore::loadAll(
     auto scan_result = engine_->scanPrefix(
         kKeyPrefix,
         [&](std::string_view key, std::string_view value) -> bool {
+            // Derive the schedule id from the RocksDB key by stripping the prefix.
+            if (key.size() < kKeyPrefix.size()) {
+                spdlog::warn("MaintenanceScheduleStore::loadAll: skipping entry "
+                             "with malformed key '{}' (shorter than prefix)",
+                             std::string(key));
+                ++skipped;
+                return true;
+            }
+            const std::string id_from_key(key.substr(kKeyPrefix.size()));
+
             try {
                 auto j     = nlohmann::json::parse(value);
                 auto entry = MaintenanceScheduleEntry::fromJson(j);
-                if (!entry.id.empty()) {
-                    tmp[entry.id] = std::move(entry);
-                    ++loaded;
-                } else {
-                    spdlog::warn("MaintenanceScheduleStore::loadAll: skipping entry "
-                                 "with empty id at key '{}' (corrupt or missing 'id' field)",
+
+                // If the JSON payload's id is missing, recover it from the key.
+                if (entry.id.empty()) {
+                    spdlog::warn("MaintenanceScheduleStore::loadAll: recovering empty "
+                                 "id for key '{}' from key suffix",
                                  std::string(key));
-                    ++skipped;
+                    entry.id = id_from_key;
+                } else if (entry.id != id_from_key) {
+                    // Prefer the id encoded in the key; the payload may be stale.
+                    spdlog::warn(
+                        "MaintenanceScheduleStore::loadAll: id mismatch at key '{}' "
+                        "(key-derived id '{}', payload id '{}'); using id from key",
+                        std::string(key), id_from_key, entry.id);
+                    entry.id = id_from_key;
                 }
+
+                tmp[entry.id] = std::move(entry);
+                ++loaded;
             } catch (const nlohmann::json::exception& ex) {
                 spdlog::warn("MaintenanceScheduleStore::loadAll: skipping corrupt "
                              "schedule entry at key '{}' – JSON parse error: {}",

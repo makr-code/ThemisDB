@@ -27,7 +27,6 @@
 
 #include "maintenance/maintenance_task.h"
 #include "maintenance/maintenance_schedule.h"
-#include "maintenance/maintenance_schedule_store.h"
 #include "maintenance/maintenance_health_report.h"
 #include "utils/expected.h"
 
@@ -50,6 +49,9 @@ class IStorageEngine;
 namespace utils { class AuditLogger; }
 
 namespace maintenance {
+
+// Forward declaration – avoids pulling in storage headers transitively.
+class MaintenanceScheduleStore;
 
 // ---------------------------------------------------------------------------
 // Callback type for module health probes

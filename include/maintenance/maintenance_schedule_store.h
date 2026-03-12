@@ -33,9 +33,14 @@ namespace maintenance {
  *        an IStorageEngine (typically RocksDB via StorageEngine).
  *
  * ### Thread safety
- * The store itself is NOT internally synchronised; callers must hold
- * the appropriate external lock (schedules_mutex_ in
- * DatabaseMaintenanceOrchestrator) before calling any method.
+ * The store itself is NOT internally synchronised.  Callers must hold the
+ * appropriate external lock (schedules_mutex_ in
+ * DatabaseMaintenanceOrchestrator) when coordinating save/remove with shared
+ * in-memory schedule state.
+ *
+ * loadAll() may be called without holding the orchestrator mutex provided
+ * that entries are first collected into a caller-owned temporary container
+ * and only merged into shared state while that external lock is held.
  */
 class MaintenanceScheduleStore {
 public:

@@ -953,27 +953,27 @@ TEST_F(SchedulePersistenceIntegrationTest, RestartRetainsAllThreeSchedules) {
         // Orchestrator is destroyed here; schedules remain in the storage engine.
     }
 
-    // Phase 2: create a new orchestrator instance backed by the same engine and
-    // call start() (which triggers loadAll before cron registration).
-    // We use a non-null but no-op scheduler pointer substitute; since the
-    // orchestrator's start() only calls registerWithScheduler for enabled
-    // schedules (which itself is a no-op when scheduler_ is null after a
-    // guard check), we call loadAll() directly here by creating a second
-    // instance without start().
+    // Phase 2: create a new orchestrator instance backed by the same engine.
+    // start() loads schedules from storage before checking the scheduler
+    // availability, so schedules_ is populated even when scheduler is null.
     {
         DatabaseMaintenanceOrchestrator orc2(nullptr, nullptr, nullptr, engine_.get());
 
-        // Manually trigger loadAll by calling start(). Because scheduler_ is
-        // nullptr, start() returns an error before registering cron jobs, but
-        // after loadAll() has populated schedules_.  We verify by listing.
-        // Actually start() checks scheduler_ early – let's use the store directly
-        // via a second loadAll call to verify the data round-trips correctly.
-        MaintenanceScheduleStore verify_store(engine_.get());
-        std::map<std::string, MaintenanceScheduleEntry> reloaded;
-        auto load_result = verify_store.loadAll(reloaded);
-        ASSERT_TRUE(load_result) << load_result.error().message();
+        // start() will return an error (null scheduler) but MUST first load
+        // all persisted schedules into schedules_.
+        auto start_result = orc2.start();
+        EXPECT_FALSE(start_result); // expected: error because scheduler is null
 
-        ASSERT_EQ(reloaded.size(), 3u);
+        // Verify via the orchestrator's own API that all 3 schedules are present.
+        auto reloaded_vec = orc2.listSchedules();
+        ASSERT_EQ(reloaded_vec.size(), 3u);
+
+        // Build a map by id for easier lookup.
+        std::map<std::string, MaintenanceScheduleEntry> reloaded;
+        for (const auto& entry : reloaded_vec) {
+            reloaded.emplace(entry.id, entry);
+        }
+
         EXPECT_EQ(reloaded.count(id1), 1u);
         EXPECT_EQ(reloaded.count(id2), 1u);
         EXPECT_EQ(reloaded.count(id3), 1u);
@@ -1002,12 +1002,15 @@ TEST_F(SchedulePersistenceIntegrationTest, DeletedScheduleNotReloadedAfterRestar
     }
 
     // After restart only id1 should be present.
-    MaintenanceScheduleStore verify_store(engine_.get());
-    std::map<std::string, MaintenanceScheduleEntry> reloaded;
-    ASSERT_TRUE(verify_store.loadAll(reloaded));
-    EXPECT_EQ(reloaded.size(), 1u);
-    EXPECT_EQ(reloaded.count(id1), 1u);
-    EXPECT_EQ(reloaded.count(id2), 0u);
+    {
+        DatabaseMaintenanceOrchestrator orc2(nullptr, nullptr, nullptr, engine_.get());
+        EXPECT_FALSE(orc2.start()); // loads from storage; null scheduler returns error
+
+        auto schedules = orc2.listSchedules();
+        EXPECT_EQ(schedules.size(), 1u);
+        ASSERT_FALSE(schedules.empty());
+        EXPECT_EQ(schedules[0].id, id1);
+    }
 }
 
 TEST_F(SchedulePersistenceIntegrationTest, UpdatedSchedulePersistedAfterRestart) {
@@ -1026,11 +1029,14 @@ TEST_F(SchedulePersistenceIntegrationTest, UpdatedSchedulePersistedAfterRestart)
         ASSERT_TRUE(upd) << upd.error().message();
     }
 
-    MaintenanceScheduleStore verify_store(engine_.get());
-    std::map<std::string, MaintenanceScheduleEntry> reloaded;
-    ASSERT_TRUE(verify_store.loadAll(reloaded));
-    ASSERT_EQ(reloaded.size(), 1u);
-    EXPECT_EQ(reloaded[id].name, "Updated Name");
+    {
+        DatabaseMaintenanceOrchestrator orc2(nullptr, nullptr, nullptr, engine_.get());
+        EXPECT_FALSE(orc2.start()); // loads from storage; null scheduler returns error
+
+        auto fetched = orc2.getSchedule(id);
+        ASSERT_TRUE(fetched);
+        EXPECT_EQ(fetched->name, "Updated Name");
+    }
 }
 
 TEST_F(SchedulePersistenceIntegrationTest, PatchedSchedulePersistedAfterRestart) {
@@ -1048,11 +1054,14 @@ TEST_F(SchedulePersistenceIntegrationTest, PatchedSchedulePersistedAfterRestart)
         ASSERT_TRUE(p) << p.error().message();
     }
 
-    MaintenanceScheduleStore verify_store(engine_.get());
-    std::map<std::string, MaintenanceScheduleEntry> reloaded;
-    ASSERT_TRUE(verify_store.loadAll(reloaded));
-    ASSERT_EQ(reloaded.size(), 1u);
-    EXPECT_EQ(reloaded[id].name, "After Patch");
+    {
+        DatabaseMaintenanceOrchestrator orc2(nullptr, nullptr, nullptr, engine_.get());
+        EXPECT_FALSE(orc2.start()); // loads from storage; null scheduler returns error
+
+        auto fetched = orc2.getSchedule(id);
+        ASSERT_TRUE(fetched);
+        EXPECT_EQ(fetched->name, "After Patch");
+    }
 }
 
 TEST_F(SchedulePersistenceIntegrationTest,
@@ -1072,12 +1081,15 @@ TEST_F(SchedulePersistenceIntegrationTest,
         std::string(MaintenanceScheduleStore::kKeyPrefix) + "bad-entry",
         "{ invalid json !!!!");
 
-    MaintenanceScheduleStore verify_store(engine_.get());
-    std::map<std::string, MaintenanceScheduleEntry> reloaded;
-    auto load_result = verify_store.loadAll(reloaded);
-    ASSERT_TRUE(load_result); // must not fail overall
-    EXPECT_EQ(reloaded.size(), 1u);
-    EXPECT_EQ(reloaded.count(id_good), 1u);
+    // Restart: corrupt entry must be skipped, valid entry must be loaded.
+    {
+        DatabaseMaintenanceOrchestrator orc2(nullptr, nullptr, nullptr, engine_.get());
+        EXPECT_FALSE(orc2.start()); // loads from storage; null scheduler returns error
+
+        auto schedules = orc2.listSchedules();
+        ASSERT_EQ(schedules.size(), 1u);
+        EXPECT_EQ(schedules[0].id, id_good);
+    }
 }
 
 TEST_F(SchedulePersistenceIntegrationTest,
