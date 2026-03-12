@@ -149,7 +149,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_audit_log.cpp
     ../src/config/config_encrypted_store.cpp
     ../src/themis/build_info.cpp
-    ../src/utils/license_info.cpp
+    ../src/themis/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
