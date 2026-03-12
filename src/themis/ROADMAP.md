@@ -18,12 +18,12 @@ v1.7.0 (in progress) – License validation lives in `src/utils/`; module loadin
 - [x] Module dependency resolution and load-order management (Issue: #2474)
 - [x] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating with dynamic override API (Issue: #2469)
 - [x] `build_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/build_info.cpp` in both monolithic and modular builds)
+- [x] `license_info.cpp` – migrated to `src/themis/` (zero stubs; replaces `src/utils/license_info.cpp` in both monolithic and modular builds)
 - [x] `module_hash_verifier.cpp` – SHA-256 manifest verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2471)
 - [x] `module_signature_verifier.cpp` – Authenticode/GPG signature verification registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (Issue: #2473)
 - [x] `module_dependency_resolver.cpp` – focused CTest target added (ModuleDependencyResolverFocusedTests) covering topological sort, version compat, cycle detection (Issue: #2474)
 
 ## In Progress 🚧
-- [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
 - [~] `module_loader.cpp` – implemented in `src/base/`; pending migration to `src/themis/` (Target: Q3 2026, v1.7.0)
 
 ## Planned Features 📋
@@ -47,7 +47,7 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 
 ### Phase 2: Core Implementation Files (Status: Implemented ✅)
 - [x] `build_info.cpp` – build metadata collection and formatting (`src/themis/build_info.cpp`; migrated from `src/utils/`)
-- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
+- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/themis/license_info.cpp`; migrated from `src/utils/`)
 - [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: Completed ✅)
@@ -82,7 +82,7 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory contains all six implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, and `module_signature_verifier.cpp`. `license_info.cpp` and `module_loader.cpp` remain in `src/utils/` and `src/base/` respectively, pending migration (see Planned Features).
+- The `src/themis/` directory contains all seven implementation files: `build_info.cpp`, `license_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, and `module_signature_verifier.cpp`. `module_loader.cpp` remains in `src/base/`, pending migration (see Planned Features).
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which
