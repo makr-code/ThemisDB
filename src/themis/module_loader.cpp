@@ -466,7 +466,6 @@ void ModuleLoader::unloadModule(const std::string& moduleName) {
         });
         unloadLibrary(it->second.handle);
         loadedModules_.erase(it);
-        lk.unlock();
         ModuleRegistry::instance().unregisterModule(moduleName);
         metrics_.totalUnloads++;
     }
