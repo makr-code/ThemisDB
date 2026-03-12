@@ -34,6 +34,7 @@
 #pragma once
 
 #include "temporal/temporal_types.h"
+#include <functional>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -42,6 +43,40 @@
 
 namespace themisdb {
 namespace temporal {
+
+// Forward declaration for TemporalForeignKey
+class BiTemporalTable;
+
+/**
+ * TemporalForeignKey
+ *
+ * Describes a period-aware referential integrity constraint between two
+ * bi-temporal tables.  A child row is valid only when the referenced parent
+ * table contains a current row for the same key whose valid-time period
+ * *contains* the child row's valid-time period.
+ *
+ * Usage:
+ * @code
+ *   TemporalForeignKey fk;
+ *   fk.parent_table_name = "employees";
+ *   bool ok = fk.validate(parent_table, "emp_42", {1000, 2000});
+ * @endcode
+ */
+struct TemporalForeignKey {
+    /// Name of the referenced (parent) table – informational.
+    std::string parent_table_name;
+
+    /**
+     * Validate that the parent table has at least one *current* row for
+     * @p parent_key whose valid-time period **contains** @p child_period.
+     *
+     * Returns true  → referential integrity satisfied.
+     * Returns false → constraint violation (no parent row covers the period).
+     */
+    bool validate(const BiTemporalTable& parent_table,
+                  const std::string& parent_key,
+                  const TimeRange& child_period) const;
+};
 
 /**
  * BiTemporalTable
@@ -119,6 +154,32 @@ public:
      */
     std::vector<std::pair<VersionedDocument, VersionedDocument>> findOverlaps(
         const std::string& key) const;
+
+    /**
+     * Detect gaps in the valid-time coverage of current rows for a key
+     * within the half-open interval [@p from, @p to).
+     *
+     * A gap is a sub-interval within [@p from, @p to) not covered by any
+     * current row's valid-time period.
+     *
+     * Returns an empty vector when the period [@p from, @p to) is fully
+     * covered.  Returns `{{from, to}}` when the key has no current rows or
+     * none of them overlap the query range (the entire interval is a gap).
+     * Returns an empty vector when @p from >= @p to.
+     */
+    std::vector<TimeRange> findGaps(const std::string& key,
+                                    Timestamp from,
+                                    Timestamp to) const;
+
+    /**
+     * Check whether inserting a row with the given valid-time @p period for
+     * @p key would violate the temporal uniqueness constraint (i.e., overlap
+     * with an existing current row).
+     *
+     * Returns true when a conflict exists; false when the insert would succeed.
+     */
+    bool hasUniquenessConflict(const std::string& key,
+                                const TimeRange& period) const;
 
     /**
      * Return all versions (history) for a key.
