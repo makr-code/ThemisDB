@@ -35,11 +35,12 @@ management, and aggregated health reporting.
 ## Planned Features 📋
 
 ### Short-term (v1.1.0)
-- [ ] Persist schedules to RocksDB so they survive server restarts (Target: v1.1.0)
-  - Inputs: `MaintenanceScheduleEntry` JSON; key prefix `maint_sched::{id}`
-  - Outputs: schedules reload on `start()` from RocksDB
-  - Errors: corrupt schedule JSON → log warn and skip that entry; all valid entries loaded
-  - Tests: restart-persistence integration test
+- [x] Persist schedules to RocksDB so they survive server restarts (Target: v1.1.0)
+  - `MaintenanceScheduleStore` class wrapping `IStorageEngine` API; key prefix `maint_sched::{id}`
+  - Schedules reload on `start()` from RocksDB before cron registration
+  - Write-through persistence in `createSchedule`, `updateSchedule`, `patchSchedule`, `deleteSchedule`
+  - Corrupt schedule JSON → log WARN and skip that entry; all valid entries loaded
+  - Restart-persistence integration tests + `MaintenanceScheduleStore` unit tests added
 - [x] `POST /api/v1/maintenance/schedules/{id}/run` – window override flag `{"force": true}` (Target: v1.1.0)
   - Allows operator to bypass window enforcement for emergency maintenance
   - Audit log records `forced: true`
@@ -74,7 +75,7 @@ management, and aggregated health reporting.
 - [x] Input validation: name, tasks, cron_expression, window hours
 - [x] Cascading failure control: `halt_on_task_failure`
 - [x] HTTP RBAC: `maintenance:read` / `maintenance:write` / `maintenance:admin`
-- [ ] Schedule persistence (survives restart) – planned v1.1.0
+- [x] Schedule persistence (survives restart) – implemented v1.1.0 (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
 - [ ] Explicit DAG dependency graph – planned v1.2.0
 
 ## Known Issues & Limitations
