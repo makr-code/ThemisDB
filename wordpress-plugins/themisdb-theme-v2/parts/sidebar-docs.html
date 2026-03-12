@@ -7,46 +7,7 @@
 	<!-- wp:spacer {"height":"16px"} --><div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div><!-- /wp:spacer -->
 
 	<!-- Dynamic docs menu -->
-	<!-- wp:html -->
-	<nav class="themis-docs-sidebar-nav" aria-label="Documentation Navigation">
-		<?php
-		// Show docs navigation menu if registered
-		if ( has_nav_menu( 'docs' ) ) {
-			wp_nav_menu( array(
-				'theme_location' => 'docs',
-				'container'      => 'ul',
-				'menu_class'     => 'themis-docs-nav-list',
-				'depth'          => 3,
-				'fallback_cb'    => false,
-				'walker'         => null,
-			) );
-		} else {
-			// Fallback: show docs pages hierarchically
-			$docs_pages = get_pages( array(
-				'sort_column'  => 'menu_order',
-				'sort_order'   => 'ASC',
-				'hierarchical' => true,
-				'parent'       => 0,
-				'post_status'  => 'publish',
-				'number'       => 30,
-			) );
-
-			if ( ! empty( $docs_pages ) ) {
-				echo '<ul class="themis-docs-nav-list">';
-				$current_id = get_the_ID();
-				foreach ( $docs_pages as $docs_page ) {
-					$is_current = ( $docs_page->ID === $current_id ) ? ' class="current"' : '';
-					echo '<li' . $is_current . '>';
-					echo '<a href="' . esc_url( get_permalink( $docs_page ) ) . '">'
-						. esc_html( $docs_page->post_title ) . '</a>';
-					echo '</li>';
-				}
-				echo '</ul>';
-			}
-		}
-		?>
-	</nav>
-	<!-- /wp:html -->
+	<!-- wp:navigation {"className":"themis-docs-sidebar-nav","overlayMenu":"never","layout":{"type":"flex","orientation":"vertical"},"menuSlug":"docs"} /-->
 
 	<!-- wp:spacer {"height":"16px"} --><div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div><!-- /wp:spacer -->
 
@@ -58,10 +19,10 @@
 		<!-- /wp:heading -->
 		<!-- wp:list {"className":"themis-docs-quicklinks-list","style":{"typography":{"fontSize":"0.8125rem"}}} -->
 		<ul class="wp-block-list themis-docs-quicklinks-list" style="font-size:0.8125rem">
-			<li><a href="/docs/getting-started">🚀 Getting Started</a></li>
-			<li><a href="/downloads">⬇ Downloads</a></li>
-			<li><a href="/docs/api">📘 API Reference</a></li>
-			<li><a href="https://github.com/makr-code/ThemisDB">⭐ GitHub</a></li>
+			<!-- wp:list-item --><li><a href="/docs/getting-started">🚀 Getting Started</a></li><!-- /wp:list-item -->
+			<!-- wp:list-item --><li><a href="/downloads">⬇ Downloads</a></li><!-- /wp:list-item -->
+			<!-- wp:list-item --><li><a href="/docs/api">📘 API Reference</a></li><!-- /wp:list-item -->
+			<!-- wp:list-item --><li><a href="https://github.com/makr-code/ThemisDB">⭐ GitHub</a></li><!-- /wp:list-item -->
 		</ul>
 		<!-- /wp:list -->
 	</div>

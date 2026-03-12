@@ -14,23 +14,6 @@
 	<!-- Separator dot -->
 	<!-- wp:html --><span class="themis-meta-sep" aria-hidden="true" style="color:#bdc3c7;font-size:0.75rem;">·</span><!-- /wp:html -->
 
-	<!-- Reading time (calculated via HTML block) -->
-	<!-- wp:html -->
-	<?php
-	global $post;
-	if ( $post ) {
-		$content    = get_post_field( 'post_content', $post );
-		$word_count = str_word_count( strip_tags( $content ) );
-		$minutes    = max( 1, (int) ceil( $word_count / 200 ) );
-		echo '<span class="themis-reading-time" style="color:#7f8c8d;font-size:0.875rem;">'
-			. esc_html( $minutes ) . ' min read</span>';
-	}
-	?>
-	<!-- /wp:html -->
-
-	<!-- Separator dot -->
-	<!-- wp:html --><span class="themis-meta-sep" aria-hidden="true" style="color:#bdc3c7;font-size:0.75rem;">·</span><!-- /wp:html -->
-
 	<!-- Tags -->
 	<!-- wp:post-terms {"term":"post_tag","separator":", ","style":{"typography":{"fontSize":"0.875rem"},"color":{"text":"#3498db"}}} /-->
 

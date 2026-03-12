@@ -5,34 +5,10 @@
 	<div class="wp-block-group">
 
 		<!-- Previous Post -->
-		<!-- wp:html -->
-		<?php
-		$prev = get_previous_post();
-		if ( $prev ) :
-		?>
-		<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>" class="themis-post-nav-item themis-post-nav-prev" rel="prev" style="display:flex;flex-direction:column;gap:4px;text-decoration:none;flex:1;min-width:0;max-width:48%;">
-			<span style="font-size:0.75rem;font-weight:600;color:#95a5a6;text-transform:uppercase;letter-spacing:0.06em;">← Previous</span>
-			<span style="font-size:0.9375rem;font-weight:600;color:#2c3e50;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html( get_the_title( $prev ) ); ?></span>
-		</a>
-		<?php else : ?>
-		<div></div>
-		<?php endif; ?>
-		<!-- /wp:html -->
+		<!-- wp:post-navigation-link {"type":"previous","label":"← Previous","showTitle":true,"linkLabel":true,"className":"themis-post-nav-item themis-post-nav-prev"} /-->
 
 		<!-- Next Post -->
-		<!-- wp:html -->
-		<?php
-		$next = get_next_post();
-		if ( $next ) :
-		?>
-		<a href="<?php echo esc_url( get_permalink( $next ) ); ?>" class="themis-post-nav-item themis-post-nav-next" rel="next" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-decoration:none;flex:1;min-width:0;max-width:48%;">
-			<span style="font-size:0.75rem;font-weight:600;color:#95a5a6;text-transform:uppercase;letter-spacing:0.06em;">Next →</span>
-			<span style="font-size:0.9375rem;font-weight:600;color:#2c3e50;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html( get_the_title( $next ) ); ?></span>
-		</a>
-		<?php else : ?>
-		<div></div>
-		<?php endif; ?>
-		<!-- /wp:html -->
+		<!-- wp:post-navigation-link {"type":"next","label":"Next →","showTitle":true,"linkLabel":true,"className":"themis-post-nav-item themis-post-nav-next"} /-->
 
 	</div>
 	<!-- /wp:group -->

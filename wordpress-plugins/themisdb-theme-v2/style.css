@@ -697,6 +697,20 @@ blockquote cite {
     transform: translateY(-2px);
 }
 
+/* JS-toggled hover class for specific card variants */
+.themis-product-card:hover,
+.themis-product-card.themis-card-hover,
+.themis-docs-card:hover,
+.themis-docs-card.themis-card-hover,
+.themis-post-card:hover,
+.themis-post-card.themis-card-hover,
+.themis-blog-card:hover,
+.themis-blog-card.themis-card-hover {
+    box-shadow: var(--themis-shadow-md);
+    border-color: var(--themis-secondary);
+    transform: translateY(-2px);
+}
+
 .themis-card-icon {
     width: 48px;
     height: 48px;

@@ -119,21 +119,17 @@
 		} );
 
 		/* ----------------------------------------------------------
-		   Hover effect for product/docs cards (enhance CSS transitions)
+		   Hover effect for product/docs cards (CSS class toggle)
 		   ---------------------------------------------------------- */
 		var hoverCards = document.querySelectorAll(
 			'.themis-product-card, .themis-docs-card, .themis-post-card, .themis-blog-card'
 		);
 		hoverCards.forEach( function ( card ) {
 			card.addEventListener( 'mouseenter', function () {
-				this.style.borderColor   = '#3498db';
-				this.style.boxShadow     = '0 4px 12px rgba(0,0,0,0.10)';
-				this.style.transform     = 'translateY(-2px)';
+				this.classList.add( 'themis-card-hover' );
 			} );
 			card.addEventListener( 'mouseleave', function () {
-				this.style.borderColor   = '';
-				this.style.boxShadow     = '';
-				this.style.transform     = '';
+				this.classList.remove( 'themis-card-hover' );
 			} );
 		} );
 
