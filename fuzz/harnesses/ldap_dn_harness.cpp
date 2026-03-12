@@ -34,8 +34,9 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <iostream>
 #include <string>
-#include <cassert>
+#include <unistd.h>
 
 #ifdef AFL_FUZZ_BUILD
 #include "auth/ldap_authenticator.h"
@@ -69,6 +70,7 @@ static std::string escapeLDAPDNComponent(const std::string& value)
             case '>':  out += "\\>";  break;
             case ';':  out += "\\;";  break;
             case '=':  out += "\\=";  break;
+            case '\0': out += "\\00"; break;
             default:   out += static_cast<char>(c); break;
         }
     }
@@ -88,7 +90,7 @@ public:
         const std::string ph = "{username}";
         const auto pos = dn.find(ph);
         if (pos != std::string::npos)
-            dn.replace(pos, ph.size(), escapeDN(username));
+            dn.replace(pos, ph.size(), escapeLDAPDNComponent(username));
         return dn;
     }
 private:
@@ -97,6 +99,18 @@ private:
 
 } // anonymous namespace
 #endif // AFL_FUZZ_BUILD
+
+// ---------------------------------------------------------------------------
+// Harness invariant helper: always-on abort (survives -DNDEBUG builds).
+// The message is written to stderr before trapping to aid crash diagnosis.
+// ---------------------------------------------------------------------------
+#define FUZZ_CHECK(cond, msg) \
+    do { if (!(cond)) { \
+        const char* m_ = (msg); \
+        (void)::write(2, m_, __builtin_strlen(m_)); \
+        (void)::write(2, "\n", 1); \
+        __builtin_trap(); \
+    } } while (0)
 
 // ---------------------------------------------------------------------------
 // DN special characters that must never appear unescaped in the constructed DN
@@ -137,16 +151,15 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
     const std::string dn = auth.buildUserDN(username);
 
     // 1. The DN must always start with the template prefix.
-    assert(dn.substr(0, sizeof(k_prefix) - 1) == k_prefix &&
-           "LDAP DN: missing expected prefix after substitution");
+    FUZZ_CHECK(dn.substr(0, sizeof(k_prefix) - 1) == k_prefix,
+               "LDAP DN: missing expected prefix after substitution");
 
     // 2. The DN must always end with the template suffix.
-    assert(dn.size() >= (sizeof(k_suffix) - 1) &&
-           dn.substr(dn.size() - (sizeof(k_suffix) - 1)) == k_suffix &&
-           "LDAP DN: missing expected suffix after substitution");
+    FUZZ_CHECK(dn.size() >= (sizeof(k_suffix) - 1) &&
+               dn.substr(dn.size() - (sizeof(k_suffix) - 1)) == k_suffix,
+               "LDAP DN: missing expected suffix after substitution");
 
-    // 3. The substituted portion (between prefix and suffix) must not contain
-    //    any unescaped DN special character.
+    // 3. Inspect the substituted value component (between prefix and suffix).
     const std::size_t prefix_len = sizeof(k_prefix) - 1;
     const std::size_t suffix_len = sizeof(k_suffix) - 1;
     const std::string value_part = dn.substr(prefix_len,
@@ -159,18 +172,46 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
             ++i;
             continue;
         }
+
+        // 3a. DN special characters must never appear unescaped.
         for (const char special : k_dn_special) {
-            assert(c != special &&
-                   "LDAP DN injection: unescaped special character in value component");
+            FUZZ_CHECK(c != special,
+                       "LDAP DN injection: unescaped special character in value component");
         }
+    }
+
+    // 4. If the value component is non-empty, its first character must not be
+    //    an unescaped leading '#' (RFC 4514 §2.4 requires it be escaped as \#).
+    if (!value_part.empty()) {
+        FUZZ_CHECK(value_part[0] != '#',
+                   "LDAP DN injection: unescaped leading '#' in value component");
+
+        // 5. The first character must not be an unescaped leading space.
+        FUZZ_CHECK(value_part[0] != ' ',
+                   "LDAP DN injection: unescaped leading space in value component");
+
+        // 6. The last character must not be an unescaped trailing space.
+        //    (A trailing space would be escaped as "\ " — two chars — so a lone
+        //    space at the end is invalid.)
+        FUZZ_CHECK(value_part.back() != ' ',
+                   "LDAP DN injection: unescaped trailing space in value component");
     }
 
     return 0;
 }
 
 // ---------------------------------------------------------------------------
-// AFL++ persistent-mode wrapper / stdin driver
+// AFL++ persistent-mode wrapper / standalone stdin driver.
+//
+// libFuzzer (clang -fsanitize=fuzzer) provides its own main(); defining
+// another one causes a link error.  This file is never compiled into the
+// production library — it is only used as a fuzzing harness — so main() is
+// safe to include here for AFL++ persistent mode (__AFL_FUZZ_TESTCASE_LEN)
+// and for standalone manual testing.  When building with libFuzzer, add
+// -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION (set automatically by
+// -fsanitize=fuzzer on clang) to suppress this definition.
 // ---------------------------------------------------------------------------
+#if defined(__AFL_FUZZ_TESTCASE_LEN) || !defined(FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION)
 int main(int argc, char** argv)
 {
 #ifdef __AFL_FUZZ_TESTCASE_LEN
@@ -195,3 +236,4 @@ int main(int argc, char** argv)
 #endif
     return 0;
 }
+#endif // !libFuzzer

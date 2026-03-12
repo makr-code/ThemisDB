@@ -433,6 +433,42 @@ TEST(LDAPAuthenticatorTest, BuildUserDN_PlainUsernameUnchanged)
     EXPECT_EQ(auth.buildUserDN("jdoe123"), "CN=jdoe123,OU=Users,DC=example,DC=com");
 }
 
+TEST(LDAPAuthenticatorTest, BuildUserDN_EscapesEqualsInUsername)
+{
+    LDAPAuthenticator auth;
+    ASSERT_TRUE(auth.initialize(makeConfig()));
+
+    // '=' is an RFC 4514 DN special character and must be backslash-escaped.
+    const std::string dn = auth.buildUserDN("cn=admin");
+    EXPECT_EQ(dn, "CN=cn\\=admin,OU=Users,DC=example,DC=com");
+}
+
+// ===========================================================================
+// LDAP filter injection prevention (RFC 4515) — buildGroupSearchFilter
+// ===========================================================================
+
+TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesFilterSpecialCharsInDN)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.enable_group_search    = true;
+    cfg.base_dn                = "DC=example,DC=com";
+    cfg.group_search_filter    = "(&(objectClass=group)(member={dn}))";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    // A DN containing LDAP filter special chars must be hex-escaped per RFC 4515.
+    // '*' → \2a, '(' → \28, ')' → \29, '\' → \5c
+    const std::string filter =
+        auth.buildGroupSearchFilter("CN=j*doe(evil),DC=example,DC=com");
+    EXPECT_EQ(filter,
+        "(&(objectClass=group)(member=CN=j\\2adoe\\28evil\\29,DC=example,DC=com))");
+    // Must not contain unescaped wildcards or parentheses.
+    const std::string substituted = filter.substr(filter.find("member=") + 7);
+    EXPECT_EQ(substituted.find('*'), std::string::npos);
+    EXPECT_EQ(substituted.find('('), std::string::npos);
+    EXPECT_EQ(substituted.find(')'), std::string::npos);
+}
+
 /**
  * @brief Integration test — requires an actual LDAP / Active Directory server.
  *
