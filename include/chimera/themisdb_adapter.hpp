@@ -40,6 +40,7 @@
 #include "chimera/database_adapter.hpp"
 #include <map>
 #include <mutex>
+#include <unordered_set>
 
 namespace chimera {
 
@@ -193,8 +194,10 @@ private:
     // Transaction tracking state
     struct TxnEntry {
         TransactionOptions options;
-        std::chrono::system_clock::time_point start_time;
-        std::vector<std::string> savepoints; ///< Active savepoints (LIFO order)
+        std::chrono::system_clock::time_point start_time;   ///< Wall-clock start (for reporting)
+        std::chrono::steady_clock::time_point steady_start; ///< Monotonic start (for elapsed time)
+        std::vector<std::string> savepoints;          ///< Active savepoints in creation order
+        std::unordered_set<std::string> savepoint_set;///< Fast O(1) membership lookup
         size_t operations_count = 0;
         size_t retry_count = 0;
     };

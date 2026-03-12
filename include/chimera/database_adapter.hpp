@@ -260,7 +260,7 @@ struct TransactionOptions {
 
 /**
  * @struct TransactionStats
- * @brief Runtime statistics for an active or completed transaction
+ * @brief Runtime statistics for an active transaction
  */
 struct TransactionStats {
     std::string transaction_id;                          ///< Transaction identifier
@@ -713,15 +713,16 @@ public:
      *          starting at @p initial_backoff_ms milliseconds.
      *
      * @tparam T Result value type
+     * @tparam F Callable type returning Result<T>
      * @param operation  Callable returning Result<T>
      * @param max_retries Maximum number of additional attempts after the first
      * @param initial_backoff_ms Initial sleep duration before the first retry
      * @return The first successful result, the last deadlock result after all
      *         retries are exhausted, or any non-deadlock error immediately
      */
-    template<typename T>
+    template<typename T, typename F>
     Result<T> execute_with_retry(
-        std::function<Result<T>()> operation,
+        F&& operation,
         size_t max_retries = 3,
         std::chrono::milliseconds initial_backoff_ms = std::chrono::milliseconds{10}
     ) {
@@ -730,7 +731,16 @@ public:
         for (size_t attempt = 0; attempt < max_retries && last.is_err() &&
                                   last.error_code == ErrorCode::DEADLOCK; ++attempt) {
             const size_t shift = attempt < kMaxBackoffShift ? attempt : kMaxBackoffShift;
-            std::this_thread::sleep_for(initial_backoff_ms * (1u << shift));
+            const auto factor = static_cast<std::chrono::milliseconds::rep>(1u << shift);
+            const auto max_ms = std::chrono::milliseconds::max();
+            const std::chrono::milliseconds::rep base = initial_backoff_ms.count();
+            std::chrono::milliseconds safe_duration;
+            if (base > 0 && factor > 0 && base > max_ms.count() / factor) {
+                safe_duration = max_ms;
+            } else {
+                safe_duration = initial_backoff_ms * factor;
+            }
+            std::this_thread::sleep_for(safe_duration);
             last = operation();
         }
         return last;

@@ -361,7 +361,8 @@ Result<std::string> ThemisDBAdapter::begin_transaction(
 
     TxnEntry entry;
     entry.options = options;
-    entry.start_time = std::chrono::system_clock::now();
+    entry.start_time   = std::chrono::system_clock::now();
+    entry.steady_start = std::chrono::steady_clock::now();
     active_transactions_.emplace(txn_id, std::move(entry));
 
     return Result<std::string>::ok(txn_id);
@@ -446,16 +447,15 @@ Result<std::string> ThemisDBAdapter::create_savepoint(
     }
 
     auto& entry = it->second;
-    for (const auto& sp : entry.savepoints) {
-        if (sp == savepoint_name) {
-            return Result<std::string>::err(
-                ErrorCode::ALREADY_EXISTS,
-                "Savepoint '" + savepoint_name + "' already exists in transaction '" +
-                    transaction_id + "'"
-            );
-        }
+    if (entry.savepoint_set.count(savepoint_name) != 0) {
+        return Result<std::string>::err(
+            ErrorCode::ALREADY_EXISTS,
+            "Savepoint '" + savepoint_name + "' already exists in transaction '" +
+                transaction_id + "'"
+        );
     }
     entry.savepoints.push_back(savepoint_name);
+    entry.savepoint_set.insert(savepoint_name);
     return Result<std::string>::ok(savepoint_name);
 }
 
@@ -494,6 +494,10 @@ Result<bool> ThemisDBAdapter::rollback_to_savepoint(
             "Savepoint '" + savepoint_name + "' not found in transaction '" +
                 transaction_id + "'"
         );
+    }
+    // Remove all savepoints after the target from the set before erasing from vector
+    for (auto it2 = sp_it + 1; it2 != entry.savepoints.end(); ++it2) {
+        entry.savepoint_set.erase(*it2);
     }
     // Retain savepoints up to and including the target
     entry.savepoints.erase(sp_it + 1, entry.savepoints.end());
@@ -535,6 +539,7 @@ Result<bool> ThemisDBAdapter::release_savepoint(
                 transaction_id + "'"
         );
     }
+    entry.savepoint_set.erase(savepoint_name);
     entry.savepoints.erase(sp_it);
     return Result<bool>::ok(true);
 }
@@ -565,13 +570,13 @@ Result<TransactionStats> ThemisDBAdapter::get_transaction_stats(
     }
 
     const auto& entry = it->second;
-    const auto now = std::chrono::system_clock::now();
+    const auto now_steady = std::chrono::steady_clock::now();
 
     TransactionStats stats;
     stats.transaction_id   = transaction_id;
     stats.start_time       = entry.start_time;
     stats.elapsed_time     = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                 now - entry.start_time);
+                                 now_steady - entry.steady_start);
     stats.operations_count = entry.operations_count;
     stats.savepoint_count  = entry.savepoints.size();
     stats.retry_count      = entry.retry_count;
@@ -607,7 +612,7 @@ Result<TransactionState> ThemisDBAdapter::get_transaction_state(
     }
 
     const auto& entry = it->second;
-    const auto now = std::chrono::system_clock::now();
+    const auto now_steady = std::chrono::steady_clock::now();
 
     TransactionState state;
     state.transaction_id  = transaction_id;
@@ -616,7 +621,7 @@ Result<TransactionState> ThemisDBAdapter::get_transaction_state(
     state.savepoints      = entry.savepoints;
     state.is_read_only    = entry.options.read_only;
     state.elapsed_time    = std::chrono::duration_cast<std::chrono::milliseconds>(
-                                now - entry.start_time);
+                                now_steady - entry.steady_start);
 
     return Result<TransactionState>::ok(std::move(state));
 }
