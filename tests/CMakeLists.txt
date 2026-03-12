@@ -13091,10 +13091,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
         Threads::Threads
     )
 
-    if(TARGET themis_core)
-        target_link_libraries(test_bi_temporal_focused PRIVATE themis_core)
-    endif()
-
     target_compile_definitions(test_bi_temporal_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )

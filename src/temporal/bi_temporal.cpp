@@ -49,6 +49,12 @@ BiTemporalTable::BiTemporalTable(std::string table_name,
 bool TemporalForeignKey::validate(const BiTemporalTable& parent_table,
                                    const std::string& parent_key,
                                    const TimeRange& child_period) const {
+    // Guard: reject if the caller passed the wrong parent table.
+    if (!parent_table_name.empty() &&
+        parent_table.tableName() != parent_table_name) {
+        return false;
+    }
+
     // A current parent row must exist whose valid-time period CONTAINS the
     // entire child_period, i.e. parent.valid_time.start <= child_period.start
     // AND parent.valid_time.end >= child_period.end.
@@ -239,26 +245,28 @@ std::vector<TimeRange> BiTemporalTable::findGaps(const std::string& key,
         return {};
     }
 
-    std::lock_guard<std::mutex> lock(mutex_);
-
-    auto it = rows_.find(key);
-    if (it == rows_.end()) {
-        // No rows at all → the entire interval is a gap
-        return {{from, to}};
-    }
-
-    // Collect and sort valid-time start points of current rows that overlap
-    // with [from, to).
+    // Limit the critical section to extracting the covered intervals;
+    // sort and merge are independent of shared state and run unlocked.
     std::vector<TimeRange> covered;
-    for (const auto& v : it->second) {
-        if (v.isCurrent() && v.valid_time.overlaps({from, to})) {
-            // Clamp to [from, to).  The overlaps() pre-check guarantees that
-            // the clamped range is non-empty (start < end).
-            Timestamp cs = std::max(v.valid_time.start, from);
-            Timestamp ce = std::min(v.valid_time.end, to);
-            covered.push_back({cs, ce});
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        auto it = rows_.find(key);
+        if (it == rows_.end()) {
+            // No rows at all → the entire interval is a gap
+            return {{from, to}};
         }
-    }
+
+        for (const auto& v : it->second) {
+            if (v.isCurrent() && v.valid_time.overlaps({from, to})) {
+                // Clamp to [from, to).  The overlaps() pre-check guarantees
+                // that the clamped range is non-empty (start < end).
+                Timestamp cs = std::max(v.valid_time.start, from);
+                Timestamp ce = std::min(v.valid_time.end, to);
+                covered.push_back({cs, ce});
+            }
+        }
+    } // lock released here
 
     if (covered.empty()) {
         return {{from, to}};
@@ -298,6 +306,11 @@ std::vector<TimeRange> BiTemporalTable::findGaps(const std::string& key,
 
 bool BiTemporalTable::hasUniquenessConflict(const std::string& key,
                                              const TimeRange& period) const {
+    // An empty or invalid period cannot overlap anything.
+    if (period.start >= period.end) {
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = rows_.find(key);

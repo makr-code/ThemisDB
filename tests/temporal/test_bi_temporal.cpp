@@ -308,14 +308,20 @@ TEST_F(BiTemporalTableTest, HasUniquenessConflict_ConsistentWithInsert) {
     EXPECT_FALSE(insert_result); // insert should have been rejected
 }
 
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_InvalidPeriod_ReturnsFalse) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 300});
+    // An empty or reversed period cannot conflict with anything
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {200, 200})); // start == end
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {300, 100})); // start > end
+}
+
 // ── TemporalForeignKey ────────────────────────────────────────────────────────
 
 TEST_F(BiTemporalTableTest, TemporalForeignKey_ValidReference_ReturnsTrue) {
     BiTemporalTable parent{"employees", "node_a"};
     parent.insertWithValidTime("emp_1", {{"name", "Alice"}}, {1000, 5000});
 
-    TemporalForeignKey fk;
-    fk.parent_table_name = "employees";
+    TemporalForeignKey fk{"employees"};
 
     // Child period [2000,3000) is fully contained within parent [1000,5000)
     EXPECT_TRUE(fk.validate(parent, "emp_1", {2000, 3000}));
@@ -324,8 +330,7 @@ TEST_F(BiTemporalTableTest, TemporalForeignKey_ValidReference_ReturnsTrue) {
 TEST_F(BiTemporalTableTest, TemporalForeignKey_ParentKeyMissing_ReturnsFalse) {
     BiTemporalTable parent{"employees", "node_a"};
 
-    TemporalForeignKey fk;
-    fk.parent_table_name = "employees";
+    TemporalForeignKey fk{"employees"};
 
     EXPECT_FALSE(fk.validate(parent, "emp_missing", {1000, 2000}));
 }
@@ -334,8 +339,7 @@ TEST_F(BiTemporalTableTest, TemporalForeignKey_ChildPeriodExceedsParent_ReturnsF
     BiTemporalTable parent{"employees", "node_a"};
     parent.insertWithValidTime("emp_2", {{"name", "Bob"}}, {2000, 4000});
 
-    TemporalForeignKey fk;
-    fk.parent_table_name = "employees";
+    TemporalForeignKey fk{"employees"};
 
     // Child period [1000,5000) exceeds parent [2000,4000) – FK violation
     EXPECT_FALSE(fk.validate(parent, "emp_2", {1000, 5000}));
@@ -346,8 +350,7 @@ TEST_F(BiTemporalTableTest, TemporalForeignKey_ParentRowDeleted_ReturnsFalse) {
     parent.insertWithValidTime("emp_3", {{"name", "Carol"}}, {1000, 5000});
     parent.deleteForValidTime("emp_3", 3000); // logically delete
 
-    TemporalForeignKey fk;
-    fk.parent_table_name = "employees";
+    TemporalForeignKey fk{"employees"};
 
     // Parent row is no longer current → FK cannot be satisfied
     EXPECT_FALSE(fk.validate(parent, "emp_3", {2000, 3000}));
@@ -357,9 +360,26 @@ TEST_F(BiTemporalTableTest, TemporalForeignKey_ExactPeriodMatch_ReturnsTrue) {
     BiTemporalTable parent{"contracts", "node_a"};
     parent.insertWithValidTime("con_1", {{"val", 42}}, {500, 1500});
 
-    TemporalForeignKey fk;
-    fk.parent_table_name = "contracts";
+    TemporalForeignKey fk{"contracts"};
 
     // Child period exactly equals parent period → valid
     EXPECT_TRUE(fk.validate(parent, "con_1", {500, 1500}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_WrongTableName_ReturnsFalse) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_1", {{"name", "Alice"}}, {1000, 5000});
+
+    // FK configured for "contracts" but we pass an "employees" table → rejected
+    TemporalForeignKey fk{"contracts"};
+    EXPECT_FALSE(fk.validate(parent, "emp_1", {2000, 3000}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_EmptyTableName_SkipsNameCheck) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_1", {{"name", "Alice"}}, {1000, 5000});
+
+    // An empty parent_table_name skips the name guard → validate on content only
+    TemporalForeignKey fk{""};
+    EXPECT_TRUE(fk.validate(parent, "emp_1", {2000, 3000}));
 }

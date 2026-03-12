@@ -55,23 +55,29 @@ class BiTemporalTable;
  * table contains a current row for the same key whose valid-time period
  * *contains* the child row's valid-time period.
  *
+ * `parent_table_name` is compared against `BiTemporalTable::tableName()` in
+ * `validate()` to prevent accidentally passing the wrong table instance.
+ *
  * Usage:
  * @code
- *   TemporalForeignKey fk;
- *   fk.parent_table_name = "employees";
- *   bool ok = fk.validate(parent_table, "emp_42", {1000, 2000});
+ *   TemporalForeignKey fk{"employees"};
+ *   bool ok = fk.validate(emp_table, "emp_42", {1000, 2000});
  * @endcode
  */
 struct TemporalForeignKey {
-    /// Name of the referenced (parent) table – informational.
+    /// Name of the referenced (parent) table.  Must match
+    /// `parent_table.tableName()` when `validate()` is called.
     std::string parent_table_name;
 
     /**
-     * Validate that the parent table has at least one *current* row for
-     * @p parent_key whose valid-time period **contains** @p child_period.
+     * Validate that @p parent_table is the expected table and that it has at
+     * least one *current* row for @p parent_key whose valid-time period
+     * **contains** @p child_period.
      *
      * Returns true  → referential integrity satisfied.
-     * Returns false → constraint violation (no parent row covers the period).
+     * Returns false → constraint violation: either @p parent_table is the
+     *                 wrong table (name mismatch), or no parent row covers the
+     *                 period.
      */
     bool validate(const BiTemporalTable& parent_table,
                   const std::string& parent_key,
@@ -176,6 +182,8 @@ public:
      * @p key would violate the temporal uniqueness constraint (i.e., overlap
      * with an existing current row).
      *
+     * Returns false immediately when @p period is empty or invalid
+     * (i.e., `period.start >= period.end`).
      * Returns true when a conflict exists; false when the insert would succeed.
      */
     bool hasUniquenessConflict(const std::string& key,
