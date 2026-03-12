@@ -10063,6 +10063,14 @@ add_chimera_focused_test(
     "AdapterCapabilityMatrix: cross-system capability comparison for all 9 adapters"
 )
 
+add_chimera_focused_test(
+    test_chimera_retry_policy
+    chimera/test_retry_policy.cpp
+    ChimeraRetryPolicyTests
+    "chimera;retry;circuit-breaker;error-recovery;unit"
+    "RetryPolicy/CircuitBreaker/ConnectionWithRetry: exponential backoff, transient classification, circuit states, health check"
+)
+
 # ============================================================================
 # Exporters Focused Test Targets
 # Each target compiles the full exporter source set and links themis_core
