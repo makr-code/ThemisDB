@@ -86,8 +86,8 @@ public:
         std::string expected_audience;   // Expected "aud" claim
         std::chrono::seconds jwks_cache_ttl{3600}; // Default 1 hour
         std::chrono::seconds clock_skew{60};       // Default 60 seconds tolerance
-        bool require_issuer_validation = true;   // Fail at construction if expected_issuer is empty
-        bool require_audience_validation = true; // Fail at construction if expected_audience is empty
+        bool require_issuer_validation = true;   // Require expected_issuer to be configured
+        bool require_audience_validation = true; // Require expected_audience to be configured
         
         // Mapping of JWT claims to scopes and tenant
         std::string scope_claim = "roles";  // Which JWT claim contains scopes (e.g., "roles", "groups", "scopes")
