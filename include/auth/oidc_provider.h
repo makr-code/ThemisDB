@@ -187,6 +187,22 @@ public:
     OAuthDeviceFlow createDeviceFlow();
 
     // -----------------------------------------------------------------------
+    // Configuration accessors
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Return the OAuth 2.0 client identifier for this provider.
+     */
+    const std::string& clientId() const { return config_.client_id; }
+
+    /**
+     * @brief Return the OAuth 2.0 client secret for this provider.
+     *
+     * Empty for public clients.
+     */
+    const std::string& clientSecret() const { return config_.client_secret; }
+
+    // -----------------------------------------------------------------------
     // Testing helpers
     // -----------------------------------------------------------------------
 

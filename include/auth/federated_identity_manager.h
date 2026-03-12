@@ -34,6 +34,7 @@
 #include <mutex>
 #include <functional>
 #include <optional>
+#include <utility>
 
 namespace themis {
 namespace auth {
@@ -47,6 +48,23 @@ namespace auth {
 struct FederatedValidationResult {
     JWTClaims    claims;      ///< Validated JWT claims
     std::string  realm;       ///< Issuer URL of the realm that validated the token
+};
+
+/**
+ * @brief Result of an RFC 8693 OAuth 2.0 Token Exchange
+ *
+ * Contains the raw exchanged access token, the token type declared by the IdP,
+ * the optional lifetime, and the validated claims extracted by the
+ * JWTValidator pipeline.
+ */
+struct TokenExchangeResult {
+    std::string  access_token;        ///< Exchanged access token (raw JWT)
+    std::string  issued_token_type;   ///< Token type URI returned by the IdP
+    std::string  token_type;          ///< Bearer token type (usually "Bearer")
+    int          expires_in{0};       ///< Lifetime in seconds (0 = not provided)
+    std::string  scope;               ///< Granted scopes (space-separated, may be empty)
+    JWTClaims    claims;              ///< Validated claims from the exchanged token
+    std::string  realm;               ///< Issuer URL of the realm that issued the token
 };
 
 /**
@@ -156,6 +174,48 @@ public:
      */
     FederatedValidationResult validateToken(const std::string& token);
 
+    // -----------------------------------------------------------------------
+    // RFC 8693 Token Exchange
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Exchange a token via RFC 8693 (OAuth 2.0 Token Exchange).
+     *
+     * Implements the token exchange grant type for service-to-service
+     * impersonation and delegation in federated scenarios.
+     *
+     * The method:
+     *  1. Validates @p subject_token through the registered realm's
+     *     JWTValidator pipeline to ensure the caller holds a valid credential.
+     *  2. Posts a token-exchange request to the realm's @c token_endpoint
+     *     using @c grant_type=urn:ietf:params:oauth:grant-type:token-exchange.
+     *  3. Validates the returned token through the same JWTValidator pipeline.
+     *  4. Scopes the exchanged token to @p target_scopes (minimum required
+     *     permissions) if provided.
+     *
+     * @param subject_token        The token being exchanged (JWT bearer token).
+     * @param subject_token_type   URI identifying the type of @p subject_token,
+     *                             e.g. @c urn:ietf:params:oauth:token-type:access_token.
+     * @param requested_token_type URI identifying the desired token type,
+     *                             e.g. @c urn:ietf:params:oauth:token-type:access_token.
+     * @param target_scopes        Optional list of scopes to request; the IdP
+     *                             will scope the exchanged token to the
+     *                             minimum required permissions.  When empty,
+     *                             no explicit scope restriction is sent.
+     * @return TokenExchangeResult with the raw exchanged token and its
+     *         validated JWTClaims.
+     * @throws AuthException(JWT_ISSUER_MISMATCH) if @p subject_token's issuer
+     *         does not match any registered realm.
+     * @throws AuthException(AUTH_INTERNAL_ERROR) on HTTP or JSON parse failure.
+     * @throws AuthException on any validation failure of either the subject or
+     *         the exchanged token.
+     */
+    TokenExchangeResult exchangeToken(
+        const std::string& subject_token,
+        const std::string& subject_token_type,
+        const std::string& requested_token_type,
+        const std::vector<std::string>& target_scopes = {});
+
     /**
      * @brief Access a specific realm's OIDCProvider.
      *
@@ -183,6 +243,19 @@ public:
     void setHttpGetForTesting(
         std::function<std::string(const std::string& url)> fn);
 
+    /**
+     * @brief Override the HTTP POST function used by exchangeToken()
+     *        (for unit tests only).
+     *
+     * When set, exchangeToken() calls this function instead of libcurl to
+     * submit the token-exchange form POST.  The function receives the target
+     * URL and the URL-encoded form body, and must return the raw JSON response
+     * body or throw std::runtime_error on failure.
+     */
+    void setHttpPostForTesting(
+        std::function<std::string(const std::string& url,
+                                  const std::string& body)> fn);
+
 private:
     /// Normalize an issuer URL by stripping trailing slashes.
     static std::string normalize(const std::string& url);
@@ -191,13 +264,30 @@ private:
     /// performing any cryptographic verification.
     static std::string extractIssuer(const std::string& token);
 
+    /// URL-encode a single string value for use in an
+    /// application/x-www-form-urlencoded body.
+    static std::string urlEncode(const std::string& value);
+
+    /// Build an application/x-www-form-urlencoded request body from a list
+    /// of key–value pairs.
+    static std::string buildFormBody(
+        const std::vector<std::pair<std::string, std::string>>& params);
+
+    /// Perform an HTTP POST and return the raw response body.
+    /// Uses the mock function if setHttpPostForTesting() was called.
+    std::string httpPost(const std::string& url, const std::string& body) const;
+
     mutable std::mutex mutex_;
 
     /// issuer_url (normalized) -> OIDCProvider
     std::unordered_map<std::string, std::shared_ptr<OIDCProvider>> realms_;
 
-    /// Optional HTTP mock injected for testing; applied to all new realms
+    /// Optional HTTP GET mock injected for testing; applied to all new realms
     std::function<std::string(const std::string& url)> http_get_fn_;
+
+    /// Optional HTTP POST mock injected for testing; used by exchangeToken()
+    std::function<std::string(const std::string& url,
+                               const std::string& body)> http_post_fn_;
 };
 
 } // namespace auth

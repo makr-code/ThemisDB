@@ -25,6 +25,7 @@
 
 #include "auth/federated_identity_manager.h"
 
+#include <curl/curl.h>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
 
@@ -36,6 +37,17 @@ namespace auth {
 // ---------------------------------------------------------------------------
 // Private static helpers
 // ---------------------------------------------------------------------------
+
+namespace {
+
+size_t federatedCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                   void* userdata) {
+    const auto total = size * nmemb;
+    static_cast<std::string*>(userdata)->append(ptr, total);
+    return total;
+}
+
+} // anonymous namespace
 
 // static
 std::string FederatedIdentityManager::normalize(const std::string& url) {
@@ -270,6 +282,287 @@ void FederatedIdentityManager::setHttpGetForTesting(
     std::function<std::string(const std::string& url)> fn)
 {
     http_get_fn_ = std::move(fn);
+}
+
+void FederatedIdentityManager::setHttpPostForTesting(
+    std::function<std::string(const std::string& url,
+                               const std::string& body)> fn)
+{
+    http_post_fn_ = std::move(fn);
+}
+
+// ---------------------------------------------------------------------------
+// HTTP helpers
+// ---------------------------------------------------------------------------
+
+// static
+std::string FederatedIdentityManager::urlEncode(const std::string& value) {
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        throw std::runtime_error("Failed to initialize libcurl handle for URL encoding");
+    }
+
+    char* encoded = curl_easy_escape(curl, value.c_str(),
+                                     static_cast<int>(value.size()));
+    std::string result;
+    if (encoded) {
+        result = encoded;
+        curl_free(encoded);
+    } else {
+        curl_easy_cleanup(curl);
+        throw std::runtime_error("curl_easy_escape failed to URL-encode value");
+    }
+    curl_easy_cleanup(curl);
+    return result;
+}
+
+// static
+std::string FederatedIdentityManager::buildFormBody(
+    const std::vector<std::pair<std::string, std::string>>& params)
+{
+    std::string body;
+    for (size_t i = 0; i < params.size(); ++i) {
+        if (i > 0) body += '&';
+        body += urlEncode(params[i].first);
+        body += '=';
+        body += urlEncode(params[i].second);
+    }
+    return body;
+}
+
+std::string FederatedIdentityManager::httpPost(const std::string& url,
+                                                const std::string& body) const
+{
+    if (http_post_fn_) {
+        return http_post_fn_(url, body);
+    }
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        throw std::runtime_error("Failed to initialize libcurl handle");
+    }
+
+    std::string response_body;
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, federatedCurlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L);
+    // Always verify TLS certificates
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers,
+                                "Content-Type: application/x-www-form-urlencoded");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+    CURLM* multi = curl_multi_init();
+    if (!multi) {
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+        throw std::runtime_error("Failed to initialize libcurl multi handle");
+    }
+
+    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+    if (add_rc != CURLM_OK) {
+        curl_slist_free_all(headers);
+        curl_multi_cleanup(multi);
+        curl_easy_cleanup(curl);
+        throw std::runtime_error(
+            std::string("curl_multi_add_handle failed: ") +
+            curl_multi_strerror(add_rc));
+    }
+
+    int still_running = 0;
+    CURLMcode mc = CURLM_OK;
+    do {
+        mc = curl_multi_perform(multi, &still_running);
+        if (mc != CURLM_OK) break;
+        if (still_running) {
+            mc = curl_multi_wait(multi, nullptr, 0, 1000 /* ms */, nullptr);
+        }
+    } while (still_running && mc == CURLM_OK);
+
+    CURLcode easy_rc = (mc == CURLM_OK) ? CURLE_OK : CURLE_FAILED_INIT;
+    if (mc == CURLM_OK) {
+        CURLMsg* msg = nullptr;
+        int msgs_left = 0;
+        while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+            if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
+                easy_rc = msg->data.result;
+            }
+        }
+    }
+
+    curl_slist_free_all(headers);
+    curl_multi_remove_handle(multi, curl);
+    curl_multi_cleanup(multi);
+    curl_easy_cleanup(curl);
+
+    if (mc != CURLM_OK) {
+        throw std::runtime_error(
+            std::string("libcurl multi error: ") + curl_multi_strerror(mc));
+    }
+    if (easy_rc != CURLE_OK) {
+        throw std::runtime_error(
+            std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
+    }
+
+    return response_body;
+}
+
+// ---------------------------------------------------------------------------
+// RFC 8693 Token Exchange
+// ---------------------------------------------------------------------------
+
+TokenExchangeResult FederatedIdentityManager::exchangeToken(
+    const std::string& subject_token,
+    const std::string& subject_token_type,
+    const std::string& requested_token_type,
+    const std::vector<std::string>& target_scopes)
+{
+    // Step 1: peek at the issuer claim to find the responsible realm
+    const std::string raw_iss = extractIssuer(subject_token);
+    const std::string iss     = normalize(raw_iss);
+
+    // Step 2: locate the matching realm
+    std::shared_ptr<OIDCProvider> provider;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const auto it = realms_.find(iss);
+        if (it == realms_.end()) {
+            spdlog::warn("FederatedIdentityManager::exchangeToken: "
+                         "no realm registered for issuer '{}'", iss);
+            throw AuthException(AuthError(
+                AuthErrorCode::JWT_ISSUER_MISMATCH,
+                "Token issuer is not trusted",
+                "No realm registered for issuer '" + iss + "'"
+            ));
+        }
+        provider = it->second;
+    }
+
+    // Step 3: validate the subject token through the realm's JWTValidator
+    // pipeline to ensure the caller presents a valid credential before we
+    // forward it to the IdP.
+    spdlog::debug("FederatedIdentityManager::exchangeToken: "
+                  "validating subject token for realm '{}'", iss);
+    provider->validateToken(subject_token);
+
+    // Step 4: obtain the token_endpoint from the realm's discovery document
+    const std::string token_endpoint =
+        provider->discoveryDocument().token_endpoint;
+
+    if (token_endpoint.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_CONFIG_INVALID,
+            "Token exchange not available",
+            "Realm '" + iss + "' discovery document does not contain a token_endpoint"
+        ));
+    }
+
+    // Step 5: build the RFC 8693 token-exchange POST body
+    // (grant_type + subject_token + subject_token_type + requested_token_type
+    //  + client_id + optional client_secret + optional scope)
+    std::vector<std::pair<std::string, std::string>> params = {
+        {"grant_type",           "urn:ietf:params:oauth:grant-type:token-exchange"},
+        {"subject_token",        subject_token},
+        {"subject_token_type",   subject_token_type},
+        {"requested_token_type", requested_token_type},
+        {"client_id",            provider->clientId()},
+    };
+
+    if (!provider->clientSecret().empty()) {
+        params.emplace_back("client_secret", provider->clientSecret());
+    }
+
+    // Scope the exchanged token to the minimum required permissions
+    if (!target_scopes.empty()) {
+        std::string scope_str;
+        for (size_t i = 0; i < target_scopes.size(); ++i) {
+            if (i > 0) scope_str += ' ';
+            scope_str += target_scopes[i];
+        }
+        params.emplace_back("scope", scope_str);
+    }
+
+    const std::string form_body = buildFormBody(params);
+
+    // Step 6: POST the token-exchange request to the IdP
+    spdlog::debug("FederatedIdentityManager::exchangeToken: "
+                  "posting to token_endpoint '{}'", token_endpoint);
+
+    std::string response_body;
+    try {
+        response_body = httpPost(token_endpoint, form_body);
+    } catch (const std::exception& ex) {
+        spdlog::error("FederatedIdentityManager::exchangeToken: "
+                      "HTTP POST failed: {}", ex.what());
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Token exchange request failed",
+            std::string("HTTP POST error: ") + ex.what()
+        ));
+    }
+
+    // Step 7: parse the IdP response
+    nlohmann::json j;
+    try {
+        j = nlohmann::json::parse(response_body);
+    } catch (const std::exception& ex) {
+        spdlog::error("FederatedIdentityManager::exchangeToken: "
+                      "failed to parse token response: {}", ex.what());
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Token exchange response is not valid JSON",
+            std::string("JSON parse error: ") + ex.what()
+        ));
+    }
+
+    // RFC 6749 / RFC 8693 error response
+    if (j.contains("error")) {
+        const std::string err  = j.value("error", "");
+        const std::string desc = j.value("error_description", "");
+        spdlog::warn("FederatedIdentityManager::exchangeToken: "
+                     "IdP returned error '{}': {}", err, desc);
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Token exchange denied by identity provider",
+            "IdP error '" + err + "': " + desc
+        ));
+    }
+
+    if (!j.contains("access_token") || !j["access_token"].is_string()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INTERNAL_ERROR,
+            "Token exchange response missing access_token",
+            "IdP response did not contain a string 'access_token' field"
+        ));
+    }
+
+    TokenExchangeResult result;
+    result.access_token       = j["access_token"].get<std::string>();
+    result.issued_token_type  = j.value("issued_token_type",
+                                        requested_token_type);
+    result.token_type         = j.value("token_type", "Bearer");
+    result.expires_in         = j.value("expires_in", 0);
+    result.scope              = j.value("scope", "");
+    result.realm              = iss;
+
+    // Step 8: validate the exchanged token through the JWTValidator pipeline
+    spdlog::debug("FederatedIdentityManager::exchangeToken: "
+                  "validating exchanged token for realm '{}'", iss);
+    result.claims = provider->validateToken(result.access_token);
+
+    spdlog::info("FederatedIdentityManager::exchangeToken: "
+                 "token exchange successful for realm '{}', subject='{}'",
+                 iss, result.claims.sub);
+
+    return result;
 }
 
 } // namespace auth

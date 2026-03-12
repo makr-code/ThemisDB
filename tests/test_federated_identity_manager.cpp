@@ -478,3 +478,289 @@ TEST(FederatedIdentityManagerTest, BearerPrefixStripped) {
     EXPECT_EQ(result.claims.sub, "u1");
     EXPECT_EQ(result.realm, issuer);
 }
+
+// ---------------------------------------------------------------------------
+// Tests: exchangeToken – RFC 8693 token exchange
+// ---------------------------------------------------------------------------
+
+// Helpers shared by token-exchange tests --------------------------------
+
+static OIDCDiscoveryDocument makeDiscoveryDocFed(const std::string& issuer) {
+    OIDCDiscoveryDocument doc;
+    doc.issuer                 = issuer;
+    doc.jwks_uri               = issuer + "/jwks";
+    doc.authorization_endpoint = issuer + "/authorize";
+    doc.token_endpoint         = issuer + "/token";
+    return doc;
+}
+
+// Build a minimal valid token exchange response body (access_token is a
+// real signed JWT that can be validated by the realm's JWKS).
+static std::string makeTokenExchangeResponse(
+    EVP_PKEY* pkey, const json& payload,
+    const std::string& requested_token_type,
+    int expires_in = 3600)
+{
+    const std::string access_token = buildTokenFed(pkey, payload);
+    json resp = {
+        {"access_token",      access_token},
+        {"issued_token_type", requested_token_type},
+        {"token_type",        "Bearer"},
+        {"expires_in",        expires_in},
+        {"scope",             "openid"},
+    };
+    return resp.dump();
+}
+
+// -----------------------------------------------------------------------
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenSucceeds) {
+    RSAFixtureFed fix;
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(
+        makeDiscoveryDocFed(issuer));
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+
+    // Build the subject token (the credential being exchanged)
+    json subj_payload = {{"sub","svc-a"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string subject_token = buildTokenFed(fix.pkey, subj_payload);
+
+    // Build the token that the mock IdP will return
+    json exchanged_payload = {{"sub","svc-b"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+
+    const std::string requested_type =
+        "urn:ietf:params:oauth:token-type:access_token";
+    const std::string subject_type =
+        "urn:ietf:params:oauth:token-type:access_token";
+
+    // Inject a mock POST that returns a valid token exchange response
+    mgr.setHttpPostForTesting(
+        [&](const std::string& url, const std::string& body) -> std::string {
+            EXPECT_EQ(url, issuer + "/token");
+            EXPECT_NE(body.find("grant_type="), std::string::npos);
+            EXPECT_NE(body.find("urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange"),
+                      std::string::npos);
+            EXPECT_NE(body.find("subject_token="), std::string::npos);
+            EXPECT_NE(body.find("client_id=themisdb"), std::string::npos);
+            return makeTokenExchangeResponse(fix.pkey, exchanged_payload,
+                                             requested_type);
+        });
+
+    TokenExchangeResult result;
+    ASSERT_NO_THROW(
+        result = mgr.exchangeToken(subject_token, subject_type, requested_type));
+
+    EXPECT_EQ(result.claims.sub, "svc-b");
+    EXPECT_EQ(result.realm, issuer);
+    EXPECT_EQ(result.token_type, "Bearer");
+    EXPECT_EQ(result.issued_token_type, requested_type);
+    EXPECT_EQ(result.expires_in, 3600);
+    EXPECT_FALSE(result.access_token.empty());
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenWithTargetScopesAddsScope) {
+    RSAFixtureFed fix;
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(
+        makeDiscoveryDocFed(issuer));
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+
+    json subj_payload = {{"sub","svc-a"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string subject_token = buildTokenFed(fix.pkey, subj_payload);
+    json exch_payload = {{"sub","svc-a"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+
+    bool scope_sent = false;
+    mgr.setHttpPostForTesting(
+        [&](const std::string& /*url*/, const std::string& body) -> std::string {
+            // Verify that the scope parameter was included in the request body
+            scope_sent = (body.find("scope=") != std::string::npos);
+            return makeTokenExchangeResponse(fix.pkey, exch_payload, token_type);
+        });
+
+    ASSERT_NO_THROW(
+        mgr.exchangeToken(subject_token, token_type, token_type,
+                          {"openid", "db:read"}));
+    EXPECT_TRUE(scope_sent);
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenUnknownIssuerThrows) {
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig("https://other.example.com", "themisdb"));
+
+    RSAFixtureFed fix;
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+    json payload = {{"sub","u1"},{"iss","https://idp.example.com"},
+                    {"aud","themisdb"},{"exp",exp}};
+    const std::string token = buildTokenFed(fix.pkey, payload);
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+    EXPECT_THROW(mgr.exchangeToken(token, token_type, token_type), AuthException);
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenInvalidSubjectTokenThrows) {
+    RSAFixtureFed fix;
+    RSAFixtureFed wrong_key;   // different key to make subject_token invalid
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(
+        makeDiscoveryDocFed(issuer));
+    // Inject fix.rsa as the trusted public key
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+    // Sign with the WRONG key – subject-token validation must reject this
+    json payload = {{"sub","u1"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string bad_token = buildTokenFed(wrong_key.pkey, payload);
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+    // The mock POST should never be reached
+    mgr.setHttpPostForTesting([](const std::string&, const std::string&) -> std::string {
+        ADD_FAILURE() << "httpPost should not be called for an invalid subject token";
+        return "{}";
+    });
+
+    EXPECT_THROW(mgr.exchangeToken(bad_token, token_type, token_type),
+                 std::runtime_error);
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenIdPErrorResponseThrows) {
+    RSAFixtureFed fix;
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(
+        makeDiscoveryDocFed(issuer));
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+    json subj_payload = {{"sub","u1"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string subject_token = buildTokenFed(fix.pkey, subj_payload);
+
+    // Simulate an IdP error response (e.g. invalid_grant)
+    mgr.setHttpPostForTesting([](const std::string&, const std::string&) -> std::string {
+        json err_resp = {{"error","invalid_grant"},
+                         {"error_description","Subject token is expired"}};
+        return err_resp.dump();
+    });
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+    EXPECT_THROW(mgr.exchangeToken(subject_token, token_type, token_type),
+                 AuthException);
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenMissingAccessTokenThrows) {
+    RSAFixtureFed fix;
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(
+        makeDiscoveryDocFed(issuer));
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+    json subj_payload = {{"sub","u1"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string subject_token = buildTokenFed(fix.pkey, subj_payload);
+
+    // Response is valid JSON but lacks access_token
+    mgr.setHttpPostForTesting([](const std::string&, const std::string&) -> std::string {
+        return json{{"token_type","Bearer"}}.dump();
+    });
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+    EXPECT_THROW(mgr.exchangeToken(subject_token, token_type, token_type),
+                 AuthException);
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenHttpFailureThrows) {
+    RSAFixtureFed fix;
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(
+        makeDiscoveryDocFed(issuer));
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+    json subj_payload = {{"sub","u1"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string subject_token = buildTokenFed(fix.pkey, subj_payload);
+
+    // Simulate a network failure
+    mgr.setHttpPostForTesting([](const std::string&, const std::string&) -> std::string {
+        throw std::runtime_error("Connection refused");
+    });
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+    EXPECT_THROW(mgr.exchangeToken(subject_token, token_type, token_type),
+                 AuthException);
+}
+
+TEST(FederatedIdentityManagerTest, ExchangeTokenMissingTokenEndpointThrows) {
+    RSAFixtureFed fix;
+    const std::string issuer = "https://idp.example.com";
+
+    FederatedIdentityManager mgr;
+    mgr.addRealm(makeConfig(issuer, "themisdb"));
+
+    // Discovery document without a token_endpoint
+    OIDCDiscoveryDocument doc;
+    doc.issuer                 = issuer;
+    doc.jwks_uri               = issuer + "/jwks";
+    doc.authorization_endpoint = issuer + "/authorize";
+    // token_endpoint intentionally left empty
+    mgr.realmProvider(issuer).setDiscoveryDocumentForTesting(doc);
+    mgr.realmProvider(issuer).validator().setJWKSForTesting(
+        makeJWKSFed(fix.rsa));
+
+    const int64_t exp = static_cast<int64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + 300;
+    json subj_payload = {{"sub","u1"},{"iss",issuer},{"aud","themisdb"},{"exp",exp}};
+    const std::string subject_token = buildTokenFed(fix.pkey, subj_payload);
+
+    const std::string token_type = "urn:ietf:params:oauth:token-type:access_token";
+    EXPECT_THROW(mgr.exchangeToken(subject_token, token_type, token_type),
+                 AuthException);
+}
