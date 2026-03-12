@@ -66,7 +66,7 @@ Currently `ContentManager::ingest()` buffers the entire content in memory before
 - `[x]` Add `ContentManager::ingestStream(std::istream& stream, const ContentMetadata& meta)` overload.
 - `[x]` `async_ingestion_worker.cpp` reads chunks of `chunk_size_bytes` (default: 4 MB, configurable) from the stream; each chunk is processed by the appropriate `IIngestionPlugin::processChunk()` method.
 - `[x]` Processors that support streaming (text, CSV, NDJSON) implement `processChunk()`; processors that require full data (PDF, image) buffer up to a configurable `max_buffered_bytes` limit (default: 256 MB) before falling back to error.
-- `[ ]` Back-pressure: `ingestStream()` blocks the caller when the worker queue depth exceeds `config_.max_queue_depth`; returns a `std::future<ContentId>` for async callers.
+- `[x]` Back-pressure: `ingestStream()` blocks the caller when the worker queue depth exceeds `config_.max_queue_depth`; returns a `std::future<ContentId>` for async callers (CON-005 ✅).
 - `[x]` Partial failure: if a chunk fails validation in `content_validator.cpp`, the entire ingestion transaction is rolled back and the partial content is purged from storage.
 
 **Performance Targets:**
@@ -104,8 +104,8 @@ Exact duplicate detection (SHA-256 of raw bytes) is already performed in `conten
 **Implementation Notes:**
 - `[x]` `ocr_processor.cpp` implementing `IIngestionPlugin` created; wraps `tesseract::TessBaseAPI` (enabled via `THEMIS_ENABLE_OCR=ON`).
 - `[ ]` `MimeDetector` triggers OCR for `image/png`, `image/jpeg`, `image/tiff` when `ContentPolicy::ocrEnabled() == true` for the collection.
-- `[ ]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (Leptonica used for image loading; explicit DPI rescaling not yet implemented).
-- `[ ]` Language packs loaded from `config/ai_ml/tesseract_lang/`; default `eng`; configurable per-collection (language is configurable via `config_.language`; data directory path not yet constrained to `config/ai_ml/tesseract_lang/`).
+- `[x]` Pre-process image before OCR: rescale to 300 DPI if metadata indicates lower resolution; apply adaptive binarisation via Leptonica (`pixSauvolaBinarize`). Controlled by `Config::enable_dpi_rescaling` / `Config::enable_adaptive_binarization`; results surfaced in `ocr_input_dpi`, `ocr_rescaled`, `ocr_binarized` metadata fields.
+- `[x]` Language packs loaded from `config/ai_ml/tesseract_lang/`; default `eng`; configurable per-collection (language via `config_.language`; data directory resolved via `ConfigPathResolver::tryResolve("config/ai_ml/tesseract_lang")` in `runTesseract()` when `Config::data_dir` is empty; falls back to Tesseract auto-detect when directory absent).
 - `[x]` OCR output stored as `content_ocr_text` metadata field alongside image (`result.metadata["content_ocr_text"] = result.text` in `ocr_processor.cpp:220`).
 - `[x]` If `libtesseract.so` is absent at runtime, `ocr_processor.cpp` returns a skipped/unavailable `ContentProcessResult` and logs the absence.
 

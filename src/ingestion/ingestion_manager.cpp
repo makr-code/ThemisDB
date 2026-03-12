@@ -33,6 +33,8 @@
 #include "ingestion/database_connector.h"
 #include "ingestion/web_crawler_connector.h"
 #include "ingestion/cdc_connector.h"
+#include "ingestion/deontic_extractor.h"
+#include "ingestion/agentic_reference_validator.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -800,6 +802,14 @@ public:
                         schema_configs_.at(source_id).isEnabled()) {
                         steps.push_back("schema_validation");
                     }
+                    if (legal_ingestion_configs_.count(source_id) &&
+                        legal_ingestion_configs_.at(source_id).isEnabled()) {
+                        steps.push_back("deontic_extraction");
+                        steps.push_back("semantic_validation");
+                        if (legal_ingestion_configs_.at(source_id).validate_references) {
+                            steps.push_back("reference_validation");
+                        }
+                    }
                 }
                 if (config.type == SourceType::FILESYSTEM) {
                     steps.push_back("mime_detection");
@@ -1006,6 +1016,25 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         auto it = schema_configs_.find(source_id);
         if (it == schema_configs_.end()) return false;
+        out = it->second;
+        return true;
+    }
+
+    void setLegalIngestionConfig(const std::string& source_id,
+                                  const LegalIngestionConfig& config) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!config.isEnabled()) {
+            legal_ingestion_configs_.erase(source_id);
+        } else {
+            legal_ingestion_configs_[source_id] = config;
+        }
+    }
+
+    bool getLegalIngestionConfig(const std::string& source_id,
+                                  LegalIngestionConfig& out) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = legal_ingestion_configs_.find(source_id);
+        if (it == legal_ingestion_configs_.end()) return false;
         out = it->second;
         return true;
     }
@@ -1332,6 +1361,7 @@ private:
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
     std::unordered_map<std::string, SchemaConfig> schema_configs_; ///< Per-source schema configs
+    std::unordered_map<std::string, LegalIngestionConfig> legal_ingestion_configs_; ///< Per-source legal pipeline
     std::vector<QuarantineEntry> quarantine_;
     std::atomic<size_t> quarantine_retry_successes_{0}; ///< Cumulative successful quarantine retries
     std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
@@ -1553,6 +1583,47 @@ std::vector<IngestionLineageRecord> IngestionManager::getAllLineageRecords() con
 
 void IngestionManager::clearLineageRecords() {
     impl_->clearLineageRecords();
+}
+
+void IngestionManager::setLegalIngestionConfig(const std::string& source_id,
+                                                const LegalIngestionConfig& config) {
+    impl_->setLegalIngestionConfig(source_id, config);
+}
+
+bool IngestionManager::getLegalIngestionConfig(const std::string& source_id,
+                                                LegalIngestionConfig& out) const {
+    return impl_->getLegalIngestionConfig(source_id, out);
+}
+
+LegalExtractionResult IngestionManager::runLegalExtraction(
+        const std::string& document_id,
+        const std::string& text,
+        const LegalIngestionConfig& config) const {
+    SemanticValidator validator;
+    LegalQualityGates gates;
+    gates.min_confidence.threshold     = config.confidence_threshold;
+    gates.deontic_confidence.threshold = config.confidence_threshold;
+    gates.section_hierarchy.required   = config.require_section_struct;
+    validator.setQualityGates(gates);
+
+    LegalExtractionResult result = validator.extractDocument(document_id, text);
+
+    if (config.validate_references) {
+        AgenticReferenceValidator ref_validator;
+        auto ref_report = ref_validator.validate(text);
+        if (ref_report.dangling_count > 0) {
+            for (const auto& w : ref_report.warnings) {
+                result.warnings.push_back(w);
+            }
+            result.validation.gate_results.emplace_back(
+                "no_dangling_refs", false,
+                std::to_string(ref_report.dangling_count) + " dangling reference(s)");
+        } else {
+            result.validation.gate_results.emplace_back("no_dangling_refs", true);
+        }
+    }
+
+    return result;
 }
 
 // ============================================================================
@@ -1933,6 +2004,12 @@ IngestionBuilder& IngestionBuilder::withSchemaValidation(
     return *this;
 }
 
+IngestionBuilder& IngestionBuilder::withLegalIngestionConfig(
+        const std::string& source_id, const LegalIngestionConfig& config) {
+    opts_->legal_ingestion_configs[source_id] = config;
+    return *this;
+}
+
 std::unique_ptr<IngestionManager> IngestionBuilder::build() {
     auto mgr = std::make_unique<IngestionManager>(opts_->db_connection);
 
@@ -1948,6 +2025,10 @@ std::unique_ptr<IngestionManager> IngestionBuilder::build() {
 
     for (const auto& kv : opts_->schema_configs) {
         mgr->setSchemaConfig(kv.first, kv.second);
+    }
+
+    for (const auto& kv : opts_->legal_ingestion_configs) {
+        mgr->setLegalIngestionConfig(kv.first, kv.second);
     }
 
     for (auto& kv : opts_->plugin_factories) {

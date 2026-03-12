@@ -147,6 +147,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
+    ../src/config/config_encrypted_store.cpp
     ../src/themis/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/runtime_license_gate.cpp
@@ -156,6 +157,9 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
     ../src/utils/consistent_hash.cpp
+    ../src/utils/checksum_utils.cpp
+    ../src/utils/sampled_logger.cpp
+    ../src/utils/timestamp_utils.cpp
     ../src/utils/rate_limiter.cpp
     
     # Cross-cutting concerns abstraction layer
@@ -318,6 +322,12 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/inverted_index.cpp
     ../src/index/workload_replay.cpp
     ../src/index/tiered_index_manager.cpp
+    ../src/index/graph_auto_buffer.cpp
+    ../src/index/index_manager.cpp
+    ../src/index/tiered_index_manager.cpp
+    ../src/index/vector_auto_buffer.cpp
+    ../src/index/spatial_index.cpp
+    ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -1164,6 +1174,11 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/ingestion_coordinator.cpp
     # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; always compile.
     ../src/ingestion/cdc_connector.cpp
+    # Legal ingestion pipeline: deontic extraction, semantic validation, reference validation
+    ../src/ingestion/deontic_extractor.cpp
+    ../src/ingestion/semantic_validator.cpp
+    ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
@@ -1211,7 +1226,11 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
-    
+    # Maintenance Orchestrator (always compiled when HTTP server is on)
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/database_maintenance_orchestrator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/maintenance/maintenance_registry.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/maintenance_api_handler.cpp>
+
     # API handlers (always included)
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
@@ -1279,6 +1298,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
@@ -1322,6 +1342,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
     ../src/network/geo_topology_router.cpp
     ../src/network/socket_timeout_manager.cpp
+    ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
@@ -1346,6 +1367,13 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp
+    # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
+    ../src/observability/tracer.cpp
+    ../src/observability/log_aggregator.cpp
+    # Observability: rule-based alerting engine with configurable notification channels
+    ../src/observability/alerting_engine.cpp
+    # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
+    ../src/observability/metric_aggregator.cpp
 )
 
 set(THEMIS_GEO_SOURCES
@@ -1428,6 +1456,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/distributed_graph.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
+    ../src/graph/scheduled_edge_refresh.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)

@@ -67,33 +67,39 @@ server.registerHandler("/graphql", gql_server.handler());
 
 ---
 
-### WebAssembly API Handlers
+### WebAssembly API Handlers ✅ Implemented (v2.1.0)
 **Priority:** Medium  
-**Target Version:** v1.8.0
+**Target Version:** ~~v1.8.0~~ v2.1.0 – **DONE**
 
 Execute user-defined API handlers in WebAssembly sandbox.
 
-**Use Cases:**
-- Custom business logic without C++ compilation
-- User-defined data transformations
-- Multi-tenant custom endpoints
-- Language-agnostic handler development (Rust, Go, C, etc. → Wasm)
+**Implementation:** `include/server/wasm_handler_registry.h` + `src/server/wasm_handler_registry.cpp`
+
+**HTTP Endpoints:**
+- `POST   /api/v1/functions/{id}/wasm`        – Upload `.wasm` binary (raw or Base64-JSON)
+- `GET    /api/v1/functions/wasm`             – List registered handlers (filterable by `?tenant_id=`)
+- `GET    /api/v1/functions/{id}/wasm`        – Get handler metadata
+- `DELETE /api/v1/functions/{id}/wasm`        – Remove a handler
+- `POST   /api/v1/functions/{id}/wasm/invoke` – Invoke handler with JSON payload
 
 **API:**
 ```cpp
 WasmHandlerRegistry registry;
-registry.loadWasm("tenant-001", "custom-validator.wasm");
 
-// Route requests to Wasm handler
-server.registerHandler("/api/v1/tenants/001/custom", 
-                       WasmHandler(registry, "tenant-001"));
+// Upload binary (programmatic)
+registry.registerHandler("tenant-001", wasmBytes, config, "tenant-001");
+
+// Route HTTP requests to Wasm handler
+server.registerHandler("/api/v1/functions/{id}/wasm/invoke",
+    [&registry](const auto& req) { return registry.handleInvoke(req, id); });
 ```
 
 **Isolation:**
-- Memory sandboxing via WASI
-- CPU time limits
-- Controlled I/O (no direct storage access)
-- Versioning and rollback
+- Memory sandboxing via `WasmPluginSandbox` (WASI-compatible)
+- Wall-clock time limit: 500 ms default → 504 on timeout
+- Memory cap: 64 MiB default → 500 on OOM
+- Invalid binary rejected at upload time (400)
+- Tests: 25 unit tests in `tests/test_wasm_handler_registry.cpp`
 
 ---
 
@@ -220,19 +226,27 @@ auto info = provider.handleIntrospect(bearer_token);
 
 ---
 
-#### SAML 2.0 Support
+#### SAML 2.0 Support ✅ Implemented (v1.7.0)
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Target Version:** v1.7.0  
+**Status:** ✅ Implemented — `src/server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h`
 
-SAML 2.0 integration for enterprise SSO.
+SAML 2.0 Service Provider for enterprise SSO. SP-initiated AuthnRequest, Assertion Consumer
+Service (ACS), Single Logout (SLO), and SP metadata generation are all implemented.
 
-**Features:**
-- Service Provider (SP) implementation
-- SAML assertion validation
+**Implemented Features:**
+- Service Provider (SP) implementation (`SamlAuthProvider`)
+- SP-initiated SSO: `GET /api/v1/auth/saml/login` → 302 IdP redirect
+- Assertion Consumer Service: `POST /api/v1/auth/saml/acs` with full assertion validation
+- Single Logout: `POST /api/v1/auth/saml/slo`
+- SP metadata XML: `GET /api/v1/auth/saml/metadata`
+- SAML assertion validation (signature, audience, NotBefore/NotOnOrAfter, replay detection)
 - Attribute mapping to ThemisDB user model
-- Single Sign-On (SSO) and Single Logout (SLO)
+- Custom token factory support
+- 37 unit tests in `tests/test_saml_auth_provider.cpp`
 
 ---
+
 
 #### Passwordless Authentication
 **Priority:** Low  

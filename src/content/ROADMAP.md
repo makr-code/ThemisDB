@@ -50,9 +50,9 @@
 - [x] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` (CON-001)
   - Inputs: `.doc`, `.xls`, `.ppt` via OLE/Compound Document
   - Implementation: `office_processor.cpp::extractLegacyViaLibreOffice()` — `posix_spawn` (no `system()`); 30 s timeout with SIGTERM→SIGKILL escalation; `POSIX_SPAWN_RESETIDS`+`POSIX_SPAWN_SETPGROUP`+`POSIX_SPAWN_SETSIGDEF`; RAII temp-file cleanup; full 8-byte OLE header validation; minimal sandboxed environment (`HOME=tmpdir`)
-  - Tests: `tests/test_office_processor.cpp` — `LegacyOfficeExtractionTest` (11 tests), `LegacyOfficeMetricsTest`
-- [ ] MimeDetector-triggered OCR activation via ContentPolicy::ocrEnabled() (CON-002) (Target: Q3 2026)
-- [ ] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
+  - Tests: `tests/test_office_processor.cpp` — `LegacyOfficeExtractionTest` (11 tests), `LegacyOfficeMetricsTest` (2 tests), `LibreOfficeSecurityTest` (7 security tests: path-hijacking prevention, shell-metacharacter injection, malformed binary input, large-blob handling, RAII temp-dir cleanup)
+- [x] MimeDetector-triggered OCR activation via ContentPolicy::ocrEnabled() (CON-002)
+- [x] OCR DPI pre-processing — rescale to 300 DPI + adaptive binarization via Leptonica (CON-003)
 - [x] Back-pressure for streaming ingestion when worker queue depth exceeds max_queue_depth (CON-005)
 - [x] Zip-bomb protection in content_security.cpp — max 100× decompression ratio, max 1 000 entries (CON-006)
 
@@ -111,15 +111,15 @@
 - [x] Zip-bomb protection in `archive_processor.cpp` — max 100× decompression ratio, max 1 000 extracted files (CON-006)
 - [x] Back-pressure for `ingestStream()` when `max_queue_depth` is exceeded (CON-005)
 - [x] LibreOffice headless fallback for legacy `.doc`/`.xls`/`.ppt` via `posix_spawn` (CON-001) (Target: Q3 2026)
-- [ ] OCR DPI pre-processing: rescale to 300 DPI + adaptive binarization via Leptonica (CON-003) (Target: Q3 2026)
-- [ ] MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` (CON-002) (Target: Q3 2026)
+- [x] OCR DPI pre-processing: rescale to 300 DPI + adaptive binarization via Leptonica (CON-003)
+- [x] MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` (CON-002)
 
 ### Phase 6: Documentation & Release (Status: In Progress 🚧)
 - [x] Architecture guide (`src/content/ARCHITECTURE.md`)
 - [x] FUTURE_ENHANCEMENTS.md with design constraints and required interfaces
 - [x] Missing-implementations audit report (`docs/de/content/missing-implementations.md`)
 - [x] German developer docs (`docs/de/content/`)
-- [ ] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004) (Target: Q3 2026)
+- [x] OCR language-pack path convention documented and defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
 - [x] API reference for `ContentManager::ingestStream()` back-pressure behaviour
 
 ## Production Readiness Checklist
@@ -132,8 +132,7 @@
 
 ## Known Issues & Limitations
 - Video metadata and thumbnail extraction is available via FFmpeg integration; scene detection, subtitle extraction, and keyframe extraction stubs exist for non-FFmpeg builds
-- OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); MimeDetector-triggered OCR routing and DPI pre-processing not yet implemented (CON-002, CON-003; see `docs/de/content/missing-implementations.md`)
-- OCR language-pack data directory not defaulted to `config/ai_ml/tesseract_lang/` (CON-004)
+- OCR integrated via Tesseract (`ocr_processor.cpp`, `THEMIS_ENABLE_OCR=ON`); DPI pre-processing (rescaling + Sauvola binarisation, CON-003) implemented. MimeDetector-triggered OCR routing via `ContentPolicy::ocrEnabled()` implemented (CON-002). OCR language-pack data directory defaults to `config/ai_ml/tesseract_lang/` (CON-004, resolved).
 - Large file streaming ingestion:
   - Streaming-capable types (text/plain, CSV, NDJSON, Markdown): processed in configurable chunks (default 4 MB) without full-file buffering; peak RSS ≤ 2× chunk size
   - Non-streaming types (image, PDF, binary, etc.): buffered up to `max_buffered_bytes` (default 256 MB) before delegating to `ingestRawBlob`; files exceeding the limit are rejected

@@ -30,6 +30,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <chrono>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -89,6 +90,26 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
             handleCancelJob(req, res);
         });
 
+    // v2.0: GET /api/v1/import/schema/{job_id} – schema preview with relationships
+    // NOTE: must be registered BEFORE the generic /{job_id}/status pattern so the
+    // "schema" segment is not consumed as a job_id.
+    server.Get(R"(/api/v1/import/schema/([^/]+))",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleGetSchema(req, res);
+        });
+
+    // v2.0: POST /api/v1/import/schema/validate – pre-import FK validation
+    server.Post("/api/v1/import/schema/validate",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleValidateSchema(req, res);
+        });
+
+    // v2.0: PUT /api/v1/import/{job_id}/relationships – configure FK mappings
+    server.Put(R"(/api/v1/import/([^/]+)/relationships)",
+        [this](const httplib::Request& req, httplib::Response& res) {
+            handleUpdateRelationships(req, res);
+        });
+
     // GET /import/wizard – interactive web-based import wizard UI
     server.Get("/import/wizard",
         [this](const httplib::Request& req, httplib::Response& res) {
@@ -102,6 +123,7 @@ void ImportApiHandler::registerRoutes(httplib::Server& server) {
 
 void ImportApiHandler::handleStartImport(const httplib::Request& req,
                                           httplib::Response& res) {
+    auto span = Tracer::startSpan("handleStartImport");
     json body;
     try {
         body = parseRequestBody(req.body);
@@ -131,6 +153,7 @@ void ImportApiHandler::handleStartImport(const httplib::Request& req,
 
 void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
                                             httplib::Response& res) {
+    auto span = Tracer::startSpan("handleStartS3Import");
     if (!s3_importer_) {
         jsonError(res, 501,
                   "S3 importer is not configured on this server instance");
@@ -184,6 +207,7 @@ void ImportApiHandler::handleStartS3Import(const httplib::Request& req,
 
 void ImportApiHandler::handleJobStatus(const httplib::Request& req,
                                         httplib::Response& res) {
+    auto span = Tracer::startSpan("handleJobStatus");
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -195,6 +219,7 @@ void ImportApiHandler::handleJobStatus(const httplib::Request& req,
 
 void ImportApiHandler::handleCancelJob(const httplib::Request& req,
                                         httplib::Response& res) {
+    auto span = Tracer::startSpan("handleCancelJob");
     const std::string job_id = req.matches[1];
     auto handle = registry_->get(job_id);
     if (!handle) {
@@ -218,6 +243,7 @@ void ImportApiHandler::handleCancelJob(const httplib::Request& req,
 
 void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
                                        httplib::Response& res) {
+    auto span = Tracer::startSpan("handleListJobs");
     auto jobs = registry_->all();
     json arr = json::array();
     for (auto& h : jobs) arr.push_back(h->toJson());
@@ -226,6 +252,7 @@ void ImportApiHandler::handleListJobs(const httplib::Request& /*req*/,
 
 void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
                                       httplib::Response& res) {
+    auto span = Tracer::startSpan("handleMetrics");
     // Aggregate counters across all known jobs and emit Prometheus text format.
     auto jobs = registry_->all();
 
@@ -275,6 +302,7 @@ void ImportApiHandler::handleMetrics(const httplib::Request& /*req*/,
 
 void ImportApiHandler::handleImportWizard(const httplib::Request& /*req*/,
                                            httplib::Response& res) {
+    auto span = Tracer::startSpan("handleImportWizard");
     res.set_content(buildImportWizardHtml(), "text/html; charset=utf-8");
 }
 
@@ -322,6 +350,13 @@ ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
         for (auto& [k, v] : j["type_overrides"].items())
             if (v.is_string()) opts.type_overrides[k] = v.get<std::string>();
     }
+    // v2.0: relationship options
+    if (j.contains("preserve_relationships") && j["preserve_relationships"].is_boolean())
+        opts.preserve_relationships = j["preserve_relationships"].get<bool>();
+    if (j.contains("validate_references") && j["validate_references"].is_boolean())
+        opts.validate_references = j["validate_references"].get<bool>();
+    if (j.contains("relationship_mapping_mode") && j["relationship_mapping_mode"].is_string())
+        opts.relationship_mapping_mode = j["relationship_mapping_mode"].get<std::string>();
     return opts;
 }
 
@@ -337,6 +372,165 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
     res.status = status;
     res.set_content(json{{"error", message}}.dump(), "application/json");
     return res;
+}
+
+// ============================================================================
+// v2.0 Handlers
+// ============================================================================
+
+void ImportApiHandler::handleGetSchema(const httplib::Request& req,
+                                        httplib::Response& res) {
+    auto span = Tracer::startSpan("handleGetSchema");
+    const std::string job_id = req.matches[1];
+    auto handle = registry_->get(job_id);
+    if (!handle) {
+        jsonError(res, 404, "Job not found: " + job_id);
+        return;
+    }
+
+    // Retrieve the source_path stored in the handle's options snapshot
+    const std::string source_path = handle->source_path;
+    if (source_path.empty()) {
+        jsonError(res, 409, "Job has no source_path available for schema preview");
+        return;
+    }
+
+    // Use a fresh importer to avoid mutating the running importer's state
+    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
+    schema_importer->initialize("{}");
+    json schema = schema_importer->getSourceSchema(source_path);
+
+    // Merge any custom relationship overrides
+    {
+        std::lock_guard<std::mutex> lk(rel_mutex_);
+        auto it = relationship_overrides_.find(job_id);
+        if (it != relationship_overrides_.end() && !it->second.empty()) {
+            if (schema.is_object() && schema.contains("relationships")) {
+                schema["relationships"] = it->second;
+                schema["relationships_source"] = "manual";
+            }
+        }
+    }
+
+    jsonOk(res, json{{"job_id", job_id}, {"schema", schema}});
+}
+
+void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
+                                             httplib::Response& res) {
+    auto span = Tracer::startSpan("handleValidateSchema");
+    json body;
+    try {
+        body = parseRequestBody(req.body);
+    } catch (const std::exception& e) {
+        jsonError(res, 400, std::string("Invalid JSON body: ") + e.what());
+        return;
+    }
+
+    if (!body.contains("source_path") || !body["source_path"].is_string()) {
+        jsonError(res, 400, "Missing required field: source_path");
+        return;
+    }
+    const std::string source_path = body["source_path"].get<std::string>();
+
+    importers::ImportOptions opts;
+    opts.preserve_relationships = true;
+    opts.validate_references    = true;
+    if (body.contains("options") && body["options"].is_object()) {
+        opts = optionsFromJson(body["options"]);
+        opts.preserve_relationships = true;
+        opts.validate_references    = true;
+    }
+
+    // Parse schema and validate
+    auto schema_importer = std::make_shared<importers::PostgreSQLImporter>();
+    schema_importer->initialize("{}");
+    json schema = schema_importer->getSourceSchema(source_path);
+
+    if (!schema.is_object()) {
+        jsonError(res, 422, "Could not parse schema from: " + source_path);
+        return;
+    }
+
+    size_t table_count = schema.value("tables", json::array()).size();
+    size_t rel_count   = schema.value("relationships", json::array()).size();
+    auto   cycles      = schema.value("circular_references", json::array());
+
+    // Validate using a temporary ImportStats
+    importers::ImportStats vstats;
+    // Collect validation errors from the structured_errors already added by getSourceSchema()
+    json warn_arr = json::array();
+    json err_arr  = json::array();
+    for (const auto& e : vstats.structured_errors) {
+        if (e.severity == importers::ImportErrorSeverity::WARNING) {
+            warn_arr.push_back(e.message);
+        } else {
+            err_arr.push_back(e.message);
+        }
+    }
+
+    // Report circular references as warnings
+    for (const auto& c : cycles) {
+        warn_arr.push_back("Circular reference detected: " + c.get<std::string>());
+    }
+
+    bool valid = err_arr.empty();
+    jsonOk(res, json{
+        {"valid", valid},
+        {"tables", table_count},
+        {"relationships", rel_count},
+        {"warnings", warn_arr},
+        {"errors", err_arr},
+        {"circular_references", cycles}
+    });
+}
+
+void ImportApiHandler::handleUpdateRelationships(const httplib::Request& req,
+                                                  httplib::Response& res) {
+    auto span = Tracer::startSpan("handleUpdateRelationships");
+    const std::string job_id = req.matches[1];
+    auto handle = registry_->get(job_id);
+    if (!handle) {
+        jsonError(res, 404, "Job not found: " + job_id);
+        return;
+    }
+
+    json body;
+    try {
+        body = parseRequestBody(req.body);
+    } catch (const std::exception& e) {
+        jsonError(res, 400, std::string("Invalid JSON body: ") + e.what());
+        return;
+    }
+
+    if (!body.is_array()) {
+        jsonError(res, 400, "Request body must be a JSON array of relationship objects");
+        return;
+    }
+
+    // Validate each relationship entry has required fields
+    json validated = json::array();
+    for (const auto& entry : body) {
+        if (!entry.is_object()) continue;
+        if (!entry.contains("source_table") || !entry.contains("target_table")) {
+            jsonError(res, 400,
+                      "Each relationship must have 'source_table' and 'target_table'");
+            return;
+        }
+        validated.push_back(entry);
+    }
+
+    {
+        std::lock_guard<std::mutex> lk(rel_mutex_);
+        relationship_overrides_[job_id] = validated;
+    }
+
+    THEMIS_INFO("ImportApiHandler: {} custom relationships configured for job '{}'",
+                validated.size(), job_id);
+
+    jsonOk(res, json{
+        {"job_id", job_id},
+        {"relationships_configured", validated.size()}
+    });
 }
 
 } // namespace server

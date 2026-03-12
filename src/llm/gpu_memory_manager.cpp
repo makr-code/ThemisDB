@@ -164,6 +164,16 @@ private:
 
 } // namespace detail
 
+namespace {
+// Helper: compute GPU utilization ratio in [0, 1].  Returns 0 when the
+// configured VRAM capacity is 0 to avoid division by zero.
+inline float calculateUtilization(size_t used_vram, size_t max_vram_bytes) noexcept {
+    return (max_vram_bytes > 0)
+        ? static_cast<float>(used_vram) / max_vram_bytes
+        : 0.0f;
+}
+} // namespace
+
 GPUMemoryManager::GPUMemoryManager(const Config& config)
     : config_(config) {
     spdlog::info("GPU Memory Manager initialized:");
@@ -213,6 +223,11 @@ void GPUMemoryManager::initializeGPU() {
                          prop.name, prop.major, prop.minor);
             spdlog::info("  Total VRAM: {:.2f} GB", prop.totalGlobalMem / (1024.0*1024*1024));
             spdlog::info("  Multiprocessors: {}", prop.multiProcessorCount);
+
+            // Auto-detect VRAM limit from device properties (0 = auto-detect)
+            if (config_.max_vram_bytes == 0) {
+                config_.max_vram_bytes = prop.totalGlobalMem;
+            }
         }
         
         // Initialize multi-GPU support (v1.4.0)
@@ -305,6 +320,15 @@ void GPUMemoryManager::initializeGPU() {
     spdlog::info("GPU Memory Manager: Running in simulation mode (CUDA not enabled at build time)");
     spdlog::info("  Available GPUs: {} (simulated)", available_gpus_.size());
 #endif
+
+    // Apply VRAM limit fallback: if max_vram_bytes is still 0 after platform-specific
+    // initialization (e.g. no GPU available or cudaGetDeviceProperties failed), use a
+    // sensible simulation default so that canAllocate() and getLeastLoadedGPU() work.
+    if (config_.max_vram_bytes == 0) {
+        config_.max_vram_bytes = 8ULL * 1024 * 1024 * 1024;  // 8 GB simulation default
+        spdlog::info("  VRAM limit defaulted to {:.2f} GB (simulation)",
+                     config_.max_vram_bytes / (1024.0 * 1024 * 1024));
+    }
 }
 
 void GPUMemoryManager::shutdownGPU() {
@@ -579,7 +603,7 @@ size_t GPUMemoryManager::getModelRAM(const std::string& model_id) const {
 
 size_t GPUMemoryManager::getTotalVRAM() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return total_vram_used_;
+    return config_.max_vram_bytes;
 }
 
 size_t GPUMemoryManager::getTotalRAM() const {
@@ -1510,14 +1534,14 @@ int GPUMemoryManager::getLeastLoadedGPU() const {
             continue;
         }
         
-        // Calculate utilization
+        // Calculate utilization (guard against division by zero when max_vram_bytes is 0)
         size_t used_vram = 0;
         auto vram_it = per_gpu_vram_used_.find(gpu_id);
         if (vram_it != per_gpu_vram_used_.end()) {
             used_vram = vram_it->second;
         }
         
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes);
         
         if (utilization < min_utilization) {
             min_utilization = utilization;
@@ -1564,7 +1588,7 @@ float GPUMemoryManager::getAverageGPULoad() const {
             used_vram = vram_it->second;
         }
         
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes);
         total_load += utilization;
         healthy_count++;
     }
@@ -1594,7 +1618,7 @@ bool GPUMemoryManager::needsLoadRebalancing(float threshold) const {
             used_vram = vram_it->second;
         }
         
-        float utilization = static_cast<float>(used_vram) / config_.max_vram_bytes;
+        float utilization = calculateUtilization(used_vram, config_.max_vram_bytes);
         
         // If any GPU's load differs from average by more than threshold, rebalancing needed
         if (std::abs(utilization - avg_load) > threshold) {
@@ -1630,7 +1654,7 @@ void GPUMemoryManager::updateGPUHealth(int gpu_device_id) {
         used_vram = it->second;
     }
     
-    float utilization = (static_cast<float>(used_vram) / config_.max_vram_bytes) * 100.0f;
+    float utilization = calculateUtilization(used_vram, config_.max_vram_bytes) * 100.0f;
     gpu_utilizations_[gpu_device_id] = utilization;
     gpu_temperatures_[gpu_device_id] = 45.0f + (utilization * 0.4f);  // Simulated temp
 #endif

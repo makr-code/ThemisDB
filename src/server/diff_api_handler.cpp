@@ -28,6 +28,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include "utils/tracing.h"
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 
@@ -59,6 +60,7 @@ void DiffApiHandler::registerRoutes(httplib::Server& server) {
 
 void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetDiff");
         // Parse query parameters
         auto options = parseOptions(req);
         
@@ -112,6 +114,7 @@ void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Respons
 
 void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetCacheStats");
         auto stats = diff_engine_.getCacheStats();
         sendJson(res, stats);
     } catch (const std::exception& e) {
@@ -121,6 +124,7 @@ void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::R
 
 void DiffApiHandler::handleClearCache(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleClearCache");
         diff_engine_.clearCache();
         json response;
         response["status"] = "success";

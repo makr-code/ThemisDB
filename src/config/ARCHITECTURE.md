@@ -75,7 +75,9 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 │                                  │  │                                                      │
 │  validate(config_path, schema)   │  │  collect()             → Prometheus text format      │
 │  validateWithSchemaFile(...)     │  │  updateMetricsCollector() → push to MetricsCollector │
-│  loadAsJson(file_path)           │  └──────────────────────────────────────────────────────┘
+│  validateFromString(str,yaml,…)  │  └──────────────────────────────────────────────────────┘
+│  loadAsJson(file_path)           │
+│  loadAsJson(content, is_yaml)    │
 │  (YAML/JSON, Draft-7 subset)     │
 └──────────────────────────────────┘
 ```
@@ -85,17 +87,33 @@ metadata, path-traversal prevention, and a typed exception hierarchy.
 ## 3.3 ConfigSchemaValidator
 
 `ConfigSchemaValidator` (in `config_schema_validator.h` / `config_schema_validator.cpp`) is a
-standalone static utility for validating YAML and JSON config files against a JSON Schema
-(Draft 7 subset). It integrates with `ConfigPathResolver` for schema file lookups so that
-legacy-to-new path mapping is applied automatically when loading schema files.
+standalone static utility for validating YAML and JSON config files — or in-memory strings —
+against a JSON Schema (Draft 7 subset). It integrates with `ConfigPathResolver` for schema
+file lookups so that legacy-to-new path mapping is applied automatically when loading schema
+files.
+
+**Public API:**
+
+| Method | Input | Description |
+|--------|-------|-------------|
+| `validate(config_path, schema)` | file path + schema object | Validate a YAML/JSON file against an inline schema |
+| `validateWithSchemaFile(cfg, schema_path)` | two file paths | Validate a YAML/JSON file against a schema file |
+| `validateFromString(content, is_yaml, schema)` | in-memory string + schema | Validate a YAML or JSON string without touching the filesystem |
+| `loadAsJson(file_path)` | file path | Parse a YAML/JSON file to `nlohmann::json` |
+| `loadAsJson(content, is_yaml)` | in-memory string | Parse a YAML or JSON string to `nlohmann::json` |
 
 **Supported keywords:** `type`, `properties`, `required`, `additionalProperties`,
 `minLength`, `maxLength`, `pattern`, `minimum`, `maximum`, `exclusiveMinimum`,
 `exclusiveMaximum`, `minItems`, `maxItems`, `items`, `enum`, `const`,
-`allOf`, `anyOf`, `oneOf`.
+`allOf`, `anyOf`, `oneOf`, `$ref` with `$defs`/`definitions`, `format`, `uniqueItems`.
 
 **YAML → JSON conversion:** yaml-cpp `Node` → `nlohmann::json` (type inference: null, bool,
 int, float, string).
+
+**In-memory validation:** `validateFromString` and `loadAsJson(content, is_yaml)` allow
+callers to parse and validate YAML or JSON content held in a string without writing it to
+disk first.  Parse errors are returned inside `ValidationResult` rather than thrown.
+`result.config_path` is set to `"<string>"` for in-memory calls.
 
 **Error reporting:** `ValidationResult` collects all validation errors and warnings before
 returning, enabling callers to receive the full list of schema violations in one pass.

@@ -24,6 +24,7 @@
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
 #include <stdexcept>
+#include "utils/tracing.h"
 
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 
@@ -65,6 +66,7 @@ void MergeApiHandler::registerRoutes(httplib::Server& server) {
 
 void MergeApiHandler::handleMerge(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleMerge");
         // Parse request body
         json request_body = json::parse(req.body);
         
@@ -100,6 +102,7 @@ void MergeApiHandler::handleMerge(const httplib::Request& req, httplib::Response
 
 void MergeApiHandler::handleMergePreview(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleMergePreview");
         json request_body = json::parse(req.body);
         
         if (!request_body.contains("base_sequence") ||
@@ -130,6 +133,7 @@ void MergeApiHandler::handleMergePreview(const httplib::Request& req, httplib::R
 
 void MergeApiHandler::handleMergeByTag(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleMergeByTag");
         json request_body = json::parse(req.body);
         
         if (!request_body.contains("base_tag") ||
@@ -162,6 +166,7 @@ void MergeApiHandler::handleMergeByTag(const httplib::Request& req, httplib::Res
 
 void MergeApiHandler::handleCanFastForward(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleCanFastForward");
         if (!req.has_param("base_sequence") ||
             !req.has_param("source_sequence") ||
             !req.has_param("target_sequence")) {

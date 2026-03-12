@@ -23,6 +23,7 @@
 #include "server/pitr_api_handler.h"
 #include <spdlog/spdlog.h>
 #include <fmt/format.h>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -52,6 +53,7 @@ void PITRApiHandler::registerRoutes(httplib::Server& server) {
 
 void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleRestore");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -116,6 +118,7 @@ void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Respons
 
 void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handlePreview");
         // Parse request body
         json body = json::parse(req.body);
         
@@ -180,6 +183,7 @@ void PITRApiHandler::handlePreview(const httplib::Request& req, httplib::Respons
 
 void PITRApiHandler::handleGetProgress(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
+    auto span = Tracer::startSpan("handleGetProgress");
         auto progress_opt = pitr_manager_.getProgress();
         
         if (!progress_opt.has_value()) {

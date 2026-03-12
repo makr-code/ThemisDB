@@ -450,6 +450,42 @@ TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_FalseWhenDenied) {
 }
 
 // ============================================================================
+// MimeDetector::shouldTriggerOcr(mime, bool) — stateless overload Tests
+// ============================================================================
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_DisabledReturnsFalse) {
+    // Stateless overload: ocr_enabled=false must return false regardless of MIME type
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/png",  false));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/jpeg", false));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/tiff", false));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_EnabledForOcrMimeTypes) {
+    // Stateless overload: ocr_enabled=true must return true for the three OCR MIME types
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/png",  true));
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/jpeg", true));
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/tiff", true));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_NotForNonOcrMimeTypes) {
+    // Stateless overload: even with ocr_enabled=true, non-OCR MIME types return false
+    EXPECT_FALSE(detector_->shouldTriggerOcr("text/plain",       true));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("application/pdf",  true));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/gif",        true));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/bmp",        true));
+    EXPECT_FALSE(detector_->shouldTriggerOcr("video/mp4",        true));
+}
+
+TEST_F(MimeDetectorOcrTest, ShouldTriggerOcr_BoolOverload_IndependentOfInternalPolicy) {
+    // Stateless overload must ignore the detector's internal policy state
+    detector_->enableOcr(false);
+    EXPECT_TRUE(detector_->shouldTriggerOcr("image/png", true));   // overload ignores internal flag
+
+    detector_->enableOcr(true);
+    EXPECT_FALSE(detector_->shouldTriggerOcr("image/png", false)); // overload ignores internal flag
+}
+
+// ============================================================================
 // Main Function
 // ============================================================================
 

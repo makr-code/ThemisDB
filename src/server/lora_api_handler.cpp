@@ -33,6 +33,7 @@
 #include <sstream>
 #include <regex>
 #include <iostream>
+#include "utils/tracing.h"
 
 namespace themis::server {
 
@@ -72,6 +73,7 @@ void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
 
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRequest");
     
     std::string_view target = req.target();
     auto method = req.method();
@@ -171,6 +173,7 @@ http::response<http::string_body> LoRAApiHandler::handleRequest(
 
 http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleRegisterModel");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -214,6 +217,7 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
 
 http::response<http::string_body> LoRAApiHandler::handleGetModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetModel");
     
     std::string model_id = extractPathParameter(req.target(), "/api/v1/llm/models/");
     
@@ -244,6 +248,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetModel(
 
 http::response<http::string_body> LoRAApiHandler::handleListModels(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListModels");
     
     try {
         // Parse query parameters
@@ -302,6 +307,7 @@ http::response<http::string_body> LoRAApiHandler::handleListModels(
 
 http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDeleteModel");
     
     std::string model_id = extractPathParameter(req.target(), "/api/v1/llm/models/");
     
@@ -329,6 +335,7 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteModel(
 
 http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleCreateAdapter");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -395,6 +402,7 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetAdapter");
     
     std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
     
@@ -432,6 +440,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUpdateAdapter");
     
     std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
     
@@ -488,6 +497,7 @@ http::response<http::string_body> LoRAApiHandler::handleUpdateAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleDeleteAdapter");
     
     std::string adapter_id = extractPathParameter(req.target(), "/api/v1/llm/lora/adapters/");
     
@@ -531,6 +541,7 @@ http::response<http::string_body> LoRAApiHandler::handleDeleteAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleListAdapters(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListAdapters");
     
     try {
         // Parse query parameters
@@ -632,6 +643,7 @@ http::response<http::string_body> LoRAApiHandler::handleListAdapters(
 
 http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoadAdapter");
     
     std::string_view target = req.target();
     std::string prefix = "/api/v1/llm/lora/adapters/";
@@ -674,6 +686,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoadAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleUnloadAdapter");
     
     std::string_view target = req.target();
     std::string prefix = "/api/v1/llm/lora/adapters/";
@@ -718,6 +731,7 @@ http::response<http::string_body> LoRAApiHandler::handleUnloadAdapter(
 
 http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleAdapterStatus");
     
     std::string_view target = req.target();
     std::string prefix = "/api/v1/llm/lora/adapters/";
@@ -760,6 +774,7 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoRAQuery");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -818,6 +833,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoRAStats");
     
     try {
         auto stats = orchestrator_->getStats();
@@ -844,6 +860,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleLoRAHealth");
     
     try {
         bool healthy = orchestrator_->healthCheck();
@@ -918,6 +935,7 @@ http::response<http::string_body> LoRAApiHandler::createErrorResponse(
 http::response<http::string_body> LoRAApiHandler::createJsonResponse(
     const json& data,
     http::status status) {
+    auto span = Tracer::startSpan("createJsonResponse");
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
@@ -967,6 +985,7 @@ std::string LoRAApiHandler::extractPathParameter(
 
 http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleReceiveAdapter");
     
     auto body = parseRequestBody(req);
     if (!body) {
@@ -1162,6 +1181,7 @@ namespace {
 // GET /api/v1/llm/lora/adapters/{id}/provenance
 http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetProvenance");
 
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
@@ -1190,6 +1210,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
 // POST /api/v1/llm/lora/adapters/{id}/provenance
 http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleAttachProvenance");
 
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
@@ -1228,6 +1249,7 @@ http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
 // GET /api/v1/llm/lora/adapters/{id}/audit
 http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleGetAuditLog");
 
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
@@ -1259,6 +1281,7 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
 // GET /api/v1/llm/lora/adapters/{id}/snapshots
 http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleListSnapshots");
 
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
@@ -1290,6 +1313,7 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
 // POST /api/v1/llm/lora/adapters/{id}/verify
 http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
     const http::request<http::string_body>& req) {
+    auto span = Tracer::startSpan("handleVerifyAuditChain");
 
     if (!orchestrator_) {
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");

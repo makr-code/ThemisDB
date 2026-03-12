@@ -44,6 +44,7 @@ PromptApiHandler::PromptApiHandler(
 http::response<http::string_body> PromptApiHandler::handlePost(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handlePost");
     // Implementation moved from http_server.cpp handlePromptTemplatePost()
     // Note: Authorization checks (requireAccess) from original implementation are not included
     // as they rely on HttpServer methods. Authorization should be handled at middleware/routing layer.
@@ -76,6 +77,7 @@ http::response<http::string_body> PromptApiHandler::handlePost(
 http::response<http::string_body> PromptApiHandler::handleList(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleList");
     // Implementation moved from http_server.cpp handlePromptTemplateList()
     try {
         if (!prompt_manager_) {
@@ -96,6 +98,7 @@ http::response<http::string_body> PromptApiHandler::handleList(
 http::response<http::string_body> PromptApiHandler::handleGet(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handleGet");
     // Implementation moved from http_server.cpp handlePromptTemplateGet()
     try {
         if (!prompt_manager_) {
@@ -122,6 +125,7 @@ http::response<http::string_body> PromptApiHandler::handleGet(
 http::response<http::string_body> PromptApiHandler::handlePut(
     const http::request<http::string_body>& req
 ) {
+    auto span = Tracer::startSpan("handlePut");
     // Implementation moved from http_server.cpp handlePromptTemplatePut()
     try {
         if (!prompt_manager_) {

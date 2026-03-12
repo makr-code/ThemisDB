@@ -68,13 +68,16 @@ public:
      */
     struct Config {
         std::string language = "eng";            ///< Tesseract language pack name
-        std::string data_dir;                    ///< Path to tessdata dir (empty = auto-detect)
+        std::string data_dir;                    ///< Path to tessdata dir (empty = default: config/ai_ml/tesseract_lang/ or Tesseract auto-detect)
         int page_seg_mode = 3;                   ///< PSM: 3 = fully automatic page segmentation
         bool extract_metadata = true;            ///< Store language/confidence in metadata
         bool enable_char_whitelist = false;      ///< Restrict recognized characters
         std::string char_whitelist;              ///< Whitelist string (used when enabled)
         size_t max_text_size = 1024 * 1024;      ///< Maximum OCR output bytes (1 MB)
         ContentMetrics* metrics = nullptr;       ///< Optional metrics sink
+        int target_dpi = 300;                    ///< Target resolution for DPI rescaling
+        bool enable_dpi_rescaling = true;        ///< Rescale to target_dpi when image DPI is lower
+        bool enable_adaptive_binarization = true; ///< Apply adaptive binarisation (Sauvola) before OCR
     };
 
     OcrProcessor();
@@ -142,7 +145,7 @@ public:
      *
      * @param image_blob  Raw image bytes
      * @param language    Tesseract language pack (default: "eng")
-     * @param data_dir    Path to tessdata directory (empty = auto-detect)
+     * @param data_dir    Path to tessdata directory (empty = default: config/ai_ml/tesseract_lang/ or Tesseract auto-detect)
      * @return Extracted UTF-8 text, or "" on failure/unavailability
      */
     static std::string performOcr(
@@ -154,8 +157,22 @@ public:
 private:
     Config config_;
 
+    /**
+     * @brief Preprocessing metadata populated inside runTesseract().
+     *
+     * Carries per-call information about DPI detection, rescaling, and
+     * binarisation so that extract() can surface it in result.metadata.
+     */
+    struct PreprocessInfo {
+        int  original_dpi = 0;    ///< DPI read from image metadata (0 = unknown)
+        bool rescaled     = false; ///< Image was rescaled to Config::target_dpi
+        bool binarized    = false; ///< Adaptive (Sauvola) binarisation was applied
+    };
+
     /// Run Tesseract on the image bytes; returns "" when OCR is unavailable.
-    std::string runTesseract(const std::string& blob);
+    /// When preprocess_info is non-null it is filled with rescaling/binarisation details.
+    std::string runTesseract(const std::string& blob,
+                             PreprocessInfo* preprocess_info = nullptr);
 
     /// Return true when the blob has a magic-byte signature supported by Leptonica.
     static bool isSupportedImageFormat(const std::string& blob);

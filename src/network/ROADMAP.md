@@ -32,6 +32,15 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2415)
 - [x] Per-tenant network bandwidth quotas (Issue: #2205)
 - [x] Connection-level compression (LZ4, Zstd) (Issue: #2416)
+- [x] TCP backlog management and backpressure handling (Issue: #FEATURE)
+  - `Config::tcp_backlog` (int, default 128) passed to `listen(2)` for OS-level queue control
+  - Global `max_connections` enforced via atomic `active_connection_count_` (fast path, no lock)
+  - Per-IP limit check retained as a secondary guard
+  - Rejected sockets closed immediately to free kernel resources
+  - `Stats::rejected_connections` incremented on every rejected connection
+  - Overload state logged once on entry ("Backpressure: connection limit reached")
+  - Recovery state logged once when active count drops below `max_connections`
+  - Focused unit tests in `tests/test_wire_protocol_backpressure.cpp` (`WireProtocolBackpressureFocusedTests`)
 
 ## In Progress 🚧
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
@@ -63,6 +72,14 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `Stats::utilization` + `Stats::pool_size_adaptations` metrics exposed via `getStats()`
   - `adaptPoolSize()` called from existing maintenance thread every 10 s
   - Unit tests in `test_wire_protocol_connection_pool.cpp` (AdaptivePoolingStrategyTest + pool tests)
+- [x] Adaptive circuit breaker for network failure resilience (Issue: #FEATURE)
+  - `AdaptiveCircuitBreaker` in `include/network/adaptive_circuit_breaker.h` / `src/network/adaptive_circuit_breaker.cpp`
+  - CLOSED → OPEN → HALF_OPEN → CLOSED state machine; thread-safe (atomic state, mutex for counters)
+  - `shouldAllow()` / `recordSuccess()` / `recordFailure()` / `getState()` / `getStats()`
+  - Adaptive threshold: reduces `failure_threshold` on repeated trips; restores on full recovery
+  - Half-open timeout: re-opens circuit if probe window expires without enough successes
+  - State-change callback for Prometheus / logging integration
+  - Unit tests in `tests/test_network_circuit_breaker.cpp` (`NetworkCircuitBreakerFocusedTests`, 19 tests)
 - [?] Adaptive I/O thread scaling based on connection load
 - [?] Structured network audit log (connection open/close/auth events)
 
@@ -127,6 +144,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
   - `WireProtocolPerformanceFocusedTests`, `UDPFastPathFocusedTests`, `GeoTopologyRouterFocusedTests`
   - `WireProtocolV2FocusedTests`, `WireProtocolWebSocketFocusedTests` (THEMIS_ENABLE_WEBSOCKET)
   - `QuicTransportFocusedTests` (THEMIS_ENABLE_HTTP3), `GrpcTransportFocusedTests` (THEMIS_ENABLE_GRPC)
+  - `NetworkCircuitBreakerFocusedTests` (`test_network_circuit_breaker.cpp`, 2026-03-11) — AdaptiveCircuitBreaker
 - [x] Unit tests added for WebSocket upgrade (`test_wire_protocol_websocket.cpp`)
 - [x] Protocol detection logic tested (8 test cases covering all relevant prefixes)
 - [x] Security: connection-count accounting correct across WS upgrade
@@ -150,6 +168,13 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Unit tests added for geo topology router (`test_geo_topology_router.cpp`, 26 tests)
   - Config defaults, PREFER_LOCAL/LOWEST_LATENCY/ROUND_ROBIN strategies, zone/datacenter affinity
   - Cross-region fallback, selectEndpointInRegion, getRankedShards ordering, stats accumulation, edge cases
+- [x] Unit tests added for backpressure / TCP backlog management (`test_wire_protocol_backpressure.cpp`, 18 tests)
+  - tcp_backlog default (128), custom/high values, min-one edge case
+  - max_connections default and reconfiguration (including unlimited=0)
+  - rejected_connections stat starts at zero; all Stats fields default to zero
+  - overloaded_ state-machine: not overloaded initially, set on first rejection,
+    cleared on recovery; unlimited config never overloads
+  - Config field coexistence (tcp_backlog, max_connections, port, TLS)
 - [?] Integration tests (TLS handshake with WS upgrade, rate-limit enforcement for WS)
 - [?] Performance benchmarks (connections/sec via WS vs. native binary)
 - [?] Full binary frame dispatch over WebSocket (text/JSON frames fully functional)
@@ -178,3 +203,5 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - `WireProtocolServer::Config` gained new fields `enable_ipv6` (default: false) and
   `ipv6_dual_stack` (default: true); existing deployments are unaffected (default binding
   remains IPv4 "0.0.0.0").
+- `WireProtocolServer::Config` gained new field `tcp_backlog` (default: 128); existing
+  deployments are unaffected as 128 matches the previous implicit OS default.

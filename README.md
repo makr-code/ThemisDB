@@ -139,7 +139,7 @@ ThemisDB has **comprehensive documentation for all 44 modules** (139 files total
 - **[Exporters](src/exporters/README.md)** - Data export to multiple formats ([Future Enhancements](src/exporters/FUTURE_ENHANCEMENTS.md))
 - **[CDC](src/cdc/README.md)** - Change Data Capture for real-time data replication ([Future Enhancements](src/cdc/FUTURE_ENHANCEMENTS.md))
 - **[Plugins](src/plugins/README.md)** - Plugin system for extensibility ([Future Enhancements](src/plugins/FUTURE_ENHANCEMENTS.md))
-- **[Ingestion](src/ingestion/README.md)** - Multi-source data intake (filesystem, HuggingFace, REST API), rate limiting, checkpointing, quarantine queue ([Future Enhancements](src/ingestion/FUTURE_ENHANCEMENTS.md))
+- **[Ingestion](src/ingestion/README.md)** - Multi-source data intake (filesystem, HuggingFace, REST API, Kafka, CDC), rate limiting, checkpointing, quarantine queue; **LLM-driven legal text extraction**: deontic logic (obligation/permission/prohibition), entity recognition, temporal analysis, agentic reference validation ([Future Enhancements](src/ingestion/FUTURE_ENHANCEMENTS.md))
 
 </details>
 

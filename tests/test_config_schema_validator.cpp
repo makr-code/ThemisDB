@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_schema_validator.cpp                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-03-09 04:03:04                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-03-11                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     539                                            ║
+    • Total Lines:     1315                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ec0d1bcbc  2026-03-11  feat(config): add validateFromString API for in-memory validation ║
     • 2a1fb0423  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 50f623520  2026-02-25  docs(config): update README/FUTURE_ENHANCEMENTS for Confi... ║
     • 51bc83fc2  2026-02-24  feat(config): integrate JSON Schema and YAML schema valid... ║
@@ -91,6 +92,161 @@ TEST_F(ConfigSchemaValidatorTest, LoadJsonFile) {
 TEST_F(ConfigSchemaValidatorTest, LoadMissingFileThrows) {
     EXPECT_THROW(ConfigSchemaValidator::loadAsJson("/nonexistent/path/cfg.yaml"),
                  SchemaValidationException);
+}
+
+// ═══════════════════════════════════════════════════════════
+// loadAsJson(content, is_yaml) – string overload
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, LoadJsonStringOverload) {
+    auto json = ConfigSchemaValidator::loadAsJson(R"({"port": 9090, "name": "test"})", false);
+    EXPECT_EQ(json["port"].get<int>(), 9090);
+    EXPECT_EQ(json["name"].get<std::string>(), "test");
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadYamlStringOverload) {
+    auto json = ConfigSchemaValidator::loadAsJson("port: 8080\nhost: localhost\n", true);
+    EXPECT_EQ(json["port"].get<int>(), 8080);
+    EXPECT_EQ(json["host"].get<std::string>(), "localhost");
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadYamlStringBoolAndIntOverload) {
+    auto json = ConfigSchemaValidator::loadAsJson("enabled: true\ncount: 3\n", true);
+    EXPECT_TRUE(json["enabled"].get<bool>());
+    EXPECT_EQ(json["count"].get<int>(), 3);
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadInvalidJsonStringThrows) {
+    EXPECT_THROW(ConfigSchemaValidator::loadAsJson("{not valid json", false),
+                 SchemaValidationException);
+}
+
+TEST_F(ConfigSchemaValidatorTest, LoadInvalidYamlStringThrows) {
+    // A tab character at the start of a YAML block is a parse error.
+    EXPECT_THROW(ConfigSchemaValidator::loadAsJson("\tkey: bad\n", true),
+                 SchemaValidationException);
+}
+
+// ═══════════════════════════════════════════════════════════
+// validateFromString – in-memory validation
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromYamlStringPass) {
+    const std::string yaml = "port: 8080\nhost: localhost\n";
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "port": { "type": "integer" },
+            "host": { "type": "string" }
+        },
+        "required": ["port", "host"]
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(yaml, true, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromYamlStringFail) {
+    const std::string yaml = "port: not_a_number\nhost: localhost\n";
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "port": { "type": "integer" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(yaml, true, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromJsonStringPass) {
+    const std::string json_str = R"({"name": "themis", "version": 2})";
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "name": { "type": "string" },
+            "version": { "type": "integer" }
+        },
+        "required": ["name", "version"]
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(json_str, false, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromJsonStringFail) {
+    const std::string json_str = R"({"name": 42})";
+    nlohmann::json schema = R"({
+        "type": "object",
+        "properties": {
+            "name": { "type": "string" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(json_str, false, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromStringMissingRequiredFail) {
+    const std::string yaml = "host: localhost\n";
+    nlohmann::json schema = R"({
+        "type": "object",
+        "required": ["host", "port"]
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(yaml, true, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromStringInvalidYamlReportsError) {
+    const std::string bad_yaml = "\tkey: bad\n";
+    nlohmann::json schema = R"({"type": "object"})"_json;
+    auto result = ConfigSchemaValidator::validateFromString(bad_yaml, true, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromStringInvalidJsonReportsError) {
+    const std::string bad_json = "{not valid json";
+    nlohmann::json schema = R"({"type": "object"})"_json;
+    auto result = ConfigSchemaValidator::validateFromString(bad_json, false, schema);
+    EXPECT_FALSE(result.valid);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromStringConfigPathIsString) {
+    const std::string json_str = R"({"x": 1})";
+    nlohmann::json schema = R"({"type": "object"})"_json;
+    auto result = ConfigSchemaValidator::validateFromString(json_str, false, schema);
+    EXPECT_EQ(result.config_path, "<string>");
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromStringWithSchemaComposition) {
+    const std::string yaml = "type: tcp\nport: 9090\n";
+    nlohmann::json schema = R"({
+        "allOf": [
+            { "type": "object" },
+            { "required": ["type", "port"] },
+            { "properties": { "port": { "minimum": 1, "maximum": 65535 } } }
+        ]
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(yaml, true, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
+}
+
+TEST_F(ConfigSchemaValidatorTest, ValidateFromStringWithRefDefs) {
+    const std::string json_str = R"({"host": "db.example.com", "port": 5432})";
+    nlohmann::json schema = R"({
+        "$defs": {
+            "Port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+        },
+        "type": "object",
+        "properties": {
+            "host": { "type": "string" },
+            "port": { "$ref": "#/$defs/Port" }
+        }
+    })"_json;
+    auto result = ConfigSchemaValidator::validateFromString(json_str, false, schema);
+    EXPECT_TRUE(result.valid) << result.formatErrors();
 }
 
 // ═══════════════════════════════════════════════════════════

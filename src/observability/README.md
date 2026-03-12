@@ -28,14 +28,14 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 | `query_profiler.cpp` | Per-phase and per-operator query timing with index usage tracking |
 | `storage_profiler.cpp` | RocksDB stats, write/read amplification, compaction metrics, cache hit rates |
 | `performance_analyzer.cpp` | Automated issue detection with optimization recommendations |
-
-**Note:** `tracer.cpp` and `log_aggregator.cpp` referenced in older docs **do not exist** — distributed tracing is in `continuous_profiler.cpp`; structured logging is via the Core `ILogger` interface.
+| `tracer.cpp` | Standalone `ObservabilityTracer` — W3C Trace Context propagation, span ring buffer, ContinuousProfiler integration, MetricsCollector gauges |
+| `log_aggregator.cpp` | Standalone `LogAggregator` — structured JSON log collection, trace-context correlation, ring buffer, optional file sink |
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, and Alertmanager integration are all fully implemented. OTLP direct export (`otlp_exporter.cpp`) is pending.
+**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, Alertmanager integration, standalone tracer and log aggregator are all fully implemented. OTLP direct export (`otlp_exporter.cpp`) is pending.
 
-**Validated:** 2026-03-09 (Reality-Check against Sourcecode; see [docs/de/observability/missing-implementations.md](../../docs/de/observability/missing-implementations.md))
+**Validated:** 2026-03-11 (Reality-Check against Sourcecode; see [docs/de/observability/missing-implementations.md](../../docs/de/observability/missing-implementations.md))
 
 ## Table of Contents
 

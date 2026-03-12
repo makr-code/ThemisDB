@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -27,6 +28,7 @@
 // Forward declarations – avoids pulling heavy headers into every translation
 // unit that only needs the config type.
 namespace themis {
+class KeyProvider;
 namespace governance {
 class PolicyEngine;
 } // namespace governance
@@ -51,9 +53,25 @@ struct HubUploadResult {
 
 /// Configuration for a HuggingFace Hub upload operation.
 struct HubUploadConfig {
-    /// Hub API token.  When empty, the client reads the `HF_TOKEN` environment
-    /// variable.  Raw key material must never be logged.
+    /// Hub API token.  When empty, the client checks `hf_token_kek_id` (if
+    /// set) and then falls back to the `HF_TOKEN` environment variable.
+    /// Raw key material must never be logged.
     std::string hf_token;
+
+    /// KEK/KMS key ID for protected HF token lookup.
+    /// When non-empty, `resolveToken()` fetches the raw token bytes from
+    /// `key_provider->getKey(hf_token_kek_id)` and interprets them as a
+    /// UTF-8 bearer token.  This field is evaluated only when `hf_token` is
+    /// empty; it takes precedence over the `HF_TOKEN` environment variable.
+    /// Requires `key_provider` to be non-null; a null `key_provider` with a
+    /// non-empty `hf_token_kek_id` is a misconfiguration and will be surfaced
+    /// as an error.  Raw token bytes are never logged.
+    std::string hf_token_kek_id;
+
+    /// Key provider used to resolve `hf_token_kek_id`.
+    /// Null when KEK-based token lookup is not used (backward-compatible
+    /// default).  The provider must outlive all upload calls.
+    std::shared_ptr<themis::KeyProvider> key_provider;
 
     /// Target Hub repository in the form `"owner/dataset-name"`.
     /// The repository is created automatically when it does not exist.
@@ -102,6 +120,18 @@ struct HubUploadConfig {
     std::string requesting_user;
 };
 
+/// A single in-memory shard for use with HuggingFaceHubClient::uploadShards().
+///
+/// `relative_path` is the path that will appear in the Hub repository
+/// (e.g., `"data/train-00000-of-00001.jsonl"`).  `content` holds the raw
+/// bytes of the shard and is uploaded directly without writing to disk.
+struct MemoryShardSpec {
+    /// Relative path within the Hub repository (forward-slash separated).
+    std::string relative_path;
+    /// Raw shard bytes (e.g., JSONL content).
+    std::vector<char> content;
+};
+
 /// @brief Uploads a HuggingFace Datasets-compatible directory to the HF Hub.
 ///
 /// The client uses libcurl for HTTP communication.  Authentication is via a
@@ -110,8 +140,9 @@ struct HubUploadConfig {
 ///
 /// ### Upload workflow
 /// 1. Resolve or create the Hub repository via the Hub API.
-/// 2. Enumerate all files in the dataset directory.
-/// 3. Upload each file via the Hub LFS / files API with chunked transfer.
+/// 2. Enumerate all files in the dataset directory (disk path) **or** accept
+///    pre-built in-memory shards (memory path via `uploadShards()`).
+/// 3. Upload each file / shard via the Hub LFS / files API.
 /// 4. Create a single commit bundling all uploaded files.
 ///
 /// ### Error handling
@@ -119,8 +150,8 @@ struct HubUploadConfig {
 ///   back-off starting at `retry_delay_ms`.
 /// - HTTP 401 Unauthorized is surfaced immediately (no retry) as
 ///   `HubUploadResult::success=false` and a descriptive `error_message`.
-/// - HTTP 413 Payload Too Large causes the client to split the shard into
-///   two halves and retry each half independently.
+/// - HTTP 413 Payload Too Large causes the client to return an error with a
+///   hint to reduce the shard size and retry.
 ///
 /// ### Thread safety
 /// HuggingFaceHubClient instances are NOT thread-safe.  Create one instance
@@ -151,10 +182,39 @@ public:
         const std::string& dataset_dir,
         std::function<void(double /*fraction*/)> progress_cb = {}) const;
 
+    /// @brief Upload pre-built in-memory shards to the Hugging Face Hub.
+    ///
+    /// This is the memory-streaming variant of `uploadDataset()`: it accepts
+    /// a list of `MemoryShardSpec` values (each carrying a relative path and
+    /// raw byte content) and uploads them directly via the libcurl read
+    /// callback, without writing any temporary files to disk.  It is suitable
+    /// for container / serverless environments with read-only or absent local
+    /// storage.
+    ///
+    /// All retry, progress-callback, PolicyEngine, and AuditLogger behaviour
+    /// is identical to `uploadDataset()`.
+    ///
+    /// @param shards       In-memory shards to upload.  Must not be empty.
+    /// @param progress_cb  Optional progress callback; receives a fraction in
+    ///                     [0.0, 1.0] as each shard completes.
+    /// @returns HubUploadResult with success flag and dataset URL or error.
+    HubUploadResult uploadShards(
+        const std::vector<MemoryShardSpec>& shards,
+        std::function<void(double /*fraction*/)> progress_cb = {}) const;
+
 private:
     HubUploadConfig config_;
 
-    /// Resolve the effective API token (config field → HF_TOKEN env).
+    /// Resolve the effective API token.
+    /// Resolution order:
+    ///   1. `hf_token` (explicit plaintext field)
+    ///   2. `hf_token_kek_id` via `key_provider` (KEK/KMS-protected lookup)
+    ///   3. `HF_TOKEN` environment variable
+    /// Returns an empty string only when none of the above sources provide a
+    /// token.  Throws `std::invalid_argument` when `hf_token_kek_id` is set
+    /// but `key_provider` is null, and `std::runtime_error` when key lookup
+    /// fails or the resolved bytes are empty.  Raw token material is never
+    /// logged at any level.
     std::string resolveToken() const;
 
     /// POST to Hub API; returns {http_status, response_body}.
@@ -163,7 +223,17 @@ private:
         const std::string& json_body,
         const std::string& bearer_token) const;
 
+    /// PUT raw bytes to Hub LFS / file-upload endpoint via libcurl read
+    /// callback (no filesystem access).  Returns HTTP status code.
+    int httpPutBytes(
+        const std::string& url,
+        const char* data,
+        std::size_t size,
+        const std::string& bearer_token,
+        std::function<void(double)> progress_cb) const;
+
     /// PUT file content to Hub LFS / file-upload endpoint.
+    /// Reads the file from disk then delegates to httpPutBytes().
     /// Returns HTTP status code.
     int httpPutFile(
         const std::string& url,

@@ -1,11 +1,11 @@
 # Ingestion Module
 
-<!-- Status: current | validated: 2026-03-09 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+<!-- Status: current | validated: 2026-03-11 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/ingestion/README.md -->
 
 ## Module Purpose
 
-The Ingestion module is ThemisDB's data intake layer. It provides a unified pipeline for pulling documents from heterogeneous external sources — local filesystems, HuggingFace datasets, and generic REST APIs — normalizing them, and writing them into the database. It supports parallel multi-source ingestion, configurable retry with exponential back-off, token-bucket rate limiting, incremental checkpointing, a quarantine queue for bad records, and Prometheus metrics export.
+The Ingestion module is ThemisDB's data intake layer. It provides a unified pipeline for pulling documents from heterogeneous external sources — local filesystems, HuggingFace datasets, REST APIs, Kafka, CDC streams — normalizing them, and writing them into the database. It supports parallel multi-source ingestion, configurable retry with exponential back-off, token-bucket rate limiting, incremental checkpointing, a quarantine queue for bad records, Prometheus metrics export, and an **LLM-driven legal text extraction pipeline** for German administrative law documents.
 
 ## Relevant Interfaces
 
@@ -19,6 +19,10 @@ The Ingestion module is ThemisDB's data intake layer. It provides a unified pipe
 | `object_storage_connector.cpp` | S3 / GCS / Azure Blob object-storage connector |
 | `database_connector.cpp` | JDBC-compatible database source connector |
 | `web_crawler_connector.cpp` | HTTP web crawler and XML sitemap source connector |
+| `deontic_extractor.cpp` | Regex/LLM-based deontic logic extraction for German legal texts (obligation/permission/prohibition) |
+| `semantic_validator.cpp` | Quality gates, semantic scoring, document-level extraction with per-§ splitting |
+| `agentic_reference_validator.cpp` | Cross-reference extraction and validation against a legal knowledge base |
+| `llm_adapter.cpp` | LLM integration bridge: connects DeonticExtractor to Mistral 7B via llama.cpp (Phase 2) |
 
 ## Scope
 
@@ -33,12 +37,19 @@ The Ingestion module is ThemisDB's data intake layer. It provides a unified pipe
 - Dry-run mode for testing pipelines without database writes
 - Admin API for source management (list, pause, resume, quarantine)
 - Fluent builder API (`IngestionBuilder`) for pipeline construction
+- **LLM-driven semantic extraction** for German legal texts:
+  - Deontic logic extraction (obligation/permission/prohibition/definition/condition/exception/reference)
+  - Entity recognition (law_reference, person_role, organization, temporal, threshold_value)
+  - Temporal validity analysis (effective_from, effective_to, amendment dates)
+  - Agentic reference validation (§-cross-references, named-law refs, EU directives)
+  - Quality gates with configurable thresholds and per-source `LegalIngestionConfig`
 
 **Out of Scope:**
 - Document parsing beyond plain text, HTML, and XML extraction (e.g., PDF, DOCX binary formats require external converters)
 - Storage schema definition or index management (handled by the storage module)
 - Authentication token refresh (callers must supply valid credentials)
 - Full-text search indexing (handled by the query module)
+- LoRA adapter training (handled by the training module)
 
 ## Key Components
 

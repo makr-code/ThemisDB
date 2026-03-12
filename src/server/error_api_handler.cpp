@@ -23,6 +23,7 @@
 #include "server/error_api_handler.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
+#include "utils/tracing.h"
 
 namespace themis {
 namespace server {
@@ -35,6 +36,7 @@ void ErrorApiHandler::handleGetErrors(const Request& req, Response& res) {
     // Check if category filter is provided
     std::string category;
     if (req.query.contains("category")) {
+    auto span = Tracer::startSpan("handleGetErrors");
         category = req.query["category"].get<std::string>();
     }
     
@@ -68,6 +70,7 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
     
     // Extract error code from params
     if (!req.params.contains("code")) {
+    auto span = Tracer::startSpan("handleGetError");
         res.status_code = 400;
         res.setJSON({
             {"status", "error"},
@@ -111,6 +114,7 @@ void ErrorApiHandler::handleGetCategories(const Request& req, Response& res) {
     auto categories = registry.getAllCategories();
     
     json response = {
+    auto span = Tracer::startSpan("handleGetCategories");
         {"status", "success"},
         {"categories", categories},
         {"count", categories.size()}
@@ -126,6 +130,7 @@ void ErrorApiHandler::handleSearchErrors(const Request& req, Response& res) {
     // Get search query
     std::string query;
     if (req.query.contains("q")) {
+    auto span = Tracer::startSpan("handleSearchErrors");
         query = req.query["q"].get<std::string>();
     }
     

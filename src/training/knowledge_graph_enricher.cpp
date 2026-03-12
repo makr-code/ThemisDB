@@ -21,6 +21,7 @@
  */
 
 #include "training/knowledge_graph_enricher.h"
+#include "index/vector_index.h"
 #include <stdexcept>
 #include <chrono>
 #include <algorithm>
@@ -79,6 +80,14 @@ namespace graph_aql {
         "FOR sample IN @@collection "
         "FILTER sample.input != null "
         "RETURN sample._key";
+
+    // Find internal administrative guidance documents via OUTBOUND graph traversal
+    constexpr const char* RELATED_GUIDANCE =
+        "FOR doc IN @@documents FILTER doc._key == @document_id "
+        "FOR guidance, edge IN 1..@depth OUTBOUND doc @@references "
+        "FILTER guidance.document_type == 'guidance' "
+        "LIMIT @max_results "
+        "RETURN guidance._key";
 } // namespace graph_aql
 
 // ============================================================================
@@ -204,7 +213,7 @@ public:
                 // Phase 6: Persist enriched context back to collection
                 persistContext(sample_id, context);
 
-                stats.graph_queries_executed += 3; // provisions + case_law + similar
+                stats.graph_queries_executed += 4; // provisions + case_law + guidance + similar
                 stats.samples_processed++;
                 processed++;
 
@@ -271,6 +280,11 @@ public:
             }
         }
 
+        if (config_.include_guidance) {
+            context.internal_guidance = findRelatedGuidance(source_document_id,
+                                                            config_.max_related_items);
+        }
+
         // Phase 6: Build context summary
         context.context_summary = buildContextSummary(context);
 
@@ -305,13 +319,14 @@ public:
 
                 stats.context_items_added += context.related_provisions.size()
                                            + context.case_law.size()
+                                           + context.internal_guidance.size()
                                            + context.similar_documents.size();
                 if (!context.context_summary.empty()) {
                     stats.samples_enriched++;
                 }
 
                 persistContext(sample_id, context);
-                stats.graph_queries_executed += 3;
+                stats.graph_queries_executed += 4;
                 stats.samples_processed++;
                 processed++;
 
@@ -370,26 +385,72 @@ public:
         return case_law;
     }
 
+    std::vector<std::string> findRelatedGuidance(const std::string& document_id,
+                                                  size_t max_results) {
+        std::vector<std::string> guidance;
+
+        if (document_id.empty() || max_results == 0) return guidance;
+
+        // Phase 6: AQL traversal for internal guidance (graph_aql::RELATED_GUIDANCE)
+        // (max_results bound as @max_results in production AQL query)
+        (void)max_results; // bound as @max_results in production AQL query
+        auto it = custom_queries_.find("find_guidance");
+        (void)it;
+
+        return guidance;
+    }
+
     std::vector<std::pair<std::string, float>> findSimilarDocuments(
         const std::string& document_id,
         size_t max_results) {
 
         std::vector<std::pair<std::string, float>> similar;
 
-        if (document_id.empty()) return similar;
+        if (document_id.empty() || max_results == 0) return similar;
 
-        // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
-        // Uses cosine similarity on pre-computed embeddings
-        // (max_results bound as @max_results in production AQL query)
-        (void)max_results; // bound as @max_results in production AQL query
+        // Check custom query override (AQL path – used when a query executor
+        // is connected rather than a VectorIndexManager)
         auto it = custom_queries_.find("find_similar");
         (void)it;
 
+        // Use the VectorIndexManager when one has been wired in.
+        if (vector_index_) {
+            // Fetch the embedding of the query document.
+            auto query_vec_opt = vector_index_->getVectorByPk(document_id);
+            if (!query_vec_opt.has_value()) {
+                // Document has no embedding – cannot perform vector search.
+                return similar;
+            }
+
+            // Request max_results + 1 candidates so we can safely exclude the
+            // query document itself from the result set.
+            const size_t k = max_results + 1;
+            auto [st, results] = vector_index_->searchKnn(*query_vec_opt, k);
+
+            if (!st.ok) {
+                // Index search failed – return empty rather than crashing.
+                return similar;
+            }
+
+            for (const auto& r : results) {
+                if (r.pk == document_id) continue; // exclude self
+                similar.emplace_back(r.pk, distanceToSimilarityScore(r.distance));
+                if (similar.size() >= max_results) break;
+            }
+            return similar;
+        }
+
+        // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
+        // No VectorIndexManager wired – return empty (no database connection).
         return similar;
     }
 
     void setCustomQuery(const std::string& query_name, const std::string& aql_query) {
         custom_queries_[query_name] = aql_query;
+    }
+
+    void setVectorIndex(VectorIndexManager* vim) {
+        vector_index_ = vim;
     }
 
     // Phase 6: Get AQL query template for a given query name
@@ -401,6 +462,7 @@ public:
         // Return built-in templates
         if (query_name == "find_provisions")  return graph_aql::RELATED_PROVISIONS;
         if (query_name == "find_case_law")    return graph_aql::RELATED_CASE_LAW;
+        if (query_name == "find_guidance")    return graph_aql::RELATED_GUIDANCE;
         if (query_name == "find_similar")     return graph_aql::SIMILAR_DOCUMENTS;
         if (query_name == "update_context")   return graph_aql::UPDATE_SAMPLE_CONTEXT;
         if (query_name == "fetch_all")        return graph_aql::FETCH_ALL_SAMPLES;
@@ -434,6 +496,15 @@ private:
     std::string db_connection_;
     std::unordered_map<std::string, std::string> custom_queries_;
     std::unique_ptr<EnrichmentLRUCache> cache_; ///< optional LRU cache (Phase 9)
+    VectorIndexManager* vector_index_ = nullptr; ///< non-owning; nullptr = offline/stub
+
+    // Convert a VectorIndexManager distance to a cosine similarity score [0, 1].
+    // For the COSINE metric VectorIndexManager stores distance = 1 - cosine, so
+    // similarity = 1 - distance.  Clamped to [0, 1] to guard against floating-
+    // point rounding artefacts near the boundaries.
+    static float distanceToSimilarityScore(float distance) {
+        return std::max(0.0f, std::min(1.0f, 1.0f - distance));
+    }
 
     // Build the cache key for a given entity + graph version
     std::string cacheKey(const std::string& entity_key) const {
@@ -530,6 +601,12 @@ std::vector<std::string> KnowledgeGraphEnricher::findRelatedCaseLaw(
     return impl_->findRelatedCaseLaw(document_id, max_results);
 }
 
+std::vector<std::string> KnowledgeGraphEnricher::findRelatedGuidance(
+    const std::string& document_id,
+    size_t max_results) {
+    return impl_->findRelatedGuidance(document_id, max_results);
+}
+
 std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDocuments(
     const std::string& document_id,
     size_t max_results) {
@@ -539,6 +616,10 @@ std::vector<std::pair<std::string, float>> KnowledgeGraphEnricher::findSimilarDo
 void KnowledgeGraphEnricher::setCustomQuery(const std::string& query_name,
                                            const std::string& aql_query) {
     impl_->setCustomQuery(query_name, aql_query);
+}
+
+void KnowledgeGraphEnricher::setVectorIndex(VectorIndexManager* vim) {
+    impl_->setVectorIndex(vim);
 }
 
 std::string KnowledgeGraphEnricher::getQueryTemplate(const std::string& query_name) const {

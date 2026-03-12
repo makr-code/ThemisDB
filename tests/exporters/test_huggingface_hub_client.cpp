@@ -22,10 +22,12 @@
 #include "exporters/huggingface_hub_client.h"
 #include "governance/model_governance.h"
 #include "governance/policy_engine.h"
+#include "security/key_provider.h"
 #include "utils/audit_logger.h"
 
 #include <filesystem>
 #include <fstream>
+#include <map>
 #include <sstream>
 #include <cstdlib>
 
@@ -114,6 +116,56 @@ struct HfTokenGuard {
         if (had_original_) setEnvValue("HF_TOKEN", original_.c_str());
         else               unsetEnvValue("HF_TOKEN");
     }
+};
+
+// ── TestTokenKeyProvider ─────────────────────────────────────────────────────
+
+/// Minimal in-test KeyProvider that stores variable-length byte sequences
+/// (HF tokens are UTF-8 strings, not fixed-size AES-256 keys).
+/// NOT for production use.
+class TestTokenKeyProvider : public themis::KeyProvider {
+public:
+    /// Register a token for the given kek_id.
+    void storeToken(const std::string& kek_id, const std::string& token) {
+        tokens_[kek_id] = std::vector<uint8_t>(token.begin(), token.end());
+    }
+
+    std::vector<uint8_t> getKey(const std::string& key_id) override {
+        auto it = tokens_.find(key_id);
+        if (it == tokens_.end()) {
+            throw themis::KeyNotFoundException(key_id, 0);
+        }
+        return it->second;
+    }
+
+    std::vector<uint8_t> getKey(const std::string& key_id, uint32_t /*version*/) override {
+        return getKey(key_id);
+    }
+
+    uint32_t rotateKey(const std::string&) override { return 0; }
+    std::vector<themis::KeyMetadata> listKeys() override { return {}; }
+
+    themis::KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t /*version*/ = 0) override {
+        themis::KeyMetadata m;
+        m.key_id = key_id;
+        return m;
+    }
+
+    void deleteKey(const std::string&, uint32_t) override {}
+
+    bool hasKey(const std::string& key_id, uint32_t /*version*/ = 0) override {
+        return tokens_.count(key_id) > 0;
+    }
+
+    uint32_t createKeyFromBytes(const std::string& key_id,
+                                const std::vector<uint8_t>& key_bytes,
+                                const themis::KeyMetadata& /*metadata*/ = {}) override {
+        tokens_[key_id] = key_bytes;
+        return 1;
+    }
+
+private:
+    std::map<std::string, std::vector<uint8_t>> tokens_;
 };
 
 // ── Token resolution ─────────────────────────────────────────────────────────
@@ -372,4 +424,370 @@ TEST(HuggingFaceHubClientTest, AuditLogNullptrIsBackwardCompatible) {
 
     const auto result = client.uploadDataset("/tmp/any_dir");
     EXPECT_FALSE(result.success);  // fails at token check, not audit log
+}
+
+// ── uploadShards: token / config validation ───────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, UploadShardsNoTokenReturnsError) {
+    HfTokenGuard token_guard(nullptr);  // ensure HF_TOKEN is unset
+    HubUploadConfig cfg;
+    cfg.repo_id  = "org/repo";
+    cfg.hf_token = "";
+    HuggingFaceHubClient client(cfg);
+
+    const std::string content = R"({"text":"hello"})" "\n";
+    MemoryShardSpec shard;
+    shard.relative_path = "data/train-00000-of-00001.jsonl";
+    shard.content.assign(content.begin(), content.end());
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("HF_TOKEN"), std::string::npos);
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsEmptyRepoIdReturnsError) {
+    HubUploadConfig cfg;
+    cfg.repo_id  = "";  // intentionally empty
+    cfg.hf_token = "test-token";
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'a', 'b', 'c'};
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsEmptyListReturnsError) {
+    HubUploadConfig cfg;
+    cfg.repo_id  = "org/repo";
+    cfg.hf_token = "test-token";
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadShards({});
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsProgressCallbackNotCalledWhenNoToken) {
+    HfTokenGuard token_guard(nullptr);  // ensure HF_TOKEN is unset
+    HubUploadConfig cfg;
+    cfg.repo_id = "org/repo";
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'x'};
+
+    bool cb_called = false;
+    HuggingFaceHubClient client(cfg);
+    const auto result = client.uploadShards(
+        {shard}, [&cb_called](double) { cb_called = true; });
+
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(cb_called);
+}
+
+// ── uploadShards: PolicyEngine integration ────────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, UploadShardsPolicyDeniedReturnsFailure) {
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("restricted-org/secret-data");
+
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "restricted-org/secret-data";
+    cfg.hf_token        = "dummy-token";
+    cfg.requesting_user = "eve";
+    cfg.policy_engine   = &engine;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'a'};
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("PolicyEngine"), std::string::npos)
+        << "Expected 'PolicyEngine' in error; got: " << result.error_message;
+    EXPECT_EQ(result.http_status, 0);
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsTokenFromEnvProceeedsToNetwork) {
+    // Policy permits; upload will fail at network level (unreachable host).
+    HfTokenGuard token_guard("test-memory-token");
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/allowed-dataset";
+    cfg.hub_base_url    = "http://localhost:1"; // unreachable
+    cfg.max_retries     = 0;
+    cfg.timeout_seconds = 2;
+    cfg.requesting_user = "dave";
+    cfg.policy_engine   = &engine;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/train.jsonl";
+    const std::string content = R"({"text":"hello world"})" "\n";
+    shard.content.assign(content.begin(), content.end());
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+    // Must NOT be a PolicyEngine or HF_TOKEN error.
+    EXPECT_EQ(result.error_message.find("PolicyEngine"), std::string::npos)
+        << "Got: " << result.error_message;
+    EXPECT_EQ(result.error_message.find("HF_TOKEN"), std::string::npos)
+        << "Got: " << result.error_message;
+}
+
+// ── uploadShards: Audit log integration ──────────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnPolicyDenial) {
+    auto [audit_logger, log_path] = makeTestAuditLogger();
+
+    auto mgp = std::make_shared<ModelGovernancePolicy>();
+    mgp->addRestrictedCollection("secret-org/restricted");
+
+    PolicyEngine engine;
+    engine.setModelGovernancePolicy(mgp);
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "secret-org/restricted";
+    cfg.hf_token        = "dummy";
+    cfg.requesting_user = "mallory";
+    cfg.policy_engine   = &engine;
+    cfg.audit_log       = audit_logger;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'a'};
+
+    const auto result = client.uploadShards({shard});
+    EXPECT_FALSE(result.success);
+
+    audit_logger->flush();
+    std::ifstream f(log_path);
+    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
+    std::string content_str((std::istreambuf_iterator<char>(f)),
+                             std::istreambuf_iterator<char>());
+    EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
+    EXPECT_NE(content_str.find("denied"),     std::string::npos);
+    EXPECT_NE(content_str.find("secret-org/restricted"), std::string::npos);
+
+    fs::remove(log_path);
+}
+
+TEST(HuggingFaceHubClientTest, UploadShardsAuditLogWrittenOnNoToken) {
+    HfTokenGuard token_guard(nullptr);
+    auto [audit_logger, log_path] = makeTestAuditLogger();
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/dataset";
+    cfg.hf_token        = "";
+    cfg.requesting_user = "carol";
+    cfg.audit_log       = audit_logger;
+    HuggingFaceHubClient client(cfg);
+
+    MemoryShardSpec shard;
+    shard.relative_path = "data/shard.jsonl";
+    shard.content       = {'x'};
+
+    const auto result = client.uploadShards({shard});
+// ── hf_token_kek_id / KEK token resolution ───────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, DefaultConfigHasNoKekFields) {
+    HubUploadConfig cfg;
+    EXPECT_TRUE(cfg.hf_token_kek_id.empty());
+    EXPECT_EQ(cfg.key_provider, nullptr);
+}
+
+TEST(HuggingFaceHubClientTest, KekTokenResolution_HappyPath) {
+    // A TestTokenKeyProvider that returns a valid token for the given kek_id.
+    // The upload will fail at the network layer (unreachable host), not at the
+    // token-resolution stage.
+    HfTokenGuard token_guard(nullptr);  // ensure HF_TOKEN is unset
+
+    auto provider = std::make_shared<TestTokenKeyProvider>();
+    provider->storeToken("hf-token-key", "hf_kek_resolved_token_xyz");
+
+    const std::string dataset_dir = makeDatasetDir();
+    HubUploadConfig cfg;
+    cfg.repo_id          = "org/test-kek-repo";
+    cfg.hf_token_kek_id  = "hf-token-key";
+    cfg.key_provider     = provider;
+    cfg.hub_base_url     = "http://localhost:1";  // unreachable → no real upload
+    cfg.max_retries      = 0;
+    cfg.timeout_seconds  = 2;
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadDataset(dataset_dir);
+    // Should fail with a network/curl error, NOT with a token or KEK error.
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.error_message.find("kek_id"), std::string::npos)
+        << "Should not fail with kek_id error when token resolves; got: "
+        << result.error_message;
+    EXPECT_EQ(result.error_message.find("HF_TOKEN"), std::string::npos)
+        << "Should not fail with HF_TOKEN error when token resolves via KEK; got: "
+        << result.error_message;
+
+    fs::remove_all(dataset_dir);
+}
+
+TEST(HuggingFaceHubClientTest, KekTokenResolution_PriorityOverEnv) {
+    // hf_token_kek_id must take precedence over the HF_TOKEN env variable.
+    HfTokenGuard token_guard("env-token-should-not-be-used");
+
+    auto provider = std::make_shared<TestTokenKeyProvider>();
+    provider->storeToken("my-hf-kek", "hf_from_kek_not_env");
+
+    const std::string dataset_dir = makeDatasetDir();
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/prio-test-repo";
+    cfg.hf_token_kek_id = "my-hf-kek";
+    cfg.key_provider    = provider;
+    cfg.hub_base_url    = "http://localhost:1";
+    cfg.max_retries     = 0;
+    cfg.timeout_seconds = 2;
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadDataset(dataset_dir);
+    // Token was resolved (via KEK), so failure is network-related, not token.
+    EXPECT_EQ(result.error_message.find("HF_TOKEN"), std::string::npos)
+        << "KEK token should take priority over HF_TOKEN env; got: "
+        << result.error_message;
+    EXPECT_EQ(result.error_message.find("kek_id"), std::string::npos)
+        << "KEK resolution should not have failed; got: " << result.error_message;
+
+    fs::remove_all(dataset_dir);
+}
+
+TEST(HuggingFaceHubClientTest, KekTokenResolution_HfTokenTakesPriorityOverKek) {
+    // hf_token (explicit) must take priority over hf_token_kek_id.
+    HfTokenGuard token_guard(nullptr);
+
+    auto provider = std::make_shared<TestTokenKeyProvider>();
+    provider->storeToken("unused-kek", "hf_kek_token_unused");
+
+    const std::string dataset_dir = makeDatasetDir();
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/priority-test";
+    cfg.hf_token        = "hf_explicit_wins";
+    cfg.hf_token_kek_id = "unused-kek";
+    cfg.key_provider    = provider;
+    cfg.hub_base_url    = "http://localhost:1";
+    cfg.max_retries     = 0;
+    cfg.timeout_seconds = 2;
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadDataset(dataset_dir);
+    // Token resolved from hf_token; failure should be network-related.
+    EXPECT_EQ(result.error_message.find("HF_TOKEN"), std::string::npos)
+        << "hf_token should take priority; got: " << result.error_message;
+    EXPECT_EQ(result.error_message.find("kek_id"), std::string::npos)
+        << "kek_id path should not be reached; got: " << result.error_message;
+
+    fs::remove_all(dataset_dir);
+}
+
+TEST(HuggingFaceHubClientTest, KekTokenResolution_NullProviderReturnsError) {
+    // hf_token_kek_id set but key_provider is null → clear misconfiguration error.
+    HfTokenGuard token_guard(nullptr);
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/repo";
+    cfg.hf_token_kek_id = "some-kek-id";
+    cfg.key_provider    = nullptr;
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadDataset("/tmp/any_dir");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_NE(result.error_message.find("hf_token_kek_id"), std::string::npos)
+        << "Error should mention hf_token_kek_id; got: " << result.error_message;
+    EXPECT_NE(result.error_message.find("key_provider"), std::string::npos)
+        << "Error should mention key_provider; got: " << result.error_message;
+}
+
+TEST(HuggingFaceHubClientTest, KekTokenResolution_KeyNotFoundReturnsError) {
+    // key_provider does not have the requested kek_id → clear error.
+    HfTokenGuard token_guard(nullptr);
+
+    auto provider = std::make_shared<TestTokenKeyProvider>();
+    // Deliberately NOT storing a key for "missing-kek-id".
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/repo";
+    cfg.hf_token_kek_id = "missing-kek-id";
+    cfg.key_provider    = provider;
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadDataset("/tmp/any_dir");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    // The error should be about KEK resolution failing, not "no HF_TOKEN".
+    EXPECT_NE(result.error_message.find("hf_token_kek_id resolution failed"), std::string::npos)
+        << "Error should indicate KEK resolution failure; got: " << result.error_message;
+    EXPECT_EQ(result.error_message.find("HF_TOKEN"), std::string::npos)
+        << "Should not mention 'HF_TOKEN' for KEK failure; got: " << result.error_message;
+}
+
+TEST(HuggingFaceHubClientTest, KekTokenResolution_AuditLogWrittenOnKekError) {
+    // When KEK resolution fails, the audit log should record the error.
+    HfTokenGuard token_guard(nullptr);
+    auto [audit_logger, log_path] = makeTestAuditLogger();
+
+    auto provider = std::make_shared<TestTokenKeyProvider>();
+
+    HubUploadConfig cfg;
+    cfg.repo_id         = "org/repo";
+    cfg.hf_token_kek_id = "nonexistent-kek";
+    cfg.key_provider    = provider;
+    cfg.requesting_user = "dave";
+    cfg.audit_log       = audit_logger;
+    HuggingFaceHubClient client(cfg);
+
+    const auto result = client.uploadDataset("/tmp/any_dir");
+    EXPECT_FALSE(result.success);
+
+    audit_logger->flush();
+    std::ifstream f(log_path);
+    ASSERT_TRUE(f.good()) << "Audit log not found: " << log_path;
+    std::string content_str((std::istreambuf_iterator<char>(f)),
+                             std::istreambuf_iterator<char>());
+    EXPECT_NE(content_str.find("hub_upload"), std::string::npos);
+    EXPECT_NE(content_str.find("error"),      std::string::npos);
+
+    fs::remove(log_path);
+}
+
+// ── MemoryShardSpec construction ──────────────────────────────────────────────
+
+TEST(HuggingFaceHubClientTest, MemoryShardSpecHoldsDataCorrectly) {
+    const std::string jsonl = R"({"id":1,"text":"foo"})" "\n"
+                              R"({"id":2,"text":"bar"})" "\n";
+    MemoryShardSpec shard;
+    shard.relative_path = "data/train-00000-of-00001.jsonl";
+    shard.content.assign(jsonl.begin(), jsonl.end());
+
+    EXPECT_EQ(shard.relative_path, "data/train-00000-of-00001.jsonl");
+    EXPECT_EQ(shard.content.size(), jsonl.size());
+    EXPECT_EQ(std::string(shard.content.begin(), shard.content.end()), jsonl);
+}
+    ASSERT_TRUE(f.good()) << "Audit log file not found: " << log_path;
+    std::string content((std::istreambuf_iterator<char>(f)),
+                         std::istreambuf_iterator<char>());
+    EXPECT_FALSE(content.empty()) << "Audit log should not be empty";
+    EXPECT_NE(content.find("hub_upload"), std::string::npos)
+        << "Expected 'hub_upload' event in audit log";
+    EXPECT_NE(content.find("error"), std::string::npos)
+        << "Expected 'error' outcome in audit log";
+
+    fs::remove(log_path);
 }

@@ -38,6 +38,7 @@ test_*/
 /out/
 /bin/
 /lib/
+CMakeFiles/
 */CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
@@ -406,3 +407,7 @@ a.out
 benchmark_results/
 *.gch
 
+# Temporary alternative build directories created during testing/CI
+build2/
+build_temp/
+build_alt/

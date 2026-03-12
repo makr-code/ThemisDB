@@ -30,11 +30,14 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
+- [x] Encrypted config storage with AES-256-GCM and key rotation (Issue: resolved via PR)
 
 ### Long-term (6-12 months)
 - [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
 - [x] Integration with config validation (JSON Schema / YAML schema) via `ConfigSchemaValidator` — validates YAML/JSON config files against JSON Schema Draft 7 subset (Issue: #1666)
 - [x] `$ref` and `$defs` resolution in `ConfigSchemaValidator` — document-internal `$ref` with JSON Pointer (RFC 6901) walk; supports `$defs` (Draft 2019-09) and `definitions` (Draft 4/6/7); cycle detection; SSRF guard rejects external URI refs (Issue: #3742)
+- [x] `format` and `uniqueItems` validators in `ConfigSchemaValidator` — `format` enforces `date`, `date-time`, `email`, `uri`, `ipv4`, `ipv6` patterns; `uniqueItems` rejects arrays with duplicate elements; 20 dedicated tests; usage examples in `src/config/README.md` (Milestone: v2.0.0)
+- [x] In-memory YAML/JSON validation via `ConfigSchemaValidator::validateFromString(content, is_yaml, schema)` — validates an in-memory YAML or JSON string against a JSON Schema without requiring a file; `loadAsJson(content, is_yaml)` string overload for inline parsing; parse errors reported as `ValidationResult` errors; 10 dedicated tests (Milestone: v2.0.0)
 
 ## Implementation Phases
 
@@ -62,7 +65,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 160 lines, including `$ref`/`$defs` tests), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate) (Issue: #1674)
+- [x] Unit tests coverage > 80% — achieved via `tests/test_config_path_resolver.cpp` (1 339 lines), `tests/test_config_coverage.cpp` (777 lines), `tests/test_config_migration_scanner.cpp` (708 lines), `tests/test_config_schema_validator.cpp` (1 193 lines, including `$ref`/`$defs` tests and `loadAsJson` string-overload tests), `tests/test_config_metrics_scrape.cpp` (metrics scrape latency < 1 ms gate), `tests/test_config_encrypted_store.cpp` (encryption, key rotation, serialisation, thread safety) (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
 - [x] Performance benchmarks (cache hit rate, resolution latency) — `benchmarks/bench_config_path_resolver.cpp` (401 lines, commit 90c733a50) (Issue: #1675); migration scanner throughput (10K files < 5 s) — `benchmarks/bench_config_migration_scanner.cpp` (BM_ScanTree_10K)
 - [x] Security audit (path traversal prevention, symlink escape hardening)
@@ -72,7 +75,7 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 ## Known Issues & Limitations
 - Does not parse or validate config file contents (YAML/JSON parsing is out of scope)
 - Runtime hot-reload via SIGHUP is supported; calling `ConfigPathResolver::registerSighupHandler()` at startup installs the handler
-- Secrets management and credential injection are explicitly out of scope
+- `ConfigEncryptedStore` serialises the AES-256 key in plaintext inside the JSON snapshot — callers must wrap the snapshot in a master-key envelope before writing to disk
 - Migration scanner available: `config_migration_scanner --fix` rewrites legacy path strings in config files in-place (creates `.bak` backups).
 
 ## Breaking Changes

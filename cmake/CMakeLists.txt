@@ -1531,6 +1531,7 @@ set(THEMIS_CORE_SOURCES
     ../src/config/config_metrics_exporter.cpp
     ../src/config/config_schema_validator.cpp
     ../src/config/config_audit_log.cpp
+    ../src/config/config_encrypted_store.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1551,6 +1552,7 @@ set(THEMIS_CORE_SOURCES
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
     ../src/graph/distributed_graph.cpp
+    ../src/graph/scheduled_edge_refresh.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
@@ -1697,6 +1699,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/grpc_web_proxy_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/server/service_mesh_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/wasm_handler_registry.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_datagram.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/prompt_engineering_grpc_service.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/themis_core_grpc_service.cpp>
@@ -1773,6 +1776,11 @@ set(THEMIS_CORE_SOURCES
     # cdc_connector.cpp uses #ifdef THEMIS_ENABLE_CDC_STREAM internally; the file
     # always compiles and returns CONNECTOR_NOT_SUPPORTED when the flag is OFF.
     ../src/ingestion/cdc_connector.cpp
+    # Legal ingestion pipeline: deontic extraction, semantic validation, reference validation
+    ../src/ingestion/deontic_extractor.cpp
+    ../src/ingestion/semantic_validator.cpp
+    ../src/ingestion/agentic_reference_validator.cpp
+    ../src/ingestion/llm_adapter.cpp
 
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
@@ -2133,6 +2141,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_v2.cpp
     ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
+    ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp
     ../src/network/udp_fast_path.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
@@ -2160,7 +2169,14 @@ set(THEMIS_CORE_SOURCES
     ../src/observability/query_profiler.cpp
     ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp
-    
+    # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
+    ../src/observability/tracer.cpp
+    ../src/observability/log_aggregator.cpp
+    # Observability: rule-based alerting engine with configurable notification channels
+    ../src/observability/alerting_engine.cpp
+    # Observability: Prometheus advanced — rate calculation, histogram aggregation, cardinality
+    ../src/observability/metric_aggregator.cpp
+
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/server/graphql_api_handler.cpp>

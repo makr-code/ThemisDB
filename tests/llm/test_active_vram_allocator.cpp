@@ -59,6 +59,18 @@ TEST(ActiveVRAMAllocatorTest, ConstructsWithDefaultConfig) {
     });
 }
 
+TEST(ActiveVRAMAllocatorTest, DefaultConfigAllocatorCanAllocate) {
+    // Bug fix regression: with max_vram_bytes=0 (auto-detect), GPUMemoryManager must
+    // auto-set a simulation VRAM limit so that canAllocate() succeeds.
+    ActiveVRAMAllocator alloc;
+    auto handle = alloc.allocate(4096, "default_config_test");
+    // In CPU-simulation mode with auto-detected 8GB limit, allocation must succeed
+    ASSERT_TRUE(handle.has_value()) << "Default-config allocator failed to allocate 4096 bytes; "
+                                       "GPUMemoryManager must auto-set a non-zero VRAM limit when max_vram_bytes=0";
+    EXPECT_TRUE(handle->valid);
+    alloc.free(*handle);
+}
+
 TEST(ActiveVRAMAllocatorTest, ConstructsWithCustomConfig) {
     auto cfg = makeTestConfig();
     EXPECT_NO_THROW({
@@ -136,6 +148,10 @@ TEST(ActiveVRAMAllocatorTest, StatsReflectAllocations) {
 
     auto s0 = alloc.getStats();
     EXPECT_EQ(s0.live_allocation_count, 0u);
+    // Bug fix regression: total_vram_bytes must be non-zero even before allocations
+    // (was 0 when getTotalVRAM() returned total_vram_used_ = 0 at init)
+    EXPECT_GT(s0.total_vram_bytes, 0u)
+        << "total_vram_bytes must reflect the configured VRAM capacity, not used amount";
 
     auto h1 = alloc.allocate(4096, "m1");
     auto h2 = alloc.allocate(4096, "m2");

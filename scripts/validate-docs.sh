@@ -37,6 +37,8 @@ python3 -c "import yaml" 2>/dev/null || {
 LINT_FAILED=0
 LINK_FAILED=0
 TOC_FAILED=0
+HEADER_FAILED=0
+DRIFT_FAILED=0
 
 # Run documentation linter
 echo ""
@@ -71,6 +73,28 @@ else
     TOC_FAILED=1
 fi
 
+# Run doc header checker (all mode for local validation)
+echo ""
+echo -e "${BLUE}Running doc header checker...${NC}"
+echo -e "${BLUE}--------------------------------${NC}"
+if python3 "$SCRIPT_DIR/doc-header-check.py" --mode all --repo-root "$BASE_DIR"; then
+    echo -e "${GREEN}✓ Doc header check passed${NC}"
+else
+    echo -e "${YELLOW}⚠ Doc header check found issues (see output above)${NC}"
+    HEADER_FAILED=1
+fi
+
+# Run drift detector (informational – never blocks the local check)
+echo ""
+echo -e "${BLUE}Running drift detector...${NC}"
+echo -e "${BLUE}--------------------------------${NC}"
+if python3 "$SCRIPT_DIR/drift-detector.py" --repo-root "$BASE_DIR"; then
+    echo -e "${GREEN}✓ No drift detected${NC}"
+else
+    echo -e "${YELLOW}⚠ Drift detected in secondary docs (see output above)${NC}"
+    DRIFT_FAILED=1
+fi
+
 # Summary
 echo ""
 echo -e "${BLUE}========================================${NC}"
@@ -95,14 +119,35 @@ else
     echo -e "${RED}✗ TOC Validation: FAILED${NC}"
 fi
 
+if [ $HEADER_FAILED -eq 0 ]; then
+    echo -e "${GREEN}✓ Doc Header Check: PASSED${NC}"
+else
+    echo -e "${YELLOW}⚠ Doc Header Check: ISSUES FOUND (non-blocking for existing docs)${NC}"
+fi
+
+if [ $DRIFT_FAILED -eq 0 ]; then
+    echo -e "${GREEN}✓ Drift Detection: NO DRIFT${NC}"
+else
+    echo -e "${YELLOW}⚠ Drift Detection: DRIFT DETECTED (informational)${NC}"
+fi
+
 echo ""
 
-# Exit with error if any check failed
+# Exit with error only for blocking checks (lint, link, TOC).
+# Header check and drift detection are intentionally non-blocking:
+#   - Header check: existing docs pre-date the schema; only NEW/MODIFIED
+#     docs must comply (enforced via CI changed-only mode).
+#   - Drift detection: informational only — maintainers decide whether to
+#     update or archive a drifting doc; the tool never fails CI.
 if [ $LINT_FAILED -ne 0 ] || [ $LINK_FAILED -ne 0 ] || [ $TOC_FAILED -ne 0 ]; then
-    echo -e "${RED}One or more validation checks failed.${NC}"
+    echo -e "${RED}One or more required validation checks failed.${NC}"
     echo -e "${YELLOW}Please fix the issues above before committing.${NC}"
     exit 1
 else
-    echo -e "${GREEN}All validation checks passed!${NC}"
+    echo -e "${GREEN}All required validation checks passed!${NC}"
+    if [ $HEADER_FAILED -ne 0 ] || [ $DRIFT_FAILED -ne 0 ]; then
+        echo -e "${YELLOW}Note: Header and drift warnings found. New/modified docs must comply with the schema.${NC}"
+        echo -e "${YELLOW}See docs/CONTENT_MODEL.md and docs/_standards/DOC_TEMPLATE.md for guidance.${NC}"
+    fi
     exit 0
 fi

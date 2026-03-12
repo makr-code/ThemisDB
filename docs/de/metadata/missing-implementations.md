@@ -1,8 +1,8 @@
 # Metadata-Modul – Fehlende / Unvollständige Implementierungen
-<!-- Status: current | validated: 2026-03-10 -->
+<!-- Status: current | validated: 2026-03-11 -->
 <!-- Primärdokumentation: ../../../src/metadata/README.md -->
 
-**Stand:** 2026-03-10  
+**Stand:** 2026-03-11  
 **Modul:** `metadata`  
 **Quelle:** Reality-Check gegen Sourcecode (Commit: `ab36d18bd`)
 
@@ -15,7 +15,7 @@
 
 ---
 
-## Befund 1 – Leistungsbenchmarks nicht vorhanden
+## Befund 1 – Leistungsbenchmarks nicht vorhanden ✅ Behoben
 
 | Feld | Inhalt |
 |------|--------|
@@ -25,8 +25,8 @@
 | **Beobachtet** | Kein `bench_metadata_*.cpp` oder ähnliches im Repository; keine Benchmark-Ergebnisse dokumentiert |
 | **Geprüfte Pfade** | `tests/bench_*`, `benchmarks/`, `src/metadata/` (kein Benchmark-Verzeichnis gefunden) |
 | **Evidence** | ROADMAP Production Readiness Checklist: `[?] Performance benchmarks` |
-| **Issue-Titelvorschlag** | `bench(metadata): add cache hit rate and scan latency benchmarks (closes v1.6.0 target)` |
-| **Label-Vorschläge** | `performance`, `metadata`, `benchmarking` |
+| **Status** | ✅ **Behoben** – `benchmarks/bench_metadata_cache.cpp` implementiert (META-MISSING-001). Benchmarks: cold scan, warm hit, Hit/Miss-Vergleich, TTL-Varianten, adaptives TTL, Concurrent-Reads, RocksDB-Direktvergleich. Ergebnisse: `docs/benchmarks/metadata_cache_benchmark_results.md` |
+| **Issue-Titelvorschlag** | _(behoben, kein Issue nötig)_ |
 
 ---
 

@@ -75,7 +75,7 @@ DataHub), column lineage, distributed catalog, and the Schema API REST endpoint 
   test_catalog_exporter, test_er_diagram_exporter, test_distributed_catalog,
   test_index_recommender, test_statistics_auto_refresh, …)
 - [x] Integration tests (test_information_schema, test_schema_changefeed, test_schema_api_lineage)
-- [?] Performance benchmarks (cache hit rate, scan latency) – planned for v1.6.0
+- [x] Performance benchmarks (cache hit rate, scan latency) – `benchmarks/bench_metadata_cache.cpp` (META-MISSING-001)
 - [?] Security audit (metadata access control, information disclosure) – planned for v1.6.0
 - [x] Documentation complete (README.md in src/metadata/ and include/metadata/, ARCHITECTURE.md,
   FUTURE_ENHANCEMENTS.md)
