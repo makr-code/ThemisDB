@@ -13,6 +13,8 @@ on:
       - 'scripts/docs-lint.py'
       - 'scripts/link-check.py'
       - 'scripts/toc-check.py'
+      - 'scripts/doc-header-check.py'
+      - 'scripts/drift-detector.py'
       - 'scripts/validate-docs.sh'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
@@ -25,6 +27,8 @@ on:
       - 'scripts/docs-lint.py'
       - 'scripts/link-check.py'
       - 'scripts/toc-check.py'
+      - 'scripts/doc-header-check.py'
+      - 'scripts/drift-detector.py'
       - 'scripts/validate-docs.sh'
       - 'mkdocs.yml'
       - 'mkdocs-nopdf.yml'
@@ -307,6 +311,97 @@ jobs:
 
       - name: Run doc header check (changed-only)
         run: python3 scripts/doc-header-check.py --mode changed-only --base-ref origin/develop
+
+      - name: Generate header check report (JSON)
+        if: always()
+        run: |
+          python3 scripts/doc-header-check.py \
+            --mode changed-only \
+            --base-ref origin/develop \
+            --format json > /tmp/header-report.json || true
+        continue-on-error: true
+
+      - name: Upload header report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: header-check-report
+          path: /tmp/header-report.json
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 📋 Doc Header Check" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`scripts/doc-header-check.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Mode** | changed-only |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Base ref** | origin/develop |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Schema** | \`docs/_standards/doc_header.schema.yml\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+
+  drift-detection:
+    name: Drift Detection (Primary → Secondary)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run drift detector
+        run: |
+          python3 scripts/drift-detector.py \
+            --format text \
+            --output /tmp/drift-report.txt
+        continue-on-error: true
+
+      - name: Generate drift report (JSON)
+        if: always()
+        run: |
+          python3 scripts/drift-detector.py \
+            --format json \
+            --output /tmp/drift-report.json
+        continue-on-error: true
+
+      - name: Upload drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-report
+          path: /tmp/drift-report.json
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          echo "## 🔄 Drift Detection" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Parameter | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Script** | \`scripts/drift-detector.py\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Primary Index** | \`docs/_generated/primary_index.json\` |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Drifting threshold** | 90 days |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Stale threshold** | 180 days |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| **Event** | \`${{ github.event_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/drift-report.txt ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "**Drift Summary:**" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            head -10 /tmp/drift-report.txt >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
 
   validation-summary:
     name: Validation Summary

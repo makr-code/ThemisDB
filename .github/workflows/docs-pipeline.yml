@@ -23,6 +23,8 @@ on:
       - 'scripts/docs-lint.py'
       - 'scripts/link-check.py'
       - 'scripts/toc-check.py'
+      - 'scripts/doc-header-check.py'
+      - 'scripts/drift-detector.py'
       - 'scripts/validate-docs.sh'
       - 'scripts/build-docs.sh'
 
@@ -37,6 +39,8 @@ on:
       - 'scripts/docs-lint.py'
       - 'scripts/link-check.py'
       - 'scripts/toc-check.py'
+      - 'scripts/doc-header-check.py'
+      - 'scripts/drift-detector.py'
       - 'scripts/validate-docs.sh'
       - 'scripts/build-docs.sh'
 
