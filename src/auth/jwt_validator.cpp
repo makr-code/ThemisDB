@@ -61,7 +61,15 @@ size_t curlWriteToString(char* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 JWTValidator::JWTValidator(const std::string& jwks_url)
-    : cfg_{JWTValidatorConfig{jwks_url, std::nullopt, std::nullopt, std::chrono::seconds(600), std::chrono::seconds(60), {}, DEFAULT_JWKS_TIMEOUT_SECONDS, MAX_JWKS_RETRY_ATTEMPTS, false, false}}
+    : cfg_{JWTValidatorConfig{
+          .jwks_url                  = jwks_url,
+          .expected_issuer           = std::nullopt,
+          .expected_audience         = std::nullopt,
+          .cache_ttl                 = std::chrono::seconds(600),
+          .clock_skew                = std::chrono::seconds(60),
+          .require_issuer_validation  = false,
+          .require_audience_validation = false,
+      }}
     , jwks_url_(jwks_url)
     , jwks_cache_time_(std::chrono::system_clock::time_point::min()) {}
 
