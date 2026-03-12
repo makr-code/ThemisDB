@@ -27,6 +27,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <deque>
 #include <random>
 #include <set>
 #include <sstream>
@@ -1197,12 +1198,13 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     // ---- Stable Kahn's sort: seed ready-queue in entry.tasks order ---------
     // The comparator uses the original position in entry.tasks so that tasks
     // with equal eligibility are always emitted in the declared list order.
+    // std::deque provides O(1) pop_front (versus O(n) for std::vector).
     auto byOriginalOrder = [&](MaintenanceTaskType a, MaintenanceTaskType b) {
         return taskIndex.at(a) < taskIndex.at(b);
     };
 
     // Initialize ready list with zero-in-degree tasks, in entry.tasks order.
-    std::vector<MaintenanceTaskType> ready;
+    std::deque<MaintenanceTaskType> ready;
     for (auto t : entry.tasks) {
         if (inDegree[t] == 0) {
             ready.push_back(t);
@@ -1215,14 +1217,15 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
 
     while (!ready.empty()) {
         auto cur = ready.front();
-        ready.erase(ready.begin());
+        ready.pop_front();
         result.push_back(cur);
 
         // Sort this node's dependents by original position before merging into ready.
-        auto deps = dependents[cur];
-        std::sort(deps.begin(), deps.end(), byOriginalOrder);
+        const auto& deps = dependents[cur];
+        std::vector<MaintenanceTaskType> sorted_deps(deps.begin(), deps.end());
+        std::sort(sorted_deps.begin(), sorted_deps.end(), byOriginalOrder);
 
-        for (auto dep : deps) {
+        for (auto dep : sorted_deps) {
             if (--inDegree[dep] == 0) {
                 // Insert in original-order position.
                 auto pos = std::lower_bound(ready.begin(), ready.end(), dep, byOriginalOrder);

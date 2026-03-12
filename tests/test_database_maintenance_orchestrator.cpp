@@ -1435,7 +1435,10 @@ TEST_F(MaintenanceOrchestratorTest, TaskExecution_DAGOrderRespected) {
 TEST(ResolveTaskExecutionOrderTest, StableOrderPreservedForUnrelatedTasks) {
     MaintenanceScheduleEntry entry;
     entry.name  = "Stable";
-    // Three tasks: A, B, C in that order.  B depends on A; C has no relation.
+    // Three tasks: A(0), B(1), C(2).  B depends on A; C is unrelated.
+    // Stable seeding: initial ready = [A, C] (both in-degree 0, seeded in order).
+    // After processing A, B becomes ready and is inserted before C (lower index).
+    // Expected output order: A, B, C — original relative positions preserved.
     entry.tasks = {MaintenanceTaskType::METRICS_COLLECTION,   // A (index 0)
                    MaintenanceTaskType::QUOTA_CHECK,          // B (index 1)
                    MaintenanceTaskType::CONSISTENCY_CHECK};   // C (index 2)
@@ -1447,14 +1450,10 @@ TEST(ResolveTaskExecutionOrderTest, StableOrderPreservedForUnrelatedTasks) {
 
     auto order = DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(entry);
     ASSERT_EQ(order.size(), 3u);
-    // A must come before B due to dependency.
-    // C is unrelated and should keep its relative position (after A and B since
-    // the stable seeding preserves entry.tasks order).
-    EXPECT_EQ(order[0], MaintenanceTaskType::METRICS_COLLECTION) << "A must be first";
-    // B or C could be second — C is unrelated.  What matters is A precedes B.
-    auto posA = std::find(order.begin(), order.end(), MaintenanceTaskType::METRICS_COLLECTION);
-    auto posB = std::find(order.begin(), order.end(), MaintenanceTaskType::QUOTA_CHECK);
-    EXPECT_LT(posA, posB) << "METRICS_COLLECTION must precede QUOTA_CHECK";
+    // All three positions are deterministic with stable Kahn's seeding.
+    EXPECT_EQ(order[0], MaintenanceTaskType::METRICS_COLLECTION) << "A must be first (prereq for B)";
+    EXPECT_EQ(order[1], MaintenanceTaskType::QUOTA_CHECK)        << "B must be second (depends on A)";
+    EXPECT_EQ(order[2], MaintenanceTaskType::CONSISTENCY_CHECK)  << "C must be third (unrelated, keeps original position)";
 }
 
 // ---------------------------------------------------------------------------
