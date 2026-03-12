@@ -190,15 +190,16 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 ### 8. LDAP Connection Pooling
 
 **Priority:** High  
-**Target Version:** v1.2.0
+**Target Version:** v1.2.0  
+**Status:** ✅ Implemented
 
 `ldap_authenticator.cpp` opens a new LDAP connection (TCP + TLS handshake + bind) for **every authentication call** (`performBind()`, lines 188-286 on Windows; lines 307-395 on POSIX). LDAP connection setup including TLS typically takes 10–50 ms. Under load (e.g., 500 concurrent logins) this exhausts file descriptors and introduces severe latency.
 
 **Implementation Notes:**
-- `[ ]` Implement `LDAPConnectionPool` class in `ldap_authenticator.cpp` (or new `ldap_connection_pool.cpp`): pool of pre-bound `LDAP*` handles, protected by `std::mutex` + `std::condition_variable`, configurable `min_idle`, `max_size`, and `checkout_timeout`
-- `[ ]` On `authenticate()`, checkout a connection from the pool (blocking up to `checkout_timeout`), perform bind/search, return connection to pool (RAII via `PooledConnection` wrapper)
-- `[ ]` Implement connection health check: on checkout, test the connection with `ldap_search_ext_s` to `""` base with scope `LDAP_SCOPE_BASE` requesting `supportedLDAPVersion`; evict and re-create if stale
-- `[ ]` Expose `pool_size`, `idle_connections`, `active_connections` via `auth_metrics.cpp` counters
+- `[x]` Implement `LDAPConnectionPool` class in new `ldap_connection_pool.cpp`: pool of pre-bound `LDAP*` handles, protected by `std::mutex` + `std::condition_variable`, configurable `min_idle`, `max_size`, and `checkout_timeout`
+- `[x]` On `authenticate()`, checkout a connection from the pool (blocking up to `checkout_timeout`), perform bind/search, return connection to pool (RAII via `PooledConnection` wrapper)
+- `[x]` Implement connection health check: on checkout, test the connection with `ldap_search_ext_s` to `""` base with scope `LDAP_SCOPE_BASE` requesting `supportedLDAPVersion`; evict and re-create if stale
+- `[x]` Expose `pool_size`, `idle_connections`, `active_connections` via `auth_metrics.cpp` counters
 
 **Performance Targets:**
 - Average LDAP authentication latency reduced from ~30 ms to < 5 ms under sustained load via connection reuse

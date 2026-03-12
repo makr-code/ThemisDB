@@ -96,6 +96,18 @@ AuthMetrics::AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                               .Name(config.namespace_prefix + "_locked_accounts_current")
                               .Help("Current number of locked accounts")
                               .Register(*registry))
+    , ldap_pool_size_(prometheus::BuildGauge()
+                      .Name(config.namespace_prefix + "_ldap_pool_size")
+                      .Help("Total LDAP connection pool size (idle + active)")
+                      .Register(*registry))
+    , ldap_idle_connections_(prometheus::BuildGauge()
+                             .Name(config.namespace_prefix + "_ldap_idle_connections")
+                             .Help("Number of idle LDAP connections in the pool")
+                             .Register(*registry))
+    , ldap_active_connections_(prometheus::BuildGauge()
+                               .Name(config.namespace_prefix + "_ldap_active_connections")
+                               .Help("Number of active (checked-out) LDAP connections")
+                               .Register(*registry))
     , auth_duration_ms_(prometheus::BuildHistogram()
                        .Name(config.namespace_prefix + "_duration_milliseconds")
                        .Help("Authentication duration in milliseconds")
@@ -275,6 +287,39 @@ double AuthMetrics::getSuccessRate() const {
     }
     uint64_t successes = getSuccessfulAuths();
     return static_cast<double>(successes) / static_cast<double>(total);
+}
+
+void AuthMetrics::setLDAPPoolSize(int count) {
+    ldap_pool_size_count_.store(count, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    ldap_pool_size_.Add({}).Set(static_cast<double>(count));
+#endif
+}
+
+void AuthMetrics::setLDAPIdleConnections(int count) {
+    ldap_idle_connections_count_.store(count, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    ldap_idle_connections_.Add({}).Set(static_cast<double>(count));
+#endif
+}
+
+void AuthMetrics::setLDAPActiveConnections(int count) {
+    ldap_active_connections_count_.store(count, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    ldap_active_connections_.Add({}).Set(static_cast<double>(count));
+#endif
+}
+
+int AuthMetrics::getLDAPPoolSize() const {
+    return ldap_pool_size_count_.load(std::memory_order_relaxed);
+}
+
+int AuthMetrics::getLDAPIdleConnections() const {
+    return ldap_idle_connections_count_.load(std::memory_order_relaxed);
+}
+
+int AuthMetrics::getLDAPActiveConnections() const {
+    return ldap_active_connections_count_.load(std::memory_order_relaxed);
 }
 
 std::string AuthMetrics::authMethodToString(AuthMethod method) {

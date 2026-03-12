@@ -238,6 +238,28 @@ public:
      * @param was_revoked Whether token was found to be revoked
      */
     void recordRevokedTokenCheck(bool was_revoked);
+
+    // ========================================================================
+    // LDAP Connection Pool Metrics
+    // ========================================================================
+
+    /**
+     * @brief Set the total LDAP connection pool size (idle + active).
+     * @param count Current pool size
+     */
+    void setLDAPPoolSize(int count);
+
+    /**
+     * @brief Set the number of idle LDAP connections in the pool.
+     * @param count Number of idle connections
+     */
+    void setLDAPIdleConnections(int count);
+
+    /**
+     * @brief Set the number of active (checked-out) LDAP connections.
+     * @param count Number of active connections
+     */
+    void setLDAPActiveConnections(int count);
     
     // ========================================================================
     // Statistics Access
@@ -263,6 +285,21 @@ public:
      */
     double getSuccessRate() const;
 
+    /**
+     * @brief Get current LDAP connection pool size.
+     */
+    int getLDAPPoolSize() const;
+
+    /**
+     * @brief Get number of idle LDAP connections.
+     */
+    int getLDAPIdleConnections() const;
+
+    /**
+     * @brief Get number of active LDAP connections.
+     */
+    int getLDAPActiveConnections() const;
+
 private:
     Config config_;
     
@@ -285,6 +322,9 @@ private:
     // Gauge families
     prometheus::Family<prometheus::Gauge>& jwks_cache_size_;
     prometheus::Family<prometheus::Gauge>& locked_accounts_current_;
+    prometheus::Family<prometheus::Gauge>& ldap_pool_size_;
+    prometheus::Family<prometheus::Gauge>& ldap_idle_connections_;
+    prometheus::Family<prometheus::Gauge>& ldap_active_connections_;
     
     // Histogram families
     prometheus::Family<prometheus::Histogram>& auth_duration_ms_;
@@ -296,6 +336,11 @@ private:
     std::atomic<uint64_t> total_attempts_{0};
     std::atomic<uint64_t> successful_auths_{0};
     std::atomic<uint64_t> failed_auths_{0};
+
+    // LDAP connection pool gauges (always available)
+    std::atomic<int> ldap_pool_size_count_{0};
+    std::atomic<int> ldap_idle_connections_count_{0};
+    std::atomic<int> ldap_active_connections_count_{0};
     
     // Helper methods
     static std::string authMethodToString(AuthMethod method);
