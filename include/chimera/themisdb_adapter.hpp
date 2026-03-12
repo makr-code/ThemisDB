@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-03-09 03:53:15                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-03-12 11:39:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     179                                            ║
+    • Total Lines:     220+                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -24,13 +24,24 @@
 
 /**
  * @file themisdb_adapter.hpp
- * @brief Example ThemisDB adapter implementation for CHIMERA Suite
- * 
+ * @brief ThemisDB adapter implementation for CHIMERA Suite
+ *
  * @details
- * This file provides an example implementation of the CHIMERA adapter
- * interface for ThemisDB. Other database systems should follow this
- * pattern to integrate with the CHIMERA Benchmark Suite.
- * 
+ * This file provides the production implementation of the CHIMERA adapter
+ * interface for ThemisDB. The adapter supports two operating modes:
+ *
+ *  1. **In-process simulation mode** (default constructor): Uses lightweight
+ *     in-memory collections so the adapter can be exercised in unit tests
+ *     without a live ThemisDB instance.
+ *
+ *  2. **Wired engine mode** (engine-injection constructor): Accepts optional
+ *     pointers to ThemisDB's native engine components (QueryEngine,
+ *     VectorIndexManager, GraphIndexManager) so all operations are
+ *     delegated directly to the production back-end.
+ *
+ * Other database systems should follow this pattern to integrate with
+ * the CHIMERA Benchmark Suite.
+ *
  * @copyright MIT License
  */
 
@@ -39,23 +50,67 @@
 
 #include "chimera/database_adapter.hpp"
 
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
+// Forward declarations for optional ThemisDB engine injection.
+// Consumers that only include this header do NOT need the full ThemisDB
+// engine headers; the engine types are resolved in the translation unit.
+namespace themis {
+class QueryEngine;
+class VectorIndexManager;
+class GraphIndexManager;
+} // namespace themis
+
 namespace chimera {
 
 /**
  * @class ThemisDBAdapter
  * @brief ThemisDB implementation of the CHIMERA adapter interface
- * 
+ *
  * @details This adapter provides integration between ThemisDB and the
  *          CHIMERA Benchmark Suite. It implements all required interfaces
  *          and marks unsupported features with NOT_IMPLEMENTED.
- * 
- * @note This is an example implementation. Actual implementation would
- *       integrate with ThemisDB's native APIs.
+ *
+ *          When constructed with the default constructor the adapter operates
+ *          in in-process simulation mode: all data is kept in lightweight
+ *          in-memory collections so that the full CHIMERA API surface can be
+ *          exercised without a live ThemisDB server.
+ *
+ *          When constructed with engine pointers the adapter delegates every
+ *          operation to the supplied ThemisDB back-end components, enabling
+ *          true production-grade integration.
  */
 class ThemisDBAdapter : public IDatabaseAdapter {
 public:
+    /**
+     * @brief Default constructor — in-process simulation mode.
+     *
+     * All CHIMERA operations are served from lightweight in-memory
+     * collections.  No live ThemisDB server is required.
+     */
     ThemisDBAdapter() = default;
     ~ThemisDBAdapter() override = default;
+
+    /**
+     * @brief Engine-injection constructor — wired production mode.
+     *
+     * Accepts optional pointers to ThemisDB's native engine components.
+     * When an engine pointer is non-null the corresponding operations are
+     * delegated to the real back-end; otherwise the in-memory fallback is
+     * used for that subsystem.
+     *
+     * @param query_engine   Optional ThemisDB QueryEngine for AQL execution.
+     * @param vector_index   Optional VectorIndexManager for kNN search.
+     * @param graph_index    Optional GraphIndexManager for graph traversal.
+     */
+    explicit ThemisDBAdapter(
+        themis::QueryEngine*       query_engine,
+        themis::VectorIndexManager* vector_index  = nullptr,
+        themis::GraphIndexManager*  graph_index   = nullptr
+    );
     
     // Connection Management
     Result<bool> connect(
@@ -167,8 +222,42 @@ public:
     std::vector<Capability> get_capabilities() const override;
 
 private:
+    // ── Connection state ────────────────────────────────────────────────────
     bool connected_ = false;
     std::string connection_string_;
+
+    // ── Injected ThemisDB engine components (optional) ──────────────────────
+    // When non-null, the corresponding operations are delegated to the real
+    // ThemisDB back-end instead of the in-memory simulation layer.
+    themis::QueryEngine*        query_engine_  = nullptr;
+    themis::VectorIndexManager* vector_index_  = nullptr;
+    themis::GraphIndexManager*  graph_index_   = nullptr;
+
+    // ── In-memory simulation collections ────────────────────────────────────
+    // Used when no engine is injected (unit-test / simulation mode).
+
+    // Relational: table_name -> rows
+    std::map<std::string, std::vector<RelationalRow>> table_store_;
+
+    // Vector: collection_name -> [(id, Vector)]
+    std::map<std::string, std::vector<std::pair<std::string, Vector>>> vector_store_;
+
+    // Graph nodes and edges
+    std::map<std::string, GraphNode>  graph_nodes_;
+    std::map<std::string, GraphEdge>  graph_edges_;
+    // Adjacency list: source_id -> [(edge_id, target_id)]
+    std::map<std::string, std::vector<std::pair<std::string, std::string>>> adj_out_;
+
+    // Document: collection_name -> (doc_id -> Document)
+    std::map<std::string, std::map<std::string, Document>> doc_store_;
+
+    // Active transactions: txn_id -> options
+    std::map<std::string, TransactionOptions> active_transactions_;
+
+    // ── Private helpers ──────────────────────────────────────────────────────
+
+    /// Generate a new unique ID (UUID v4).
+    static std::string generate_id();
 
     // Credential security helpers
     static bool is_valid_connection_string(const std::string& connection_string);

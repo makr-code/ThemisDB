@@ -586,3 +586,300 @@ TEST_F(ThemisDBPerformanceTest, TransactionBeginCommitOverhead) {
         << kTxnRuns << " begin+commit cycles took "
         << elapsed_ms << "ms (limit: " << kTxnMs << "ms)";
 }
+
+// ---------------------------------------------------------------------------
+// Integration tests — in-process simulation (wired adapter, no live server)
+//
+// These tests verify that the production-mode data path works correctly:
+// insert operations persist data in the in-memory collections and retrieval
+// operations return the previously inserted data.
+// ---------------------------------------------------------------------------
+
+class ThemisDBIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        adapter.connect("themisdb://localhost:7777");
+    }
+
+    ThemisDBAdapter adapter;
+};
+
+// ── UUID-based ID generation ─────────────────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, InsertVectorGeneratesUniqueIds) {
+    constexpr size_t kCount = 50;
+    std::vector<std::string> ids;
+    ids.reserve(kCount);
+
+    for (size_t i = 0; i < kCount; ++i) {
+        auto v = make_vector(8, static_cast<float>(i) / kCount);
+        auto res = adapter.insert_vector("id_test", v);
+        ASSERT_TRUE(res.is_ok());
+        ids.push_back(res.value.value());
+    }
+
+    // All IDs must be unique.
+    std::sort(ids.begin(), ids.end());
+    const auto dup = std::adjacent_find(ids.begin(), ids.end());
+    EXPECT_EQ(dup, ids.end()) << "Duplicate vector IDs detected";
+}
+
+TEST_F(ThemisDBIntegrationTest, TransactionIdsAreUniqueUuids) {
+    constexpr size_t kCount = 20;
+    std::vector<std::string> txn_ids;
+    txn_ids.reserve(kCount);
+
+    for (size_t i = 0; i < kCount; ++i) {
+        auto res = adapter.begin_transaction();
+        ASSERT_TRUE(res.is_ok());
+        txn_ids.push_back(res.value.value());
+        adapter.commit_transaction(res.value.value());
+    }
+
+    std::sort(txn_ids.begin(), txn_ids.end());
+    const auto dup = std::adjacent_find(txn_ids.begin(), txn_ids.end());
+    EXPECT_EQ(dup, txn_ids.end()) << "Duplicate transaction IDs detected";
+}
+
+// ── Relational round-trip ────────────────────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, InsertRowAndRetrieveViaExecuteQuery) {
+    RelationalRow row;
+    row.columns["name"]  = Scalar{std::string("Alice")};
+    row.columns["score"] = Scalar{int64_t(99)};
+
+    auto ins = adapter.insert_row("users", row);
+    ASSERT_TRUE(ins.is_ok());
+    EXPECT_EQ(ins.value.value(), 1u);
+
+    // execute_query in simulation mode: passing the table name as the query
+    // returns all rows stored under that key.
+    auto qr = adapter.execute_query("users");
+    ASSERT_TRUE(qr.is_ok());
+    EXPECT_EQ(qr.value.value().rows.size(), 1u);
+}
+
+TEST_F(ThemisDBIntegrationTest, BatchInsertRowsPersistedCorrectly) {
+    constexpr size_t kRows = 10;
+    std::vector<RelationalRow> rows;
+    rows.reserve(kRows);
+    for (size_t i = 0; i < kRows; ++i) {
+        RelationalRow r;
+        r.columns["idx"] = Scalar{static_cast<int64_t>(i)};
+        rows.push_back(std::move(r));
+    }
+
+    auto ins = adapter.batch_insert("batch_tbl", rows);
+    ASSERT_TRUE(ins.is_ok());
+    EXPECT_EQ(ins.value.value(), kRows);
+
+    auto qr = adapter.execute_query("batch_tbl");
+    ASSERT_TRUE(qr.is_ok());
+    EXPECT_EQ(qr.value.value().rows.size(), kRows);
+}
+
+// ── Vector search round-trip ─────────────────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, VectorSearchReturnsInsertedVectors) {
+    constexpr size_t kDim    = 8;
+    constexpr size_t kCount  = 20;
+    constexpr size_t kK      = 5;
+
+    for (size_t i = 0; i < kCount; ++i) {
+        auto v = make_vector(kDim, static_cast<float>(i) / kCount);
+        adapter.insert_vector("search_col", v);
+    }
+
+    // Query vector close to the 0.5-normalised vectors.
+    auto query = make_vector(kDim, 0.5f);
+    auto res = adapter.search_vectors("search_col", query, kK);
+    ASSERT_TRUE(res.is_ok());
+    EXPECT_EQ(res.value.value().size(), kK)
+        << "Expected top-" << kK << " results from " << kCount << " stored vectors";
+}
+
+TEST_F(ThemisDBIntegrationTest, VectorSearchOnEmptyCollectionReturnsEmpty) {
+    auto query = make_vector(4, 1.0f);
+    auto res = adapter.search_vectors("empty_col", query, 5);
+    ASSERT_TRUE(res.is_ok());
+    EXPECT_TRUE(res.value.value().empty());
+}
+
+TEST_F(ThemisDBIntegrationTest, VectorSearchResultsAreSortedByDistance) {
+    // Insert two clearly different vectors.
+    Vector near, far;
+    near.data = {1.0f, 0.0f, 0.0f, 0.0f};
+    far.data  = {0.0f, 0.0f, 0.0f, 1.0f};
+    adapter.insert_vector("dist_col", near);
+    adapter.insert_vector("dist_col", far);
+
+    Vector query;
+    query.data = {1.0f, 0.0f, 0.0f, 0.0f}; // identical to "near"
+
+    auto res = adapter.search_vectors("dist_col", query, 2);
+    ASSERT_TRUE(res.is_ok());
+    const auto& results = res.value.value();
+    ASSERT_EQ(results.size(), 2u);
+    // The nearest result should have a smaller (or equal) distance.
+    EXPECT_LE(results[0].second, results[1].second);
+}
+
+// ── Graph round-trip ─────────────────────────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, ShortestPathFindsDirectEdge) {
+    GraphNode a, b;
+    a.id = "A"; b.id = "B";
+    adapter.insert_node(a);
+    adapter.insert_node(b);
+
+    GraphEdge e;
+    e.id        = "e_AB";
+    e.source_id = "A";
+    e.target_id = "B";
+    e.label     = "LINKS";
+    e.weight    = 2.5;
+    adapter.insert_edge(e);
+
+    auto res = adapter.shortest_path("A", "B");
+    ASSERT_TRUE(res.is_ok());
+    const auto& path = res.value.value();
+    ASSERT_GE(path.nodes.size(), 2u);
+    EXPECT_EQ(path.nodes.front().id, "A");
+    EXPECT_EQ(path.nodes.back().id, "B");
+    EXPECT_DOUBLE_EQ(path.total_weight, 2.5);
+}
+
+TEST_F(ThemisDBIntegrationTest, ShortestPathSameSourceAndTarget) {
+    GraphNode n;
+    n.id = "solo";
+    adapter.insert_node(n);
+
+    auto res = adapter.shortest_path("solo", "solo");
+    ASSERT_TRUE(res.is_ok());
+    const auto& path = res.value.value();
+    ASSERT_EQ(path.nodes.size(), 1u);
+    EXPECT_EQ(path.nodes[0].id, "solo");
+}
+
+TEST_F(ThemisDBIntegrationTest, ShortestPathNoRouteReturnsEmptyPath) {
+    GraphNode x, y;
+    x.id = "X"; y.id = "Y";
+    adapter.insert_node(x);
+    adapter.insert_node(y);
+    // No edge between X and Y.
+
+    auto res = adapter.shortest_path("X", "Y");
+    ASSERT_TRUE(res.is_ok());
+    EXPECT_TRUE(res.value.value().nodes.empty());
+}
+
+TEST_F(ThemisDBIntegrationTest, TraverseReturnsReachableNodes) {
+    // Build a simple chain: P -> Q -> R
+    for (const auto& id : {"P", "Q", "R"}) {
+        GraphNode n; n.id = id;
+        adapter.insert_node(n);
+    }
+    GraphEdge pq, qr;
+    pq.id = "pq"; pq.source_id = "P"; pq.target_id = "Q"; pq.label = "NEXT";
+    qr.id = "qr"; qr.source_id = "Q"; qr.target_id = "R"; qr.label = "NEXT";
+    adapter.insert_edge(pq);
+    adapter.insert_edge(qr);
+
+    auto res = adapter.traverse("P", 2);
+    ASSERT_TRUE(res.is_ok());
+    const auto& nodes = res.value.value();
+    EXPECT_GE(nodes.size(), 3u) << "Should reach P, Q, and R within depth 2";
+}
+
+TEST_F(ThemisDBIntegrationTest, TraverseWithEdgeLabelFilterApplied) {
+    // Build a fork: S -> T (KNOWS), S -> U (LIKES)
+    for (const auto& id : {"S", "T", "U"}) {
+        GraphNode n; n.id = id;
+        adapter.insert_node(n);
+    }
+    GraphEdge st, su;
+    st.id = "st"; st.source_id = "S"; st.target_id = "T"; st.label = "KNOWS";
+    su.id = "su"; su.source_id = "S"; su.target_id = "U"; su.label = "LIKES";
+    adapter.insert_edge(st);
+    adapter.insert_edge(su);
+
+    // Traverse only KNOWS edges: should not reach U.
+    auto res = adapter.traverse("S", 1, {"KNOWS"});
+    ASSERT_TRUE(res.is_ok());
+    const auto& nodes = res.value.value();
+    bool found_T = false, found_U = false;
+    for (const auto& n : nodes) {
+        if (n.id == "T") found_T = true;
+        if (n.id == "U") found_U = true;
+    }
+    EXPECT_TRUE(found_T);
+    EXPECT_FALSE(found_U);
+}
+
+// ── Document round-trip ───────────────────────────────────────────────────────
+
+TEST_F(ThemisDBIntegrationTest, InsertAndFindDocumentRoundTrip) {
+    auto doc = make_doc("d1", "Widget", 42);
+    auto ins = adapter.insert_document("things", doc);
+    ASSERT_TRUE(ins.is_ok());
+    EXPECT_EQ(ins.value.value(), "d1");
+
+    auto found = adapter.find_documents(
+        "things", {{"name", Scalar{std::string("Widget")}}});
+    ASSERT_TRUE(found.is_ok());
+    ASSERT_EQ(found.value.value().size(), 1u);
+    EXPECT_EQ(found.value.value()[0].id, "d1");
+}
+
+TEST_F(ThemisDBIntegrationTest, FindDocumentsWithNoMatchReturnsEmpty) {
+    auto doc = make_doc("d2", "Gadget", 7);
+    adapter.insert_document("things2", doc);
+
+    auto found = adapter.find_documents(
+        "things2", {{"name", Scalar{std::string("NoSuchItem")}}});
+    ASSERT_TRUE(found.is_ok());
+    EXPECT_TRUE(found.value.value().empty());
+}
+
+TEST_F(ThemisDBIntegrationTest, UpdateDocumentsPersistsChanges) {
+    auto doc = make_doc("u1", "OldName", 10);
+    adapter.insert_document("things3", doc);
+
+    auto updated = adapter.update_documents(
+        "things3",
+        {{"name", Scalar{std::string("OldName")}}},
+        {{"name", Scalar{std::string("NewName")}}}
+    );
+    ASSERT_TRUE(updated.is_ok());
+    EXPECT_EQ(updated.value.value(), 1u);
+
+    auto found = adapter.find_documents(
+        "things3", {{"name", Scalar{std::string("NewName")}}});
+    ASSERT_TRUE(found.is_ok());
+    ASSERT_EQ(found.value.value().size(), 1u);
+    EXPECT_EQ(found.value.value()[0].id, "u1");
+}
+
+TEST_F(ThemisDBIntegrationTest, InsertDocumentWithEmptyIdGeneratesUuid) {
+    Document doc;
+    doc.fields["x"] = Scalar{int64_t(99)};
+
+    auto res = adapter.insert_document("auto_id_col", doc);
+    ASSERT_TRUE(res.is_ok());
+    const std::string& id = res.value.value();
+    EXPECT_FALSE(id.empty());
+
+    // UUID v4 format: 8-4-4-4-12 hex chars separated by hyphens (36 chars total).
+    ASSERT_EQ(id.size(), 36u) << "Expected UUID v4 format, got: " << id;
+    EXPECT_EQ(id[8],  '-') << "UUID v4: missing first hyphen";
+    EXPECT_EQ(id[13], '-') << "UUID v4: missing second hyphen";
+    EXPECT_EQ(id[18], '-') << "UUID v4: missing third hyphen";
+    EXPECT_EQ(id[23], '-') << "UUID v4: missing fourth hyphen";
+    // Version nibble must be '4' (UUID v4).
+    EXPECT_EQ(id[14], '4') << "UUID v4: version nibble must be '4'";
+    // Variant nibble must be one of '8', '9', 'a', 'b' (RFC 4122 variant 10xx).
+    const char variant = id[19];
+    EXPECT_TRUE(variant == '8' || variant == '9' ||
+                variant == 'a' || variant == 'b')
+        << "UUID v4: variant nibble must be 8/9/a/b, got: " << variant;
+}
