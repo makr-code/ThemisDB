@@ -294,11 +294,10 @@ private:
     static bool verifyIntegrity(const std::string& file_path,
                                 const std::string& expected_sha256);
 
-// Auth header building (returns header value for Authorization or X-API-Key)
+    // Auth header building (returns header value for Authorization or X-API-Key)
     std::string buildAuthorizationHeader() const;
 
-    // Perform a back-off wait of `ms` milliseconds on an async thread so the
-    // calling thread is not tied up for the full sleep duration.
+    // Perform a blocking back-off sleep for `ms` milliseconds.
     static void asyncBackoffSleep(int ms);
 
     // Parse a single JSON object into a RegistryPluginEntry (returns false on

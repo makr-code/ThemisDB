@@ -439,20 +439,18 @@ TEST(RemoteRegistryClient, LastRequestStatsInitiallyZero) {
 TEST(RemoteRegistryClient, TotalRetryBudgetExhausted) {
     RegistryConfig cfg;
     cfg.registry_url             = "http://127.0.0.1:1";
-    cfg.timeout_ms               = 300;
+    cfg.timeout_ms               = 50;   // tiny timeout so the test runs fast
     cfg.max_retries              = 5;
-    cfg.max_total_retry_time_ms  = 1;   // 1 ms budget: backoff never fires
+    cfg.max_total_retry_time_ms  = 1;    // 1 ms budget: exhausted before any retry
     cfg.verify_ssl               = false;
 
     RemoteRegistryClient client(cfg);
-    // Should complete quickly even with max_retries=5 because the budget is exhausted.
     client.listPlugins();
 
-    // The budget is so small that the retry loop is aborted after ≤ 2 attempts
-    // (the first attempt happens before any sleep, and the budget check happens
-    // before each subsequent sleep). We only verify that the call returns in a
-    // reasonable time (the test itself serves as the timing bound).
+    // The budget check runs before each attempt. After the first attempt
+    // completes (≥1 ms elapsed), the budget is exhausted and no further
+    // attempts are started — so exactly 1 attempt should be recorded.
     const auto stats = client.lastRequestStats();
-    EXPECT_GE(stats.attempts, 1);
+    EXPECT_EQ(stats.attempts, 1);
     EXPECT_FALSE(stats.last_error.empty());
 }

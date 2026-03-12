@@ -36,7 +36,6 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
-#include <future>
 #include <iomanip>
 #include <mutex>
 #include <sstream>
@@ -54,6 +53,14 @@ constexpr int kMaxAllowedRetries = 10;
 
 // Maximum bit-shift used in the backoff formula (500 ms × 2^5 = 16 000 ms).
 constexpr int kMaxBackoffShift = 5;
+
+// Return a CURL timeout (≥ 1 ms) capped to the remaining total budget.
+// `config_timeout` is the per-request timeout from RegistryConfig.
+// `remaining_ms` is the remaining wall-clock budget; may be ≤ 0 (clamped to 1).
+long clampedCurlTimeout(int config_timeout, int remaining_ms) {
+    const int effective = std::min(config_timeout, remaining_ms);
+    return static_cast<long>(effective > 0 ? effective : 1);
+}
 
 // CURL write callback: accumulates response body into a std::string.
 size_t writeStringCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -283,12 +290,9 @@ ModuleVerificationResult RemoteRegistryClient::downloadAndLoad(
 // =============================================================================
 
 /*static*/ void RemoteRegistryClient::asyncBackoffSleep(int ms) {
-    // Schedule the sleep on an async thread so the calling thread is released
-    // during the back-off interval rather than blocking (e.g. a server I/O
-    // thread) for the full duration.
-    std::async(std::launch::async, [ms] {
-        std::this_thread::sleep_for(std::chrono::milliseconds(ms));
-    }).wait();
+    // Plain blocking sleep: avoids thread-creation overhead per retry while
+    // still giving callers a single well-defined back-off helper.
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 std::string RemoteRegistryClient::buildAuthorizationHeader() const {
@@ -322,31 +326,26 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
     };
 
     for (int attempt = 0; attempt < attempts; ++attempt) {
+        // Enforce total retry time budget before starting this attempt.
+        const auto elapsed_ms = static_cast<int>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - request_start)
+                .count());
+        const int remaining_ms = config_.max_total_retry_time_ms - elapsed_ms;
+        if (remaining_ms <= 0) {
+            spdlog::warn(
+                "RemoteRegistryClient::httpGet: total retry budget "
+                "exhausted after {}ms for {}", elapsed_ms, url);
+            break;
+        }
+
         if (attempt > 0) {
             // Exponential backoff: 500 ms, 1000 ms, 2000 ms, … capped at 16 s.
             const int shift_amount = std::min(attempt - 1, kMaxBackoffShift);
             const int backoff_ms   = 500 * (1 << shift_amount);
-
-            // Enforce total retry time budget.
-            const auto elapsed_ms = static_cast<int>(
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - request_start)
-                    .count());
-            const int remaining_ms = config_.max_total_retry_time_ms - elapsed_ms;
-            if (remaining_ms <= 0) {
-                spdlog::warn(
-                    "RemoteRegistryClient::httpGet: total retry budget "
-                    "exhausted after {}ms for {}", elapsed_ms, url);
-                break;
-            }
-
-            const int sleep_ms = std::min(backoff_ms, remaining_ms);
+            const int sleep_ms     = std::min(backoff_ms, remaining_ms);
             spdlog::warn("RemoteRegistryClient::httpGet: retry {}/{} after {}ms for {}",
                          attempt, max_retries, sleep_ms, url);
-
-            // Perform the back-off on an async thread so the calling thread is
-            // not blocked for the full sleep duration (avoids tying up server
-            // I/O threads during back-off).
             asyncBackoffSleep(sleep_ms);
         }
 
@@ -366,12 +365,21 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
         }
         headers = curl_slist_append(headers, "Accept: application/json");
 
+        // Cap per-attempt timeout to the remaining total budget so the overall
+        // call cannot overrun max_total_retry_time_ms by more than one timeout.
+        const auto elapsed_now = static_cast<int>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - request_start)
+                .count());
+        const long attempt_timeout = clampedCurlTimeout(
+            config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
+
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeStringCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &body);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, attempt_timeout);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
         if (!config_.ca_bundle_path.empty()) {
@@ -424,10 +432,11 @@ std::string RemoteRegistryClient::httpGet(const std::string& url) {
         return body;
     }
 
-    update_stats(last_error);
-    throw std::runtime_error(last_error.empty()
-                                 ? "httpGet failed after retries"
-                                 : last_error);
+    const std::string final_error = last_error.empty()
+                                        ? "httpGet failed after retries"
+                                        : last_error;
+    update_stats(final_error);
+    throw std::runtime_error(final_error);
 }
 
 bool RemoteRegistryClient::httpGetBinary(const std::string& url,
@@ -451,30 +460,25 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
     };
 
     for (int attempt = 0; attempt < attempts; ++attempt) {
+        // Enforce total retry time budget before starting this attempt.
+        const auto elapsed_ms = static_cast<int>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - request_start)
+                .count());
+        const int remaining_ms = config_.max_total_retry_time_ms - elapsed_ms;
+        if (remaining_ms <= 0) {
+            spdlog::warn(
+                "RemoteRegistryClient::httpGetBinary: total retry budget "
+                "exhausted after {}ms for {}", elapsed_ms, url);
+            break;
+        }
+
         if (attempt > 0) {
             const int shift_amount = std::min(attempt - 1, kMaxBackoffShift);
             const int backoff_ms   = 500 * (1 << shift_amount);
-
-            // Enforce total retry time budget.
-            const auto elapsed_ms = static_cast<int>(
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::steady_clock::now() - request_start)
-                    .count());
-            const int remaining_ms = config_.max_total_retry_time_ms - elapsed_ms;
-            if (remaining_ms <= 0) {
-                spdlog::warn(
-                    "RemoteRegistryClient::httpGetBinary: total retry budget "
-                    "exhausted after {}ms for {}", elapsed_ms, url);
-                break;
-            }
-
-            const int sleep_ms = std::min(backoff_ms, remaining_ms);
+            const int sleep_ms     = std::min(backoff_ms, remaining_ms);
             spdlog::warn("RemoteRegistryClient::httpGetBinary: retry {}/{} after {}ms",
                          attempt, max_retries, sleep_ms);
-
-            // Perform the back-off on an async thread so the calling thread is
-            // not blocked for the full sleep duration (avoids tying up server
-            // I/O threads during back-off).
             asyncBackoffSleep(sleep_ms);
         }
 
@@ -501,12 +505,20 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
             headers = curl_slist_append(headers, auth_header.c_str());
         }
 
+        // Cap per-attempt timeout to the remaining total budget.
+        const auto elapsed_now = static_cast<int>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - request_start)
+                .count());
+        const long attempt_timeout = clampedCurlTimeout(
+            config_.timeout_ms, config_.max_total_retry_time_ms - elapsed_now);
+
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFileCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &out);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(config_.timeout_ms));
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, attempt_timeout);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, config_.verify_ssl ? 1L : 0L);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, config_.verify_ssl ? 2L : 0L);
         if (!config_.ca_bundle_path.empty()) {
@@ -556,7 +568,10 @@ bool RemoteRegistryClient::httpGetBinary(const std::string& url,
 
     spdlog::error("RemoteRegistryClient::httpGetBinary: all {} attempt(s) failed for {}",
                   attempts, url);
-    update_stats(last_error);
+    const std::string final_error = last_error.empty()
+                                        ? "httpGetBinary failed after retries"
+                                        : last_error;
+    update_stats(final_error);
     return false;
 }
 
