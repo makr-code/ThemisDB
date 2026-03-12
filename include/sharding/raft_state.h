@@ -257,6 +257,33 @@ public:
      */
     size_t getVotesReceived() const;
 
+    // ------------------------------------------------------------------
+    // Snapshot state (persistent – survives restarts / log compaction)
+    // ------------------------------------------------------------------
+
+    /**
+     * @brief Record the index and term of the most recently installed snapshot
+     *
+     * Called by RaftSnapshotManager after a snapshot has been successfully
+     * persisted and the log has been compacted up to snapshot_index.
+     *
+     * @param index Index of the last log entry covered by the snapshot
+     * @param term  Term of the last log entry covered by the snapshot
+     */
+    void setSnapshotMeta(uint64_t index, uint64_t term);
+
+    /**
+     * @brief Get the index of the last installed snapshot
+     * @return Snapshot index (0 if no snapshot has been taken)
+     */
+    uint64_t getSnapshotIndex() const;
+
+    /**
+     * @brief Get the term of the last installed snapshot
+     * @return Snapshot term (0 if no snapshot has been taken)
+     */
+    uint64_t getSnapshotTerm() const;
+
 private:
     /**
      * @brief Calculate random election timeout
@@ -277,7 +304,11 @@ private:
     std::atomic<uint64_t> current_term_{0};     // Latest term server has seen
     std::string voted_for_;                     // Candidate ID voted for in current term
     RaftLog log_;                               // Log entries
-    
+
+    // Persistent snapshot state (§7 of the Raft paper)
+    uint64_t snapshot_index_{0};   // Index of the last installed snapshot
+    uint64_t snapshot_term_{0};    // Term  of the last installed snapshot
+
     // Volatile state
     mutable std::mutex state_mutex_;            // Protects mutable state
     RaftNodeState state_{RaftNodeState::FOLLOWER};

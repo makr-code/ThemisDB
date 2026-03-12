@@ -207,7 +207,23 @@ public:
      * @return true if snapshot should be created
      */
     bool shouldCreateSnapshot(size_t operations_since_last) const;
-    
+
+    /**
+     * @brief Compact (truncate) the WAL up to and including the given LSN.
+     *
+     * Called after a Paxos snapshot has been successfully persisted.  All WAL
+     * entries at or below `up_to_lsn` are no longer needed for recovery and
+     * can be discarded, preventing unbounded WAL growth.
+     *
+     * The operation is logged as a SNAPSHOT marker entry so that a reader
+     * replaying the WAL from an older checkpoint can detect the boundary.
+     *
+     * @param up_to_lsn  LSN of the last entry covered by the snapshot
+     * @param node_id    Node performing the compaction (used in the marker)
+     * @return true on success
+     */
+    bool compact(const LSN& up_to_lsn, const std::string& node_id);
+
     /**
      * Get snapshot directory path
      */

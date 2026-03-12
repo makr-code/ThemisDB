@@ -87,6 +87,27 @@ struct PaxosSnapshot {
      * Verify checksum
      */
     bool verifyChecksum() const;
+
+    /**
+     * @brief Compress the JSON-serialised snapshot with ZSTD (level 3)
+     *
+     * Returns the compressed bytes.  The caller is responsible for storing
+     * the result alongside the snapshot metadata so that it can be
+     * decompressed on load.
+     *
+     * @param level  ZSTD compression level (default 3)
+     * @return Compressed bytes, or empty on failure
+     */
+    std::vector<uint8_t> compress(int level = 3) const;
+
+    /**
+     * @brief Decompress a previously compressed snapshot and reconstruct it
+     *
+     * @param compressed  Bytes produced by compress()
+     * @return Reconstructed snapshot on success, nullopt on failure
+     */
+    static std::optional<PaxosSnapshot> decompress(
+        const std::vector<uint8_t>& compressed);
 };
 
 /**
@@ -96,14 +117,15 @@ struct PaxosSnapshot {
  * 
  * Features:
  * - Periodic snapshot creation
- * - Snapshot compression (future)
+ * - ZSTD snapshot compression (compression_level 3, target >3× ratio)
  * - Snapshot transfer to new replicas
  * - Automatic old snapshot cleanup
  */
 class PaxosSnapshotManager {
 public:
     explicit PaxosSnapshotManager(const std::string& snapshot_directory,
-                                   size_t max_snapshots = 10);
+                                   size_t max_snapshots = 10,
+                                   int compression_level = 3);
     ~PaxosSnapshotManager() = default;
     
     /**
@@ -160,6 +182,7 @@ public:
 private:
     std::string snapshot_directory_;
     size_t max_snapshots_;
+    int compression_level_;
     mutable std::mutex mutex_;
     
     // Generate unique snapshot ID (timestamp-based)
