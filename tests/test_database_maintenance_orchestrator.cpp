@@ -15,7 +15,9 @@
 #include "observability/metrics_collector.h"
 
 #include <nlohmann/json.hpp>
+#include <atomic>
 #include <thread>
+#include <vector>
 #include <chrono>
 #include <map>
 #include <mutex>
@@ -1562,4 +1564,57 @@ TEST_F(MaintenanceOrchestratorTest, DAG_HaltOnTaskFailure_FlagPreserved) {
     auto restored = MaintenanceScheduleEntry::fromJson(j);
     EXPECT_TRUE(restored.halt_on_task_failure);
     ASSERT_EQ(restored.task_dependencies.size(), 1u);
+}
+
+// ===========================================================================
+// Concurrency / TSAN – shared_mutex read-path upgrade
+// Exercises 8 concurrent listSchedules readers + 1 createSchedule writer.
+// When built with -DTHEMIS_ENABLE_TSAN=ON, ThreadSanitizer will report any
+// data race that remains on schedules_mutex_ or jobs_mutex_.
+// ===========================================================================
+
+TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
+    // Pre-populate a few schedules so readers have non-empty work.
+    for (int i = 0; i < 4; ++i) {
+        auto e = makeEntry("Seed-" + std::to_string(i));
+        ASSERT_TRUE(orchestrator_->createSchedule(e));
+    }
+
+    constexpr int kReaders  = 8;
+    constexpr int kItersPerThread = 200;
+
+    std::atomic<bool> go{false};
+    std::atomic<int>  total_read{0};
+
+    // 8 concurrent readers
+    std::vector<std::thread> readers;
+    readers.reserve(kReaders);
+    for (int t = 0; t < kReaders; ++t) {
+        readers.emplace_back([&] {
+            while (!go.load(std::memory_order_acquire)) {}
+            for (int i = 0; i < kItersPerThread; ++i) {
+                auto schedules = orchestrator_->listSchedules();
+                total_read.fetch_add(static_cast<int>(schedules.size()),
+                                     std::memory_order_relaxed);
+            }
+        });
+    }
+
+    // 1 concurrent writer
+    std::thread writer([&] {
+        while (!go.load(std::memory_order_acquire)) {}
+        for (int i = 0; i < kItersPerThread; ++i) {
+            auto e = makeEntry("Writer-" + std::to_string(i));
+            orchestrator_->createSchedule(e);
+        }
+    });
+
+    go.store(true, std::memory_order_release);
+
+    writer.join();
+    for (auto& r : readers) r.join();
+
+    // Sanity: at least the pre-populated schedules must be visible at the end.
+    EXPECT_GE(orchestrator_->listSchedules().size(), 4u);
+    EXPECT_GT(total_read.load(), 0);
 }
