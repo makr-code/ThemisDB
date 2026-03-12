@@ -104,12 +104,12 @@ The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stac
 `ldap_authenticator.cpp:buildUserDN()` (lines 90-97) substitutes the raw `username` string into a DN template by replacing the `{username}` placeholder with no escaping at all. An attacker supplying a username containing DN special characters (`,`, `=`, `+`, `<`, `>`, `#`, `;`, `\`, `"`) can manipulate the constructed DN to bind as a different directory entry. This is a textbook LDAP injection vulnerability.
 
 **Implementation Notes:**
-- `[ ]` Implement `escapeLDAPDNComponent(const std::string& value)` in `ldap_authenticator.cpp` following RFC 4514 Section 2.4: escape characters `,`, `+`, `"`, `\`, `<`, `>`, `;`, and leading/trailing spaces and `#`
-- `[ ]` Implement `escapeLDAPFilterValue(const std::string& value)` following RFC 4515 Section 3: escape `*`, `(`, `)`, `\`, NUL
-- `[ ]` Call `escapeLDAPDNComponent()` on `username` inside `buildUserDN()` before string substitution (line 96)
-- `[ ]` Call `escapeLDAPFilterValue()` on all user-controlled values inserted into LDAP search filter strings (lines 257, 379)
-- `[ ]` Add `LDAP_OPT_REFERRALS = LDAP_OPT_OFF` to both the Windows path (line 208) and the POSIX path (line 317) — referral chasing with attacker-controlled usernames can redirect authentication to a rogue LDAP server
-- `[ ]` Add fuzz test (libFuzzer) targeting `buildUserDN()` with adversarial username inputs
+- `[x]` Implement `escapeLDAPDNComponent(const std::string& value)` in `ldap_authenticator.cpp` following RFC 4514 Section 2.4: escape characters `,`, `+`, `"`, `\`, `<`, `>`, `;`, and leading/trailing spaces and `#`
+- `[x]` Implement `escapeLDAPFilterValue(const std::string& value)` following RFC 4515 Section 3: escape `*`, `(`, `)`, `\`, NUL
+- `[x]` Call `escapeLDAPDNComponent()` on `username` inside `buildUserDN()` before string substitution (line 96)
+- `[x]` Call `escapeLDAPFilterValue()` on all user-controlled values inserted into LDAP search filter strings (lines 257, 379)
+- `[x]` Add `LDAP_OPT_REFERRALS = LDAP_OPT_OFF` to both the Windows path (line 208) and the POSIX path (line 317) — referral chasing with attacker-controlled usernames can redirect authentication to a rogue LDAP server
+- `[x]` Add fuzz test (libFuzzer) targeting `buildUserDN()` with adversarial username inputs
 
 **Performance Targets:**
 - Escaping adds < 5 µs overhead per authentication call
