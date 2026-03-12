@@ -33,6 +33,8 @@
 #include <mutex>
 #include <algorithm>
 #include <sstream>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace chimera {
 
@@ -213,7 +215,7 @@ std::string AdapterCapabilityMatrix::capability_to_string(Capability cap) {
 namespace {
 
 /// Known URI schemes accepted by the chimera adapter suite.
-const std::vector<std::string> kKnownSchemes = {
+const std::unordered_set<std::string> kKnownSchemes = {
     "themisdb",
     "postgresql", "postgres",
     "mongodb", "mongodb+srv",
@@ -221,23 +223,27 @@ const std::vector<std::string> kKnownSchemes = {
     "http", "https"
 };
 
+/// Printable list of known schemes for error messages (sorted for stability).
+const std::vector<std::string> kKnownSchemesList = {
+    "bolt", "http", "https", "mongodb", "mongodb+srv",
+    "neo4j", "neo4j+s", "postgres", "postgresql", "themisdb"
+};
+
 /// Well-known integer options and their valid [min, max] inclusive ranges.
 struct IntOptionRange {
-    const char* name;
     int64_t min_val;
     int64_t max_val;
 };
 
-const std::vector<IntOptionRange> kIntOptionRanges = {
-    { "pool_size",        1,      10000  },
-    { "timeout_ms",       1,      3600000 },
-    { "connect_timeout",  1,      3600000 },
-    { "max_retries",      0,      100    },
-    { "port",             1,      65535  }
+const std::unordered_map<std::string, IntOptionRange> kIntOptionRanges = {
+    { "pool_size",        { 1,      10000   } },
+    { "timeout_ms",       { 1,      3600000 } },
+    { "connect_timeout",  { 1,      3600000 } },
+    { "max_retries",      { 0,      100     } }
 };
 
 /// Well-known boolean option names.
-const std::vector<std::string> kBoolOptions = {
+const std::unordered_set<std::string> kBoolOptions = {
     "use_tls", "tls_enabled", "ssl", "verify_cert", "read_only"
 };
 
@@ -316,50 +322,51 @@ std::vector<std::string> AdapterConfig::get_validation_errors() const {
     }
 
     // --- connection_string: must contain "://" ---
-    if (connection_string.find("://") == std::string::npos) {
+    const bool has_scheme_separator =
+        connection_string.find("://") != std::string::npos;
+    if (!has_scheme_separator) {
         errors.emplace_back(
             "connection_string is missing a URI scheme (expected '<scheme>://<host>')");
-    }
+        // Component validation (scheme/host/port) is meaningless without a separator.
+        // Still proceed to option validation below.
+    } else {
+        // --- Parse and validate components ---
+        const ParsedConnectionString parsed = parse_connection_string();
 
-    // --- Parse and validate components ---
-    const ParsedConnectionString parsed = parse_connection_string();
-
-    // Scheme must be recognised
-    if (!parsed.scheme.empty()) {
-        bool known = false;
-        for (const auto& s : kKnownSchemes) {
-            if (parsed.scheme == s) { known = true; break; }
-        }
-        if (!known) {
+        // Scheme must be non-empty and recognised
+        if (parsed.scheme.empty()) {
+            errors.emplace_back(
+                "connection_string must specify a non-empty URI scheme before '://'");
+        } else if (kKnownSchemes.find(parsed.scheme) == kKnownSchemes.end()) {
             std::ostringstream oss;
             oss << "unknown URI scheme '" << parsed.scheme
                 << "'; recognised schemes: ";
-            for (size_t i = 0; i < kKnownSchemes.size(); ++i) {
+            for (size_t i = 0; i < kKnownSchemesList.size(); ++i) {
                 if (i > 0) oss << ", ";
-                oss << kKnownSchemes[i];
+                oss << kKnownSchemesList[i];
             }
             errors.push_back(oss.str());
         }
-    }
 
-    // Host must be present
-    if (parsed.host.empty()) {
-        errors.emplace_back("connection_string must specify a non-empty host");
-    }
+        // Host must be present
+        if (parsed.host.empty()) {
+            errors.emplace_back("connection_string must specify a non-empty host");
+        }
 
-    // If a port string is present it must be a valid port number
-    if (!parsed.port.empty()) {
-        try {
-            size_t idx = 0;
-            long port_val = std::stol(parsed.port, &idx);
-            if (idx != parsed.port.size() || port_val < 1 || port_val > 65535) {
+        // If a port string is present it must be a valid port number
+        if (!parsed.port.empty()) {
+            try {
+                size_t idx = 0;
+                long port_val = std::stol(parsed.port, &idx);
+                if (idx != parsed.port.size() || port_val < 1 || port_val > 65535) {
+                    errors.emplace_back(
+                        "connection_string port '" + parsed.port +
+                        "' is out of valid range [1, 65535]");
+                }
+            } catch (...) {
                 errors.emplace_back(
-                    "connection_string port '" + parsed.port +
-                    "' is out of valid range [1, 65535]");
+                    "connection_string port '" + parsed.port + "' is not a valid integer");
             }
-        } catch (...) {
-            errors.emplace_back(
-                "connection_string port '" + parsed.port + "' is not a valid integer");
         }
     }
 
@@ -368,36 +375,28 @@ std::vector<std::string> AdapterConfig::get_validation_errors() const {
         const std::string& key   = kv.first;
         const Scalar&      value = kv.second;
 
-        // Check integer options
-        for (const auto& spec : kIntOptionRanges) {
-            if (key == spec.name) {
-                if (!std::holds_alternative<int64_t>(value)) {
+        // Check integer options (O(1) lookup)
+        auto int_it = kIntOptionRanges.find(key);
+        if (int_it != kIntOptionRanges.end()) {
+            if (!std::holds_alternative<int64_t>(value)) {
+                errors.push_back("option '" + key + "' must be of type int64_t");
+            } else {
+                int64_t v = std::get<int64_t>(value);
+                if (v < int_it->second.min_val || v > int_it->second.max_val) {
                     std::ostringstream oss;
-                    oss << "option '" << key << "' must be of type int64_t";
+                    oss << "option '" << key << "' value " << v
+                        << " is out of valid range ["
+                        << int_it->second.min_val << ", "
+                        << int_it->second.max_val << "]";
                     errors.push_back(oss.str());
-                } else {
-                    int64_t v = std::get<int64_t>(value);
-                    if (v < spec.min_val || v > spec.max_val) {
-                        std::ostringstream oss;
-                        oss << "option '" << key << "' value " << v
-                            << " is out of valid range ["
-                            << spec.min_val << ", " << spec.max_val << "]";
-                        errors.push_back(oss.str());
-                    }
                 }
-                break; // matched — no need to check further specs
             }
         }
 
-        // Check boolean options
-        for (const auto& bkey : kBoolOptions) {
-            if (key == bkey) {
-                if (!std::holds_alternative<bool>(value)) {
-                    std::ostringstream oss;
-                    oss << "option '" << key << "' must be of type bool";
-                    errors.push_back(oss.str());
-                }
-                break;
+        // Check boolean options (O(1) lookup)
+        if (kBoolOptions.count(key)) {
+            if (!std::holds_alternative<bool>(value)) {
+                errors.push_back("option '" + key + "' must be of type bool");
             }
         }
     }

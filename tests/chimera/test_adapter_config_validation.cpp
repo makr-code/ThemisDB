@@ -74,6 +74,23 @@ TEST(AdapterConfigValidationTest, MissingSchemeSeparatorIsInvalid) {
     cfg.connection_string = "localhostmydb";
     auto errors = cfg.get_validation_errors();
     EXPECT_FALSE(errors.empty());
+    // Only the "missing separator" error — no spurious "non-empty host" error
+    for (const auto& e : errors) {
+        EXPECT_EQ(e.find("must specify a non-empty host"), std::string::npos)
+            << "Spurious host-required error when separator is missing: " << e;
+    }
+}
+
+TEST(AdapterConfigValidationTest, EmptySchemeWithSeparatorIsInvalid) {
+    AdapterConfig cfg;
+    cfg.connection_string = "://localhost:8529/mydb";
+    auto errors = cfg.get_validation_errors();
+    EXPECT_FALSE(errors.empty());
+    bool found = false;
+    for (const auto& e : errors) {
+        if (e.find("scheme") != std::string::npos) { found = true; break; }
+    }
+    EXPECT_TRUE(found) << "Expected a scheme-related error for '://localhost:8529/mydb'";
 }
 
 TEST(AdapterConfigValidationTest, UnknownSchemeIsInvalid) {
