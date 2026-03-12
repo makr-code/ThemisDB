@@ -29,6 +29,7 @@
 #include <string>
 #include <optional>
 #include <memory>
+#include <chrono>
 
 #include "utils/audit_logger.h"
 
@@ -100,6 +101,16 @@ public:
 
     /** TOTP code was rejected. */
     void logTOTPFailure(const std::string& user_id);
+
+    /** TOTP code validated with a non-zero time step offset (clock drift indicator).
+     *
+     *  Large or sustained offsets indicate a misconfigured device clock and should
+     *  be investigated. The audit entry records the subject, step offset, and the
+     *  Unix timestamp of the validation so that operations teams can track trends.
+     */
+    void logTOTPDrift(const std::string& user_id,
+                      int step_offset,
+                      std::chrono::system_clock::time_point timestamp);
 
     /** Recovery code was used (single-use codes only). */
     void logRecoveryCodeUsed(const std::string& user_id);

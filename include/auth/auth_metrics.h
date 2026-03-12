@@ -240,6 +240,27 @@ public:
     void recordRevokedTokenCheck(bool was_revoked);
 
     // ========================================================================
+    // TOTP Drift Metrics
+    // ========================================================================
+
+    /**
+     * @brief Record a TOTP validation that succeeded with a non-zero time step offset.
+     *
+     * Increments the `totp_drift_total` counter labelled with the signed step
+     * offset value.  Sustained non-zero offsets indicate a device clock that is
+     * drifting and should be investigated.
+     *
+     * @param step_offset The signed time step offset at which the code matched
+     *                    (e.g., -1 means the previous 30-second window).
+     */
+    void recordTOTPDrift(int step_offset);
+
+    /**
+     * @brief Get the total number of TOTP drift events recorded (always available).
+     */
+    uint64_t getTOTPDriftCount() const;
+
+    // ========================================================================
     // LDAP Connection Pool Metrics
     // ========================================================================
 
@@ -318,6 +339,7 @@ private:
     prometheus::Family<prometheus::Counter>& account_unlocks_total_;
     prometheus::Family<prometheus::Counter>& errors_total_;
     prometheus::Family<prometheus::Counter>& revoked_token_checks_total_;
+    prometheus::Family<prometheus::Counter>& totp_drift_total_;
     
     // Gauge families
     prometheus::Family<prometheus::Gauge>& jwks_cache_size_;
@@ -336,6 +358,7 @@ private:
     std::atomic<uint64_t> total_attempts_{0};
     std::atomic<uint64_t> successful_auths_{0};
     std::atomic<uint64_t> failed_auths_{0};
+    std::atomic<uint64_t> totp_drift_count_{0};
 
     // LDAP connection pool gauges (always available)
     std::atomic<int> ldap_pool_size_count_{0};
