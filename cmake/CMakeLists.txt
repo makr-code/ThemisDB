@@ -1963,6 +1963,8 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
     ../src/auth/token_blacklist.cpp
+    ../src/auth/redis_token_blacklist.cpp
+    ../src/auth/rocksdb_token_blacklist.cpp
     ../src/auth/zero_trust_auth_verifier.cpp
     ../src/auth/auth_audit_logger.cpp
     ../src/auth/mfa_authenticator.cpp
