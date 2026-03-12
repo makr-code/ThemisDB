@@ -180,7 +180,8 @@ std::vector<Capability> AdapterCapabilityMatrix::all_capabilities() {
         Capability::SECONDARY_INDEXES,
         Capability::MATERIALIZED_VIEWS,
         Capability::REPLICATION,
-        Capability::SHARDING
+        Capability::SHARDING,
+        Capability::ASYNC_OPERATIONS
     };
 }
 
@@ -201,6 +202,7 @@ std::string AdapterCapabilityMatrix::capability_to_string(Capability cap) {
         case Capability::MATERIALIZED_VIEWS:   return "MATERIALIZED_VIEWS";
         case Capability::REPLICATION:          return "REPLICATION";
         case Capability::SHARDING:             return "SHARDING";
+        case Capability::ASYNC_OPERATIONS:     return "ASYNC_OPERATIONS";
         default:                               return "UNKNOWN";
     }
 }

@@ -198,8 +198,9 @@ TEST_F(CapabilityMatrixTest, AllCapabilitiesCoversEveryEnumerator) {
     EXPECT_TRUE(has(Capability::MATERIALIZED_VIEWS));
     EXPECT_TRUE(has(Capability::REPLICATION));
     EXPECT_TRUE(has(Capability::SHARDING));
+    EXPECT_TRUE(has(Capability::ASYNC_OPERATIONS));
     // Total count matches enum size.
-    EXPECT_EQ(all.size(), 15u);
+    EXPECT_EQ(all.size(), 16u);
 }
 
 // ---------------------------------------------------------------------------
@@ -225,6 +226,8 @@ TEST(CapabilityToStringTest, KnownLabels) {
               "MATERIALIZED_VIEWS");
     EXPECT_EQ(AdapterCapabilityMatrix::capability_to_string(Capability::SHARDING),
               "SHARDING");
+    EXPECT_EQ(AdapterCapabilityMatrix::capability_to_string(Capability::ASYNC_OPERATIONS),
+              "ASYNC_OPERATIONS");
 }
 
 // ---------------------------------------------------------------------------

@@ -106,6 +106,17 @@ void AuthAuditLogger::logTOTPFailure(const std::string& user_id)
     emit(utils::SecurityEventType::MFA_TOTP_FAILED, user_id, "mfa/totp", {});
 }
 
+void AuthAuditLogger::logTOTPDrift(const std::string& user_id,
+                                    int step_offset,
+                                    std::chrono::system_clock::time_point timestamp)
+{
+    nlohmann::json details;
+    details["step_offset"] = step_offset;
+    details["timestamp"]   = std::chrono::duration_cast<std::chrono::seconds>(
+                                 timestamp.time_since_epoch()).count();
+    emit(utils::SecurityEventType::MFA_TOTP_SUCCESS, user_id, "mfa/totp/drift", details);
+}
+
 void AuthAuditLogger::logRecoveryCodeUsed(const std::string& user_id)
 {
     emit(utils::SecurityEventType::MFA_RECOVERY_CODE_USED, user_id, "mfa/recovery_code", {});

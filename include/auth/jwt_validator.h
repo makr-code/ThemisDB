@@ -32,6 +32,7 @@
 #include <optional>
 #include <memory>
 #include <shared_mutex>
+#include <atomic>
 #include <future>
 
 #include "auth/token_blacklist.h"
@@ -92,6 +93,7 @@ struct JWTValidatorConfig {
     int jwks_max_retries{MAX_JWKS_RETRY_ATTEMPTS};           // JWKS fetch max retries
     bool require_issuer_validation = true;   // throw at construction if expected_issuer is unset
     bool require_audience_validation = true; // throw at construction if expected_audience is unset
+    bool require_jti = false;                // when true, reject tokens that are missing the jti claim
 };
 
 class JWTValidator {
@@ -215,6 +217,7 @@ private:
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
+    mutable std::atomic<bool> warned_blacklist_no_jti_{false};  // Warn once when blacklist set but token has no jti
 
     /// Prevents concurrent JWKS refresh stampedes: only one thread performs the
     /// HTTP fetch at a time; others wait on jwks_refresh_cv_ for it to finish.
