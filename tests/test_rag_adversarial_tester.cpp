@@ -24,6 +24,7 @@
 #include "rag/rag_judge.h"
 
 #include <algorithm>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -337,12 +338,12 @@ TEST_F(AdversarialFullRunTest, PoisoningResultsPresent)
     EXPECT_FALSE(report.poisoning_results.empty());
 }
 
-TEST_F(AdversarialFullRunTest, PromptInjectionDetectionsRecorded)
+TEST_F(AdversarialFullRunTest, PromptInjectionAttemptsRecorded)
 {
     RAGJudge judge;
     auto report = tester.testRobustness(judge);
-    // We submit known injection payloads, so detections > 0.
-    EXPECT_GT(report.prompt_injection_detections, 0u);
+    // We submit known injection payloads, so attempts > 0.
+    EXPECT_GT(report.prompt_injection_attempts, 0u);
 }
 
 TEST_F(AdversarialFullRunTest, ReportIsDeterministic)

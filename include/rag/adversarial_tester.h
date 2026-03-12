@@ -36,6 +36,7 @@
 #include "rag/rag_judge.h"
 
 #include <cstddef>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -118,14 +119,16 @@ struct RobustnessReport {
     /// Human-readable description of each detected vulnerability.
     std::vector<std::string> vulnerabilities;
 
-    /// All adversarial query examples that caused score instability.
+    /// All adversarial query examples that caused score instability
+    /// (does not include sycophancy examples, which have their own field).
     std::vector<AdversarialExample> failing_examples;
 
-    /// Per-document poisoning results.
+    /// Per-document poisoning results (one entry per poisoned document).
     std::vector<PoisoningResult> poisoning_results;
 
-    /// Number of prompt-injection payloads detected in base documents.
-    size_t prompt_injection_detections = 0;
+    /// Number of prompt-injection payloads submitted during testing.
+    /// These are attempts, not confirmed successful injections.
+    size_t prompt_injection_attempts = 0;
 
     /// Whether context-overflow degraded quality beyond the threshold.
     bool context_overflow_detected = false;
@@ -184,7 +187,7 @@ struct AdversarialTesterConfig {
  * @brief Systematically tests a RAGJudge against adversarial inputs.
  *
  * The tester is populated with base queries and documents, then
- * AdversarialTester::testRobustness() orchestrates four attack categories:
+ * AdversarialTester::testRobustness() orchestrates five attack categories:
  *
  *  1. **Query perturbations** – generates variants with
  *     AdversarialStrategy and measures score stability.
@@ -194,6 +197,8 @@ struct AdversarialTesterConfig {
  *     documents and tests whether they affect evaluation scores.
  *  4. **Context overflow** – pads retrieved documents to exceed typical
  *     context budgets and checks for quality degradation.
+ *  5. **Sycophancy** – applies biased/presupposed query framing and
+ *     measures score shift.
  *
  * Thread-safety: the tester is **not** thread-safe.  Create one instance
  * per thread or add external synchronisation.
