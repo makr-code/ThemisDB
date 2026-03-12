@@ -355,6 +355,24 @@ private:
     bool applyNetworkIsolation();
     bool applyFilesystemRestrictions();
     bool applySyscallFilter();
+
+#if defined(__linux__)
+    /// @brief Set up a cgroup v2 sub-hierarchy for this sandbox instance.
+    ///
+    /// Creates `/sys/fs/cgroup/themis/<sandbox_id>/`, enables the memory and
+    /// cpu controllers in `cgroup.subtree_control`, writes `memory.max`, then
+    /// moves the current process into the new cgroup.  If CPU limiting is
+    /// enabled, `cpu.max` is written later by applyCpuLimit() when active.
+    /// Returns true on success; on failure emits spdlog::warn and the caller
+    /// falls back to RLIMIT_* enforcement.
+    bool setupCgroupV2();
+
+    /// @brief Remove the cgroup v2 directory created by setupCgroupV2().
+    ///
+    /// Migrates the current process back to the root cgroup before issuing
+    /// rmdir(2) on the sandbox-specific sub-directory.
+    void teardownCgroupV2();
+#endif
 };
 
 } // namespace modules

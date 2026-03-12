@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Transaction-time tracking, time-travel queries (`AS OF`, `FROM...TO`, `BETWEEN...AND`), HLC-based conflict resolution, bitemporal joins, and SEQUENCED/NON-SEQUENCED query semantics are fully operational. `SystemVersionedTable::Config`, `createVersionedTable`, `upsert`, and `enforceRetentionPolicy` are now available (v1.1.0). SQL `PERIOD FOR` DDL syntax is not yet supported.
+**v1.2.0** — All C++ temporal query engine features are production-ready.  Core capabilities include system-versioned tables, bi-temporal tables, full time-travel queries (AS OF, FROM…TO, BETWEEN…AND), application-time queries, temporal joins, SEQUENCED/NON-SEQUENCED semantics, index-accelerated queries, and result caching.  SQL `PERIOD FOR` DDL syntax and AQL clause parsing remain deferred to Phase 3b.
 
 ## Completed ✅
 - [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
@@ -27,6 +27,7 @@
 - [x] Unit tests for conflict resolver, query engine, temporal index, aggregator, and bi-temporal table (`tests/temporal/`)
 - [x] Bitemporal joins: combined transaction-time + valid-time join predicates (`TemporalQueryEngine::joinBiTemporal`)
 - [x] SEQUENCED vs. NON-SEQUENCED temporal query semantics per SQL:2011 §4.16.5 (`TemporalQueryEngine::queryWithSemantics`)
+- [x] **Time-Travel Query Engine (v1.2.0):** `queryBetween` (FOR SYSTEM_TIME BETWEEN…AND), `queryApplicationTime` / `queryApplicationTimeRange` (FOR APPLICATION_TIME), `queryAsOfWithIndex` (index-accelerated version pruning), `QueryCache` + `detail::queryAsOfCached` (result caching for frequently accessed historical data) (`temporal_query_engine.cpp`)
 
 ## In Progress 🚧
 *(no items currently in progress)*
@@ -36,12 +37,12 @@
 ### Short-term (Next 3-6 months)
 - [I] SQL `PERIOD FOR` DDL syntax for system-time and application-time declarations (Target: Q3 2026)
 - [I] `FOR SYSTEM_TIME` / `FOR APPLICATION_TIME` clause in AQL query parser (Target: Q3 2026)
-- [I] Temporal uniqueness constraints and gap/overlap detection for valid-time periods (Target: Q3 2026)
+- [x] Temporal uniqueness constraints and gap/overlap detection for valid-time periods (`BiTemporalTable::hasUniquenessConflict`, `BiTemporalTable::findGaps`, `BiTemporalTable::findOverlaps`)
 - [I] Storage-based and archive-to-cold-storage retention policy variants (Target: Q3 2026)
 - [I] Delta compression for historical versions (ZSTD / Gorilla for numeric time-series data) (Target: Q4 2026)
 
 ### Long-term (6-12 months)
-- [I] Temporal foreign keys with period-aware referential integrity (`CASCADE`, `RESTRICT`) (Target: Q4 2026)
+- [x] Temporal foreign keys with period-aware referential integrity (`TemporalForeignKey::validate()`)
 - [I] Temporal CDC: version-aware change event streaming with before/after diff (Target: Q1 2027)
 - [I] Temporal migration tooling: convert existing tables to system-versioned with history backfill (Target: Q1 2027)
 - [I] Interval-tree index for efficient overlapping-period detection (Target: Q1 2027)
@@ -59,6 +60,7 @@
 - [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()`, `getAllKeys()` (`system_versioned_table.cpp`)
 - [x] `SystemVersionedTable::Config`: `history_table_name`, `compress_history`, `retention_period`, `track_user_id`; constructors + `createVersionedTable` DDL factory; `upsert`; `enforceRetentionPolicy`; `getConfig`; `getStatistics` extended with config fields (`system_versioned_table.cpp`, v1.1.0)
 - [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`); new: `scanBiTemporal(sys_as_of, valid_at)`, `getAllKeys()`
+- [x] **Application-Versioned Tables (Bi-Temporal, v1.2.0):** `findGaps(key, from, to)` for gap detection, `hasUniquenessConflict(key, period)` for temporal uniqueness constraint checks, `TemporalForeignKey::validate()` for period-aware referential integrity (`bi_temporal.cpp`)
 - [x] `TemporalIndex`: period B-tree index with `insert`, `queryAsOf`, `queryRange`, `stats` (`temporal_index.cpp`)
 - [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)
 - [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`); snapshot versioning (`version_number`), TTL-based and max-count GC, `SnapshotMetadata`
@@ -69,16 +71,23 @@
 ### Phase 3: SQL Syntax & Temporal Constraints (Status: C++ layer complete ✅; SQL syntax deferred to Phase 3b 📋)
 - [x] Bitemporal join operator (combined transaction-time + valid-time predicates) — `TemporalQueryEngine::joinBiTemporal()`
 - [x] SEQUENCED / NON-SEQUENCED query semantics — `TemporalQueryEngine::queryWithSemantics()` + `TemporalSemantics` enum
+- [x] Temporal uniqueness constraints — `BiTemporalTable::hasUniquenessConflict(key, period)` (C++ layer; SQL syntax deferred → Phase 3b)
+- [x] Gap detection in valid-time coverage — `BiTemporalTable::findGaps(key, from, to)` (C++ layer; SQL syntax deferred → Phase 3b)
+- [x] Temporal foreign keys — `TemporalForeignKey::validate(parent, key, period)` (C++ layer; CASCADE/RESTRICT at SQL layer deferred → Phase 4)
+- [x] `FOR SYSTEM_TIME BETWEEN…AND` — `TemporalQueryEngine::queryBetween()` (closed-interval variant of `queryFromTo`)
+- [x] `FOR APPLICATION_TIME AS OF` — `TemporalQueryEngine::queryApplicationTime()` (valid-time point query over `BiTemporalTable`)
+- [x] `FOR APPLICATION_TIME FROM…TO` — `TemporalQueryEngine::queryApplicationTimeRange()` (valid-time range query over `BiTemporalTable`)
+- [x] Index-accelerated AS-OF query — `TemporalQueryEngine::queryAsOfWithIndex()` (version pruning via `TemporalIndex`)
+- [x] Result caching — `QueryCache` + `detail::queryAsOfCached()` (LRU cache for frequently accessed historical snapshots)
 - [I] `PERIOD FOR SYSTEM_TIME` / `PERIOD FOR APPLICATION_TIME` DDL in AQL parser (deferred → Phase 3b)
 - [I] `FOR SYSTEM_TIME AS OF` / `FOR APPLICATION_TIME` temporal clause parsing (deferred → Phase 3b)
-- [I] Temporal uniqueness constraints (no valid-time overlaps per key) (deferred → Phase 3b)
 
 ### Phase 4: Advanced Retention, Compression & CDC (Status: Planned 📋)
 - [I] Archive-to-cold-storage retention variant (`s3://` or filesystem archive before purge)
 - [I] Storage-based retention (cap history to N GB per table)
 - [I] Delta and Gorilla compression for historical versions
 - [I] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with Kafka integration
-- [I] Temporal foreign keys with period-aware cascade/restrict actions
+- [I] Temporal foreign keys CASCADE/RESTRICT at SQL layer
 - [I] Interval-tree index for `O(log n + k)` overlap detection
 
 ### Phase 5: Tooling & Migration (Status: Planned 📋)

@@ -207,3 +207,179 @@ TEST_F(BiTemporalTableTest, GetAllKeys_EmptyTable_ReturnsEmpty) {
     auto keys = table.getAllKeys();
     EXPECT_TRUE(keys.empty());
 }
+
+// ── findGaps ──────────────────────────────────────────────────────────────────
+
+TEST_F(BiTemporalTableTest, FindGaps_FullyCovered_ReturnsEmpty) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 500});
+    auto gaps = table.findGaps("c1", 100, 500);
+    EXPECT_TRUE(gaps.empty());
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_NoRows_ReturnsFullInterval) {
+    auto gaps = table.findGaps("nonexistent", 100, 500);
+    ASSERT_EQ(gaps.size(), 1u);
+    EXPECT_EQ(gaps[0].start, 100);
+    EXPECT_EQ(gaps[0].end,   500);
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_LeadingGap) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {200, 500});
+    auto gaps = table.findGaps("c1", 100, 500);
+    ASSERT_EQ(gaps.size(), 1u);
+    EXPECT_EQ(gaps[0].start, 100);
+    EXPECT_EQ(gaps[0].end,   200);
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_TrailingGap) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 400});
+    auto gaps = table.findGaps("c1", 100, 500);
+    ASSERT_EQ(gaps.size(), 1u);
+    EXPECT_EQ(gaps[0].start, 400);
+    EXPECT_EQ(gaps[0].end,   500);
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_MiddleGap) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 200});
+    table.insertWithValidTime("c1", {{"v", 2}}, {300, 500});
+    auto gaps = table.findGaps("c1", 100, 500);
+    ASSERT_EQ(gaps.size(), 1u);
+    EXPECT_EQ(gaps[0].start, 200);
+    EXPECT_EQ(gaps[0].end,   300);
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_MultipleGaps) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {200, 300});
+    table.insertWithValidTime("c1", {{"v", 2}}, {400, 500});
+    auto gaps = table.findGaps("c1", 100, 600);
+    ASSERT_EQ(gaps.size(), 3u);
+    EXPECT_EQ(gaps[0].start, 100);
+    EXPECT_EQ(gaps[0].end,   200);
+    EXPECT_EQ(gaps[1].start, 300);
+    EXPECT_EQ(gaps[1].end,   400);
+    EXPECT_EQ(gaps[2].start, 500);
+    EXPECT_EQ(gaps[2].end,   600);
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_DeletedRowCreatesGap) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 500});
+    table.deleteForValidTime("c1", 300); // close the only current row
+    auto gaps = table.findGaps("c1", 100, 500);
+    ASSERT_EQ(gaps.size(), 1u);
+    EXPECT_EQ(gaps[0].start, 100);
+    EXPECT_EQ(gaps[0].end,   500);
+}
+
+TEST_F(BiTemporalTableTest, FindGaps_InvalidRange_ReturnsEmpty) {
+    auto gaps = table.findGaps("c1", 500, 100); // from >= to
+    EXPECT_TRUE(gaps.empty());
+}
+
+// ── hasUniquenessConflict ─────────────────────────────────────────────────────
+
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_NoRows_ReturnsFalse) {
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {100, 200}));
+}
+
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_NonOverlapping_ReturnsFalse) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 200});
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {200, 300})); // adjacent, no overlap
+}
+
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_Overlapping_ReturnsTrue) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 300});
+    EXPECT_TRUE(table.hasUniquenessConflict("c1", {200, 400})); // overlaps [100,300)
+}
+
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_AfterDelete_ReturnsFalse) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 300});
+    table.deleteForValidTime("c1", 200); // logically delete
+    // The row is no longer current, so no conflict
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {100, 300}));
+}
+
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_ConsistentWithInsert) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 300});
+    TimeRange conflict_range{200, 400};
+    // hasUniquenessConflict should predict the result of insertWithValidTime
+    bool would_conflict = table.hasUniquenessConflict("c1", conflict_range);
+    bool insert_result = table.insertWithValidTime("c1", {{"v", 2}}, conflict_range);
+    EXPECT_TRUE(would_conflict);
+    EXPECT_FALSE(insert_result); // insert should have been rejected
+}
+
+TEST_F(BiTemporalTableTest, HasUniquenessConflict_InvalidPeriod_ReturnsFalse) {
+    table.insertWithValidTime("c1", {{"v", 1}}, {100, 300});
+    // An empty or reversed period cannot conflict with anything
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {200, 200})); // start == end
+    EXPECT_FALSE(table.hasUniquenessConflict("c1", {300, 100})); // start > end
+}
+
+// ── TemporalForeignKey ────────────────────────────────────────────────────────
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_ValidReference_ReturnsTrue) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_1", {{"name", "Alice"}}, {1000, 5000});
+
+    TemporalForeignKey fk{"employees"};
+
+    // Child period [2000,3000) is fully contained within parent [1000,5000)
+    EXPECT_TRUE(fk.validate(parent, "emp_1", {2000, 3000}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_ParentKeyMissing_ReturnsFalse) {
+    BiTemporalTable parent{"employees", "node_a"};
+
+    TemporalForeignKey fk{"employees"};
+
+    EXPECT_FALSE(fk.validate(parent, "emp_missing", {1000, 2000}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_ChildPeriodExceedsParent_ReturnsFalse) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_2", {{"name", "Bob"}}, {2000, 4000});
+
+    TemporalForeignKey fk{"employees"};
+
+    // Child period [1000,5000) exceeds parent [2000,4000) – FK violation
+    EXPECT_FALSE(fk.validate(parent, "emp_2", {1000, 5000}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_ParentRowDeleted_ReturnsFalse) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_3", {{"name", "Carol"}}, {1000, 5000});
+    parent.deleteForValidTime("emp_3", 3000); // logically delete
+
+    TemporalForeignKey fk{"employees"};
+
+    // Parent row is no longer current → FK cannot be satisfied
+    EXPECT_FALSE(fk.validate(parent, "emp_3", {2000, 3000}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_ExactPeriodMatch_ReturnsTrue) {
+    BiTemporalTable parent{"contracts", "node_a"};
+    parent.insertWithValidTime("con_1", {{"val", 42}}, {500, 1500});
+
+    TemporalForeignKey fk{"contracts"};
+
+    // Child period exactly equals parent period → valid
+    EXPECT_TRUE(fk.validate(parent, "con_1", {500, 1500}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_WrongTableName_ReturnsFalse) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_1", {{"name", "Alice"}}, {1000, 5000});
+
+    // FK configured for "contracts" but we pass an "employees" table → rejected
+    TemporalForeignKey fk{"contracts"};
+    EXPECT_FALSE(fk.validate(parent, "emp_1", {2000, 3000}));
+}
+
+TEST_F(BiTemporalTableTest, TemporalForeignKey_EmptyTableName_SkipsNameCheck) {
+    BiTemporalTable parent{"employees", "node_a"};
+    parent.insertWithValidTime("emp_1", {{"name", "Alice"}}, {1000, 5000});
+
+    // An empty parent_table_name skips the name guard → validate on content only
+    TemporalForeignKey fk{""};
+    EXPECT_TRUE(fk.validate(parent, "emp_1", {2000, 3000}));
+}

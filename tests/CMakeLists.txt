@@ -13109,6 +13109,41 @@ else()
     message(STATUS "Temporal conflict resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
+    message(STATUS "Adding Temporal: BiTemporalTable focused tests (bi-temporal, gap detection, FK)")
+
+    add_executable(test_bi_temporal_focused
+        temporal/test_bi_temporal.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_bi_temporal_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_bi_temporal_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_bi_temporal_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BiTemporalFocusedTests COMMAND test_bi_temporal_focused)
+
+    set_tests_properties(BiTemporalFocusedTests PROPERTIES
+        LABELS "temporal;bitemporal;gap;uniqueness;foreign-key;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BiTemporalTable: insert/update/delete, bi-temporal queries, gap detection, uniqueness constraints, temporal foreign keys")
+else()
+    message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
+endif()
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

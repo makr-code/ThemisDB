@@ -23,6 +23,7 @@
 #include "auth/jwt_key_rotation_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include <openssl/crypto.h>
 
 namespace themis {
 namespace auth {
@@ -35,6 +36,22 @@ JWTKeyRotationManager::JWTKeyRotationManager(
     , blacklist_(blacklist)
     , config_(config)
 {}
+
+JWTKeyRotationManager::~JWTKeyRotationManager() {
+    // Zero all key identifier strings before the map is destroyed.
+    // Kid strings may carry information about key type/algorithm (e.g.
+    // "rsa-2048-2024-03") which would be sensitive if leaked in a core dump.
+    // Note: this zeroes the *current* allocation of each std::string; if the
+    // unordered_map ever rehashed and triggered internal string moves, prior
+    // memory locations would not be covered. For full lifecycle protection,
+    // migrate JWKKeyInfo::kid to SecureString in a future refactor.
+    for (auto& [kid_str, info] : keys_) {
+        if (!info.kid.empty()) {
+            char* buf = &info.kid[0];
+            OPENSSL_cleanse(buf, info.kid.size());
+        }
+    }
+}
 
 void JWTKeyRotationManager::rotateActiveKey(
     const std::string& new_kid,

@@ -216,5 +216,244 @@ bool TemporalQueryEngine::matchesFilters(const VersionedDocument& doc,
     return true;
 }
 
+// ============================================================================
+// FOR SYSTEM_TIME BETWEEN...AND (SQL:2011 §7.6)
+// ============================================================================
+
+std::vector<VersionedDocument> TemporalQueryEngine::queryBetween(
+    const SystemVersionedTable& table,
+    Timestamp start,
+    Timestamp end,
+    const std::vector<RowFilter>& filters) {
+
+    // BETWEEN start AND end uses a closed interval [start, end].
+    // queryFromTo uses the half-open interval [from, to), so convert:
+    //   to = end + 1   (safe for all values except kMaxTimestamp, which is INT64_MAX)
+    // When end == kMaxTimestamp the guard below prevents the +1 overflow and
+    // [start, kMaxTimestamp) already covers the full "end of time" boundary.
+    Timestamp to = (end < kMaxTimestamp) ? end + 1 : kMaxTimestamp;
+    return queryFromTo(table, start, to, filters);
+}
+
+// ============================================================================
+// FOR APPLICATION_TIME queries (SQL:2011 §7.6)
+// ============================================================================
+
+std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
+    const BiTemporalTable& table,
+    Timestamp valid_at,
+    const std::vector<RowFilter>& filters) {
+
+    // Passing sys_as_of = kMaxTimestamp is the sentinel for "current" system
+    // time: scanBiTemporal(kMaxTimestamp, valid_at) returns rows that are
+    // current at system time (i.e., still open-ended in system_time, meaning
+    // sys_time.end == kMaxTimestamp) and whose valid_time contains valid_at.
+    auto rows = table.scanBiTemporal(kMaxTimestamp, valid_at);
+
+    if (filters.empty()) {
+        return rows;
+    }
+
+    std::vector<VersionedDocument> result;
+    result.reserve(rows.size());
+    for (auto& row : rows) {
+        if (matchesFilters(row, filters)) {
+            result.push_back(std::move(row));
+        }
+    }
+    return result;
+}
+
+std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTimeRange(
+    const BiTemporalTable& table,
+    Timestamp valid_from,
+    Timestamp valid_to,
+    const std::vector<RowFilter>& filters) {
+
+    TimeRange query_range{valid_from, valid_to};
+
+    // Enumerate all keys and collect current rows whose valid_time overlaps
+    // the requested range.
+    auto keys = table.getAllKeys();
+    std::vector<VersionedDocument> result;
+
+    for (const auto& key : keys) {
+        // getHistory returns all versions; filter to current sys_time rows
+        // whose valid_time overlaps [valid_from, valid_to).
+        auto history = table.getHistory(key);
+        for (auto& row : history) {
+            if (!row.isCurrent()) {
+                continue;
+            }
+            if (row.valid_time.overlaps(query_range)) {
+                if (filters.empty() || matchesFilters(row, filters)) {
+                    result.push_back(std::move(row));
+                }
+            }
+        }
+    }
+    return result;
+}
+
+// ============================================================================
+// Index-accelerated query (query optimization)
+// ============================================================================
+
+std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
+    const SystemVersionedTable& table,
+    const TemporalIndex& index,
+    Timestamp as_of,
+    const std::vector<RowFilter>& filters) {
+
+    // Use the temporal index to identify candidate keys whose period contains
+    // as_of, then fetch only those rows from the table (version pruning).
+    auto candidates = index.queryPoint(as_of);
+
+    if (candidates.empty()) {
+        // An empty candidate list from a populated index means there are
+        // genuinely no rows that contain as_of — return an empty result rather
+        // than silently performing an O(n) full scan.  Only fall back to a
+        // full scan when the index itself has no entries (uninitialized /
+        // not yet populated), because in that case the index cannot be trusted
+        // to answer the query correctly.
+        if (index.size() == 0) {
+            return queryAsOf(table, as_of, filters);
+        }
+        return {};
+    }
+
+    std::vector<VersionedDocument> result;
+    result.reserve(candidates.size());
+
+    // Build a narrow range [as_of, as_of+1) to limit the history scan per key.
+    // Guard against overflow: when as_of is the max sentinel the range [as_of, kMaxTimestamp)
+    // is equivalent for the contains() check that follows.
+    Timestamp range_end = (as_of < kMaxTimestamp) ? as_of + 1 : kMaxTimestamp;
+
+    for (const auto& entry : candidates) {
+        auto versions = table.getHistoryInRange(entry.key, {as_of, range_end});
+        for (auto& v : versions) {
+            if (v.sys_time.contains(as_of)) {
+                if (filters.empty() || matchesFilters(v, filters)) {
+                    result.push_back(std::move(v));
+                }
+            }
+        }
+    }
+    return result;
+}
+
+// ============================================================================
+// QueryCache implementation
+// ============================================================================
+
+QueryCache::QueryCache(size_t max_entries)
+    : max_entries_(max_entries > 0 ? max_entries : 1) {}
+
+std::optional<std::vector<VersionedDocument>> QueryCache::get(
+    const std::string& table_name, Timestamp as_of) const {
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = store_.find(CacheKey{table_name, as_of});
+    if (it == store_.end()) {
+        return std::nullopt;
+    }
+    // Update LRU sequence on access (mutable members allow this in a const method).
+    it->second.lru_seq = ++lru_counter_;
+    // Return a copy so the caller owns the data independently of the cache store.
+    return it->second.value;
+}
+
+void QueryCache::put(const std::string& table_name,
+                     Timestamp as_of,
+                     std::vector<VersionedDocument> result) {
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    CacheKey key{table_name, as_of};
+
+    // Update existing entry.
+    auto it = store_.find(key);
+    if (it != store_.end()) {
+        it->second.value    = std::move(result);
+        it->second.lru_seq  = ++lru_counter_;
+        return;
+    }
+
+    // Evict LRU entry when the cache is full.
+    if (store_.size() >= max_entries_) {
+        auto oldest = store_.begin();
+        for (auto jt = store_.begin(); jt != store_.end(); ++jt) {
+            if (jt->second.lru_seq < oldest->second.lru_seq) {
+                oldest = jt;
+            }
+        }
+        store_.erase(oldest);
+    }
+
+    store_.emplace(key, Entry{key, std::move(result), ++lru_counter_});
+}
+
+void QueryCache::invalidate(const std::string& table_name) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto it = store_.begin(); it != store_.end(); ) {
+        if (it->first.table_name == table_name) {
+            it = store_.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void QueryCache::clear() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    store_.clear();
+}
+
+size_t QueryCache::size() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return store_.size();
+}
+
+// ============================================================================
+// Cached query helper
+// ============================================================================
+
+namespace detail {
+
+std::vector<VersionedDocument> queryAsOfCached(
+    const SystemVersionedTable& table,
+    Timestamp as_of,
+    QueryCache& cache,
+    const std::vector<RowFilter>& filters) {
+
+    // Check cache (unfiltered result set).
+    auto cached = cache.get(table.tableName(), as_of);
+    std::vector<VersionedDocument> rows;
+
+    if (cached.has_value()) {
+        rows = std::move(cached).value();
+    } else {
+        rows = TemporalQueryEngine::queryAsOf(table, as_of);
+        cache.put(table.tableName(), as_of, rows);
+    }
+
+    // Apply filters post-cache using the shared helper to avoid logic duplication.
+    if (filters.empty()) {
+        return rows;
+    }
+
+    std::vector<VersionedDocument> result;
+    result.reserve(rows.size());
+    for (auto& row : rows) {
+        if (TemporalQueryEngine::matchesFilters(row, filters)) {
+            result.push_back(std::move(row));
+        }
+    }
+    return result;
+}
+
+} // namespace detail
+
 } // namespace temporal
 } // namespace themisdb

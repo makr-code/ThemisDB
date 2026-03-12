@@ -34,8 +34,12 @@
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
 #include "temporal/bi_temporal.h"
+#include "temporal/temporal_index.h"
 #include <functional>
+#include <mutex>
+#include <optional>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -203,15 +207,208 @@ public:
         const std::vector<RowFilter>& filters = {});
 
     /**
+     * FOR SYSTEM_TIME BETWEEN start AND end (SQL:2011 §7.6)
+     *
+     * Returns all row versions whose sys_time overlaps the closed interval
+     * [start, end].  This differs from queryFromTo() which uses the
+     * half-open interval [from, to).
+     *
+     * @param table    Source table.
+     * @param start    Inclusive range start.
+     * @param end      Inclusive range end.
+     * @param filters  Optional field-level row filters.
+     */
+    static std::vector<VersionedDocument> queryBetween(
+        const SystemVersionedTable& table,
+        Timestamp start,
+        Timestamp end,
+        const std::vector<RowFilter>& filters = {});
+
+    /**
+     * FOR APPLICATION_TIME AS OF valid_at (SQL:2011 §7.6)
+     *
+     * Returns all rows from a BiTemporalTable that are current in
+     * system-time (latest versions, i.e., sys_time end == kMaxTimestamp)
+     * and whose valid-time period contains valid_at.
+     * This is the application-time counterpart of queryAsOf().
+     *
+     * @param table    Source bi-temporal table.
+     * @param valid_at Point-in-application-time to query.
+     * @param filters  Optional field-level row filters.
+     */
+    static std::vector<VersionedDocument> queryApplicationTime(
+        const BiTemporalTable& table,
+        Timestamp valid_at,
+        const std::vector<RowFilter>& filters = {});
+
+    /**
+     * FOR APPLICATION_TIME FROM valid_from TO valid_to (SQL:2011 §7.6)
+     *
+     * Returns all rows from a BiTemporalTable whose valid-time period
+     * overlaps the half-open interval [valid_from, valid_to).
+     * Only rows that are currently active (sys_time end == kMaxTimestamp)
+     * are returned.
+     *
+     * @param table       Source bi-temporal table.
+     * @param valid_from  Start of the valid-time range (inclusive).
+     * @param valid_to    End of the valid-time range (exclusive).
+     * @param filters     Optional field-level row filters.
+     */
+    static std::vector<VersionedDocument> queryApplicationTimeRange(
+        const BiTemporalTable& table,
+        Timestamp valid_from,
+        Timestamp valid_to,
+        const std::vector<RowFilter>& filters = {});
+
+    /**
+     * Index-accelerated AS-OF query (query optimization).
+     *
+     * Uses an externally managed TemporalIndex to identify candidate keys
+     * before consulting the table, reducing the scan space for large
+     * history tables.  Falls back to a full scan when the index returns
+     * no candidates.
+     *
+     * @param table   Source table.
+     * @param index   Temporal index built over the same table.
+     * @param as_of   Point-in-time to query.
+     * @param filters Optional field-level row filters.
+     */
+    static std::vector<VersionedDocument> queryAsOfWithIndex(
+        const SystemVersionedTable& table,
+        const TemporalIndex& index,
+        Timestamp as_of,
+        const std::vector<RowFilter>& filters = {});
+
+    /**
      * Compute the overlap intersection of two time ranges.
      * Returns an empty range (start==end) when there is no overlap.
      */
     static TimeRange intersect(const TimeRange& a, const TimeRange& b) noexcept;
 
-private:
+    /**
+     * Apply a list of field-level row filters to a document.
+     * Returns true only when the document satisfies every filter.
+     * Accessible as a public helper so that code outside the class (e.g.
+     * detail::queryAsOfCached) can reuse the same filter logic.
+     */
     static bool matchesFilters(const VersionedDocument& doc,
                                const std::vector<RowFilter>& filters);
+
 };
+
+// ============================================================================
+// QueryCache — result caching for frequently accessed historical data
+// ============================================================================
+
+/**
+ * QueryCache
+ *
+ * A simple thread-safe LRU cache for AS-OF query results.  Each entry maps a
+ * (table_name, as_of) key to the list of VersionedDocument rows returned by a
+ * previous queryAsOf() call.
+ *
+ * Intended usage pattern:
+ * @code
+ *   QueryCache cache(128);  // keep up to 128 distinct (table, time) entries
+ *   auto rows = detail::queryAsOfCached(table, as_of, cache);
+ * @endcode
+ *
+ * Thread-safety: all public methods are thread-safe.
+ */
+class QueryCache {
+public:
+    /**
+     * Construct a cache with the given maximum number of entries.
+     * When the cache is full the least-recently-used entry is evicted.
+     *
+     * @param max_entries  Maximum number of (table, time) entries to retain.
+     *                     Must be > 0.
+     */
+    explicit QueryCache(size_t max_entries = 256);
+
+    /**
+     * Look up a cached result.
+     * Returns a copy of the cached vector, or std::nullopt on cache miss.
+     * Returning by value avoids returning a pointer into internal storage
+     * that can be invalidated by a concurrent put/invalidate/clear call.
+     */
+    std::optional<std::vector<VersionedDocument>> get(const std::string& table_name,
+                                                      Timestamp as_of) const;
+
+    /** Store a result in the cache, evicting LRU entry if necessary. */
+    void put(const std::string& table_name,
+             Timestamp as_of,
+             std::vector<VersionedDocument> result);
+
+    /** Invalidate all entries for the given table (e.g. after a write). */
+    void invalidate(const std::string& table_name);
+
+    /** Discard all cached entries. */
+    void clear();
+
+    size_t size() const;
+
+private:
+    struct CacheKey {
+        std::string table_name;
+        Timestamp   as_of;
+        bool operator==(const CacheKey& o) const noexcept {
+            return as_of == o.as_of && table_name == o.table_name;
+        }
+    };
+
+    struct CacheKeyHash {
+        std::size_t operator()(const CacheKey& k) const noexcept {
+            std::size_t h1 = std::hash<std::string>{}(k.table_name);
+            std::size_t h2 = std::hash<int64_t>{}(k.as_of);
+            // Portable hash-combine (based on boost::hash_combine).
+            // Avoids shifting by a fixed 32 bits which is UB on 32-bit platforms.
+            h1 ^= h2 + 0x9e3779b9u + (h1 << 6u) + (h1 >> 2u);
+            return h1;
+        }
+    };
+
+    struct Entry {
+        CacheKey                     key;
+        std::vector<VersionedDocument> value;
+        // insertion-order position in lru_order_; updated on every access
+        size_t lru_seq{0};
+    };
+
+    size_t max_entries_;
+    mutable size_t lru_counter_{0};
+
+    mutable std::unordered_map<CacheKey, Entry, CacheKeyHash> store_;
+    mutable std::mutex mutex_;
+};
+
+// ============================================================================
+// Cached query helpers (free functions — use QueryCache)
+// ============================================================================
+
+namespace detail {
+
+/**
+ * Cached AS-OF query.
+ *
+ * Returns the cached result if available; otherwise executes
+ * TemporalQueryEngine::queryAsOf(), caches the result, and returns it.
+ * The cache is keyed on (table.tableName(), as_of); field-level filters
+ * are applied *after* cache lookup so that the cache stores unfiltered
+ * result sets and multiple filter combinations can reuse the same entry.
+ *
+ * @param table    Source table.
+ * @param as_of    Point-in-time (ms since epoch).
+ * @param cache    Shared QueryCache instance.
+ * @param filters  Optional field-level row filters (applied post-cache).
+ */
+std::vector<VersionedDocument> queryAsOfCached(
+    const SystemVersionedTable& table,
+    Timestamp as_of,
+    QueryCache& cache,
+    const std::vector<RowFilter>& filters = {});
+
+} // namespace detail
 
 } // namespace temporal
 } // namespace themisdb

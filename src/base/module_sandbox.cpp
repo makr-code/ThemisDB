@@ -32,6 +32,8 @@
 #include "themis/base/wasm_plugin_sandbox.h"
 #include "themis/base/wasm_runtime_injector.h"
 
+#include <cctype>
+#include <cerrno>
 #include <cstring>
 #include <sstream>
 
@@ -41,12 +43,15 @@
 #  include <dlfcn.h>
 #  include <fstream>
 #  include <sys/resource.h>
+#  include <sys/stat.h>
 #  include <unistd.h>
 #  if __has_include(<sys/prctl.h>)
 #    include <sys/prctl.h>
 #    define THEMIS_HAVE_PRCTL 1
 #  endif
 #endif
+
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace modules {
@@ -93,6 +98,41 @@ private:
 };
 
 } // anonymous namespace
+
+// =============================================================================
+// Linux cgroup v2 helpers
+// =============================================================================
+
+#if defined(__linux__)
+namespace {
+
+/// Returns true when the cgroup v2 unified hierarchy is mounted at
+/// /sys/fs/cgroup AND the process has write permission to create sub-cgroups
+/// under /sys/fs/cgroup/themis/.
+static bool isCgroupV2Available() {
+    // cgroup v2 exposes a "cgroup.controllers" file at the root of the
+    // unified hierarchy.  Its absence means the kernel uses only cgroup v1.
+    struct stat st{};
+    if (::stat("/sys/fs/cgroup/cgroup.controllers", &st) != 0) {
+        return false;
+    }
+    // A writable root means we can create /sys/fs/cgroup/themis/<id>/.
+    return ::access("/sys/fs/cgroup", W_OK) == 0;
+}
+
+/// Replace characters that are invalid inside a cgroup directory name
+/// (anything that is not alphanumeric, '_', or '-') with '_'.
+static std::string sanitizeCgroupName(const std::string& name) {
+    std::string out;
+    out.reserve(name.size());
+    for (unsigned char c : name) {
+        out += (std::isalnum(c) || c == '_' || c == '-') ? static_cast<char>(c) : '_';
+    }
+    return out.empty() ? "sandbox" : out;
+}
+
+} // anonymous namespace
+#endif
 
 // =============================================================================
 // AbiChecker
@@ -244,6 +284,8 @@ struct ModuleSandbox::PlatformHandle {
     bool mem_limit_applied = false;
     struct rlimit saved_cpu_limit{};
     bool cpu_limit_applied = false;
+    // true when setupCgroupV2() succeeded
+    bool cgroup_v2_active = false;
 #endif
 };
 
@@ -327,8 +369,8 @@ void ModuleSandbox::shutdown() {
         setrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
         platform_->cpu_limit_applied = false;
     }
-    // On a real production system, we'd also remove the cgroup.
-    // For now, just mark as inactive.
+    // Remove the cgroup v2 hierarchy created during launch.
+    teardownCgroupV2();
 #endif
 
     // Release WASM sandbox (v1.8.0)
@@ -368,19 +410,39 @@ bool ModuleSandbox::applyMemoryLimit() {
     return true;
 
 #elif defined(__linux__)
-    // Use RLIMIT_AS (virtual address space) as a portable fallback.
-    // Production deployments should use cgroups v2 memory.max instead.
-    getrlimit(RLIMIT_AS, &platform_->saved_mem_limit);
+    // Attempt cgroup v2 enforcement first (memory.max) by setting up a
+    // shared cgroup v2 sandbox. setupCgroupV2() initializes cgroup v2
+    // state; applyCpuLimit() is responsible for writing cpu.max when
+    // cgroup_v2_active is true.
+    if (!platform_->cgroup_v2_active) {
+        if (isCgroupV2Available()) {
+            if (!setupCgroupV2()) {
+                spdlog::warn("ModuleSandbox({}): cgroup v2 setup failed – "
+                             "falling back to RLIMIT_AS for memory enforcement",
+                             module_name_);
+            }
+        } else {
+            spdlog::warn("ModuleSandbox({}): cgroup v2 unavailable "
+                         "(no write access to /sys/fs/cgroup) – "
+                         "using RLIMIT_AS as memory-limit fallback",
+                         module_name_);
+        }
+    }
 
-    struct rlimit new_limit{};
-    new_limit.rlim_cur = static_cast<rlim_t>(config_.max_memory_mb) * 1024 * 1024;
-    new_limit.rlim_max = new_limit.rlim_cur;
+    if (!platform_->cgroup_v2_active) {
+        // Fall back to RLIMIT_AS (virtual address space).
+        getrlimit(RLIMIT_AS, &platform_->saved_mem_limit);
 
-    if (setrlimit(RLIMIT_AS, &new_limit) == 0) {
-        platform_->mem_limit_applied = true;
-    } else {
-        launch_warnings_.push_back(
-            "RLIMIT_AS not supported on this kernel – memory limit not enforced");
+        struct rlimit new_limit{};
+        new_limit.rlim_cur = static_cast<rlim_t>(config_.max_memory_mb) * 1024 * 1024;
+        new_limit.rlim_max = new_limit.rlim_cur;
+
+        if (setrlimit(RLIMIT_AS, &new_limit) == 0) {
+            platform_->mem_limit_applied = true;
+        } else {
+            launch_warnings_.push_back(
+                "RLIMIT_AS not supported on this kernel – memory limit not enforced");
+        }
     }
     return true;
 
@@ -413,8 +475,26 @@ bool ModuleSandbox::applyCpuLimit() {
     return true;
 
 #elif defined(__linux__)
-    // setrlimit RLIMIT_CPU caps total CPU seconds (coarse fallback).
-    // Real cgroup enforcement requires privileged cgroup v2 setup.
+    if (platform_->cgroup_v2_active && config_.max_cpu_percent > 0) {
+        // cgroup v2 cpu.max: "<quota_us> <period_us>"
+        // Use a 100 ms period; quota = percent * period / 100.
+        const int period_us = 100000; // 100 ms
+        const int quota_us  = config_.max_cpu_percent * period_us / 100;
+        std::ofstream cpu_max(platform_->cgroup_path + "/cpu.max");
+        if (!cpu_max) {
+            spdlog::warn("ModuleSandbox({}): failed to write cpu.max – "
+                         "CPU rate limit not enforced via cgroup v2",
+                         module_name_);
+        } else {
+            cpu_max << quota_us << " " << period_us << "\n";
+        }
+    } else if (config_.max_cpu_percent > 0 && !platform_->cgroup_v2_active) {
+        spdlog::warn("ModuleSandbox({}): cgroup v2 unavailable – "
+                     "CPU rate ({}%) cannot be enforced; RLIMIT_CPU used as fallback",
+                     module_name_, config_.max_cpu_percent);
+    }
+
+    // RLIMIT_CPU caps total CPU-seconds regardless of cgroup v2 availability.
     if (config_.max_cpu_time_seconds > 0) {
         getrlimit(RLIMIT_CPU, &platform_->saved_cpu_limit);
 
@@ -429,11 +509,6 @@ bool ModuleSandbox::applyCpuLimit() {
                 "RLIMIT_CPU not applied on this kernel – CPU time limit not enforced");
         }
     }
-    if (config_.max_cpu_percent > 0) {
-        launch_warnings_.push_back(
-            "CPU rate limit (cgroups): requires privileged cgroup v2 setup – "
-            "RLIMIT_CPU used as fallback");
-    }
     return true;
 
 #else
@@ -441,6 +516,163 @@ bool ModuleSandbox::applyCpuLimit() {
     return true;
 #endif
 }
+
+// =============================================================================
+// ModuleSandbox – cgroup v2 setup / teardown (Linux only)
+// =============================================================================
+
+#if defined(__linux__)
+
+bool ModuleSandbox::setupCgroupV2() {
+    // Derive a unique, filesystem-safe cgroup directory name from the module
+    // name and the current PID.  Using the PID prevents collisions when the
+    // same module name is launched concurrently by different processes.
+    const std::string safe_name =
+        sanitizeCgroupName(module_name_) + "_" + std::to_string(::getpid());
+    const std::string base_dir  = "/sys/fs/cgroup/themis";
+    const std::string cg_path   = base_dir + "/" + safe_name;
+
+    // Ensure the "themis" parent directory exists.
+    if (::mkdir(base_dir.c_str(), 0755) != 0 && errno != EEXIST) {
+        spdlog::warn("ModuleSandbox({}): mkdir({}) failed: {} – "
+                     "cgroup v2 unavailable",
+                     module_name_, base_dir, ::strerror(errno));
+        return false;
+    }
+
+    // Enable the memory and cpu controllers in the parent's subtree_control
+    // so that child cgroups can use memory.max and cpu.max.  These writes are
+    // best-effort: if the controller is already enabled the write is a no-op;
+    // if the open/write fails we warn and continue, letting the later
+    // memory.max / cpu.max writes surface any resulting errors.
+    {
+        std::ofstream subtree(base_dir + "/cgroup.subtree_control");
+        if (!subtree) {
+            spdlog::warn("ModuleSandbox({}): cannot open cgroup.subtree_control "
+                         "in {} – memory/CPU controllers may not be available",
+                         module_name_, base_dir);
+            // Non-fatal: proceed and let the memory.max/cpu.max writes surface the real error.
+        } else {
+            subtree << "+memory +cpu\n";
+            if (!subtree) {
+                spdlog::warn("ModuleSandbox({}): write to cgroup.subtree_control "
+                             "failed – memory/CPU controllers may not be available",
+                             module_name_);
+            }
+        }
+    }
+
+    // Create the sandbox-specific sub-cgroup.
+    if (::mkdir(cg_path.c_str(), 0755) != 0) {
+        spdlog::warn("ModuleSandbox({}): mkdir({}) failed: {} – "
+                     "cgroup v2 unavailable",
+                     module_name_, cg_path, ::strerror(errno));
+        return false;
+    }
+
+    platform_->cgroup_path = cg_path;
+
+    // ── memory.max ──────────────────────────────────────────────────────
+    if (config_.max_memory_mb > 0) {
+        std::ofstream mem_max(cg_path + "/memory.max");
+        if (!mem_max) {
+            spdlog::warn("ModuleSandbox({}): cannot write memory.max – "
+                         "falling back to RLIMIT_AS",
+                         module_name_);
+            ::rmdir(cg_path.c_str());
+            platform_->cgroup_path.clear();
+            return false;
+        }
+        mem_max << (static_cast<uint64_t>(config_.max_memory_mb) * 1024ULL * 1024ULL)
+                << "\n";
+        if (!mem_max) {
+            spdlog::warn("ModuleSandbox({}): write to memory.max failed – "
+                         "falling back to RLIMIT_AS",
+                         module_name_);
+            ::rmdir(cg_path.c_str());
+            platform_->cgroup_path.clear();
+            return false;
+        }
+    }
+
+    // ── Enroll the current process in the new cgroup ─────────────────────
+    {
+        std::ofstream procs(cg_path + "/cgroup.procs");
+        if (!procs) {
+            spdlog::warn("ModuleSandbox({}): cannot write cgroup.procs – "
+                         "falling back to RLIMIT_AS",
+                         module_name_);
+            ::rmdir(cg_path.c_str());
+            platform_->cgroup_path.clear();
+            return false;
+        }
+        procs << ::getpid() << "\n";
+        if (!procs) {
+            spdlog::warn("ModuleSandbox({}): write to cgroup.procs failed – "
+                         "falling back to RLIMIT_AS",
+                         module_name_);
+            ::rmdir(cg_path.c_str());
+            platform_->cgroup_path.clear();
+            return false;
+        }
+    }
+
+    platform_->cgroup_v2_active = true;
+    spdlog::debug("ModuleSandbox({}): cgroup v2 active at {}",
+                  module_name_, cg_path);
+    return true;
+}
+
+void ModuleSandbox::teardownCgroupV2() {
+    if (!platform_->cgroup_v2_active || platform_->cgroup_path.empty()) return;
+
+    bool migrated = false;
+
+    // Move the current process back to the cgroup v2 root so that the
+    // sandbox sub-directory becomes empty and can be removed.
+    {
+        std::ofstream root_procs("/sys/fs/cgroup/cgroup.procs");
+        if (!root_procs) {
+            spdlog::warn("ModuleSandbox({}): failed to open cgroup v2 root procs file "
+                         "for teardown; cgroup '{}' may still contain tasks",
+                         module_name_, platform_->cgroup_path);
+        } else {
+            root_procs << ::getpid() << "\n";
+            if (!root_procs) {
+                spdlog::warn("ModuleSandbox({}): failed to write PID to cgroup v2 root "
+                             "procs file during teardown; cgroup '{}' may still "
+                             "contain tasks",
+                             module_name_, platform_->cgroup_path);
+            } else {
+                migrated = true;
+            }
+        }
+    }
+
+    // rmdir(2) succeeds only when the cgroup has no tasks and no children.
+    bool removed = false;
+    if (::rmdir(platform_->cgroup_path.c_str()) != 0) {
+        spdlog::warn("ModuleSandbox({}): rmdir({}) failed: {}",
+                     module_name_, platform_->cgroup_path, ::strerror(errno));
+    } else {
+        removed = true;
+    }
+
+    // Only clear state if we successfully migrated tasks out and removed
+    // the cgroup directory; otherwise, keep the path for diagnostics and
+    // potential later cleanup attempts.
+    if (migrated && removed) {
+        platform_->cgroup_path.clear();
+        platform_->cgroup_v2_active = false;
+    } else {
+        spdlog::warn(
+            "ModuleSandbox({}): cgroup v2 teardown incomplete; keeping cgroup path '{}' "
+            "for potential later cleanup",
+            module_name_, platform_->cgroup_path);
+    }
+}
+
+#endif // __linux__
 
 bool ModuleSandbox::applyNetworkIsolation() {
 #if defined(__linux__)

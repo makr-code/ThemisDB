@@ -29,6 +29,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <future>
+#include <chrono>
 
 using namespace themis::auth;
 
@@ -498,4 +500,94 @@ TEST(LDAPAuthenticatorTest, DISABLED_IntegrationWithLDAPServer)
     // Authenticate with wrong password
     const auto bad_result = auth.authenticate("testuser", "wrongpassword");
     EXPECT_FALSE(bad_result.success);
+}
+
+// ===========================================================================
+// authenticateAsync() — thread pool dispatch
+// ===========================================================================
+
+// authenticateAsync() must throw synchronously for empty username (same as
+// authenticate()), because input validation runs on the calling thread.
+TEST(LDAPAuthenticatorAsyncTest, ThrowsOnEmptyUsernameSync)
+{
+    LDAPAuthenticator auth;
+    ASSERT_TRUE(auth.initialize(makeConfig()));
+
+    EXPECT_THROW(
+        (void)auth.authenticateAsync("", "password"),
+        AuthException
+    );
+}
+
+// authenticateAsync() must throw synchronously for empty password.
+TEST(LDAPAuthenticatorAsyncTest, ThrowsOnEmptyPasswordSync)
+{
+    LDAPAuthenticator auth;
+    ASSERT_TRUE(auth.initialize(makeConfig()));
+
+    EXPECT_THROW(
+        (void)auth.authenticateAsync("user", ""),
+        AuthException
+    );
+}
+
+// authenticateAsync() must throw synchronously for oversized username.
+TEST(LDAPAuthenticatorAsyncTest, ThrowsOnOversizedUsernameSync)
+{
+    LDAPAuthenticator auth;
+    ASSERT_TRUE(auth.initialize(makeConfig()));
+
+    const std::string long_user(MAX_LDAP_USERNAME_LENGTH + 1, 'a');
+    EXPECT_THROW(
+        (void)auth.authenticateAsync(long_user, "password"),
+        AuthException
+    );
+}
+
+// authenticateAsync() returns a valid std::future (not initialized) even
+// when the authenticator is not initialized — the error is returned through
+// the future rather than thrown synchronously.
+TEST(LDAPAuthenticatorAsyncTest, ReturnsFailedFutureWhenNotInitialized)
+{
+    LDAPAuthenticator auth;
+    // Do NOT call initialize()
+
+    auto fut = auth.authenticateAsync("jdoe", "secret");
+    ASSERT_TRUE(fut.valid());
+
+    // Should be ready quickly (no real LDAP call)
+    ASSERT_EQ(fut.wait_for(std::chrono::seconds(5)),
+              std::future_status::ready);
+
+    const auto result = fut.get();
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+// Submitting multiple concurrent authenticateAsync() calls must not deadlock.
+TEST(LDAPAuthenticatorAsyncTest, ConcurrentCallsDoNotDeadlock)
+{
+    LDAPAuthenticator auth;
+    // Intentionally NOT calling initialize() so all async calls return a
+    // fast-fail result without any network I/O.  This exercises the thread
+    // pool correctness (no deadlock, all futures become ready) without
+    // requiring a real LDAP server or accepting a network timeout.
+
+    constexpr int kTasks = 16;
+    std::vector<std::future<LDAPAuthResult>> futures;
+    futures.reserve(kTasks);
+
+    for (int i = 0; i < kTasks; ++i) {
+        futures.push_back(auth.authenticateAsync("user" + std::to_string(i), "pass"));
+    }
+
+    for (auto& f : futures) {
+        ASSERT_TRUE(f.valid());
+        ASSERT_EQ(f.wait_for(std::chrono::seconds(5)),
+                  std::future_status::ready);
+        // Not-initialized path returns a failed result immediately (no throw).
+        const auto result = f.get();
+        EXPECT_FALSE(result.success);
+        EXPECT_FALSE(result.error_message.empty());
+    }
 }

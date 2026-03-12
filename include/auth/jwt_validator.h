@@ -32,8 +32,10 @@
 #include <optional>
 #include <memory>
 #include <shared_mutex>
+#include <future>
 
 #include "auth/token_blacklist.h"
+#include "auth/auth_worker_thread_pool.h"
 
 namespace themis { namespace utils { class AuditLogger; } }
 
@@ -111,6 +113,21 @@ public:
      * @throws std::runtime_error if invalid/expired
      */
     JWTClaims parseAndValidate(const std::string& token);
+
+    /**
+     * @brief Non-blocking variant of parseAndValidate().
+     *
+     * Dispatches token validation (including any JWKS refresh) to the internal
+     * AuthWorkerThreadPool so the calling thread is never stalled.
+     *
+     * Performance target: JWKS refresh never blocks the validation hot path
+     * for more than 1 ms (visible to callers).
+     *
+     * @param token Bearer token (with or without "Bearer " prefix)
+     * @return std::future<JWTClaims> — becomes ready when validation completes
+     * @throws std::runtime_error if the internal thread pool is not running
+     */
+    std::future<JWTClaims> validateAsync(const std::string& token);
     
     /**
      * @brief Derive user-specific encryption key from DEK
@@ -198,6 +215,20 @@ private:
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
     TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
     utils::AuditLogger* audit_logger_ = nullptr;     // Optional audit logger (non-owning)
+
+    /// Prevents concurrent JWKS refresh stampedes: only one thread performs the
+    /// HTTP fetch at a time; others wait on jwks_refresh_cv_ for it to finish.
+    mutable std::mutex jwks_refresh_mutex_;
+    mutable std::condition_variable jwks_refresh_cv_;
+    mutable bool jwks_refreshing_{false};
+
+    /// Worker thread pool for validateAsync().
+    /// LIFETIME NOTE: worker_pool_ MUST be the last data member declared.
+    /// C++ destroys members in reverse-declaration order, so worker_pool_ is
+    /// destroyed first — its shutdown() joins all in-flight tasks before any
+    /// other member (cache, config, etc.) is released.  This guarantees that
+    /// tasks capturing 'this' never access a dangling member.
+    std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
 };
 
 } // namespace auth
