@@ -1,6 +1,7 @@
-# Replication Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Replication Module - Future Enhancements
 
 - Raft-like leader election and follower management with automatic failover and heartbeat-based health monitoring
 - SYNC, SEMI_SYNC, and ASYNC replication modes with configurable `min_sync_replicas` for quorum writes

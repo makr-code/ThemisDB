@@ -1,6 +1,7 @@
-# Security Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Security Module - Future Enhancements
 
 - TLS 1.3 and mTLS for all client-server and service-to-service transport
 - AES-256-GCM encryption-at-rest for stored documents, index entries, and WAL segments
@@ -49,7 +50,43 @@ Planned security features and improvements for ThemisDB.
 9. [Cloud Security Integration](#cloud-security-integration)
 10. [Blockchain Integration](#blockchain-integration)
 
-## Post-Quantum Cryptography
+## Source Code Audit Findings (2026-03-12)
+
+### `ArrowUserRegistrationPlugin`: Implement Apache Arrow Integration
+**Priority:** High
+**Target Version:** v1.8.0
+
+`arrow_user_registration_plugin.cpp` has 4 TODO stubs:
+- Line 82: "TODO: Implement Apache Arrow integration"
+- Line 118: "TODO: Implement Arrow-based authentication"
+- Line 136: "TODO: Implement bulk user sync from Arrow source"
+- Line 156: "TODO: Implement user update from Arrow source"
+
+All Arrow-based user management operations silently no-op.
+
+**Implementation Notes:**
+- `[ ]` Wire `arrow::RecordBatch` deserialization for user records using the Apache Arrow C++ library (already a dependency via `src/exporters/arrow_ipc_exporter.cpp`).
+- `[ ]` Implement `bulkSyncFromArrow(arrow::RecordBatch)`: upsert users from a record batch with columns `user_id`, `password_hash`, `roles`, `email`.
+- `[ ]` Implement `authenticateFromArrow(user_id, credentials)`: look up user record from the Arrow-backed store.
+- `[ ]` Add unit tests: bulk sync of 1000 users via Arrow record batch; verify authentication works for synced users.
+
+---
+
+### `AQLInjectionDetector`: AST-Level Validation
+**Priority:** High
+**Target Version:** v1.4.0
+
+`aql_injection_detector.cpp` line 246: "TODO (v1.4.0): Implement AST-level operation validation". The current detector operates on raw query strings using regex patterns. AST-level validation would catch injection attacks that evade regex by using non-standard whitespace, Unicode escapes, or concatenation.
+
+**Implementation Notes:**
+- `[ ]` Integrate with `src/query/aql_parser.cpp`: parse the query into an AST before validation.
+- `[ ]` Walk the AST to detect disallowed operation nodes (e.g., `EXECUTE`, DDL operations in read-only contexts, unbounded `FOR` loops without `LIMIT`).
+- `[ ]` Fall back to regex-based detection if AST parsing fails (defense in depth).
+- `[ ]` Add unit tests: queries that bypass regex but have dangerous AST nodes are detected.
+
+---
+
+
 
 ### Overview
 Prepare for quantum computing threats by implementing quantum-resistant algorithms.

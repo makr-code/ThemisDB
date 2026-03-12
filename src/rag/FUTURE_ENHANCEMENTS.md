@@ -1,6 +1,7 @@
-# RAG Module Implementation - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# RAG Module Implementation - Future Enhancements
 
 - Multi-judge evaluation pipeline (faithfulness, relevance, completeness, coherence, bias) with Fast/Balanced/Thorough modes
 - Streaming retrieval with incremental context-window filling for low first-token latency
@@ -37,7 +38,27 @@
 
 This document outlines planned implementation improvements for the RAG module source files.
 
-## Performance Optimizations
+## Source Code Audit Findings (2026-03-12)
+
+### `LLMIntegration` and `LLMJudgeIntegration`: Replace Stub/Mock Mode with Real Engine
+**Priority:** High
+**Target Version:** v1.8.0
+
+Both RAG LLM integration points fall back to stubs when no real inference engine is configured:
+- `llm_integration.cpp` line 109: "No inference engine configured, using stub"
+- `llm_judge_integration.cpp` line 45/173: "initialized in MOCK MODE - evaluations will use stub responses"
+
+In mock mode, all evaluations produce fixed scores, making the RAG evaluation pipeline useless in production.
+
+**Implementation Notes:**
+- `[ ]` `LLMIntegration::generate()`: wire to `LlamaResourceManager::generate()` via the same `THEMIS_ENABLE_LLM` guard used by `ingestion/llm_adapter.cpp`; fail fast with a clear error (not a stub) when `THEMIS_ENABLE_LLM=OFF` and a real engine is required.
+- `[ ]` `LLMJudgeIntegration`: accept an `ILLMInferenceEngine*` injection in the constructor; throw `std::invalid_argument` at construction time when `nullptr` is passed if mock mode is disabled via `config_.allow_mock = false`.
+- `[ ]` Add a configuration key `rag.llm_judge.allow_mock` (default `false` in production, `true` in tests) so mock mode is explicitly opt-in.
+- `[ ]` Add unit tests that verify the judge returns real score variance (not constant scores) when a mock engine returning random values is injected.
+
+---
+
+
 
 ### 1. SIMD-Accelerated Similarity Computation
 **Priority:** High  
