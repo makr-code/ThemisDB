@@ -37,6 +37,7 @@
 #include "temporal/temporal_index.h"
 #include <functional>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -226,8 +227,9 @@ public:
     /**
      * FOR APPLICATION_TIME AS OF valid_at (SQL:2011 §7.6)
      *
-     * Returns all rows from a BiTemporalTable that are current at the
-     * given system time and whose valid-time period contains valid_at.
+     * Returns all rows from a BiTemporalTable that are current in
+     * system-time (latest versions, i.e., sys_time end == kMaxTimestamp)
+     * and whose valid-time period contains valid_at.
      * This is the application-time counterpart of queryAsOf().
      *
      * @param table    Source bi-temporal table.
@@ -283,9 +285,15 @@ public:
      */
     static TimeRange intersect(const TimeRange& a, const TimeRange& b) noexcept;
 
-private:
+    /**
+     * Apply a list of field-level row filters to a document.
+     * Returns true only when the document satisfies every filter.
+     * Accessible as a public helper so that code outside the class (e.g.
+     * detail::queryAsOfCached) can reuse the same filter logic.
+     */
     static bool matchesFilters(const VersionedDocument& doc,
                                const std::vector<RowFilter>& filters);
+
 };
 
 // ============================================================================
@@ -302,7 +310,7 @@ private:
  * Intended usage pattern:
  * @code
  *   QueryCache cache(128);  // keep up to 128 distinct (table, time) entries
- *   auto rows = TemporalQueryEngine::queryAsOfCached(table, as_of, cache);
+ *   auto rows = detail::queryAsOfCached(table, as_of, cache);
  * @endcode
  *
  * Thread-safety: all public methods are thread-safe.
@@ -318,9 +326,14 @@ public:
      */
     explicit QueryCache(size_t max_entries = 256);
 
-    /** Look up a cached result.  Returns nullptr on cache miss. */
-    const std::vector<VersionedDocument>* get(const std::string& table_name,
-                                              Timestamp as_of) const;
+    /**
+     * Look up a cached result.
+     * Returns a copy of the cached vector, or std::nullopt on cache miss.
+     * Returning by value avoids returning a pointer into internal storage
+     * that can be invalidated by a concurrent put/invalidate/clear call.
+     */
+    std::optional<std::vector<VersionedDocument>> get(const std::string& table_name,
+                                                      Timestamp as_of) const;
 
     /** Store a result in the cache, evicting LRU entry if necessary. */
     void put(const std::string& table_name,
@@ -348,7 +361,10 @@ private:
         std::size_t operator()(const CacheKey& k) const noexcept {
             std::size_t h1 = std::hash<std::string>{}(k.table_name);
             std::size_t h2 = std::hash<int64_t>{}(k.as_of);
-            return h1 ^ (h2 << 32u) ^ (h2 >> 32u);
+            // Portable hash-combine (based on boost::hash_combine).
+            // Avoids shifting by a fixed 32 bits which is UB on 32-bit platforms.
+            h1 ^= h2 + 0x9e3779b9u + (h1 << 6u) + (h1 >> 2u);
+            return h1;
         }
     };
 

@@ -244,8 +244,10 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryApplicationTime(
     Timestamp valid_at,
     const std::vector<RowFilter>& filters) {
 
-    // scanBiTemporal(sys_as_of=now, valid_at) returns rows that are current at
-    // system time and whose valid_time contains valid_at.
+    // Passing sys_as_of = kMaxTimestamp is the sentinel for "current" system
+    // time: scanBiTemporal(kMaxTimestamp, valid_at) returns rows that are
+    // current at system time (i.e., still open-ended in system_time, meaning
+    // sys_time.end == kMaxTimestamp) and whose valid_time contains valid_at.
     auto rows = table.scanBiTemporal(kMaxTimestamp, valid_at);
 
     if (filters.empty()) {
@@ -308,8 +310,16 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
     auto candidates = index.queryPoint(as_of);
 
     if (candidates.empty()) {
-        // Index returned no candidates; fall back to full scan.
-        return queryAsOf(table, as_of, filters);
+        // An empty candidate list from a populated index means there are
+        // genuinely no rows that contain as_of — return an empty result rather
+        // than silently performing an O(n) full scan.  Only fall back to a
+        // full scan when the index itself has no entries (uninitialized /
+        // not yet populated), because in that case the index cannot be trusted
+        // to answer the query correctly.
+        if (index.size() == 0) {
+            return queryAsOf(table, as_of, filters);
+        }
+        return {};
     }
 
     std::vector<VersionedDocument> result;
@@ -340,17 +350,18 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryAsOfWithIndex(
 QueryCache::QueryCache(size_t max_entries)
     : max_entries_(max_entries > 0 ? max_entries : 1) {}
 
-const std::vector<VersionedDocument>* QueryCache::get(
+std::optional<std::vector<VersionedDocument>> QueryCache::get(
     const std::string& table_name, Timestamp as_of) const {
 
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = store_.find(CacheKey{table_name, as_of});
     if (it == store_.end()) {
-        return nullptr;
+        return std::nullopt;
     }
     // Update LRU sequence on access (mutable members allow this in a const method).
     it->second.lru_seq = ++lru_counter_;
-    return &it->second.value;
+    // Return a copy so the caller owns the data independently of the cache store.
+    return it->second.value;
 }
 
 void QueryCache::put(const std::string& table_name,
@@ -417,17 +428,17 @@ std::vector<VersionedDocument> queryAsOfCached(
     const std::vector<RowFilter>& filters) {
 
     // Check cache (unfiltered result set).
-    const auto* cached = cache.get(table.tableName(), as_of);
+    auto cached = cache.get(table.tableName(), as_of);
     std::vector<VersionedDocument> rows;
 
-    if (cached != nullptr) {
-        rows = *cached;
+    if (cached.has_value()) {
+        rows = std::move(cached).value();
     } else {
         rows = TemporalQueryEngine::queryAsOf(table, as_of);
         cache.put(table.tableName(), as_of, rows);
     }
 
-    // Apply filters post-cache.
+    // Apply filters post-cache using the shared helper to avoid logic duplication.
     if (filters.empty()) {
         return rows;
     }
@@ -435,11 +446,9 @@ std::vector<VersionedDocument> queryAsOfCached(
     std::vector<VersionedDocument> result;
     result.reserve(rows.size());
     for (auto& row : rows) {
-        bool ok = true;
-        for (const auto& f : filters) {
-            if (!f.matches(row.data)) { ok = false; break; }
+        if (TemporalQueryEngine::matchesFilters(row, filters)) {
+            result.push_back(std::move(row));
         }
-        if (ok) result.push_back(std::move(row));
     }
     return result;
 }

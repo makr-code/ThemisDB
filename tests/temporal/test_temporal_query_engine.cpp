@@ -463,9 +463,21 @@ TEST_F(TemporalQueryEngineTest, QueryAsOfWithIndex_PopulatedIndex_ReturnsCorrect
 
 TEST_F(TemporalQueryEngineTest, QueryAsOfWithIndex_EmptyIndex_FallsBackToFullScan) {
     TemporalIndex empty_index{"empty"};
+    // An empty (uninitialized) index falls back to queryAsOf → both current rows.
     auto rows = TemporalQueryEngine::queryAsOfWithIndex(table, empty_index, now());
-    // Empty index → falls back to queryAsOf which returns both current rows
     EXPECT_EQ(rows.size(), 2u);
+}
+
+TEST_F(TemporalQueryEngineTest, QueryAsOfWithIndex_PopulatedIndexNoMatch_ReturnsEmpty) {
+    // Build an index that covers a time range wholly in the past (e.g. t=1..2).
+    TemporalIndex populated_index{"old_index"};
+    populated_index.insert({"emp1", {1, 2}, {}});
+
+    // Querying with a current timestamp finds no candidates, but since the
+    // index is populated we should get an empty result (not a fallback scan).
+    auto rows = TemporalQueryEngine::queryAsOfWithIndex(
+        table, populated_index, now());
+    EXPECT_TRUE(rows.empty());
 }
 
 // ── QueryCache ────────────────────────────────────────────────────────────────
@@ -475,15 +487,15 @@ TEST_F(TemporalQueryEngineTest, QueryCache_MissAndHit) {
     Timestamp t_now = now();
 
     // First access: cache miss
-    EXPECT_EQ(cache.get("t", t_now), nullptr);
+    EXPECT_FALSE(cache.get("t", t_now).has_value());
 
     // Populate cache
     auto rows = TemporalQueryEngine::queryAsOf(table, t_now);
     cache.put("t", t_now, rows);
 
     // Second access: cache hit
-    const auto* hit = cache.get("t", t_now);
-    ASSERT_NE(hit, nullptr);
+    auto hit = cache.get("t", t_now);
+    ASSERT_TRUE(hit.has_value());
     EXPECT_EQ(hit->size(), rows.size());
 }
 
@@ -491,10 +503,10 @@ TEST_F(TemporalQueryEngineTest, QueryCache_InvalidateByTable) {
     QueryCache cache(32);
     Timestamp t = 12345;
     cache.put("tbl", t, {});
-    EXPECT_NE(cache.get("tbl", t), nullptr);
+    EXPECT_TRUE(cache.get("tbl", t).has_value());
 
     cache.invalidate("tbl");
-    EXPECT_EQ(cache.get("tbl", t), nullptr);
+    EXPECT_FALSE(cache.get("tbl", t).has_value());
 }
 
 TEST_F(TemporalQueryEngineTest, QueryCache_Clear_RemovesAllEntries) {
@@ -515,8 +527,8 @@ TEST_F(TemporalQueryEngineTest, QueryCache_EvictsLRUWhenFull) {
     cache.put("tbl", 3, {});
     EXPECT_EQ(cache.size(), 2u);
     // Entry 3 must be present; entry 1 must have been evicted
-    EXPECT_NE(cache.get("tbl", 3), nullptr);
-    EXPECT_EQ(cache.get("tbl", 1), nullptr);
+    EXPECT_TRUE(cache.get("tbl", 3).has_value());
+    EXPECT_FALSE(cache.get("tbl", 1).has_value());
 }
 
 // ── queryAsOfCached ───────────────────────────────────────────────────────────
@@ -529,7 +541,7 @@ TEST_F(TemporalQueryEngineTest, QueryAsOfCached_SecondCallHitsCache) {
     EXPECT_EQ(r1.size(), 2u);
 
     // Cache must now contain the entry
-    EXPECT_NE(cache.get(table.tableName(), t_now), nullptr);
+    EXPECT_TRUE(cache.get(table.tableName(), t_now).has_value());
 
     auto r2 = tq_detail::queryAsOfCached(table, t_now, cache);
     EXPECT_EQ(r1.size(), r2.size());
@@ -545,7 +557,7 @@ TEST_F(TemporalQueryEngineTest, QueryAsOfCached_WithFilter_FiltersPostCache) {
     EXPECT_EQ(rows[0].data["name"], "Alice");
 
     // The cache should store the unfiltered result (size 2)
-    const auto* cached = cache.get(table.tableName(), t_now);
-    ASSERT_NE(cached, nullptr);
+    auto cached = cache.get(table.tableName(), t_now);
+    ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->size(), 2u);
 }
