@@ -426,6 +426,11 @@ TEST(ModuleSandbox, CgroupV2SetupAndTeardown) {
 /// Integration test: fork a child process, enroll it in a cgroup limited to
 /// a small amount of memory, have it allocate more than the limit, and verify
 /// the OOM killer terminates it within 500 ms.
+///
+/// Exit-code protocol used by the child:
+///   42  – cgroup setup succeeded; child allocated memory and survived (test failure)
+///   0   – cgroup launch failed inside child (skip/no-op, parent will skip)
+///   OOM – killed by SIGKILL before it can exit (expected / pass)
 TEST(ModuleSandbox, CgroupV2MemoryLimitEnforcement) {
     if (!cgroupV2Writable()) {
         GTEST_SKIP() << "cgroup v2 not writable – skipping OOM enforcement test";
@@ -434,6 +439,9 @@ TEST(ModuleSandbox, CgroupV2MemoryLimitEnforcement) {
     // Use an 8 MiB hard limit; the child will try to fault 32 MiB.
     constexpr size_t limit_mb  = 8;
     constexpr size_t alloc_mb  = 32;
+    // Sentinel exit code: child exits with this value when the sandbox
+    // launched successfully and it survived the allocation (test failure).
+    constexpr int EXIT_SURVIVED = 42;
 
     pid_t child = ::fork();
     ASSERT_NE(child, -1) << "fork() failed: " << ::strerror(errno);
@@ -448,7 +456,8 @@ TEST(ModuleSandbox, CgroupV2MemoryLimitEnforcement) {
         ModuleSandbox sb(cfg);
 
         // If cgroup setup fails (e.g. kernel delegates our specific sub-tree
-        // differently), just exit 0 so the parent can skip gracefully.
+        // differently), exit 0 so the parent can distinguish this from
+        // a successful-but-survived allocation.
         if (!sb.launch("oom_test_child")) {
             _exit(0);
         }
@@ -467,8 +476,9 @@ TEST(ModuleSandbox, CgroupV2MemoryLimitEnforcement) {
             ::munmap(p, bytes);
         }
 
-        // If we reach here the OOM killer did not fire; exit normally.
-        _exit(0);
+        // If we reach here the OOM killer did not fire after a successful
+        // cgroup v2 setup.  Use the sentinel code so the parent knows.
+        _exit(EXIT_SURVIVED);
     }
 
     // ── parent ───────────────────────────────────────────────────────────
@@ -492,14 +502,22 @@ TEST(ModuleSandbox, CgroupV2MemoryLimitEnforcement) {
                   "cgroup v2 OOM enforcement may not be working";
     }
 
-    // The child either exited normally (cgroup v2 launch failed inside child)
-    // or was killed by SIGKILL (OOM).  Both are acceptable outcomes given that
-    // the child itself skips via _exit(0) when the launch fails.
-    EXPECT_TRUE(WIFEXITED(wstatus) || WIFSIGNALED(wstatus));
-    if (WIFSIGNALED(wstatus)) {
-        EXPECT_EQ(WTERMSIG(wstatus), SIGKILL)
-            << "Expected SIGKILL from cgroup OOM killer";
+    if (WIFEXITED(wstatus)) {
+        const int code = WEXITSTATUS(wstatus);
+        if (code == 0) {
+            // cgroup launch failed inside the child – treat as skip.
+            GTEST_SKIP() << "cgroup v2 launch failed inside child process; skipping";
+        }
+        // Any other non-zero code (including EXIT_SURVIVED) means the child
+        // survived the allocation with an active cgroup – that is a failure.
+        FAIL() << "Child survived memory allocation with cgroup v2 active "
+                  "(exit code " << code << "); OOM enforcement is not working";
     }
+
+    // Killed by a signal – the only acceptable signal is SIGKILL from OOM.
+    ASSERT_TRUE(WIFSIGNALED(wstatus)) << "Unexpected child state";
+    EXPECT_EQ(WTERMSIG(wstatus), SIGKILL)
+        << "Expected SIGKILL from cgroup OOM killer";
 }
 
 #endif // __linux__

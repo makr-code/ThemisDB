@@ -32,6 +32,7 @@
 #include "themis/base/wasm_plugin_sandbox.h"
 #include "themis/base/wasm_runtime_injector.h"
 
+#include <cctype>
 #include <cerrno>
 #include <cstring>
 #include <sstream>
@@ -409,9 +410,10 @@ bool ModuleSandbox::applyMemoryLimit() {
     return true;
 
 #elif defined(__linux__)
-    // Attempt cgroup v2 enforcement first (memory.max).
-    // setupCgroupV2() also handles cpu.max, so call it only once from here;
-    // applyCpuLimit() will then write cpu.max when cgroup_v2_active is true.
+    // Attempt cgroup v2 enforcement first (memory.max) by setting up a
+    // shared cgroup v2 sandbox. setupCgroupV2() initializes cgroup v2
+    // state; applyCpuLimit() is responsible for writing cpu.max when
+    // cgroup_v2_active is true.
     if (!platform_->cgroup_v2_active) {
         if (isCgroupV2Available()) {
             if (!setupCgroupV2()) {
@@ -538,6 +540,28 @@ bool ModuleSandbox::setupCgroupV2() {
         return false;
     }
 
+    // Enable the memory and cpu controllers in the parent's subtree_control
+    // so that child cgroups can use memory.max and cpu.max.  These writes are
+    // best-effort: if the controller is already enabled the write is a no-op;
+    // if the open/write fails we warn and continue, letting the later
+    // memory.max / cpu.max writes surface any resulting errors.
+    {
+        std::ofstream subtree(base_dir + "/cgroup.subtree_control");
+        if (!subtree) {
+            spdlog::warn("ModuleSandbox({}): cannot open cgroup.subtree_control "
+                         "in {} – memory/CPU controllers may not be available",
+                         module_name_, base_dir);
+            // Non-fatal: proceed and let the memory.max/cpu.max writes surface the real error.
+        } else {
+            subtree << "+memory +cpu\n";
+            if (!subtree) {
+                spdlog::warn("ModuleSandbox({}): write to cgroup.subtree_control "
+                             "failed – memory/CPU controllers may not be available",
+                             module_name_);
+            }
+        }
+    }
+
     // Create the sandbox-specific sub-cgroup.
     if (::mkdir(cg_path.c_str(), 0755) != 0) {
         spdlog::warn("ModuleSandbox({}): mkdir({}) failed: {} – "
@@ -594,31 +618,58 @@ bool ModuleSandbox::setupCgroupV2() {
     }
 
     platform_->cgroup_v2_active = true;
-    spdlog::info("ModuleSandbox({}): cgroup v2 active at {}",
-                 module_name_, cg_path);
+    spdlog::debug("ModuleSandbox({}): cgroup v2 active at {}",
+                  module_name_, cg_path);
     return true;
 }
 
 void ModuleSandbox::teardownCgroupV2() {
     if (!platform_->cgroup_v2_active || platform_->cgroup_path.empty()) return;
 
+    bool migrated = false;
+
     // Move the current process back to the cgroup v2 root so that the
     // sandbox sub-directory becomes empty and can be removed.
     {
         std::ofstream root_procs("/sys/fs/cgroup/cgroup.procs");
-        if (root_procs) {
+        if (!root_procs) {
+            spdlog::warn("ModuleSandbox({}): failed to open cgroup v2 root procs file "
+                         "for teardown; cgroup '{}' may still contain tasks",
+                         module_name_, platform_->cgroup_path);
+        } else {
             root_procs << ::getpid() << "\n";
+            if (!root_procs) {
+                spdlog::warn("ModuleSandbox({}): failed to write PID to cgroup v2 root "
+                             "procs file during teardown; cgroup '{}' may still "
+                             "contain tasks",
+                             module_name_, platform_->cgroup_path);
+            } else {
+                migrated = true;
+            }
         }
     }
 
     // rmdir(2) succeeds only when the cgroup has no tasks and no children.
+    bool removed = false;
     if (::rmdir(platform_->cgroup_path.c_str()) != 0) {
         spdlog::warn("ModuleSandbox({}): rmdir({}) failed: {}",
                      module_name_, platform_->cgroup_path, ::strerror(errno));
+    } else {
+        removed = true;
     }
 
-    platform_->cgroup_path.clear();
-    platform_->cgroup_v2_active = false;
+    // Only clear state if we successfully migrated tasks out and removed
+    // the cgroup directory; otherwise, keep the path for diagnostics and
+    // potential later cleanup attempts.
+    if (migrated && removed) {
+        platform_->cgroup_path.clear();
+        platform_->cgroup_v2_active = false;
+    } else {
+        spdlog::warn(
+            "ModuleSandbox({}): cgroup v2 teardown incomplete; keeping cgroup path '{}' "
+            "for potential later cleanup",
+            module_name_, platform_->cgroup_path);
+    }
 }
 
 #endif // __linux__
