@@ -5454,7 +5454,21 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::MaintenanceScheduleRunPost: {
-            if (auto auth_err = requireAccess(req, "maintenance:admin",
+            // Parse body first to determine whether force=true is requested.
+            // The required scope depends on the flag:
+            //   force=false  →  maintenance:write  (normal ad-hoc trigger within window)
+            //   force=true   →  maintenance:admin  (bypasses the UTC window check)
+            bool force_run = false;
+            {
+                auto body = nlohmann::json::parse(req.body(), nullptr, false);
+                if (!body.is_discarded() && body.is_object() &&
+                    body.contains("force") && body["force"].is_boolean()) {
+                    force_run = body["force"].get<bool>();
+                }
+            }
+            const std::string required_scope = force_run ? "maintenance:admin"
+                                                          : "maintenance:write";
+            if (auto auth_err = requireAccess(req, required_scope,
                                               "maintenance.schedules.run",
                                               "/api/v1/maintenance/schedules")) {
                 response = *auth_err; break;
@@ -5470,7 +5484,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                                                  "Maintenance orchestrator not initialized", req);
                     break;
                 }
-                auto result = maintenance_api_->triggerNow(id);
+                auto result = maintenance_api_->triggerNow(id, force_run);
                 if (result.value("status", "") == "error") {
                     response = makeErrorResponse(http::status::not_found,
                                                  result.value("error", "Not found"), req);

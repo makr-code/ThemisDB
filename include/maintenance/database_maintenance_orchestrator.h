@@ -216,9 +216,14 @@ public:
      * a background thread.
      *
      * @param schedule_id  ID of the schedule to run now.
+     * @param force        When true, bypass the UTC maintenance window check.
+     *                     Requires `maintenance:admin` scope at the API layer.
+     *                     The resulting job has `forced=true` and the audit log
+     *                     entry carries `"forced": true`.
      * @return Result with the newly created job (in RUNNING state) or error.
      */
-    Result<OrchestratorJob> triggerNow(const std::string& schedule_id);
+    Result<OrchestratorJob> triggerNow(const std::string& schedule_id,
+                                       bool force = false);
 
     /**
      * @brief Cancel a running job.
@@ -288,7 +293,8 @@ private:
     void deregisterFromScheduler(const std::string& schedule_id);
     std::string schedulerTaskId(const std::string& schedule_id) const;
 
-    void executeSchedule(const std::string& schedule_id, const std::string& job_id);
+    void executeSchedule(const std::string& schedule_id, const std::string& job_id,
+                         bool force = false);
     void executeTask(MaintenanceTaskType task_type,
                      OrchestratorJob& job);
 

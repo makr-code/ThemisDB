@@ -40,7 +40,7 @@ management, and aggregated health reporting.
   - Outputs: schedules reload on `start()` from RocksDB
   - Errors: corrupt schedule JSON → log warn and skip that entry; all valid entries loaded
   - Tests: restart-persistence integration test
-- [ ] `POST /api/v1/maintenance/schedules/{id}/run` – window override flag `{"force": true}` (Target: v1.1.0)
+- [x] `POST /api/v1/maintenance/schedules/{id}/run` – window override flag `{"force": true}` (Target: v1.1.0)
   - Allows operator to bypass window enforcement for emergency maintenance
   - Audit log records `forced: true`
 
