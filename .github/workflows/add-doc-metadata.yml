@@ -66,9 +66,6 @@ jobs:
             echo "Changes detected"
           fi
           
-      - name: Pull latest changes for develop
-        run: git pull origin develop
-  
       - name: Commit and push changes
         if: github.event.inputs.dry_run != 'true' && steps.check_changes.outputs.changes == 'true'
         run: |
@@ -79,7 +76,7 @@ jobs:
           - Includes author, document number, dates, and file path
           - Generated automatically by add_doc_metadata.py script"
           git pull --rebase origin develop
-          git push
+          git push origin develop
       
       - name: Summary
         if: github.event.inputs.dry_run != 'true'
