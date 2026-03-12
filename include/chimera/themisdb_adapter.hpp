@@ -38,6 +38,8 @@
 #define CHIMERA_THEMISDB_ADAPTER_HPP
 
 #include "chimera/database_adapter.hpp"
+#include <map>
+#include <mutex>
 
 namespace chimera {
 
@@ -159,6 +161,24 @@ public:
     
     Result<bool> commit_transaction(const std::string& transaction_id) override;
     Result<bool> rollback_transaction(const std::string& transaction_id) override;
+    Result<std::string> create_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+    Result<bool> rollback_to_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+    Result<bool> release_savepoint(
+        const std::string& transaction_id,
+        const std::string& savepoint_name
+    ) override;
+    Result<TransactionStats> get_transaction_stats(
+        const std::string& transaction_id
+    ) override;
+    Result<TransactionState> get_transaction_state(
+        const std::string& transaction_id
+    ) override;
     
     // ISystemInfoAdapter
     Result<SystemInfo> get_system_info() const override;
@@ -169,6 +189,18 @@ public:
 private:
     bool connected_ = false;
     std::string connection_string_;
+
+    // Transaction tracking state
+    struct TxnEntry {
+        TransactionOptions options;
+        std::chrono::system_clock::time_point start_time;
+        std::vector<std::string> savepoints; ///< Active savepoints (LIFO order)
+        size_t operations_count = 0;
+        size_t retry_count = 0;
+    };
+    mutable std::mutex txn_mutex_;
+    std::map<std::string, TxnEntry> active_transactions_;
+    size_t next_txn_id_ = 0;
 
     // Credential security helpers
     static bool is_valid_connection_string(const std::string& connection_string);
