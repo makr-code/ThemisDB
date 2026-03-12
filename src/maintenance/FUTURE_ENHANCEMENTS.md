@@ -90,12 +90,12 @@ Task execution order is currently determined by list order in `MaintenanceSchedu
 `executeTask()` in `database_maintenance_orchestrator.cpp` succeeds immediately for all delegated task types (`STORAGE_COMPACTION`, `REPLICA_VALIDATION`, `MVCC_CLEANUP`, etc.) without calling any real module code. This is documented in `ROADMAP.md` as a known limitation.
 
 **Implementation Notes:**
-- `[ ]` Add `registerTaskHandler(MaintenanceTaskType, std::shared_ptr<IMaintenanceTaskHandler>)` to the orchestrator public API.
-- `[ ]` `StorageModule` registers a handler for `STORAGE_COMPACTION` that calls `CompactionManager::triggerCompaction()`.
-- `[ ]` `ShardingModule` registers a handler for `REPLICA_VALIDATION` that calls the consistency checker.
-- `[ ]` `StorageEngine` registers a handler for `MVCC_CLEANUP` that triggers MVCC tombstone GC.
-- `[ ]` For unregistered task types, `executeTask()` returns a `SKIPPED` result with a structured log message indicating no handler is registered.
-- `[ ]` Add a `GET /api/v1/maintenance/task-handlers` endpoint listing registered handlers per task type (useful for diagnosing unregistered tasks).
+- `[x]` Add `registerTaskHandler(MaintenanceTaskType, std::shared_ptr<IMaintenanceTaskHandler>)` to the orchestrator public API.
+- `[x]` `StorageModule` registers a handler for `STORAGE_COMPACTION` that calls `CompactionManager::triggerCompaction()`.
+- `[x]` `ShardingModule` registers a handler for `REPLICA_VALIDATION` that calls the consistency checker.
+- `[x]` `StorageEngine` registers a handler for `MVCC_CLEANUP` that triggers MVCC tombstone GC.
+- `[x]` For unregistered task types, `executeTask()` returns a `SKIPPED` result with a structured log message indicating no handler is registered.
+- `[x]` Add a `GET /api/v1/maintenance/task-handlers` endpoint listing registered handlers per task type (useful for diagnosing unregistered tasks).
 
 ---
 

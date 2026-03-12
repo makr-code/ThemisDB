@@ -16,6 +16,7 @@
 
 #include "maintenance/database_maintenance_orchestrator.h"
 #include "maintenance/maintenance_schedule_store.h"
+#include "maintenance/i_maintenance_task_handler.h"
 #include "scheduler/task_scheduler.h"
 #include "storage/index_maintenance.h"
 #include "utils/audit_logger.h"
@@ -675,6 +676,26 @@ void DatabaseMaintenanceOrchestrator::registerHealthProbe(
     health_probes_[module_name] = std::move(probe);
 }
 
+void DatabaseMaintenanceOrchestrator::registerTaskHandler(
+    MaintenanceTaskType task_type,
+    std::shared_ptr<IMaintenanceTaskHandler> handler)
+{
+    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    task_handlers_[static_cast<int>(task_type)] = std::move(handler);
+}
+
+std::map<std::string, std::string>
+DatabaseMaintenanceOrchestrator::listTaskHandlers() const
+{
+    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    std::map<std::string, std::string> result;
+    for (const auto& [key, handler] : task_handlers_) {
+        result[taskTypeToString(static_cast<MaintenanceTaskType>(key))] =
+            handler->handlerName();
+    }
+    return result;
+}
+
 // ---------------------------------------------------------------------------
 // Private helpers
 // ---------------------------------------------------------------------------
@@ -1062,7 +1083,7 @@ void DatabaseMaintenanceOrchestrator::executeTask(
             break;
         }
 
-        // ---- Module-delegated tasks (handled via registered HealthProbes) ----
+        // ---- Module-delegated tasks (handled via registered IMaintenanceTaskHandler) ----
 
         case MaintenanceTaskType::METRICS_COLLECTION:
         case MaintenanceTaskType::QUOTA_CHECK:
@@ -1076,16 +1097,36 @@ void DatabaseMaintenanceOrchestrator::executeTask(
         case MaintenanceTaskType::DISASTER_RECOVERY_DRILL:
         case MaintenanceTaskType::BASELINE_UPDATE:
         case MaintenanceTaskType::STORAGE_COMPACTION: {
-            // These tasks are owned by other modules that register health probes
-            // and/or custom task handlers.  The orchestrator marks them as
-            // succeeded and records an audit event so operators can see the task
-            // ran.  Modules that need custom execution register their own handlers
-            // via registerHealthProbe() or extend executeTask() for their type.
-            spdlog::info("Maintenance task '{}': delegated to module (job={})",
-                         taskTypeToString(task_type), job.id);
-            job.state          = MaintenanceJobState::SUCCEEDED;
-            job.result_summary = "Task '" + taskTypeToString(task_type) +
-                                 "' completed (module-delegated)";
+            // Look for a registered handler for this task type.
+            std::shared_ptr<IMaintenanceTaskHandler> handler;
+            {
+                std::lock_guard<std::mutex> lock(handlers_mutex_);
+                auto it = task_handlers_.find(static_cast<int>(task_type));
+                if (it != task_handlers_.end()) {
+                    handler = it->second;
+                }
+            }
+
+            if (handler) {
+                auto result = handler->execute(job.id, task_type);
+                if (!result) {
+                    job.state         = MaintenanceJobState::FAILED;
+                    job.error_message = result.error().message();
+                } else {
+                    job.state          = MaintenanceJobState::SUCCEEDED;
+                    job.result_summary = *result;
+                }
+            } else {
+                // No handler registered – skip with a structured diagnostic message.
+                spdlog::warn(
+                    "Maintenance task '{}' skipped: no IMaintenanceTaskHandler registered "
+                    "(job={}).  Register a handler via registerTaskHandler() to enable "
+                    "real execution for this task type.",
+                    taskTypeToString(task_type), job.id);
+                job.state          = MaintenanceJobState::SKIPPED;
+                job.result_summary = "Task '" + taskTypeToString(task_type) +
+                                     "' skipped: no handler registered";
+            }
             break;
         }
 
