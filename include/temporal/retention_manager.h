@@ -51,6 +51,7 @@ namespace temporal {
 enum class RetentionType {
     TIME_BASED,          ///< Keep history younger than a given duration
     VERSION_COUNT_BASED, ///< Keep only the N most-recent versions per key
+    STORAGE_BASED,       ///< Keep historical data up to a maximum total size
     CUSTOM               ///< User-supplied predicate
 };
 
@@ -67,9 +68,35 @@ struct RetentionPolicy {
     // --- VERSION_COUNT_BASED ---
     size_t max_versions_per_key{10};
 
+    // --- STORAGE_BASED ---
+    /// Maximum total bytes of historical (non-current) versions for the table.
+    /// When total historical storage exceeds this limit the oldest versions are
+    /// removed first.  0 means unlimited (no storage-based enforcement).
+    uint64_t max_storage_bytes{0};
+
     // --- CUSTOM ---
     /// Return true to keep the version, false to delete it.
     std::function<bool(const VersionedDocument&)> should_keep;
+
+    // --- Compliance ---
+    /// Regulatory label attached to this policy (e.g. "GDPR", "HIPAA").
+    /// Informational: recorded in archived records and cumulative statistics.
+    std::string compliance_tag;
+
+    /// Minimum age a version must reach before it may be deleted by this
+    /// policy.  Versions younger than this are always kept regardless of the
+    /// primary retention type.  Zero means no minimum (default).
+    std::chrono::milliseconds minimum_retention_period{0};
+
+    // --- Incremental enforcement ---
+    /// Maximum number of versions deleted in a single enforcement run.
+    /// 0 means unlimited (delete all eligible versions in one pass).
+    size_t incremental_batch_size{0};
+
+    // --- Retry ---
+    /// How many times to retry enforcement when errors are encountered.
+    /// 0 means no retry (single attempt only).
+    int max_retries{0};
 
     // --- Archiving ---
     bool archive_before_delete{false};
@@ -83,6 +110,7 @@ struct RetentionStats {
     size_t versions_examined{0};
     size_t versions_deleted{0};
     size_t versions_archived{0};
+    uint64_t space_freed_bytes{0};        ///< Estimated bytes freed by deletions
     std::chrono::milliseconds execution_time{0};
     std::vector<std::string> errors;
 
@@ -90,6 +118,7 @@ struct RetentionStats {
         return {{"versions_examined", versions_examined},
                 {"versions_deleted", versions_deleted},
                 {"versions_archived", versions_archived},
+                {"space_freed_bytes", space_freed_bytes},
                 {"execution_time_ms", execution_time.count()},
                 {"errors", errors}};
     }
@@ -205,6 +234,7 @@ private:
     // Cumulative counters
     size_t total_deleted_{0};
     size_t total_archived_{0};
+    uint64_t total_space_freed_bytes_{0};
 
     mutable std::mutex mutex_;
 

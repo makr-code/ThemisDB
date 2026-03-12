@@ -302,3 +302,208 @@ TEST_F(RetentionManagerTest, Scheduler_EnforcesRetentionInBackground) {
     // Retention should have been enforced: only current version remains
     EXPECT_EQ(t.versionCount(), 1u);
 }
+
+// ── STORAGE_BASED ─────────────────────────────────────────────────────────────
+
+TEST_F(RetentionManagerTest, StorageBased_UnderLimit_DeletesNothing) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 3);
+
+    RetentionPolicy policy;
+    policy.type              = RetentionType::STORAGE_BASED;
+    policy.max_storage_bytes = 1024 * 1024; // 1 MB – far above test data size
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_EQ(stats.versions_deleted, 0u);
+}
+
+TEST_F(RetentionManagerTest, StorageBased_OverLimit_DeletesOldestFirst) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 5); // 1 current + 5 historical
+
+    RetentionPolicy policy;
+    policy.type              = RetentionType::STORAGE_BASED;
+    policy.max_storage_bytes = 1; // essentially 0 – forces deletion of all history
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_GT(stats.versions_deleted, 0u);
+    EXPECT_GT(stats.space_freed_bytes, 0u);
+    // Current version must always survive
+    EXPECT_GE(t.versionCount(), 1u);
+}
+
+TEST_F(RetentionManagerTest, StorageBased_ZeroLimit_IsNoop) {
+    // max_storage_bytes == 0 means "no storage-based enforcement"
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 3);
+
+    RetentionPolicy policy;
+    policy.type              = RetentionType::STORAGE_BASED;
+    policy.max_storage_bytes = 0; // unlimited
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_EQ(stats.versions_deleted, 0u);
+    EXPECT_EQ(stats.space_freed_bytes, 0u);
+}
+
+TEST_F(RetentionManagerTest, StorageBased_ArchivesBeforeDelete) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 4);
+
+    RetentionPolicy policy;
+    policy.type                  = RetentionType::STORAGE_BASED;
+    policy.max_storage_bytes     = 1; // force deletions
+    policy.archive_before_delete = true;
+    policy.archive_tag           = "cold_storage";
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_GT(stats.versions_archived, 0u);
+    EXPECT_EQ(stats.versions_archived, stats.versions_deleted);
+    auto archived = mgr.getArchivedRecords();
+    EXPECT_EQ(archived.size(), stats.versions_archived);
+}
+
+// ── space_freed_bytes ─────────────────────────────────────────────────────────
+
+TEST_F(RetentionManagerTest, SpaceFreedBytes_NonZeroAfterDeletion) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 3);
+
+    RetentionPolicy policy;
+    policy.type             = RetentionType::TIME_BASED;
+    policy.retention_period = std::chrono::milliseconds(0); // delete all history
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_GT(stats.space_freed_bytes, 0u);
+}
+
+TEST_F(RetentionManagerTest, SpaceFreedBytes_AccumulatesInCumulativeStats) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 3);
+
+    RetentionPolicy policy;
+    policy.type             = RetentionType::TIME_BASED;
+    policy.retention_period = std::chrono::milliseconds(0);
+
+    mgr.enforceRetention(t, policy);
+    auto cum = mgr.getCumulativeStats();
+    EXPECT_GT(cum["total_space_freed_bytes"].get<uint64_t>(), 0u);
+}
+
+// ── Compliance: minimum_retention_period ─────────────────────────────────────
+
+TEST_F(RetentionManagerTest, MinimumRetention_ProtectsRecentVersions) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 3);
+
+    RetentionPolicy policy;
+    policy.type                       = RetentionType::TIME_BASED;
+    policy.retention_period           = std::chrono::milliseconds(0); // want to delete all
+    policy.minimum_retention_period   = std::chrono::hours(24 * 365 * 100); // 100-year minimum
+
+    auto stats = mgr.enforceRetention(t, policy);
+    // All versions are within the 100-year minimum – nothing should be deleted
+    EXPECT_EQ(stats.versions_deleted, 0u);
+}
+
+TEST_F(RetentionManagerTest, ComplianceTag_AppearsInArchivedRecords) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 2);
+
+    RetentionPolicy policy;
+    policy.type                  = RetentionType::TIME_BASED;
+    policy.retention_period      = std::chrono::milliseconds(0);
+    policy.compliance_tag        = "GDPR";
+    policy.archive_before_delete = true;
+
+    mgr.enforceRetention(t, policy);
+
+    auto archived = mgr.getArchivedRecords();
+    EXPECT_GT(archived.size(), 0u);
+    // When archive_tag is empty the compliance_tag is used as fallback
+    for (const auto& rec : archived) {
+        EXPECT_EQ(rec.archive_tag, "GDPR");
+    }
+}
+
+TEST_F(RetentionManagerTest, ComplianceTag_ExplicitArchiveTagTakesPrecedence) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 2);
+
+    RetentionPolicy policy;
+    policy.type                  = RetentionType::TIME_BASED;
+    policy.retention_period      = std::chrono::milliseconds(0);
+    policy.compliance_tag        = "HIPAA";
+    policy.archive_tag           = "explicit_tag";
+    policy.archive_before_delete = true;
+
+    mgr.enforceRetention(t, policy);
+
+    auto archived = mgr.getArchivedRecords();
+    EXPECT_GT(archived.size(), 0u);
+    for (const auto& rec : archived) {
+        EXPECT_EQ(rec.archive_tag, "explicit_tag");
+    }
+}
+
+// ── Incremental batch enforcement ────────────────────────────────────────────
+
+TEST_F(RetentionManagerTest, IncrementalBatch_LimitsVersionsDeleted) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 5); // 5 historical versions
+
+    RetentionPolicy policy;
+    policy.type                   = RetentionType::TIME_BASED;
+    policy.retention_period       = std::chrono::milliseconds(0);
+    policy.incremental_batch_size = 2; // delete at most 2 per run
+
+    auto stats = mgr.enforceRetention(t, policy);
+    // At most 2 versions should be deleted per run
+    EXPECT_LE(stats.versions_deleted, 2u);
+    // 3 historical + current still present
+    EXPECT_GE(t.versionCount(), 4u);
+}
+
+TEST_F(RetentionManagerTest, IncrementalBatch_ZeroMeansUnlimited) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 5);
+
+    RetentionPolicy policy;
+    policy.type                   = RetentionType::TIME_BASED;
+    policy.retention_period       = std::chrono::milliseconds(0);
+    policy.incremental_batch_size = 0; // unlimited
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_EQ(stats.versions_deleted, 5u);
+    EXPECT_EQ(t.versionCount(), 1u);
+}
+
+TEST_F(RetentionManagerTest, IncrementalBatch_VersionCount_LimitsDeleted) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 5); // 1 current + 5 historical
+
+    RetentionPolicy policy;
+    policy.type                   = RetentionType::VERSION_COUNT_BASED;
+    policy.max_versions_per_key   = 1; // keep only 1 historical
+    policy.incremental_batch_size = 2; // but delete at most 2 per run
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_LE(stats.versions_deleted, 2u);
+}
+
+// ── Retry on errors ───────────────────────────────────────────────────────────
+
+TEST_F(RetentionManagerTest, Retry_SucceedsEvenWithoutErrors) {
+    // max_retries is set but there are no errors → should still work normally
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateHistory(t, 3);
+
+    RetentionPolicy policy;
+    policy.type             = RetentionType::TIME_BASED;
+    policy.retention_period = std::chrono::milliseconds(0);
+    policy.max_retries      = 3;
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_EQ(stats.versions_deleted, 3u);
+    EXPECT_TRUE(stats.errors.empty());
+}

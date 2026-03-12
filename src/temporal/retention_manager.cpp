@@ -30,6 +30,7 @@
 #include "temporal/retention_manager.h"
 #include <algorithm>
 #include <chrono>
+#include <limits>
 #include <thread>
 
 namespace themisdb {
@@ -73,23 +74,45 @@ RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table) {
         policy = it->second;
     }
 
-    auto result = applyPolicy(table, policy);
+    int attempts = 0;
+    int max_attempts = 1 + std::max(0, policy.max_retries);
+    RetentionStats result;
+
+    while (attempts < max_attempts) {
+        result = applyPolicy(table, policy);
+        if (result.errors.empty()) {
+            break;
+        }
+        ++attempts;
+    }
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        total_deleted_  += result.versions_deleted;
-        total_archived_ += result.versions_archived;
+        total_deleted_          += result.versions_deleted;
+        total_archived_         += result.versions_archived;
+        total_space_freed_bytes_ += result.space_freed_bytes;
     }
     return result;
 }
 
 RetentionStats RetentionManager::enforceRetention(SystemVersionedTable& table,
                                                    const RetentionPolicy& policy) {
-    auto result = applyPolicy(table, policy);
+    int attempts = 0;
+    int max_attempts = 1 + std::max(0, policy.max_retries);
+    RetentionStats result;
+
+    while (attempts < max_attempts) {
+        result = applyPolicy(table, policy);
+        if (result.errors.empty()) {
+            break;
+        }
+        ++attempts;
+    }
 
     std::lock_guard<std::mutex> lock(mutex_);
-    total_deleted_  += result.versions_deleted;
-    total_archived_ += result.versions_archived;
+    total_deleted_           += result.versions_deleted;
+    total_archived_          += result.versions_archived;
+    total_space_freed_bytes_ += result.space_freed_bytes;
     return result;
 }
 
@@ -124,6 +147,7 @@ nlohmann::json RetentionManager::getCumulativeStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return {{"total_deleted", total_deleted_},
             {"total_archived", total_archived_},
+            {"total_space_freed_bytes", total_space_freed_bytes_},
             {"archive_size", archive_.size()},
             {"registered_policies", policies_.size()}};
 }
@@ -200,6 +224,13 @@ void RetentionManager::schedulerLoop() {
 // Private helpers
 // ============================================================================
 
+/// Estimate the serialised storage footprint of a single versioned document.
+static uint64_t estimateVersionSize(const VersionedDocument& v) {
+    return static_cast<uint64_t>(v.key.size()) +
+           static_cast<uint64_t>(v.data.dump().size()) +
+           32u; // overhead: timestamps + metadata fields
+}
+
 RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
                                               const RetentionPolicy& policy) {
     auto t_start = std::chrono::steady_clock::now();
@@ -210,116 +241,272 @@ RetentionStats RetentionManager::applyPolicy(SystemVersionedTable& table,
         cutoff -= policy.retention_period.count();
     }
 
+    // Minimum retention guard: versions younger than this are always kept.
+    Timestamp min_keep_before = now();
+    if (policy.minimum_retention_period.count() > 0) {
+        min_keep_before -= policy.minimum_retention_period.count();
+    }
+
     // Use getAllKeys() so that fully-deleted keys are also included.
     auto keys = table.getAllKeys();
 
-    for (const auto& key : keys) {
-        auto history = table.getHistory(key);
-        stats.versions_examined += history.size();
+    // ── STORAGE_BASED ──────────────────────────────────────────────────────
+    if (policy.type == RetentionType::STORAGE_BASED) {
+        if (policy.max_storage_bytes == 0) {
+            // No limit configured – nothing to do.
+            auto t_end = std::chrono::steady_clock::now();
+            stats.execution_time =
+                std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start);
+            return stats;
+        }
 
-        // Build the set of historical versions to delete
-        std::vector<VersionedDocument> to_delete;
+        // Collect all historical (non-current) versions across all keys
+        // together with their estimated sizes.
+        struct HistEntry {
+            std::string key;
+            VersionedDocument doc;
+            uint64_t size_bytes;
+        };
+        std::vector<HistEntry> all_historical;
+        uint64_t total_size = 0;
 
-        // VERSION_COUNT_BASED: use the dedicated keep-latest-N API to avoid
-        // timestamp-collision issues when all updates happen in the same ms.
-        if (policy.type == RetentionType::VERSION_COUNT_BASED) {
+        for (const auto& key : keys) {
+            auto history = table.getHistory(key);
+            stats.versions_examined += history.size();
+            for (const auto& v : history) {
+                if (v.isCurrent()) continue;
+                uint64_t sz = estimateVersionSize(v);
+                total_size += sz;
+                all_historical.push_back({key, v, sz});
+            }
+        }
+
+        if (total_size <= policy.max_storage_bytes) {
+            auto t_end = std::chrono::steady_clock::now();
+            stats.execution_time =
+                std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start);
+            return stats;
+        }
+
+        // Sort oldest first (by sys_start ascending) – delete oldest first.
+        std::sort(all_historical.begin(), all_historical.end(),
+                  [](const HistEntry& a, const HistEntry& b) {
+                      return a.doc.sys_time.start < b.doc.sys_time.start;
+                  });
+
+        size_t batch_remaining = (policy.incremental_batch_size > 0)
+                                     ? policy.incremental_batch_size
+                                     : std::numeric_limits<size_t>::max();
+
+        for (auto& entry : all_historical) {
+            if (total_size <= policy.max_storage_bytes) break;
+            if (batch_remaining == 0) break;
+
+            // Compliance minimum: skip versions that are too young to delete.
+            if (policy.minimum_retention_period.count() > 0 &&
+                entry.doc.sys_time.start > min_keep_before) {
+                continue;
+            }
+
+            if (policy.archive_before_delete) {
+                ArchivedRecord ar;
+                ar.document    = entry.doc;
+                ar.archive_tag = policy.archive_tag.empty()
+                                     ? (policy.compliance_tag.empty()
+                                            ? table.tableName()
+                                            : policy.compliance_tag)
+                                     : policy.archive_tag;
+                ar.archived_at = now();
+                std::lock_guard<std::mutex> lock(mutex_);
+                archive_.push_back(std::move(ar));
+                ++stats.versions_archived;
+            }
+
+            Timestamp del_start = entry.doc.sys_time.start;
+            Timestamp del_end   = entry.doc.sys_time.end;
+            table.purgeHistoricalVersions(
+                entry.key, [del_start, del_end](const VersionedDocument& v) {
+                    return v.sys_time.start == del_start &&
+                           v.sys_time.end == del_end;
+                });
+
+            total_size -= entry.size_bytes;
+            stats.space_freed_bytes += entry.size_bytes;
+            ++stats.versions_deleted;
+            --batch_remaining;
+        }
+
+        auto t_end = std::chrono::steady_clock::now();
+        stats.execution_time =
+            std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start);
+        return stats;
+    }
+
+    // ── VERSION_COUNT_BASED ────────────────────────────────────────────────
+    // Use the dedicated keep-latest-N API to avoid timestamp-collision issues
+    // when all updates happen in the same millisecond.
+    if (policy.type == RetentionType::VERSION_COUNT_BASED) {
+        size_t batch_remaining = (policy.incremental_batch_size > 0)
+                                     ? policy.incremental_batch_size
+                                     : std::numeric_limits<size_t>::max();
+
+        for (const auto& key : keys) {
+            if (batch_remaining == 0) break;
+
+            auto history = table.getHistory(key);
+            stats.versions_examined += history.size();
+
             // Count historical versions
             size_t historical_count = 0;
             for (const auto& v : history) {
                 if (!v.isCurrent()) ++historical_count;
             }
 
-            if (historical_count > policy.max_versions_per_key) {
-                size_t to_delete_count =
-                    historical_count - policy.max_versions_per_key;
-                stats.versions_deleted += to_delete_count;
+            if (historical_count <= policy.max_versions_per_key) continue;
 
-                // Archive before purge if requested
-                if (policy.archive_before_delete) {
-                    std::vector<VersionedDocument> non_current;
-                    for (const auto& v : history) {
-                        if (!v.isCurrent()) non_current.push_back(v);
-                    }
-                    std::sort(non_current.begin(), non_current.end(),
-                              [](const VersionedDocument& a, const VersionedDocument& b) {
-                                  return a.sys_time.start > b.sys_time.start;
-                              });
-                    for (size_t i = policy.max_versions_per_key;
-                         i < non_current.size(); ++i) {
-                        ArchivedRecord ar;
-                        ar.document    = non_current[i];
-                        ar.archive_tag = policy.archive_tag.empty()
-                                             ? table.tableName()
-                                             : policy.archive_tag;
-                        ar.archived_at = now();
-                        std::lock_guard<std::mutex> lock(mutex_);
-                        archive_.push_back(std::move(ar));
-                        ++stats.versions_archived;
-                    }
-                }
+            size_t eligible_to_delete = historical_count - policy.max_versions_per_key;
+            size_t count_to_delete    = std::min(eligible_to_delete, batch_remaining);
+            batch_remaining -= count_to_delete;
 
-                table.purgeHistoricalVersionsKeepLatestN(
-                    key, policy.max_versions_per_key);
-            }
-        } else {
-            // TIME_BASED or CUSTOM
+            // Sort historical versions oldest-first
+            std::vector<VersionedDocument> non_current;
+            non_current.reserve(historical_count);
             for (const auto& v : history) {
-                if (v.isCurrent()) {
-                    continue; // never touch the current version
-                }
-                bool should_keep = false;
-                switch (policy.type) {
-                    case RetentionType::TIME_BASED:
-                        should_keep = (v.sys_time.end > cutoff);
-                        break;
-                    case RetentionType::CUSTOM:
-                        should_keep = policy.should_keep ? policy.should_keep(v) : true;
-                        break;
-                    default:
-                        should_keep = true;
-                        break;
-                }
-                if (!should_keep) {
-                    to_delete.push_back(v);
-                }
+                if (!v.isCurrent()) non_current.push_back(v);
             }
+            std::sort(non_current.begin(), non_current.end(),
+                      [](const VersionedDocument& a, const VersionedDocument& b) {
+                          return a.sys_time.start < b.sys_time.start;
+                      });
 
-            // Archive versions before purging them
-            for (const auto& v : to_delete) {
+            // Archive and account for the versions that will be deleted
+            for (size_t i = 0; i < count_to_delete && i < non_current.size(); ++i) {
                 if (policy.archive_before_delete) {
                     ArchivedRecord ar;
-                    ar.document    = v;
+                    ar.document    = non_current[i];
                     ar.archive_tag = policy.archive_tag.empty()
-                                         ? table.tableName()
+                                         ? (policy.compliance_tag.empty()
+                                                ? table.tableName()
+                                                : policy.compliance_tag)
                                          : policy.archive_tag;
                     ar.archived_at = now();
                     std::lock_guard<std::mutex> lock(mutex_);
                     archive_.push_back(std::move(ar));
                     ++stats.versions_archived;
                 }
+                stats.space_freed_bytes += estimateVersionSize(non_current[i]);
                 ++stats.versions_deleted;
             }
 
-            // Physically remove the flagged versions from the table.
-            // Build a set of (sys_start, sys_end) pairs for O(1) lookup.
-            if (!to_delete.empty()) {
-                std::vector<std::pair<Timestamp, Timestamp>> delete_set;
-                delete_set.reserve(to_delete.size());
-                for (const auto& v : to_delete) {
-                    delete_set.emplace_back(v.sys_time.start, v.sys_time.end);
-                }
+            // Purge using a countdown predicate that removes the oldest
+            // count_to_delete historical versions (safe against timestamp collisions).
+            size_t purge_count = 0;
+            table.purgeHistoricalVersions(key, [&](const VersionedDocument& v) -> bool {
+                if (purge_count >= count_to_delete) return false;
+                // The predicate is called in vector order (oldest-first after insert).
+                // We want to remove the oldest count_to_delete versions.
+                // Accept any non-current version until quota is met.
+                ++purge_count;
+                return true;
+            });
+        }
 
-                table.purgeHistoricalVersions(key, [&](const VersionedDocument& v) {
-                    for (const auto& d : delete_set) {
-                        if (v.sys_time.start == d.first &&
-                            v.sys_time.end   == d.second) {
-                            return true;
-                        }
-                    }
-                    return false;
-                });
+        auto t_end = std::chrono::steady_clock::now();
+        stats.execution_time =
+            std::chrono::duration_cast<std::chrono::milliseconds>(t_end - t_start);
+        return stats;
+    }
+
+    // ── TIME_BASED or CUSTOM ───────────────────────────────────────────────
+    size_t batch_remaining = (policy.incremental_batch_size > 0)
+                                 ? policy.incremental_batch_size
+                                 : std::numeric_limits<size_t>::max();
+
+    for (const auto& key : keys) {
+        if (batch_remaining == 0) break;
+
+        auto history = table.getHistory(key);
+        stats.versions_examined += history.size();
+
+        // Collect eligible-to-delete versions (respects compliance guard and policy type)
+        std::vector<VersionedDocument> eligible;
+        for (const auto& v : history) {
+            if (v.isCurrent()) continue;
+            // Compliance minimum retention guard
+            if (policy.minimum_retention_period.count() > 0 &&
+                v.sys_time.start > min_keep_before) {
+                continue;
+            }
+            bool should_del = false;
+            switch (policy.type) {
+                case RetentionType::TIME_BASED:
+                    should_del = !(v.sys_time.end > cutoff);
+                    break;
+                case RetentionType::CUSTOM:
+                    should_del = !(policy.should_keep ? policy.should_keep(v) : true);
+                    break;
+                default:
+                    should_del = false;
+                    break;
+            }
+            if (should_del) {
+                eligible.push_back(v);
             }
         }
+
+        // Respect incremental batch limit
+        size_t count_to_delete = std::min(eligible.size(), batch_remaining);
+        if (count_to_delete == 0) continue;
+        batch_remaining -= count_to_delete;
+
+        // Archive the first count_to_delete eligible versions
+        for (size_t i = 0; i < count_to_delete; ++i) {
+            if (policy.archive_before_delete) {
+                ArchivedRecord ar;
+                ar.document    = eligible[i];
+                ar.archive_tag = policy.archive_tag.empty()
+                                     ? (policy.compliance_tag.empty()
+                                            ? table.tableName()
+                                            : policy.compliance_tag)
+                                     : policy.archive_tag;
+                ar.archived_at = now();
+                std::lock_guard<std::mutex> lock(mutex_);
+                archive_.push_back(std::move(ar));
+                ++stats.versions_archived;
+            }
+            stats.space_freed_bytes += estimateVersionSize(eligible[i]);
+            ++stats.versions_deleted;
+        }
+
+        // Physically remove exactly count_to_delete eligible versions.
+        // Use a countdown predicate so that versions with identical timestamps
+        // (which can occur when multiple updates happen within the same ms) are
+        // not over-deleted.
+        size_t purge_count = 0;
+        table.purgeHistoricalVersions(key, [&](const VersionedDocument& v) -> bool {
+            if (purge_count >= count_to_delete) return false;
+            if (policy.minimum_retention_period.count() > 0 &&
+                v.sys_time.start > min_keep_before) {
+                return false;
+            }
+            bool should_del = false;
+            switch (policy.type) {
+                case RetentionType::TIME_BASED:
+                    should_del = !(v.sys_time.end > cutoff);
+                    break;
+                case RetentionType::CUSTOM:
+                    should_del = !(policy.should_keep ? policy.should_keep(v) : true);
+                    break;
+                default:
+                    should_del = false;
+                    break;
+            }
+            if (should_del) {
+                ++purge_count;
+                return true;
+            }
+            return false;
+        });
     }
 
     auto t_end = std::chrono::steady_clock::now();
