@@ -98,7 +98,7 @@ TEST_F(BpmnSerializerTest, ImportMinimalBpmn) {
   </process>
 </definitions>)";
 
-    auto result = themis::process::BpmnSerializer::importBpmn(xml);
+    auto result = themis::process::BpmnSerializer::importXml(xml);
     ASSERT_TRUE(result.ok) << result.message;
     EXPECT_EQ(result.process_id, "bauantrag");
     EXPECT_EQ(result.process_name, "Bauantragsverfahren");
@@ -107,7 +107,7 @@ TEST_F(BpmnSerializerTest, ImportMinimalBpmn) {
 }
 
 TEST_F(BpmnSerializerTest, ImportEmptyReturnsFalse) {
-    auto result = themis::process::BpmnSerializer::importBpmn("");
+    auto result = themis::process::BpmnSerializer::importXml("");
     EXPECT_FALSE(result.ok);
 }
 
@@ -130,7 +130,7 @@ TEST_F(BpmnSerializerTest, ExportProducesXml) {
     e2.edge_type = themis::ProcessEdgeType::SEQUENCE_FLOW;
     edges.push_back(e1); edges.push_back(e2);
 
-    std::string xml = themis::process::BpmnSerializer::exportBpmn(
+    std::string xml = themis::process::BpmnSerializer::exportXml(
         "proc1", "Test Process", nodes, edges);
     EXPECT_FALSE(xml.empty());
     EXPECT_NE(xml.find("proc1"), std::string::npos);
@@ -158,8 +158,8 @@ TEST_F(BpmnSerializerTest, RoundTrip) {
     edges.insert(edges.end(), {ef1, ef2});
 
     const std::string xml =
-        themis::process::BpmnSerializer::exportBpmn("rt", "RoundTrip", nodes, edges);
-    auto imported = themis::process::BpmnSerializer::importBpmn(xml);
+        themis::process::BpmnSerializer::exportXml("rt", "RoundTrip", nodes, edges);
+    auto imported = themis::process::BpmnSerializer::importXml(xml);
     ASSERT_TRUE(imported.ok) << imported.message;
     EXPECT_EQ(imported.nodes.size(), nodes.size());
     EXPECT_EQ(imported.edges.size(), edges.size());
@@ -181,14 +181,14 @@ FLOW: Antrag gestellt -> Antrag prüfen
 FLOW: Antrag prüfen -> Antrag genehmigt
 )";
 
-    auto result = themis::process::EpkSerializer::importEpk(epk_text);
+    auto result = themis::process::EpkSerializer::importText(epk_text);
     ASSERT_TRUE(result.ok) << result.message;
     EXPECT_GE(result.nodes.size(), 3u);
     EXPECT_GE(result.edges.size(), 2u);
 }
 
 TEST_F(EpkSerializerTest, ImportEmptyReturnsFalse) {
-    auto result = themis::process::EpkSerializer::importEpk("");
+    auto result = themis::process::EpkSerializer::importText("");
     EXPECT_FALSE(result.ok);
 }
 
@@ -206,15 +206,15 @@ TEST_F(EpkSerializerTest, ImportExportFromJson) {
         {{"id","f2"}, {"from","fn1"}, {"to","ev2"}}
     });
 
-    auto result = themis::process::EpkSerializer::importFromJson(epk_json);
+    auto result = themis::process::EpkSerializer::importJson(epk_json);
     ASSERT_TRUE(result.ok) << result.message;
     EXPECT_EQ(result.process_id, "ep1");
     EXPECT_EQ(result.nodes.size(), 3u);
     EXPECT_EQ(result.edges.size(), 2u);
 
     // Export back
-    std::string exported = themis::process::EpkSerializer::exportEpk(
-        "ep1", "EPK Test", result.nodes, result.edges);
+    std::string exported = themis::process::EpkSerializer::exportText(
+        "EPK Test", result.nodes, result.edges);
     EXPECT_FALSE(exported.empty());
     EXPECT_NE(exported.find("EPK Test"), std::string::npos);
 }
@@ -250,11 +250,10 @@ edges:
 
     auto result = themis::process::VccVpbImporter::importYaml(yaml);
     ASSERT_TRUE(result.ok) << result.message;
-    ASSERT_TRUE(result.record.has_value());
-    EXPECT_EQ(result.record->id, "bauantrag_einfach");
-    EXPECT_EQ(result.record->name, "Einfaches Bauantragsverfahren");
-    EXPECT_FALSE(result.record->compliance_tags.empty());
-    EXPECT_EQ(result.record->notation,
+    EXPECT_EQ(result.record.id, "bauantrag_einfach");
+    EXPECT_EQ(result.record.name, "Einfaches Bauantragsverfahren");
+    EXPECT_FALSE(result.record.compliance_tags.empty());
+    EXPECT_EQ(result.record.notation,
               themis::process::ProcessNotation::VCC_VPB);
 }
 
@@ -292,24 +291,23 @@ protected:
 
 TEST_F(LlmDescriptorTest, GenerateDescriptor) {
     auto rec  = makeRecord();
-    auto desc = themis::process::LlmProcessDescriptor::generateDescriptor(rec);
+    auto desc = themis::process::LlmProcessDescriptor::generate(rec);
     EXPECT_FALSE(desc.empty());
 
-    json j = json::parse(desc);
-    EXPECT_EQ(j.value("id", ""), "kfz-zulassung");
-    EXPECT_EQ(j.value("name", ""), "KFZ-Zulassung");
-    EXPECT_TRUE(j.contains("notation"));
-    EXPECT_TRUE(j.contains("domain"));
-    EXPECT_TRUE(j.contains("node_count"));
-    EXPECT_TRUE(j.contains("edge_count"));
-    EXPECT_EQ(j.value("node_count", 0), 3);
-    EXPECT_EQ(j.value("edge_count", 0), 2);
+    EXPECT_EQ(desc.value("process_id", ""), "kfz-zulassung");
+    EXPECT_EQ(desc.value("name", ""), "KFZ-Zulassung");
+    EXPECT_TRUE(desc.contains("notation"));
+    EXPECT_TRUE(desc.contains("domain"));
+    EXPECT_TRUE(desc.contains("nodes"));
+    EXPECT_TRUE(desc.contains("edges"));
+    EXPECT_EQ(desc["nodes"].size(), 3u);
+    EXPECT_EQ(desc["edges"].size(), 2u);
 }
 
 TEST_F(LlmDescriptorTest, GenerateSystemPrompt) {
     auto rec    = makeRecord();
-    auto prompt = themis::process::LlmProcessDescriptor::generateSystemPrompt(
-        rec, "de");
+    auto desc   = themis::process::LlmProcessDescriptor::generate(rec, {.language = "de"});
+    auto prompt = themis::process::LlmProcessDescriptor::buildSystemPrompt(desc);
     EXPECT_FALSE(prompt.empty());
     EXPECT_NE(prompt.find("KFZ-Zulassung"), std::string::npos);
     EXPECT_NE(prompt.find("BPMN"), std::string::npos);
@@ -317,16 +315,17 @@ TEST_F(LlmDescriptorTest, GenerateSystemPrompt) {
 
 TEST_F(LlmDescriptorTest, GenerateSystemPromptEnglish) {
     auto rec    = makeRecord();
-    auto prompt = themis::process::LlmProcessDescriptor::generateSystemPrompt(
-        rec, "en");
+    auto desc   = themis::process::LlmProcessDescriptor::generate(rec, {.language = "en"});
+    auto prompt = themis::process::LlmProcessDescriptor::buildSystemPrompt(desc);
     EXPECT_FALSE(prompt.empty());
     EXPECT_NE(prompt.find("KFZ-Zulassung"), std::string::npos);
 }
 
 TEST_F(LlmDescriptorTest, BuildConformancePrompt) {
     auto rec    = makeRecord();
+    auto desc   = themis::process::LlmProcessDescriptor::generate(rec, {.language = "de"});
     auto prompt = themis::process::LlmProcessDescriptor::buildConformancePrompt(
-        rec, {"Prüfung", "Zulassung"}, "de");
+        desc, json::array({"Prüfung", "Zulassung"}));
     EXPECT_FALSE(prompt.empty());
     EXPECT_NE(prompt.find("Prüfung"), std::string::npos);
 }
@@ -385,7 +384,7 @@ TEST_F(ProcessModuleTest, DeleteModel) {
     ASSERT_TRUE(mgr_->save(rec).ok);
     EXPECT_TRUE(mgr_->load("to-delete").has_value());
 
-    EXPECT_TRUE(mgr_->remove("to-delete"));
+    EXPECT_TRUE(mgr_->remove("to-delete").ok);
     EXPECT_FALSE(mgr_->load("to-delete").has_value());
 }
 
@@ -626,9 +625,9 @@ edges:
         mgr_->deployToEngine(model_id, *engine_);
 
         auto [status, inst] = engine_->startProcess(
-            model_id, "inst-" + model_id, {});
+            model_id, {{"instance_id", "inst-" + model_id}});
         if (!status.ok) return "";
-        return inst.instance_id;
+        return inst;
     }
 };
 

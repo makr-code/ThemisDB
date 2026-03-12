@@ -75,7 +75,7 @@ EpkSerializer::ImportResult EpkSerializer::importText(
     result.process_id   = process_id.empty()   ? "epk_process" : std::string(process_id);
     result.process_name = process_name.empty() ? "EPK Process" : std::string(process_name);
 
-    std::istringstream ss(std::string(epk_text));
+    std::istringstream ss{std::string(epk_text)};
     std::string line;
     int node_counter = 0;
     std::string last_node_id;

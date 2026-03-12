@@ -52,9 +52,6 @@
 #include <map>
 #include <mutex>
 #include <unordered_set>
-
-#include <map>
-#include <mutex>
 #include <string>
 #include <utility>
 #include <vector>
@@ -274,9 +271,6 @@ private:
 
     // Document: collection_name -> (doc_id -> Document)
     std::map<std::string, std::map<std::string, Document>> doc_store_;
-
-    // Active transactions: txn_id -> options
-    std::map<std::string, TransactionOptions> active_transactions_;
 
     // ── Private helpers ──────────────────────────────────────────────────────
 

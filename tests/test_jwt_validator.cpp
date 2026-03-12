@@ -341,6 +341,8 @@ TEST(JWTValidatorTest, ValidToken_AudienceValidationDisabled) {
     std::string token = up + "." + sign_RS256(fix.pkey, up);
     auto claims = validator.parseAndValidate(token);
     EXPECT_EQ(claims.sub, "u1");
+}
+
 // ---------------------------------------------------------------------------
 // Thread-safety: 32 threads is enough to reliably expose data races under
 // TSAN and represents a realistic high-concurrency auth load.

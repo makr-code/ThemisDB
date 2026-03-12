@@ -1076,6 +1076,7 @@ if(THEMIS_BUILD_MODULAR)
         if(THEMIS_ENABLE_HTTP_SERVER)
             list(APPEND _themis_test_extra_sources
                 ${THEMIS_ROOT_DIR}/src/maintenance/database_maintenance_orchestrator.cpp
+                ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_schedule_store.cpp
                 ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_registry.cpp
                 ${THEMIS_ROOT_DIR}/src/server/maintenance_api_handler.cpp
             )

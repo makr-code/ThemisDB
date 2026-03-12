@@ -305,9 +305,9 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
     // Disable referral chasing — following attacker-controlled referrals can
     // redirect authentication to a rogue LDAP server.
-    ULONG referrals_off = LDAP_OPT_OFF;
+    const void* referrals_off = LDAP_OPT_OFF;
     const ULONG referrals_result =
-        ldap_set_option(ld, LDAP_OPT_REFERRALS, static_cast<void*>(&referrals_off));
+        ldap_set_option(ld, LDAP_OPT_REFERRALS, referrals_off);
     if (referrals_result != LDAP_SUCCESS) {
         spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
                       referrals_result);
