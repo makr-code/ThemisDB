@@ -1960,6 +1960,7 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
     ../src/auth/auth_rate_limiter.cpp
+    ../src/auth/rate_limiter_backend.cpp
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
     ../src/auth/token_blacklist.cpp
