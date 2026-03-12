@@ -25,6 +25,7 @@
 #include "utils/compression_metrics.h"
 #include "utils/zstd_codec.h"
 #include "utils/lossless_vector_compression.h"
+#include "storage/gpu_compression.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -46,7 +47,12 @@ enum class CompressionMethod {
     DELTA,          // Delta encoding
     DICTIONARY,     // Dictionary encoding
     SPARSE_CSR,     // Sparse vector compression
-    ADAPTIVE        // Auto-select best method
+    ADAPTIVE,       // Auto-select best method
+
+    // GPU-accelerated variants (CUDA/HIP with CPU fallback)
+    GPU_ZSTD,       // Zstd via NVIDIA nvCOMP or HIP; CPU fallback
+    GPU_SNAPPY,     // Snappy GPU-accelerated variant; CPU fallback
+    GPU_LZ4,        // LZ4 with parallel GPU decompression; CPU fallback
 };
 
 /**
@@ -77,6 +83,9 @@ struct CompressionConfig {
     // Adaptive thresholds
     float adaptive_ratio_threshold = 1.2f;  // Min ratio to consider successful
     size_t adaptive_sample_size = 1024;     // Bytes to sample for method selection
+
+    // GPU acceleration settings (used for GPU_ZSTD / GPU_SNAPPY / GPU_LZ4)
+    themis::storage::GpuCompressionConfig gpu_config; // Forwarded to GpuCompressionManager
 };
 
 /**
@@ -201,19 +210,33 @@ private:
     CompressionResult compress_rle(const uint8_t* data, size_t size);
     CompressionResult compress_delta(const uint8_t* data, size_t size);
     CompressionResult compress_dictionary(const uint8_t* data, size_t size);
+
+    // GPU-accelerated compression implementations
+    CompressionResult compress_gpu_zstd(const uint8_t* data, size_t size);
+    CompressionResult compress_gpu_snappy(const uint8_t* data, size_t size);
+    CompressionResult compress_gpu_lz4(const uint8_t* data, size_t size);
     
     // Decompression method implementations
     std::vector<uint8_t> decompress_zstd(const std::vector<uint8_t>& data);
     std::vector<uint8_t> decompress_rle(const std::vector<uint8_t>& data);
     std::vector<uint8_t> decompress_delta(const std::vector<uint8_t>& data);
     std::vector<uint8_t> decompress_dictionary(const std::vector<uint8_t>& data);
+
+    // GPU-accelerated decompression implementations
+    std::vector<uint8_t> decompress_gpu_zstd(const std::vector<uint8_t>& data);
+    std::vector<uint8_t> decompress_gpu_snappy(const std::vector<uint8_t>& data);
+    std::vector<uint8_t> decompress_gpu_lz4(const std::vector<uint8_t>& data);
     
     // Helper functions
     DataType detect_data_type(const uint8_t* data, size_t size);
     bool is_mostly_text(const uint8_t* data, size_t size);
     bool is_sparse_data(const uint8_t* data, size_t size);
+
+    // Lazy-init GPU compression manager (created on first GPU method call)
+    themis::storage::GpuCompressionManager& gpu_manager();
     
     CompressionConfig config_;
+    std::unique_ptr<themis::storage::GpuCompressionManager> gpu_manager_;
 };
 
 /**

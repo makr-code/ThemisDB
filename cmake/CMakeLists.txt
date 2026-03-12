@@ -1443,6 +1443,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/merge_operators.cpp
     ../src/storage/compressed_storage.cpp
     ../src/storage/compression_strategy.cpp
+    ../src/storage/gpu_compression.cpp
     ../src/storage/index_maintenance.cpp
     ../src/storage/storage_engine.cpp
     ../src/storage/blob_backend_filesystem.cpp

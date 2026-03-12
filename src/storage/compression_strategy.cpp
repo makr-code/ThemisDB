@@ -27,7 +27,6 @@
 #include <unordered_map>
 #include <cstring>
 #include <cctype>
-
 namespace themis {
 namespace compression {
 
@@ -84,6 +83,15 @@ CompressionResult CompressionStrategyManager::compress(
         case CompressionMethod::DICTIONARY:
             result = compress_dictionary(data, size);
             break;
+        case CompressionMethod::GPU_ZSTD:
+            result = compress_gpu_zstd(data, size);
+            break;
+        case CompressionMethod::GPU_SNAPPY:
+            result = compress_gpu_snappy(data, size);
+            break;
+        case CompressionMethod::GPU_LZ4:
+            result = compress_gpu_lz4(data, size);
+            break;
         default:
             // Fallback: no compression
             result.data.assign(data, data + size);
@@ -131,6 +139,15 @@ std::vector<uint8_t> CompressionStrategyManager::decompress(
             break;
         case CompressionMethod::DICTIONARY:
             result = decompress_dictionary(data);
+            break;
+        case CompressionMethod::GPU_ZSTD:
+            result = decompress_gpu_zstd(data);
+            break;
+        case CompressionMethod::GPU_SNAPPY:
+            result = decompress_gpu_snappy(data);
+            break;
+        case CompressionMethod::GPU_LZ4:
+            result = decompress_gpu_lz4(data);
             break;
         default:
             result = data;
@@ -311,6 +328,105 @@ std::vector<uint8_t> CompressionStrategyManager::decompress_dictionary(const std
 }
 
 // ============================================================================
+// GPU-Accelerated Compression Method Implementations
+// ============================================================================
+
+themis::storage::GpuCompressionManager& CompressionStrategyManager::gpu_manager() {
+    if (!gpu_manager_) {
+        gpu_manager_ = std::make_unique<themis::storage::GpuCompressionManager>(
+            config_.gpu_config);
+    }
+    return *gpu_manager_;
+}
+
+CompressionResult CompressionStrategyManager::compress_gpu_zstd(
+    const uint8_t* data, size_t size)
+{
+    CompressionResult result;
+    result.original_size = size;
+    result.method_used   = CompressionMethod::GPU_ZSTD;
+
+    auto gpu_result = gpu_manager().compress(
+        data, size, themis::storage::GpuCompressionAlgorithm::ZSTD);
+
+    if (gpu_result.success) {
+        result.data              = std::move(gpu_result.data);
+        result.compression_ratio = gpu_result.compression_ratio;
+        result.success           = true;
+    } else {
+        result.data.assign(data, data + size);
+        result.compression_ratio = 1.0f;
+        result.success           = false;
+    }
+    return result;
+}
+
+CompressionResult CompressionStrategyManager::compress_gpu_snappy(
+    const uint8_t* data, size_t size)
+{
+    CompressionResult result;
+    result.original_size = size;
+    result.method_used   = CompressionMethod::GPU_SNAPPY;
+
+    auto gpu_result = gpu_manager().compress(
+        data, size, themis::storage::GpuCompressionAlgorithm::SNAPPY);
+
+    if (gpu_result.success) {
+        result.data              = std::move(gpu_result.data);
+        result.compression_ratio = gpu_result.compression_ratio;
+        result.success           = true;
+    } else {
+        result.data.assign(data, data + size);
+        result.compression_ratio = 1.0f;
+        result.success           = false;
+    }
+    return result;
+}
+
+CompressionResult CompressionStrategyManager::compress_gpu_lz4(
+    const uint8_t* data, size_t size)
+{
+    CompressionResult result;
+    result.original_size = size;
+    result.method_used   = CompressionMethod::GPU_LZ4;
+
+    auto gpu_result = gpu_manager().compress(
+        data, size, themis::storage::GpuCompressionAlgorithm::LZ4);
+
+    if (gpu_result.success) {
+        result.data              = std::move(gpu_result.data);
+        result.compression_ratio = gpu_result.compression_ratio;
+        result.success           = true;
+    } else {
+        result.data.assign(data, data + size);
+        result.compression_ratio = 1.0f;
+        result.success           = false;
+    }
+    return result;
+}
+
+std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_zstd(
+    const std::vector<uint8_t>& data)
+{
+    return gpu_manager().decompress(
+        data, themis::storage::GpuCompressionAlgorithm::ZSTD);
+}
+
+std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_snappy(
+    const std::vector<uint8_t>& data)
+{
+    return gpu_manager().decompress(
+        data, themis::storage::GpuCompressionAlgorithm::SNAPPY);
+}
+
+std::vector<uint8_t> CompressionStrategyManager::decompress_gpu_lz4(
+    const std::vector<uint8_t>& data)
+{
+    return gpu_manager().decompress(
+        data, themis::storage::GpuCompressionAlgorithm::LZ4);
+}
+
+// ============================================================================
 // Utility Methods
 // ============================================================================
 
@@ -333,6 +449,9 @@ std::string CompressionStrategyManager::method_to_string(CompressionMethod metho
         case CompressionMethod::DICTIONARY: return "dictionary";
         case CompressionMethod::SPARSE_CSR: return "sparse_csr";
         case CompressionMethod::ADAPTIVE: return "adaptive";
+        case CompressionMethod::GPU_ZSTD: return "gpu_zstd";
+        case CompressionMethod::GPU_SNAPPY: return "gpu_snappy";
+        case CompressionMethod::GPU_LZ4: return "gpu_lz4";
         default: return "unknown";
     }
 }
@@ -347,7 +466,10 @@ std::optional<CompressionMethod> CompressionStrategyManager::string_to_method(co
         {"delta", CompressionMethod::DELTA},
         {"dictionary", CompressionMethod::DICTIONARY},
         {"sparse_csr", CompressionMethod::SPARSE_CSR},
-        {"adaptive", CompressionMethod::ADAPTIVE}
+        {"adaptive", CompressionMethod::ADAPTIVE},
+        {"gpu_zstd", CompressionMethod::GPU_ZSTD},
+        {"gpu_snappy", CompressionMethod::GPU_SNAPPY},
+        {"gpu_lz4", CompressionMethod::GPU_LZ4}
     };
     
     auto it = mapping.find(str);
