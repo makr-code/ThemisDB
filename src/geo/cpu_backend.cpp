@@ -29,6 +29,7 @@
 #include "utils/logger.h"
 
 #include <iostream>
+#include <mutex>
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
@@ -911,10 +912,31 @@ private:
     }
 };
 
-// Simple internal registry stub (no global linkage yet)
-struct NullRegistry : public IGeoRegistry {
-    void registerBackend(std::unique_ptr<ISpatialComputeBackend>) override {}
+// ---------------------------------------------------------------------------
+// GeoBackendRegistry — thread-safe global registry for spatial compute backends.
+// Replaces the NullRegistry stub; backends self-register at startup so they
+// are discoverable at runtime via getGeoBackendRegistry().
+// ---------------------------------------------------------------------------
+class GeoBackendRegistry final : public IGeoRegistry {
+public:
+    void registerBackend(std::unique_ptr<ISpatialComputeBackend> b) override {
+        std::lock_guard<std::mutex> lk(mtx_);
+        backends_.push_back(std::move(b));
+    }
+
+private:
+    mutable std::mutex mtx_;
+    std::vector<std::unique_ptr<ISpatialComputeBackend>> backends_;
 };
+
+static GeoBackendRegistry& getGeoRegistryInstance() {
+    static GeoBackendRegistry instance;
+    return instance;
+}
+
+IGeoRegistry* getGeoBackendRegistry() {
+    return &getGeoRegistryInstance();
+}
 
 // ---------------------------------------------------------------------------
 // Approximate CPU backend
@@ -961,8 +983,7 @@ public:
 static void register_builtin_cpu_backend() {
 #ifdef THEMIS_GEO_ENABLED
     try {
-        NullRegistry reg;
-        reg.registerBackend(std::make_unique<CpuExactBackend>());
+        getGeoRegistryInstance().registerBackend(std::make_unique<CpuExactBackend>());
     } catch (const std::exception& ex) {
         std::cerr << "WARNING: CPU geometry backend registration failed: " << ex.what() << std::endl;
     } catch (...) {
