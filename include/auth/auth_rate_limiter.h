@@ -35,9 +35,29 @@
 #include <memory>
 #include <optional>
 #include <functional>
+#include <cstdint>
 
 namespace themis {
 namespace auth {
+
+// Forward declaration to avoid circular includes.
+class AuthMetrics;
+
+/**
+ * @brief Outcome of a per-user credential-stuffing escalation check.
+ *
+ * When the persistent breach counter for a user crosses successive thresholds
+ * the required mitigation action escalates:
+ *   breach 1 → CAPTCHA_REQUIRED
+ *   breach 2 → OTP_REQUIRED
+ *   breach 3+ → ACCOUNT_LOCKED_24H
+ */
+enum class CredentialStuffingOutcome {
+    ALLOWED,           ///< No special action required
+    CAPTCHA_REQUIRED,  ///< First breach: challenge with CAPTCHA
+    OTP_REQUIRED,      ///< Second breach: require email OTP
+    ACCOUNT_LOCKED_24H ///< Third+ breach: lock account for 24 hours
+};
 
 /**
  * @brief Configuration for authentication rate limiting
@@ -70,6 +90,22 @@ struct AuthRateLimitConfig {
     bool   enable_credential_stuffing_detection = true;
     size_t credential_stuffing_user_threshold   = 10;  ///< distinct usernames per IP
     uint32_t credential_stuffing_window_seconds = 60;  ///< rolling window (seconds)
+
+    // ── Credential-stuffing persistent backend (Redis) ───────────────────
+    // When true, per-user breach counts are persisted in Redis under the key
+    // namespace "cs:{user_id}:{YYYYMMDD}" with a 25-hour TTL.  This enables
+    // cross-session, cross-restart detection and supports the exponential
+    // back-off escalation policy.  Falls back to an in-process counter map
+    // when Redis is unavailable or when THEMIS_ENABLE_REDIS is not defined.
+    bool enable_cs_persistent_backend = false;
+
+    struct CredentialStuffingRedisConfig {
+        std::string host        = "127.0.0.1";
+        int         port        = 6379;
+        std::string auth;                    ///< empty = no AUTH
+        int         timeout_ms  = 5000;
+    };
+    CredentialStuffingRedisConfig cs_redis;
 };
 
 /**
@@ -90,6 +126,10 @@ struct AuthAnomalyEvent {
     std::string user_id;   ///< empty for IP-level events
     std::string detail;
     std::chrono::system_clock::time_point timestamp;
+
+    /// Escalation outcome when type == CREDENTIAL_STUFFING_SUSPECTED.
+    /// ALLOWED means no special action beyond the detection alert itself.
+    CredentialStuffingOutcome cs_outcome = CredentialStuffingOutcome::ALLOWED;
 };
 
 /// Callback invoked (outside internal mutex) on each detected auth anomaly.
@@ -179,6 +219,17 @@ public:
      * @brief Get number of currently locked accounts
      */
     size_t getLockedAccountCount() const;
+
+    /**
+     * @brief Forcefully lock an account for a specified duration.
+     *
+     * Used by the credential-stuffing escalation policy to apply a 24-hour
+     * lock regardless of the normal failed-attempt threshold.
+     *
+     * @param user_id  User to lock
+     * @param duration Lock duration (e.g. std::chrono::hours(24))
+     */
+    void forceLockAccount(const std::string& user_id, std::chrono::seconds duration);
     
     /**
      * @brief Cleanup expired lockouts and old records
@@ -300,6 +351,7 @@ public:
      *   - ACCOUNT_LOCKOUT_TRIGGERED  – account locked after repeated failures
      *   - BRUTE_FORCE_DETECTED       – same IP responsible for locking an account
      *   - CREDENTIAL_STUFFING_SUSPECTED – one IP tried many distinct usernames
+     *     (cs_outcome field carries the escalation level for the targeted user)
      */
     void setAnomalyCallback(AuthAnomalyCallback callback);
 
@@ -311,6 +363,15 @@ public:
      * callback.  Pass nullptr to detach.  Does not take ownership.
      */
     void setAuditLogger(utils::AuditLogger* logger);
+
+    /**
+     * @brief Attach a metrics collector for credential-stuffing instrumentation.
+     *
+     * When set, every credential-stuffing detection event calls
+     * AuthMetrics::recordCredentialStuffingAttempt().  Pass nullptr to detach.
+     * Does not take ownership.
+     */
+    void setMetrics(AuthMetrics* metrics);
     
     /**
      * @brief Update configuration at runtime
@@ -368,15 +429,52 @@ private:
     mutable std::mutex callback_mutex_;
     AuthAnomalyCallback anomaly_callback_;
     utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning; may be nullptr.
+    AuthMetrics*        metrics_      = nullptr;  ///< Non-owning; may be nullptr.
     void fireAuthAnomaly(AuthAnomalyEvent::Type type,
                          const std::string& ip,
                          const std::string& user_id,
-                         const std::string& detail) const;
+                         const std::string& detail,
+                         CredentialStuffingOutcome cs_outcome
+                             = CredentialStuffingOutcome::ALLOWED) const;
 
     // Track credential-stuffing for a given (ip, user_id) pair.
     // Returns true if the credential-stuffing alert threshold was just crossed.
     // Must be called with stats_mutex_ held.
     bool trackCredentialStuffing(const std::string& ip, const std::string& user_id);
+
+    // ── Per-user persistent breach-count tracking ────────────────────────
+    // Build the Redis/in-memory key for a user on the current UTC day.
+    // Format: "cs:{user_id}:{YYYYMMDD}"
+    static std::string csBreachKey(const std::string& user_id);
+
+    // Atomically increment the daily breach counter for user_id and return
+    // the new count.  Uses Redis when available; otherwise falls back to the
+    // in-process map.  Must NOT be called with stats_mutex_ held (may block
+    // on network I/O).
+    uint32_t incrementAndGetBreachCount(const std::string& user_id);
+
+    // Determine the escalation outcome from a raw breach count.
+    static CredentialStuffingOutcome outcomeFromBreachCount(uint32_t count);
+
+    // Called after the IP-level stuffing threshold fires.  Increments the
+    // per-user daily breach counter and fires the appropriate escalation
+    // response (CAPTCHA / OTP / 24h lock).  Returns the outcome.
+    // Must NOT be called with stats_mutex_ held.
+    CredentialStuffingOutcome escalateCredentialStuffing(const std::string& user_id,
+                                                         const std::string& ip);
+
+    // In-memory fallback breach-count map (key = csBreachKey(user_id)).
+    // Guarded by cs_breach_mutex_.
+    std::unordered_map<std::string, uint32_t> cs_breach_count_;
+    mutable std::mutex cs_breach_mutex_;
+
+#ifdef THEMIS_ENABLE_REDIS
+    // Redis connection for persistent stuffing counters.
+    // Guarded by cs_redis_mutex_.
+    struct redisContext* cs_redis_ctx_ = nullptr;
+    mutable std::mutex   cs_redis_mutex_;
+    bool connectCsRedis();
+#endif
 
     // Statistics
     mutable Statistics stats_;
