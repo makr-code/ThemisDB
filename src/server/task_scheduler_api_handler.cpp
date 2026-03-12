@@ -690,8 +690,8 @@ std::string TaskSchedulerApiHandler::getWebUi() {
 // ============================================================================
 
 json TaskSchedulerApiHandler::taskToJson(const ScheduledTask& task) {
-    json j{
     auto span = Tracer::startSpan("taskToJson");
+    json j{
         {"id",                    task.id},
         {"name",                  task.name},
         {"description",           task.description},

@@ -34,6 +34,8 @@
 namespace themis {
 namespace maintenance {
 
+using observability::MetricsCollector;
+
 namespace {
 
 // ---------------------------------------------------------------------------

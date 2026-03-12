@@ -279,6 +279,7 @@ def validate_all(grafana_root: str) -> int:
         return 0
 
     all_errors: List[str] = []
+    skipped_files: List[str] = []
 
     for fpath in files:
         relpath = os.path.relpath(fpath, grafana_root)
@@ -286,6 +287,17 @@ def validate_all(grafana_root: str) -> int:
         dashboard, load_error = load_dashboard(fpath)
         if load_error:
             all_errors.append(f"{relpath}: {load_error}")
+            continue
+
+        # Skip Grafana alerting provisioning files (apiVersion/groups) since
+        # they are not dashboard definitions and do not contain panel layouts.
+        if (
+            isinstance(dashboard, dict)
+            and "groups" in dashboard
+            and "panels" not in dashboard
+            and "title" not in dashboard
+        ):
+            skipped_files.append(relpath)
             continue
 
         # Generic checks (every dashboard)
@@ -305,6 +317,12 @@ def validate_all(grafana_root: str) -> int:
             print(f"  ✗  {err}")
         print()
         return 1
+
+    if skipped_files:
+        print(f"INFO: skipped {len(skipped_files)} non-dashboard provisioning file(s):")
+        for relpath in skipped_files:
+            print(f"  - {relpath}")
+        print()
 
     print(f"PASSED — all {len(files)} Grafana dashboard files are valid.")
     return 0

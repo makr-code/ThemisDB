@@ -19,6 +19,7 @@
 // See include/graph/scheduled_edge_refresh.h for full API documentation.
 
 #include "graph/scheduled_edge_refresh.h"
+#include "storage/base_entity.h"
 
 #include <nlohmann/json.hpp>
 #include <algorithm>

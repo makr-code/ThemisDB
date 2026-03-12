@@ -4,9 +4,9 @@ Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `fut
 
 ## 0) Governance & Standards Reference
 
-**WICHTIG**: Alle Issues und PRs MÜSSEN der `.github/GOVERNANCE.md` entsprechen.
+**WICHTIG**: Alle Issues und PRs MÜSSEN der `GOVERNANCE.md` entsprechen.
 
-Siehe: [GOVERNANCE.md](.github/GOVERNANCE.md) für verbindliche Standards zu:
+Siehe: [GOVERNANCE.md](GOVERNANCE.md) für verbindliche Standards zu:
 - Label-Schema (`area:*`, `priority:*`, `type:*`, `status:*`)
 - Milestone-Struktur (Quartals- und Version-basiert)
 - Relationships (Parent/Child, Blocking Dependencies)
