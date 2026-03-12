@@ -46,7 +46,7 @@ Alle ThemisDB WordPress Plugins sind jetzt mit einem automatischen Update-System
 Die zentrale Update-Funktionalität ist in einer gemeinsamen Klasse implementiert:
 
 ```
-wordpress-plugin/includes/class-themisdb-plugin-updater.php
+wordpress-plugins/includes/class-themisdb-plugin-updater.php
 ```
 
 Diese Klasse bietet:
@@ -171,35 +171,45 @@ Im Plugin-Verzeichnis oder im Release:
 - Bugfix ABC
 ```
 
-#### 3. GitHub Release erstellen
+#### 3. Plugin-spezifischen GitHub Release erstellen
+
+Verwendet pro Plugin einen eigenen Tag im Format `<plugin-slug>/v<version>`.
 
 ```bash
+# Beispiel für themisdb-downloads v1.2.0
+PLUGIN_SLUG="themisdb-downloads"
+VERSION="1.2.0"
+TAG_NAME="${PLUGIN_SLUG}/v${VERSION}"
+
 # Commit und Push
 git add .
-git commit -m "Release v1.1.0"
+git commit -m "Release ${PLUGIN_SLUG} v${VERSION}"
 git push
 
 # Tag erstellen
-git tag v1.1.0
-git push --tags
+git tag "${TAG_NAME}"
+git push origin "${TAG_NAME}"
 
-# GitHub Release erstellen (via GitHub UI oder CLI)
-gh release create v1.1.0 \
-  --title "Version 1.1.0" \
-  --notes-file CHANGELOG.md
+# Release erstellen
+gh release create "${TAG_NAME}" \
+  --title "${PLUGIN_SLUG} v${VERSION}" \
+  --notes-file wordpress-plugins/${PLUGIN_SLUG}/CHANGELOG.md
 ```
 
-#### 4. Plugin-ZIP als Asset hochladen (Optional)
+#### 4. Plugin-ZIP als Release-Asset hochladen (Pflicht)
 
-Für optimale Performance kann ein fertig gepacktes Plugin-ZIP als Release Asset hochgeladen werden:
+Der Updater erwartet ein ZIP-Asset mit exakt dem Namen `<plugin-slug>.zip`.
 
 ```bash
-# Plugin-ZIP erstellen
-cd wordpress-plugin
-zip -r themisdb-plugin-name.zip themisdb-plugin-name/
+PLUGIN_SLUG="themisdb-downloads"
+TAG_NAME="${PLUGIN_SLUG}/v1.2.0"
 
-# Als Release Asset hochladen
-gh release upload v1.1.0 themisdb-plugin-name.zip
+cd wordpress-plugins
+zip -r "${PLUGIN_SLUG}.zip" "${PLUGIN_SLUG}" \
+  -x "${PLUGIN_SLUG}/.git/*" "${PLUGIN_SLUG}/node_modules/*"
+
+# Als Release-Asset hochladen
+gh release upload "${TAG_NAME}" "${PLUGIN_SLUG}.zip"
 ```
 
 ---
@@ -243,12 +253,12 @@ Oder im WordPress Admin:
 
 2. GitHub API prüfen:
    ```bash
-   curl https://api.github.com/repos/makr-code/ThemisDB/releases/latest
+   curl "https://api.github.com/repos/makr-code/ThemisDB/releases?per_page=10"
    ```
 
 3. `update-info.json` prüfen:
    ```bash
-   curl https://raw.githubusercontent.com/makr-code/ThemisDB/main/wordpress-plugin/{plugin-slug}/update-info.json
+   curl https://raw.githubusercontent.com/makr-code/ThemisDB/main/wordpress-plugins/{plugin-slug}/update-info.json
    ```
 
 ### Problem: Update schlägt fehl
@@ -365,11 +375,11 @@ Alle 15 ThemisDB WordPress Plugins unterstützen automatische Updates:
 ### GitHub API Endpoints
 
 ```
-# Latest Release
-GET https://api.github.com/repos/makr-code/ThemisDB/releases/latest
+# Plugin releases (list)
+GET https://api.github.com/repos/makr-code/ThemisDB/releases?per_page=30
 
 # Update Metadata
-GET https://raw.githubusercontent.com/makr-code/ThemisDB/main/wordpress-plugin/{plugin-slug}/update-info.json
+GET https://raw.githubusercontent.com/makr-code/ThemisDB/main/wordpress-plugins/{plugin-slug}/update-info.json
 ```
 
 ### WordPress Hooks
@@ -425,7 +435,7 @@ define('THEMISDB_GITHUB_TOKEN', 'ghp_xxxxxxxxxxxx');
 ### Hilfe benötigt?
 
 - **GitHub Issues**: [https://github.com/makr-code/ThemisDB/issues](https://github.com/makr-code/ThemisDB/issues)
-- **Dokumentation**: [wordpress-plugin/README.md](README.md)
+- **Dokumentation**: [wordpress-plugins/README.md](README.md)
 - **Discussions**: [https://github.com/makr-code/ThemisDB/discussions](https://github.com/makr-code/ThemisDB/discussions)
 
 ---

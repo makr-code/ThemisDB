@@ -25,7 +25,7 @@ scopes:
       - 'cmake/CMakeLists.txt'
       - 'scripts/**/*.py'
       - 'scripts/**/*.sh'
-      - 'wordpress-plugin/**'
+      - 'wordpress-plugins/**'
       - 'tools/**'
 
   # ── Security changes: auth / security modules ────────────────────────────

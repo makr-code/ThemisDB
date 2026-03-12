@@ -216,15 +216,15 @@ class ThemisDB_Plugin_Updater {
             return false;
         }
         
-        // Get latest release from GitHub
-        $release = $this->fetch_latest_release();
+        // Resolve the best matching release for this specific plugin.
+        $release = $this->fetch_release_for_plugin();
         
         if (!$release) {
             return false;
         }
         
         $remote_version = (object) array(
-            'version' => isset($metadata['version']) ? $metadata['version'] : $release->tag_name,
+            'version' => isset($metadata['version']) ? $metadata['version'] : $this->extract_version_from_tag($release->tag_name),
             'name' => isset($metadata['name']) ? $metadata['name'] : $this->plugin_slug,
             'slug' => $this->plugin_slug,
             'homepage' => isset($metadata['homepage']) ? $metadata['homepage'] : "https://github.com/{$this->username}/{$this->repository}",
@@ -251,7 +251,7 @@ class ThemisDB_Plugin_Updater {
      * @return array|false Plugin metadata or false on failure
      */
     private function fetch_plugin_metadata() {
-        $metadata_url = "https://raw.githubusercontent.com/{$this->username}/{$this->repository}/main/wordpress-plugin/{$this->plugin_slug}/update-info.json";
+        $metadata_url = "https://raw.githubusercontent.com/{$this->username}/{$this->repository}/main/wordpress-plugins/{$this->plugin_slug}/update-info.json";
         
         $response = wp_remote_get($metadata_url, array(
             'timeout' => 10,
@@ -294,6 +294,116 @@ class ThemisDB_Plugin_Updater {
         
         return (isset($release->tag_name)) ? $release : false;
     }
+
+    /**
+     * Fetch the best matching release for the current plugin.
+     *
+     * @return object|false Release information or false on failure
+     */
+    private function fetch_release_for_plugin() {
+        $api_url = "{$this->github_api_url}/repos/{$this->username}/{$this->repository}/releases?per_page=30";
+
+        $response = wp_remote_get($api_url, array(
+            'timeout' => 10,
+            'headers' => array(
+                'Accept' => 'application/vnd.github.v3+json',
+            ),
+        ));
+
+        if (is_wp_error($response)) {
+            return $this->fetch_latest_release();
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        $releases = json_decode($body);
+
+        if (!is_array($releases)) {
+            return $this->fetch_latest_release();
+        }
+
+        foreach ($releases as $release) {
+            if (!isset($release->tag_name) || !empty($release->draft)) {
+                continue;
+            }
+
+            if ($this->release_has_plugin_asset($release) || $this->tag_matches_plugin($release->tag_name)) {
+                return $release;
+            }
+        }
+
+        return $this->fetch_latest_release();
+    }
+
+    /**
+     * Check whether a release has a zip asset for this plugin.
+     *
+     * @param object $release Release object
+     * @return bool
+     */
+    private function release_has_plugin_asset($release) {
+        if (!isset($release->assets) || !is_array($release->assets)) {
+            return false;
+        }
+
+        $expected = strtolower($this->plugin_slug . '.zip');
+
+        foreach ($release->assets as $asset) {
+            if (!isset($asset->name)) {
+                continue;
+            }
+
+            if (strtolower($asset->name) === $expected) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether a tag appears to belong to this plugin.
+     *
+     * Supported examples:
+     * - themisdb-downloads/v1.2.0
+     * - themisdb-downloads-v1.2.0
+     *
+     * @param string $tag_name Tag name
+     * @return bool
+     */
+    private function tag_matches_plugin($tag_name) {
+        $tag = strtolower((string) $tag_name);
+        $slug = strtolower($this->plugin_slug);
+
+        return (strpos($tag, $slug . '/v') === 0) ||
+               (strpos($tag, $slug . '-v') === 0) ||
+               (strpos($tag, $slug . '_v') === 0);
+    }
+
+    /**
+     * Extract a plugin version from release tag names.
+     *
+     * @param string $tag_name Tag name
+     * @return string Normalized semantic version if possible
+     */
+    private function extract_version_from_tag($tag_name) {
+        $tag = (string) $tag_name;
+
+        $prefix_patterns = array(
+            '/^' . preg_quote($this->plugin_slug, '/') . '\/v/i',
+            '/^' . preg_quote($this->plugin_slug, '/') . '-v/i',
+            '/^' . preg_quote($this->plugin_slug, '/') . '_v/i',
+            '/^v/i',
+        );
+
+        foreach ($prefix_patterns as $pattern) {
+            $normalized = preg_replace($pattern, '', $tag);
+            if ($normalized !== $tag) {
+                return $normalized;
+            }
+        }
+
+        return $tag;
+    }
     
     /**
      * Get download URL for the plugin
@@ -304,6 +414,15 @@ class ThemisDB_Plugin_Updater {
     private function get_download_url($release) {
         // Look for plugin-specific asset
         if (isset($release->assets) && is_array($release->assets)) {
+            $exact_asset_name = $this->plugin_slug . '.zip';
+
+            foreach ($release->assets as $asset) {
+                if (isset($asset->name) && isset($asset->browser_download_url) &&
+                    strtolower($asset->name) === strtolower($exact_asset_name)) {
+                    return $asset->browser_download_url;
+                }
+            }
+
             foreach ($release->assets as $asset) {
                 if (strpos($asset->name, $this->plugin_slug) !== false && 
                     (strpos($asset->name, '.zip') !== false)) {

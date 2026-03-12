@@ -215,8 +215,8 @@ public:
     // Non-copyable, movable
     AdversarialTester(const AdversarialTester&)            = delete;
     AdversarialTester& operator=(const AdversarialTester&) = delete;
-    AdversarialTester(AdversarialTester&&)                 = default;
-    AdversarialTester& operator=(AdversarialTester&&)      = default;
+    AdversarialTester(AdversarialTester&&) noexcept;
+    AdversarialTester& operator=(AdversarialTester&&) noexcept;
 
     // ── Population ────────────────────────────────────────────────────────
 
