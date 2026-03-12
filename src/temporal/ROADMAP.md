@@ -16,7 +16,7 @@
 - [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection, full-table bi-temporal scan (`bi_temporal.cpp`)
 - [x] Time-travel query engine: `AS OF`, `FROM...TO`, `BETWEEN...AND` queries with row filters (`temporal_query_engine.cpp`)
 - [x] Period-based temporal index: B-tree on `(sys_start, sys_end)` for efficient range lookups (`temporal_index.cpp`)
-- [x] Temporal aggregations: tumbling and sliding window aggregation over version history (`temporal_aggregator.cpp`)
+- [x] Temporal aggregations: tumbling, sliding, and session window aggregation; GROUP BY partitioned aggregation; snapshot-state aggregation at regular intervals; linear trend analysis (slope, intercept, r²) over windowed aggregates (`temporal_aggregator.cpp`)
 - [x] Point-in-time snapshot creation, querying, and release (`snapshot_manager.cpp`)
 - [x] Snapshot versioning: monotonically increasing `version_number` in `SnapshotHandle`
 - [x] Snapshot garbage collection: TTL-based (`garbageCollect(max_age_ms)`) and max-count-based (`garbageCollect(max_snapshots)`) GC
@@ -65,7 +65,7 @@
 - [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)
 - [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`); snapshot versioning (`version_number`), TTL-based and max-count GC, `SnapshotMetadata`
 - [x] `RetentionManager`: per-table policies, `enforceRetention()`, `RetentionStats` reporting (`retention_manager.cpp`)
-- [x] `TemporalAggregator`: tumbling/sliding window aggregation over version history, `AggregateResult` output (`temporal_aggregator.cpp`)
+- [x] `TemporalAggregator`: tumbling/sliding/session window aggregation over version history; `aggregateByGroup()` for temporal GROUP BY; `aggregateSnapshots()` for state-based snapshot aggregation at regular intervals; `analyzeTrend()` linear regression over windowed aggregates; `AggregateResult` with `group_values` output; `TrendResult` with slope/intercept/r² (`temporal_aggregator.cpp`)
 - [x] Unit tests: aggregator, index, query engine, bi-temporal (`tests/temporal/`)
 
 ### Phase 3: SQL Syntax & Temporal Constraints (Status: C++ layer complete ✅; SQL syntax deferred to Phase 3b 📋)
