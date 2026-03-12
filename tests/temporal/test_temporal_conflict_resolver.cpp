@@ -755,7 +755,7 @@ TEST_F(TemporalConflictDetectorTest, DetectConflicts_EntityIdContainsTableName) 
     auto conflicts = detector.detectConflicts("orders", local, remote);
     ASSERT_FALSE(conflicts.empty());
     for (const auto& c : conflicts) {
-        EXPECT_EQ(c.entity_id.substr(0, 6), "orders");
+        EXPECT_TRUE(c.entity_id.find("orders") == 0) << "entity_id should start with table name 'orders'";
     }
 }
 
