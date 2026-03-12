@@ -55,6 +55,7 @@
 #ifndef CHIMERA_MONGODB_ADAPTER_HPP
 #define CHIMERA_MONGODB_ADAPTER_HPP
 
+#include "chimera/connection_pool.hpp"
 #include "chimera/database_adapter.hpp"
 #include <atomic>
 #include <memory>
@@ -224,6 +225,14 @@ private:
     bool connected_ = false;
     std::string connection_string_;
     std::string database_name_;
+
+    // Connection pool configuration (configurable before connect()).
+    ConnectionPoolConfig pool_config_;
+
+    // Opaque driver-specific state (mongocxx client / pool).
+    // Defined in mongodb_adapter.cpp; nullptr in simulation mode.
+    struct MongoState;
+    std::unique_ptr<MongoState> mongo_state_;
 
     // In-process document store used when the mongocxx driver is not linked.
     // Maps collection_name -> vector of Documents.

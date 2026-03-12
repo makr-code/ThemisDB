@@ -49,7 +49,121 @@
 #include <cmath>
 #include <sstream>
 
+// ---------------------------------------------------------------------------
+// Real Qdrant REST driver integration (cpp-httplib)
+// ---------------------------------------------------------------------------
+// When THEMIS_ENABLE_QDRANT is defined (set by CMake when cpp-httplib is
+// found) the adapter performs real HTTP calls to the Qdrant REST API.
+// Without the macro the adapter falls back to the in-process simulation.
+// ---------------------------------------------------------------------------
+
+#ifdef THEMIS_ENABLE_QDRANT
+#include <httplib.h>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+#endif
+
 namespace chimera {
+
+// ---------------------------------------------------------------------------
+// QdrantState – driver-specific state
+// ---------------------------------------------------------------------------
+
+#ifdef THEMIS_ENABLE_QDRANT
+
+/// Parse host and port from an http(s)://host[:port] URL.
+/// Returns {host, port, use_tls}.
+static std::tuple<std::string, int, bool> parse_qdrant_endpoint(
+    const std::string& url)
+{
+    bool use_https = false;
+    std::string rest;
+    if (url.rfind("https://", 0) == 0) {
+        rest = url.substr(8);
+        use_https = true;
+    } else {
+        rest = url.substr(7); // http://
+    }
+
+    // Strip path component if present
+    const auto slash = rest.find('/');
+    if (slash != std::string::npos) {
+        rest = rest.substr(0, slash);
+    }
+
+    const auto colon = rest.find(':');
+    if (colon != std::string::npos) {
+        return {rest.substr(0, colon),
+                std::stoi(rest.substr(colon + 1)),
+                use_https};
+    }
+    return {rest, use_https ? 443 : 6333, use_https};
+}
+
+struct QdrantAdapter::QdrantState {
+    std::string host;
+    int         port;
+    bool        use_tls;
+    std::string api_key;
+    ConnectionPool<httplib::Client> pool;
+
+    QdrantState(const std::string& url,
+                const std::string& key,
+                const ConnectionPoolConfig& pool_cfg)
+        : host(std::get<0>(parse_qdrant_endpoint(url)))
+        , port(std::get<1>(parse_qdrant_endpoint(url)))
+        , use_tls(std::get<2>(parse_qdrant_endpoint(url)))
+        , api_key(key)
+        , pool(
+            [this]() -> std::unique_ptr<httplib::Client> {
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+                if (use_tls) {
+                    auto cli = std::make_unique<httplib::SSLClient>(host, port);
+                    cli->set_connection_timeout(30);
+                    if (!api_key.empty()) {
+                        cli->set_default_headers({{"api-key", api_key}});
+                    }
+                    // Return as base-class pointer via unique_ptr to Client.
+                    // SSLClient derives from Client so this is safe.
+                    return std::unique_ptr<httplib::Client>(cli.release());
+                }
+#endif
+                if (use_tls) {
+                    // TLS requested but OpenSSL support not compiled in.
+                    // Return nullptr so the pool treats it as a failed factory.
+                    return nullptr;
+                }
+                auto cli = std::make_unique<httplib::Client>(host, port);
+                cli->set_connection_timeout(30);
+                if (!api_key.empty()) {
+                    cli->set_default_headers({{"api-key", api_key}});
+                }
+                return cli;
+            },
+            [](httplib::Client& cli) -> bool {
+                // Health-check: GET /collections (200 or 401 means server up)
+                auto res = cli.Get("/collections");
+                return res && (res->status == 200 || res->status == 401);
+            },
+            pool_cfg)
+    {
+        // Validate that TLS endpoints are actually reachable.
+        if (use_tls) {
+#ifndef CPPHTTPLIB_OPENSSL_SUPPORT
+            throw std::runtime_error(
+                "Qdrant: HTTPS endpoint requested but cpp-httplib was built "
+                "without OpenSSL support (CPPHTTPLIB_OPENSSL_SUPPORT). "
+                "Use an http:// URL or rebuild cpp-httplib with OpenSSL.");
+#endif
+        }
+    }
+};
+
+#else
+
+struct QdrantAdapter::QdrantState {};
+
+#endif // THEMIS_ENABLE_QDRANT
 
 // ---------------------------------------------------------------------------
 // Auto-registration
@@ -78,6 +192,7 @@ QdrantAdapter::~QdrantAdapter() {
     if (connected_) {
         disconnect();
     }
+    // qdrant_state_ destructor runs here.
 }
 
 // ---------------------------------------------------------------------------
@@ -109,16 +224,31 @@ Result<bool> QdrantAdapter::connect(
     // The key is stored only as a presence flag – it is intentionally NOT
     // copied into connection_string_ or any field surfaced by get_system_info()
     // so that it cannot be leaked through logs or memory inspection.
-    // Note: the key exists in the caller's `options` map for the duration of
-    // this call; callers should avoid logging the options map directly.
-    auto it = options.find("api_key");
-    has_api_key_ = (it != options.end() && !it->second.empty());
+    auto api_it = options.find("api_key");
+    has_api_key_ = (api_it != options.end() && !api_it->second.empty());
+    const std::string api_key =
+        has_api_key_ ? api_it->second : std::string{};
+
+#ifdef THEMIS_ENABLE_QDRANT
+    try {
+        qdrant_state_ = std::make_unique<QdrantState>(
+            connection_string, api_key, pool_config_);
+    } catch (const std::exception& ex) {
+        return Result<bool>::err(
+            ErrorCode::CONNECTION_ERROR,
+            std::string("Qdrant pool init failed: ") + ex.what()
+        );
+    }
+#endif
 
     connected_ = true;
     return Result<bool>::ok(true);
 }
 
 Result<bool> QdrantAdapter::disconnect() {
+#ifdef THEMIS_ENABLE_QDRANT
+    qdrant_state_.reset();
+#endif
     connected_ = false;
     connection_string_.clear();
     has_api_key_ = false;
@@ -193,9 +323,51 @@ Result<std::string> QdrantAdapter::insert_vector(
         );
     }
 
-    // Store the vector as a document with internal component fields.
-    // The dimension count and each component are encoded as fields so that
-    // search_vectors can reconstruct the vector for similarity scoring.
+#ifdef THEMIS_ENABLE_QDRANT
+    // Real path: POST /collections/{name}/points
+    try {
+        const std::string point_id = generate_point_id();
+
+        json payload_obj = json::object();
+        for (const auto& kv : vector.metadata) {
+            std::visit(
+                [&](const auto& v) { payload_obj[kv.first] = v; },
+                kv.second);
+        }
+
+        json point = {
+            {"id",     point_id},
+            {"vector", json(vector.data.begin(), vector.data.end())},
+            {"payload", payload_obj}
+        };
+        json body = {{"points", json::array({point})}};
+        const std::string path = "/collections/" + collection + "/points";
+
+        auto conn = qdrant_state_->pool.acquire();
+        if (!conn) {
+            return Result<std::string>::err(
+                ErrorCode::RESOURCE_EXHAUSTED, "Qdrant pool exhausted");
+        }
+        auto res = conn->Put(path.c_str(), body.dump(), "application/json");
+        qdrant_state_->pool.release(std::move(conn));
+
+        if (!res || res->status != 200) {
+            const std::string msg =
+                res ? res->body : "no response from Qdrant";
+            return Result<std::string>::err(
+                ErrorCode::INTERNAL_ERROR,
+                "Qdrant PUT points failed: " + msg
+            );
+        }
+        return Result<std::string>::ok(point_id);
+    } catch (const std::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Qdrant insert_vector failed: ") + ex.what()
+        );
+    }
+#else
+    // Simulation path
     Document doc;
     doc.id = generate_point_id();
     doc.fields["__vector_dim__"] = Scalar{int64_t(vector.data.size())};
@@ -210,6 +382,7 @@ Result<std::string> QdrantAdapter::insert_vector(
     std::lock_guard<std::mutex> lock(vector_mutex_);
     vector_store_[collection].push_back(std::move(doc));
     return Result<std::string>::ok(vector_store_[collection].back().id);
+#endif
 }
 
 Result<size_t> QdrantAdapter::batch_insert_vectors(
@@ -252,6 +425,87 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
         );
     }
 
+#ifdef THEMIS_ENABLE_QDRANT
+    // Real path: POST /collections/{name}/points/search
+    try {
+        json body = {
+            {"vector", json(query_vector.data.begin(), query_vector.data.end())},
+            {"limit",  static_cast<int64_t>(k)},
+            {"with_payload", true},
+            {"with_vector", true}
+        };
+
+        // Translate simple key=value filters into a Qdrant must[] condition.
+        if (!filters.empty()) {
+            json must_arr = json::array();
+            for (const auto& kv : filters) {
+                std::visit(
+                    [&](const auto& v) {
+                        must_arr.push_back({
+                            {"key", kv.first},
+                            {"match", {{"value", v}}}
+                        });
+                    },
+                    kv.second);
+            }
+            body["filter"] = {{"must", must_arr}};
+        }
+
+        const std::string path =
+            "/collections/" + collection + "/points/search";
+        auto conn = qdrant_state_->pool.acquire();
+        if (!conn) {
+            return Result<std::vector<std::pair<Vector, double>>>::err(
+                ErrorCode::RESOURCE_EXHAUSTED, "Qdrant pool exhausted");
+        }
+        auto res = conn->Post(path.c_str(), body.dump(), "application/json");
+        qdrant_state_->pool.release(std::move(conn));
+
+        if (!res || res->status != 200) {
+            const std::string msg = res ? res->body : "no response";
+            return Result<std::vector<std::pair<Vector, double>>>::err(
+                ErrorCode::INTERNAL_ERROR,
+                "Qdrant search failed: " + msg
+            );
+        }
+
+        auto resp_json = json::parse(res->body);
+        std::vector<std::pair<Vector, double>> results;
+        if (resp_json.contains("result")) {
+            for (auto& hit : resp_json["result"]) {
+                Vector v;
+                if (hit.contains("vector") && hit["vector"].is_array()) {
+                    for (auto& f : hit["vector"]) {
+                        v.data.push_back(f.get<float>());
+                    }
+                }
+                double score = hit.value("score", 0.0);
+                if (hit.contains("payload")) {
+                    for (auto& [key, val] : hit["payload"].items()) {
+                        if (val.is_string()) {
+                            v.metadata[key] = Scalar{val.get<std::string>()};
+                        } else if (val.is_number_integer()) {
+                            v.metadata[key] = Scalar{val.get<int64_t>()};
+                        } else if (val.is_number_float()) {
+                            v.metadata[key] = Scalar{val.get<double>()};
+                        } else if (val.is_boolean()) {
+                            v.metadata[key] = Scalar{val.get<bool>()};
+                        }
+                    }
+                }
+                results.emplace_back(std::move(v), score);
+            }
+        }
+        return Result<std::vector<std::pair<Vector, double>>>::ok(
+            std::move(results));
+    } catch (const std::exception& ex) {
+        return Result<std::vector<std::pair<Vector, double>>>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Qdrant search_vectors failed: ") + ex.what()
+        );
+    }
+#else
+    // Simulation path
     std::lock_guard<std::mutex> lock(vector_mutex_);
     auto it = vector_store_.find(collection);
     if (it == vector_store_.end()) {
@@ -304,12 +558,13 @@ Result<std::vector<std::pair<Vector, double>>> QdrantAdapter::search_vectors(
 
     return Result<std::vector<std::pair<Vector, double>>>::ok(
         std::move(candidates));
+#endif
 }
 
 Result<bool> QdrantAdapter::create_index(
-    const std::string& /*collection*/,
-    size_t /*dimensions*/,
-    const std::map<std::string, Scalar>& /*index_params*/
+    const std::string& collection,
+    size_t dimensions,
+    const std::map<std::string, Scalar>& index_params
 ) {
     if (!connected_) {
         return Result<bool>::err(
@@ -317,9 +572,53 @@ Result<bool> QdrantAdapter::create_index(
             "Not connected to Qdrant"
         );
     }
-    // In simulation mode, Qdrant collection creation is a no-op.
-    // Production code would PUT to /collections/{name} with an HNSW config.
+#ifdef THEMIS_ENABLE_QDRANT
+    // Real path: PUT /collections/{name} with HNSW vector config.
+    try {
+        const std::string distance =
+            (index_params.count("distance") &&
+             std::holds_alternative<std::string>(
+                 index_params.at("distance")))
+                ? std::get<std::string>(index_params.at("distance"))
+                : "Dot";
+
+        json body = {
+            {"vectors", {
+                {"size",     static_cast<int64_t>(dimensions)},
+                {"distance", distance}
+            }}
+        };
+        const std::string path = "/collections/" + collection;
+
+        auto conn = qdrant_state_->pool.acquire();
+        if (!conn) {
+            return Result<bool>::err(
+                ErrorCode::RESOURCE_EXHAUSTED, "Qdrant pool exhausted");
+        }
+        auto res = conn->Put(path.c_str(), body.dump(), "application/json");
+        qdrant_state_->pool.release(std::move(conn));
+
+        if (!res || (res->status != 200 && res->status != 201)) {
+            const std::string msg = res ? res->body : "no response";
+            return Result<bool>::err(
+                ErrorCode::INTERNAL_ERROR,
+                "Qdrant PUT collection failed: " + msg
+            );
+        }
+        return Result<bool>::ok(true);
+    } catch (const std::exception& ex) {
+        return Result<bool>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Qdrant create_index failed: ") + ex.what()
+        );
+    }
+#else
+    // Simulation mode: no-op.
+    (void)collection;
+    (void)dimensions;
+    (void)index_params;
     return Result<bool>::ok(true);
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -535,26 +834,40 @@ Result<bool> QdrantAdapter::rollback_transaction(
 Result<SystemInfo> QdrantAdapter::get_system_info() const {
     SystemInfo info;
     info.system_name = "Qdrant";
-    // Simulation mode reports 1.7; production implementations should query
-    // the /healthz or /collections endpoint to obtain the actual version.
     info.version = "1.7";
     info.build_info["index_type"] = "HNSW";
-    info.build_info["platform"] = "Linux/Windows/macOS";
-    info.build_info["api"] = "REST/gRPC";
+    info.build_info["platform"]   = "Linux/Windows/macOS";
+    info.build_info["api"]        = "REST/gRPC";
+#ifdef THEMIS_ENABLE_QDRANT
+    info.build_info["driver"] = "cpp-httplib (real)";
+#else
+    info.build_info["driver"] = "cpp-httplib (simulation)";
+#endif
     info.configuration["endpoint"] = Scalar{connection_string_};
     return Result<SystemInfo>::ok(std::move(info));
 }
 
 Result<SystemMetrics> QdrantAdapter::get_metrics() const {
     SystemMetrics metrics;
-    metrics.memory.total_bytes = 0;
-    metrics.memory.used_bytes = 0;
-    metrics.memory.available_bytes = 0;
-    metrics.storage.total_bytes = 0;
-    metrics.storage.used_bytes = 0;
-    metrics.storage.available_bytes = 0;
-    metrics.cpu.utilization_percent = 0.0;
+    metrics.memory.total_bytes        = 0;
+    metrics.memory.used_bytes         = 0;
+    metrics.memory.available_bytes    = 0;
+    metrics.storage.total_bytes       = 0;
+    metrics.storage.used_bytes        = 0;
+    metrics.storage.available_bytes   = 0;
+    metrics.cpu.utilization_percent   = 0.0;
+#ifdef THEMIS_ENABLE_QDRANT
+    // Report pool active connections as a proxy for driver thread usage.
+    if (qdrant_state_) {
+        const auto stats = qdrant_state_->pool.get_stats();
+        metrics.cpu.thread_count =
+            static_cast<uint32_t>(stats.active_connections);
+    } else {
+        metrics.cpu.thread_count = 0;
+    }
+#else
     metrics.cpu.thread_count = 0;
+#endif
     return Result<SystemMetrics>::ok(std::move(metrics));
 }
 

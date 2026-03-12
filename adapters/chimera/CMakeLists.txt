@@ -82,12 +82,15 @@ if(BUILD_MONGODB_ADAPTER)
     find_package(libbsoncxx CONFIG)
 
     if(libmongocxx_FOUND AND libbsoncxx_FOUND)
-        message(STATUS "MongoDB adapter: enabled")
+        message(STATUS "MongoDB adapter: enabled with real mongocxx driver")
         add_library(chimera_mongodb_adapter
             ${CMAKE_SOURCE_DIR}/src/chimera/mongodb_adapter.cpp
         )
         target_include_directories(chimera_mongodb_adapter
             PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_compile_definitions(chimera_mongodb_adapter
+            PUBLIC THEMIS_ENABLE_MONGODB
         )
         target_link_libraries(chimera_mongodb_adapter
             PUBLIC chimera_interface
@@ -136,19 +139,37 @@ endif()
 option(BUILD_QDRANT_ADAPTER "Build Qdrant adapter" OFF)
 
 if(BUILD_QDRANT_ADAPTER)
-    # Production deployments should link against an HTTP client library
-    # (e.g. cpp-httplib or cpr) for live Qdrant REST/gRPC API access.
-    # The adapter also works in simulation mode without any external driver.
-    message(STATUS "Qdrant adapter: enabled (simulation mode; production requires HTTP client)")
-    add_library(chimera_qdrant_adapter
-        ${CMAKE_SOURCE_DIR}/src/chimera/qdrant_adapter.cpp
-    )
-    target_include_directories(chimera_qdrant_adapter
-        PUBLIC ${CMAKE_SOURCE_DIR}/include
-    )
-    target_link_libraries(chimera_qdrant_adapter
-        PUBLIC chimera_interface
-    )
+    # Detect cpp-httplib (header-only) and nlohmann/json
+    find_package(httplib CONFIG QUIET)
+    find_package(nlohmann_json CONFIG QUIET)
+
+    if(httplib_FOUND AND nlohmann_json_FOUND)
+        message(STATUS "Qdrant adapter: enabled with cpp-httplib + nlohmann/json (real HTTP calls)")
+        add_library(chimera_qdrant_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/qdrant_adapter.cpp
+        )
+        target_include_directories(chimera_qdrant_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_compile_definitions(chimera_qdrant_adapter
+            PUBLIC THEMIS_ENABLE_QDRANT
+        )
+        target_link_libraries(chimera_qdrant_adapter
+            PUBLIC chimera_interface
+            PRIVATE httplib::httplib nlohmann_json::nlohmann_json
+        )
+    else()
+        message(WARNING "cpp-httplib or nlohmann/json not found; Qdrant adapter built in simulation mode (no live server required)")
+        add_library(chimera_qdrant_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/qdrant_adapter.cpp
+        )
+        target_include_directories(chimera_qdrant_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_link_libraries(chimera_qdrant_adapter
+            PUBLIC chimera_interface
+        )
+    endif()
 endif()
 
 # ==============================================================================
@@ -202,20 +223,37 @@ endif()
 option(BUILD_NEO4J_ADAPTER "Build Neo4j adapter" OFF)
 
 if(BUILD_NEO4J_ADAPTER)
-    # Production deployments should link against a Bolt protocol client library
-    # (e.g. libneo4j-client or a custom cpp-httplib HTTP adapter) for live
-    # Neo4j Bolt/HTTP API access.
-    # The adapter also works in simulation mode without any external driver.
-    message(STATUS "Neo4j adapter: enabled (simulation mode; production requires Bolt/HTTP client)")
-    add_library(chimera_neo4j_adapter
-        ${CMAKE_SOURCE_DIR}/src/chimera/neo4j_adapter.cpp
-    )
-    target_include_directories(chimera_neo4j_adapter
-        PUBLIC ${CMAKE_SOURCE_DIR}/include
-    )
-    target_link_libraries(chimera_neo4j_adapter
-        PUBLIC chimera_interface
-    )
+    # Detect cpp-httplib and nlohmann/json for the HTTP Transactional API path.
+    find_package(httplib CONFIG QUIET)
+    find_package(nlohmann_json CONFIG QUIET)
+
+    if(httplib_FOUND AND nlohmann_json_FOUND)
+        message(STATUS "Neo4j adapter: enabled with cpp-httplib + nlohmann/json (real Cypher/HTTP calls)")
+        add_library(chimera_neo4j_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/neo4j_adapter.cpp
+        )
+        target_include_directories(chimera_neo4j_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_compile_definitions(chimera_neo4j_adapter
+            PUBLIC THEMIS_ENABLE_NEO4J
+        )
+        target_link_libraries(chimera_neo4j_adapter
+            PUBLIC chimera_interface
+            PRIVATE httplib::httplib nlohmann_json::nlohmann_json
+        )
+    else()
+        message(WARNING "cpp-httplib or nlohmann/json not found; Neo4j adapter built in simulation mode (no live server required)")
+        add_library(chimera_neo4j_adapter
+            ${CMAKE_SOURCE_DIR}/src/chimera/neo4j_adapter.cpp
+        )
+        target_include_directories(chimera_neo4j_adapter
+            PUBLIC ${CMAKE_SOURCE_DIR}/include
+        )
+        target_link_libraries(chimera_neo4j_adapter
+            PUBLIC chimera_interface
+        )
+    endif()
 endif()
 
 # ==============================================================================
