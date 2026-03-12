@@ -1,6 +1,7 @@
-# Query Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Query Module - Future Enhancements
 
 - AQL execution engine covering relational, document, graph, vector, spatial, and timeseries models with 100+ built-in functions
 - Cost-based query optimizer with adaptive learning from runtime statistics and per-query cost model feedback
@@ -37,7 +38,54 @@
 
 ## Planned Features
 
-### Query Compilation & JIT
+### `QueryOptimizer`: Wire Real MetadataShard, Prometheus, and Statistics
+**Priority:** High
+**Target Version:** v1.6.0
+
+`query_optimizer.cpp` has 3 explicit TODOs all marked `(v1.5.1)`:
+- Line 507: "Replace with actual `MetadataShard` integration" — optimizer uses a hardcoded fallback instead of real schema statistics.
+- Line 536: "Replace with actual `PrometheusMetrics` integration" — optimizer emits no metrics; query plan selection quality is invisible.
+- Line 575: "Use actual statistics and histograms" — cardinality estimates are hardcoded constants, degrading join order selection.
+
+**Implementation Notes:**
+- `[ ]` **Line 507**: Inject a `MetadataShard*` (or `StatisticsCollector*` from `src/metadata/statistics_collector.cpp`) into `QueryOptimizer` constructor; replace the hardcoded fallback with `StatisticsCollector::getCardinality(collection, field)`.
+- `[ ]` **Line 536**: Inject a `MetricsCollector*`; emit `query.optimizer.plan_selected`, `query.optimizer.rewrite_count`, and `query.optimizer.cost_estimate` counters on each `optimize()` call.
+- `[ ]` **Line 575**: Use `StatisticsCollector::getHistogram(collection, field)` equi-height histograms for selectivity estimation in join cost model.
+- `[ ]` Add unit tests: verify that optimizer chooses index scan over full scan when selectivity < 10 % and statistics are present; verify Prometheus counters increment on each plan selection.
+
+**Performance Targets:**
+- Optimizer `optimize()` latency: ≤ 5 ms for queries with ≤ 10 joins using real statistics.
+
+---
+
+### `QueryFederation`: Real Shard Determination Logic
+**Priority:** High
+**Target Version:** v1.6.0
+
+`query_federation.cpp` line 348: "TODO: Implement actual shard determination logic". All federated queries currently default to broadcasting to all shards, making federation performance O(N shards) regardless of the query's key range.
+
+**Implementation Notes:**
+- `[ ]` Implement shard key routing: use `ShardingManager::getShardsForKeyRange(collection, min_key, max_key)` to route range queries to only the relevant shards.
+- `[ ]` For point lookups, route to the single shard owning the key via `ShardingManager::getShardForKey(collection, key)`.
+- `[ ]` Retain broadcast for queries without a shard key predicate (full-collection scans); log a `WARN` when broadcasting to > 10 shards.
+- `[ ]` Add unit tests: 3-shard setup, point lookup routes to 1 shard; range query routes to 2 shards; full scan broadcasts to all 3.
+
+---
+
+### `CTESubquery`: Replace Phase 1 Stub
+**Priority:** Medium
+**Target Version:** v1.7.0
+
+`cte_subquery.cpp` line 334 has: "Phase 1 stub: treat as scalar subquery; real behavior handled elsewhere". Correlated subqueries and EXISTS subqueries may be incorrectly evaluated as scalar, producing wrong results.
+
+**Implementation Notes:**
+- `[ ]` Implement correlated subquery evaluation: detect outer references in the subquery AST; evaluate subquery once per outer row with the correlated bindings.
+- `[ ]` Implement `EXISTS`/`NOT EXISTS` short-circuit: stop iterating the subquery result as soon as one matching row is found.
+- `[ ]` Add regression tests for correlated subqueries with outer reference in WHERE clause.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.8.0
 

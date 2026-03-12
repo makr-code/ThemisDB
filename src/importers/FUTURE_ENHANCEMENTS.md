@@ -1,6 +1,7 @@
-# Importers Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Importers Module - Future Enhancements
 
 This document covers planned enhancements to the Importers module beyond what is tracked in `ROADMAP.md`. It focuses on `postgres_importer.cpp` and the surrounding import pipeline infrastructure. Features here describe the engineering work required to add additional source connectors (MySQL, MongoDB, SQLite, flat files, S3, Kafka), a plugin API for third-party importers, and production-hardening of the existing PostgreSQL importer including distributed parallel import and conflict resolution strategies.
 
@@ -23,9 +24,35 @@ This document covers planned enhancements to the Importers module beyond what is
 
 ## Planned Features
 
+### [x] Apache Kafka Consumer Importer
+**Status:** ✅ Implemented (`src/importers/kafka_importer.cpp`)
+
+### [x] CSV / Parquet / JSON Lines Flat-File Importer
+**Status:** ✅ Implemented (`src/importers/flatfile_importer.cpp`)
+
 ### MySQL / MariaDB Importer
 **Priority:** High
-**Target Version:** v1.6.0
+**Target Version:** v1.8.0
+**Status:** `src/importers/mysql_importer.cpp` exists but needs verification that it is fully wired.
+
+**Implementation Notes:**
+- `[ ]` Verify `mysql_importer.cpp` registers with `ImporterRegistry` and is reachable from the admin import API.
+- `[ ]` Add Prometheus counters `importers_mysql_rows_imported_total` and `importers_mysql_errors_total` consistent with other importer naming.
+- `[ ]` Add integration test using a Docker MySQL 8.0 container.
+
+### MongoDB Document Importer
+**Priority:** High
+**Target Version:** v1.8.0
+**Status:** `src/importers/mongo_importer.cpp` exists; verify it handles all BSON extended JSON types.
+
+**Implementation Notes:**
+- `[ ]` BSON-to-JSON conversion must handle `ObjectId` → string, `ISODate` → ISO 8601, `Decimal128` → string, `Binary` → base64.
+- `[ ]` Add integration test using a Docker MongoDB 6.0 container.
+
+**Performance Targets:**
+- Import throughput ≥ 30 000 documents/sec from a local MongoDB 6.0 instance with 2 KB average documents.
+
+
 
 Add a MySQL/MariaDB source connector that mirrors the existing `postgres_importer.cpp` structure. MySQL is the second most commonly requested source after PostgreSQL and is needed to support migration workflows from legacy LAMP-stack applications.
 

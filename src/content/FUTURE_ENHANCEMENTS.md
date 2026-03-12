@@ -1,6 +1,7 @@
-# Content Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Content Module - Future Enhancements
 
 This document covers implementation-specific future enhancements for the Content module (`src/content/`), which provides multi-format content ingestion through `content_manager.cpp` (1,948 lines), MIME detection via `mime_detector.cpp`, and a family of format-specific processors: `text_processor.cpp`, `image_processor.cpp`, `pdf_processor.cpp`, `office_processor.cpp`, `geo_processor.cpp`, `audio_processor.cpp`, `video_processor.cpp`, `archive_processor.cpp`, and `cad_processor.cpp`. Enhancements to downstream vector embedding generation (`acceleration/`) and AQL query execution are out of scope; this document focuses on the ingestion pipeline, format support, and content processing performance.
 
@@ -56,7 +57,35 @@ public:
 
 ---
 
-### Streaming Ingestion for Large Files
+### Abuse Detection Stub Replacement
+**Priority:** High
+**Target Version:** v1.8.0
+
+`content_security.cpp` has **2 confirmed stubs**: line 150 ("Check 3: Abuse detection (stub for future implementation)") and line 421 ("Stub implementation for future abuse detection"). Every content item passes abuse detection unconditionally. Malicious content (CSAM hashes, spam fingerprints) is not detected.
+
+**Implementation Notes:**
+- `[ ]` Define `IAbuseDetector` interface with `detect(content_data, metadata) → AbuseDetectionResult`.
+- `[ ]` Implement `PhotoDNAAbuseDetector` backed by the PhotoDNA SDK (or open-source perceptual hash comparison against a blocklist) for image content; inject into `ContentSecurity` via constructor.
+- `[ ]` Implement `TextAbuseDetector` using a configurable blocklist + regex patterns loaded from `config/security/abuse_patterns.yaml`; support `BLOCK` and `FLAG` actions per pattern.
+- `[ ]` Wire both detectors into `ContentSecurity::check()` at line 150 (the stub location).
+- `[ ]` Add unit tests for both `BLOCK` (content rejected) and `FLAG` (content stored with flag) outcomes.
+- `[ ]` Audit log every detection event via `AuditLogger::logEvent()` with content hash, detector type, and action taken.
+
+---
+
+### `AsyncIngestionWorker`: YAML Config Loading and User Context
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`async_ingestion_worker.cpp` has 2 TODOs: line 969 (`job.user_context = ""; // TODO: Add user context support`) and line 1010 (`// TODO: Implement YAML config loading`). Worker pool configuration is hardcoded; user context is not propagated to downstream audit logs.
+
+**Implementation Notes:**
+- `[ ]` Implement YAML config loading at line 1010: parse `config/content/async_worker.yaml` (keys: `worker_threads`, `queue_depth`, `batch_size`, `retry_attempts`) via `ConfigPathResolver::resolve()` + `ConfigSchemaValidator`.
+- `[ ]` Propagate `user_context` from the caller's request metadata at line 969 into the `IngestionJob`; use it in downstream `AuditLogger::logEvent()` calls so ingestion events are attributable to the originating user.
+
+---
+
+
 **Priority:** High
 **Target Version:** v1.7.0
 

@@ -1,6 +1,7 @@
-# Themis Module Implementation - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Themis Module Implementation - Future Enhancements
 
 - Build metadata API: `getBuildConfiguration()`, `build_info.cpp` (version, compiler, flags, git SHA)
 - License validation: `license_info.cpp` with Ed25519 signature verification and expiry checking

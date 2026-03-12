@@ -1,6 +1,7 @@
-# Voice Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Voice Module - Future Enhancements
 
 The voice module implements an end-to-end voice interface for ThemisDB. It covers: speech-to-text (STT) via Whisper-based models, text-to-speech (TTS) synthesis, LLM-based intent recognition and natural-language-to-AQL translation, user-defined voice command macros, wake-word detection (custom and built-in), real-time noise suppression (RNNoise), automatic language detection across 50+ languages, multi-speaker diarization, biometric voice authentication with liveness detection, browser WebSocket audio streaming, and a voice analytics dashboard. Affected source files: `voice_processor.cpp`, `stt_engine.cpp`, `tts_engine.cpp`, `wake_word_detector.cpp`, `voice_authenticator.cpp`, and headers under `include/voice/`.
 

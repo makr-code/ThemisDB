@@ -1,6 +1,7 @@
-# Core Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Core Module - Future Enhancements
 
 - Central dependency injection (DI) context (`ConcernsContext`): owns and dispenses all adapter instances (storage, index, query, auth, logger, tracer, metrics, cache)
 - Adapter lifecycle management: registration, validation, hot-swap, and graceful shutdown of adapters

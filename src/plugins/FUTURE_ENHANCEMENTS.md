@@ -1,5 +1,7 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/plugins/ -->
+
 # Plugins Module - Future Enhancements
-<!-- Status: current | validated: 2026-03-09 -->
 <!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · docs/de/plugins/README.md -->
 
 ## Scope
@@ -25,7 +27,20 @@ This document covers planned enhancements to ThemisDB's plugin subsystem, which 
 
 ## Planned Features
 
-### [ ] WebAssembly Sandbox for Plugin Isolation
+### `PluginRegistry`: Upgrade Global Mutex to `shared_mutex`
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`plugin_registry.cpp` uses a single static `std::mutex` (line 50) for all registry operations. All read operations (`getPlugin`, `listPlugins`, `isRegistered`) hold an exclusive lock, serializing concurrent reads from multiple modules.
+
+**Implementation Notes:**
+- `[ ]` Replace the static `std::mutex` in `PluginRegistry::getMutex()` with a `std::shared_mutex`.
+- `[ ]` Upgrade `getPlugin`, `listPlugins`, `isRegistered` to `std::shared_lock`.
+- `[ ]` Keep `registerPlugin`, `unregisterPlugin`, `clear` on `std::unique_lock`.
+
+---
+
+
 **Priority:** High
 **Target Version:** v0.9.0
 

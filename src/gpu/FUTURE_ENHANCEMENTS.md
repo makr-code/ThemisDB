@@ -1,6 +1,7 @@
-# GPU Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# GPU Module - Future Enhancements
 
 - GPU resource allocation and memory pool management for CUDA (sm_70+), ROCm (HIP), and Vulkan Compute backends
 - CUDA/ROCm kernel registry: checksum-validated custom kernels for aggregation, sort, hash-join, and geospatial operations
@@ -46,7 +47,34 @@
 
 ## Features
 
-### CUDA / ROCm Kernel Support
+### `query_accelerator.cpp`: Replace CPU Fallback Stubs with Real CUDA/HIP Dispatch
+**Priority:** High
+**Target Version:** v1.4.0
+
+`src/gpu/query_accelerator.cpp` has **5 GPU stubs** that fall through to sequential CPU implementations:
+- Line 230: "GPU path stub: when `THEMIS_ENABLE_CUDA`/`THEMIS_ENABLE_HIP` is defined" — sort dispatch
+- Line 277: "GPU stub: would copy IDs + keys to device, run Thrust `stable_sort_by_key`"
+- Line 325: "GPU stub: would use `cub::DeviceReduce`"
+- Line 383: "GPU stub: would use a parallel hash join kernel"
+- Line 445: "GPU stub: would dispatch to `cublasSgemv` (FP32), `cublasHgemm` (FP16)"
+
+All 5 stubs are guarded by `#ifdef THEMIS_ENABLE_CUDA` / `#ifdef THEMIS_ENABLE_HIP` but the guarded block is a stub comment, not real implementation.
+
+**Implementation Notes:**
+- `[ ]` **Sort (line 277)**: implement `#ifdef THEMIS_ENABLE_CUDA` block using `thrust::stable_sort_by_key` on device vectors; handle device memory alloc/free via `GpuMemoryManager`.
+- `[ ]` **Reduce (line 325)**: implement using `cub::DeviceReduce::Sum`/`Max`/`Min`; allocate temp storage from `GpuMemoryPool`.
+- `[ ]` **Hash join (line 383)**: implement a two-phase GPU hash join (build hash table on device, probe from device memory); reuse `memory_pool.cpp` for device allocation.
+- `[ ]` **BLAS matrix-vector (line 445)**: dispatch `cublasSgemv` (FP32) or `cublasHgemm` (FP16) depending on `config_.precision`; handle cuBLAS handle lifecycle in `GpuModule`.
+- `[ ]` Add `THEMIS_ENABLE_HIP` equivalents using `hipblas` / `rocThrust` / `hipcub`.
+- `[ ]` Add CUDA/CPU parity tests for all 5 operations with input sizes 1 K, 100 K, 10 M.
+
+**Performance Targets:**
+- Sort 10 M int64 keys: ≥ 5× speedup vs. CPU `std::stable_sort` on RTX 3080.
+- Hash join 2 × 1 M rows: ≥ 8× speedup vs. CPU nested-loop join.
+
+---
+
+
 **Priority:** High | **Target Version:** v1.1.0 | **Status:** ✅ Infrastructure implemented
 
 Custom CUDA/ROCm kernels for specialised operations.

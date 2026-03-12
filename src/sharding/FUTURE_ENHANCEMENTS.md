@@ -1,6 +1,7 @@
-# Sharding Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Sharding Module - Future Enhancements
 
 This document covers planned enhancements to ThemisDB's sharding subsystem, which implements horizontal scaling through pluggable consensus algorithms (`ConsensusFactory` supporting Raft, Gossip, and Paxos), cross-shard distributed transactions (2PC, 3PC, SAGA, Percolator), deadlock detection, metadata sharding, and the `ShardRepairEngine` (anti-entropy with Reed-Solomon erasure coding). The module is currently in Beta state and requires RPC integration hardening, a production-ready cross-shard transaction coordinator, and improved observability before General Availability.
 
@@ -24,7 +25,48 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 
 ## Planned Features
 
-### [x] gRPC RPC Layer Hardening with mTLS and Retry Policies
+### `GpuErasureCoderOpenCL`: Implement OpenCL Encode/Decode
+**Priority:** High
+**Target Version:** v1.8.0
+
+`gpu_erasure_coder_opencl.cpp` (line 42: "OpenCL Implementation Class (Stub)") throws `std::runtime_error("OpenCL encode not implemented")` for all three operations: `encode`, `decode`, and `batchEncode`. The OpenCL erasure coding backend is completely non-functional.
+
+**Implementation Notes:**
+- `[ ]` Implement `OpenCLErasureCoder::encode()`: compile a Galois Field GF(2^8) multiply kernel via `clCreateProgramWithSource` at construction; enqueue an NDRange kernel to compute parity blocks in parallel.
+- `[ ]` Implement `OpenCLErasureCoder::decode()`: perform syndrome computation and Gaussian elimination on the GPU to recover erased data blocks.
+- `[ ]` Implement `batchEncode()`: batch multiple stripe operations into a single kernel dispatch.
+- `[ ]` Add CPU/GPU parity test for encode+decode round-trip with 1, 2, and 3 erasures.
+
+---
+
+### `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
+**Priority:** High
+**Target Version:** v1.8.0
+
+`cross_shard_transaction.cpp` has 3 critical TODOs:
+- Line 1898: "TODO: Replace with proper compensation RPC" — SAGA compensation actions call no real RPC.
+- Line 2581: `coordinator_id = "coordinator-1"` hardcoded — transaction audit records show a placeholder instead of the actual node.
+- Line 2605: same hardcoded coordinator ID.
+
+**Implementation Notes:**
+- `[ ]` Inject the actual `DistributedCoordinator::nodeId()` into `CrossShardTransactionManager`; replace all `"coordinator-1"` literals with the real node ID.
+- `[ ]` Line 1898: implement the SAGA compensation RPC by dispatching a `ShardRpcClient::compensate(shard_id, txn_id, operation)` call; handle network failures with a bounded retry queue.
+
+---
+
+### `OrphanDetector`: Wire to `DistributedCoordinator` Transaction List
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`orphan_detector.cpp` lines 50 and 67 have: "TODO: Access coordinator's transactions" and "TODO: Get transaction from coordinator". The orphan detector cannot inspect the coordinator's in-flight transaction list, making orphan detection non-functional.
+
+**Implementation Notes:**
+- `[ ]` Inject `DistributedCoordinator*` into `OrphanDetector` constructor; call `coordinator->listInFlightTransactions()` at line 50 to get the authoritative transaction list.
+- `[ ]` At line 67: call `coordinator->getTransaction(txn_id)` to fetch transaction metadata.
+
+---
+
+
 **Priority:** High
 **Target Version:** v0.9.0
 

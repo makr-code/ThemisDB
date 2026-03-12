@@ -1,6 +1,7 @@
-# Search Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Search Module - Future Enhancements
 
 - BM25 hybrid search with Reciprocal Rank Fusion (RRF) blending lexical and semantic results; configurable k1/b/RRF-k constants
 - HNSW vector indexing supporting Cosine, Dot Product, and L2 distance metrics with 85%+ recall@10

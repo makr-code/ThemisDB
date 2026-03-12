@@ -1,5 +1,7 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
 # Config Module - Future Enhancements
-<!-- status: current | validated: 2026-03-09 | source: src/config/ -->
 
 ## Scope
 
@@ -203,7 +205,33 @@ The following IEEE-format references cover the research foundations for planned 
 features of the Config module, particularly schema validation (§ "ConfigSchemaValidator:
 Extended JSON Schema Keyword Support"), LRU caching, and path-migration tooling.
 
-### JSON Schema & Configuration Validation
+### `ConfigEncryptedStore` Read-Path Lock Upgrade
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`config_encrypted_store.cpp` uses `std::lock_guard<std::mutex>` (exclusive) for both read (`get`, `list`, `contains`, `size`) and write (`set`, `remove`, `rotate_key`) operations. All read calls serialize with each other unnecessarily.
+
+**Implementation Notes:**
+- `[ ]` Replace `std::mutex mutex_` with `std::shared_mutex` in `ConfigEncryptedStore`; upgrade `get`, `list`, `contains`, `size` to `std::shared_lock`.
+- `[ ]` Keep `set`, `remove`, `rotate_key`, and `re_encrypt_all_locked()` on `std::unique_lock`.
+- `[ ]` Re-encryption (line 192, "perform full re-encrypt before swapping") requires `unique_lock` for its full duration to maintain atomicity — do not split it.
+
+---
+
+### SIGHUP Hot-Reload: inotify-Based File Watch
+**Priority:** Low
+**Target Version:** v1.8.0
+
+`config_path_resolver.cpp` (line 1764) explicitly logs "SIGHUP hot-reload not supported on Windows" and on POSIX registers a SIGHUP handler that sets a flag, but there is no inotify/kqueue watch that would trigger reload when config files actually change on disk. Operators must manually send SIGHUP.
+
+**Implementation Notes:**
+- `[ ]` Add an optional `ConfigFileWatcher` class (Linux: inotify, macOS: kqueue, Windows: `ReadDirectoryChangesW`) that watches the `config/` directory tree and invokes a reload callback when any `.yaml`/`.json` file changes.
+- `[ ]` Wire `ConfigFileWatcher` into `ConfigPathResolver::startHotReload()` as an optional enhancement alongside the existing SIGHUP path.
+- `[ ]` Debounce rapid file-system events (e.g., editor save-then-rename) with a 200 ms settling window.
+
+---
+
+
 
 [1] G. Baazizi, H. B. Lahmar, D. Colazzo, G. Ghelli, and C. Sartiani, "Schema Inference for Massive
 JSON Datasets," *Proc. 20th International Conference on Extending Database Technology (EDBT)*,

@@ -1,6 +1,7 @@
-# Network Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/ -->
 
-<!-- Status: current | validated: 2026-03-09 -->
+# Network Module - Future Enhancements
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · docs/de/network/README.md -->
 
 ## Scope
@@ -40,7 +41,20 @@
 
 ## Planned Features
 
-### WebSocket Protocol Support
+### `WireProtocolServer`: ProcessGraph Visit Timestamp TODO
+**Priority:** Low
+**Target Version:** v1.8.0
+
+`wire_protocol_server.cpp` line 2306 has: "TODO: `ProcessGraphManager` doesn't store individual visit timestamps per node" — the temporal-graph traversal path in the wire server cannot reconstruct visit ordering for graph result pages.
+
+**Implementation Notes:**
+- `[ ]` Add `ProcessGraphVisitLog` (map from node ID to `std::chrono::system_clock::time_point`) to `ProcessGraphManager` state; update on each traversal step.
+- `[ ]` Expose via `ProcessGraphManager::getVisitTimestamp(node_id)` for use in the wire protocol server response encoding.
+- `[ ]` Add unit test verifying visit timestamps are populated and ordered correctly across multi-hop traversals.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.7.0
 

@@ -1,5 +1,5 @@
-<!-- Status: current | validated: 2026-03-10 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/storage/README.md -->
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/storage/ -->
 
 # Storage Module - Future Enhancements
 
@@ -37,7 +37,44 @@
 
 ## Planned Features
 
-### Distributed Transactions
+### `RocksDBWrapper`: Implement Proper Size Calculation
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`rocksdb_wrapper.cpp` line 1445: "TODO: Implement proper size calculation". The `RocksDBWrapper::getApproximateSize()` or equivalent method returns 0 or a placeholder, making disk-space monitoring, compaction triggers, and admin API storage metrics unreliable.
+
+**Implementation Notes:**
+- `[ ]` Use `rocksdb::DB::GetApproximateSizes()` API to compute the on-disk SST file sizes for a key range.
+- `[ ]` Alternatively, use `rocksdb::DB::GetIntProperty(rocksdb::DB::Properties::kTotalSstFilesSize)` for total CF size.
+- `[ ]` Wire the result into `DiskSpaceMonitor` and the `/v1/admin/storage/stats` endpoint.
+
+---
+
+### `SecuritySignatureManager`: Implement RocksDB Iteration
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`security_signature_manager.cpp` line 110: "TODO: Implement proper RocksDB iteration when `RocksDBWrapper` supports it". Without iteration, the signature manager cannot verify integrity across all stored records.
+
+**Implementation Notes:**
+- `[ ]` Add `RocksDBWrapper::iterateRange(start_key, end_key, callback)` that uses a `rocksdb::Iterator` under the hood.
+- `[ ]` Wire into `SecuritySignatureManager::verifyAll()` to scan all document keys and verify their signatures in sequence.
+
+---
+
+### `BlobRedundancyManager`: Implement RocksDB Event Listener
+**Priority:** Low
+**Target Version:** v1.8.0
+
+`blob_redundancy_manager.cpp` line 768: "RocksDB listener not implemented" — the redundancy manager cannot react to RocksDB compaction events (SST file deletions) to trigger re-replication of blobs that lose their storage backing.
+
+**Implementation Notes:**
+- `[ ]` Implement a `BlobRedundancyEventListener` subclassing `rocksdb::EventListener`; override `OnTableFileDeleted` to trigger re-replication of any blobs whose backing SST was deleted.
+- `[ ]` Register the listener via `rocksdb::Options::listeners` at database open time.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.7.0
 

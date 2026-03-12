@@ -1,215 +1,199 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
 # Base Module - Future Enhancements
 
 ## Scope
 
-- Plugin lifecycle management: discovery, loading, versioning, hot-reload, and unloading of shared-library plugins
-- Secure module loading: path canonicalisation, allowlist enforcement, and OS-level permission checks before dlopen
-- Digital signature verification: Ed25519 signatures on plugin binaries; reject unsigned or tampered plugins
-- Plugin sandboxing: per-plugin resource limits (CPU, memory, file-system access) via OS namespaces/seccomp
-- Plugin marketplace integration: discovery, dependency resolution, and automated update of community plugins
-- Version migration support: state serialisation/deserialisation across plugin version upgrades
+Plugin lifecycle management (`module_loader.cpp`, `hot_reload_manager.cpp`), secure sandboxing (`module_sandbox.cpp`, `wasm_plugin_sandbox.cpp`, `wasm_runtime_injector.cpp`), remote marketplace client (`remote_registry_client.cpp`), plugin dependency graph (`plugin_dependency_graph.cpp`), and A/B test framework (`ab_test_manager.cpp`). This module is a foundational dependency of every other ThemisDB module.
 
 ---
 
 ## Design Constraints
 
-- `[ ]` Plugin load time (signature verify + dlopen + init hook) must be ≤ 200 ms per plugin on a warm filesystem
-- `[ ]` Hot-reload must achieve zero-downtime: existing in-flight queries using the old plugin version complete before teardown
-- `[ ]` Sandbox memory hard cap per plugin: 256 MB by default; configurable up to 2 GB
-- `[ ]` Signature verification must use Ed25519 (RFC 8032); RSA-2048 not accepted for new plugins
-- `[ ]` Plugin allowlist path checked on every load; symlink traversal outside the designated plugin directory is rejected
-- `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically
-- `[ ]` All lifecycle hooks (init, reload, shutdown) must complete within 5 s or are terminated and logged as failures
+- `[ ]` `loadedModules_` must support O(1) lookup by name; current `std::vector` + `std::find_if` is O(n) on every `get`/`unload` call.
+- `[ ]` Plugin load time (signature verify + dlopen + init hook) must be ≤ 200 ms per plugin on a warm filesystem.
+- `[ ]` Hot-reload must achieve zero-downtime: existing in-flight queries using the old plugin version complete before teardown.
+- `[ ]` Sandbox memory hard cap per plugin: 256 MB by default; configurable up to 2 GB via cgroup v2 `memory.max`, not just `RLIMIT_AS`.
+- `[ ]` Signature verification must use Ed25519 (RFC 8032); RSA-2048 not accepted for new plugins.
+- `[ ]` Plugin allowlist path checked on every load; symlink traversal outside the designated plugin directory is rejected.
+- `[ ]` Rollback of a failed hot-reload must complete within 500 ms and restore the previous plugin version atomically.
+- `[ ]` All lifecycle hooks (init, reload, shutdown) must complete within 5 s or are terminated and logged as failures.
+- `[ ]` WASM fuel/instruction metering must bound runaway plugin execution; modules exceeding the fuel limit must be terminated, not hung.
+- `[ ]` `RemoteRegistryClient` retry back-off (`std::this_thread::sleep_for`) must not block the calling thread; async scheduling required.
 
 ---
 
 ## Required Interfaces
 
 | Interface | Consumer | Notes |
-|---|---|---|
+|-----------|----------|-------|
 | `PluginLoader::load(path, manifest)` | Core module / plugin registry | Returns `PluginHandle` or structured error |
 | `SignatureVerifier::verify(binary_path, sig_path, pubkey)` | `PluginLoader` | Ed25519; rejects on any mismatch |
 | `HotReloadManager::reloadModule(name, new_path)` | Admin API / config watcher | Atomic swap; old handle kept until in-flight ops drain |
 | `HotReloadManager::rollback(name)` | `HotReloadManager` error path | Must complete ≤ 500 ms |
-| `PluginSandbox::createSandbox(plugin_id, limits)` | `PluginLoader` | OS namespace/seccomp; per-plugin resource policy |
+| `PluginSandbox::createSandbox(plugin_id, limits)` | `PluginLoader` | cgroup v2 + seccomp; per-plugin resource policy |
 | `MarketplaceClient::resolve(plugin_id, version)` | Plugin installer CLI / admin API | Returns download URL + signature; TLS required |
+| `ABTestManager::recordEvent(test_id, variant, metric, value)` | All modules | Thread-safe; must not hold `tests_` mutex during callbacks |
 
 ---
 
 ## Planned Features
 
-### Hot Module Reload ✅ Implemented
-**Priority:** Medium  
-**Target Version:** v1.1.0  
-**Status:** Implemented in `src/base/hot_reload_manager.cpp` (`include/themis/base/hot_reload_manager.h`)
+### O(1) Module Lookup — Replace `loadedModules_` Vector with Unordered Map
+**Priority:** High
+**Target Version:** v1.2.0
 
-Reload modules without restarting the database.
+`loadedModules_` in `module_loader.cpp` is a `std::vector<ModuleInfo>`. Every lookup (`isLoaded`, `getModule`, `unload`, `watchdogLoop`) calls `std::find_if` over the entire list — O(n) per operation. With dozens of loaded plugins this is measurable overhead on every query dispatch.
 
-**Features:**
-- Atomic module replacement
-- State preservation across reloads
-- Version migration support
-- Rollback on failure
-- Zero-downtime updates
+**Implementation Notes:**
+- `[ ]` Replace `loadedModules_` (`std::vector`) with `std::unordered_map<std::string, ModuleInfo>` keyed by module name in `module_loader.cpp`.
+- `[ ]` Introduce a `shared_mutex` so `getModule` / `isLoaded` (read-only) use `shared_lock` and `load` / `unload` use `unique_lock`, reducing read contention.
+- `[ ]` The watchdog loop at line 1752 notes "loadedModules_ has no dedicated mutex in the existing design" — fix this by making the watchdog hold a `shared_lock` when iterating.
+- `[ ]` Update `ModuleLoader` unit tests to exercise concurrent `load`/`getModule`/`unload` with TSAN enabled.
 
-**Implementation:**
-```cpp
-class HotReloadManager {
-public:
-    Result<bool> reloadModule(
-        const std::string& module_name,
-        const std::string& new_path
-    );
-    
-    Result<bool> rollback(
-        const std::string& module_name
-    );
-    
-    Result<ModuleVersion> getCurrentVersion(
-        const std::string& module_name
-    );
-};
-```
+**Performance Targets:**
+- `getModule(name)` lookup: O(1) average, ≤ 1 µs under contention from 8 concurrent reader threads.
 
 ---
 
-### Plugin Marketplace Integration ✅ Partially Implemented
-**Priority:** Low  
-**Target Version:** v1.1.0  
-**Status:** Partially implemented in `src/base/remote_registry_client.cpp` (`include/themis/base/remote_registry_client.h`); plugin discovery UI and automatic updates are still planned.
+### cgroup v2 Resource Enforcement for Module Sandbox
+**Priority:** High
+**Target Version:** v1.2.0
 
-**Features:**
-- Plugin discovery
-- Automatic download and installation
-- Dependency resolution
-- Automatic updates
-- User ratings and reviews
+`module_sandbox.cpp` uses `setrlimit(RLIMIT_AS)` and `setrlimit(RLIMIT_CPU)` as a "coarse fallback" (lines 372, 416–417). The source comments explicitly note that real production deployments need cgroup v2. The cgroup path is allocated in `platform_->cgroup_path` (line 238) but cleanup is commented out with "On a real production system, we'd also remove the cgroup" (line 330).
 
----
+**Implementation Notes:**
+- `[ ]` Implement `setupCgroupV2()` in `module_sandbox.cpp`: write `memory.max` and `cpu.max` to `/sys/fs/cgroup/themis/<sandbox_id>/` using the pre-allocated `cgroup_path`.
+- `[ ]` Implement `teardownCgroupV2()` to remove the cgroup directory on `stop()` — replace the "would also remove the cgroup" placeholder comment.
+- `[ ]` Detect cgroup v2 availability at startup; fall back to `RLIMIT_*` with a `spdlog::warn` when unavailable (container environments without cgroup delegation).
+- `[ ]` Add integration test that launches a sandbox plugin allocating > limit bytes and verifies it is killed within 500 ms.
 
-### Module Sandboxing ✅ Implemented
-**Priority:** High  
-**Target Version:** v1.1.0  
-**Status:** Implemented in `src/base/module_sandbox.cpp` (`include/themis/base/module_sandbox.h`) and `src/base/wasm_plugin_sandbox.cpp` (`include/themis/base/wasm_plugin_sandbox.h`). WASM runtime injection into `ModuleSandbox` is complete as of v1.8.0 (Issue #1572): set `Config::enable_wasm_isolation = true` and register at least one `IWasmRuntime` backend via `WasmRuntimeInjector` before calling `launch()`.
-
-**Features:**
-- Process isolation
-- Resource limits (CPU, memory)
-- Capability-based security (WASM host-function allowlist)
-- IPC between sandbox and host (via linear memory + WasmHostFunction callbacks)
-- Crash isolation
+**Performance Targets:**
+- Sandbox creation (cgroup v2 setup): ≤ 50 ms per plugin.
 
 ---
 
-### Module Dependency Management ✅ Partially Implemented
-**Priority:** Medium  
-**Target Version:** v1.2.0  
-**Status:** Partially implemented in `src/base/plugin_dependency_graph.cpp` (`include/themis/base/plugin_dependency_graph.h`); enforced ordered loading with version conflict resolution is in progress (Issue: #1566).
+### WASM Instruction Fuel Metering
+**Priority:** High
+**Target Version:** v1.2.0
 
-**Features:**
-- Dependency declaration
-- Automatic dependency resolution
-- Version compatibility checking
-- Circular dependency detection
-- Lazy loading of dependencies
+`wasm_plugin_sandbox.cpp` allocates linear memory and validates imports/exports but has no instruction-counting / fuel mechanism. A malicious or buggy WASM plugin can spin indefinitely without triggering any timeout.
+
+**Implementation Notes:**
+- `[ ]` Add `WasmSandboxConfig::max_instructions` (default: 1 billion) and `WasmSandboxConfig::fuel_check_interval` fields in `wasm_plugin_sandbox.h`.
+- `[ ]` Implement a fuel counter decremented per basic block in the WASM interpreter dispatch loop in `wasm_plugin_sandbox.cpp`; when fuel reaches zero, set `last_error_` and return an error code instead of the host function result.
+- `[ ]` Expose remaining fuel via `WasmPluginSandbox::remainingFuel()` for observability.
+- `[ ]` Add unit test: WASM module with infinite loop terminates within `max_instructions` cycles and returns a structured error.
+
+**Performance Targets:**
+- Fuel check overhead: ≤ 3 % CPU overhead vs. unchecked execution on a tight compute loop.
+
+---
+
+### WASM Non-Function Import Parsing Completeness
+**Priority:** Medium
+**Target Version:** v1.2.0
+
+In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section stops accumulating entries when a non-function import (table, memory, global) is encountered before all function imports have been listed. The comment acknowledges this limitation: "only the imports before the first non-function entry will appear in `info.imports`." This means capability-model enforcement is incomplete for WASM modules that declare memory/table imports before their function imports.
+
+**Implementation Notes:**
+- `[ ]` Fix the import-section parser in `wasm_plugin_sandbox.cpp` to correctly skip non-function import descriptors (table: `0x01`, memory: `0x02`, global: `0x03`) and continue accumulating function imports regardless of ordering.
+- `[ ]` Add unit tests with WASM binaries that interleave memory and function imports; verify all function imports appear in `info.imports`.
+
+---
+
+### A/B Test Persistence and Observability Export
+**Priority:** Medium
+**Target Version:** v1.3.0
+
+`ab_test_manager.cpp` stores `ABVariantMetrics` exclusively in memory (in `tests_` map). All metrics are lost on server restart. There is also no export to the observability stack (MetricsCollector / OpenTelemetry).
+
+**Implementation Notes:**
+- `[ ]` Persist `ABTestConfig` and `ABVariantMetrics` snapshots to RocksDB using key prefix `ab_test::` via the `StorageEngine` interface; reload on `ABTestManager::start()`.
+- `[ ]` Emit per-variant counters (`ab_test.<test_id>.<variant>.requests`, `.conversions`, `.latency_p99`) to `MetricsCollector` on every `recordEvent()` call without holding the `tests_` mutex.
+- `[ ]` Add `ABTestManager::exportMetricsSnapshot()` returning a `std::vector<ABTestMetricRow>` for admin API consumption.
+- `[ ]` Add a Bayesian Thompson Sampling auto-stop: when posterior probability that treatment beats control exceeds a configurable threshold (default 0.95), mark the test as concluded and route all traffic to the winner.
+
+**Performance Targets:**
+- `recordEvent()` (hot path): ≤ 2 µs with metrics emission; no mutex held during MetricsCollector call.
+
+---
+
+### Async Retry Back-Off in `RemoteRegistryClient`
+**Priority:** Medium
+**Target Version:** v1.3.0
+
+`remote_registry_client.cpp` uses `std::this_thread::sleep_for(std::chrono::milliseconds(backoff_ms))` in both `httpGet` (line 309) and `httpGetBinary` (line 394) retry loops. This blocks the calling thread — potentially a server I/O thread — for up to 16 s.
+
+**Implementation Notes:**
+- `[ ]` Replace blocking sleep with a `std::async`/future or a scheduler callback so the calling thread is released during back-off; use the existing `TaskScheduler` for delayed retry dispatch.
+- `[ ]` Add a `RemoteRegistryConfig::max_total_retry_time_ms` cap (default: 30 000 ms) to prevent retries from exceeding a caller's timeout budget.
+- `[ ]` Expose retry attempt count and last error in a `RemoteRegistryClient::lastRequestStats()` struct for observability.
+
+---
+
+### Hot-Reload Reader/Writer Lock Upgrade
+**Priority:** Medium
+**Target Version:** v1.3.0
+
+`hot_reload_manager.cpp` uses a single `std::mutex` for all operations (lines 55–495). All `getVersion()`, `isLoaded()`, and status queries (read-only operations) contend with `reloadModule()` (write operation), limiting read throughput under concurrent query load.
+
+**Implementation Notes:**
+- `[ ]` Replace `std::mutex mutex_` with `std::shared_mutex` in `HotReloadManager`; upgrade `getVersion`, `getCurrentVersion`, `isLoaded`, `getModuleNames` to `std::shared_lock`.
+- `[ ]` Keep `reloadModule` and `rollback` on `std::unique_lock`.
+- `[ ]` Add TSAN-enabled test with 16 reader threads + 1 reload thread running concurrently.
 
 ---
 
 ### Cross-Platform Module Format
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.4.0
 
-Universal module format across platforms.
+Universal module packaging format across Linux/macOS/Windows, including platform-independent manifest, auto-detected native library bundling, and resource embedding.
 
-**Features:**
-- Platform-independent packaging
-- Automatic platform detection
-- Native library bundling
-- Resource embedding
+**Implementation Notes:**
+- `[ ]` Define a `PluginBundle` format (zip archive with `manifest.json`, native `.so`/`.dll`/`.dylib`, optional WASM fallback, and Ed25519 signature file).
+- `[ ]` Implement `PluginBundleLoader` in `module_loader.cpp` that unpacks to a temp dir, verifies signature, selects the correct native binary for the current platform, and delegates to the existing `PluginLoader`.
+- `[ ]` Support WASM-only bundles as a portable fallback when no native library for the current platform is present.
 
 ---
 
 ## Test Strategy
 
-- **Unit tests** (≥ 90 % line coverage): `PluginLoader` path-validation logic; `SignatureVerifier` with valid, tampered, and missing signatures; `HotReloadManager` state machine transitions
-- **Integration tests**: load 10 real plugin binaries (including one with an invalid signature); verify hot-reload cycles complete without dropping in-flight queries; verify rollback restores functionality after a broken plugin
-- **Sandbox tests**: attempt to exceed memory cap (256 MB) from within sandboxed plugin code; verify SIGKILL + structured error returned to caller within 500 ms
-- **Fuzz tests** (libFuzzer): fuzz `PluginLoader` with malformed manifest JSON and adversarial binary paths (symlinks, null bytes, path traversal)
-- **Marketplace mock tests**: dependency resolution with circular dependencies must return a clear error, never infinite loop
-- **CI coverage gate**: line coverage ≥ 85 % enforced; sandbox tests run in an isolated container with seccomp enabled
+- **Unit tests** (≥ 90 % line coverage): `PluginLoader` path-validation logic; `SignatureVerifier` with valid, tampered, and missing signatures; `HotReloadManager` state machine transitions with TSAN.
+- **Integration tests**: load 10 real plugin binaries (including one with an invalid signature); verify hot-reload cycles complete without dropping in-flight queries; verify rollback restores functionality after a broken plugin.
+- **Sandbox tests**: attempt to exceed memory cap (256 MB) from within sandboxed plugin code; verify SIGKILL + structured error returned within 500 ms.
+- **WASM tests**: parse WASM modules with interleaved non-function imports; verify fuel metering terminates infinite loops.
+- **Fuzz tests** (libFuzzer): fuzz `PluginLoader` with malformed manifest JSON and adversarial binary paths (symlinks, null bytes, path traversal).
+- **Marketplace mock tests**: dependency resolution with circular dependencies must return a clear error, never infinite loop.
+- **CI coverage gate**: line coverage ≥ 85 % enforced; sandbox tests run in an isolated container.
 
 ## Performance Targets
 
-- Plugin load (signature verify + dlopen + init): ≤ 200 ms per plugin on warm filesystem
-- Hot-reload swap (old → new, no in-flight queries): ≤ 150 ms end-to-end
-- Hot-reload rollback on failure: ≤ 500 ms to restore previous functional state
-- Signature verification (Ed25519, 1 MB binary): ≤ 5 ms
-- Sandbox creation (OS namespace setup): ≤ 50 ms per plugin
-- Plugin discovery scan of a 500-plugin directory: ≤ 1 s
+- Plugin load (signature verify + dlopen + init): ≤ 200 ms per plugin on warm filesystem.
+- Hot-reload swap (old → new, no in-flight queries): ≤ 150 ms end-to-end.
+- Hot-reload rollback on failure: ≤ 500 ms to restore previous functional state.
+- Signature verification (Ed25519, 1 MB binary): ≤ 5 ms.
+- Sandbox creation (cgroup v2 setup): ≤ 50 ms per plugin.
+- `getModule(name)` lookup: O(1) average, ≤ 1 µs under 8 concurrent readers.
+- Plugin discovery scan of a 500-plugin directory: ≤ 1 s.
 
 ## Security / Reliability
 
-- Ed25519 signature mandatory for all plugins; unsigned binaries are rejected before dlopen; public key pinned in server config
-- Plugin paths canonicalised and restricted to the configured plugin root; symlink traversal outside root returns `EPERM`
-- Sandboxed plugins run under seccomp-bpf allowlist: only `read`, `write`, `mmap`, and a declared set of syscalls permitted
-- Plugin init/shutdown hooks killed via `SIGKILL` if they exceed 5 s timeout; crash reported as structured error, never propagated as C++ exception
-- Marketplace downloads verified by TLS + Ed25519 signature before installation; SHA-256 checksum logged for audit trail
-- All plugin load/unload/reload events written to immutable audit log with timestamp, plugin name, version, and outcome
+- Ed25519 signature mandatory for all plugins; unsigned binaries rejected before dlopen; public key pinned in server config.
+- Plugin paths canonicalised and restricted to the configured plugin root; symlink traversal outside root returns `EPERM`.
+- Sandboxed plugins run under seccomp-bpf allowlist and cgroup v2 memory/CPU limits.
+- Plugin init/shutdown hooks killed via `SIGKILL` if they exceed 5 s timeout; crash reported as structured error.
+- Marketplace downloads verified by TLS + Ed25519 signature before installation; SHA-256 checksum logged for audit trail.
+- All plugin load/unload/reload events written to immutable audit log with timestamp, plugin name, version, and outcome.
 
 ---
 
 ## See Also
 
-- [README.md](README.md) - Current module documentation
-- [ROADMAP.md](ROADMAP.md) - Feature status and verification evidence
+- [README.md](README.md)
+- [ROADMAP.md](ROADMAP.md)
 
----
-
-## Scientific References (IEEE Format)
-
-The following references underpin the design and future enhancements of this module.
-
-### Dependency Resolution
-
-[1] C. Tucker, D. Shuffelton, R. Jhala, and S. Lerner, "OPIUM: Optimal Package Install/Uninstall Manager," in *Proc. 29th Int. Conf. Software Engineering (ICSE)*, Minneapolis, MN, USA, 2007, pp. 178–188.
-
-[2] A. Abate, P. Bourdoncle, B. Durak, J. Vouillon, and R. Di Cosmo, "A formal study of the package dependency problem," in *Proc. 2012 Int. Conf. Software Engineering and Advanced Applications (SEAA)*, Cesme, Turkey, 2012, pp. 109–116.
-
-[3] R. Di Cosmo, B. Durak, X. Leroy, F. Mancinelli, and J. Vouillon, "Maintaining Large Software Distributions: New Challenges from the FOSS Era," in *Proc. Workshop Future Trends Distributed Computing Systems (FTDCS)*, Suzhou, China, 2008, pp. 138–145.
-
-### WebAssembly and Plugin Sandboxing
-
-[4] A. Haas, A. Rossberg, D. L. Schuff, B. L. Titzer, M. Holman, D. Gohman, L. Wagner, A. Zakai, and J. Bastien, "Bringing the Web up to Speed with WebAssembly," in *Proc. 38th ACM SIGPLAN Conf. Programming Language Design and Implementation (PLDI)*, Barcelona, Spain, 2017, pp. 185–200.
-
-[5] N. Narayan, S. Raychaudhuri, and V. Laxmi, "SandTrap: Securing JavaScript-driven Trigger-Action Platforms," in *Proc. 30th USENIX Security Symp.*, online, 2021, pp. 3753–3770.
-
-[6] E. Wen and G. Weber, "Wasmachine: Bring the Power of SGX to Web," in *Proc. IEEE Security & Privacy Workshops (SPW)*, San Francisco, CA, USA, 2020, pp. 27–33.
-
-### Ed25519 Signature Verification
-
-[7] D. J. Bernstein, N. Duif, T. Lange, P. Schwabe, and B.-Y. Yang, "High-Speed High-Security Signatures," in *Proc. 13th Int. Workshop Cryptographic Hardware and Embedded Systems (CHES)*, Nara, Japan, 2011, vol. 6917, pp. 124–142.
-
-[8] D. J. Bernstein and T. Lange, "SafeCurves: Choosing Safe Curves for Elliptic-Curve Cryptography," [Online]. Available: https://safecurves.cr.yp.to, accessed Mar. 2026.
-
-### Hot Module Reload / Live Update
-
-[9] G. Hayward and M. Ott, "Live Update for Fault-Tolerant Distributed Systems," in *Proc. 2019 IEEE 22nd Int. Symp. Real-Time Distributed Computing (ISORC)*, Valencia, Spain, 2019, pp. 27–34.
-
-[10] K. Makris and K. Ryu, "Dynamic and Adaptive Updates of Non-Quiescent Subsystems in Commodity Operating System Kernels," in *Proc. 4th ACM SIGOPS/EuroSys European Conf. Computer Systems (EuroSys)*, Nuremberg, Germany, 2009, pp. 287–300.
-
-### Plugin Marketplace Security and Key Pinning
-
-[11] M. Georgiev, S. Iyengar, S. Jana, R. Anubhai, D. Boneh, and V. Shmatikov, "The Most Dangerous Code in the World: Validating SSL Certificates in Non-Browser Software," in *Proc. 2012 ACM Conf. Computer and Communications Security (CCS)*, Raleigh, NC, USA, 2012, pp. 38–49.
-
-[12] C. Evans, C. Palmer, and R. Sleevi, "Public Key Pinning Extension for HTTP," RFC 7469, IETF, April 2015.
-
-### Mutation Testing and Test Coverage
-
-[13] R. A. DeMillo, R. J. Lipton, and F. G. Sayward, "Hints on Test Data Selection: Help for the Practicing Programmer," *IEEE Computer*, vol. 11, no. 4, pp. 34–41, Apr. 1978.
-
-[14] Y. Jia and M. Harman, "An Analysis and Survey of the Development of Mutation Testing," *IEEE Trans. Software Engineering*, vol. 37, no. 5, pp. 649–678, Sep.–Oct. 2011.
-
----
-
-*Last Updated: March 2026*  
+*Last Updated: 2026-03-12*
 *Module Version: v1.1.0*

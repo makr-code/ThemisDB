@@ -1,6 +1,7 @@
-# Ingestion Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/ingestion/ -->
 
-<!-- Status: current | validated: 2026-03-09 | Primary: src/ingestion/ | Secondary: docs/de/ingestion/ -->
+# Ingestion Module - Future Enhancements
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · ../../docs/de/ingestion/README.md -->
 
 ## Scope
@@ -36,7 +37,21 @@ This document covers planned enhancements to the Ingestion module beyond what is
 
 ## Planned Features
 
-### Production libcurl HTTP Client
+### `LLMIngestionAdapter` Phase 2: Wire llama.cpp
+**Priority:** High
+**Target Version:** v1.8.0
+
+`ingestion/llm_adapter.cpp` documents "Phase 2: wire to Mistral 7B via llama.cpp" and contains 3 explicit Phase 2 TODOs/comments. The adapter currently returns an empty embedding vector from a stub lambda (line 77: "Temporary fallback until Phase 2 wiring is complete").
+
+**Implementation Notes:**
+- `[ ]` Uncomment `#include "llm/llama_resource_manager.h"` (line 22) and wire the `ILLMAdapter::embed()` callback to `LlamaResourceManager::embed()` when `THEMIS_ENABLE_LLM` is defined.
+- `[ ]` Replace the naive line-by-line JSON parser at line 130 ("Phase 2 TODO: replace with a proper JSON parser") with `nlohmann::json::parse()`.
+- `[ ]` Add a Phase 2 model health check at `initialize()` (line 47: "Phase 2: check that the model file exists and is readable") — fail fast with a clear error if the model file is missing rather than silently using the stub embedding.
+- `[ ]` Add integration tests for `LLMIngestionAdapter` with a real (small) GGUF model file.
+
+---
+
+
 **Priority:** High
 **Target Version:** v1.6.0
 **Status:** ✅ Implemented (Issue: INGESTION-MISSING-001, PR: 2026-03-11)

@@ -1,5 +1,7 @@
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
 # Metadata Module - Future Enhancements
-<!-- status: current | validated: 2026-03-10 | commit: 4c1a2dfc1 -->
 
 ## Scope
 
@@ -38,7 +40,21 @@
 
 ## Planned Features
 
-### Statistics Collector
+### `IndexRecommender`: Access-Pattern Persistence and ML Model
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`index_recommender.cpp` maintains access statistics only in memory (`stats_` map). On restart, all access history is lost and recommendations revert to the "no data" state. The recommendation algorithm uses simple heuristics (sort usage ratio vs. equality ratio) rather than a query-workload-aware model.
+
+**Implementation Notes:**
+- `[ ]` Persist `stats_` snapshots to RocksDB under key prefix `meta_idx_stats::` on a configurable interval (default 5 min) or on graceful shutdown.
+- `[ ]` On `IndexRecommender` construction, load the persisted stats snapshot; merge with any post-restart activity.
+- `[ ]` Replace the threshold-based heuristic in `recommend()` (line 122) with a cost-model estimate: use `StatisticsCollector` cardinality/selectivity to estimate index benefit vs. write amplification.
+- `[ ]` Emit `metadata.index_recommendation.generated_total` metric per recommendation cycle.
+
+---
+
+
 **Priority:** High  
 **Target Version:** v1.6.0
 
