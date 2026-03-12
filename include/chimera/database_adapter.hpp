@@ -1229,6 +1229,87 @@ private:
 };
 
 /**
+ * @struct ParsedConnectionString
+ * @brief Components of a parsed adapter connection string
+ *
+ * @details Populated by AdapterConfig::parse_connection_string().
+ */
+struct ParsedConnectionString {
+    std::string scheme;   ///< URI scheme (e.g. "themisdb", "postgresql")
+    std::string host;     ///< Hostname or IP
+    std::string port;     ///< Port number as string (empty if absent)
+    std::string database; ///< Database / path component (empty if absent)
+    std::string username; ///< User info (empty if absent)
+    // NOTE: password is intentionally omitted to avoid credential exposure
+};
+
+/**
+ * @struct AdapterConfig
+ * @brief Configuration container for a database adapter
+ *
+ * @details Aggregates a connection string and a map of key-value options.
+ *          Call validate() before passing the config to any adapter's
+ *          connect() method to surface problems early.
+ *
+ * @example
+ * @code
+ * AdapterConfig config;
+ * config.connection_string = "themisdb://localhost:8529/db";
+ * config.options["pool_size"]  = int64_t{50};
+ * config.options["timeout_ms"] = int64_t{30000};
+ *
+ * if (!config.validate().is_ok()) {
+ *     for (const auto& err : config.get_validation_errors()) {
+ *         std::cerr << "Config error: " << err << '\n';
+ *     }
+ * }
+ * @endcode
+ */
+struct AdapterConfig {
+    /// Connection URI (e.g. "themisdb://localhost:8529/mydb")
+    std::string connection_string;
+
+    /// Adapter-specific options (type-safe via the Scalar variant)
+    std::map<std::string, Scalar> options;
+
+    // -----------------------------------------------------------------------
+    // Validation
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Validate the configuration.
+     *
+     * Checks:
+     *  - connection_string is non-empty and contains a recognised scheme
+     *  - connection_string contains a non-empty host
+     *  - well-known options have the expected type
+     *  - well-known options are within their valid ranges
+     *
+     * @return Result<bool> — ok(true) if valid; err(...) on the first fatal
+     *         error (call get_validation_errors() for the full list).
+     */
+    Result<bool> validate() const;
+
+    /**
+     * @brief Collect all validation errors.
+     *
+     * Unlike validate(), this method always inspects the entire configuration
+     * and returns every problem found.
+     *
+     * @return Vector of human-readable error strings (empty if valid).
+     */
+    std::vector<std::string> get_validation_errors() const;
+
+    /**
+     * @brief Parse the connection string into its components.
+     *
+     * @return Populated ParsedConnectionString.  Fields that are absent from
+     *         the URI are left as empty strings.
+     */
+    ParsedConnectionString parse_connection_string() const;
+};
+
+/**
  * @class AdapterCapabilityMatrix
  * @brief Cross-system adapter capability comparison matrix
  *
