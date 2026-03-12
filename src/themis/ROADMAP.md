@@ -3,7 +3,7 @@
 # Themis Core Framework Module Roadmap
 
 ## Current Status
-v1.7.0 (in progress) – License validation lives in `src/utils/`; module loading in `src/base/`. The `src/themis/` directory now contains all six implementation files: `build_info.cpp` (migrated from `src/utils/`), `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`), `module_dependency_resolver.cpp`, `edition_manager.cpp` (Issue: #2469, dynamic feature-flag override API included), `module_hash_verifier.cpp` (Issue: #2471, SHA-256 module integrity), and `module_signature_verifier.cpp` (Issue: #2473, Authenticode/GPG verification). The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
+v1.7.0 (in progress) – License validation lives in `src/utils/`; module loading migrated to `src/themis/` (v1.7.0). The `src/themis/` directory now contains all ten implementation files: `build_info.cpp` (migrated from `src/utils/`), `wire_protocol_server.cpp` (Phase 3 deliverable: `themis::wire` namespace, header at `include/themis/network/wire_protocol_server.hpp`), `module_dependency_resolver.cpp`, `edition_manager.cpp` (Issue: #2469, dynamic feature-flag override API included), `module_hash_verifier.cpp` (Issue: #2471, SHA-256 module integrity), `module_signature_verifier.cpp` (Issue: #2473, Authenticode/GPG verification), `module_loader.cpp` (platform-independent core), `module_loader_win32.cpp` (Windows: Zone.Identifier, Authenticode), `module_loader_linux.cpp` (Linux: GPG, xattr, ELF metadata), and `module_security.cpp` (ModuleSecurityVerifier). The `src/network/wire_protocol_server.cpp` (`themis::network` namespace) is a separate, higher-level server implementation that is retained for backward compatibility; both coexist in the monolithic build during the v1.7.0 migration window.
 
 ## Completed ✅
 - [x] Public header interfaces defined (`include/themis/`)
@@ -24,12 +24,13 @@ v1.7.0 (in progress) – License validation lives in `src/utils/`; module loadin
 - [x] `module_dependency_resolver.cpp` – focused CTest target added (ModuleDependencyResolverFocusedTests) covering topological sort, version compat, cycle detection (Issue: #2474)
 
 ## In Progress 🚧
-- [~] `module_loader.cpp` – implemented in `src/base/`; pending migration to `src/themis/` (Target: Q3 2026, v1.7.0)
+- [~] `license_info.cpp` – implemented in `src/utils/`; pending migration to `src/themis/` (Target: Q2 2026, v1.7.0)
+- [x] `module_loader.cpp` – migrated to `src/themis/` with platform-specific split (module_loader_win32.cpp, module_loader_linux.cpp, module_security.cpp) (Issue: #module-loader-implementation)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` migration status.
+See "In Progress" section above for `license_info.cpp` migration status. `module_loader.cpp` migration is complete (v1.7.0).
 
 ### Long-term (6-12 months)
 - [I] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules) (Issue: #2472)
@@ -47,8 +48,8 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 
 ### Phase 2: Core Implementation Files (Status: Implemented ✅)
 - [x] `build_info.cpp` – build metadata collection and formatting (`src/themis/build_info.cpp`; migrated from `src/utils/`)
-- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/themis/license_info.cpp`; migrated from `src/utils/`)
-- [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/base/module_loader.cpp`)
+- [x] `license_info.cpp` – embedded license validation and Ed25519 signature verification (`src/utils/license_info.cpp`)
+- [x] `module_loader.cpp` – secure shared-library loading with hash/signature checks (`src/themis/module_loader.cpp`, `src/themis/module_loader_win32.cpp`, `src/themis/module_loader_linux.cpp`, `src/themis/module_security.cpp`)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: Completed ✅)
 - [x] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (`src/themis/wire_protocol_server.cpp`, namespace `themis::wire`)
@@ -74,9 +75,8 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] Unit tests for module hash verifier (tests/test_module_hash_verifier.cpp; CTest: ModuleHashVerifierFocusedTests)
 - [x] Unit tests for module signature verifier (tests/test_module_signature_verifier.cpp; CTest: ModuleSignatureVerifierFocusedTests)
 - [x] Unit tests for module dependency resolver (tests/test_module_dependency_resolver.cpp; CTest: ModuleDependencyResolverFocusedTests)
-- [x] Build system: edition_manager.cpp, module_hash_verifier.cpp, module_signature_verifier.cpp registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
-- [x] Export macros: THEMIS_BASE_API applied to all public API declarations in build_info.h, edition_manager.h, license_info.h, module_hash_verifier.h, module_signature_verifier.h
-- [x] Windows CI: windows-compile-check job added to themis-core-ci.yml (MSVC/x64, modular build, verifies DLL export macros)
+- [x] `module_loader.cpp` / `module_loader_win32.cpp` / `module_loader_linux.cpp` / `module_security.cpp` – migrated to `src/themis/`, registered in cmake/MiscellaneousFeatures.cmake and cmake/ModularBuild.cmake; CTest target ModuleLoaderFocusedTests added
+- [x] Unit tests for module loader core (tests/test_module_loader.cpp; CTest: ModuleLoaderFocusedTests)
 - [?] Integration tests (module load, license validation, build info)
 - [?] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
@@ -84,7 +84,7 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
 
 ## Known Issues & Limitations
-- The `src/themis/` directory contains all seven implementation files: `build_info.cpp`, `license_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, and `module_signature_verifier.cpp`. `module_loader.cpp` remains in `src/base/`, pending migration (see Planned Features).
+- The `src/themis/` directory now contains all ten implementation files: `build_info.cpp`, `wire_protocol_server.cpp`, `module_dependency_resolver.cpp`, `edition_manager.cpp`, `module_hash_verifier.cpp`, `module_signature_verifier.cpp`, `module_loader.cpp`, `module_loader_win32.cpp`, `module_loader_linux.cpp`, and `module_security.cpp`. Only `license_info.cpp` remains in `src/utils/`, pending migration (see Planned Features).
 - `WireProtocolServer::sessions_` is never pruned when a session disconnects; the
   map grows monotonically and `active_sessions()` never decreases. Fixing this
   requires adding a disconnect-callback member to `WireProtocolSession`, which
@@ -101,8 +101,7 @@ See "In Progress" section above for `license_info.cpp` and `module_loader.cpp` m
 - `OpCode::PING` and `OpCode::PONG` share the same wire value (`0xFE`) in the
   frozen header; this is a pre-existing design decision.
 - Modularization is blocked on the v1.7.0 architectural refactor.
-- Platform-specific module loading (Windows LoadLibrary, Linux dlopen) is planned
-  but not yet implemented here.
+- Platform-specific module loading (Windows `LoadLibrary`/`FreeLibrary`/`GetProcAddress` and Linux `dlopen`/`dlclose`/`dlsym`) is implemented in `src/themis/module_loader.cpp`, `module_loader_win32.cpp`, and `module_loader_linux.cpp`.
 
 ## Breaking Changes
 - `module_dependency_resolver.cpp` is already present; all remaining APIs are new.
