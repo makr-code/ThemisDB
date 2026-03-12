@@ -1,6 +1,13 @@
-# ONNX CLIP Image Analysis Plugin – migrated to src/plugins/image_analysis/onnx_clip
-# Source: onnx_clip_plugin.cpp (to be provided)
-# Header: include/plugins/image_analysis/onnx_clip_plugin.h
+# ONNX CLIP Image Analysis Plugin – src/onnx_clip
+# Implements IImageAnalysisPlugin (include/plugins/image_analysis_interface.h)
+# using ONNX Runtime + CLIP model.
+# Source and implementation header live together here.
+
+if(NOT THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX)
+    return()
+endif()
+
+message(STATUS "Configuring ONNX CLIP Image Analysis Plugin (src/onnx_clip)")
 
 set(_ONNX_CLIP_SRC "${CMAKE_CURRENT_SOURCE_DIR}/onnx_clip_plugin.cpp")
 if(NOT EXISTS "${_ONNX_CLIP_SRC}")
@@ -15,6 +22,7 @@ if(NOT onnxruntime_FOUND)
     return()
 endif()
 
+find_package(nlohmann_json REQUIRED)
 find_package(OpenCV COMPONENTS core imgproc imgcodecs QUIET)
 
 add_library(themis_image_onnx_clip SHARED
@@ -24,7 +32,6 @@ add_library(themis_image_onnx_clip SHARED
 target_include_directories(themis_image_onnx_clip
     PUBLIC
         $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include>
-        $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include/plugins/image_analysis>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -63,6 +70,4 @@ install(TARGETS themis_image_onnx_clip
     ARCHIVE DESTINATION lib/themis/plugins
 )
 
-install(FILES ${THEMIS_ROOT_DIR}/include/plugins/image_analysis/onnx_clip_plugin.h
-    DESTINATION include/plugins/image_analysis
-)
+message(STATUS "ONNX CLIP Plugin configuration complete")

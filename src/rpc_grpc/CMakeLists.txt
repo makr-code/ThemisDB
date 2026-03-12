@@ -1,11 +1,14 @@
-# gRPC RPC Plugin – migrated to src/plugins/rpc/grpc
-# Sources live here; public headers live in include/plugins/rpc/
+# gRPC RPC Plugin – src/rpc_grpc
+# Implements IRPCServer (include/plugins/rpc_plugin_interface.h) using gRPC.
+# Source and implementation header live together here.
+# This is a runtime-loadable plugin, distinct from the built-in API gRPC server
+# in src/api/grpc_server.cpp (themis::api namespace).
 
 if(NOT THEMIS_PLUGIN_RPC_GRPC)
     return()
 endif()
 
-message(STATUS "Configuring gRPC RPC Plugin (src/plugins/rpc/grpc)")
+message(STATUS "Configuring gRPC RPC Plugin (src/rpc_grpc)")
 
 find_package(gRPC CONFIG QUIET)
 if(NOT gRPC_FOUND)
@@ -29,7 +32,6 @@ add_library(themis_rpc_grpc SHARED
 target_include_directories(themis_rpc_grpc
     PUBLIC
         $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include>
-        $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include/plugins/rpc>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -57,10 +59,6 @@ endif()
 install(TARGETS themis_rpc_grpc
     LIBRARY DESTINATION lib/themis/plugins/rpc
     RUNTIME DESTINATION lib/themis/plugins/rpc
-)
-
-install(FILES ${THEMIS_ROOT_DIR}/include/plugins/rpc/grpc_plugin.h
-    DESTINATION include/plugins/rpc
 )
 
 # Generate plugin manifest

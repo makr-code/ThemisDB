@@ -1,11 +1,12 @@
-# User Storage Encrypted Plugin – migrated to src/plugins/user_storage_encrypted
-# Sources live here; public headers live in include/plugins/user_storage_encrypted/
+# User Storage Encrypted Plugin – src/user_storage_encrypted
+# Public API headers live in include/user_storage_encrypted/.
+# Implementation sources live here.
 
 if(NOT THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED)
     return()
 endif()
 
-message(STATUS "Configuring User Storage Encrypted Plugin (src/plugins/user_storage_encrypted)")
+message(STATUS "Configuring User Storage Encrypted Plugin (src/user_storage_encrypted)")
 
 find_package(nlohmann_json REQUIRED)
 
@@ -18,7 +19,7 @@ add_library(themis_user_storage_encrypted SHARED
 target_include_directories(themis_user_storage_encrypted
     PUBLIC
         $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include>
-        $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include/plugins/user_storage_encrypted>
+        $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include/user_storage_encrypted>
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -44,8 +45,8 @@ install(TARGETS themis_user_storage_encrypted
     ARCHIVE DESTINATION lib/themis/plugins
 )
 
-install(DIRECTORY ${THEMIS_ROOT_DIR}/include/plugins/user_storage_encrypted/
-    DESTINATION include/plugins/user_storage_encrypted
+install(DIRECTORY ${THEMIS_ROOT_DIR}/include/user_storage_encrypted/
+    DESTINATION include/user_storage_encrypted
     FILES_MATCHING PATTERN "*.hpp"
 )
 

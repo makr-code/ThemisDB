@@ -1,11 +1,12 @@
-# Ethics AI Plugin – migrated to src/plugins/ethics_ai
-# Sources live here; public headers live in include/plugins/ethics_ai/
+# Ethics AI Plugin – src/ethics_ai
+# Sources and private headers live together here.
+# Public interface headers remain in include/plugins/ethics_ai/ (pre-existing).
 
 if(NOT THEMIS_PLUGIN_ETHICS_AI)
     return()
 endif()
 
-message(STATUS "Configuring Ethics AI Plugin (src/plugins/ethics_ai)")
+message(STATUS "Configuring Ethics AI Plugin (src/ethics_ai)")
 
 set(ETHICS_AI_SOURCES
     ethics_ai_types.cpp
@@ -25,10 +26,8 @@ target_include_directories(ethics_ai_plugin
         $<INSTALL_INTERFACE:include>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${THEMIS_ROOT_DIR}/include/plugins/ethics_ai
 )
 
-# Find yaml-cpp for philosophy profile loading
 find_package(yaml-cpp QUIET)
 if(yaml-cpp_FOUND)
     target_link_libraries(ethics_ai_plugin PRIVATE yaml-cpp)
