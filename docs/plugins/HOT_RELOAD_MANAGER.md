@@ -15,7 +15,9 @@ Key capabilities:
   plugins to survive a reload cycle.
 - **Phase notifications** – registered callbacks are invoked at every lifecycle
   phase (`BEFORE_UNLOAD`, `AFTER_UNLOAD`, `AFTER_LOAD`, `ROLLBACK`).
-- **Thread-safe** – all public methods are guarded by an internal mutex.
+- **Thread-safe** – read-only queries use a shared reader/writer lock
+  (`std::shared_mutex`) allowing multiple concurrent readers; write operations
+  (`reloadModule`, `rollback`, registration) hold an exclusive lock.
 
 ## Header
 
@@ -137,9 +139,16 @@ reloadModule("mod", "/new/mod.so")
 
 ## Thread Safety
 
-All public methods are thread-safe.  Callbacks are invoked *outside* the
-internal mutex to prevent re-entrancy deadlocks.  Exceptions thrown by
-callbacks are caught and logged; they do not propagate.
+All public methods are thread-safe.  Read-only queries (`getCurrentVersion`,
+`isRollbackAvailable`, `registeredModules`, `getSandboxStats`, `getStats`)
+acquire a shared reader lock (`std::shared_lock`) so multiple threads can query
+concurrently without blocking each other.  Write operations (`reloadModule`,
+`rollback`, `registerModule`, `unregisterModule`, and callback/stats mutators)
+acquire an exclusive writer lock (`std::unique_lock`) on the same
+`std::shared_mutex`.
+
+Callbacks are invoked *outside* the lock to prevent re-entrancy deadlocks.
+Exceptions thrown by callbacks are caught and logged; they do not propagate.
 
 ## Integration with ModuleLoader
 

@@ -29,6 +29,7 @@
 #include "themis/base/hot_reload_manager.h"
 
 #include <chrono>
+#include <shared_mutex>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -52,7 +53,7 @@ HotReloadManager::~HotReloadManager() = default;
 
 void HotReloadManager::registerModule(const std::string& module_name,
                                       ModuleLoader& loader) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
 
     auto& slot   = slots_[module_name];
     slot.name    = module_name;
@@ -69,7 +70,7 @@ void HotReloadManager::registerModule(const std::string& module_name,
 }
 
 void HotReloadManager::unregisterModule(const std::string& module_name) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     slots_.erase(module_name);
     spdlog::info("HotReloadManager: unregistered module '{}'", module_name);
 }
@@ -88,7 +89,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     // --- Validate registration under lock --------------------------------
     ModuleSlot* slot_ptr = nullptr;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         auto it = slots_.find(module_name);
         if (it == slots_.end()) {
             result.errorMessage = "Module '" + module_name +
@@ -107,7 +108,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
         result.errorMessage = "Module '" + module_name + "' has a null loader";
         spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
         {
-            std::lock_guard<std::mutex> lock(mutex_);
+            std::unique_lock<std::shared_mutex> lock(mutex_);
             stats_.totalReloads++;
             stats_.failedReloads++;
         }
@@ -140,7 +141,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
         spdlog::error("HotReloadManager::reloadModule: {}", result.errorMessage);
         // Old module is still live – do not unload.
         {
-            std::lock_guard<std::mutex> lock(mutex_);
+            std::unique_lock<std::shared_mutex> lock(mutex_);
             stats_.totalReloads++;
             stats_.failedReloads++;
         }
@@ -184,7 +185,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
         }
 
         {
-            std::lock_guard<std::mutex> lock(mutex_);
+            std::unique_lock<std::shared_mutex> lock(mutex_);
             stats_.totalReloads++;
             stats_.failedReloads++;
         }
@@ -239,7 +240,7 @@ HotReloadResult HotReloadManager::reloadModule(const std::string& module_name,
     result.rollbackAvailable = slot.has_backup;
 
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         stats_.totalReloads++;
         stats_.successfulReloads++;
     }
@@ -264,7 +265,7 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
     std::string   backup_path;
     ModuleVersion backup_version;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
 
         auto it = slots_.find(module_name);
         if (it == slots_.end()) {
@@ -316,7 +317,7 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
 
     // Update slot metadata under lock.
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         auto it = slots_.find(module_name);
         if (it != slots_.end()) {
             ModuleSlot& slot    = it->second;
@@ -354,7 +355,7 @@ HotReloadResult HotReloadManager::rollback(const std::string& module_name) {
 
 std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(
     const std::string& module_name) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
     if (it == slots_.end()) {
@@ -370,14 +371,14 @@ std::optional<ModuleVersion> HotReloadManager::getCurrentVersion(
 
 bool HotReloadManager::isRollbackAvailable(
     const std::string& module_name) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
     return it != slots_.end() && it->second.has_backup;
 }
 
 std::vector<std::string> HotReloadManager::registeredModules() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
 
     std::vector<std::string> names;
     names.reserve(slots_.size());
@@ -389,7 +390,7 @@ std::vector<std::string> HotReloadManager::registeredModules() const {
 
 std::optional<SandboxStats> HotReloadManager::getSandboxStats(
     const std::string& module_name) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
 
     auto it = slots_.find(module_name);
     // Short-circuit: null check before isActive() to avoid null dereference.
@@ -405,22 +406,22 @@ std::optional<SandboxStats> HotReloadManager::getSandboxStats(
 // =============================================================================
 
 void HotReloadManager::setStateSaveCallback(StateSaveCallback cb) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     state_save_cb_ = std::move(cb);
 }
 
 void HotReloadManager::setStateRestoreCallback(StateRestoreCallback cb) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     state_restore_cb_ = std::move(cb);
 }
 
 void HotReloadManager::addReloadCallback(ReloadCallback cb) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     reload_cbs_.push_back(std::move(cb));
 }
 
 void HotReloadManager::clearReloadCallbacks() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     reload_cbs_.clear();
 }
 
@@ -429,12 +430,12 @@ void HotReloadManager::clearReloadCallbacks() {
 // =============================================================================
 
 HotReloadManager::Stats HotReloadManager::getStats() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return stats_;
 }
 
 void HotReloadManager::resetStats() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     stats_ = {};
 }
 
@@ -443,11 +444,11 @@ void HotReloadManager::resetStats() {
 // =============================================================================
 
 void HotReloadManager::notify(const std::string& name, ReloadPhase phase) {
-    // Capture callbacks under lock, then invoke outside of lock to prevent
-    // re-entrancy deadlocks.
+    // Capture callbacks under shared lock (read-only), then invoke outside
+    // of lock to prevent re-entrancy deadlocks.
     std::vector<ReloadCallback> cbs;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         cbs = reload_cbs_;
     }
     for (const auto& cb : cbs) {
@@ -464,14 +465,14 @@ void HotReloadManager::notify(const std::string& name, ReloadPhase phase) {
 std::string HotReloadManager::saveState(const std::string& name) {
     StateSaveCallback cb;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         cb = state_save_cb_;
     }
     if (!cb) return {};
     try {
         auto state = cb(name);
         if (!state.empty()) {
-            std::lock_guard<std::mutex> lock(mutex_);
+            std::unique_lock<std::shared_mutex> lock(mutex_);
             stats_.statesSaved++;
         }
         return state;
@@ -485,14 +486,14 @@ bool HotReloadManager::restoreState(const std::string& name,
                                     const std::string& state) {
     StateRestoreCallback cb;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         cb = state_restore_cb_;
     }
     if (!cb) return false;
     try {
         bool ok = cb(name, state);
         if (ok) {
-            std::lock_guard<std::mutex> lock(mutex_);
+            std::unique_lock<std::shared_mutex> lock(mutex_);
             stats_.statesRestored++;
         }
         return ok;
