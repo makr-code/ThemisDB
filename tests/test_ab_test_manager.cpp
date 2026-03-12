@@ -43,6 +43,7 @@
 #include <vector>
 
 using namespace themis::modules;
+using namespace themis;
 
 // =============================================================================
 // Helpers
@@ -731,7 +732,7 @@ public:
     Result<std::string> get(const std::string& key) override {
         auto it = store_.find(key);
         if (it == store_.end())
-            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_KEY_NOT_FOUND, key);
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, key);
         return Ok(it->second);
     }
 

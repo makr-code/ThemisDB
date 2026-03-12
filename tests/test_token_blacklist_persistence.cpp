@@ -295,7 +295,7 @@ TEST(RedisTokenBlacklistStubTest, Instantiation_DoesNotThrow) {
     cfg.port               = 16379;  // port unlikely to have a live Redis
     cfg.connect_timeout_ms = 10;     // fail fast
 
-    EXPECT_NO_THROW({
+    EXPECT_NO_THROW([&]{
         RedisTokenBlacklist bl(cfg);
         // When not connected, isRevoked must return false (safe default)
         EXPECT_FALSE(bl.isRevoked("jti-redis-stub"));
@@ -303,7 +303,7 @@ TEST(RedisTokenBlacklistStubTest, Instantiation_DoesNotThrow) {
         bl.add("jti-redis-stub", future());
         // purgeExpired() must not throw
         EXPECT_NO_THROW(bl.purgeExpired());
-    });
+    }());
 }
 
 TEST(RedisTokenBlacklistStubTest, EmptyJTI_ReturnsFalse) {
