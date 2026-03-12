@@ -1,0 +1,59 @@
+<!-- wp:template-part {"slug":"announcement-bar","tagName":"div"} /-->
+<!-- wp:template-part {"slug":"header","tagName":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"site-main","layout":{"type":"constrained","contentSize":"1100px"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|12","bottom":"var:preset|spacing|16"}}}} -->
+<main class="wp-block-group site-main" style="padding-top:var(--wp--preset--spacing--12);padding-bottom:var(--wp--preset--spacing--16)">
+
+	<!-- Page Header -->
+	<!-- wp:group {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|10"}}}} -->
+	<div class="wp-block-group" style="margin-bottom:var(--wp--preset--spacing--10)">
+		<!-- wp:query-title {"type":"archive","textAlign":"left","style":{"typography":{"fontSize":"2.25rem","fontWeight":"700","letterSpacing":"-0.02em"},"color":{"text":"#2c3e50"}}} /-->
+		<!-- wp:term-description {"style":{"typography":{"fontSize":"1.0625rem"},"color":{"text":"#7f8c8d"},"spacing":{"margin":{"top":"var:preset|spacing|3"}}}} /-->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- Post Grid -->
+	<!-- wp:query {"queryId":0,"query":{"perPage":9,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"exclude","inherit":true},"layout":{"type":"default"}} -->
+	<div class="wp-block-query">
+		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"style":{"spacing":{"blockGap":"var:preset|spacing|6"}}} -->
+			<!-- wp:group {"className":"themis-post-card","style":{"color":{"background":"#ffffff"},"border":{"radius":"10px","color":"#dee2e6","width":"1px"},"spacing":{"padding":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
+			<div class="wp-block-group themis-post-card" style="background-color:#ffffff;border:1px solid #dee2e6;border-radius:10px;overflow:hidden;">
+				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"16/9"} /-->
+				<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|5","bottom":"var:preset|spacing|5","left":"var:preset|spacing|5","right":"var:preset|spacing|5"}}}} -->
+				<div class="wp-block-group" style="padding:var(--wp--preset--spacing--5)">
+					<!-- wp:post-terms {"term":"category","style":{"typography":{"fontSize":"0.6875rem","fontWeight":"700","letterSpacing":"0.06em","textTransform":"uppercase"},"color":{"text":"#7c4dff"},"spacing":{"margin":{"bottom":"var:preset|spacing|2"}}}} /-->
+					<!-- wp:post-title {"isLink":true,"level":2,"style":{"typography":{"fontSize":"1.125rem","fontWeight":"700","lineHeight":"1.35","letterSpacing":"-0.01em"},"color":{"text":"#2c3e50"},"spacing":{"margin":{"bottom":"var:preset|spacing|3"}}}} /-->
+					<!-- wp:post-excerpt {"moreText":"","showMoreOnNewLine":false,"excerptLength":18,"style":{"typography":{"fontSize":"0.875rem","lineHeight":"1.6"},"color":{"text":"#7f8c8d"},"spacing":{"margin":{"bottom":"var:preset|spacing|4"}}}} /-->
+					<!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
+					<div class="wp-block-group">
+						<!-- wp:post-date {"format":"M j, Y","style":{"typography":{"fontSize":"0.8125rem"},"color":{"text":"#95a5a6"}}} /-->
+						<!-- wp:read-more {"content":"Read more →","style":{"typography":{"fontSize":"0.8125rem","fontWeight":"600"},"color":{"text":"#3498db"}}} /-->
+					</div>
+					<!-- /wp:group -->
+				</div>
+				<!-- /wp:group -->
+			</div>
+			<!-- /wp:group -->
+		<!-- /wp:post-template -->
+
+		<!-- Pagination -->
+		<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"margin":{"top":"var:preset|spacing|12"}}}} -->
+			<!-- wp:query-pagination-previous /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+
+		<!-- No Results -->
+		<!-- wp:query-no-results -->
+		<!-- wp:paragraph {"textAlign":"center","style":{"color":{"text":"#7f8c8d"}}} -->
+		<p class="has-text-align-center" style="color:#7f8c8d">No posts found. Try a different category or search.</p>
+		<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"cta-banner","tagName":"section"} /-->
+<!-- wp:template-part {"slug":"footer","tagName":"footer","area":"footer"} /-->

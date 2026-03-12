@@ -1,0 +1,44 @@
+<!-- wp:group {"tagName":"header","className":"site-header themis-header","style":{"color":{"background":"#1a252f"},"position":{"type":"sticky","top":"0px"}},"layout":{"type":"constrained","contentSize":"1100px"}} -->
+<header class="wp-block-group site-header themis-header" style="background-color:#1a252f">
+
+	<!-- wp:group {"className":"themis-header-inner","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"},"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}}} -->
+	<div class="wp-block-group themis-header-inner">
+
+		<!-- Logo + Site Title -->
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"var:preset|spacing|3"}}} -->
+		<div class="wp-block-group">
+			<!-- wp:site-logo {"width":36,"shouldSyncIcon":false} /-->
+			<!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700","fontSize":"1.125rem","letterSpacing":"-0.03em"},"color":{"text":"#ffffff"}}} /-->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- Primary Navigation -->
+		<!-- wp:navigation {"textColor":"text-on-dark","overlayBackgroundColor":"bg-darker","overlayTextColor":"white","layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"left","flexWrap":"nowrap"},"style":{"typography":{"fontWeight":"500","fontSize":"0.875rem"},"spacing":{"blockGap":"0"}}} -->
+			<!-- wp:navigation-link {"label":"Features","url":"/features","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Docs","url":"/docs","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Downloads","url":"/downloads","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Benchmarks","url":"/benchmarks","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Community","url":"/community","kind":"custom"} /-->
+		<!-- /wp:navigation -->
+
+		<!-- CTA Button + Search -->
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"var:preset|spacing|3"}}} -->
+		<div class="wp-block-group">
+			<!-- wp:search {"label":"Search","showLabel":false,"placeholder":"Search docs…","buttonText":"Search","buttonUseIcon":true,"style":{"border":{"radius":"6px"},"color":{"background":"rgba(255,255,255,0.08)","text":"#ecf0f1"}}} /-->
+			<!-- wp:buttons -->
+			<div class="wp-block-buttons">
+				<!-- wp:button {"backgroundColor":"themis-secondary","textColor":"white","style":{"border":{"radius":"6px"},"spacing":{"padding":{"top":"0.5rem","bottom":"0.5rem","left":"1.25rem","right":"1.25rem"}}},"fontSize":"sm"} -->
+				<div class="wp-block-button">
+					<a class="wp-block-button__link has-white-color has-themis-secondary-background-color has-text-color has-background has-sm-font-size wp-element-button" style="border-radius:6px;padding-top:0.5rem;padding-right:1.25rem;padding-bottom:0.5rem;padding-left:1.25rem">Get Started Free</a>
+				</div>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
+		</div>
+		<!-- /wp:group -->
+
+	</div>
+	<!-- /wp:group -->
+
+</header>
+<!-- /wp:group -->
