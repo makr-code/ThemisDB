@@ -1577,21 +1577,30 @@ TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
     // Pre-populate a few schedules so readers have non-empty work.
     for (int i = 0; i < 4; ++i) {
         auto e = makeEntry("Seed-" + std::to_string(i));
-        ASSERT_TRUE(orchestrator_->createSchedule(e));
+        auto result = orchestrator_->createSchedule(e);
+        ASSERT_TRUE(result) << "Seed createSchedule(" << i << ") failed: "
+                            << result.error().message();
     }
 
-    constexpr int kReaders  = 8;
+    constexpr int kReaders        = 8;
     constexpr int kItersPerThread = 200;
 
     std::atomic<bool> go{false};
     std::atomic<int>  total_read{0};
+    // Collect writer failures outside the worker thread so gtest assertions
+    // are always issued from the main thread (worker-thread ASSERT/EXPECT
+    // calls do not abort the test and can be missed by the test framework).
+    std::atomic<int>  writer_failures{0};
 
-    // 8 concurrent readers
+    // 8 concurrent readers – yield inside the spin loop to avoid burning CPU
+    // and to reduce TSAN false-positive suppression headroom.
     std::vector<std::thread> readers;
     readers.reserve(kReaders);
     for (int t = 0; t < kReaders; ++t) {
         readers.emplace_back([&] {
-            while (!go.load(std::memory_order_acquire)) {}
+            while (!go.load(std::memory_order_acquire)) {
+                std::this_thread::yield();
+            }
             for (int i = 0; i < kItersPerThread; ++i) {
                 auto schedules = orchestrator_->listSchedules();
                 total_read.fetch_add(static_cast<int>(schedules.size()),
@@ -1600,12 +1609,19 @@ TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
         });
     }
 
-    // 1 concurrent writer
+    // 1 concurrent writer – track failures atomically so the main thread can
+    // assert on them after joining (gtest assertions in worker threads are
+    // unreliable and may silently pass even when the assertion fires).
     std::thread writer([&] {
-        while (!go.load(std::memory_order_acquire)) {}
+        while (!go.load(std::memory_order_acquire)) {
+            std::this_thread::yield();
+        }
         for (int i = 0; i < kItersPerThread; ++i) {
-            auto e = makeEntry("Writer-" + std::to_string(i));
-            orchestrator_->createSchedule(e);
+            auto e      = makeEntry("Writer-" + std::to_string(i));
+            auto result = orchestrator_->createSchedule(e);
+            if (!result) {
+                writer_failures.fetch_add(1, std::memory_order_relaxed);
+            }
         }
     });
 
@@ -1613,6 +1629,10 @@ TEST_F(MaintenanceOrchestratorTest, ConcurrentListSchedules_NoDataRace) {
 
     writer.join();
     for (auto& r : readers) r.join();
+
+    // Assert writer never failed – checked on main thread where gtest works.
+    EXPECT_EQ(writer_failures.load(), 0)
+        << "createSchedule failed " << writer_failures.load() << " time(s) during concurrent run";
 
     // Sanity: at least the pre-populated schedules must be visible at the end.
     EXPECT_GE(orchestrator_->listSchedules().size(), 4u);
