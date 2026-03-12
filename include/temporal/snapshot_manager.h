@@ -34,6 +34,7 @@
 
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
+#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -46,14 +47,18 @@ namespace temporal {
 
 /**
  * An opaque handle that identifies a snapshot.
+ *
+ * version_number is a monotonically increasing counter assigned at creation
+ * time and can be used to impose a total order on snapshots.
  */
 struct SnapshotHandle {
     std::string snapshot_id;
     Timestamp creation_time{0};
     std::vector<std::string> included_tables;
+    uint64_t version_number{0};
 
     bool operator<(const SnapshotHandle& other) const noexcept {
-        return creation_time < other.creation_time;
+        return version_number < other.version_number;
     }
 
     bool isValid() const noexcept { return !snapshot_id.empty(); }
@@ -61,7 +66,25 @@ struct SnapshotHandle {
     nlohmann::json toJson() const {
         return {{"snapshot_id", snapshot_id},
                 {"creation_time", creation_time},
-                {"included_tables", included_tables}};
+                {"included_tables", included_tables},
+                {"version_number", version_number}};
+    }
+};
+
+/**
+ * Metadata describing a live snapshot.
+ */
+struct SnapshotMetadata {
+    SnapshotHandle handle;
+    size_t total_tables{0};
+    size_t total_rows{0};
+    bool is_valid{false};
+
+    nlohmann::json toJson() const {
+        return {{"handle", handle.toJson()},
+                {"total_tables", total_tables},
+                {"total_rows", total_rows},
+                {"is_valid", is_valid}};
     }
 };
 
@@ -78,7 +101,17 @@ struct SnapshotHandle {
  */
 class TemporalSnapshotManager {
 public:
-    TemporalSnapshotManager() = default;
+    /// Clock function type: returns the current time as a millisecond Timestamp.
+    using ClockFn = std::function<Timestamp()>;
+
+    /**
+     * Construct a manager with an optional custom clock.
+     *
+     * @param clock  Callable that returns the current time in milliseconds
+     *               since epoch.  Defaults to the module-level now().
+     *               Primarily used in tests to advance time deterministically.
+     */
+    explicit TemporalSnapshotManager(ClockFn clock = &now);
 
     /**
      * Create a snapshot of the given tables at the current time.
@@ -115,6 +148,36 @@ public:
     /** Number of live snapshots. */
     size_t snapshotCount() const;
 
+    /**
+     * Return metadata for a live snapshot.
+     *
+     * @param handle  A valid snapshot handle.
+     * @return        Metadata, or a default-constructed (is_valid=false) struct
+     *                if the snapshot does not exist.
+     */
+    SnapshotMetadata getSnapshotMetadata(const SnapshotHandle& handle) const;
+
+    /**
+     * Garbage-collect snapshots whose creation time is older than
+     * (clock() - max_age_ms).  Snapshots whose age exceeds the threshold are
+     * released automatically.
+     *
+     * @param max_age_ms  Maximum allowed age in milliseconds.  Pass 0 to
+     *                    skip TTL-based collection.
+     * @return            Number of snapshots removed.
+     */
+    size_t garbageCollectByAge(Timestamp max_age_ms);
+
+    /**
+     * Garbage-collect snapshots exceeding a maximum count.  The oldest
+     * snapshots (by version_number) are removed first until at most
+     * max_snapshots remain.
+     *
+     * @param max_snapshots  Maximum number of snapshots to keep.
+     * @return               Number of snapshots removed.
+     */
+    size_t garbageCollectByCount(size_t max_snapshots);
+
     nlohmann::json getStatistics() const;
 
 private:
@@ -124,10 +187,13 @@ private:
         std::map<std::string, std::vector<VersionedDocument>> tables;
     };
 
+    ClockFn clock_;
     std::map<std::string, SnapshotData> snapshots_; // keyed by snapshot_id
     mutable std::mutex mutex_;
+    uint64_t next_version_{1};      // monotonically increasing snapshot version
     size_t total_created_{0};
     size_t total_released_{0};
+    size_t total_gc_collected_{0};
 
     static std::string generateSnapshotId();
 };

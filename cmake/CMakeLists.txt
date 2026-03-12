@@ -4141,6 +4141,32 @@ if(THEMIS_BUILD_TESTS)
         CONFIGURATIONS Release Debug
     )
 
+    # Temporal Snapshot Isolation Tests (v1.1.0 – Issue: Snapshot Isolation)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp")
+        add_executable(test_temporal_snapshot_manager
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/snapshot_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_snapshot_manager
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_snapshot_manager
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_snapshot_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_snapshot_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        set_tests_properties(test_temporal_snapshot_manager PROPERTIES
+            LABELS "temporal;snapshot;isolation;unit"
+            TIMEOUT 60
+        )
+        message(STATUS "  TemporalSnapshotManager: versioning, GC (TTL + max-count), metadata, isolation")
+    endif()
+
     add_executable(test_ts_auto_buffer_adaptive
         ${THEMIS_ROOT_DIR}/tests/test_ts_auto_buffer_adaptive.cpp
     )
