@@ -18,7 +18,9 @@ This directory contains the core implementation of ThemisDB's multi-model databa
 - **importers/** - Data import functionality (PostgreSQL, etc.)
 - **index/** - Index implementations (vector, graph, adaptive, secondary)
 - **llm/** - LLM interaction storage and chain-of-thought features
+- **maintenance/** - Centralized database maintenance orchestration (cron scheduling, windows, health reporting)
 - **plugins/** - Plugin system infrastructure
+- **process/** - BPMN 2.0/EPK/VCC-VPB process model management, LLM descriptors, Graph-RAG
 - **query/** - AQL query parser, optimizer, and execution engine
 - **security/** - Encryption, key management, and PKI integration
 - **server/** - Main server components and API handlers
@@ -42,11 +44,11 @@ For detailed architecture documentation, see:
 
 ## Overall System Status
 
-ThemisDB has **42 Production-grade modules**, **1 Release-Candidate module**, and **1 Beta module** across its source tree. The entire core data path and all AI/LLM layers are production-ready.
+ThemisDB has **44 Production-grade modules**, **1 Release-Candidate module**, and **1 Beta module** across its source tree. The entire core data path and all AI/LLM layers are production-ready.
 
 | Tier              | Count | Modules                                                                      |
 |-------------------|-------|------------------------------------------------------------------------------|
-| Production        | 42    | 42 of 44 modules — all except `security` and `sharding`                     |
+| Production        | 44    | 44 of 46 modules — all except `security` and `sharding`                     |
 | Release-Candidate | 1     | `security`                                                                   |
 | Beta              | 1     | `sharding`                                                                   |
 
@@ -77,11 +79,13 @@ ThemisDB has **42 Production-grade modules**, **1 Release-Candidate module**, an
 | index               | 🟢 Production        | HNSW, R-tree, adaptive indexing                      |
 | ingestion           | 🟢 Production        | Data ingestion pipeline                              |
 | llm                 | 🟢 Production        | LLM interaction storage and chain-of-thought         |
+| maintenance         | 🟢 Production        | Centralized DB maintenance orchestration             |
 | metadata            | 🟢 Production        | Metadata management and catalog                      |
 | network             | 🟢 Production        | Network layer and peer communication                 |
 | observability       | 🟢 Production        | Metrics, tracing, and logging infrastructure         |
 | performance         | 🟢 Production        | Benchmarking and performance optimization            |
 | plugins             | 🟢 Production        | Plugin system infrastructure                         |
+| process             | 🟡 Beta              | BPMN/EPK/VCC-VPB process modeling, Graph-RAG         |
 | prompt_engineering  | 🟢 Production        | LLM prompt management                                |
 | query               | 🟢 Production        | AQL optimizer, cost-based planner, execution engine  |
 | rag                 | 🟢 Production        | Retrieval-Augmented Generation pipeline              |

@@ -28,6 +28,7 @@
  */
 
 #include "temporal/snapshot_manager.h"
+#include <algorithm>
 #include <chrono>
 #include <random>
 #include <sstream>
@@ -39,10 +40,13 @@ namespace temporal {
 // Public methods
 // ============================================================================
 
+TemporalSnapshotManager::TemporalSnapshotManager(ClockFn clock)
+    : clock_(std::move(clock)) {}
+
 SnapshotHandle TemporalSnapshotManager::createSnapshot(
     const std::map<std::string, const SystemVersionedTable*>& tables) {
 
-    Timestamp creation_ts = now();
+    Timestamp creation_ts = clock_();
 
     SnapshotData data;
     data.handle.snapshot_id    = generateSnapshotId();
@@ -58,6 +62,7 @@ SnapshotHandle TemporalSnapshotManager::createSnapshot(
     }
 
     std::lock_guard<std::mutex> lock(mutex_);
+    data.handle.version_number = next_version_++;
     SnapshotHandle result_handle = data.handle; // copy before move
     snapshots_[data.handle.snapshot_id] = std::move(data);
     ++total_created_;
@@ -125,11 +130,85 @@ size_t TemporalSnapshotManager::snapshotCount() const {
     return snapshots_.size();
 }
 
+SnapshotMetadata TemporalSnapshotManager::getSnapshotMetadata(
+    const SnapshotHandle& handle) const {
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = snapshots_.find(handle.snapshot_id);
+    if (it == snapshots_.end()) {
+        return SnapshotMetadata{};
+    }
+
+    const SnapshotData& data = it->second;
+    SnapshotMetadata meta;
+    meta.handle       = data.handle;
+    meta.total_tables = data.tables.size();
+    meta.is_valid     = true;
+
+    for (const auto& [name, rows] : data.tables) {
+        meta.total_rows += rows.size();
+    }
+
+    return meta;
+}
+
+size_t TemporalSnapshotManager::garbageCollectByAge(Timestamp max_age_ms) {
+    if (max_age_ms <= 0) {
+        return 0;
+    }
+
+    const Timestamp cutoff = clock_() - max_age_ms;
+    std::vector<std::string> to_remove;
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& [id, data] : snapshots_) {
+        if (data.handle.creation_time < cutoff) {
+            to_remove.push_back(id);
+        }
+    }
+
+    for (const auto& id : to_remove) {
+        snapshots_.erase(id);
+        ++total_released_;
+        ++total_gc_collected_;
+    }
+
+    return to_remove.size();
+}
+
+size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    if (snapshots_.size() <= max_snapshots) {
+        return 0;
+    }
+
+    // Collect snapshot IDs ordered by version_number (oldest first)
+    std::vector<std::pair<uint64_t, std::string>> ordered;
+    ordered.reserve(snapshots_.size());
+    for (const auto& [id, data] : snapshots_) {
+        ordered.emplace_back(data.handle.version_number, id);
+    }
+    std::sort(ordered.begin(), ordered.end());
+
+    const size_t to_remove_count = snapshots_.size() - max_snapshots;
+    for (size_t i = 0; i < to_remove_count; ++i) {
+        snapshots_.erase(ordered[i].second);
+        ++total_released_;
+        ++total_gc_collected_;
+    }
+
+    return to_remove_count;
+}
+
 nlohmann::json TemporalSnapshotManager::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return {{"active_snapshots", snapshots_.size()},
             {"total_created", total_created_},
-            {"total_released", total_released_}};
+            {"total_released", total_released_},
+            {"total_gc_collected", total_gc_collected_},
+            {"next_version", next_version_}};
 }
 
 // ============================================================================

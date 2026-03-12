@@ -60,6 +60,7 @@
 #ifndef CHIMERA_NEO4J_ADAPTER_HPP
 #define CHIMERA_NEO4J_ADAPTER_HPP
 
+#include "chimera/connection_pool.hpp"
 #include "chimera/database_adapter.hpp"
 #include <atomic>
 #include <memory>
@@ -230,6 +231,14 @@ private:
 
     bool connected_ = false;
     std::string connection_string_;
+
+    // Connection pool configuration (configurable before connect()).
+    ConnectionPoolConfig pool_config_;
+
+    // Opaque driver-specific state (httplib pool for Neo4j HTTP API calls).
+    // Defined in neo4j_adapter.cpp; nullptr in simulation mode.
+    struct Neo4jState;
+    std::unique_ptr<Neo4jState> neo4j_state_;
 
     // In-process graph store for simulation.
     // Maps node_id -> GraphNode

@@ -848,12 +848,6 @@ Result<std::string> ThemisDBAdapter::begin_transaction(
             "Not connected to database"
         );
     }
-
-    const std::string txn_id = generate_id();
-    {
-        std::unique_lock<std::mutex> lock(store_mutex_);
-        active_transactions_[txn_id] = options;
-    }
     std::lock_guard<std::mutex> lock(txn_mutex_);
     ++next_txn_id_;
     std::ostringstream oss;
@@ -875,11 +869,6 @@ Result<bool> ThemisDBAdapter::commit_transaction(const std::string& transaction_
             ErrorCode::CONNECTION_ERROR,
             "Not connected to database"
         );
-    }
-
-    {
-        std::unique_lock<std::mutex> lock(store_mutex_);
-        active_transactions_.erase(transaction_id);
     }
     if (transaction_id.empty()) {
         return Result<bool>::err(
@@ -906,11 +895,6 @@ Result<bool> ThemisDBAdapter::rollback_transaction(const std::string& transactio
             ErrorCode::CONNECTION_ERROR,
             "Not connected to database"
         );
-    }
-
-    {
-        std::unique_lock<std::mutex> lock(store_mutex_);
-        active_transactions_.erase(transaction_id);
     }
     if (transaction_id.empty()) {
         return Result<bool>::err(

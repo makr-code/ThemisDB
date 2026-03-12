@@ -223,7 +223,6 @@ private:
                 };
             }
         };
-        std::vector<ForeignKeyConstraint> foreign_keys;  ///< v2.0: preserved FK constraints
         // v2.0 extensions
         std::vector<ForeignKeyConstraint> foreign_keys;       ///< Parsed FK constraints
         std::map<std::string, std::string> column_defaults;   ///< DEFAULT expressions per column

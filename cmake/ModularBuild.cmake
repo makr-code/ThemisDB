@@ -327,12 +327,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/inverted_index.cpp
     ../src/index/workload_replay.cpp
     ../src/index/tiered_index_manager.cpp
-    ../src/index/graph_auto_buffer.cpp
-    ../src/index/index_manager.cpp
     ../src/index/tiered_index_manager.cpp
-    ../src/index/vector_auto_buffer.cpp
-    ../src/index/spatial_index.cpp
-    ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
     ../src/utils/geo/ewkb.cpp
@@ -548,7 +543,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/export_format_registry.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
-    ../src/importers/postgres_importer.cpp
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer.cpp>
     ../src/importers/mysql_importer.cpp
     ../src/importers/mongo_importer.cpp
     ../src/importers/sqlite_importer.cpp
@@ -577,7 +572,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/importers/mdm_engine.cpp
     ../src/importers/mdm_audit_trail.cpp
     ../src/importers/mdm_metrics.cpp
-    ../src/importers/postgres_importer_mdm.cpp
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer_mdm.cpp>
 
 )
 
@@ -1033,6 +1028,7 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/calibration_manager.cpp
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
+    ../src/rag/adversarial_tester.cpp
 
     # LLM-owned AQL support files
     ../src/aql/llm_aql_handler.cpp

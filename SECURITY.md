@@ -162,6 +162,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 - 💉 **AQL injection** prevention
 - 🚫 **Path traversal** protection
 - 📦 **Request body size limits** (10MB default)
+- 🔍 **BPMN/EPK/YAML parser hardening** (`src/process/`) — regex-based BPMN parser rejects malformed XML; EPK and VCC-VPB parsers validate schema before import
 
 </details>
 
@@ -183,6 +184,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 - 🔐 **Encrypt-then-Sign** audit logs
 - 🔗 **Hash chain** for tamper detection
 - 🔔 **SIEM integration** (Syslog RFC 5424, Splunk HEC)
+- 🗂️ **Maintenance operations** (`src/maintenance/`) — all schedule CRUD and job lifecycle events logged via `AuditLogger`; RBAC roles `maintenance:read`, `maintenance:write`, `maintenance:admin`
 
 **Compliance Ready:**
 - ✅ GDPR/DSGVO
@@ -384,6 +386,7 @@ semgrep --config=auto src/ include/
 
 | Date | Event |
 |------|-------|
+| **2026-03** | 📝 Added `src/process/` (BPMN parser hardening) and `src/maintenance/` (RBAC audit trail) security notes |
 | **2026-01** | 🔒 Major security improvements in v1.3.4 (RocksDB, Docker, Updates) |
 | **2025-12** | 🔐 Update Checker security features & Manifest signing design |
 | **2025-11** | 📝 Initial security policy publication |

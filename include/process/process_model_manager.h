@@ -10,6 +10,8 @@
 #include <memory>
 
 namespace themis {
+class RocksDBWrapper;
+
 namespace process {
 
 /**
@@ -125,8 +127,6 @@ struct ProcessModelResult {
 // ProcessModelManager
 // ---------------------------------------------------------------------------
 
-class RocksDBWrapper;  // forward decl
-
 /**
  * @brief High-level manager for process model definitions stored in ThemisDB.
  *
@@ -159,7 +159,7 @@ class RocksDBWrapper;  // forward decl
  */
 class ProcessModelManager {
 public:
-    explicit ProcessModelManager(RocksDBWrapper& db);
+    explicit ProcessModelManager(::themis::RocksDBWrapper& db);
     ~ProcessModelManager();
 
     // Prevent accidental copy
@@ -332,7 +332,7 @@ public:
     ) const;
 
 private:
-    RocksDBWrapper& db_;
+    ::themis::RocksDBWrapper& db_;
 
     // Helpers
     std::string makeKey_(std::string_view model_id) const;

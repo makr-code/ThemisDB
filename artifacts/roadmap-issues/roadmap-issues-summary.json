@@ -1,0 +1,44 @@
+{
+  "total": 262,
+  "linked": 262,
+  "missing": 0,
+  "by_priority": [
+    {
+      "priority_heading": "\ud83d\udd34 Critical Priority",
+      "total": 4,
+      "linked": 4,
+      "missing": 0
+    },
+    {
+      "priority_heading": "\ud83d\udfe0 High Priority \u2014 Immediate (\u2264 v1.4.0)",
+      "total": 30,
+      "linked": 30,
+      "missing": 0
+    },
+    {
+      "priority_heading": "\ud83d\udfe0 High Priority \u2014 Near-term (v1.5.0 \u2013 v1.8.0)",
+      "total": 94,
+      "linked": 94,
+      "missing": 0
+    },
+    {
+      "priority_heading": "\ud83d\udfe1 Medium Priority \u2014 Near-term (v1.5.0 \u2013 v1.8.0)",
+      "total": 90,
+      "linked": 90,
+      "missing": 0
+    },
+    {
+      "priority_heading": "\ud83d\udfe1 Medium Priority \u2014 Mid-term (v1.9.0 \u2013 v2.0.0)",
+      "total": 15,
+      "linked": 15,
+      "missing": 0
+    },
+    {
+      "priority_heading": "\ud83d\udfe2 Low Priority \u2014 Future (v1.9.0+)",
+      "total": 29,
+      "linked": 29,
+      "missing": 0
+    }
+  ],
+  "missing_rows": []
+}

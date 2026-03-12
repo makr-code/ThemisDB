@@ -217,7 +217,7 @@ int64_t nowMs() {
 // ProcessModelManager implementation
 // ---------------------------------------------------------------------------
 
-ProcessModelManager::ProcessModelManager(RocksDBWrapper& db) : db_(db) {}
+ProcessModelManager::ProcessModelManager(::themis::RocksDBWrapper& db) : db_(db) {}
 
 ProcessModelManager::~ProcessModelManager() = default;
 
@@ -309,7 +309,7 @@ json ProcessModelManager::buildNormalizedGraph_(
         je["id"]        = e.edge_id;
         je["from"]      = e.from_node;
         je["to"]        = e.to_node;
-        je["condition"] = e.condition.value_or("");
+        je["condition"] = e.condition_expression.value_or("");
         switch (e.edge_type) {
             case ProcessEdgeType::SEQUENCE_FLOW:   je["type"] = "SEQUENCE_FLOW"; break;
             case ProcessEdgeType::MESSAGE_FLOW:    je["type"] = "MESSAGE_FLOW"; break;
@@ -694,7 +694,7 @@ ProcessModelResult ProcessModelManager::deployToEngine(
             edge.to_node   = je.value("to", "");
 
             std::string cond = je.value("condition", "");
-            if (!cond.empty()) edge.condition = cond;
+            if (!cond.empty()) edge.condition_expression = cond;
 
             std::string et = je.value("type", "SEQUENCE_FLOW");
             if      (et == "MESSAGE_FLOW")    edge.edge_type = ProcessEdgeType::MESSAGE_FLOW;

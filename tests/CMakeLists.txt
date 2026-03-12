@@ -80,6 +80,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_multimodal\\.cpp$"
         ".*test_rag_distributed_evaluator\\.cpp$"
         ".*test_rag_prompt_injection\\.cpp$"
+        ".*test_rag_adversarial_tester\\.cpp$"
         ".*test_rag_evaluation_cache\\.cpp$"
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
@@ -240,6 +241,13 @@ if(NOT THEMIS_ENABLE_HTTP3)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_POSTGRES_WIRE)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_postgres_importer_.*\\.cpp$"
+        ".*test_postgres_import_integration_v2\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_GRPC)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_grpc_transport\\.cpp$"
@@ -333,6 +341,8 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_oauth2_provider\\.cpp$"
     ".*test_postgres_importer_v2\\.cpp$"
     ".*test_saml_auth_provider\\.cpp$"
+    # Built as standalone focused target with explicit maintenance sources.
+    ".*test_database_maintenance_orchestrator\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -392,6 +402,8 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_fewshot_optimizer\\.cpp$"
     ".*test_flash_attention_correctness\\.cpp$"
     ".*test_geo_topology_api_handler\\.cpp$"
+    ".*test_office_processor\\.cpp$"
+    ".*test_ocr_processor\\.cpp$"
     ".*test_gpu_admin_api\\.cpp$"
     ".*test_gpu_.*\\.cpp$"
     ".*test_graphql.*\\.cpp$"
@@ -459,6 +471,8 @@ get_target_property(_themis_tests_sources themis_tests SOURCES)
 if(_themis_tests_sources)
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_feature_flags\\.cpp$")
     list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_vulkan_compute_equivalents\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer\\.cpp$")
+    list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer_mdm\\.cpp$")
     if(NOT THEMIS_ENABLE_GPU)
         list(FILTER _themis_tests_sources EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
     endif()
@@ -951,6 +965,13 @@ if(THEMIS_BUILD_MODULAR)
         endif()
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/http_server\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/]http_server\\.cpp$")
+        if(NOT THEMIS_ENABLE_POSTGRES_WIRE)
+            list(REMOVE_ITEM _themis_test_core_sources
+                ../src/server/import_api_handler.cpp
+                ${THEMIS_ROOT_DIR}/src/server/import_api_handler.cpp
+                ${CMAKE_SOURCE_DIR}/src/server/import_api_handler.cpp
+            )
+        endif()
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/stubs\\.cpp$")
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/pii_redaction_policy\\.cpp$")
@@ -1048,6 +1069,25 @@ if(THEMIS_BUILD_MODULAR)
                 ${THEMIS_ROOT_DIR}/src/scheduler/event_trigger.cpp
                 ${THEMIS_ROOT_DIR}/src/scheduler/external_scheduler_adapter.cpp
                 ${THEMIS_ROOT_DIR}/src/scheduler/distributed_task_coordinator.cpp
+            )
+        endif()
+
+        # HttpServer routes maintenance endpoints through dedicated handlers.
+        # Add these sources explicitly for the unified test binary.
+        if(THEMIS_ENABLE_HTTP_SERVER)
+            list(APPEND _themis_test_extra_sources
+                ${THEMIS_ROOT_DIR}/src/maintenance/database_maintenance_orchestrator.cpp
+                ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_schedule_store.cpp
+                ${THEMIS_ROOT_DIR}/src/maintenance/maintenance_registry.cpp
+                ${THEMIS_ROOT_DIR}/src/server/maintenance_api_handler.cpp
+            )
+        endif()
+
+        # Import API currently references PostgreSQL importer symbols directly.
+        # Exclude the API source from unified tests when PostgreSQL wire support is OFF.
+        if(NOT THEMIS_ENABLE_POSTGRES_WIRE)
+            list(REMOVE_ITEM _themis_test_extra_sources
+                ${THEMIS_ROOT_DIR}/src/server/import_api_handler.cpp
             )
         endif()
 
@@ -10100,6 +10140,22 @@ add_chimera_focused_test(
     "AdapterCapabilityMatrix: cross-system capability comparison for all 9 adapters"
 )
 
+add_chimera_focused_test(
+    test_chimera_retry_policy
+    chimera/test_retry_policy.cpp
+    ChimeraRetryPolicyTests
+    "chimera;retry;circuit-breaker;error-recovery;unit"
+    "RetryPolicy/CircuitBreaker/ConnectionWithRetry: exponential backoff, transient classification, circuit states, health check"
+)
+
+add_chimera_focused_test(
+    test_chimera_batch_operations
+    chimera/test_chimera_batch_operations.cpp
+    ChimeraBatchOperationsTests
+    "chimera;adapter;batch;unit"
+    "Batch Operation Enhancements: BatchOptions, BatchResult, batch_insert_advanced, progress/batch callbacks, stop_on_error"
+)
+
 # ============================================================================
 # Exporters Focused Test Targets
 # Each target compiles the full exporter source set and links themis_core
@@ -12223,9 +12279,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp" AND NOT T
         LABELS "updates;blue-green;deployment;zero-downtime;focused;unit"
         TIMEOUT 120
     )
-        LABELS "deployment;blue-green;focused;unit"
-        TIMEOUT 90
-    )
 
     message(STATUS "  BlueGreenDeployment: Blue/Green deployment support")
 else()
@@ -12307,20 +12360,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET t
 endif()
 
 # CanaryRollout – focused tests for canary rollout mode
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp" AND NOT TARGET test_canary_rollout_focused)
-    message(STATUS "Adding Canary Rollout focused tests")
-
-    add_executable(test_canary_rollout_focused
-        test_canary_rollout.cpp
-    )
-
-    target_include_directories(test_canary_rollout_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
 # CanaryRollout – focused tests for canary rollout mode
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp" AND NOT TARGET test_canary_rollout_focused)
     message(STATUS "Adding Canary Rollout focused tests")
 
     add_executable(test_canary_rollout_focused
@@ -12440,7 +12481,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CanaryRolloutFocusedTests COMMAND test_canary_rollout_focused)
     add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND test_voice_browser_streaming_focused)
 
     set_tests_properties(VoiceBrowserStreamingFocusedTests PROPERTIES
@@ -13025,11 +13065,65 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
 endif()
 
 # ============================================================================
+# Temporal Module Focused Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
+    message(STATUS "Adding Temporal: TemporalConflictResolver + TemporalConflictDetector focused tests")
+
+    add_executable(test_temporal_conflict_resolver_focused
+        temporal/test_temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/replication/replication_manager.cpp
+    )
+
+    target_include_directories(test_temporal_conflict_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_temporal_conflict_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalConflictResolverFocusedTests COMMAND test_temporal_conflict_resolver_focused)
+
+    set_tests_properties(TemporalConflictResolverFocusedTests PROPERTIES
+        LABELS "temporal;conflict;resolver;detector;mvcc;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalConflictResolver: LWW, FWW, NODE_PRIORITY, MANUAL, CRDT_MERGE policies, audit log")
+    message(STATUS "  TemporalConflictDetector: CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, UNIQUENESS_VIOLATION")
+else()
+    message(STATUS "Temporal conflict resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
+endif()
+
+# ============================================================================
 # Custom Test Targets
 # ============================================================================
 add_custom_target(run_tests
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
+
+if(TARGET themis_tests)
+    get_target_property(_themis_tests_sources_final themis_tests SOURCES)
+    if(_themis_tests_sources_final)
+        list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer\\.cpp$")
+        list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer_mdm\\.cpp$")
+        set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
+    endif()
+endif()
 
 message(STATUS "Tests configured successfully")

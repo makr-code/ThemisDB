@@ -157,10 +157,10 @@ json RetentionApiHandler::getHistory(size_t limit) {
 }
 
 json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
+    auto span = Tracer::startSpan("getPolicyStats");
     auto stats = retention_manager_->getPolicyStats(policy_name);
     
     return json{
-    auto span = Tracer::startSpan("getPolicyStats");
         {"policy_name", policy_name},
         {"total_scanned", stats.total_entities_scanned},
         {"archived", stats.archived_count},
@@ -174,8 +174,8 @@ json RetentionApiHandler::getPolicyStats(const std::string& policy_name) {
 // Helper methods
 
 json RetentionApiHandler::policyToJson(const vcc::RetentionManager::RetentionPolicy& policy) {
-    return json{
     auto span = Tracer::startSpan("policyToJson");
+    return json{
         {"name", policy.name},
         {"retention_period_days", policy.retention_period.count() / 86400},
         {"archive_after_days", policy.archive_after.count() / 86400},
@@ -216,6 +216,7 @@ vcc::RetentionManager::RetentionPolicy RetentionApiHandler::jsonToPolicy(const j
 }
 
 json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAction& action) {
+    auto span = Tracer::startSpan("actionToJson");
     // Convert timestamp to ISO 8601 string
     auto timestamp_t = std::chrono::system_clock::to_time_t(action.timestamp);
     std::tm tm;
@@ -229,7 +230,6 @@ json RetentionApiHandler::actionToJson(const vcc::RetentionManager::RetentionAct
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S", &tm);
     
     json result = json{
-    auto span = Tracer::startSpan("actionToJson");
         {"entity_id", action.entity_id},
         {"action", action.action},
         {"policy_name", action.policy_name},

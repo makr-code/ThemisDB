@@ -319,6 +319,21 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         if (pooled_conn) {
             ld = pooled_conn->rawHandle();
         }
+    // Set search time limit (seconds)
+    ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
+    ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+
+    // Disable referral chasing — following attacker-controlled referrals can
+    // redirect authentication to a rogue LDAP server.
+    const void* referrals_off = LDAP_OPT_OFF;
+    const ULONG referrals_result =
+        ldap_set_option(ld, LDAP_OPT_REFERRALS, referrals_off);
+    if (referrals_result != LDAP_SUCCESS) {
+        spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
+                      referrals_result);
+        ldap_unbind(ld);
+        audit.logLDAPFailure(username, "disable_referrals_failed");
+        return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
     }
 
     if (!ld) {

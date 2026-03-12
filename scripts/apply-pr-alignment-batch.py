@@ -55,31 +55,37 @@ def main() -> int:
         "failures": [],
     }
 
-    for p in batch:
-        pr_number = int(p["pr_number"])
-        suggested = p["suggested_pr_milestone"]
-        code, out, err = run([
-            "gh", "pr", "edit", str(pr_number),
-            "-R", REPO,
-            "--milestone", suggested,
-        ], timeout_sec=25)
-        if code == 0:
-            result["ok"] += 1
-        else:
-            result["fail"] += 1
-            result["failures"].append({
-                "pr_number": pr_number,
-                "current": p.get("current_pr_milestone"),
-                "suggested": suggested,
-                "stdout": out,
-                "stderr": err,
-            })
+    result["processed"] = 0
+    try:
+        for p in batch:
+            pr_number = int(p["pr_number"])
+            suggested = p["suggested_pr_milestone"]
+            code, out, err = run([
+                "gh", "pr", "edit", str(pr_number),
+                "-R", REPO,
+                "--milestone", suggested,
+            ], timeout_sec=25)
+            result["processed"] += 1
+            if code == 0:
+                result["ok"] += 1
+            else:
+                result["fail"] += 1
+                result["failures"].append({
+                    "pr_number": pr_number,
+                    "current": p.get("current_pr_milestone"),
+                    "suggested": suggested,
+                    "stdout": out,
+                    "stderr": err,
+                })
+    except KeyboardInterrupt:
+        result["interrupted"] = True
 
     out_path = ROOT / args.out
     out_path.write_text(json.dumps(result, indent=2), encoding="utf-8")
 
     print(f"OUT={out_path.relative_to(ROOT)}")
     print(f"SELECTED={result['selected']}")
+    print(f"PROCESSED={result['processed']}")
     print(f"OK={result['ok']}")
     print(f"FAIL={result['fail']}")
     return 0

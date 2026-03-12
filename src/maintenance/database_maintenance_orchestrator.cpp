@@ -27,13 +27,17 @@
 
 #include <algorithm>
 #include <chrono>
+#include <deque>
 #include <random>
+#include <set>
 #include <sstream>
 #include <iomanip>
 #include <thread>
 
 namespace themis {
 namespace maintenance {
+
+using observability::MetricsCollector;
 
 namespace {
 
@@ -813,7 +817,34 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
     std::string last_error;
     int64_t job_start_ms = themis::maintenance::nowMs();
 
-    for (auto task_type : entry.tasks) {
+    // Determine execution order: use DAG sort when task_dependencies are
+    // declared, otherwise fall back to the positional order of entry.tasks.
+    std::vector<MaintenanceTaskType> ordered_tasks;
+    try {
+        ordered_tasks = resolveTaskExecutionOrder(entry);
+    } catch (const std::exception& ex) {
+        // Should not happen (already validated on create/update), but if a
+        // corrupt schedule somehow reaches execution we must not run tasks in
+        // an unvalidated order — fail the job immediately.
+        const std::string err = std::string("Task order resolution failed: ") + ex.what();
+        spdlog::error("MaintenanceJob {}: {}", job_id, err);
+        {
+            std::lock_guard<std::mutex> jlock(jobs_mutex_);
+            auto jit = jobs_.find(job_id);
+            if (jit != jobs_.end()) {
+                jit->second.state          = MaintenanceJobState::FAILED;
+                jit->second.error_message  = err;
+                jit->second.finished_at_ms = themis::maintenance::nowMs();
+            }
+        }
+        MetricsCollector::getInstance().addCounter(
+            "maintenance_jobs_failed_total", 1,
+            {{"reason", "task_order_resolution_failed"},
+             {"schedule_id", schedule_id}});
+        return;
+    }
+
+    for (auto task_type : ordered_tasks) {
         // Check cancellation
         {
             std::lock_guard<std::mutex> jlock(jobs_mutex_);
@@ -1104,6 +1135,114 @@ void DatabaseMaintenanceOrchestrator::validateEntry(
     if (entry.window_end_hour < 0 || entry.window_end_hour > 23) {
         throw std::invalid_argument("window_end_hour must be in [0, 23]");
     }
+
+    // ---- Validate task_dependencies DAG (cycle detection) ----------------
+    if (!entry.task_dependencies.empty()) {
+        resolveTaskExecutionOrder(entry); // throws std::invalid_argument on cycle or bad reference
+    }
+}
+
+/*static*/ std::vector<MaintenanceTaskType>
+DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
+    const MaintenanceScheduleEntry& entry)
+{
+    if (entry.task_dependencies.empty()) {
+        // No DAG declarations → return tasks in their declared list order.
+        return entry.tasks;
+    }
+
+    // Build a stable index map so that tasks with equal eligibility are
+    // emitted in the same relative order as entry.tasks (Kahn's seeding).
+    std::map<MaintenanceTaskType, std::size_t> taskIndex;
+    for (std::size_t i = 0; i < entry.tasks.size(); ++i) {
+        taskIndex[entry.tasks[i]] = i;
+    }
+
+    // ---- Validate that all dependency references name tasks in entry.tasks --
+    for (const auto& dep : entry.task_dependencies) {
+        if (taskIndex.find(dep.task_type) == taskIndex.end()) {
+            throw std::invalid_argument(
+                "task_dependencies: task_type '" +
+                taskTypeToString(dep.task_type) +
+                "' is not present in the tasks list");
+        }
+        for (auto prereq : dep.depends_on) {
+            if (taskIndex.find(prereq) == taskIndex.end()) {
+                throw std::invalid_argument(
+                    "task_dependencies: depends_on task '" +
+                    taskTypeToString(prereq) +
+                    "' is not present in the tasks list");
+            }
+        }
+    }
+
+    // ---- Build in-degree map and reverse adjacency (Kahn's algorithm) ------
+    std::map<MaintenanceTaskType, int>                          inDegree;
+    std::map<MaintenanceTaskType, std::vector<MaintenanceTaskType>> dependents;
+
+    for (auto t : entry.tasks) {
+        inDegree[t]   = 0;
+        dependents[t] = {};
+    }
+
+    // Deduplicate edges using a set per dependent to avoid double-counting.
+    std::map<MaintenanceTaskType, std::set<MaintenanceTaskType>> seen;
+    for (const auto& dep : entry.task_dependencies) {
+        for (auto prereq : dep.depends_on) {
+            if (seen[dep.task_type].insert(prereq).second) {
+                // New edge: prereq → dep.task_type
+                dependents[prereq].push_back(dep.task_type);
+                inDegree[dep.task_type]++;
+            }
+        }
+    }
+
+    // ---- Stable Kahn's sort: seed ready-queue in entry.tasks order ---------
+    // The comparator uses the original position in entry.tasks so that tasks
+    // with equal eligibility are always emitted in the declared list order.
+    // std::deque provides O(1) pop_front (versus O(n) for std::vector).
+    auto byOriginalOrder = [&](MaintenanceTaskType a, MaintenanceTaskType b) {
+        return taskIndex.at(a) < taskIndex.at(b);
+    };
+
+    // Initialize ready list with zero-in-degree tasks, in entry.tasks order.
+    std::deque<MaintenanceTaskType> ready;
+    for (auto t : entry.tasks) {
+        if (inDegree[t] == 0) {
+            ready.push_back(t);
+        }
+    }
+    // ready is already in entry.tasks order because we iterated entry.tasks.
+
+    std::vector<MaintenanceTaskType> result;
+    result.reserve(entry.tasks.size());
+
+    while (!ready.empty()) {
+        auto cur = ready.front();
+        ready.pop_front();
+        result.push_back(cur);
+
+        // Sort this node's dependents by original position before merging into ready.
+        const auto& deps = dependents[cur];
+        std::vector<MaintenanceTaskType> sorted_deps(deps.begin(), deps.end());
+        std::sort(sorted_deps.begin(), sorted_deps.end(), byOriginalOrder);
+
+        for (auto dep : sorted_deps) {
+            if (--inDegree[dep] == 0) {
+                // Insert in original-order position.
+                auto pos = std::lower_bound(ready.begin(), ready.end(), dep, byOriginalOrder);
+                ready.insert(pos, dep);
+            }
+        }
+    }
+
+    // If not all tasks were emitted, at least one cycle exists.
+    if (result.size() != entry.tasks.size()) {
+        throw std::invalid_argument(
+            "task_dependencies: circular dependency detected");
+    }
+
+    return result;
 }
 
 } // namespace maintenance

@@ -491,7 +491,7 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
             edge.edge_type = edgeTypeToProcessEdgeType_(e.value("type", "sequence"));
 
             std::string cond = e.value("condition", "");
-            if (!cond.empty()) edge.condition = cond;
+            if (!cond.empty()) edge.condition_expression = cond;
 
             edges.push_back(std::move(edge));
         }
@@ -541,7 +541,7 @@ VccVpbImporter::ImportResult VccVpbImporter::parseModelNode_(
         je["id"]   = e.edge_id;
         je["from"] = e.from_node;
         je["to"]   = e.to_node;
-        je["condition"] = e.condition.value_or("");
+        je["condition"] = e.condition_expression.value_or("");
         switch (e.edge_type) {
             case ProcessEdgeType::CONDITIONAL_FLOW: je["type"] = "CONDITIONAL_FLOW"; break;
             case ProcessEdgeType::DEFAULT_FLOW:     je["type"] = "DEFAULT_FLOW"; break;

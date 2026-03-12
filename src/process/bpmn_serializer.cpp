@@ -231,7 +231,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             // (conditionExpression child element — simplistic extraction)
             std::string cond_name = extractAttr(tag_str, "name");
             if (!cond_name.empty()) {
-                edge.condition = cond_name;
+                edge.condition_expression = cond_name;
             }
 
             if (!edge.from_node.empty() && !edge.to_node.empty()) {
@@ -275,7 +275,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 // ---------------------------------------------------------------------------
 
 BpmnSerializer::ImportResult BpmnSerializer::importFile(std::string_view file_path) {
-    std::ifstream f(std::string(file_path));
+    std::ifstream f{std::string(file_path)};
     if (!f.is_open()) {
         ImportResult r;
         r.ok      = false;
@@ -353,8 +353,8 @@ std::string BpmnSerializer::exportXml(
             << " sourceRef=\"" << escapeXml_(e.from_node) << "\""
             << " targetRef=\"" << escapeXml_(e.to_node) << "\"";
 
-        if (e.condition) {
-            xml << " name=\"" << escapeXml_(*e.condition) << "\"";
+        if (e.condition_expression) {
+            xml << " name=\"" << escapeXml_(*e.condition_expression) << "\"";
         }
         xml << "/>\n";
     }
@@ -398,7 +398,7 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
             e.from_node = je.value("from", "");
             e.to_node   = je.value("to",   "");
             std::string cond = je.value("condition", "");
-            if (!cond.empty()) e.condition = cond;
+            if (!cond.empty()) e.condition_expression = cond;
             e.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
             edges.push_back(std::move(e));
         }
