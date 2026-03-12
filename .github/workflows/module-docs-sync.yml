@@ -125,6 +125,15 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "docs: sync module docs [skip ci]"
+            # [R4] Rebase on any commits that landed on develop while this job ran.
+            # Prevents "rejected — non-fast-forward" push failures.
+            # On conflict: abort the rebase and fail with a clear message so the
+            # next run (or a human) can resolve it — do not push partial state.
+            if ! git pull --rebase origin develop; then
+              git rebase --abort
+              echo "::error::Rebase on develop failed (conflict). Re-run the workflow or resolve manually."
+              exit 1
+            fi
             git push
           fi
         env:

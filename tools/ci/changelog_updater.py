@@ -46,8 +46,10 @@ Exit codes
 
 import argparse
 import datetime
+import os
 import re
 import sys
+import tempfile
 from pathlib import Path
 from typing import List, Optional
 
@@ -250,7 +252,20 @@ def main(argv=None) -> int:
             print("--- end ---")
         return 0
 
-    changelog_path.write_text(new_content, encoding="utf-8")
+    # [R1] Atomic write: temp-file + os.replace() prevents partial-write corruption.
+    tmp_fd, tmp_name = tempfile.mkstemp(
+        dir=changelog_path.parent, prefix="tmp_changelog_", suffix=".md"
+    )
+    try:
+        with os.fdopen(tmp_fd, "w", encoding="utf-8") as fh:
+            fh.write(new_content)
+        os.replace(tmp_name, changelog_path)
+    except BaseException:
+        try:
+            os.unlink(tmp_name)
+        except OSError:
+            pass
+        raise
 
     if not args.quiet:
         print(f"CHANGELOG.md updated: added entry '{args.entry_title}' in ### {args.section}.")

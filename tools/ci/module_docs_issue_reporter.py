@@ -58,16 +58,31 @@ LABELS_DRIFT_STALE = ["type:documentation", "area:docs-audit", "priority:medium"
 TITLE_PREFIX_MODULE = "[docs-sync]"
 TITLE_PREFIX_DRIFT = "[docs-drift]"
 
+# [R2] Default timeout for all gh CLI subprocess calls (seconds).
+_GH_TIMEOUT = 30
+
 
 # ---------------------------------------------------------------------------
 # gh CLI helpers
 # ---------------------------------------------------------------------------
 
 
-def _run(args: List[str]) -> Tuple[int, str, str]:
-    """Run a subprocess and return (returncode, stdout, stderr)."""
-    result = subprocess.run(args, capture_output=True, text=True)
-    return result.returncode, result.stdout.strip(), result.stderr.strip()
+def _run(args: List[str], timeout: int = _GH_TIMEOUT) -> Tuple[int, str, str]:
+    """Run a subprocess and return (returncode, stdout, stderr).
+
+    [R2] ``timeout`` prevents the gh CLI from hanging CI indefinitely.
+    ``FileNotFoundError`` is caught so callers get a clean (127, "", …) tuple
+    instead of an unhandled exception when gh is not installed.
+    """
+    try:
+        result = subprocess.run(
+            args, capture_output=True, text=True, timeout=timeout
+        )
+        return result.returncode, result.stdout.strip(), result.stderr.strip()
+    except subprocess.TimeoutExpired:
+        return 1, "", f"timed out after {timeout}s: {' '.join(args)}"
+    except FileNotFoundError:
+        return 127, "", f"command not found: {args[0]}"
 
 
 def _gh_available() -> bool:
@@ -75,19 +90,28 @@ def _gh_available() -> bool:
     return rc == 0
 
 
-def _issue_exists(repo: str, title: str) -> bool:
-    """Return True when an open issue with *title* already exists in *repo*."""
+def _list_open_issue_titles(repo: str, prefix: str) -> frozenset:
+    """Return all open issue titles that start with *prefix* (single API call).
+
+    [P1] Replaces the per-issue ``gh issue list --search`` pattern so the
+    deduplication check requires only **one** network round-trip regardless of
+    how many issues are in the report.
+
+    [P2] ``--limit 500`` ensures we don't silently miss existing issues when
+    more than the default 30 are open.
+    """
     rc, stdout, _ = _run([
         "gh", "issue", "list",
         "--repo", repo,
         "--state", "open",
-        "--search", title,
+        "--search", prefix,
         "--json", "title",
         "--jq", ".[].title",
+        "--limit", "500",
     ])
     if rc != 0:
-        return False
-    return title in stdout.splitlines()
+        return frozenset()
+    return frozenset(line for line in stdout.splitlines() if line.strip())
 
 
 def _create_issue(
@@ -196,14 +220,22 @@ def process_module_report(
 
     created = skipped = failed = 0
 
+    # [P1] Fetch all existing module-docs issue titles in one API call.
+    if not quiet:
+        print(f"  Fetching existing '{TITLE_PREFIX_MODULE}' issues …")
+    existing_titles = (
+        _list_open_issue_titles(repo, TITLE_PREFIX_MODULE)
+        if not dry_run
+        else frozenset()
+    )
+    if not quiet:
+        print(f"  Found {len(existing_titles)} existing issue(s).\n")
+
     for module in sorted(underdoc):
         title = _module_issue_title(module)
         info = modules_info.get(module, {})
 
-        if not quiet:
-            print(f"  [{module}] checking for existing issue …")
-
-        if _issue_exists(repo, title):
+        if title in existing_titles:
             if not quiet:
                 print(f"  [{module}] ⏭  already exists — skipped")
             skipped += 1
@@ -292,18 +324,26 @@ def process_drift_report(
     entries: List[Dict[str, Any]] = report.get("entries", [])
     created = skipped = failed = 0
 
+    # [P1] Fetch all existing drift-issue titles in one API call.
+    if not quiet:
+        print(f"  Fetching existing '{TITLE_PREFIX_DRIFT}' issues …")
+    existing_titles = (
+        _list_open_issue_titles(repo, TITLE_PREFIX_DRIFT)
+        if not dry_run
+        else frozenset()
+    )
+    if not quiet:
+        print(f"  Found {len(existing_titles)} existing issue(s).\n")
+
     for entry in entries:
         file_path = entry.get("file", "")
         status = entry.get("status", "drifting")
         title = _drift_issue_title(file_path)
         labels = LABELS_DRIFT_STALE if status == "stale" else LABELS_DRIFT_DRIFTING
 
-        if not quiet:
-            print(f"  [{status}] {file_path} — checking …")
-
-        if _issue_exists(repo, title):
+        if title in existing_titles:
             if not quiet:
-                print(f"  [{status}] ⏭  already exists — skipped")
+                print(f"  [{status}] ⏭  {file_path} — already exists, skipped")
             skipped += 1
             continue
 
@@ -312,7 +352,7 @@ def process_drift_report(
 
         if ok:
             if not quiet:
-                print(f"  [{status}] ✅ {'(dry-run) would create' if dry_run else 'created'}")
+                print(f"  [{status}] ✅ {'(dry-run) would create' if dry_run else 'created'}: {file_path}")
             created += 1
         else:
             failed += 1

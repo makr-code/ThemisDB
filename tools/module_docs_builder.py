@@ -56,6 +56,7 @@ import datetime
 import json
 import os
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -100,6 +101,9 @@ def collect_module_files(repo_root: Path) -> Dict[str, List[str]]:
             continue
 
         for md_file in scan_path.rglob("*.md"):
+            # [R3] Skip symlinks to prevent infinite loops on circular links.
+            if md_file.is_symlink():
+                continue
             rel_path = md_file.relative_to(repo_root)
             parts = rel_path.parts
             # parts[0] = "src" | "include"
@@ -266,8 +270,34 @@ def generate_en_page(module: str, files: List[str], today: str) -> str:
 # ---------------------------------------------------------------------------
 
 
+def _atomic_write(path: Path, content: str) -> None:
+    """Write *content* to *path* atomically via a temp-file + ``os.replace()``.
+
+    Guarantees that *path* is never left in a partially-written state even
+    when the process is killed or loses power mid-write.
+    The temp file is created in the same directory so the rename is always on
+    the same filesystem (no cross-device link error).
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_fd, tmp_name = tempfile.mkstemp(
+        dir=path.parent, prefix="tmp_docbuild_", suffix=path.suffix
+    )
+    try:
+        with os.fdopen(tmp_fd, "w", encoding="utf-8") as fh:
+            fh.write(content)
+        os.replace(tmp_name, path)  # atomic on POSIX; best-effort on Windows
+    except BaseException:  # covers KeyboardInterrupt, SystemExit, Exception
+        try:
+            os.unlink(tmp_name)
+        except OSError:
+            pass
+        raise
+
+
 def write_page(path: Path, content: str, dry_run: bool = False) -> bool:
     """Write *content* to *path*, creating parent directories as needed.
+
+    Uses an atomic temp-file rename so the target is never partially written.
 
     Parameters
     ----------
@@ -288,12 +318,12 @@ def write_page(path: Path, content: str, dry_run: bool = False) -> bool:
     if dry_run:
         return True  # Always report "would write" in dry-run mode.
 
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists():
-        existing = path.read_text(encoding="utf-8")
-        if existing == content:
-            return False  # Nothing changed; skip.
-    path.write_text(content, encoding="utf-8")
+    # Idempotency check: compare bytes to avoid double-encoding overhead.
+    new_bytes = content.encode("utf-8")
+    if path.exists() and path.read_bytes() == new_bytes:
+        return False  # Nothing changed; skip.
+
+    _atomic_write(path, content)
     return True
 
 
@@ -519,10 +549,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         coverage = scan_secondary_coverage(repo_root, module_files)
         issues_report = _build_issues_report(module_files, coverage, new_modules, today)
         issues_path = Path(args.issues_json)
-        issues_path.parent.mkdir(parents=True, exist_ok=True)
-        issues_path.write_text(
-            json.dumps(issues_report, indent=2, ensure_ascii=False),
-            encoding="utf-8",
+        _atomic_write(
+            issues_path,
+            json.dumps(issues_report, indent=2, ensure_ascii=False) + "\n",
         )
         if not args.quiet:
             print(f"Issues report written    : {issues_path}")
