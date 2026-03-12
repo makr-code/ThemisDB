@@ -1,0 +1,42 @@
+[docs](../../index.md) > [de](../index.md) > [analytics](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/analytics/FUTURE_ENHANCEMENTS.md`
+- `include/analytics/README.md`
+- `src/analytics/ARCHITECTURE.md`
+- `src/analytics/FUTURE_ENHANCEMENTS.md`
+- `src/analytics/README.md`
+- `src/analytics/ROADMAP.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `analytics`
+
+---
+
+# Primary Sources — `analytics`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`analytics`** aus den Verzeichnissen `src/analytics/` und/oder `include/analytics/`.
+
+## Primäre Markdown-Dateien
+
+### `src/analytics/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/analytics/ARCHITECTURE.md`](../../../src/analytics/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/analytics/FUTURE_ENHANCEMENTS.md`](../../../src/analytics/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/analytics/README.md`](../../../src/analytics/README.md) |
+| `ROADMAP.md` | [`src/analytics/ROADMAP.md`](../../../src/analytics/ROADMAP.md) |
+
+### `include/analytics/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/analytics/FUTURE_ENHANCEMENTS.md`](../../../include/analytics/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/analytics/README.md`](../../../include/analytics/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*

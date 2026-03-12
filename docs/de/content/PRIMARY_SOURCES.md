@@ -1,0 +1,44 @@
+[docs](../../index.md) > [de](../index.md) > [content](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/content/FUTURE_ENHANCEMENTS.md`
+- `include/content/README.md`
+- `src/content/ARCHITECTURE.md`
+- `src/content/FUTURE_ENHANCEMENTS.md`
+- `src/content/README.md`
+- `src/content/ROADMAP.md`
+- `src/content/pipeline/README.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `content`
+
+---
+
+# Primary Sources — `content`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`content`** aus den Verzeichnissen `src/content/` und/oder `include/content/`.
+
+## Primäre Markdown-Dateien
+
+### `src/content/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/content/ARCHITECTURE.md`](../../../src/content/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/content/FUTURE_ENHANCEMENTS.md`](../../../src/content/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/content/README.md`](../../../src/content/README.md) |
+| `ROADMAP.md` | [`src/content/ROADMAP.md`](../../../src/content/ROADMAP.md) |
+| `README.md` | [`src/content/pipeline/README.md`](../../../src/content/pipeline/README.md) |
+
+### `include/content/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/content/FUTURE_ENHANCEMENTS.md`](../../../include/content/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/content/README.md`](../../../include/content/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*

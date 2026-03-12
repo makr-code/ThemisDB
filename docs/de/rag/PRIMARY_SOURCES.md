@@ -1,0 +1,44 @@
+[docs](../../index.md) > [de](../index.md) > [rag](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/rag/FUTURE_ENHANCEMENTS.md`
+- `include/rag/README.md`
+- `src/rag/ARCHITECTURE.md`
+- `src/rag/FUTURE_ENHANCEMENTS.md`
+- `src/rag/QUALITY_CONTROL_README.md`
+- `src/rag/README.md`
+- `src/rag/ROADMAP.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `rag`
+
+---
+
+# Primary Sources — `rag`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rag`** aus den Verzeichnissen `src/rag/` und/oder `include/rag/`.
+
+## Primäre Markdown-Dateien
+
+### `src/rag/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/rag/ARCHITECTURE.md`](../../../src/rag/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/rag/FUTURE_ENHANCEMENTS.md`](../../../src/rag/FUTURE_ENHANCEMENTS.md) |
+| `QUALITY_CONTROL_README.md` | [`src/rag/QUALITY_CONTROL_README.md`](../../../src/rag/QUALITY_CONTROL_README.md) |
+| `README.md` | [`src/rag/README.md`](../../../src/rag/README.md) |
+| `ROADMAP.md` | [`src/rag/ROADMAP.md`](../../../src/rag/ROADMAP.md) |
+
+### `include/rag/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/rag/FUTURE_ENHANCEMENTS.md`](../../../include/rag/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/rag/README.md`](../../../include/rag/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*

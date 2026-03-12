@@ -1,0 +1,42 @@
+[docs](../../index.md) > [de](../index.md) > [metadata](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-03-12  
+**Status:** draft  
+**Primary (Quelle der Wahrheit):**
+- `include/metadata/FUTURE_ENHANCEMENTS.md`
+- `include/metadata/README.md`
+- `src/metadata/ARCHITECTURE.md`
+- `src/metadata/FUTURE_ENHANCEMENTS.md`
+- `src/metadata/README.md`
+- `src/metadata/ROADMAP.md`
+
+**Bezug / Reference:**
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `metadata`
+
+---
+
+# Primary Sources — `metadata`
+
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`** aus den Verzeichnissen `src/metadata/` und/oder `include/metadata/`.
+
+## Primäre Markdown-Dateien
+
+### `src/metadata/`
+
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/metadata/ARCHITECTURE.md`](../../../src/metadata/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/metadata/FUTURE_ENHANCEMENTS.md`](../../../src/metadata/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`src/metadata/README.md`](../../../src/metadata/README.md) |
+| `ROADMAP.md` | [`src/metadata/ROADMAP.md`](../../../src/metadata/ROADMAP.md) |
+
+### `include/metadata/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`include/metadata/FUTURE_ENHANCEMENTS.md`](../../../include/metadata/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/metadata/README.md`](../../../include/metadata/README.md) |
+
+---
+
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-03-12*
