@@ -616,6 +616,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
     ../src/auth/ldap_authenticator.cpp
+    ../src/auth/ldap_connection_pool.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/auth/password_policy.cpp
     ../src/auth/oidc_provider.cpp

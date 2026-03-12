@@ -151,6 +151,81 @@ static std::vector<uint8_t> wasmWithMemoryImport(const std::string& mod,
     return out;
 }
 
+/**
+ * @brief Build a WASM binary with a memory import followed by a function import.
+ *
+ * Import section layout (count=2):
+ *   1. memory import  – kind=0x02, limits (no max, min=1)
+ *   2. function import – kind=0x00, type_index=0
+ *
+ * This exercises that the parser correctly skips the memory descriptor and
+ * continues to collect the subsequent function import.
+ */
+static std::vector<uint8_t> wasmWithMemoryThenFuncImport(
+    const std::string& mem_mod, const std::string& mem_name,
+    const std::string& fn_mod,  const std::string& fn_name) {
+    std::vector<uint8_t> body;
+    append(body, leb128(2));            // count = 2
+
+    // Entry 1: memory import
+    append(body, wasmName(mem_mod));
+    append(body, wasmName(mem_name));
+    body.push_back(0x02);               // kind = memory
+    body.push_back(0x00);               // limits flags: no maximum
+    append(body, leb128(1));            // limits min = 1 page
+
+    // Entry 2: function import
+    append(body, wasmName(fn_mod));
+    append(body, wasmName(fn_name));
+    body.push_back(0x00);               // kind = function
+    append(body, leb128(0));            // type index = 0
+
+    std::vector<uint8_t> out = minimalWasm();
+    out.push_back(0x02); // section id = import
+    append(out, leb128(static_cast<uint32_t>(body.size())));
+    append(out, body);
+    return out;
+}
+
+/**
+ * @brief Build a WASM binary with: func import, memory import, func import.
+ *
+ * Tests that function imports on both sides of a non-function import are
+ * correctly collected.
+ */
+static std::vector<uint8_t> wasmWithFuncMemoryFuncImports(
+    const std::string& fn1_mod, const std::string& fn1_name,
+    const std::string& mem_mod, const std::string& mem_name,
+    const std::string& fn2_mod, const std::string& fn2_name) {
+    std::vector<uint8_t> body;
+    append(body, leb128(3));            // count = 3
+
+    // Entry 1: function import
+    append(body, wasmName(fn1_mod));
+    append(body, wasmName(fn1_name));
+    body.push_back(0x00);               // kind = function
+    append(body, leb128(0));            // type index = 0
+
+    // Entry 2: memory import
+    append(body, wasmName(mem_mod));
+    append(body, wasmName(mem_name));
+    body.push_back(0x02);               // kind = memory
+    body.push_back(0x00);               // limits flags: no maximum
+    append(body, leb128(1));            // limits min = 1 page
+
+    // Entry 3: function import
+    append(body, wasmName(fn2_mod));
+    append(body, wasmName(fn2_name));
+    body.push_back(0x00);               // kind = function
+    append(body, leb128(0));            // type index = 0
+
+    std::vector<uint8_t> out = minimalWasm();
+    out.push_back(0x02); // section id = import
+    append(out, leb128(static_cast<uint32_t>(body.size())));
+    append(out, body);
+    return out;
+}
+
 // =============================================================================
 // WasmModuleValidator tests
 // =============================================================================
@@ -200,9 +275,33 @@ TEST(WasmModuleValidator, WasmWithMemoryImportDoesNotCrash) {
     auto bytes = wasmWithMemoryImport("env", "memory");
     auto info  = WasmModuleValidator::validate(bytes);
     EXPECT_TRUE(info.valid);
-    // The memory import name must be captured even though it is non-function.
-    ASSERT_FALSE(info.imports.empty());
-    EXPECT_EQ(info.imports[0], "env.memory");
+    // Memory imports are non-function and must NOT appear in info.imports.
+    EXPECT_TRUE(info.imports.empty());
+}
+
+TEST(WasmModuleValidator, MemoryImportBeforeFuncImportCollectsFuncImport) {
+    // When a memory import precedes a function import, the parser must skip the
+    // memory descriptor and continue so that the function import is collected.
+    auto bytes = wasmWithMemoryThenFuncImport("env", "memory", "themis", "log");
+    auto info  = WasmModuleValidator::validate(bytes);
+    EXPECT_TRUE(info.valid);
+    ASSERT_EQ(info.imports.size(), 1u);
+    EXPECT_EQ(info.imports[0], "themis.log");
+}
+
+TEST(WasmModuleValidator, InterleavedMemoryAndFuncImportsCollectsAllFuncImports) {
+    // Func import, then memory import, then another func import.
+    // Both function imports must appear in info.imports regardless of the
+    // interleaved memory import.
+    auto bytes = wasmWithFuncMemoryFuncImports(
+        "themis", "log",
+        "env",    "memory",
+        "themis", "abort");
+    auto info  = WasmModuleValidator::validate(bytes);
+    EXPECT_TRUE(info.valid);
+    ASSERT_EQ(info.imports.size(), 2u);
+    EXPECT_EQ(info.imports[0], "themis.log");
+    EXPECT_EQ(info.imports[1], "themis.abort");
 }
 
 TEST(WasmModuleValidator, WasmWithExportSection) {
@@ -394,8 +493,8 @@ TEST(WasmPluginSandbox, NonFunctionImportDoesNotCrash) {
     WasmPluginSandbox sb(cfg);
     bool ok = sb.loadFromBytes(bytes, "memory_plugin");
     EXPECT_TRUE(ok) << sb.lastError();
-    // The memory import name should be recorded.
-    EXPECT_FALSE(sb.moduleInfo().imports.empty());
+    // Memory imports are non-function and must NOT be recorded in imports.
+    EXPECT_TRUE(sb.moduleInfo().imports.empty());
 }
 
 // =============================================================================

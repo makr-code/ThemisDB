@@ -123,6 +123,8 @@ public:
     JWTKeyRotationManager(const JWTKeyRotationManager&) = delete;
     JWTKeyRotationManager& operator=(const JWTKeyRotationManager&) = delete;
 
+    ~JWTKeyRotationManager();
+
     // ---------------------------------------------------------------------------
     // Key lifecycle
     // ---------------------------------------------------------------------------

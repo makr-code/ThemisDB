@@ -1,0 +1,11 @@
+{
+  "name": "Persistent Podcast Player",
+  "version": "1.0.0",
+  "homepage": "https://github.com/makr-code/ThemisDB",
+  "description": "A persistent podcast player with episode excerpts and related post links.",
+  "author": "ThemisDB Team",
+  "author_uri": "https://github.com/makr-code/ThemisDB",
+  "requires": "5.8",
+  "tested": "6.4",
+  "requires_php": "7.4"
+}
