@@ -74,7 +74,17 @@ struct BuildConfiguration {
 // ============================================================================
 // BUILD INFORMATION COLLECTION
 // ============================================================================
-
+//
+// Windows DLL / STL ABI note:
+//   The APIs below pass and return STL types (std::string, std::vector,
+//   std::optional, std::map) across the DLL boundary.  This is safe only
+//   when the consumer and the DLL are compiled with the *same* MSVC toolset
+//   version and the same CRT linkage (default: /MD, MultiThreadedDLL).
+//   Mixing toolset versions or CRT flavours (/MT vs /MD) will cause crashes
+//   or heap corruption at runtime.  Third-party consumers must therefore
+//   build against the same Visual Studio version that produced
+//   themis_base.dll.  A stable C ABI wrapper is planned for v2.0.
+//
 /**
  * Get complete build configuration including edition and modules
  */

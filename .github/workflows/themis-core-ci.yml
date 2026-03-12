@@ -8,7 +8,7 @@ on:
       - main
       - develop
     paths:
-      - 'src/utils/build_info.cpp'
+      - 'src/themis/build_info.cpp'
       - 'src/themis/license_info.cpp'
       - 'src/utils/runtime_license_gate.cpp'
       - 'src/base/module_loader.cpp'
@@ -66,7 +66,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'src/utils/build_info.cpp'
+      - 'src/themis/build_info.cpp'
       - 'src/themis/license_info.cpp'
       - 'src/utils/runtime_license_gate.cpp'
       - 'src/base/module_loader.cpp'
@@ -543,7 +543,7 @@ jobs:
       - name: Check for TODO/FIXME in new source files
         run: |
           count=$(grep -rn "TODO\|FIXME\|HACK\|XXX" \
-            src/utils/build_info.cpp \
+            src/themis/build_info.cpp \
             src/themis/license_info.cpp \
             src/base/module_sandbox.cpp \
             src/network/wire_protocol_v2.cpp \
@@ -663,7 +663,7 @@ jobs:
           path: |
             ${{ github.workspace }}/vcpkg/installed
             ${{ github.workspace }}/vcpkg/packages
-            ${{ github.workspace }}/vcpkg/buildtrees
+            ${{ github.workspace }}/vcpkg/downloads
           key: vcpkg-windows-x64-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: |
             vcpkg-windows-x64-
