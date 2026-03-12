@@ -64,7 +64,7 @@ ThemisDB is a **multi-model database** (scientific research) that combines relat
 
 ## 📚 Module Documentation
 
-ThemisDB has **comprehensive documentation for all 44 modules** (139 files total) with production-ready standards:
+ThemisDB has **comprehensive documentation for all 46 modules** (153 files total) with production-ready standards:
 
 <details>
 <summary><b>🏗️ Foundation Layer</b> (7 modules)</summary>
@@ -123,12 +123,13 @@ ThemisDB has **comprehensive documentation for all 44 modules** (139 files total
 </details>
 
 <details>
-<summary><b>📊 Operations</b> (4 modules)</summary>
+<summary><b>📊 Operations</b> (5 modules)</summary>
 
 - **[Performance](src/performance/README.md)** - Cycle metrics, RCU lock-free reads, LIRS cache, mimalloc, feature flags ([Future Enhancements](src/performance/FUTURE_ENHANCEMENTS.md))
 - **[Observability](src/observability/README.md)** - Prometheus integration, profiling, flame graphs, automated issue detection ([Future Enhancements](src/observability/FUTURE_ENHANCEMENTS.md))
 - **[Updates](src/updates/README.md)** - Hot-reload (zero-downtime), schema migration, atomic rollback ([Future Enhancements](src/updates/FUTURE_ENHANCEMENTS.md))
 - **[Scheduler](src/scheduler/README.md)** - Cron scheduling, 3-stage hybrid retention (Gorilla→Adaptive→Time-based, 99.9% compression) ([Future Enhancements](src/scheduler/FUTURE_ENHANCEMENTS.md))
+- **[Maintenance](src/maintenance/README.md)** - Centralized DB maintenance orchestration: cron schedules, maintenance windows, sequential task DAG, aggregated health reporting ([Future Enhancements](src/maintenance/FUTURE_ENHANCEMENTS.md))
 
 </details>
 
@@ -152,12 +153,13 @@ ThemisDB has **comprehensive documentation for all 44 modules** (139 files total
 </details>
 
 <details>
-<summary><b>🎯 Specialized</b> (4 modules)</summary>
+<summary><b>🎯 Specialized</b> (5 modules)</summary>
 
 - **[Graph](src/graph/README.md)** - 5 traversal algorithms (BFS/DFS/Dijkstra/A*/Bidirectional), 12 constraint types ([Future Enhancements](src/graph/FUTURE_ENHANCEMENTS.md))
 - **[Chimera](src/chimera/README.md)** - Vendor-neutral CHIMERA benchmark adapter ([Future Enhancements](src/chimera/FUTURE_ENHANCEMENTS.md))
 - **[Geo](src/geo/README.md)** - Advanced geospatial features and queries ([Future Enhancements](src/geo/FUTURE_ENHANCEMENTS.md))
 - **[Acceleration](src/acceleration/README.md)** - Hardware acceleration (GPU, SIMD, etc.) ([Future Enhancements](src/acceleration/FUTURE_ENHANCEMENTS.md))
+- **[Process](src/process/README.md)** - BPMN 2.0/EPK/VCC-VPB process model management, LLM descriptors, Graph-RAG for Verwaltungsvorgänge, compliance tagging ([Future Enhancements](src/process/FUTURE_ENHANCEMENTS.md))
 
 </details>
 
@@ -186,7 +188,7 @@ Each module includes **enterprise-grade documentation**:
 - ✅ **Future Roadmap** - Planned features with target versions
 - ✅ **Research Foundation** - 100+ peer-reviewed paper citations
 
-**Total Documentation:** 139 files · 500+ code examples · 80+ architecture diagrams · ~1MB technical content
+**Total Documentation:** 153 files · 500+ code examples · 80+ architecture diagrams · ~1MB technical content
 
 ---
 

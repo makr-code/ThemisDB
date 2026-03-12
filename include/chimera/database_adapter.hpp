@@ -301,6 +301,51 @@ struct QueryStatistics {
 };
 
 /**
+ * @struct BatchResult
+ * @brief Result of an advanced batch operation
+ *
+ * @details Aggregates per-batch results, counts of successes and failures,
+ *          and the total elapsed wall-clock time so callers can assess
+ *          partial success without throwing exceptions.
+ */
+struct BatchResult {
+    size_t total_processed = 0;                       ///< Total items attempted
+    size_t successful      = 0;                       ///< Items that succeeded
+    size_t failed          = 0;                       ///< Items that failed
+    std::vector<Result<size_t>> batch_results;        ///< Per-chunk results
+    std::chrono::milliseconds total_time{0};          ///< Wall-clock duration
+};
+
+/**
+ * @struct BatchOptions
+ * @brief Configuration for advanced batch operations
+ *
+ * @details Controls chunking, error semantics, and optional progress/batch
+ *          callbacks so callers can observe and react to in-flight progress.
+ */
+struct BatchOptions {
+    /// Number of items to process per internal chunk.
+    size_t batch_size = 1000;
+
+    /// When true the operation stops immediately after the first chunk error.
+    bool stop_on_error = false;
+
+    /**
+     * @brief Optional progress callback invoked after each processed chunk.
+     * @param processed Cumulative items processed so far (across all chunks).
+     * @param total     Total items to process.
+     */
+    std::function<void(size_t processed, size_t total)> progress_callback;
+
+    /**
+     * @brief Optional per-chunk callback invoked after each chunk finishes.
+     * @param batch_index Zero-based chunk index.
+     * @param result      Result of that chunk (number of rows inserted or error).
+     */
+    std::function<void(size_t batch_index, const Result<size_t>&)> batch_callback;
+};
+
+/**
  * @struct SystemInfo
  * @brief Generic system information
  */
@@ -405,7 +450,86 @@ public:
         const std::string& table_name,
         const std::vector<RelationalRow>& rows
     ) = 0;
-    
+
+    /**
+     * @brief Advanced batch insert with progress tracking and error control.
+     *
+     * @details Splits @p rows into chunks of @p options.batch_size, calls
+     *          @c batch_insert for each chunk, and aggregates the results into
+     *          a @c BatchResult.  Optional @c BatchOptions::progress_callback
+     *          and @c BatchOptions::batch_callback are invoked after every
+     *          chunk so callers can observe throughput or cancel early.
+     *
+     *          The default implementation always returns
+     *          @c Result<BatchResult>::ok(...) and surfaces per-chunk failures
+     *          (including connection issues reported by @c batch_insert) via
+     *          @c BatchResult::batch_results and the @c successful / @c failed
+     *          counters rather than as a top-level error.
+     *          Subclasses may override this method for database-specific
+     *          optimisations or to implement stricter error propagation.
+     *
+     * @param table_name Target table.
+     * @param rows       Rows to insert.
+     * @param options    Chunking, callback, and error-handling options.
+     * @return Aggregated @c BatchResult wrapped in a successful @c Result.
+     */
+    virtual Result<BatchResult> batch_insert_advanced(
+        const std::string& table_name,
+        const std::vector<RelationalRow>& rows,
+        const BatchOptions& options = {}
+    ) {
+        const auto start = std::chrono::steady_clock::now();
+        const size_t chunk = options.batch_size > 0 ? options.batch_size : rows.size();
+
+        BatchResult result;
+        result.total_processed = rows.size();
+
+        size_t processed = 0;
+        size_t batch_idx = 0;
+        std::vector<RelationalRow> slice;
+        slice.reserve(chunk);
+        for (size_t offset = 0; offset < rows.size(); offset += chunk, ++batch_idx) {
+            const size_t end = std::min(offset + chunk, rows.size());
+            slice.clear();
+            slice.insert(
+                slice.end(),
+                rows.begin() + static_cast<std::ptrdiff_t>(offset),
+                rows.begin() + static_cast<std::ptrdiff_t>(end)
+            );
+            auto chunk_result = batch_insert(table_name, slice);
+
+            if (chunk_result.is_ok()) {
+                size_t inserted = chunk_result.value.value_or(0);
+                if (inserted > slice.size()) {
+                    inserted = slice.size();
+                }
+                result.successful += inserted;
+                result.failed += (slice.size() - inserted);
+            } else {
+                result.failed += slice.size();
+            }
+
+            result.batch_results.push_back(chunk_result);
+
+            if (options.batch_callback) {
+                options.batch_callback(batch_idx, chunk_result);
+            }
+
+            processed += slice.size();
+            if (options.progress_callback) {
+                options.progress_callback(processed, rows.size());
+            }
+
+            if (!chunk_result.is_ok() && options.stop_on_error) {
+                break;
+            }
+        }
+
+        result.total_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        return Result<BatchResult>::ok(std::move(result));
+    }
+
     /**
      * @brief Get query execution statistics
      * @return Query statistics or error
@@ -567,6 +691,81 @@ public:
         const std::string& collection,
         const std::vector<Document>& docs
     ) = 0;
+
+    /**
+     * @brief Advanced batch insert for documents with progress tracking.
+     *
+     * @details Splits @p docs into chunks of @p options.batch_size, calls
+     *          @c batch_insert_documents for each chunk, and aggregates the
+     *          results.  Optional callbacks are invoked after each chunk.
+     *
+     *          The default implementation always returns
+     *          @c Result<BatchResult>::ok(...) and surfaces per-chunk failures
+     *          via @c BatchResult::batch_results and the @c successful /
+     *          @c failed counters rather than as a top-level error.
+     *          Subclasses may override for database-specific optimisations.
+     *
+     * @param collection Target collection.
+     * @param docs       Documents to insert.
+     * @param options    Chunking, callback, and error-handling options.
+     * @return Aggregated @c BatchResult wrapped in a successful @c Result.
+     */
+    virtual Result<BatchResult> batch_insert_documents_advanced(
+        const std::string& collection,
+        const std::vector<Document>& docs,
+        const BatchOptions& options = {}
+    ) {
+        const auto start = std::chrono::steady_clock::now();
+        const size_t chunk = options.batch_size > 0 ? options.batch_size : docs.size();
+
+        BatchResult result;
+        result.total_processed = docs.size();
+
+        size_t processed = 0;
+        size_t batch_idx = 0;
+        std::vector<Document> slice;
+        slice.reserve(chunk);
+        for (size_t offset = 0; offset < docs.size(); offset += chunk, ++batch_idx) {
+            const size_t end = std::min(offset + chunk, docs.size());
+            slice.clear();
+            slice.insert(
+                slice.end(),
+                docs.begin() + static_cast<std::ptrdiff_t>(offset),
+                docs.begin() + static_cast<std::ptrdiff_t>(end)
+            );
+            auto chunk_result = batch_insert_documents(collection, slice);
+
+            if (chunk_result.is_ok()) {
+                size_t inserted = chunk_result.value.value_or(0);
+                if (inserted > slice.size()) {
+                    inserted = slice.size();
+                }
+                result.successful += inserted;
+                result.failed += (slice.size() - inserted);
+            } else {
+                result.failed += slice.size();
+            }
+
+            result.batch_results.push_back(chunk_result);
+
+            if (options.batch_callback) {
+                options.batch_callback(batch_idx, chunk_result);
+            }
+
+            processed += slice.size();
+            if (options.progress_callback) {
+                options.progress_callback(processed, docs.size());
+            }
+
+            if (!chunk_result.is_ok() && options.stop_on_error) {
+                break;
+            }
+        }
+
+        result.total_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+        return Result<BatchResult>::ok(std::move(result));
+    }
     
     /**
      * @brief Find documents matching criteria

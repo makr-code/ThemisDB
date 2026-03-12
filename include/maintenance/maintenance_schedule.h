@@ -76,6 +76,62 @@ inline std::string frequencyToCron(ScheduleFrequency frequency, int window_start
 }
 
 // ---------------------------------------------------------------------------
+// MaintenanceTaskDependency
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Declares explicit execution dependencies for a single task type.
+ *
+ * When one or more MaintenanceTaskDependency entries are present in a
+ * MaintenanceScheduleEntry::task_dependencies list the orchestrator will
+ * topologically sort the task execution graph instead of relying on the
+ * positional order of the `tasks` vector.
+ *
+ * Example: to express "run storage_compaction only after mvcc_cleanup":
+ * @code
+ *   MaintenanceTaskDependency dep;
+ *   dep.task_type  = MaintenanceTaskType::STORAGE_COMPACTION;
+ *   dep.depends_on = { MaintenanceTaskType::MVCC_CLEANUP };
+ * @endcode
+ */
+struct MaintenanceTaskDependency {
+    MaintenanceTaskType              task_type;  ///< The task that has dependencies
+    std::vector<MaintenanceTaskType> depends_on; ///< Tasks that must complete before task_type
+
+    nlohmann::json toJson() const {
+        nlohmann::json j;
+        j["task_type"] = taskTypeToString(task_type);
+        nlohmann::json deps = nlohmann::json::array();
+        for (const auto& d : depends_on) deps.push_back(taskTypeToString(d));
+        j["depends_on"] = deps;
+        return j;
+    }
+
+    static MaintenanceTaskDependency fromJson(const nlohmann::json& j) {
+        if (!j.contains("task_type") || !j["task_type"].is_string()) {
+            throw std::invalid_argument(
+                "MaintenanceTaskDependency: 'task_type' field is required and must be a string");
+        }
+        MaintenanceTaskDependency d;
+        d.task_type = taskTypeFromString(j["task_type"].get<std::string>());
+        if (j.contains("depends_on")) {
+            if (!j["depends_on"].is_array()) {
+                throw std::invalid_argument(
+                    "MaintenanceTaskDependency: 'depends_on' must be an array of strings");
+            }
+            for (const auto& dep : j["depends_on"]) {
+                if (!dep.is_string()) {
+                    throw std::invalid_argument(
+                        "MaintenanceTaskDependency: each 'depends_on' entry must be a string");
+                }
+                d.depends_on.push_back(taskTypeFromString(dep.get<std::string>()));
+            }
+        }
+        return d;
+    }
+};
+
+// ---------------------------------------------------------------------------
 // MaintenanceScheduleEntry
 // ---------------------------------------------------------------------------
 
@@ -97,7 +153,11 @@ struct MaintenanceScheduleEntry {
     std::string cron_expression; ///< Used when frequency == CUSTOM, or auto-derived otherwise
 
     // ---- Operations ------------------------------------------------------
-    std::vector<MaintenanceTaskType> tasks; ///< Ordered list of operations to run
+    std::vector<MaintenanceTaskType>        tasks;            ///< Ordered list of operations to run
+    std::vector<MaintenanceTaskDependency>  task_dependencies; ///< Optional per-task dependency declarations.
+                                                               ///< When non-empty the orchestrator resolves
+                                                               ///< execution order via topological sort instead
+                                                               ///< of relying on positional order in `tasks`.
 
     // ---- Window constraints ----------------------------------------------
     bool enabled              = true; ///< When false the schedule is registered but never fired
@@ -132,6 +192,9 @@ struct MaintenanceScheduleEntry {
         nlohmann::json task_arr = nlohmann::json::array();
         for (auto& t : tasks) task_arr.push_back(taskTypeToString(t));
         j["tasks"]             = task_arr;
+        nlohmann::json deps_arr = nlohmann::json::array();
+        for (auto& d : task_dependencies) deps_arr.push_back(d.toJson());
+        j["task_dependencies"] = deps_arr;
         j["enabled"]           = enabled;
         j["enforce_window"]    = enforce_window;
         j["window_start_hour"] = window_start_hour;
@@ -160,6 +223,11 @@ struct MaintenanceScheduleEntry {
                 e.tasks.push_back(taskTypeFromString(t.get<std::string>()));
             }
         }
+        if (j.contains("task_dependencies")) {
+            for (auto& d : j["task_dependencies"]) {
+                e.task_dependencies.push_back(MaintenanceTaskDependency::fromJson(d));
+            }
+        }
         if (j.contains("enabled"))             e.enabled             = j["enabled"].get<bool>();
         if (j.contains("enforce_window"))      e.enforce_window      = j["enforce_window"].get<bool>();
         if (j.contains("window_start_hour"))   e.window_start_hour   = j["window_start_hour"].get<int>();
@@ -180,6 +248,12 @@ struct MaintenanceScheduleEntry {
             tasks.clear();
             for (auto& t : patch["tasks"]) {
                 tasks.push_back(taskTypeFromString(t.get<std::string>()));
+            }
+        }
+        if (patch.contains("task_dependencies")) {
+            task_dependencies.clear();
+            for (auto& d : patch["task_dependencies"]) {
+                task_dependencies.push_back(MaintenanceTaskDependency::fromJson(d));
             }
         }
         if (patch.contains("enabled"))              enabled              = patch["enabled"].get<bool>();

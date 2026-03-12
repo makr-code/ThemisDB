@@ -80,6 +80,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_multimodal\\.cpp$"
         ".*test_rag_distributed_evaluator\\.cpp$"
         ".*test_rag_prompt_injection\\.cpp$"
+        ".*test_rag_adversarial_tester\\.cpp$"
         ".*test_rag_evaluation_cache\\.cpp$"
         ".*test_rag_calibration_manager\\.cpp$"
         ".*test_rag_batch_evaluator\\.cpp$"
@@ -10102,6 +10103,22 @@ add_chimera_focused_test(
     "AdapterCapabilityMatrix: cross-system capability comparison for all 9 adapters"
 )
 
+add_chimera_focused_test(
+    test_chimera_retry_policy
+    chimera/test_retry_policy.cpp
+    ChimeraRetryPolicyTests
+    "chimera;retry;circuit-breaker;error-recovery;unit"
+    "RetryPolicy/CircuitBreaker/ConnectionWithRetry: exponential backoff, transient classification, circuit states, health check"
+)
+
+add_chimera_focused_test(
+    test_chimera_batch_operations
+    chimera/test_chimera_batch_operations.cpp
+    ChimeraBatchOperationsTests
+    "chimera;adapter;batch;unit"
+    "Batch Operation Enhancements: BatchOptions, BatchResult, batch_insert_advanced, progress/batch callbacks, stop_on_error"
+)
+
 # ============================================================================
 # Exporters Focused Test Targets
 # Each target compiles the full exporter source set and links themis_core
@@ -13008,6 +13025,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
     )
     message(STATUS "  ProcessModule: BPMN/EPK/VCC-VPB import-export, ProcessModelManager CRUD,")
     message(STATUS "                 ProcessLinker attach/detach/required-docs, ProcessGraphRag")
+endif()
+
+# ============================================================================
+# Temporal Module Focused Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
+    message(STATUS "Adding Temporal: TemporalConflictResolver + TemporalConflictDetector focused tests")
+
+    add_executable(test_temporal_conflict_resolver_focused
+        temporal/test_temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/replication/replication_manager.cpp
+    )
+
+    target_include_directories(test_temporal_conflict_resolver_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    if(TARGET themis_core)
+        target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE themis_core)
+    endif()
+
+    target_compile_definitions(test_temporal_conflict_resolver_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalConflictResolverFocusedTests COMMAND test_temporal_conflict_resolver_focused)
+
+    set_tests_properties(TemporalConflictResolverFocusedTests PROPERTIES
+        LABELS "temporal;conflict;resolver;detector;mvcc;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalConflictResolver: LWW, FWW, NODE_PRIORITY, MANUAL, CRDT_MERGE policies, audit log")
+    message(STATUS "  TemporalConflictDetector: CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, UNIQUENESS_VIOLATION")
+else()
+    message(STATUS "Temporal conflict resolver tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.cpp")
 endif()
 
 # ============================================================================

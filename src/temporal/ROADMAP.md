@@ -7,6 +7,10 @@
 
 ## Completed ✅
 - [x] HLC-based temporal conflict resolver with multiple policies (last-write-wins, first-write-wins, node-priority, manual, CRDT-merge) (`temporal_conflict_resolver.cpp`)
+- [x] `TemporalConflictDetector`: detects CONCURRENT_UPDATE, OVERLAPPING_PERIODS, REFERENTIAL_INTEGRITY, and UNIQUENESS_VIOLATION conflicts between temporal snapshots (`temporal_conflict_resolver.cpp`)
+- [x] Optimistic-locking conflict detection via concurrent HLC comparison (neither snapshot happened-before the other)
+- [x] Auto-resolution of detected conflicts with configurable ConflictPolicy delegation
+- [x] Manual-resolution queue: queue, retrieve, and clear unresolved conflicts
 - [x] System-versioned table: automatic transaction-time versioning, non-destructive updates (`system_versioned_table.cpp`)
 - [x] **Full System-Versioned Table Support (v1.1.0):** `Config` struct (retention_period, compress_history, track_user_id, history_table_name), `createVersionedTable` DDL factory, `upsert`, `enforceRetentionPolicy`, user-attribution tracking (`system_versioned_table.cpp`)
 - [x] Bi-temporal table: system time + valid time axes, valid-time overlap detection, full-table bi-temporal scan (`bi_temporal.cpp`)
@@ -14,6 +18,9 @@
 - [x] Period-based temporal index: B-tree on `(sys_start, sys_end)` for efficient range lookups (`temporal_index.cpp`)
 - [x] Temporal aggregations: tumbling and sliding window aggregation over version history (`temporal_aggregator.cpp`)
 - [x] Point-in-time snapshot creation, querying, and release (`snapshot_manager.cpp`)
+- [x] Snapshot versioning: monotonically increasing `version_number` in `SnapshotHandle`
+- [x] Snapshot garbage collection: TTL-based (`garbageCollect(max_age_ms)`) and max-count-based (`garbageCollect(max_snapshots)`) GC
+- [x] Snapshot metadata: `SnapshotMetadata` struct with `getSnapshotMetadata()` API
 - [x] Retention manager: time-based and count-based policy enforcement with background cleanup (`retention_manager.cpp`)
 - [x] Conflict resolution audit trail: all resolutions logged for auditability
 - [x] Thread-safe version writes (per-record lock) with lock-free reads via MVCC
@@ -44,8 +51,9 @@
 ### Phase 1: Core Temporal Infrastructure (Status: Completed ✅)
 - [x] HLC timestamp generation and distributed causal ordering (`storage/hlc.cpp` dependency)
 - [x] `TemporalConflictResolver` with five resolution policies and conflict audit log
+- [x] `TemporalConflictDetector`: four ConflictType categories, `detectConflicts`, `autoResolveConflict`, `queueForManualResolution`, `getQueuedConflicts`, `clearQueue`
 - [x] `TemporalSnapshot` serialization/deserialization (JSON round-trip)
-- [x] Unit tests for all conflict resolution policies (`tests/temporal/test_temporal_conflict_resolver.cpp`)
+- [x] Unit tests for all conflict resolution policies and all detector conflict types (`tests/temporal/test_temporal_conflict_resolver.cpp`)
 
 ### Phase 2: Full Temporal Data Model (Status: Completed ✅)
 - [x] `SystemVersionedTable`: insert, update (close old / open new version), delete, `scan(as_of)`, `getHistoryInRange()`, `getAllKeys()` (`system_versioned_table.cpp`)
@@ -53,7 +61,7 @@
 - [x] `BiTemporalTable`: valid-time period management, overlap rejection on insert, bitemporal scan (`bi_temporal.cpp`); new: `scanBiTemporal(sys_as_of, valid_at)`, `getAllKeys()`
 - [x] `TemporalIndex`: period B-tree index with `insert`, `queryAsOf`, `queryRange`, `stats` (`temporal_index.cpp`)
 - [x] `TemporalQueryEngine`: `queryAsOf`, `queryFromTo`, `queryBetween` with composable row filters (`temporal_query_engine.cpp`)
-- [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`)
+- [x] `TemporalSnapshotManager`: consistent multi-table snapshots, query-by-snapshot, LRU release (`snapshot_manager.cpp`); snapshot versioning (`version_number`), TTL-based and max-count GC, `SnapshotMetadata`
 - [x] `RetentionManager`: per-table policies, `enforceRetention()`, `RetentionStats` reporting (`retention_manager.cpp`)
 - [x] `TemporalAggregator`: tumbling/sliding window aggregation over version history, `AggregateResult` output (`temporal_aggregator.cpp`)
 - [x] Unit tests: aggregator, index, query engine, bi-temporal (`tests/temporal/`)
