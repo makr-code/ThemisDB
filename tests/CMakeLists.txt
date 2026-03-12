@@ -6287,7 +6287,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_mdm.cpp")
         ${CMAKE_SOURCE_DIR}/src/importers/mdm_audit_trail.cpp
         ${CMAKE_SOURCE_DIR}/src/importers/mdm_metrics.cpp
         ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer_mdm.cpp
+        ${CMAKE_SOURCE_DIR}/src/importers/conflict_resolver.cpp
         ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_postgres_importer_mdm_focused PRIVATE
@@ -6299,6 +6301,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_mdm.cpp")
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_postgres_importer_mdm_focused PRIVATE
+            themis_base
+        )
+    endif()
 
     target_compile_definitions(test_postgres_importer_mdm_focused PRIVATE
         THEMIS_TEST_BUILD=1

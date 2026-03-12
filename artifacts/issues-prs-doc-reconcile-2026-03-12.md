@@ -1,8 +1,8 @@
-# Issue/PR/Doku Reconcile (2026-03-11)
+# Issue/PR/Doku Reconcile (2026-03-12)
 
 - Issues gesamt: 1645
 - Legacy-Rebalance Vorschlaege: 41 (high=0, medium=41)
-- Quelle: `issues-prs-doc-reconcile-2026-03-11.json`
+- Quelle: `issues-prs-doc-reconcile-2026-03-12.json`
 
 ## Zeitfenster-Modell (Git-Tags + Interpolation)
 
@@ -55,22 +55,22 @@
 
 | Version | Issues open | Issues closed | Issues total | Milestone total (inkl PRs) |
 |---------|-------------|---------------|--------------|-----------------------------|
-| v0.9.0 | 0 | 28 | 28 | 70 |
-| v1.0.0 | 0 | 22 | 22 | 68 |
-| v1.0.1 | 0 | 17 | 17 | 68 |
-| v1.0.2 | 0 | 1 | 1 | 1182 |
-| v1.1.0 | 0 | 30 | 30 | 77 |
-| v1.1.1 | 0 | 20 | 20 | 67 |
+| v0.9.0 | 0 | 28 | 28 | 71 |
+| v1.0.0 | 0 | 22 | 22 | 63 |
+| v1.0.1 | 0 | 17 | 17 | 55 |
+| v1.0.2 | 0 | 1 | 1 | 1167 |
+| v1.1.0 | 0 | 30 | 30 | 65 |
+| v1.1.1 | 0 | 20 | 20 | 60 |
 | v1.1.2 | 0 | 0 | 0 | 1 |
-| v1.2.0 | 0 | 16 | 16 | 67 |
-| v1.2.1 | 0 | 21 | 21 | 66 |
+| v1.2.0 | 0 | 16 | 16 | 58 |
+| v1.2.1 | 0 | 21 | 21 | 67 |
 | v1.2.2 | 0 | 0 | 0 | 1 |
-| v1.3.0 | 0 | 21 | 21 | 67 |
-| v1.3.1 | 0 | 27 | 27 | 73 |
+| v1.3.0 | 0 | 21 | 21 | 68 |
+| v1.3.1 | 0 | 27 | 27 | 75 |
 | v1.3.2 | 0 | 7 | 7 | 15 |
-| v1.4.0 | 0 | 80 | 80 | 167 |
-| v1.4.1 | 0 | 235 | 235 | 281 |
+| v1.4.0 | 0 | 80 | 80 | 171 |
+| v1.4.1 | 0 | 235 | 235 | 354 |
 
 ## PR-Milestone-Alignment gegen verknuepfte Issues
 
-- PR-Vorschlaege: 1313 (high=1313, medium=0)
+- PR-Vorschlaege: 1015 (high=1015, medium=0)

@@ -35,6 +35,12 @@
 #include <unordered_set>
 #include <cinttypes>
 
+// Windows headers may define ERROR as a macro, which breaks enum accesses
+// like ConflictStrategy::ERROR and ImportErrorSeverity::ERROR.
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace importers {
 
