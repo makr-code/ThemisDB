@@ -1,6 +1,7 @@
-# Graph Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Graph Module - Future Enhancements
 
 - Graph query optimization: cost-based algorithm selection (BFS, DFS, Dijkstra, A*, Bidirectional)
 - Adaptive plan caching with EMA-based cost model learning and TTL/size-based eviction
@@ -298,7 +299,20 @@ auto result = optimizer.executeBFS("start", 10, constraints);
 
 ---
 
-### Advanced Constraint Types (Partially Implemented)
+### `DistributedGraphManager`: Read-Path Lock Upgrade
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`distributed_graph.cpp` uses `std::lock_guard<std::mutex>` for all shard operations including read-only lookups (`getShard` at line 110, `listShards` at line 120, `execute` at line 126). All reader threads serialize unnecessarily.
+
+**Implementation Notes:**
+- `[ ]` Replace `std::mutex shards_mutex_` with `std::shared_mutex` in `DistributedGraphManager`; upgrade `getShard`, `listShards`, and `execute` (read path) to `std::shared_lock`.
+- `[ ]` Keep `addShard` and `removeShard` (write path) on `std::unique_lock`.
+- `[ ]` Add a TSAN-enabled stress test: 8 concurrent `execute()` threads + 1 `addShard()` thread.
+
+---
+
+
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
