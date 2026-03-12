@@ -1,6 +1,7 @@
-# Exporters Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Exporters Module - Future Enhancements
 
 This document covers planned enhancements to the Exporters module beyond what is tracked in `ROADMAP.md`. It focuses on `jsonl_llm_exporter.cpp`, `stream_writer.cpp`, `pii_detector.cpp`, and `exporter_metrics.cpp`. Features here describe concrete engineering work required to promote the module from Beta to production-grade and extend export format coverage to Parquet, Arrow IPC, and Hugging Face Hub.
 
@@ -147,7 +148,33 @@ backward compatibility.
 
 ---
 
-### Cross-Collection Join Export
+### `StreamWriter`: Replace zlib with ZSTD as Sole Compression Backend
+**Priority:** Low
+**Target Version:** v1.8.0
+
+`stream_writer.cpp` includes both `zlib.h` (line 27) and `zstd.h` (line 29), maintaining two separate compression code paths (gzip via `deflateInit2`, and zstd). The zlib path adds a dependency and binary size overhead. The module already uses `utils/zstd_codec.h` in other paths.
+
+**Implementation Notes:**
+- `[ ]` Remove zlib/gzip compression path from `StreamWriter`; replace gzip-format output with zstd-compressed output using `ZSTD_createCStream` (already present at line 172).
+- `[ ]` Offer a `ZSTD_MAGICNUMBER`-prefixed output mode that most data pipeline tools can ingest directly; for tools requiring gzip, document the `pigz` / `zstd -d | gzip` conversion path.
+- `[ ]` Remove `<zlib.h>` include and the associated `z_stream` compression state path; reduces binary size and maintenance surface.
+
+---
+
+### HuggingFace Hub Client: HTTP Rate Limit Handling (429 Back-Off)
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`huggingface_hub_client.cpp` implements exponential retry back-off for file uploads (line 423) but does not check HTTP 429 (Too Many Requests) or the `Retry-After` response header before retrying. Retrying immediately on a 429 wastes the retry budget and may result in account throttling.
+
+**Implementation Notes:**
+- `[ ]` After each curl response, check HTTP status 429; if present, parse the `Retry-After` header (seconds or HTTP-date format) and sleep for that duration before retrying.
+- `[ ]` Cap total sleep from `Retry-After` at `config_.timeout_seconds` to prevent indefinite blocking.
+- `[ ]` Emit a `exporters.huggingface.rate_limit_hit` metric via `ExporterMetrics` whenever a 429 is received.
+
+---
+
+
 **Priority:** Low
 **Target Version:** v2.0.0 (Issue: #1722)
 

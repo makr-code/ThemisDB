@@ -1,6 +1,7 @@
-# Governance Module - Future Enhancements
+<!-- Status: current | validated: 2026-03-12 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Scope
+# Governance Module - Future Enhancements
 
 This document covers planned enhancements to the Governance module beyond what is tracked in `ROADMAP.md`. It focuses on `policy_engine.cpp`, `policy_manager.cpp`, `policy_manager_versioned.cpp`, `compliance_reporter.cpp`, `policy_validator.cpp`, and related files. The features listed below build on the production-ready foundation already delivered (policy hot-reload, CCPA/CPRA support, OPA integration, automated data masking, and AI/ML model governance are all implemented); the remaining items extend the module toward full GDPR Article 17/20 automation, cross-border transfer control, and embedded OPA Wasm evaluation.
 
@@ -23,7 +24,20 @@ This document covers planned enhancements to the Governance module beyond what i
 
 ## Planned Features
 
-### Policy Hot-Reload Without Restart
+### CSV Export for Generic JSON Compliance Reports
+**Priority:** Medium
+**Target Version:** v1.8.0
+
+`compliance_reporting.cpp` line 1405 logs an explicit error: "CSV export not implemented for generic JSON reports". Several specific report types already implement `toCSV()` (e.g., `PolicySummaryReport`, `ComplianceStatusReport`, `RiskAssessmentReport`), but the generic `generateReport(format=CSV)` path falls through to an error log instead of delegating to the per-report `toCSV()` method.
+
+**Implementation Notes:**
+- `[ ]` In `ComplianceReporter::generateReport()` at line 1404, when `format == ReportFormat::CSV`, dispatch to the concrete report type's `toCSV()` method via virtual dispatch instead of logging an error.
+- `[ ]` Define a `IComplianceReport::toCSV()` pure-virtual method in the report base class so all report types are required to implement it.
+- `[ ]` Add unit tests for CSV output of `CcpaReport`, `AccessControlMatrix`, and `ChangeHistoryReport` verifying column headers and delimiter escaping.
+
+---
+
+
 
 **Priority:** High
 **Target Version:** v1.6.0
