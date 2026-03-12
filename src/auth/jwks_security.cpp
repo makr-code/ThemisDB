@@ -197,9 +197,10 @@ struct JWKSSecureFetcher::Impl {
     }
     
     ~Impl() {
-        // Explicitly zero the key password before CURL cleanup.
-        // SecureString destructor also handles this, but we are explicit here
-        // so that a security auditor can see the cleanse at the point of use.
+        // Explicitly zero the key password before CURL cleanup (defence-in-depth).
+        // SecureString's destructor also zeroes this field; the explicit call here
+        // ensures zeroing is visible at the point of use and survives any future
+        // refactoring that might replace SecureString with a plain std::string.
         if (!config.client_key_password.empty()) {
             OPENSSL_cleanse(
                 const_cast<char*>(config.client_key_password.c_str()),

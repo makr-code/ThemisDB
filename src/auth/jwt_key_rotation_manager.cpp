@@ -39,8 +39,12 @@ JWTKeyRotationManager::JWTKeyRotationManager(
 
 JWTKeyRotationManager::~JWTKeyRotationManager() {
     // Zero all key identifier strings before the map is destroyed.
-    // Kid strings may carry information about key type/algorithm; zeroing them
-    // prevents the data from persisting in freed heap pages or core dumps.
+    // Kid strings may carry information about key type/algorithm (e.g.
+    // "rsa-2048-2024-03") which would be sensitive if leaked in a core dump.
+    // Note: this zeroes the *current* allocation of each std::string; if the
+    // unordered_map ever rehashed and triggered internal string moves, prior
+    // memory locations would not be covered. For full lifecycle protection,
+    // migrate JWKKeyInfo::kid to SecureString in a future refactor.
     for (auto& [kid_str, info] : keys_) {
         if (!info.kid.empty()) {
             OPENSSL_cleanse(const_cast<char*>(info.kid.data()), info.kid.size());

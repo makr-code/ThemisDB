@@ -51,9 +51,10 @@ struct TOTPSecretEncryption::Impl {
     }
 
     ~Impl() {
-        // Explicitly zero the master key before deallocation.
-        // SecureBuffer destructor also handles this, but we are explicit here
-        // so the intent is visible at the point of use.
+        // Explicitly zero the master key before deallocation (defence-in-depth).
+        // SecureBuffer's destructor also zeroes this field; the explicit call here
+        // ensures zeroing is visible at the point of use and survives any future
+        // refactoring that might replace SecureBuffer with a plain std::vector.
         if (!config.master_key.empty()) {
             OPENSSL_cleanse(config.master_key.data(), config.master_key.size());
         }
