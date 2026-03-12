@@ -32,24 +32,24 @@ using namespace themis::training;
 // Construction and default configuration
 // ============================================================================
 
-TEST(LoRAAdapterTest, ConstructsWithDefaults) {
+TEST(TrainingLoRAAdapterTest, ConstructsWithDefaults) {
     LoRAAdapter adapter;
     EXPECT_EQ(adapter.layerCount(), 0u);
     EXPECT_EQ(adapter.totalParameterCount(), 0u);
     EXPECT_TRUE(adapter.layerNames().empty());
 }
 
-TEST(LoRAAdapterTest, ConstructsWithCustomRankAlpha) {
+TEST(TrainingLoRAAdapterTest, ConstructsWithCustomRankAlpha) {
     LoRAAdapter adapter(8, 16.0f);
     // Just check that construction succeeds
     EXPECT_EQ(adapter.layerCount(), 0u);
 }
 
-TEST(LoRAAdapterTest, InvalidRankThrows) {
+TEST(TrainingLoRAAdapterTest, InvalidRankThrows) {
     EXPECT_THROW(LoRAAdapter(0, 8.0f), std::invalid_argument);
 }
 
-TEST(LoRAAdapterTest, InvalidAlphaThrows) {
+TEST(TrainingLoRAAdapterTest, InvalidAlphaThrows) {
     EXPECT_THROW(LoRAAdapter(4, 0.0f), std::invalid_argument);
     EXPECT_THROW(LoRAAdapter(4, -1.0f), std::invalid_argument);
 }
@@ -58,14 +58,14 @@ TEST(LoRAAdapterTest, InvalidAlphaThrows) {
 // Layer management
 // ============================================================================
 
-TEST(LoRAAdapterTest, AddLayer_Success) {
+TEST(TrainingLoRAAdapterTest, AddLayer_Success) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("query", 64, 64);
     EXPECT_EQ(adapter.layerCount(), 1u);
     EXPECT_TRUE(adapter.hasLayer("query"));
 }
 
-TEST(LoRAAdapterTest, AddLayer_MultipleDistinctNames) {
+TEST(TrainingLoRAAdapterTest, AddLayer_MultipleDistinctNames) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("query", 64, 64);
     adapter.addLayer("key",   64, 64);
@@ -80,25 +80,25 @@ TEST(LoRAAdapterTest, AddLayer_MultipleDistinctNames) {
     EXPECT_EQ(names[2], "value");
 }
 
-TEST(LoRAAdapterTest, AddLayer_DuplicateNameThrows) {
+TEST(TrainingLoRAAdapterTest, AddLayer_DuplicateNameThrows) {
     LoRAAdapter adapter;
     adapter.addLayer("layer", 32, 32);
     EXPECT_THROW(adapter.addLayer("layer", 32, 32), std::invalid_argument);
 }
 
-TEST(LoRAAdapterTest, AddLayer_ZeroDimThrows) {
+TEST(TrainingLoRAAdapterTest, AddLayer_ZeroDimThrows) {
     LoRAAdapter adapter;
     EXPECT_THROW(adapter.addLayer("l", 0, 32), std::invalid_argument);
     EXPECT_THROW(adapter.addLayer("l", 32, 0), std::invalid_argument);
 }
 
-TEST(LoRAAdapterTest, AddLayer_RankExceedsDimThrows) {
+TEST(TrainingLoRAAdapterTest, AddLayer_RankExceedsDimThrows) {
     LoRAAdapter adapter;
     // rank = 8 > out_dim = 4
     EXPECT_THROW(adapter.addLayer("l", 64, 4, 8), std::invalid_argument);
 }
 
-TEST(LoRAAdapterTest, AddLayer_OverrideRankAndAlpha) {
+TEST(TrainingLoRAAdapterTest, AddLayer_OverrideRankAndAlpha) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("custom", 64, 64, 16, 32.0f);
     const auto& w = adapter.getWeights("custom");
@@ -106,7 +106,7 @@ TEST(LoRAAdapterTest, AddLayer_OverrideRankAndAlpha) {
     EXPECT_FLOAT_EQ(w.alpha, 32.0f);
 }
 
-TEST(LoRAAdapterTest, RemoveLayer_ExistingSucceeds) {
+TEST(TrainingLoRAAdapterTest, RemoveLayer_ExistingSucceeds) {
     LoRAAdapter adapter;
     adapter.addLayer("q", 32, 32);
     EXPECT_TRUE(adapter.removeLayer("q"));
@@ -114,12 +114,12 @@ TEST(LoRAAdapterTest, RemoveLayer_ExistingSucceeds) {
     EXPECT_EQ(adapter.layerCount(), 0u);
 }
 
-TEST(LoRAAdapterTest, RemoveLayer_NonExistentReturnsFalse) {
+TEST(TrainingLoRAAdapterTest, RemoveLayer_NonExistentReturnsFalse) {
     LoRAAdapter adapter;
     EXPECT_FALSE(adapter.removeLayer("does_not_exist"));
 }
 
-TEST(LoRAAdapterTest, HasLayer_FalseForUnknown) {
+TEST(TrainingLoRAAdapterTest, HasLayer_FalseForUnknown) {
     LoRAAdapter adapter;
     EXPECT_FALSE(adapter.hasLayer("xyz"));
 }
@@ -128,7 +128,7 @@ TEST(LoRAAdapterTest, HasLayer_FalseForUnknown) {
 // Initialisation – Kaiming B, zero A
 // ============================================================================
 
-TEST(LoRAAdapterTest, BMatrix_InitialisedWithNonZeroKaiming) {
+TEST(TrainingLoRAAdapterTest, BMatrix_InitialisedWithNonZeroKaiming) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("layer", 64, 64);
     const auto& w = adapter.getWeights("layer");
@@ -139,7 +139,7 @@ TEST(LoRAAdapterTest, BMatrix_InitialisedWithNonZeroKaiming) {
     EXPECT_TRUE(has_nonzero) << "B should be Kaiming-initialised (non-zero)";
 }
 
-TEST(LoRAAdapterTest, AMatrix_InitialisedAllZero) {
+TEST(TrainingLoRAAdapterTest, AMatrix_InitialisedAllZero) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("layer", 64, 64);
     const auto& w = adapter.getWeights("layer");
@@ -148,7 +148,7 @@ TEST(LoRAAdapterTest, AMatrix_InitialisedAllZero) {
         EXPECT_FLOAT_EQ(w.A[i], 0.0f) << "A[" << i << "] should be zero at init";
 }
 
-TEST(LoRAAdapterTest, DifferentLayers_DifferentBMatrices) {
+TEST(TrainingLoRAAdapterTest, DifferentLayers_DifferentBMatrices) {
     // Two layers with the same dimensions but different names must receive
     // distinct Kaiming initialisations (different seeds).
     LoRAAdapter adapter(4, 8.0f);
@@ -169,7 +169,7 @@ TEST(LoRAAdapterTest, DifferentLayers_DifferentBMatrices) {
 // Parameter counting
 // ============================================================================
 
-TEST(LoRAAdapterTest, TotalParameterCount_MatchesExpected) {
+TEST(TrainingLoRAAdapterTest, TotalParameterCount_MatchesExpected) {
     LoRAAdapter adapter(4, 8.0f);
     // in_dim=64, out_dim=64, rank=4 → B: 64×4=256, A: 4×64=256 → 512 per layer
     adapter.addLayer("l1", 64, 64, 4);
@@ -181,7 +181,7 @@ TEST(LoRAAdapterTest, TotalParameterCount_MatchesExpected) {
 // setWeights / getWeights round-trip
 // ============================================================================
 
-TEST(LoRAAdapterTest, SetWeights_RoundTrip) {
+TEST(TrainingLoRAAdapterTest, SetWeights_RoundTrip) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("layer", 8, 8, 2);
 
@@ -194,12 +194,12 @@ TEST(LoRAAdapterTest, SetWeights_RoundTrip) {
     for (float v : w.A) EXPECT_FLOAT_EQ(v, 2.5f);
 }
 
-TEST(LoRAAdapterTest, SetWeights_UnknownLayerThrows) {
+TEST(TrainingLoRAAdapterTest, SetWeights_UnknownLayerThrows) {
     LoRAAdapter adapter;
     EXPECT_THROW(adapter.setWeights("ghost", {}, {}), std::out_of_range);
 }
 
-TEST(LoRAAdapterTest, SetWeights_BsizeMismatchThrows) {
+TEST(TrainingLoRAAdapterTest, SetWeights_BsizeMismatchThrows) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("l", 8, 8, 2);
 
@@ -208,7 +208,7 @@ TEST(LoRAAdapterTest, SetWeights_BsizeMismatchThrows) {
     EXPECT_THROW(adapter.setWeights("l", bad_B, good_A), std::invalid_argument);
 }
 
-TEST(LoRAAdapterTest, SetWeights_AsizeMismatchThrows) {
+TEST(TrainingLoRAAdapterTest, SetWeights_AsizeMismatchThrows) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("l", 8, 8, 2);
 
@@ -221,7 +221,7 @@ TEST(LoRAAdapterTest, SetWeights_AsizeMismatchThrows) {
 // applyUpdate – single layer
 // ============================================================================
 
-TEST(LoRAAdapterTest, ApplyUpdate_MutatesWeightsAdditively) {
+TEST(TrainingLoRAAdapterTest, ApplyUpdate_MutatesWeightsAdditively) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 8, 8, 2);
 
@@ -244,12 +244,12 @@ TEST(LoRAAdapterTest, ApplyUpdate_MutatesWeightsAdditively) {
         EXPECT_NEAR(w1.A[i], A_init[i] + 0.2f, 1e-5f);
 }
 
-TEST(LoRAAdapterTest, ApplyUpdate_UnknownLayerThrows) {
+TEST(TrainingLoRAAdapterTest, ApplyUpdate_UnknownLayerThrows) {
     LoRAAdapter adapter;
     EXPECT_THROW(adapter.applyUpdate("ghost", {}, {}), std::out_of_range);
 }
 
-TEST(LoRAAdapterTest, ApplyUpdate_DeltaBsizeMismatchThrows) {
+TEST(TrainingLoRAAdapterTest, ApplyUpdate_DeltaBsizeMismatchThrows) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("l", 8, 8, 2);
 
@@ -258,7 +258,7 @@ TEST(LoRAAdapterTest, ApplyUpdate_DeltaBsizeMismatchThrows) {
     EXPECT_THROW(adapter.applyUpdate("l", bad_dB, good_dA), std::invalid_argument);
 }
 
-TEST(LoRAAdapterTest, ApplyUpdate_DeltaAsizeMismatchThrows) {
+TEST(TrainingLoRAAdapterTest, ApplyUpdate_DeltaAsizeMismatchThrows) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("l", 8, 8, 2);
 
@@ -271,7 +271,7 @@ TEST(LoRAAdapterTest, ApplyUpdate_DeltaAsizeMismatchThrows) {
 // applyBatchUpdate – multi-layer
 // ============================================================================
 
-TEST(LoRAAdapterTest, ApplyBatchUpdate_AllLayersUpdated) {
+TEST(TrainingLoRAAdapterTest, ApplyBatchUpdate_AllLayersUpdated) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 8, 8, 2);
     adapter.addLayer("k", 8, 8, 2);
@@ -303,7 +303,7 @@ TEST(LoRAAdapterTest, ApplyBatchUpdate_AllLayersUpdated) {
         EXPECT_NEAR(wk.A[i], A_k_init[i] + 0.04f, 1e-5f);
 }
 
-TEST(LoRAAdapterTest, ApplyBatchUpdate_SkipsUnknownLayers) {
+TEST(TrainingLoRAAdapterTest, ApplyBatchUpdate_SkipsUnknownLayers) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("real", 8, 8, 2);
 
@@ -320,7 +320,7 @@ TEST(LoRAAdapterTest, ApplyBatchUpdate_SkipsUnknownLayers) {
     EXPECT_EQ(res.layers_skipped, 1u);
 }
 
-TEST(LoRAAdapterTest, ApplyBatchUpdate_SizeMismatchVectorsThrows) {
+TEST(TrainingLoRAAdapterTest, ApplyBatchUpdate_SizeMismatchVectorsThrows) {
     LoRAAdapter adapter;
     WeightUpdateBatch bad_batch;
     bad_batch.layer_names = {"a", "b"};
@@ -334,7 +334,7 @@ TEST(LoRAAdapterTest, ApplyBatchUpdate_SizeMismatchVectorsThrows) {
 // Forward pass
 // ============================================================================
 
-TEST(LoRAAdapterTest, Forward_ZeroAtInit) {
+TEST(TrainingLoRAAdapterTest, Forward_ZeroAtInit) {
     // A is all-zero at init → output must be all-zero regardless of input
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 8, 8, 2);
@@ -347,7 +347,7 @@ TEST(LoRAAdapterTest, Forward_ZeroAtInit) {
         EXPECT_NEAR(v, 0.0f, 1e-5f) << "Initial adapter output must be zero (A=0)";
 }
 
-TEST(LoRAAdapterTest, Forward_OutputShape) {
+TEST(TrainingLoRAAdapterTest, Forward_OutputShape) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 16, 32, 4);
 
@@ -357,7 +357,7 @@ TEST(LoRAAdapterTest, Forward_OutputShape) {
     EXPECT_EQ(output.size(), 5u * 32u);  // batch_size × out_dim
 }
 
-TEST(LoRAAdapterTest, Forward_NonZeroAfterAUpdate) {
+TEST(TrainingLoRAAdapterTest, Forward_NonZeroAfterAUpdate) {
     // After setting A to non-zero, the forward pass must produce non-zero output
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 8, 8, 2);
@@ -375,7 +375,7 @@ TEST(LoRAAdapterTest, Forward_NonZeroAfterAUpdate) {
     EXPECT_TRUE(has_nonzero) << "Output should be non-zero after A is set to 1.0";
 }
 
-TEST(LoRAAdapterTest, Forward_ScalingApplied) {
+TEST(TrainingLoRAAdapterTest, Forward_ScalingApplied) {
     // With B=I and A=I (rank=2, dim=2), output = input × (alpha/rank)
     const float alpha = 8.0f;
     const size_t rank = 2;
@@ -400,12 +400,12 @@ TEST(LoRAAdapterTest, Forward_ScalingApplied) {
     EXPECT_NEAR(output[1], 2.0f * scaling, 1e-4f);
 }
 
-TEST(LoRAAdapterTest, Forward_UnknownLayerThrows) {
+TEST(TrainingLoRAAdapterTest, Forward_UnknownLayerThrows) {
     LoRAAdapter adapter;
     EXPECT_THROW(adapter.forward("ghost", {}, 1), std::out_of_range);
 }
 
-TEST(LoRAAdapterTest, Forward_InputSizeMismatchThrows) {
+TEST(TrainingLoRAAdapterTest, Forward_InputSizeMismatchThrows) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 8, 8, 2);
 
@@ -417,7 +417,7 @@ TEST(LoRAAdapterTest, Forward_InputSizeMismatchThrows) {
 // exportWeights / importWeights
 // ============================================================================
 
-TEST(LoRAAdapterTest, ExportImport_RoundTrip) {
+TEST(TrainingLoRAAdapterTest, ExportImport_RoundTrip) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("a", 8, 8, 2);
     adapter.addLayer("b", 16, 8, 4);
@@ -446,7 +446,7 @@ TEST(LoRAAdapterTest, ExportImport_RoundTrip) {
         EXPECT_FLOAT_EQ(wa1.A[i], wa2.A[i]);
 }
 
-TEST(LoRAAdapterTest, ImportWeights_OverwritesExistingLayer) {
+TEST(TrainingLoRAAdapterTest, ImportWeights_OverwritesExistingLayer) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("q", 8, 8, 2);
 
@@ -466,7 +466,7 @@ TEST(LoRAAdapterTest, ImportWeights_OverwritesExistingLayer) {
     EXPECT_FLOAT_EQ(w.A[0], 88.0f);
 }
 
-TEST(LoRAAdapterTest, ImportWeights_AddsNewLayer) {
+TEST(TrainingLoRAAdapterTest, ImportWeights_AddsNewLayer) {
     LoRAAdapter adapter;
     EXPECT_FALSE(adapter.hasLayer("new"));
 
@@ -483,7 +483,7 @@ TEST(LoRAAdapterTest, ImportWeights_AddsNewLayer) {
     EXPECT_TRUE(adapter.hasLayer("new"));
 }
 
-TEST(LoRAAdapterTest, ImportWeights_SizeMismatchThrows) {
+TEST(TrainingLoRAAdapterTest, ImportWeights_SizeMismatchThrows) {
     LoRAAdapter adapter;
 
     LoRAWeightEntry bad;
@@ -502,7 +502,7 @@ TEST(LoRAAdapterTest, ImportWeights_SizeMismatchThrows) {
 // Batch update convergence sanity: repeated delta applications shift weights
 // ============================================================================
 
-TEST(LoRAAdapterTest, RepeatedBatchUpdates_WeightsAccumulate) {
+TEST(TrainingLoRAAdapterTest, RepeatedBatchUpdates_WeightsAccumulate) {
     LoRAAdapter adapter(4, 8.0f);
     adapter.addLayer("l", 8, 8, 2);
 

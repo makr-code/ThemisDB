@@ -1232,6 +1232,12 @@ struct ScopedTokenRemover {
     std::mutex& mtx;
     std::map<std::string, std::shared_ptr<std::atomic<bool>>>& tokens;
 
+    ScopedTokenRemover(
+        std::string id,
+        std::mutex& mutex,
+        std::map<std::string, std::shared_ptr<std::atomic<bool>>>& token_map)
+        : op_id(std::move(id)), mtx(mutex), tokens(token_map) {}
+
     ~ScopedTokenRemover() {
         if (!op_id.empty()) {
             std::lock_guard<std::mutex> lk(mtx);

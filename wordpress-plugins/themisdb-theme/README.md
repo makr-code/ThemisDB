@@ -110,7 +110,6 @@ themisdb/
 ├── js/
 │   ├── navigation.js          # Navigation and mobile menu scripts
 │   ├── slider.js              # Featured slider functionality (NEW!)
-│   ├── graph-navigation.js    # Graph navigation features
 │   └── enhancements.js        # Modern UI enhancements
 ├── inc/
 │   └── widgets.php            # Custom widget classes (NEW!)
@@ -128,6 +127,9 @@ themisdb/
 ├── index.php                  # Main template file
 ├── page.php                   # Page template
 ├── search.php                 # Search results page
+
+Graph navigation was moved to the standalone plugin:
+- ../themisdb-graph-navigation/
 ├── searchform.php             # Search form template
 ├── sidebar.php                # Sidebar template
 ├── single.php                 # Single post template
