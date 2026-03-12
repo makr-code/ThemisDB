@@ -211,9 +211,12 @@ def analyse_drift(
         if sec_mtime is None:
             continue
 
-        age_days = (max_primary_mtime - sec_mtime).days
-        if age_days <= 0:
+        # Use total_seconds for sub-day precision, then floor to whole days.
+        delta_seconds = (max_primary_mtime - sec_mtime).total_seconds()
+        if delta_seconds <= 0:
             continue  # Secondary is at least as recent as primary → no drift
+
+        age_days = int(delta_seconds / 86400)
 
         if age_days >= stale_days:
             status = "stale"

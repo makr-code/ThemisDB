@@ -170,15 +170,19 @@ def _check_breadcrumb(lines: List[str], schema: dict) -> List[str]:
     if not bc_schema.get("required", True):
         return errors
 
+    # Matches a line containing at least two markdown links separated by '>',
+    # e.g.: [docs](../../index.md) > [de](../index.md) > [module](./index.md)
+    BREADCRUMB_PATTERN = re.compile(r"\[.+?\]\(.+?\).*>.*\[.+?\]\(.+?\)")
+
     # Find first non-empty line
     for i, line in enumerate(lines, 1):
         stripped = line.strip()
         if not stripped:
             continue
-        # Accept a line that contains at least two markdown links joined by >
-        if re.search(r"\[.+?\]\(.+?\).*>.*\[.+?\]\(.+?\)", stripped):
+        # Accept a line with at least two markdown links joined by >
+        if BREADCRUMB_PATTERN.search(stripped):
             return errors  # valid breadcrumb
-        # Also accept lines where the whole line starts with a link
+        # Also accept a single-link line that contains > (less strict fallback)
         if stripped.startswith("[") and ">" in stripped and re.search(r"\[.+?\]\(.+?\)", stripped):
             return errors
         # First non-empty line is NOT a breadcrumb
