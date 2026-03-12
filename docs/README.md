@@ -144,6 +144,8 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Plugins](plugins/README.md)** - Plugin System
 - **[Plugin Security](plugins/PLUGIN_SECURITY.md)** - Security & Sandboxing
 - **[Plugin Migration](plugins/PLUGIN_MIGRATION.md)** - Migration Guide
+- **[WordPress Plugin Automatic Updates](plugins/WORDPRESS_PLUGIN_AUTOMATIC_UPDATES.md)** - Update-Architektur, Metadaten und Release-Konventionen
+- **[WordPress Plugin Update Examples](plugins/WORDPRESS_PLUGIN_UPDATE_EXAMPLES.md)** - Praxisbeispiele fuer Admins, Entwickler und Betrieb
 
 ---
 
@@ -161,6 +163,8 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Vault Integration](de/guides/vault.md)** - HashiCorp Vault Setup
 - **[RBAC Setup](de/guides/rbac.md)** - Access Control Configuration
 - **[Code Quality](de/guides/code_quality.md)** - Code Quality Tools
+- **[WordPress Plugin Release Pipeline](ci-cd/WORDPRESS_PLUGIN_RELEASE_PIPELINE.md)** - CI/CD Workflow fuer plugin-spezifische Releases
+- **[WordPress Plugin Operations Runbook](ci-cd/WORDPRESS_PLUGIN_OPERATIONS.md)** - Operativer Ablauf fuer Dry-Run, Pilot-Release und Batch-Rollout
 
 ### Performance & Monitoring
 - **[Performance Tuning](de/performance/README.md)** - Performance-Optimierung

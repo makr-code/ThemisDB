@@ -223,7 +223,7 @@ protected:
 TEST_F(ExecuteAqlCancellableTest, SuccessfulExecution_ReturnsResult) {
     QueryCanceller canceller;
     auto result = executeAqlCancellable(
-        "FOR x IN [] RETURN x",
+        "FOR x IN entities RETURN x",
         *engine_,
         "req-100",
         canceller
@@ -252,7 +252,7 @@ TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
     query_started.store(true);
 
     auto result = executeAqlCancellable(
-        "FOR x IN [] RETURN x",
+        "FOR x IN entities RETURN x",
         *engine_,
         "req-200",
         canceller
@@ -271,7 +271,7 @@ TEST_F(ExecuteAqlCancellableTest, CancelDuringExecution_TokenIsSignalled) {
 TEST_F(ExecuteAqlCancellableTest, UnregisteredAfterExecution) {
     QueryCanceller canceller;
     auto result = executeAqlCancellable(
-        "FOR x IN [] RETURN x",
+        "FOR x IN entities RETURN x",
         *engine_,
         "req-300",
         canceller

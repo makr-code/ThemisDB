@@ -92,6 +92,10 @@ AuthMetrics::AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                        .Name(config.namespace_prefix + "_totp_drift_total")
                        .Help("Total TOTP validations that succeeded with a non-zero time step offset (clock drift indicator)")
                        .Register(*registry))
+    , credential_stuffing_attempts_total_(prometheus::BuildCounter()
+                                         .Name(config.namespace_prefix + "_credential_stuffing_attempts_total")
+                                         .Help("Total credential stuffing detection events with escalation outcome")
+                                         .Register(*registry))
     , jwks_cache_size_(prometheus::BuildGauge()
                       .Name(config.namespace_prefix + "_jwks_cache_size")
                       .Help("Current JWKS cache size (number of keys)")
@@ -283,6 +287,23 @@ void AuthMetrics::recordTOTPDrift(int step_offset) {
 
 uint64_t AuthMetrics::getTOTPDriftCount() const {
     return totp_drift_count_.load(std::memory_order_relaxed);
+}
+
+void AuthMetrics::recordCredentialStuffingAttempt(const std::string& user_id,
+                                                   const std::string& ip,
+                                                   const std::string& outcome) {
+    credential_stuffing_total_.fetch_add(1, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::map<std::string, std::string> labels;
+    labels["user_id"] = user_id;
+    labels["ip"]      = ip;
+    labels["outcome"] = outcome;
+    credential_stuffing_attempts_total_.Add(labels).Increment();
+#endif
+}
+
+uint64_t AuthMetrics::getCredentialStuffingTotal() const {
+    return credential_stuffing_total_.load(std::memory_order_relaxed);
 }
 
 uint64_t AuthMetrics::getTotalAttempts() const {

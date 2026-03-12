@@ -25,8 +25,15 @@
 
 #include "auth/auth_rate_limiter.h"
 #include "auth/auth_audit_logger.h"
+#include "auth/auth_metrics.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <ctime>
+#include <cstdio>
+
+#ifdef THEMIS_ENABLE_REDIS
+#include <hiredis/hiredis.h>
+#endif
 
 namespace themis {
 namespace auth {
@@ -176,6 +183,19 @@ size_t AccountLockoutManager::getLockedAccountCount() const {
     return count;
 }
 
+void AccountLockoutManager::forceLockAccount(const std::string& user_id,
+                                              std::chrono::seconds duration)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto now = std::chrono::system_clock::now();
+    auto& info = lockout_state_[user_id];
+    info.is_locked    = true;
+    info.locked_until = now + duration;
+    utils::Logger::warn("Account force-locked for " +
+                        std::to_string(duration.count()) + "s (credential stuffing): " +
+                        user_id);
+}
+
 void AccountLockoutManager::cleanup() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -256,6 +276,18 @@ AuthRateLimiter::AuthRateLimiter(const AuthRateLimitConfig& config)
     
     // Create lockout manager
     lockout_manager_ = std::make_unique<AccountLockoutManager>(config);
+
+#ifdef THEMIS_ENABLE_REDIS
+    if (config_.enable_cs_persistent_backend) {
+        std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
+        connectCsRedis();
+    }
+#else
+    if (config_.enable_cs_persistent_backend) {
+        utils::Logger::warn("AuthRateLimiter: enable_cs_persistent_backend=true but "
+                            "built without THEMIS_ENABLE_REDIS; using in-process fallback");
+    }
+#endif
 }
 
 bool AuthRateLimiter::allowAuthAttempt(
@@ -327,8 +359,13 @@ bool AuthRateLimiter::allowAuthAttempt(
     if (stuffing_alert) {
         const std::string detail =
             "credential stuffing suspected: threshold reached from ip=" + ip_address;
+        // Escalate only when a specific user triggered the threshold.
+        CredentialStuffingOutcome outcome = CredentialStuffingOutcome::ALLOWED;
+        if (!user_id.empty()) {
+            outcome = escalateCredentialStuffing(user_id, ip_address);
+        }
         fireAuthAnomaly(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED,
-                        ip_address, "", detail);
+                        ip_address, user_id, detail, outcome);
     }
 
     return true;
@@ -367,8 +404,13 @@ void AuthRateLimiter::recordFailedAuth(
             "credential stuffing suspected: threshold reached from ip=" + ip_address;
         utils::Logger::warn("Auth anomaly [CREDENTIAL_STUFFING_SUSPECTED] ip=" +
                             ip_address + " " + detail);
+        // Escalate based on per-user persistent breach count.
+        CredentialStuffingOutcome outcome = CredentialStuffingOutcome::ALLOWED;
+        if (!user_id.empty()) {
+            outcome = escalateCredentialStuffing(user_id, ip_address);
+        }
         fireAuthAnomaly(AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED,
-                        ip_address, "", detail);
+                        ip_address, user_id, detail, outcome);
     }
 
     if (lockout_triggered && !user_id.empty()) {
@@ -451,20 +493,182 @@ void AuthRateLimiter::setBackend(std::shared_ptr<IRateLimiterBackend> backend) {
     backend_ = std::move(backend);
 }
 
+void AuthRateLimiter::setMetrics(AuthMetrics* metrics) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    metrics_ = metrics;
+}
+
+// ── Credential-stuffing persistent breach-count helpers ──────────────────────
+
+/*static*/ std::string AuthRateLimiter::csBreachKey(const std::string& user_id) {
+    // Key format: "cs:{user_id}:{YYYYMMDD}" (UTC day)
+    std::time_t t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::tm tm{};
+#if defined(_WIN32)
+    gmtime_s(&tm, &t);
+#else
+    gmtime_r(&t, &tm);
+#endif
+    char day[16];
+    std::snprintf(day, sizeof(day), "%04d%02d%02d",
+                  tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+    return "cs:" + user_id + ":" + day;
+}
+
+// TTL applied to Redis breach-count keys: 25 hours ensures the key outlives
+// the UTC day boundary and is cleaned up shortly after midnight.
+static constexpr int kCsBreachKeyTtlSeconds = 25 * 3600;
+
+// Duration of the exponential back-off hard lock applied on the third breach.
+static constexpr auto kCsLockDuration = std::chrono::hours(24);
+
+// Convert a CredentialStuffingOutcome to the canonical string used as a
+// Prometheus label value and in log messages.
+static std::string outcomeToString(CredentialStuffingOutcome outcome) {
+    switch (outcome) {
+        case CredentialStuffingOutcome::CAPTCHA_REQUIRED:   return "captcha_required";
+        case CredentialStuffingOutcome::OTP_REQUIRED:       return "otp_required";
+        case CredentialStuffingOutcome::ACCOUNT_LOCKED_24H: return "account_locked_24h";
+        default:                                            return "allowed";
+    }
+}
+
+/*static*/ CredentialStuffingOutcome
+AuthRateLimiter::outcomeFromBreachCount(uint32_t count) {
+    if (count >= 3) return CredentialStuffingOutcome::ACCOUNT_LOCKED_24H;
+    if (count == 2) return CredentialStuffingOutcome::OTP_REQUIRED;
+    if (count == 1) return CredentialStuffingOutcome::CAPTCHA_REQUIRED;
+    return CredentialStuffingOutcome::ALLOWED;
+}
+
+uint32_t AuthRateLimiter::incrementAndGetBreachCount(const std::string& user_id) {
+    const std::string key = csBreachKey(user_id);
+
+#ifdef THEMIS_ENABLE_REDIS
+    if (config_.enable_cs_persistent_backend) {
+        std::lock_guard<std::mutex> rlock(cs_redis_mutex_);
+        if (!cs_redis_ctx_ && !connectCsRedis()) {
+            // Redis unavailable – fall through to in-memory
+        } else if (cs_redis_ctx_) {
+            // INCR key
+            redisReply* reply = static_cast<redisReply*>(
+                redisCommand(cs_redis_ctx_, "INCR %s", key.c_str()));
+            if (reply && reply->type == REDIS_REPLY_INTEGER) {
+                long long count = reply->integer;
+                freeReplyObject(reply);
+                // Set TTL only when the key is first created so it expires near
+                // the intended day boundary and is not extended by subsequent
+                // breaches under the same key.
+                if (count == 1) {
+                    redisReply* ex = static_cast<redisReply*>(
+                        redisCommand(cs_redis_ctx_, "EXPIRE %s %d",
+                                     key.c_str(), kCsBreachKeyTtlSeconds));
+                    if (ex) freeReplyObject(ex);
+                }
+                return static_cast<uint32_t>(count);
+            }
+            if (reply) freeReplyObject(reply);
+            // Redis error – fall through to in-memory
+            redisFree(cs_redis_ctx_);
+            cs_redis_ctx_ = nullptr;
+        }
+    }
+#endif
+
+    // In-memory fallback
+    std::lock_guard<std::mutex> mlock(cs_breach_mutex_);
+    return ++cs_breach_count_[key];
+}
+
+CredentialStuffingOutcome AuthRateLimiter::escalateCredentialStuffing(
+    const std::string& user_id,
+    const std::string& ip)
+{
+    if (user_id.empty()) return CredentialStuffingOutcome::ALLOWED;
+
+    const uint32_t count   = incrementAndGetBreachCount(user_id);
+    const auto     outcome = outcomeFromBreachCount(count);
+
+    if (outcome == CredentialStuffingOutcome::ACCOUNT_LOCKED_24H) {
+        lockout_manager_->forceLockAccount(user_id, kCsLockDuration);
+        utils::Logger::warn("Credential stuffing escalation: 24h lock applied for user=" +
+                            user_id + " ip=" + ip +
+                            " (breach_count=" + std::to_string(count) + ")");
+        {
+            std::lock_guard<std::mutex> lock(stats_mutex_);
+            stats_.currently_locked_accounts = lockout_manager_->getLockedAccountCount();
+        }
+    } else if (outcome == CredentialStuffingOutcome::OTP_REQUIRED) {
+        utils::Logger::warn("Credential stuffing escalation: OTP required for user=" +
+                            user_id + " ip=" + ip +
+                            " (breach_count=" + std::to_string(count) + ")");
+    } else if (outcome == CredentialStuffingOutcome::CAPTCHA_REQUIRED) {
+        utils::Logger::warn("Credential stuffing escalation: CAPTCHA required for user=" +
+                            user_id + " ip=" + ip +
+                            " (breach_count=" + std::to_string(count) + ")");
+    }
+
+    return outcome;
+}
+
+#ifdef THEMIS_ENABLE_REDIS
+bool AuthRateLimiter::connectCsRedis() {
+    // Caller must hold cs_redis_mutex_.
+    struct timeval tv;
+    tv.tv_sec  = config_.cs_redis.timeout_ms / 1000;
+    tv.tv_usec = (config_.cs_redis.timeout_ms % 1000) * 1000;
+
+    cs_redis_ctx_ = redisConnectWithTimeout(
+        config_.cs_redis.host.c_str(), config_.cs_redis.port, tv);
+    if (!cs_redis_ctx_ || cs_redis_ctx_->err) {
+        utils::Logger::warn("AuthRateLimiter: CS Redis connect to " +
+                            config_.cs_redis.host + ":" +
+                            std::to_string(config_.cs_redis.port) +
+                            " failed; using in-process fallback");
+        if (cs_redis_ctx_) { redisFree(cs_redis_ctx_); cs_redis_ctx_ = nullptr; }
+        return false;
+    }
+    if (!config_.cs_redis.auth.empty()) {
+        redisReply* reply = static_cast<redisReply*>(
+            redisCommand(cs_redis_ctx_, "AUTH %s", config_.cs_redis.auth.c_str()));
+        bool ok = reply && reply->type != REDIS_REPLY_ERROR;
+        if (reply) freeReplyObject(reply);
+        if (!ok) {
+            utils::Logger::warn("AuthRateLimiter: CS Redis AUTH failed");
+            redisFree(cs_redis_ctx_); cs_redis_ctx_ = nullptr;
+            return false;
+        }
+    }
+    utils::Logger::info("AuthRateLimiter: CS Redis connected to " +
+                        config_.cs_redis.host + ":" +
+                        std::to_string(config_.cs_redis.port));
+    return true;
+}
+#endif
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 void AuthRateLimiter::fireAuthAnomaly(AuthAnomalyEvent::Type type,
                                        const std::string& ip,
                                        const std::string& user_id,
-                                       const std::string& detail) const {
+                                       const std::string& detail,
+                                       CredentialStuffingOutcome cs_outcome) const {
     AuthAnomalyCallback cb;
     utils::AuditLogger* al = nullptr;
+    AuthMetrics*        met = nullptr;
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
-        cb = anomaly_callback_;
-        al = audit_logger_;
+        cb  = anomaly_callback_;
+        al  = audit_logger_;
+        met = metrics_;
     }
     if (cb) {
-        AuthAnomalyEvent ev{type, ip, user_id, detail, std::chrono::system_clock::now()};
+        AuthAnomalyEvent ev{type, ip, user_id, detail,
+                            std::chrono::system_clock::now(), cs_outcome};
         cb(ev);
+    }
+    if (met && type == AuthAnomalyEvent::Type::CREDENTIAL_STUFFING_SUSPECTED) {
+        met->recordCredentialStuffingAttempt(user_id, ip, outcomeToString(cs_outcome));
     }
     if (al) {
         AuthAuditLogger audit(al);
@@ -549,14 +753,18 @@ AuthRateLimiter::Statistics AuthRateLimiter::getStatistics() const {
 }
 
 void AuthRateLimiter::reset() {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
-    
-    ip_rate_limiter_->reset();
-    user_rate_limiter_->reset();
-    lockout_manager_->reset();
-    stuffing_state_.clear();
-    
-    stats_ = Statistics{};
+    {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        ip_rate_limiter_->reset();
+        user_rate_limiter_->reset();
+        lockout_manager_->reset();
+        stuffing_state_.clear();
+        stats_ = Statistics{};
+    }
+    {
+        std::lock_guard<std::mutex> mlock(cs_breach_mutex_);
+        cs_breach_count_.clear();
+    }
 }
 
 void AuthRateLimiter::cleanup() {

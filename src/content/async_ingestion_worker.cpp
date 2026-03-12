@@ -269,12 +269,12 @@ std::string AsyncIngestionWorker::submitStream(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if (job_queue_.size() >= config_.max_queue_depth) {
+        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return job_queue_.size() < config_.max_queue_depth
+            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                 || !running_.load()
                 || shutdown_requested_.load();
         });
@@ -334,12 +334,12 @@ std::future<std::string> AsyncIngestionWorker::ingestStream(
     {
         std::unique_lock<std::mutex> lock(queue_mutex_);
         // Count a back-pressure event if the queue is already at capacity
-        if (job_queue_.size() >= config_.max_queue_depth) {
+        if ((job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) >= config_.max_queue_depth) {
             total_backpressure_events_.fetch_add(1, std::memory_order_relaxed);
         }
         // Block until queue depth is below the back-pressure threshold
         backpressure_cv_.wait(lock, [this] {
-            return job_queue_.size() < config_.max_queue_depth
+            return (job_queue_.size() + inflight_count_.load(std::memory_order_relaxed)) < config_.max_queue_depth
                 || !running_.load()
                 || shutdown_requested_.load();
         });
@@ -643,11 +643,9 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
             
             job = job_queue_.front();
             job_queue_.pop();
+            inflight_count_.fetch_add(1, std::memory_order_relaxed);
         }
 
-        // Notify any blocked submitters that queue has space
-        backpressure_cv_.notify_one();
-        
         // Check if cancelled
         {
             std::lock_guard<std::mutex> lock(history_mutex_);
@@ -658,6 +656,11 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
                     job.completion_promise->set_exception(std::make_exception_ptr(
                         std::runtime_error("Job cancelled")));
                 }
+                {
+                    std::lock_guard<std::mutex> bp_lock(queue_mutex_);
+                    inflight_count_.fetch_sub(1, std::memory_order_relaxed);
+                }
+                backpressure_cv_.notify_one();
                 continue;
             }
         }
@@ -716,6 +719,13 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
                 }
             }
         }
+
+        // Release inflight slot and notify any blocked submitters
+        {
+            std::lock_guard<std::mutex> bp_lock(queue_mutex_);
+            inflight_count_.fetch_sub(1, std::memory_order_relaxed);
+        }
+        backpressure_cv_.notify_one();
     }
     
     if (config_.verbose_logging) {

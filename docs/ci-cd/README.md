@@ -20,6 +20,17 @@ This directory contains documentation and tools related to the GitHub Actions CI
   - Phased migration plan
   - Risk assessment and mitigation strategies
 
+- **[WORDPRESS_PLUGIN_RELEASE_PIPELINE.md](WORDPRESS_PLUGIN_RELEASE_PIPELINE.md)** - WordPress plugin release pipeline
+  - Manual release workflow inputs and validation
+  - Flat/nested repository layout support
+  - Tag/asset conventions for plugin-specific releases
+  - Local dry-run and batch release scripts
+
+- **[WORDPRESS_PLUGIN_OPERATIONS.md](WORDPRESS_PLUGIN_OPERATIONS.md)** - WordPress plugin operations runbook
+  - End-to-end release operating procedure
+  - Local and CI-based execution paths
+  - Verification commands and failure recovery
+
 - **[../ci/NIGHTLY_BUILD.md](../ci/NIGHTLY_BUILD.md)** - Nightly Build System with automatic issue tracking
   - Automated builds across multiple platforms, compilers, and build types
   - Intelligent error parsing and categorization
@@ -88,6 +99,7 @@ This inventory and consolidation plan complements the existing documentation by 
 ## Quick Links
 
 - [Workflows Directory](../../.github/workflows/)
+- [WordPress Plugin Operations Runbook](WORDPRESS_PLUGIN_OPERATIONS.md)
 - [Contributing Guide](../../CONTRIBUTING.md)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 

@@ -31,6 +31,7 @@
 #include <gtest/gtest.h>
 #include "themis/base/hot_reload_manager.h"
 #include "themis/base/module_loader.h"
+#include <atomic>
 #include <string>
 #include <vector>
 #include <thread>
@@ -440,4 +441,71 @@ TEST_F(HotReloadManagerTest, GetSandboxStatsWithSandboxConfigButNotLoaded) {
     // No reload performed; sandbox never launched.
     auto stats = mgr_sb.getSandboxStats("sandboxed_mod");
     EXPECT_FALSE(stats.has_value());
+}
+
+// =============================================================================
+// TSAN-compatible concurrent reader / reload stress test
+//
+// This test is designed so that ThreadSanitizer (TSAN) can detect data races
+// when the binary is compiled with -DTHEMIS_ENABLE_TSAN=ON.  Under normal
+// (non-sanitised) builds it validates that 16 reader threads running
+// concurrently with 1 reload-attempt thread do not crash or deadlock.
+// =============================================================================
+
+TEST_F(HotReloadManagerTest, ConcurrentReadersWithReloadThread) {
+    mgr.registerModule("shared_mod", loader);
+
+    const int num_readers = 16;
+    const int iterations  = 50;
+
+    std::atomic<bool> done{false};
+    // Tracks whether any reader thread observed an empty module list.
+    // Using an atomic avoids calling EXPECT_* from non-main threads, which is
+    // not thread-safe in GoogleTest.
+    std::atomic<bool> reader_saw_empty_list{false};
+
+    // 1 reload thread – all reload calls will fail (nonexistent path) but
+    // they exercise the write path protected by std::unique_lock.
+    std::thread reload_thread([&]() {
+        for (int i = 0; i < iterations && !done.load(std::memory_order_relaxed); ++i) {
+            mgr.reloadModule("shared_mod", "/nonexistent.so");
+        }
+        done.store(true, std::memory_order_relaxed);
+    });
+
+    // 16 reader threads exercise the read path protected by std::shared_lock.
+    std::vector<std::thread> readers;
+    readers.reserve(num_readers);
+    for (int i = 0; i < num_readers; ++i) {
+        readers.emplace_back([&]() {
+            while (!done.load(std::memory_order_relaxed)) {
+                (void)mgr.getCurrentVersion("shared_mod");
+                (void)mgr.isRollbackAvailable("shared_mod");
+                auto names = mgr.registeredModules();
+                (void)mgr.getStats();
+                // Record failure condition without calling EXPECT_* from a
+                // worker thread (GoogleTest assertions are not thread-safe).
+                if (names.empty()) {
+                    reader_saw_empty_list.store(true, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+
+    reload_thread.join();
+    for (auto& t : readers) t.join();
+
+    // All assertions run on the main test thread after all workers have joined.
+    EXPECT_FALSE(reader_saw_empty_list.load())
+        << "A reader thread observed an empty module list during concurrent access";
+
+    // Verify state is consistent after concurrent access.
+    auto names = mgr.registeredModules();
+    ASSERT_EQ(names.size(), 1u);
+    EXPECT_EQ(names[0], "shared_mod");
+
+    auto stats = mgr.getStats();
+    EXPECT_EQ(stats.totalReloads, static_cast<uint64_t>(iterations));
+    EXPECT_EQ(stats.failedReloads, static_cast<uint64_t>(iterations));
+    EXPECT_EQ(stats.successfulReloads, 0u);
 }
