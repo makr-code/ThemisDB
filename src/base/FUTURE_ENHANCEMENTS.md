@@ -106,17 +106,18 @@ In `wasm_plugin_sandbox.cpp` (lines 192–203), parsing of the imports section s
 ### A/B Test Persistence and Observability Export
 **Priority:** Medium
 **Target Version:** v1.3.0
+**Status:** ✅ Implemented
 
 `ab_test_manager.cpp` stores `ABVariantMetrics` exclusively in memory (in `tests_` map). All metrics are lost on server restart. There is also no export to the observability stack (MetricsCollector / OpenTelemetry).
 
 **Implementation Notes:**
-- `[ ]` Persist `ABTestConfig` and `ABVariantMetrics` snapshots to RocksDB using key prefix `ab_test::` via the `StorageEngine` interface; reload on `ABTestManager::start()`.
-- `[ ]` Emit per-variant counters (`ab_test.<test_id>.<variant>.requests`, `.conversions`, `.latency_p99`) to `MetricsCollector` on every `recordEvent()` call without holding the `tests_` mutex.
-- `[ ]` Add `ABTestManager::exportMetricsSnapshot()` returning a `std::vector<ABTestMetricRow>` for admin API consumption.
-- `[ ]` Add a Bayesian Thompson Sampling auto-stop: when posterior probability that treatment beats control exceeds a configurable threshold (default 0.95), mark the test as concluded and route all traffic to the winner.
+- `[x]` Persist `ABTestConfig` and `ABVariantMetrics` snapshots to RocksDB using key prefix `ab_test::` via the `StorageEngine` interface; reload on `ABTestManager::start()`.
+- `[x]` Emit per-variant counters (`ab_test.<test_id>.<variant>.requests`, `.conversions`, `.latency_p99`) to `MetricsCollector` on every `recordEvent()` call without holding the `tests_` mutex.
+- `[x]` Add `ABTestManager::exportMetricsSnapshot()` returning a `std::vector<ABTestMetricRow>` for admin API consumption.
+- `[x]` Add a Bayesian Thompson Sampling auto-stop: when posterior probability that treatment beats control exceeds a configurable threshold (default 0.95), mark the test as concluded and route all traffic to the winner.
 
 **Performance Targets:**
-- `recordEvent()` (hot path): ≤ 2 µs with metrics emission; no mutex held during MetricsCollector call.
+- `recordEvent()` (hot path): ≤ 2 µs with metrics emission; no mutex held during MetricsCollector call. ✅
 
 ---
 
