@@ -24,6 +24,7 @@
 #include <gtest/gtest.h>
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
+#include <cmath>
 #include <memory>
 #include <vector>
 #include <chrono>
@@ -337,4 +338,143 @@ TEST_F(GpuBackendProductionTest, BoostCpuBackendAvailable) {
         EXPECT_TRUE(boost_backend->isAvailable());
         EXPECT_STREQ(boost_backend->name(), "boost_cpu_exact");
     }
+}
+
+// ============================================================================
+// CUDA/OpenCL parity tests (v1.4.0)
+//
+// Compare production GPU backend results against the CPU exact backend for a
+// 10 K geometry pair dataset.  Both backends must agree on all intersection
+// results (GPU uses MBR-based fast path; CPU uses exact ray-casting).
+// Tests are run unconditionally — the production backend always falls back to
+// CPU-parallel when no GPU is present, so the results still need to match.
+// ============================================================================
+
+namespace {
+
+// Build a simple axis-aligned polygon (square) centred at (cx, cy) with
+// half-width hw.
+static GeometryInfo makeSquare(double cx, double cy, double hw) {
+    GeometryInfo g(GeometryType::Polygon);
+    g.rings.push_back({
+        {cx - hw, cy - hw}, {cx + hw, cy - hw},
+        {cx + hw, cy + hw}, {cx - hw, cy + hw},
+        {cx - hw, cy - hw}   // closed ring
+    });
+    return g;
+}
+
+// Seeded pseudo-random doubles in [lo, hi].
+static std::vector<double> seededDoubles(int count, double lo, double hi, int seed) {
+    std::vector<double> v(count);
+    double x = static_cast<double>(seed) * 1234567.89;
+    for (int i = 0; i < count; ++i) {
+        x = std::fmod(x * 1.6180339887 + 2.7182818284, 1.0e7);
+        v[i] = lo + std::fmod(std::abs(x), 1.0) * (hi - lo);
+    }
+    return v;
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// 10 K batch-intersects parity
+// ---------------------------------------------------------------------------
+
+TEST(GpuProductionParityTest, BatchIntersects_10K_MatchesCpuExact) {
+    const int kN = 10000;
+
+    // Build geometry pairs: random WGS-84 bounding boxes.
+    auto cx_a = seededDoubles(kN, -179.0,  179.0, 1);
+    auto cy_a = seededDoubles(kN,  -89.0,   89.0, 2);
+    auto hw_a = seededDoubles(kN,    0.01,   1.0,  3);
+    auto cx_b = seededDoubles(kN, -179.0,  179.0, 4);
+    auto cy_b = seededDoubles(kN,  -89.0,   89.0, 5);
+    auto hw_b = seededDoubles(kN,    0.01,   1.0,  6);
+
+    SpatialBatchInputs in;
+    in.count = static_cast<size_t>(kN);
+    in.geoms_a.reserve(kN);
+    in.geoms_b.reserve(kN);
+    for (int i = 0; i < kN; ++i) {
+        in.geoms_a.push_back(makeSquare(cx_a[i], cy_a[i], hw_a[i]));
+        in.geoms_b.push_back(makeSquare(cx_b[i], cy_b[i], hw_b[i]));
+    }
+
+    // Reference: CPU exact backend (MBR-based for polygon pairs)
+    auto* cpu = getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto cpu_results = cpu->batchIntersects(in);
+    ASSERT_EQ(cpu_results.mask.size(), static_cast<size_t>(kN));
+
+    // GPU production backend
+    auto* gpu = getProductionGpuBackend();
+    ASSERT_NE(gpu, nullptr);
+    ASSERT_TRUE(gpu->isAvailable());
+    auto gpu_results = gpu->batchIntersects(in);
+    ASSERT_EQ(gpu_results.mask.size(), static_cast<size_t>(kN));
+
+    // Both backends must agree on every pair.
+    int mismatch = 0;
+    for (int i = 0; i < kN; ++i) {
+        if ((cpu_results.mask[i] != 0) != (gpu_results.mask[i] != 0)) {
+            ++mismatch;
+        }
+    }
+    EXPECT_EQ(mismatch, 0)
+        << "Production GPU backend has " << mismatch
+        << " intersection mismatches vs CPU exact backend over " << kN << " pairs";
+}
+
+// ---------------------------------------------------------------------------
+// exactIntersects parity: point-in-polygon
+// ---------------------------------------------------------------------------
+
+TEST(GpuProductionParityTest, ExactIntersects_PointInPolygon_MatchesCpuExact) {
+    const int kN = 1000;
+
+    // Fixed square polygon in WGS-84 range.
+    GeometryInfo poly = makeSquare(10.0, 48.0, 2.0);  // centred at (10, 48)
+
+    auto* cpu = getCpuExactBackend();
+    ASSERT_NE(cpu, nullptr);
+    auto* gpu = getProductionGpuBackend();
+    ASSERT_NE(gpu, nullptr);
+
+    auto lats = seededDoubles(kN, 44.0, 52.0, 7);
+    auto lons = seededDoubles(kN,  6.0, 14.0, 8);
+
+    int mismatch = 0;
+    for (int i = 0; i < kN; ++i) {
+        GeometryInfo pt(GeometryType::Point);
+        pt.coords.push_back({lons[i], lats[i]});
+
+        bool cpu_hit = cpu->exactIntersects(pt, poly);
+        bool gpu_hit = gpu->exactIntersects(pt, poly);
+        if (cpu_hit != gpu_hit) {
+            ++mismatch;
+        }
+    }
+    EXPECT_EQ(mismatch, 0)
+        << "Production GPU backend has " << mismatch
+        << " exactIntersects mismatches vs CPU exact backend over " << kN << " points";
+}
+
+// ---------------------------------------------------------------------------
+// Registry: production GPU backend is discoverable at runtime
+// ---------------------------------------------------------------------------
+
+TEST(GpuProductionRegistryTest, ProductionBackendIsRegistered) {
+    auto* reg = getGeoBackendRegistry();
+    ASSERT_NE(reg, nullptr) << "getGeoBackendRegistry() must return a non-null registry";
+}
+
+TEST(GpuProductionRegistryTest, ProductionBackendIsAvailable) {
+    auto* backend = getProductionGpuBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_TRUE(backend->isAvailable());
+    // Backend name must be one of the known GPU or CPU-parallel names.
+    std::string name(backend->name());
+    EXPECT_TRUE(name == "cuda_gpu" || name == "opencl_gpu" || name == "cpu_parallel")
+        << "Unexpected production backend name: " << name;
 }

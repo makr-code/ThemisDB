@@ -143,6 +143,10 @@ ISpatialComputeBackend* getCpuExactBackend();
 // Uses MBR overlap checks for fast conservative spatial tests.
 ISpatialComputeBackend* getCpuApproximateBackend();
 
+// Get the global geo backend registry.
+// Backends self-register at startup so they are discoverable at runtime.
+IGeoRegistry* getGeoBackendRegistry();
+
 // Get a backend for the requested precision mode.
 // Exact   → getCpuExactBackend()
 // Approximate → getCpuApproximateBackend()
