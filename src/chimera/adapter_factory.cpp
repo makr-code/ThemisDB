@@ -32,6 +32,9 @@
 #include "chimera/database_adapter.hpp"
 #include <mutex>
 #include <algorithm>
+#include <sstream>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace chimera {
 
@@ -180,7 +183,8 @@ std::vector<Capability> AdapterCapabilityMatrix::all_capabilities() {
         Capability::SECONDARY_INDEXES,
         Capability::MATERIALIZED_VIEWS,
         Capability::REPLICATION,
-        Capability::SHARDING
+        Capability::SHARDING,
+        Capability::ASYNC_OPERATIONS
     };
 }
 
@@ -201,8 +205,212 @@ std::string AdapterCapabilityMatrix::capability_to_string(Capability cap) {
         case Capability::MATERIALIZED_VIEWS:   return "MATERIALIZED_VIEWS";
         case Capability::REPLICATION:          return "REPLICATION";
         case Capability::SHARDING:             return "SHARDING";
+        case Capability::ASYNC_OPERATIONS:     return "ASYNC_OPERATIONS";
         default:                               return "UNKNOWN";
     }
 }
 
+// ---------------------------------------------------------------------------
+// AdapterConfig — connection-string parsing
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Known URI schemes accepted by the chimera adapter suite.
+const std::unordered_set<std::string> kKnownSchemes = {
+    "themisdb",
+    "postgresql", "postgres",
+    "mongodb", "mongodb+srv",
+    "bolt", "neo4j", "neo4j+s",
+    "http", "https"
+};
+
+/// Printable list of known schemes for error messages (sorted for stability).
+const std::vector<std::string> kKnownSchemesList = {
+    "bolt", "http", "https", "mongodb", "mongodb+srv",
+    "neo4j", "neo4j+s", "postgres", "postgresql", "themisdb"
+};
+
+/// Well-known integer options and their valid [min, max] inclusive ranges.
+struct IntOptionRange {
+    int64_t min_val;
+    int64_t max_val;
+};
+
+const std::unordered_map<std::string, IntOptionRange> kIntOptionRanges = {
+    { "pool_size",        { 1,      10000   } },
+    { "timeout_ms",       { 1,      3600000 } },
+    { "connect_timeout",  { 1,      3600000 } },
+    { "max_retries",      { 0,      100     } }
+};
+
+/// Well-known boolean option names.
+const std::unordered_set<std::string> kBoolOptions = {
+    "use_tls", "tls_enabled", "ssl", "verify_cert", "read_only"
+};
+
+} // anonymous namespace
+
+ParsedConnectionString AdapterConfig::parse_connection_string() const {
+    ParsedConnectionString parsed;
+    const std::string& cs = connection_string;
+
+    // Extract scheme (everything before "://")
+    const std::string sep = "://";
+    auto scheme_end = cs.find(sep);
+    if (scheme_end == std::string::npos) {
+        return parsed; // malformed — caller checks this
+    }
+    parsed.scheme = cs.substr(0, scheme_end);
+
+    // Remainder after "://"
+    std::string rest = cs.substr(scheme_end + sep.size());
+
+    // Strip query/fragment
+    auto qmark = rest.find('?');
+    if (qmark != std::string::npos) {
+        rest = rest.substr(0, qmark);
+    }
+    auto hash = rest.find('#');
+    if (hash != std::string::npos) {
+        rest = rest.substr(0, hash);
+    }
+
+    // Separate userinfo from host/path ("user:pass@host:port/db")
+    auto at_pos = rest.find('@');
+    if (at_pos != std::string::npos) {
+        const std::string userinfo = rest.substr(0, at_pos);
+        rest = rest.substr(at_pos + 1);
+
+        auto colon_pos = userinfo.find(':');
+        if (colon_pos != std::string::npos) {
+            parsed.username = userinfo.substr(0, colon_pos);
+            // password intentionally not stored
+        } else {
+            parsed.username = userinfo;
+        }
+    }
+
+    // Split host:port from /database
+    auto slash_pos = rest.find('/');
+    std::string host_port;
+    if (slash_pos != std::string::npos) {
+        host_port         = rest.substr(0, slash_pos);
+        parsed.database   = rest.substr(slash_pos + 1);
+    } else {
+        host_port = rest;
+    }
+
+    // Split host from port
+    auto colon_pos = host_port.rfind(':');
+    if (colon_pos != std::string::npos) {
+        parsed.host = host_port.substr(0, colon_pos);
+        parsed.port = host_port.substr(colon_pos + 1);
+    } else {
+        parsed.host = host_port;
+    }
+
+    return parsed;
+}
+
+std::vector<std::string> AdapterConfig::get_validation_errors() const {
+    std::vector<std::string> errors;
+
+    // --- connection_string: must not be empty ---
+    if (connection_string.empty()) {
+        errors.emplace_back("connection_string must not be empty");
+        // Cannot parse further without a connection string.
+        return errors;
+    }
+
+    // --- connection_string: must contain "://" ---
+    const bool has_scheme_separator =
+        connection_string.find("://") != std::string::npos;
+    if (!has_scheme_separator) {
+        errors.emplace_back(
+            "connection_string is missing a URI scheme (expected '<scheme>://<host>')");
+        // Component validation (scheme/host/port) is meaningless without a separator.
+        // Still proceed to option validation below.
+    } else {
+        // --- Parse and validate components ---
+        const ParsedConnectionString parsed = parse_connection_string();
+
+        // Scheme must be non-empty and recognised
+        if (parsed.scheme.empty()) {
+            errors.emplace_back(
+                "connection_string must specify a non-empty URI scheme before '://'");
+        } else if (kKnownSchemes.find(parsed.scheme) == kKnownSchemes.end()) {
+            std::ostringstream oss;
+            oss << "unknown URI scheme '" << parsed.scheme
+                << "'; recognised schemes: ";
+            for (size_t i = 0; i < kKnownSchemesList.size(); ++i) {
+                if (i > 0) oss << ", ";
+                oss << kKnownSchemesList[i];
+            }
+            errors.push_back(oss.str());
+        }
+
+        // Host must be present
+        if (parsed.host.empty()) {
+            errors.emplace_back("connection_string must specify a non-empty host");
+        }
+
+        // If a port string is present it must be a valid port number
+        if (!parsed.port.empty()) {
+            try {
+                size_t idx = 0;
+                long port_val = std::stol(parsed.port, &idx);
+                if (idx != parsed.port.size() || port_val < 1 || port_val > 65535) {
+                    errors.emplace_back(
+                        "connection_string port '" + parsed.port +
+                        "' is out of valid range [1, 65535]");
+                }
+            } catch (...) {
+                errors.emplace_back(
+                    "connection_string port '" + parsed.port + "' is not a valid integer");
+            }
+        }
+    }
+
+    // --- Options: type and range validation ---
+    for (const auto& kv : options) {
+        const std::string& key   = kv.first;
+        const Scalar&      value = kv.second;
+
+        // Check integer options (O(1) lookup)
+        auto int_it = kIntOptionRanges.find(key);
+        if (int_it != kIntOptionRanges.end()) {
+            if (!std::holds_alternative<int64_t>(value)) {
+                errors.push_back("option '" + key + "' must be of type int64_t");
+            } else {
+                int64_t v = std::get<int64_t>(value);
+                if (v < int_it->second.min_val || v > int_it->second.max_val) {
+                    std::ostringstream oss;
+                    oss << "option '" << key << "' value " << v
+                        << " is out of valid range ["
+                        << int_it->second.min_val << ", "
+                        << int_it->second.max_val << "]";
+                    errors.push_back(oss.str());
+                }
+            }
+        }
+
+        // Check boolean options (O(1) lookup)
+        if (kBoolOptions.count(key)) {
+            if (!std::holds_alternative<bool>(value)) {
+                errors.push_back("option '" + key + "' must be of type bool");
+            }
+        }
+    }
+
+    return errors;
+}
+
+Result<bool> AdapterConfig::validate() const {
+    const auto errors = get_validation_errors();
+    if (errors.empty()) {
+        return Result<bool>::ok(true);
+    }
+    return Result<bool>::err(ErrorCode::INVALID_ARGUMENT, errors.front());
+}
 } // namespace chimera

@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * Plugin Name: ThemisDB Order Request & Contract Management
  * Plugin URI: https://github.com/makr-code/ThemisDB
@@ -56,7 +57,14 @@ define('THEMISDB_ORDER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_ORDER_PLUGIN_FILE', __FILE__);
 
 // Load updater class
-require_once dirname(THEMISDB_ORDER_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+$themisdb_updater_local = THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-themisdb-plugin-updater.php';
+$themisdb_updater_shared = dirname(THEMISDB_ORDER_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+if (file_exists($themisdb_updater_local)) {
+    require_once $themisdb_updater_local;
+} elseif (file_exists($themisdb_updater_shared)) {
+    require_once $themisdb_updater_shared;
+}
 
 // Initialize automatic updates
 if (class_exists('ThemisDB_Plugin_Updater')) {

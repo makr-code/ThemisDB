@@ -1,0 +1,18 @@
+FINAL_RELEASE_AUDIT total=16 present=16 missing=0
+
+persistent-podcast-player/v1.0.0 | present
+themisdb-architecture-diagrams/v1.1.0 | present
+themisdb-benchmark-visualizer/v1.0.0 | present
+themisdb-compendium-downloads/v1.0.0 | present
+themisdb-docker-downloads/v1.0.0 | present
+themisdb-downloads/v1.2.0 | present
+themisdb-feature-matrix/v1.0.0 | present
+themisdb-formula-renderer/v1.1.0 | present
+themisdb-gallery/v1.0.1 | present
+themisdb-order-request/v1.0.0 | present
+themisdb-query-playground/v1.0.0 | present
+themisdb-release-timeline/v1.0.0 | present
+themisdb-taxonomy-manager/v1.0.0 | present
+themisdb-tco-calculator/v1.0.0 | present
+themisdb-test-dashboard/v1.0.0 | present
+themisdb-wiki-integration/v1.0.1 | present

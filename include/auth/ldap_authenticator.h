@@ -24,6 +24,7 @@
 #pragma once
 
 #include "auth/auth_error.h"
+#include "auth/auth_worker_thread_pool.h"
 #include "auth/ldap_connection_pool.h"
 
 #include <string>
@@ -31,6 +32,7 @@
 #include <optional>
 #include <memory>
 #include <chrono>
+#include <future>
 
 namespace themis {
 namespace utils { class AuditLogger; }
@@ -220,6 +222,24 @@ public:
                                 const std::string& password);
 
     /**
+     * @brief Non-blocking variant of authenticate().
+     *
+     * Dispatches the LDAP bind to the internal AuthWorkerThreadPool so the
+     * calling thread is never stalled by network latency.
+     *
+     * Performance target: P99 latency visible to callers ≤ 50 ms even when
+     * the LDAP backend takes up to 200 ms.
+     *
+     * @param username  Plain username
+     * @param password  User password
+     * @return std::future<LDAPAuthResult> — becomes ready when the bind completes
+     * @throws AuthException synchronously on invalid input
+     * @throws std::runtime_error if the internal thread pool is not running
+     */
+    std::future<LDAPAuthResult> authenticateAsync(const std::string& username,
+                                                   const std::string& password);
+
+    /**
      * @brief Return the current configuration (after initialize()).
      */
     const LDAPConfig& getConfig() const { return config_; }
@@ -270,8 +290,17 @@ private:
     LDAPConfig   config_;
     utils::AuditLogger* audit_logger_{nullptr}; ///< Non-owning, optional.
 
-    /// Connection pool — created on initialize() when pool_enabled is true.
-    std::unique_ptr<LDAPConnectionPool> pool_;
+    /// Worker thread pool for authenticateAsync().  Created at construction
+    /// time so it is always available after initialize().
+    ///
+    /// LIFETIME NOTE: worker_pool_ MUST remain the last data member declared.
+    /// C++ destroys members in reverse-declaration order, so worker_pool_ is
+    /// destroyed first — its shutdown() joins all in-flight worker threads
+    /// before config_, initialized_, etc. are released.  This ensures that
+    /// tasks capturing 'this' (via authenticateAsync()) never access a
+    /// dangling member.
+    std::unique_ptr<LDAPConnectionPool> pool_;       ///< LDAP connection pool (optional)
+    std::unique_ptr<AuthWorkerThreadPool> worker_pool_;
 
     /**
      * @brief Perform the LDAP bind and optional group search.

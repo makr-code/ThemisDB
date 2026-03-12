@@ -58,26 +58,27 @@ In `update-info.json`:
 }
 ```
 
-**Step 2: Create GitHub Release**
+**Step 2: Create Plugin-Specific GitHub Release**
 
 ```bash
+PLUGIN_SLUG="themisdb-downloads"
+VERSION="1.2.0"
+TAG_NAME="${PLUGIN_SLUG}/v${VERSION}"
+
 # Commit changes
 git add .
-git commit -m "Release v1.1.0"
+git commit -m "Release ${PLUGIN_SLUG} v${VERSION}"
 git push
 
 # Create and push tag
-git tag v1.1.0
-git push origin v1.1.0
+git tag "${TAG_NAME}"
+git push origin "${TAG_NAME}"
 
-# Create GitHub release (via UI or CLI)
-gh release create v1.1.0 \
-  --title "Version 1.1.0" \
-  --notes "## What's New
-  
-- Added feature X
-- Fixed bug Y
-- Improved performance Z"
+# Create GitHub release
+# The updater resolves plugin-specific tags/assets first.
+gh release create "${TAG_NAME}" \
+  --title "${PLUGIN_SLUG} v${VERSION}" \
+  --notes-file wordpress-plugins/${PLUGIN_SLUG}/CHANGELOG.md
 ```
 
 **Step 3: Wait for Distribution**
@@ -131,22 +132,27 @@ When releasing multiple plugins:
 VERSION="1.1.0"
 
 # Update each plugin's main file and update-info.json
-for plugin in wordpress-plugin/themisdb-*; do
+for plugin in wordpress-plugins/themisdb-*; do
   echo "Updating $plugin to $VERSION"
   # Update version in main PHP file
   # Update version in update-info.json
 done
 
-# Commit and create release
+# Commit changes once
 git add .
-git commit -m "Release v$VERSION - All plugins"
-git tag v$VERSION
-git push origin main --tags
+git commit -m "Prepare plugin releases"
+git push origin main
 
-# Create GitHub release
-gh release create v$VERSION \
-  --title "ThemisDB WordPress Plugins v$VERSION" \
-  --notes-file CHANGELOG.md
+# Create one release per plugin
+for plugin in wordpress-plugins/themisdb-*; do
+  plugin_slug="$(basename "$plugin")"
+  tag_name="${plugin_slug}/v${VERSION}"
+  git tag "$tag_name"
+  git push origin "$tag_name"
+  gh release create "$tag_name" \
+    --title "${plugin_slug} v${VERSION}" \
+    --notes-file "$plugin/CHANGELOG.md"
+done
 ```
 
 ### Creating Plugin ZIP Files
@@ -155,7 +161,7 @@ For optimal distribution, create ZIP files for each plugin:
 
 ```bash
 #!/bin/bash
-cd wordpress-plugin
+cd wordpress-plugins
 
 for plugin_dir in themisdb-*; do
   if [ -d "$plugin_dir" ]; then
@@ -165,8 +171,10 @@ for plugin_dir in themisdb-*; do
   fi
 done
 
-# Upload to GitHub release
-gh release upload v1.1.0 *.zip
+# Upload to GitHub release (example for one plugin)
+PLUGIN_SLUG="themisdb-downloads"
+TAG_NAME="${PLUGIN_SLUG}/v1.2.0"
+gh release upload "${TAG_NAME}" "${PLUGIN_SLUG}.zip"
 ```
 
 ---
@@ -195,10 +203,10 @@ sudo chown -R www-data:www-data /var/www/html/wp-content/plugins
 **Check 2: GitHub API**
 ```bash
 # Test API connectivity
-curl -I https://api.github.com/repos/makr-code/ThemisDB/releases/latest
+curl -I "https://api.github.com/repos/makr-code/ThemisDB/releases?per_page=10"
 
 # Test metadata
-curl https://raw.githubusercontent.com/makr-code/ThemisDB/main/wordpress-plugin/plugin-slug/update-info.json
+curl https://raw.githubusercontent.com/makr-code/ThemisDB/main/wordpress-plugins/plugin-slug/update-info.json
 ```
 
 **Check 3: WordPress Debug**
@@ -256,7 +264,7 @@ jobs:
       
       - name: Create plugin ZIPs
         run: |
-          cd wordpress-plugin
+          cd wordpress-plugins
           for plugin in themisdb-*; do
             zip -r "${plugin}.zip" "$plugin"
           done
@@ -264,7 +272,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: wordpress-plugin/*.zip
+          files: wordpress-plugins/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -425,7 +433,7 @@ wp-env run cli wp eval "var_dump(get_option('recently_activated'));"
 | Check for updates | `Dashboard → Updates → Check Again` |
 | Install update | `Dashboard → Updates → Update Now` |
 | View details | Click "View details" link |
-| Create release | `git tag v1.1.0 && git push --tags` |
+| Create release | `git tag themisdb-downloads/v1.2.0 && git push origin themisdb-downloads/v1.2.0` |
 | Test locally | `wp plugin update plugin-name --dry-run` |
 | Clear cache | `wp transient delete themisdb_update_*` |
 | Debug issues | Enable WP_DEBUG and check logs |

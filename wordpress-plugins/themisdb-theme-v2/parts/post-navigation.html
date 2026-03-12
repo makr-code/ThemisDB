@@ -1,0 +1,41 @@
+<!-- wp:group {"className":"themis-post-navigation","style":{"border":{"top":{"color":"var:preset|color|gray-200","width":"1px"}},"spacing":{"padding":{"top":"var:preset|spacing|8","bottom":"var:preset|spacing|6"},"margin":{"top":"var:preset|spacing|10"}}},"layout":{"type":"constrained","contentSize":"760px"}} -->
+<div class="wp-block-group themis-post-navigation">
+
+	<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"stretch"},"style":{"spacing":{"blockGap":"var:preset|spacing|6"}}} -->
+	<div class="wp-block-group">
+
+		<!-- Previous Post -->
+		<!-- wp:html -->
+		<?php
+		$prev = get_previous_post();
+		if ( $prev ) :
+		?>
+		<a href="<?php echo esc_url( get_permalink( $prev ) ); ?>" class="themis-post-nav-item themis-post-nav-prev" rel="prev" style="display:flex;flex-direction:column;gap:4px;text-decoration:none;flex:1;min-width:0;max-width:48%;">
+			<span style="font-size:0.75rem;font-weight:600;color:#95a5a6;text-transform:uppercase;letter-spacing:0.06em;">← Previous</span>
+			<span style="font-size:0.9375rem;font-weight:600;color:#2c3e50;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html( get_the_title( $prev ) ); ?></span>
+		</a>
+		<?php else : ?>
+		<div></div>
+		<?php endif; ?>
+		<!-- /wp:html -->
+
+		<!-- Next Post -->
+		<!-- wp:html -->
+		<?php
+		$next = get_next_post();
+		if ( $next ) :
+		?>
+		<a href="<?php echo esc_url( get_permalink( $next ) ); ?>" class="themis-post-nav-item themis-post-nav-next" rel="next" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-decoration:none;flex:1;min-width:0;max-width:48%;">
+			<span style="font-size:0.75rem;font-weight:600;color:#95a5a6;text-transform:uppercase;letter-spacing:0.06em;">Next →</span>
+			<span style="font-size:0.9375rem;font-weight:600;color:#2c3e50;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?php echo esc_html( get_the_title( $next ) ); ?></span>
+		</a>
+		<?php else : ?>
+		<div></div>
+		<?php endif; ?>
+		<!-- /wp:html -->
+
+	</div>
+	<!-- /wp:group -->
+
+</div>
+<!-- /wp:group -->

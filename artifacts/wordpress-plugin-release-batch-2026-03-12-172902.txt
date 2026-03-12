@@ -1,0 +1,21 @@
+BATCH_RELEASE total=16 created=5 exists=3 failed=8
+JSON=artifacts/wordpress-plugin-release-batch-2026-03-12-172902.json
+TXT=artifacts/wordpress-plugin-release-batch-2026-03-12-172902.txt
+
+DETAILS:
+persistent-podcast-player |  | failed | 
+themisdb-architecture-diagrams | 1.1.0 | created | themisdb-architecture-diagrams/v1.1.0
+themisdb-benchmark-visualizer |  | failed | 
+themisdb-compendium-downloads | 1.0.0 | created | themisdb-compendium-downloads/v1.0.0
+themisdb-docker-downloads | 1.0.0 | created | themisdb-docker-downloads/v1.0.0
+themisdb-downloads | 1.2.0 | exists | themisdb-downloads/v1.2.0
+themisdb-feature-matrix | 1.0.0 | exists | themisdb-feature-matrix/v1.0.0
+themisdb-formula-renderer | 1.1.0 | exists | themisdb-formula-renderer/v1.1.0
+themisdb-gallery |  | failed | 
+themisdb-order-request | 1.0.0 | created | themisdb-order-request/v1.0.0
+themisdb-query-playground |  | failed | 
+themisdb-release-timeline |  | failed | 
+themisdb-taxonomy-manager | 1.0.0 | created | themisdb-taxonomy-manager/v1.0.0
+themisdb-tco-calculator |  | failed | 
+themisdb-test-dashboard |  | failed | 
+themisdb-wiki-integration |  | failed | 

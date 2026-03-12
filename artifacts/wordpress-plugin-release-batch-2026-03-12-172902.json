@@ -1,0 +1,130 @@
+[
+  {
+    "plugin_slug": "persistent-podcast-player",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "The 'Compress-Archive' command was found in the module 'Microsoft.PowerShell.Archive', but the module could not be loaded. For more information, run 'Import-Module Microsoft.PowerShell.Archive'."
+  },
+  {
+    "plugin_slug": "themisdb-architecture-diagrams",
+    "version": "1.1.0",
+    "tag": "themisdb-architecture-diagrams/v1.1.0",
+    "status": "created",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-architecture-diagrams/v1.1.0",
+    "message": "Release created."
+  },
+  {
+    "plugin_slug": "themisdb-benchmark-visualizer",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-compendium-downloads",
+    "version": "1.0.0",
+    "tag": "themisdb-compendium-downloads/v1.0.0",
+    "status": "created",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-compendium-downloads/v1.0.0",
+    "message": "Release created."
+  },
+  {
+    "plugin_slug": "themisdb-docker-downloads",
+    "version": "1.0.0",
+    "tag": "themisdb-docker-downloads/v1.0.0",
+    "status": "created",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-docker-downloads/v1.0.0",
+    "message": "Release created."
+  },
+  {
+    "plugin_slug": "themisdb-downloads",
+    "version": "1.2.0",
+    "tag": "themisdb-downloads/v1.2.0",
+    "status": "exists",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-downloads/v1.2.0",
+    "message": "Release already exists, skipped."
+  },
+  {
+    "plugin_slug": "themisdb-feature-matrix",
+    "version": "1.0.0",
+    "tag": "themisdb-feature-matrix/v1.0.0",
+    "status": "exists",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-feature-matrix/v1.0.0",
+    "message": "Release already exists, skipped."
+  },
+  {
+    "plugin_slug": "themisdb-formula-renderer",
+    "version": "1.1.0",
+    "tag": "themisdb-formula-renderer/v1.1.0",
+    "status": "exists",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-formula-renderer/v1.1.0",
+    "message": "Release already exists, skipped."
+  },
+  {
+    "plugin_slug": "themisdb-gallery",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-order-request",
+    "version": "1.0.0",
+    "tag": "themisdb-order-request/v1.0.0",
+    "status": "created",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-order-request/v1.0.0",
+    "message": "Release created."
+  },
+  {
+    "plugin_slug": "themisdb-query-playground",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-release-timeline",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-taxonomy-manager",
+    "version": "1.0.0",
+    "tag": "themisdb-taxonomy-manager/v1.0.0",
+    "status": "created",
+    "release_url": "https://github.com/makr-code/ThemisDB/releases/tag/themisdb-taxonomy-manager/v1.0.0",
+    "message": "Release created."
+  },
+  {
+    "plugin_slug": "themisdb-tco-calculator",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-test-dashboard",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  },
+  {
+    "plugin_slug": "themisdb-wiki-integration",
+    "version": "",
+    "tag": "",
+    "status": "failed",
+    "release_url": "",
+    "message": "gh release create failed"
+  }
+]

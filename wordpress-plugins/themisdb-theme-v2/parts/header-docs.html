@@ -1,0 +1,40 @@
+<!-- wp:group {"tagName":"header","className":"site-header themis-header themis-header--docs","style":{"color":{"background":"#1a252f"},"position":{"type":"sticky","top":"0px"}},"layout":{"type":"constrained","contentSize":"1100px"}} -->
+<header class="wp-block-group site-header themis-header themis-header--docs" style="background-color:#1a252f">
+
+	<!-- wp:group {"className":"themis-header-inner","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+	<div class="wp-block-group themis-header-inner">
+
+		<!-- Logo + Site Title -->
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"var:preset|spacing|3"}}} -->
+		<div class="wp-block-group">
+			<!-- wp:site-logo {"width":32,"shouldSyncIcon":false} /-->
+			<!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700","fontSize":"1rem","letterSpacing":"-0.03em"},"color":{"text":"#ffffff"}}} /-->
+			<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.75rem"},"color":{"text":"rgba(255,255,255,0.4)"}}} -->
+			<p style="color:rgba(255,255,255,0.4);font-size:0.75rem">/ Docs</p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+
+		<!-- Docs Navigation -->
+		<!-- wp:navigation {"textColor":"text-on-dark","layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"left","flexWrap":"nowrap"},"style":{"typography":{"fontWeight":"500","fontSize":"0.875rem"},"spacing":{"blockGap":"0"}}} -->
+			<!-- wp:navigation-link {"label":"Getting Started","url":"/docs/getting-started","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"API Reference","url":"/docs/api","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Architecture","url":"/docs/architecture","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Changelog","url":"/docs/changelog","kind":"custom"} /-->
+		<!-- /wp:navigation -->
+
+		<!-- Search -->
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"var:preset|spacing|3"}}} -->
+		<div class="wp-block-group">
+			<!-- wp:search {"label":"Search Docs","showLabel":false,"placeholder":"Search docs…","buttonText":"Search","buttonUseIcon":true,"style":{"border":{"radius":"6px"},"color":{"background":"rgba(255,255,255,0.1)","text":"#ecf0f1"}}} /-->
+			<!-- wp:paragraph {"style":{"typography":{"fontSize":"0.8125rem"}},"className":"themis-header-back-link"} -->
+			<p class="themis-header-back-link" style="font-size:0.8125rem"><a href="/" style="color:rgba(255,255,255,0.6);text-decoration:none">← Back to ThemisDB</a></p>
+			<!-- /wp:paragraph -->
+		</div>
+		<!-- /wp:group -->
+
+	</div>
+	<!-- /wp:group -->
+
+</header>
+<!-- /wp:group -->

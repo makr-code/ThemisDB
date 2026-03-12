@@ -32,6 +32,7 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <future>
 
 // ---------------------------------------------------------------------------
 // Platform-specific LDAP includes
@@ -139,7 +140,11 @@ std::string escapeLDAPFilterValue(const std::string& value)
 // Construction / destruction
 // ===========================================================================
 
-LDAPAuthenticator::LDAPAuthenticator() = default;
+LDAPAuthenticator::LDAPAuthenticator()
+    : worker_pool_(std::make_unique<AuthWorkerThreadPool>(
+          AuthWorkerThreadPool::kMinThreads,
+          AuthWorkerThreadPool::kMaxThreads))
+{}
 
 LDAPAuthenticator::~LDAPAuthenticator() = default;
 
@@ -290,6 +295,49 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
     return performBind(username, dn, password);
 }
 
+std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
+    const std::string& username,
+    const std::string& password)
+{
+    // Validate inputs synchronously on the caller's thread to give fast
+    // feedback for invalid arguments — no need to dispatch to the pool.
+    if (username.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: username must not be empty"
+        ));
+    }
+    if (username.size() > MAX_LDAP_USERNAME_LENGTH) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: username exceeds maximum length"
+        ));
+    }
+    if (password.empty()) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: password must not be empty (anonymous bind not permitted)"
+        ));
+    }
+    if (password.size() > MAX_LDAP_PASSWORD_LENGTH) {
+        throw AuthException(AuthError(
+            AuthErrorCode::AUTH_INVALID_CREDENTIALS,
+            "Authentication failed",
+            "LDAP: password exceeds maximum length"
+        ));
+    }
+
+    // Dispatch the blocking LDAP bind to the worker pool so the caller is
+    // never stalled by network latency (P99 ≤ 50 ms goal from the roadmap).
+    return worker_pool_->submit(
+        [this, username, password]() mutable {
+            return this->authenticate(username, password);
+        });
+}
+
 // ===========================================================================
 // Platform-specific bind implementation
 // ===========================================================================
@@ -319,21 +367,24 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         if (pooled_conn) {
             ld = pooled_conn->rawHandle();
         }
-    // Set search time limit (seconds)
-    ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
-    ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+    }
 
-    // Disable referral chasing — following attacker-controlled referrals can
-    // redirect authentication to a rogue LDAP server.
-    const void* referrals_off = LDAP_OPT_OFF;
-    const ULONG referrals_result =
-        ldap_set_option(ld, LDAP_OPT_REFERRALS, referrals_off);
-    if (referrals_result != LDAP_SUCCESS) {
-        spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
-                      referrals_result);
-        ldap_unbind(ld);
-        audit.logLDAPFailure(username, "disable_referrals_failed");
-        return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
+    if (ld) {
+        // Set search time limit (seconds)
+        ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
+        ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
+
+        // Disable referral chasing — following attacker-controlled referrals can
+        // redirect authentication to a rogue LDAP server.
+        const ULONG referrals_result =
+            ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF);
+        if (referrals_result != LDAP_SUCCESS) {
+            spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
+                          referrals_result);
+            pooled_conn->markStale();
+            audit.logLDAPFailure(username, "disable_referrals_failed");
+            return LDAPAuthResult::Failed("LDAP configuration error (referrals still enabled)");
+        }
     }
 
     if (!ld) {
@@ -355,9 +406,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
 
         // Disable referral chasing
-        ULONG referrals_off = LDAP_OPT_OFF;
         const ULONG referrals_result =
-            ldap_set_option(ld, LDAP_OPT_REFERRALS, static_cast<void*>(&referrals_off));
+            ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF);
         if (referrals_result != LDAP_SUCCESS) {
             spdlog::error("LDAPAuthenticator: failed to disable LDAP referrals: {}",
                           referrals_result);

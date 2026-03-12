@@ -19,6 +19,14 @@ fi
 # Create package
 cd "${PACKAGE_DIR}" || exit 1
 
+# Ensure standalone packages contain the updater class.
+SHARED_UPDATER="${PACKAGE_DIR}/includes/class-themisdb-plugin-updater.php"
+PLUGIN_UPDATER_DIR="${PACKAGE_DIR}/${PLUGIN_NAME}/includes"
+if [ -f "${SHARED_UPDATER}" ]; then
+    mkdir -p "${PLUGIN_UPDATER_DIR}"
+    cp "${SHARED_UPDATER}" "${PLUGIN_UPDATER_DIR}/class-themisdb-plugin-updater.php"
+fi
+
 zip -r "${OUTPUT_FILE}" "${PLUGIN_NAME}" \
     -x "${PLUGIN_NAME}/.git/*" \
     -x "${PLUGIN_NAME}/.gitignore" \

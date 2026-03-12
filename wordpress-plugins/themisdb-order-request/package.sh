@@ -35,6 +35,13 @@ cp README.md "$PACKAGE_DIR/"
 cp INSTALLATION.md "$PACKAGE_DIR/"
 cp CHANGELOG.md "$PACKAGE_DIR/"
 cp LICENSE "$PACKAGE_DIR/"
+cp update-info.json "$PACKAGE_DIR/"
+
+# Ensure standalone packages contain the updater class.
+SHARED_UPDATER="../includes/class-themisdb-plugin-updater.php"
+if [ -f "$SHARED_UPDATER" ]; then
+	cp "$SHARED_UPDATER" "$PACKAGE_DIR/includes/class-themisdb-plugin-updater.php"
+fi
 
 # Create empty templates directory
 mkdir -p "$PACKAGE_DIR/templates"

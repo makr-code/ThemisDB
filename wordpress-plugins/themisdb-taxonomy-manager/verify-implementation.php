@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -22,7 +23,7 @@
  */
 
 #!/usr/bin/env php
-<?php
+
 /**
  * Verification script for Taxonomy Manager enhancements
  * Tests TF-IDF, analytics, and taxonomy extraction functionality

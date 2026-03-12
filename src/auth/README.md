@@ -676,6 +676,13 @@ config.expected_audience = "themisdb-api";
 config.cache_ttl = std::chrono::seconds(600);  // Cache JWKS for 10 minutes
 config.clock_skew = std::chrono::seconds(60);   // Allow 60s clock skew
 
+// Optional: require every token to carry a jti claim.
+// When true, tokens without a jti are rejected with std::runtime_error("Missing required jti claim").
+// Enable this in deployments where per-token revocation via TokenBlacklist is mandatory.
+// When false (default), tokens without a jti are accepted but cannot be individually revoked;
+// a warning is logged whenever a TokenBlacklist is attached and an incoming token has no jti.
+config.require_jti = false;
+
 JWTValidator jwt_validator(config);
 ```
 

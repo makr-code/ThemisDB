@@ -248,6 +248,10 @@ AdversarialTester::AdversarialTester(const AdversarialTesterConfig& config)
 
 AdversarialTester::~AdversarialTester() = default;
 
+AdversarialTester::AdversarialTester(AdversarialTester&&) noexcept = default;
+
+AdversarialTester& AdversarialTester::operator=(AdversarialTester&&) noexcept = default;
+
 // ============================================================================
 // Population
 // ============================================================================

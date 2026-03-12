@@ -1,3 +1,4 @@
+<?php
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
@@ -21,7 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-<?php
+
 /**
  * Plugin Name: ThemisDB Query Playground
  * Plugin URI: https://github.com/makr-code/ThemisDB
@@ -51,7 +52,14 @@ define('THEMISDB_QP_GITHUB_REPO', 'makr-code/ThemisDB');
 define('THEMISDB_QP_GITHUB_PATH', 'tools/query-playground-wordpress');
 
 // Load updater class
-require_once dirname(THEMISDB_QP_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+$themisdb_updater_local = THEMISDB_QP_PLUGIN_DIR . 'includes/class-themisdb-plugin-updater.php';
+$themisdb_updater_shared = dirname(THEMISDB_QP_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+if (file_exists($themisdb_updater_local)) {
+    require_once $themisdb_updater_local;
+} elseif (file_exists($themisdb_updater_shared)) {
+    require_once $themisdb_updater_shared;
+}
 
 // Initialize automatic updates
 if (class_exists('ThemisDB_Plugin_Updater')) {

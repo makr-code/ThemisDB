@@ -10156,6 +10156,19 @@ add_chimera_focused_test(
     "Batch Operation Enhancements: BatchOptions, BatchResult, batch_insert_advanced, progress/batch callbacks, stop_on_error"
 )
 
+add_chimera_focused_test(
+    test_chimera_adapter_config_validation
+    chimera/test_adapter_config_validation.cpp
+    ChimeraAdapterConfigValidationTests
+    "chimera;adapter;config;validation;unit"
+    "AdapterConfig: validate(), get_validation_errors(), parse_connection_string(), type/range checks"
+    test_chimera_async_api
+    chimera/test_chimera_async_api.cpp
+    ChimeraAsyncAPITests
+    "chimera;adapter;async;future;unit"
+    "Async/Promise-Based API: execute_query_async, batch_insert_async, search_vectors_async, cancel_async, concurrent fan-out"
+)
+
 # ============================================================================
 # Exporters Focused Test Targets
 # Each target compiles the full exporter source set and links themis_core

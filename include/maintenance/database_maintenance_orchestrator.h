@@ -36,6 +36,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 #include <functional>
 #include <nlohmann/json.hpp>
@@ -361,11 +362,11 @@ private:
     std::unique_ptr<MaintenanceScheduleStore> schedule_store_;
 
     // Persisted schedules
-    mutable std::mutex                                       schedules_mutex_;
+    mutable std::shared_mutex                                schedules_mutex_;
     std::map<std::string, MaintenanceScheduleEntry>          schedules_;
 
     // In-flight and recently completed jobs
-    mutable std::mutex                                       jobs_mutex_;
+    mutable std::shared_mutex                                jobs_mutex_;
     std::map<std::string, OrchestratorJob>                   jobs_;
     static constexpr int64_t kJobRetentionMs = 24LL * 60 * 60 * 1000; // 24 h
 
