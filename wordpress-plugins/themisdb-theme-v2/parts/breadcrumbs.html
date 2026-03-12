@@ -1,0 +1,41 @@
+<!-- wp:group {"className":"themis-breadcrumbs","tagName":"nav","aria-label":"Breadcrumb","style":{"spacing":{"margin":{"bottom":"0"}}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<nav class="wp-block-group themis-breadcrumbs" aria-label="Breadcrumb">
+	<!-- wp:html -->
+	<ol class="themis-breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
+		<li class="themis-breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+			<a href="/" itemprop="item" class="themis-breadcrumb-link">
+				<span itemprop="name">Home</span>
+			</a>
+			<meta itemprop="position" content="1" />
+		</li>
+		<?php
+		if ( function_exists( 'yoast_breadcrumb' ) ) {
+			// Yoast SEO: output inner breadcrumb items (positions 2+)
+			yoast_breadcrumb( '<li class="themis-breadcrumb-item themis-breadcrumb-sep" aria-hidden="true">/</li>' );
+		} elseif ( is_singular() ) {
+			$post = get_queried_object();
+			if ( $post && $post->post_parent ) {
+				$parent = get_post( $post->post_parent );
+				echo '<li class="themis-breadcrumb-sep" aria-hidden="true">/</li>';
+				echo '<li class="themis-breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+				echo '<a href="' . esc_url( get_permalink( $parent ) ) . '" itemprop="item" class="themis-breadcrumb-link"><span itemprop="name">' . esc_html( get_the_title( $parent ) ) . '</span></a>';
+				echo '<meta itemprop="position" content="2" />';
+				echo '</li>';
+			}
+			echo '<li class="themis-breadcrumb-sep" aria-hidden="true">/</li>';
+			echo '<li class="themis-breadcrumb-item themis-breadcrumb-current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<span itemprop="name">' . esc_html( get_the_title() ) . '</span>';
+			echo '<meta itemprop="position" content="3" />';
+			echo '</li>';
+		} elseif ( is_category() || is_tag() || is_tax() ) {
+			echo '<li class="themis-breadcrumb-sep" aria-hidden="true">/</li>';
+			echo '<li class="themis-breadcrumb-item themis-breadcrumb-current"><span>' . esc_html( single_term_title( '', false ) ) . '</span></li>';
+		} elseif ( is_archive() ) {
+			echo '<li class="themis-breadcrumb-sep" aria-hidden="true">/</li>';
+			echo '<li class="themis-breadcrumb-item themis-breadcrumb-current"><span>' . esc_html( get_the_archive_title() ) . '</span></li>';
+		}
+		?>
+	</ol>
+	<!-- /wp:html -->
+</nav>
+<!-- /wp:group -->

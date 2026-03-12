@@ -36,6 +36,13 @@ cp "$SCRIPT_DIR/INSTALLATION.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/QUICKSTART.md" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/PREVIEW.html" "$PACKAGE_DIR/"
 cp "$SCRIPT_DIR/LICENSE" "$PACKAGE_DIR/"
+cp "$SCRIPT_DIR/update-info.json" "$PACKAGE_DIR/"
+
+# Ensure standalone packages contain the updater class.
+SHARED_UPDATER="$SCRIPT_DIR/../includes/class-themisdb-plugin-updater.php"
+if [ -f "$SHARED_UPDATER" ]; then
+    cp "$SHARED_UPDATER" "$PACKAGE_DIR/includes/class-themisdb-plugin-updater.php"
+fi
 
 # Create languages directory (even if empty for now)
 mkdir -p "$PACKAGE_DIR/languages"

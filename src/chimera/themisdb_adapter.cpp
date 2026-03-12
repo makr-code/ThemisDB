@@ -41,6 +41,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <future>
 #include <numeric>
 #include <queue>
 
@@ -1158,6 +1159,7 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::TIME_SERIES:
         case Capability::BATCH_OPERATIONS:
         case Capability::SECONDARY_INDEXES:
+        case Capability::ASYNC_OPERATIONS:
             return true;
         default:
             return false;
@@ -1176,7 +1178,8 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::GEOSPATIAL_QUERIES,
         Capability::TIME_SERIES,
         Capability::BATCH_OPERATIONS,
-        Capability::SECONDARY_INDEXES
+        Capability::SECONDARY_INDEXES,
+        Capability::ASYNC_OPERATIONS
     };
 }
 
@@ -1209,6 +1212,206 @@ std::string ThemisDBAdapter::mask_credentials(
     }
 
     return prefix + "***:***@" + rest.substr(at_pos + 1);
+}
+
+// ---------------------------------------------------------------------------
+// IAsyncDatabaseAdapter — async wrappers around synchronous operations
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/**
+ * @brief RAII guard that removes a named cancellation token on scope exit.
+ *
+ * Placed as a local variable inside each async worker lambda so the token is
+ * always erased — whether the operation completes normally, returns early on
+ * cancellation, or propagates an exception.
+ */
+struct ScopedTokenRemover {
+    const std::string op_id;
+    std::mutex& mtx;
+    std::map<std::string, std::shared_ptr<std::atomic<bool>>>& tokens;
+
+    ~ScopedTokenRemover() {
+        if (!op_id.empty()) {
+            std::lock_guard<std::mutex> lk(mtx);
+            tokens.erase(op_id);
+        }
+    }
+
+    ScopedTokenRemover(const ScopedTokenRemover&)            = delete;
+    ScopedTokenRemover& operator=(const ScopedTokenRemover&) = delete;
+    ScopedTokenRemover(ScopedTokenRemover&&)                 = default;
+    ScopedTokenRemover& operator=(ScopedTokenRemover&&)      = delete;
+};
+
+/**
+ * @brief Register a cancellation token for the given operation_id.
+ *
+ * Uses `try_emplace` so that a second call with the same non-empty id is
+ * rejected — the caller must treat this as an ALREADY_EXISTS error and refuse
+ * to launch the operation.
+ *
+ * @return {token, true}   if registration succeeded.
+ *         {nullptr, true}  if operation_id is empty (no tracking needed).
+ *         {nullptr, false} if operation_id is already in use (duplicate).
+ */
+std::pair<std::shared_ptr<std::atomic<bool>>, bool>
+register_cancel_token(
+    const std::string& operation_id,
+    std::mutex& cancel_mutex,
+    std::map<std::string, std::shared_ptr<std::atomic<bool>>>& cancel_tokens
+) {
+    if (operation_id.empty()) {
+        return {nullptr, true};
+    }
+    auto token = std::make_shared<std::atomic<bool>>(false);
+    std::lock_guard<std::mutex> lk(cancel_mutex);
+    auto [it, inserted] = cancel_tokens.try_emplace(operation_id, token);
+    if (!inserted) {
+        return {nullptr, false};  // Duplicate id already in flight
+    }
+    return {token, true};
+}
+
+} // anonymous namespace
+
+std::future<Result<RelationalTable>> ThemisDBAdapter::execute_query_async(
+    const std::string& query,
+    const std::vector<Scalar>& params,
+    const AsyncQueryOptions& opts
+) {
+    auto [token, registered] = register_cancel_token(
+        opts.operation_id, cancel_mutex_, cancel_tokens_);
+    if (!registered) {
+        std::promise<Result<RelationalTable>> p;
+        p.set_value(Result<RelationalTable>::err(
+            ErrorCode::ALREADY_EXISTS,
+            "Async operation already in flight with id: " + opts.operation_id));
+        return p.get_future();
+    }
+
+    return std::async(std::launch::async,
+        [this, query, params, op_id = opts.operation_id, token]() -> Result<RelationalTable> {
+            ScopedTokenRemover guard{op_id, cancel_mutex_, cancel_tokens_};
+            if (token && token->load(std::memory_order_relaxed)) {
+                return Result<RelationalTable>::err(
+                    ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
+            }
+            return execute_query(query, params);
+        }
+    );
+}
+
+std::future<Result<size_t>> ThemisDBAdapter::batch_insert_async(
+    const std::string& table_name,
+    const std::vector<RelationalRow>& rows,
+    std::function<void(size_t processed)> progress_callback,
+    const AsyncQueryOptions& opts
+) {
+    auto [token, registered] = register_cancel_token(
+        opts.operation_id, cancel_mutex_, cancel_tokens_);
+    if (!registered) {
+        std::promise<Result<size_t>> p;
+        p.set_value(Result<size_t>::err(
+            ErrorCode::ALREADY_EXISTS,
+            "Async operation already in flight with id: " + opts.operation_id));
+        return p.get_future();
+    }
+
+    return std::async(std::launch::async,
+        [this, table_name, rows, progress_callback,
+         op_id = opts.operation_id, token]() -> Result<size_t> {
+            ScopedTokenRemover guard{op_id, cancel_mutex_, cancel_tokens_};
+
+            if (token && token->load(std::memory_order_relaxed)) {
+                return Result<size_t>::err(
+                    ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
+            }
+
+            if (progress_callback) {
+                // Drive the insert in chunks to report incremental progress.
+                // A single preallocated buffer is reused across all chunks to
+                // avoid repeated heap allocations.
+                constexpr size_t kChunkSize = 500;
+                size_t total_inserted = 0;
+                std::vector<RelationalRow> chunk;
+                chunk.reserve(kChunkSize);
+
+                for (size_t offset = 0; offset < rows.size(); offset += kChunkSize) {
+                    if (token && token->load(std::memory_order_relaxed)) {
+                        return Result<size_t>::err(
+                            ErrorCode::TIMEOUT,
+                            "Async operation cancelled mid-batch: " + op_id);
+                    }
+
+                    const size_t end = std::min(offset + kChunkSize, rows.size());
+                    chunk.assign(
+                        rows.begin() + static_cast<std::ptrdiff_t>(offset),
+                        rows.begin() + static_cast<std::ptrdiff_t>(end));
+
+                    auto chunk_result = batch_insert(table_name, chunk);
+                    if (chunk_result.is_err()) {
+                        return chunk_result;
+                    }
+                    total_inserted += chunk_result.value.value_or(0);
+                    progress_callback(total_inserted);
+                }
+                return Result<size_t>::ok(total_inserted);
+            }
+
+            return batch_insert(table_name, rows);
+        }
+    );
+}
+
+std::future<Result<std::vector<std::pair<Vector, double>>>> ThemisDBAdapter::search_vectors_async(
+    const std::string& collection,
+    const Vector& query_vector,
+    size_t k,
+    const std::map<std::string, Scalar>& filters,
+    const AsyncQueryOptions& opts
+) {
+    auto [token, registered] = register_cancel_token(
+        opts.operation_id, cancel_mutex_, cancel_tokens_);
+    if (!registered) {
+        std::promise<Result<std::vector<std::pair<Vector, double>>>> p;
+        p.set_value(Result<std::vector<std::pair<Vector, double>>>::err(
+            ErrorCode::ALREADY_EXISTS,
+            "Async operation already in flight with id: " + opts.operation_id));
+        return p.get_future();
+    }
+
+    return std::async(std::launch::async,
+        [this, collection, query_vector, k, filters,
+         op_id = opts.operation_id, token]()
+             -> Result<std::vector<std::pair<Vector, double>>> {
+            ScopedTokenRemover guard{op_id, cancel_mutex_, cancel_tokens_};
+            if (token && token->load(std::memory_order_relaxed)) {
+                return Result<std::vector<std::pair<Vector, double>>>::err(
+                    ErrorCode::TIMEOUT, "Async operation cancelled: " + op_id);
+            }
+            return search_vectors(collection, query_vector, k, filters);
+        }
+    );
+}
+
+Result<bool> ThemisDBAdapter::cancel_async(const std::string& operation_id) {
+    if (operation_id.empty()) {
+        return Result<bool>::err(
+            ErrorCode::INVALID_ARGUMENT, "operation_id must not be empty");
+    }
+
+    std::lock_guard<std::mutex> lk(cancel_mutex_);
+    auto it = cancel_tokens_.find(operation_id);
+    if (it == cancel_tokens_.end()) {
+        return Result<bool>::err(
+            ErrorCode::NOT_FOUND,
+            "No active async operation with id: " + operation_id);
+    }
+
+    it->second->store(true, std::memory_order_relaxed);
+    return Result<bool>::ok(true);
 }
 
 } // namespace chimera

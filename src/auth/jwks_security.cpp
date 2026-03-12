@@ -22,6 +22,7 @@
 
 #include "auth/jwks_security.h"
 #include "utils/logger.h"
+#include <openssl/crypto.h>
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 #include <openssl/pem.h>
@@ -196,6 +197,15 @@ struct JWKSSecureFetcher::Impl {
     }
     
     ~Impl() {
+        // Explicitly zero the key password before CURL cleanup (defence-in-depth).
+        // SecureString's destructor also zeroes this field; the explicit call here
+        // ensures zeroing is visible at the point of use and survives any future
+        // refactoring that might replace SecureString with a plain std::string.
+        if (!config.client_key_password.empty()) {
+            OPENSSL_cleanse(
+                config.client_key_password.data(),
+                config.client_key_password.size() + 1);  // +1 to include null terminator
+        }
         if (curl) {
             curl_easy_cleanup(curl);
         }

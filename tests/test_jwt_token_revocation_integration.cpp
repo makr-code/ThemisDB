@@ -49,6 +49,7 @@
 
 #include "auth/jwt_validator.h"
 #include "auth/token_blacklist.h"
+#include "utils/logger.h"
 
 using namespace themis::auth;
 
@@ -279,6 +280,25 @@ TEST_F(JtiRevocationTest, TokenWithNoJtiAcceptedEvenWhenBlacklistAttached) {
     EXPECT_NO_THROW(val_->parseAndValidate(token));
 }
 
+TEST_F(JtiRevocationTest, BlacklistAttachedAndNoJtiEmitsWarningOnce) {
+    val_->setTokenBlacklist(&blacklist_);
+    auto token = makeES256Token(key_, "ec1", {});
+
+    // Use warn_count deltas to avoid perturbing global metrics shared across tests.
+    // The warning must fire exactly once per validator lifecycle (deduplication).
+    auto before_first = themis::utils::Logger::getMetrics().snapshot();
+    EXPECT_NO_THROW(val_->parseAndValidate(token));
+    auto after_first = themis::utils::Logger::getMetrics().snapshot();
+    EXPECT_EQ(after_first.warn_count - before_first.warn_count, 1u)
+        << "Expected exactly one warning on first no-jti token";
+
+    // Second call: warn_count must NOT increase further (deduplication)
+    EXPECT_NO_THROW(val_->parseAndValidate(token));
+    auto after_second = themis::utils::Logger::getMetrics().snapshot();
+    EXPECT_EQ(after_second.warn_count, after_first.warn_count)
+        << "Warning should be suppressed on subsequent no-jti tokens";
+}
+
 TEST_F(JtiRevocationTest, DetachingBlacklistStopsRevocationCheck) {
     // Attach, revoke a token, then detach – the token should be accepted again
     val_->setTokenBlacklist(&blacklist_);
@@ -378,4 +398,56 @@ TEST(EdDSAAllowlistRegression, UnsupportedAlgorithmHintIncludesEdDSA) {
         EXPECT_NE(msg.find("EdDSA"), std::string::npos)
             << "Error message did not mention EdDSA: " << msg;
     }
+}
+
+// ============================================================================
+// require_jti enforcement
+// ============================================================================
+
+class RequireJtiTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        JWTValidatorConfig cfg = makeConfig();
+        cfg.require_jti = true;
+        val_ = std::make_unique<JWTValidator>(cfg);
+        val_->setJWKSForTesting(makeECJwks(key_));
+    }
+    ECKey key_;
+    std::unique_ptr<JWTValidator> val_;
+};
+
+TEST_F(RequireJtiTest, AcceptsTokenWithJti) {
+    auto token = makeES256Token(key_, "ec1", {{"jti", "required-jti-001"}});
+    EXPECT_NO_THROW(val_->parseAndValidate(token));
+}
+
+TEST_F(RequireJtiTest, RejectsTokenWithoutJti) {
+    auto token = makeES256Token(key_, "ec1", {});
+    EXPECT_THROW(val_->parseAndValidate(token), std::runtime_error);
+}
+
+TEST_F(RequireJtiTest, ErrorMessageMentionsJti) {
+    auto token = makeES256Token(key_, "ec1", {});
+    try {
+        val_->parseAndValidate(token);
+        FAIL() << "Expected std::runtime_error";
+    } catch (const std::runtime_error& e) {
+        EXPECT_NE(std::string(e.what()).find("jti"), std::string::npos)
+            << "Error message did not mention jti: " << e.what();
+    }
+}
+
+TEST(RequireJtiDefaultTest, RequireJtiDefaultsToFalse) {
+    JWTValidatorConfig cfg;
+    EXPECT_FALSE(cfg.require_jti);
+}
+
+TEST(RequireJtiDefaultTest, AcceptsTokenWithoutJtiByDefault) {
+    ECKey key;
+    JWTValidatorConfig cfg = makeConfig();
+    JWTValidator val(cfg);
+    val.setJWKSForTesting(makeECJwks(key));
+
+    auto token = makeES256Token(key, "ec1", {});
+    EXPECT_NO_THROW(val.parseAndValidate(token));
 }

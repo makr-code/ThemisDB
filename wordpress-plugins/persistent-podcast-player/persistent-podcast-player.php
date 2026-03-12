@@ -47,6 +47,25 @@ define('PPP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('PPP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('PPP_PLUGIN_FILE', __FILE__);
 
+// Load updater class (prefer local copy for standalone ZIP distribution)
+$themisdb_updater_local = PPP_PLUGIN_DIR . 'includes/class-themisdb-plugin-updater.php';
+$themisdb_updater_shared = dirname(PPP_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+if (file_exists($themisdb_updater_local)) {
+    require_once $themisdb_updater_local;
+} elseif (file_exists($themisdb_updater_shared)) {
+    require_once $themisdb_updater_shared;
+}
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        PPP_PLUGIN_FILE,
+        'persistent-podcast-player',
+        PPP_VERSION
+    );
+}
+
 /**
  * Main Plugin Class
  */

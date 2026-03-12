@@ -10162,6 +10162,11 @@ add_chimera_focused_test(
     ChimeraAdapterConfigValidationTests
     "chimera;adapter;config;validation;unit"
     "AdapterConfig: validate(), get_validation_errors(), parse_connection_string(), type/range checks"
+    test_chimera_async_api
+    chimera/test_chimera_async_api.cpp
+    ChimeraAsyncAPITests
+    "chimera;adapter;async;future;unit"
+    "Async/Promise-Based API: execute_query_async, batch_insert_async, search_vectors_async, cancel_async, concurrent fan-out"
 )
 
 # ============================================================================

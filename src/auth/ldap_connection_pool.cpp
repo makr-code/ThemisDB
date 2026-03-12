@@ -175,7 +175,8 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
             if (healthy) {
                 ++active_count_;
                 // total_count_ is unchanged (idle → active)
-                return std::make_unique<PooledConnection>(*this, candidate);
+                return std::unique_ptr<PooledConnection>(
+                    new PooledConnection(*this, candidate));
             }
 
             // Stale — evict and decrement total.
@@ -193,7 +194,8 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout()
             if (fresh) {
                 ++total_count_;
                 ++active_count_;
-                return std::make_unique<PooledConnection>(*this, fresh);
+                return std::unique_ptr<PooledConnection>(
+                    new PooledConnection(*this, fresh));
             }
             // createConnection() failed — fall through to waiting/timeout
         }
@@ -258,9 +260,7 @@ LDAP* LDAPConnectionPool::createConnection()
     ULONG timelimit = static_cast<ULONG>(config_.search_timeout_seconds);
     ldap_set_option(ld, LDAP_OPT_TIMELIMIT, static_cast<void*>(&timelimit));
 
-    ULONG referrals_off = LDAP_OPT_OFF;
-    if (ldap_set_option(ld, LDAP_OPT_REFERRALS,
-                        static_cast<void*>(&referrals_off)) != LDAP_SUCCESS) {
+    if (ldap_set_option(ld, LDAP_OPT_REFERRALS, LDAP_OPT_OFF) != LDAP_SUCCESS) {
         spdlog::error("LDAPConnectionPool: failed to disable referrals on new connection");
         ldap_unbind(ld);
         return nullptr;

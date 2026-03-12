@@ -88,6 +88,10 @@ AuthMetrics::AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                                  .Name(config.namespace_prefix + "_revoked_token_checks_total")
                                  .Help("Total revoked token checks")
                                  .Register(*registry))
+    , totp_drift_total_(prometheus::BuildCounter()
+                       .Name(config.namespace_prefix + "_totp_drift_total")
+                       .Help("Total TOTP validations that succeeded with a non-zero time step offset (clock drift indicator)")
+                       .Register(*registry))
     , jwks_cache_size_(prometheus::BuildGauge()
                       .Name(config.namespace_prefix + "_jwks_cache_size")
                       .Help("Current JWKS cache size (number of keys)")
@@ -266,6 +270,19 @@ void AuthMetrics::recordRevokedTokenCheck(bool was_revoked) {
     labels["result"] = was_revoked ? "revoked" : "valid";
     revoked_token_checks_total_.Add(labels).Increment();
 #endif
+}
+
+void AuthMetrics::recordTOTPDrift(int step_offset) {
+    totp_drift_count_.fetch_add(1, std::memory_order_relaxed);
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::map<std::string, std::string> labels;
+    labels["step_offset"] = std::to_string(step_offset);
+    totp_drift_total_.Add(labels).Increment();
+#endif
+}
+
+uint64_t AuthMetrics::getTOTPDriftCount() const {
+    return totp_drift_count_.load(std::memory_order_relaxed);
 }
 
 uint64_t AuthMetrics::getTotalAttempts() const {

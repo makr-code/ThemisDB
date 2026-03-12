@@ -57,7 +57,9 @@
 #ifndef CHIMERA_DATABASE_ADAPTER_HPP
 #define CHIMERA_DATABASE_ADAPTER_HPP
 
+#include <atomic>
 #include <cstdint>
+#include <future>
 #include <memory>
 #include <string>
 #include <vector>
@@ -405,7 +407,8 @@ enum class Capability {
     SECONDARY_INDEXES,         ///< Secondary index support
     MATERIALIZED_VIEWS,        ///< Materialized view support
     REPLICATION,               ///< Data replication
-    SHARDING                   ///< Horizontal sharding/partitioning
+    SHARDING,                  ///< Horizontal sharding/partitioning
+    ASYNC_OPERATIONS           ///< Non-blocking async/future-based operations
 };
 
 /**
@@ -980,6 +983,149 @@ public:
      * @return List of supported capabilities
      */
     virtual std::vector<Capability> get_capabilities() const = 0;
+};
+
+/**
+ * @struct AsyncQueryOptions
+ * @brief Configuration options for asynchronous database operations
+ *
+ * @details Controls per-operation identity, timeout hints, and scheduling
+ *          priority hints for operations launched through IAsyncDatabaseAdapter.
+ *
+ * **Note on timeout and priority:**
+ * These fields are *scheduling hints* intended for production adapter
+ * implementations backed by real network drivers (e.g. HTTP connection pools
+ * with per-request deadline propagation).  The in-process simulation adapter
+ * (`ThemisDBAdapter`) does not enforce them — `timeout` is stored but not
+ * applied to the `std::async` worker, and `priority` is reserved for future
+ * use.  Callers that rely on hard deadlines should enforce them externally
+ * (e.g. with `std::future::wait_for`).
+ */
+struct AsyncQueryOptions {
+    /**
+     * @brief Maximum wall-clock time allowed for the operation.
+     *
+     * `std::nullopt` means no limit.  Production drivers that support request
+     * timeouts will propagate this value to the underlying network call.
+     * The simulation adapter ignores this field.
+     */
+    std::optional<std::chrono::milliseconds> timeout;
+
+    /// Human-readable tag used to identify the operation for cancellation and logging.
+    std::string operation_id;
+
+    /**
+     * @brief Scheduling priority hint (higher = higher priority).
+     *
+     * Interpretation is implementation-defined.  The simulation adapter
+     * does not alter thread scheduling based on this value.
+     */
+    int priority = 0;
+};
+
+/**
+ * @class IAsyncDatabaseAdapter
+ * @brief Non-blocking async/promise-based database operations
+ *
+ * @details
+ * Extends the synchronous IDatabaseAdapter interfaces with future-based
+ * counterparts so callers can dispatch multiple operations concurrently and
+ * collect results later.  All methods return a `std::future<Result<T>>` that
+ * is ready as soon as the underlying operation completes.
+ *
+ * An optional `AsyncQueryOptions` parameter controls per-operation timeout
+ * and identity (used for cancellation via `cancel_async()`).
+ *
+ * Implementations that do not support async execution should return
+ * `Result<T>::err(ErrorCode::NOT_IMPLEMENTED, ...)` wrapped in a resolved
+ * future.
+ *
+ * **Usage example:**
+ * @code
+ * ThemisDBAdapter adapter;
+ * adapter.connect("themisdb://localhost:7777");
+ *
+ * // Launch multiple queries concurrently
+ * std::vector<std::future<Result<RelationalTable>>> futures;
+ * for (const auto& query : queries) {
+ *     futures.push_back(adapter.execute_query_async(query));
+ * }
+ *
+ * // Collect results
+ * for (auto& f : futures) {
+ *     auto result = f.get();
+ *     if (result.is_ok()) { ... }
+ * }
+ * @endcode
+ */
+class IAsyncDatabaseAdapter {
+public:
+    virtual ~IAsyncDatabaseAdapter() = default;
+
+    /**
+     * @brief Asynchronously execute a relational query.
+     *
+     * @param query  Query string (SQL or equivalent).
+     * @param params Optional bound parameters for prepared-style execution.
+     * @param opts   Optional per-operation configuration.
+     * @return Future that resolves to the query result table or an error.
+     */
+    virtual std::future<Result<RelationalTable>> execute_query_async(
+        const std::string& query,
+        const std::vector<Scalar>& params = {},
+        const AsyncQueryOptions& opts = {}
+    ) = 0;
+
+    /**
+     * @brief Asynchronously batch-insert rows into a table.
+     *
+     * @param table_name       Target table name.
+     * @param rows             Rows to insert.
+     * @param progress_callback Optional callback invoked with the cumulative
+     *                          count of rows processed so far.  Must be
+     *                          thread-safe; will be called from the worker thread.
+     * @param opts             Optional per-operation configuration.
+     * @return Future that resolves to the number of rows inserted or an error.
+     */
+    virtual std::future<Result<size_t>> batch_insert_async(
+        const std::string& table_name,
+        const std::vector<RelationalRow>& rows,
+        std::function<void(size_t processed)> progress_callback = nullptr,
+        const AsyncQueryOptions& opts = {}
+    ) = 0;
+
+    /**
+     * @brief Asynchronously search for similar vectors.
+     *
+     * @param collection   Vector collection/index name.
+     * @param query_vector Query embedding.
+     * @param k            Number of nearest neighbours to return.
+     * @param filters      Optional metadata filters applied before scoring.
+     * @param opts         Optional per-operation configuration.
+     * @return Future that resolves to a ranked list of (vector, distance) pairs or an error.
+     */
+    virtual std::future<Result<std::vector<std::pair<Vector, double>>>> search_vectors_async(
+        const std::string& collection,
+        const Vector& query_vector,
+        size_t k,
+        const std::map<std::string, Scalar>& filters = {},
+        const AsyncQueryOptions& opts = {}
+    ) = 0;
+
+    /**
+     * @brief Request cancellation of an in-flight async operation.
+     *
+     * @details Best-effort: an operation that has already completed or not
+     *          yet started will return NOT_FOUND.  A successfully cancelled
+     *          operation will cause its future to resolve with
+     *          ErrorCode::TIMEOUT.
+     *
+     * @param operation_id  The `AsyncQueryOptions::operation_id` supplied when
+     *                      the operation was launched.
+     * @return Success if the operation was found and cancellation was requested;
+     *         NOT_FOUND if no such operation is active.
+     */
+    virtual Result<bool> cancel_async(const std::string& operation_id) = 0;
 };
 
 /**

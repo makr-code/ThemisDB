@@ -55,6 +55,9 @@ static constexpr uint8_t kSectionExport   = 7;
 
 // WASM external kinds
 static constexpr uint8_t kExternalFunc    = 0;
+static constexpr uint8_t kExternalTable   = 1;
+static constexpr uint8_t kExternalMemory  = 2;
+static constexpr uint8_t kExternalGlobal  = 3;
 
 // Default WASM page size: 64 KiB
 static constexpr size_t kWasmPageBytes    = 65536;
@@ -188,22 +191,48 @@ WasmModuleValidator::validate(const std::vector<uint8_t>& bytes) {
                     size_t ti = readUleb128(q, section_end, type_idx);
                     if (ti == 0) break;
                     q += ti;
-                } else {
-                    // Non-function imports (table/memory/global) have varying
-                    // descriptor encodings that cannot be reliably skipped with
-                    // a single LEB-128 read.  Record the name we already parsed
-                    // and stop processing further imports in this section.
-                    // NOTE: In modules with mixed function and non-function
-                    // imports, only the imports before the first non-function
-                    // entry will appear in `info.imports`.  The capability
-                    // allowlist check will still reject any unknown function
-                    // import that was recorded; non-function imports (memory,
-                    // table, global) are not host-callable and therefore pose
-                    // no capability-model risk in this context.
                     info.imports.push_back(mod_name + "." + fn_name);
+                } else if (kind == kExternalTable) {
+                    // Table import: reftype (1 byte) + limits
+                    if (q >= section_end) break;
+                    q++; // skip reftype
+                    if (q >= section_end) break;
+                    uint8_t flags = *q++;
+                    uint64_t lim_min = 0;
+                    size_t ms = readUleb128(q, section_end, lim_min);
+                    if (ms == 0) break;
+                    q += ms;
+                    if (flags & 0x01) { // has maximum
+                        uint64_t lim_max = 0;
+                        size_t xs = readUleb128(q, section_end, lim_max);
+                        if (xs == 0) break;
+                        q += xs;
+                    }
+                    // Non-function: not host-callable; skip without recording
+                } else if (kind == kExternalMemory) {
+                    // Memory import: limits (flags byte + min LEB-128 + optional max LEB-128)
+                    if (q >= section_end) break;
+                    uint8_t flags = *q++;
+                    uint64_t lim_min = 0;
+                    size_t ms = readUleb128(q, section_end, lim_min);
+                    if (ms == 0) break;
+                    q += ms;
+                    if (flags & 0x01) { // has maximum
+                        uint64_t lim_max = 0;
+                        size_t xs = readUleb128(q, section_end, lim_max);
+                        if (xs == 0) break;
+                        q += xs;
+                    }
+                    // Non-function: not host-callable; skip without recording
+                } else if (kind == kExternalGlobal) {
+                    // Global import: valtype (1 byte) + mutability (1 byte)
+                    if (q + 2 > section_end) break;
+                    q += 2; // skip valtype + mutability
+                    // Non-function: not host-callable; skip without recording
+                } else {
+                    // Unknown import kind; cannot safely skip — stop parsing
                     break;
                 }
-                info.imports.push_back(mod_name + "." + fn_name);
             }
         } else if (section_id == kSectionExport) {
             uint64_t count = 0;

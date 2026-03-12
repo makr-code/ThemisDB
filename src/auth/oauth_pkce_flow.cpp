@@ -326,13 +326,59 @@ std::string OAuthPKCEFlow::httpPost(const std::string& url, const std::string& b
                                 "Content-Type: application/x-www-form-urlencoded");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
-    const CURLcode res = curl_easy_perform(curl);
+    // Use curl_multi_perform() so this transfer can participate in a shared
+    // multi-handle event loop in the future.
+    CURLM* multi = curl_multi_init();
+    if (!multi) {
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+        throw std::runtime_error("Failed to initialize libcurl multi handle");
+    }
+
+    CURLMcode add_rc = curl_multi_add_handle(multi, curl);
+    if (add_rc != CURLM_OK) {
+        curl_slist_free_all(headers);
+        curl_multi_cleanup(multi);
+        curl_easy_cleanup(curl);
+        throw std::runtime_error(
+            std::string("curl_multi_add_handle failed: ") + curl_multi_strerror(add_rc));
+    }
+
+    int still_running = 0;
+    CURLMcode mc = CURLM_OK;
+    do {
+        mc = curl_multi_perform(multi, &still_running);
+        if (mc != CURLM_OK) break;
+        if (still_running) {
+            mc = curl_multi_wait(multi, nullptr, 0, 1000 /* ms */, nullptr);
+        }
+    } while (still_running && mc == CURLM_OK);
+
+    // Inspect per-transfer result so network/TLS errors are not silently
+    // swallowed as an empty response body.
+    CURLcode easy_rc = (mc == CURLM_OK) ? CURLE_OK : CURLE_FAILED_INIT;
+    if (mc == CURLM_OK) {
+        CURLMsg* msg = nullptr;
+        int msgs_left = 0;
+        while ((msg = curl_multi_info_read(multi, &msgs_left))) {
+            if (msg->msg == CURLMSG_DONE && msg->easy_handle == curl) {
+                easy_rc = msg->data.result;
+            }
+        }
+    }
+
     curl_slist_free_all(headers);
+    curl_multi_remove_handle(multi, curl);
+    curl_multi_cleanup(multi);
     curl_easy_cleanup(curl);
 
-    if (res != CURLE_OK) {
+    if (mc != CURLM_OK) {
         throw std::runtime_error(
-            std::string("libcurl error: ") + curl_easy_strerror(res));
+            std::string("libcurl multi error: ") + curl_multi_strerror(mc));
+    }
+    if (easy_rc != CURLE_OK) {
+        throw std::runtime_error(
+            std::string("libcurl error: ") + curl_easy_strerror(easy_rc));
     }
 
     return response_body;
