@@ -34,6 +34,7 @@
 
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
+#include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -77,14 +78,12 @@ struct SnapshotMetadata {
     SnapshotHandle handle;
     size_t total_tables{0};
     size_t total_rows{0};
-    std::chrono::milliseconds ttl{0};  ///< 0 means no TTL (never auto-expires)
     bool is_valid{false};
 
     nlohmann::json toJson() const {
         return {{"handle", handle.toJson()},
                 {"total_tables", total_tables},
                 {"total_rows", total_rows},
-                {"ttl_ms", ttl.count()},
                 {"is_valid", is_valid}};
     }
 };
@@ -102,7 +101,17 @@ struct SnapshotMetadata {
  */
 class TemporalSnapshotManager {
 public:
-    TemporalSnapshotManager() = default;
+    /// Clock function type: returns the current time as a millisecond Timestamp.
+    using ClockFn = std::function<Timestamp()>;
+
+    /**
+     * Construct a manager with an optional custom clock.
+     *
+     * @param clock  Callable that returns the current time in milliseconds
+     *               since epoch.  Defaults to the module-level now().
+     *               Primarily used in tests to advance time deterministically.
+     */
+    explicit TemporalSnapshotManager(ClockFn clock = &now);
 
     /**
      * Create a snapshot of the given tables at the current time.
@@ -150,14 +159,14 @@ public:
 
     /**
      * Garbage-collect snapshots whose creation time is older than
-     * (now() - max_age_ms).  Snapshots whose age exceeds the threshold are
+     * (clock() - max_age_ms).  Snapshots whose age exceeds the threshold are
      * released automatically.
      *
      * @param max_age_ms  Maximum allowed age in milliseconds.  Pass 0 to
      *                    skip TTL-based collection.
      * @return            Number of snapshots removed.
      */
-    size_t garbageCollect(Timestamp max_age_ms);
+    size_t garbageCollectByAge(Timestamp max_age_ms);
 
     /**
      * Garbage-collect snapshots exceeding a maximum count.  The oldest
@@ -167,7 +176,7 @@ public:
      * @param max_snapshots  Maximum number of snapshots to keep.
      * @return               Number of snapshots removed.
      */
-    size_t garbageCollect(size_t max_snapshots);
+    size_t garbageCollectByCount(size_t max_snapshots);
 
     nlohmann::json getStatistics() const;
 
@@ -178,6 +187,7 @@ private:
         std::map<std::string, std::vector<VersionedDocument>> tables;
     };
 
+    ClockFn clock_;
     std::map<std::string, SnapshotData> snapshots_; // keyed by snapshot_id
     mutable std::mutex mutex_;
     uint64_t next_version_{1};      // monotonically increasing snapshot version

@@ -4152,7 +4152,7 @@ if(THEMIS_BUILD_TESTS)
             PRIVATE ${THEMIS_ROOT_DIR}/include
         )
         target_link_libraries(test_temporal_snapshot_manager
-            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
         )
         gtest_discover_tests(test_temporal_snapshot_manager
             DISCOVERY_MODE PRE_TEST

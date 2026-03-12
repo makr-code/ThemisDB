@@ -40,10 +40,13 @@ namespace temporal {
 // Public methods
 // ============================================================================
 
+TemporalSnapshotManager::TemporalSnapshotManager(ClockFn clock)
+    : clock_(std::move(clock)) {}
+
 SnapshotHandle TemporalSnapshotManager::createSnapshot(
     const std::map<std::string, const SystemVersionedTable*>& tables) {
 
-    Timestamp creation_ts = now();
+    Timestamp creation_ts = clock_();
 
     SnapshotData data;
     data.handle.snapshot_id    = generateSnapshotId();
@@ -150,12 +153,12 @@ SnapshotMetadata TemporalSnapshotManager::getSnapshotMetadata(
     return meta;
 }
 
-size_t TemporalSnapshotManager::garbageCollect(Timestamp max_age_ms) {
+size_t TemporalSnapshotManager::garbageCollectByAge(Timestamp max_age_ms) {
     if (max_age_ms <= 0) {
         return 0;
     }
 
-    const Timestamp cutoff = now() - max_age_ms;
+    const Timestamp cutoff = clock_() - max_age_ms;
     std::vector<std::string> to_remove;
 
     std::lock_guard<std::mutex> lock(mutex_);
@@ -174,7 +177,7 @@ size_t TemporalSnapshotManager::garbageCollect(Timestamp max_age_ms) {
     return to_remove.size();
 }
 
-size_t TemporalSnapshotManager::garbageCollect(size_t max_snapshots) {
+size_t TemporalSnapshotManager::garbageCollectByCount(size_t max_snapshots) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (snapshots_.size() <= max_snapshots) {

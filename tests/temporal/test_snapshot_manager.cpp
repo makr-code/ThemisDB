@@ -29,13 +29,21 @@
 
 #include <gtest/gtest.h>
 #include "temporal/snapshot_manager.h"
-#include <thread>
 
 using namespace themisdb::temporal;
 
+// ── Test fixture with injectable clock ───────────────────────────────────────
+
 class TemporalSnapshotManagerTest : public ::testing::Test {
 protected:
-    TemporalSnapshotManager mgr;
+    // Start the fake clock well ahead of real wall-clock time so that rows
+    // inserted via SystemVersionedTable (which uses the real now()) always
+    // fall before the snapshot creation timestamp.
+    Timestamp fake_time_{now() + 10000};
+
+    TemporalSnapshotManager mgr{[this]() { return fake_time_; }};
+
+    void advanceTime(Timestamp ms) { fake_time_ += ms; }
 
     void populateTable(SystemVersionedTable& t) {
         t.insert("k1", {{"value", 10}});
@@ -255,63 +263,84 @@ TEST_F(TemporalSnapshotManagerTest, GetSnapshotMetadata_ToJson) {
     EXPECT_TRUE(j.contains("total_tables"));
     EXPECT_TRUE(j.contains("total_rows"));
     EXPECT_TRUE(j.contains("is_valid"));
-    EXPECT_TRUE(j.contains("ttl_ms"));
 }
 
-// ── garbageCollect (TTL) ─────────────────────────────────────────────────────
+// ── garbageCollectByAge (TTL) ────────────────────────────────────────────────
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_TTL_RemovesExpired) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_RemovesExpired) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
 
-    // Create a snapshot, then wait so it ages well past the 10ms max_age threshold
+    // Create snapshot at fake_time_ = 1000
     auto handle = mgr.createSnapshot({{"tbl", &t}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
-    // GC with 10ms max age: the snapshot should be removed
-    size_t removed = mgr.garbageCollect(Timestamp{10});
+    // Advance clock by 100ms so the 10ms max_age threshold is exceeded
+    advanceTime(100);
+
+    size_t removed = mgr.garbageCollectByAge(Timestamp{10});
     EXPECT_EQ(removed, 1u);
     EXPECT_EQ(mgr.snapshotCount(), 0u);
     EXPECT_FALSE(mgr.isAlive(handle));
 }
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_TTL_KeepsFresh) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_KeepsFresh) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
 
     auto handle = mgr.createSnapshot({{"tbl", &t}});
 
-    // GC with 1-hour max age: the fresh snapshot must survive
-    size_t removed = mgr.garbageCollect(Timestamp{3600000});
+    // Only advance 5ms — snapshot is 5ms old, max_age is 3600s
+    advanceTime(5);
+
+    size_t removed = mgr.garbageCollectByAge(Timestamp{3600000});
     EXPECT_EQ(removed, 0u);
     EXPECT_EQ(mgr.snapshotCount(), 1u);
     EXPECT_TRUE(mgr.isAlive(handle));
 }
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_TTL_ZeroIsNoop) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_ZeroIsNoop) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
     mgr.createSnapshot({{"tbl", &t}});
+    advanceTime(10000);
 
-    size_t removed = mgr.garbageCollect(Timestamp{0});
+    size_t removed = mgr.garbageCollectByAge(Timestamp{0});
     EXPECT_EQ(removed, 0u);
     EXPECT_EQ(mgr.snapshotCount(), 1u);
 }
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_TTL_StatsUpdated) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_StatsUpdated) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
     mgr.createSnapshot({{"tbl", &t}});
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    mgr.garbageCollect(Timestamp{10});
+    advanceTime(100);
+    mgr.garbageCollectByAge(Timestamp{10});
 
     auto stats = mgr.getStatistics();
     EXPECT_EQ(stats["total_gc_collected"], 1);
 }
 
-// ── garbageCollect (max-count) ───────────────────────────────────────────────
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByAge_OnlyRemovesExpired) {
+    SystemVersionedTable t{"tbl", "node_a"};
+    populateTable(t);
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_MaxCount_RemovesOldest) {
+    // Snapshot at t=1000
+    auto old_handle = mgr.createSnapshot({{"tbl", &t}});
+
+    // Advance so old snapshot is 100ms old, then create a fresh one
+    advanceTime(100);
+    auto fresh_handle = mgr.createSnapshot({{"tbl", &t}});
+
+    // GC with 50ms max age: old (100ms) removed, fresh (0ms) kept
+    size_t removed = mgr.garbageCollectByAge(Timestamp{50});
+    EXPECT_EQ(removed, 1u);
+    EXPECT_FALSE(mgr.isAlive(old_handle));
+    EXPECT_TRUE(mgr.isAlive(fresh_handle));
+}
+
+// ── garbageCollectByCount (max-count) ───────────────────────────────────────
+
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByCount_RemovesOldest) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
 
@@ -321,7 +350,7 @@ TEST_F(TemporalSnapshotManagerTest, GarbageCollect_MaxCount_RemovesOldest) {
     ASSERT_EQ(mgr.snapshotCount(), 3u);
 
     // Keep only the 1 newest snapshot
-    size_t removed = mgr.garbageCollect(size_t{1});
+    size_t removed = mgr.garbageCollectByCount(1u);
     EXPECT_EQ(removed, 2u);
     EXPECT_EQ(mgr.snapshotCount(), 1u);
     // The newest (highest version) must survive
@@ -330,35 +359,35 @@ TEST_F(TemporalSnapshotManagerTest, GarbageCollect_MaxCount_RemovesOldest) {
     EXPECT_FALSE(mgr.isAlive(h2));
 }
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_MaxCount_NoRemovalWhenUnderLimit) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByCount_NoRemovalWhenUnderLimit) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
     mgr.createSnapshot({{"tbl", &t}});
     mgr.createSnapshot({{"tbl", &t}});
 
-    size_t removed = mgr.garbageCollect(size_t{5});
+    size_t removed = mgr.garbageCollectByCount(5u);
     EXPECT_EQ(removed, 0u);
     EXPECT_EQ(mgr.snapshotCount(), 2u);
 }
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_MaxCount_ZeroRemovesAll) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByCount_ZeroRemovesAll) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
     mgr.createSnapshot({{"tbl", &t}});
     mgr.createSnapshot({{"tbl", &t}});
     mgr.createSnapshot({{"tbl", &t}});
 
-    size_t removed = mgr.garbageCollect(size_t{0});
+    size_t removed = mgr.garbageCollectByCount(0u);
     EXPECT_EQ(removed, 3u);
     EXPECT_EQ(mgr.snapshotCount(), 0u);
 }
 
-TEST_F(TemporalSnapshotManagerTest, GarbageCollect_MaxCount_StatsUpdated) {
+TEST_F(TemporalSnapshotManagerTest, GarbageCollectByCount_StatsUpdated) {
     SystemVersionedTable t{"tbl", "node_a"};
     populateTable(t);
     mgr.createSnapshot({{"tbl", &t}});
     mgr.createSnapshot({{"tbl", &t}});
-    mgr.garbageCollect(size_t{1});
+    mgr.garbageCollectByCount(1u);
 
     auto stats = mgr.getStatistics();
     EXPECT_EQ(stats["total_gc_collected"], 1);
