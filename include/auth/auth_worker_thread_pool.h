@@ -149,12 +149,12 @@ public:
 
 private:
     size_t                          max_threads_;
+    bool                            stop_;
+    size_t                          idle_count_;  ///< Workers currently waiting
     std::vector<std::thread>        workers_;
     std::queue<std::function<void()>> tasks_;
     mutable std::mutex              queue_mutex_;
     std::condition_variable         cv_;
-    bool                            stop_;
-    size_t                          idle_count_;  ///< Workers currently waiting
 
     // Spawn one new worker thread. Must be called with queue_mutex_ held.
     void spawnWorker() {

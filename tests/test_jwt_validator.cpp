@@ -474,8 +474,8 @@ TEST(JWTValidatorAsyncTest, ValidateAsyncMatchesSyncWithCachedJWKS)
     // Build a minimal valid JWT
     nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "k1"}};
     auto now_tp = std::chrono::system_clock::now();
-    long now = (long)std::chrono::duration_cast<std::chrono::seconds>(
-        now_tp.time_since_epoch()).count();
+    long now = static_cast<long>(std::chrono::duration_cast<std::chrono::seconds>(
+        now_tp.time_since_epoch()).count());
     nlohmann::json payload = {
         {"sub", "testuser"},
         {"exp", now + 3600},
@@ -554,8 +554,8 @@ TEST(JWTValidatorAsyncTest, ConcurrentValidateAsyncNoCrash)
     };
     validator.setJWKSForTesting(jwks);
 
-    long now = (long)std::chrono::duration_cast<std::chrono::seconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
+    long now = static_cast<long>(std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count());
     nlohmann::json hdr = {{"alg", "RS256"}, {"kid", "k1"}};
     nlohmann::json payload = {{"sub", "u"}, {"exp", now + 3600}, {"iat", now}};
     auto b64hdr = b64url(std::vector<uint8_t>(hdr.dump().begin(), hdr.dump().end()));
