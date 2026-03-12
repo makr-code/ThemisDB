@@ -32,6 +32,7 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include <type_traits>
 #include <spdlog/spdlog.h>
 
 #ifdef __linux__
@@ -261,21 +262,26 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         }
     };
 
-    if (elfClass == ELFCLASS64) {
-        Elf64_Ehdr ehdr = {};
+    // Template helper that iterates ELF section headers for both 32- and
+    // 64-bit ELF files, calling processNoteSection for SHT_NOTE sections and
+    // appending .comment section content to `metadata`.
+    auto processELFSectionsForMetadata = [&]<typename Ehdr, typename Shdr>(
+                                  std::type_identity<Ehdr>,
+                                  std::type_identity<Shdr>) {
+        Ehdr ehdr = {};
         file.seekg(0);
         file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));
 
-        uint64_t shOffset  = ehdr.e_shoff;
+        auto shOffset      = static_cast<uint64_t>(ehdr.e_shoff);
         uint16_t shEntSize = ehdr.e_shentsize;
         uint16_t shNum     = ehdr.e_shnum;
         uint16_t shStrIdx  = ehdr.e_shstrndx;
 
-        if (shOffset == 0 || shNum == 0) return metadata;
+        if (shOffset == 0 || shNum == 0) return;
 
         file.seekg(static_cast<std::streamoff>(
             shOffset + static_cast<uint64_t>(shStrIdx) * shEntSize));
-        Elf64_Shdr strShdr = {};
+        Shdr strShdr = {};
         file.read(reinterpret_cast<char*>(&strShdr), sizeof(strShdr));
         std::string strtab(strShdr.sh_size, '\0');
         file.seekg(static_cast<std::streamoff>(strShdr.sh_offset));
@@ -284,7 +290,7 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
         for (uint16_t i = 0; i < shNum; ++i) {
             file.seekg(static_cast<std::streamoff>(
                 shOffset + static_cast<uint64_t>(i) * shEntSize));
-            Elf64_Shdr shdr = {};
+            Shdr shdr = {};
             file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
 
             std::string secName;
@@ -313,58 +319,14 @@ std::string ModuleLoader::readELFMetadata(const std::string& modulePath) const {
                 }
             }
         }
+    };
+
+    if (elfClass == ELFCLASS64) {
+        processELFSectionsForMetadata(std::type_identity<Elf64_Ehdr>{},
+                                      std::type_identity<Elf64_Shdr>{});
     } else if (elfClass == ELFCLASS32) {
-        Elf32_Ehdr ehdr = {};
-        file.seekg(0);
-        file.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));
-
-        uint32_t shOffset  = ehdr.e_shoff;
-        uint16_t shEntSize = ehdr.e_shentsize;
-        uint16_t shNum     = ehdr.e_shnum;
-        uint16_t shStrIdx  = ehdr.e_shstrndx;
-
-        if (shOffset == 0 || shNum == 0) return metadata;
-
-        file.seekg(static_cast<std::streamoff>(
-            shOffset + static_cast<uint32_t>(shStrIdx) * shEntSize));
-        Elf32_Shdr strShdr = {};
-        file.read(reinterpret_cast<char*>(&strShdr), sizeof(strShdr));
-        std::string strtab(strShdr.sh_size, '\0');
-        file.seekg(static_cast<std::streamoff>(strShdr.sh_offset));
-        file.read(&strtab[0], static_cast<std::streamsize>(strShdr.sh_size));
-
-        for (uint16_t i = 0; i < shNum; ++i) {
-            file.seekg(static_cast<std::streamoff>(
-                shOffset + static_cast<uint32_t>(i) * shEntSize));
-            Elf32_Shdr shdr = {};
-            file.read(reinterpret_cast<char*>(&shdr), sizeof(shdr));
-
-            std::string secName;
-            if (shdr.sh_name < strtab.size()) {
-                secName = &strtab[shdr.sh_name];
-            }
-
-            if (shdr.sh_type == SHT_NOTE) {
-                processNoteSection(shdr.sh_offset, shdr.sh_size);
-            } else if (secName == ".comment" &&
-                       shdr.sh_size > 0 &&
-                       shdr.sh_size < kMaxCommentSectionSize) {
-                std::string comment(shdr.sh_size, '\0');
-                file.seekg(static_cast<std::streamoff>(shdr.sh_offset));
-                file.read(&comment[0],
-                          static_cast<std::streamsize>(shdr.sh_size));
-                for (char& c : comment) {
-                    if (c == '\0') c = ' ';
-                }
-                while (!comment.empty() && comment.back() == ' ') {
-                    comment.pop_back();
-                }
-                if (!comment.empty()) {
-                    if (!metadata.empty()) metadata += "; ";
-                    metadata += "Comment=" + comment;
-                }
-            }
-        }
+        processELFSectionsForMetadata(std::type_identity<Elf32_Ehdr>{},
+                                      std::type_identity<Elf32_Shdr>{});
     }
 
     return metadata;

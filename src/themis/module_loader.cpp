@@ -388,7 +388,7 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
 
     result.success       = true;
     result.errorCode     = ModuleErrorCode::SUCCESS;
-    result.errorCategory = ErrorCategory::PERMANENT;
+    result.errorCategory = categorizeError(ModuleErrorCode::SUCCESS);
     return result;
 }
 
@@ -670,6 +670,9 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
 
 ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
     switch (code) {
+        case ModuleErrorCode::SUCCESS:
+            return ErrorCategory::NONE;
+
         case ModuleErrorCode::MODULE_ACCESS_DENIED:
         case ModuleErrorCode::LOAD_LIBRARY_FAILED:
             return ErrorCategory::TRANSIENT;
@@ -1253,9 +1256,12 @@ void ModuleLoader::watchdogLoop() {
 
 void ModuleLoader::watchdogCheckAllModules() {
     std::vector<std::pair<std::string, std::string>> snapshot;
-    for (const auto& mod : loadedModules_) {
-        if (mod.fullyActivated) {
-            snapshot.emplace_back(mod.name, mod.path);
+    {
+        std::lock_guard<std::mutex> lk(watchdogMutex_);
+        for (const auto& mod : loadedModules_) {
+            if (mod.fullyActivated) {
+                snapshot.emplace_back(mod.name, mod.path);
+            }
         }
     }
 
@@ -1264,13 +1270,17 @@ void ModuleLoader::watchdogCheckAllModules() {
             break;
         }
 
-        auto it = std::find_if(
-            loadedModules_.begin(), loadedModules_.end(),
-            [&name](const LoadedModule& m) { return m.name == name; });
-        if (it == loadedModules_.end()) {
-            continue;
+        LoadedModule modCopy;
+        {
+            std::lock_guard<std::mutex> lk(watchdogMutex_);
+            auto it = std::find_if(
+                loadedModules_.begin(), loadedModules_.end(),
+                [&name](const LoadedModule& m) { return m.name == name; });
+            if (it == loadedModules_.end()) {
+                continue;
+            }
+            modCopy = *it;
         }
-        LoadedModule modCopy = *it;
 
         if (healthChecks_.empty()) {
             continue;
