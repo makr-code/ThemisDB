@@ -23,6 +23,8 @@
 
 #include <gtest/gtest.h>
 #include "auth/mfa_authenticator.h"
+#include "auth/auth_audit_logger.h"
+#include "auth/auth_metrics.h"
 #include <chrono>
 #include <thread>
 
@@ -304,6 +306,74 @@ TEST(MFAAuthenticatorTest, MultipleUsers_DifferentSecrets) {
     EXPECT_NE(enrollment1.secret_base32, enrollment2.secret_base32);
     EXPECT_NE(enrollment1.secret_base32, enrollment3.secret_base32);
     EXPECT_NE(enrollment2.secret_base32, enrollment3.secret_base32);
+}
+
+/**
+ * @brief Test that time_window > 2 throws std::invalid_argument
+ */
+TEST(MFAAuthenticatorTest, Config_TimeWindowTooLarge_Throws) {
+    MFAAuthenticator::Config config;
+    config.time_window = 3;
+    EXPECT_THROW(MFAAuthenticator mfa(config), std::invalid_argument)
+        << "Expected std::invalid_argument for time_window=3";
+}
+
+/**
+ * @brief Test that time_window == 2 is accepted (boundary value)
+ */
+TEST(MFAAuthenticatorTest, Config_TimeWindowAtMaxBoundary_Accepted) {
+    MFAAuthenticator::Config config;
+    config.time_window = 2;
+    EXPECT_NO_THROW(MFAAuthenticator mfa(config))
+        << "time_window == 2 must be accepted";
+}
+
+/**
+ * @brief Test that drift metrics are recorded when TOTP validates at offset != 0
+ */
+TEST(MFAAuthenticatorTest, ValidateTOTP_DriftMetricsRecorded) {
+    MFAAuthenticator::Config config;
+    config.time_step_seconds = 30;
+    config.time_window = 1;
+    MFAAuthenticator mfa(config);
+
+    AuthMetrics metrics;
+    mfa.setMetrics(&metrics);
+
+    auto enrollment = mfa.generateEnrollment("drift_user");
+    auto now = std::chrono::system_clock::now();
+
+    // Generate a code from the previous time step (offset -1)
+    auto past = now - std::chrono::seconds(config.time_step_seconds);
+    std::string past_code = mfa.getCurrentTOTP(enrollment.secret_base32, past);
+
+    // Validate against "now" — this should match at offset -1
+    bool valid = mfa.validateTOTP(enrollment.secret_base32, past_code, now, "drift_user");
+    EXPECT_TRUE(valid) << "Code from previous time step should be valid within window";
+    EXPECT_EQ(metrics.getTOTPDriftCount(), 1u)
+        << "Drift counter must be incremented exactly once for an offset-1 match";
+}
+
+/**
+ * @brief Test that drift metrics are NOT recorded when TOTP validates at offset 0
+ */
+TEST(MFAAuthenticatorTest, ValidateTOTP_NoDriftMetricsForCurrentStep) {
+    MFAAuthenticator::Config config;
+    config.time_step_seconds = 30;
+    config.time_window = 1;
+    MFAAuthenticator mfa(config);
+
+    AuthMetrics metrics;
+    mfa.setMetrics(&metrics);
+
+    auto enrollment = mfa.generateEnrollment("nodrift_user");
+    auto now = std::chrono::system_clock::now();
+
+    std::string current_code = mfa.getCurrentTOTP(enrollment.secret_base32, now);
+    bool valid = mfa.validateTOTP(enrollment.secret_base32, current_code, now, "nodrift_user");
+    EXPECT_TRUE(valid) << "Current code should be valid";
+    EXPECT_EQ(metrics.getTOTPDriftCount(), 0u)
+        << "Drift counter must not be incremented for a zero-offset match";
 }
 
 // ===========================================================================

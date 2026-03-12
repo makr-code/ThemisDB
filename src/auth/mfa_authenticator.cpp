@@ -23,6 +23,8 @@
  */
 
 #include "auth/mfa_authenticator.h"
+#include "auth/auth_audit_logger.h"
+#include "auth/auth_metrics.h"
 #include "utils/audit_logger.h"
 #include <random>
 #include <sstream>
@@ -85,6 +87,21 @@ MFAAuthenticator::MFAAuthenticator(const Config& config)
         config_.code_length = 6;
     }
     
+    // Log a warning when time_window exceeds the recommended maximum.
+    if (config_.time_window > config_.max_window_steps) {
+        spdlog::warn("TOTP time_window ({}) exceeds max_window_steps ({}); "
+                     "consider reducing to limit replay exposure",
+                     config_.time_window, config_.max_window_steps);
+    }
+    // Absolute hard limit: a window wider than ±2 steps (e.g., ±60 s when
+    // time_step_seconds=30) substantially weakens replay resistance beyond
+    // totp_replay_cache mitigations.
+    if (config_.time_window > 2) {
+        throw std::invalid_argument(
+            "TOTP time_window must not exceed 2 steps; "
+            "larger windows substantially weaken replay resistance");
+    }
+    
     spdlog::info("MFA Authenticator initialized:");
     spdlog::info("  Time step: {}s", config_.time_step_seconds);
     spdlog::info("  Code length: {}", config_.code_length);
@@ -121,7 +138,8 @@ std::string MFAAuthenticator::generateProvisioningURI(const EnrollmentData& enro
 bool MFAAuthenticator::validateTOTP(
     const std::string& secret_base32,
     const std::string& code,
-    std::optional<std::chrono::system_clock::time_point> timestamp
+    std::optional<std::chrono::system_clock::time_point> timestamp,
+    const std::string& subject
 ) const {
     if (code.length() != static_cast<size_t>(config_.code_length)) {
         return false;
@@ -150,6 +168,15 @@ bool MFAAuthenticator::validateTOTP(
             if (audit_logger_) {
                 audit_logger_->logSecurityEvent(utils::SecurityEventType::MFA_TOTP_SUCCESS,
                     "", "mfa/totp", {});
+            }
+            if (offset != 0) {
+                spdlog::warn("TOTP validated with non-zero time drift (offset: {} steps)", offset);
+                if (auth_audit_logger_) {
+                    auth_audit_logger_->logTOTPDrift(subject, offset, ts);
+                }
+                if (metrics_) {
+                    metrics_->recordTOTPDrift(offset);
+                }
             }
             return true;
         }
