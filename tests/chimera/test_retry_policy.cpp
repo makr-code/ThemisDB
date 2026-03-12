@@ -34,8 +34,10 @@
 #include <atomic>
 #include <chrono>
 #include <functional>
+#include <map>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 
 using namespace chimera;
@@ -292,37 +294,36 @@ TEST(CircuitBreakerTest, OpenRejectsRequests) {
 }
 
 TEST(CircuitBreakerTest, OpenTransitionsToHalfOpenAfterTimeout) {
+    // Use zero open_timeout so the transition can be tested without real sleeping.
     CircuitBreaker cb(/*failure_threshold=*/1,
-                      /*open_timeout=*/std::chrono::milliseconds(50));
+                      /*open_timeout=*/std::chrono::milliseconds(0));
     cb.record_failure();
     ASSERT_EQ(cb.state(), CircuitState::OPEN);
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(60));
-
-    // allow_request() should transition to HALF_OPEN and return true.
+    // With open_timeout == 0, allow_request() should immediately transition to HALF_OPEN.
     EXPECT_TRUE(cb.allow_request());
     EXPECT_EQ(cb.state(), CircuitState::HALF_OPEN);
 }
 
 TEST(CircuitBreakerTest, HalfOpenToClosedOnSuccess) {
+    // Use zero open_timeout so the probe does not require sleeping.
     CircuitBreaker cb(/*failure_threshold=*/1,
-                      /*open_timeout=*/std::chrono::milliseconds(50));
+                      /*open_timeout=*/std::chrono::milliseconds(0));
     cb.record_failure();
-    std::this_thread::sleep_for(std::chrono::milliseconds(60));
-    ASSERT_TRUE(cb.allow_request()); // probe
+    ASSERT_TRUE(cb.allow_request()); // probe transitions OPEN → HALF_OPEN
 
     cb.record_success();
     EXPECT_EQ(cb.state(), CircuitState::CLOSED);
 }
 
 TEST(CircuitBreakerTest, HalfOpenToOpenOnFailure) {
+    // Use zero open_timeout so the probe does not require sleeping.
     CircuitBreaker cb(/*failure_threshold=*/1,
-                      /*open_timeout=*/std::chrono::milliseconds(50));
+                      /*open_timeout=*/std::chrono::milliseconds(0));
     cb.record_failure();
-    std::this_thread::sleep_for(std::chrono::milliseconds(60));
-    ASSERT_TRUE(cb.allow_request()); // probe
+    ASSERT_TRUE(cb.allow_request()); // probe transitions OPEN → HALF_OPEN
 
-    cb.record_failure(); // probe fails
+    cb.record_failure(); // probe fails — re-opens circuit
     EXPECT_EQ(cb.state(), CircuitState::OPEN);
 }
 
@@ -451,9 +452,9 @@ TEST(ConnectionWithRetryTest, CircuitBreakerOpenBlocksCallImmediately) {
 
     ConnectionWithRetry conn(std::move(stub), policy);
 
-    // Trip the circuit breaker by recording failures directly.
+    // Trip the circuit breaker via the non-const accessor (no const_cast needed).
     for (size_t i = 0; i < 5; ++i) {
-        const_cast<CircuitBreaker&>(conn.circuit_breaker()).record_failure();
+        conn.circuit_breaker().record_failure();
     }
     ASSERT_EQ(conn.circuit_breaker().state(), CircuitState::OPEN);
 

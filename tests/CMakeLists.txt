@@ -10107,6 +10107,9 @@ add_chimera_focused_test(
     ChimeraRetryPolicyTests
     "chimera;retry;circuit-breaker;error-recovery;unit"
     "RetryPolicy/CircuitBreaker/ConnectionWithRetry: exponential backoff, transient classification, circuit states, health check"
+)
+
+add_chimera_focused_test(
     test_chimera_batch_operations
     chimera/test_chimera_batch_operations.cpp
     ChimeraBatchOperationsTests

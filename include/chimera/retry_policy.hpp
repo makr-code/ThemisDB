@@ -52,6 +52,7 @@
 
 #include "chimera/database_adapter.hpp"
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <functional>
@@ -59,6 +60,7 @@
 #include <mutex>
 #include <string>
 #include <thread>
+#include <type_traits>
 
 namespace chimera {
 
@@ -71,7 +73,7 @@ namespace chimera {
  * @brief Configurable retry policy for transient database error recovery.
  *
  * Controls how ConnectionWithRetry re-attempts a failed operation using
- * exponential backoff with jitter.  Permanent errors (as determined by
+ * exponential backoff.  Permanent errors (as determined by
  * @c is_transient) are never retried.
  */
 struct RetryPolicy {
@@ -196,11 +198,15 @@ public:
      *
      * CLOSED    → increments failure counter; opens circuit when threshold
      *             is reached.
-     * HALF_OPEN → re-opens the circuit immediately.
+     * HALF_OPEN → re-opens the circuit immediately (counter not incremented).
      * OPEN      → no-op (already open).
      */
     void record_failure() {
         std::lock_guard<std::mutex> lock(mutex_);
+        if (state_ == CircuitState::OPEN) {
+            return; // already open — no-op
+        }
+
         ++consecutive_failures_;
 
         if (state_ == CircuitState::HALF_OPEN ||
@@ -262,7 +268,7 @@ private:
  *
  * @par Thread safety
  * The class itself is thread-safe: the underlying adapter and circuit breaker
- * are accessed under their own locks.  The wrapped @c IDatabaseAdapter,
+ * are accessed under their own mutexes.  The wrapped @c IDatabaseAdapter,
  * however, may or may not be thread-safe — consult its documentation.
  */
 class ConnectionWithRetry {
@@ -297,11 +303,12 @@ public:
     /**
      * @brief Execute @p operation with automatic retry and circuit-breaker.
      *
-     * @tparam T      The success value type wrapped in the returned Result.
-     * @param operation Callable that performs the database operation.
-     *                 Called repeatedly until it succeeds, a non-transient
-     *                 error is encountered, retries are exhausted, or the
-     *                 circuit breaker rejects the call.
+     * @tparam T         The success value type wrapped in the returned Result.
+     * @tparam Operation Callable type with signature @c Result<T>().
+     * @param operation  Callable that performs the database operation.
+     *                   Called repeatedly until it succeeds, a non-transient
+     *                   error is encountered, retries are exhausted, or the
+     *                   circuit breaker rejects the call.
      * @return The last Result returned by @p operation (success or the final
      *         error after all retries are consumed).
      *
@@ -313,8 +320,11 @@ public:
      * - On a transient error the delay starts at @c initial_delay and doubles
      *   each attempt (capped at @c max_delay).
      */
-    template<typename T>
-    Result<T> execute_with_retry(std::function<Result<T>()> operation) {
+    template<typename T, typename Operation>
+    Result<T> execute_with_retry(Operation&& operation) {
+        static_assert(
+            std::is_invocable_r<Result<T>, Operation>::value,
+            "Operation must be callable with no arguments and return Result<T>");
         if (!circuit_breaker_.allow_request()) {
             return Result<T>::err(ErrorCode::TIMEOUT,
                                   "Circuit breaker is OPEN — request rejected");
@@ -383,9 +393,16 @@ public:
     }
 
     /**
-     * @brief Access the circuit breaker for monitoring.
+     * @brief Access the circuit breaker for monitoring (const).
      */
     const CircuitBreaker& circuit_breaker() const {
+        return circuit_breaker_;
+    }
+
+    /**
+     * @brief Access the circuit breaker for state manipulation (mutable).
+     */
+    CircuitBreaker& circuit_breaker() {
         return circuit_breaker_;
     }
 
@@ -400,11 +417,11 @@ public:
      * @brief Execute a health check on the underlying adapter.
      *
      * Calls @c is_connected() and, if disconnected, attempts @c connect()
-     * with no arguments to restore the connection.  The circuit breaker is
-     * updated accordingly.
+     * with the provided (or default empty) @p connection_string to restore
+     * the connection.  The circuit breaker is updated accordingly.
      *
      * @param connection_string   Optional URI forwarded to connect() on
-     *                            reconnect.
+     *                            reconnect (defaults to an empty string).
      * @return true if the adapter reports a live connection after the check.
      */
     bool health_check(const std::string& connection_string = "") {
